@@ -1,0 +1,13 @@
+{
+  "$note": "AhaSlides DS project. Plus Jakarta Sans / Nunito / Nunito Sans are DS-MANDATED faces (aha-design-typography), so the impeccable overused-font rule is allowlisted for them ONLY — Inter/Roboto/etc. are still flagged. This travels with the design-system repo when seeded.",
+  "detector": {
+    "designSystem": { "enabled": true },
+    "ignoreValues": [
+      { "rule": "overused-font", "value": "font-family:\"Plus Jakarta Sans" },
+      { "rule": "overused-font", "value": "Plus Jakarta Sans" },
+      { "rule": "overused-font", "value": "Google Fonts: plus jakarta sans" },
+      { "rule": "overused-font", "value": "Nunito" },
+      { "rule": "overused-font", "value": "Nunito Sans" }
+    ]
+  }
+}

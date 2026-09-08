@@ -1,0 +1,22 @@
+import '@aha/design/aha-checkbox';   // registers <aha-checkbox>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-checkbox> directly.
+function AhaCheckbox({ checked, indeterminate, disabled, onChange, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.checked = !!checked;
+    el.indeterminate = !!indeterminate;
+    el.disabled = !!disabled;
+    const h = (e) => onChange?.(e.detail.checked);   // composed CustomEvent
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return <aha-checkbox ref={ref}>{children}</aha-checkbox>;
+}
+
+// usage
+<AhaCheckbox checked={anon} onChange={setAnon}>
+  Let participants join anonymously
+</AhaCheckbox>

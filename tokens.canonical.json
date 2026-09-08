@@ -1,0 +1,42 @@
+{
+  "$about": "R1 — the single canonical token set for the AhaSlides design-system-for-agents. Resolved from two disagreeing sources; see TOKENS.canonical.md for the ledger.",
+  "$precedence": "MEASURED component-standard contract.json (what ships) > DS EXPORT (brand/identity/palette, Brian's stated SoT) > aha-design SKILL data (rules/format). Non-canonical skill bolt-ons (Tailwind neutrals, black-alpha text) discarded.",
+  "color": {
+    "primary": "#6A1EBB", "primaryHover": "#621BAF", "primaryActive": "#5715A0",
+    "success": "#16C49A", "warning": "#FF7747", "error": "#F5222D", "info": "#9BB3E9",
+    "textDefault": "#1A1A1A", "textSecondary": "#4A4A4A", "textTertiary": "#8A8A8A", "textDisabled": "#B5B5B5",
+    "textInverse": "#FFFFFF", "textLink": "#6A1EBB", "textLinkHover": "#A96FF0",
+    "border": "#E3E3E3", "borderSecondary": "#F1F1F1", "borderStrong": "#D4D4D4",
+    "borderDisabled": "#EBEBEB", "checkboxBorder": "#B4BCCF", "focus": "#D3B4FF",
+    "bgContainer": "#FFFFFF", "bgContainerDisabled": "#E3E3E3", "bgLayout": "#F7F7F7", "bgElevated": "#FFFFFF",
+    "bgAccent": "#F9F5FF", "bgInformative": "#F4F8FF", "bgOverlay": "rgba(26,26,46,.7)",
+    "bgDark": "#1A1A2E",
+    "$note": "Solid warm-gray text (export) chosen over the skill's black-alpha-of-indigo (rgba(26,26,46,.88)) — alpha text is the dark-surface-invisible trap aha-design-antd itself warns about."
+  },
+  "font": {
+    "product": "\"Plus Jakarta Sans\", -apple-system, \"Segoe UI\", Roboto, sans-serif",
+    "display": "\"Nunito\", sans-serif",
+    "secondary": "\"Nunito Sans\", sans-serif",
+    "mono": "Menlo, Monaco, monospace",
+    "stylized": null,
+    "$note": "NO Inter. The export (SoT) declares Inter a Figma-local system face, 'not a brand face, not loaded'. The skill's Inter label rule is from a different Figma frame and is overruled. Load product self-hosted (aha-design-antd)."
+  },
+  "weight": { "regular": 400, "semibold": 600, "bold": 700, "$note": "400/600 only; 700 for Display 1/2. Export's unused 500 removed (skill rule wins)." },
+  "size": { "sm": 12, "default": 14, "l": 16, "h6": 18, "xl": 20, "h4": 24, "h3": 32, "h2": 40, "h1": 48, "display2": 56, "display1": 64,
+    "$note": "18 (h6) added from skill; export's size-tiny 8px is spacing, not a text role — smallest text role is 10 (skill 'tiny')." },
+  "lineHeight": { "tight": 1.2, "heading": 1.3, "body": 1.5, "normal": "normal",
+    "$note": "Unitless RATIOS, not px. body 1.5 → 21px at 14 — matches the MEASURED shipped components (checkbox 21px). The export token file's px line-heights (22/28) are drift from what ships; export's --aha-lh-tight:8px is a bug, discarded." },
+  "letterSpacing": { "headlines": "0px", "subheadings": "0.2px", "paragraph": "0.2px", "subtext": "0.3px" },
+  "radius": { "xs": 4, "sm": 6, "default": 8, "lg": 12, "xl": 16, "pill": 999, "marketing": 20,
+    "$note": "MEASURED wins: default=8 (button md / input / modal), card=12. Export MISLABELS default as 6 and lg as 8 — corrected. Export's radius-64 is off-scale (audit: likely 80) — see open items." },
+  "controlHeight": { "root": 32, "sm": 24, "lg": 40, "button": { "sm": 28, "md": 36, "lg": 40, "xl": 52 },
+    "$note": "MEASURED wins: fields (Input/Select/DatePicker) inherit root 32 (sm 24 / lg 40); Button carries 28/36/40/52 via components.Button. Export specimen field heights (32/36/40) are drift." },
+  "space": [0, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 56, 60, 64, 68, 80, 96, 100],
+  "breakpoints": { "phone": 375, "tablet": 768, "desktop": 1280,
+    "$note": "From the export README; export space.css omits 375 (internal export nit) — README value used." },
+  "openItems": [
+    "encourage-button greens (#2CB268/#168C4D/#12733F) exist in export semantic.css but in NO palette scale — add green primitives + alias, or drop the 'encourage' variant. DS-owner call.",
+    "radius-64: off the 4/6/8/12/16 scale; export README documents an 80px outlier, not 64 — confirm 80 or remove.",
+    "H5/H6 line-height: skill says 1.3; confirm against any shipped h5/h6 component."
+  ]
+}

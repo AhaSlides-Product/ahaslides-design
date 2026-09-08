@@ -1,0 +1,17 @@
+// theme/index.ts — declared ONCE, mirrored in variables.css. Both tiers read it.
+export const ahaSlidesTheme = {
+  token: { colorPrimary: '#6A1EBB', borderRadius: 8, fontFamily: '"Plus Jakarta Sans", sans-serif',
+           colorText: '#1A1A1A', colorTextSecondary: '#8A8A8A', colorBorderSecondary: '#E3E3E3' },
+  components: {
+    Table: {
+      headerBg: '#ffffff',              // white header — NOT antd's default #fafafa
+      headerColor: '#8A8A8A',           // secondary-grey labels
+      headerSplitColor: 'transparent',  // no vertical separators
+      borderColor: '#E3E3E3',           // horizontal dividers only
+      rowHoverBg: '#F9F5FF',            // brand-tinted hover
+      cellPaddingBlock: 16,             // literal 16 (never token.padding → undefined → 0)
+      cellPaddingInline: 16,
+      headerBorderRadius: 0,
+    },
+  },
+};

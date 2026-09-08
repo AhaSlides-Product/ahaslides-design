@@ -1,0 +1,45 @@
+{
+  "name": "Checkbox",
+  "slug": "checkbox",
+  "group": "Forms",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-checkbox",
+  "summary": "Let a user turn one or more independent options on or off.",
+  "lead": "ONE custom element — <aha-checkbox> — defined once, imported unchanged by React and Vue. CSS lives in the component's shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Zero drift — the same element, not two look-alikes.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "colorBgContainer", "colorTextDisabled"],
+  "spec": [
+    { "label": "Box", "value": "14×14 r4" },
+    { "label": "Rest border", "value": "#B4BCCF" },
+    { "label": "Hover border", "value": "#D3B4FF" },
+    { "label": "Checked fill", "value": "#6A1EBB + white 12px tick" },
+    { "label": "Label", "value": "Plus Jakarta 14/21" }
+  ],
+  "props": [
+    { "name": "checked", "type": "boolean", "default": "false", "desc": "Controlled selection" },
+    { "name": "indeterminate", "type": "boolean", "default": "false", "desc": "Mixed state for check-all" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disables the control" },
+    { "name": "change", "type": "CustomEvent<{checked}>", "default": "—", "desc": "Composed event; read e.detail.checked" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Checkbox", "when": "one or more independent options; applies on submit" },
+      { "what": "Radio", "when": "exactly one from a small mutually-exclusive set" },
+      { "what": "Switch", "when": "a single setting that takes effect immediately" }
+    ],
+    "note": "Labels are sentence case and state what the control does — 'Let participants join anonymously', not 'Join Anonymously'. Keep product nouns: Q&A, Word cloud."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "snippets": [
+    { "key": "react", "label": "React", "file": "checkbox.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "checkbox.vue.txt" }
+  ],
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. The only per-framework code is binding glue (React < 19 needs the ref wrapper; Vue consumes it natively). The primitive is defined once in @aha/design.",
+  "preview": "checkbox.preview.html",
+  "selfCheck": [
+    { "label": "box 14×14 r4", "verdict": "PASS" },
+    { "label": "checked #6A1EBB + white tick", "verdict": "PASS" },
+    { "label": "hover border purple-30", "verdict": "PASS" },
+    { "label": "label 14/21 Plus Jakarta", "verdict": "PASS" }
+  ]
+}
