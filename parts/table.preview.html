@@ -1,3 +1,19 @@
+<style>
+/* Vue DataTable component stylesheet — closes the ant-design-vue v4 vendor gap.
+   ant-design-vue v4's UMD does NOT honor the components.Table theme tokens, so the Vue
+   table falls back to antd defaults (grey #fafafa header, black labels, no row divider).
+   The shared DataTable wrapper carries this stylesheet so the Vue tier renders the identical
+   DS V3 look as the antd v6 tier. Bound to --aha-* tokens — never raw hex, never per-call. */
+#vue-root .ant-table { border-radius: var(--aha-radius-default); }
+#vue-root .ant-table-thead > tr > th {
+  background: var(--aha-bg-container);
+  color: var(--aha-text-tertiary);
+  border-bottom: 1px solid var(--aha-border);
+}
+#vue-root .ant-table-thead > tr > th::before { display: none !important; }
+#vue-root .ant-table-tbody > tr > td { border-bottom: 1px solid var(--aha-border); }
+#vue-root .ant-table-tbody > tr:hover > td { background: var(--aha-bg-accent); }
+</style>
 <div class="pad" style="display:flex;flex-direction:column;gap:26px">
   <div><span class="tier">React 18 · antd v6</span><div id="react-root"></div></div>
   <div><span class="tier">Vue 3 · ant-design-vue v4</span><div id="vue-root"></div></div>
