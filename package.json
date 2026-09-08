@@ -4,11 +4,12 @@
   "private": true,
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
-  "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js"],
+  "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js", "./lib/aha-button.js"],
   "exports": {
     "./icons": "./lib/icons.js",
     "./icons-registry": "./lib/icons-registry.js",
     "./aha-checkbox": "./lib/aha-checkbox.js",
+    "./aha-button": "./lib/aha-button.js",
     "./table-theme": "./lib/table-theme.js",
     "./tokens": "./lib/tokens.js",
     "./tokens.css": "./lib/tokens.css",
