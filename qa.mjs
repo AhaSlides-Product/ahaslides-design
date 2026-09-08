@@ -12,12 +12,12 @@ import { readdirSync, readFileSync, existsSync, statSync, rmSync } from 'node:fs
 import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { evaluateInPage } from './cdp.mjs';
+import { evaluateInPage, resolveChrome } from './cdp.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const DIST = join(root, 'dist');
 const CDIR = join(root, 'contracts');
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const CHROME = resolveChrome();
 const read = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
 
 function screenshotBytes(file, tag) {
