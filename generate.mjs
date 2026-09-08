@@ -322,33 +322,35 @@ function renderFeedPage(f, content) {
 
 function renderHtml(c) {
   const preview = part(c.preview);
-  const tierWord = c.tier==='leaf-lit' ? 'Leaf primitive · shared Lit web component' : 'Composite · antd / ant-design-vue wrappers';
-  const liveHeading = c.tier==='leaf-lit'
-    ? `The same <code>&lt;${esc(c.element)}&gt;</code>, consumed unchanged by React and Vue`
-    : `The shared DS V3 DataTable — React (antd v6) vs Vue (ant-design-vue v4)`;
   const main = `
-  <p class="crumbs">Components · ${esc(c.group)} · ${tierWord}</p>
-  <h1>${esc(c.name)} <span class="badge ${c.tier==='leaf-lit'?'leaf':'composite'}">${esc(c.badge)}</span></h1>
-  <p class="subtitle">${esc(c.lead)}</p>
-  <p class="gen">◆ generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand · run: node generate.mjs</p>
+  <p class="crumbs">Components · ${esc(c.group)}</p>
+  <h1>${esc(c.name)}</h1>
+  <p class="subtitle">${esc(c.summary)}</p>
+  <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
 
   <h2>Examples</h2>
-  <p class="body" style="margin:-2px 0 14px">${liveHeading}.</p>
   <div class="demo">
     <div class="demo-stage">${preview}</div>
     ${codeWidget(c)}
   </div>
-  <div class="note">${esc(c.codeNote||'')}</div>
 
   <h2>API</h2>
   ${propsTable(c.props)}
 
   ${c.opinion ? `<h2>When to use</h2>${opinionBlock(c.opinion)}${surfaceBlock(c.surfaces)}` : ''}
 
-  <h2>Visual standard — component-standard self-check</h2>
-  <div class="spec-line">${specList(c.spec)}</div>
-  <div>${selfCheck(c.selfCheck)}</div>`;
+  <h2>Spec</h2>
+  <div class="spec-line">${specList(c.spec)}</div>`;
   return docShell({ base: '../', active: c.slug, main });
+}
+
+// Hidden conformance harness (composites): mounts both framework tiers with the token layer,
+// so qa.mjs can measure React ≡ Vue parity even though the doc page shows a single UI.
+function renderConformanceHarness(c) {
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<style>${tokenVars(TOK)}
+body{margin:0;font-family:var(--aha-font-product);background:#fff;color:var(--aha-text-default)}</style></head>
+<body>${part(c.conformancePart)}</body></html>`;
 }
 
 function renderMd(c) {
@@ -586,6 +588,7 @@ const fullDocs = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
   writeFileSync(join(d, 'index.html'), renderHtml(c));
+  if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);
   writeFileSync(join(d, `${c.slug}.agent.json`), renderAgent(c));

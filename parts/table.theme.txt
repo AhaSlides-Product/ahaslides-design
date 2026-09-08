@@ -8,7 +8,7 @@ export const ahaSlidesTheme = {
       headerColor: '#8A8A8A',           // secondary-grey labels
       headerSplitColor: 'transparent',  // no vertical separators
       borderColor: '#E3E3E3',           // horizontal dividers only
-      rowHoverBg: '#F9F5FF',            // brand-tinted hover
+      rowHoverBg: '#F1F1F1',            // gray hover — DS V3 bg-fill-secondary-hover (gray-30)
       cellPaddingBlock: 16,             // literal 16 (never token.padding → undefined → 0)
       cellPaddingInline: 16,
       headerBorderRadius: 0,
