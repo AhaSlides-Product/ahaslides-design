@@ -37,13 +37,20 @@ const g = [];
 chk(g, 'variables.css has canonical tokens', /--aha-color-primary:#6A1EBB/i.test(read(join(DIST,'variables.css'))) && /--aha-radius-default:8px/.test(read(join(DIST,'variables.css'))));
 chk(g, 'variables.css clean (no Google Fonts / no Inter)', !/googleapis|\bInter\b/.test(read(join(DIST,'variables.css'))));
 chk(g, 'design.md carries brand + architecture', /#6A1EBB/.test(read(join(DIST,'design.md'))) && /Leaf primitives/.test(read(join(DIST,'design.md'))));
+{ const dm = read(join(DIST,'design.md'));
+  chk(g, 'design.md carries full palette (primitive ramps + semantic tables)',
+    /primitive ramps/i.test(dm) && /--aha-btn-encourage-bg/.test(dm) && /--aha-brand-13/.test(dm) && /`100`/.test(dm)); }
 chk(g, 'index.html present', read(join(DIST,'index.html')).length > 400);
 chk(g, 'llms.txt lists Checkbox + Table', /Checkbox/.test(read(join(DIST,'llms.txt'))) && /Table/.test(read(join(DIST,'llms.txt'))));
 chk(g, 'llms-full.txt non-empty', read(join(DIST,'llms-full.txt')).length > 400);
+chk(g, 'design-tokens.html styled in shell', /class="doc-nav"/.test(read(join(DIST,'design-tokens.html'))) && /--aha-color-primary:#6A1EBB/i.test(read(join(DIST,'design-tokens.html'))));
+{ const fp = read(join(DIST,'feeds','llms-txt.html'));
+  chk(g, 'feed pages: in-shell + raw content in code wrapper', /class="doc-nav"/.test(fp) && /class="code-panel feed"/.test(fp) && /Checkbox/.test(fp)); }
 results.push({ slug: '(global feeds)', checks: g });
 
 /* ---- per component ---- */
-const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.')).map(d => d.name);
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts']);  // generated support dirs, not components
+const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];
   const html = read(join(DIST, slug, 'index.html'));
