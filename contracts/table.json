@@ -32,6 +32,7 @@
     "note": "White header (not antd grey #fafafa), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
   },
   "surfaces": ["editor", "dashboard", "admin"],
+  "reuse": { "entry": "./table-theme", "exportsNamed": ["tableTheme"] },
   "snippets": [
     { "key": "react", "label": "React", "file": "table.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "table.vue.txt" },
