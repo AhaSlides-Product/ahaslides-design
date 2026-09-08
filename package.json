@@ -18,10 +18,10 @@
   "scripts": {
     "icons": "node build-icons.mjs",
     "generate": "node build-icons.mjs && node generate.mjs",
+    "standards": "node standards.mjs",
     "qa": "node qa.mjs",
-    "test:import": "node test-import.mjs",
     "build": "node build-icons.mjs && node generate.mjs",
-    "check": "node build-icons.mjs && node generate.mjs && node test-import.mjs && node qa.mjs"
+    "check": "node build-icons.mjs && node generate.mjs && node standards.mjs && node qa.mjs"
   },
   "license": "UNLICENSED"
 }
