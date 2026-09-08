@@ -30,6 +30,7 @@
     "note": "Labels are sentence case and state what the control does — 'Let participants join anonymously', not 'Join Anonymously'. Keep product nouns: Q&A, Word cloud."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-checkbox", "registers": "aha-checkbox", "exportsNamed": ["AhaCheckbox", "defineAhaCheckbox"] },
   "snippets": [
     { "key": "react", "label": "React", "file": "checkbox.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "checkbox.vue.txt" }

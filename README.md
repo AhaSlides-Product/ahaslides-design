@@ -50,28 +50,35 @@ import '@ahaslides/design/tokens.css';           // the --aha-* token layer (CSS
 
 `<aha-icon name="system-bell" size="16" />` — colour follows `currentColor`; never inline an `<svg>`.
 Agents discover names/APIs from the generated feeds (`dist/icons.agent.json`, `<slug>.agent.json`, `llms.txt`).
-`npm run test:import` proves every entry point resolves and works.
+`npm run standards` gates every component: it must be complete, declare a real `reuse` entry, import by its package name, and register/export — or the build fails.
 
 ## Commands
 
 ```bash
 npm run generate     # build-icons + contracts + tokens → dist/ and lib/
-npm run test:import  # proves @ahaslides/design/* resolves and the elements register/render
+npm run standards    # THE component gate: every component registers + is genuinely importable
 npm run qa           # render + feed assertions on dist/ (headless, hang-proof)
-npm run check        # generate + test:import + qa
+npm run check        # generate + standards (gate) + qa (render)
 ```
 
 ## Adding a component
 
-1. Add `contracts/<slug>.json` (meta, props, spec, opinion, surfaces, snippet + preview refs).
-2. Add `parts/<slug>.*` — the copyable React/Vue snippets and the live-preview harness
-   (leaf = the Lit element + consumers; composite = the antd/ant-design-vue theme + table demo).
-3. `npm run check`.
+Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will not let it pass unless:
+
+1. `contracts/<slug>.json` — meta, props, spec, opinion, surfaces, snippet + preview refs,
+   a `conformance` block, **and a `reuse` block** naming its package entry point:
+   `"reuse": { "entry": "./my-thing", "registers": "aha-my-thing" }` (leaf) or
+   `"reuse": { "entry": "./my-theme", "exportsNamed": ["myTheme"] }` (composite).
+2. `lib/<entry>.js` — the **real importable module**: a leaf registers its custom element; a
+   composite exports its shared artifact. Add the subpath to `exports` in `package.json`.
+3. `parts/<slug>.*` — snippets that import the real `@ahaslides/design/<entry>` (no fakes,
+   no non-DS icon sets or component libraries) + the live-preview harness.
+4. `npm run check` — runs the standards gate **and** the render gate. Both must be green.
 
 ## Status
 
 Proven end-to-end and QA-green: **Icon** (259 glyphs imported from Figma DS V3, call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
-antd wrappers + shared theme) — render-verified, and **importable** (`npm run test:import`, 13 checks).
+antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 Next: scale contracts, publish/version the package, MCP/CLI query layer over `dist/`, full
 visual-regression vs the reference screenshots.

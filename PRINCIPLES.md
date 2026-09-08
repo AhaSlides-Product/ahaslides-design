@@ -43,6 +43,11 @@ These come from the `aha-design` skills — follow the owning skill, then self-c
 - **Buttons:** size via the `size` prop or `<XLButtonScope>`; never inline height/padding/radius/fontSize.
 - **Typography:** Plus Jakarta Sans, weights 400/600 (Display 700), fixed DS V3 scale.
 
-## The bar for "done"
+## The bar for "done" — enforced by two gates
 
-A component ships only when it is: contract-authored → built → themed by tokens → **render-verified** (the QA gate measures the *real rendered UI*, not the source) → judged against the owning skill → **importable/consumable by a real project**. Anything less is a doc, not a design system.
+A component ships only when it is: contract-authored → built → themed by tokens → judged against the owning skill → and passes **both gates** (`npm run check`):
+
+- **`standards.mjs` — the reusability gate.** Every component must be complete, declare a real `reuse` entry point, import by its published package name, and register (leaf) or export its artifact (composite). No component passes if it hasn't met the standard.
+- **`qa.mjs` — the render gate.** Measures the *real rendered UI* against the contract, not the source.
+
+Anything less is a doc, not a design system. See `CONTRIBUTING.md` for the recipe both gates enforce.
