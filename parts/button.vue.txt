@@ -1,0 +1,21 @@
+<!-- Vue 3 consumes the same <aha-button> custom element natively.
+     Tell the compiler it's a custom element (vite: compilerOptions.isCustomElement = t => t.startsWith('aha-')). -->
+<script setup>
+import '@ahaslides/design/aha-button';   // registers <aha-button>
+defineProps({ saving: Boolean });
+const emit = defineEmits(['save']);
+</script>
+
+<template>
+  <div style="display:flex; gap:8px">
+    <aha-button variant="secondary">Cancel</aha-button>
+    <aha-button variant="primary" :loading="saving" @click="emit('save')">
+      <span slot="icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+      </span>
+      Save changes
+    </aha-button>
+  </div>
+</template>

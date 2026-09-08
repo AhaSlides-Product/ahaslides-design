@@ -1,0 +1,113 @@
+<div class="pad">
+  <div class="lbl">Tones · emphasis (md)</div>
+  <div class="row">
+    <aha-button variant="primary" size="md">Primary</aha-button>
+    <aha-button variant="secondary" size="md">Secondary</aha-button>
+    <aha-button variant="tertiary" size="md">Tertiary</aha-button>
+    <aha-button variant="link" size="md">Link</aha-button>
+    <aha-button variant="danger" size="md">Danger</aha-button>
+    <aha-button variant="positive" size="md">Positive</aha-button>
+  </div>
+
+  <div class="lbl">Sizes (primary)</div>
+  <div class="row" style="align-items:center">
+    <aha-button variant="primary" size="sm">Small</aha-button>
+    <aha-button variant="primary" size="md">Medium</aha-button>
+    <aha-button variant="primary" size="lg">Large</aha-button>
+    <aha-button variant="primary" size="xl">Extra large</aha-button>
+  </div>
+
+  <div class="lbl">Icon · loading · disabled</div>
+  <div class="row" style="align-items:center">
+    <aha-button variant="primary" size="md"><span slot="icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>New slide</aha-button>
+    <aha-button variant="secondary" size="md" loading>Saving</aha-button>
+    <aha-button variant="primary" size="md" disabled>Disabled</aha-button>
+    <aha-button variant="secondary" size="md" disabled>Disabled</aha-button>
+  </div>
+
+  <div class="lbl">Icon only (square) · primary · secondary · tertiary</div>
+  <div class="row" style="align-items:center">
+    <aha-button icon-only variant="primary" size="md" aria-label="Add"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>
+    <aha-button icon-only variant="secondary" size="md" aria-label="More"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg></aha-button>
+    <aha-button icon-only variant="tertiary" size="md" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>
+    <aha-button icon-only variant="secondary" size="sm" aria-label="More small"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg></aha-button>
+    <aha-button icon-only variant="primary" size="lg" aria-label="Add large"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>
+  </div>
+</div>
+
+<script type="module">
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
+class AhaButton extends LitElement {
+  static properties = {
+    variant: { type: String, reflect: true }, size: { type: String, reflect: true },
+    disabled: { type: Boolean, reflect: true }, loading: { type: Boolean, reflect: true }, block: { type: Boolean, reflect: true },
+    iconOnly: { type: Boolean, reflect: true, attribute: 'icon-only' },
+  };
+  constructor(){ super(); this.variant='secondary'; this.size='md'; this.disabled=false; this.loading=false; this.block=false; this.iconOnly=false; }
+  static styles = css`
+    :host{ display:inline-block }
+    :host([block]){ display:block }
+    button{
+      font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-weight:600; font-size:14px; line-height:1;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; box-sizing:border-box;
+      height:36px; padding:0 16px; border:1px solid transparent; border-radius:var(--aha-radius-default,8px);
+      background:var(--aha-btn-secondary-bg,#fff); color:var(--aha-text-default,#1A1A1A); border-color:var(--aha-btn-secondary-border,#E3E3E3);
+      cursor:pointer; white-space:nowrap; user-select:none; transition:background .12s ease, border-color .12s ease, box-shadow .12s ease }
+    /* DS V3 focus = soft box-shadow ring (per tone), not an outline */
+    button:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--aha-btn-focus-ring,rgba(211,180,255,.3)) }
+    ::slotted([slot=icon]){ display:inline-flex; line-height:0; width:16px; height:16px }
+    ::slotted([slot=icon]) svg, .spin{ width:16px; height:16px }
+    .spin{ animation:aha-spin .7s linear infinite }
+    @keyframes aha-spin{ to{ transform:rotate(360deg) } }
+    /* sizes — DS V3 measured heights / radius / fontSize */
+    :host([size=sm]) button{ height:28px; padding:0 8px; border-radius:var(--aha-radius-xs,4px); font-size:14px }
+    :host([size=md]) button{ height:36px; padding:0 16px; border-radius:var(--aha-radius-default,8px); font-size:14px }
+    :host([size=lg]) button{ height:40px; padding:0 20px; border-radius:var(--aha-radius-default,8px); font-size:16px }
+    :host([size=xl]) button{ height:52px; padding:0 20px; border-radius:var(--aha-radius-lg,12px); font-size:16px }
+    /* icon-only — square, label removed, glyph centred (DS V3 Icon buttons) */
+    :host([icon-only]) button{ padding:0; gap:0; width:36px }
+    :host([icon-only][size=sm]) button{ width:28px }
+    :host([icon-only][size=md]) button{ width:36px }
+    :host([icon-only][size=lg]) button{ width:40px }
+    :host([icon-only][size=xl]) button{ width:52px }
+    /* primary */
+    :host([variant=primary]) button{ background:var(--aha-btn-primary-bg,#6A1EBB); border-color:var(--aha-btn-primary-bg,#6A1EBB); color:var(--aha-btn-primary-fg,#FDFDFD); box-shadow:var(--aha-btn-elevate-primary,0 2px 0 0 rgba(0,0,0,.04)) }
+    :host([variant=primary]) button:hover{ background:var(--aha-btn-primary-bg-hover,#8644D4); border-color:var(--aha-btn-primary-bg-hover,#8644D4) }
+    :host([variant=primary]) button:active{ background:var(--aha-btn-primary-bg-press,#5715A0); border-color:var(--aha-btn-primary-bg-press,#5715A0) }
+    /* secondary (default) */
+    :host([variant=secondary]) button{ box-shadow:var(--aha-btn-elevate-secondary,0 2px 0 0 rgba(0,0,0,.016)) }
+    :host([variant=secondary]) button:hover{ background:var(--aha-btn-secondary-bg-hover,#F9F5FF); border-color:var(--aha-btn-secondary-border-hover,#A96FF0); color:var(--aha-color-primary,#6A1EBB) }
+    :host([variant=secondary]) button:active{ border-color:var(--aha-btn-secondary-border-press,#D4D4D4) }
+    /* tertiary */
+    :host([variant=tertiary]) button{ background:transparent; border-color:transparent; color:var(--aha-text-default,#1A1A1A) }
+    :host([variant=tertiary]) button:hover{ background:var(--aha-btn-tertiary-bg-hover,#F9F5FF); color:var(--aha-color-primary,#6A1EBB) }
+    :host([variant=tertiary]) button:active{ background:var(--aha-btn-tertiary-bg-active,#F0E4FF) }
+    /* link */
+    :host([variant=link]) button{ background:transparent; border-color:transparent; color:var(--aha-text-link,#6A1EBB); font-weight:400; padding:0 4px }
+    :host([variant=link]) button:hover{ color:var(--aha-text-link-hover,#8644D4); text-decoration:underline }
+    /* danger */
+    :host([variant=danger]) button{ background:var(--aha-btn-danger-bg,#F5222D); border-color:var(--aha-btn-danger-bg,#F5222D); color:#fff }
+    :host([variant=danger]) button:hover{ background:var(--aha-btn-danger-bg-hover,#FF4D4F); border-color:var(--aha-btn-danger-bg-hover,#FF4D4F) }
+    :host([variant=danger]) button:active{ background:var(--aha-btn-danger-bg-press,#CF1322); border-color:var(--aha-btn-danger-bg-press,#CF1322) }
+    :host([variant=danger]) button:focus-visible{ box-shadow:0 0 0 2px var(--aha-btn-danger-ring,rgba(255,40,80,.2)) }
+    /* positive */
+    :host([variant=positive]) button{ background:var(--aha-btn-positive-bg,#4EF1C5); border-color:var(--aha-btn-positive-bg,#4EF1C5); color:var(--aha-btn-positive-fg,#1A1A1A) }
+    :host([variant=positive]) button:hover{ background:var(--aha-btn-positive-bg-hover,#93F5DA); border-color:var(--aha-btn-positive-bg-hover,#93F5DA) }
+    :host([variant=positive]) button:active{ background:var(--aha-btn-positive-bg-press,#20E8B5); border-color:var(--aha-btn-positive-bg-press,#20E8B5) }
+    :host([variant=positive]) button:focus-visible{ box-shadow:0 0 0 2px var(--aha-btn-focus-ring-success,rgba(32,232,181,.3)) }
+    /* disabled */
+    :host([disabled]) button{ cursor:not-allowed; background:var(--aha-btn-disabled-bg,#E3E3E3); border-color:var(--aha-btn-disabled-bg,#E3E3E3); color:var(--aha-btn-disabled-fg,#B5B5B5); box-shadow:none }
+    :host([disabled][variant=tertiary]) button, :host([disabled][variant=link]) button{ background:transparent; border-color:transparent }
+    :host([loading]) button{ cursor:progress }
+  `;
+  _click(e){ if(this.disabled || this.loading){ e.preventDefault(); e.stopImmediatePropagation(); } }
+  render(){
+    const lead = this.loading
+      ? html`<svg class="spin" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="28" stroke-dashoffset="10"/></svg>`
+      : html`<slot name="icon"></slot>`;
+    const aria = this.getAttribute('aria-label');
+    return html`<button ?disabled=${this.disabled} aria-label=${aria === null ? undefined : aria} @click=${this._click}>${lead}<slot></slot></button>`;
+  }
+}
+customElements.define('aha-button', AhaButton);
+</script>
