@@ -1,0 +1,79 @@
+<!-- Hidden conformance harness — mounts BOTH tiers (antd v6 + ant-design-vue v4) so qa.mjs
+     can measure React ≡ Vue parity against the contract. NOT shown on the doc page (which
+     renders a single UI). Kept minimal on purpose: it exists only for the gate. -->
+<style>
+/* Vue DataTable component stylesheet — closes the ant-design-vue v4 vendor gap (its UMD does
+   not honor the components.Table theme tokens). Bound to --aha-* tokens, never raw hex. */
+#vue-root .ant-table { border-radius: var(--aha-radius-default); }
+#vue-root .ant-table-thead > tr > th {
+  background: var(--aha-bg-container);
+  color: var(--aha-text-tertiary);
+  border-bottom: 1px solid var(--aha-border);
+}
+#vue-root .ant-table-thead > tr > th::before { display: none !important; }
+#vue-root .ant-table-tbody > tr > td { border-bottom: 1px solid var(--aha-border); }
+#vue-root .ant-table-tbody > tr:hover > td { background: var(--aha-gray-30); }   /* DS-V3 row hover = gray-30 #f1f1f1 */
+</style>
+<div style="display:flex;flex-direction:column;gap:26px;padding:20px">
+  <div id="react-root"></div>
+  <div id="vue-root"></div>
+</div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/advancedFormat.js"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/customParseFormat.js"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/localeData.js"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/quarterOfYear.js"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/weekOfYear.js"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/weekYear.js"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/weekday.js"></script>
+<script src="https://unpkg.com/ant-design-vue@4/dist/antd.min.js"></script>
+<script>window.__antdV = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__ahaTheme = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif',
+           colorText:'#1A1A1A', colorTextSecondary:'#8A8A8A', colorBorderSecondary:'#E3E3E3' },
+  components:{ Table:{ headerBg:'#ffffff', headerColor:'#8A8A8A', headerSplitColor:'transparent', borderColor:'#E3E3E3',
+           rowHoverBg:'#F1F1F1', cellPaddingBlock:16, cellPaddingInline:16, headerBorderRadius:0 } }
+};
+window.__rows = [
+  { key:'1', name:'Mai Tran',  team:'Product', responses:25, score:1040 },
+  { key:'2', name:'Sara Kim',  team:'Growth',  responses:24, score:980 },
+  { key:'3', name:'John Lee',  team:'Growth',  responses:22, score:910 },
+  { key:'4', name:'Ana Silva', team:'Product', responses:21, score:880 },
+  { key:'5', name:'Diego Ruiz',team:'Sales',   responses:19, score:760 }
+];
+window.__cols = [
+  { key:'name', title:'Name', dataIndex:'name' },
+  { key:'team', title:'Team', dataIndex:'team' },
+  { key:'responses', title:'Responses', dataIndex:'responses' },
+  { key:'score', title:'Score', dataIndex:'score' }
+];
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Table } = window.__antdR;
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__ahaTheme}>
+    <Table rowKey="key" columns={window.__cols} dataSource={window.__rows} pagination={false} />
+  </ConfigProvider>
+);
+</script>
+<script>
+(function(){
+  const V = window.Vue, AntdV = window.__antdV;
+  const app = V.createApp({
+    setup(){ return { theme: window.__ahaTheme, columns: window.__cols, rows: window.__rows }; },
+    template: '<a-config-provider :theme="theme"><a-table row-key="key" :columns="columns" :data-source="rows" :pagination="false" /></a-config-provider>'
+  });
+  app.use(AntdV);
+  app.mount('#vue-root');
+})();
+</script>

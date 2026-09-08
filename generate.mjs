@@ -344,6 +344,15 @@ function renderHtml(c) {
   return docShell({ base: '../', active: c.slug, main });
 }
 
+// Hidden conformance harness (composites): mounts both framework tiers with the token layer,
+// so qa.mjs can measure React ≡ Vue parity even though the doc page shows a single UI.
+function renderConformanceHarness(c) {
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<style>${tokenVars(TOK)}
+body{margin:0;font-family:var(--aha-font-product);background:#fff;color:var(--aha-text-default)}</style></head>
+<body>${part(c.conformancePart)}</body></html>`;
+}
+
 function renderMd(c) {
   const props = (c.props||[]).map(p => `| \`${p.name}\` | ${p.type} | \`${p.default}\` | ${p.desc} |`).join('\n');
   const spec = (c.spec||[]).map(s => `- ${s.label}: ${s.value}`).join('\n');
@@ -579,6 +588,7 @@ const fullDocs = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
   writeFileSync(join(d, 'index.html'), renderHtml(c));
+  if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);
   writeFileSync(join(d, `${c.slug}.agent.json`), renderAgent(c));

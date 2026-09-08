@@ -33,9 +33,11 @@ function screenshotBytes(file, tag) {
   return existsSync(out) ? statSync(out).size : 0;
 }
 
-/* Measure the rendered UI against a contract.conformance block. */
-async function runConformance(slug, conf) {
-  const file = 'file://' + join(DIST, slug, 'index.html');
+/* Measure the rendered UI against a contract.conformance block.
+   Composites point at a hidden dual-tier harness (_conformance.html) since the doc page shows
+   a single UI; leaf measures the doc page directly. */
+async function runConformance(slug, conf, harness) {
+  const file = 'file://' + join(DIST, slug, harness ? '_conformance.html' : 'index.html');
   const bad = (v) => Object.keys(conf.expect).filter(k => String(v[k]) !== String(conf.expect[k]));
   const detail = (v, keys) => keys.map(k => `${k}=${v[k]} want ${conf.expect[k]}`).join(', ');
   if (conf.roots) {
@@ -90,18 +92,26 @@ for (const slug of slugs) {
   chk(c, 'agent.json has props', aj && (aj.props||[]).length > 0);
   chk(c, 'agent.json carries opinion + surfaces', aj && aj.opinion && Array.isArray(aj.surfaces) && aj.surfaces.length > 0);
   chk(c, 'page: generated banner', /generated from contracts/.test(html));
-  if (isLeaf) chk(c, 'page: single rendered UI (leaf — no per-framework roots)', /<aha-/.test(html) && !(/id="react-root"/.test(html) && /id="vue-root"/.test(html)));
-  else        chk(c, 'page: both framework roots (composite)', /id="react-root"/.test(html) && /id="vue-root"/.test(html));
+  chk(c, 'page: single rendered UI (no stacked framework versions)', (/<aha-/.test(html) || /id="react-root"/.test(html)) && !(/id="react-root"/.test(html) && /id="vue-root"/.test(html)));
   chk(c, 'page: code widget (tabs + copy)', /class="tab /.test(html) && /class="copy"/.test(html));
   chk(c, 'page: no hardcoded google fonts / Inter', !/googleapis|\bInter\b/.test(html));
 
   const bytes = screenshotBytes(join(DIST, slug, 'index.html'), slug);
   chk(c, `page renders (screenshot ${(bytes/1024|0)}KB > 30KB)`, bytes > 30000);
 
+  /* the visible doc demo must actually mount (harness conformance below measures a
+     separate file, so this guards against a blank demo on the page the user reads) */
+  if (ct && ct.conformancePart && ct.conformance && ct.conformance.docReady) {
+    try {
+      const ok = await evaluateInPage('file://' + join(DIST, slug, 'index.html'), ct.conformance.docReady, { readyExpr: ct.conformance.docReady, timeout: 45000 });
+      chk(c, 'doc page demo mounts (single UI renders)', !!ok);
+    } catch (e) { chk(c, 'doc page demo mounts (single UI renders)', false, e.message); }
+  }
+
   /* the real gate — measured rendered UI vs the contract */
   if (ct && ct.conformance) {
     try {
-      const r = await runConformance(slug, ct.conformance);
+      const r = await runConformance(slug, ct.conformance, ct.conformancePart);
       if (r.roots) {
         for (const pr of r.perRoot) chk(c, `contract conformance ${pr.root}`, pr.bad.length === 0, r.detail(pr.v, pr.bad));
         chk(c, 'React ≡ Vue render parity', r.parity, 'rendered values differ across frameworks');
