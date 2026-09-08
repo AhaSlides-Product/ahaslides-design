@@ -4,8 +4,8 @@ name: standards
 # A component that isn't complete + declared + importable + registered fails this, and the PR
 # can't merge. `standards.mjs` is Node-only (no browser), so it's deterministic in CI.
 #
-# The render gate (`qa.mjs`) needs headless Chrome and runs locally; it moves into CI once the
-# cross-platform Chrome resolution lands.
+# The render gate (`qa.mjs`) measures the REAL rendered UI in headless Chrome. It now runs in CI
+# too: Chrome is installed here and passed via CHROME_BIN, which cdp.mjs/qa.mjs honour.
 
 on:
   pull_request:
@@ -21,8 +21,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+        with:
+          chrome-version: stable
       # No dependencies — the pipeline is pure Node scripts + the repo's own sources.
       - name: Build (icon registry + lib entry points + dist)
         run: node build-icons.mjs && node generate.mjs
       - name: Component standards gate (reusable or it fails)
         run: node standards.mjs
+      - name: Render truth (real UI matches each contract)
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: node qa.mjs
