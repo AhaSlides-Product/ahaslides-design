@@ -44,5 +44,12 @@
     { "label": "radius 8 · 16px padding", "verdict": "PASS" },
     { "label": "pagination + size changer", "verdict": "PASS" },
     { "label": "single-arrow sort / filter / freeze / Phosphor", "verdict": "N/A" }
-  ]
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite = two vendors, so BOTH framework roots must hit the contract AND match each other (parity).",
+    "ready": "!!(document.querySelector('#react-root .ant-table-thead th') && document.querySelector('#vue-root .ant-table-thead th'))",
+    "roots": ["#react-root", "#vue-root"],
+    "measure": "root => { var g=function(sel,p){var el=document.querySelector(root+' '+sel);return el?getComputedStyle(el)[p]:null;}; var td='.ant-table-tbody .ant-table-cell'; return { headerBg:g('.ant-table-thead th','backgroundColor'), headerColor:g('.ant-table-thead th','color'), tdPadTop:g(td,'paddingTop'), tdPadLeft:g(td,'paddingLeft'), tdBorder:g(td,'borderBottomColor'), tdBorderW:g(td,'borderBottomWidth') }; }",
+    "expect": { "headerBg": "rgb(255, 255, 255)", "headerColor": "rgb(138, 138, 138)", "tdPadTop": "16px", "tdPadLeft": "16px", "tdBorder": "rgb(227, 227, 227)", "tdBorderW": "1px" }
+  }
 }

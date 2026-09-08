@@ -41,5 +41,12 @@
     { "label": "checked #6A1EBB + white tick", "verdict": "PASS" },
     { "label": "hover border purple-30", "verdict": "PASS" },
     { "label": "label 14/21 Plus Jakarta", "verdict": "PASS" }
-  ]
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots).",
+    "ready": "!!(document.querySelector('aha-checkbox') && document.querySelector('aha-checkbox').shadowRoot && document.querySelector('aha-checkbox').shadowRoot.querySelector('.box'))",
+    "singleUI": true,
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.box');return b?getComputedStyle(b):null;};var u=q('aha-checkbox:not([checked]):not([disabled])');var c=q('aha-checkbox[checked]:not([disabled])');return{boxW:u?u.width:null,boxH:u?u.height:null,boxRadius:u?u.borderTopLeftRadius:null,boxBorder:u?u.borderTopColor:null,checkedBg:c?c.backgroundColor:null};})()",
+    "expect": { "boxW": "14px", "boxH": "14px", "boxRadius": "4px", "boxBorder": "rgb(212, 212, 212)", "checkedBg": "rgb(106, 30, 187)" }
+  }
 }
