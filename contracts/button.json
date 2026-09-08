@@ -19,7 +19,8 @@
     { "label": "Disabled", "value": "bg #E3E3E3, label #B5B5B5" },
     { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl); icon 16px, inline-flex, 8px gap" },
     { "label": "Focus", "value": "soft box-shadow ring, spread 2 — #D3B4FF@30% (default) · danger #FF2850@20% · positive #20E8B5@30%" },
-    { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" }
+    { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" },
+    { "label": "Icon-only", "value": "square (width = height per size: 28/36/40/52), glyph centred, no label; needs aria-label" }
   ],
   "props": [
     { "name": "variant", "type": "primary | secondary | tertiary | link | danger | positive", "default": "secondary", "desc": "tone × emphasis; one primary per view" },
@@ -27,16 +28,19 @@
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "non-interactive; grey fill" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "shows a spinner, blocks clicks" },
     { "name": "block", "type": "boolean", "default": "false", "desc": "full-width" },
-    { "name": "icon", "type": "slot", "default": "—", "desc": "leading glyph via <span slot=\"icon\">" }
+    { "name": "iconOnly", "type": "boolean (attr icon-only)", "default": "false", "desc": "square, label-less; requires aria-label" },
+    { "name": "icon", "type": "slot", "default": "—", "desc": "leading glyph via <span slot=\"icon\">; for icon-only, the glyph is the default child" }
   ],
   "opinion": {
     "whenToUse": [
       { "what": "primary", "when": "the single most important action on a view (one per screen)" },
       { "what": "secondary", "when": "the default for most actions — neutral, white with a border" },
       { "what": "tertiary / link", "when": "low-emphasis or inline navigation, no container weight" },
-      { "what": "danger", "when": "a destructive action (delete, remove) — pair with a confirm" }
+      { "what": "danger", "when": "a destructive action (delete, remove) — pair with a confirm" },
+      { "what": "positive", "when": "a confirming/success action where a positive signal helps" },
+      { "what": "icon-only", "when": "a compact action where the glyph is self-explanatory (close, more, add) — always give an aria-label" }
     ],
-    "note": "Size only via the size attribute — never inline height/padding/radius/fontSize (that's the aha-design Button contract). The primary fill is colorPrimary #6A1EBB; there is no separate darker CTA shade."
+    "note": "Size: MEDIUM (md) is the default for most actions; use SMALL (sm) to step an action down the information-hierarchy (denser/secondary regions), not by whim; lg/xl for prominent/hero moments. Size only via the size attribute — never inline height/padding/radius/fontSize. Primary fill is #6A1EBB; hover #8644D4 per DS V3."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "snippets": [
@@ -47,8 +51,8 @@
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Values are the component-standard measured target for btn|primary|md.",
     "ready": "!!(document.querySelector('aha-button[variant=\"primary\"][size=\"md\"]') && document.querySelector('aha-button[variant=\"primary\"][size=\"md\"]').shadowRoot && document.querySelector('aha-button[variant=\"primary\"][size=\"md\"]').shadowRoot.querySelector('button'))",
-    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('button');return b?getComputedStyle(b):null;};var p=q('aha-button[variant=\"primary\"][size=\"md\"]:not([disabled])');var s=q('aha-button[variant=\"secondary\"][size=\"md\"]:not([disabled])');return {primaryBg:p?p.backgroundColor:null,primaryFg:p?p.color:null,height:p?p.height:null,radius:p?p.borderTopLeftRadius:null,weight:p?p.fontWeight:null,fontSize:p?p.fontSize:null,secondaryBg:s?s.backgroundColor:null,secondaryBorder:s?s.borderTopColor:null};})()",
-    "expect": { "primaryBg": "rgb(106, 30, 187)", "primaryFg": "rgb(253, 253, 253)", "height": "36px", "radius": "8px", "weight": "600", "fontSize": "14px", "secondaryBg": "rgb(255, 255, 255)", "secondaryBorder": "rgb(227, 227, 227)" }
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('button');return b?{s:getComputedStyle(b),aria:b.getAttribute('aria-label')}:null;};var p=q('aha-button[variant=\"primary\"][size=\"md\"]:not([icon-only]):not([disabled])');var s=q('aha-button[variant=\"secondary\"][size=\"md\"]:not([icon-only])');var io=q('aha-button[icon-only][variant=\"primary\"][size=\"md\"]');return {primaryBg:p?p.s.backgroundColor:null,primaryFg:p?p.s.color:null,height:p?p.s.height:null,radius:p?p.s.borderTopLeftRadius:null,weight:p?p.s.fontWeight:null,fontSize:p?p.s.fontSize:null,secondaryBg:s?s.s.backgroundColor:null,secondaryBorder:s?s.s.borderTopColor:null,iconOnlyW:io?io.s.width:null,iconOnlyH:io?io.s.height:null,iconOnlyAria:io?(io.aria?'set':'missing'):null};})()",
+    "expect": { "primaryBg": "rgb(106, 30, 187)", "primaryFg": "rgb(253, 253, 253)", "height": "36px", "radius": "8px", "weight": "600", "fontSize": "14px", "secondaryBg": "rgb(255, 255, 255)", "secondaryBorder": "rgb(227, 227, 227)", "iconOnlyW": "36px", "iconOnlyH": "36px", "iconOnlyAria": "set" }
   },
   "selfCheck": [
     { "label": "primary #6A1EBB + white label", "verdict": "PASS" },
