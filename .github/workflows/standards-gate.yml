@@ -1,0 +1,27 @@
+name: Standards gate
+
+# The reusability gate (standards.mjs) runs server-side on every push and PR,
+# so it applies regardless of which terminal, machine, or clone the work came from.
+# Render truth (qa.mjs) needs a browser and is not run here yet — see note in the run step.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  standards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # No dependencies / lockfile in this package — nothing to install.
+      - name: Run the component standards gate
+        run: |
+          node build-icons.mjs
+          node generate.mjs
+          node standards.mjs
