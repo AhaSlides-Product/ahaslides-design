@@ -9,6 +9,8 @@
   .aha-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
   .aha-toolbar .ttl { font-size:18px; font-weight:600; color:var(--aha-text-default); }
   .aha-tbtns { display:flex; gap:8px; }
+  /* DS V3 container — 1px border + radius 8 wrapping the whole grid (antd draws none) */
+  #react-root .ant-table { border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); overflow:hidden; }
   /* single-arrow sort (replaces antd's dual caret) */
   .ant-table-column-sorter { display:none !important; }
   .aha-sort { margin-left:6px; color:var(--aha-text-disabled); display:inline-flex; vertical-align:middle; }

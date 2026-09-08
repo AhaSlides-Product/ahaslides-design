@@ -4,7 +4,8 @@
 <style>
 /* Vue DataTable component stylesheet — closes the ant-design-vue v4 vendor gap (its UMD does
    not honor the components.Table theme tokens). Bound to --aha-* tokens, never raw hex. */
-#vue-root .ant-table { border-radius: var(--aha-radius-default); }
+/* DS V3 container border — 1px + radius 8 wrapping the grid, on both tiers */
+#react-root .ant-table, #vue-root .ant-table { border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); overflow:hidden; }
 #vue-root .ant-table-thead > tr > th {
   background: var(--aha-bg-container);
   color: var(--aha-text-tertiary);

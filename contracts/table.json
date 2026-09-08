@@ -8,6 +8,7 @@
   "lead": "Too complex to rebuild as a web component, so Table stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both rendered through the shared DataTable and themed once by components.Table. Two implementations, one DS V3 look, policed by visual regression. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorTextSecondary", "colorBorderSecondary", "Table.headerBg", "Table.rowHoverBg", "Table.cellPadding"],
   "spec": [
+    { "label": "Container", "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the whole grid" },
     { "label": "Header", "value": "white #fff + secondary-grey #8A8A8A labels (row 60px)" },
     { "label": "Body", "value": "horizontal dividers #E3E3E3 only, no zebra; row 60px" },
     { "label": "Radius", "value": "8" },
@@ -52,7 +53,7 @@
     "ready": "!!(document.querySelector('#react-root .ant-table-thead th') && document.querySelector('#vue-root .ant-table-thead th'))",
     "docReady": "!!document.querySelector('#react-root .ant-table-thead th')",
     "roots": ["#react-root", "#vue-root"],
-    "measure": "root => { var g=function(sel,p){var el=document.querySelector(root+' '+sel);return el?getComputedStyle(el)[p]:null;}; var td='.ant-table-tbody .ant-table-cell'; return { headerBg:g('.ant-table-thead th','backgroundColor'), headerColor:g('.ant-table-thead th','color'), tdPadTop:g(td,'paddingTop'), tdPadLeft:g(td,'paddingLeft'), tdBorder:g(td,'borderBottomColor'), tdBorderW:g(td,'borderBottomWidth') }; }",
-    "expect": { "headerBg": "rgb(255, 255, 255)", "headerColor": "rgb(138, 138, 138)", "tdPadTop": "16px", "tdPadLeft": "16px", "tdBorder": "rgb(227, 227, 227)", "tdBorderW": "1px" }
+    "measure": "root => { var g=function(sel,p){var el=document.querySelector(root+' '+sel);return el?getComputedStyle(el)[p]:null;}; var td='.ant-table-tbody .ant-table-cell'; return { headerBg:g('.ant-table-thead th','backgroundColor'), headerColor:g('.ant-table-thead th','color'), tdPadTop:g(td,'paddingTop'), tdPadLeft:g(td,'paddingLeft'), tdBorder:g(td,'borderBottomColor'), tdBorderW:g(td,'borderBottomWidth'), containerBorderW:g('.ant-table','borderTopWidth'), containerBorder:g('.ant-table','borderTopColor'), containerRadius:g('.ant-table','borderTopLeftRadius') }; }",
+    "expect": { "headerBg": "rgb(255, 255, 255)", "headerColor": "rgb(138, 138, 138)", "tdPadTop": "16px", "tdPadLeft": "16px", "tdBorder": "rgb(227, 227, 227)", "tdBorderW": "1px", "containerBorderW": "1px", "containerBorder": "rgb(227, 227, 227)", "containerRadius": "8px" }
   }
 }
