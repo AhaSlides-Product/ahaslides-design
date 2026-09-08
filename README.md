@@ -33,12 +33,32 @@ parts/*  (authored)    ─┘        │
 Token precedence when sources disagree: **measured component-standard > DS export (brand) > aha-design skill (rules)**.
 See `TOKENS.canonical.md` for the full reconciliation ledger.
 
+## Consume it (the point — reuse, don't rewrite)
+
+See `PRINCIPLES.md`: every AhaSlides agent reuses components from here instead of rebuilding them.
+The DS ships as a **real importable package** (`@ahaslides/design`, resolved via `exports`) —
+not reference-only snippets:
+
+```js
+import '@ahaslides/design/icons';               // registers <aha-icon> (259 glyphs, call by name)
+import { ICON_NAMES } from '@ahaslides/design/icons';   // discover valid names
+import '@ahaslides/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
+import { tableTheme } from '@ahaslides/design/table-theme';  // the shared DataTable theme
+import { tokens } from '@ahaslides/design/tokens';           // canonical design tokens (JS)
+import '@ahaslides/design/tokens.css';           // the --aha-* token layer (CSS)
+```
+
+`<aha-icon name="system-bell" size="16" />` — colour follows `currentColor`; never inline an `<svg>`.
+Agents discover names/APIs from the generated feeds (`dist/icons.agent.json`, `<slug>.agent.json`, `llms.txt`).
+`npm run test:import` proves every entry point resolves and works.
+
 ## Commands
 
 ```bash
-npm run generate   # contracts + tokens → dist/
-npm run qa         # render + feed assertions on dist/ (headless, hang-proof)
-npm run check      # generate + qa
+npm run generate     # build-icons + contracts + tokens → dist/ and lib/
+npm run test:import  # proves @ahaslides/design/* resolves and the elements register/render
+npm run qa           # render + feed assertions on dist/ (headless, hang-proof)
+npm run check        # generate + test:import + qa
 ```
 
 ## Adding a component
@@ -48,8 +68,10 @@ npm run check      # generate + qa
    (leaf = the Lit element + consumers; composite = the antd/ant-design-vue theme + table demo).
 3. `npm run check`.
 
-## Status (POC)
+## Status
 
-Two exemplars proven end-to-end and QA-green: **Checkbox** (leaf, shared Lit) and **Table**
-(composite, antd wrappers) — both frameworks, render-verified. Next: scale contracts, add the
-MCP/CLI query layer over `dist/`, full visual-regression vs the reference screenshots, hosting + versioning.
+Proven end-to-end and QA-green: **Icon** (259 glyphs imported from Figma DS V3, call-by-name via
+the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
+antd wrappers + shared theme) — render-verified, and **importable** (`npm run test:import`, 13 checks).
+Next: scale contracts, publish/version the package, MCP/CLI query layer over `dist/`, full
+visual-regression vs the reference screenshots.

@@ -1,4 +1,4 @@
-import '@aha/design/aha-checkbox';   // registers <aha-checkbox>
+import '@ahaslides/design/aha-checkbox';   // registers <aha-checkbox>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-checkbox> directly.

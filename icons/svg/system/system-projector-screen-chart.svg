@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="system-projector-screen-chart" clip-path="url(#clip0_0_221)">
+<path id="Vector" d="M2.61539 10.6922V3.15378M13.3846 3.15378V10.6922M5.84616 6.92308V8M8 6.38458V7.99995M10.1538 5.84619V8.00003M8 10.6923V12.8461M8 12.8461C7.40523 12.8461 6.92308 13.3283 6.92308 13.9231C6.92308 14.5178 7.40523 15 8 15C8.59476 15 9.07692 14.5178 9.07692 13.9231C9.07692 13.3283 8.59477 12.8461 8 12.8461ZM1.53847 10.6923H14.4615M2.07693 1H13.923C14.2204 1 14.4615 1.24108 14.4615 1.53846V2.61538C14.4615 2.91276 14.2204 3.15384 13.923 3.15384H2.07693C1.77955 3.15384 1.53847 2.91276 1.53847 2.61538V1.53846C1.53847 1.24108 1.77955 1 2.07693 1Z" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_0_221">
+<rect width="16" height="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>

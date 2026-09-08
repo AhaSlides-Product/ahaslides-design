@@ -34,11 +34,40 @@ const PKG = JSON.parse(read(join(root, 'package.json')));
 /* ===== R1 canonical tokens → the --aha-* var layer (single source) ===== */
 const TOK = JSON.parse(read(join(root, 'tokens.canonical.json')));
 
+/* ===== icon registry (built by build-icons.mjs from the SVGs imported from Figma DS V3).
+   ONE source → the <aha-icon> runtime, the searchable gallery, and the agent feeds. ===== */
+const ICONS = existsSync(join(root, 'icons', 'registry.json'))
+  ? JSON.parse(read(join(root, 'icons', 'registry.json')))
+  : { icons: {}, families: [], count: 0, $generatedFrom: '(no registry — run build-icons.mjs)' };
+
+/* The shared custom element — defined ONCE, loaded by every page that shows an icon.
+   Reads window.AHA_ICONS[name] → { viewBox, body }; body already carries currentColor +
+   the baked per-size stroke, so colour follows the text colour and size is a width/height. */
+const AHA_ICON_JS = `(function(){
+  var LINE={12:1,16:1.5,24:2,32:2.5};   // documented size↔stroke pairing (12/16/24/32 only)
+  function draw(el){
+    var R=window.AHA_ICONS||{}, name=el.getAttribute('name'), ic=R[name];
+    var size=parseInt(el.getAttribute('size')||'24',10);
+    var label=el.getAttribute('label')||'', dec=el.hasAttribute('decorative')||!label;
+    var a11y=dec?'aria-hidden="true"':'role="img" aria-label="'+label.replace(/"/g,'&quot;')+'"';
+    if(!el.shadowRoot) el.attachShadow({mode:'open'});
+    if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #F5222D;border-radius:3px"></span>'; return; }
+    el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>'
+      +'<svg width="'+size+'" height="'+size+'" viewBox="'+ic.viewBox+'" fill="none" '+a11y+'>'+ic.body+'</svg>';
+  }
+  if(!customElements.get('aha-icon')) customElements.define('aha-icon',class extends HTMLElement{
+    static get observedAttributes(){return['name','size','label','decorative'];}
+    connectedCallback(){ var s=this; if(window.AHA_ICONS){draw(s);} else {var t=setInterval(function(){if(window.AHA_ICONS){clearInterval(t);draw(s);}},20);} }
+    attributeChangedCallback(){ if(this.shadowRoot) draw(this); }
+  });
+})();
+`;
+
 /* ===== full planned inventory (AntD-style left-nav taxonomy) — the component-standard
    measured set. Live pages come from contracts/; the rest render as greyed "soon" so the
    nav shows the whole roadmap. Order/categories mirror ant.design's component menu. ===== */
 const CATALOG = [
-  { cat: 'General',      items: [ { name: 'Button', slug: 'button' } ] },
+  { cat: 'General',      items: [ { name: 'Button', slug: 'button' }, { name: 'Icon', slug: 'icon' } ] },
   { cat: 'Data Entry',   items: [ { name: 'Checkbox', slug: 'checkbox' }, { name: 'Radio', slug: 'radio' }, { name: 'Switch', slug: 'switch' }, { name: 'Input', slug: 'input' }, { name: 'Select', slug: 'select' }, { name: 'Upload', slug: 'uploader' } ] },
   { cat: 'Data Display', items: [ { name: 'Badge', slug: 'badge' }, { name: 'Tag', slug: 'tag' }, { name: 'Tooltip', slug: 'tooltip' }, { name: 'Tabs', slug: 'tabs' }, { name: 'Table', slug: 'table' } ] },
   { cat: 'Navigation',   items: [ { name: 'Dropdown', slug: 'dropdown' } ] },
@@ -117,6 +146,7 @@ a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-item.soon{color:var(--aha-text-disabled);cursor:default}
 .nav-item.soon i{font-style:normal;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px}
 .nav-dot{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--aha-color-success)}
+.nav-count{flex:0 0 auto;font-size:10.5px;font-family:Menlo,monospace;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px}
 .nav-item.raw{color:var(--aha-text-tertiary)}
 a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondary)}
 .nav-item.raw i{font-style:normal;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;font-family:Menlo,monospace}
@@ -267,12 +297,15 @@ const RAW_FEEDS = [
   { name: 'llms.txt',      file: 'llms.txt',       page: 'llms-txt',      desc: 'The index feed: one entry per component. An agent’s entry point to the system.' },
   { name: 'llms-full.txt', file: 'llms-full.txt',  page: 'llms-full-txt', desc: 'Every component doc concatenated — the full-context feed.' },
   { name: 'variables.css', file: 'variables.css',  page: 'variables-css', desc: 'The --aha-* token layer as CSS custom properties, generated from tokens.canonical.json.' },
+  { name: 'icons.llms.txt', file: 'icons.llms.txt', page: 'icons-llms-txt', desc: 'Every icon name, grouped by family — the feed an agent reads to call <aha-icon name="…"> instead of writing an SVG.' },
+  { name: 'icons.agent.json', file: 'icons.agent.json', page: 'icons-agent-json', desc: 'Machine feed: the full icon catalogue (names + family + recolorable) plus the <aha-icon> usage contract.' },
 ];
 function sidebarNav(base, active) {
   const top = `<a class="nav-top${active==='__overview__'?' active':''}" href="${base}index.html">Overview</a>`;
   const foundations =
     `<div class="nav-group"><div class="nav-cat">Foundations</div>` +
     `<a class="nav-item${active==='__tokens__'?' active':''}" href="${base}design-tokens.html"><span>Design tokens</span>${active==='__tokens__'?'':'<span class="nav-dot" title="live"></span>'}</a>` +
+    `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span>${active==='__icons__'?'':`<span class="nav-count">${ICONS.count}</span>`}</a>` +
     `</div>`;
   const groups = CATALOG.map(g => {
     const items = g.items.map(it => {
@@ -571,6 +604,100 @@ function renderIndex(cs) {
   return docShell({ base: '', active: '__overview__', main });
 }
 
+/* ===== Icon library — runtime, gallery page, and agent feeds (from the registry) ===== */
+// The client artifacts every icon-bearing page loads: the registry data + the shared element.
+function writeIconRuntime() {
+  mkdirSync(join(OUT, 'icons'), { recursive: true });
+  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(ICONS.icons) + ';\n');
+  writeFileSync(join(OUT, 'icons', 'aha-icon.js'), AHA_ICON_JS);
+}
+const GALLERY_JS = `
+(function(){
+  var q=document.getElementById('icon-search'), grid=document.getElementById('icon-grid'),
+      count=document.getElementById('icon-count'), cells=[].slice.call(grid.querySelectorAll('.ic')),
+      fams=[].slice.call(document.querySelectorAll('.fam-chip')), fam='all';
+  function apply(){
+    var t=(q.value||'').trim().toLowerCase(), n=0;
+    cells.forEach(function(c){
+      var ok=(fam==='all'||c.dataset.fam===fam) && (!t||c.dataset.name.indexOf(t)>=0);
+      c.style.display=ok?'':'none'; if(ok)n++;
+    });
+    count.textContent=n+' icon'+(n===1?'':'s');
+  }
+  q.addEventListener('input',apply);
+  fams.forEach(function(b){b.addEventListener('click',function(){fams.forEach(function(x){x.classList.remove('on')});b.classList.add('on');fam=b.dataset.fam;apply();});});
+  grid.addEventListener('click',function(e){
+    var c=e.target.closest('.ic'); if(!c)return;
+    var name=c.dataset.name;
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(name);
+    var was=c.querySelector('.icn').textContent; c.classList.add('copied'); c.querySelector('.icn').textContent='copied!';
+    setTimeout(function(){c.classList.remove('copied');c.querySelector('.icn').textContent=was;},900);
+  });
+  apply();
+})();
+`;
+function renderIconGallery() {
+  const entries = Object.entries(ICONS.icons).sort((a, b) => a[0].localeCompare(b[0]));
+  const strip = (n) => n.replace(/^(system|slidetype|filetype)-/, '');
+  const cells = entries.map(([name, v]) =>
+    `<button class="ic" type="button" data-name="${esc(name)}" data-fam="${esc(v.family)}" title="${esc(name)} — click to copy"><aha-icon name="${esc(name)}" size="24"></aha-icon><span class="icn">${esc(strip(name))}</span></button>`).join('');
+  const chips = ['all', ...ICONS.families].map((f, i) =>
+    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
+  const main = `
+  <p class="crumbs">Foundations · icon library</p>
+  <h1>Icon library</h1>
+  <p class="subtitle">The complete set imported from Figma Design System V3 — <b>${ICONS.count}</b> glyphs across ${ICONS.families.length} families. Call any of them by name with <code>&lt;aha-icon name="…"&gt;</code>; never inline an SVG. Click a glyph to copy its name.</p>
+  <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
+
+  <div class="gal-bar">
+    <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name…" autocomplete="off" spellcheck="false" />
+    <div class="fam-chips">${chips}</div>
+    <span id="icon-count" class="gal-count"></span>
+  </div>
+  <div id="icon-grid" class="icon-grid">${cells}</div>
+
+  <script src="registry.js"></script>
+  <script src="aha-icon.js"></script>
+  <script>${GALLERY_JS}</script>`;
+  const extraCss = `
+  .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0;z-index:5;border-bottom:1px solid var(--aha-split)}
+  #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
+  #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  .fam-chips{display:flex;gap:6px}
+  .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
+  .fam-chip b{opacity:.6;font-weight:600}
+  .fam-chip.on{background:var(--aha-purple-10);border-color:var(--aha-purple-30);color:#5715A0}
+  .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
+  .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+  .ic{display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 8px 10px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;color:var(--aha-icon-default,#4B4B4B);font-family:var(--aha-font-product)}
+  .ic:hover{border-color:var(--aha-purple-30);color:var(--aha-color-primary);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .ic .icn{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary);word-break:break-word;text-align:center}
+  .ic.copied{border-color:var(--aha-color-success);color:var(--aha-color-success)}
+  .ic.copied .icn{color:var(--aha-color-success)}`;
+  return docShell({ base: '../', active: '__icons__', main, extraCss });
+}
+function renderIconsLlms() {
+  const byFam = {};
+  for (const [k, v] of Object.entries(ICONS.icons)) (byFam[v.family] || (byFam[v.family] = [])).push(k);
+  let s = `# AhaSlides Icons — call by name\n\n> ${ICONS.count} glyphs, generated from ${ICONS.$generatedFrom}. Render with the shared <aha-icon> element — NEVER hand-author or inline an <svg>.\n\n`;
+  s += 'Usage: `<aha-icon name="system-bell" size={16} label="Notifications" />`\n';
+  s += '- size: 12 | 16 | 24 | 32 (only). Colour follows currentColor — set it on the wrapper.\n';
+  s += '- omit `label` and add `decorative` for an icon that only repeats adjacent text.\n';
+  s += '- filled/active state → pick the `-filled` asset (e.g. system-bookmark-simple-filled).\n\n';
+  for (const fam of ICONS.families) s += `## ${fam} (${(byFam[fam] || []).length})\n${(byFam[fam] || []).sort().join(', ')}\n\n`;
+  return s;
+}
+function renderIconsAgentJson() {
+  return JSON.stringify({
+    generatedFrom: ICONS.$generatedFrom, element: 'aha-icon',
+    usage: '<aha-icon name="system-bell" size={16} label="Notifications" />',
+    rules: { sizes: [12, 16, 24, 32], colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset' },
+    families: ICONS.families, count: ICONS.count,
+    names: Object.keys(ICONS.icons).sort(),
+    icons: Object.fromEntries(Object.entries(ICONS.icons).map(([k, v]) => [k, { family: v.family, recolorable: v.recolorable }])),
+  }, null, 2) + '\n';
+}
+
 /* ===== run ===== */
 if (existsSync(OUT)) rmSync(OUT, { recursive: true });
 mkdirSync(OUT, { recursive: true });
@@ -579,9 +706,23 @@ contracts.sort((a,b)=>a.name.localeCompare(b.name));
 LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs render as "soon"
 
 writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json — do not edit by hand. */\n' + tokenVars(TOK) + '\n');
+
+/* Importable token layer for real consumers: @ahaslides/design/tokens.css + /tokens */
+mkdirSync(join(root, 'lib'), { recursive: true });
+writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(root, 'lib', 'tokens.js'),
+  '// @ahaslides/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
+  'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\nexport default tokens;\n');
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 writeFileSync(join(OUT, 'design-tokens.html'), renderTokensPage());
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
+
+/* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
+writeIconRuntime();
+writeFileSync(join(OUT, 'icons', 'index.html'), renderIconGallery());
+writeFileSync(join(OUT, 'icons.llms.txt'), renderIconsLlms());
+writeFileSync(join(OUT, 'icons.agent.json'), renderIconsAgentJson());
+console.log(`  ✓ icons: registry.js · aha-icon.js · icons/index.html (${ICONS.count} glyphs) · icons.llms.txt · icons.agent.json`);
 
 const indexLines = ['# AhaSlides Design System — components', '', '> feeds: design.md · variables.css · llms-full.txt', ''];
 const fullDocs = [];

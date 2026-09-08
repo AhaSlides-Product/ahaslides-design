@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="system-buildings">
+<path id="Vector" d="M8.5 13.5V2C8.49995 1.90951 8.47534 1.82073 8.42879 1.74313C8.38225 1.66553 8.31552 1.60201 8.23572 1.55935C8.15591 1.51669 8.06603 1.49649 7.97565 1.50089C7.88527 1.5053 7.79777 1.53415 7.7225 1.58438L2.7225 4.9175C2.65392 4.96326 2.59772 5.02526 2.5589 5.09799C2.52008 5.17073 2.49984 5.25193 2.5 5.33438V13.5" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M8.5 5.5H13C13.1326 5.5 13.2598 5.55268 13.3536 5.64645C13.4473 5.74021 13.5 5.86739 13.5 6V13.5" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M1 13.5H15" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M6.5 7V8" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" d="M4.5 7V8" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_6" d="M4.5 10.5V11.5" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_7" d="M6.5 10.5V11.5" stroke="#4A4A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
