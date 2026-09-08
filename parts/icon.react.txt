@@ -1,0 +1,22 @@
+import '@aha/design/aha-icon';   // registers <aha-icon>
+
+// React 19 renders the element directly; React 18 too — it's plain attributes, no events.
+// Size derives the stroke INSIDE the component (12→1, 16→1.5, 24→2, 32→2.5),
+// so a call site can't pass an off-scale stroke. Never eyeball an in-between size.
+
+// Icon-only button — MUST carry an accessible name (+ a tooltip when the glyph isn't obvious).
+<button aria-label="Search" title="Search">
+  <aha-icon name="search" size={16} decorative />
+</button>
+
+// Icon + text — match the label's cap height (16 beside body text), glyph on the leading side.
+<button className="add">
+  <aha-icon name="plus" size={16} decorative />
+  Add slide
+</button>
+
+// State toggle: outline = neutral, filled = active. Colour follows currentColor —
+// set it on the wrapper, never a hex on the glyph. A fill (not colour) survives greyscale.
+<span style={{ color: 'var(--aha-color-warning)' }}>
+  <aha-icon name="star" size={24} variant={rated ? 'filled' : 'outline'} label="Rating" />
+</span>

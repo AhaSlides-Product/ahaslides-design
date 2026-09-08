@@ -1,0 +1,55 @@
+{
+  "name": "Icon",
+  "slug": "icon",
+  "group": "General",
+  "tier": "leaf-lit",
+  "badge": "shared element",
+  "element": "aha-icon",
+  "summary": "One glyph set, one size scale, one stroke-per-size — so every icon reads as a single family.",
+  "lead": "ONE shared element — <aha-icon> — renders every glyph from the system-* outline set, imported unchanged by React and Vue. Size and stroke are paired tokens the component derives together (12→1, 16→1.5, 24→2, 32→2.5), so callers can't desync them; colour inherits currentColor. Never mix a second icon set, never eyeball an off-grid size, never thicken the stroke for emphasis.",
+  "tokensUsed": ["fontSizeIcon", "iconLineWidth", "iconDefault", "colorPrimary", "colorSuccess", "colorError"],
+  "spec": [
+    { "label": "Sizes", "value": "12 · 16 · 24 · 32 (only)" },
+    { "label": "Line width", "value": "paired per size — 1 / 1.5 / 2 / 2.5" },
+    { "label": "Caps & joins", "value": "rounded, 1px corner radius" },
+    { "label": "Colour", "value": "currentColor / semantic token (no hex)" },
+    { "label": "State", "value": "outline = neutral · filled = active" }
+  ],
+  "props": [
+    { "name": "name", "type": "string", "default": "—", "desc": "Glyph from the system-* outline set (exact asset stem)" },
+    { "name": "size", "type": "12 | 16 | 24 | 32", "default": "24", "desc": "On-grid box size; derives the paired stroke width" },
+    { "name": "variant", "type": "'outline' | 'filled'", "default": "outline", "desc": "outline = neutral/inactive; filled = selected/active/on" },
+    { "name": "label", "type": "string", "default": "—", "desc": "Accessible name (role=img); omit for a decorative icon" },
+    { "name": "decorative", "type": "boolean", "default": "false", "desc": "aria-hidden — for an icon that only repeats adjacent text" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "system-* outline glyph", "when": "the default for all product-UI chrome, buttons, menus, list rows, status" },
+      { "what": "filled variant", "when": "a selected/active/on state — a solid glyph survives greyscale, so state never rides on colour alone" },
+      { "what": "Phosphor fallback", "when": "ONLY when the system-* set genuinely lacks a glyph — outline weight, matched to the family; never a second default set" }
+    ],
+    "note": "Never mix two icon sets in one view, never a hand-rolled inline <svg>, never a legacy fill/multicolor glyph (chat, play, heart) beside system-*. Off-grid sizes (no 20px) have no paired line width and render blurry. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious)."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "snippets": [
+    { "key": "react", "label": "React", "file": "icon.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "icon.vue.txt" }
+  ],
+  "codeNote": "Same element, same shadow-DOM SVG → identical render in React and Vue. Size derives the stroke inside the component, so a call site physically can't pass an off-scale stroke. Colour flows through currentColor — set it on the wrapper, not the glyph.",
+  "preview": "icon.preview.html",
+  "selfCheck": [
+    { "label": "one set — system-* outline family", "verdict": "PASS" },
+    { "label": "on-grid size 12/16/24/32 only", "verdict": "PASS" },
+    { "label": "stroke paired to size (1/1.5/2/2.5)", "verdict": "PASS" },
+    { "label": "colour = currentColor / token, no hex", "verdict": "PASS" },
+    { "label": "state via fill variant, not stroke", "verdict": "PASS" },
+    { "label": "icon-only button has aria-label", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots). Asserts the size↔stroke pairing that is the core token rule: a 24px icon strokes at 2, a 16px icon at 1.5.",
+    "ready": "!!(document.querySelector('aha-icon') && document.querySelector('aha-icon').shadowRoot && document.querySelector('aha-icon').shadowRoot.querySelector('svg'))",
+    "singleUI": true,
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('svg');if(!s)return{};var cs=getComputedStyle(s);return{w:cs.width,h:cs.height,sw:cs.strokeWidth};};var a=q('aha-icon[data-probe=\"24\"]');var b=q('aha-icon[data-probe=\"16\"]');return{w24:a.w,h24:a.h,sw24:a.sw,w16:b.w,sw16:b.sw};})()",
+    "expect": { "w24": "24px", "h24": "24px", "sw24": "2px", "w16": "16px", "sw16": "1.5px" }
+  }
+}

@@ -1,0 +1,23 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@aha/design/aha-icon';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — presenter-app renders every glyph through the shared Icon.
+// Size picks the paired stroke; colour flows from the surrounding text colour.
+<template>
+  <!-- Icon-only button — MUST have an accessible name (+ tooltip when unclear) -->
+  <button aria-label="Settings" title="Settings">
+    <aha-icon name="gear" :size="16" decorative />
+  </button>
+
+  <!-- Icon + text — cap-height match, 4px gap, glyph leading -->
+  <button class="add">
+    <aha-icon name="plus" :size="16" decorative />
+    Add slide
+  </button>
+
+  <!-- State: outline ↔ filled is the toggle; colour = currentColor on the wrapper -->
+  <span :style="{ color: 'var(--aha-color-primary)' }">
+    <aha-icon name="bell" :size="24" :variant="notificationsOn ? 'filled' : 'outline'" label="Notifications" />
+  </span>
+</template>

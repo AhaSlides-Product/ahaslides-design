@@ -1,0 +1,115 @@
+<div class="pad">
+  <div class="lbl">Size scale · paired line width (the only sanctioned sizes)</div>
+  <div class="row" style="align-items:flex-end;gap:34px">
+    <div class="stack" style="align-items:center"><aha-icon name="gear" size="12"></aha-icon><small class="cap">12 · 1</small></div>
+    <div class="stack" style="align-items:center"><aha-icon name="gear" size="16" data-probe="16"></aha-icon><small class="cap">16 · 1.5</small></div>
+    <div class="stack" style="align-items:center"><aha-icon name="gear" size="24" data-probe="24"></aha-icon><small class="cap">24 · 2</small></div>
+    <div class="stack" style="align-items:center"><aha-icon name="gear" size="32"></aha-icon><small class="cap">32 · 2.5</small></div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">The set · one <code>system-*</code> outline family (never mix a second set)</div>
+  <div class="row" style="gap:22px;color:var(--aha-icon-default,#4B4B4B)">
+    <aha-icon name="search" size="24" label="Search"></aha-icon>
+    <aha-icon name="plus" size="24" label="Add"></aha-icon>
+    <aha-icon name="check-circle" size="24" label="Success"></aha-icon>
+    <aha-icon name="warning-circle" size="24" label="Warning"></aha-icon>
+    <aha-icon name="gear" size="24" label="Settings"></aha-icon>
+    <aha-icon name="bell" size="24" label="Notifications"></aha-icon>
+    <aha-icon name="edit" size="24" label="Edit"></aha-icon>
+    <aha-icon name="trash" size="24" label="Delete"></aha-icon>
+    <aha-icon name="external-link" size="24" label="Open in new tab"></aha-icon>
+    <aha-icon name="more-vertical" size="24" label="More actions"></aha-icon>
+    <aha-icon name="chevron-right" size="24" decorative></aha-icon>
+    <aha-icon name="x" size="24" label="Close"></aha-icon>
+  </div>
+
+  <div class="grid2" style="border:1px solid var(--aha-split);border-radius:12px;margin-top:22px">
+    <div>
+      <div class="lbl">State · outline = neutral, filled = active</div>
+      <div class="row" style="gap:26px">
+        <div class="stack" style="align-items:center"><aha-icon name="star" size="24" variant="outline" label="Not rated"></aha-icon><small class="cap">outline</small></div>
+        <div class="stack" style="align-items:center;color:var(--aha-color-warning,#F5A623)"><aha-icon name="star" size="24" variant="filled" label="Rated"></aha-icon><small class="cap">filled</small></div>
+        <div class="stack" style="align-items:center"><aha-icon name="bell" size="24" variant="outline" label="Off"></aha-icon><small class="cap">outline</small></div>
+        <div class="stack" style="align-items:center;color:var(--aha-color-primary,#6A1EBB)"><aha-icon name="bell" size="24" variant="filled" label="On"></aha-icon><small class="cap">filled</small></div>
+      </div>
+    </div>
+    <div>
+      <div class="lbl">Colour · inherits currentColor / semantic token</div>
+      <div class="row" style="gap:26px">
+        <aha-icon name="check-circle" size="24" style="color:var(--aha-color-success,#16C49A)" label="Success"></aha-icon>
+        <aha-icon name="warning-circle" size="24" style="color:var(--aha-color-error,#F5222D)" label="Error"></aha-icon>
+        <aha-icon name="gear" size="24" style="color:var(--aha-color-primary,#6A1EBB)" label="Primary"></aha-icon>
+        <aha-icon name="search" size="24" style="color:var(--aha-icon-default,#4B4B4B)" label="Default"></aha-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Icon + text · match cap height, 4px gap, leading side</div>
+  <div class="row" style="gap:28px">
+    <button class="demo-btn"><aha-icon name="plus" size="16" decorative></aha-icon><span>Add slide</span></button>
+    <span class="inline-ico" style="color:var(--aha-text-secondary,#6B6B6B)"><aha-icon name="search" size="16" decorative></aha-icon> Search results</span>
+    <span class="inline-ico" style="color:var(--aha-color-error,#F5222D)"><aha-icon name="warning-circle" size="12" decorative></aha-icon> This field is required</span>
+    <button class="icon-btn" aria-label="More actions" title="More actions"><aha-icon name="more-vertical" size="16" decorative></aha-icon></button>
+  </div>
+
+  <div class="note" style="margin-top:20px">
+    Size derives the stroke <em>inside</em> the component, so a call site can't desync them — pass <code>size</code>, never a one-off stroke width. Icon-only buttons carry an <code>aria-label</code> (and a tooltip when the glyph alone isn't obvious); decorative icons that repeat adjacent text are <code>aria-hidden</code>. When the <code>system-*</code> set truly lacks a glyph, fall back to Phosphor (outline weight) — never a hand-rolled inline <code>&lt;svg&gt;</code> or a legacy fill glyph.
+  </div>
+</div>
+
+<style>
+  .cap{font-size:11px;color:var(--aha-text-tertiary,#8A8A8A);font-family:Menlo,monospace;margin-top:8px}
+  .inline-ico{display:inline-flex;align-items:center;gap:4px;font-size:14px}
+  .demo-btn{display:inline-flex;align-items:center;gap:4px;font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:#fff;background:var(--aha-color-primary,#6A1EBB);border:none;border-radius:8px;padding:8px 14px;cursor:pointer}
+  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;color:var(--aha-icon-default,#4B4B4B);background:transparent;border:1px solid var(--aha-split,#E3E3E3);border-radius:8px;cursor:pointer}
+  .icon-btn:hover{background:var(--aha-purple-10,#F3EAFF);color:var(--aha-color-primary,#6A1EBB)}
+</style>
+
+<script>
+/* ONE shared element: <aha-icon>. Renders the system-* outline set from a single source;
+   size + stroke are paired tokens the component derives together so callers can't desync them.
+   (Glyph paths are a Feather-style single-stroke family — a stand-in for the ~61 system-* assets:
+   one coherent set, fill="none" + stroke=currentColor, rounded caps, 2px stroke at 24.) */
+(function () {
+  var LINE_WIDTH = { 12: 1, 16: 1.5, 24: 2, 32: 2.5 };   // the paired size↔stroke tokens
+  var GLYPHS = {
+    search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+    plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+    'check-circle': '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+    'warning-circle': '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+    gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+    bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+    edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+    trash: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>',
+    'external-link': '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
+    'more-vertical': '<circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/>',
+    'chevron-right': '<polyline points="9 18 15 12 9 6"/>',
+    x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+    star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'
+  };
+
+  class AhaIcon extends HTMLElement {
+    static get observedAttributes() { return ['name', 'size', 'variant', 'label', 'decorative']; }
+    connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
+    attributeChangedCallback() { if (this.shadowRoot) this._render(); }
+    _render() {
+      var size = parseInt(this.getAttribute('size') || '24', 10);
+      var lw = LINE_WIDTH[size] || 2;                 // stroke is DERIVED from size — never a caller value
+      var name = this.getAttribute('name') || 'star';
+      var filled = this.getAttribute('variant') === 'filled';
+      var label = this.getAttribute('label') || '';
+      var decorative = this.hasAttribute('decorative') || !label;
+      var a11y = decorative ? 'aria-hidden="true"' : 'role="img" aria-label="' + label.replace(/"/g, '&quot;') + '"';
+      var glyph = GLYPHS[name] || GLYPHS.star;
+      this.shadowRoot.innerHTML =
+        '<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>' +
+        '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24"' +
+        ' fill="' + (filled ? 'currentColor' : 'none') + '"' +
+        ' stroke="' + (filled ? 'none' : 'currentColor') + '"' +
+        ' stroke-width="' + lw + '" stroke-linecap="round" stroke-linejoin="round" ' + a11y + '>' +
+        glyph + '</svg>';
+    }
+  }
+  customElements.define('aha-icon', AhaIcon);
+})();
+</script>
