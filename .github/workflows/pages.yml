@@ -1,0 +1,55 @@
+name: pages
+
+# Builds the docs site + agent feeds (dist/) and deploys them to GitHub Pages on every
+# push to master, giving stable, fetchable URLs:
+#   https://ahaslides-product.github.io/ahaslides-design/llms.txt
+#   https://ahaslides-product.github.io/ahaslides-design/design.md
+#   https://ahaslides-product.github.io/ahaslides-design/<slug>.agent.json
+#
+# dist/ is .gitignored on purpose — it is rebuilt here from the contracts so the feeds
+# can never drift from the committed source. AHA_SITE_URL makes the printed feed links
+# absolute; override it here if a custom domain is configured.
+#
+# One-time setup by a maintainer: Settings → Pages → Build and deployment → Source =
+# "GitHub Actions".
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - name: Build docs + feeds
+        run: node build-icons.mjs && node generate.mjs
+        env:
+          AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -37,9 +37,14 @@ See `TOKENS.canonical.md` for the full reconciliation ledger.
 
 See `PRINCIPLES.md`: every AhaSlides agent reuses components from here instead of rebuilding them.
 The DS ships as a **real importable package** (`@ahaslides/design`, resolved via `exports`) —
-not reference-only snippets:
+not reference-only snippets. Install it from the public npm registry:
+
+```bash
+npm i @ahaslides/design
+```
 
 ```js
+import '@ahaslides/design/tokens.css';           // the --aha-* token layer — once, at the app root
 import '@ahaslides/design/icons';               // registers <aha-icon> (259 glyphs, call by name)
 import { ICON_NAMES } from '@ahaslides/design/icons';   // discover valid names
 import '@ahaslides/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
@@ -49,8 +54,24 @@ import '@ahaslides/design/tokens.css';           // the --aha-* token layer (CSS
 ```
 
 `<aha-icon name="system-bell" size="16" />` — colour follows `currentColor`; never inline an `<svg>`.
-Agents discover names/APIs from the generated feeds (`dist/icons.agent.json`, `<slug>.agent.json`, `llms.txt`).
 `npm run standards` gates every component: it must be complete, declare a real `reuse` entry, import by its package name, and register/export — or the build fails.
+
+### Agent feeds — hosted, self-describing
+
+The docs site + every feed are generated together and deployed to GitHub Pages on each merge,
+so an agent can read one page and connect automatically (no human hand-off). Absolute URLs:
+
+| Feed | URL |
+|------|-----|
+| Index (start here) | `https://ahaslides-product.github.io/ahaslides-design/llms.txt` |
+| Full docs | `https://ahaslides-product.github.io/ahaslides-design/llms-full.txt` |
+| Visual language | `https://ahaslides-product.github.io/ahaslides-design/design.md` |
+| Token layer | `https://ahaslides-product.github.io/ahaslides-design/variables.css` |
+| Per component | `https://ahaslides-product.github.io/ahaslides-design/<slug>.agent.json` |
+
+Each `agent.json` carries the exact `install` / `import` lines and links to the sibling feeds, so
+discovery is fully self-serve. The docs pages also embed the install block and `<link rel="alternate">`
++ `<meta name="aha:*">` discovery tags in `<head>`.
 
 ## Commands
 
@@ -80,5 +101,10 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 Proven end-to-end and QA-green: **Icon** (259 glyphs imported from Figma DS V3, call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
-Next: scale contracts, publish/version the package, MCP/CLI query layer over `dist/`, full
-visual-regression vs the reference screenshots.
+
+**Distribution (D2 — decided):** public npm (`@ahaslides/design`) + docs/feeds hosted on GitHub Pages.
+CI in `.github/workflows/`: `publish.yml` publishes on a `v*` tag (gated by build + standards);
+`pages.yml` deploys `dist/` on every push to `master`. Maintainer one-time setup: add the `NPM_TOKEN`
+repo secret, and set Pages → Source = "GitHub Actions".
+
+Next: scale contracts, MCP/CLI query layer over the hosted feeds, full visual-regression vs the reference screenshots.
