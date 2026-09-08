@@ -1,0 +1,33 @@
+name: Standards gate
+
+# The full gate runs server-side on every push and PR, so it applies regardless
+# of which terminal, machine, or clone the work came from:
+#   - standards.mjs — reusability gate (browser-free)
+#   - qa.mjs        — render truth (measures the real UI in headless Chrome)
+# Chrome is installed here and pointed at via CHROME_BIN, which cdp.mjs/qa.mjs honour.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+        with:
+          chrome-version: stable
+
+      # No dependencies / lockfile in this package — nothing to install.
+      - name: Run the component gate (standards + render truth)
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run check
