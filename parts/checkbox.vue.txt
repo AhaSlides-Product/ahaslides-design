@@ -1,0 +1,18 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@aha/design/aha-checkbox';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const anon = ref(false);
+</script>
+
+<template>
+  <aha-checkbox
+    :checked.prop="anon"
+    @change="anon = $event.detail.checked"
+  >
+    Let participants join anonymously
+  </aha-checkbox>
+</template>

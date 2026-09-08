@@ -1,0 +1,18 @@
+import { DataTable, Button } from '@aha/ui-react';   // wraps antd v6 <Table> + components.Table theme
+
+const columns = [
+  { key: 'name',      title: 'Name',      dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
+  { key: 'team',      title: 'Team',      dataIndex: 'team', filter: { type: 'checklist', options: teams } },
+  { key: 'responses', title: 'Responses', dataIndex: 'responses' },
+  { key: 'score',     title: 'Score',     dataIndex: 'score', sorter: (a, b) => a.score - b.score },
+];
+
+<DataTable
+  rowKey="key"
+  columns={columns}
+  dataSource={rows}
+  reorderable
+  freezable
+  pagination={{ pageSize: 5, showSizeChanger: true }}
+/>
+// Never a raw <Table> — DataTable applies the DS V3 look (white header, single-arrow sort, Phosphor icons).

@@ -1,0 +1,124 @@
+<div class="grid2">
+  <div><span class="tier">React 18 · consumes &lt;aha-checkbox&gt;</span><div id="react-root"></div></div>
+  <div><span class="tier">Vue 3 · consumes &lt;aha-checkbox&gt;</span><div id="vue-root"></div></div>
+</div>
+<div class="pad" style="padding-top:0"><div class="note">Same element in both columns — one shadow-DOM stylesheet inside <code>&lt;aha-checkbox&gt;</code>. Change a <code>--aha-*</code> token and both re-theme identically.</div></div>
+
+<script type="module">
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
+class AhaCheckbox extends LitElement {
+  static properties = { checked:{type:Boolean,reflect:true}, indeterminate:{type:Boolean,reflect:true}, disabled:{type:Boolean,reflect:true} };
+  constructor(){ super(); this.checked=false; this.indeterminate=false; this.disabled=false; }
+  static styles = css`
+    :host{ display:inline-block }
+    label{ display:inline-flex; align-items:center; gap:8px;
+      font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:14px; line-height:21px;
+      color:var(--aha-text-default,#1A1A1A); cursor:pointer; user-select:none }
+    :host([disabled]) label{ cursor:not-allowed; color:var(--aha-text-disabled,#B5B5B5) }
+    input{ position:absolute; opacity:0; width:0; height:0; margin:0 }
+    .box{ position:relative; flex:0 0 auto; width:14px; height:14px; box-sizing:border-box;
+      border:1px solid var(--aha-checkbox-border,#B4BCCF); border-radius:4px;
+      background:var(--aha-bg-container,#fff); transition:all .1s ease }
+    label:hover .box{ border-color:var(--aha-purple-30,#D3B4FF) }
+    :host([disabled]) label:hover .box{ border-color:var(--aha-checkbox-border,#B4BCCF) }
+    :host([checked]) .box, :host([indeterminate]) .box{ background:var(--aha-color-primary,#6A1EBB); border-color:var(--aha-color-primary,#6A1EBB) }
+    :host([disabled]) .box, :host([disabled][checked]) .box{ background:var(--aha-bg-container-disabled,#E3E3E3); border-color:var(--aha-border-disabled,#EBEBEB) }
+    svg{ position:absolute; inset:0; margin:auto; width:12px; height:12px }
+    .bar{ position:absolute; inset:0; margin:auto; width:8px; height:2px; border-radius:1px; background:#fff }
+    :host([disabled]) svg path{ stroke:var(--aha-text-disabled,#B5B5B5) }
+    input:focus-visible + .box{ outline:2px solid var(--aha-color-primary,#6A1EBB); outline-offset:2px }
+  `;
+  updated(){ const i=this.renderRoot.querySelector('input'); if(i) i.indeterminate=this.indeterminate; }
+  _toggle(e){ if(this.disabled){ e.preventDefault(); return; } this.checked=e.target.checked; this.indeterminate=false;
+    this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{checked:this.checked}})); }
+  render(){
+    const glyph = this.indeterminate ? html`<span class="bar"></span>`
+      : this.checked ? html`<svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.3 4.7 8.5 9.5 3.7" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
+    return html`<label><input type="checkbox" .checked=${this.checked} ?disabled=${this.disabled} @change=${this._toggle}/><span class="box">${glyph}</span><slot></slot></label>`;
+  }
+}
+customElements.define('aha-checkbox', AhaCheckbox);
+</script>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+function AhaCheckbox({ checked, indeterminate, disabled, onChange, children }){
+  const ref = useRef();
+  useEffect(()=>{
+    const el = ref.current; if(!el) return;
+    const apply = ()=>{ el.checked=!!checked; el.indeterminate=!!indeterminate; el.disabled=!!disabled; };
+    if(customElements.get('aha-checkbox')) apply(); else customElements.whenDefined('aha-checkbox').then(apply);
+    apply();
+    const h = (e)=> onChange && onChange(e.detail.checked);
+    el.addEventListener('change', h);
+    return ()=> el.removeEventListener('change', h);
+  });
+  return React.createElement('aha-checkbox', { ref }, children);
+}
+function App(){
+  const all=['poll','quiz','qa'], label={poll:'Poll',quiz:'Quiz',qa:'Q&A'};
+  const [anon,setAnon]=useState(false); const [remember,setRemember]=useState(true); const [list,setList]=useState(['poll']);
+  const checkAll=list.length===all.length; const indet=list.length>0 && list.length<all.length;
+  const toggle=(v,on)=> setList(on ? [...new Set([...list,v])] : list.filter(x=>x!==v));
+  return (
+    <div>
+      <div className="lbl">Basic · checked · disabled</div>
+      <div className="row">
+        <AhaCheckbox checked={anon} onChange={setAnon}>Let participants join anonymously</AhaCheckbox>
+        <AhaCheckbox checked={remember} onChange={setRemember}>Show correct answers</AhaCheckbox>
+        <AhaCheckbox disabled>Locked option</AhaCheckbox>
+        <AhaCheckbox disabled checked>Locked on</AhaCheckbox>
+      </div>
+      <div className="lbl">Group · check-all + indeterminate</div>
+      <div className="stack">
+        <AhaCheckbox checked={checkAll} indeterminate={indet} onChange={(on)=>setList(on?[...all]:[])}>Select all</AhaCheckbox>
+        <div style={{paddingLeft:22}} className="stack">
+          {all.map(v=> <AhaCheckbox key={v} checked={list.includes(v)} onChange={(on)=>toggle(v,on)}>{label[v]}</AhaCheckbox>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(<App/>);
+</script>
+
+<script>
+(function(){
+  const V = window.Vue;
+  const all=['poll','quiz','qa'], label={poll:'Poll',quiz:'Quiz',qa:'Q&A'};
+  const app = V.createApp({
+    setup(){
+      const anon=V.ref(false), remember=V.ref(true), list=V.ref(['poll']);
+      const checkAll=V.computed(()=>list.value.length===all.length);
+      const indet=V.computed(()=>list.value.length>0 && list.value.length<all.length);
+      const onAll=(e)=>{ list.value = e.detail.checked ? [...all] : []; };
+      const toggle=(v,e)=>{ const on=e.detail.checked; list.value = on ? [...new Set([...list.value,v])] : list.value.filter(x=>x!==v); };
+      return { anon, remember, list, checkAll, indet, onAll, toggle, all, label };
+    },
+    template:
+      '<div>'+
+        '<div class="lbl">Basic · checked · disabled</div>'+
+        '<div class="row">'+
+          '<aha-checkbox :checked.prop="anon" @change="anon=$event.detail.checked">Let participants join anonymously</aha-checkbox>'+
+          '<aha-checkbox :checked.prop="remember" @change="remember=$event.detail.checked">Show correct answers</aha-checkbox>'+
+          '<aha-checkbox disabled>Locked option</aha-checkbox>'+
+          '<aha-checkbox disabled checked>Locked on</aha-checkbox>'+
+        '</div>'+
+        '<div class="lbl">Group · check-all + indeterminate</div>'+
+        '<div class="stack">'+
+          '<aha-checkbox :checked.prop="checkAll" :indeterminate.prop="indet" @change="onAll">Select all</aha-checkbox>'+
+          '<div class="stack" style="padding-left:22px">'+
+            '<aha-checkbox v-for="v in all" :key="v" :checked.prop="list.includes(v)" @change="e=>toggle(v,e)">{{ label[v] }}</aha-checkbox>'+
+          '</div>'+
+        '</div>'+
+      '</div>'
+  });
+  app.config.compilerOptions.isCustomElement = (tag)=> tag.startsWith('aha-');
+  app.mount('#vue-root');
+})();
+</script>
