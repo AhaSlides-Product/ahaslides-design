@@ -1,0 +1,92 @@
+<!-- The shared runtime: the icon registry (imported from Figma DS V3) + the <aha-icon> element.
+     Loaded from the generated icon library so the doc renders the REAL glyphs, by name. -->
+<script src="../icons/registry.js"></script>
+<script src="../icons/aha-icon.js"></script>
+
+<div class="pad">
+  <div class="lbl">Size scale · 12 · 16 · 24 · 32 (the only sanctioned sizes)</div>
+  <div class="row" style="align-items:flex-end;gap:34px">
+    <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="12"></aha-icon><small class="cap">12</small></div>
+    <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="16" data-probe="16"></aha-icon><small class="cap">16</small></div>
+    <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="24"></aha-icon><small class="cap">24</small></div>
+    <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="32"></aha-icon><small class="cap">32</small></div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">The set · one <code>system-*</code> outline family — call any glyph by name</div>
+  <div class="row" style="gap:22px;color:var(--aha-icon-default,#4B4B4B)">
+    <aha-icon name="system-magnifying-glass" size="24" label="Search"></aha-icon>
+    <aha-icon name="system-plus" size="24" label="Add"></aha-icon>
+    <aha-icon name="system-check-circle" size="24" label="Success"></aha-icon>
+    <aha-icon name="system-warning-circle" size="24" label="Warning"></aha-icon>
+    <aha-icon name="system-gear" size="24" label="Settings"></aha-icon>
+    <aha-icon name="system-bell" size="24" label="Notifications"></aha-icon>
+    <aha-icon name="system-pencil-simple" size="24" label="Edit"></aha-icon>
+    <aha-icon name="system-trash" size="24" label="Delete"></aha-icon>
+    <aha-icon name="system-arrow-square-out" size="24" label="Open in new tab"></aha-icon>
+    <aha-icon name="system-dots-three-vertical" size="24" label="More actions"></aha-icon>
+    <aha-icon name="system-magic-wand" size="24" label="AI"></aha-icon>
+    <aha-icon name="system-users" size="24" label="Participants"></aha-icon>
+    <aha-icon name="system-caret-right" size="24" decorative></aha-icon>
+    <aha-icon name="system-x" size="24" label="Close"></aha-icon>
+  </div>
+
+  <div class="grid2" style="border:1px solid var(--aha-split);border-radius:12px;margin-top:22px">
+    <div>
+      <div class="lbl">State · outline = neutral, filled = active</div>
+      <div class="row" style="gap:26px">
+        <div class="stack" style="align-items:center"><aha-icon name="system-bookmark-simple" size="24" label="Not saved"></aha-icon><small class="cap">outline</small></div>
+        <div class="stack" style="align-items:center;color:var(--aha-color-primary,#6A1EBB)"><aha-icon name="system-bookmark-simple-filled" size="24" label="Saved"></aha-icon><small class="cap">filled</small></div>
+      </div>
+      <div class="note" style="margin-top:6px">Active/“on” state = the dedicated <code>-filled</code> asset — a solid glyph survives greyscale, so state never rides on colour alone.</div>
+    </div>
+    <div>
+      <div class="lbl">Colour · inherits currentColor / semantic token</div>
+      <div class="row" style="gap:26px">
+        <aha-icon name="system-check-circle" size="24" style="color:var(--aha-color-success,#16C49A)" label="Success"></aha-icon>
+        <aha-icon name="system-warning-circle" size="24" style="color:var(--aha-color-error,#F5222D)" label="Error"></aha-icon>
+        <aha-icon name="system-gear" size="24" style="color:var(--aha-color-primary,#6A1EBB)" label="Primary"></aha-icon>
+        <aha-icon name="system-magnifying-glass" size="24" style="color:var(--aha-icon-default,#4B4B4B)" label="Default"></aha-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Icon + text · match cap height, 4px gap, leading side</div>
+  <div class="row" style="gap:28px">
+    <button class="demo-btn"><aha-icon name="system-plus" size="16" decorative></aha-icon><span>Add slide</span></button>
+    <span class="inline-ico" style="color:var(--aha-text-secondary,#6B6B6B)"><aha-icon name="system-magnifying-glass" size="16" decorative></aha-icon> Search results</span>
+    <span class="inline-ico" style="color:var(--aha-color-error,#F5222D)"><aha-icon name="system-warning-circle" size="12" decorative></aha-icon> This field is required</span>
+    <button class="icon-btn" aria-label="More actions" title="More actions"><aha-icon name="system-dots-three-vertical" size="16" decorative></aha-icon></button>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Beyond system-* · slide-type &amp; file-type families</div>
+  <div class="row" style="gap:22px;color:var(--aha-icon-default,#4B4B4B)">
+    <aha-icon name="slidetype-poll" size="24" label="Poll"></aha-icon>
+    <aha-icon name="slidetype-word-cloud" size="24" label="Word cloud"></aha-icon>
+    <aha-icon name="slidetype-ranking" size="24" label="Ranking"></aha-icon>
+    <aha-icon name="slidetype-brainstorm" size="24" label="Brainstorm"></aha-icon>
+    <aha-icon name="slidetype-qa" size="24" label="Q&amp;A"></aha-icon>
+    <span style="width:1px;height:24px;background:var(--aha-split)"></span>
+    <aha-icon name="filetype-presentation" size="24" label="Presentation"></aha-icon>
+    <aha-icon name="filetype-course" size="24" label="Course"></aha-icon>
+    <aha-icon name="filetype-lesson" size="24" label="Lesson"></aha-icon>
+    <aha-icon name="filetype-survey" size="24" label="Survey"></aha-icon>
+  </div>
+
+  <!-- conformance probe: a stroke glyph at 24, inheriting a known colour, proves currentColor theming -->
+  <div style="color:rgb(106,30,187);position:absolute;left:-9999px" aria-hidden="true"><aha-icon name="system-bell" size="24" data-probe="24"></aha-icon></div>
+
+  <div class="note" style="margin-top:20px">
+    Every glyph is called by <code>name</code> from the shared registry — <b id="reg-count">…</b> icons imported from Figma Design System V3, no inline SVG at the call site. Browse and copy any name in the <a href="../icons/index.html">Icon library →</a>. Size derives the paired stroke; colour follows <code>currentColor</code>; icon-only buttons carry an <code>aria-label</code>.
+  </div>
+</div>
+
+<style>
+  .cap{font-size:11px;color:var(--aha-text-tertiary,#8A8A8A);font-family:Menlo,monospace;margin-top:8px}
+  .inline-ico{display:inline-flex;align-items:center;gap:4px;font-size:14px}
+  .demo-btn{display:inline-flex;align-items:center;gap:4px;font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:#fff;background:var(--aha-color-primary,#6A1EBB);border:none;border-radius:8px;padding:8px 14px;cursor:pointer}
+  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;color:var(--aha-icon-default,#4B4B4B);background:transparent;border:1px solid var(--aha-split,#E3E3E3);border-radius:8px;cursor:pointer}
+  .icon-btn:hover{background:var(--aha-purple-10,#F3EAFF);color:var(--aha-color-primary,#6A1EBB)}
+</style>
+<script>
+  (function(){ var set=function(){ if(window.AHA_ICONS){ var c=document.getElementById('reg-count'); if(c) c.textContent=Object.keys(window.AHA_ICONS).length; } else setTimeout(set,30); }; set(); })();
+</script>

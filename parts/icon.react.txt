@@ -1,0 +1,25 @@
+import '@ahaslides/design/icons';   // registers <aha-icon> + loads the glyph registry (259 icons)
+
+// Call any glyph BY NAME — never inline an <svg>. Browse names in the Icon library,
+// or read icons.agent.json / icons.llms.txt. Colour follows currentColor; size is 12/16/24/32.
+
+// Icon-only button — MUST carry an accessible name (+ a tooltip when the glyph isn't obvious).
+<button aria-label="Search" title="Search">
+  <aha-icon name="system-magnifying-glass" size={16} decorative />
+</button>
+
+// Icon + text — match the label's cap height (16 beside body text), glyph on the leading side.
+<button className="add">
+  <aha-icon name="system-plus" size={16} decorative />
+  Add slide
+</button>
+
+// State: outline = neutral, filled = active (use the dedicated -filled asset).
+// Colour is set on the wrapper — the glyph inherits it via currentColor.
+<span style={{ color: 'var(--aha-color-primary)' }}>
+  <aha-icon name={saved ? 'system-bookmark-simple-filled' : 'system-bookmark-simple'} size={24} label="Save" />
+</span>
+
+// Slide-type / file-type families are the same call, different name:
+<aha-icon name="slidetype-poll" size={24} label="Poll" />
+<aha-icon name="filetype-course" size={24} label="Course" />

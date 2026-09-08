@@ -69,12 +69,36 @@ chk(g, 'design-tokens.html styled in shell', /class="doc-nav"/.test(read(join(DI
   chk(g, 'feed pages: in-shell + raw content in code wrapper', /class="doc-nav"/.test(fp) && /class="code-panel feed"/.test(fp) && /Checkbox/.test(fp)); }
 results.push({ slug: '(global feeds)', checks: g });
 
+/* ---- icon library (registry + runtime + gallery + feeds) ---- */
+{ const il = [];
+  const regjs = read(join(DIST,'icons','registry.js'));
+  const nreg = (regjs.match(/"family"/g) || []).length;
+  chk(il, 'registry.js defines window.AHA_ICONS with the full set', /window\.AHA_ICONS=/.test(regjs) && nreg > 200, `only ${nreg} icons`);
+  chk(il, 'aha-icon.js runtime present', /customElements\.define\('aha-icon'/.test(read(join(DIST,'icons','aha-icon.js'))));
+  const gal = read(join(DIST,'icons','index.html'));
+  chk(il, 'gallery page: in-shell + search + glyph cells', /class="doc-nav"/.test(gal) && /id="icon-search"/.test(gal) && /<aha-icon /.test(gal) && /registry\.js/.test(gal));
+  let ia = null; try { ia = JSON.parse(read(join(DIST,'icons.agent.json'))); } catch {}
+  chk(il, 'icons.agent.json valid + carries names', ia && Array.isArray(ia.names) && ia.names.length > 200 && ia.names.includes('system-bell'));
+  const ill = read(join(DIST,'icons.llms.txt'));
+  chk(il, 'icons.llms.txt lists names by family', /system-bell/.test(ill) && /## system/.test(ill) && /call by name/i.test(ill));
+  const gbytes = screenshotBytes(join(DIST,'icons','index.html'), 'icons-gallery');
+  chk(il, `gallery renders (screenshot ${(gbytes/1024|0)}KB > 40KB)`, gbytes > 40000);
+  /* the glyphs actually draw (registry loaded → shadow svg present in a gallery cell) */
+  try {
+    const drew = await evaluateInPage('file://' + join(DIST,'icons','index.html'),
+      "(function(){var el=document.querySelector('.ic aha-icon');return !!(el&&el.shadowRoot&&el.shadowRoot.querySelector('svg path'));})()",
+      { readyExpr: "!!(window.AHA_ICONS && document.querySelector('.ic aha-icon') && document.querySelector('.ic aha-icon').shadowRoot && document.querySelector('.ic aha-icon').shadowRoot.querySelector('svg'))", timeout: 45000 });
+    chk(il, 'gallery glyphs render from the registry (shadow svg)', !!drew);
+  } catch (e) { chk(il, 'gallery glyphs render from the registry (shadow svg)', false, e.message); }
+  results.push({ slug: '(icon library)', checks: il });
+}
+
 /* ---- contracts (tier + conformance) ---- */
 const contracts = {};
 for (const f of readdirSync(CDIR).filter(f => f.endsWith('.json'))) { const j = JSON.parse(readFileSync(join(CDIR, f), 'utf8')); contracts[j.slug] = j; }
 
 /* ---- per component ---- */
-const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts']);  // generated support dirs, not components
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons']);  // generated support dirs, not components
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];

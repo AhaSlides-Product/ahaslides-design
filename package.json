@@ -2,13 +2,26 @@
   "name": "@ahaslides/design",
   "version": "0.1.0",
   "private": true,
-  "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared Lit web-component primitives + antd/ant-design-vue composites.",
+  "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
+  "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js"],
+  "exports": {
+    "./icons": "./lib/icons.js",
+    "./icons-registry": "./lib/icons-registry.js",
+    "./aha-checkbox": "./lib/aha-checkbox.js",
+    "./table-theme": "./lib/table-theme.js",
+    "./tokens": "./lib/tokens.js",
+    "./tokens.css": "./lib/tokens.css",
+    "./package.json": "./package.json"
+  },
+  "files": ["lib/", "icons/svg/", "icons/registry.json"],
   "scripts": {
-    "generate": "node generate.mjs",
+    "icons": "node build-icons.mjs",
+    "generate": "node build-icons.mjs && node generate.mjs",
     "qa": "node qa.mjs",
-    "build": "node generate.mjs",
-    "check": "node generate.mjs && node qa.mjs"
+    "test:import": "node test-import.mjs",
+    "build": "node build-icons.mjs && node generate.mjs",
+    "check": "node build-icons.mjs && node generate.mjs && node test-import.mjs && node qa.mjs"
   },
   "license": "UNLICENSED"
 }
