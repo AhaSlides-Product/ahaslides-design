@@ -324,7 +324,7 @@ function renderHtml(c) {
   const preview = part(c.preview);
   const main = `
   <p class="crumbs">Components · ${esc(c.group)}</p>
-  <h1>${esc(c.name)} <span class="badge ${c.tier==='leaf-lit'?'leaf':'composite'}">${esc(c.badge)}</span></h1>
+  <h1>${esc(c.name)}</h1>
   <p class="subtitle">${esc(c.summary)}</p>
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
 
