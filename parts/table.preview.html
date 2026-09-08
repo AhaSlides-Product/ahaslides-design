@@ -23,18 +23,16 @@
   .aha-pop .aha-foot { display:flex; justify-content:space-between; align-items:center; margin-top:14px; }
   .aha-reset { background:none; border:none; color:var(--aha-text-tertiary); cursor:pointer; font:inherit; padding:0; }
   .aha-reset:hover { color:var(--aha-text-secondary); }
-  /* reorder / resize illustrations */
-  .aha-ill { position:relative; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); overflow:hidden; }
-  .aha-ill-head { display:flex; background:var(--aha-bg-container); }
-  .aha-ill-th { flex:1; padding:16px; font-size:14px; font-weight:600; color:var(--aha-text-tertiary); border-bottom:1px solid var(--aha-border); position:relative; display:flex; align-items:center; gap:8px; }
-  .aha-ill-th .grab { color:var(--aha-text-tertiary); cursor:grab; display:inline-flex; }
-  .aha-ill-th.dragging { background:var(--aha-gray-30); }
-  .aha-dropline { position:absolute; top:0; bottom:0; width:2px; background:var(--aha-color-primary); }
-  .aha-ghost { position:absolute; top:8px; padding:8px 12px; background:var(--aha-bg-container); border:1px solid var(--aha-border-hover); border-radius:6px; box-shadow:0 6px 16px rgba(26,26,46,.12); font-size:13px; font-weight:600; color:var(--aha-text-secondary); }
-  .aha-ill-row { display:flex; }
-  .aha-ill-td { flex:1; padding:16px; font-size:14px; color:var(--aha-text-default); border-bottom:1px solid var(--aha-border); }
-  .aha-resize-handle { position:absolute; right:0; top:0; bottom:0; width:2px; background:var(--aha-color-primary); cursor:col-resize; }
-  .aha-resize-handle::after { content:''; position:absolute; right:-3px; top:50%; width:8px; height:8px; margin-top:-4px; border-radius:50%; background:var(--aha-color-primary); }
+  /* reorder — draggable headers + purple drop-line */
+  .aha-th-grab { display:inline-flex; align-items:center; gap:6px; cursor:grab; }
+  .aha-th-grab .dots { color:var(--aha-text-tertiary); display:inline-flex; }
+  th.aha-drag-over { box-shadow: inset 2px 0 0 0 var(--aha-color-primary); }
+  th.aha-dragging { background: var(--aha-gray-30) !important; opacity:.6; }
+  /* resize — drag handle on the header's right edge */
+  th.aha-rz-th { position:relative; }
+  .aha-rz { position:absolute; right:-1px; top:0; bottom:0; width:8px; cursor:col-resize; z-index:2; display:flex; justify-content:center; }
+  .aha-rz::after { content:''; width:2px; background:transparent; }
+  .aha-rz:hover::after, .aha-rz.on::after { background:var(--aha-color-primary); }
 </style>
 
 <div id="react-root" class="pad"></div>
@@ -70,7 +68,7 @@ window.__aha = {
 
 <script type="text/babel">
 const { ConfigProvider, Table, Button, Input, InputNumber, Checkbox, Popover, Space } = window.__antdR;
-const { useState, useMemo } = React;
+const { useState, useMemo, useRef, useCallback } = React;
 const R = window.__aha;
 
 /* --- inline DS icons (Phosphor-ish; a real app uses the shared Icon component) --- */
@@ -155,6 +153,55 @@ const COLS = {
   score: { key:'score', title:'Score', dataIndex:'score' },
 };
 
+/* Reorder — HTML5 drag on headers via onHeaderCell; purple drop-line on the drag-over cell.
+   (antd's Table has no native column reorder — this is the "customise" layer, hand-rolled.) */
+function ReorderDemo() {
+  const [order, setOrder] = useState(['name','team','responses','score']);
+  const [over, setOver] = useState(null);
+  const drag = useRef(null);
+  const move = (from, to) => setOrder(o => { if (from===to) return o; const a=o.filter(k=>k!==from); a.splice(a.indexOf(to),0,from); return a; });
+  const cols = order.map(k => ({
+    ...COLS[k],
+    title: <span className="aha-th-grab"><span className="dots"><Dots /></span>{COLS[k].title}</span>,
+    onHeaderCell: () => ({
+      draggable: true,
+      style: {
+        cursor: 'grab',
+        ...(over===k ? { boxShadow:'inset 2px 0 0 0 var(--aha-color-primary)' } : {}),
+        ...(drag.current===k ? { opacity:.5, background:'var(--aha-gray-30)' } : {}),
+      },
+      onDragStart: () => { drag.current = k; },
+      onDragOver: (e) => { e.preventDefault(); if (over!==k) setOver(k); },
+      onDragLeave: () => setOver(o => o===k ? null : o),
+      onDrop: (e) => { e.preventDefault(); move(drag.current, k); drag.current=null; setOver(null); },
+      onDragEnd: () => { drag.current=null; setOver(null); },
+    }),
+  }));
+  return <Table rowKey="key" columns={cols} dataSource={R.rows} pagination={false} />;
+}
+
+/* Resize — drag handle on each header's right edge, tracked in width state.
+   (antd's Table has no native resize — hand-rolled via a custom header cell.) */
+function ResizeDemo() {
+  const [w, setW] = useState({ name:200, team:160, responses:160, score:160 });
+  const wRef = useRef(w); wRef.current = w;
+  const start = useCallback(key => e => {
+    e.preventDefault(); e.stopPropagation();
+    const x0 = e.clientX, w0 = wRef.current[key];
+    const mv = ev => setW(p => ({ ...p, [key]: Math.max(80, w0 + ev.clientX - x0) }));
+    const up = () => { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); };
+    document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
+  }, []);
+  const components = useMemo(() => ({ header: { cell: props => {
+    const { columnkey, children, className, ...rest } = props;
+    return <th {...rest} className={(className||'') + ' aha-rz-th'}>{children}
+      {columnkey ? <span className="aha-rz" onMouseDown={start(columnkey)} /> : null}</th>;
+  } } }), [start]);
+  const cols = ['name','team','responses','score'].map(k => ({ ...COLS[k], width:w[k], onHeaderCell: () => ({ columnkey:k }) }));
+  return <Table rowKey="key" columns={cols} dataSource={R.rows} pagination={false}
+    components={components} scroll={{ x: w.name + w.team + w.responses + w.score }} />;
+}
+
 function App() {
   /* edit-columns visibility */
   const [visible, setVisible] = useState(['name', 'team', 'responses', 'score']);
@@ -227,29 +274,12 @@ function App() {
           <Table rowKey="key" columns={editCols} dataSource={R.rows} pagination={false} />
         </Section>
 
-        <Section title="Reorder column" hint="illustration — drag a header; purple drop-line marks the target">
-          <div className="aha-ill">
-            <div className="aha-ill-head">
-              <div className="aha-ill-th dragging"><span className="grab"><Dots /></span>Team</div>
-              <div className="aha-ill-th">Responses</div>
-              <div className="aha-ill-th">Score
-                <div className="aha-dropline" style={{ left: 0 }}></div>
-                <div className="aha-ghost" style={{ left: -40 }}>Team</div>
-              </div>
-            </div>
-            <div className="aha-ill-row"><div className="aha-ill-td">Product</div><div className="aha-ill-td">25</div><div className="aha-ill-td">1040</div></div>
-          </div>
+        <Section title="Reorder column" hint="drag a header to reorder; purple drop-line marks the target">
+          <ReorderDemo />
         </Section>
 
-        <Section title="Resize col-width" hint="illustration — drag the divider to resize">
-          <div className="aha-ill">
-            <div className="aha-ill-head">
-              <div className="aha-ill-th" style={{ flex:'0 0 240px' }}>Name<div className="aha-resize-handle"></div></div>
-              <div className="aha-ill-th">Team</div>
-              <div className="aha-ill-th">Score</div>
-            </div>
-            <div className="aha-ill-row"><div className="aha-ill-td" style={{ flex:'0 0 240px' }}>Mai Tran</div><div className="aha-ill-td">Product</div><div className="aha-ill-td">1040</div></div>
-          </div>
+        <Section title="Resize col-width" hint="drag the right edge of a header to resize">
+          <ResizeDemo />
         </Section>
 
       </Space>
