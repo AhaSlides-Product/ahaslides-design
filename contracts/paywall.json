@@ -1,0 +1,63 @@
+{
+  "name": "Paywall",
+  "slug": "paywall",
+  "group": "Surfaces",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-paywall",
+  "summary": "Wrap a pro-gated affordance; the shared upsell renders itself — crown badge, one-sentence body, the fixed unlock line, and a single Upgrade CTA are baked in.",
+  "lead": "EVERY pro-gated affordance routes through one element so both products feel like one. You give <aha-paywall> the feature, the copy and the plan; it renders the compliant popover — the purple crown badge (never a generic crown glyph), the one-sentence benefit, the fixed \"Unlock with the <Plan> plan.\" line, and the lone full-width Upgrade CTA. Analytics comes back as events. A hand-rolled upgrade modal/tooltip is the drift this replaces.",
+  "tokensUsed": ["color-primary", "bg-dark-raised", "text-inverse", "radius-lg", "btn-primary-bg", "btn-primary-fg"],
+  "spec": [
+    { "label": "Crown badge", "value": "16×16 purple circle (--aha-color-primary) + white crown — the custom mark, not a Phosphor crown" },
+    { "label": "Popover", "value": "dark indigo surface #242442 (--aha-bg-dark-raised), 300px wide, 16px padding, radius 12" },
+    { "label": "Anatomy", "value": "header (crown + feature label) · body (one sentence + \"Unlock with the <Plan> plan.\") · footer (single block Upgrade CTA)" },
+    { "label": "CTA", "value": "one full-width primary Upgrade button — no secondary/dismiss button inside the popover" },
+    { "label": "Analytics", "value": "paywall-shown on open · paywall-upgrade before navigation — both { feature, plan }" },
+    { "label": "Behaviour", "value": "CTA opens ahaslides.com/pricing (new tab, noopener); preventDefault paywall-upgrade to run your own flow" }
+  ],
+  "props": [
+    { "name": "feature-key", "type": "string (snake_case)", "default": "—", "desc": "Stable token (e.g. custom_survey_url) — drives analytics + DOM hooks. Required." },
+    { "name": "feature-label", "type": "string", "default": "Pro feature", "desc": "Short noun-phrase title next to the crown" },
+    { "name": "body", "type": "string", "default": "—", "desc": "Exactly one sentence describing the benefit of unlocking; ends with a period" },
+    { "name": "required-plan", "type": "essential | pro", "default": "pro", "desc": "Drives the unlock line and the analytics plan prop" },
+    { "name": "placement", "type": "top | bottom", "default": "top", "desc": "Popover side relative to the anchor" },
+    { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away closes a click popover" },
+    { "name": "cta-label", "type": "string", "default": "Upgrade", "desc": "The CTA verb; override only with a clear reason" },
+    { "name": "slot (default)", "type": "element", "default": "crown badge", "desc": "The gated affordance = the anchor; omit it to use the crown badge as the anchor" },
+    { "name": "paywall-shown / paywall-upgrade", "type": "CustomEvent<{feature,plan}>", "default": "—", "desc": "Analytics contract; paywall-upgrade is cancelable (preventDefault to run your own upgrade flow)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "aha-paywall", "when": "any feature locked behind a paid plan — editor affordance, share option, results feature, dashboard action" },
+      { "what": "crown-badge anchor", "when": "the feature has no natural clickable anchor (e.g. a field label) — omit the slot and the crown is the anchor" },
+      { "what": "required-plan pro", "when": "the default gate; use essential only for essential-tier features" },
+      { "what": "never a bespoke upsell", "when": "a hand-rolled upgrade modal/tooltip drifts from the presenter app — always this element" }
+    ],
+    "note": "Feature label is a short noun phrase; body is exactly one sentence about the benefit (not \"This is a Pro feature\"); the unlock line is fixed — do not reword. Popover/placement mechanics defer to aha-design-overlays; a single plan-gated setting row lives in the Settings surface."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-paywall", "registers": "aha-paywall", "exportsNamed": ["AhaPaywall", "defineAhaPaywall"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "paywall.html.txt" },
+    { "key": "react", "label": "React", "file": "paywall.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "paywall.vue.txt" }
+  ],
+  "codeNote": "One zero-dep custom element renders the shared upsell; the paywall skill's rules (crown-not-Phosphor, one-sentence body, fixed unlock line, single block CTA, the two analytics events, dark-indigo 300/16/12 surface) are baked into its shadow DOM — a consumer can't hand-roll a drifting prompt. The judge/eval + copy voice stay in the aha-design skill.",
+  "preview": "paywall.preview.html",
+  "selfCheck": [
+    { "label": "shared component — no bespoke upsell (PAYWALL-01)", "verdict": "PASS" },
+    { "label": "custom crown badge, not Phosphor (PAYWALL-02)", "verdict": "PASS" },
+    { "label": "one-sentence body + fixed unlock line (PAYWALL-03)", "verdict": "PASS" },
+    { "label": "single block Upgrade CTA (PAYWALL-04)", "verdict": "PASS" },
+    { "label": "PAYWALL_SHOWN + PAYWALL_UPGRADE_CLICKED events (PAYWALL-06)", "verdict": "PASS" },
+    { "label": "requiredPlan essential|pro drives unlock line + analytics (PAYWALL-07)", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured against the RENDERED shadow-DOM UI (getComputedStyle via headless CDP). The first paywall is shown open so the popover is measurable.",
+    "ready": "!!(document.querySelector('aha-paywall') && document.querySelector('aha-paywall').shadowRoot && document.querySelector('aha-paywall').shadowRoot.querySelector('.pop'))",
+    "singleUI": true,
+    "measure": "(function(){var s=document.querySelector('aha-paywall').shadowRoot; var g=function(sel,p){var el=s.querySelector(sel); return el?getComputedStyle(el)[p]:null;}; return { popoverBg:g('.pop','backgroundColor'), popoverRadius:g('.pop','borderTopLeftRadius'), popoverWidth:g('.pop','width'), ctaBg:g('.cta','backgroundColor'), crownBg:g('.crown','backgroundColor') };})()",
+    "expect": { "popoverBg": "rgb(36, 36, 66)", "popoverRadius": "12px", "popoverWidth": "300px", "ctaBg": "rgb(106, 30, 187)", "crownBg": "rgb(106, 30, 187)" }
+  }
+}

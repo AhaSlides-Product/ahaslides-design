@@ -1,0 +1,19 @@
+<!-- Paste into an .html file and open — no build step. Wrap a gated affordance; the upsell renders itself. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-paywall.js';   // registers <aha-paywall>
+</script>
+
+<aha-paywall
+  feature-key="custom_survey_url"
+  feature-label="Custom survey URL"
+  body="Give your survey a branded, memorable link."
+  required-plan="pro">
+  <button>Custom URL</button>   <!-- the gated affordance (omit for a crown-badge anchor) -->
+</aha-paywall>
+
+<script>
+  // analytics contract — the app wires these to its tracker
+  document.querySelector('aha-paywall').addEventListener('paywall-shown', (e) => console.log('PAYWALL_SHOWN', e.detail));
+  document.querySelector('aha-paywall').addEventListener('paywall-upgrade', (e) => console.log('PAYWALL_UPGRADE_CLICKED', e.detail));
+</script>

@@ -6,7 +6,7 @@
   "badge": "composite — antd wrappers",
   "summary": "Pick a date or a date range from a calendar — schedules, deadlines, filters — rendered through the shared DatePicker.",
   "lead": "DatePicker carries a calendar panel, ranges, presets and locale handling — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared datepickerTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
-  "tokensUsed": ["color-primary", "radius-default", "border", "text-default", "text-tertiary", "purple-10", "gray-20"],
+  "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "DatePicker.cellActiveWithRangeBg", "DatePicker.cellHoverBg"],
   "spec": [
     { "label": "Field", "value": "height 36 · radius 8 · 1px #E3E3E3 border" },
     { "label": "Selected cell", "value": "brand #6A1EBB" },
@@ -47,8 +47,8 @@
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 picker field bound to datepickerTheme.",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-picker','borderTopLeftRadius'),radiusBR:g('.ant-picker','borderBottomRightRadius'),border:g('.ant-picker','borderTopColor'),borderWidth:g('.ant-picker','borderTopWidth'),borderWidthB:g('.ant-picker','borderBottomWidth'),height:g('.ant-picker','height')};})()",
     "ready": "!!document.querySelector('#react-root .ant-picker')",
-    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-picker','borderTopLeftRadius'),border:g('.ant-picker','borderTopColor'),height:g('.ant-picker','height')};})()",
-    "expect": { "radius": "8px", "border": "rgb(227, 227, 227)", "height": "36px" }
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "borderWidthB": "1px", "height": "36px" }
   }
 }

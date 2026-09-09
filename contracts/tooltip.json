@@ -46,7 +46,7 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe uses `open` so the bubble is in layout and measurable.",
     "ready": "!!(document.querySelector('aha-tooltip[data-probe]') && document.querySelector('aha-tooltip[data-probe]').shadowRoot && document.querySelector('aha-tooltip[data-probe]').shadowRoot.querySelector('.bubble'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-tooltip[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bubble');var s=b?getComputedStyle(b):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null};})()",
-    "expect": { "bg": "rgb(26, 26, 46)", "color": "rgb(255, 255, 255)", "radius": "6px" }
+    "measure": "(function(){var el=document.querySelector('aha-tooltip[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bubble');var s=b?getComputedStyle(b):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null};})()",
+    "expect": { "bg": "rgb(26, 26, 46)", "color": "rgb(255, 255, 255)", "radius": "6px", "fontSize": "12px" }
   }
 }
