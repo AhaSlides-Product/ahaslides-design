@@ -2,6 +2,7 @@
      Tell the compiler it's a custom element (vite: compilerOptions.isCustomElement = t => t.startsWith('aha-')). -->
 <script setup>
 import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+import '@ahaslides-product/design/icons';   // registers <aha-icon> for the icon slot
 defineProps({ saving: Boolean });
 const emit = defineEmits(['save']);
 </script>
@@ -11,9 +12,7 @@ const emit = defineEmits(['save']);
     <aha-button variant="secondary">Cancel</aha-button>
     <aha-button variant="primary" :loading="saving" @click="emit('save')">
       <span slot="icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-        </svg>
+        <aha-icon name="system-plus" :size="16" decorative />
       </span>
       Save changes
     </aha-button>
