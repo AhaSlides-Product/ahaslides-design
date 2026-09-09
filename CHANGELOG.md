@@ -21,6 +21,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.5.0 — 2026-09-09
+### Changed
+- `aha-tooltip` pop no longer uses a bounce/overshoot easing — it now decelerates on `--aha-ease-out` (AntD-faithful; real AntD tooltips don't bounce). `lib/` + the preview updated together. (#32)
+### Removed
+- `--aha-ease-out-back` token (the overshoot curve) — unused after the tooltip fix, and overshoot easing is now disallowed. (#32)
+### Added
+- Standards gate: a **5th motion check** — bounce/elastic easing. Any `cubic-bezier` whose control-point Y leaves `0–1` overshoots ("back"/elastic) and is flagged; use an exponential ease-out (`--aha-ease-out`/`--aha-ease-in-out`). Turns the craft-floor "no bounce" heuristic into an enforced DS rule. (#32)
+
 ## 0.4.1 — 2026-09-09
 ### Fixed
 - Button docs (`button.html.txt`/`.react.txt`/`.vue.txt`/`.preview.html`): the icon-slot examples (add/close/more) were hand-rolled inline `<svg>` — a direct violation of the icon contract's "call by name, never inline SVG" rule, and inconsistent with the Icon component's own docs. Swapped to `<aha-icon name="system-plus|system-x|system-dots-three">`. (#PR)
