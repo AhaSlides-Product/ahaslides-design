@@ -21,7 +21,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.12.0 — 2026-09-09
+## 0.13.0 — 2026-09-10
 ### Added
 - **Alert** (`aha-alert`, leaf) — an inline contextual banner (info / success / warning / error) with an optional bold heading and a `closable` dismiss that animates out on a persistent node and emits a composed `close`. Status glyph summoned by name from the DS icon library; tones bound to the DS V3 semantic families. Ships HTML / React / Vue. (#PRO38-8)
 - **Carousel** (`carousel-theme`, composite) — a swipeable set of slides through the shared `carouselTheme` (brand active dot, radius-8 panels), keeping antd's built-in slide motion. Ships HTML / React / Vue. (#PRO38-8)
@@ -32,6 +32,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Drawer** (`drawer-theme`, composite) — a slide-in side panel through the shared `drawerTheme` (white panel, ink title, brand actions), keeping antd's built-in slide motion. Ships HTML / React / Vue. (#PRO38-8)
 ### Fixed
 - **Toast / Notification Vue snippets** — swapped the static `message.success()` / `notification.open()` calls for ant-design-vue's `useMessage()` / `useNotification()` hooks (with the returned `contextHolder` rendered inside `<a-config-provider>`), matching the React snippets. The static calls ignored `<a-config-provider>` theming, so a consumer wrapping them in the DS theme shipped un-themed toasts/notifications on Vue. (#PRO38-8)
+
+## 0.8.0 — 2026-09-10
+### Added
+- Accessibility is now gated. `qa.mjs` proves a component renders + animates but nothing about its a11y, so interactive components could ship gate-green yet be unusable by keyboard/screen-reader (PRO38-8 review). `standards.mjs` now scans element source and **hard-fails a new component** on: a **roving-widget role** (`radio`/`tab`/`menuitem`/`option`/…) declared with no arrow-key navigation; a **`document`/`window` listener** added on connect with no matching `removeEventListener` on disconnect (a mount/unmount leak); and a dynamic **`aria-*` state** set imperatively without `observedAttributes` (so an external attribute change desyncs the announced state — the controlled-`collapse` case). It also flags a **static imperative overlay** in a snippet (`message.success()`/`notification.open()`/`Modal.confirm()`) that renders outside `ConfigProvider` un-themed — use the `useMessage`/`useNotification`/`useModal` hook. Per-line opt-out `ds-lint-allow: a11y (why)`; `A11Y_DEBT` grandfathers pre-gate debt (empty today — the gate is fully hard). (#41)
+
+## 0.7.1 — 2026-09-09
+### Fixed
+- Dead-transition bug cleared on every grandfathered leaf: `aha-switch`, `aha-checkbox`, `aha-tooltip` and `aha-paywall` now build their shadow subtree **once** and mutate persistent nodes on a state change, instead of re-rendering the subtree in `attributeChangedCallback`. The state attribute drives `:host([checked])`/`:host([open])` CSS on the live `.knob`/`.box`/`.bubble`, so the declared transition finally animates on toggle (it was dead — a freshly-rebuilt node has no "from" value). `aha-checkbox` bakes both glyphs and toggles them with CSS (no subtree swap); `aha-paywall` gains the house `--aha-motion-mid`/`--aha-ease-in-out` transition on its Upgrade CTA. Behaviour, events, ARIA and keyboard unchanged; previews kept in sync. Verified mid-interpolation in headless Chrome (knob at ~3px of its 0→20px travel shortly after toggle). (#34)
+### Changed
+- `MOTION_DEBT` in `standards.mjs` is now **empty** — with every grandfathered leaf restructured, the motion gate (snap / bare-literal / dead / out-of-sync / bounce) is fully hard with no exceptions. (#34)
 
 ## 0.7.0 — 2026-09-09
 ### Added
