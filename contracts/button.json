@@ -8,7 +8,7 @@
   "reuse": { "entry": "./aha-button", "registers": "aha-button", "exportsNamed": ["AhaButton", "defineAhaButton"] },
   "summary": "Trigger an action or navigation — the primary interactive control.",
   "lead": "ONE custom element — <aha-button> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so every button reads identically across apps and even outside one. Variants and sizes are attributes; there is one rendered UI, not a per-framework look-alike.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue consumes the custom element natively. The primitive is defined once in @ahaslides/design.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue consumes the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["btn-primary-bg", "btn-primary-bg-hover", "btn-primary-bg-press", "btn-secondary-bg", "btn-secondary-border", "btn-disabled-bg", "btn-disabled-fg", "text-default", "text-link", "radius-xs", "radius-default", "radius-lg", "focus"],
   "spec": [
     { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8) · xl 52 (r12) — heights; fontSize 14 (sm/md) / 16 (lg/xl)" },

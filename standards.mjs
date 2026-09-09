@@ -8,9 +8,9 @@
  *   1. Contract is complete        — the fields the generator + agents rely on are present.
  *   2. It declares how it's reused  — a `reuse` block naming a real package entry point.
  *   3. That entry is published      — the subpath is in package.json "exports" and the file exists.
- *   4. It actually imports          — `import '@ahaslides/design/<entry>'` resolves and runs.
+ *   4. It actually imports          — `import '@ahaslides-product/design/<entry>'` resolves and runs.
  *   5. It registers / exports       — leaf: registers its custom element; composite: exports its artifact.
- *   6. Its snippets consume the DS  — reference @ahaslides/design, never a fake pkg or a banned library.
+ *   6. Its snippets consume the DS  — reference @ahaslides-product/design, never a fake pkg or a banned library.
  *   7. It's render-gated            — carries a `conformance` block so qa.mjs can measure the real UI.
  *
  * This is the "can a teammate contribute safely?" gate: add contracts/<slug>.json + lib/<entry>.js,
@@ -27,6 +27,8 @@ const PDIR = join(root, 'parts');
 const read = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
 const PKG = JSON.parse(read(join(root, 'package.json')));
 const EXPORTS = PKG.exports || {};
+// Package specifier, derived from package.json so a scope rename cannot drift this gate.
+const PKG_SPECIFIER = new RegExp(PKG.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 
 // Minimal DOM shim so the custom-element modules import + self-register headlessly (no browser).
 const els = new Map();
@@ -36,7 +38,7 @@ globalThis.HTMLElement = class { constructor() { this.attributes = {}; } };
 
 const REQUIRED = ['name', 'slug', 'group', 'tier', 'summary', 'props', 'spec', 'snippets', 'opinion', 'surfaces', 'preview', 'conformance'];
 const BANNED = [
-  [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides/design'],
+  [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
   [/@mui\/|@chakra-ui\/|@radix-ui\/|@mantine\/|react-bootstrap/i, 'a non-AntD component library'],
 ];
@@ -83,7 +85,7 @@ for (const ct of contracts) {
 
   // 6) snippets consume the DS (real package) and no fakes / banned libs
   const snippetText = (ct.snippets || []).map(s => read(join(PDIR, s.file))).join('\n');
-  chk('a snippet imports @ahaslides/design', /@ahaslides\/design/.test(snippetText) || ct.tier?.includes('composite'),
+  chk(`a snippet imports ${PKG.name}`, PKG_SPECIFIER.test(snippetText) || ct.tier?.includes('composite'),
     'snippets must show consuming the real package');
   for (const [re, why] of BANNED) chk(`snippets free of: ${why}`, !re.test(snippetText), 'found in a snippet');
 

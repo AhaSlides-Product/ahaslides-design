@@ -30,7 +30,7 @@ const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, n
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 const PKG = JSON.parse(read(join(root, 'package.json')));
-const PKGNAME = PKG.name;   // @ahaslides/design — the public package to install
+const PKGNAME = PKG.name;   // @ahaslides-product/design — the public package to install
 
 /* Absolute base URL where dist/ is hosted (GitHub Pages by default). The feed links
    printed on the docs pages + in llms.txt/agent.json are ABSOLUTE so an agent that
@@ -793,11 +793,11 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 
 writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json — do not edit by hand. */\n' + tokenVars(TOK) + '\n');
 
-/* Importable token layer for real consumers: @ahaslides/design/tokens.css + /tokens */
+/* Importable token layer for real consumers: @ahaslides-product/design/tokens.css + /tokens */
 mkdirSync(join(root, 'lib'), { recursive: true });
-writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
 writeFileSync(join(root, 'lib', 'tokens.js'),
-  '// @ahaslides/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
+  '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
   'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\nexport default tokens;\n');
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 writeFileSync(join(OUT, 'design-tokens.html'), renderTokensPage());

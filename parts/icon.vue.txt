@@ -1,5 +1,5 @@
 // main.ts — register the element + registry, and mark aha-* as custom elements
-import '@ahaslides/design/icons';   // registers <aha-icon> + loads the glyph registry (259 icons)
+import '@ahaslides-product/design/icons';   // registers <aha-icon> + loads the glyph registry (259 icons)
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue — presenter-app renders every glyph through the shared Icon, BY NAME.
