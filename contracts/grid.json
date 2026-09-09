@@ -1,0 +1,53 @@
+{
+  "name": "Grid",
+  "slug": "grid",
+  "group": "Layout",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-grid",
+  "summary": "A CSS-grid container — a fixed column count or a responsive auto-fit, with the DS gap scale.",
+  "lead": "ONE custom element — <aha-grid> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; give it a fixed `columns` count (equal tracks) or a `min` track width for a responsive auto-fit, and `gap` takes the named steps small/middle/large (8/16/24). Layout only — it never paints a background. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["text-default"],
+  "spec": [
+    { "label": "Display", "value": "grid" },
+    { "label": "Columns", "value": "columns=N → repeat(N, minmax(0, 1fr))" },
+    { "label": "Responsive", "value": "min=W → repeat(auto-fit, minmax(W, 1fr))" },
+    { "label": "Gap scale", "value": "small 8 · middle 16 · large 24 (or a raw px number)" }
+  ],
+  "props": [
+    { "name": "columns", "type": "number", "default": "—", "desc": "Fixed number of equal-width columns (minmax(0, 1fr) tracks)" },
+    { "name": "min", "type": "number", "default": "—", "desc": "Minimum track width for a responsive auto-fit grid; wins over columns" },
+    { "name": "gap", "type": "small | middle | large | number", "default": "0", "desc": "Space between cells — named DS step (8/16/24) or a raw pixel number" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Grid", "when": "a two-dimensional layout — a card gallery, a stat row, an image grid" },
+      { "what": "Flex", "when": "a one-dimensional flow where items size to content" },
+      { "what": "min (auto-fit)", "when": "the column count should follow the container width — prefer it over media queries" }
+    ],
+    "note": "Reach for `min` (auto-fit) before hand-writing breakpoints — the grid reflows itself. Keep gaps on the named scale so spacing matches the rest of the surface. Grid is layout, never decoration: it paints no background.",
+    "dsv3": "COVERED — DS V3 has no measured Grid cell; spec derived from the DS spacing scale (8/16/24) + AntD Grid/Row conventions (fixed tracks, responsive auto-fit). A deliberate, documented layout extension; the only visual token it binds is inherited text colour."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-grid", "registers": "aha-grid", "exportsNamed": ["AhaGrid", "defineAhaGrid"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "grid.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "grid.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "grid.vue.txt" }
+  ],
+  "preview": "grid.preview.html",
+  "selfCheck": [
+    { "label": "display grid", "verdict": "PASS" },
+    { "label": "gap middle → 16px", "verdict": "PASS" },
+    { "label": "columns=N → N equal tracks", "verdict": "PASS" },
+    { "label": "min → responsive auto-fit", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-grid[data-probe]') && document.querySelector('aha-grid[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-grid[data-probe]');var s=el?getComputedStyle(el):null;return{display:s?s.display:null,columnGap:s?s.columnGap:null,rowGap:s?s.rowGap:null,color:s?s.color:null};})()",
+    "expect": { "display": "grid", "columnGap": "16px", "rowGap": "16px", "color": "rgb(26, 26, 26)" }
+  }
+}

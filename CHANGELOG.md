@@ -21,6 +21,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.9.0 — 2026-09-10
+### Added
+- **Divider** — a thin separator: a full-width rule, an optional centred/left/right label, or a vertical hairline; `dashed` variant. Shared Lit leaf, bound to the `border`/`text-secondary` tokens. (PRO38-8)
+- **Flex** — a flexbox container with the DS gap scale baked into `gap` (small/middle/large = 8/16/24, or a raw px), plus direction/align/justify/wrap. Shared Lit leaf, layout-only. (PRO38-8)
+- **Grid** — a CSS-grid container: a fixed `columns` count or a responsive `min` auto-fit, with the DS `gap` scale. Shared Lit leaf, layout-only. (PRO38-8)
+- **Space** — an even, DS-scale gap between a small inline set of items (`size` small/middle/large or a raw px), row or vertical. Shared Lit leaf, layout-only. (PRO38-8)
+- **Breadcrumb** — an ancestor trail ending in the current page; links animate on hover via the motion tokens, the separator is the DS `system-caret-right` glyph, and it emits a composed `navigate` event. Shared Lit leaf. (PRO38-8)
+- **Dropdown** — a trigger that reveals a floating action list; open/close animates on a persistent panel via the motion tokens, the caret rotates, and it closes on outside-click/Escape, emitting a composed `select`. Shared Lit leaf. (PRO38-8)
+- **Menu** — a vertical list of selectable options; the selected row is brand-tinted and hover/selection animate on persistent nodes (a class toggle, never a rebuild), emitting a composed `select`. Shared Lit leaf. (PRO38-8)
+- **Pagination** — prev / numbered pages with ellipsis / next; the current page is brand-filled, hover animates via the motion tokens, prev/next use the DS caret glyphs, and it emits a composed `change`. Shared Lit leaf. (PRO38-8)
+### Fixed
+- **Breadcrumb** — a link click now calls `preventDefault()` before emitting `navigate`, so a real `<a href>` no longer races the SPA event with a native full-page reload; the trail renders as a semantic `<ol>`/`<li>` with `aria-current="page"` on the current item. (PRO38-8)
+- **Menu** / **Dropdown** — implemented the full `role="menu"` keyboard contract: roving `tabindex`, arrow-key focus movement, Home/End, Enter/Space to activate, Escape to close and return focus to the trigger (Dropdown), and `aria-checked` (Menu) / `aria-expanded` kept in sync with state. (PRO38-8)
+
 ## 0.8.1 — 2026-09-10
 ### Changed
 - Docs site now navigates in-app: clicking a sidebar/top-nav/card link fetches the target and swaps only the `<main>` pane instead of doing a full page reload, so the header and left nav (and its scroll position) stay put — no white flash, no scroll reset. Same-area moves keep the sidebar node and just re-tint the active item; switching area swaps the sidebar too. Progressive enhancement: `pushState` + `fetch` with a thin top progress bar (animated via `transform`, not layout), `popstate`/back-forward support, `#anchor`-aware scroll, and a hard fallback to a normal page load if the fetch fails or the browser lacks the APIs. Respects `prefers-reduced-motion`. (#42)

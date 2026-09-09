@@ -1,0 +1,17 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-space';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-space size="middle">
+    <button>Save</button>
+    <button>Cancel</button>
+  </aha-space>
+
+  <!-- Vertical stack -->
+  <aha-space direction="vertical" size="small">
+    <Field label="Name" />
+    <Field label="Email" />
+  </aha-space>
+</template>
