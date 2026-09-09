@@ -33,12 +33,14 @@ const STYLE = `
 `;
 class AhaTooltip extends HTMLElement {
   static get observedAttributes() { return ['text', 'open']; }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
-  _render() {
-    const text = this.getAttribute('text') || '';
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><slot></slot><span class="bubble" part="bubble" role="tooltip">${text}</span>`;
+  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); if (!this._bubble) this._build(); this._sync(); }
+  attributeChangedCallback() { if (this._bubble) this._sync(); }
+  _build() {
+    this.shadowRoot.append(document.createRange().createContextualFragment(
+      `<style>${STYLE}</style><slot></slot><span class="bubble" part="bubble" role="tooltip"></span>`));
+    this._bubble = this.shadowRoot.querySelector('.bubble');
   }
+  _sync() { this._bubble.textContent = this.getAttribute('text') || ''; }
 }
 customElements.define('aha-tooltip', AhaTooltip);
 </script>

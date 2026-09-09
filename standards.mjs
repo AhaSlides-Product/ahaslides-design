@@ -102,10 +102,8 @@ const PATTERN_BACKLOG_HARD_FAIL = false;
 // Remove each entry as its component is fixed; when MOTION_DEBT is empty the motion gate is fully hard, no exceptions.
 // Keys are the element tag; values are the finding kinds grandfathered for it: 'dead' | 'snap' | 'literal' | 'bounce' | 'sync'.
 const MOTION_DEBT = {
-  'aha-switch':   ['dead'],   // rebuilds subtree on [checked] — knob transform can't fire
-  'aha-checkbox': ['dead'],   // rebuilds subtree on [checked]/[indeterminate]
-  'aha-tooltip':  ['dead'],   // rebuilds subtree on [open]
-  'aha-paywall':  ['snap'],   // an interactive state with no transition declared
+  // Empty: every grandfathered leaf has been restructured to build once and mutate persistent nodes
+  // (PRO38-5). The motion gate is now fully hard — no component gets a pass on snap/dead/literal/sync/bounce.
 };
 const BANNED = [
   [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],

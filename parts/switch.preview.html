@@ -40,16 +40,18 @@ class AhaSwitch extends HTMLElement {
   set checked(v) { v ? this.setAttribute('checked', '') : this.removeAttribute('checked'); }
   get disabled() { return this.hasAttribute('disabled'); }
   set disabled(v) { v ? this.setAttribute('disabled', '') : this.removeAttribute('disabled'); }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
-  _render() {
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><span class="track" part="track" role="switch" tabindex="0" aria-checked="${this.checked}"><span class="knob"></span></span>`;
-    const track = this.shadowRoot.querySelector('.track');
+  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); if (!this._track) this._build(); this._sync(); }
+  attributeChangedCallback() { if (this._track) this._sync(); }
+  _build() {
+    this.shadowRoot.append(document.createRange().createContextualFragment(
+      `<style>${STYLE}</style><span class="track" part="track" role="switch" tabindex="0"><span class="knob"></span></span>`));
+    this._track = this.shadowRoot.querySelector('.track');
     const toggle = () => { if (this.disabled) return; this.checked = !this.checked;
       this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true, detail: { checked: this.checked } })); };
-    track.addEventListener('click', toggle);
-    track.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } });
+    this._track.addEventListener('click', toggle);
+    this._track.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } });
   }
+  _sync() { this._track.setAttribute('aria-checked', String(this.checked)); }
 }
 customElements.define('aha-switch', AhaSwitch);
 </script>
