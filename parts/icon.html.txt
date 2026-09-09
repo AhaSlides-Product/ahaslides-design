@@ -1,0 +1,22 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     Call any glyph BY NAME — never inline an <svg>. One import loads <aha-icon> +
+     the 259-glyph registry; colour follows currentColor, size is 12 | 16 | 24 | 32. -->
+<script type="module">
+  import 'https://cdn.jsdelivr.net/npm/@ahaslides/design/lib/icons.js';   // registers <aha-icon> + registry
+</script>
+
+<!-- Icon + text — match the label's cap height (16 beside body text), glyph leading. -->
+<button style="display:inline-flex; align-items:center; gap:8px">
+  <aha-icon name="system-plus" size="16" decorative></aha-icon>
+  Add slide
+</button>
+
+<!-- Icon-only — MUST carry an accessible name (+ a tooltip when the glyph isn't obvious). -->
+<button aria-label="Search" title="Search">
+  <aha-icon name="system-magnifying-glass" size="16" decorative></aha-icon>
+</button>
+
+<!-- Colour is set on the wrapper; the glyph inherits it via currentColor. State = -filled asset. -->
+<span style="color: var(--aha-color-primary, #6A1EBB)">
+  <aha-icon name="system-bookmark-simple-filled" size="24" label="Saved"></aha-icon>
+</span>
