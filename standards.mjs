@@ -58,7 +58,11 @@ for (const ct of contracts) {
   // 1) contract completeness
   const missing = REQUIRED.filter(k => ct[k] == null || (Array.isArray(ct[k]) && !ct[k].length));
   chk('contract complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
-  chk('≥2 framework snippets', Array.isArray(ct.snippets) && ct.snippets.length >= 2);
+  // Decision: every component supports all three — HTML / React / Vue — and HTML LEADS (it's the
+  // default doc tab + agent-feed snippet). Enforce both, not just "≥2 snippets".
+  const snippetKeys = (ct.snippets || []).map(s => s.key);
+  chk('HTML snippet leads (listed first)', snippetKeys[0] === 'html', 'list the { key:"html" } snippet FIRST — docs + feed lead with it');
+  chk('ships React + Vue snippets (all three)', snippetKeys.includes('react') && snippetKeys.includes('vue'), 'every component supports HTML/React/Vue — add the missing snippet');
   chk('≥1 prop documented', Array.isArray(ct.props) && ct.props.length >= 1);
 
   // 2) declares reuse

@@ -10,7 +10,7 @@ A component is **done** only when both are green.
 ## The recipe (what the gate checks, in order)
 
 ### 1. Contract — `contracts/<slug>.json`
-Required fields: `name, slug, group, tier, summary, props (≥1), spec (≥1), snippets (≥2), opinion, surfaces (≥1), preview, conformance`.
+Required fields: `name, slug, group, tier, summary, props (≥1), spec (≥1), snippets (html lead + react + vue), opinion, surfaces (≥1), preview, conformance`.
 Every `snippets` array MUST **lead with an `html` entry** (see §3) — HTML first, then React, then Vue. No exceptions: a leaf's HTML uses its custom element; a composite's HTML is a CDN-React runnable page.
 Plus the reuse declaration — **this is the reusability contract**:
 
