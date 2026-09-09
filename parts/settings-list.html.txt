@@ -1,18 +1,30 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
-     <aha-settings-list> + <aha-settings-item> are the SAME shared custom elements React and Vue
-     consume. They compose existing DS controls (here <aha-switch>) via the `control` slot.
-     Theming comes only from the --aha-* tokens in tokens.css. -->
+     <aha-settings-list> is schema-driven — pass a schema (here as the JSON `schema` attribute)
+     and it renders each row, REUSING existing DS controls (<aha-switch>, <aha-input>…) — it ships
+     no control of its own. The by-hand slot form is shown second. Theming comes only from the
+     --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item>
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';          // the slotted control
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';          // reused as a schema control
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';           // reused as a schema control
 </script>
 
-<aha-settings-list label="Presentation" style="max-width:360px; display:block">
-  <aha-settings-item label="Progress bar">
+<!-- 1) Schema-driven — the list renders the rows and reuses the named DS controls -->
+<aha-settings-list style="max-width:360px; display:block"
+  schema='{"sections":[{"label":"Presentation","rows":[
+    {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}},
+    {"key":"leaderboard","label":"Leaderboard","description":"Shown to the audience between slides.","control":{"type":"switch"}},
+    {"key":"deckTitle","label":"Deck title","control":{"type":"input","value":"Untitled"}}
+  ]}]}'></aha-settings-list>
+<script type="module">
+  document.querySelector('aha-settings-list')
+    .addEventListener('change', e => console.log('setting changed', e.detail)); // { key, value, name }
+</script>
+
+<!-- 2) Slot form — compose the controls by hand (still supported) -->
+<aha-settings-list label="Audience" style="max-width:360px; display:block; margin-top:24px">
+  <aha-settings-item label="Anonymous join">
     <aha-switch slot="control" checked></aha-switch>
-  </aha-settings-item>
-  <aha-settings-item label="Leaderboard" description="Shown to the audience between slides.">
-    <aha-switch slot="control"></aha-switch>
   </aha-settings-item>
 </aha-settings-list>

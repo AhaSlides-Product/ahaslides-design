@@ -14,7 +14,8 @@
     { "label": "Fill", "value": "default primary #6A1EBB · width = percent" },
     { "label": "Status", "value": "success #16C49A · warning #FF7747 · error #F5222D" },
     { "label": "Motion", "value": "width animates on --aha-motion-slow / --aha-ease-out" },
-    { "label": "Info", "value": "percent label, right-aligned; hide with show-info=false" }
+    { "label": "Info", "value": "percent label, right-aligned; hide with show-info=false" },
+    { "label": "A11y", "value": "role=progressbar · aria-valuemin 0 / valuemax 100 / valuenow synced to percent" }
   ],
   "props": [
     { "name": "percent", "type": "number", "default": "0", "desc": "Completion 0–100; clamped and drives the fill width" },
@@ -42,13 +43,14 @@
     { "label": "track height 8 · radius pill", "verdict": "PASS" },
     { "label": "default fill primary #6A1EBB", "verdict": "PASS" },
     { "label": "fill width = percent", "verdict": "PASS" },
-    { "label": "status recolours the fill", "verdict": "PASS" }
+    { "label": "status recolours the fill", "verdict": "PASS" },
+    { "label": "role=progressbar · aria-valuenow synced", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-progress[data-probe]') && document.querySelector('aha-progress[data-probe]').shadowRoot && document.querySelector('aha-progress[data-probe]').shadowRoot.querySelector('.fill'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-progress[data-probe]');var r=el&&el.shadowRoot;var f=r&&r.querySelector('.fill');var t=r&&r.querySelector('.track');var sf=f?getComputedStyle(f):null;var st=t?getComputedStyle(t):null;return{fillBg:sf?sf.backgroundColor:null,trackBg:st?st.backgroundColor:null,height:st?st.height:null,radius:st?st.borderTopLeftRadius:null};})()",
-    "expect": { "fillBg": "rgb(106, 30, 187)", "trackBg": "rgb(241, 241, 241)", "height": "8px", "radius": "999px" }
+    "measure": "(function(){var el=document.querySelector('aha-progress[data-probe]');var r=el&&el.shadowRoot;var f=r&&r.querySelector('.fill');var t=r&&r.querySelector('.track');var sf=f?getComputedStyle(f):null;var st=t?getComputedStyle(t):null;return{fillBg:sf?sf.backgroundColor:null,trackBg:st?st.backgroundColor:null,height:st?st.height:null,radius:st?st.borderTopLeftRadius:null,role:el?el.getAttribute('role'):null,ariaNow:el?el.getAttribute('aria-valuenow'):null,ariaMax:el?el.getAttribute('aria-valuemax'):null};})()",
+    "expect": { "fillBg": "rgb(106, 30, 187)", "trackBg": "rgb(241, 241, 241)", "height": "8px", "radius": "999px", "role": "progressbar", "ariaNow": "60", "ariaMax": "100" }
   }
 }

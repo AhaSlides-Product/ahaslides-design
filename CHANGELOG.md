@@ -31,6 +31,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **CSAT** (`aha-csat`) — the shared binary thumbs-up/down satisfaction prompt from the feedback pattern; emits a `rate` event with a stable `source`, thumbs from the DS icon library. Import `@ahaslides-product/design/aha-csat`.
 - **Settings list** (`aha-settings-list` + `aha-settings-item`) — the reusable form of the settings pattern: spacing-only rows (label left, control right) that compose existing DS controls via a `control` slot; no divider lines or boxes. Import `@ahaslides-product/design/aha-settings-list`.
 - **Popconfirm** (`popconfirmTheme`) — the composite inline-confirmation popover: a shared antd v6 / ant-design-vue theme (radius-8 popover, primary confirm, #E3E3E3 cancel border). Import `@ahaslides-product/design/popconfirm-theme`.
+### Changed
+- **Settings list** (`aha-settings-list`) — built out into a schema-driven settings surface. Set `.schema` (`{ sections:[{ label, description?, rows:[{ key, label, description?, control }] }] }`) and it renders the rows, instantiating each `control` from an existing DS element (`aha-switch` / `aha-checkbox` / `aha-input` …) and emitting a `change` event `{ key, value, name }`. The by-hand slot form is unchanged. (#40)
+### Fixed
+- **Progress** (`aha-progress`) — now exposes `role="progressbar"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (and `aria-valuetext`) synced to `percent`, so a quiz-timer bar is announced to assistive tech. (#40)
 
 ## 0.7.0 — 2026-09-09
 ### Added

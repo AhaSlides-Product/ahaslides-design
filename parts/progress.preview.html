@@ -45,6 +45,11 @@ class AhaProgress extends HTMLElement {
     const info = this.shadowRoot.querySelector('.info');
     info.hidden = this.getAttribute('show-info') === 'false';
     info.textContent = pct + '%';
+    this.setAttribute('role', 'progressbar');
+    this.setAttribute('aria-valuemin', '0');
+    this.setAttribute('aria-valuemax', '100');
+    this.setAttribute('aria-valuenow', String(pct));
+    this.setAttribute('aria-valuetext', pct + '%');
   }
 }
 customElements.define('aha-progress', AhaProgress);

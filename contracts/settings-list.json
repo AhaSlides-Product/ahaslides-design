@@ -5,8 +5,8 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-settings-list",
-  "summary": "A group of settings rows — label left, control right — composing existing DS controls.",
-  "lead": "TWO custom elements — <aha-settings-list> (a spacing-only group) and <aha-settings-item> (a labelled row with a `control` slot) — the reusable form of the settings pattern. It ships NO new control; it composes Switch / Checkbox / Select via the slot. Spacing-only hierarchy: no divider lines, no card/box around plain settings. Shadow-DOM CSS, themed only by --aha-* tokens. Zero drift.",
+  "summary": "A schema-driven group of settings rows — label left, control right — reusing existing DS controls.",
+  "lead": "TWO custom elements — <aha-settings-list> (a spacing-only, schema-driven group surface) and <aha-settings-item> (a labelled row with a `control` slot). Pass a settings schema (`.schema` = { sections:[{ label, description?, rows:[{ key, label, description?, control:{ type, …props } }] }] }) and it RENDERS the rows, instantiating each control from an existing DS element (aha-switch / aha-checkbox / aha-input …) — reuse, never a re-implemented control — and emits a `change` event { key, value, name }. The by-hand slot form is still supported. Spacing-only hierarchy: no divider lines, no card/box around plain settings. Shadow-DOM CSS, themed only by --aha-* tokens. Zero drift.",
   "codeNote": "Same elements, same shadow-DOM CSS → identical render. React (< 19) consumes them via thin attribute wrappers; Vue binds the custom elements natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default", "text-tertiary"],
   "spec": [
@@ -14,12 +14,17 @@
     { "label": "Row", "value": "label left, control right · min-height 24 · 16px gap" },
     { "label": "Label", "value": "14/21 Regular #1A1A1A (name = noun phrase, no leading verb)" },
     { "label": "Description", "value": "12/18 #8A8A8A, 4px under the label (default: none)" },
-    { "label": "Structure", "value": "no divider lines, no card/box around plain settings" }
+    { "label": "Structure", "value": "no divider lines, no card/box around plain settings" },
+    { "label": "Schema", "value": "sections[] → rows[] { key, label, description?, control:{ type, …props } }; renders + reuses DS controls" }
   ],
   "props": [
-    { "name": "label", "type": "string", "default": "—", "desc": "Group header (a 1–3 word noun phrase); on <aha-settings-item> it is the setting name" },
+    { "name": "schema", "type": "object", "default": "—", "desc": "(list, property) Settings schema { sections:[{ label, description?, rows:[{ key, label, description?, control }] }] } — an array is treated as one section's rows; renders rows and reuses DS controls. Also settable as a JSON `schema` attribute for the build-free HTML form" },
+    { "name": "label", "type": "string", "default": "—", "desc": "Group header (a 1–3 word noun phrase); on <aha-settings-item> it is the setting name. Ignored when a schema supplies section labels" },
     { "name": "description", "type": "string", "default": "—", "desc": "(item) An optional must-see consequence line under the label — default none" },
-    { "name": "control", "type": "slot", "default": "—", "desc": "(item) The DS control on the right — <aha-switch>, <aha-checkbox>, <aha-select>…" }
+    { "name": "control", "type": "slot | schema", "default": "—", "desc": "(item) The DS control on the right — <aha-switch>, <aha-checkbox>, <aha-input>… slotted by hand, or named in a schema row's `control:{ type }` and instantiated for you" }
+  ],
+  "events": [
+    { "name": "change", "detail": "{ key, value, name }", "desc": "(schema form) Fired when any rendered control changes — value is the control's boolean/string state, key is the row's key" }
   ],
   "opinion": {
     "whenToUse": [
@@ -42,7 +47,8 @@
     { "label": "label left, control right", "verdict": "PASS" },
     { "label": "label #1A1A1A · desc #8A8A8A", "verdict": "PASS" },
     { "label": "spacing-only (no dividers/boxes)", "verdict": "PASS" },
-    { "label": "composes DS controls via slot", "verdict": "PASS" }
+    { "label": "composes DS controls via slot", "verdict": "PASS" },
+    { "label": "renders rows from a schema + reuses DS controls", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element family, single render. The probe is an <aha-settings-item>.",
