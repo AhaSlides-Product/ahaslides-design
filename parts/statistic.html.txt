@@ -1,0 +1,12 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-statistic> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-statistic.js';   // registers <aha-statistic>
+</script>
+
+<div style="display:flex; gap:40px">
+  <aha-statistic label="Active players" value="1,284" suffix="live"></aha-statistic>
+  <aha-statistic label="Response rate" value="92" suffix="%" trend="up"></aha-statistic>
+</div>

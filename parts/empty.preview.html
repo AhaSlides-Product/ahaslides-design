@@ -1,0 +1,36 @@
+<div class="pad">
+  <div class="lbl">Empty · placeholder for no data</div>
+  <div class="row" style="align-items:stretch; gap:24px">
+    <aha-empty data-probe style="border:1px solid var(--aha-split); border-radius:12px; width:280px">No responses yet</aha-empty>
+    <aha-empty style="border:1px solid var(--aha-split); border-radius:12px; width:280px">
+      No responses yet — share the join link
+      <a slot="action" href="#" style="font:600 13px/1 var(--aha-font-product); color:var(--aha-text-link); text-decoration:none">Copy link</a>
+    </aha-empty>
+  </div>
+</div>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-empty (lib/aha-empty.js),
+     inlined here so the preview is self-contained (no build step, no network). -->
+<script type="module">
+const ART = '<svg width="64" height="41" viewBox="0 0 64 41" fill="none" aria-hidden="true"><ellipse cx="32" cy="33" rx="26" ry="5" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M8 33V16a3 3 0 0 1 3-3h13l4 6h18a3 3 0 0 1 3 3v11" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+const STYLE = `
+  :host{ display:block; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
+  .empty{ display:flex; flex-direction:column; align-items:center; gap:10px; padding:32px 16px; text-align:center }
+  .art{ line-height:0; color:var(--aha-text-disabled,#B5B5B5) }
+  .desc{ font-size:14px; line-height:22px; color:var(--aha-text-tertiary,#8A8A8A) }
+  .action{ display:flex; gap:8px; margin-top:2px }
+  .action:empty{ display:none }
+`;
+class AhaEmpty extends HTMLElement {
+  connectedCallback() {
+    if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `<style>${STYLE}</style>
+      <div class="empty" part="empty">
+        <div class="art" part="art">${ART}</div>
+        <div class="desc" part="desc"><slot>No data</slot></div>
+        <div class="action" part="action"><slot name="action"></slot></div>
+      </div>`;
+  }
+}
+customElements.define('aha-empty', AhaEmpty);
+</script>

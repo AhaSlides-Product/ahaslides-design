@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-list';   // registers <aha-list>
+
+// Each child becomes a divided row; render them straight into the element.
+function DeckList({ title, items }) {
+  return (
+    <aha-list list-title={title}>
+      {items.map((it) => <div key={it}>{it}</div>)}
+    </aha-list>
+  );
+}
+
+// usage
+<DeckList title="Recent decks" items={['Team offsite 2026', 'Q3 product review', 'Onboarding quiz']} />

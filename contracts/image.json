@@ -1,0 +1,55 @@
+{
+  "name": "Image",
+  "slug": "image",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-image",
+  "summary": "A framed image with rounded corners and a hover preview mask.",
+  "lead": "ONE custom element — <aha-image> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `src`/`alt` set the picture, `width`/`height` the frame, and on hover the image scales while a mask fades in — both animate on a persistent node via the shared motion tokens. Zero drift — the same element.",
+  "codeNote": "The hover scale + mask fade live on a persistent node (only the :hover pseudo-class changes, never a subtree rebuild), so the transition always fires. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container-secondary", "radius-default", "text-inverse", "bg-overlay", "font-product"],
+  "spec": [
+    { "label": "Frame", "value": "radius 8px · bg #F7F7F7 · overflow hidden" },
+    { "label": "Image", "value": "object-fit cover · scale 1.06 on hover, motion-slow ease-out" },
+    { "label": "Mask", "value": "overlay rgba(26,26,46,.7) · #FFFFFF 13/SemiBold · fade motion-mid" },
+    { "label": "Sizing", "value": "width/height attributes drive the frame" }
+  ],
+  "props": [
+    { "name": "src", "type": "string", "default": "—", "desc": "Image source URL" },
+    { "name": "alt", "type": "string", "default": "—", "desc": "Alternative text for the image" },
+    { "name": "width", "type": "number", "default": "—", "desc": "Frame width in px" },
+    { "name": "height", "type": "number", "default": "—", "desc": "Frame height in px" },
+    { "name": "(default slot)", "type": "slot", "default": "Preview", "desc": "The label shown in the hover mask" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Image", "when": "a framed picture that invites a click to preview (a deck cover, an upload)" },
+      { "what": "Avatar", "when": "a small round identity image" },
+      { "what": "Card", "when": "a picture is one part of a larger grouped surface" }
+    ],
+    "note": "Always set alt for accessibility. Keep the mask label short — 'Preview', 'View' — it is an invitation, not a caption.",
+    "dsv3": "COVERED — DS V3's measured set has no Image cell; spec derived from the token layer (radius-default, bg-container-secondary, bg-overlay, text-inverse) + antd Image conventions (hover mask preview). A deliberate, documented extension — not a measured match."
+  },
+  "surfaces": ["editor", "dashboard", "audience"],
+  "reuse": { "entry": "./aha-image", "registers": "aha-image", "exportsNamed": ["AhaImage", "defineAhaImage"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "image.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "image.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "image.vue.txt" }
+  ],
+  "preview": "image.preview.html",
+  "selfCheck": [
+    { "label": "frame radius 8 · bg #F7F7F7", "verdict": "PASS" },
+    { "label": "image scales on hover via motion tokens (persistent node)", "verdict": "PASS" },
+    { "label": "mask overlay rgba(26,26,46,.7) fades in", "verdict": "PASS" },
+    { "label": "mask label #FFFFFF 13/SemiBold", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-image[data-probe]') && document.querySelector('aha-image[data-probe]').shadowRoot && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.mask'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-image[data-probe]');var sr=el&&el.shadowRoot;var f=sr&&sr.querySelector('.frame');var m=sr&&sr.querySelector('.mask');var fs=f?getComputedStyle(f):null;var ms=m?getComputedStyle(m):null;return{frameRadius:fs?fs.borderTopLeftRadius:null,frameBg:fs?fs.backgroundColor:null,maskColor:ms?ms.color:null,maskBg:ms?ms.backgroundColor:null};})()",
+    "expect": { "frameRadius": "8px", "frameBg": "rgb(247, 247, 247)", "maskColor": "rgb(255, 255, 255)", "maskBg": "rgba(26, 26, 46, 0.7)" }
+  }
+}

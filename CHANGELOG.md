@@ -21,6 +21,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.11.0 — 2026-09-09
+### Added
+- `aha-card` — a bordered surface that groups related content behind a title, with an optional `hoverable` lift that animates on the shared motion tokens. Shared Lit web component, consumed unchanged by React and Vue. (#38)
+- `aha-list` — a bordered, evenly-divided column of uniform rows; each light-DOM child becomes a row and rows highlight on hover. Shared Lit web component. (#38)
+- `aha-collapse` — a single expandable panel whose `open` state animates the body height + chevron on a persistent node (no subtree rebuild, so the transition always fires). Emits a composed `toggle` event. (#38)
+- `aha-descriptions` — a read-only label/value grid summarising one entity's fields; each child supplies a row via its `label` attribute. Shared Lit web component. (#38)
+- `aha-statistic` — a single headline number with a caption, optional prefix/suffix, and an up/down trend colour. Static display marker. (#38)
+- `aha-empty` — the placeholder for a surface with no data: a line-art illustration, a caption slot, and an optional action slot. Shared Lit web component. (#38)
+- `aha-image` — a framed image with rounded corners and a hover mask that scales the picture and fades in a preview label, both on the shared motion tokens. Shared Lit web component. (#38)
+
 ## 0.7.0 — 2026-09-09
 ### Added
 - Icon library is now gated: `standards.mjs` proves every `<aha-icon name="…">` a component references (in its source, snippets, preview, or contract) resolves to a real glyph in `icons/registry.json` — the published [icon gallery](https://ahaslides-product.github.io/ahaslides-design/icons/index.html) — and flags an inline `<svg>` glyph in element source as a library bypass (genuine sub-glyph chrome opts out per-line with `ds-lint-allow: svg`). A typo or non-DS icon now fails the gate instead of rendering a runtime error box. (#30)

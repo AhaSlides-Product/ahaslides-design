@@ -1,0 +1,14 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-descriptions> is the SAME shared custom element React and Vue consume — here in
+     its native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-descriptions.js';   // registers <aha-descriptions>
+</script>
+
+<aha-descriptions desc-title="Account" style="max-width:360px">
+  <div label="Plan">Pro</div>
+  <div label="Seats">25 of 50</div>
+  <div label="Billing cycle">Yearly</div>
+  <div label="Renews">9 Sep 2027</div>
+</aha-descriptions>

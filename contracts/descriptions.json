@@ -1,0 +1,53 @@
+{
+  "name": "Descriptions",
+  "slug": "descriptions",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-descriptions",
+  "summary": "A read-only label/value grid summarising one entity's fields.",
+  "lead": "ONE custom element — <aha-descriptions> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; each light-DOM child supplies one row via its `label` attribute + its content, and `desc-title` renders an optional header. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "bg-container-secondary", "border", "split", "radius-default", "text-default", "text-secondary", "font-product"],
+  "spec": [
+    { "label": "Container", "value": "border 1px #E3E3E3 · radius 8px · bg #FFFFFF" },
+    { "label": "Title", "value": "padding 12/16 · 15/22 SemiBold #1A1A1A · divider #F1F1F1" },
+    { "label": "Label cell", "value": "bg #F7F7F7 · SemiBold #4A4A4A · padding 12/16" },
+    { "label": "Value cell", "value": "#1A1A1A · padding 12/16 · rows divided #F1F1F1" }
+  ],
+  "props": [
+    { "name": "desc-title", "type": "string", "default": "—", "desc": "Renders an optional header row" },
+    { "name": "label", "type": "string (on children)", "default": "—", "desc": "Each child's label attribute names its row" },
+    { "name": "(children)", "type": "slot", "default": "—", "desc": "Each child's content is the row value" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Descriptions", "when": "read-only label/value facts about one entity (a plan, an account)" },
+      { "what": "Form", "when": "the same fields need to be edited" },
+      { "what": "Table", "when": "the same fields across many records" }
+    ],
+    "note": "Labels are sentence case nouns — 'Billing cycle', not 'BILLING CYCLE'. Keep to the facts that matter; a long grid reads like a form nobody can fill in.",
+    "dsv3": "COVERED — DS V3's measured set has no Descriptions cell; spec derived from the token layer (radius-default, border, split, bg-container-secondary, text-default/secondary) + antd Descriptions conventions. A deliberate, documented extension — not a measured match."
+  },
+  "surfaces": ["dashboard", "settings"],
+  "reuse": { "entry": "./aha-descriptions", "registers": "aha-descriptions", "exportsNamed": ["AhaDescriptions", "defineAhaDescriptions"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "descriptions.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "descriptions.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "descriptions.vue.txt" }
+  ],
+  "preview": "descriptions.preview.html",
+  "selfCheck": [
+    { "label": "container radius 8 · border #E3E3E3", "verdict": "PASS" },
+    { "label": "label cell bg #F7F7F7 SemiBold #4A4A4A", "verdict": "PASS" },
+    { "label": "value cell #1A1A1A", "verdict": "PASS" },
+    { "label": "rows divided by #F1F1F1", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-descriptions[data-probe]') && document.querySelector('aha-descriptions[data-probe]').shadowRoot && document.querySelector('aha-descriptions[data-probe]').shadowRoot.querySelector('.label'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-descriptions[data-probe]');var sr=el&&el.shadowRoot;var d=sr&&sr.querySelector('.desc');var l=sr&&sr.querySelector('.label');var v=sr&&sr.querySelector('.value');var ds=d?getComputedStyle(d):null;var lsx=l?getComputedStyle(l):null;var vs=v?getComputedStyle(v):null;return{descRadius:ds?ds.borderTopLeftRadius:null,descBorder:ds?ds.borderTopColor:null,labelColor:lsx?lsx.color:null,labelBg:lsx?lsx.backgroundColor:null,valueColor:vs?vs.color:null};})()",
+    "expect": { "descRadius": "8px", "descBorder": "rgb(227, 227, 227)", "labelColor": "rgb(74, 74, 74)", "labelBg": "rgb(247, 247, 247)", "valueColor": "rgb(26, 26, 26)" }
+  }
+}

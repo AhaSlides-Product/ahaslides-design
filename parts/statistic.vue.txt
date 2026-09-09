@@ -1,0 +1,9 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-statistic';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-statistic label="Active players" value="1,284" suffix="live" />
+  <aha-statistic label="Response rate" value="92" suffix="%" trend="up" />
+</template>

@@ -1,0 +1,14 @@
+import '@ahaslides-product/design/aha-card';   // registers <aha-card>
+
+// The custom element renders its own shadow DOM; React just passes attributes + slots.
+function DeckCard({ title, hoverable, children }) {
+  return (
+    <aha-card card-title={title} {...(hoverable ? { hoverable: '' } : {})}>
+      {children}
+    </aha-card>
+  );
+}
+
+// usage
+<DeckCard title="Live poll">Which release cadence works best for your team?</DeckCard>
+<DeckCard title="Weekly digest" hoverable>A clickable card lifts on hover.</DeckCard>

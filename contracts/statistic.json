@@ -1,0 +1,55 @@
+{
+  "name": "Statistic",
+  "slug": "statistic",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-statistic",
+  "summary": "A single headline number with a caption and optional trend colour.",
+  "lead": "ONE custom element — <aha-statistic> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `label` captions the figure, `value` is the number, `prefix`/`suffix` frame it, and `trend` tints it positive or negative. A static marker — no interactive state, so no motion (like Badge). Zero drift — the same element.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["text-default", "text-secondary", "text-tertiary", "text-positive", "text-negative", "font-product"],
+  "spec": [
+    { "label": "Caption", "value": "14/22 #4A4A4A" },
+    { "label": "Value", "value": "24/32 SemiBold #1A1A1A" },
+    { "label": "Prefix / suffix", "value": "14/22 Regular #8A8A8A" },
+    { "label": "Trend", "value": "up #13A181 · down #F5222D" }
+  ],
+  "props": [
+    { "name": "label", "type": "string", "default": "—", "desc": "The caption above the value" },
+    { "name": "value", "type": "string | number", "default": "—", "desc": "The headline figure" },
+    { "name": "prefix", "type": "string", "default": "—", "desc": "Small text before the value (e.g. a currency mark)" },
+    { "name": "suffix", "type": "string", "default": "—", "desc": "Small text after the value (e.g. %, unit)" },
+    { "name": "trend", "type": "up | down", "default": "—", "desc": "Tint the value positive or negative" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Statistic", "when": "a single KPI on a dashboard or results screen" },
+      { "what": "Badge", "when": "a small count attached to another element" },
+      { "what": "Progress", "when": "a value's share of a whole" }
+    ],
+    "note": "Caption names the metric in sentence case — 'Active players', not 'ACTIVE PLAYERS'. Use trend only when up/down carries meaning; colour alone should never be the only signal.",
+    "dsv3": "COVERED — DS V3's measured set has no Statistic cell; spec derived from the token layer (text-default/secondary/tertiary, text-positive/negative) + antd Statistic conventions (24/32 value). A deliberate, documented extension — not a measured match."
+  },
+  "surfaces": ["dashboard", "audience"],
+  "reuse": { "entry": "./aha-statistic", "registers": "aha-statistic", "exportsNamed": ["AhaStatistic", "defineAhaStatistic"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "statistic.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "statistic.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "statistic.vue.txt" }
+  ],
+  "preview": "statistic.preview.html",
+  "selfCheck": [
+    { "label": "value 24/32 SemiBold #1A1A1A", "verdict": "PASS" },
+    { "label": "caption 14/22 #4A4A4A", "verdict": "PASS" },
+    { "label": "suffix 14/22 #8A8A8A", "verdict": "PASS" },
+    { "label": "trend up #13A181 / down #F5222D", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-statistic[data-probe]') && document.querySelector('aha-statistic[data-probe]').shadowRoot && document.querySelector('aha-statistic[data-probe]').shadowRoot.querySelector('.value'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-statistic[data-probe]');var sr=el&&el.shadowRoot;var lab=sr&&sr.querySelector('.label');var val=sr&&sr.querySelector('.value');var ls=lab?getComputedStyle(lab):null;var vs=val?getComputedStyle(val):null;return{labelColor:ls?ls.color:null,valueColor:vs?vs.color:null,valueSize:vs?vs.fontSize:null,valueWeight:vs?vs.fontWeight:null};})()",
+    "expect": { "labelColor": "rgb(74, 74, 74)", "valueColor": "rgb(26, 26, 26)", "valueSize": "24px", "valueWeight": "600" }
+  }
+}

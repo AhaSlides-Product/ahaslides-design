@@ -1,0 +1,53 @@
+{
+  "name": "Card",
+  "slug": "card",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-card",
+  "summary": "A bordered surface that groups related content behind a title.",
+  "lead": "ONE custom element — <aha-card> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `card-title` renders the header, the default slot is the body, slot=\"extra\" holds a header action, and `hoverable` lifts the card on hover. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "border", "split", "radius-lg", "text-default", "text-secondary", "border-hover", "ink-a10", "font-product"],
+  "spec": [
+    { "label": "Container", "value": "border 1px #E3E3E3 · radius 12px · bg #FFFFFF" },
+    { "label": "Header", "value": "padding 16/20 · 16/24 SemiBold #1A1A1A · divider #F1F1F1" },
+    { "label": "Body", "value": "padding 20 · 14/22 #4A4A4A" },
+    { "label": "Hover (hoverable)", "value": "border #D3B4FF + shadow, motion-mid ease-out" }
+  ],
+  "props": [
+    { "name": "card-title", "type": "string", "default": "—", "desc": "Renders the header row; omit for a bare body" },
+    { "name": "hoverable", "type": "boolean", "default": "false", "desc": "Lift the card (border + shadow) on hover" },
+    { "name": "extra", "type": "slot", "default": "—", "desc": "Right-aligned header action (a link or button)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Card", "when": "grouping related content into a titled surface on a dashboard or settings page" },
+      { "what": "List", "when": "many uniform rows of the same shape" },
+      { "what": "Descriptions", "when": "read-only label/value pairs about one entity" }
+    ],
+    "note": "Titles are sentence case and name the group — 'Live results', not 'LIVE RESULTS'. Keep one idea per card; reach for hoverable only when the whole card is clickable.",
+    "dsv3": "COVERED — DS V3's measured set has no Card cell; spec derived from the token layer (radius-lg, border, split, bg-container, text-default/secondary) + antd Card conventions (16/24 header, 20 body). A deliberate, documented extension — not a measured match."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-card", "registers": "aha-card", "exportsNamed": ["AhaCard", "defineAhaCard"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "card.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "card.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "card.vue.txt" }
+  ],
+  "preview": "card.preview.html",
+  "selfCheck": [
+    { "label": "container radius 12 · border #E3E3E3", "verdict": "PASS" },
+    { "label": "header 16/24 SemiBold #1A1A1A", "verdict": "PASS" },
+    { "label": "hover lifts via motion tokens (persistent node)", "verdict": "PASS" },
+    { "label": "body 14/22 #4A4A4A", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-card[data-probe]') && document.querySelector('aha-card[data-probe]').shadowRoot && document.querySelector('aha-card[data-probe]').shadowRoot.querySelector('.head'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-card[data-probe]');var sr=el&&el.shadowRoot;var c=sr&&sr.querySelector('.card');var h=sr&&sr.querySelector('.head');var cs=c?getComputedStyle(c):null;var hs=h?getComputedStyle(h):null;return{cardRadius:cs?cs.borderTopLeftRadius:null,cardBorder:cs?cs.borderTopColor:null,cardBg:cs?cs.backgroundColor:null,headColor:hs?hs.color:null};})()",
+    "expect": { "cardRadius": "12px", "cardBorder": "rgb(227, 227, 227)", "cardBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)" }
+  }
+}

@@ -1,0 +1,9 @@
+import '@ahaslides-product/design/aha-image';   // registers <aha-image>
+
+// The custom element renders its own shadow DOM; React just passes attributes + the mask label.
+function Cover({ src, alt, label = 'Preview' }) {
+  return <aha-image src={src} alt={alt} width={240} height={150}>{label}</aha-image>;
+}
+
+// usage
+<Cover src="https://picsum.photos/240/150" alt="Deck cover" />
