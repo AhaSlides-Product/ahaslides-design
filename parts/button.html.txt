@@ -4,16 +4,17 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';   // registers <aha-icon> for the icon slot
 </script>
 
 <div style="display:flex; gap:8px">
   <aha-button variant="secondary">Cancel</aha-button>
   <aha-button variant="primary" onclick="alert('Saved')">
-    <span slot="icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    <span slot="icon"><aha-icon name="system-plus" size="16" decorative></aha-icon></span>
     Save changes
   </aha-button>
 </div>
 
 <!-- Size + variant are attributes; never inline height/padding/radius/fontSize. -->
 <aha-button variant="primary" size="xl" block>Get started</aha-button>
-<aha-button icon-only variant="tertiary" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>
+<aha-button icon-only variant="tertiary" aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>

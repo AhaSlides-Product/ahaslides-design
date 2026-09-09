@@ -19,7 +19,7 @@
 
   <div class="lbl">Icon · loading · disabled</div>
   <div class="row" style="align-items:center">
-    <aha-button variant="primary" size="md"><span slot="icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>New slide</aha-button>
+    <aha-button variant="primary" size="md"><span slot="icon"><aha-icon name="system-plus" size="16" decorative></aha-icon></span>New slide</aha-button>
     <aha-button variant="secondary" size="md" loading>Saving</aha-button>
     <aha-button variant="primary" size="md" disabled>Disabled</aha-button>
     <aha-button variant="secondary" size="md" disabled>Disabled</aha-button>
@@ -27,15 +27,16 @@
 
   <div class="lbl">Icon only (square) · primary · secondary · tertiary</div>
   <div class="row" style="align-items:center">
-    <aha-button icon-only variant="primary" size="md" aria-label="Add"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>
-    <aha-button icon-only variant="secondary" size="md" aria-label="More"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg></aha-button>
-    <aha-button icon-only variant="tertiary" size="md" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>
-    <aha-button icon-only variant="secondary" size="sm" aria-label="More small"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg></aha-button>
-    <aha-button icon-only variant="primary" size="lg" aria-label="Add large"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>
+    <aha-button icon-only variant="primary" size="md" aria-label="Add"><aha-icon name="system-plus" size="16" decorative></aha-icon></aha-button>
+    <aha-button icon-only variant="secondary" size="md" aria-label="More"><aha-icon name="system-dots-three" size="16" decorative></aha-icon></aha-button>
+    <aha-button icon-only variant="tertiary" size="md" aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button icon-only variant="secondary" size="sm" aria-label="More small"><aha-icon name="system-dots-three" size="16" decorative></aha-icon></aha-button>
+    <aha-button icon-only variant="primary" size="lg" aria-label="Add large"><aha-icon name="system-plus" size="16" decorative></aha-icon></aha-button>
   </div>
 </div>
 
 <script type="module">
+import '../lib/icons.js';   // registers <aha-icon> for the icon-slot examples above
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
 class AhaButton extends LitElement {
   static properties = {
