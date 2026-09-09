@@ -32,6 +32,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Drawer** (`drawer-theme`, composite) — a slide-in side panel through the shared `drawerTheme` (white panel, ink title, brand actions), keeping antd's built-in slide motion. Ships HTML / React / Vue. (#PRO38-8)
 ### Fixed
 - **Toast / Notification Vue snippets** — swapped the static `message.success()` / `notification.open()` calls for ant-design-vue's `useMessage()` / `useNotification()` hooks (with the returned `contextHolder` rendered inside `<a-config-provider>`), matching the React snippets. The static calls ignored `<a-config-provider>` theming, so a consumer wrapping them in the DS theme shipped un-themed toasts/notifications on Vue. (#PRO38-8)
+- **Alert** (`aha-alert`) — the banner was hardcoded `role="alert"` (assertive) for every tone, so informational/success alerts rudely interrupted a screen reader. It now uses `role="alert"` only for `error`/`warning` and `role="status"` (polite) for `info`/`success`. (#37)
 
 ## 0.8.0 — 2026-09-10
 ### Added

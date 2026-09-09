@@ -50,7 +50,8 @@ class AhaAlert extends HTMLElement {
     const icon = this.hasAttribute('hide-icon') ? '' : `<span class="icon"><aha-icon name="${ICON[type] || ICON.info}" size="18" decorative></aha-icon></span>`;
     const close = this.hasAttribute('closable') ? `<button class="close" part="close" aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></button>` : '';
     const title = heading ? `<div class="title" part="title">${esc(heading)}</div>` : '';
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="alert" part="alert" role="alert">${icon}<div class="body">${title}<div class="msg" part="message"><slot></slot></div></div>${close}</div>`;
+    const role = (type === 'error' || type === 'warning') ? 'alert' : 'status';
+    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="alert" part="alert" role="${role}">${icon}<div class="body">${title}<div class="msg" part="message"><slot></slot></div></div>${close}</div>`;
     const btn = this.shadowRoot.querySelector('.close');
     if (btn) btn.addEventListener('click', () => {
       const alert = this.shadowRoot.querySelector('.alert');
