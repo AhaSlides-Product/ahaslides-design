@@ -65,10 +65,18 @@ const PATTERN_BACKLOG_HARD_FAIL = false;
 // Motion policy — interactive leaf states must animate via the shared motion tokens (--aha-motion-* durations
 // + --aha-ease-* curves), not snap and not a bare timing literal; and the transition must live on a PERSISTENT
 // node (a subtree rebuild on the state change kills it — the Switch-click bug).
-//   false → WARN: gaps surface loudly but don't block (master still ships components that rebuild on state change).
-//   true  → HARD FAIL: same bar as bare hex / off-scale radius.
-//   FLIP TO true once Fleet restructures the re-rendering leaves (switch/checkbox/tooltip) so the transitions fire (Slack PRO38-5).
-const MOTION_HARD_FAIL = false;
+//
+// Motion findings are a HARD FAIL by default — so a NEW component can't ship any of them. The only grace is
+// MOTION_DEBT below: a tiny, explicit, greppable allow-list of components that already shipped a given defect
+// before this gate existed. Those stay WARN (don't brick CI) until Fleet restructures them (Slack PRO38-5).
+// Remove each entry as its component is fixed; when MOTION_DEBT is empty the motion gate is fully hard, no exceptions.
+// Keys are the element tag; values are the finding kinds grandfathered for it: 'dead' | 'snap' | 'literal' | 'bounce' | 'sync'.
+const MOTION_DEBT = {
+  'aha-switch':   ['dead'],   // rebuilds subtree on [checked] — knob transform can't fire
+  'aha-checkbox': ['dead'],   // rebuilds subtree on [checked]/[indeterminate]
+  'aha-tooltip':  ['dead'],   // rebuilds subtree on [open]
+  'aha-paywall':  ['snap'],   // an interactive state with no transition declared
+};
 const BANNED = [
   [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
@@ -220,7 +228,7 @@ for (const ct of contracts) {
   // blank out comment bodies but preserve line count so findings map to real line numbers
   const code = raw.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).split('\n').map(l => l.replace(/\/\/.*$/, ''));
   const hits = [];
-  const motionFindings = [];   // motion is WARN-first (MOTION_HARD_FAIL) — kept apart so it doesn't fail the file yet
+  const motionFindings = [];   // [kind, msg] tuples — hard fail unless the component grandfathers that kind (MOTION_DEBT)
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
@@ -230,12 +238,12 @@ for (const ct of contracts) {
       if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
       // a transition's timing must come from a motion token — a bare literal (.12s/150ms) is the drift (.1/.12/.15) we're killing
       if (!allowMotion && /transition/i.test(line))
-        for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(`L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`);
+        for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(['literal', `L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`]);
       // no bounce/elastic easing — a cubic-bezier whose control-point Y leaves [0,1] overshoots (back/elastic),
       // which reads dated/tacky and isn't how AntD (or a real object) decelerates. Use an exponential ease-out.
       if (!allowMotion) for (const m of line.matchAll(/cubic-bezier\(\s*-?[0-9.]+\s*,\s*(-?[0-9.]+)\s*,\s*-?[0-9.]+\s*,\s*(-?[0-9.]+)\s*\)/gi)) {
         const y1 = parseFloat(m[1]), y2 = parseFloat(m[2]);
-        if (y1 < 0 || y1 > 1 || y2 < 0 || y2 > 1) motionFindings.push(`L${i + 1}: bounce/elastic easing ${m[0]} — the curve overshoots (control-point Y outside 0–1). Use an exponential ease-out (var(--aha-ease-out) / --aha-ease-in-out), not a "back" ease`);
+        if (y1 < 0 || y1 > 1 || y2 < 0 || y2 > 1) motionFindings.push(['bounce', `L${i + 1}: bounce/elastic easing ${m[0]} — the curve overshoots (control-point Y outside 0–1). Use an exponential ease-out (var(--aha-ease-out) / --aha-ease-in-out), not a "back" ease`]);
       }
     } else {
       for (const h of line.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) if (!inPalette(h)) hits.push(`L${i + 1}: off-palette ${h} — a theme must map to a canonical token value`);
@@ -249,16 +257,26 @@ for (const ct of contracts) {
     const fileAllows = /ds-lint-allow:\s*[a-z, ]*motion/i.test(raw);
     // (a) an interactive element whose states SNAP — no transition declared at all
     if (interactive && !animates && !fileAllows)
-      motionFindings.push(`interactive element declares no transition — hover/focus/checked/open states must animate (var(--aha-motion-mid) var(--aha-ease-in-out)), never snap`);
-    // (b) a DEAD transition — the element declares one but rebuilds its whole subtree on a state-attr change
-    //     (innerHTML= in attributeChangedCallback), so the browser has no "from" state and it never fires
-    //     (the Switch-click bug — survives even after the CSS is correct). The transition must live on a
-    //     PERSISTENT node: toggle the attribute/class and mutate in place, don't re-render the subtree.
-    const stateAttrs = (body.match(/observedAttributes[\s\S]{0,160}?\[([^\]]*)\]/) || [, ''])[1];
-    const togglesState = /\b(checked|open|active|selected|expanded|pressed|indeterminate)\b/i.test(stateAttrs);
-    const rerendersOnAttr = /attributeChangedCallback/.test(body) && /innerHTML\s*=/.test(body);
-    if (animates && togglesState && rerendersOnAttr && !fileAllows)
-      motionFindings.push(`transition may be DEAD — a state attribute (${stateAttrs.replace(/['"\s]/g,'').split(',').filter(a=>/checked|open|active|selected|expanded|pressed|indeterminate/i.test(a)).join('/')}) triggers a full innerHTML re-render, so the declared transition can't fire across that change. Toggle the attribute/class on a persistent node instead of rebuilding the subtree (the Switch-click case)`);
+      motionFindings.push(['snap', `interactive element declares no transition — hover/focus/checked/open states must animate (var(--aha-motion-mid) var(--aha-ease-in-out)), never snap`]);
+    // (b) a DEAD transition — the element declares one but rebuilds its whole subtree on a state change, so the
+    //     browser has no "from" state and it never fires (the Switch-click bug — survives even after the CSS is
+    //     correct). The transition must live on a PERSISTENT node: toggle the attribute/class, mutate in place.
+    //     STATE = any animatable-state attr; RE-RENDER = any wholesale subtree rebuild (innerHTML/replaceChildren/
+    //     render()), whether triggered from attributeChangedCallback OR a property setter. Broad on purpose — a new
+    //     component shouldn't be able to dodge the check by renaming the attr or swapping the rebuild mechanism.
+    // Precise toggle-states — the ones that pair with a :host([x]) rule to animate a property. (NOT value/loading/etc.:
+    // those trigger a re-render too, but the transition there is usually on :hover/:focus — a different concern, not a
+    // dead transition. Flagging them would false-positive on legit fields like Input.)
+    const STATE_RE = /\b(checked|open|active|selected|expanded|pressed|indeterminate|toggled|collapsed)\b/i;
+    const stateAttrs = (body.match(/observedAttributes[\s\S]{0,200}?\[([^\]]*)\]/) || [, ''])[1];
+    const setterRenders = /set\s+\w+\s*\([^)]*\)\s*\{[^}]*(?:_render|this\.render|innerHTML\s*=|replaceChildren)/.test(body);
+    const togglesState = STATE_RE.test(stateAttrs) || setterRenders;
+    const rebuilds = /(innerHTML\s*=|replaceChildren\s*\(|\.render\s*\()/.test(body) &&
+                     (/attributeChangedCallback/.test(body) || setterRenders);
+    if (animates && togglesState && rebuilds && !fileAllows) {
+      const which = (stateAttrs.replace(/['"\s]/g, '').split(',').filter(a => STATE_RE.test(a)).join('/')) || 'a state setter';
+      motionFindings.push(['dead', `transition may be DEAD — a state change (${which}) triggers a full subtree rebuild (innerHTML/replaceChildren/render), so the declared transition can't fire across it. Toggle the attribute/class on a persistent node instead of rebuilding the subtree (the Switch-click case)`]);
+    }
     // (c) the EXAMPLE must show the SAME motion as the shipped component. The preview is a hand-kept copy
     //     (a self-contained reimplementation — and qa.mjs measures IT, not lib), so it drifts: it has dropped
     //     a transition before. Flag any transition lib ships that the preview is missing → the example lies.
@@ -269,12 +287,14 @@ for (const ct of contracts) {
     if (pv && !fileAllows) {
       const missing = [...txns(raw)].filter(t => !txns(pv).has(t));
       if (missing.length)
-        motionFindings.push(`example out of sync — parts/${ct.slug}.preview.html is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than <${r.registers}> — and qa measures the preview, not lib. Keep the preview copy in sync with the element.`);
+        motionFindings.push(['sync', `example out of sync — parts/${ct.slug}.preview.html is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than <${r.registers}> — and qa measures the preview, not lib. Keep the preview copy in sync with the element.`]);
     }
   }
-  // WARN until the re-rendering leaves are restructured (MOTION_HARD_FAIL); then motion joins hex/radius as a hard fail
+  // HARD FAIL by default — a NEW component can't ship any motion defect. Only the exact (component, kind) pairs
+  // in MOTION_DEBT get a WARN pass (known pre-gate debt, tracked on PRO38-5); everything else fails the file.
+  const debt = MOTION_DEBT[r.registers] || [];
   const motionHits = [];
-  for (const mf of motionFindings) (MOTION_HARD_FAIL ? hits : motionHits).push(mf);
+  for (const [kind, msg] of motionFindings) (debt.includes(kind) ? motionHits : hits).push(debt.includes(kind) ? `${msg}  [grandfathered: ${r.registers}/${kind} — PRO38-5]` : msg);
   libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 
