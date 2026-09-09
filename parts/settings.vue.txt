@@ -1,0 +1,20 @@
+<script setup>
+import '@ahaslides-product/design/aha-settings';   // registers <aha-settings>
+import '@ahaslides-product/design/tokens.css';
+import { ref, onMounted } from 'vue';
+
+const el = ref(null);
+// Declare the typed schema; the element renders the compliant panel.
+const schema = [
+  { type: 'switch', id: 'progressBar', label: 'Progress bar', default: true },
+  { type: 'header', content: 'Scoring' },
+  { type: 'range', id: 'points', label: 'Points per question', min: 0, max: 100, step: 10, unit: 'pts', default: 50 },
+  { type: 'checkbox', id: 'partial', label: 'Partial scoring' },
+];
+onMounted(() => { el.value.schema = schema; });
+</script>
+
+<template>
+  <!-- e.detail = { id, value, values } -->
+  <aha-settings ref="el" @change="(e) => console.log(e.detail.values)" />
+</template>

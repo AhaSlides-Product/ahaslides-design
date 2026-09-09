@@ -1,0 +1,26 @@
+<div class="pad" style="max-width:560px">
+  <aha-settings id="demo"></aha-settings>
+</div>
+
+<script type="module">
+import '../../lib/aha-settings.js';   // the real shipped element — no mirror
+const el = document.getElementById('demo');
+el.schema = [
+  { type: 'switch', id: 'progress', label: 'Progress bar', default: true },
+  { type: 'switch', id: 'timer', label: 'Time limit', info: 'Each question advances automatically when the timer runs out.' },
+  { type: 'range', id: 'seconds', label: 'Seconds per question', min: 5, max: 120, step: 5, unit: 'sec', default: 30, dependsOn: 'timer' },
+
+  { type: 'header', content: 'Scoring' },
+  { type: 'select', id: 'mode', label: 'Points', default: 'standard',
+    options: [{ value: 'standard', label: 'Standard' }, { value: 'speed', label: 'Faster' }] },
+  { type: 'checkbox', id: 'partial', label: 'Partial scoring' },
+
+  { type: 'header', content: 'Responses' },
+  { type: 'number', id: 'limit', label: 'Response limit', unit: 'max', min: 0, default: 100,
+    help: 'New responses are blocked once the limit is reached.' },
+
+  { type: 'action', id: 'reset', label: 'Reset all responses', action: 'Reset', danger: true,
+    help: 'Permanently clears every collected response.' },
+];
+el.addEventListener('change', (e) => { /* e.detail = { id, value, values } */ });
+</script>

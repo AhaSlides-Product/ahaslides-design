@@ -1,0 +1,68 @@
+{
+  "name": "Settings",
+  "slug": "settings",
+  "group": "Surfaces",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-settings",
+  "summary": "Declare a schema of typed settings; the shared panel renders it — spacing, grouping, sub-settings, help-vs-tooltip and the danger zone are baked in.",
+  "lead": "You don't BUILD a settings panel — you declare a schema of typed inputs (switch / checkbox / radio / select / range / number / text / …, Shopify-style) and <aha-settings> renders the compliant AhaSlides surface. Every layout rule lives inside the element, so an agent picks the input type and writes the copy — it CANNOT get spacing, hierarchy, help-vs-tooltip, or the danger zone wrong. A settings surface rebuilt by hand is the drift this replaces.",
+  "tokensUsed": ["color-primary", "color-error", "text-default", "text-secondary", "text-tertiary", "bg-dark", "radius-default", "checkbox-border"],
+  "spec": [
+    { "label": "Spacing hierarchy (baked)", "value": "name→help 4 · sub→parent 8 (+24 indent) · between settings 16 · between groups 32 · danger zone 48" },
+    { "label": "Group header", "value": "noun phrase, weight 600 — members stay regular 400" },
+    { "label": "Sub-setting", "value": "dependsOn → hidden when parent is off, else indented + de-emphasised (never disabled)" },
+    { "label": "Help vs tooltip", "value": "help = a must-see consequence line (tertiary #8A8A8A); info = the ? tooltip (dark-navy, question-mark glyph). Never both on one setting." },
+    { "label": "Control per type", "value": "switch=toggle · checkbox=box · radio=group · select=segmented(≤4 short)/dropdown · range=slider+value · number=field+unit" },
+    { "label": "Danger", "value": "danger:true routes an item to the danger zone (last, 48 gap); an action renders a danger Button (colorError)" },
+    { "label": "Separation", "value": "spacing only — never a divider or a card around plain settings" }
+  ],
+  "props": [
+    { "name": "schema", "type": "SettingItem[]", "default": "[]", "desc": "The declarative schema (JS property, or a child <script type=\"application/json\">). The element renders it." },
+    { "name": "values", "type": "Record<id, value> (get)", "default": "—", "desc": "Current values keyed by setting id, seeded from each item's default" },
+    { "name": "item.type", "type": "switch | checkbox | radio | select | range | number | text | textarea | color | text_alignment | action | header | paragraph", "default": "—", "desc": "Picks the control; header/paragraph are structure/info" },
+    { "name": "item.id / label", "type": "string", "default": "—", "desc": "Value key + the noun-phrase label (no decorative icon — the element owns glyphs)" },
+    { "name": "item.info / help", "type": "string", "default": "—", "desc": "info → the ? tooltip; help → an always-visible must-see-consequence line. Never set both." },
+    { "name": "item.dependsOn / dependsValue", "type": "string / any", "default": "—", "desc": "Marks a sub-setting; shown only when the parent id is truthy (or equals dependsValue)" },
+    { "name": "item.danger", "type": "boolean", "default": "false", "desc": "Routes the item to the danger zone at the bottom" },
+    { "name": "item.options / min / max / step / unit", "type": "…", "default": "—", "desc": "Type-specifics: options for select/radio; min/max/step/unit for range/number" },
+    { "name": "change", "type": "CustomEvent<{id,value,values}>", "default": "—", "desc": "Composed event on any change; action items emit `action` with {id}" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "switch", "when": "a single boolean that takes effect immediately" },
+      { "what": "checkbox", "when": "a boolean saved as part of a group, or a consent" },
+      { "what": "radio", "when": "one of a small mutually-exclusive set (all options visible)" },
+      { "what": "select", "when": "one of many — 2–4 short options render as a segmented control, more (or long) as a dropdown" },
+      { "what": "range / number", "when": "a numeric value — range for a bounded slider, number for free entry with a unit" },
+      { "what": "header / paragraph", "when": "open a group (2–6 settings) or add an informational line — grouping is spacing, never a card" },
+      { "what": "dependsOn", "when": "a setting only applies when its parent is on — it hides when the parent is off" },
+      { "what": "danger", "when": "a destructive/irreversible action — routed to the danger zone; confirm upstream before executing" }
+    ],
+    "note": "Labels are noun phrases (\"Progress bar\", not \"Show progress bar\"). Reach for help ONLY when acting without it risks a consequence that's hard to undo — everything else is `info` (the ? tooltip), and most settings need neither. Authoring guidance for the copy lives in parts/settings.guide.md."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-settings", "registers": "aha-settings", "exportsNamed": ["AhaSettings", "defineAhaSettings"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "settings.html.txt" },
+    { "key": "react", "label": "React", "file": "settings.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "settings.vue.txt" }
+  ],
+  "codeNote": "One zero-dep custom element renders from a typed schema; the settings skill's construction rules (spacing hierarchy, group weights, hidden sub-settings, help-vs-tooltip, control-per-type, danger zone) are baked into its shadow-DOM implementation — an agent consuming it can't violate them. The judge/eval layer and the copy-authoring guide stay in the aha-design skill; the strict build is this element.",
+  "preview": "settings.preview.html",
+  "selfCheck": [
+    { "label": "schema-driven — no hand-built panel", "verdict": "PASS" },
+    { "label": "spacing hierarchy baked (4/8/16/32/48)", "verdict": "PASS" },
+    { "label": "sub-settings hidden when parent off", "verdict": "PASS" },
+    { "label": "help line vs ? tooltip, never both", "verdict": "PASS" },
+    { "label": "danger zone last + danger button", "verdict": "PASS" },
+    { "label": "segmented ≤4 / dropdown otherwise", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured against the RENDERED shadow-DOM UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-settings') && document.querySelector('aha-settings').shadowRoot && document.querySelector('aha-settings').shadowRoot.querySelector('.panel'))",
+    "singleUI": true,
+    "measure": "(function(){var s=document.querySelector('aha-settings').shadowRoot; var g=function(sel,p){var el=s.querySelector(sel); return el?getComputedStyle(el)[p]:null;}; return { headerWeight:g('.ghead','fontWeight'), toggleOn:g('.tgl[aria-checked=\"true\"]','backgroundColor'), helpColor:g('.help','color'), groupGap:g('.group','rowGap') };})()",
+    "expect": { "headerWeight": "600", "toggleOn": "rgb(106, 30, 187)", "helpColor": "rgb(138, 138, 138)", "groupGap": "16px" }
+  }
+}

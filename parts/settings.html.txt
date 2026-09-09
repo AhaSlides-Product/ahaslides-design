@@ -1,0 +1,22 @@
+<!-- Paste into an .html file and open — no build step. Declare a schema; the panel renders itself. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-settings.js';   // registers <aha-settings>
+</script>
+
+<aha-settings>
+  <script type="application/json">
+  [
+    { "type": "switch",   "id": "progressBar", "label": "Progress bar", "default": true },
+
+    { "type": "header",   "content": "Scoring" },
+    { "type": "select",   "id": "mode", "label": "Points", "default": "standard",
+      "options": [{ "value": "standard", "label": "Standard" }, { "value": "speed", "label": "Faster" }] },
+    { "type": "range",    "id": "points", "label": "Points per question", "min": 0, "max": 100, "step": 10, "unit": "pts", "default": 50 },
+    { "type": "checkbox", "id": "partial", "label": "Partial scoring", "dependsOn": "mode", "dependsValue": "standard" },
+
+    { "type": "action",   "id": "reset", "label": "Reset all responses", "action": "Reset", "danger": true,
+      "help": "Permanently clears every collected response." }
+  ]
+  </script>
+</aha-settings>

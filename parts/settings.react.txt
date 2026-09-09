@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-settings';   // registers <aha-settings>
+import '@ahaslides-product/design/tokens.css';
+import { useRef, useEffect } from 'react';
+
+// You DECLARE a typed schema — the element renders the compliant panel (spacing, grouping,
+// sub-settings, help-vs-tooltip, danger zone are baked in; you never lay it out).
+const schema = [
+  { type: 'switch', id: 'progressBar', label: 'Progress bar', default: true },
+  { type: 'header', content: 'Scoring' },
+  { type: 'select', id: 'mode', label: 'Points', default: 'standard',
+    options: [{ value: 'standard', label: 'Standard' }, { value: 'speed', label: 'Faster' }] },
+  { type: 'checkbox', id: 'partial', label: 'Partial scoring', dependsOn: 'mode', dependsValue: 'standard' },
+];
+
+export function SlideSettings() {
+  const ref = useRef(null);
+  useEffect(() => { if (ref.current) ref.current.schema = schema; }, []);
+  // e.detail = { id, value, values }
+  return <aha-settings ref={ref} onChange={(e) => console.log(e.detail.values)} />;
+}

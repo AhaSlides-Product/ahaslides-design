@@ -91,6 +91,7 @@ const CATALOG = [
   { cat: 'Data Display', items: [ { name: 'Badge', slug: 'badge' }, { name: 'Tag', slug: 'tag' }, { name: 'Tooltip', slug: 'tooltip' }, { name: 'Tabs', slug: 'tabs' }, { name: 'Table', slug: 'table' } ] },
   { cat: 'Navigation',   items: [ { name: 'Dropdown', slug: 'dropdown' } ] },
   { cat: 'Feedback',     items: [ { name: 'Modal', slug: 'modal' } ] },
+  { cat: 'Surfaces',     items: [ { name: 'Settings', slug: 'settings' } ] },
 ];
 let LIVE = new Set();   // slugs with a real contract — assigned once contracts load
 let PATTERNS = [];      // loaded pattern artifacts — assigned once patterns load (drives the Patterns nav)
