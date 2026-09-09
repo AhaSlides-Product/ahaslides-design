@@ -1,0 +1,54 @@
+{
+  "name": "Form",
+  "slug": "form",
+  "group": "Data Entry",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "A labelled, validated set of fields — sign-in, settings, create dialogs — rendered through the shared Form.",
+  "lead": "Form carries layout, validation, and every control it hosts — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared formTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["color-primary", "radius-default", "border", "text-secondary", "text-default", "color-error"],
+  "spec": [
+    { "label": "Controls", "value": "height 36 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Label", "value": "#4A4A4A, above the field (vertical layout)" },
+    { "label": "Submit", "value": "primary Button #6A1EBB" },
+    { "label": "Error", "value": "#F5222D border + message below the field" },
+    { "label": "Item gap", "value": "20px between items" }
+  ],
+  "props": [
+    { "name": "layout", "type": "vertical | horizontal | inline", "default": "vertical", "desc": "Label placement" },
+    { "name": "fields", "type": "FormItem[]", "default": "[]", "desc": "name / label / rules / control per row" },
+    { "name": "initialValues", "type": "object", "default": "—", "desc": "Seed values" },
+    { "name": "onFinish", "type": "(values) => void", "default": "—", "desc": "Fires on a valid submit" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disables the whole form" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Form", "when": "two or more related fields submitted together, with validation" },
+      { "what": "a single Input/Select", "when": "one value that applies on its own — no submit step" },
+      { "what": "Settings pattern", "when": "a settings surface — see the Settings pattern for grouping and spacing" }
+    ],
+    "note": "Label every field with a noun phrase above the control (vertical layout reads best on narrow surfaces). Validate on blur and on submit; show the error below the field with how to fix it. One primary submit per form."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./form-theme", "exportsNamed": ["formTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "form.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared formTheme. No build step." },
+    { "key": "react", "label": "React", "file": "form.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "form.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "form.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (formTheme); residual drift is caught by visual regression.",
+  "preview": "form.preview.html",
+  "selfCheck": [
+    { "label": "controls 36 · radius 8 · #E3E3E3", "verdict": "PASS" },
+    { "label": "labels #4A4A4A above field", "verdict": "PASS" },
+    { "label": "primary submit #6A1EBB", "verdict": "PASS" },
+    { "label": "error #F5222D + message", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 input + primary button bound to formTheme.",
+    "ready": "!!document.querySelector('#react-root .ant-input') && !!document.querySelector('#react-root .ant-btn')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{inputRadius:g('.ant-input','borderTopLeftRadius'),inputBorder:g('.ant-input','borderTopColor'),primaryBg:g('.ant-btn-primary','backgroundColor')};})()",
+    "expect": { "inputRadius": "8px", "inputBorder": "rgb(227, 227, 227)", "primaryBg": "rgb(106, 30, 187)" }
+  }
+}

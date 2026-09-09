@@ -1,0 +1,17 @@
+import { ConfigProvider, Form, Input, Button } from 'antd';   // antd v6
+import { formTheme } from '@ahaslides-product/design/form-theme';
+
+<ConfigProvider theme={formTheme}>
+  <Form layout="vertical" initialValues={{ name: 'AhaSlides' }} onFinish={save}>
+    <Form.Item label="Workspace name" name="name" rules={[{ required: true }]}>
+      <Input placeholder="AhaSlides" />
+    </Form.Item>
+    <Form.Item label="Contact email" name="email" rules={[{ type: 'email', required: true }]}>
+      <Input placeholder="you@company.com" />
+    </Form.Item>
+    <Form.Item>
+      <Button type="primary" htmlType="submit">Save changes</Button>
+    </Form.Item>
+  </Form>
+</ConfigProvider>
+// One shared formTheme → the DS V3 look; labels above the field, one primary submit.

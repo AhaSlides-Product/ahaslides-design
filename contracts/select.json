@@ -1,0 +1,55 @@
+{
+  "name": "Select",
+  "slug": "select",
+  "group": "Data Entry",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "Pick one value (or several) from a known set — with type-to-search — rendered through the shared Select.",
+  "lead": "Select carries a popup, a virtualised list, search and tagging — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared selectTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["color-primary", "radius-default", "border", "text-default", "text-tertiary", "purple-10", "gray-20"],
+  "spec": [
+    { "label": "Control", "value": "height 36 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Search", "value": "showSearch — type to filter options" },
+    { "label": "Focus", "value": "brand #6A1EBB border" },
+    { "label": "Selected option", "value": "brand-tint #F9F5FF row, #6A1EBB label" },
+    { "label": "Placeholder", "value": "#8A8A8A" }
+  ],
+  "props": [
+    { "name": "options", "type": "{ label, value }[]", "default": "[]", "desc": "The selectable set" },
+    { "name": "value", "type": "string | string[]", "default": "—", "desc": "Selected value(s); array when mode=multiple" },
+    { "name": "showSearch", "type": "boolean", "default": "true", "desc": "Type to filter options" },
+    { "name": "mode", "type": "single | multiple | tags", "default": "single", "desc": "Selection cardinality" },
+    { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
+    { "name": "onChange", "type": "(value) => void", "default": "—", "desc": "Fires with the new selection" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Select", "when": "one value from a known set of more than ~5 options — don't make the user type it" },
+      { "what": "Radio", "when": "2–5 mutually-exclusive options all worth showing at once" },
+      { "what": "Input", "when": "free text that isn't a known set" }
+    ],
+    "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; for long lists keep showSearch on."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./select-theme", "exportsNamed": ["selectTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "select.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared selectTheme. No build step." },
+    { "key": "react", "label": "React", "file": "select.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "select.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "select.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (selectTheme); residual drift is caught by visual regression.",
+  "preview": "select.preview.html",
+  "selfCheck": [
+    { "label": "control 36 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
+    { "label": "type-to-search filters options", "verdict": "PASS" },
+    { "label": "selected row brand-tint", "verdict": "PASS" },
+    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 selector bound to selectTheme.",
+    "ready": "!!document.querySelector('#react-root .ant-select-content')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-select','borderTopLeftRadius'),border:g('.ant-select','borderTopColor'),height:g('.ant-select','height')};})()",
+    "expect": { "radius": "8px", "border": "rgb(227, 227, 227)", "height": "36px" }
+  }
+}

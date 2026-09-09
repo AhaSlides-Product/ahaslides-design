@@ -27,7 +27,7 @@
     { "ref": "--aha-borderRadius", "as": "token", "use": "the 8px radius cap on rectangular content containers (cards, answer boxes, option tiles, panels) — rounded-lg, never rounded-2xl/3xl", "status": "available" },
     { "ref": "aha-antd-button", "as": "component", "use": "the host-painted presenter control-bar action button (NCB) — you declare the action data in the manifest, the host renders this wrapper; the iframe cannot call it directly", "status": "missing" },
     { "ref": "kbd-chip", "as": "component", "use": "the in-canvas keyboard-shortcut indicator — a single-character key renders as a SQUARE (equal box, radius 4), multi-char keys grow wider; shared across slides", "status": "missing" },
-    { "ref": "tooltip", "as": "component", "use": "an icon-only in-canvas button's name + shortcut tooltip (e.g. 'Mute music (M)') — shared tooltip, not a hand-rolled title-only hover", "status": "missing" },
+    { "ref": "tooltip", "as": "component", "use": "an icon-only in-canvas button's name + shortcut tooltip (e.g. 'Mute music (M)') — shared tooltip, not a hand-rolled title-only hover", "status": "available" },
     { "ref": "focus-trap", "as": "component", "use": "a shared focus-trap wrapper for an in-canvas modal/overlay/popover — moves focus in on open, cycles Tab within, returns focus to the trigger on close", "status": "missing" },
     { "ref": "use-deck-font", "as": "component", "use": "the shared useDeckFont(fontFamily) helper — injects the deck font's @font-face <link> into the iframe so binding fontFamily doesn't fall back to serif; idempotent, no-ops for bundled Plus Jakarta Sans", "status": "missing" }
   ],

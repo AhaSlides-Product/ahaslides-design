@@ -1,0 +1,53 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared selectTheme. Vue consumes the same
+     selectTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the real antd selector bound to the shared theme. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__sel = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:36, colorBorder:'#E3E3E3',
+             colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    components:{ Select:{ optionSelectedBg:'#F9F5FF', optionSelectedColor:'#6A1EBB', optionActiveBg:'#F7F7F7', borderRadius:8, controlHeight:36 } }
+  },
+  options: [
+    { value:'poll', label:'Poll' }, { value:'quiz', label:'Quiz' },
+    { value:'wordcloud', label:'Word cloud' }, { value:'qa', label:'Q&A' }
+  ]
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Select } = window.__antdR;
+const S = window.__sel;
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={S.theme}>
+    <div style={{ maxWidth: 280 }}>
+      <Field label="Single · type to search">
+        <Select showSearch placeholder="Choose a slide type" options={S.options} defaultValue="poll" style={{ width: 240 }} />
+      </Field>
+      <Field label="Empty · placeholder">
+        <Select showSearch placeholder="Search a workspace" options={S.options} style={{ width: 240 }} />
+      </Field>
+      <Field label="Multiple · tags">
+        <Select mode="multiple" placeholder="Tag topics" options={S.options} defaultValue={['poll','quiz']} style={{ width: 240 }} />
+      </Field>
+    </div>
+  </ConfigProvider>
+);
+</script>

@@ -1,0 +1,29 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     Select is a COMPOSITE (antd, no framework-free element), so its HTML form is a
+     CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
+     consumes the SAME shared `selectTheme` the React/Vue wrappers use, so it renders
+     the DS V3 look (36px control, radius 8, #E3E3E3 border, brand-tint selected option).
+     No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<div id="root"></div>
+<script type="module">
+  import React from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import { ConfigProvider, Select } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+  import { selectTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.1.0/lib/select-theme.js';
+
+  const h = React.createElement;
+
+  const options = [
+    { value: 'poll',      label: 'Poll' },
+    { value: 'quiz',      label: 'Quiz' },
+    { value: 'wordcloud', label: 'Word cloud' },
+    { value: 'qa',        label: 'Q&A' },
+  ];
+
+  // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  createRoot(document.getElementById('root')).render(
+    h(ConfigProvider, { theme: selectTheme },
+      h(Select, { showSearch: true, placeholder: 'Choose a slide type', options, style: { width: 240 } })
+    )
+  );
+</script>

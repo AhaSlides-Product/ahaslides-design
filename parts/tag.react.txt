@@ -1,0 +1,18 @@
+import '@ahaslides-product/design/aha-tag';   // registers <aha-tag>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the composed `close` event; React 19 can bind onClose directly.
+function AhaTag({ variant, closable, onClose, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = () => onClose?.();
+    el.addEventListener('close', h);
+    return () => el.removeEventListener('close', h);
+  });
+  return <aha-tag ref={ref} variant={variant} {...(closable ? { closable: '' } : {})}>{children}</aha-tag>;
+}
+
+// usage
+<AhaTag variant="primary">Poll</AhaTag>
+<AhaTag closable onClose={() => removeKeyword('Marketing')}>Marketing</AhaTag>

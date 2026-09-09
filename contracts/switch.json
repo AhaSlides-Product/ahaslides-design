@@ -1,0 +1,53 @@
+{
+  "name": "Switch",
+  "slug": "switch",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-switch",
+  "summary": "A single setting that takes effect immediately — on or off.",
+  "lead": "ONE custom element — <aha-switch> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the track fills brand when checked and the knob slides. Emits a composed `change` CustomEvent<{checked}>. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["gray-50", "color-primary", "purple-30", "white", "bg-container-disabled", "radius-pill"],
+  "spec": [
+    { "label": "Track", "value": "40×22 · radius pill" },
+    { "label": "Knob", "value": "18×18 white circle, slides 18px" },
+    { "label": "Off", "value": "track #D4D4D4 (gray-50)" },
+    { "label": "On", "value": "track #6A1EBB (primary)" },
+    { "label": "Disabled", "value": "off #F1F1F1 · on #D3B4FF" }
+  ],
+  "props": [
+    { "name": "checked", "type": "boolean", "default": "false", "desc": "On/off state (reflected)" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive" },
+    { "name": "change", "type": "CustomEvent<{checked}>", "default": "—", "desc": "Composed event on toggle; read e.detail.checked" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Switch", "when": "a single setting that applies immediately — no save step" },
+      { "what": "Checkbox", "when": "options saved together as a group, or expressing consent" },
+      { "what": "Radio", "when": "exactly one from a small mutually-exclusive set" }
+    ],
+    "note": "Never mix switches and checkboxes in one group. The label names what the setting controls as a noun phrase; the switch communicates the action — don't prefix the label with Enable/Turn on."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-switch", "registers": "aha-switch", "exportsNamed": ["AhaSwitch", "defineAhaSwitch"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "switch.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "switch.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "switch.vue.txt" }
+  ],
+  "preview": "switch.preview.html",
+  "selfCheck": [
+    { "label": "track 40×22 radius pill", "verdict": "PASS" },
+    { "label": "on #6A1EBB · off #D4D4D4", "verdict": "PASS" },
+    { "label": "knob 18 white, slides 18", "verdict": "PASS" },
+    { "label": "change emits composed {checked}", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-switch[data-probe]') && document.querySelector('aha-switch[data-probe]').shadowRoot && document.querySelector('aha-switch[data-probe]').shadowRoot.querySelector('.track'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-switch[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.track');var s=t?getComputedStyle(t):null;return{bg:s?s.backgroundColor:null,width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null};})()",
+    "expect": { "bg": "rgb(106, 30, 187)", "width": "40px", "height": "22px", "radius": "999px" }
+  }
+}

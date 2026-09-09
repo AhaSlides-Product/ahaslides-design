@@ -1,0 +1,16 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-switch';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const live = ref(true);
+</script>
+
+<template>
+  <aha-switch
+    :checked.prop="live"
+    @change="live = $event.detail.checked"
+  />
+</template>
