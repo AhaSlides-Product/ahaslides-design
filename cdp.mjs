@@ -115,6 +115,8 @@ export async function evaluateInPage(fileUrl, expression, { timeout = 30000, rea
   const dir = mkdtempSync(join(tmpdir(), 'aha-cdp-'));
   const proc = spawn(CHROME, [
     '--headless=new', '--disable-gpu', '--no-sandbox', '--hide-scrollbars',
+    // allow a preview to ESM-import the REAL shipped lib over file:// (single source, no mirror to drift)
+    '--allow-file-access-from-files',
     '--remote-debugging-port=0', `--user-data-dir=${dir}`, '--window-size=1200,1400', fileUrl,
   ], { stdio: 'ignore' });
   const t0 = Date.now();

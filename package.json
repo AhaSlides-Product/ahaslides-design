@@ -8,12 +8,13 @@
   "repository": { "type": "git", "url": "git+https://github.com/AhaSlides-Product/ahaslides-design.git" },
   "homepage": "https://ahaslides-product.github.io/ahaslides-design",
   "bugs": { "url": "https://github.com/AhaSlides-Product/ahaslides-design/issues" },
-  "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js", "./lib/aha-button.js"],
+  "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js", "./lib/aha-button.js", "./lib/aha-paywall.js"],
   "exports": {
     "./icons": "./lib/icons.js",
     "./icons-registry": "./lib/icons-registry.js",
     "./aha-checkbox": "./lib/aha-checkbox.js",
     "./aha-button": "./lib/aha-button.js",
+    "./aha-paywall": "./lib/aha-paywall.js",
     "./table-theme": "./lib/table-theme.js",
     "./tokens": "./lib/tokens.js",
     "./tokens.css": "./lib/tokens.css",
@@ -21,6 +22,7 @@
   },
   "files": ["lib/", "icons/svg/", "icons/registry.json"],
   "scripts": {
+    "new:component": "node scaffold.mjs",
     "icons": "node build-icons.mjs",
     "generate": "node build-icons.mjs && node generate.mjs",
     "standards": "node standards.mjs",

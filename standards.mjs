@@ -29,6 +29,26 @@ const read = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
 const PKG = JSON.parse(read(join(root, 'package.json')));
 const EXPORTS = PKG.exports || {};
 
+/* ===== the VISUAL STANDARD — the "same quality" bar =====
+   standards.mjs used to prove a component was *reusable* (importable, registered, consumed by its
+   real name). It did NOT prove the component was *on-standard* — that lived only in the aha-design
+   skills + judges, which run solely when a contributor chooses to. So a teammate could ship an
+   off-palette colour, an off-scale radius, or a nonexistent token and pass both gates.
+   These primitives make the house non-negotiables (palette, the 4/6/8/12/16 radius scale, real
+   --aha-* tokens) something the gate ENFORCES — not something the author has to remember. */
+const TOKENS = JSON.parse(read(join(root, 'tokens.canonical.json')) || '{}');
+const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; pill = 999
+const NEUTRALS = new Set(['#FFFFFF', '#000000']);          // universal; 'transparent' handled in inPalette
+const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
+// every hex the canonical token set blesses — the palette an on-standard colour must land in
+const PALETTE = new Set(); JSON.stringify(TOKENS).replace(/#[0-9A-Fa-f]{3,8}/g, (h) => (PALETTE.add(normHex(h)), h));
+// the generated custom properties an author may legitimately bind tokensUsed to (source file, always present)
+const CSSVARS = new Set([...read(join(root, 'lib', 'tokens.css')).matchAll(/--aha-[a-z0-9-]+/g)].map(m => m[0]));
+const rgbToHex = (s) => { const m = String(s).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i); return m ? normHex('#' + [1, 2, 3].map(i => (+m[i]).toString(16).padStart(2, '0')).join('')) : null; };
+const isColour = (v) => /^\s*(#[0-9A-Fa-f]{3,8}|rgba?\()/.test(String(v));
+const isPx = (v) => /^\s*\d+(\.\d+)?px\s*$/.test(String(v));
+const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test(s)) return true; const hex = s.startsWith('#') ? normHex(s) : rgbToHex(s); return !!hex && (PALETTE.has(hex) || NEUTRALS.has(hex)); };
+
 // Minimal DOM shim so the custom-element modules import + self-register headlessly (no browser).
 const els = new Map();
 globalThis.window = globalThis;
@@ -121,10 +141,82 @@ for (const ct of contracts) {
     }
   }
 
-  // 7) render-gated (qa.mjs measures it; here we just require the block exists)
+  // 7) render-gated (qa.mjs measures it; here we require the block exists AND actually measures the look)
   chk('carries a `conformance` block (render-gated by qa.mjs)', !!ct.conformance && !!ct.conformance.measure);
 
+  // 7b) CONFORMANCE COVERAGE — the render gate is only as strong as this block. A block that
+  //     measures one property passes qa.mjs trivially, so a hollow contract looked as "done" as a
+  //     rigorous one. Require the block to actually pin the look: a tier-floor of assertions, at
+  //     least one COLOUR (proves colour binding renders) and one DIMENSION (proves geometry).
+  //     Value-classified, not by key name — an author names their own keys.
+  const exp = (ct.conformance && ct.conformance.expect) || {};
+  const expKeys = Object.keys(exp), expVals = Object.values(exp);
+  const floor = isLeaf ? 4 : 6;
+  chk(`conformance measures ≥${floor} properties`, expKeys.length >= floor, `only ${expKeys.length} — too thin to prove the render; measure colour + size + a state`);
+  chk('conformance measures ≥1 colour', expVals.some(isColour), 'add a colour assertion (bg/border/fg) so qa proves the colour binding, not just geometry');
+  chk('conformance measures ≥1 dimension (px)', expVals.some(isPx), 'add a size/radius assertion so qa proves the geometry');
+
+  // 7c) THE VISUAL STANDARD on the published contract — the "same quality" bar, now enforced:
+  //     every measured radius is on the 4/6/8/12/16 scale, every measured colour is on-palette,
+  //     and every token the contract claims to use actually exists. These caught nothing before.
+  for (const [k, v] of Object.entries(exp)) {
+    if (/radius/i.test(k) && isPx(v)) chk(`expect.${k} radius on the 4/6/8/12/16 scale`, RADIUS_SCALE.has(parseFloat(v)), `${v} is off the radius scale`);
+    if (isColour(v)) chk(`expect.${k} colour is on-palette`, inPalette(v), `${v} is not a canonical token value — bind to the palette`);
+  }
+  // tokensUsed must be VERIFIABLE against the real theming source — no drift between what a
+  // contract claims and what the component is actually themed by. The source differs by tier:
+  //   leaf      → each entry is a DS custom property: --aha-<entry> exists in the token source.
+  //   composite → each entry is a key of the exported theme artifact: a `token.<key>`, or a
+  //               component override written "Comp.key" (e.g. "Table.headerBg").
+  if (r && r.entry) {
+    if (isLeaf && CSSVARS.size) {
+      for (const t of (ct.tokensUsed || [])) chk(`tokensUsed "${t}" is a real --aha-${t}`, CSSVARS.has('--aha-' + t), 'a leaf token is a DS custom property — fix the name or add the token to the source');
+    } else if (!isLeaf) {
+      try {
+        const artifact = (await import(PKG.name + r.entry.replace(/^\./, '')))[(r.exportsNamed || [])[0]] || {};
+        const tokenKeys = new Set(Object.keys(artifact.token || {}));
+        const compKeys = new Set();
+        for (const [cn, obj] of Object.entries(artifact.components || {})) for (const k of Object.keys(obj || {})) compKeys.add(`${cn}.${k}`);
+        for (const t of (ct.tokensUsed || [])) chk(`tokensUsed "${t}" is a key of the theme artifact`, t.includes('.') ? compKeys.has(t) : tokenKeys.has(t), 'a composite token must exist in the exported theme (token.<key> or Comp.key)');
+      } catch { /* import failure already reported by the reuse check above */ }
+    }
+  }
+
   results.push({ slug: ct.slug || ct.name, checks });
+}
+
+/* ===== the VISUAL STANDARD on component SOURCE =====
+   The contract is the published truth, but the lib module is what actually ships. Enforce the same
+   bar on it, classifying by the reuse role a contract declares:
+     • ELEMENT (leaf, `reuse.registers`) — colour binds to a --aha-* token (no BARE hex outside a
+       var(--aha-…, fallback)), and any literal border-radius is on the scale.
+     • THEME (composite artifact, no `registers`) — literals are expected (it maps the DS into a
+       vendor theme) but every hex must stay ON-PALETTE, so the theme can't drift off the system.
+     • DEFINITION layers (tokens.*, the icon registry) are the value SOURCE — not scanned.
+   A genuinely-decorative exception (a sub-scale tick radius, a white checkmark stroke) carries an
+   auditable, greppable escape hatch on its own line: `ds-lint-allow: hex,radius (why)`. */
+const libFindings = [];
+for (const ct of contracts) {
+  const r = ct.reuse; if (!r || !r.entry) continue;
+  const mapped = EXPORTS[r.entry]; if (!mapped || !/\.js$/.test(mapped)) continue;
+  const mode = r.registers ? 'element' : 'theme';
+  const raw = read(resolve(root, mapped));
+  const lines = raw.split('\n');
+  // blank out comment bodies but preserve line count so findings map to real line numbers
+  const code = raw.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).split('\n').map(l => l.replace(/\/\/.*$/, ''));
+  const hits = [];
+  code.forEach((line, i) => {
+    const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
+    const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow);
+    if (mode === 'element') {
+      const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
+      if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
+      if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
+    } else {
+      for (const h of line.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) if (!inPalette(h)) hits.push(`L${i + 1}: off-palette ${h} — a theme must map to a canonical token value`);
+    }
+  });
+  libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits });
 }
 
 /* ===== patterns — composition guides. A pattern ships no primitive; it reuses components and
@@ -210,6 +302,16 @@ if (patternResults.length) {
     console.log(`${ok ? '✓' : '✗'} ${r.slug}  [pattern]`);
     for (const [n, v, note] of r.checks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
     for (const [n, note] of r.warns) { warnCount++; console.log(`      ⚠ WARN: ${n}${note ? `  [${note}]` : ''}`); }
+  }
+}
+if (libFindings.length) {
+  console.log('\ncomponent source (visual standard)');
+  for (const f of libFindings) {
+    const ok = f.hits.length === 0;
+    ok ? pass++ : fail++;
+    console.log(`${ok ? '✓' : '✗'} ${f.file}  [${f.mode}]`);
+    if (ok) console.log(`      · ${f.mode === 'element' ? 'colour token-bound, radius on-scale' : 'every hex on-palette'}`);
+    for (const h of f.hits) console.log(`      ✗ FAIL: ${h}`);
   }
 }
 console.log(`\n${pass} artifact(s) meet the standard / ${fail} fail${warnCount ? ` · ${warnCount} warning(s)` : ''}\n`);

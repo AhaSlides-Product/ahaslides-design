@@ -1,0 +1,18 @@
+<div class="pad" style="display:flex; gap:64px; align-items:flex-start; min-height:210px">
+  <!-- wraps a gated affordance; shown open so the popover anatomy is visible -->
+  <aha-paywall open placement="bottom" feature-key="custom_survey_url" feature-label="Custom survey URL"
+    body="Give your survey a branded, memorable link." required-plan="pro">
+    <span class="lbl" style="margin:0">Custom URL</span>
+  </aha-paywall>
+
+  <!-- no natural anchor → the crown badge IS the anchor -->
+  <aha-paywall placement="bottom" feature-key="export_results" feature-label="Export results"
+    body="Download every response as a CSV or PDF." required-plan="essential"></aha-paywall>
+</div>
+
+<script type="module">
+import '../../lib/aha-paywall.js';   // the real shipped element — no mirror
+document.querySelector('aha-paywall').addEventListener('paywall-upgrade', (e) => {
+  e.preventDefault();   // demo: don't navigate away from the docs
+});
+</script>
