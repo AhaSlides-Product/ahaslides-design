@@ -26,7 +26,8 @@
       { "what": "help text", "when": "a must-see consequence that is hard to undo — put it inline, not in a tooltip" },
       { "what": "Popover", "when": "richer content or interactive controls — a tooltip is text only" }
     ],
-    "note": "Never hide essential information in a tooltip — it is unavailable on touch and to keyboard users who don't focus the trigger. Keep it to a short phrase; the trigger must be focusable."
+    "note": "Never hide essential information in a tooltip — it is unavailable on touch and to keyboard users who don't focus the trigger. Keep it to a short phrase; the trigger must be focusable.",
+    "dsv3": "COVERED — the measured DS V3 `tooltip` cell is a rich 260px info CARD (white text, 16px padding, an icon) — a popover, not the simple text hint. This `aha-tooltip` is the simple dark-navy hint bubble the settings skill's `?` help tooltip points to; spec derived from that convention + tokens (bg-dark, text-inverse, radius-sm, 12/18). Motion now follows Ant's tooltip pop (.2s ease-out-back). A documented extension — the rich-card popover would be a separate future component."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-tooltip", "registers": "aha-tooltip", "exportsNamed": ["AhaTooltip", "defineAhaTooltip"] },
