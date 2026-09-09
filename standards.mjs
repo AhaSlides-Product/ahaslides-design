@@ -292,6 +292,36 @@ for (const p of patterns) {
   patternResults.push({ slug: p.slug || p.name, checks, warns });
 }
 
+/* ===== repo gate — CHANGELOG + version ===========================================================
+   House rule: every merge ships a CHANGELOG entry AND bumps the package version. The changelog is
+   the consumer-facing record of what each published version changed; the version is what `npm
+   publish` ships on the v* tag. A rule that isn't gated is a suggestion — so this makes it real:
+   a PR that forgets either goes red here, like any other standard.
+   Format (CHANGELOG.md, newest first):
+     ## X.Y.Z — YYYY-MM-DD      (em-dash or hyphen; the TOP entry must equal package.json "version")
+     ### Added | Changed | Fixed | Removed
+     - one bullet per change
+   ================================================================================================= */
+const repoChecks = [];
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const changelog = read(join(root, 'CHANGELOG.md'));
+  rchk('CHANGELOG.md exists', !!changelog, 'add a CHANGELOG.md at the repo root (newest entry on top)');
+  if (changelog) {
+    const m = changelog.match(/^##\s+(\d+\.\d+\.\d+)\s+[—-]\s+(\d{4}-\d{2}-\d{2})\s*$/m);
+    rchk('top entry heads the file as "## X.Y.Z — YYYY-MM-DD"', !!m,
+      'the newest change must head the file as "## <semver> — <YYYY-MM-DD>"');
+    if (m) {
+      rchk(`top version ${m[1]} matches package.json ${PKG.version}`, m[1] === PKG.version,
+        `they must match — bump package.json "version" to ${m[1]} (or fix the heading)`);
+      // the block from this heading up to the next "## " must carry at least one "- " bullet
+      const block = changelog.slice(changelog.indexOf(m[0]) + m[0].length).split(/\n##\s/)[0];
+      rchk('top entry lists ≥1 change bullet', /^\s*-\s+\S/m.test(block),
+        'describe what changed as "- …" bullets under the version heading');
+    }
+  }
+}
+
 /* ---- report ---- */
 let pass = 0, fail = 0, warnCount = 0;
 console.log('\n=== AhaSlides DS — STANDARDS gate ===\n');
@@ -321,6 +351,13 @@ if (libFindings.length) {
     if (ok) console.log(`      · ${f.mode === 'element' ? 'colour token-bound, radius on-scale' : 'every hex on-palette'}`);
     for (const h of f.hits) console.log(`      ✗ FAIL: ${h}`);
   }
+}
+{
+  console.log('\nrepo');
+  const ok = repoChecks.every(x => x[1]);
+  ok ? pass++ : fail++;
+  console.log(`${ok ? '✓' : '✗'} CHANGELOG + version`);
+  for (const [n, v, note] of repoChecks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
 }
 console.log(`\n${pass} artifact(s) meet the standard / ${fail} fail${warnCount ? ` · ${warnCount} warning(s)` : ''}\n`);
 if (!contracts.length && !patterns.length) { console.log('No contracts or patterns found — nothing to gate.'); }
