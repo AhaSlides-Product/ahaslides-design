@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-breadcrumb';   // registers <aha-breadcrumb> (+ <aha-icon>)
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the composed `navigate` event; React 19 can bind onNavigate directly.
+function AhaBreadcrumb({ items, onNavigate }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = (e) => onNavigate?.(e.detail);
+    el.addEventListener('navigate', h);
+    return () => el.removeEventListener('navigate', h);
+  });
+  return <aha-breadcrumb ref={ref} items={JSON.stringify(items)} />;
+}
+
+// usage
+<AhaBreadcrumb
+  items={[{ label: 'Home', href: '/' }, { label: 'Presentations', href: '/p' }, { label: 'Editor' }]}
+  onNavigate={({ href }) => router.push(href)}
+/>

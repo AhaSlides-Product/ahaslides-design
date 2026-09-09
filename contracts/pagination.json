@@ -1,0 +1,57 @@
+{
+  "name": "Pagination",
+  "slug": "pagination",
+  "group": "Navigation",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-pagination",
+  "summary": "A page selector for a paged list or table — prev / numbered pages with ellipsis / next.",
+  "lead": "ONE custom element — <aha-pagination> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; give it `total`, `page-size` and `current` and it renders prev / numbered pages (ellipsis for long ranges) / next. The current page is brand-filled; hover animates via the shared motion tokens on persistent nodes; prev/next use the DS caret glyph via <aha-icon>. Emits a composed `change` event.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `change`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "border-hover", "border-disabled", "bg-container", "text-default", "text-inverse", "text-disabled", "text-tertiary", "color-primary", "border-focus", "radius-default"],
+  "spec": [
+    { "label": "Cell", "value": "min-width 32 · height 32 · radius 8 · SemiBold 600" },
+    { "label": "Rest", "value": "white bg, 1px border #E3E3E3, text-default" },
+    { "label": "Hover", "value": "border-hover #D3B4FF + color-primary text (motion-fast + ease-out)" },
+    { "label": "Current", "value": "color-primary #6A1EBB fill, text-inverse #FFFFFF" },
+    { "label": "Disabled prev/next", "value": "text-disabled #B5B5B5, not-allowed" },
+    { "label": "Arrows", "value": "<aha-icon name=\"system-caret-left|right\" size=16>" }
+  ],
+  "props": [
+    { "name": "total", "type": "number", "default": "0", "desc": "Total item count across all pages" },
+    { "name": "page-size", "type": "number", "default": "10", "desc": "Items per page; total ÷ page-size decides the page count" },
+    { "name": "current", "type": "number", "default": "1", "desc": "The active page (1-based); reflected as it changes" },
+    { "name": "change", "type": "CustomEvent", "default": "—", "desc": "Composed event on page change, detail { page }" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Pagination", "when": "a long list or table is split into pages the user steps through" },
+      { "what": "infinite scroll", "when": "a feed the user grazes — not a set they navigate by position" },
+      { "what": "Load more", "when": "occasional appends where exact page position doesn't matter" }
+    ],
+    "note": "Show pagination only when there is more than one page. Keep page cells on the 32px square + radius-8 scale, and reserve the brand fill for the current page. The last/first ellipsis keeps long ranges compact.",
+    "dsv3": "COVERED — DS V3 has no measured Pagination cell; spec derived from the token layer (white rest, border #E3E3E3, color-primary current fill, text-inverse label, radius-default 8) + AntD Pagination conventions (32px cells, ellipsis for long ranges, disabled prev/next). Motion + arrow glyphs bound to the shared motion tokens and the DS icon library."
+  },
+  "surfaces": ["dashboard", "admin", "editor"],
+  "reuse": { "entry": "./aha-pagination", "registers": "aha-pagination", "exportsNamed": ["AhaPagination", "defineAhaPagination"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "pagination.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "pagination.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "pagination.vue.txt" }
+  ],
+  "preview": "pagination.preview.html",
+  "selfCheck": [
+    { "label": "32px square cell, radius 8", "verdict": "PASS" },
+    { "label": "current color-primary fill, text-inverse", "verdict": "PASS" },
+    { "label": "hover animates border + colour (motion tokens)", "verdict": "PASS" },
+    { "label": "prev/next are DS <aha-icon> carets, disabled at ends", "verdict": "PASS" },
+    { "label": "change event composed", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-pagination[data-probe]') && document.querySelector('aha-pagination[data-probe]').shadowRoot && document.querySelector('aha-pagination[data-probe]').shadowRoot.querySelector('.page.current'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-pagination[data-probe]');var c=el&&el.shadowRoot&&el.shadowRoot.querySelector('.page.current');var s=c?getComputedStyle(c):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,minWidth:s?s.minWidth:null,radius:s?s.borderTopLeftRadius:null};})()",
+    "expect": { "bg": "rgb(106, 30, 187)", "color": "rgb(255, 255, 255)", "minWidth": "32px", "radius": "8px" }
+  }
+}

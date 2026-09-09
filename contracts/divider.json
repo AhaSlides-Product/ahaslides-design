@@ -1,0 +1,54 @@
+{
+  "name": "Divider",
+  "slug": "divider",
+  "group": "Layout",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-divider",
+  "summary": "A thin rule that separates blocks of content — full-width, with a label, or a vertical hairline.",
+  "lead": "ONE custom element — <aha-divider> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; a bare tag is a full-width rule, slotted text becomes a centred (or left/right) label, and `orientation=\"vertical\"` is an inline hairline. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "text-secondary"],
+  "spec": [
+    { "label": "Rule", "value": "1px solid, border #E3E3E3" },
+    { "label": "Label", "value": "Plus Jakarta SemiBold 600, 13/22, text-secondary #4A4A4A" },
+    { "label": "Gap", "value": "12 between rule and label" },
+    { "label": "Vertical", "value": "1px left hairline, 1em tall, 0 8 margin" },
+    { "label": "Dashed", "value": "`dashed` swaps the rule to a dashed border" }
+  ],
+  "props": [
+    { "name": "orientation", "type": "horizontal | vertical", "default": "horizontal", "desc": "Horizontal rule or an inline vertical hairline" },
+    { "name": "align", "type": "left | center | right", "default": "center", "desc": "Where the slotted label sits along a horizontal rule" },
+    { "name": "dashed", "type": "boolean", "default": "false", "desc": "Render the rule as a dashed line" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Divider", "when": "separating stacked sections, list groups, or toolbar items" },
+      { "what": "Space", "when": "you only need consistent gaps, not a visible line" },
+      { "what": "whitespace", "when": "the separation reads clearly without any rule — prefer less chrome" }
+    ],
+    "note": "A divider is quiet structure — keep it 1px and on the border token. Use a label only when the section genuinely needs naming; reach for whitespace before adding a rule.",
+    "dsv3": "COVERED — DS V3 has no measured Divider cell; spec derived from the token layer (border #E3E3E3 rule, text-secondary label, SemiBold 13/22 type) + AntD Divider conventions (centred label, vertical hairline). A deliberate, documented extension bound entirely to canonical tokens."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-divider", "registers": "aha-divider", "exportsNamed": ["AhaDivider", "defineAhaDivider"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "divider.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "divider.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "divider.vue.txt" }
+  ],
+  "preview": "divider.preview.html",
+  "selfCheck": [
+    { "label": "1px rule on border #E3E3E3", "verdict": "PASS" },
+    { "label": "label SemiBold 600 13/22 text-secondary", "verdict": "PASS" },
+    { "label": "vertical hairline, left border", "verdict": "PASS" },
+    { "label": "dashed variant", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-divider[data-probe]') && document.querySelector('aha-divider[data-probe]').shadowRoot && document.querySelector('aha-divider[data-probe]').shadowRoot.querySelector('.line'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-divider[data-probe]');var l=el&&el.shadowRoot&&el.shadowRoot.querySelector('.line');var s=l?getComputedStyle(l):null;return{color:s?s.borderTopColor:null,width:s?s.borderTopWidth:null,style:s?s.borderTopStyle:null,radius:s?s.borderTopLeftRadius:null};})()",
+    "expect": { "color": "rgb(227, 227, 227)", "width": "1px", "style": "solid", "radius": "0px" }
+  }
+}

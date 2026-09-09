@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-breadcrumb> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-breadcrumb.js';   // registers <aha-breadcrumb> (+ <aha-icon>)
+</script>
+
+<aha-breadcrumb id="crumbs"
+  items='[{"label":"Home","href":"/"},{"label":"Presentations","href":"/p"},{"label":"Team offsite","href":"/p/1"},{"label":"Editor"}]'>
+</aha-breadcrumb>
+
+<script>
+  // The last item is the current page (not a link); links emit a composed `navigate` event.
+  document.getElementById('crumbs').addEventListener('navigate', (e) => console.log('go to', e.detail.href));
+</script>

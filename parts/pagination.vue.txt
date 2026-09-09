@@ -1,0 +1,14 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-pagination';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const page = ref(3);
+function onChange(e) { page.value = e.detail.page; }
+</script>
+
+<template>
+  <aha-pagination :total="248" :page-size="20" :current="page" @change="onChange" />
+</template>

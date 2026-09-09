@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-menu> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-menu.js';   // registers <aha-menu>
+</script>
+
+<aha-menu id="nav" value="polls"
+  items='[{"key":"polls","label":"Polls"},{"key":"quizzes","label":"Quizzes"},{"key":"wordcloud","label":"Word cloud"},{"key":"qa","label":"Q&A"},{"key":"archived","label":"Archived","disabled":true}]'>
+</aha-menu>
+
+<script>
+  // Selection animates on a persistent row; each pick emits a composed `select` event.
+  document.getElementById('nav').addEventListener('select', (e) => console.log('selected', e.detail.key));
+</script>
