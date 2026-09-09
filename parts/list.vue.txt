@@ -1,0 +1,15 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-list';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const items = ref(['Team offsite 2026', 'Q3 product review', 'Onboarding quiz']);
+</script>
+
+<template>
+  <aha-list list-title="Recent decks">
+    <div v-for="it in items" :key="it">{{ it }}</div>
+  </aha-list>
+</template>

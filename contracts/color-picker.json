@@ -1,0 +1,54 @@
+{
+  "name": "Color picker",
+  "slug": "color-picker",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-color-picker",
+  "summary": "Pick a colour from a palette of presets.",
+  "lead": "ONE custom element — <aha-color-picker> — defined once, imported unchanged by React and Vue. A trigger swatch opens a persistent panel of preset colours (the brand ramp by default); open/close toggles the `open` attribute so the panel animates. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "bg-elevated", "border", "border-hover", "text-default", "color-primary", "radius-sm", "radius-xs", "radius-default", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],
+  "spec": [
+    { "label": "Trigger", "value": "1px border #E3E3E3, radius 6; 20px current swatch (radius 4)" },
+    { "label": "Panel", "value": "bg-elevated #FFFFFF, radius 8, 4-col swatch grid" },
+    { "label": "Swatch", "value": "28px, radius 4; selected ringed color-primary" },
+    { "label": "Motion", "value": "panel fade + lift; swatch hover scale (ease-out)" }
+  ],
+  "props": [
+    { "name": "value", "type": "string", "default": "#6A1EBB", "desc": "Selected colour (hex)" },
+    { "name": "swatches", "type": "string", "default": "brand ramp", "desc": "Pipe-separated hex presets, e.g. \"#6A1EBB|#FF4081\"" },
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Panel open state; reflected attribute" },
+    { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Color picker", "when": "choosing a brand or theme colour from a curated set" },
+      { "what": "Segmented", "when": "picking a labelled option rather than a colour" },
+      { "what": "Input", "when": "an arbitrary free-form value is genuinely needed" }
+    ],
+    "note": "Prefer a curated palette over a free spectrum — on-brand results, fewer accessibility misses. Show the current value beside the trigger so the choice is legible.",
+    "dsv3": "Trigger and panel use the standard border, radii and elevation; the selected swatch is ringed in color-primary. Panel fade + lift and swatch hover-scale animate on persistent nodes via the shared motion tokens."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-color-picker", "registers": "aha-color-picker", "exportsNamed": ["AhaColorPicker", "defineAhaColorPicker"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "color-picker.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "color-picker.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "color-picker.vue.txt" }
+  ],
+  "preview": "color-picker.preview.html",
+  "selfCheck": [
+    { "label": "trigger border #E3E3E3 · radius 6", "verdict": "PASS" },
+    { "label": "current swatch shows value", "verdict": "PASS" },
+    { "label": "panel fade + lift on open", "verdict": "PASS" },
+    { "label": "change emits composed value", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds the default value #6A1EBB.",
+    "ready": "!!(document.querySelector('aha-color-picker[data-probe]') && document.querySelector('aha-color-picker[data-probe]').shadowRoot && document.querySelector('aha-color-picker[data-probe]').shadowRoot.querySelector('.current'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-color-picker[data-probe]');var sr=el.shadowRoot;var cur=sr.querySelector('.current');var trg=sr.querySelector('.trigger');return{currentBg:getComputedStyle(cur).backgroundColor,currentRadius:getComputedStyle(cur).borderTopLeftRadius,triggerBorder:getComputedStyle(trg).borderTopColor,triggerRadius:getComputedStyle(trg).borderTopLeftRadius};})()",
+    "expect": { "currentBg": "rgb(106, 30, 187)", "currentRadius": "4px", "triggerBorder": "rgb(227, 227, 227)", "triggerRadius": "6px" }
+  }
+}

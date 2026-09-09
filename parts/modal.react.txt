@@ -1,0 +1,24 @@
+import { useState } from 'react';
+import { ConfigProvider, Modal, Button } from 'antd';   // antd v6
+import { modalTheme } from '@ahaslides-product/design/modal-theme';
+
+function DeleteSlide() {
+  const [open, setOpen] = useState(false);
+  return (
+    <ConfigProvider theme={modalTheme}>
+      <Button type="primary" danger onClick={() => setOpen(true)}>Delete slide</Button>
+      <Modal
+        open={open}
+        title="Delete this slide?"
+        okText="Delete slide"
+        cancelText="Cancel"
+        okButtonProps={{ danger: true }}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+      >
+        <p>This removes the slide and all of its responses. This can't be undone.</p>
+      </Modal>
+    </ConfigProvider>
+  );
+}
+// One shared modalTheme → the DS V3 look; keeps antd's built-in zoom motion.

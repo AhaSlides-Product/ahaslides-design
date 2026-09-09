@@ -1,0 +1,22 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, Input } from 'ant-design-vue';   // ant-design-vue v4
+import { textareaTheme } from '@ahaslides-product/design/textarea-theme';
+
+const Textarea = Input.TextArea;
+const text = ref('');
+</script>
+
+<template>
+  <a-config-provider :theme="textareaTheme">
+    <Textarea
+      v-model:value="text"
+      placeholder="Describe your event"
+      :auto-size="{ minRows: 3, maxRows: 6 }"
+      show-count
+      :maxlength="200"
+      style="width: 320px"
+    />
+  </a-config-provider>
+</template>
+<!-- The SAME textareaTheme as React → one DS V3 look across both vendor libraries. -->

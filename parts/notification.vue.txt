@@ -1,0 +1,17 @@
+<script setup>
+import { ConfigProvider, notification, Button } from 'ant-design-vue';   // ant-design-vue v4
+import { notificationTheme } from '@ahaslides-product/design/notification-theme';
+
+// v4: use the hook so the card consumes the ConfigProvider theme (static notification() does not).
+const [notificationApi, contextHolder] = notification.useNotification();
+const exportCsv = () =>
+  notificationApi.open({ message: 'Export ready', description: 'Your CSV of responses is ready to download.' });
+</script>
+
+<template>
+  <a-config-provider :theme="notificationTheme">
+    <component :is="contextHolder" />
+    <a-button type="primary" @click="exportCsv">Export</a-button>
+  </a-config-provider>
+</template>
+<!-- The SAME notificationTheme as React → one DS V3 look across both vendor libraries. -->

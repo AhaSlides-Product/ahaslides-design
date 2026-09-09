@@ -1,0 +1,28 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, Drawer, Button, Space } from 'ant-design-vue';   // ant-design-vue v4
+import { drawerTheme } from '@ahaslides-product/design/drawer-theme';
+
+const open = ref(false);
+</script>
+
+<template>
+  <a-config-provider :theme="drawerTheme">
+    <a-button type="primary" @click="open = true">Slide settings</a-button>
+    <a-drawer
+      v-model:open="open"
+      title="Slide settings"
+      placement="right"
+      :width="378"
+    >
+      <p>Adjust how this slide behaves for your audience.</p>
+      <template #footer>
+        <a-space>
+          <a-button @click="open = false">Cancel</a-button>
+          <a-button type="primary">Save changes</a-button>
+        </a-space>
+      </template>
+    </a-drawer>
+  </a-config-provider>
+</template>
+<!-- The SAME drawerTheme as React → one DS V3 look across both vendor libraries. -->

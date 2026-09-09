@@ -1,0 +1,58 @@
+{
+  "name": "Alert",
+  "slug": "alert",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-alert",
+  "summary": "An inline, contextual feedback banner — info, success, warning, or error.",
+  "lead": "ONE custom element — <aha-alert> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `type` attribute, the status glyph is summoned BY NAME from the shared icon library, and `closable` adds a dismiss control that animates the banner out on a persistent node and emits a composed `close` event.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the composed `close` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-informative", "border-info", "bg-positive", "text-positive", "border-success", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "text-default", "radius-default"],
+  "spec": [
+    { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · 1px tonal border" },
+    { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
+    { "label": "Info", "value": "bg #F4F8FF, border #BFD2FF, icon #9BB3E9" },
+    { "label": "Success", "value": "bg #D8FAEF, border #16C49A, icon/text #13A181" },
+    { "label": "Warning", "value": "bg #FFF5F0, border #FF7747, icon/text #E65B29" },
+    { "label": "Error", "value": "bg #FFF1F0, border #F5222D, icon/text #F5222D" },
+    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle)" }
+  ],
+  "props": [
+    { "name": "type", "type": "info | success | warning | error", "default": "info", "desc": "Tone + status icon" },
+    { "name": "heading", "type": "string", "default": "—", "desc": "Optional bold title above the message" },
+    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows a dismiss control" },
+    { "name": "hide-icon", "type": "boolean", "default": "false", "desc": "Suppresses the leading status icon" },
+    { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the banner is dismissed" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Alert", "when": "a persistent, inline message tied to a region of the page (a form warning, a page-level notice)" },
+      { "what": "Toast", "when": "a brief, transient confirmation of an action that then disappears" },
+      { "what": "Notification", "when": "a richer, stacking message with a title + description, often from a background event" }
+    ],
+    "note": "Keep the message to one or two lines; lead with what happened, then what to do. Reserve error for real failures — over-using red trains people to ignore it.",
+    "dsv3": "Tones bound to the DS V3 semantic families (bg-informative / bg-positive / bg-warning / bg-negative + matching border + text tokens); radius on the scale (radius-default = 8). The status glyph is a real DS icon summoned by name, never an inline SVG."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-alert", "registers": "aha-alert", "exportsNamed": ["AhaAlert", "defineAhaAlert"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "alert.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "alert.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "alert.vue.txt" }
+  ],
+  "preview": "alert.preview.html",
+  "selfCheck": [
+    { "label": "radius 8 · 1px tonal border", "verdict": "PASS" },
+    { "label": "info bg #F4F8FF / border #BFD2FF", "verdict": "PASS" },
+    { "label": "status glyph via <aha-icon> by name", "verdict": "PASS" },
+    { "label": "closable animates out on a persistent node + emits composed close", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probe is the default (info) alert.",
+    "ready": "!!(document.querySelector('aha-alert[data-probe]') && document.querySelector('aha-alert[data-probe]').shadowRoot && document.querySelector('aha-alert[data-probe]').shadowRoot.querySelector('.alert'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-alert[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.alert');var s=a?getComputedStyle(a):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,color:s?s.color:null,padTop:s?s.paddingTop:null};})()",
+    "expect": { "bg": "rgb(244, 248, 255)", "border": "rgb(191, 210, 255)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px" }
+  }
+}

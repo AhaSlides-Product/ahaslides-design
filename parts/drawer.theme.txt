@@ -1,0 +1,19 @@
+// @ahaslides-product/design/drawer-theme — declared ONCE, consumed by both tiers.
+import { drawerTheme } from '@ahaslides-product/design/drawer-theme';
+
+export const drawerTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    colorText: '#1A1A1A',
+    colorTextHeading: '#1A1A1A',
+    colorBgElevated: '#FFFFFF',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Drawer: {
+      colorBgElevated: '#FFFFFF',   // white panel surface
+      colorText: '#1A1A1A',
+    },
+  },
+};

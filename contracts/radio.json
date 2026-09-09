@@ -1,0 +1,55 @@
+{
+  "name": "Radio",
+  "slug": "radio",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-radio",
+  "summary": "Pick exactly one option from a small mutually-exclusive set, all shown at once.",
+  "lead": "ONE custom element — <aha-radio> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so both frameworks render byte-identical pixels. Radios sharing a `name` are mutually exclusive; selecting one clears its siblings and emits a composed `change`. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["color-primary", "border-strong", "border-hover", "bg-container", "bg-container-disabled", "border-disabled", "text-default", "text-disabled", "font-product"],
+  "spec": [
+    { "label": "Ring", "value": "16×16 circle · 1px #D4D4D4 border" },
+    { "label": "Hover border", "value": "#D3B4FF (purple-30)" },
+    { "label": "Checked", "value": "#6A1EBB ring + 8px brand dot (scales in)" },
+    { "label": "Disabled", "value": "#F1F1F1 fill · #EBEBEB border" },
+    { "label": "Label", "value": "Plus Jakarta 14/21" }
+  ],
+  "props": [
+    { "name": "checked", "type": "boolean", "default": "false", "desc": "Controlled selection" },
+    { "name": "value", "type": "string", "default": "\"\"", "desc": "The value this option contributes to the group" },
+    { "name": "name", "type": "string", "default": "—", "desc": "Groups radios; one `name` = one mutually-exclusive set" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disables the control" },
+    { "name": "change", "type": "CustomEvent<{value, checked}>", "default": "—", "desc": "Composed event; read e.detail.value" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Radio", "when": "exactly one from a small (2–5) mutually-exclusive set, all worth showing at once" },
+      { "what": "Select", "when": "one value from a known set of more than ~5 options — don't crowd the surface" },
+      { "what": "Checkbox", "when": "one or more independent options that don't exclude each other" }
+    ],
+    "note": "Pre-select a sensible default rather than leaving the group empty. Labels are sentence case and state the choice — 'Show results after each question', not 'Show Results'. Keep product nouns: Q&A, Word cloud."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-radio", "registers": "aha-radio", "exportsNamed": ["AhaRadio", "defineAhaRadio"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "radio.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "radio.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "radio.vue.txt" }
+  ],
+  "preview": "radio.preview.html",
+  "selfCheck": [
+    { "label": "ring 16×16 circle #D4D4D4", "verdict": "PASS" },
+    { "label": "checked #6A1EBB ring + brand dot", "verdict": "PASS" },
+    { "label": "hover border purple-30", "verdict": "PASS" },
+    { "label": "dot scales in on check (motion token)", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots).",
+    "ready": "!!(document.querySelector('aha-radio') && document.querySelector('aha-radio').shadowRoot && document.querySelector('aha-radio').shadowRoot.querySelector('.ring'))",
+    "singleUI": true,
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);return el&&el.shadowRoot?el.shadowRoot:null;};var u=q('aha-radio:not([checked]):not([disabled])');var c=q('aha-radio[checked]:not([disabled])');var ur=u?getComputedStyle(u.querySelector('.ring')):null;var cr=c?getComputedStyle(c.querySelector('.ring')):null;var cd=c?getComputedStyle(c.querySelector('.dot')):null;return{ringW:ur?ur.width:null,ringH:ur?ur.height:null,restBorder:ur?ur.borderTopColor:null,checkedBorder:cr?cr.borderTopColor:null,dotBg:cd?cd.backgroundColor:null};})()",
+    "expect": { "ringW": "16px", "ringH": "16px", "restBorder": "rgb(212, 212, 212)", "checkedBorder": "rgb(106, 30, 187)", "dotBg": "rgb(106, 30, 187)" }
+  }
+}

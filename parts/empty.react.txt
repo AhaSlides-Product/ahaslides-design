@@ -1,0 +1,15 @@
+import '@ahaslides-product/design/aha-empty';    // registers <aha-empty>
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+
+// The default slot is the caption; slot="action" holds an optional call to action.
+function NoResponses({ onShare }) {
+  return (
+    <aha-empty>
+      No responses yet — share the join link
+      <aha-button slot="action" variant="primary" onClick={onShare}>Copy link</aha-button>
+    </aha-empty>
+  );
+}
+
+// usage
+<NoResponses onShare={copyJoinLink} />

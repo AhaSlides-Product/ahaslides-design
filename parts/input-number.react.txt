@@ -1,0 +1,13 @@
+import { ConfigProvider, InputNumber } from 'antd';   // antd v6
+import { inputNumberTheme } from '@ahaslides-product/design/input-number-theme';
+
+<ConfigProvider theme={inputNumberTheme}>
+  <InputNumber
+    min={0}
+    max={100}
+    defaultValue={3}
+    onChange={setCount}
+    style={{ width: 180 }}
+  />
+</ConfigProvider>
+// One shared inputNumberTheme → the DS V3 look; set min/max to constrain, not post-validation.

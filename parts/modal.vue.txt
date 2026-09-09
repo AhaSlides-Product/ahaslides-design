@@ -1,0 +1,23 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, Modal, Button } from 'ant-design-vue';   // ant-design-vue v4
+import { modalTheme } from '@ahaslides-product/design/modal-theme';
+
+const open = ref(false);
+</script>
+
+<template>
+  <a-config-provider :theme="modalTheme">
+    <a-button type="primary" danger @click="open = true">Delete slide</a-button>
+    <a-modal
+      v-model:open="open"
+      title="Delete this slide?"
+      ok-text="Delete slide"
+      cancel-text="Cancel"
+      :ok-button-props="{ danger: true }"
+    >
+      <p>This removes the slide and all of its responses. This can't be undone.</p>
+    </a-modal>
+  </a-config-provider>
+</template>
+<!-- The SAME modalTheme as React → one DS V3 look across both vendor libraries. -->

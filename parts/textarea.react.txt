@@ -1,0 +1,16 @@
+import { ConfigProvider, Input } from 'antd';   // antd v6
+import { textareaTheme } from '@ahaslides-product/design/textarea-theme';
+
+const { TextArea } = Input;
+
+<ConfigProvider theme={textareaTheme}>
+  <TextArea
+    placeholder="Describe your event"
+    autoSize={{ minRows: 3, maxRows: 6 }}
+    showCount
+    maxLength={200}
+    onChange={(e) => setText(e.target.value)}
+    style={{ width: 320 }}
+  />
+</ConfigProvider>
+// One shared textareaTheme → the DS V3 look; autoSize grows with content, showCount surfaces the cap.

@@ -1,0 +1,54 @@
+{
+  "name": "Collapse",
+  "slug": "collapse",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-collapse",
+  "summary": "A single expandable panel that hides secondary content until asked.",
+  "lead": "ONE custom element — <aha-collapse> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the `open` attribute IS the state, and clicking the header toggles it while CSS animates the body height + chevron on a persistent node — the transition always fires. slot=\"header\" is the summary, the default slot the body. Emits a composed `toggle` event.",
+  "codeNote": "The open/close animation lives on a persistent node (the header toggles the `open` attribute; :host([open]) drives the CSS), so it never dies to a subtree rebuild — the Switch-click trap. `open` is observed, so setting it as a controlled prop keeps both the visuals AND the header's aria-expanded in sync for a screen reader. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "border", "split", "radius-default", "text-default", "text-secondary", "bg-hover", "icon-default", "font-product"],
+  "spec": [
+    { "label": "Panel", "value": "border 1px #E3E3E3 · radius 8px · bg #FFFFFF" },
+    { "label": "Header", "value": "padding 14/16 · 15/22 SemiBold #1A1A1A · hover #F7F7F7" },
+    { "label": "Chevron", "value": "8×8 border glyph, rotate -45°→45° on open, motion-mid ease-in-out" },
+    { "label": "Body", "value": "grid-rows 0fr→1fr, motion-mid ease-in-out · 14/22 #4A4A4A" }
+  ],
+  "props": [
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Whether the panel is expanded; toggled on header click" },
+    { "name": "header", "type": "slot", "default": "Section", "desc": "The always-visible summary row" },
+    { "name": "toggle", "type": "CustomEvent<{open}>", "default": "—", "desc": "Composed event; read e.detail.open" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Collapse", "when": "hiding secondary detail (advanced settings, an FAQ answer) until wanted" },
+      { "what": "Tabs", "when": "switching between peer views of equal importance" },
+      { "what": "Card", "when": "content that should always be visible" }
+    ],
+    "note": "Header text names what's inside — 'Advanced settings', not 'More'. Keep panels shallow; deep nesting hides content people never find.",
+    "dsv3": "COVERED — DS V3's measured set has no Collapse cell; spec derived from the token layer (radius-default, border, split, bg-hover, icon-default) + antd Collapse conventions. A deliberate, documented extension — not a measured match."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-collapse", "registers": "aha-collapse", "exportsNamed": ["AhaCollapse", "defineAhaCollapse"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "collapse.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "collapse.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "collapse.vue.txt" }
+  ],
+  "preview": "collapse.preview.html",
+  "selfCheck": [
+    { "label": "panel radius 8 · border #E3E3E3", "verdict": "PASS" },
+    { "label": "chevron rotates via motion tokens (persistent node)", "verdict": "PASS" },
+    { "label": "body height animates grid-rows 0fr→1fr", "verdict": "PASS" },
+    { "label": "header 15/22 SemiBold #1A1A1A", "verdict": "PASS" },
+    { "label": "controlled `open` prop keeps aria-expanded in sync (observedAttributes)", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-collapse[data-probe]') && document.querySelector('aha-collapse[data-probe]').shadowRoot && document.querySelector('aha-collapse[data-probe]').shadowRoot.querySelector('.head'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-collapse[data-probe]');var sr=el&&el.shadowRoot;var p=sr&&sr.querySelector('.panel');var h=sr&&sr.querySelector('.head');var ps=p?getComputedStyle(p):null;var hs=h?getComputedStyle(h):null;return{panelRadius:ps?ps.borderTopLeftRadius:null,panelBorder:ps?ps.borderTopColor:null,panelBg:ps?ps.backgroundColor:null,headColor:hs?hs.color:null};})()",
+    "expect": { "panelRadius": "8px", "panelBorder": "rgb(227, 227, 227)", "panelBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)" }
+  }
+}

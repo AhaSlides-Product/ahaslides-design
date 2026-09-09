@@ -1,0 +1,52 @@
+{
+  "name": "QR code",
+  "slug": "qr-code",
+  "group": "Data Display",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "A scannable QR code — a join link, a deck URL, a Wi-Fi handoff — rendered through the shared QRCode.",
+  "lead": "QR encoding and canvas rendering are real work best left to Ant's QRCode, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both framed once by the shared qrCodeTheme. Two implementations, one DS V3 look — ink modules on white in a 1px radius-8 frame. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "colorBorderSecondary"],
+  "spec": [
+    { "label": "Modules", "value": "ink #1A1A1A on white #FFFFFF" },
+    { "label": "Frame", "value": "1px #E3E3E3 border · radius 8 · padding 16" },
+    { "label": "Size", "value": "160 default (set via size)" },
+    { "label": "Error level", "value": "M default (L / M / Q / H)" }
+  ],
+  "props": [
+    { "name": "value", "type": "string", "default": "—", "desc": "The URL or text to encode" },
+    { "name": "size", "type": "number", "default": "160", "desc": "Rendered pixel size" },
+    { "name": "errorLevel", "type": "L | M | Q | H", "default": "M", "desc": "Error-correction level" },
+    { "name": "icon", "type": "string", "default": "—", "desc": "Optional centre logo URL" },
+    { "name": "color", "type": "string", "default": "#1A1A1A", "desc": "Module colour (defaults to ink)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "QR code", "when": "a link people scan from a screen with a phone — a join code, a deck URL, an app download" },
+      { "what": "a plain link", "when": "the destination is clicked, not scanned" }
+    ],
+    "note": "Keep the encoded value short so the code stays low-density and scans fast. Always show the human-readable link or join code beside it as a fallback."
+  },
+  "surfaces": ["audience", "editor", "dashboard"],
+  "reuse": { "entry": "./qr-code-theme", "exportsNamed": ["qrCodeTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "qr-code.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared qrCodeTheme. No build step." },
+    { "key": "react", "label": "React", "file": "qr-code.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "qr-code.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "qr-code.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same qrCodeTheme + framing; residual drift is caught by visual regression.",
+  "preview": "qr-code.preview.html",
+  "selfCheck": [
+    { "label": "ink modules on white", "verdict": "PASS" },
+    { "label": "1px #E3E3E3 frame · radius 8", "verdict": "PASS" },
+    { "label": "canvas renders at the set size", "verdict": "PASS" },
+    { "label": "human-readable link shown alongside", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 QRCode framed by the DS container bound to qrCodeTheme.",
+    "ready": "!!document.querySelector('#react-root .aha-qr canvas')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{frameBorder:g('.aha-qr','borderTopColor'),frameBorderW:g('.aha-qr','borderTopWidth'),frameRadius:g('.aha-qr','borderTopLeftRadius'),framePad:g('.aha-qr','paddingTop'),frameBg:g('.aha-qr','backgroundColor'),canvasW:g('.aha-qr canvas','width')};})()",
+    "expect": { "frameBorder": "rgb(227, 227, 227)", "frameBorderW": "1px", "frameRadius": "8px", "framePad": "16px", "frameBg": "rgb(255, 255, 255)", "canvasW": "160px" }
+  }
+}

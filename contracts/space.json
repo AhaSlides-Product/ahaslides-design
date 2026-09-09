@@ -1,0 +1,54 @@
+{
+  "name": "Space",
+  "slug": "space",
+  "group": "Layout",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-space",
+  "summary": "An even, DS-scale gap between a small inline set of items — buttons, tags, inline controls.",
+  "lead": "ONE custom element — <aha-space> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `size` takes the named steps small/middle/large (8/16/24) or a raw pixel number, and `direction=\"vertical\"` stacks the items instead. Layout only — it never paints a background. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["text-default"],
+  "spec": [
+    { "label": "Display", "value": "inline-flex (row) · flex (vertical)" },
+    { "label": "Size scale", "value": "small 8 · middle 16 · large 24 (or a raw px number)" },
+    { "label": "Default", "value": "size small (8), row, items centred" },
+    { "label": "Align", "value": "start · center · end · baseline (align-items)" }
+  ],
+  "props": [
+    { "name": "size", "type": "small | middle | large | number", "default": "small", "desc": "Gap between items — named DS step (8/16/24) or a raw pixel number" },
+    { "name": "direction", "type": "horizontal | vertical", "default": "horizontal", "desc": "Lay items in a row or stack them" },
+    { "name": "align", "type": "start | center | end | baseline", "default": "center", "desc": "Cross-axis alignment (align-items)" },
+    { "name": "wrap", "type": "boolean", "default": "false", "desc": "Allow items to wrap onto multiple lines" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Space", "when": "spacing a small inline set of items evenly — buttons in a toolbar, tags in a row" },
+      { "what": "Flex", "when": "you need alignment/justification control over a block-level layout" },
+      { "what": "Grid", "when": "the items belong in two-dimensional rows and columns" }
+    ],
+    "note": "Space is the lightweight spacer — no alignment gymnastics, just a consistent gap. Keep sizes on the named scale so inline spacing matches across surfaces. It is layout, never decoration: it paints no background.",
+    "dsv3": "COVERED — DS V3 has no measured Space cell; spec derived from the DS spacing scale (8/16/24) + AntD Space conventions (inline gap, small default, vertical stacking). A deliberate, documented layout extension; the only visual token it binds is inherited text colour."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-space", "registers": "aha-space", "exportsNamed": ["AhaSpace", "defineAhaSpace"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "space.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "space.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "space.vue.txt" }
+  ],
+  "preview": "space.preview.html",
+  "selfCheck": [
+    { "label": "display inline-flex", "verdict": "PASS" },
+    { "label": "size middle → 16px", "verdict": "PASS" },
+    { "label": "default size small (8), row", "verdict": "PASS" },
+    { "label": "vertical stacks items", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-space[data-probe]') && document.querySelector('aha-space[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-space[data-probe]');var s=el?getComputedStyle(el):null;return{display:s?s.display:null,gap:s?s.columnGap:null,direction:s?s.flexDirection:null,color:s?s.color:null};})()",
+    "expect": { "display": "inline-flex", "gap": "16px", "direction": "row", "color": "rgb(26, 26, 26)" }
+  }
+}

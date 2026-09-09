@@ -1,0 +1,16 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, Slider } from 'ant-design-vue';   // ant-design-vue v4
+import { sliderTheme } from '@ahaslides-product/design/slider-theme';
+
+const volume = ref(40);
+const window = ref([20, 70]);
+</script>
+
+<template>
+  <a-config-provider :theme="sliderTheme">
+    <a-slider v-model:value="volume" />
+    <a-slider v-model:value="window" range />
+  </a-config-provider>
+</template>
+<!-- The SAME sliderTheme as React → one DS V3 look across both vendor libraries. -->

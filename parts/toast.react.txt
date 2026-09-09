@@ -1,0 +1,14 @@
+import { ConfigProvider, message, Button } from 'antd';   // antd v6
+import { toastTheme } from '@ahaslides-product/design/toast-theme';
+
+function SaveButton() {
+  // v6: use the hook so the toast consumes the ConfigProvider theme (static message() does not).
+  const [api, contextHolder] = message.useMessage();
+  return (
+    <ConfigProvider theme={toastTheme}>
+      {contextHolder}
+      <Button type="primary" onClick={() => api.success('Slide saved')}>Save</Button>
+    </ConfigProvider>
+  );
+}
+// One shared toastTheme → the DS V3 look; keeps antd's built-in enter/leave motion.

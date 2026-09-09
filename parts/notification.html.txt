@@ -1,0 +1,25 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     Notification is a COMPOSITE (antd's notification API, no framework-free element), so its HTML
+     form is a CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It consumes
+     the SAME shared `notificationTheme` the React/Vue wrappers use, so it renders the DS V3 look
+     (white card, 384 wide, radius 8). Keeps antd's built-in motion.
+     No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<div id="root"></div>
+<script type="module">
+  import React from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import { ConfigProvider, notification, Button } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+  import { notificationTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/notification-theme.js';
+
+  const h = React.createElement;
+
+  function App() {
+    const [api, ctx] = notification.useNotification();
+    return h(ConfigProvider, { theme: notificationTheme },
+      ctx,
+      h(Button, { type: 'primary', onClick: () => api.open({ message: 'Export ready', description: 'Your CSV is ready to download.' }) }, 'Export')
+    );
+  }
+  // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  createRoot(document.getElementById('root')).render(h(App));
+</script>

@@ -1,0 +1,9 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-image> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-image.js';   // registers <aha-image>
+</script>
+
+<aha-image width="240" height="150" src="https://picsum.photos/240/150" alt="Deck cover">Preview</aha-image>

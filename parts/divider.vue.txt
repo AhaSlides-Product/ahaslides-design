@@ -1,0 +1,17 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-divider';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <p>Section one</p>
+  <aha-divider />
+  <p>Section two</p>
+  <aha-divider>Details</aha-divider>
+
+  <div style="display:flex; align-items:center">
+    <span>Edit</span>
+    <aha-divider orientation="vertical" />
+    <span>Preview</span>
+  </div>
+</template>

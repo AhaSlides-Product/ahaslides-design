@@ -1,0 +1,16 @@
+import { ConfigProvider, AutoComplete } from 'antd';   // antd v6
+import { autocompleteTheme } from '@ahaslides-product/design/autocomplete-theme';
+
+const options = [{ value: 'Poll' }, { value: 'Quiz' }, { value: 'Word cloud' }, { value: 'Q&A' }];
+
+<ConfigProvider theme={autocompleteTheme}>
+  <AutoComplete
+    options={options}
+    placeholder="Type a slide type"
+    onSearch={fetchSuggestions}
+    onSelect={setValue}
+    filterOption={(input, opt) => opt.value.toLowerCase().includes(input.toLowerCase())}
+    style={{ width: 240 }}
+  />
+</ConfigProvider>
+// One shared autocompleteTheme → the DS V3 look; AutoComplete allows free text, use Select if the value must be from the set.

@@ -1,0 +1,20 @@
+// @ahaslides-product/design/carousel-theme — declared ONCE, consumed by both tiers.
+import { carouselTheme } from '@ahaslides-product/design/carousel-theme';
+
+export const carouselTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Carousel: {
+      dotWidth: 16,
+      dotHeight: 4,
+      dotActiveWidth: 28,    // brand-primary active dot, wider
+      dotGap: 8,
+      arrowSize: 20,
+      arrowOffset: 12,
+    },
+  },
+};

@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-menu';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref, computed } from 'vue';
+const view = ref('polls');
+const items = computed(() => JSON.stringify([
+  { key: 'polls', label: 'Polls' },
+  { key: 'quizzes', label: 'Quizzes' },
+  { key: 'wordcloud', label: 'Word cloud' },
+]));
+function onSelect(e) { view.value = e.detail.key; }
+</script>
+
+<template>
+  <aha-menu :value="view" :items="items" @select="onSelect" />
+</template>

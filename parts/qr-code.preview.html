@@ -1,0 +1,43 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared qrCodeTheme. Vue consumes the same
+     qrCodeTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the real antd QRCode framed by the DS container bound to the shared theme. -->
+<style>
+  /* DS V3 QR frame — 1px border, radius 8, white surface, bound to --aha-* tokens (never raw hex). */
+  #react-root .aha-qr { display:inline-block; box-sizing:border-box; padding:16px; background:var(--aha-bg-container);
+    border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); }
+  #react-root .aha-qr .ant-qrcode { padding:0 !important; margin:0 !important; border:0 !important; }
+  #react-root .aha-caption { margin-top:8px; font-family:var(--aha-font-product); font-size:12px; color:var(--aha-text-tertiary); text-align:center; }
+</style>
+
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__qr = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorBorderSecondary:'#E3E3E3',
+             fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' }
+  }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, QRCode } = window.__antdR;
+const Q = window.__qr;
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={Q.theme}>
+    <div>
+      <div className="aha-qr">
+        <QRCode value="https://ahaslides.com/join" size={160} bordered={false} color="#1A1A1A" />
+      </div>
+      <div className="aha-caption">ahaslides.com/join · code 1234 5678</div>
+    </div>
+  </ConfigProvider>
+);
+</script>

@@ -1,0 +1,15 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, TimePicker } from 'ant-design-vue';   // ant-design-vue v4
+import dayjs from 'dayjs';
+import { timePickerTheme } from '@ahaslides-product/design/time-picker-theme';
+
+const time = ref(dayjs('09:30', 'HH:mm'));
+</script>
+
+<template>
+  <a-config-provider :theme="timePickerTheme">
+    <a-time-picker v-model:value="time" format="HH:mm" :minute-step="15" style="width: 200px" />
+  </a-config-provider>
+</template>
+<!-- The SAME timePickerTheme as React → one DS V3 look across both vendor libraries. -->

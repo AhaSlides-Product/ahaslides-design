@@ -1,0 +1,22 @@
+// @ahaslides-product/design/time-picker-theme — declared ONCE, consumed by both tiers.
+import { timePickerTheme } from '@ahaslides-product/design/time-picker-theme';
+
+export const timePickerTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    controlHeight: 32,
+    colorBorder: '#E3E3E3',
+    colorTextPlaceholder: '#8A8A8A',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    // TimePicker is built on Ant's DatePicker internals — theme it through the DatePicker token.
+    DatePicker: {
+      borderRadius: 8,
+      controlHeight: 32,
+      cellHoverBg: '#F7F7F7',        // hovered time cell (gray-20)
+      cellActiveWithRangeBg: '#F9F5FF',
+    },
+  },
+};

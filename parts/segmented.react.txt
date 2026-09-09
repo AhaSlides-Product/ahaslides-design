@@ -1,0 +1,18 @@
+import '@ahaslides-product/design/aha-segmented';   // registers <aha-segmented>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-segmented> directly.
+function AhaSegmented({ options, value, disabled, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value;
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return <aha-segmented ref={ref} options={options.join('|')} disabled={disabled || undefined} />;
+}
+
+// usage
+<AhaSegmented options={['Day', 'Week', 'Month']} value={range} onChange={setRange} />

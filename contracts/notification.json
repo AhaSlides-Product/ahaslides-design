@@ -1,0 +1,53 @@
+{
+  "name": "Notification",
+  "slug": "notification",
+  "group": "Feedback",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "A richer, stacking message with a title + description — rendered through antd's notification API.",
+  "lead": "Notification is antd's imperative `notification` API — a card with a title, description and optional actions that stacks in a corner — and keeps antd's built-in motion, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared notificationTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Notification.width"],
+  "spec": [
+    { "label": "Card", "value": "white elevated · 384 wide · radius 8" },
+    { "label": "Title", "value": "ink #1A1A1A, SemiBold" },
+    { "label": "Placement", "value": "topRight default (4 corners)" },
+    { "label": "Duration", "value": "4.5s default (0 = sticky)" }
+  ],
+  "props": [
+    { "name": "message", "type": "string", "default": "—", "desc": "The bold title line" },
+    { "name": "description", "type": "string", "default": "—", "desc": "The supporting body text" },
+    { "name": "type", "type": "success | info | warning | error", "default": "—", "desc": "Status glyph + tone" },
+    { "name": "placement", "type": "topLeft | topRight | bottomLeft | bottomRight", "default": "topRight", "desc": "Which corner it stacks in" },
+    { "name": "duration", "type": "number", "default": "4.5", "desc": "Seconds on screen; 0 keeps it until dismissed" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Notification", "when": "a message with a title + detail, or one from a background event the user may act on later" },
+      { "what": "Toast", "when": "a one-line, past-tense confirmation with nothing to act on" },
+      { "what": "Modal", "when": "the user must respond before continuing" }
+    ],
+    "note": "Give it a short title and a one-sentence description. Put at most one action in it; anything more belongs in a Modal or the page itself."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./notification-theme", "exportsNamed": ["notificationTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "notification.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared notificationTheme. No build step." },
+    { "key": "react", "label": "React", "file": "notification.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "notification.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "notification.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same notificationTheme; residual drift is caught by visual regression.",
+  "preview": "notification.preview.html",
+  "selfCheck": [
+    { "label": "white card · 384 wide · radius 8", "verdict": "PASS" },
+    { "label": "ink title + description", "verdict": "PASS" },
+    { "label": "antd built-in motion kept", "verdict": "PASS" },
+    { "label": "status variants + placement", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page; a sticky notification (duration 0) is opened on mount so the measure reads the real antd v6 notification card bound to notificationTheme.",
+    "ready": "!!document.querySelector('.ant-notification-notice') && !!document.querySelector('.ant-notification-notice-title')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};return{bg:g('.ant-notification-notice','backgroundColor'),radius:g('.ant-notification-notice','borderTopLeftRadius'),width:g('.ant-notification-notice','width'),padTop:g('.ant-notification-notice','paddingTop'),titleColor:g('.ant-notification-notice-title','color'),titleSize:g('.ant-notification-notice-title','fontSize')};})()",
+    "expect": { "bg": "rgb(255, 255, 255)", "radius": "8px", "width": "384px", "padTop": "20px", "titleColor": "rgb(26, 26, 26)", "titleSize": "16px" }
+  }
+}

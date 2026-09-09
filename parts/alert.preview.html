@@ -1,0 +1,67 @@
+<div class="pad">
+  <div class="lbl">Types · info · success · warning · error</div>
+  <div style="display:flex; flex-direction:column; gap:12px; max-width:520px">
+    <aha-alert data-probe type="info" heading="Heads up">Your poll closes in 5 minutes.</aha-alert>
+    <aha-alert type="success">Slide saved.</aha-alert>
+    <aha-alert type="warning" heading="Almost at the limit">You have used 9 of 10 slides on the Free plan.</aha-alert>
+    <aha-alert type="error" closable>Upload failed — the file is over 20&nbsp;MB.</aha-alert>
+  </div>
+</div>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-alert (lib/aha-alert.js),
+     inlined here so the preview is self-contained. Imports the real icon runtime so the status
+     glyphs resolve from the shared registry. -->
+<script src="../icons/registry.js"></script>
+<script type="module">
+import '../lib/icons.js';   // registers <aha-icon> + registry for the status/close glyphs
+const STYLE = `
+  :host{ display:block }
+  .alert{ box-sizing:border-box; display:flex; align-items:flex-start; gap:10px; padding:10px 14px;
+    border-radius:var(--aha-radius-default,8px);
+    border:1px solid var(--aha-border-info,#BFD2FF); background:var(--aha-bg-informative,#F4F8FF);
+    color:var(--aha-text-default,#1A1A1A);
+    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:14px; line-height:1.5;
+    transition:opacity var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)), transform var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
+  :host([type="success"]) .alert{ background:var(--aha-bg-positive,#D8FAEF); border-color:var(--aha-border-success,#16C49A) }
+  :host([type="warning"]) .alert{ background:var(--aha-bg-warning,#FFF5F0); border-color:var(--aha-border-warning,#FF7747) }
+  :host([type="error"]) .alert{ background:var(--aha-bg-negative,#FFF1F0); border-color:var(--aha-border-error,#F5222D) }
+  .icon{ flex:0 0 auto; line-height:0; margin-top:1px; color:var(--aha-color-info,#9BB3E9) }
+  :host([type="success"]) .icon{ color:var(--aha-text-positive,#13A181) }
+  :host([type="warning"]) .icon{ color:var(--aha-text-warning,#E65B29) }
+  :host([type="error"]) .icon{ color:var(--aha-text-negative,#F5222D) }
+  .body{ flex:1 1 auto; min-width:0 }
+  .title{ font-weight:600; margin-bottom:2px }
+  .close{ flex:0 0 auto; margin-left:6px; border:0; background:none; padding:0; line-height:0; cursor:pointer;
+    color:var(--aha-icon-muted,#8A8A8A); opacity:.7;
+    transition:opacity var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
+  .close:hover{ opacity:1 }
+  .alert.leaving{ opacity:0; transform:translateY(-4px) }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
+`;
+const ICON = { info: 'system-info', success: 'system-check-circle', warning: 'system-warning-circle', error: 'system-x-circle' };
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+class AhaAlert extends HTMLElement {
+  static get observedAttributes() { return ['type', 'heading', 'closable', 'hide-icon']; }
+  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
+  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
+  _render() {
+    const type = this.getAttribute('type') || 'info';
+    const heading = this.getAttribute('heading');
+    const icon = this.hasAttribute('hide-icon') ? '' : `<span class="icon"><aha-icon name="${ICON[type] || ICON.info}" size="18" decorative></aha-icon></span>`;
+    const close = this.hasAttribute('closable') ? `<button class="close" part="close" aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></button>` : '';
+    const title = heading ? `<div class="title" part="title">${esc(heading)}</div>` : '';
+    const role = (type === 'error' || type === 'warning') ? 'alert' : 'status';
+    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="alert" part="alert" role="${role}">${icon}<div class="body">${title}<div class="msg" part="message"><slot></slot></div></div>${close}</div>`;
+    const btn = this.shadowRoot.querySelector('.close');
+    if (btn) btn.addEventListener('click', () => {
+      const alert = this.shadowRoot.querySelector('.alert');
+      this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
+      const done = () => this.remove();
+      alert.addEventListener('transitionend', done, { once: true });
+      setTimeout(done, 400);
+      alert.classList.add('leaving');
+    });
+  }
+}
+customElements.define('aha-alert', AhaAlert);
+</script>

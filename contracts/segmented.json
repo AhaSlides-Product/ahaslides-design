@@ -1,0 +1,54 @@
+{
+  "name": "Segmented",
+  "slug": "segmented",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-segmented",
+  "summary": "Switch between a few mutually-exclusive options inline.",
+  "lead": "ONE custom element — <aha-segmented> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; selection slides a persistent thumb (transform on a node that is never rebuilt), so it animates. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["gray-20", "bg-container", "text-secondary", "text-default", "color-primary", "radius-default", "radius-sm", "font-product", "motion-mid", "ease-in-out", "ease-in-out-circ"],
+  "spec": [
+    { "label": "Track", "value": "gray-20 #F7F7F7, radius 8, pad 2" },
+    { "label": "Thumb", "value": "bg-container #FFFFFF, radius 6, slides on select" },
+    { "label": "Segment", "value": "h32, pad 0 16, SemiBold 600 14" },
+    { "label": "Selected", "value": "text-default #1A1A1A over the thumb" }
+  ],
+  "props": [
+    { "name": "options", "type": "string", "default": "—", "desc": "Pipe-separated labels, e.g. \"Day|Week|Month\"" },
+    { "name": "value", "type": "string", "default": "first option", "desc": "Selected option label" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the control" },
+    { "name": "change", "type": "CustomEvent<{value,index}>", "default": "—", "desc": "Composed event; read e.detail.value" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Segmented", "when": "2–4 short, mutually-exclusive views or modes that switch in place" },
+      { "what": "Tabs", "when": "navigating between larger content panels" },
+      { "what": "Select", "when": "one option from a longer list that needn't be all visible" }
+    ],
+    "note": "Keep labels to one word where possible and the option count small (2–4). It is a single-select control — for a magnitude use Rate or a Slider.",
+    "dsv3": "Track gray-20, thumb bg-container white with a soft shadow, selected label text-default. The thumb is a persistent node moved by transform via the shared motion tokens — no subtree rebuild on select."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-segmented", "registers": "aha-segmented", "exportsNamed": ["AhaSegmented", "defineAhaSegmented"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "segmented.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "segmented.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "segmented.vue.txt" }
+  ],
+  "preview": "segmented.preview.html",
+  "selfCheck": [
+    { "label": "track gray-20 · radius 8", "verdict": "PASS" },
+    { "label": "thumb white · radius 6", "verdict": "PASS" },
+    { "label": "selected text-default", "verdict": "PASS" },
+    { "label": "change emits composed value", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=Week so a selected segment exists.",
+    "ready": "!!(document.querySelector('aha-segmented[data-probe]') && document.querySelector('aha-segmented[data-probe]').shadowRoot && document.querySelector('aha-segmented[data-probe]').shadowRoot.querySelector('.seg.on'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-segmented[data-probe]');var sr=el.shadowRoot;var track=sr.querySelector('.track');var thumb=sr.querySelector('.thumb');var on=sr.querySelector('.seg.on');var t=getComputedStyle(track);return{trackBg:t.backgroundColor,trackRadius:t.borderTopLeftRadius,thumbBg:getComputedStyle(thumb).backgroundColor,onColor:getComputedStyle(on).color};})()",
+    "expect": { "trackBg": "rgb(247, 247, 247)", "trackRadius": "8px", "thumbBg": "rgb(255, 255, 255)", "onColor": "rgb(26, 26, 26)" }
+  }
+}

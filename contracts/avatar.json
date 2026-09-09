@@ -1,0 +1,54 @@
+{
+  "name": "Avatar",
+  "slug": "avatar",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-avatar",
+  "summary": "Represent a person or entity with a photo or their initials.",
+  "lead": "ONE custom element — <aha-avatar> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; shows the image from `src`, or the initials of `name` on a tinted ground. A purely static display marker, so it declares no motion. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-accent", "purple-60", "radius-pill", "radius-default", "font-product"],
+  "spec": [
+    { "label": "Size", "value": "40 default (set via `size`)" },
+    { "label": "Shape", "value": "circle (pill radius) · square (radius 8)" },
+    { "label": "Initials", "value": "bg-accent #F9F5FF, purple-60 #6A1EBB, SemiBold 600" },
+    { "label": "Image", "value": "object-fit cover, clipped to shape" }
+  ],
+  "props": [
+    { "name": "name", "type": "string", "default": "—", "desc": "Full name; initials are derived when no src" },
+    { "name": "src", "type": "string", "default": "—", "desc": "Image URL; overrides initials" },
+    { "name": "size", "type": "number", "default": "40", "desc": "Diameter in px" },
+    { "name": "shape", "type": "circle | square", "default": "circle", "desc": "Clip shape" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Avatar", "when": "identifying a person or entity — a presenter, a participant, an author" },
+      { "what": "Icon", "when": "a generic symbol, not a specific identity" },
+      { "what": "Tag", "when": "labelling with a category rather than an identity" }
+    ],
+    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials fallback if the image fails.",
+    "dsv3": "Initials ground uses bg-accent (#F9F5FF) with purple-60 (#6A1EBB) text — the brand-tint pairing already used across the system. Circle is the pill radius; square is the default 8 radius."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-avatar", "registers": "aha-avatar", "exportsNamed": ["AhaAvatar", "defineAhaAvatar"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "avatar.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "avatar.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "avatar.vue.txt" }
+  ],
+  "preview": "avatar.preview.html",
+  "selfCheck": [
+    { "label": "size 40 default", "verdict": "PASS" },
+    { "label": "circle = pill radius", "verdict": "PASS" },
+    { "label": "initials bg-accent / purple-60", "verdict": "PASS" },
+    { "label": "src renders cover image", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is the default 40px initials avatar.",
+    "ready": "!!(document.querySelector('aha-avatar[data-probe]') && document.querySelector('aha-avatar[data-probe]').shadowRoot && document.querySelector('aha-avatar[data-probe]').shadowRoot.querySelector('.avatar'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-avatar[data-probe]');var a=el.shadowRoot.querySelector('.avatar');var s=getComputedStyle(a);return{w:s.width,radius:s.borderTopLeftRadius,bg:s.backgroundColor,color:s.color};})()",
+    "expect": { "w": "40px", "radius": "999px", "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)" }
+  }
+}

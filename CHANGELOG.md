@@ -37,6 +37,84 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Progress** (`aha-progress`) — now exposes `role="progressbar"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (and `aria-valuetext`) synced to `percent`, so a quiz-timer bar is announced to assistive tech. `percent`/`status` are now `observedAttributes` with an `attributeChangedCallback` that re-syncs the ARIA state, so an external attribute change can't desync the announced value. (#40)
 - **CSAT** (`aha-csat`) — the thumbs are toggle buttons but exposed no selection state to assistive tech (only a `.selected` CSS class). They now carry `aria-pressed`, synced to `value` in `_update()`, so a screen reader announces which thumb is chosen. (#40)
 
+## 0.13.0 — 2026-09-10
+### Added
+- **Alert** (`aha-alert`, leaf) — an inline contextual banner (info / success / warning / error) with an optional bold heading and a `closable` dismiss that animates out on a persistent node and emits a composed `close`. Status glyph summoned by name from the DS icon library; tones bound to the DS V3 semantic families. Ships HTML / React / Vue. (#PRO38-8)
+- **Carousel** (`carousel-theme`, composite) — a swipeable set of slides through the shared `carouselTheme` (brand active dot, radius-8 panels), keeping antd's built-in slide motion. Ships HTML / React / Vue. (#PRO38-8)
+- **QR code** (`qr-code-theme`, composite) — a scannable code through antd's QRCode + the shared `qrCodeTheme`, ink modules on white in a 1px radius-8 DS frame. Ships HTML / React / Vue. (#PRO38-8)
+- **Toast** (`toast-theme`, composite) — antd's imperative `message` API themed once by the shared `toastTheme` (white pill, radius 8, ink text), keeping antd's enter/leave motion. Ships HTML / React / Vue. (#PRO38-8)
+- **Notification** (`notification-theme`, composite) — antd's imperative `notification` API themed by the shared `notificationTheme` (white 384-wide card, radius 8, ink title + description). Ships HTML / React / Vue. (#PRO38-8)
+- **Modal** (`modal-theme`, composite) — a focused blocking dialog through the shared `modalTheme` (white content, radius 8, ink 18/600 title), keeping antd's built-in motion. Ships HTML / React / Vue. (#PRO38-8)
+- **Drawer** (`drawer-theme`, composite) — a slide-in side panel through the shared `drawerTheme` (white panel, ink title, brand actions), keeping antd's built-in slide motion. Ships HTML / React / Vue. (#PRO38-8)
+### Fixed
+- **Toast / Notification Vue snippets** — swapped the static `message.success()` / `notification.open()` calls for ant-design-vue's `useMessage()` / `useNotification()` hooks (with the returned `contextHolder` rendered inside `<a-config-provider>`), matching the React snippets. The static calls ignored `<a-config-provider>` theming, so a consumer wrapping them in the DS theme shipped un-themed toasts/notifications on Vue. (#PRO38-8)
+- **Alert** (`aha-alert`) — the banner was hardcoded `role="alert"` (assertive) for every tone, so informational/success alerts rudely interrupted a screen reader. It now uses `role="alert"` only for `error`/`warning` and `role="status"` (polite) for `info`/`success`. (#37)
+
+## 0.12.0 — 2026-09-10
+### Added
+- `aha-card` — a bordered surface that groups related content behind a title, with an optional `hoverable` lift that animates on the shared motion tokens. Shared Lit web component, consumed unchanged by React and Vue. (#38)
+- `aha-list` — a bordered, evenly-divided column of uniform rows; each light-DOM child becomes a row and rows highlight on hover. Shared Lit web component. (#38)
+- `aha-collapse` — a single expandable panel whose `open` state animates the body height + chevron on a persistent node (no subtree rebuild, so the transition always fires). Emits a composed `toggle` event. (#38)
+- `aha-descriptions` — a read-only label/value grid summarising one entity's fields; each child supplies a row via its `label` attribute. Shared Lit web component. (#38)
+- `aha-statistic` — a single headline number with a caption, optional prefix/suffix, and an up/down trend colour. Static display marker. (#38)
+- `aha-empty` — the placeholder for a surface with no data: a line-art illustration, a caption slot, and an optional action slot. Shared Lit web component. (#38)
+- `aha-image` — a framed image with rounded corners and a hover mask that scales the picture and fades in a preview label, both on the shared motion tokens. Shared Lit web component. (#38)
+### Fixed
+- `aha-image` — the hover mask now keeps its promise: clicking (or Enter/Space on) the frame opens a real modal preview dialog (role=dialog, aria-modal, focus moved in and restored on close), dismissed by Escape, a close button, or a backdrop click. The overlay is a persistent node faded/scaled in on the shared motion tokens. (#39)
+- `aha-collapse` — `open` is now an observed attribute, so setting it as a controlled prop keeps the header's `aria-expanded` in sync with the visuals — a screen reader no longer hears a frozen state. (#39)
+
+## 0.11.0 — 2026-09-10
+### Added
+- `aha-rate` — a star rating (leaf web component) for capturing or displaying a score out of `max`. Selection and hover-preview toggle a class on persistent star nodes, so the fill animates via the shared motion tokens. (PRO38-8)
+- `aha-color-picker` — a leaf colour picker: a trigger swatch opening a persistent panel of preset colours (the brand ramp by default, overridable via `swatches`). (PRO38-8)
+- `aha-uploader` — a leaf click-or-drag file drop zone; hover and drag-over animate the persistent zone's border and tint. Emits the selected `File[]`. (PRO38-8)
+- `aha-avatar` — a leaf identity marker showing a photo (`src`) or the initials of `name` on a tinted ground, in circle or square shape. (PRO38-8)
+- `aha-popover` — a leaf click-triggered floating panel for rich content, closing on outside-click and Escape; fade + lift animate on a persistent panel. (PRO38-8)
+- `aha-tabs` — a leaf line-style tab bar over slotted panels (each child labelled via `data-tab`); active colour and underline animate on persistent tab nodes. (PRO38-8)
+- `aha-segmented` — a leaf single-choice segmented control; selection slides a persistent thumb via the shared motion tokens. (PRO38-8)
+### Fixed
+- `aha-popover` — the `document` `keydown` (Escape) listener is now removed in `disconnectedCallback`, alongside the outside-click one, so it no longer leaks across mount/unmount. (#36)
+- `aha-tabs`, `aha-segmented`, `aha-rate` — full keyboard contracts: roving tabindex, ArrowLeft/Right (and Home/End) to move and select, with `aria-selected`/`aria-checked` and (tabs) `aria-controls`/`role="tabpanel"` kept in sync with the rendered state. (#36)
+- `aha-tabs`, `aha-segmented`, `aha-rate` — now `observedAttributes:['value']` + an `attributeChangedCallback` that re-syncs the aria state, so a controlled (framework-bound) `value` no longer desyncs the announced state from the visuals. (#36)
+- `aha-color-picker` — the swatch palette is now `role="group"` (a set of labelled buttons) rather than `role="listbox"`, matching its keyboard model (each swatch a tab-stop) instead of announcing a roving widget it did not implement. (#36)
+- `aha-color-picker` — each swatch button now carries `aria-pressed`, synced to the current value in `_paint()`, so a screen reader can tell which colour is selected (previously only a `.on` CSS class changed). (#36)
+
+## 0.10.0 — 2026-09-10
+### Fixed
+- **Radio** (`aha-radio`) — implement the WAI-ARIA radiogroup keyboard contract: the host is now the accessible `role="radio"` with synced `aria-checked`, one tabbable radio per group (roving tabindex), Arrow keys move to and select the next/previous option (wrapping), and Space selects the focused option. Snippets wrap the set in a `role="radiogroup"` container. (#35)
+### Added
+- **Radio** (`aha-radio`) — shared leaf web component: a mutually-exclusive choice for a small set. Radios sharing a `name` clear their siblings on select; the inner dot scales in on the shared motion tokens on a persistent node. Importable at `@ahaslides-product/design/aha-radio`. (#38)
+- **InputNumber** (composite) — bounded numeric field with steppers, min/max, step and precision. Themed by the shared `inputNumberTheme` (`@ahaslides-product/design/input-number-theme`). (#38)
+- **Textarea** (composite) — multi-line free text with autosize and char count, on Ant's `Input.TextArea`. Themed by the shared `textareaTheme` (`@ahaslides-product/design/textarea-theme`). (#38)
+- **AutoComplete** (composite) — free-text input with type-ahead suggestions, on Ant's Select internals. Themed by the shared `autocompleteTheme` (`@ahaslides-product/design/autocomplete-theme`). (#38)
+- **TimePicker** (composite) — hour/minute/second picker on Ant's DatePicker internals, 12/24-hour and minute-step. Themed by the shared `timePickerTheme` (`@ahaslides-product/design/time-picker-theme`). (#38)
+- **Slider** (composite) — drag-to-set value/range with marks. Brand track + handle, gray-30 rail. Themed by the shared `sliderTheme` (`@ahaslides-product/design/slider-theme`). (#38)
+- **Steps** (composite) — ordered-progress indicator for wizards/onboarding, horizontal or vertical. Brand current/finished step. Themed by the shared `stepsTheme` (`@ahaslides-product/design/steps-theme`). (#38)
+
+## 0.9.1 — 2026-09-10
+### Fixed
+- In-app navigation now renders live demos without a reload. A demo page registers its `<aha-*>` element from a `<script type="module">` that lives inside `<main>`, and a script moved into the page via `DOMParser`/`replaceWith` never executes — so after a swap the destination element was never defined and its demos stayed blank until a full reload (the `0.8.1` regression). The swap now re-creates and runs the swapped-in `<main>`'s scripts (after `pushState`, so relative `import`s resolve), with a one-time idempotent shim on `customElements.define` so re-registering an already-defined element on revisit is a safe no-op instead of an "already defined" throw. (#43)
+
+## 0.9.0 — 2026-09-10
+### Added
+- **Divider** — a thin separator: a full-width rule, an optional centred/left/right label, or a vertical hairline; `dashed` variant. Shared Lit leaf, bound to the `border`/`text-secondary` tokens. (PRO38-8)
+- **Flex** — a flexbox container with the DS gap scale baked into `gap` (small/middle/large = 8/16/24, or a raw px), plus direction/align/justify/wrap. Shared Lit leaf, layout-only. (PRO38-8)
+- **Grid** — a CSS-grid container: a fixed `columns` count or a responsive `min` auto-fit, with the DS `gap` scale. Shared Lit leaf, layout-only. (PRO38-8)
+- **Space** — an even, DS-scale gap between a small inline set of items (`size` small/middle/large or a raw px), row or vertical. Shared Lit leaf, layout-only. (PRO38-8)
+- **Breadcrumb** — an ancestor trail ending in the current page; links animate on hover via the motion tokens, the separator is the DS `system-caret-right` glyph, and it emits a composed `navigate` event. Shared Lit leaf. (PRO38-8)
+- **Dropdown** — a trigger that reveals a floating action list; open/close animates on a persistent panel via the motion tokens, the caret rotates, and it closes on outside-click/Escape, emitting a composed `select`. Shared Lit leaf. (PRO38-8)
+- **Menu** — a vertical list of selectable options; the selected row is brand-tinted and hover/selection animate on persistent nodes (a class toggle, never a rebuild), emitting a composed `select`. Shared Lit leaf. (PRO38-8)
+- **Pagination** — prev / numbered pages with ellipsis / next; the current page is brand-filled, hover animates via the motion tokens, prev/next use the DS caret glyphs, and it emits a composed `change`. Shared Lit leaf. (PRO38-8)
+### Fixed
+- **Breadcrumb** — a link click now calls `preventDefault()` before emitting `navigate`, so a real `<a href>` no longer races the SPA event with a native full-page reload; the trail renders as a semantic `<ol>`/`<li>` with `aria-current="page"` on the current item. (PRO38-8)
+- **Menu** / **Dropdown** — implemented the full `role="menu"` keyboard contract: roving `tabindex`, arrow-key focus movement, Home/End, Enter/Space to activate, Escape to close and return focus to the trigger (Dropdown), and `aria-checked` (Menu) / `aria-expanded` kept in sync with state. (PRO38-8)
+
+## 0.8.1 — 2026-09-10
+### Changed
+- Docs site now navigates in-app: clicking a sidebar/top-nav/card link fetches the target and swaps only the `<main>` pane instead of doing a full page reload, so the header and left nav (and its scroll position) stay put — no white flash, no scroll reset. Same-area moves keep the sidebar node and just re-tint the active item; switching area swaps the sidebar too. Progressive enhancement: `pushState` + `fetch` with a thin top progress bar (animated via `transform`, not layout), `popstate`/back-forward support, `#anchor`-aware scroll, and a hard fallback to a normal page load if the fetch fails or the browser lacks the APIs. Respects `prefers-reduced-motion`. (#42)
+- Docs perf: in-app navigation now prefetches a page on link hover/focus (cached, deduped) so the click swaps instantly. (#42)
+- Docs readability: prose measure tightened from 82ch to 72ch (closer to the ideal reading line length) and the page title snapped from an off-scale 30px to 32px on the DS V3 heading scale. (#42)
+
 ## 0.8.0 — 2026-09-10
 ### Added
 - Accessibility is now gated. `qa.mjs` proves a component renders + animates but nothing about its a11y, so interactive components could ship gate-green yet be unusable by keyboard/screen-reader (PRO38-8 review). `standards.mjs` now scans element source and **hard-fails a new component** on: a **roving-widget role** (`radio`/`tab`/`menuitem`/`option`/…) declared with no arrow-key navigation; a **`document`/`window` listener** added on connect with no matching `removeEventListener` on disconnect (a mount/unmount leak); and a dynamic **`aria-*` state** set imperatively without `observedAttributes` (so an external attribute change desyncs the announced state — the controlled-`collapse` case). It also flags a **static imperative overlay** in a snippet (`message.success()`/`notification.open()`/`Modal.confirm()`) that renders outside `ConfigProvider` un-themed — use the `useMessage`/`useNotification`/`useModal` hook. Per-line opt-out `ds-lint-allow: a11y (why)`; `A11Y_DEBT` grandfathers pre-gate debt (empty today — the gate is fully hard). (#41)

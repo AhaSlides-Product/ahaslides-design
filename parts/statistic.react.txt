@@ -1,0 +1,10 @@
+import '@ahaslides-product/design/aha-statistic';   // registers <aha-statistic>
+
+// The custom element renders its own shadow DOM; React just passes attributes.
+function Kpi({ label, value, suffix, trend }) {
+  return <aha-statistic label={label} value={value} suffix={suffix} {...(trend ? { trend } : {})} />;
+}
+
+// usage
+<Kpi label="Active players" value="1,284" suffix="live" />
+<Kpi label="Response rate" value="92" suffix="%" trend="up" />
