@@ -11,7 +11,7 @@
 </div>
 
 <script type="module">
-import '../../lib/aha-paywall.js';   // the real shipped element — no mirror
+import '../lib/aha-paywall.js';   // the real shipped element (dist/lib) — no mirror
 document.querySelector('aha-paywall').addEventListener('paywall-upgrade', (e) => {
   e.preventDefault();   // demo: don't navigate away from the docs
 });

@@ -17,7 +17,7 @@
  *   dist/<slug>/<slug>.agent.json machine feed (props + tokens + spec + opinion + both snippets)
  *   dist/<slug>.llms.txt          the component's llms entry
  */
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync, cpSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -1128,6 +1128,13 @@ writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tok
 writeFileSync(join(root, 'lib', 'tokens.js'),
   '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
   'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\nexport default tokens;\n');
+
+/* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
+   ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
+   GitHub Pages under the project path. Without this, lib/ isn't deployed and every
+   live preview 404s its import. Single source: the preview runs the real element. */
+cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
+
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
