@@ -12,6 +12,11 @@ on:
   push:
     branches: [master]
 
+# The gate only checks out the repo and runs node scripts — it needs no write scope.
+# Restrict GITHUB_TOKEN to read-only (CodeQL hardening).
+permissions:
+  contents: read
+
 jobs:
   standards:
     name: component standards gate
