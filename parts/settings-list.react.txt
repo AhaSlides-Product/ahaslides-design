@@ -2,8 +2,10 @@ import { useEffect, useRef } from 'react';
 import '@ahaslides-product/design/aha-settings-list';   // registers <aha-settings-list> + <aha-settings-item>
 import '@ahaslides-product/design/aha-switch';          // reused as schema controls
 import '@ahaslides-product/design/aha-input';
+import '@ahaslides-product/design/aha-paywall';         // reused for a plan-gated (locked) row
 
 // Schema-driven — set the schema property (an object) and listen for the change event.
+// A row can be disabled (dimmed) or locked (visible-but-gated → the shared Paywall crown).
 function DeckSettings() {
   const ref = useRef(null);
   useEffect(() => {
@@ -13,6 +15,8 @@ function DeckSettings() {
         { key: 'progressBar', label: 'Progress bar', control: { type: 'switch', checked: true } },
         { key: 'leaderboard', label: 'Leaderboard', description: 'Shown between slides.', control: { type: 'switch' } },
         { key: 'deckTitle', label: 'Deck title', control: { type: 'input', value: 'Untitled' } },
+        { key: 'timer', label: 'Question timer', disabled: true, control: { type: 'switch' } },
+        { key: 'branding', label: 'Custom branding', locked: true, plan: 'pro', feature: 'Custom branding' },
       ] }],
     };
     const onChange = (e) => console.log(e.detail); // { key, value, name }

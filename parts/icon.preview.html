@@ -1,13 +1,21 @@
-<!-- The shared runtime: the icon registry (imported from Figma DS V3) + the <aha-icon> element.
-     Loaded from the generated icon library so the doc renders the REAL glyphs, by name. -->
-<script src="../icons/registry.js"></script>
-<script src="../icons/aha-icon.js"></script>
+<!-- Imports the REAL shipped runtime (../lib/icons.js → registers <aha-icon> + the DS registry).
+     No inlined element copy, so the doc renders the exact glyphs consumers get, called BY NAME.
+     The playground control bar (Size / Glyph) is generated from contracts/icon.json → playground
+     and drives the [data-pg-target] probe's size/name attributes live. -->
+<script type="module">
+  import '../lib/icons.js';   // registers <aha-icon> + exposes window.AHA_ICONS via the smart widget below
+</script>
 
 <div class="pad">
-  <div class="lbl">Size scale · 12 · 16 · 24 · 32 (the only sanctioned sizes)</div>
+  <div class="lbl">Smart widget · one live <code>&lt;aha-icon&gt;</code> — the Size / Glyph controls below drive it</div>
+  <div class="row" style="justify-content:center;padding:14px 0;color:var(--aha-icon-default,#4B4B4B)">
+    <aha-icon data-pg-target name="system-bell" size="32" label="Notifications"></aha-icon>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Size scale · 12 · 16 · 24 · 32 (the only sanctioned sizes)</div>
   <div class="row" style="align-items:flex-end;gap:34px">
     <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="12"></aha-icon><small class="cap">12</small></div>
-    <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="16" data-probe="16"></aha-icon><small class="cap">16</small></div>
+    <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="16"></aha-icon><small class="cap">16</small></div>
     <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="24"></aha-icon><small class="cap">24</small></div>
     <div class="stack" style="align-items:center"><aha-icon name="system-gear" size="32"></aha-icon><small class="cap">32</small></div>
   </div>
@@ -72,8 +80,13 @@
     <aha-icon name="filetype-survey" size="24" label="Survey"></aha-icon>
   </div>
 
-  <!-- conformance probe: a stroke glyph at 24, inheriting a known colour, proves currentColor theming -->
-  <div style="color:rgb(106,30,187);position:absolute;left:-9999px" aria-hidden="true"><aha-icon name="system-bell" size="24" data-probe="24"></aha-icon></div>
+  <!-- conformance probes: a stroke glyph at 24 + 16, wrapped in a known colour, proves both
+       promises — the requested size becomes the rendered box, and the stroke inherits currentColor.
+       Kept distinct from the playground probe (which carries data-pg-target). -->
+  <div style="color:rgb(106,30,187);position:absolute;left:-9999px" aria-hidden="true">
+    <aha-icon name="system-bell" size="24" data-probe="24"></aha-icon>
+    <aha-icon name="system-bell" size="16" data-probe="16"></aha-icon>
+  </div>
 
   <div class="note" style="margin-top:20px">
     Every glyph is called by <code>name</code> from the shared registry — <b id="reg-count">…</b> icons imported from Figma Design System V3, no inline SVG at the call site. Browse and copy any name in the <a href="../icons/index.html">Icon library →</a>. Size derives the paired stroke; colour follows <code>currentColor</code>; icon-only buttons carry an <code>aria-label</code>.
@@ -87,6 +100,9 @@
   .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;color:var(--aha-icon-default,#4B4B4B);background:transparent;border:1px solid var(--aha-split,#E3E3E3);border-radius:8px;cursor:pointer}
   .icon-btn:hover{background:var(--aha-purple-10,#F3EAFF);color:var(--aha-color-primary,#6A1EBB)}
 </style>
-<script>
-  (function(){ var set=function(){ if(window.AHA_ICONS){ var c=document.getElementById('reg-count'); if(c) c.textContent=Object.keys(window.AHA_ICONS).length; } else setTimeout(set,30); }; set(); })();
+<script type="module">
+  // Expose the imported registry for the doc's count + the conformance `ready` gate (window.AHA_ICONS).
+  import { icons } from '../lib/icons.js';
+  window.AHA_ICONS = icons;
+  (function(){ var c=document.getElementById('reg-count'); if(c) c.textContent=Object.keys(icons).length; })();
 </script>

@@ -4,6 +4,7 @@
   import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-paywall.js';   // registers <aha-paywall>
 </script>
 
+<!-- Pro gate — the affordance is the anchor -->
 <aha-paywall
   feature-key="custom_survey_url"
   feature-label="Custom survey URL"
@@ -12,8 +13,18 @@
   <button>Custom URL</button>   <!-- the gated affordance (omit for a crown-badge anchor) -->
 </aha-paywall>
 
+<!-- Essential gate, hover-triggered, no natural anchor → the crown badge IS the anchor -->
+<aha-paywall
+  feature-key="export_results"
+  feature-label="Export results"
+  body="Download every response as a CSV or PDF."
+  required-plan="essential"
+  trigger="hover"></aha-paywall>
+
 <script>
-  // analytics contract — the app wires these to its tracker
-  document.querySelector('aha-paywall').addEventListener('paywall-shown', (e) => console.log('PAYWALL_SHOWN', e.detail));
-  document.querySelector('aha-paywall').addEventListener('paywall-upgrade', (e) => console.log('PAYWALL_UPGRADE_CLICKED', e.detail));
+  // analytics contract — the app wires these to its tracker (fires for every paywall)
+  document.querySelectorAll('aha-paywall').forEach((el) => {
+    el.addEventListener('paywall-shown', (e) => console.log('PAYWALL_SHOWN', e.detail));
+    el.addEventListener('paywall-upgrade', (e) => console.log('PAYWALL_UPGRADE_CLICKED', e.detail));
+  });
 </script>

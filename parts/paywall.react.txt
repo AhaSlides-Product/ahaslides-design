@@ -12,13 +12,23 @@ export function CustomUrlSetting() {
     el.addEventListener('paywall-upgrade', track('PAYWALL_UPGRADE_CLICKED'));
   }, []);
   return (
-    <aha-paywall
-      ref={ref}
-      feature-key="custom_survey_url"
-      feature-label="Custom survey URL"
-      body="Give your survey a branded, memorable link."
-      required-plan="pro">
-      <button>Custom URL</button>
-    </aha-paywall>
+    <>
+      {/* Pro gate — the affordance is the anchor */}
+      <aha-paywall
+        ref={ref}
+        feature-key="custom_survey_url"
+        feature-label="Custom survey URL"
+        body="Give your survey a branded, memorable link."
+        required-plan="pro">
+        <button>Custom URL</button>
+      </aha-paywall>
+
+      {/* Essential gate, no natural anchor → the crown badge is the anchor */}
+      <aha-paywall
+        feature-key="export_results"
+        feature-label="Export results"
+        body="Download every response as a CSV or PDF."
+        required-plan="essential" />
+    </>
   );
 }

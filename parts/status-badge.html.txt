@@ -11,4 +11,6 @@
   <aha-status-badge status="published">Published</aha-status-badge>
   <aha-status-badge status="closed">Closed</aha-status-badge>
   <aha-status-badge status="archived">Archived</aha-status-badge>
+  <aha-status-badge status="active">Active</aha-status-badge>
+  <aha-status-badge status="inactive">Inactive</aha-status-badge>
 </div>

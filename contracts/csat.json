@@ -8,18 +8,20 @@
   "summary": "The shared thumbs up/down satisfaction prompt — the one CSAT control, not a bespoke rating.",
   "lead": "ONE custom element — <aha-csat> — the reusable form of the feedback pattern's CSAT rule. A binary thumbs-up/down prompt with a required `source` for typo-proof analytics segmentation; it emits a composed `rate` event. Shadow-DOM CSS, themed only by --aha-* tokens; the thumbs are the shared <aha-icon> BY NAME and the selected/hover states animate on PERSISTENT button nodes (class toggle, no rebuild). Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for the `rate` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["text-secondary", "border", "border-hover", "bg-container", "icon-muted", "color-primary", "radius-default"],
+  "tokensUsed": ["text-secondary", "border", "border-hover", "bg-container", "icon-muted", "color-primary", "color-success", "radius-default"],
   "spec": [
     { "label": "Buttons", "value": "40×40 · radius 8 · 1px #E3E3E3 border" },
     { "label": "Rest", "value": "icon #8A8A8A on white" },
     { "label": "Hover", "value": "scale 1.08 · border #D3B4FF · icon primary (motion tokens)" },
-    { "label": "Selected", "value": "border + icon primary #6A1EBB" },
+    { "label": "Selected", "value": "border + icon primary #6A1EBB · aria-pressed synced" },
+    { "label": "Thank-you", "value": "opt-in `thanks` — check + success #16C49A line fades in once rated (motion tokens)" },
     { "label": "Event", "value": "`rate` → { rating: 'up' | 'down', source }" }
   ],
   "props": [
     { "name": "prompt", "type": "string", "default": "—", "desc": "Optional question shown before the thumbs" },
     { "name": "source", "type": "string", "default": "—", "desc": "Stable placement token for analytics — passed in the rate event" },
-    { "name": "value", "type": "up | down", "default": "—", "desc": "The current rating (also reflects a click)" }
+    { "name": "value", "type": "up | down", "default": "—", "desc": "The current rating (also reflects a click); syncs the selected thumb's aria-pressed" },
+    { "name": "thanks", "type": "string", "default": "—", "desc": "Opt-in thank-you line — shown (role=status) once rated; fades in on a persistent node" }
   ],
   "opinion": {
     "whenToUse": [
@@ -38,17 +40,27 @@
     { "key": "vue", "label": "Vue 3", "file": "csat.vue.txt" }
   ],
   "preview": "csat.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "value", "label": "State", "default": "up", "options": [
+        { "label": "Unrated", "value": null },
+        { "label": "Thumbs up selected", "value": "up" },
+        { "label": "Thumbs down selected", "value": "down" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "buttons 40 · radius 8 · #E3E3E3", "verdict": "PASS" },
     { "label": "hover scales + recolours (motion tokens)", "verdict": "PASS" },
-    { "label": "selected primary #6A1EBB", "verdict": "PASS" },
+    { "label": "selected primary #6A1EBB · aria-pressed synced", "verdict": "PASS" },
+    { "label": "thank-you line fades in once rated (opt-in)", "verdict": "PASS" },
     { "label": "emits rate with source", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is pre-rated (value='up') so the selected colour is measurable.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is pre-rated (value='up') so the selected colour + the aria-pressed a11y contract are measurable.",
     "ready": "!!(document.querySelector('aha-csat[data-probe]') && document.querySelector('aha-csat[data-probe]').shadowRoot && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('.up'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var b=r&&r.querySelector('.btn');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;return{promptColor:sp?sp.color:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null};})()",
-    "expect": { "promptColor": "rgb(74, 74, 74)", "upColor": "rgb(106, 30, 187)", "btnWidth": "40px", "btnHeight": "40px" }
+    "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var d=r&&r.querySelector('.down');var b=r&&r.querySelector('.btn');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;return{promptColor:sp?sp.color:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null,upPressed:u?u.getAttribute('aria-pressed'):null,downPressed:d?d.getAttribute('aria-pressed'):null};})()",
+    "expect": { "promptColor": "rgb(74, 74, 74)", "upColor": "rgb(106, 30, 187)", "btnWidth": "40px", "btnHeight": "40px", "upPressed": "true", "downPressed": "false" }
   }
 }
