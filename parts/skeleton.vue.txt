@@ -1,0 +1,14 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-skeleton';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const loading = ref(true);
+</script>
+
+<template>
+  <aha-skeleton v-if="loading" variant="title" />
+  <CardTitle v-else>{{ title }}</CardTitle>
+</template>

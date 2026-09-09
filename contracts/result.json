@@ -1,0 +1,54 @@
+{
+  "name": "Result",
+  "slug": "result",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-result",
+  "summary": "A full-block outcome state — success, error, info, warning or 404 — with an icon, title and actions.",
+  "lead": "ONE custom element — <aha-result> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `status` picks the DS glyph and colour, `result-title` / `subtitle` carry the message, and a `slot=\"extra\"` holds follow-up buttons. The status glyph is the shared <aha-icon> BY NAME — never an inline <svg>. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["color-primary", "color-success", "color-error", "color-warning", "color-info", "text-default", "text-tertiary"],
+  "spec": [
+    { "label": "Icon", "value": "48px DS glyph, coloured by status" },
+    { "label": "Success", "value": "check-circle · #16C49A" },
+    { "label": "Error", "value": "x-circle · #F5222D" },
+    { "label": "Title", "value": "24/32 SemiBold #1A1A1A, centred" },
+    { "label": "Subtitle", "value": "14/21 Regular #8A8A8A" }
+  ],
+  "props": [
+    { "name": "status", "type": "success | error | info | warning | 404", "default": "info", "desc": "Outcome — picks the glyph and colour" },
+    { "name": "result-title", "type": "string", "default": "—", "desc": "The headline message" },
+    { "name": "subtitle", "type": "string", "default": "—", "desc": "Optional supporting line under the title" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Result", "when": "a full-block outcome after an operation or a not-found/empty route (with a next action)" },
+      { "what": "Alert", "when": "an inline, in-context banner that stays in the layout (feedback pattern)" },
+      { "what": "Toast", "when": "a transient, auto-dismissing confirmation" }
+    ],
+    "note": "Reserve Result for a whole-region outcome — lead with the glyph + a clear title, keep the subtitle to one line, and give a primary next action in slot=\"extra\". For an in-context message use an Alert; for a transient confirmation use a Toast.",
+    "dsv3": "COVERED — DS V3 has no measured Result cell; spec derived from the token layer (status colours color-success/error/warning/info) + the DS icon library (check-circle, x-circle, warning-circle, info) and antd Result conventions. A deliberate, documented extension."
+  },
+  "surfaces": ["editor", "dashboard", "audience"],
+  "reuse": { "entry": "./aha-result", "registers": "aha-result", "exportsNamed": ["AhaResult", "defineAhaResult"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "result.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "result.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "result.vue.txt" }
+  ],
+  "preview": "result.preview.html",
+  "selfCheck": [
+    { "label": "48px status glyph from DS icons", "verdict": "PASS" },
+    { "label": "success #16C49A · error #F5222D", "verdict": "PASS" },
+    { "label": "title 24/32 #1A1A1A", "verdict": "PASS" },
+    { "label": "slot=extra holds actions", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-result[data-probe]') && document.querySelector('aha-result[data-probe]').shadowRoot && document.querySelector('aha-result[data-probe]').shadowRoot.querySelector('.title'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-result[data-probe]');var r=el&&el.shadowRoot;var ic=r&&r.querySelector('.icon');var t=r&&r.querySelector('.title');var s=r&&r.querySelector('.subtitle');var sc=ic?getComputedStyle(ic):null;var tc=t?getComputedStyle(t):null;var ss=s?getComputedStyle(s):null;return{iconColor:sc?sc.color:null,titleColor:tc?tc.color:null,titleSize:tc?tc.fontSize:null,subtitleColor:ss?ss.color:null};})()",
+    "expect": { "iconColor": "rgb(22, 196, 154)", "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "subtitleColor": "rgb(138, 138, 138)" }
+  }
+}

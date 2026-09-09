@@ -21,6 +21,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.14.0 — 2026-09-10
+### Added
+- **Progress** (`aha-progress`) — a determinate line bar; a persistent fill node animates its width on the motion tokens, `status` recolours it (success/warning/error). Import `@ahaslides-product/design/aha-progress`.
+- **Result** (`aha-result`) — a full-block outcome state (success/error/info/warning/404) with a DS `<aha-icon>` glyph, title, subtitle and a `slot="extra"` for actions. Import `@ahaslides-product/design/aha-result`.
+- **Skeleton** (`aha-skeleton`) — a loading placeholder (text/title/button/avatar) with an opacity-pulse shimmer (no gradient fill). Import `@ahaslides-product/design/aha-skeleton`.
+- **Spin** (`aha-spin`) — a brand-coloured pure-CSS loading spinner (small/default/large) with an optional tip. Import `@ahaslides-product/design/aha-spin`.
+- **Status badge** (`aha-status-badge`) — the reusable form of the status-badges pattern: a lifecycle pill (draft/published/closed/archived) with a coloured dot plus a text label and `role="status"`. Import `@ahaslides-product/design/aha-status-badge`.
+- **CSAT** (`aha-csat`) — the shared binary thumbs-up/down satisfaction prompt from the feedback pattern; emits a `rate` event with a stable `source`, thumbs from the DS icon library. Import `@ahaslides-product/design/aha-csat`.
+- **Settings list** (`aha-settings-list` + `aha-settings-item`) — the reusable form of the settings pattern: spacing-only rows (label left, control right) that compose existing DS controls via a `control` slot; no divider lines or boxes. Import `@ahaslides-product/design/aha-settings-list`.
+- **Popconfirm** (`popconfirmTheme`) — the composite inline-confirmation popover: a shared antd v6 / ant-design-vue theme (radius-8 popover, primary confirm, #E3E3E3 cancel border). Import `@ahaslides-product/design/popconfirm-theme`.
+### Changed
+- **Settings list** (`aha-settings-list`) — built out into a schema-driven settings surface. Set `.schema` (`{ sections:[{ label, description?, rows:[{ key, label, description?, control }] }] }`) and it renders the rows, instantiating each `control` from an existing DS element (`aha-switch` / `aha-checkbox` / `aha-input` …) and emitting a `change` event `{ key, value, name }`. The by-hand slot form is unchanged. (#40)
+### Fixed
+- **Progress** (`aha-progress`) — now exposes `role="progressbar"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (and `aria-valuetext`) synced to `percent`, so a quiz-timer bar is announced to assistive tech. `percent`/`status` are now `observedAttributes` with an `attributeChangedCallback` that re-syncs the ARIA state, so an external attribute change can't desync the announced value. (#40)
+- **CSAT** (`aha-csat`) — the thumbs are toggle buttons but exposed no selection state to assistive tech (only a `.selected` CSS class). They now carry `aria-pressed`, synced to `value` in `_update()`, so a screen reader announces which thumb is chosen. (#40)
+
 ## 0.13.0 — 2026-09-10
 ### Added
 - **Alert** (`aha-alert`, leaf) — an inline contextual banner (info / success / warning / error) with an optional bold heading and a `closable` dismiss that animates out on a persistent node and emits a composed `close`. Status glyph summoned by name from the DS icon library; tones bound to the DS V3 semantic families. Ships HTML / React / Vue. (#PRO38-8)

@@ -1,0 +1,9 @@
+import '@ahaslides-product/design/aha-spin';   // registers <aha-spin>
+
+// Attributes only — no events — so React 18/19 can render the element directly.
+function AhaSpin({ size, tip }) {
+  return <aha-spin size={size} tip={tip} />;
+}
+
+// usage — wrap a waiting region
+{loading ? <AhaSpin tip="Loading results…" /> : <Results data={data} />}

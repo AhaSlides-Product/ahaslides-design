@@ -1,0 +1,52 @@
+{
+  "name": "Spin",
+  "slug": "spin",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-spin",
+  "summary": "A brand-coloured spinner for an indeterminate wait — loading a page, a panel, or results.",
+  "lead": "ONE custom element — <aha-spin> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the ring is a pure-CSS rotation (no inline <svg>, no icon), so it never blocks on the registry. `size` scales it (small/default/large) and `tip` adds a caption. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["color-primary", "purple-20", "text-secondary"],
+  "spec": [
+    { "label": "Ring", "value": "20×20 · 2px · track purple-20, head primary #6A1EBB" },
+    { "label": "Sizes", "value": "small 14 · default 20 · large 32" },
+    { "label": "Motion", "value": "rotate 0.9s linear infinite (respects reduced-motion)" },
+    { "label": "Tip", "value": "optional caption below, text-secondary" }
+  ],
+  "props": [
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Spinner diameter" },
+    { "name": "tip", "type": "string", "default": "—", "desc": "Optional caption shown under the ring" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Spin", "when": "an indeterminate wait with no measurable percentage" },
+      { "what": "Progress", "when": "you can measure completion (a percentage)" },
+      { "what": "Skeleton", "when": "you want to hold the shape of the content that is loading" }
+    ],
+    "note": "Reach for Spin only when you cannot show a percentage or hold the layout. Keep one spinner per waiting region; pair it with a short tip for waits over ~1s.",
+    "dsv3": "COVERED — DS V3 has no measured Spin cell; spec derived from the token layer (head color-primary, track purple-20) and antd Spin conventions (rotating ring, small/default/large). A deliberate, documented extension."
+  },
+  "surfaces": ["editor", "dashboard", "audience"],
+  "reuse": { "entry": "./aha-spin", "registers": "aha-spin", "exportsNamed": ["AhaSpin", "defineAhaSpin"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "spin.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "spin.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "spin.vue.txt" }
+  ],
+  "preview": "spin.preview.html",
+  "selfCheck": [
+    { "label": "ring 20×20 · 2px", "verdict": "PASS" },
+    { "label": "head primary #6A1EBB", "verdict": "PASS" },
+    { "label": "track purple-20", "verdict": "PASS" },
+    { "label": "rotates continuously", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-spin[data-probe]') && document.querySelector('aha-spin[data-probe]').shadowRoot && document.querySelector('aha-spin[data-probe]').shadowRoot.querySelector('.spinner'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-spin[data-probe]');var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('.spinner');var c=s?getComputedStyle(s):null;return{head:c?c.borderTopColor:null,width:c?c.width:null,height:c?c.height:null,ring:c?c.borderTopWidth:null};})()",
+    "expect": { "head": "rgb(106, 30, 187)", "width": "20px", "height": "20px", "ring": "2px" }
+  }
+}

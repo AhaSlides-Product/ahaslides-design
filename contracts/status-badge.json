@@ -1,0 +1,52 @@
+{
+  "name": "Status badge",
+  "slug": "status-badge",
+  "group": "AhaSlides surfaces",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-status-badge",
+  "summary": "A glanceable lifecycle pill for a domain object — draft, published, closed, archived.",
+  "lead": "ONE custom element — <aha-status-badge> — the reusable form of the status-badges pattern. A coloured dot plus a text label (state is never conveyed by colour alone), `status` drives the colour via CSS on a persistent node, and the label is your slotted text. Shadow-DOM CSS, themed only by --aha-* tokens; carries role=\"status\" for screen readers. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["gray-20", "gray-25", "gray-60", "gray-70", "text-secondary", "text-tertiary", "text-positive", "text-warning", "bg-positive", "bg-warning", "color-success", "color-warning", "radius-pill"],
+  "spec": [
+    { "label": "Shape", "value": "height 22 · radius pill · dot 6 + label" },
+    { "label": "Draft", "value": "neutral #F7F7F7 · dot #B5B5B5" },
+    { "label": "Published", "value": "positive #D8FAEF / #13A181 · dot #16C49A" },
+    { "label": "Closed", "value": "warning #FFF5F0 / #E65B29 · dot #FF7747" },
+    { "label": "Archived", "value": "muted #F3F3F3 / #8A8A8A" }
+  ],
+  "props": [
+    { "name": "status", "type": "draft | published | closed | archived", "default": "draft", "desc": "The lifecycle state — drives the pill and dot colour" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Status badge", "when": "reflecting a value from a known status enum (a survey/presentation/collector's lifecycle state)" },
+      { "what": "Tag", "when": "a free-form label, keyword or category chip" },
+      { "what": "Badge", "when": "a count or a bare notification dot" }
+    ],
+    "note": "Use only for a value from a real status enum — not free-form labels, counts, or notification dots (those are Tag / Badge). Always keep the text label; the dot colour is decorative and never the sole signal.",
+    "dsv3": "COVERED — this is the reusable component form of the status-badges pattern (parts/status-badges.guide.md): dot + text label, colour by state, role=\"status\". Colours map to the semantic token layer (positive/warning + neutral greys). A deliberate, documented AhaSlides surface."
+  },
+  "surfaces": ["dashboard", "editor", "settings"],
+  "reuse": { "entry": "./aha-status-badge", "registers": "aha-status-badge", "exportsNamed": ["AhaStatusBadge", "defineAhaStatusBadge"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "status-badge.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "status-badge.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "status-badge.vue.txt" }
+  ],
+  "preview": "status-badge.preview.html",
+  "selfCheck": [
+    { "label": "dot + text label (never colour alone)", "verdict": "PASS" },
+    { "label": "published positive #13A181", "verdict": "PASS" },
+    { "label": "height 22 · radius pill", "verdict": "PASS" },
+    { "label": "role=status announced", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-status-badge[data-probe]') && document.querySelector('aha-status-badge[data-probe]').shadowRoot && document.querySelector('aha-status-badge[data-probe]').shadowRoot.querySelector('.pill'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-status-badge[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.pill');var d=r&&r.querySelector('.dot');var sp=p?getComputedStyle(p):null;var sd=d?getComputedStyle(d):null;return{pillBg:sp?sp.backgroundColor:null,pillColor:sp?sp.color:null,dotBg:sd?sd.backgroundColor:null,height:sp?sp.height:null,radius:sp?sp.borderTopLeftRadius:null};})()",
+    "expect": { "pillBg": "rgb(216, 250, 239)", "pillColor": "rgb(19, 161, 129)", "dotBg": "rgb(22, 196, 154)", "height": "22px", "radius": "999px" }
+  }
+}

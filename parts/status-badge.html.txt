@@ -1,0 +1,14 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-status-badge> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-status-badge.js';   // registers <aha-status-badge>
+</script>
+
+<div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+  <aha-status-badge status="draft">Draft</aha-status-badge>
+  <aha-status-badge status="published">Published</aha-status-badge>
+  <aha-status-badge status="closed">Closed</aha-status-badge>
+  <aha-status-badge status="archived">Archived</aha-status-badge>
+</div>

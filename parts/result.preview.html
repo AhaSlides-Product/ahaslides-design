@@ -1,0 +1,15 @@
+<div class="pad">
+  <div class="lbl">Outcome state · success (with an action) · error</div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center">
+    <aha-result data-probe status="success" result-title="Presentation published" subtitle="Share the join link with your audience.">
+      <button slot="extra" style="height:32px;padding:0 16px;border:0;border-radius:8px;background:var(--aha-color-primary);color:#fff;font:600 14px var(--aha-font-product);cursor:pointer">Copy join link</button>
+    </aha-result>
+    <aha-result status="error" result-title="Upload failed" subtitle="The file was larger than 10 MB."></aha-result>
+  </div>
+</div>
+
+<!-- Renders the REAL shipped element from dist/lib (no mirror) so the preview never drifts.
+     Importing aha-result also registers <aha-icon> + loads the icon registry. -->
+<script type="module">
+  import '../lib/aha-result.js';   // registers <aha-result> (+ <aha-icon>)
+</script>

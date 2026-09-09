@@ -1,0 +1,14 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-status-badge';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { useI18n } from 'vue-i18n';   // label comes from i18n, never a hardcoded string
+const { t } = useI18n();
+defineProps({ status: String });
+</script>
+
+<template>
+  <aha-status-badge :status="status">{{ t(`survey_status.${status}`) }}</aha-status-badge>
+</template>

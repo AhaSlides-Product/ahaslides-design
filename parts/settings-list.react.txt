@@ -1,0 +1,30 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-settings-list';   // registers <aha-settings-list> + <aha-settings-item>
+import '@ahaslides-product/design/aha-switch';          // reused as schema controls
+import '@ahaslides-product/design/aha-input';
+
+// Schema-driven — set the schema property (an object) and listen for the change event.
+function DeckSettings() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    el.schema = {
+      sections: [{ label: 'Presentation', rows: [
+        { key: 'progressBar', label: 'Progress bar', control: { type: 'switch', checked: true } },
+        { key: 'leaderboard', label: 'Leaderboard', description: 'Shown between slides.', control: { type: 'switch' } },
+        { key: 'deckTitle', label: 'Deck title', control: { type: 'input', value: 'Untitled' } },
+      ] }],
+    };
+    const onChange = (e) => console.log(e.detail); // { key, value, name }
+    el.addEventListener('change', onChange);
+    return () => el.removeEventListener('change', onChange);
+  }, []);
+  return <aha-settings-list ref={ref} />;
+}
+
+// Or compose by hand with the slot form — name = noun phrase (no leading verb).
+<aha-settings-list label="Audience">
+  <aha-settings-item label="Anonymous join">
+    <aha-switch slot="control" checked />
+  </aha-settings-item>
+</aha-settings-list>

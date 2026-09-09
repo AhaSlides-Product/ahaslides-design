@@ -1,0 +1,30 @@
+<div class="pad">
+  <div class="lbl">Slot form · label left, control right · spacing-only</div>
+  <aha-settings-list label="Presentation" style="max-width:360px; display:block">
+    <aha-settings-item data-probe label="Progress bar" description="Shown along the top while presenting.">
+      <aha-switch slot="control" checked></aha-switch>
+    </aha-settings-item>
+    <aha-settings-item label="Leaderboard">
+      <aha-switch slot="control"></aha-switch>
+    </aha-settings-item>
+  </aha-settings-list>
+
+  <div class="lbl" style="margin-top:24px">Schema-driven · rows rendered from a schema, reusing DS controls</div>
+  <aha-settings-list id="schema-demo" style="max-width:360px; display:block"></aha-settings-list>
+</div>
+
+<!-- Renders the REAL shipped elements from dist/lib (no mirror) so the preview never drifts. -->
+<script type="module">
+  import '../lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item>
+  import '../lib/aha-switch.js';          // reused as a control (slot + schema)
+  import '../lib/aha-input.js';           // reused as a schema control
+  customElements.whenDefined('aha-settings-list').then(() => {
+    document.getElementById('schema-demo').schema = {
+      sections: [{ label: 'Presentation', rows: [
+        { key: 'progressBar', label: 'Progress bar', control: { type: 'switch', checked: true } },
+        { key: 'leaderboard', label: 'Leaderboard', description: 'Shown between slides.', control: { type: 'switch' } },
+        { key: 'deckTitle', label: 'Deck title', control: { type: 'input', value: 'Untitled' } },
+      ] }],
+    };
+  });
+</script>

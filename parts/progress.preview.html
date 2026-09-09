@@ -1,0 +1,56 @@
+<div class="pad">
+  <div class="lbl">Determinate · default fill · status colours</div>
+  <div style="display:flex; flex-direction:column; gap:16px; max-width:360px">
+    <aha-progress data-probe percent="60"></aha-progress>
+    <aha-progress percent="40" status="warning"></aha-progress>
+    <aha-progress percent="20" status="error"></aha-progress>
+    <aha-progress percent="100" status="success"></aha-progress>
+  </div>
+</div>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-progress (lib/aha-progress.js),
+     inlined here so the preview is self-contained (no build step, no network). -->
+<script type="module">
+const STYLE = `
+  :host{ display:block }
+  .wrap{ display:flex; align-items:center; gap:8px;
+    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:12px; line-height:18px; font-weight:600 }
+  .track{ position:relative; flex:1 1 auto; height:8px; border-radius:var(--aha-radius-pill,999px);
+    background:var(--aha-gray-30,#F1F1F1); overflow:hidden }
+  .fill{ height:100%; width:0; border-radius:var(--aha-radius-pill,999px);
+    background:var(--aha-color-primary,#6A1EBB);
+    transition:width var(--aha-motion-slow,.3s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)), background var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
+  :host([status="success"]) .fill{ background:var(--aha-color-success,#16C49A) }
+  :host([status="warning"]) .fill{ background:var(--aha-color-warning,#FF7747) }
+  :host([status="error"]) .fill{ background:var(--aha-color-error,#F5222D) }
+  .info{ flex:0 0 auto; min-width:34px; text-align:right; color:var(--aha-text-secondary,#4A4A4A) }
+  :host([status="success"]) .info{ color:var(--aha-text-positive,#13A181) }
+  :host([status="error"]) .info{ color:var(--aha-text-negative,#F5222D) }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
+`;
+class AhaProgress extends HTMLElement {
+  static get observedAttributes() { return ['percent', 'status', 'show-info']; }
+  connectedCallback() {
+    if (!this.shadowRoot) {
+      this.attachShadow({ mode: 'open' });
+      this.shadowRoot.innerHTML =
+        `<style>${STYLE}</style><div class="wrap" part="wrap"><div class="track" part="track"><div class="fill" part="fill"></div></div><span class="info" part="info"></span></div>`;
+    }
+    this._update();
+  }
+  attributeChangedCallback() { if (this.shadowRoot) this._update(); }
+  _update() {
+    const pct = Math.max(0, Math.min(100, Number(this.getAttribute('percent') || 0)));
+    this.shadowRoot.querySelector('.fill').style.width = pct + '%';
+    const info = this.shadowRoot.querySelector('.info');
+    info.hidden = this.getAttribute('show-info') === 'false';
+    info.textContent = pct + '%';
+    this.setAttribute('role', 'progressbar');
+    this.setAttribute('aria-valuemin', '0');
+    this.setAttribute('aria-valuemax', '100');
+    this.setAttribute('aria-valuenow', String(pct));
+    this.setAttribute('aria-valuetext', pct + '%');
+  }
+}
+customElements.define('aha-progress', AhaProgress);
+</script>

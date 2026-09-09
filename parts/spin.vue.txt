@@ -1,0 +1,13 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-spin';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const loading = ref(true);
+</script>
+
+<template>
+  <aha-spin v-if="loading" size="large" tip="Loading results…" />
+</template>

@@ -1,0 +1,16 @@
+import '@ahaslides-product/design/aha-result';   // registers <aha-result> (+ <aha-icon>)
+import '@ahaslides-product/design/aha-button';
+
+// Attributes only — no events — so React 18/19 can render the element directly.
+function AhaResult({ status, title, subtitle, children }) {
+  return (
+    <aha-result status={status} result-title={title} subtitle={subtitle}>
+      {children}
+    </aha-result>
+  );
+}
+
+// usage
+<AhaResult status="success" title="Presentation published" subtitle="Share the join link with your audience.">
+  <aha-button slot="extra" variant="primary">Copy join link</aha-button>
+</AhaResult>

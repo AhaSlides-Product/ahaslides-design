@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -50,7 +50,14 @@
     "./lib/aha-statistic.js",
     "./lib/aha-empty.js",
     "./lib/aha-image.js",
-    "./lib/aha-alert.js"
+    "./lib/aha-alert.js",
+    "./lib/aha-progress.js",
+    "./lib/aha-result.js",
+    "./lib/aha-skeleton.js",
+    "./lib/aha-spin.js",
+    "./lib/aha-status-badge.js",
+    "./lib/aha-csat.js",
+    "./lib/aha-settings-list.js"
   ],
   "exports": {
     "./icons": "./lib/icons.js",
@@ -105,7 +112,15 @@
     "./toast-theme": "./lib/toast-theme.js",
     "./notification-theme": "./lib/notification-theme.js",
     "./modal-theme": "./lib/modal-theme.js",
-    "./drawer-theme": "./lib/drawer-theme.js"
+    "./drawer-theme": "./lib/drawer-theme.js",
+    "./aha-progress": "./lib/aha-progress.js",
+    "./aha-result": "./lib/aha-result.js",
+    "./aha-skeleton": "./lib/aha-skeleton.js",
+    "./aha-spin": "./lib/aha-spin.js",
+    "./aha-status-badge": "./lib/aha-status-badge.js",
+    "./aha-csat": "./lib/aha-csat.js",
+    "./aha-settings-list": "./lib/aha-settings-list.js",
+    "./popconfirm-theme": "./lib/popconfirm-theme.js"
   },
   "files": [
     "lib/",

@@ -1,0 +1,53 @@
+{
+  "name": "Skeleton",
+  "slug": "skeleton",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-skeleton",
+  "summary": "A greyed placeholder that holds a component's shape while its content loads.",
+  "lead": "ONE custom element — <aha-skeleton> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `variant` picks the shape (text / title / button / avatar) and the shimmer is an opacity PULSE (no gradient fill, per the no-gradient rule). Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["gray-30", "radius-xs", "radius-default", "radius-pill"],
+  "spec": [
+    { "label": "Fill", "value": "#F1F1F1 · radius xs (4)" },
+    { "label": "Text", "value": "height 16 · full width" },
+    { "label": "Title", "value": "height 24 · 38% width" },
+    { "label": "Avatar", "value": "40×40 · radius pill" },
+    { "label": "Motion", "value": "opacity pulse 1.6s (respects reduced-motion); active=false stops it" }
+  ],
+  "props": [
+    { "name": "variant", "type": "text | title | button | avatar", "default": "text", "desc": "Placeholder shape" },
+    { "name": "active", "type": "boolean", "default": "true", "desc": "Animate the shimmer (set 'false' to freeze)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Skeleton", "when": "content is loading and you want to hold its exact layout to avoid a jump" },
+      { "what": "Spin", "when": "a short, indeterminate wait where the final shape is unknown" },
+      { "what": "Progress", "when": "you can measure completion (a percentage)" }
+    ],
+    "note": "Match the skeleton to the real content's shape and size so nothing shifts when it resolves. Use it for the first load of a region; don't stack many pulsing blocks for a sub-second wait — a Spin is calmer.",
+    "dsv3": "COVERED — DS V3 has no measured Skeleton cell; spec derived from the token layer (fill gray-30, radius-xs) and antd Skeleton conventions (text/title/avatar shapes). Shimmer is an opacity pulse, not a gradient, to honour the no-gradient-on-fills rule. A deliberate, documented extension."
+  },
+  "surfaces": ["editor", "dashboard", "audience"],
+  "reuse": { "entry": "./aha-skeleton", "registers": "aha-skeleton", "exportsNamed": ["AhaSkeleton", "defineAhaSkeleton"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "skeleton.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "skeleton.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "skeleton.vue.txt" }
+  ],
+  "preview": "skeleton.preview.html",
+  "selfCheck": [
+    { "label": "fill #F1F1F1 · radius xs", "verdict": "PASS" },
+    { "label": "text height 16", "verdict": "PASS" },
+    { "label": "avatar radius pill", "verdict": "PASS" },
+    { "label": "pulses while active", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-skeleton[data-probe]') && document.querySelector('aha-skeleton[data-probe]').shadowRoot && document.querySelector('aha-skeleton[data-probe]').shadowRoot.querySelector('.block'))",
+    "singleUI": true,
+    "measure": "(function(){var t=document.querySelector('aha-skeleton[data-probe]');var a=document.querySelector('aha-skeleton[data-avatar]');var tb=t&&t.shadowRoot&&t.shadowRoot.querySelector('.block');var ab=a&&a.shadowRoot&&a.shadowRoot.querySelector('.block');var st=tb?getComputedStyle(tb):null;var sa=ab?getComputedStyle(ab):null;return{textBg:st?st.backgroundColor:null,textHeight:st?st.height:null,textRadius:st?st.borderTopLeftRadius:null,avatarRadius:sa?sa.borderTopLeftRadius:null};})()",
+    "expect": { "textBg": "rgb(241, 241, 241)", "textHeight": "16px", "textRadius": "4px", "avatarRadius": "999px" }
+  }
+}

@@ -1,0 +1,13 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-progress> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-progress.js';   // registers <aha-progress>
+</script>
+
+<div style="display:flex; flex-direction:column; gap:16px; max-width:320px">
+  <aha-progress percent="30"></aha-progress>
+  <aha-progress percent="70" status="warning"></aha-progress>
+  <aha-progress percent="100" status="success"></aha-progress>
+</div>

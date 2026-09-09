@@ -1,0 +1,31 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-settings-list';   // registers <aha-settings-list> + <aha-settings-item>
+import '@ahaslides-product/design/aha-switch';          // reused as schema controls
+import '@ahaslides-product/design/aha-input';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — schema-driven: bind the schema property, listen for change.
+<script setup>
+import { ref, onMounted } from 'vue';
+const list = ref(null);
+const schema = {
+  sections: [{ label: 'Presentation', rows: [
+    { key: 'progressBar', label: 'Progress bar', control: { type: 'switch', checked: true } },
+    { key: 'leaderboard', label: 'Leaderboard', description: 'Shown between slides.', control: { type: 'switch' } },
+    { key: 'deckTitle', label: 'Deck title', control: { type: 'input', value: 'Untitled' } },
+  ] }],
+};
+onMounted(() => { list.value.schema = schema; });
+</script>
+
+<template>
+  <!-- schema-driven -->
+  <aha-settings-list ref="list" @change="e => console.log(e.detail)" />
+
+  <!-- or the by-hand slot form -->
+  <aha-settings-list label="Audience">
+    <aha-settings-item label="Anonymous join">
+      <aha-switch slot="control" checked />
+    </aha-settings-item>
+  </aha-settings-list>
+</template>

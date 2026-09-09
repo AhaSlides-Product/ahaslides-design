@@ -1,0 +1,13 @@
+<div class="pad">
+  <div class="lbl">Indeterminate wait · small · default · large + tip</div>
+  <div style="display:flex; gap:40px; align-items:center; padding:8px 0">
+    <aha-spin size="small"></aha-spin>
+    <aha-spin data-probe></aha-spin>
+    <aha-spin size="large" tip="Loading results…"></aha-spin>
+  </div>
+</div>
+
+<!-- Renders the REAL shipped element from dist/lib (no mirror) so the preview never drifts. -->
+<script type="module">
+  import '../lib/aha-spin.js';   // registers <aha-spin>
+</script>

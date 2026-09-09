@@ -1,0 +1,14 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-csat';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — the custom element's `rate` event binds natively with @rate
+<script setup>
+function onRate(e) {
+  track('CSAT_RATED', e.detail);   // { rating: 'up' | 'down', source }
+}
+</script>
+
+<template>
+  <aha-csat prompt="Was this helpful?" source="editor_help" @rate="onRate" />
+</template>

@@ -1,0 +1,14 @@
+<div class="pad">
+  <div class="lbl">Domain lifecycle · dot + label · colour never alone</div>
+  <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; padding:8px 0">
+    <aha-status-badge status="draft">Draft</aha-status-badge>
+    <aha-status-badge data-probe status="published">Published</aha-status-badge>
+    <aha-status-badge status="closed">Closed</aha-status-badge>
+    <aha-status-badge status="archived">Archived</aha-status-badge>
+  </div>
+</div>
+
+<!-- Renders the REAL shipped element from dist/lib (no mirror) so the preview never drifts. -->
+<script type="module">
+  import '../lib/aha-status-badge.js';   // registers <aha-status-badge>
+</script>
