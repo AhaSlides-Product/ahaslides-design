@@ -2,7 +2,7 @@
 
 Read `PRINCIPLES.md` first. The rule that governs this repo: **components here must be reusable — real, importable code, not reference snippets.** Two gates enforce it, and `npm run check` runs both:
 
-- **`standards.mjs`** — *the reusability gate.* For every contract it proves the component is complete, declares a real package entry point, imports by its published name, and registers/exports. No component passes if it hasn't met the standard. (Node-only, fast, deterministic.)
+- **`standards.mjs`** — *the reusability gate.* For every contract it proves the component is complete, declares a real package entry point, imports by its published name, registers/exports, and — for a leaf — **ships a paste-and-run HTML snippet** (a composite declares `htmlExempt` instead). No component passes if it hasn't met the standard. (Node-only, fast, deterministic.)
 - **`qa.mjs`** — *the render gate.* Headless-measures the real rendered UI against each contract's `conformance` block.
 
 A component is **done** only when both are green.
@@ -11,6 +11,7 @@ A component is **done** only when both are green.
 
 ### 1. Contract — `contracts/<slug>.json`
 Required fields: `name, slug, group, tier, summary, props (≥1), spec (≥1), snippets (≥2), opinion, surfaces (≥1), preview, conformance`.
+A **leaf** `snippets` array MUST **lead with an `html` entry** (see §3) — HTML first, then React, then Vue; a **composite** instead declares `"htmlExempt": "<why>"`.
 Plus the reuse declaration — **this is the reusability contract**:
 
 ```jsonc
@@ -34,7 +35,9 @@ Then add the subpath to `package.json`:
 ```
 
 ### 3. Doc parts — `parts/<slug>.*`
-- `<slug>.react.txt` / `<slug>.vue.txt` — snippets that **import the real `@ahaslides/design/<entry>`**. No `@aha/design/*` placeholders, no `lucide`/`heroicons`/`fontawesome`/`@ant-design/icons`, no `@mui`/`@chakra-ui`/`@radix-ui`/`@mantine`.
+A leaf ships **three** snippets over the **same element** — HTML leads, React and Vue remain. HTML is not a replacement; it's the element's native, build-step-free form, so it's the default the docs and feeds lead with (the fast path for end-users vibe-coding decks/courses/hubs).
+- **`<slug>.html.txt` — REQUIRED for a leaf, and listed FIRST in `snippets`.** Paste-and-run HTML: a CDN ESM `import` of the element (`…/@ahaslides/design/lib/<entry>.js`) + `tokens.css`, then plain `<aha-*>` markup. Save as `.html`, open, it renders — no build step. (The CDN base is `jsdelivr` for now; swappable once DevOps picks a branded URL.) A **composite** has no framework-free element — omit this file and declare `htmlExempt` on the contract instead.
+- `<slug>.react.txt` / `<slug>.vue.txt` — **still required; unchanged.** Thin adapters over the same element that **import the real `@ahaslides/design/<entry>`** (React <19 ref wrapper; Vue binds the custom element natively). No `@aha/design/*` placeholders, no `lucide`/`heroicons`/`fontawesome`/`@ant-design/icons`, no `@mui`/`@chakra-ui`/`@radix-ui`/`@mantine`.
 - `<slug>.preview.html` — the live-preview harness the doc page renders and `qa.mjs` measures.
 
 ### 4. Conformance
