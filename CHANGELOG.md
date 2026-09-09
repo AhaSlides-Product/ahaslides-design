@@ -21,6 +21,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.15.0 — 2026-09-10
+### Added
+- Accessibility gate: a **fourth check** — a silent toggle button. A `<button>` that toggles a selection class (`selected`/`active`/`pressed`/`on`) on state but exposes no `aria-pressed`/`aria-checked` reads as a plain button to a screen reader (the selection is invisible) — it now hard-fails. A button carrying a roving/selectable role (`radio`/`tab`/`menuitem`/`option`) is exempt (it syncs its own aria); per-line opt-out `ds-lint-allow: a11y (why)`. Caught the CSAT thumbs and colour-picker swatches, both now fixed. (#44)
+
 ## 0.14.0 — 2026-09-10
 ### Added
 - **Progress** (`aha-progress`) — a determinate line bar; a persistent fill node animates its width on the motion tokens, `status` recolours it (success/warning/error). Import `@ahaslides-product/design/aha-progress`.
