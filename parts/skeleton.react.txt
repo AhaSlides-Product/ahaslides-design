@@ -1,0 +1,9 @@
+import '@ahaslides-product/design/aha-skeleton';   // registers <aha-skeleton>
+
+// Attributes only — no events — so React 18/19 can render the element directly.
+function AhaSkeleton({ variant, active }) {
+  return <aha-skeleton variant={variant} {...(active === false ? { active: 'false' } : {})} />;
+}
+
+// usage — hold the shape while the card loads
+{loading ? <AhaSkeleton variant="title" /> : <CardTitle>{title}</CardTitle>}

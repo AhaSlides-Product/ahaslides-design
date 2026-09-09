@@ -1,0 +1,16 @@
+import { ConfigProvider, Popconfirm, Button } from 'antd';   // antd v6
+import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
+
+<ConfigProvider theme={popconfirmTheme}>
+  <Popconfirm
+    title="Delete this slide?"
+    description="This cannot be undone."
+    okText="Delete"
+    cancelText="Cancel"
+    onConfirm={remove}
+  >
+    <Button danger>Delete slide</Button>
+  </Popconfirm>
+</ConfigProvider>
+// One shared popconfirmTheme → the DS V3 look; primary confirm, #E3E3E3 cancel border.
+// For a destructive/irreversible action use a Modal instead (overlays pattern).

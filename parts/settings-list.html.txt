@@ -1,0 +1,18 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-settings-list> + <aha-settings-item> are the SAME shared custom elements React and Vue
+     consume. They compose existing DS controls (here <aha-switch>) via the `control` slot.
+     Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';          // the slotted control
+</script>
+
+<aha-settings-list label="Presentation" style="max-width:360px; display:block">
+  <aha-settings-item label="Progress bar">
+    <aha-switch slot="control" checked></aha-switch>
+  </aha-settings-item>
+  <aha-settings-item label="Leaderboard" description="Shown to the audience between slides.">
+    <aha-switch slot="control"></aha-switch>
+  </aha-settings-item>
+</aha-settings-list>

@@ -1,0 +1,16 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-settings-list';   // registers <aha-settings-list> + <aha-settings-item>
+import '@ahaslides-product/design/aha-switch';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-settings-list label="Presentation">
+    <aha-settings-item label="Progress bar">
+      <aha-switch slot="control" checked />
+    </aha-settings-item>
+    <aha-settings-item label="Leaderboard" description="Shown to the audience between slides.">
+      <aha-switch slot="control" />
+    </aha-settings-item>
+  </aha-settings-list>
+</template>

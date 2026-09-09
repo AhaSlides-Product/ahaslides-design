@@ -1,0 +1,10 @@
+import '@ahaslides-product/design/aha-status-badge';   // registers <aha-status-badge>
+import { t } from 'i18next';   // label comes from i18n, never a hardcoded string
+
+// Attributes only — no events — so React 18/19 can render the element directly.
+function AhaStatusBadge({ status }) {
+  return <aha-status-badge status={status}>{t(`survey_status.${status}`)}</aha-status-badge>;
+}
+
+// usage
+<AhaStatusBadge status={survey.status} />

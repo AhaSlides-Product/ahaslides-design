@@ -1,0 +1,54 @@
+{
+  "name": "Settings list",
+  "slug": "settings-list",
+  "group": "AhaSlides surfaces",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-settings-list",
+  "summary": "A group of settings rows — label left, control right — composing existing DS controls.",
+  "lead": "TWO custom elements — <aha-settings-list> (a spacing-only group) and <aha-settings-item> (a labelled row with a `control` slot) — the reusable form of the settings pattern. It ships NO new control; it composes Switch / Checkbox / Select via the slot. Spacing-only hierarchy: no divider lines, no card/box around plain settings. Shadow-DOM CSS, themed only by --aha-* tokens. Zero drift.",
+  "codeNote": "Same elements, same shadow-DOM CSS → identical render. React (< 19) consumes them via thin attribute wrappers; Vue binds the custom elements natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["text-default", "text-tertiary"],
+  "spec": [
+    { "label": "Group", "value": "column · 16px between sibling settings · bold header only" },
+    { "label": "Row", "value": "label left, control right · min-height 24 · 16px gap" },
+    { "label": "Label", "value": "14/21 Regular #1A1A1A (name = noun phrase, no leading verb)" },
+    { "label": "Description", "value": "12/18 #8A8A8A, 4px under the label (default: none)" },
+    { "label": "Structure", "value": "no divider lines, no card/box around plain settings" }
+  ],
+  "props": [
+    { "name": "label", "type": "string", "default": "—", "desc": "Group header (a 1–3 word noun phrase); on <aha-settings-item> it is the setting name" },
+    { "name": "description", "type": "string", "default": "—", "desc": "(item) An optional must-see consequence line under the label — default none" },
+    { "name": "control", "type": "slot", "default": "—", "desc": "(item) The DS control on the right — <aha-switch>, <aha-checkbox>, <aha-select>…" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Settings list", "when": "a group of related on/off or choice settings in a panel, page or drawer" },
+      { "what": "Form", "when": "values are submitted together with validation and a submit step" },
+      { "what": "a single Switch/Select", "when": "one setting that applies on its own" }
+    ],
+    "note": "Name each setting as a noun phrase (no leading verb — the control says on/off). Use a toggle for immediate effect, a checkbox for consent/saved-together — never mix in one group. Hierarchy is spacing, never lines or boxes; keep help text to at most one line per group. See the settings pattern for grouping, sub-settings and the danger zone.",
+    "dsv3": "COVERED — this is the reusable component form of the settings pattern (parts/settings.guide.md): label/control rows, spacing-only grouping, no dividers or boxes. It composes existing DS controls via a slot. A deliberate, documented AhaSlides surface."
+  },
+  "surfaces": ["editor", "settings", "dashboard"],
+  "reuse": { "entry": "./aha-settings-list", "registers": "aha-settings-list", "exportsNamed": ["AhaSettingsList", "AhaSettingsItem", "defineAhaSettingsList"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "settings-list.html.txt", "runnable": "paste-and-run", "note": "The native form — the web components in an HTML file render on open, no build step." },
+    { "key": "react", "label": "React", "file": "settings-list.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "settings-list.vue.txt" }
+  ],
+  "preview": "settings-list.preview.html",
+  "selfCheck": [
+    { "label": "label left, control right", "verdict": "PASS" },
+    { "label": "label #1A1A1A · desc #8A8A8A", "verdict": "PASS" },
+    { "label": "spacing-only (no dividers/boxes)", "verdict": "PASS" },
+    { "label": "composes DS controls via slot", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element family, single render. The probe is an <aha-settings-item>.",
+    "ready": "!!(document.querySelector('aha-settings-item[data-probe]') && document.querySelector('aha-settings-item[data-probe]').shadowRoot && document.querySelector('aha-settings-item[data-probe]').shadowRoot.querySelector('.label'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-settings-item[data-probe]');var r=el&&el.shadowRoot;var l=r&&r.querySelector('.label');var d=r&&r.querySelector('.desc');var sl=l?getComputedStyle(l):null;var sd=d?getComputedStyle(d):null;return{labelColor:sl?sl.color:null,descColor:sd?sd.color:null,labelSize:sl?sl.fontSize:null,descSize:sd?sd.fontSize:null};})()",
+    "expect": { "labelColor": "rgb(26, 26, 26)", "descColor": "rgb(138, 138, 138)", "labelSize": "14px", "descSize": "12px" }
+  }
+}

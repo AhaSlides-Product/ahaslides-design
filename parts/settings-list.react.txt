@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-settings-list';   // registers <aha-settings-list> + <aha-settings-item>
+import '@ahaslides-product/design/aha-switch';
+
+// Attributes + slots only — so React 18/19 can render the elements directly.
+<aha-settings-list label="Presentation">
+  <aha-settings-item label="Progress bar">
+    <aha-switch slot="control" checked />
+  </aha-settings-item>
+  <aha-settings-item label="Leaderboard" description="Shown to the audience between slides.">
+    <aha-switch slot="control" />
+  </aha-settings-item>
+</aha-settings-list>
+// Name = noun phrase (no leading verb); spacing-only grouping; the control lives in slot="control".

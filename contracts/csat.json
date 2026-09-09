@@ -1,0 +1,54 @@
+{
+  "name": "CSAT",
+  "slug": "csat",
+  "group": "AhaSlides surfaces",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-csat",
+  "summary": "The shared thumbs up/down satisfaction prompt — the one CSAT control, not a bespoke rating.",
+  "lead": "ONE custom element — <aha-csat> — the reusable form of the feedback pattern's CSAT rule. A binary thumbs-up/down prompt with a required `source` for typo-proof analytics segmentation; it emits a composed `rate` event. Shadow-DOM CSS, themed only by --aha-* tokens; the thumbs are the shared <aha-icon> BY NAME and the selected/hover states animate on PERSISTENT button nodes (class toggle, no rebuild). Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for the `rate` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["text-secondary", "border", "border-hover", "bg-container", "icon-muted", "color-primary", "radius-default"],
+  "spec": [
+    { "label": "Buttons", "value": "40×40 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Rest", "value": "icon #8A8A8A on white" },
+    { "label": "Hover", "value": "scale 1.08 · border #D3B4FF · icon primary (motion tokens)" },
+    { "label": "Selected", "value": "border + icon primary #6A1EBB" },
+    { "label": "Event", "value": "`rate` → { rating: 'up' | 'down', source }" }
+  ],
+  "props": [
+    { "name": "prompt", "type": "string", "default": "—", "desc": "Optional question shown before the thumbs" },
+    { "name": "source", "type": "string", "default": "—", "desc": "Stable placement token for analytics — passed in the rate event" },
+    { "name": "value", "type": "up | down", "default": "—", "desc": "The current rating (also reflects a click)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "CSAT", "when": "a lightweight satisfaction check on a feature or a piece of content" },
+      { "what": "Result", "when": "a full-block outcome after an operation" },
+      { "what": "a Form", "when": "you need structured, multi-field feedback with validation" }
+    ],
+    "note": "Use the shared control — never build a bespoke rating. Always pass a stable `source` per placement so segmentation stays typo-proof. Keep it to the binary thumbs; ask for free-text only after a thumbs-down, and never block rendering on tracking.",
+    "dsv3": "COVERED — this is the reusable component form of the feedback pattern's CSAT rule (parts/feedback.guide.md): a binary thumbs widget with a required source token. Colours + motion map to the token layer. A deliberate, documented AhaSlides surface."
+  },
+  "surfaces": ["editor", "dashboard", "audience"],
+  "reuse": { "entry": "./aha-csat", "registers": "aha-csat", "exportsNamed": ["AhaCsat", "defineAhaCsat"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "csat.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "csat.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "csat.vue.txt" }
+  ],
+  "preview": "csat.preview.html",
+  "selfCheck": [
+    { "label": "buttons 40 · radius 8 · #E3E3E3", "verdict": "PASS" },
+    { "label": "hover scales + recolours (motion tokens)", "verdict": "PASS" },
+    { "label": "selected primary #6A1EBB", "verdict": "PASS" },
+    { "label": "emits rate with source", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is pre-rated (value='up') so the selected colour is measurable.",
+    "ready": "!!(document.querySelector('aha-csat[data-probe]') && document.querySelector('aha-csat[data-probe]').shadowRoot && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('.up'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var b=r&&r.querySelector('.btn');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;return{promptColor:sp?sp.color:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null};})()",
+    "expect": { "promptColor": "rgb(74, 74, 74)", "upColor": "rgb(106, 30, 187)", "btnWidth": "40px", "btnHeight": "40px" }
+  }
+}

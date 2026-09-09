@@ -1,0 +1,21 @@
+// @ahaslides-product/design/popconfirm-theme — declared ONCE, consumed by both tiers.
+import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
+
+export const popconfirmTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    borderRadiusLG: 8,
+    controlHeight: 32,
+    colorBorder: '#E3E3E3',
+    colorText: '#1A1A1A',
+    colorTextHeading: '#1A1A1A',
+    colorWarning: '#FF7747',
+    colorBgElevated: '#FFFFFF',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Popover: { borderRadiusLG: 8, colorBgElevated: '#FFFFFF' },
+    Button: { borderRadius: 8, controlHeight: 32 },
+  },
+};

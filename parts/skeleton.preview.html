@@ -1,0 +1,16 @@
+<div class="pad">
+  <div class="lbl">Loading placeholder · avatar + title + text lines</div>
+  <div style="display:flex; gap:16px; align-items:flex-start; max-width:360px; padding:8px 0">
+    <aha-skeleton data-avatar variant="avatar"></aha-skeleton>
+    <div style="flex:1; display:flex; flex-direction:column; gap:8px">
+      <aha-skeleton variant="title"></aha-skeleton>
+      <aha-skeleton data-probe variant="text"></aha-skeleton>
+      <aha-skeleton variant="text"></aha-skeleton>
+    </div>
+  </div>
+</div>
+
+<!-- Renders the REAL shipped element from dist/lib (no mirror) so the preview never drifts. -->
+<script type="module">
+  import '../lib/aha-skeleton.js';   // registers <aha-skeleton>
+</script>

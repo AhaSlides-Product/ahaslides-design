@@ -1,0 +1,13 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-progress';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const uploaded = ref(70);
+</script>
+
+<template>
+  <aha-progress :percent="uploaded" status="success" />
+</template>

@@ -1,0 +1,17 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-csat';   // registers <aha-csat> (+ <aha-icon>)
+
+// The element emits a composed `rate` event — attach a ref listener (React <19 pattern).
+function AhaCsat({ prompt, source, onRate }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    const h = (e) => onRate?.(e.detail);   // { rating: 'up' | 'down', source }
+    el.addEventListener('rate', h);
+    return () => el.removeEventListener('rate', h);
+  }, [onRate]);
+  return <aha-csat ref={ref} prompt={prompt} source={source} />;
+}
+
+// usage
+<AhaCsat prompt="Was this helpful?" source="editor_help" onRate={(d) => track('CSAT_RATED', d)} />

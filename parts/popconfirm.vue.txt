@@ -1,0 +1,21 @@
+<script setup>
+import { ConfigProvider, Popconfirm, Button } from 'ant-design-vue';   // ant-design-vue v4
+import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
+
+function remove() { /* delete the slide */ }
+</script>
+
+<template>
+  <a-config-provider :theme="popconfirmTheme">
+    <a-popconfirm
+      title="Delete this slide?"
+      description="This cannot be undone."
+      ok-text="Delete"
+      cancel-text="Cancel"
+      @confirm="remove"
+    >
+      <a-button danger>Delete slide</a-button>
+    </a-popconfirm>
+  </a-config-provider>
+</template>
+<!-- The SAME popconfirmTheme as React → one DS V3 look across both vendor libraries. -->

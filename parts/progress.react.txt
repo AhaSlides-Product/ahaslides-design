@@ -1,0 +1,9 @@
+import '@ahaslides-product/design/aha-progress';   // registers <aha-progress>
+
+// Attributes only — no events — so React 18/19 can render the element directly.
+function AhaProgress({ percent, status }) {
+  return <aha-progress percent={percent} status={status} />;
+}
+
+// usage
+<AhaProgress percent={uploaded} status={failed ? 'error' : 'default'} />

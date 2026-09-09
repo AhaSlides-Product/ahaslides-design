@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-csat> is the SAME shared custom element React and Vue consume — here in its native
+     form. Its thumbs are the shared <aha-icon>, loaded automatically by the element.
+     Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-csat.js';   // registers <aha-csat> (+ <aha-icon>)
+</script>
+
+<aha-csat prompt="Was this helpful?" source="docs_footer"></aha-csat>
+
+<script>
+  document.querySelector('aha-csat').addEventListener('rate', (e) => {
+    console.log('CSAT', e.detail.rating, 'from', e.detail.source);
+  });
+</script>

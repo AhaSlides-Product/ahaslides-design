@@ -1,0 +1,45 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared popconfirmTheme. Vue consumes the
+     same popconfirmTheme — see "Show code". This CDN-React page (no build step) is also what
+     qa.mjs measures: the real antd Popconfirm popover + confirm/cancel buttons bound to the
+     shared theme. The popover is opened on mount and mounted inside #react-root so it renders
+     in the demo stage. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__pop = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, borderRadiusLG:8, controlHeight:32, colorBorder:'#E3E3E3',
+           colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorWarning:'#FF7747', colorBgElevated:'#FFFFFF',
+           fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components: { Popover:{ borderRadiusLG:8, colorBgElevated:'#FFFFFF' },
+                Button:{ borderRadius:8, controlHeight:32 } }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Popconfirm, Button } = window.__antdR;
+function Demo() {
+  return (
+    <ConfigProvider theme={window.__pop}>
+      <div style={{ minHeight: 260, paddingBottom: 180 }}>
+        <Popconfirm
+          open
+          title="Delete this slide?"
+          description="This cannot be undone."
+          okText="Delete"
+          cancelText="Cancel"
+        >
+          <Button danger>Delete slide</Button>
+        </Popconfirm>
+      </div>
+    </ConfigProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(<Demo />);
+</script>

@@ -21,6 +21,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.13.0 — 2026-09-09
+### Added
+- **Progress** (`aha-progress`) — a determinate line bar; a persistent fill node animates its width on the motion tokens, `status` recolours it (success/warning/error). Import `@ahaslides-product/design/aha-progress`.
+- **Result** (`aha-result`) — a full-block outcome state (success/error/info/warning/404) with a DS `<aha-icon>` glyph, title, subtitle and a `slot="extra"` for actions. Import `@ahaslides-product/design/aha-result`.
+- **Skeleton** (`aha-skeleton`) — a loading placeholder (text/title/button/avatar) with an opacity-pulse shimmer (no gradient fill). Import `@ahaslides-product/design/aha-skeleton`.
+- **Spin** (`aha-spin`) — a brand-coloured pure-CSS loading spinner (small/default/large) with an optional tip. Import `@ahaslides-product/design/aha-spin`.
+- **Status badge** (`aha-status-badge`) — the reusable form of the status-badges pattern: a lifecycle pill (draft/published/closed/archived) with a coloured dot plus a text label and `role="status"`. Import `@ahaslides-product/design/aha-status-badge`.
+- **CSAT** (`aha-csat`) — the shared binary thumbs-up/down satisfaction prompt from the feedback pattern; emits a `rate` event with a stable `source`, thumbs from the DS icon library. Import `@ahaslides-product/design/aha-csat`.
+- **Settings list** (`aha-settings-list` + `aha-settings-item`) — the reusable form of the settings pattern: spacing-only rows (label left, control right) that compose existing DS controls via a `control` slot; no divider lines or boxes. Import `@ahaslides-product/design/aha-settings-list`.
+- **Popconfirm** (`popconfirmTheme`) — the composite inline-confirmation popover: a shared antd v6 / ant-design-vue theme (radius-8 popover, primary confirm, #E3E3E3 cancel border). Import `@ahaslides-product/design/popconfirm-theme`.
+
 ## 0.7.0 — 2026-09-09
 ### Added
 - Icon library is now gated: `standards.mjs` proves every `<aha-icon name="…">` a component references (in its source, snippets, preview, or contract) resolves to a real glyph in `icons/registry.json` — the published [icon gallery](https://ahaslides-product.github.io/ahaslides-design/icons/index.html) — and flags an inline `<svg>` glyph in element source as a library bypass (genuine sub-glyph chrome opts out per-line with `ds-lint-allow: svg`). A typo or non-DS icon now fails the gate instead of rendering a runtime error box. (#30)
