@@ -41,6 +41,6 @@ A red gate means the work isn't done. **Fix it — don't work around it.** To ad
 - No hardcoded hex/px in components — bind to tokens (`--aha-*`); radius only from 4 / 6 / 8 / 12 / 16.
 - Motion: every interactive state (hover/focus/checked/open/close) must animate via the shared motion tokens (`--aha-motion-*` durations + `--aha-ease-*` curves, AntD's motion), never snap, never a bare duration literal (`.12s`). And the transition must live on a **persistent node** — toggle an attribute/class, don't rebuild the subtree (`innerHTML=`) on the state change, or the transition is dead (it never fires, even with correct CSS — the Switch-click trap). The standards gate flags all three: snap, bare literal, dead transition.
 - Tables → the shared DataTable, never a raw `<Table>`.
-- Icons → the shared `<aha-icon>` **by name**, never Lucide/Heroicons/FontAwesome/@ant-design/icons or an inline `<svg>`.
+- Icons → the shared `<aha-icon>` **by name** from the DS [icon library](https://ahaslides-product.github.io/ahaslides-design/icons/index.html), never Lucide/Heroicons/FontAwesome/@ant-design/icons or an inline `<svg>`. `standards.mjs` gates this: every `<aha-icon name="…">` a component references must resolve in `icons/registry.json`, and an inline `<svg>` glyph in element source fails. Missing a glyph? Add the SVG under `icons/svg/**` and re-run `build-icons.mjs`.
 - Backgrounds white by default; no gradients on backgrounds/fills.
 - Buttons: size via the `size` prop or `<XLButtonScope>`; never inline height/padding/radius/fontSize.
