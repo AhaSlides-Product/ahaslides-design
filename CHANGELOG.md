@@ -23,11 +23,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.17.0 — 2026-09-10
 ### Added
-- **Layout group → DS V3 matrix + playgrounds.** The layout primitives gain interactive playgrounds and the props to back the full matrix. (#PR)
-- **Divider** — `plain` (plain vs heading label emphasis), alongside orientation (horizontal/vertical), `dashed`, and left/center/right text alignment. (#PR)
-- **Flex** — the `vertical` shorthand, alongside direction/justify/align/gap/wrap. (#PR)
-- **Grid** — an asymmetric gutter (`gap="h v"`), row `justify`/`align`, and `responsive` (fixed columns collapse as the container narrows). (#PR)
-- **Space** — `split` (a tokenised divider ruled between items), alongside direction/size/align/wrap. (#PR)
+- **Layout group → DS V3 matrix + playgrounds.** The layout primitives gain interactive playgrounds and the props to back the full matrix. (#48)
+- **Divider** — `plain` (plain vs heading label emphasis), alongside orientation (horizontal/vertical), `dashed`, and left/center/right text alignment. (#48)
+- **Flex** — the `vertical` shorthand, alongside direction/justify/align/gap/wrap. (#48)
+- **Grid** — an asymmetric gutter (`gap="h v"`), row `justify`/`align`, and `responsive` (fixed columns collapse as the container narrows). (#48)
+- **Space** — `split` (a tokenised divider ruled between items), alongside direction/size/align/wrap. (#48)
 
 ## 0.16.0 — 2026-09-10
 ### Added
