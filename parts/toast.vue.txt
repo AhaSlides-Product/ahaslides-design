@@ -2,11 +2,14 @@
 import { ConfigProvider, message, Button } from 'ant-design-vue';   // ant-design-vue v4
 import { toastTheme } from '@ahaslides-product/design/toast-theme';
 
-const save = () => message.success('Slide saved');
+// v4: use the hook so the toast consumes the ConfigProvider theme (static message() does not).
+const [messageApi, contextHolder] = message.useMessage();
+const save = () => messageApi.success('Slide saved');
 </script>
 
 <template>
   <a-config-provider :theme="toastTheme">
+    <component :is="contextHolder" />
     <a-button type="primary" @click="save">Save</a-button>
   </a-config-provider>
 </template>
