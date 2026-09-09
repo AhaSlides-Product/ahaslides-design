@@ -5,21 +5,29 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-uploader",
-  "summary": "Select files by clicking a drop zone or dragging onto it.",
-  "lead": "ONE custom element — <aha-uploader> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; hover and drag-over toggle a class on the persistent zone so the border and tint animate. Zero drift — the same element, not two look-alikes.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container", "border-strong", "color-primary", "bg-accent", "text-tertiary", "radius-default", "font-product", "motion-mid", "ease-in-out"],
+  "summary": "Select files by clicking a drop zone or dragging onto it — then manage them as rows or picture tiles with per-item state.",
+  "lead": "ONE custom element — <aha-uploader> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Upload is a FAMILY: `listtype` picks between a drop zone with file rows (`text`) and a grid of thumbnail tiles with a dashed add-box (`picture-card`); feed it `items` and each file renders with its status — normal, uploading (a progress bar driven by `percent`), error, or done — and a remove ✕. Hover, drag-over and the progress fill animate on the persistent zone/track (no subtree rebuild). Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper (listens for `change`/`remove`, JSON-stringifies `items`); Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "bg-container-secondary", "bg-hover", "bg-accent", "bg-negative", "border", "border-strong", "color-primary", "color-error", "color-success", "text-default", "text-secondary", "text-tertiary", "split", "radius-default", "radius-sm", "radius-pill", "font-product", "motion-fast", "motion-mid", "motion-slow", "ease-in-out", "ease-out"],
   "spec": [
     { "label": "Zone", "value": "1px dashed border-strong #D4D4D4, radius 8, pad 24 16" },
     { "label": "Rest text", "value": "text-tertiary #8A8A8A, 14/21" },
-    { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent" },
-    { "label": "Icon", "value": "28px upload arrow, color-primary" }
+    { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent (motion-mid, persistent zone)" },
+    { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + remove ✕" },
+    { "label": "Uploading", "value": "4px pill progress track (split), color-primary fill, width animates (motion-slow)" },
+    { "label": "Error item", "value": "border + text color-error #F5222D on bg-negative, warning glyph" },
+    { "label": "Done item", "value": "check-circle glyph color-success #16C49A" },
+    { "label": "Picture-card", "value": "104px tiles + dashed add-box; add-box is the trigger" }
   ],
   "props": [
+    { "name": "listtype", "type": "'text' | 'picture-card'", "default": "text", "desc": "Drop zone + file rows, or a grid of thumbnail tiles with a dashed add-box" },
+    { "name": "items", "type": "JSON list", "default": "[]", "desc": "Managed files: [{ name, status?: 'normal'|'uploading'|'error'|'done', percent?, thumb? }]" },
     { "name": "multiple", "type": "boolean", "default": "false", "desc": "Allow selecting more than one file" },
     { "name": "accept", "type": "string", "default": "—", "desc": "MIME/type filter, e.g. \"image/*\"" },
-    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the zone" },
-    { "name": "change", "type": "CustomEvent<{files}>", "default": "—", "desc": "Composed event; read e.detail.files (File[])" }
+    { "name": "maxcount", "type": "number", "default": "∞", "desc": "Cap; the add trigger hides once items reach it" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the zone / add-box" },
+    { "name": "change", "type": "CustomEvent<{files}>", "default": "—", "desc": "Composed event on select; read e.detail.files (File[])" },
+    { "name": "remove", "type": "CustomEvent<{name,index}>", "default": "—", "desc": "Composed event when an item's ✕ is clicked" }
   ],
   "opinion": {
     "whenToUse": [
@@ -27,8 +35,8 @@
       { "what": "Input", "when": "capturing typed text, not a file" },
       { "what": "Colour picker", "when": "choosing a value from presets rather than importing" }
     ],
-    "note": "State what you accept in the zone copy and set `accept` to match. Validate size and type on change and show errors near the zone. Offer both click and drag — both are wired here.",
-    "dsv3": "Dashed border-strong zone on white, lifting to color-primary border + bg-accent tint on hover/drag. Border and tint animate via the shared motion tokens on the persistent zone — no subtree rebuild."
+    "note": "State what you accept in the zone copy and set `accept` to match. Drive `items[].status` from your upload lifecycle (uploading → done/error) and update `percent` as bytes land. Show the error reason near the failed row. Use `picture-card` for images, `text` for documents. Offer both click and drag — both are wired here.",
+    "dsv3": "COVERED — enumerated from the DS V3 Upload component-set taxonomy: *Upload* / Drag and drop (the drop zone), *Upload* / Upload List Item (text rows, states loading/success/error), Upload List Item / Picture (picture-card tiles + add-box). Token layer: dashed border-strong zone on white → color-primary border + bg-accent tint on hover/drag (persistent zone); rows on 1px border #E3E3E3 radius 8; error = color-error on bg-negative; done = color-success check; uploading = color-primary progress fill on a split track (width animates via motion-slow). Motion bound to the shared motion tokens on persistent nodes."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-uploader", "registers": "aha-uploader", "exportsNamed": ["AhaUploader", "defineAhaUploader"] },
@@ -38,17 +46,36 @@
     { "key": "vue", "label": "Vue 3", "file": "uploader.vue.txt" }
   ],
   "preview": "uploader.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "listtype", "label": "List type", "default": "text", "options": [
+        { "label": "Text (rows)", "value": "text" },
+        { "label": "Picture card", "value": "picture-card" }
+      ] },
+      { "prop": "items", "label": "State", "default": "mixed", "options": [
+        { "label": "Mixed", "value": "[{\"name\":\"cover-image.png\",\"status\":\"done\"},{\"name\":\"slides-export.pdf\",\"status\":\"uploading\",\"percent\":62},{\"name\":\"broken-video.mov\",\"status\":\"error\"}]" },
+        { "label": "Uploading", "value": "[{\"name\":\"report.csv\",\"status\":\"uploading\",\"percent\":28},{\"name\":\"deck.pdf\",\"status\":\"uploading\",\"percent\":74}]" },
+        { "label": "Done", "value": "[{\"name\":\"cover-image.png\",\"status\":\"done\"},{\"name\":\"logo.svg\",\"status\":\"done\"}]" },
+        { "label": "Error", "value": "[{\"name\":\"broken-video.mov\",\"status\":\"error\"},{\"name\":\"too-big.zip\",\"status\":\"error\"}]" },
+        { "label": "Empty", "value": "[]" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "zone dashed border-strong · radius 8", "verdict": "PASS" },
     { "label": "rest text text-tertiary", "verdict": "PASS" },
     { "label": "hover border color-primary + bg-accent", "verdict": "PASS" },
-    { "label": "change emits composed files", "verdict": "PASS" }
+    { "label": "error item text/border color-error on bg-negative", "verdict": "PASS" },
+    { "label": "uploading progress fill color-primary (width animates)", "verdict": "PASS" },
+    { "label": "done item check-circle color-success", "verdict": "PASS" },
+    { "label": "picture-card tiles + dashed add-box; maxcount caps trigger", "verdict": "PASS" },
+    { "label": "change + remove emit composed events", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-uploader[data-probe]') && document.querySelector('aha-uploader[data-probe]').shadowRoot && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.zone'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probe default state carries a done/uploading/error row set so item states are measurable.",
+    "ready": "!!(document.querySelector('aha-uploader[data-probe]') && document.querySelector('aha-uploader[data-probe]').shadowRoot && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.zone') && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.row.error'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-uploader[data-probe]');var sr=el.shadowRoot;var z=sr.querySelector('.zone');var svg=sr.querySelector('.zone svg');var s=getComputedStyle(z);return{radius:s.borderTopLeftRadius,border:s.borderTopColor,color:s.color,iconFill:getComputedStyle(svg).fill};})()",
-    "expect": { "radius": "8px", "border": "rgb(212, 212, 212)", "color": "rgb(138, 138, 138)", "iconFill": "rgb(106, 30, 187)" }
+    "measure": "(function(){var el=document.querySelector('aha-uploader[data-probe]');var sr=el.shadowRoot;var z=sr.querySelector('.zone');var zs=getComputedStyle(z);var errName=sr.querySelector('.row.error .name');var es=getComputedStyle(errName);var fill=sr.querySelector('.row .bar > i');var fs=fill?getComputedStyle(fill):null;var hasRemove=!!sr.querySelector('.rm[part=\"remove\"]');return{radius:zs.borderTopLeftRadius,border:zs.borderTopColor,zoneColor:zs.color,errorColor:es.color,progressFill:fs?fs.backgroundColor:null,hasRemove:hasRemove};})()",
+    "expect": { "radius": "8px", "border": "rgb(212, 212, 212)", "zoneColor": "rgb(138, 138, 138)", "errorColor": "rgb(245, 34, 45)", "progressFill": "rgb(106, 30, 187)", "hasRemove": true }
   }
 }

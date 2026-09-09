@@ -1,12 +1,18 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-color-picker> is the SAME shared custom element React and Vue consume.
-     Defaults to the brand ramp; override with swatches="#hex|#hex". Emits a composed `change`. -->
+     Defaults to the brand ramp; override with swatches="#hex|#hex". size = small|default|large,
+     disabled greys the control. The swatch matching value is ringed + checked. Emits a composed `change`. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';          // <aha-icon> — the selected-swatch check glyph
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-color-picker.js';   // registers <aha-color-picker>
 </script>
 
-<aha-color-picker id="pick" value="#6A1EBB"></aha-color-picker>
+<aha-color-picker id="pick" value="#6A1EBB" size="default"></aha-color-picker>
+<aha-color-picker value="#FF4081" size="small"></aha-color-picker>
+<aha-color-picker value="#20E8B5" size="large"></aha-color-picker>
+<aha-color-picker value="#6A1EBB" disabled></aha-color-picker>
+<aha-color-picker value="#0FB5C4" swatches="#0FB5C4|#6A1EBB|#FF4081|#1A1A1A"></aha-color-picker>
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.

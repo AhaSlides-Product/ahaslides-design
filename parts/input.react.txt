@@ -1,8 +1,11 @@
-import '@ahaslides-product/design/aha-input';   // registers <aha-input>
+import '@ahaslides-product/design/icons';     // registers <aha-icon> (affix glyphs)
+import '@ahaslides-product/design/aha-input'; // registers <aha-input>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-input> directly.
-function AhaInput({ value, placeholder, type, disabled, invalid, onChange }) {
+// size: 'small' | 'default' | 'large'  ·  status: 'error' | 'warning'
+function AhaInput({ value, placeholder, type, size, status, disabled, readOnly,
+                    prefixIcon, suffix, clearable, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -12,8 +15,21 @@ function AhaInput({ value, placeholder, type, disabled, invalid, onChange }) {
     el.addEventListener('input', h);
     return () => el.removeEventListener('input', h);
   });
-  return <aha-input ref={ref} placeholder={placeholder} type={type} {...(invalid ? { invalid: '' } : {})} />;
+  return (
+    <aha-input
+      ref={ref}
+      placeholder={placeholder}
+      type={type}
+      {...(size ? { size } : {})}
+      {...(status ? { status } : {})}
+      {...(readOnly ? { readonly: '' } : {})}
+      {...(prefixIcon ? { 'prefix-icon': prefixIcon } : {})}
+      {...(suffix ? { suffix } : {})}
+      {...(clearable ? { clearable: '' } : {})}
+    />
+  );
 }
 
 // usage
-<AhaInput value={name} placeholder="Workspace name" onChange={setName} />
+<AhaInput value={email} placeholder="Email" status="error"
+          prefixIcon="system-envelope" clearable onChange={setEmail} />

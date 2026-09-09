@@ -1,10 +1,13 @@
 <div class="pad">
-  <div class="lbl">States · on · off · disabled-on · disabled-off</div>
-  <div class="row">
-    <aha-switch data-probe checked></aha-switch>
+  <div class="lbl">Switch · on · off · disabled · loading · small · with checked/unchecked children</div>
+  <div class="row" style="gap:16px; align-items:center; flex-wrap:wrap">
+    <aha-switch data-probe checked on-text="On" off-text="Off"></aha-switch>
     <aha-switch></aha-switch>
     <aha-switch checked disabled></aha-switch>
-    <aha-switch disabled></aha-switch>
+    <aha-switch checked loading></aha-switch>
+    <aha-switch size="small" checked></aha-switch>
+    <aha-switch size="small"></aha-switch>
+    <aha-switch checked on-icon="system-check" off-icon="system-x"></aha-switch>
   </div>
   <div class="lbl">In a settings row · applies immediately</div>
   <div class="stack">
@@ -17,41 +20,10 @@
   </div>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-switch (lib/aha-switch.js),
-     inlined here so the preview is self-contained (no build step, no network). -->
+<!-- Imports the REAL shipped element (../lib/aha-switch.js) + the icon library — no inlined copy, so
+     the preview can never drift from lib/. The playground control bar (Size / State / Children) is
+     generated from contracts/switch.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:inline-flex }
-  .track{ position:relative; box-sizing:border-box; width:44px; height:22px; flex:0 0 auto;
-    background:var(--aha-gray-20,#F7F7F7); border:1px solid var(--aha-gray-50,#D4D4D4); border-radius:var(--aha-radius-pill,999px);
-    cursor:pointer; outline:2px solid transparent; outline-offset:2px;
-    transition:background var(--aha-motion-mid,.2s) var(--aha-ease-in-out-circ,cubic-bezier(0.78,0.14,0.15,0.86)), border-color var(--aha-motion-mid,.2s) var(--aha-ease-in-out-circ,cubic-bezier(0.78,0.14,0.15,0.86)), outline-color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
-  .knob{ position:absolute; top:50%; left:2px; width:18px; height:18px; border-radius:50%;
-    background:var(--aha-white,#FFFFFF); box-shadow:0 1px 2px rgba(0,0,0,.15); transform:translate(0,-50%); transition:transform var(--aha-motion-mid,.2s) var(--aha-ease-in-out-circ,cubic-bezier(0.78,0.14,0.15,0.86)) }
-  :host([checked]) .track{ background:var(--aha-color-primary,#6A1EBB); border-color:var(--aha-color-primary,#6A1EBB) }
-  :host([checked]) .knob{ transform:translate(20px,-50%) }
-  :host([disabled]) .track{ opacity:.4; cursor:not-allowed }
-  .track:focus-visible{ outline-color:var(--aha-color-primary,#6A1EBB) }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
-`;
-class AhaSwitch extends HTMLElement {
-  static get observedAttributes() { return ['checked', 'disabled']; }
-  get checked() { return this.hasAttribute('checked'); }
-  set checked(v) { v ? this.setAttribute('checked', '') : this.removeAttribute('checked'); }
-  get disabled() { return this.hasAttribute('disabled'); }
-  set disabled(v) { v ? this.setAttribute('disabled', '') : this.removeAttribute('disabled'); }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); if (!this._track) this._build(); this._sync(); }
-  attributeChangedCallback() { if (this._track) this._sync(); }
-  _build() {
-    this.shadowRoot.append(document.createRange().createContextualFragment(
-      `<style>${STYLE}</style><span class="track" part="track" role="switch" tabindex="0"><span class="knob"></span></span>`));
-    this._track = this.shadowRoot.querySelector('.track');
-    const toggle = () => { if (this.disabled) return; this.checked = !this.checked;
-      this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true, detail: { checked: this.checked } })); };
-    this._track.addEventListener('click', toggle);
-    this._track.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } });
-  }
-  _sync() { this._track.setAttribute('aria-checked', String(this.checked)); }
-}
-customElements.define('aha-switch', AhaSwitch);
+  import '../lib/icons.js';        // registers <aha-icon> so the loading spinner + children glyphs resolve from the DS library
+  import '../lib/aha-switch.js';   // registers <aha-switch> — the shipped primitive, byte-identical to what consumers get
 </script>

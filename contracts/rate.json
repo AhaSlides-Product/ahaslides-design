@@ -13,11 +13,16 @@
     { "label": "Star", "value": "24×24, gap 4" },
     { "label": "Filled", "value": "yellow-50 #FFE32C" },
     { "label": "Empty", "value": "gray-40 #E3E3E3" },
-    { "label": "Hover", "value": "scale 1.12, fill preview to cursor" }
+    { "label": "Half", "value": "filled overlay clipped to 50% (allow-half)" },
+    { "label": "Character", "value": "any DS icon by name via `icon` (outline, brand-tinted)" },
+    { "label": "Hover", "value": "scale 1.12, fill preview to cursor (half-precise)" }
   ],
   "props": [
-    { "name": "value", "type": "number", "default": "0", "desc": "Current score (0…max)" },
-    { "name": "max", "type": "number", "default": "5", "desc": "Number of stars" },
+    { "name": "value", "type": "number", "default": "0", "desc": "Current score (0…count; .5 steps with allow-half)" },
+    { "name": "count", "type": "number", "default": "5", "desc": "Number of stars (DS V3 name; `max` is an alias)" },
+    { "name": "allow-half", "type": "boolean", "default": "false", "desc": "Half-star selection — the left half of a star scores n−0.5" },
+    { "name": "allow-clear", "type": "boolean", "default": "false", "desc": "Click the current value again to clear to 0" },
+    { "name": "icon", "type": "string", "default": "—", "desc": "Custom character: a DS icon name (e.g. system-heart-straight) drawn instead of the star" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Display only — no interaction" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the control" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value" }
@@ -29,7 +34,7 @@
       { "what": "Slider", "when": "a continuous value across a wide range" }
     ],
     "note": "Keep the scale small (5 is the norm). Pair with a short label — 'Rate this session' — and show the chosen value nearby for confirmation.",
-    "dsv3": "Filled star uses yellow-50 (#FFE32C), the on-palette warm accent; empty uses gray-40 (#E3E3E3), the neutral border value. Motion via the shared motion tokens on persistent nodes — no subtree rebuild on selection."
+    "dsv3": "COVERED — from the DS V3 `rate` component-set: count (default 5), value + hover preview, allow-half, disabled/read-only display, allow-clear, and a custom character (any DS icon by name). Filled star uses yellow-50 (#FFE32C), the on-palette warm accent; empty uses gray-40 (#E3E3E3), the neutral border value. Half fill clips a persistent overlay glyph to 50%. Motion via the shared motion tokens on persistent nodes — no subtree rebuild on selection or hover."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./aha-rate", "registers": "aha-rate", "exportsNamed": ["AhaRate", "defineAhaRate"] },
@@ -39,17 +44,41 @@
     { "key": "vue", "label": "Vue 3", "file": "rate.vue.txt" }
   ],
   "preview": "rate.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "allow-half", "label": "Half-step", "default": null, "options": [
+        { "label": "Whole", "value": null },
+        { "label": "Half", "value": "" }
+      ] },
+      { "prop": "count", "label": "Count", "default": "5", "options": [
+        { "label": "3", "value": "3" },
+        { "label": "5", "value": "5" },
+        { "label": "10", "value": "10" }
+      ] },
+      { "prop": "icon", "label": "Character", "default": null, "options": [
+        { "label": "Star", "value": null },
+        { "label": "Heart", "value": "system-heart-straight" },
+        { "label": "Fire", "value": "system-fire" },
+        { "label": "Thumbs up", "value": "system-thumbs-up" }
+      ] },
+      { "prop": "disabled", "label": "Disabled", "default": null, "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "star 24×24 · gap 4", "verdict": "PASS" },
     { "label": "filled yellow-50 / empty gray-40", "verdict": "PASS" },
-    { "label": "hover preview to cursor", "verdict": "PASS" },
+    { "label": "hover preview to cursor (half-precise with allow-half)", "verdict": "PASS" },
+    { "label": "custom character via icon= (DS icon by name)", "verdict": "PASS" },
     { "label": "change emits composed value", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=3 so filled + empty stars both exist.",
-    "ready": "!!(document.querySelector('aha-rate[data-probe]') && document.querySelector('aha-rate[data-probe]').shadowRoot && document.querySelector('aha-rate[data-probe]').shadowRoot.querySelector('.star'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=3 so filled + empty stars both exist; each star is an empty base glyph + a clipped filled overlay. Asserts the filled overlay resolves to the brand gold (yellow-50), the empty base is gray-40, the star is 24×24, and the probe renders exactly 5 stars.",
+    "ready": "!!(document.querySelector('aha-rate[data-probe]') && document.querySelector('aha-rate[data-probe]').shadowRoot && document.querySelector('aha-rate[data-probe]').shadowRoot.querySelector('.star.on'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-rate[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.star.on svg');var off=sr.querySelector('.star:not(.on) svg');var any=sr.querySelector('.star svg');var so=on?getComputedStyle(on):null;var sf=off?getComputedStyle(off):null;var sa=any?getComputedStyle(any):null;return{filledFill:so?so.fill:null,emptyFill:sf?sf.fill:null,starW:sa?sa.width:null,starH:sa?sa.height:null};})()",
-    "expect": { "filledFill": "rgb(255, 227, 44)", "emptyFill": "rgb(227, 227, 227)", "starW": "24px", "starH": "24px" }
+    "measure": "(function(){var el=document.querySelector('aha-rate[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.star.on .fill svg path');var off=sr.querySelector('.star:not(.on) .base svg path');var any=sr.querySelector('.star .base svg');var so=on?getComputedStyle(on):null;var sf=off?getComputedStyle(off):null;var sa=any?getComputedStyle(any):null;return{filledFill:so?so.fill:null,emptyFill:sf?sf.fill:null,starW:sa?sa.width:null,starH:sa?sa.height:null,count:sr.querySelectorAll('.star').length};})()",
+    "expect": { "filledFill": "rgb(255, 227, 44)", "emptyFill": "rgb(227, 227, 227)", "starW": "24px", "starH": "24px", "count": 5 }
   }
 }

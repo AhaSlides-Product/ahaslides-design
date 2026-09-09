@@ -1,4 +1,5 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';        // registers <aha-icon> (loading spinner + children glyphs)
 import '@ahaslides-product/design/aha-switch';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
@@ -6,6 +7,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const live = ref(true);
+const saving = ref(false);
 </script>
 
 <template>
@@ -13,4 +15,8 @@ const live = ref(true);
     :checked.prop="live"
     @change="live = $event.detail.checked"
   />
+  <!-- size="small" · loading · checked/unchecked children (text or icon) -->
+  <aha-switch size="small" :checked.prop="live" @change="live = $event.detail.checked" />
+  <aha-switch :loading.prop="saving" :checked.prop="live" />
+  <aha-switch on-text="On" off-text="Off" :checked.prop="live" @change="live = $event.detail.checked" />
 </template>

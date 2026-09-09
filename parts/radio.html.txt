@@ -14,6 +14,13 @@
   <aha-radio name="mode" value="wordcloud">Word cloud</aha-radio>
 </div>
 
+<!-- variant="button" → a segmented control of connected pills (size="small" for a compact row). -->
+<div role="radiogroup" aria-label="View" style="display:flex">
+  <aha-radio name="view" value="grid" variant="button" checked>Grid</aha-radio>
+  <aha-radio name="view" value="list" variant="button">List</aha-radio>
+  <aha-radio name="view" value="board" variant="button">Board</aha-radio>
+</div>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.querySelectorAll('aha-radio[name="mode"]').forEach((r) => {

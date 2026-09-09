@@ -1,4 +1,5 @@
 // main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';            // <aha-icon> — the selected-swatch check glyph
 import '@ahaslides-product/design/aha-color-picker';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
@@ -11,6 +12,7 @@ const colour = ref('#6A1EBB');
 <template>
   <aha-color-picker
     :value.prop="colour"
+    size="large"
     @change="colour = $event.detail.value"
   />
 </template>

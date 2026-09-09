@@ -3,6 +3,7 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // registers <aha-icon> (loading spinner + children glyphs)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';   // registers <aha-switch>
 </script>
 
@@ -10,6 +11,14 @@
   <aha-switch id="anon" checked></aha-switch>
   Show results live
 </label>
+
+<!-- size="small" · loading (spinner in the knob) · checked/unchecked children (text or an icon in the track) -->
+<div style="display:flex; gap:16px; align-items:center; margin-top:12px">
+  <aha-switch size="small" checked></aha-switch>
+  <aha-switch loading checked></aha-switch>
+  <aha-switch checked on-text="On" off-text="Off"></aha-switch>
+  <aha-switch checked on-icon="system-check" off-icon="system-x"></aha-switch>
+</div>
 
 <script>
   document.getElementById('anon').addEventListener('change', (e) => {

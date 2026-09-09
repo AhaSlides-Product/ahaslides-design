@@ -1,12 +1,21 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-input> is the SAME shared custom element React and Vue consume — here in its
-     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+     native form. Theming comes only from the --aha-* tokens in tokens.css.
+     Icons are summoned by name from the DS icon library via <aha-icon>. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // registers <aha-icon> (affix glyphs)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';   // registers <aha-input>
 </script>
 
-<aha-input id="ws" placeholder="Workspace name" value="AhaSlides"></aha-input>
+<!-- size: small | default | large   ·   status: error | warning   ·   disabled / readonly -->
+<aha-input id="ws" size="large" placeholder="Workspace name" value="AhaSlides"></aha-input>
+
+<!-- affixes: a leading prefix icon, a trailing suffix text, a clear ✕, a password reveal -->
+<aha-input prefix-icon="system-magnifying-glass" type="search" clearable placeholder="Search slides"></aha-input>
+<aha-input suffix=".ahaslides.com" value="myteam"></aha-input>
+<aha-input type="password" prefix-icon="system-lock" value="secret123"></aha-input>
+<aha-input status="error" value="not-an-email" placeholder="Email"></aha-input>
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.

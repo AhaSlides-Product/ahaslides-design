@@ -6,7 +6,10 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-rate.js';   // registers <aha-rate>
 </script>
 
-<aha-rate id="score" value="3" max="5"></aha-rate>
+<aha-rate id="score" value="3" count="5"></aha-rate>
+<!-- half-step selection:  <aha-rate value="3.5" count="5" allow-half></aha-rate> -->
+<!-- custom DS character:  <aha-rate value="4" icon="system-heart-straight"></aha-rate> -->
+<!-- read-only display:    <aha-rate value="4" readonly></aha-rate> -->
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
