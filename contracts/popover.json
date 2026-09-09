@@ -1,0 +1,54 @@
+{
+  "name": "Popover",
+  "slug": "popover",
+  "group": "Overlays",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-popover",
+  "summary": "Anchor a floating panel of rich content to a trigger.",
+  "lead": "ONE custom element — <aha-popover> — defined once, imported unchanged by React and Vue. A click on the slotted trigger toggles the `open` attribute on a persistent panel (never rebuilt), so opacity and lift animate. Richer than a Tooltip — it holds interactive content. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-elevated", "text-default", "border", "radius-default", "font-product", "motion-mid", "ease-out"],
+  "spec": [
+    { "label": "Panel", "value": "bg-elevated #FFFFFF, 1px border #E3E3E3, radius 8" },
+    { "label": "Elevation", "value": "0 6px 16px ink 12%" },
+    { "label": "Body", "value": "pad 12 16, 14/21 text-default" },
+    { "label": "Motion", "value": "fade + 4px lift on open (ease-out)" }
+  ],
+  "props": [
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Controlled open state; reflected attribute" },
+    { "name": "placement", "type": "bottom | top", "default": "bottom", "desc": "Side the panel anchors to" },
+    { "name": "[slot=trigger]", "type": "slotted element", "default": "—", "desc": "The element that toggles the panel" },
+    { "name": "open / close", "type": "CustomEvent", "default": "—", "desc": "Composed events on show / hide" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Popover", "when": "a small panel of rich or interactive content anchored to a control" },
+      { "what": "Tooltip", "when": "a short, non-interactive hint on hover" },
+      { "what": "Modal", "when": "a focused task that should block the rest of the page" }
+    ],
+    "note": "Trigger on click for interactive content (Tooltip owns hover). Close on outside-click and Escape — both are built in. Keep the panel content short; a long form belongs in a Modal.",
+    "dsv3": "White elevated surface with the standard 8 radius and a soft ink shadow. Fade + 4px lift via the shared motion tokens on a persistent panel — no subtree rebuild on open/close."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-popover", "registers": "aha-popover", "exportsNamed": ["AhaPopover", "defineAhaPopover"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "popover.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "popover.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "popover.vue.txt" }
+  ],
+  "preview": "popover.preview.html",
+  "selfCheck": [
+    { "label": "panel radius 8 · border #E3E3E3", "verdict": "PASS" },
+    { "label": "fade + lift on open", "verdict": "PASS" },
+    { "label": "outside-click + Esc close", "verdict": "PASS" },
+    { "label": "open/close emit composed", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is open so the panel is laid out.",
+    "ready": "!!(document.querySelector('aha-popover[data-probe]') && document.querySelector('aha-popover[data-probe]').shadowRoot && document.querySelector('aha-popover[data-probe]').shadowRoot.querySelector('.pop'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-popover[data-probe]');var p=el.shadowRoot.querySelector('.pop');var s=getComputedStyle(p);return{bg:s.backgroundColor,radius:s.borderTopLeftRadius,border:s.borderTopColor,color:s.color};})()",
+    "expect": { "bg": "rgb(255, 255, 255)", "radius": "8px", "border": "rgb(227, 227, 227)", "color": "rgb(26, 26, 26)" }
+  }
+}

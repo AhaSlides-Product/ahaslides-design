@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-segmented> is the SAME shared custom element React and Vue consume.
+     Options are pipe-separated; it emits a composed `change` event. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-segmented.js';   // registers <aha-segmented>
+</script>
+
+<aha-segmented id="range" options="Day|Week|Month" value="Week"></aha-segmented>
+
+<script>
+  // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
+  document.getElementById('range').addEventListener('change', (e) => {
+    console.log('range:', e.detail.value);
+  });
+</script>

@@ -1,0 +1,55 @@
+{
+  "name": "Rate",
+  "slug": "rate",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-rate",
+  "summary": "Capture or display a score as a row of stars.",
+  "lead": "ONE custom element — <aha-rate> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; selection and hover-preview toggle a class on persistent star nodes so the fill animates. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["yellow-50", "gray-40", "color-primary", "radius-xs", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],
+  "spec": [
+    { "label": "Star", "value": "24×24, gap 4" },
+    { "label": "Filled", "value": "yellow-50 #FFE32C" },
+    { "label": "Empty", "value": "gray-40 #E3E3E3" },
+    { "label": "Hover", "value": "scale 1.12, fill preview to cursor" }
+  ],
+  "props": [
+    { "name": "value", "type": "number", "default": "0", "desc": "Current score (0…max)" },
+    { "name": "max", "type": "number", "default": "5", "desc": "Number of stars" },
+    { "name": "readonly", "type": "boolean", "default": "false", "desc": "Display only — no interaction" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the control" },
+    { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Rate", "when": "a subjective score on a small fixed scale — a review, a difficulty, satisfaction" },
+      { "what": "Segmented", "when": "picking one labelled option from a few, not a magnitude" },
+      { "what": "Slider", "when": "a continuous value across a wide range" }
+    ],
+    "note": "Keep the scale small (5 is the norm). Pair with a short label — 'Rate this session' — and show the chosen value nearby for confirmation.",
+    "dsv3": "Filled star uses yellow-50 (#FFE32C), the on-palette warm accent; empty uses gray-40 (#E3E3E3), the neutral border value. Motion via the shared motion tokens on persistent nodes — no subtree rebuild on selection."
+  },
+  "surfaces": ["editor", "dashboard", "audience"],
+  "reuse": { "entry": "./aha-rate", "registers": "aha-rate", "exportsNamed": ["AhaRate", "defineAhaRate"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "rate.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "rate.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "rate.vue.txt" }
+  ],
+  "preview": "rate.preview.html",
+  "selfCheck": [
+    { "label": "star 24×24 · gap 4", "verdict": "PASS" },
+    { "label": "filled yellow-50 / empty gray-40", "verdict": "PASS" },
+    { "label": "hover preview to cursor", "verdict": "PASS" },
+    { "label": "change emits composed value", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=3 so filled + empty stars both exist.",
+    "ready": "!!(document.querySelector('aha-rate[data-probe]') && document.querySelector('aha-rate[data-probe]').shadowRoot && document.querySelector('aha-rate[data-probe]').shadowRoot.querySelector('.star'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-rate[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.star.on svg');var off=sr.querySelector('.star:not(.on) svg');var any=sr.querySelector('.star svg');var so=on?getComputedStyle(on):null;var sf=off?getComputedStyle(off):null;var sa=any?getComputedStyle(any):null;return{filledFill:so?so.fill:null,emptyFill:sf?sf.fill:null,starW:sa?sa.width:null,starH:sa?sa.height:null};})()",
+    "expect": { "filledFill": "rgb(255, 227, 44)", "emptyFill": "rgb(227, 227, 227)", "starW": "24px", "starH": "24px" }
+  }
+}

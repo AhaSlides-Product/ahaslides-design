@@ -21,6 +21,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.11.0 — 2026-09-10
+### Added
+- `aha-rate` — a star rating (leaf web component) for capturing or displaying a score out of `max`. Selection and hover-preview toggle a class on persistent star nodes, so the fill animates via the shared motion tokens. (PRO38-8)
+- `aha-color-picker` — a leaf colour picker: a trigger swatch opening a persistent panel of preset colours (the brand ramp by default, overridable via `swatches`). (PRO38-8)
+- `aha-uploader` — a leaf click-or-drag file drop zone; hover and drag-over animate the persistent zone's border and tint. Emits the selected `File[]`. (PRO38-8)
+- `aha-avatar` — a leaf identity marker showing a photo (`src`) or the initials of `name` on a tinted ground, in circle or square shape. (PRO38-8)
+- `aha-popover` — a leaf click-triggered floating panel for rich content, closing on outside-click and Escape; fade + lift animate on a persistent panel. (PRO38-8)
+- `aha-tabs` — a leaf line-style tab bar over slotted panels (each child labelled via `data-tab`); active colour and underline animate on persistent tab nodes. (PRO38-8)
+- `aha-segmented` — a leaf single-choice segmented control; selection slides a persistent thumb via the shared motion tokens. (PRO38-8)
+### Fixed
+- `aha-popover` — the `document` `keydown` (Escape) listener is now removed in `disconnectedCallback`, alongside the outside-click one, so it no longer leaks across mount/unmount. (#36)
+- `aha-tabs`, `aha-segmented`, `aha-rate` — full keyboard contracts: roving tabindex, ArrowLeft/Right (and Home/End) to move and select, with `aria-selected`/`aria-checked` and (tabs) `aria-controls`/`role="tabpanel"` kept in sync with the rendered state. (#36)
+- `aha-tabs`, `aha-segmented`, `aha-rate` — now `observedAttributes:['value']` + an `attributeChangedCallback` that re-syncs the aria state, so a controlled (framework-bound) `value` no longer desyncs the announced state from the visuals. (#36)
+- `aha-color-picker` — the swatch palette is now `role="group"` (a set of labelled buttons) rather than `role="listbox"`, matching its keyboard model (each swatch a tab-stop) instead of announcing a roving widget it did not implement. (#36)
+- `aha-color-picker` — each swatch button now carries `aria-pressed`, synced to the current value in `_paint()`, so a screen reader can tell which colour is selected (previously only a `.on` CSS class changed). (#36)
+
 ## 0.10.0 — 2026-09-10
 ### Fixed
 - **Radio** (`aha-radio`) — implement the WAI-ARIA radiogroup keyboard contract: the host is now the accessible `role="radio"` with synced `aria-checked`, one tabbable radio per group (roving tabindex), Arrow keys move to and select the next/previous option (wrapping), and Space selects the focused option. Snippets wrap the set in a `role="radiogroup"` container. (#35)

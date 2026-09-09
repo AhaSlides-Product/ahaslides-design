@@ -1,0 +1,21 @@
+import '@ahaslides-product/design/aha-tabs';   // registers <aha-tabs>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-tabs> directly.
+function AhaTabs({ value = 0, onChange, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value;
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return <aha-tabs ref={ref}>{children}</aha-tabs>;
+}
+
+// usage — each panel carries its label in data-tab
+<AhaTabs value={tab} onChange={setTab}>
+  <section data-tab="Overview">Overview panel content.</section>
+  <section data-tab="Activity">Activity panel content.</section>
+</AhaTabs>
