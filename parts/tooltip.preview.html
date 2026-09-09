@@ -18,15 +18,18 @@
 <script type="module">
 const STYLE = `
   :host{ position:relative; display:inline-flex }
-  .bubble{ position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  .bubble{ position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) translateY(4px);
     box-sizing:border-box; max-width:240px; padding:6px 10px; white-space:nowrap;
     font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:12px; line-height:18px;
     color:var(--aha-text-inverse,#FFFFFF); background:var(--aha-bg-dark,#1A1A2E);
     border-radius:var(--aha-radius-sm,6px); box-shadow:0 4px 12px rgba(26,26,46,.2);
-    opacity:0; visibility:hidden; transition:opacity .1s ease; z-index:10; pointer-events:none }
+    opacity:0; visibility:hidden;
+    transition:opacity var(--aha-motion-mid,.2s) var(--aha-ease-out-back,cubic-bezier(0.12,0.4,0.29,1.46)), transform var(--aha-motion-mid,.2s) var(--aha-ease-out-back,cubic-bezier(0.12,0.4,0.29,1.46));
+    z-index:10; pointer-events:none }
   .bubble::after{ content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
     border:5px solid transparent; border-top-color:var(--aha-bg-dark,#1A1A2E) }
-  :host(:hover) .bubble, :host(:focus-within) .bubble, :host([open]) .bubble{ opacity:1; visibility:visible }
+  :host(:hover) .bubble, :host(:focus-within) .bubble, :host([open]) .bubble{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0) }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
 `;
 class AhaTooltip extends HTMLElement {
   static get observedAttributes() { return ['text', 'open']; }

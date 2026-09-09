@@ -218,6 +218,8 @@ function tokenVars(t) {
   /* type + shape */
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-mono:${f.mono};`);
   L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-pill:${r.pill}px;`);
+  /* motion — Ant Design v6 durations + standard eases (aha-design-antd §Motion); authored here, not in tokens.canonical.json (that file is Brian-owned and has no motion layer) */
+  L.push(`--aha-motion-fast:.1s; --aha-motion-mid:.2s; --aha-motion-slow:.3s; --aha-ease-in-out:cubic-bezier(0.645,0.045,0.355,1); --aha-ease-out:cubic-bezier(0.215,0.61,0.355,1); --aha-ease-in-out-circ:cubic-bezier(0.78,0.14,0.15,0.86); --aha-ease-out-back:cubic-bezier(0.12,0.4,0.29,1.46);`);
   return `:root{\n  ${L.join('\n  ')}\n}`;
 }
 

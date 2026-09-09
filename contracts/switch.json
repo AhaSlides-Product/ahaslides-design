@@ -8,13 +8,13 @@
   "summary": "A single setting that takes effect immediately — on or off.",
   "lead": "ONE custom element — <aha-switch> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the track fills brand when checked and the knob slides. Emits a composed `change` CustomEvent<{checked}>. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-50", "color-primary", "purple-30", "white", "bg-container-disabled", "radius-pill"],
+  "tokensUsed": ["gray-20", "gray-50", "color-primary", "white", "radius-pill"],
   "spec": [
-    { "label": "Track", "value": "40×22 · radius pill" },
-    { "label": "Knob", "value": "18×18 white circle, slides 18px" },
-    { "label": "Off", "value": "track #D4D4D4 (gray-50)" },
+    { "label": "Track", "value": "44×22 · radius pill · 1px #D4D4D4 border" },
+    { "label": "Knob", "value": "18×18 white circle, slides 20px" },
+    { "label": "Off", "value": "track #F7F7F7 (gray-20)" },
     { "label": "On", "value": "track #6A1EBB (primary)" },
-    { "label": "Disabled", "value": "off #F1F1F1 · on #D3B4FF" }
+    { "label": "Disabled", "value": "40% opacity" }
   ],
   "props": [
     { "name": "checked", "type": "boolean", "default": "false", "desc": "On/off state (reflected)" },
@@ -27,7 +27,8 @@
       { "what": "Checkbox", "when": "options saved together as a group, or expressing consent" },
       { "what": "Radio", "when": "exactly one from a small mutually-exclusive set" }
     ],
-    "note": "Never mix switches and checkboxes in one group. The label names what the setting controls as a noun phrase; the switch communicates the action — don't prefix the label with Enable/Turn on."
+    "note": "Never mix switches and checkboxes in one group. The label names what the setting controls as a noun phrase; the switch communicates the action — don't prefix the label with Enable/Turn on.",
+    "dsv3": "Matched to the measured DS V3 `toggle` cell (the standard's name for the switch): track 44×22, radius pill, 1px #D4D4D4 border, off #F7F7F7 (gray-20), on #6A1EBB, disabled 40% opacity. Earlier rounds treated switch as DS-silent; the measured cell exists, so width (40→44), off-fill and the border were corrected to it. All bound to canonical gray/primary tokens."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-switch", "registers": "aha-switch", "exportsNamed": ["AhaSwitch", "defineAhaSwitch"] },
@@ -38,9 +39,9 @@
   ],
   "preview": "switch.preview.html",
   "selfCheck": [
-    { "label": "track 40×22 radius pill", "verdict": "PASS" },
-    { "label": "on #6A1EBB · off #D4D4D4", "verdict": "PASS" },
-    { "label": "knob 18 white, slides 18", "verdict": "PASS" },
+    { "label": "track 44×22 radius pill · 1px border", "verdict": "PASS" },
+    { "label": "on #6A1EBB · off #F7F7F7", "verdict": "PASS" },
+    { "label": "knob 18 white, slides 20", "verdict": "PASS" },
     { "label": "change emits composed {checked}", "verdict": "PASS" }
   ],
   "conformance": {
@@ -48,6 +49,6 @@
     "ready": "!!(document.querySelector('aha-switch[data-probe]') && document.querySelector('aha-switch[data-probe]').shadowRoot && document.querySelector('aha-switch[data-probe]').shadowRoot.querySelector('.track'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-switch[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.track');var s=t?getComputedStyle(t):null;return{bg:s?s.backgroundColor:null,width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null};})()",
-    "expect": { "bg": "rgb(106, 30, 187)", "width": "40px", "height": "22px", "radius": "999px" }
+    "expect": { "bg": "rgb(106, 30, 187)", "width": "44px", "height": "22px", "radius": "999px" }
   }
 }

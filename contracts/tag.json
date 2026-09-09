@@ -8,9 +8,9 @@
   "summary": "A small, low-emphasis label for a category, keyword, or state.",
   "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `variant` attribute, and `closable` adds a dismiss affordance that emits a composed `close` event. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-30", "purple-10", "purple-60", "bg-positive", "text-positive", "bg-warning", "text-warning", "bg-negative", "text-negative", "radius-sm"],
+  "tokensUsed": ["gray-30", "purple-10", "purple-60", "bg-positive", "text-positive", "bg-warning", "text-warning", "bg-negative", "text-negative", "radius-xs"],
   "spec": [
-    { "label": "Box", "value": "height 22 · radius 6 · padding 0 8" },
+    { "label": "Box", "value": "height 22 · radius 4 · padding 0 8" },
     { "label": "Text", "value": "Plus Jakarta SemiBold 600, 12/18" },
     { "label": "Neutral", "value": "bg #F1F1F1, label #4A4A4A" },
     { "label": "Primary", "value": "bg #F9F5FF, label #6A1EBB" },
@@ -27,7 +27,8 @@
       { "what": "Badge", "when": "a count or a status dot attached to another element" },
       { "what": "Button", "when": "the chip should trigger an action — a Tag is a label, not a control" }
     ],
-    "note": "Keep tag text to one or two words, sentence case. Colour carries meaning — reserve success/warning/error for real states, not decoration."
+    "note": "Keep tag text to one or two words, sentence case. Colour carries meaning — reserve success/warning/error for real states, not decoration.",
+    "dsv3": "Radius aligned to the measured DS V3 tag (radius-xs = 4). Flavour note: the measured DS V3 `tag` cell is an OUTLINED selectable chip (bordered, h34, rest→hover→active states). This `aha-tag` is the tinted-label flavour — the category/state label the status-badges skill points to as generic Tag territory. Only the shared structural value (radius 4) is taken from the measured cell; the semantic tint variants (success/warning/error) are a deliberate DS extension derived from the bg/text positive·warning·negative token families. DS V3 does not measure a tinted-label tag."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-tag", "registers": "aha-tag", "exportsNamed": ["AhaTag", "defineAhaTag"] },
@@ -38,7 +39,7 @@
   ],
   "preview": "tag.preview.html",
   "selfCheck": [
-    { "label": "height 22 · radius 6", "verdict": "PASS" },
+    { "label": "height 22 · radius 4", "verdict": "PASS" },
     { "label": "primary bg #F9F5FF / label #6A1EBB", "verdict": "PASS" },
     { "label": "text SemiBold 600 12/18", "verdict": "PASS" },
     { "label": "closable emits composed close", "verdict": "PASS" }
@@ -48,6 +49,6 @@
     "ready": "!!(document.querySelector('aha-tag[data-probe]') && document.querySelector('aha-tag[data-probe]').shadowRoot && document.querySelector('aha-tag[data-probe]').shadowRoot.querySelector('.chip'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-tag[data-probe]');var c=el&&el.shadowRoot&&el.shadowRoot.querySelector('.chip');var s=c?getComputedStyle(c):null;return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,weight:s?s.fontWeight:null};})()",
-    "expect": { "bg": "rgb(249, 245, 255)", "radius": "6px", "height": "22px", "weight": "600" }
+    "expect": { "bg": "rgb(249, 245, 255)", "radius": "4px", "height": "22px", "weight": "600" }
   }
 }

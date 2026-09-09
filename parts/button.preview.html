@@ -52,7 +52,7 @@ class AhaButton extends LitElement {
       display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; box-sizing:border-box;
       height:36px; padding:0 16px; border:1px solid transparent; border-radius:var(--aha-radius-default,8px);
       background:var(--aha-btn-secondary-bg,#fff); color:var(--aha-text-default,#1A1A1A); border-color:var(--aha-btn-secondary-border,#E3E3E3);
-      cursor:pointer; white-space:nowrap; user-select:none; transition:background .12s ease, border-color .12s ease, box-shadow .12s ease }
+      cursor:pointer; white-space:nowrap; user-select:none; transition:background var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)), border-color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)), box-shadow var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
     /* DS V3 focus = soft box-shadow ring (per tone), not an outline */
     button:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--aha-btn-focus-ring,rgba(211,180,255,.3)) }
     ::slotted([slot=icon]){ display:inline-flex; line-height:0; width:16px; height:16px }
@@ -99,6 +99,7 @@ class AhaButton extends LitElement {
     :host([disabled]) button{ cursor:not-allowed; background:var(--aha-btn-disabled-bg,#E3E3E3); border-color:var(--aha-btn-disabled-bg,#E3E3E3); color:var(--aha-btn-disabled-fg,#B5B5B5); box-shadow:none }
     :host([disabled][variant=tertiary]) button, :host([disabled][variant=link]) button{ background:transparent; border-color:transparent }
     :host([loading]) button{ cursor:progress }
+    @media (prefers-reduced-motion: reduce){ button{ transition:none } }
   `;
   _click(e){ if(this.disabled || this.loading){ e.preventDefault(); e.stopImmediatePropagation(); } }
   render(){

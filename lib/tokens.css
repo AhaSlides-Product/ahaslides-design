@@ -23,4 +23,5 @@
   --aha-ink-a10:rgba(26,26,46,.1); --aha-ink-a30:rgba(26,26,46,.3); --aha-ink-a50:rgba(26,26,46,.5); --aha-ink-a70:rgba(26,26,46,.7); --aha-ink-a90:rgba(26,26,46,.9); --aha-white-a0:rgba(255,255,255,0); --aha-white-a50:rgba(255,255,255,.5); --aha-white-a70:rgba(255,255,255,.7); --aha-white-a90:rgba(255,255,255,.9);
   --aha-font-product:"Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, sans-serif; --aha-font-display:"Nunito", sans-serif; --aha-font-mono:Menlo, Monaco, monospace;
   --aha-radius-xs:4px; --aha-radius-sm:6px; --aha-radius-default:8px; --aha-radius-lg:12px; --aha-radius-xl:16px; --aha-radius-pill:999px;
+  --aha-motion-fast:.1s; --aha-motion-mid:.2s; --aha-motion-slow:.3s; --aha-ease-in-out:cubic-bezier(0.645,0.045,0.355,1); --aha-ease-out:cubic-bezier(0.215,0.61,0.355,1); --aha-ease-in-out-circ:cubic-bezier(0.78,0.14,0.15,0.86); --aha-ease-out-back:cubic-bezier(0.12,0.4,0.29,1.46);
 }

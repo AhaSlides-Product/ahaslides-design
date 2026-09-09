@@ -28,7 +28,8 @@
       { "what": "Tag", "when": "a standalone label/keyword chip with text" },
       { "what": "dot", "when": "presence/unread without a specific number" }
     ],
-    "note": "A badge marks another element — anchor it to one. Keep counts meaningful; cap large numbers with max so the bubble stays small."
+    "note": "A badge marks another element — anchor it to one. Keep counts meaningful; cap large numbers with max so the bubble stays small.",
+    "dsv3": "COVERED — DS V3 is silent on Badge: the measured component standard has no badge cell, and the status-badges skill explicitly excludes notification/count badges (that is domain-status-pill territory). Spec derived from the token layer (default color-error, status color-success/warning/primary, radius-pill, text-inverse) + antd Badge conventions (18px count bubble, 8×8 dot, 11/18 SemiBold). A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-badge", "registers": "aha-badge", "exportsNamed": ["AhaBadge", "defineAhaBadge"] },
