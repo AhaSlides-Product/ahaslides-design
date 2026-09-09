@@ -107,14 +107,17 @@ for (const ct of contracts) {
   chk('ships an HTML (paste-and-run) snippet', !!html, 'add a { key:"html" } snippet in parts/<slug>.html.txt — every component needs one');
   if (html) {
     const htmlText = read(join(PDIR, html.file));
+    // The snippet must consume the DS from a public CDN — either the npm package
+    // (@ahaslides-product/design) or the repo via jsDelivr /gh/ (ahaslides-product/ahaslides-design).
+    const consumesDS = /@ahaslides-product\/design|ahaslides-product\/ahaslides-design/.test(htmlText);
     if (isLeaf) {
-      chk('HTML snippet imports the DS + uses the element', /@ahaslides-product\/design/.test(htmlText) && new RegExp(`<${ct.element}[\\s>]`).test(htmlText),
-        'a leaf HTML snippet must import @ahaslides-product/design and use its custom element');
+      chk('HTML snippet imports the DS + uses the element', consumesDS && new RegExp(`<${ct.element}[\\s>]`).test(htmlText),
+        'a leaf HTML snippet must import the DS element from a public CDN and use its custom element');
     } else {
       // composite: a CDN-React page — must consume the DS (e.g. the shared theme) and be runnable
       // (loads React from a CDN, mounts into the DOM), not a hand-styled raw table.
-      chk('HTML snippet is a runnable CDN-React page consuming the DS', /@ahaslides-product\/design/.test(htmlText) && /esm\.sh|cdn|unpkg|jsdelivr/i.test(htmlText) && /react/i.test(htmlText),
-        'a composite HTML snippet must load React from a CDN and consume @ahaslides-product/design (e.g. the shared theme)');
+      chk('HTML snippet is a runnable CDN-React page consuming the DS', consumesDS && /esm\.sh|cdn|unpkg|jsdelivr/i.test(htmlText) && /react/i.test(htmlText),
+        'a composite HTML snippet must load React from a CDN and consume the DS (e.g. the shared theme)');
     }
   }
 
