@@ -21,6 +21,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.15.1 — 2026-09-10
+### Fixed
+- In-app navigation now carries each page's own CSS. A page inlines its page-specific styles (`extraCss`: the icon-library grid/cards/search, the foundations token pages, the pattern pages) in its `<head><style>`, but the swap replaced only `<main>` and kept the previous page's `<head>` — so navigating to such a page dropped its styles and the content fell back to unstyled defaults (e.g. the icon library collapsed into cramped inline chips) until a full reload. The swap now syncs the document `<style>` to the destination page's; shared token/shell CSS is identical across pages, so replacing it whole is safe. (#44)
+
 ## 0.15.0 — 2026-09-10
 ### Added
 - Accessibility gate: a **fourth check** — a silent toggle button. A `<button>` that toggles a selection class (`selected`/`active`/`pressed`/`on`) on state but exposes no `aria-pressed`/`aria-checked` reads as a plain button to a screen reader (the selection is invisible) — it now hard-fails. A button carrying a roving/selectable role (`radio`/`tab`/`menuitem`/`option`) is exempt (it syncs its own aria); per-line opt-out `ds-lint-allow: a11y (why)`. Caught the CSAT thumbs and colour-picker swatches, both now fixed. (#44)

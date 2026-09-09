@@ -469,6 +469,13 @@ const PJAX_JS = `
     absolutize(doc.querySelector('.doc-header'), url);
     absolutize(newBody, url);
 
+    // Each page inlines its own page-specific CSS (extraCss) in <head><style> — the icon grid, the
+    // token pages, the pattern pages. Carry it over, or a swapped-in <main> renders with unstyled
+    // defaults (the styles only arrive on a full reload). Shared token/shell CSS is identical, so
+    // replacing the whole <style> is safe and general.
+    var newStyle=doc.head && doc.head.querySelector('style'), curStyle=document.head.querySelector('style');
+    if(newStyle && curStyle && curStyle.textContent!==newStyle.textContent) curStyle.textContent=newStyle.textContent;
+
     var curBody=document.querySelector('.doc-body');
     if(sectionOf(curBody)===sectionOf(newBody)){
       // same area — keep the sidebar node (and its scroll), swap only the content pane
