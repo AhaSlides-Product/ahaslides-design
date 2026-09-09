@@ -1,0 +1,55 @@
+{
+  "name": "Textarea",
+  "slug": "textarea",
+  "group": "Data Entry",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "Enter multi-line free text — descriptions, messages, notes — with autosize and char count, rendered through the shared Textarea.",
+  "lead": "Textarea rides on Ant's Input.TextArea for autosize, char-count and form integration: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared textareaTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "colorBorder", "colorTextPlaceholder", "Input.activeBorderColor", "Input.hoverBorderColor"],
+  "spec": [
+    { "label": "Box", "value": "radius 8 · 1px #E3E3E3 border · padding 4 11" },
+    { "label": "Hover", "value": "#D3B4FF (purple-30) border" },
+    { "label": "Focus", "value": "brand #6A1EBB border" },
+    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" },
+    { "label": "Sizing", "value": "rows or autoSize={{minRows,maxRows}}" }
+  ],
+  "props": [
+    { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
+    { "name": "rows", "type": "number", "default": "—", "desc": "Fixed visible rows" },
+    { "name": "autoSize", "type": "boolean | { minRows, maxRows }", "default": "false", "desc": "Grow with content between bounds" },
+    { "name": "maxLength", "type": "number", "default": "—", "desc": "Cap length; pair with showCount" },
+    { "name": "showCount", "type": "boolean", "default": "false", "desc": "Show the character counter" },
+    { "name": "onChange", "type": "(e) => void", "default": "—", "desc": "Fires on each change; read e.target.value" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Textarea", "when": "multi-line free text — a description, a message, notes" },
+      { "what": "Input", "when": "short single-line text — a name, a title, a search term" },
+      { "what": "Select", "when": "one value from a known set — don't make the user type it" }
+    ],
+    "note": "Prefer autoSize with a minRows/maxRows band so the field grows with content but never dominates the layout. Pair maxLength with showCount so the limit is visible, not a surprise on submit."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./textarea-theme", "exportsNamed": ["textareaTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "textarea.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared textareaTheme. No build step." },
+    { "key": "react", "label": "React", "file": "textarea.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "textarea.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "textarea.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (textareaTheme); residual drift is caught by visual regression.",
+  "preview": "textarea.preview.html",
+  "selfCheck": [
+    { "label": "box radius 8 · #E3E3E3 border", "verdict": "PASS" },
+    { "label": "hover border purple-30", "verdict": "PASS" },
+    { "label": "focus border brand", "verdict": "PASS" },
+    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 TextArea bound to textareaTheme.",
+    "ready": "!!document.querySelector('#react-root textarea.ant-input')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('textarea.ant-input','borderTopLeftRadius'),radiusTR:g('textarea.ant-input','borderTopRightRadius'),radiusBL:g('textarea.ant-input','borderBottomLeftRadius'),radiusBR:g('textarea.ant-input','borderBottomRightRadius'),border:g('textarea.ant-input','borderTopColor'),borderWidth:g('textarea.ant-input','borderTopWidth')};})()",
+    "expect": { "radius": "8px", "radiusTR": "8px", "radiusBL": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px" }
+  }
+}

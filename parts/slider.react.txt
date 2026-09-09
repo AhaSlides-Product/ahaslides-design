@@ -1,0 +1,8 @@
+import { ConfigProvider, Slider } from 'antd';   // antd v6
+import { sliderTheme } from '@ahaslides-product/design/slider-theme';
+
+<ConfigProvider theme={sliderTheme}>
+  <Slider defaultValue={40} onChange={setVolume} />
+  <Slider range defaultValue={[20, 70]} onChange={setWindow} />
+</ConfigProvider>
+// One shared sliderTheme → the DS V3 look; pair with a value readout when the exact number matters.

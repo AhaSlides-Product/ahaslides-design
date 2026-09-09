@@ -21,6 +21,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.10.0 — 2026-09-10
+### Fixed
+- **Radio** (`aha-radio`) — implement the WAI-ARIA radiogroup keyboard contract: the host is now the accessible `role="radio"` with synced `aria-checked`, one tabbable radio per group (roving tabindex), Arrow keys move to and select the next/previous option (wrapping), and Space selects the focused option. Snippets wrap the set in a `role="radiogroup"` container. (#35)
+### Added
+- **Radio** (`aha-radio`) — shared leaf web component: a mutually-exclusive choice for a small set. Radios sharing a `name` clear their siblings on select; the inner dot scales in on the shared motion tokens on a persistent node. Importable at `@ahaslides-product/design/aha-radio`. (#38)
+- **InputNumber** (composite) — bounded numeric field with steppers, min/max, step and precision. Themed by the shared `inputNumberTheme` (`@ahaslides-product/design/input-number-theme`). (#38)
+- **Textarea** (composite) — multi-line free text with autosize and char count, on Ant's `Input.TextArea`. Themed by the shared `textareaTheme` (`@ahaslides-product/design/textarea-theme`). (#38)
+- **AutoComplete** (composite) — free-text input with type-ahead suggestions, on Ant's Select internals. Themed by the shared `autocompleteTheme` (`@ahaslides-product/design/autocomplete-theme`). (#38)
+- **TimePicker** (composite) — hour/minute/second picker on Ant's DatePicker internals, 12/24-hour and minute-step. Themed by the shared `timePickerTheme` (`@ahaslides-product/design/time-picker-theme`). (#38)
+- **Slider** (composite) — drag-to-set value/range with marks. Brand track + handle, gray-30 rail. Themed by the shared `sliderTheme` (`@ahaslides-product/design/slider-theme`). (#38)
+- **Steps** (composite) — ordered-progress indicator for wizards/onboarding, horizontal or vertical. Brand current/finished step. Themed by the shared `stepsTheme` (`@ahaslides-product/design/steps-theme`). (#38)
+
 ## 0.9.1 — 2026-09-10
 ### Fixed
 - In-app navigation now renders live demos without a reload. A demo page registers its `<aha-*>` element from a `<script type="module">` that lives inside `<main>`, and a script moved into the page via `DOMParser`/`replaceWith` never executes — so after a swap the destination element was never defined and its demos stayed blank until a full reload (the `0.8.1` regression). The swap now re-creates and runs the swapped-in `<main>`'s scripts (after `pushState`, so relative `import`s resolve), with a one-time idempotent shim on `customElements.define` so re-registering an already-defined element on revisit is a safe no-op instead of an "already defined" throw. (#43)

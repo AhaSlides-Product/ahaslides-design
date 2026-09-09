@@ -1,0 +1,14 @@
+import { ConfigProvider, TimePicker } from 'antd';   // antd v6
+import dayjs from 'dayjs';
+import { timePickerTheme } from '@ahaslides-product/design/time-picker-theme';
+
+<ConfigProvider theme={timePickerTheme}>
+  <TimePicker
+    defaultValue={dayjs('09:30', 'HH:mm')}
+    format="HH:mm"
+    minuteStep={15}
+    onChange={setTime}
+    style={{ width: 200 }}
+  />
+</ConfigProvider>
+// One shared timePickerTheme → the DS V3 look; match format to the precision you need. Times use Day.js.

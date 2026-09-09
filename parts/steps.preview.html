@@ -1,0 +1,44 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared stepsTheme. Vue consumes the same
+     stepsTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the real antd Steps bound to the shared theme. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__st = {
+  token: { colorPrimary:'#6A1EBB', colorText:'#1A1A1A', borderRadius:8,
+           fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ Steps:{ colorPrimary:'#6A1EBB', iconSize:32, iconFontSize:14, titleLineHeight:32 } }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Steps } = window.__antdR;
+const items = [{ title: 'Details' }, { title: 'Content' }, { title: 'Publish' }];
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 22 }}>
+      <div className="lbl" style={{ marginBottom: 10 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__st}>
+    <div style={{ maxWidth: 520 }}>
+      <Field label="Horizontal · step 2 of 3">
+        <Steps current={1} items={items} />
+      </Field>
+      <Field label="Vertical">
+        <Steps current={1} direction="vertical" items={items} />
+      </Field>
+    </div>
+  </ConfigProvider>
+);
+</script>
