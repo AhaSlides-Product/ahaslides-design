@@ -38,6 +38,7 @@ These come from the `aha-design` skills — follow the owning skill, then self-c
 
 - **Library:** Ant Design v6 only (no MUI/Chakra/Radix/Headless/Mantine); charts via `@ant-design/plots`.
 - **No hardcoded hex/px in components** — bind to theme tokens (`theme.useToken()` / `--aha-*`); radius only from the 4 / 6 / 8 / 12 / 16 scale.
+- **Motion is a token, and it must actually fire** — every interactive state (hover/focus/checked/open/close) animates via the shared motion tokens (`--aha-motion-*` durations + `--aha-ease-*` curves, AntD's motion); no state may snap, no duration may be a bare literal, and the transition must live on a **persistent node** (toggle an attribute/class — never rebuild the subtree on the state change, or the transition is dead even with correct CSS). Enforced by the standards gate, like colour and radius.
 - **Tables:** the shared DataTable, never a raw AntD `<Table>`.
 - **Icons:** the shared Icon component — **call a glyph by name** from the registry, never inline an `<svg>` or pull Lucide/Heroicons/FontAwesome/@ant-design/icons.
 - **Backgrounds** white by default; no gradients on backgrounds/fills (AI-affordance border-only exception).
