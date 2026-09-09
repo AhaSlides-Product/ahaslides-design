@@ -23,6 +23,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
+const PATDIR = join(root, 'patterns');   // pattern artifacts (composition guides over existing components)
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
@@ -74,6 +75,19 @@ const CATALOG = [
   { cat: 'Feedback',     items: [ { name: 'Modal', slug: 'modal' } ] },
 ];
 let LIVE = new Set();   // slugs with a real contract — assigned once contracts load
+let PATTERNS = [];      // loaded pattern artifacts — assigned once patterns load (drives the Patterns nav)
+let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
+
+/* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
+   sidebar (Components shows only components, Foundations only tokens/icons, etc.). One area
+   per screen keeps every sidebar short and relevant. */
+const SECTIONS = [
+  { key: 'overview',    label: 'Overview' },
+  { key: 'foundations', label: 'Foundations' },
+  { key: 'components',  label: 'Components' },
+  { key: 'patterns',    label: 'Patterns' },
+  { key: 'feeds',       label: 'Agent feeds' },
+];
 const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // softIndigo → soft-indigo, inkA10 → ink-a10
 function tokenVars(t) {
   const c = t.color, f = t.font, r = t.radius, P = c.primitives, b = c.button;
@@ -123,8 +137,15 @@ body{margin:0;background:#fff;color:var(--aha-text-default);font-family:var(--ah
 a{color:var(--aha-color-primary)}
 
 /* ---- app shell ---- */
-.doc-header{position:sticky;top:0;z-index:30;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
-.brand{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:600;color:var(--aha-text-default);text-decoration:none}
+.doc-header{position:sticky;top:0;z-index:30;height:64px;display:flex;align-items:center;gap:22px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
+.brand{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:600;color:var(--aha-text-default);text-decoration:none;flex:0 0 auto}
+
+/* ---- top-level area nav (AntD-style header tabs) ---- */
+.top-nav{display:flex;gap:2px;align-items:center;flex:1 1 auto;height:100%}
+.top-nav a{display:inline-flex;align-items:center;height:100%;font-size:14px;color:var(--aha-text-secondary);text-decoration:none;padding:0 14px;font-weight:500;border-bottom:2px solid transparent}
+.top-nav a:hover{color:var(--aha-color-primary)}
+.top-nav a.active{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
+.hmeta{flex:0 0 auto}
 .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--aha-color-primary);color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-size:15px}
 .brand small{display:block;font-size:11px;font-weight:400;color:var(--aha-text-tertiary);letter-spacing:.2px;margin-top:1px}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
@@ -300,39 +321,59 @@ const RAW_FEEDS = [
   { name: 'icons.llms.txt', file: 'icons.llms.txt', page: 'icons-llms-txt', desc: 'Every icon name, grouped by family — the feed an agent reads to call <aha-icon name="…"> instead of writing an SVG.' },
   { name: 'icons.agent.json', file: 'icons.agent.json', page: 'icons-agent-json', desc: 'Machine feed: the full icon catalogue (names + family + recolorable) plus the <aha-icon> usage contract.' },
 ];
-function sidebarNav(base, active) {
-  const top = `<a class="nav-top${active==='__overview__'?' active':''}" href="${base}index.html">Overview</a>`;
-  const foundations =
-    `<div class="nav-group"><div class="nav-cat">Foundations</div>` +
-    `<a class="nav-item${active==='__tokens__'?' active':''}" href="${base}design-tokens.html"><span>Design tokens</span>${active==='__tokens__'?'':'<span class="nav-dot" title="live"></span>'}</a>` +
-    `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span>${active==='__icons__'?'':`<span class="nav-count">${ICONS.count}</span>`}</a>` +
-    `</div>`;
-  const groups = CATALOG.map(g => {
-    const items = g.items.map(it => {
-      if (LIVE.has(it.slug))
-        return `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
-      return `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`;
-    }).join('');
-    return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
-  }).join('');
-  const feeds =
-    `<div class="nav-group"><div class="nav-cat">Agent feeds</div>` +
-    RAW_FEEDS.map(f => `<a class="nav-item raw${active===('feed:'+f.file)?' active':''}" href="${base}feeds/${f.page}.html"><span>${esc(f.name)}</span><i>raw</i></a>`).join('') +
-    `</div>`;
-  return `<nav class="doc-nav">${top}${foundations}${groups}${feeds}</nav>`;
+// Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
+function topNav(base, section) {
+  return `<nav class="top-nav">` + SECTIONS.map(s => {
+    if (s.key === 'patterns' && !PATTERNS.length) return '';
+    const href = base + (NAV_LANDING[s.key] || 'index.html');
+    return `<a class="${section===s.key?'active':''}" href="${href}">${esc(s.label)}</a>`;
+  }).join('') + `</nav>`;
 }
 
-function docShell({ base, active, main, extraCss = '' }) {
+// Left sidebar — scoped to the CURRENT area only (empty on Overview, which is full-width).
+function sidebarNav(base, active, section) {
+  if (section === 'overview') return '';
+  let inner = '';
+  if (section === 'foundations') {
+    inner =
+      `<div class="nav-group"><div class="nav-cat">Foundations</div>` +
+      `<a class="nav-item${active==='__tokens__'?' active':''}" href="${base}design-tokens.html"><span>Design tokens</span>${active==='__tokens__'?'':'<span class="nav-dot" title="live"></span>'}</a>` +
+      `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span>${active==='__icons__'?'':`<span class="nav-count">${ICONS.count}</span>`}</a>` +
+      `</div>`;
+  } else if (section === 'components') {
+    inner = CATALOG.map(g => {
+      const items = g.items.map(it => {
+        if (LIVE.has(it.slug))
+          return `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
+        return `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`;
+      }).join('');
+      return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
+    }).join('');
+  } else if (section === 'patterns') {
+    inner = `<div class="nav-group"><div class="nav-cat">Patterns</div>` +
+      PATTERNS.map(p => `<a class="nav-item${active===('pattern:'+p.slug)?' active':''}" href="${base}patterns/${p.slug}/index.html"><span>${esc(p.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
+      `</div>`;
+  } else if (section === 'feeds') {
+    inner = `<div class="nav-group"><div class="nav-cat">Agent feeds</div>` +
+      RAW_FEEDS.map(f => `<a class="nav-item raw${active===('feed:'+f.file)?' active':''}" href="${base}feeds/${f.page}.html"><span>${esc(f.name)}</span><i>raw</i></a>`).join('') +
+      `</div>`;
+  }
+  return `<nav class="doc-nav">${inner}</nav>`;
+}
+
+function docShell({ base, active, section = 'components', main, extraCss = '' }) {
+  const nav = sidebarNav(base, active, section);
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>AhaSlides Design System — for agents</title>
 <style>${tokenVars(TOK)}${shellCss(base)}${extraCss}</style></head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html"><span class="logo">a</span><span>AhaSlides Design<small>for agents · single source → generated</small></span></a>
+  ${topNav(base, section)}
   <div class="hmeta"><span class="ver">v${esc(PKG.version)}</span><span>React · Vue · Lit</span></div>
 </header>
 <div class="doc-body">
-  ${sidebarNav(base, active)}
+  ${nav}
   <main class="doc-main"><div class="doc-main-inner">${main}</div></main>
 </div>
 <script>${WIDGET_JS}${FEED_JS}</script>
@@ -350,7 +391,7 @@ function renderFeedPage(f, content) {
     <div class="code-head"><div class="tabs"><span class="tab active">${esc(f.file)}</span></div><button class="copy" type="button">Copy</button></div>
     <pre class="active">${esc(content)}</pre>
   </div>`;
-  return docShell({ base: '../', active: 'feed:' + f.file, main });
+  return docShell({ base: '../', active: 'feed:' + f.file, section: 'feeds', main });
 }
 
 function renderHtml(c) {
@@ -374,7 +415,7 @@ function renderHtml(c) {
 
   <h2>Spec</h2>
   <div class="spec-line">${specList(c.spec)}</div>`;
-  return docShell({ base: '../', active: c.slug, main });
+  return docShell({ base: '../', active: c.slug, section: 'components', main });
 }
 
 // Hidden conformance harness (composites): mounts both framework tiers with the token layer,
@@ -432,6 +473,181 @@ function renderAgent(c) {
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
     opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
   }, null, 2) + '\n';
+}
+
+/* ===== patterns — composition guides over existing components =====
+   A pattern ships no primitive of its own; it documents how to compose the DS's
+   components for a use case (settings, paywall, …). The narrative "why" lives in the
+   linked aha-design skill; this artifact carries the enforceable half: composedOf (the
+   reuse graph), rules (the checklist, each ref'd back to the skill), and an optional
+   composition wrapper. Same single-source contract → doc page + feeds, like a component. */
+
+// Minimal Markdown → HTML for the pattern guide sidecar (parts/<slug>.guide.md).
+// Handles the subset the guides use: ## / ### headings, > notes, - lists, | tables,
+// --- rules, **bold**, `code`, and paragraphs. Not a general MD engine — just enough.
+function mdInline(s) {
+  return esc(s)
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+function mdToHtml(src) {
+  const lines = String(src || '').replace(/\r\n/g, '\n').split('\n');
+  const out = [];
+  let i = 0, list = null;
+  const closeList = () => { if (list) { out.push(`</${list}>`); list = null; } };
+  while (i < lines.length) {
+    const ln = lines[i];
+    // table block: a run of lines that start with '|'
+    if (/^\s*\|/.test(ln)) {
+      closeList();
+      const block = [];
+      while (i < lines.length && /^\s*\|/.test(lines[i])) block.push(lines[i++]);
+      const cells = (r) => r.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(x => x.trim());
+      const head = cells(block[0]);
+      const bodyRows = block.slice(2); // block[1] is the --- separator
+      const th = head.map(h => `<th>${mdInline(h)}</th>`).join('');
+      const rows = bodyRows.map(r => `<tr>${cells(r).map(c => `<td>${mdInline(c)}</td>`).join('')}</tr>`).join('');
+      out.push(docTable(th, rows));
+      continue;
+    }
+    if (/^\s*-\s+/.test(ln)) {                    // list item
+      if (list !== 'ul') { closeList(); out.push('<ul>'); list = 'ul'; }
+      out.push(`<li>${mdInline(ln.replace(/^\s*-\s+/, ''))}</li>`);
+      i++; continue;
+    }
+    closeList();
+    if (/^\s*###\s+/.test(ln)) { out.push(`<h3 class="pat-h3">${mdInline(ln.replace(/^\s*###\s+/, ''))}</h3>`); i++; continue; }
+    if (/^\s*##?\s+/.test(ln)) { out.push(`<h2>${mdInline(ln.replace(/^\s*##?\s+/, ''))}</h2>`); i++; continue; }
+    if (/^\s*>\s?/.test(ln)) {                    // blockquote run → a .note
+      const q = [];
+      while (i < lines.length && /^\s*>\s?/.test(lines[i])) q.push(lines[i++].replace(/^\s*>\s?/, ''));
+      out.push(`<div class="note">${mdInline(q.join(' '))}</div>`);
+      continue;
+    }
+    if (/^\s*---\s*$/.test(ln)) { out.push('<hr class="pat-hr"/>'); i++; continue; }
+    if (/^\s*\*/.test(ln)) {                      // trailing italic footer line
+      out.push(`<p class="pat-foot">${mdInline(ln.replace(/^\s*\*(.+)\*\s*$/, '$1'))}</p>`); i++; continue;
+    }
+    if (ln.trim() === '') { i++; continue; }
+    const para = [];
+    while (i < lines.length && lines[i].trim() !== '' && !/^\s*(\||-\s|>|#|---)/.test(lines[i])) para.push(lines[i++]);
+    out.push(`<p>${mdInline(para.join(' '))}</p>`);
+  }
+  closeList();
+  return out.join('\n');
+}
+
+const statusPill = (st) => st === 'available'
+  ? `<span class="pill">available</span>`
+  : `<span class="pill warn">missing</span>`;
+
+function composedOfTable(items) {
+  const rows = (items || []).map(x =>
+    `<tr><td><code>${esc(x.ref)}</code></td><td>${esc(x.as)}</td><td>${esc(x.use)}</td><td>${statusPill(x.status)}</td></tr>`).join('');
+  return docTable('<th>Reuses</th><th>Kind</th><th>For</th><th>In DS?</th>', rows);
+}
+function rulesTable(rules) {
+  const rows = (rules || []).map(r =>
+    `<tr><td>${mdInline(r.rule)}</td><td>${(r.ref || []).map(x => `<span class="ref">${esc(x)}</span>`).join(' ')}</td></tr>`).join('');
+  return docTable('<th>Rule</th><th>Skill assertion</th>', rows);
+}
+function surfaceChoiceTable(rows) {
+  if (!rows || !rows.length) return '';
+  const body = rows.map(r => `<tr><td><b>${esc(r.surface)}</b></td><td>${esc(r.useFor)}</td><td>${esc(r.example)}</td></tr>`).join('');
+  return docTable('<th>Surface</th><th>Use for</th><th>Example</th>', body);
+}
+
+function renderPatternHtml(p) {
+  const missing = (p.composedOf || []).filter(x => x.status === 'missing');
+  const skill = p.skillRef || {};
+  const guide = p.guide ? part(p.guide) : '';
+  const main = `
+  <p class="crumbs">Patterns · composition guide</p>
+  <h1>${esc(p.name)} <span class="badge pattern">pattern</span></h1>
+  <p class="subtitle">${esc(p.summary)}</p>
+  <p class="gen">◆ generated from patterns/${p.slug}.json${p.guide ? ` + parts/${esc(p.guide)}` : ''} — do not edit by hand</p>
+
+  ${p.lead ? `<div class="note" style="margin:0 0 18px">${mdInline(p.lead)}</div>` : ''}
+
+  <h2>Based on</h2>
+  <p class="body">The rationale, worked examples, and the full assertion set live in the design skill — this pattern distils the enforceable subset and links each rule back to it.</p>
+  <div class="skillrefs">
+    ${skill.build ? `<span class="skillref"><b>build</b> <code>${esc(skill.build)}</code></span>` : ''}
+    ${skill.judge ? `<span class="skillref"><b>judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
+  </div>
+
+  ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}
+
+  <h2>Composed of</h2>
+  <p class="body">What a compliant ${esc(p.name.toLowerCase())} surface reuses from this design system — the pattern's link into the component graph.</p>
+  ${composedOfTable(p.composedOf)}
+  ${missing.length ? `<div class="note warn">⚠︎ ${missing.length} referenced component${missing.length===1?'':'s'} not yet in the DS — <b>${missing.map(m=>esc(m.ref)).join(', ')}</b>. ${esc(p.componentBacklog || 'Per the charter, add these here so the pattern can be built by reuse.')}</div>` : ''}
+
+  <h2>Rules</h2>
+  <p class="body">The shippable checklist — each rule traces to an assertion in <code>${esc(skill.build || 'the skill')}</code>.</p>
+  ${rulesTable(p.rules)}
+
+  ${p.reuse ? `<h2>Composition code</h2><p class="body">Ships a reusable wrapper — imported by package name, gated like a composite.</p>`
+    : `<h2>Composition code</h2><p class="body">Doc-only — this pattern ships no wrapper from this repo. ${esc(p.reuseNote || '')}</p>`}
+
+  ${guide ? `<h2>Guide</h2><div class="body pat-guide">${mdToHtml(guide)}</div>` : ''}`;
+  const extraCss = `
+  .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
+  .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
+  .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
+  .skillref b{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);margin-right:6px}
+  .pill.warn{background:#FFF0EB;color:#B24A20}
+  .note.warn{background:#FFF5F0;border-color:#FFCBB0;color:#8A3B18}
+  .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
+  .pat-guide h2{font-size:17px;line-height:24px;margin:28px 0 10px}
+  .pat-h3{font-size:14px;font-weight:600;margin:16px 0 6px}
+  .pat-hr{border:none;border-top:1px solid var(--aha-split);margin:22px 0}
+  .pat-foot{font-size:13px;color:var(--aha-text-tertiary)}`;
+  return docShell({ base: '../../', active: 'pattern:' + p.slug, section: 'patterns', main, extraCss });
+}
+function renderPatternMd(p) {
+  const skill = p.skillRef || {};
+  const co = (p.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n');
+  const rules = (p.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n');
+  const surf = (p.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n');
+  return `# ${p.name} — pattern
+> Generated from patterns/${p.slug}.json — do not edit by hand. Composition guide, not a component.
+
+${p.summary}
+
+Based on: ${skill.build || '—'}${skill.judge ? ` · judge: ${skill.judge}` : ''}
+Surfaces: ${(p.surfaces||[]).join(', ')}.
+
+## Choose the surface
+${surf}
+
+## Composed of
+${co}
+${p.componentBacklog ? `\n> Backlog: ${p.componentBacklog}` : ''}
+
+## Rules
+${rules}
+
+## Composition code
+${p.reuse ? 'Ships a reusable wrapper (gated like a composite).' : `Doc-only. ${p.reuseNote || ''}`}
+`;
+}
+function renderPatternAgent(p) {
+  return JSON.stringify({
+    generatedFrom: `patterns/${p.slug}.json`, kind: 'pattern', pattern: p.name, slug: p.slug,
+    summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
+    surfaceChoice: p.surfaceChoice || null, composedOf: p.composedOf || [],
+    componentBacklog: p.componentBacklog || null, rules: p.rules || [],
+    shipsCode: !!p.reuse, reuse: p.reuse || null,
+  }, null, 2) + '\n';
+}
+function renderPatternsLlms(patterns) {
+  let s = `# AhaSlides Design System — patterns\n\n> Composition guides over existing components. Each pattern reuses the DS's components and documents the conventions for a use case; the narrative "why" lives in the linked aha-design skill.\n\n`;
+  for (const p of patterns) {
+    const missing = (p.composedOf || []).filter(x => x.status === 'missing').map(x => x.ref);
+    s += `## ${p.name} (patterns/${p.slug}/${p.slug}.md)\n${p.summary}\nBased on: ${(p.skillRef||{}).build || '—'}. Surfaces: ${(p.surfaces||[]).join(', ')}.\nReuses: ${(p.composedOf||[]).map(x=>x.ref).join(', ')}.${missing.length?` Component backlog: ${missing.join(', ')}.`:''}\nRules: ${(p.rules||[]).length}. Ships code: ${p.reuse?'yes':'no (doc-only)'}.\n\n`;
+  }
+  return s;
 }
 
 /* ===== G3 · design.md ===== */
@@ -571,7 +787,7 @@ function renderTokensPage() {
   .ramp-cell{width:44px;text-align:center}
   .ramp-chip{height:34px;border-radius:6px;border:1px solid rgba(0,0,0,.06)}
   .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}`;
-  return docShell({ base: '', active: '__tokens__', main, extraCss });
+  return docShell({ base: '', active: '__tokens__', section: 'foundations', main, extraCss });
 }
 
 /* ===== overview / landing page ===== */
@@ -590,6 +806,16 @@ function renderIndex(cs) {
   <h2 style="margin-top:30px">Live components</h2>
   <div class="cards">${cards}</div>
 
+  ${PATTERNS.length ? `<h2>Patterns</h2>
+  <p class="body">Composition guides — how to assemble the components above for a use case. A pattern ships no new primitive; it reuses components and documents conventions, linking each rule back to its <code>aha-design</code> skill.</p>
+  <div class="cards">${PATTERNS.map(p => {
+    const missing = (p.composedOf||[]).filter(x=>x.status==='missing').length;
+    return `<a class="card" href="patterns/${p.slug}/index.html">
+      <div class="ct">${esc(p.name)} <span class="badge pattern" style="color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)">pattern</span></div>
+      <div class="cs">${esc(p.summary)}</div>
+      <div class="cf">${(p.rules||[]).length} rules · reuses ${(p.composedOf||[]).length}${missing?` · ${missing} backlog`:''}</div></a>`;
+  }).join('')}</div>` : ''}
+
   <h2>Agent feeds</h2>
   <p class="feeds">
     <a href="feeds/llms-txt.html"><code>llms.txt</code></a> index ·
@@ -600,8 +826,8 @@ function renderIndex(cs) {
   </p>
 
   <h2>Roadmap</h2>
-  <p class="body">The left nav lists the full planned inventory (greyed = <b>soon</b>), taken from the aha-design <code>component-standard</code> measured set. Leaf primitives ship as one shared Lit web component (portable to any environment); composites ship as antd / ant-design-vue wrappers (app-only). Each component follows the same lifecycle: contract &rarr; build &rarr; theme &rarr; render-matrix verify &rarr; judge &rarr; publish.</p>`;
-  return docShell({ base: '', active: '__overview__', main });
+  <p class="body">The <b>Components</b> tab lists the full planned inventory (greyed = <b>soon</b>), taken from the aha-design <code>component-standard</code> measured set. Leaf primitives ship as one shared Lit web component (portable to any environment); composites ship as antd / ant-design-vue wrappers (app-only). Each component follows the same lifecycle: contract &rarr; build &rarr; theme &rarr; render-matrix verify &rarr; judge &rarr; publish.</p>`;
+  return docShell({ base: '', active: '__overview__', section: 'overview', main });
 }
 
 /* ===== Icon library — runtime, gallery page, and agent feeds (from the registry) ===== */
@@ -674,7 +900,7 @@ function renderIconGallery() {
   .ic .icn{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary);word-break:break-word;text-align:center}
   .ic.copied{border-color:var(--aha-color-success);color:var(--aha-color-success)}
   .ic.copied .icn{color:var(--aha-color-success)}`;
-  return docShell({ base: '../', active: '__icons__', main, extraCss });
+  return docShell({ base: '../', active: '__icons__', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
   const byFam = {};
@@ -704,6 +930,25 @@ mkdirSync(OUT, { recursive: true });
 const contracts = readdirSync(CDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(CDIR, f))));
 contracts.sort((a,b)=>a.name.localeCompare(b.name));
 LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs render as "soon"
+
+/* patterns — composition guides (loaded before any page renders so the Patterns nav is present everywhere) */
+PATTERNS = existsSync(PATDIR)
+  ? readdirSync(PATDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(PATDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
+  : [];
+/* top-nav landing per area — each tab opens that area's first real page */
+NAV_LANDING = {
+  overview: 'index.html',
+  foundations: 'design-tokens.html',
+  components: (contracts[0] ? `${contracts[0].slug}/index.html` : 'index.html'),
+  patterns: (PATTERNS[0] ? `patterns/${PATTERNS[0].slug}/index.html` : 'index.html'),
+  feeds: 'feeds/llms-txt.html',
+};
+if (PATTERNS.length) {
+  RAW_FEEDS.push(
+    { name: 'patterns.llms.txt',  file: 'patterns.llms.txt',  page: 'patterns-llms-txt',  desc: 'One entry per composition pattern — what it reuses, the rule count, and its component backlog.' },
+    { name: 'patterns.agent.json', file: 'patterns.agent.json', page: 'patterns-agent-json', desc: 'Machine feed: every pattern with its composedOf reuse graph, rules (each ref’d to a skill assertion), and whether it ships code.' },
+  );
+}
 
 writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json — do not edit by hand. */\n' + tokenVars(TOK) + '\n');
 
@@ -740,6 +985,20 @@ for (const c of contracts) {
 }
 writeFileSync(join(OUT, 'llms.txt'), indexLines.join('\n') + '\n');
 writeFileSync(join(OUT, 'llms-full.txt'), fullDocs.join('\n---\n\n') + '\n');
+
+/* patterns — doc page + md + agent feed per pattern, plus the two index feeds */
+for (const p of PATTERNS) {
+  const d = join(OUT, 'patterns', p.slug); mkdirSync(d, { recursive: true });
+  writeFileSync(join(d, 'index.html'), renderPatternHtml(p));
+  writeFileSync(join(d, `${p.slug}.md`), renderPatternMd(p));
+  writeFileSync(join(d, `${p.slug}.agent.json`), renderPatternAgent(p));
+  const missing = (p.composedOf || []).filter(x => x.status === 'missing').length;
+  console.log(`  ✓ pattern ${p.slug}: index.html · ${p.slug}.md · ${p.slug}.agent.json${missing?` (⚠ ${missing} backlog component${missing===1?'':'s'})`:''}`);
+}
+if (PATTERNS.length) {
+  writeFileSync(join(OUT, 'patterns.llms.txt'), renderPatternsLlms(PATTERNS));
+  writeFileSync(join(OUT, 'patterns.agent.json'), JSON.stringify(PATTERNS.map(p => JSON.parse(renderPatternAgent(p))), null, 2) + '\n');
+}
 
 // Feed pages LAST — they embed the actual generated files (now all on disk) in a code wrapper.
 mkdirSync(join(OUT, 'feeds'), { recursive: true });
