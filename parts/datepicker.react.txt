@@ -1,0 +1,16 @@
+import { ConfigProvider, DatePicker } from 'antd';   // antd v6
+import dayjs from 'dayjs';
+import { datepickerTheme } from '@ahaslides-product/design/datepicker-theme';
+
+const { RangePicker } = DatePicker;
+
+<ConfigProvider theme={datepickerTheme}>
+  <DatePicker
+    defaultValue={dayjs()}
+    placeholder="Pick a date"
+    onChange={setDate}
+    style={{ width: 240 }}
+  />
+  <RangePicker onChange={setRange} style={{ width: 280 }} />
+</ConfigProvider>
+// One shared datepickerTheme → the DS V3 look; use disabledDate to constrain, not post-validation.

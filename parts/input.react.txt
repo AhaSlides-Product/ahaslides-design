@@ -1,0 +1,19 @@
+import '@ahaslides-product/design/aha-input';   // registers <aha-input>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-input> directly.
+function AhaInput({ value, placeholder, type, disabled, invalid, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value ?? '';
+    el.disabled = !!disabled;
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    el.addEventListener('input', h);
+    return () => el.removeEventListener('input', h);
+  });
+  return <aha-input ref={ref} placeholder={placeholder} type={type} {...(invalid ? { invalid: '' } : {})} />;
+}
+
+// usage
+<AhaInput value={name} placeholder="Workspace name" onChange={setName} />

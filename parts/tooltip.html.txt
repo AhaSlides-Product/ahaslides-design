@@ -1,0 +1,13 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-tooltip> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. Hover the trigger. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.1.0/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.1.0/lib/aha-tooltip.js';   // registers <aha-tooltip>
+</script>
+
+<div style="padding:40px">
+  <aha-tooltip text="Copy share link">
+    <button style="font-family:'Plus Jakarta Sans',sans-serif">Share</button>
+  </aha-tooltip>
+</div>

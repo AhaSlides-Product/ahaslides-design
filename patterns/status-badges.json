@@ -22,8 +22,8 @@
     { "ref": "--aha-color-success", "as": "token", "use": "the semantic colour a 'published'/'active' state maps to via its modifier class — never an inline hex", "status": "available" },
     { "ref": "--aha-color-error", "as": "token", "use": "the semantic colour a 'closed'/failed state maps to via its modifier class — never an inline hex", "status": "available" },
     { "ref": "status-pill", "as": "component", "use": "the StatusBadge wrapper itself (aha-status-pill + dot + label) — the canonical element this pattern describes", "status": "missing" },
-    { "ref": "tag", "as": "component", "use": "the generic AntD-style Tag for free-form labels this pattern explicitly is NOT (contrast target, so it is documented as a distinct missing primitive)", "status": "missing" },
-    { "ref": "badge", "as": "component", "use": "the generic count/notification Badge this pattern explicitly is NOT (contrast target)", "status": "missing" }
+    { "ref": "tag", "as": "component", "use": "the generic Tag for free-form labels this pattern explicitly is NOT (contrast target — a status badge is a fixed, semantic set, not a free-form Tag)", "status": "available" },
+    { "ref": "badge", "as": "component", "use": "the generic count/notification Badge this pattern explicitly is NOT (contrast target — a status badge conveys state, not a count)", "status": "available" }
   ],
   "componentBacklog": "composedOf marks 3 components this pattern references that the DS does not yet ship (status-pill, tag, badge). The status pill (StatusBadge / aha-status-pill family) is the primitive this pattern is built around and currently lives only in the product repo (features/dashboard/StatusBadge.tsx) — per the charter, a pattern that leans on a missing component is the signal to add it HERE. tag and badge are named as the primitives this pattern is NOT, so the roadmap keeps them distinct.",
   "rules": [

@@ -87,7 +87,7 @@ const AHA_ICON_JS = `(function(){
    nav shows the whole roadmap. Order/categories mirror ant.design's component menu. ===== */
 const CATALOG = [
   { cat: 'General',      items: [ { name: 'Button', slug: 'button' }, { name: 'Icon', slug: 'icon' } ] },
-  { cat: 'Data Entry',   items: [ { name: 'Checkbox', slug: 'checkbox' }, { name: 'Radio', slug: 'radio' }, { name: 'Switch', slug: 'switch' }, { name: 'Input', slug: 'input' }, { name: 'Select', slug: 'select' }, { name: 'Upload', slug: 'uploader' } ] },
+  { cat: 'Data Entry',   items: [ { name: 'Checkbox', slug: 'checkbox' }, { name: 'Radio', slug: 'radio' }, { name: 'Switch', slug: 'switch' }, { name: 'Input', slug: 'input' }, { name: 'Select', slug: 'select' }, { name: 'DatePicker', slug: 'datepicker' }, { name: 'Form', slug: 'form' }, { name: 'Upload', slug: 'uploader' } ] },
   { cat: 'Data Display', items: [ { name: 'Badge', slug: 'badge' }, { name: 'Tag', slug: 'tag' }, { name: 'Tooltip', slug: 'tooltip' }, { name: 'Tabs', slug: 'tabs' }, { name: 'Table', slug: 'table' } ] },
   { cat: 'Navigation',   items: [ { name: 'Dropdown', slug: 'dropdown' } ] },
   { cat: 'Feedback',     items: [ { name: 'Modal', slug: 'modal' } ] },

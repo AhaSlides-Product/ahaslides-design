@@ -1,0 +1,54 @@
+{
+  "name": "Badge",
+  "slug": "badge",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-badge",
+  "summary": "A small count or status marker — notification counts, unread dots, status colour.",
+  "lead": "ONE custom element — <aha-badge> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `count` renders a number (capped by `max` as N+), `dot` renders a bare status dot, and `status` sets the colour. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["color-error", "color-success", "color-warning", "color-primary", "text-inverse", "radius-pill"],
+  "spec": [
+    { "label": "Count bubble", "value": "height 18 · min-width 18 · radius pill · padding 0 6" },
+    { "label": "Dot", "value": "8×8, no label" },
+    { "label": "Text", "value": "Plus Jakarta SemiBold 600, 11/18, #FFFFFF" },
+    { "label": "Default colour", "value": "error #F5222D" },
+    { "label": "Overflow", "value": "count > max → max+" }
+  ],
+  "props": [
+    { "name": "count", "type": "number", "default": "0", "desc": "The number shown in the bubble" },
+    { "name": "max", "type": "number", "default": "99", "desc": "Cap; above it renders as max+" },
+    { "name": "dot", "type": "boolean", "default": "false", "desc": "Render a bare status dot, no number" },
+    { "name": "status", "type": "error | success | warning | primary", "default": "error", "desc": "Bubble/dot colour" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Badge", "when": "a count or status attached to another element (a bell, a tab, an avatar)" },
+      { "what": "Tag", "when": "a standalone label/keyword chip with text" },
+      { "what": "dot", "when": "presence/unread without a specific number" }
+    ],
+    "note": "A badge marks another element — anchor it to one. Keep counts meaningful; cap large numbers with max so the bubble stays small."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-badge", "registers": "aha-badge", "exportsNamed": ["AhaBadge", "defineAhaBadge"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "badge.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "badge.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "badge.vue.txt" }
+  ],
+  "preview": "badge.preview.html",
+  "selfCheck": [
+    { "label": "bubble height 18 · radius pill", "verdict": "PASS" },
+    { "label": "default error #F5222D", "verdict": "PASS" },
+    { "label": "count > max → max+", "verdict": "PASS" },
+    { "label": "dot 8×8 no label", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-badge[data-probe]') && document.querySelector('aha-badge[data-probe]').shadowRoot && document.querySelector('aha-badge[data-probe]').shadowRoot.querySelector('.badge'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-badge[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.badge');var s=b?getComputedStyle(b):null;return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,color:s?s.color:null};})()",
+    "expect": { "bg": "rgb(245, 34, 45)", "radius": "999px", "height": "18px", "color": "rgb(255, 255, 255)" }
+  }
+}

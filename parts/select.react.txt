@@ -1,0 +1,21 @@
+import { ConfigProvider, Select } from 'antd';   // antd v6
+import { selectTheme } from '@ahaslides-product/design/select-theme';
+
+const options = [
+  { value: 'poll',      label: 'Poll' },
+  { value: 'quiz',      label: 'Quiz' },
+  { value: 'wordcloud', label: 'Word cloud' },
+  { value: 'qa',        label: 'Q&A' },
+];
+
+<ConfigProvider theme={selectTheme}>
+  <Select
+    showSearch
+    placeholder="Choose a slide type"
+    options={options}
+    value={type}
+    onChange={setType}
+    style={{ width: 240 }}
+  />
+</ConfigProvider>
+// One shared selectTheme → the DS V3 look; never restyle a bare <Select> per call site.

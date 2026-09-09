@@ -1,0 +1,50 @@
+<div class="pad">
+  <div class="lbl">Counts · default error · capped · status colours</div>
+  <div class="row">
+    <aha-badge data-probe count="5"></aha-badge>
+    <aha-badge count="23"></aha-badge>
+    <aha-badge count="128" max="99"></aha-badge>
+    <aha-badge count="8" status="primary"></aha-badge>
+    <aha-badge count="3" status="success"></aha-badge>
+    <aha-badge count="1" status="warning"></aha-badge>
+  </div>
+  <div class="lbl">Dots · status without a number</div>
+  <div class="row">
+    <aha-badge dot></aha-badge>
+    <aha-badge dot status="success"></aha-badge>
+    <aha-badge dot status="warning"></aha-badge>
+    <aha-badge dot status="primary"></aha-badge>
+  </div>
+</div>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-badge (lib/aha-badge.js),
+     inlined here so the preview is self-contained (no build step, no network). -->
+<script type="module">
+const STYLE = `
+  :host{ display:inline-flex; vertical-align:middle }
+  .badge{ box-sizing:border-box; display:inline-flex; align-items:center; justify-content:center;
+    height:18px; min-width:18px; padding:0 6px;
+    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:11px; line-height:18px; font-weight:600;
+    color:var(--aha-text-inverse,#FFFFFF); background:var(--aha-color-error,#F5222D);
+    border-radius:var(--aha-radius-pill,999px) }
+  :host([status="success"]) .badge{ background:var(--aha-color-success,#16C49A) }
+  :host([status="warning"]) .badge{ background:var(--aha-color-warning,#FF7747) }
+  :host([status="primary"]) .badge{ background:var(--aha-color-primary,#6A1EBB) }
+  :host([dot]) .badge{ width:8px; height:8px; min-width:0; padding:0 }
+`;
+class AhaBadge extends HTMLElement {
+  static get observedAttributes() { return ['count', 'max', 'dot', 'status']; }
+  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
+  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
+  _render() {
+    let text = '';
+    if (!this.hasAttribute('dot')) {
+      const count = Number(this.getAttribute('count') || 0);
+      const max = Number(this.getAttribute('max') || 99);
+      text = count > max ? `${max}+` : String(count);
+    }
+    this.shadowRoot.innerHTML = `<style>${STYLE}</style><span class="badge" part="badge">${text}</span>`;
+  }
+}
+customElements.define('aha-badge', AhaBadge);
+</script>

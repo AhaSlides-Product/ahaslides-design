@@ -1,0 +1,24 @@
+<script setup>
+import { reactive } from 'vue';
+import { ConfigProvider, Form, FormItem, Input, Button } from 'ant-design-vue';   // ant-design-vue v4
+import { formTheme } from '@ahaslides-product/design/form-theme';
+
+const model = reactive({ name: 'AhaSlides', email: '' });
+</script>
+
+<template>
+  <a-config-provider :theme="formTheme">
+    <a-form layout="vertical" :model="model" @finish="save">
+      <a-form-item label="Workspace name" name="name" :rules="[{ required: true }]">
+        <a-input v-model:value="model.name" placeholder="AhaSlides" />
+      </a-form-item>
+      <a-form-item label="Contact email" name="email" :rules="[{ type: 'email', required: true }]">
+        <a-input v-model:value="model.email" placeholder="you@company.com" />
+      </a-form-item>
+      <a-form-item>
+        <a-button type="primary" html-type="submit">Save changes</a-button>
+      </a-form-item>
+    </a-form>
+  </a-config-provider>
+</template>
+<!-- The SAME formTheme as React → one DS V3 look across both vendor libraries. -->

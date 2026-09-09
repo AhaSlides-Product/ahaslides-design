@@ -1,0 +1,40 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared formTheme. Vue consumes the same
+     formTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the real antd input + primary button bound to the shared theme. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__form = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:36, colorBorder:'#E3E3E3',
+           colorTextPlaceholder:'#8A8A8A', colorError:'#F5222D', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ Form:{ labelColor:'#4A4A4A', itemMarginBottom:20, verticalLabelPadding:'0 0 4px' },
+               Input:{ borderRadius:8, controlHeight:36 }, Button:{ borderRadius:8, controlHeight:36 } }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Form, Input, Button } = window.__antdR;
+const Item = Form.Item;
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__form}>
+    <Form layout="vertical" style={{ maxWidth: 320 }} initialValues={{ name: 'AhaSlides' }}>
+      <Item label="Workspace name" name="name" rules={[{ required: true }]}>
+        <Input placeholder="AhaSlides" />
+      </Item>
+      <Item label="Contact email" name="email" rules={[{ type: 'email', required: true }]}>
+        <Input placeholder="you@company.com" />
+      </Item>
+      <Item>
+        <Button type="primary" htmlType="submit">Save changes</Button>
+      </Item>
+    </Form>
+  </ConfigProvider>
+);
+</script>

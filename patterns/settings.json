@@ -24,12 +24,12 @@
     { "ref": "icon", "as": "component", "use": "the ? help glyph, drag handle, per-option image, delete — functional icons only", "status": "available" },
     { "ref": "--aha-size*", "as": "token", "use": "the whole spacing hierarchy (4/8/16/32/48) — separation comes from spacing, never dividers", "status": "available" },
     { "ref": "--aha-color-error", "as": "token", "use": "danger CTA colour — never hardcode a hex", "status": "available" },
-    { "ref": "switch", "as": "component", "use": "a single setting that takes effect immediately (toggle rows)", "status": "missing" },
-    { "ref": "select", "as": "component", "use": "duration/unit/mode dropdowns; recommended default pre-selected", "status": "missing" },
-    { "ref": "input", "as": "component", "use": "text/number fields; NumberWithUnit for a number + unit", "status": "missing" },
-    { "ref": "tooltip", "as": "component", "use": "the ? help tooltip — shared dark-navy tooltip, arrow anchored to the ? icon", "status": "missing" }
+    { "ref": "switch", "as": "component", "use": "a single setting that takes effect immediately (toggle rows)", "status": "available" },
+    { "ref": "select", "as": "component", "use": "duration/unit/mode dropdowns; recommended default pre-selected", "status": "available" },
+    { "ref": "input", "as": "component", "use": "text/number fields; NumberWithUnit for a number + unit", "status": "available" },
+    { "ref": "tooltip", "as": "component", "use": "the ? help tooltip — shared dark-navy tooltip, arrow anchored to the ? icon", "status": "available" }
   ],
-  "componentBacklog": "composedOf marks 4 components this pattern needs that the DS does not yet ship (switch, select, input, tooltip). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap.",
+  "componentBacklog": "Cleared — the four components this pattern leans on (switch, select, input, tooltip) now ship in the DS, so every composedOf entry resolves to a real contract.",
   "rules": [
     { "id": "name-is-noun", "rule": "Setting name is a short noun phrase — no leading verb (Enable/Allow/Show/Turn on). The control communicates the action; the label names what is acted on.", "ref": ["SETTINGS-01", "SETTINGS-40"] },
     { "id": "toggle-vs-checkbox", "rule": "Toggle when the change takes effect immediately; checkbox when options are saved together as a group or express consent. Never mix toggles and checkboxes in one group.", "ref": ["SETTINGS-11"] },
