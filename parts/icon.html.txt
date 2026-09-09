@@ -2,7 +2,7 @@
      Call any glyph BY NAME — never inline an <svg>. One import loads <aha-icon> +
      the 259-glyph registry; colour follows currentColor, size is 12 | 16 | 24 | 32. -->
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.1.0/lib/icons.js';   // registers <aha-icon> + registry
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';   // registers <aha-icon> + registry
 </script>
 
 <!-- Icon + text — match the label's cap height (16 beside body text), glyph leading. -->

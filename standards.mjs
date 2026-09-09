@@ -139,6 +139,14 @@ for (const ct of contracts) {
       chk('HTML snippet is a runnable CDN-React page consuming the DS', consumesDS && /esm\.sh|cdn|unpkg|jsdelivr/i.test(htmlText) && /react/i.test(htmlText),
         'a composite HTML snippet must load React from a CDN and consume the DS (e.g. the shared theme)');
     }
+    // Guardrail: the jsDelivr /gh/ ref must be SINGLE-SOURCED via the @__REF__ placeholder
+    // (generate.mjs injects the live ref). A hardcoded @v1.2.3 in the source freezes the CDN at a
+    // stale tag — exactly the bug where components added after that tag 404 at runtime.
+    if (/ahaslides-product\/ahaslides-design@/.test(htmlText)) {
+      chk('CDN ref is single-sourced (@__REF__, not a hardcoded tag)',
+        htmlText.includes('@__REF__') && !/ahaslides-design@v?\d+\.\d+\.\d+/.test(htmlText),
+        'pin the /gh/ ref as @__REF__ (generate.mjs injects it) — never a hardcoded @vX.Y.Z');
+    }
   }
 
   // 7) render-gated (qa.mjs measures it; here we require the block exists AND actually measures the look)
