@@ -196,8 +196,10 @@ const exportLine = `    "./${el}": "${libRel}",\n`;
 if (!pkg.includes(`"./${el}":`)) {
   pkg = pkg.replace(/("exports":\s*\{\n)/, `$1${exportLine}`);
 }
-// the element self-registers on import, so mark its module as a side effect (bundlers keep it)
-if (!new RegExp(`"sideEffects":\\s*\\[[^\\]]*${el}\\.js`).test(pkg)) {
+// the element self-registers on import, so mark its module as a side effect (bundlers keep it).
+// Static regex to read the array + a string check on its contents — never a regex built from input.
+const sideEffects = (pkg.match(/"sideEffects":\s*\[([^\]]*)\]/) || [, ''])[1];
+if (!sideEffects.includes(libRel)) {
   pkg = pkg.replace(/("sideEffects":\s*\[)/, `$1"${libRel}", `);
 }
 writeFileSync(pkgPath, pkg);
