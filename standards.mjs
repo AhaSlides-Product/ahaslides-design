@@ -14,6 +14,10 @@
  *   7. It's render-gated            — carries a `conformance` block so qa.mjs can measure the real UI.
  *   8. Its icons come from the DS   — every <aha-icon name="…"> resolves in the icon registry (the
  *                                     published gallery); no inline <svg> glyph bypasses the library.
+ *   9. It's OPERABLE, not just drawn — an interactive element carries the keyboard/aria contract of the
+ *                                     role it declares: a roving-widget role has arrow-key nav, a global
+ *                                     listener is removed on disconnect, and aria STATE stays in sync
+ *                                     (observedAttributes). qa.mjs proves the render; this proves the a11y.
  *
  * This is the "can a teammate contribute safely?" gate: add contracts/<slug>.json + lib/<entry>.js,
  * and this proves your component registers and is genuinely reusable — or it fails, loudly, per rule.
@@ -105,6 +109,27 @@ const MOTION_DEBT = {
   // Empty: every grandfathered leaf has been restructured to build once and mutate persistent nodes
   // (PRO38-5). The motion gate is now fully hard — no component gets a pass on snap/dead/literal/sync/bounce.
 };
+// Accessibility policy — an interactive component must be OPERABLE, not just look right. The render
+// gate (qa.mjs) proves it draws + animates; it proves NOTHING about roles, keyboard, or aria state.
+// So a whole batch of widgets shipped gate-green with broken a11y (PRO38-8 review): roving roles with
+// no arrow-key nav, a leaked document listener, a stale aria-expanded. These source checks close that
+// blind spot. Kinds: 'role' (a roving-widget role — radio/tab/menu/option/… — with no arrow-key
+// navigation), 'leak' (a document/window listener added with no matching remove — leaks on every
+// mount), 'observed' (sets an aria-* STATE attribute imperatively but declares no observedAttributes,
+// so an external/framework-driven attribute change silently desyncs the aria — the collapse case).
+//
+// HARD FAIL by default — a NEW component can't ship any of them. A11Y_DEBT is the same escape hatch as
+// MOTION_DEBT: a tiny, greppable allow-list of (element tag → kinds) grandfathered as WARN for debt
+// that predates this gate. master ships NONE today, so it starts empty — the gate is fully hard. Add
+// an entry only to grandfather real pre-existing debt, and delete it the moment the component is fixed.
+const A11Y_DEBT = {
+  // 'aha-example': ['role'],   // pre-gate debt tracked on <ticket> — remove when fixed
+};
+// Roving-widget roles: an AT user drives these with the arrow keys (a single tab-stop, roving focus).
+// Declaring one obliges the component to implement arrow-key navigation — a click handler is not enough.
+// (Container/single-control roles like dialog/switch/checkbox are NOT here: they need focus-management
+// or Space/Enter, a different contract, checked elsewhere — flagging them would false-positive.)
+const ROVING_ROLES = /role\s*=\s*["'](radiogroup|radio|tablist|tab|menu|menubar|menuitem|menuitemradio|menuitemcheckbox|listbox|option|tree|treeitem|grid|gridcell|combobox)["']/i;
 const BANNED = [
   [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
@@ -160,6 +185,22 @@ for (const ct of contracts) {
   chk('a snippet imports @ahaslides-product/design', /@ahaslides-product\/design/.test(snippetText) || ct.tier?.includes('composite'),
     'snippets must show consuming the real package');
   for (const [re, why] of BANNED) chk(`snippets free of: ${why}`, !re.test(snippetText), 'found in a snippet');
+
+  // 6d) THEMED IMPERATIVE OVERLAYS — antd's message/notification/Modal have a STATIC form
+  //     (message.success(), notification.open(), Modal.confirm()) that renders OUTSIDE the React tree,
+  //     so it does NOT read the ConfigProvider theme — the overlay ships un-themed (default antd),
+  //     silently breaking the "one DS look across React + Vue" guarantee. qa.mjs only measures the
+  //     React conformance harness, so it never catches a Vue snippet that took the static shortcut.
+  //     A snippet that consumes these APIs must use the HOOK form (useMessage/useNotification/useModal
+  //     + contextHolder) so the overlay is themed. Checked per snippet so we can name the offender.
+  for (const s of (ct.snippets || [])) {
+    const t = read(join(PDIR, s.file));
+    const usesStatic = /\b(message|notification|Modal)\.(success|error|info|warning|open|loading|confirm)\s*\(/.test(t);
+    const usesHook = /use(Message|Notification|Modal)\s*\(/.test(t);
+    if (usesStatic && !usesHook)
+      chk(`snippet "${s.key}": themed overlay via the hook (not the static API)`, false,
+        'static message()/notification()/Modal.confirm() renders outside ConfigProvider — use useMessage()/useNotification()/useModal() + contextHolder so it consumes the DS theme');
+  }
 
   // 6c) ICONS COME FROM THE DS LIBRARY — every glyph a component uses must be a real icon in the
   //     registry (the published gallery), summoned as <aha-icon name="…">. Gather every named
@@ -270,6 +311,7 @@ for (const ct of contracts) {
   const code = raw.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).split('\n').map(l => l.replace(/\/\/.*$/, ''));
   const hits = [];
   const motionFindings = [];   // [kind, msg] tuples — hard fail unless the component grandfathers that kind (MOTION_DEBT)
+  const a11yFindings = [];      // [kind, msg] tuples — hard fail unless grandfathered (A11Y_DEBT); kinds: role | leak | observed
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
@@ -335,12 +377,45 @@ for (const ct of contracts) {
       if (missing.length)
         motionFindings.push(['sync', `example out of sync — parts/${ct.slug}.preview.html is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than <${r.registers}> — and qa measures the preview, not lib. Keep the preview copy in sync with the element.`]);
     }
+
+    /* ===== the ACCESSIBILITY STANDARD (element only) — an interactive component must be OPERABLE.
+       qa.mjs proves it renders + animates; these prove it can be driven by keyboard/AT. Source-level,
+       deterministic, no browser. A genuinely-justified exception carries `ds-lint-allow: a11y (why)`. */
+    const a11yAllows = /ds-lint-allow:\s*[a-z, ]*a11y/i.test(raw);
+    if (!a11yAllows) {
+      // (role) a roving-widget role (radio/tab/menuitem/option/…) obliges arrow-key navigation — the
+      //   arrow keys ARE the interaction model (single tab-stop, roving focus). A click handler alone
+      //   leaves the announced role a lie: AT users can't move within the widget. Require evidence of
+      //   arrow-key handling (an ArrowUp/Down/Left/Right reference); Escape/Enter alone doesn't count.
+      const rm = body.match(ROVING_ROLES);
+      if (rm && !/\bArrow(Up|Down|Left|Right)\b/.test(body))
+        a11yFindings.push(['role', `declares role="${rm[1]}" (a roving widget: arrow keys drive it) but has no arrow-key navigation — a click handler isn't enough. Implement roving-tabindex + ArrowUp/Down/Left/Right handling, or drop to a role whose contract you meet (the rate/tabs/menu/segmented case).`]);
+      // (leak) a listener bound to document/window in connect but never removed leaks on every
+      //   mount/unmount (and its closure pins the element). Each added global event needs a matching
+      //   removeEventListener for the same event. (Listeners on `this`/shadow nodes are GC'd with the
+      //   element — only document/window are scanned.)
+      const added = [...body.matchAll(/\b(?:document|window)\.addEventListener\(\s*['"]([a-z]+)['"]/gi)].map(m => m[1].toLowerCase());
+      const removed = new Set([...body.matchAll(/\b(?:document|window)\.removeEventListener\(\s*['"]([a-z]+)['"]/gi)].map(m => m[1].toLowerCase()));
+      for (const ev of new Set(added)) if (!removed.has(ev))
+        a11yFindings.push(['leak', `document/window addEventListener('${ev}') has no matching removeEventListener('${ev}') in disconnectedCallback — it leaks on every mount/unmount (and an anonymous handler can't be removed at all). Store the handler and remove it on disconnect (the popover keydown-leak case).`]);
+      // (observed) the component sets an aria-* STATE attribute imperatively (evidence of dynamic
+      //   state) but declares no observedAttributes — so when the matching host attribute changes from
+      //   outside (a framework binding the attr, a consumer setAttribute), the visual state flips via
+      //   :host([x]) CSS while the aria value stays frozen at its mount value. The declared state and
+      //   the announced state desync. Observe the state attribute(s) and re-sync aria in the callback.
+      const setsAriaState = /setAttribute\(\s*['"]aria-(expanded|checked|selected|pressed|current|valuenow)['"]/i.test(body);
+      if (setsAriaState && !/observedAttributes/.test(body))
+        a11yFindings.push(['observed', `sets an aria-* state attribute imperatively but declares no observedAttributes — an external/framework-driven attribute change flips the :host([state]) visuals while aria-* stays frozen (screen reader reads the wrong state). Add observedAttributes + an attributeChangedCallback that re-syncs the aria (the collapse controlled-open case).`]);
+    }
   }
   // HARD FAIL by default — a NEW component can't ship any motion defect. Only the exact (component, kind) pairs
   // in MOTION_DEBT get a WARN pass (known pre-gate debt, tracked on PRO38-5); everything else fails the file.
   const debt = MOTION_DEBT[r.registers] || [];
   const motionHits = [];
   for (const [kind, msg] of motionFindings) (debt.includes(kind) ? motionHits : hits).push(debt.includes(kind) ? `${msg}  [grandfathered: ${r.registers}/${kind} — PRO38-5]` : msg);
+  // Same hard-fail-with-grandfather handling for the accessibility findings (A11Y_DEBT).
+  const a11yDebt = A11Y_DEBT[r.registers] || [];
+  for (const [kind, msg] of a11yFindings) (a11yDebt.includes(kind) ? motionHits : hits).push(a11yDebt.includes(kind) ? `${msg}  [grandfathered a11y: ${r.registers}/${kind}]` : msg);
   libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 
