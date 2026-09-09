@@ -12,11 +12,16 @@
     { "label": "Label", "value": "#4A4A4A, above the field (vertical layout)" },
     { "label": "Submit", "value": "primary Button #6A1EBB" },
     { "label": "Error", "value": "#F5222D border + message below the field" },
-    { "label": "Item gap", "value": "20px between items" }
+    { "label": "Item gap", "value": "20px between items" },
+    { "label": "Size", "value": "control height 24 (small) · 32 (default) · 40 (large)" },
+    { "label": "Validation", "value": "error / warning / success — coloured border + help text" }
   ],
   "props": [
     { "name": "layout", "type": "vertical | horizontal | inline", "default": "vertical", "desc": "Label placement" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height for every field (24 / 32 / 40)" },
     { "name": "fields", "type": "FormItem[]", "default": "[]", "desc": "name / label / rules / control per row" },
+    { "name": "requiredMark", "type": "boolean | 'optional'", "default": "true", "desc": "Show the required asterisk (or mark optional fields instead)" },
+    { "name": "validateStatus", "type": "error | warning | success | validating", "default": "—", "desc": "Per-Form.Item validation state — coloured border + help text" },
     { "name": "initialValues", "type": "object", "default": "—", "desc": "Seed values" },
     { "name": "onFinish", "type": "(values) => void", "default": "—", "desc": "Fires on a valid submit" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disables the whole form" }
@@ -27,7 +32,8 @@
       { "what": "a single Input/Select", "when": "one value that applies on its own — no submit step" },
       { "what": "Settings pattern", "when": "a settings surface — see the Settings pattern for grouping and spacing" }
     ],
-    "note": "Label every field with a noun phrase above the control (vertical layout reads best on narrow surfaces). Validate on blur and on submit; show the error below the field with how to fix it. One primary submit per form."
+    "note": "Label every field with a noun phrase above the control (vertical layout reads best on narrow surfaces). Validate on blur and on submit; show the error below the field with how to fix it. One primary submit per form.",
+    "dsv3": "COVERED — antd v6 Form + ant-design-vue v4, one shared formTheme. Matrix: layout {vertical, horizontal, inline} × size {small 24, default 32, large 40} × disabled {off, on}, plus requiredMark and per-Form.Item validation states {error, warning, success} with help text below the field. Verified via Figma search_design_system against the DS V3 Form set (system-form + the Form-Item/* component sets: Input, Textarea, Select, Select-Multiple, Input number, Date-Picker, Checkbox, Radio, Segmented-radio, Switcher — all sized small/default/large with rest/focus/disabled/error states). Sizes cross-checked against the measured contract (inp|sm/md/lg = 24/32/40px, radius 8, error border). The playground exposes layout · size · disabled with a live errored field."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./form-theme", "exportsNamed": ["formTheme"] },

@@ -1,6 +1,8 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared textareaTheme. Vue consumes the same
      textareaTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the real antd TextArea bound to the shared theme. -->
+     measures: the real antd TextArea bound to the shared theme. Interactive: the controls drive
+     live React state (Size / Status / Extras), so the full DS V3 matrix is explorable — the
+     default render (default size · no status · autosize, at rest) is what conformance measures. -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -11,9 +13,10 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
-window.__ta = {
+window.__st = {
   token: { colorPrimary:'#6A1EBB', borderRadius:8, colorBorder:'#E3E3E3',
-           colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+           colorTextPlaceholder:'#8A8A8A', colorError:'#F5222D', colorWarning:'#FAAD14',
+           fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
   components:{ Input:{ activeBorderColor:'#6A1EBB', hoverBorderColor:'#D3B4FF', borderRadius:8 } }
 };
 </script>
@@ -21,24 +24,57 @@ window.__ta = {
 <script type="text/babel">
 const { ConfigProvider, Input } = window.__antdR;
 const { TextArea } = Input;
-function Field({ label, children }) {
+const { useState } = React;
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
-      {children}
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__ta}>
-    <div>
-      <Field label="Autosize">
-        <TextArea placeholder="Describe your event" autoSize={{ minRows: 3, maxRows: 6 }} style={{ width: 320 }} />
-      </Field>
-      <Field label="With character count">
-        <TextArea rows={2} showCount maxLength={200} defaultValue={'Welcome to the session!'} style={{ width: 320 }} />
-      </Field>
+
+function Demo() {
+  const [size, setSize] = useState('middle');    // small · middle (default) · large
+  const [status, setStatus] = useState('');       // '' · error · warning
+  const [extra, setExtra] = useState('autosize'); // autosize · count · disabled · readOnly
+  const props = {
+    placeholder: 'Describe your event',
+    size,
+    status: status || undefined,
+    disabled: extra === 'disabled',
+    readOnly: extra === 'readOnly',
+    style: { width: 340 },
+  };
+  if (extra === 'count') { props.showCount = true; props.maxLength = 200; props.rows = 3; }
+  else { props.autoSize = { minRows: 3, maxRows: 6 }; }
+  if (extra === 'readOnly') props.defaultValue = 'Read-only content — the field shows but cannot be edited.';
+  return (
+    <div style={{ maxWidth: 620 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label: 'Small', value: 'small' }, { label: 'Default', value: 'middle' }, { label: 'Large', value: 'large' }]} />
+        <Seg label="Status" value={status} onChange={setStatus}
+          options={[{ label: 'None', value: '' }, { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' }]} />
+        <Seg label="Extras" value={extra} onChange={setExtra}
+          options={[{ label: 'Auto-size', value: 'autosize' }, { label: 'Count', value: 'count' }, { label: 'Disabled', value: 'disabled' }, { label: 'Read-only', value: 'readOnly' }]} />
+      </div>
+      <TextArea {...props} />
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
 );
 </script>

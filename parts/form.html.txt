@@ -2,7 +2,9 @@
      Form is a COMPOSITE (antd, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
      consumes the SAME shared `formTheme` the React/Vue wrappers use, so it renders
-     the DS V3 look (36px controls, radius 8, #E3E3E3 border, brand primary submit).
+     the DS V3 look (32px controls, radius 8, #E3E3E3 border, brand primary submit).
+     Matrix props: layout (vertical|horizontal|inline) · size (small|default|large) ·
+     disabled · requiredMark · per-Item validation (error|warning|success) + help text.
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <div id="root"></div>
 <script type="module">
@@ -16,9 +18,11 @@
 
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: formTheme },
-      h(Form, { layout: 'vertical', style: { maxWidth: 320 }, onFinish: (v) => console.log(v) },
+      h(Form, { layout: 'vertical', size: 'default', disabled: false, requiredMark: true,
+                style: { maxWidth: 360 }, initialValues: { name: 'AhaSlides' }, onFinish: (v) => console.log(v) },
         h(Item, { label: 'Workspace name', name: 'name', rules: [{ required: true }] }, h(Input, { placeholder: 'AhaSlides' })),
-        h(Item, { label: 'Contact email', name: 'email', rules: [{ type: 'email', required: true }] }, h(Input, { placeholder: 'you@company.com' })),
+        // Validation state — error | warning | success — colours the border + shows help text
+        h(Item, { label: 'Contact email', name: 'email', rules: [{ type: 'email', required: true, message: 'Enter a valid email — e.g. you@company.com' }] }, h(Input, { placeholder: 'you@company.com' })),
         h(Item, null, h(Button, { type: 'primary', htmlType: 'submit' }, 'Save changes'))
       )
     )

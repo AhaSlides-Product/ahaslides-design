@@ -1,12 +1,16 @@
 import { ConfigProvider, Form, Input, Button } from 'antd';   // antd v6
 import { formTheme } from '@ahaslides-product/design/form-theme';
 
+// layout: vertical | horizontal | inline · size: small | default | large · disabled toggles the whole form
 <ConfigProvider theme={formTheme}>
-  <Form layout="vertical" initialValues={{ name: 'AhaSlides' }} onFinish={save}>
+  <Form layout="vertical" size="default" disabled={false} requiredMark
+        initialValues={{ name: 'AhaSlides' }} onFinish={save}>
     <Form.Item label="Workspace name" name="name" rules={[{ required: true }]}>
       <Input placeholder="AhaSlides" />
     </Form.Item>
-    <Form.Item label="Contact email" name="email" rules={[{ type: 'email', required: true }]}>
+    {/* Validation state — error | warning | success — colours the border + shows help text */}
+    <Form.Item label="Contact email" name="email"
+               rules={[{ type: 'email', required: true, message: 'Enter a valid email — e.g. you@company.com' }]}>
       <Input placeholder="you@company.com" />
     </Form.Item>
     <Form.Item>

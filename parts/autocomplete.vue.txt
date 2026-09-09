@@ -4,7 +4,11 @@ import { ConfigProvider, AutoComplete } from 'ant-design-vue';   // ant-design-v
 import { autocompleteTheme } from '@ahaslides-product/design/autocomplete-theme';
 
 const value = ref('');
-const options = ref([{ value: 'Poll' }, { value: 'Quiz' }, { value: 'Word cloud' }, { value: 'Q&A' }]);
+// Flat or grouped ({ label, options }) suggestions — both theme the same.
+const options = ref([
+  { label: 'Live polls', options: [{ value: 'Poll' }, { value: 'Quiz' }, { value: 'Word cloud' }] },
+  { label: 'Discussion', options: [{ value: 'Q&A' }, { value: 'Open-ended' }] },
+]);
 </script>
 
 <template>
@@ -12,9 +16,13 @@ const options = ref([{ value: 'Poll' }, { value: 'Quiz' }, { value: 'Word cloud'
     <a-auto-complete
       v-model:value="value"
       :options="options"
+      size="default"                    <!-- 'small' | 'default' | 'large' → 24 / 32 / 40 -->
+      :status="error ? 'error' : undefined"  <!-- 'error' | 'warning' -->
+      allow-clear
+      :disabled="false"
       placeholder="Type a slide type"
       :filter-option="(input, opt) => opt.value.toLowerCase().includes(input.toLowerCase())"
-      style="width: 240px"
+      style="width: 260px"
     />
   </a-config-provider>
 </template>

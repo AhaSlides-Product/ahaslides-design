@@ -1,8 +1,13 @@
 import { ConfigProvider, Slider } from 'antd';   // antd v6
 import { sliderTheme } from '@ahaslides-product/design/slider-theme';
 
+const marks = { 0: '0', 50: '50', 100: '100' };
+
 <ConfigProvider theme={sliderTheme}>
-  <Slider defaultValue={40} onChange={setVolume} />
-  <Slider range defaultValue={[20, 70]} onChange={setWindow} />
+  <Slider defaultValue={40} onChange={setVolume} />          {/* single */}
+  <Slider range defaultValue={[20, 70]} onChange={setWindow} /> {/* range · two thumbs */}
+  <Slider defaultValue={50} marks={marks} step={null} />     {/* marks, snap to marks */}
+  <div style={{ height: 200 }}><Slider vertical defaultValue={40} /></div> {/* vertical */}
+  <Slider defaultValue={40} disabled />                      {/* disabled */}
 </ConfigProvider>
 // One shared sliderTheme → the DS V3 look; pair with a value readout when the exact number matters.

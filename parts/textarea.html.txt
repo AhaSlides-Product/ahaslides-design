@@ -14,10 +14,17 @@
   const h = React.createElement;
   const { TextArea } = Input;
 
+  // size: 'small' | 'middle' (default) | 'large' → control height 24 / 32 / 40
+  // status: 'error' | 'warning' → recolours the border for validation
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: textareaTheme },
-      h(TextArea, { placeholder: 'Describe your event', autoSize: { minRows: 3, maxRows: 6 },
-                    showCount: true, maxLength: 200, style: { width: 320 } })
+      h('div', { style: { display: 'grid', gap: 12, width: 340 } },
+        h(TextArea, { placeholder: 'Describe your event', size: 'middle',
+                      autoSize: { minRows: 3, maxRows: 6 }, showCount: true, maxLength: 200 }),
+        h(TextArea, { status: 'error', defaultValue: 'Fix this', autoSize: { minRows: 2 } }),
+        h(TextArea, { readOnly: true, defaultValue: 'Read-only content' }),
+        h(TextArea, { disabled: true, placeholder: 'Disabled' })
+      )
     )
   );
 </script>

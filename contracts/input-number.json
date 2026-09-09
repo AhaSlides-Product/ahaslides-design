@@ -8,18 +8,28 @@
   "lead": "InputNumber carries steppers, keyboard step/precision and a formatter/parser — more than a zero-dep web component should own, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared inputNumberTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "InputNumber.activeBorderColor", "InputNumber.hoverBorderColor"],
   "spec": [
-    { "label": "Field", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Field", "value": "height 32 (md) · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Sizes", "value": "small 24 · default 32 · large 40 · font 14" },
     { "label": "Hover", "value": "#D3B4FF (purple-30) border" },
     { "label": "Focus", "value": "brand #6A1EBB border" },
-    { "label": "Steppers", "value": "up/down on hover; keyboard ↑ ↓" },
+    { "label": "Status", "value": "error #F5222D · warning border/glow" },
+    { "label": "Steppers", "value": "up/down on hover; keyboard ↑ ↓; toggle via controls" },
     { "label": "Placeholder", "value": "#8A8A8A" }
   ],
   "props": [
     { "name": "value", "type": "number", "default": "—", "desc": "Controlled numeric value" },
+    { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Field height: small 24 · default 32 · large 40" },
+    { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — coloured border/glow" },
     { "name": "min", "type": "number", "default": "-Infinity", "desc": "Lower bound" },
     { "name": "max", "type": "number", "default": "Infinity", "desc": "Upper bound" },
     { "name": "step", "type": "number", "default": "1", "desc": "Increment for steppers / arrow keys" },
     { "name": "precision", "type": "number", "default": "—", "desc": "Fixed decimal places" },
+    { "name": "controls", "type": "boolean", "default": "true", "desc": "Show the up/down steppers" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive, greyed field" },
+    { "name": "readOnly", "type": "boolean", "default": "false", "desc": "Value visible but not editable" },
+    { "name": "prefix", "type": "ReactNode", "default": "—", "desc": "Inline leading affix (e.g. $)" },
+    { "name": "addonBefore", "type": "ReactNode", "default": "—", "desc": "Attached leading label" },
+    { "name": "addonAfter", "type": "ReactNode", "default": "—", "desc": "Attached trailing label (e.g. unit)" },
     { "name": "onChange", "type": "(value) => void", "default": "—", "desc": "Fires with the new number" }
   ],
   "opinion": {
@@ -28,7 +38,8 @@
       { "what": "Slider", "when": "an approximate value across a known range where the exact number matters less" },
       { "what": "Input type=number", "when": "a free number with no bounds or steppers — but prefer InputNumber for validity" }
     ],
-    "note": "Set min/max to the real limits so the field constrains instead of validating after the fact. Pre-fill a sensible default rather than empty; use precision for currency/percentages."
+    "note": "Set min/max to the real limits so the field constrains instead of validating after the fact. Pre-fill a sensible default rather than empty; use precision for currency/percentages.",
+    "dsv3": "COVERED — antd v6 InputNumber themed by the shared inputNumberTheme; matrix: size (small 24 · default 32 · large 40) × status (none · error · warning) × state (steppers on/off · disabled · read-only), plus min/max/step/precision, prefix and addonBefore/addonAfter. Verified via Figma search_design_system against the DS V3 InputNumber component_set (fileKey MwjvUjVI0HnfwD9EwPXRAy); size + status axes match the measured input contract (inp|sm/md/lg · rest/focus/error, 24/32/40 · font 14)."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./input-number-theme", "exportsNamed": ["inputNumberTheme"] },

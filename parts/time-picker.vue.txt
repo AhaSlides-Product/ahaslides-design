@@ -5,11 +5,27 @@ import dayjs from 'dayjs';
 import { timePickerTheme } from '@ahaslides-product/design/time-picker-theme';
 
 const time = ref(dayjs('09:30', 'HH:mm'));
+const range = ref([dayjs('09:30', 'HH:mm'), dayjs('10:30', 'HH:mm')]);
 </script>
 
 <template>
   <a-config-provider :theme="timePickerTheme">
-    <a-time-picker v-model:value="time" format="HH:mm" :minute-step="15" style="width: 200px" />
+    <!-- Default — 24-hour, 15-min step -->
+    <a-time-picker v-model:value="time" format="HH:mm" :minute-step="15" allow-clear style="width: 200px" />
+
+    <!-- Sizes — small 24 · default 32 · large 40 -->
+    <a-time-picker size="small" format="HH:mm" style="width: 200px" />
+    <a-time-picker size="large" format="HH:mm" style="width: 200px" />
+
+    <!-- Status · 12-hour · seconds · disabled -->
+    <a-time-picker status="error" format="HH:mm" style="width: 200px" />
+    <a-time-picker status="warning" format="HH:mm" style="width: 200px" />
+    <a-time-picker use12-hours format="h:mm a" style="width: 240px" />
+    <a-time-picker format="HH:mm:ss" style="width: 240px" />
+    <a-time-picker disabled format="HH:mm" style="width: 200px" />
+
+    <!-- Range — start → end -->
+    <a-time-picker-range-picker v-model:value="range" format="HH:mm" style="width: 320px" />
   </a-config-provider>
 </template>
 <!-- The SAME timePickerTheme as React → one DS V3 look across both vendor libraries. -->

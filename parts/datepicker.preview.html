@@ -1,6 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared datepickerTheme. Vue consumes the
      same datepickerTheme — see "Show code". This CDN-React page (no build step) is also what
-     qa.mjs measures: the real antd picker field bound to the shared theme. Dates use Day.js. -->
+     qa.mjs measures: the real antd picker field bound to the shared theme. Dates use Day.js.
+     Interactive: the controls drive live React state (Picker / Size / Status / Range·Disabled),
+     so the whole DS V3 matrix is explorable — the default render (single date · default size ·
+     no status · enabled) is what conformance measures against .ant-picker. -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -21,27 +24,74 @@ window.__dp = {
 <script type="text/babel">
 const { ConfigProvider, DatePicker } = window.__antdR;
 const { RangePicker } = DatePicker;
-function Field({ label, children }) {
+const { useState } = React;
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
-      {children}
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={String(o.value)} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__dp}>
-    <div>
-      <Field label="Single date">
-        <DatePicker defaultValue={dayjs()} placeholder="Pick a date" style={{ width: 240 }} />
-      </Field>
-      <Field label="Date range">
-        <RangePicker style={{ width: 280 }} />
-      </Field>
-      <Field label="Month">
-        <DatePicker picker="month" placeholder="Pick a month" style={{ width: 240 }} />
-      </Field>
+
+// Presets are common DS usage — quick ranges for reporting windows.
+const presets = [
+  { label: 'Last 7 days', value: [dayjs().add(-7, 'd'), dayjs()] },
+  { label: 'Last 30 days', value: [dayjs().add(-30, 'd'), dayjs()] },
+];
+
+function Demo() {
+  const [picker, setPicker] = useState('date');
+  const [size, setSize] = useState('middle');
+  const [status, setStatus] = useState('');
+  const [range, setRange] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  const common = {
+    size,
+    status: status || undefined,
+    disabled,
+    style: { width: range ? 300 : 240 },
+  };
+  // The picker granularity axis only applies to the single field; ranges stay on date/showTime below.
+  return (
+    <div style={{ maxWidth: 620 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Picker" value={picker} onChange={setPicker} options={[
+          { label: 'Date', value: 'date' }, { label: 'Week', value: 'week' },
+          { label: 'Month', value: 'month' }, { label: 'Quarter', value: 'quarter' }, { label: 'Year', value: 'year' }]} />
+        <Seg label="Size" value={size} onChange={setSize} options={[
+          { label: 'Small', value: 'small' }, { label: 'Default', value: 'middle' }, { label: 'Large', value: 'large' }]} />
+        <Seg label="Status" value={status} onChange={setStatus} options={[
+          { label: 'None', value: '' }, { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' }]} />
+        <Seg label="Range" value={range} onChange={setRange} options={[
+          { label: 'Single', value: false }, { label: 'Range', value: true }]} />
+        <Seg label="Disabled" value={disabled} onChange={setDisabled} options={[
+          { label: 'Enabled', value: false }, { label: 'Disabled', value: true }]} />
+      </div>
+
+      {range
+        ? <RangePicker {...common} presets={presets} allowClear />
+        : <DatePicker {...common} picker={picker} defaultValue={dayjs()}
+            placeholder="Pick a date" allowClear showToday />}
+
+      <div className="lbl" style={{ margin: '26px 0 10px' }}>With time — showTime</div>
+      <DatePicker size={size} showTime placeholder="Pick date & time" style={{ width: 260 }} />
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__dp}><Demo /></ConfigProvider>
 );
 </script>

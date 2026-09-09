@@ -17,6 +17,12 @@ const options = [
     <a-select
       v-model:value="type"
       show-search
+      size="default"                       <!-- small | large → 24 / 40 -->
+      :status="error ? 'error' : ''"       <!-- 'error' | 'warning' -->
+      mode="multiple"                      <!-- omit for single; 'multiple' | 'tags' -->
+      allow-clear
+      :loading="fetching"
+      :disabled="locked"
       placeholder="Choose a slide type"
       :options="options"
       style="width: 240px"

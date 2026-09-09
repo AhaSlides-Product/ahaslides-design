@@ -9,15 +9,22 @@
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "DatePicker.cellHoverBg", "DatePicker.borderRadius"],
   "spec": [
     { "label": "Field", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Sizes", "value": "small 24 · default 32 · large 40 (via size)" },
+    { "label": "Status", "value": "error/warning tints the border (#FF5A7A error)" },
     { "label": "Selected cell", "value": "brand #6A1EBB" },
     { "label": "Hover cell", "value": "#F7F7F7 (gray-20)" },
-    { "label": "Format", "value": "HH:mm (use=HH:mm:ss for seconds)" },
+    { "label": "Format", "value": "HH:mm · HH:mm:ss · h:mm a (use12Hours)" },
+    { "label": "Range", "value": "TimePicker.RangePicker — start → end" },
     { "label": "Placeholder", "value": "#8A8A8A" }
   ],
   "props": [
     { "name": "value", "type": "Dayjs", "default": "—", "desc": "Selected time" },
-    { "name": "format", "type": "string", "default": "HH:mm:ss", "desc": "Display/parse format (e.g. HH:mm)" },
+    { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Field height: 24 / 32 / 40" },
+    { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — tints the border" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive, greyed field" },
+    { "name": "format", "type": "string", "default": "HH:mm:ss", "desc": "Display/parse format (HH:mm · HH:mm:ss · h:mm a)" },
     { "name": "use12Hours", "type": "boolean", "default": "false", "desc": "12-hour clock with AM/PM" },
+    { "name": "allowClear", "type": "boolean", "default": "true", "desc": "Show the clear (×) affordance" },
     { "name": "minuteStep", "type": "number", "default": "1", "desc": "Granularity of the minute column" },
     { "name": "onChange", "type": "(time) => void", "default": "—", "desc": "Fires with the new time" }
   ],
@@ -27,7 +34,8 @@
       { "what": "DatePicker showTime", "when": "a date AND a time together — a precise timestamp" },
       { "what": "Select", "when": "a small fixed set of times (e.g. 15-min slots) — a list beats scrolling" }
     ],
-    "note": "Match format to the precision you need — HH:mm hides seconds. Use minuteStep to snap to sensible increments rather than every minute. Times use Day.js."
+    "note": "Match format to the precision you need — HH:mm hides seconds. Use minuteStep to snap to sensible increments rather than every minute. Times use Day.js.",
+    "dsv3": "COVERED — antd v6 TimePicker (DatePicker internals) themed by the shared timePickerTheme, no re-implementation. Matrix: size (small 24 / default 32 / large 40) · status (error / warning) · disabled · format (HH:mm / HH:mm:ss / h:mm a via use12Hours) · allowClear · RangePicker (start → end). Field look inherits the DS V3 input treatment (radius 8, 1px #E3E3E3 border, brand #6A1EBB selected cell, error #FF5A7A). Verified via Figma search_design_system against the DS V3 set (fileKey MwjvUjVI0HnfwD9EwPXRAy): no dedicated TimePicker component exists in DS V3 — the DS themes antd rather than redrawing it, so antd v6's TimePicker API is the reference; field styling matches the measured DS V3 input matrix (inp|{sm,md,lg})."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./time-picker-theme", "exportsNamed": ["timePickerTheme"] },

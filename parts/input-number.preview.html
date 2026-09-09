@@ -1,6 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared inputNumberTheme. Vue consumes the
      same inputNumberTheme — see "Show code". This CDN-React page (no build step) is also what
-     qa.mjs measures: the real antd InputNumber bound to the shared theme. -->
+     qa.mjs measures: the real antd InputNumber bound to the shared theme. Interactive: the controls
+     drive live React state (Size / Status / Controls+Disabled), so the whole DS V3 matrix is
+     explorable — the default render (default size · no status · steppers on · min 0/max 100) is
+     what conformance measures (32px field, radius 8, #E3E3E3 border). -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -20,6 +23,26 @@ window.__inum = {
 
 <script type="text/babel">
 const { ConfigProvider, InputNumber } = window.__antdR;
+const { useState } = React;
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+// .aha-pg WITHOUT data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS.
+function Seg({ label, value, onChange, options }) {
+  return (
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={String(o.value)} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Field({ label, children }) {
   return (
     <div style={{ marginBottom: 18 }}>
@@ -28,19 +51,61 @@ function Field({ label, children }) {
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__inum}>
-    <div>
-      <Field label="Count · min 0 / max 100">
-        <InputNumber min={0} max={100} defaultValue={3} style={{ width: 180 }} />
+
+function Demo() {
+  const [size, setSize] = useState('default');   // small(24) · default(32) · large(40)
+  const [status, setStatus] = useState('');       // '' · error · warning
+  const [mode, setMode] = useState('controls');   // controls · nocontrols · disabled · readonly
+  const controls = mode !== 'nocontrols';
+  const disabled = mode === 'disabled';
+  const readOnly = mode === 'readonly';
+  const w = 200;
+  return (
+    <div style={{ maxWidth: 640 }}>
+      <div className="aha-pg" style={{ marginBottom: 20, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label: 'Small', value: 'small' }, { label: 'Default', value: 'default' }, { label: 'Large', value: 'large' }]} />
+        <Seg label="Status" value={status} onChange={setStatus}
+          options={[{ label: 'None', value: '' }, { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' }]} />
+        <Seg label="State" value={mode} onChange={setMode}
+          options={[{ label: 'Steppers', value: 'controls' }, { label: 'No steppers', value: 'nocontrols' }, { label: 'Disabled', value: 'disabled' }, { label: 'Read-only', value: 'readonly' }]} />
+      </div>
+
+      {/* First field = conformance target: default size, no status, plain min/max. */}
+      <Field label="Count · min 0 / max 100 · step 1">
+        <InputNumber min={0} max={100} defaultValue={3} size={size}
+          status={status || undefined} controls={controls} disabled={disabled} readOnly={readOnly}
+          style={{ width: w }} />
       </Field>
-      <Field label="Ratio · step 0.1">
-        <InputNumber min={0} max={1} step={0.1} defaultValue={0.5} style={{ width: 180 }} />
+
+      <Field label="Ratio · step 0.1 · precision 1">
+        <InputNumber min={0} max={1} step={0.1} precision={1} defaultValue={0.5} size={size}
+          status={status || undefined} controls={controls} disabled={disabled} readOnly={readOnly}
+          style={{ width: w }} />
       </Field>
+
+      <Field label="Price · prefix $ · precision 2">
+        <InputNumber min={0} defaultValue={19.99} step={0.01} precision={2} prefix="$" size={size}
+          status={status || undefined} controls={controls} disabled={disabled} readOnly={readOnly}
+          style={{ width: w }} />
+      </Field>
+
+      <Field label="Duration · addonBefore / addonAfter">
+        <InputNumber min={0} defaultValue={30} addonBefore="Every" addonAfter="min" size={size}
+          status={status || undefined} controls={controls} disabled={disabled} readOnly={readOnly}
+          style={{ width: 240 }} />
+      </Field>
+
       <Field label="Empty · placeholder">
-        <InputNumber placeholder="How many" style={{ width: 180 }} />
+        <InputNumber placeholder="How many" size={size}
+          status={status || undefined} controls={controls} disabled={disabled} readOnly={readOnly}
+          style={{ width: w }} />
       </Field>
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__inum}><Demo /></ConfigProvider>
 );
 </script>

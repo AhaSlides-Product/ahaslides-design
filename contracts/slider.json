@@ -20,6 +20,9 @@
     { "name": "max", "type": "number", "default": "100", "desc": "Range ceiling" },
     { "name": "step", "type": "number | null", "default": "1", "desc": "Increment; null with marks to snap to marks only" },
     { "name": "marks", "type": "{ [value]: label }", "default": "—", "desc": "Labelled tick positions" },
+    { "name": "range", "type": "boolean", "default": "false", "desc": "Two thumbs — select a [low, high] span" },
+    { "name": "vertical", "type": "boolean", "default": "false", "desc": "Orient the rail vertically" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive, dimmed track + handle" },
     { "name": "onChange", "type": "(value) => void", "default": "—", "desc": "Fires with the new value(s)" }
   ],
   "opinion": {
@@ -28,7 +31,8 @@
       { "what": "InputNumber", "when": "the exact number matters — a precise limit or count" },
       { "what": "Slider range", "when": "a span with a low and high bound — a price or time window" }
     ],
-    "note": "Pair a slider with a live value readout (or an InputNumber) when the exact number matters. Use marks and step to snap to meaningful positions rather than an arbitrary continuum."
+    "note": "Pair a slider with a live value readout (or an InputNumber) when the exact number matters. Use marks and step to snap to meaningful positions rather than an arbitrary continuum.",
+    "dsv3": "COVERED — antd v6 Slider themed by the shared sliderTheme; matrix: Type (single / range · two thumbs) × Marks (labelled ticks on/off, with step/dots) × Orientation (horizontal / vertical) × Disabled, plus min/max/step and tooltip formatting. The preview exposes Type · Marks · Orientation · Disabled as live React controls; the default render (single · no marks · horizontal · enabled) is the conformance measure target (brand #6A1EBB track, gray-30 rail, 14px handle). Verified via Figma search_design_system against the DS V3 Slider set (Slider, Slider-Mark, Range-Slider, Slider-Icon, Handle, Marks, system-sliders-horizontal)."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./slider-theme", "exportsNamed": ["sliderTheme"] },

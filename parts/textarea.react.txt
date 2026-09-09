@@ -4,13 +4,22 @@ import { textareaTheme } from '@ahaslides-product/design/textarea-theme';
 const { TextArea } = Input;
 
 <ConfigProvider theme={textareaTheme}>
+  {/* size: 'small' | 'middle' (default) | 'large' → control height 24 / 32 / 40 */}
+  {/* status: 'error' | 'warning' → recolours the border for validation */}
   <TextArea
     placeholder="Describe your event"
+    size="middle"
+    status={hasError ? 'error' : undefined}
     autoSize={{ minRows: 3, maxRows: 6 }}
     showCount
     maxLength={200}
     onChange={(e) => setText(e.target.value)}
-    style={{ width: 320 }}
+    style={{ width: 340 }}
   />
+
+  {/* Non-editable states inherit the same theme */}
+  <TextArea readOnly value="Read-only content" style={{ width: 340 }} />
+  <TextArea disabled placeholder="Disabled" style={{ width: 340 }} />
 </ConfigProvider>
-// One shared textareaTheme → the DS V3 look; autoSize grows with content, showCount surfaces the cap.
+// One shared textareaTheme → the DS V3 look; size/status/disabled/readOnly all inherit it.
+// autoSize grows with content, showCount surfaces the cap.

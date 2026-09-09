@@ -2,7 +2,7 @@
      Select is a COMPOSITE (antd, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
      consumes the SAME shared `selectTheme` the React/Vue wrappers use, so it renders
-     the DS V3 look (36px control, radius 8, #E3E3E3 border, brand-tint selected option).
+     the DS V3 look (32px control, radius 8, #E3E3E3 border, brand-tint selected option).
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <div id="root"></div>
 <script type="module">
@@ -21,9 +21,19 @@
   ];
 
   // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  // The DS V3 matrix is just props: size ('small'|'default'|'large'),
+  // status ('error'|'warning'), mode ('multiple'|'tags'), allowClear, loading, disabled.
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: selectTheme },
-      h(Select, { showSearch: true, placeholder: 'Choose a slide type', options, style: { width: 240 } })
+      h(Select, {
+        showSearch: true,
+        size: 'default',        // 'small' | 'default' | 'large' → 24 / 32 / 40
+        mode: 'multiple',       // omit for single; 'multiple' | 'tags'
+        allowClear: true,
+        placeholder: 'Choose a slide type',
+        options,
+        style: { width: 240 },
+      })
     )
   );
 </script>

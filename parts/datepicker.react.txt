@@ -4,13 +4,34 @@ import { datepickerTheme } from '@ahaslides-product/design/datepicker-theme';
 
 const { RangePicker } = DatePicker;
 
+const presets = [
+  { label: 'Last 7 days', value: [dayjs().add(-7, 'd'), dayjs()] },
+  { label: 'Last 30 days', value: [dayjs().add(-30, 'd'), dayjs()] },
+];
+
 <ConfigProvider theme={datepickerTheme}>
+  {/* Granularity: picker="date | week | month | quarter | year" */}
   <DatePicker
+    picker="date"
+    size="middle"            {/* small | middle | large → 24 / 32 / 40 */}
     defaultValue={dayjs()}
     placeholder="Pick a date"
+    allowClear
+    disabledDate={(d) => d && d < dayjs().startOf('day')}
     onChange={setDate}
     style={{ width: 240 }}
   />
-  <RangePicker onChange={setRange} style={{ width: 280 }} />
+
+  {/* Date + time */}
+  <DatePicker showTime placeholder="Pick date & time" onChange={setDate} />
+
+  {/* Validation state on the field */}
+  <DatePicker status="error" placeholder="Required" onChange={setDate} />
+
+  {/* A start + end together — with quick presets for reporting windows */}
+  <RangePicker presets={presets} onChange={setRange} style={{ width: 300 }} />
+
+  {/* Disabled */}
+  <DatePicker disabled defaultValue={dayjs()} />
 </ConfigProvider>
 // One shared datepickerTheme → the DS V3 look; use disabledDate to constrain, not post-validation.
