@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-alert> is the SAME shared custom element React and Vue consume — here in its
+     native form. Importing it also registers <aha-icon> for the status glyph. Theming
+     comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-alert.js';   // registers <aha-alert> (+ <aha-icon>)
+</script>
+
+<div style="display:flex; flex-direction:column; gap:12px; max-width:520px">
+  <aha-alert type="info" heading="Heads up">Your poll closes in 5 minutes.</aha-alert>
+  <aha-alert type="success">Slide saved.</aha-alert>
+  <aha-alert type="warning" heading="Almost at the limit">You have used 9 of 10 slides on the Free plan.</aha-alert>
+  <aha-alert type="error" closable id="err">Upload failed — the file is over 20&nbsp;MB.</aha-alert>
+</div>
+
+<script>
+  document.getElementById('err').addEventListener('close', () => console.log('alert dismissed'));
+</script>

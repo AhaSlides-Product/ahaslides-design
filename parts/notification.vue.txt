@@ -1,0 +1,14 @@
+<script setup>
+import { ConfigProvider, notification, Button } from 'ant-design-vue';   // ant-design-vue v4
+import { notificationTheme } from '@ahaslides-product/design/notification-theme';
+
+const exportCsv = () =>
+  notification.open({ message: 'Export ready', description: 'Your CSV of responses is ready to download.' });
+</script>
+
+<template>
+  <a-config-provider :theme="notificationTheme">
+    <a-button type="primary" @click="exportCsv">Export</a-button>
+  </a-config-provider>
+</template>
+<!-- The SAME notificationTheme as React → one DS V3 look across both vendor libraries. -->

@@ -1,0 +1,10 @@
+import { ConfigProvider, QRCode } from 'antd';   // antd v6
+import { qrCodeTheme } from '@ahaslides-product/design/qr-code-theme';
+
+<ConfigProvider theme={qrCodeTheme}>
+  <div className="aha-qr">
+    <QRCode value="https://ahaslides.com/join" size={160} bordered={false} color="#1A1A1A" />
+  </div>
+</ConfigProvider>
+// One shared qrCodeTheme → the DS V3 look. Frame the code with the .aha-qr container
+// (1px --aha-border, radius --aha-radius-default) and show the join link/code alongside.

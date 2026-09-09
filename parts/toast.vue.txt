@@ -1,0 +1,13 @@
+<script setup>
+import { ConfigProvider, message, Button } from 'ant-design-vue';   // ant-design-vue v4
+import { toastTheme } from '@ahaslides-product/design/toast-theme';
+
+const save = () => message.success('Slide saved');
+</script>
+
+<template>
+  <a-config-provider :theme="toastTheme">
+    <a-button type="primary" @click="save">Save</a-button>
+  </a-config-provider>
+</template>
+<!-- The SAME toastTheme as React → one DS V3 look across both vendor libraries. -->

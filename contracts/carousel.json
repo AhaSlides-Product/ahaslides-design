@@ -1,0 +1,54 @@
+{
+  "name": "Carousel",
+  "slug": "carousel",
+  "group": "Data Display",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "A swipeable set of slides — onboarding, a feature tour, a gallery — rendered through the shared Carousel.",
+  "lead": "Carousel carries slide transitions, autoplay and dot/arrow controls, and keeps antd's built-in motion — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared carouselTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "Carousel.dotWidth", "Carousel.dotHeight", "Carousel.dotActiveWidth", "Carousel.dotGap"],
+  "spec": [
+    { "label": "Slide", "value": "radius 8 · brand-tint #F9F5FF panel" },
+    { "label": "Active dot", "value": "brand #6A1EBB, wider (28px)" },
+    { "label": "Rest dot", "value": "16×4, gap 8" },
+    { "label": "Motion", "value": "antd's built-in slide/fade transition (kept)" },
+    { "label": "Autoplay", "value": "opt-in via the autoplay prop" }
+  ],
+  "props": [
+    { "name": "autoplay", "type": "boolean", "default": "false", "desc": "Advance slides automatically" },
+    { "name": "dots", "type": "boolean", "default": "true", "desc": "Show the position dots" },
+    { "name": "effect", "type": "scrollx | fade", "default": "scrollx", "desc": "Slide transition style" },
+    { "name": "arrows", "type": "boolean", "default": "false", "desc": "Show prev/next arrows" },
+    { "name": "afterChange", "type": "(current) => void", "default": "—", "desc": "Fires after the active slide changes" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Carousel", "when": "a small, ordered set of equally-weighted panels the user can browse at their own pace" },
+      { "what": "Tabs", "when": "named sections the user jumps between directly, not in sequence" },
+      { "what": "Steps", "when": "a linear process with a clear start and finish" }
+    ],
+    "note": "Keep it to a handful of slides and always show the dots so people know there is more. Autoplay only for ambient galleries — never for content people need to read."
+  },
+  "surfaces": ["editor", "dashboard", "audience"],
+  "reuse": { "entry": "./carousel-theme", "exportsNamed": ["carouselTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "carousel.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared carouselTheme. No build step." },
+    { "key": "react", "label": "React", "file": "carousel.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "carousel.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "carousel.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same carouselTheme; residual drift is caught by visual regression.",
+  "preview": "carousel.preview.html",
+  "selfCheck": [
+    { "label": "slide radius 8 · brand-tint panel", "verdict": "PASS" },
+    { "label": "active dot brand #6A1EBB, wider", "verdict": "PASS" },
+    { "label": "antd built-in slide motion kept", "verdict": "PASS" },
+    { "label": "dots on by default", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 carousel bound to carouselTheme.",
+    "ready": "!!document.querySelector('#react-root .ant-carousel .slick-slide') && !!document.querySelector('#react-root .aha-slide')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{slideBg:g('.aha-slide','backgroundColor'),slideColor:g('.aha-slide','color'),slideRadius:g('.aha-slide','borderTopLeftRadius'),slideHeight:g('.aha-slide','height'),slidePad:g('.aha-slide','paddingLeft'),listOverflow:g('.slick-list','overflow')};})()",
+    "expect": { "slideBg": "rgb(249, 245, 255)", "slideColor": "rgb(106, 30, 187)", "slideRadius": "8px", "slideHeight": "160px", "slidePad": "24px", "listOverflow": "hidden" }
+  }
+}

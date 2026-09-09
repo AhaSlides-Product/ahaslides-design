@@ -1,0 +1,29 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     QR code is a COMPOSITE (antd, no framework-free element), so its HTML form is a
+     CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
+     consumes the SAME shared `qrCodeTheme` the React/Vue wrappers use, so it renders
+     the DS V3 look (ink modules on white, 1px radius-8 frame).
+     No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<style>
+  .aha-qr { display:inline-block; box-sizing:border-box; padding:16px; background:var(--aha-bg-container);
+    border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); }
+</style>
+<div id="root"></div>
+<script type="module">
+  import React from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import { ConfigProvider, QRCode } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+  import { qrCodeTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/qr-code-theme.js';
+
+  const h = React.createElement;
+
+  // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  createRoot(document.getElementById('root')).render(
+    h(ConfigProvider, { theme: qrCodeTheme },
+      h('div', { className: 'aha-qr' },
+        h(QRCode, { value: 'https://ahaslides.com/join', size: 160, bordered: false, color: '#1A1A1A' })
+      )
+    )
+  );
+</script>

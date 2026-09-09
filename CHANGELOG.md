@@ -21,6 +21,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.12.0 — 2026-09-09
+### Added
+- **Alert** (`aha-alert`, leaf) — an inline contextual banner (info / success / warning / error) with an optional bold heading and a `closable` dismiss that animates out on a persistent node and emits a composed `close`. Status glyph summoned by name from the DS icon library; tones bound to the DS V3 semantic families. Ships HTML / React / Vue. (#PRO38-8)
+- **Carousel** (`carousel-theme`, composite) — a swipeable set of slides through the shared `carouselTheme` (brand active dot, radius-8 panels), keeping antd's built-in slide motion. Ships HTML / React / Vue. (#PRO38-8)
+- **QR code** (`qr-code-theme`, composite) — a scannable code through antd's QRCode + the shared `qrCodeTheme`, ink modules on white in a 1px radius-8 DS frame. Ships HTML / React / Vue. (#PRO38-8)
+- **Toast** (`toast-theme`, composite) — antd's imperative `message` API themed once by the shared `toastTheme` (white pill, radius 8, ink text), keeping antd's enter/leave motion. Ships HTML / React / Vue. (#PRO38-8)
+- **Notification** (`notification-theme`, composite) — antd's imperative `notification` API themed by the shared `notificationTheme` (white 384-wide card, radius 8, ink title + description). Ships HTML / React / Vue. (#PRO38-8)
+- **Modal** (`modal-theme`, composite) — a focused blocking dialog through the shared `modalTheme` (white content, radius 8, ink 18/600 title), keeping antd's built-in motion. Ships HTML / React / Vue. (#PRO38-8)
+- **Drawer** (`drawer-theme`, composite) — a slide-in side panel through the shared `drawerTheme` (white panel, ink title, brand actions), keeping antd's built-in slide motion. Ships HTML / React / Vue. (#PRO38-8)
+
 ## 0.7.0 — 2026-09-09
 ### Added
 - Icon library is now gated: `standards.mjs` proves every `<aha-icon name="…">` a component references (in its source, snippets, preview, or contract) resolves to a real glyph in `icons/registry.json` — the published [icon gallery](https://ahaslides-product.github.io/ahaslides-design/icons/index.html) — and flags an inline `<svg>` glyph in element source as a library bypass (genuine sub-glyph chrome opts out per-line with `ds-lint-allow: svg`). A typo or non-DS icon now fails the gate instead of rendering a runtime error box. (#30)

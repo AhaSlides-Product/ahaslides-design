@@ -1,0 +1,15 @@
+import { ConfigProvider, Carousel } from 'antd';   // antd v6
+import { carouselTheme } from '@ahaslides-product/design/carousel-theme';
+
+const slides = ['Create in minutes', 'Present live', 'Share the results'];
+
+<ConfigProvider theme={carouselTheme}>
+  <Carousel dots autoplay={false} afterChange={setCurrent}>
+    {slides.map((s, i) => (
+      <div key={i}>
+        <div className="aha-slide">{s}</div>
+      </div>
+    ))}
+  </Carousel>
+</ConfigProvider>
+// One shared carouselTheme → the DS V3 look; keeps antd's built-in slide motion.

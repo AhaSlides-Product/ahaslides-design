@@ -1,0 +1,19 @@
+import { ConfigProvider, notification, Button } from 'antd';   // antd v6
+import { notificationTheme } from '@ahaslides-product/design/notification-theme';
+
+function ExportButton() {
+  // v6: use the hook so the card consumes the ConfigProvider theme (static notification() does not).
+  const [api, contextHolder] = notification.useNotification();
+  return (
+    <ConfigProvider theme={notificationTheme}>
+      {contextHolder}
+      <Button
+        type="primary"
+        onClick={() => api.open({ message: 'Export ready', description: 'Your CSV of responses is ready to download.' })}
+      >
+        Export
+      </Button>
+    </ConfigProvider>
+  );
+}
+// One shared notificationTheme → the DS V3 look; keeps antd's built-in motion.

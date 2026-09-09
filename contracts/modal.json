@@ -1,0 +1,55 @@
+{
+  "name": "Modal",
+  "slug": "modal",
+  "group": "Feedback",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "A focused, blocking dialog — confirm, edit, or make a decision — rendered through the shared Modal.",
+  "lead": "Modal carries focus-trapping, a mask, scroll-locking and enter/leave motion — too much to rebuild as a web component — so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared modalTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "Modal.contentBg", "Modal.headerBg", "Modal.titleColor", "Modal.titleFontSize"],
+  "spec": [
+    { "label": "Content", "value": "white surface · radius 8" },
+    { "label": "Title", "value": "ink #1A1A1A · 18 · SemiBold" },
+    { "label": "Footer", "value": "brand primary confirm + secondary cancel" },
+    { "label": "Mask", "value": "ink overlay rgba(26,26,46,.7)" },
+    { "label": "Motion", "value": "antd's built-in zoom enter/leave (kept)" }
+  ],
+  "props": [
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Controls visibility" },
+    { "name": "title", "type": "string", "default": "—", "desc": "Dialog heading" },
+    { "name": "onOk", "type": "() => void", "default": "—", "desc": "Confirm handler" },
+    { "name": "onCancel", "type": "() => void", "default": "—", "desc": "Dismiss handler" },
+    { "name": "confirmLoading", "type": "boolean", "default": "false", "desc": "Spinner on the confirm button" },
+    { "name": "width", "type": "number", "default": "520", "desc": "Dialog width" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Modal", "when": "the user must confirm or complete a focused task before continuing" },
+      { "what": "Drawer", "when": "a longer edit form or detail panel that keeps page context" },
+      { "what": "Popconfirm", "when": "a lightweight yes/no on a single control" }
+    ],
+    "note": "Give it a clear title and make the primary button name the action ('Delete slide', not 'OK'). Keep modals short — anything with many fields belongs in a Drawer or its own page."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./modal-theme", "exportsNamed": ["modalTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "modal.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared modalTheme. No build step." },
+    { "key": "react", "label": "React", "file": "modal.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "modal.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "modal.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same modalTheme; residual drift is caught by visual regression.",
+  "preview": "modal.preview.html",
+  "selfCheck": [
+    { "label": "white content · radius 8", "verdict": "PASS" },
+    { "label": "ink title 18 SemiBold", "verdict": "PASS" },
+    { "label": "brand confirm + secondary cancel", "verdict": "PASS" },
+    { "label": "antd built-in motion kept", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page; the modal is rendered inline (getContainer={false}, open) so the measure reads the real antd v6 modal content bound to modalTheme.",
+    "ready": "!!document.querySelector('#react-root .ant-modal-container') && !!document.querySelector('#react-root .ant-modal-title')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{contentBg:g('.ant-modal-container','backgroundColor'),contentRadius:g('.ant-modal-container','borderTopLeftRadius'),contentPadTop:g('.ant-modal-container','paddingTop'),titleColor:g('.ant-modal-title','color'),titleSize:g('.ant-modal-title','fontSize'),titleWeight:g('.ant-modal-title','fontWeight')};})()",
+    "expect": { "contentBg": "rgb(255, 255, 255)", "contentRadius": "8px", "contentPadTop": "20px", "titleColor": "rgb(26, 26, 26)", "titleSize": "18px", "titleWeight": "600" }
+  }
+}

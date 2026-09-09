@@ -1,0 +1,18 @@
+// @ahaslides-product/design/toast-theme — declared ONCE, consumed by both tiers.
+import { toastTheme } from '@ahaslides-product/design/toast-theme';
+
+export const toastTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    colorText: '#1A1A1A',
+    colorBgElevated: '#FFFFFF',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Message: {
+      contentBg: '#FFFFFF',     // white elevated surface
+      contentPadding: '9px 12px',
+    },
+  },
+};

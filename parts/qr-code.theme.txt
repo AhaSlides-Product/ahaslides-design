@@ -1,0 +1,12 @@
+// @ahaslides-product/design/qr-code-theme — declared ONCE, consumed by both tiers.
+import { qrCodeTheme } from '@ahaslides-product/design/qr-code-theme';
+
+export const qrCodeTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    colorText: '#1A1A1A',              // QR module ink
+    colorBorderSecondary: '#E3E3E3',   // framing border
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+};

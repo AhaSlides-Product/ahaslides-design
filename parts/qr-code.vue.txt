@@ -1,0 +1,13 @@
+<script setup>
+import { ConfigProvider, QRCode } from 'ant-design-vue';   // ant-design-vue v4
+import { qrCodeTheme } from '@ahaslides-product/design/qr-code-theme';
+</script>
+
+<template>
+  <a-config-provider :theme="qrCodeTheme">
+    <div class="aha-qr">
+      <a-qrcode value="https://ahaslides.com/join" :size="160" :bordered="false" color="#1A1A1A" />
+    </div>
+  </a-config-provider>
+</template>
+<!-- The SAME qrCodeTheme as React → one DS V3 look across both vendor libraries. -->

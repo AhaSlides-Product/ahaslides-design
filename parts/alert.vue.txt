@@ -1,0 +1,21 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-alert';   // registers <aha-alert> (+ <aha-icon>)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const banner = ref(true);
+</script>
+
+<template>
+  <aha-alert type="success" heading="Saved">Your changes are live.</aha-alert>
+  <aha-alert
+    v-if="banner"
+    type="error"
+    closable
+    @close="banner = false"
+  >
+    Upload failed — try a smaller file.
+  </aha-alert>
+</template>

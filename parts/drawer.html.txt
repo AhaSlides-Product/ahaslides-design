@@ -1,0 +1,33 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     Drawer is a COMPOSITE (antd, no framework-free element), so its HTML form is a
+     CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
+     consumes the SAME shared `drawerTheme` the React/Vue wrappers use, so it renders
+     the DS V3 look (white panel, ink title). Keeps antd's built-in slide motion.
+     No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<div id="root"></div>
+<script type="module">
+  import React from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import { ConfigProvider, Drawer, Button, Space } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+  import { drawerTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/drawer-theme.js';
+
+  const h = React.createElement;
+  const { useState } = React;
+
+  function App() {
+    const [open, setOpen] = useState(false);
+    return h(ConfigProvider, { theme: drawerTheme },
+      h(Button, { type: 'primary', onClick: () => setOpen(true) }, 'Slide settings'),
+      h(Drawer, {
+        open,
+        title: 'Slide settings',
+        placement: 'right',
+        width: 378,
+        onClose: () => setOpen(false),
+        footer: h(Space, null, h(Button, { onClick: () => setOpen(false) }, 'Cancel'), h(Button, { type: 'primary' }, 'Save changes')),
+      }, h('p', null, 'Adjust how this slide behaves for your audience.'))
+    );
+  }
+  // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  createRoot(document.getElementById('root')).render(h(App));
+</script>

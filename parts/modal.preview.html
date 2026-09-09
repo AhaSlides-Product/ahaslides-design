@@ -1,0 +1,55 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared modalTheme. Vue consumes the same
+     modalTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the modal is rendered inline (getContainer={false}, open) so the real antd v6 modal
+     content, bound to the shared theme, can be measured. Keeps antd's built-in motion. -->
+<style>
+  #react-root .aha-stage { position:relative; }
+  #react-root .aha-stage .ant-modal-root, #react-root .aha-stage .ant-modal-wrap { position:static; }
+  #react-root .aha-stage .ant-modal { top:0; padding-bottom:0; }
+</style>
+
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__modal = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorBgElevated:'#FFFFFF',
+             fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    components:{ Modal:{ contentBg:'#FFFFFF', headerBg:'#FFFFFF', titleColor:'#1A1A1A', titleFontSize:18, borderRadiusLG:8 } }
+  }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Modal } = window.__antdR;
+function App() {
+  return (
+    <ConfigProvider theme={window.__modal.theme}>
+      <div className="aha-stage" style={{ minHeight: 300 }}>
+        <Modal
+          open
+          title="Delete this slide?"
+          okText="Delete slide"
+          cancelText="Cancel"
+          okButtonProps={{ danger: true }}
+          getContainer={false}
+          mask={false}
+          maskClosable={false}
+        >
+          <p style={{ margin: '8px 0 0', color: 'var(--aha-text-secondary)' }}>
+            This removes the slide and all of its responses. This can't be undone.
+          </p>
+        </Modal>
+      </div>
+    </ConfigProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(<App />);
+</script>
