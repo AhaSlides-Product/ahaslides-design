@@ -66,7 +66,8 @@ chk(g, 'design.md carries brand + architecture', /#6A1EBB/.test(read(join(DIST,'
 chk(g, 'index.html present', read(join(DIST,'index.html')).length > 400);
 chk(g, 'llms.txt lists Checkbox + Table', /Checkbox/.test(read(join(DIST,'llms.txt'))) && /Table/.test(read(join(DIST,'llms.txt'))));
 chk(g, 'llms-full.txt non-empty', read(join(DIST,'llms-full.txt')).length > 400);
-chk(g, 'design-tokens.html styled in shell', /class="doc-nav"/.test(read(join(DIST,'design-tokens.html'))) && /--aha-color-primary:#6A1EBB/i.test(read(join(DIST,'design-tokens.html'))));
+{ const cp = read(join(DIST,'foundations','colour.html'));
+  chk(g, 'foundations/colour.html styled in shell', /class="doc-nav"/.test(cp) && /--aha-color-primary:#6A1EBB/i.test(cp) && /Primitive ramps/i.test(cp)); }
 { const fp = read(join(DIST,'feeds','llms-txt.html'));
   chk(g, 'feed pages: in-shell + raw content in code wrapper', /class="doc-nav"/.test(fp) && /class="code-panel feed"/.test(fp) && /Checkbox/.test(fp)); }
 results.push({ slug: '(global feeds)', checks: g });
@@ -100,7 +101,7 @@ const contracts = {};
 for (const f of readdirSync(CDIR).filter(f => f.endsWith('.json'))) { const j = JSON.parse(readFileSync(join(CDIR, f), 'utf8')); contracts[j.slug] = j; }
 
 /* ---- per component ---- */
-const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'patterns']);  // generated support dirs, not components (patterns are composition guides, gated by standards.mjs — see patterns/)
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'patterns', 'foundations']);  // generated support dirs, not components (patterns are composition guides gated by standards.mjs; foundations are token pages)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];

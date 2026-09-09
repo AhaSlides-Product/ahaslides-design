@@ -1,0 +1,20 @@
+<!-- ⚠ Hosting pending (Q3): these CDN URLs need the package on a PUBLIC CDN/npm. It currently publishes to GitHub Packages (authed), which jsDelivr/esm.sh do NOT serve — so paste-and-run works once DevOps publishes publicly (or swap in the branded CDN base). -->
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     <aha-button> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-button.js';   // registers <aha-button>
+</script>
+
+<div style="display:flex; gap:8px">
+  <aha-button variant="secondary">Cancel</aha-button>
+  <aha-button variant="primary" onclick="alert('Saved')">
+    <span slot="icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Save changes
+  </aha-button>
+</div>
+
+<!-- Size + variant are attributes; never inline height/padding/radius/fontSize. -->
+<aha-button variant="primary" size="xl" block>Get started</aha-button>
+<aha-button icon-only variant="tertiary" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></aha-button>

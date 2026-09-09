@@ -45,6 +45,7 @@
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "snippets": [
+    { "key": "html", "label": "HTML", "file": "button.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
     { "key": "react", "label": "React", "file": "button.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "button.vue.txt" }
   ],

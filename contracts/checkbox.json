@@ -32,6 +32,7 @@
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-checkbox", "registers": "aha-checkbox", "exportsNamed": ["AhaCheckbox", "defineAhaCheckbox"] },
   "snippets": [
+    { "key": "html", "label": "HTML", "file": "checkbox.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
     { "key": "react", "label": "React", "file": "checkbox.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "checkbox.vue.txt" }
   ],

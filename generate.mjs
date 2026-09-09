@@ -106,6 +106,16 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'feeds',       label: 'Agent feeds' },
 ];
+/* Foundations · design tokens, split into structured pages (one sidebar item each) —
+   AntD's Design area does the same (Colour / Typography / Layout / …). Each renders from
+   the same tokens.canonical.json source. */
+const TOKEN_PAGES = [
+  { slug: 'colour',     label: 'Colour' },
+  { slug: 'typography', label: 'Typography' },
+  { slug: 'spacing',    label: 'Spacing' },
+  { slug: 'radius',     label: 'Radius' },
+  { slug: 'sizing',     label: 'Sizing' },
+];
 const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // softIndigo → soft-indigo, inkA10 → ink-a10
 function tokenVars(t) {
   const c = t.color, f = t.font, r = t.radius, P = c.primitives, b = c.button;
@@ -364,9 +374,11 @@ function sidebarNav(base, active, section) {
   if (section === 'overview') return '';
   let inner = '';
   if (section === 'foundations') {
+    const tokenItems = TOKEN_PAGES.map(p =>
+      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span>${active==='token:'+p.slug?'':'<span class="nav-dot" title="live"></span>'}</a>`).join('');
     inner =
-      `<div class="nav-group"><div class="nav-cat">Foundations</div>` +
-      `<a class="nav-item${active==='__tokens__'?' active':''}" href="${base}design-tokens.html"><span>Design tokens</span>${active==='__tokens__'?'':'<span class="nav-dot" title="live"></span>'}</a>` +
+      `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
+      `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span>${active==='__icons__'?'':`<span class="nav-count">${ICONS.count}</span>`}</a>` +
       `</div>`;
   } else if (section === 'components') {
@@ -466,6 +478,16 @@ body{margin:0;font-family:var(--aha-font-product);background:#fff;color:var(--ah
 <body>${part(c.conformancePart)}</body></html>`;
 }
 
+// Every component ships a paste-and-run HTML snippet, so agents lead with it (no build step).
+// Leaf → the custom element is the native form. Composite (no framework-free element) → a
+// CDN-React runnable page: React + antd loaded from a CDN, so it still opens-and-renders.
+const hasHtml = (c) => (c.snippets || []).some(s => s.key === 'html');
+const leafHtml = (c) => c.tier === 'leaf-lit';
+const frameworksLine = (c) => hasHtml(c) ? 'HTML (paste-and-run, no build step) · React · Vue 3' : 'React, Vue 3';
+const htmlKind = (c) => leafHtml(c)
+  ? `<${c.element}> is a standard custom element that renders on open — React/Vue are thin adapters over the same element`
+  : `a CDN-React runnable page (React + antd loaded from a CDN, no build step) — React/Vue use the same shared-themed DataTable via your bundler`;
+
 function renderMd(c) {
   const props = (c.props||[]).map(p => `| \`${p.name}\` | ${p.type} | \`${p.default}\` | ${p.desc} |`).join('\n');
   const spec = (c.spec||[]).map(s => `- ${s.label}: ${s.value}`).join('\n');
@@ -476,7 +498,7 @@ function renderMd(c) {
 
 ${c.summary}
 
-Tier: **${c.tier}**. Frameworks: React, Vue 3.${surf}
+Tier: **${c.tier}**. Frameworks: ${frameworksLine(c)}.${surf}
 
 ## Props
 | Prop | Type | Default | Notes |
@@ -492,17 +514,22 @@ function renderLlms(c) {
   const props = (c.props||[]).map(p => `- ${p.name}: ${p.type}, default ${p.default}. ${p.desc}`).join('\n');
   const use = c.opinion ? 'Use when: ' + (c.opinion.whenToUse||[]).map(x=>`${x.what} (${x.when})`).join('; ') + '.\n' : '';
   const surf = (c.surfaces&&c.surfaces.length) ? `Surfaces: ${c.surfaces.join(', ')}.\n` : '';
+  const htmlLead = hasHtml(c) ? `Default to the HTML snippet — ${htmlKind(c)}.\n` : '';
   return `## ${c.name}
 ${c.summary}
-Tier: ${c.tier}. Frameworks: React, Vue 3.
-${surf}Props:
+Tier: ${c.tier}. Frameworks: ${frameworksLine(c)}.
+${htmlLead}${surf}Props:
 ${props}
 Tokens: ${(c.tokensUsed||[]).join(', ')}.
 ${use}`;
 }
 function renderAgent(c) {
+  // Snippets insertion order follows c.snippets — HTML is authored first on leaf contracts,
+  // so it leads the object. Emit the `html` key order + recommendedSnippet so an agent
+  // reaching for a snippet reaches for HTML by default.
   const snippets = {};
   for (const s of c.snippets) snippets[s.key] = part(s.file);
+  const leaf = c.tier === 'leaf-lit';
   const entry = c.reuse && c.reuse.entry ? c.reuse.entry.replace(/^\.\//, '') : null;
   const install = {
     package: PKGNAME,
@@ -516,6 +543,12 @@ function renderAgent(c) {
     element: c.element || null,
     registers: c.reuse ? c.reuse.registers || null : null,
   };
+  const frameworks = leaf
+    ? { react: { via: 'web-component', ref: c.element }, vue: { via: 'web-component', ref: c.element } }
+    : { react: { package: 'antd', major: 6 }, vue: { package: 'ant-design-vue', major: 4 } };
+  if (hasHtml(c)) frameworks.html = leafHtml(c)
+    ? { via: 'web-component', ref: c.element, runnable: 'paste-and-run — no build step, renders on open' }
+    : { via: 'cdn-react', runnable: 'paste-and-run — React + antd loaded from a CDN, no build step' };
   return JSON.stringify({
     generatedFrom: `${c.slug}.contract.json`, component: c.name, slug: c.slug, group: c.group, tier: c.tier,
     summary: c.summary,
@@ -527,9 +560,11 @@ function renderAgent(c) {
       llms: `${SITE}/${c.slug}.llms.txt`,
       index: `${SITE}/llms.txt`,
     },
-    frameworks: c.tier === 'leaf-lit'
-      ? { react: { via: 'web-component', ref: c.element }, vue: { via: 'web-component', ref: c.element } }
-      : { react: { package: 'antd', major: 6 }, vue: { package: 'ant-design-vue', major: 4 } },
+    recommendedSnippet: hasHtml(c) ? 'html' : (c.snippets[0]?.key || 'react'),
+    vibeCode: hasHtml(c)
+      ? `Emit the HTML snippet by default — ${htmlKind(c)}. Paste into an .html file and it renders with no build step.`
+      : null,
+    frameworks,
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
     opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
   }, null, 2) + '\n';
@@ -777,7 +812,9 @@ ${comps}
 }
 
 /* ===== Foundations · Design tokens (styled page, generated from tokens.canonical.json) ===== */
-function renderTokensPage() {
+// One Foundations · design-token page per category (Colour / Typography / Spacing / Radius /
+// Sizing). All render from tokens.canonical.json; the sidebar lists them as separate items.
+function renderTokenPage(pageSlug) {
   const c = TOK.color, r = TOK.radius, ch = TOK.controlHeight, s = TOK.size;
   const swatch = (n, v) => `<div class="sw"><div class="chip" style="background:${v}"></div><div class="meta"><div class="nm">${esc(n)}</div><div class="hex">${esc(v)}</div></div></div>`;
   const swGroup = (title, entries) => `<h3 class="tok-h3">${esc(title)}</h3><div class="swatches">${entries.map(([n,v])=>swatch(n,v)).join('')}</div>`;
@@ -794,12 +831,12 @@ function renderTokensPage() {
     + `<tr><td>Field sm / lg</td><td><code>${ch.sm}px / ${ch.lg}px</code></td></tr>`
     + `<tr><td>Button sm / md / lg / xl</td><td><code>${ch.button.sm} / ${ch.button.md} / ${ch.button.lg} / ${ch.button.xl}px</code></td></tr>`;
   const spaceBars = TOK.space.filter(n => n>0 && n<=64).map(n => `<div class="scale-cell"><div class="space-bar" style="width:${n}px"></div><div class="hex">${n}</div></div>`).join('');
-  const main = `
-  <p class="crumbs">Foundations · design tokens</p>
-  <h1>Design tokens</h1>
-  <p class="subtitle">The single canonical token set (R1) — the source both this site and <code>variables.css</code> are generated from. Precedence when sources disagree: measured component-standard &gt; DS export (brand) &gt; aha-design skill.</p>
-  <p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>
 
+  const gen = `<p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>`;
+  const BODY = {
+    colour: {
+      title: 'Colour', lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
+      body: `
   <h2>Primitive ramps</h2>
   <p class="body">The raw colour scales (10&rarr;100). Semantic tokens below alias into these — never hardcode a ramp value in a component.</p>
   <div class="ramps">${primitives}</div>
@@ -812,22 +849,40 @@ function renderTokensPage() {
   ${swGroup('Background', [['bgLayout',c.bgLayout],['bgAccent',c.bgAccent],['bgInformative',c.bgInformative],['bgPositive',c.bgPositive],['bgNegative',c.bgNegative],['bgWarning',c.bgWarning],['bgDark',c.bgDark]])}
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
-  ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}
-
-  <h2>Typography</h2>
-  <p class="body">Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> (Display 700). No Inter. Line-height ratios: tight 1.2 · heading 1.3 · body 1.5. Letter-spacing: headlines 0 · body 0.2px · subtext 0.3px.</p>
-  ${docTable('<th>Role</th><th>Size</th>', typeRows)}
-
-  <h2>Radius</h2>
-  <div class="scale-row">${radChips}</div>
-  <p class="body">Pill <code>${r.pill}px</code> for capsules; <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>
-
-  <h2>Control height</h2>
-  ${docTable('<th>Control</th><th>Height</th>', chRows)}
-
-  <h2>Spacing</h2>
+  ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}`,
+    },
+    typography: {
+      title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> (Display 700). No Inter.',
+      body: `
+  <p class="body">Line-height ratios: tight 1.2 · heading 1.3 · body 1.5. Letter-spacing: headlines 0 · body 0.2px · subtext 0.3px.</p>
+  ${docTable('<th>Role</th><th>Size</th>', typeRows)}`,
+    },
+    spacing: {
+      title: 'Spacing', lead: 'A single 4-based spacing scale — hierarchy and separation come from these tokens, never ad-hoc px.',
+      body: `
   <div class="scale-row" style="align-items:flex-end">${spaceBars}</div>
-  <p class="body">4-based scale (px): ${TOK.space.join(' · ')}.</p>`;
+  <p class="body">4-based scale (px): ${TOK.space.join(' · ')}.</p>`,
+    },
+    radius: {
+      title: 'Radius', lead: 'The corner-radius scale. Anything off <code>4 · 6 · 8 · 12 · 16</code> is drift.',
+      body: `
+  <div class="scale-row">${radChips}</div>
+  <p class="body">Pill <code>${r.pill}px</code> for capsules; <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
+    },
+    sizing: {
+      title: 'Sizing', lead: 'Control heights — the root field height and the Button size ramp.',
+      body: `
+  ${docTable('<th>Control</th><th>Height</th>', chRows)}
+  <p class="body">Fields share the root height; Button steps sm / md / lg / xl. Set size via the <code>size</code> prop — never inline a height.</p>`,
+    },
+  };
+  const pg = BODY[pageSlug];
+  const main = `
+  <p class="crumbs">Foundations · design tokens</p>
+  <h1>${esc(pg.title)}</h1>
+  <p class="subtitle">${pg.lead}</p>
+  ${gen}
+  ${pg.body}`;
   const extraCss = `
   .tok-h3{font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);margin:18px 0 8px;font-weight:600}
   .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-bottom:8px}
@@ -847,7 +902,7 @@ function renderTokensPage() {
   .ramp-cell{width:44px;text-align:center}
   .ramp-chip{height:34px;border-radius:6px;border:1px solid rgba(0,0,0,.06)}
   .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}`;
-  return docShell({ base: '', active: '__tokens__', section: 'foundations', main, extraCss });
+  return docShell({ base: '../', active: 'token:' + pageSlug, section: 'foundations', main, extraCss });
 }
 
 /* ===== self-describing "how to consume" blocks =====
@@ -1047,7 +1102,7 @@ PATTERNS = existsSync(PATDIR)
 /* top-nav landing per area — each tab opens that area's first real page */
 NAV_LANDING = {
   overview: 'index.html',
-  foundations: 'design-tokens.html',
+  foundations: `foundations/${TOKEN_PAGES[0].slug}.html`,
   components: (contracts[0] ? `${contracts[0].slug}/index.html` : 'index.html'),
   patterns: (PATTERNS[0] ? `patterns/${PATTERNS[0].slug}/index.html` : 'index.html'),
   feeds: 'feeds/llms-txt.html',
@@ -1068,7 +1123,8 @@ writeFileSync(join(root, 'lib', 'tokens.js'),
   '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
   'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\nexport default tokens;\n');
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
-writeFileSync(join(OUT, 'design-tokens.html'), renderTokensPage());
+mkdirSync(join(OUT, 'foundations'), { recursive: true });
+for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
 
 /* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
@@ -1135,4 +1191,4 @@ mkdirSync(join(OUT, 'feeds'), { recursive: true });
 for (const f of RAW_FEEDS) {
   writeFileSync(join(OUT, 'feeds', `${f.page}.html`), renderFeedPage(f, read(join(OUT, f.file))));
 }
-console.log(`\nGenerated ${contracts.length} component(s) + variables.css + design.md + design-tokens.html + index.html + llms feeds + ${RAW_FEEDS.length} feed pages → dist/`);
+console.log(`\nGenerated ${contracts.length} component(s) + variables.css + design.md + ${TOKEN_PAGES.length} token pages + index.html + llms feeds + ${RAW_FEEDS.length} feed pages → dist/`);

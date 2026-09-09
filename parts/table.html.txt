@@ -1,0 +1,37 @@
+<!-- ⚠ Hosting pending (Q3): these CDN URLs need the package on a PUBLIC CDN/npm. It currently publishes to GitHub Packages (authed), which jsDelivr/esm.sh do NOT serve — so paste-and-run works once DevOps publishes publicly (or swap in the branded CDN base). -->
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     Table is a COMPOSITE (antd, no framework-free element), so its HTML form is a
+     CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
+     consumes the SAME shared `tableTheme` the React/Vue wrappers use, so it renders
+     the DS V3 look (white header, grey labels, dividers-only, radius 8, brand hover).
+     No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<div id="root"></div>
+<script type="module">
+  import React from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import { ConfigProvider, Table } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+  import { tableTheme } from 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/table-theme.js';
+
+  const h = React.createElement;
+
+  const columns = [
+    { key: 'name',      title: 'Name',      dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
+    { key: 'team',      title: 'Team',      dataIndex: 'team' },
+    { key: 'responses', title: 'Responses', dataIndex: 'responses' },
+    { key: 'score',     title: 'Score',     dataIndex: 'score', sorter: (a, b) => a.score - b.score },
+  ];
+  const rows = [
+    { key: '1', name: 'Alex Rivera',   team: 'Growth',  responses: 128, score: 94 },
+    { key: '2', name: 'Priya Nair',    team: 'Product', responses: 112, score: 88 },
+    { key: '3', name: 'Sam Okafor',    team: 'Growth',  responses: 97,  score: 81 },
+  ];
+
+  // Same shared theme the React/Vue DataTable wrappers pass to ConfigProvider.
+  createRoot(document.getElementById('root')).render(
+    h(ConfigProvider, { theme: tableTheme },
+      h(Table, { rowKey: 'key', columns, dataSource: rows, pagination: { pageSize: 5, showSizeChanger: true } })
+    )
+  );
+  // In a real app use the shared DataTable (DS V3 single-arrow sort, filter, freeze, reorder) —
+  // never a raw <Table>. This page shows the paste-and-run form of the same themed grid.
+</script>
