@@ -1,0 +1,26 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, Select } from 'ant-design-vue';   // ant-design-vue v4
+import { selectTheme } from '@ahaslides-product/design/select-theme';
+
+const type = ref('poll');
+const options = [
+  { value: 'poll',      label: 'Poll' },
+  { value: 'quiz',      label: 'Quiz' },
+  { value: 'wordcloud', label: 'Word cloud' },
+  { value: 'qa',        label: 'Q&A' },
+];
+</script>
+
+<template>
+  <a-config-provider :theme="selectTheme">
+    <a-select
+      v-model:value="type"
+      show-search
+      placeholder="Choose a slide type"
+      :options="options"
+      style="width: 240px"
+    />
+  </a-config-provider>
+</template>
+<!-- The SAME selectTheme as React → one DS V3 look across both vendor libraries. -->

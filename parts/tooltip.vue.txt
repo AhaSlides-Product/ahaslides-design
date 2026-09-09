@@ -1,0 +1,10 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-tooltip';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-tooltip text="Copy share link">
+    <button aria-label="Copy share link">Share</button>
+  </aha-tooltip>
+</template>

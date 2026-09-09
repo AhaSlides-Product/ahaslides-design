@@ -1,0 +1,53 @@
+{
+  "name": "Tag",
+  "slug": "tag",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-tag",
+  "summary": "A small, low-emphasis label for a category, keyword, or state.",
+  "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `variant` attribute, and `closable` adds a dismiss affordance that emits a composed `close` event. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["gray-30", "purple-10", "purple-60", "bg-positive", "text-positive", "bg-warning", "text-warning", "bg-negative", "text-negative", "radius-sm"],
+  "spec": [
+    { "label": "Box", "value": "height 22 · radius 6 · padding 0 8" },
+    { "label": "Text", "value": "Plus Jakarta SemiBold 600, 12/18" },
+    { "label": "Neutral", "value": "bg #F1F1F1, label #4A4A4A" },
+    { "label": "Primary", "value": "bg #F9F5FF, label #6A1EBB" },
+    { "label": "Success / Warning / Error", "value": "tinted bg + matching text token" }
+  ],
+  "props": [
+    { "name": "variant", "type": "neutral | primary | success | warning | error", "default": "neutral", "desc": "Tone tint" },
+    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows a dismiss × control" },
+    { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the × is pressed" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Tag", "when": "labelling content with a category/keyword, or showing a non-urgent state inline" },
+      { "what": "Badge", "when": "a count or a status dot attached to another element" },
+      { "what": "Button", "when": "the chip should trigger an action — a Tag is a label, not a control" }
+    ],
+    "note": "Keep tag text to one or two words, sentence case. Colour carries meaning — reserve success/warning/error for real states, not decoration."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-tag", "registers": "aha-tag", "exportsNamed": ["AhaTag", "defineAhaTag"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "tag.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "tag.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "tag.vue.txt" }
+  ],
+  "preview": "tag.preview.html",
+  "selfCheck": [
+    { "label": "height 22 · radius 6", "verdict": "PASS" },
+    { "label": "primary bg #F9F5FF / label #6A1EBB", "verdict": "PASS" },
+    { "label": "text SemiBold 600 12/18", "verdict": "PASS" },
+    { "label": "closable emits composed close", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-tag[data-probe]') && document.querySelector('aha-tag[data-probe]').shadowRoot && document.querySelector('aha-tag[data-probe]').shadowRoot.querySelector('.chip'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-tag[data-probe]');var c=el&&el.shadowRoot&&el.shadowRoot.querySelector('.chip');var s=c?getComputedStyle(c):null;return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,weight:s?s.fontWeight:null};})()",
+    "expect": { "bg": "rgb(249, 245, 255)", "radius": "6px", "height": "22px", "weight": "600" }
+  }
+}

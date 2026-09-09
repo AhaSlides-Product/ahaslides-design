@@ -1,0 +1,52 @@
+{
+  "name": "Tooltip",
+  "slug": "tooltip",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-tooltip",
+  "summary": "A short, transient hint shown on hover or focus of its trigger.",
+  "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared dark-navy bubble (with an arrow) on hover/focus. Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-dark", "text-inverse", "radius-sm", "font-product"],
+  "spec": [
+    { "label": "Bubble", "value": "dark-navy #1A1A2E, white text, radius 6, padding 6 10" },
+    { "label": "Text", "value": "Plus Jakarta 12/18" },
+    { "label": "Arrow", "value": "anchored to the trigger, same navy" },
+    { "label": "Trigger", "value": "hover / focus-within; `open` forces it visible" },
+    { "label": "Placement", "value": "above the trigger, centred" }
+  ],
+  "props": [
+    { "name": "text", "type": "string", "default": "—", "desc": "The hint text shown in the bubble" },
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise hover/focus" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Tooltip", "when": "a brief, non-essential hint — an icon-only button's name, a ? help elaboration" },
+      { "what": "help text", "when": "a must-see consequence that is hard to undo — put it inline, not in a tooltip" },
+      { "what": "Popover", "when": "richer content or interactive controls — a tooltip is text only" }
+    ],
+    "note": "Never hide essential information in a tooltip — it is unavailable on touch and to keyboard users who don't focus the trigger. Keep it to a short phrase; the trigger must be focusable."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-tooltip", "registers": "aha-tooltip", "exportsNamed": ["AhaTooltip", "defineAhaTooltip"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "tooltip.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "tooltip.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "tooltip.vue.txt" }
+  ],
+  "preview": "tooltip.preview.html",
+  "selfCheck": [
+    { "label": "bubble dark-navy #1A1A2E + white text", "verdict": "PASS" },
+    { "label": "radius 6 · padding 6 10", "verdict": "PASS" },
+    { "label": "shows on hover / focus-within", "verdict": "PASS" },
+    { "label": "arrow anchored to trigger", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe uses `open` so the bubble is in layout and measurable.",
+    "ready": "!!(document.querySelector('aha-tooltip[data-probe]') && document.querySelector('aha-tooltip[data-probe]').shadowRoot && document.querySelector('aha-tooltip[data-probe]').shadowRoot.querySelector('.bubble'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-tooltip[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bubble');var s=b?getComputedStyle(b):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null};})()",
+    "expect": { "bg": "rgb(26, 26, 46)", "color": "rgb(255, 255, 255)", "radius": "6px", "fontSize": "12px" }
+  }
+}

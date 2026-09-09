@@ -1,0 +1,18 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-switch> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';   // registers <aha-switch>
+</script>
+
+<label style="display:inline-flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans',sans-serif; font-size:14px">
+  <aha-switch id="anon" checked></aha-switch>
+  Show results live
+</label>
+
+<script>
+  document.getElementById('anon').addEventListener('change', (e) => {
+    console.log('live results:', e.detail.checked);
+  });
+</script>

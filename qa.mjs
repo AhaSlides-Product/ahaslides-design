@@ -101,7 +101,7 @@ const contracts = {};
 for (const f of readdirSync(CDIR).filter(f => f.endsWith('.json'))) { const j = JSON.parse(readFileSync(join(CDIR, f), 'utf8')); contracts[j.slug] = j; }
 
 /* ---- per component ---- */
-const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'patterns', 'foundations']);  // generated support dirs, not components (patterns are composition guides gated by standards.mjs; foundations are token pages)
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'patterns', 'foundations', 'lib']);  // generated support dirs, not components (patterns are composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];

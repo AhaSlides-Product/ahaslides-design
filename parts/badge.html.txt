@@ -1,0 +1,13 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-badge> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-badge.js';   // registers <aha-badge>
+</script>
+
+<div style="display:flex; gap:16px; align-items:center">
+  <aha-badge count="5"></aha-badge>
+  <aha-badge count="128" max="99"></aha-badge>
+  <aha-badge dot status="success"></aha-badge>
+</div>

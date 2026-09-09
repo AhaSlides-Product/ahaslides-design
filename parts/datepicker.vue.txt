@@ -1,0 +1,17 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, DatePicker, RangePicker } from 'ant-design-vue';   // ant-design-vue v4
+import dayjs from 'dayjs';
+import { datepickerTheme } from '@ahaslides-product/design/datepicker-theme';
+
+const date = ref(dayjs());
+const range = ref();
+</script>
+
+<template>
+  <a-config-provider :theme="datepickerTheme">
+    <a-date-picker v-model:value="date" placeholder="Pick a date" style="width: 240px" />
+    <a-range-picker v-model:value="range" style="width: 280px" />
+  </a-config-provider>
+</template>
+<!-- The SAME datepickerTheme as React → one DS V3 look across both vendor libraries. -->

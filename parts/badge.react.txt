@@ -1,0 +1,12 @@
+import '@ahaslides-product/design/aha-badge';   // registers <aha-badge>
+
+// Attributes only — no events — so React 18/19 can render the element directly.
+function AhaBadge({ count, max, dot, status }) {
+  return <aha-badge count={count} max={max} status={status} {...(dot ? { dot: '' } : {})} />;
+}
+
+// usage — anchor the badge to the element it marks
+<span style={{ position: 'relative' }}>
+  <BellIcon />
+  <AhaBadge count={unread} max={99} />
+</span>

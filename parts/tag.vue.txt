@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-tag';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const keywords = ref(['Poll', 'Marketing']);
+</script>
+
+<template>
+  <aha-tag variant="primary">Poll</aha-tag>
+  <aha-tag
+    closable
+    @close="keywords = keywords.filter(k => k !== 'Marketing')"
+  >
+    Marketing
+  </aha-tag>
+</template>
