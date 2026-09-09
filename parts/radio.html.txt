@@ -6,7 +6,9 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-radio.js';   // registers <aha-radio>
 </script>
 
-<div style="display:flex;flex-direction:column;gap:10px">
+<!-- Wrap the set in role="radiogroup" so assistive tech announces one group.
+     Arrow keys move + select within it; Tab moves in and out as a single stop. -->
+<div role="radiogroup" aria-label="Activity mode" style="display:flex;flex-direction:column;gap:10px">
   <aha-radio name="mode" value="poll" checked>Poll</aha-radio>
   <aha-radio name="mode" value="quiz">Quiz</aha-radio>
   <aha-radio name="mode" value="wordcloud">Word cloud</aha-radio>

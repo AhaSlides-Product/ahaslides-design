@@ -22,6 +22,8 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## 0.9.0 — 2026-09-09
+### Fixed
+- **Radio** (`aha-radio`) — implement the WAI-ARIA radiogroup keyboard contract: the host is now the accessible `role="radio"` with synced `aria-checked`, one tabbable radio per group (roving tabindex), Arrow keys move to and select the next/previous option (wrapping), and Space selects the focused option. Snippets wrap the set in a `role="radiogroup"` container. (#35)
 ### Added
 - **Radio** (`aha-radio`) — shared leaf web component: a mutually-exclusive choice for a small set. Radios sharing a `name` clear their siblings on select; the inner dot scales in on the shared motion tokens on a persistent node. Importable at `@ahaslides-product/design/aha-radio`. (#38)
 - **InputNumber** (composite) — bounded numeric field with steppers, min/max, step and precision. Themed by the shared `inputNumberTheme` (`@ahaslides-product/design/input-number-theme`). (#38)

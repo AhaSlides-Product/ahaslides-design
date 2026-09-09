@@ -9,14 +9,16 @@ const mode = ref('poll');
 </script>
 
 <template>
-  <aha-radio
-    name="mode" value="poll"
-    :checked.prop="mode === 'poll'"
-    @change="mode = $event.detail.value"
-  >Poll</aha-radio>
-  <aha-radio
-    name="mode" value="quiz"
-    :checked.prop="mode === 'quiz'"
-    @change="mode = $event.detail.value"
-  >Quiz</aha-radio>
+  <div role="radiogroup" aria-label="Activity mode">
+    <aha-radio
+      name="mode" value="poll"
+      :checked.prop="mode === 'poll'"
+      @change="mode = $event.detail.value"
+    >Poll</aha-radio>
+    <aha-radio
+      name="mode" value="quiz"
+      :checked.prop="mode === 'quiz'"
+      @change="mode = $event.detail.value"
+    >Quiz</aha-radio>
+  </div>
 </template>
