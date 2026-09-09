@@ -37,7 +37,7 @@ class AhaColorPicker extends HTMLElement {
   get swatches(){ const s=this.getAttribute('swatches'); return s ? s.split('|').map(x=>x.trim()).filter(Boolean) : DEFAULT_SWATCHES; }
   connectedCallback(){
     if(!this.shadowRoot) this.attachShadow({mode:'open'});
-    const cells=this.swatches.map(c=>`<button class="swatch" type="button" data-c="${c}" aria-label="${c}" style="background:${c}"></button>`).join('');
+    const cells=this.swatches.map(c=>`<button class="swatch" type="button" data-c="${c}" aria-label="${c}" aria-pressed="false" style="background:${c}"></button>`).join('');
     this.shadowRoot.innerHTML = `<style>${STYLE}</style><button class="trigger" type="button" aria-haspopup="true"><span class="current"></span><span class="label">${this.value}</span></button><div class="panel" role="group" aria-label="Colour swatches">${cells}</div>`;
     this._current=this.shadowRoot.querySelector('.current');
     this._label=this.shadowRoot.querySelector('.label');
@@ -51,7 +51,7 @@ class AhaColorPicker extends HTMLElement {
   }
   disconnectedCallback(){ document.removeEventListener('click',this._onDoc); }
   _paint(){ if(!this._current) return; this._current.style.background=this.value; this._label.textContent=this.value;
-    this._cells.forEach(c=>c.classList.toggle('on', c.dataset.c.toLowerCase()===this.value.toLowerCase())); }
+    this._cells.forEach(c=>{ const sel=c.dataset.c.toLowerCase()===this.value.toLowerCase(); c.classList.toggle('on', sel); c.setAttribute('aria-pressed', String(sel)); }); }
 }
 customElements.define('aha-color-picker', AhaColorPicker);
 customElements.whenDefined('aha-color-picker').then(()=>{

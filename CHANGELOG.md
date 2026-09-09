@@ -35,6 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-tabs`, `aha-segmented`, `aha-rate` — full keyboard contracts: roving tabindex, ArrowLeft/Right (and Home/End) to move and select, with `aria-selected`/`aria-checked` and (tabs) `aria-controls`/`role="tabpanel"` kept in sync with the rendered state. (#36)
 - `aha-tabs`, `aha-segmented`, `aha-rate` — now `observedAttributes:['value']` + an `attributeChangedCallback` that re-syncs the aria state, so a controlled (framework-bound) `value` no longer desyncs the announced state from the visuals. (#36)
 - `aha-color-picker` — the swatch palette is now `role="group"` (a set of labelled buttons) rather than `role="listbox"`, matching its keyboard model (each swatch a tab-stop) instead of announcing a roving widget it did not implement. (#36)
+- `aha-color-picker` — each swatch button now carries `aria-pressed`, synced to the current value in `_paint()`, so a screen reader can tell which colour is selected (previously only a `.on` CSS class changed). (#36)
 
 ## 0.8.0 — 2026-09-10
 ### Added
