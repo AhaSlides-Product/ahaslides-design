@@ -21,6 +21,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.5.1 — 2026-09-09
+### Fixed
+- Dead-transition bug across the leaf elements: `aha-switch`, `aha-checkbox`, `aha-tooltip` and `aha-paywall` now build their shadow subtree **once** and mutate persistent nodes on a state change, instead of re-rendering `innerHTML` in `attributeChangedCallback`. The state attribute drives `:host([checked])`/`:host([open])` CSS on the live `.knob`/`.box`/`.bubble`, so the declared transition finally animates on toggle (it was dead — a fresh node has no "from" value). Behaviour, events, ARIA and keyboard are unchanged. `aha-paywall` also gains the house `--aha-motion-mid`/`--aha-ease-in-out` transition on its Upgrade CTA. Previews kept in sync. (#33)
+
 ## 0.5.0 — 2026-09-09
 ### Changed
 - `aha-tooltip` pop no longer uses a bounce/overshoot easing — it now decelerates on `--aha-ease-out` (AntD-faithful; real AntD tooltips don't bounce). `lib/` + the preview updated together. (#32)
