@@ -1,0 +1,47 @@
+<div class="pad">
+  <div class="lbl">Horizontal · size middle</div>
+  <aha-space data-probe size="middle">
+    <button>Save</button>
+    <button>Cancel</button>
+    <button>More</button>
+  </aha-space>
+
+  <div class="lbl" style="margin-top:20px">Sizes · small · middle · large</div>
+  <div class="stack" style="gap:14px">
+    <aha-space size="small"><span class="pill">A</span><span class="pill">B</span><span class="pill">C</span></aha-space>
+    <aha-space size="middle"><span class="pill">A</span><span class="pill">B</span><span class="pill">C</span></aha-space>
+    <aha-space size="large"><span class="pill">A</span><span class="pill">B</span><span class="pill">C</span></aha-space>
+  </div>
+
+  <div class="lbl" style="margin-top:20px">Vertical stack · size small</div>
+  <aha-space direction="vertical" size="small">
+    <div>Line one</div>
+    <div>Line two</div>
+    <div>Line three</div>
+  </aha-space>
+</div>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-space (lib/aha-space.js),
+     inlined here so the preview is self-contained (no build step, no network). -->
+<script type="module">
+const SIZE = { small: '8px', middle: '16px', large: '24px' };
+const ALIGN = { start: 'flex-start', end: 'flex-end', center: 'center', baseline: 'baseline' };
+const STYLE = `
+  :host{ display:inline-flex; box-sizing:border-box; flex-direction:row; align-items:center;
+    color:var(--aha-text-default,#1A1A1A) }
+  :host([direction="vertical"]){ display:flex; flex-direction:column; align-items:stretch }
+  :host([wrap]){ flex-wrap:wrap }
+`;
+class AhaSpace extends HTMLElement {
+  static get observedAttributes() { return ['size', 'direction', 'align', 'wrap']; }
+  connectedCallback() { if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); this.shadowRoot.innerHTML = `<style>${STYLE}</style><slot></slot>`; } this._apply(); }
+  attributeChangedCallback() { if (this.shadowRoot) this._apply(); }
+  _apply() {
+    const size = this.getAttribute('size') || 'small';
+    this.style.gap = SIZE[size] || (/^\d+$/.test(size) ? size + 'px' : size);
+    const align = this.getAttribute('align');
+    this.style.alignItems = align ? (ALIGN[align] || '') : '';
+  }
+}
+customElements.define('aha-space', AhaSpace);
+</script>

@@ -1,0 +1,17 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-rate';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const score = ref(3);
+</script>
+
+<template>
+  <aha-rate
+    :value.prop="score"
+    :max="5"
+    @change="score = $event.detail.value"
+  />
+</template>

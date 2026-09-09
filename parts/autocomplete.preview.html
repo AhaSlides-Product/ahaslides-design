@@ -1,0 +1,49 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared autocompleteTheme. Vue consumes the
+     same autocompleteTheme — see "Show code". This CDN-React page (no build step) is also what
+     qa.mjs measures: the real antd AutoComplete (Select internals) bound to the shared theme. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__ac = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
+             colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    components:{ Select:{ optionSelectedBg:'#F9F5FF', optionActiveBg:'#F7F7F7', borderRadius:8, controlHeight:32 } }
+  },
+  options: [{ value:'Poll' }, { value:'Quiz' }, { value:'Word cloud' }, { value:'Q&A' }]
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, AutoComplete } = window.__antdR;
+const A = window.__ac;
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={A.theme}>
+    <div style={{ maxWidth: 280 }}>
+      <Field label="Suggest as you type">
+        <AutoComplete options={A.options} placeholder="Type a slide type"
+          filterOption={(input, opt) => opt.value.toLowerCase().includes(input.toLowerCase())}
+          style={{ width: 240 }} />
+      </Field>
+      <Field label="Prefilled">
+        <AutoComplete options={A.options} defaultValue="Poll" style={{ width: 240 }} />
+      </Field>
+    </div>
+  </ConfigProvider>
+);
+</script>

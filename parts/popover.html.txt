@@ -1,0 +1,20 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-popover> is the SAME shared custom element React and Vue consume.
+     Put the anchor in slot="trigger"; the rest is the floating panel.
+     Closes on outside-click and Escape; emits composed open / close events. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-popover.js';   // registers <aha-popover>
+</script>
+
+<aha-popover id="pop" placement="bottom">
+  <button slot="trigger">Options</button>
+  <div>
+    <p style="margin:0 0 8px">Share, rename or export this deck.</p>
+    <a href="#">Manage access</a>
+  </div>
+</aha-popover>
+
+<script>
+  document.getElementById('pop').addEventListener('open', () => console.log('opened'));
+</script>

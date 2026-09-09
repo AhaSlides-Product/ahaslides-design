@@ -1,0 +1,54 @@
+{
+  "name": "Upload",
+  "slug": "uploader",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-uploader",
+  "summary": "Select files by clicking a drop zone or dragging onto it.",
+  "lead": "ONE custom element — <aha-uploader> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; hover and drag-over toggle a class on the persistent zone so the border and tint animate. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "border-strong", "color-primary", "bg-accent", "text-tertiary", "radius-default", "font-product", "motion-mid", "ease-in-out"],
+  "spec": [
+    { "label": "Zone", "value": "1px dashed border-strong #D4D4D4, radius 8, pad 24 16" },
+    { "label": "Rest text", "value": "text-tertiary #8A8A8A, 14/21" },
+    { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent" },
+    { "label": "Icon", "value": "28px upload arrow, color-primary" }
+  ],
+  "props": [
+    { "name": "multiple", "type": "boolean", "default": "false", "desc": "Allow selecting more than one file" },
+    { "name": "accept", "type": "string", "default": "—", "desc": "MIME/type filter, e.g. \"image/*\"" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the zone" },
+    { "name": "change", "type": "CustomEvent<{files}>", "default": "—", "desc": "Composed event; read e.detail.files (File[])" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Upload", "when": "the user brings a file in — an image, a CSV, a document" },
+      { "what": "Input", "when": "capturing typed text, not a file" },
+      { "what": "Colour picker", "when": "choosing a value from presets rather than importing" }
+    ],
+    "note": "State what you accept in the zone copy and set `accept` to match. Validate size and type on change and show errors near the zone. Offer both click and drag — both are wired here.",
+    "dsv3": "Dashed border-strong zone on white, lifting to color-primary border + bg-accent tint on hover/drag. Border and tint animate via the shared motion tokens on the persistent zone — no subtree rebuild."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-uploader", "registers": "aha-uploader", "exportsNamed": ["AhaUploader", "defineAhaUploader"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "uploader.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "uploader.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "uploader.vue.txt" }
+  ],
+  "preview": "uploader.preview.html",
+  "selfCheck": [
+    { "label": "zone dashed border-strong · radius 8", "verdict": "PASS" },
+    { "label": "rest text text-tertiary", "verdict": "PASS" },
+    { "label": "hover border color-primary + bg-accent", "verdict": "PASS" },
+    { "label": "change emits composed files", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-uploader[data-probe]') && document.querySelector('aha-uploader[data-probe]').shadowRoot && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.zone'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-uploader[data-probe]');var sr=el.shadowRoot;var z=sr.querySelector('.zone');var svg=sr.querySelector('.zone svg');var s=getComputedStyle(z);return{radius:s.borderTopLeftRadius,border:s.borderTopColor,color:s.color,iconFill:getComputedStyle(svg).fill};})()",
+    "expect": { "radius": "8px", "border": "rgb(212, 212, 212)", "color": "rgb(138, 138, 138)", "iconFill": "rgb(106, 30, 187)" }
+  }
+}

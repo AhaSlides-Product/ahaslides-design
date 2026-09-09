@@ -1,0 +1,56 @@
+{
+  "name": "Dropdown",
+  "slug": "dropdown",
+  "group": "Navigation",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-dropdown",
+  "summary": "A trigger button that reveals a floating list of actions — an overflow or actions menu.",
+  "lead": "ONE custom element — <aha-dropdown> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; a trigger button reveals a floating list from the `items` JSON array. Open/close animates via the shared motion tokens on a PERSISTENT panel (a class toggles — the subtree is never rebuilt on open), the caret rotates, and it closes on outside-click or Escape. The caret is the DS glyph via <aha-icon>. Emits a composed `select` event.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "border-hover", "bg-container", "bg-elevated", "bg-hover", "text-default", "text-disabled", "icon-muted", "border-focus", "radius-default"],
+  "spec": [
+    { "label": "Trigger", "value": "height 40 · radius 8 · white bg, 1px border #E3E3E3, SemiBold 600" },
+    { "label": "Trigger hover", "value": "border-hover #D3B4FF (motion-fast + ease-out)" },
+    { "label": "Caret", "value": "<aha-icon name=\"system-caret-down\" size=16>, rotates 180° when open (motion-mid)" },
+    { "label": "Panel", "value": "elevated white, radius 8, 6 padding, min-width 200, soft shadow" },
+    { "label": "Open motion", "value": "opacity + translateY on a persistent node (motion-mid + ease-out)" },
+    { "label": "Item", "value": "height 36 · radius 8 · hover bg-hover #F7F7F7" }
+  ],
+  "props": [
+    { "name": "label", "type": "string", "default": "Menu", "desc": "The trigger button text" },
+    { "name": "items", "type": "JSON [{key, label, disabled?}]", "default": "[]", "desc": "The action list revealed on open" },
+    { "name": "select", "type": "CustomEvent", "default": "—", "desc": "Composed event on choosing an item, detail { key }" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Dropdown", "when": "a set of actions or options should sit behind a trigger to save space" },
+      { "what": "Menu", "when": "the same list belongs inline, always visible — not behind a trigger" },
+      { "what": "Select", "when": "the control picks a single value for a form field, not fires an action" }
+    ],
+    "note": "A dropdown holds actions or navigation, not form values — use Select for a field. Keep the item list short; the panel closes on outside-click and Escape. Put a Menu inside it rather than reinventing the row styling.",
+    "dsv3": "COVERED — DS V3 has no measured Dropdown cell; spec derived from the token layer (white trigger, border #E3E3E3, border-hover, bg-elevated panel, radius-default 8) + AntD Dropdown conventions (caret trigger, floating panel, outside-click close). Motion bound to the shared motion tokens on a persistent panel; caret glyph from the DS icon library."
+  },
+  "surfaces": ["editor", "dashboard", "admin", "settings"],
+  "reuse": { "entry": "./aha-dropdown", "registers": "aha-dropdown", "exportsNamed": ["AhaDropdown", "defineAhaDropdown"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "dropdown.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "dropdown.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "dropdown.vue.txt" }
+  ],
+  "preview": "dropdown.preview.html",
+  "selfCheck": [
+    { "label": "trigger height 40, radius 8, border #E3E3E3", "verdict": "PASS" },
+    { "label": "panel opens with opacity+translateY on a persistent node", "verdict": "PASS" },
+    { "label": "caret rotates on open (motion-mid)", "verdict": "PASS" },
+    { "label": "closes on outside-click / Escape", "verdict": "PASS" },
+    { "label": "select event composed", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The trigger is always visible; the panel is measured elsewhere.",
+    "ready": "!!(document.querySelector('aha-dropdown[data-probe]') && document.querySelector('aha-dropdown[data-probe]').shadowRoot && document.querySelector('aha-dropdown[data-probe]').shadowRoot.querySelector('.trigger'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-dropdown[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.trigger');var s=t?getComputedStyle(t):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null};})()",
+    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(227, 227, 227)", "radius": "8px", "height": "40px" }
+  }
+}

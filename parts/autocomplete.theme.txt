@@ -1,0 +1,22 @@
+// @ahaslides-product/design/autocomplete-theme — declared ONCE, consumed by both tiers.
+import { autocompleteTheme } from '@ahaslides-product/design/autocomplete-theme';
+
+export const autocompleteTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    controlHeight: 32,
+    colorBorder: '#E3E3E3',
+    colorTextPlaceholder: '#8A8A8A',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    // AutoComplete renders on Ant's Select internals — theme it through the Select component token.
+    Select: {
+      optionSelectedBg: '#F9F5FF',   // brand-tint selected row
+      optionActiveBg: '#F7F7F7',     // keyboard/hover row
+      borderRadius: 8,
+      controlHeight: 32,
+    },
+  },
+};

@@ -1,0 +1,16 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-color-picker';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const colour = ref('#6A1EBB');
+</script>
+
+<template>
+  <aha-color-picker
+    :value.prop="colour"
+    @change="colour = $event.detail.value"
+  />
+</template>
