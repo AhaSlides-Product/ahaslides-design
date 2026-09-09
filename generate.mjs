@@ -27,10 +27,22 @@ const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
 const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)) : '');
-const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const esc = (s) => String(s ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
 
 const PKG = JSON.parse(read(join(root, 'package.json')));
-const PKGNAME = PKG.name;   // @ahaslides/design — the public package to install
+const PKGNAME = PKG.name;   // @ahaslides-product/design — the package to install
+const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
+/* Published to GitHub Packages (not public npmjs), so consuming the package needs a
+   one-time scoped-registry + auth setup before `npm i`. These lines are printed into
+   every install block / feed so an agent can wire it up from the page alone. */
+const REGISTRY = (PKG.publishConfig && PKG.publishConfig.registry) || 'https://npm.pkg.github.com';
+const REGISTRY_HOST = REGISTRY.replace(/^https?:\/\//, '');
+const NPMRC = `${SCOPE}:registry=${REGISTRY}\n//${REGISTRY_HOST}/:_authToken=\${GITHUB_TOKEN}   # a GitHub token with read:packages`;
 
 /* Absolute base URL where dist/ is hosted (GitHub Pages by default). The feed links
    printed on the docs pages + in llms.txt/agent.json are ABSOLUTE so an agent that
@@ -345,6 +357,7 @@ function docShell({ base, active, main, extraCss = '' }) {
 <title>AhaSlides Design System — for agents</title>
 <meta name="generator" content="ahaslides-design generate.mjs"/>
 <meta name="aha:package" content="${esc(PKGNAME)}"/>
+<meta name="aha:registry" content="${esc(REGISTRY)}"/>
 <meta name="aha:install" content="npm i ${esc(PKGNAME)}"/>
 <meta name="aha:llms" content="${SITE}/llms.txt"/>
 <link rel="alternate" type="text/plain" title="llms.txt — agent index feed" href="${SITE}/llms.txt"/>
@@ -452,6 +465,10 @@ function renderAgent(c) {
   const entry = c.reuse && c.reuse.entry ? c.reuse.entry.replace(/^\.\//, '') : null;
   const install = {
     package: PKGNAME,
+    registry: REGISTRY,
+    scope: SCOPE,
+    auth: `Published to GitHub Packages — needs a GitHub token with read:packages. Configure the ${SCOPE} scope in .npmrc before installing.`,
+    npmrc: NPMRC,
     command: `npm i ${PKGNAME}`,
     tokenLayer: `import '${PKGNAME}/tokens.css';`,
     import: entry ? `import '${PKGNAME}/${entry}';` : null,
@@ -624,8 +641,9 @@ function consumeBlock() {
   return `
   <section class="consume" id="get-started">
     <h2 style="margin-top:30px">Get started</h2>
-    <p class="body">Install once, import the token layer at your app root, then import any component. It is <b>one</b> element — identical in React, Vue, and outside any app.</p>
+    <p class="body">Published to <b>GitHub Packages</b>, so point the <code>${esc(SCOPE)}</code> scope at the registry and authenticate <b>once</b>, then install, import the token layer at your app root, and import any component. It is <b>one</b> element — identical in React, Vue, and outside any app.</p>
     <div class="consume-grid">
+      <div class="cg"><div class="cg-h">0 · Point the scope at GitHub Packages — once, in <code>.npmrc</code></div><pre class="cg-code">${esc(NPMRC)}</pre></div>
       <div class="cg"><div class="cg-h">1 · Install</div><pre class="cg-code">npm i ${esc(PKGNAME)}</pre></div>
       <div class="cg"><div class="cg-h">2 · Token layer — once, at the app root</div><pre class="cg-code">import '${esc(PKGNAME)}/tokens.css';</pre></div>
       <div class="cg"><div class="cg-h">3 · A component — import its subpath, use the element</div><pre class="cg-code">import '${esc(PKGNAME)}/aha-button';   // registers &lt;aha-button&gt;
@@ -645,11 +663,16 @@ function consumeBlock() {
 // Compact per-component install + feed pointer, shown on each component's doc page.
 function componentConsume(c) {
   const entry = c.reuse && c.reuse.entry ? c.reuse.entry.replace(/^\.\//, '') : null;
+  const npmrc = `# .npmrc — once: point the ${SCOPE} scope at GitHub Packages
+${NPMRC}
+`;
   const install = entry
-    ? `npm i ${PKGNAME}
+    ? `${npmrc}
+npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
 import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.element || c.slug)}&gt;`
-    : `npm i ${PKGNAME}
+    : `${npmrc}
+npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
 // composite — consumes antd (React) / ant-design-vue (Vue); see the snippets below`;
   return `
@@ -793,11 +816,11 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 
 writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json — do not edit by hand. */\n' + tokenVars(TOK) + '\n');
 
-/* Importable token layer for real consumers: @ahaslides/design/tokens.css + /tokens */
+/* Importable token layer for real consumers: @ahaslides-product/design/tokens.css + /tokens */
 mkdirSync(join(root, 'lib'), { recursive: true });
-writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
 writeFileSync(join(root, 'lib', 'tokens.js'),
-  '// @ahaslides/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
+  '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
   'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\nexport default tokens;\n');
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 writeFileSync(join(OUT, 'design-tokens.html'), renderTokensPage());
@@ -814,6 +837,8 @@ const indexLines = [
   '# AhaSlides Design System',
   '',
   `> The single source of truth for AhaSlides UI, generated from one contract per component.`,
+  `> Registry:  GitHub Packages (${REGISTRY}) — needs a GitHub token with read:packages.`,
+  `> Configure once in .npmrc:  ${SCOPE}:registry=${REGISTRY}`,
   `> Install:  npm i ${PKGNAME}`,
   `> Import the token layer once at the app root:  import '${PKGNAME}/tokens.css'`,
   `> Then import a component by subpath, e.g.  import '${PKGNAME}/aha-button'`,

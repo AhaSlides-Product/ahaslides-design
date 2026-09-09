@@ -24,7 +24,7 @@ Plus the reuse declaration — **this is the reusability contract**:
 `entry` MUST be a key in `package.json` → `exports`.
 
 ### 2. The importable module — `lib/<entry>.js`
-This is the thing that makes reuse real. It must resolve as `@ahaslides/design/<entry>` and:
+This is the thing that makes reuse real. It must resolve as `@ahaslides-product/design/<entry>` and:
 - **Leaf:** define + auto-register the custom element (`customElements.define('aha-my-thing', …)`), zero runtime deps, themed only by `--aha-*` tokens. Export the class + a `defineAhaMyThing()` helper.
 - **Composite:** export the shared artifact (theme/config object) both framework wrappers consume.
 
@@ -34,7 +34,7 @@ Then add the subpath to `package.json`:
 ```
 
 ### 3. Doc parts — `parts/<slug>.*`
-- `<slug>.react.txt` / `<slug>.vue.txt` — snippets that **import the real `@ahaslides/design/<entry>`**. No `@aha/design/*` placeholders, no `lucide`/`heroicons`/`fontawesome`/`@ant-design/icons`, no `@mui`/`@chakra-ui`/`@radix-ui`/`@mantine`.
+- `<slug>.react.txt` / `<slug>.vue.txt` — snippets that **import the real `@ahaslides-product/design/<entry>`**. No `@aha/design/*` placeholders, no `lucide`/`heroicons`/`fontawesome`/`@ant-design/icons`, no `@mui`/`@chakra-ui`/`@radix-ui`/`@mantine`.
 - `<slug>.preview.html` — the live-preview harness the doc page renders and `qa.mjs` measures.
 
 ### 4. Conformance
