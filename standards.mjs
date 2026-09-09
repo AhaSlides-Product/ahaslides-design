@@ -12,6 +12,8 @@
  *   5. It registers / exports       — leaf: registers its custom element; composite: exports its artifact.
  *   6. Its snippets consume the DS  — reference @ahaslides-product/design, never a fake pkg or a banned library.
  *   7. It's render-gated            — carries a `conformance` block so qa.mjs can measure the real UI.
+ *   8. Its icons come from the DS   — every <aha-icon name="…"> resolves in the icon registry (the
+ *                                     published gallery); no inline <svg> glyph bypasses the library.
  *
  * This is the "can a teammate contribute safely?" gate: add contracts/<slug>.json + lib/<entry>.js,
  * and this proves your component registers and is genuinely reusable — or it fails, loudly, per rule.
@@ -49,6 +51,34 @@ const isColour = (v) => /^\s*(#[0-9A-Fa-f]{3,8}|rgba?\()/.test(String(v));
 const isPx = (v) => /^\s*\d+(\.\d+)?px\s*$/.test(String(v));
 const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test(s)) return true; const hex = s.startsWith('#') ? normHex(s) : rgbToHex(s); return !!hex && (PALETTE.has(hex) || NEUTRALS.has(hex)); };
 
+/* ===== the ICON LIBRARY — the single source every component icon must come from =====
+   icons/registry.json (built by build-icons.mjs from Figma DS V3) IS the icon library published
+   at the gallery below. The house rule is: a component never hand-rolls a glyph — it summons one
+   BY NAME via <aha-icon name="…">, and that name must be a real glyph in the registry. This gate
+   makes it enforceable: every named icon a component references (in its source, its snippets, or
+   its contract) must resolve here, and an inline <svg> glyph in element source is a bypass (caught
+   in the source scan below). */
+const ICON_REGISTRY = JSON.parse(read(join(root, 'icons', 'registry.json')) || '{"icons":{}}');
+const ICON_NAMES = new Set(Object.keys(ICON_REGISTRY.icons || {}));
+const ICON_GALLERY = 'https://ahaslides-product.github.io/ahaslides-design/icons/index.html';
+// Pull every icon referenced by name from a blob of source / snippet / contract text. A DS icon is
+// always summoned as <aha-icon name="…"> (also :name= for Vue-bind, name={…} for JSX). A plain
+// static value is one literal; a dynamic binding (ternary) is mined for its quoted string literals
+// so those are checked too. A pure-variable binding (name={icon}) carries no literal — left to runtime.
+function iconRefs(text) {
+  const names = new Set();
+  for (const tag of String(text).match(/<aha-icon\b[^>]*>/gi) || []) {
+    const m = tag.match(/(?::|\s)name\s*=\s*(?:"([^"]*)"|'([^']*)'|\{([^}]*)\})/i);
+    if (!m) continue;
+    const quoted = m[1] ?? m[2];
+    if (quoted != null && /^[^"'{}?()\s]+$/.test(quoted) && quoted.includes('-')) { names.add(quoted); continue; }
+    for (const lit of (m[1] ?? m[2] ?? m[3] ?? '').match(/['"]([^'"]+)['"]/g) || []) {
+      const s = lit.slice(1, -1); if (s.includes('-')) names.add(s);   // a literal inside a dynamic binding
+    }
+  }
+  return names;
+}
+
 // Minimal DOM shim so the custom-element modules import + self-register headlessly (no browser).
 const els = new Map();
 globalThis.window = globalThis;
@@ -65,10 +95,16 @@ const PATTERN_BACKLOG_HARD_FAIL = false;
 // Motion policy — interactive leaf states must animate via the shared motion tokens (--aha-motion-* durations
 // + --aha-ease-* curves), not snap and not a bare timing literal; and the transition must live on a PERSISTENT
 // node (a subtree rebuild on the state change kills it — the Switch-click bug).
-//   false → WARN: gaps surface loudly but don't block (master still ships components that rebuild on state change).
-//   true  → HARD FAIL: same bar as bare hex / off-scale radius.
-//   FLIP TO true once Fleet restructures the re-rendering leaves (switch/checkbox/tooltip) so the transitions fire (Slack PRO38-5).
-const MOTION_HARD_FAIL = false;
+//
+// Motion findings are a HARD FAIL by default — so a NEW component can't ship any of them. The only grace is
+// MOTION_DEBT below: a tiny, explicit, greppable allow-list of components that already shipped a given defect
+// before this gate existed. Those stay WARN (don't brick CI) until Fleet restructures them (Slack PRO38-5).
+// Remove each entry as its component is fixed; when MOTION_DEBT is empty the motion gate is fully hard, no exceptions.
+// Keys are the element tag; values are the finding kinds grandfathered for it: 'dead' | 'snap' | 'literal' | 'bounce' | 'sync'.
+const MOTION_DEBT = {
+  // Empty: every grandfathered leaf has been restructured to build once and mutate persistent nodes
+  // (PRO38-5). The motion gate is now fully hard — no component gets a pass on snap/dead/literal/sync/bounce.
+};
 const BANNED = [
   [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
@@ -124,6 +160,18 @@ for (const ct of contracts) {
   chk('a snippet imports @ahaslides-product/design', /@ahaslides-product\/design/.test(snippetText) || ct.tier?.includes('composite'),
     'snippets must show consuming the real package');
   for (const [re, why] of BANNED) chk(`snippets free of: ${why}`, !re.test(snippetText), 'found in a snippet');
+
+  // 6c) ICONS COME FROM THE DS LIBRARY — every glyph a component uses must be a real icon in the
+  //     registry (the published gallery), summoned as <aha-icon name="…">. Gather every named
+  //     reference from the component's own source + all its snippets + preview + the contract text,
+  //     and prove each resolves. A typo or a non-DS name renders the dashed error box at runtime —
+  //     here it fails the gate loudly instead.
+  const iconEntry = r && r.entry && EXPORTS[r.entry] ? read(resolve(root, EXPORTS[r.entry])) : '';
+  const iconText = [iconEntry, snippetText, ct.preview ? read(join(PDIR, ct.preview)) : '', JSON.stringify(ct)].join('\n');
+  for (const nm of iconRefs(iconText)) {
+    chk(`icon "${nm}" is in the DS icon library`, ICON_NAMES.has(nm),
+      `not a glyph in icons/registry.json — pick a name from the gallery (${ICON_GALLERY}) or add the SVG + re-run build-icons.mjs`);
+  }
 
   // 6b) EVERY component ships a paste-and-run HTML snippet — no exceptions — so end-users can
   //     vibe-code decks/courses/hubs with no build step. LEAF: the custom element is the native
@@ -215,28 +263,34 @@ for (const ct of contracts) {
   const r = ct.reuse; if (!r || !r.entry) continue;
   const mapped = EXPORTS[r.entry]; if (!mapped || !/\.js$/.test(mapped)) continue;
   const mode = r.registers ? 'element' : 'theme';
+  const isIconRuntime = r.registers === 'aha-icon';   // the <aha-icon> element IS the library runtime — it draws the <svg>
   const raw = read(resolve(root, mapped));
   const lines = raw.split('\n');
   // blank out comment bodies but preserve line count so findings map to real line numbers
   const code = raw.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).split('\n').map(l => l.replace(/\/\/.*$/, ''));
   const hits = [];
-  const motionFindings = [];   // motion is WARN-first (MOTION_HARD_FAIL) — kept apart so it doesn't fail the file yet
+  const motionFindings = [];   // [kind, msg] tuples — hard fail unless the component grandfathers that kind (MOTION_DEBT)
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
+    const allowSvg = /svg/.test(allow);
     if (mode === 'element') {
       const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
       if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
       if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
       // a transition's timing must come from a motion token — a bare literal (.12s/150ms) is the drift (.1/.12/.15) we're killing
       if (!allowMotion && /transition/i.test(line))
-        for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(`L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`);
+        for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(['literal', `L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`]);
       // no bounce/elastic easing — a cubic-bezier whose control-point Y leaves [0,1] overshoots (back/elastic),
       // which reads dated/tacky and isn't how AntD (or a real object) decelerates. Use an exponential ease-out.
       if (!allowMotion) for (const m of line.matchAll(/cubic-bezier\(\s*-?[0-9.]+\s*,\s*(-?[0-9.]+)\s*,\s*-?[0-9.]+\s*,\s*(-?[0-9.]+)\s*\)/gi)) {
         const y1 = parseFloat(m[1]), y2 = parseFloat(m[2]);
-        if (y1 < 0 || y1 > 1 || y2 < 0 || y2 > 1) motionFindings.push(`L${i + 1}: bounce/elastic easing ${m[0]} — the curve overshoots (control-point Y outside 0–1). Use an exponential ease-out (var(--aha-ease-out) / --aha-ease-in-out), not a "back" ease`);
+        if (y1 < 0 || y1 > 1 || y2 < 0 || y2 > 1) motionFindings.push(['bounce', `L${i + 1}: bounce/elastic easing ${m[0]} — the curve overshoots (control-point Y outside 0–1). Use an exponential ease-out (var(--aha-ease-out) / --aha-ease-in-out), not a "back" ease`]);
       }
+      // an inline <svg> glyph bypasses the icon library — a component must summon glyphs by name via
+      // <aha-icon name="…">. Genuine sub-glyph chrome (a spinner, a checkmark tick) is an auditable
+      // exception on that line: ds-lint-allow: svg (why). The icon runtime itself is exempt — it IS the drawer.
+      if (!allowSvg && !isIconRuntime && /<svg\b/i.test(line)) hits.push(`L${i + 1}: inline <svg> — use an <aha-icon name="…"> from the DS library, or justify chrome with ds-lint-allow: svg (why)`);
     } else {
       for (const h of line.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) if (!inPalette(h)) hits.push(`L${i + 1}: off-palette ${h} — a theme must map to a canonical token value`);
     }
@@ -249,16 +303,26 @@ for (const ct of contracts) {
     const fileAllows = /ds-lint-allow:\s*[a-z, ]*motion/i.test(raw);
     // (a) an interactive element whose states SNAP — no transition declared at all
     if (interactive && !animates && !fileAllows)
-      motionFindings.push(`interactive element declares no transition — hover/focus/checked/open states must animate (var(--aha-motion-mid) var(--aha-ease-in-out)), never snap`);
-    // (b) a DEAD transition — the element declares one but rebuilds its whole subtree on a state-attr change
-    //     (innerHTML= in attributeChangedCallback), so the browser has no "from" state and it never fires
-    //     (the Switch-click bug — survives even after the CSS is correct). The transition must live on a
-    //     PERSISTENT node: toggle the attribute/class and mutate in place, don't re-render the subtree.
-    const stateAttrs = (body.match(/observedAttributes[\s\S]{0,160}?\[([^\]]*)\]/) || [, ''])[1];
-    const togglesState = /\b(checked|open|active|selected|expanded|pressed|indeterminate)\b/i.test(stateAttrs);
-    const rerendersOnAttr = /attributeChangedCallback/.test(body) && /innerHTML\s*=/.test(body);
-    if (animates && togglesState && rerendersOnAttr && !fileAllows)
-      motionFindings.push(`transition may be DEAD — a state attribute (${stateAttrs.replace(/['"\s]/g,'').split(',').filter(a=>/checked|open|active|selected|expanded|pressed|indeterminate/i.test(a)).join('/')}) triggers a full innerHTML re-render, so the declared transition can't fire across that change. Toggle the attribute/class on a persistent node instead of rebuilding the subtree (the Switch-click case)`);
+      motionFindings.push(['snap', `interactive element declares no transition — hover/focus/checked/open states must animate (var(--aha-motion-mid) var(--aha-ease-in-out)), never snap`]);
+    // (b) a DEAD transition — the element declares one but rebuilds its whole subtree on a state change, so the
+    //     browser has no "from" state and it never fires (the Switch-click bug — survives even after the CSS is
+    //     correct). The transition must live on a PERSISTENT node: toggle the attribute/class, mutate in place.
+    //     STATE = any animatable-state attr; RE-RENDER = any wholesale subtree rebuild (innerHTML/replaceChildren/
+    //     render()), whether triggered from attributeChangedCallback OR a property setter. Broad on purpose — a new
+    //     component shouldn't be able to dodge the check by renaming the attr or swapping the rebuild mechanism.
+    // Precise toggle-states — the ones that pair with a :host([x]) rule to animate a property. (NOT value/loading/etc.:
+    // those trigger a re-render too, but the transition there is usually on :hover/:focus — a different concern, not a
+    // dead transition. Flagging them would false-positive on legit fields like Input.)
+    const STATE_RE = /\b(checked|open|active|selected|expanded|pressed|indeterminate|toggled|collapsed)\b/i;
+    const stateAttrs = (body.match(/observedAttributes[\s\S]{0,200}?\[([^\]]*)\]/) || [, ''])[1];
+    const setterRenders = /set\s+\w+\s*\([^)]*\)\s*\{[^}]*(?:_render|this\.render|innerHTML\s*=|replaceChildren)/.test(body);
+    const togglesState = STATE_RE.test(stateAttrs) || setterRenders;
+    const rebuilds = /(innerHTML\s*=|replaceChildren\s*\(|\.render\s*\()/.test(body) &&
+                     (/attributeChangedCallback/.test(body) || setterRenders);
+    if (animates && togglesState && rebuilds && !fileAllows) {
+      const which = (stateAttrs.replace(/['"\s]/g, '').split(',').filter(a => STATE_RE.test(a)).join('/')) || 'a state setter';
+      motionFindings.push(['dead', `transition may be DEAD — a state change (${which}) triggers a full subtree rebuild (innerHTML/replaceChildren/render), so the declared transition can't fire across it. Toggle the attribute/class on a persistent node instead of rebuilding the subtree (the Switch-click case)`]);
+    }
     // (c) the EXAMPLE must show the SAME motion as the shipped component. The preview is a hand-kept copy
     //     (a self-contained reimplementation — and qa.mjs measures IT, not lib), so it drifts: it has dropped
     //     a transition before. Flag any transition lib ships that the preview is missing → the example lies.
@@ -269,12 +333,14 @@ for (const ct of contracts) {
     if (pv && !fileAllows) {
       const missing = [...txns(raw)].filter(t => !txns(pv).has(t));
       if (missing.length)
-        motionFindings.push(`example out of sync — parts/${ct.slug}.preview.html is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than <${r.registers}> — and qa measures the preview, not lib. Keep the preview copy in sync with the element.`);
+        motionFindings.push(['sync', `example out of sync — parts/${ct.slug}.preview.html is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than <${r.registers}> — and qa measures the preview, not lib. Keep the preview copy in sync with the element.`]);
     }
   }
-  // WARN until the re-rendering leaves are restructured (MOTION_HARD_FAIL); then motion joins hex/radius as a hard fail
+  // HARD FAIL by default — a NEW component can't ship any motion defect. Only the exact (component, kind) pairs
+  // in MOTION_DEBT get a WARN pass (known pre-gate debt, tracked on PRO38-5); everything else fails the file.
+  const debt = MOTION_DEBT[r.registers] || [];
   const motionHits = [];
-  for (const mf of motionFindings) (MOTION_HARD_FAIL ? hits : motionHits).push(mf);
+  for (const [kind, msg] of motionFindings) (debt.includes(kind) ? motionHits : hits).push(debt.includes(kind) ? `${msg}  [grandfathered: ${r.registers}/${kind} — PRO38-5]` : msg);
   libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 

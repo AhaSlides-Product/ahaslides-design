@@ -21,9 +21,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.5.1 — 2026-09-09
+## 0.7.1 — 2026-09-09
 ### Fixed
-- Dead-transition bug across the leaf elements: `aha-switch`, `aha-checkbox`, `aha-tooltip` and `aha-paywall` now build their shadow subtree **once** and mutate persistent nodes on a state change, instead of re-rendering `innerHTML` in `attributeChangedCallback`. The state attribute drives `:host([checked])`/`:host([open])` CSS on the live `.knob`/`.box`/`.bubble`, so the declared transition finally animates on toggle (it was dead — a fresh node has no "from" value). Behaviour, events, ARIA and keyboard are unchanged. `aha-paywall` also gains the house `--aha-motion-mid`/`--aha-ease-in-out` transition on its Upgrade CTA. Previews kept in sync. (#33)
+- Dead-transition bug cleared on every grandfathered leaf: `aha-switch`, `aha-checkbox`, `aha-tooltip` and `aha-paywall` now build their shadow subtree **once** and mutate persistent nodes on a state change, instead of re-rendering the subtree in `attributeChangedCallback`. The state attribute drives `:host([checked])`/`:host([open])` CSS on the live `.knob`/`.box`/`.bubble`, so the declared transition finally animates on toggle (it was dead — a freshly-rebuilt node has no "from" value). `aha-checkbox` bakes both glyphs and toggles them with CSS (no subtree swap); `aha-paywall` gains the house `--aha-motion-mid`/`--aha-ease-in-out` transition on its Upgrade CTA. Behaviour, events, ARIA and keyboard unchanged; previews kept in sync. Verified mid-interpolation in headless Chrome (knob at ~3px of its 0→20px travel shortly after toggle). (#33)
+### Changed
+- `MOTION_DEBT` in `standards.mjs` is now **empty** — with every grandfathered leaf restructured, the motion gate (snap / bare-literal / dead / out-of-sync / bounce) is fully hard with no exceptions. (#33)
+
+## 0.7.0 — 2026-09-09
+### Added
+- Icon library is now gated: `standards.mjs` proves every `<aha-icon name="…">` a component references (in its source, snippets, preview, or contract) resolves to a real glyph in `icons/registry.json` — the published [icon gallery](https://ahaslides-product.github.io/ahaslides-design/icons/index.html) — and flags an inline `<svg>` glyph in element source as a library bypass (genuine sub-glyph chrome opts out per-line with `ds-lint-allow: svg`). A typo or non-DS icon now fails the gate instead of rendering a runtime error box. (#30)
+
+## 0.6.0 — 2026-09-09
+### Changed
+- Motion checks now **hard-fail a new component** (they were warn-first). A leaf can't merge with a snap, a bare-literal timing, a dead transition, an out-of-sync preview, or a bounce easing. The only grace is `MOTION_DEBT` in `standards.mjs` — a small, explicit allow-list of components that shipped a defect before the gate existed (`aha-switch`/`aha-checkbox`/`aha-tooltip` = dead, `aha-paywall` = snap), kept WARN until restructured; it shrinks to zero as Fleet fixes them (PRO38-5). (#33)
+- Dead-transition detection broadened so a new component can't dodge it by swapping the rebuild mechanism (`innerHTML`/`replaceChildren`/`render()`, via `attributeChangedCallback` **or** a property setter). Scoped to the toggle-states that pair with `:host([x])` animation, to avoid false-positives on fields like Input. (#33)
 
 ## 0.5.0 — 2026-09-09
 ### Changed
