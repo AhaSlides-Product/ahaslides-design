@@ -1,16 +1,25 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-segmented';
+import '@ahaslides-product/design/icons';   // <aha-icon> for leading/icon-only glyphs
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
 import { ref } from 'vue';
-const range = ref('Week');
+const range = ref('week');
+// `options` is a pipe-string OR a JSON array of {value,label?,icon?,disabled?,ariaLabel?}
+const options = JSON.stringify([
+  { value: 'day', label: 'Day', icon: 'system-calendar-dot' },
+  { value: 'week', label: 'Week', icon: 'system-calendar-dots' },
+  { value: 'month', label: 'Month', icon: 'system-table' },
+  { value: 'year', label: 'Year', disabled: true },
+]);
 </script>
 
 <template>
   <aha-segmented
-    options="Day|Week|Month"
+    :options="options"
+    size="large"
     :value.prop="range"
     @change="range = $event.detail.value"
   />

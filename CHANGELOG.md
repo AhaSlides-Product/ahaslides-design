@@ -21,6 +21,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.16.0 — 2026-09-10
+### Added
+- **Interactive component playgrounds (the "smart widget").** A component's Examples now render a compact control bar that drives the live element's variants (Mode · Size · Content · …), so you explore the whole matrix instead of reading one static case — driven by a new `playground` block in the contract. First shipped across the Navigation group. (#PR)
+- **Menu** — the full DS V3 Menu family: leading `icon`s, `{type:"group"}` titles, `{type:"divider"}` rules, inline **submenus** (`children`, expand/collapse), `danger` and `disabled` rows, and `mode` = `vertical`/`inline`/`horizontal`, with roving arrow-key navigation across the tree. (#PR)
+- **Dropdown** — the overlay takes the same item vocabulary (icons, danger, dividers, groups, disabled) plus `placement` (bottom/top × left/right) and `trigger` (click/hover). (#PR)
+- **Tabs** — `type` (line/primary/card), `size` (default/small), per-tab leading `icon`s, and `disabled` tabs. (#PR)
+- **Segmented** — `size` (small/medium/large), icon+label / icon-only options, per-option `disabled`, and `block` (full-width). (#PR)
+- **Breadcrumb** — leading `icon`s, a `separator` (caret/slash), and `maxItems` middle-collapse into an ellipsis. (#PR)
+- **Pagination** — `size` (default/small), `simple` mode, whole-control `disabled`, and a direct `pages` count. (#PR)
+- **Steps** — the example is now an interactive React playground (direction · size · numbered/dot · `error` status). (#PR)
+### Changed
+- Component previews now **import the shipped element** from `lib/` rather than inlining a copy, so an example can never drift from the real component. `standards.mjs` recognises an importing preview and skips the copy-sync check — a stronger guarantee than a kept-in-sync copy. (#PR)
+
 ## 0.15.1 — 2026-09-10
 ### Fixed
 - In-app navigation now carries each page's own CSS. A page inlines its page-specific styles (`extraCss`: the icon-library grid/cards/search, the foundations token pages, the pattern pages) in its `<head><style>`, but the swap replaced only `<main>` and kept the previous page's `<head>` — so navigating to such a page dropped its styles and the content fell back to unstyled defaults (e.g. the icon library collapsed into cramped inline chips) until a full reload. The swap now syncs the document `<style>` to the destination page's; shared token/shell CSS is identical across pages, so replacing it whole is safe. (#44)

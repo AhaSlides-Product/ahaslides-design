@@ -6,18 +6,23 @@
   "badge": "shared Lit web component",
   "element": "aha-breadcrumb",
   "summary": "A trail of ancestor links ending in the current page, with the DS caret separator.",
-  "lead": "ONE custom element — <aha-breadcrumb> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; feed it an `items` JSON array — an entry with an `href` is a link, the last (or any href-less) entry is the current page. Links animate on hover via the shared motion tokens; the separator is the DS caret glyph via <aha-icon>, never a hand-rolled mark. Emits a composed `navigate` event.",
+  "lead": "ONE custom element — <aha-breadcrumb> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; feed it an `items` JSON array — each entry { label, href?, icon?, disabled? }: an entry with an `href` is a link, the last (or any href-less) entry is the current page (stronger colour, aria-current). A leading `icon` draws by name via <aha-icon>. `separator` picks the DS caret (default) or a slash; `maxItems` collapses the middle into an ellipsis toggle. Links + the ellipsis animate on hover via the shared motion tokens. Emits a composed `navigate` event.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `navigate`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["text-secondary", "text-tertiary", "color-primary", "icon-muted", "border-focus", "radius-xs"],
+  "tokensUsed": ["text-secondary", "text-default", "text-disabled", "color-primary", "icon-muted", "bg-hover", "border-focus", "radius-xs"],
   "spec": [
     { "label": "Type", "value": "Plus Jakarta 13/22" },
     { "label": "Link", "value": "text-secondary #4A4A4A → hover color-primary #6A1EBB (motion-fast + ease-out)" },
-    { "label": "Current", "value": "text-tertiary #8A8A8A, SemiBold 600" },
-    { "label": "Separator", "value": "<aha-icon name=\"system-caret-right\" size=12>, icon-muted" },
-    { "label": "Gap", "value": "8 between crumbs" }
+    { "label": "Current", "value": "text-default #1A1A1A, SemiBold 600, aria-current=page (stronger than links)" },
+    { "label": "Item icon", "value": "optional leading <aha-icon size=14>, currentColor" },
+    { "label": "Disabled", "value": "text-disabled #B5B5B5, not a link (aria-disabled)" },
+    { "label": "Separator", "value": "caret (<aha-icon name=\"system-caret-right\" size=12>, icon-muted) or slash \"/\"" },
+    { "label": "Collapse", "value": "maxItems > trail → first + ellipsis toggle + trailing (maxItems−1)" },
+    { "label": "Gap", "value": "8 between crumbs, 6 icon→label" }
   ],
   "props": [
-    { "name": "items", "type": "JSON [{label, href?}]", "default": "[]", "desc": "The trail; an entry with href is a link, the last / href-less entry is the current page" },
+    { "name": "items", "type": "JSON [{label, href?, icon?, disabled?}]", "default": "[]", "desc": "The trail; an entry with href is a link, the last / href-less entry is the current page, icon adds a leading DS glyph, disabled mutes it" },
+    { "name": "separator", "type": "'caret' | 'slash'", "default": "caret", "desc": "Divider glyph between crumbs — the DS caret (default) or a slash" },
+    { "name": "maxItems", "type": "number", "default": "0", "desc": "Collapse the middle into an ellipsis toggle when the trail is longer than N (0 = never)" },
     { "name": "navigate", "type": "CustomEvent", "default": "—", "desc": "Composed event on a link click, detail { index, href }" }
   ],
   "opinion": {
@@ -27,7 +32,7 @@
       { "what": "Back button", "when": "a single linear step back is all that's needed" }
     ],
     "note": "Keep breadcrumbs to the real ancestor path — don't pad them. The last item is the current page and is never a link. Labels are short nouns, sentence case.",
-    "dsv3": "COVERED — DS V3 has no measured Breadcrumb cell; spec derived from the token layer (text-secondary link, text-tertiary current, color-primary hover, icon-muted separator) + AntD Breadcrumb conventions (caret separator, current page not linked). Motion + separator glyph bound to the shared motion tokens and the DS icon library."
+    "dsv3": "COVERED — DS V3 Breadcrumb component set (fileKey MwjvUjVI0HnfwD9EwPXRAy) with Components/Link + Components/Separator sub-parts. No measured px/rgb cell, so colour is token-derived: text-secondary link, text-default SemiBold current (stronger than the link, aria-current), color-primary hover, icon-muted separator, text-disabled disabled item. Matrix covered: leading item icons, caret vs slash separator, maxItems middle-collapse (ellipsis toggle), disabled item. Motion + glyphs bound to the shared motion tokens and the DS icon library."
   },
   "surfaces": ["editor", "dashboard", "admin", "settings"],
   "reuse": { "entry": "./aha-breadcrumb", "registers": "aha-breadcrumb", "exportsNamed": ["AhaBreadcrumb", "defineAhaBreadcrumb"] },
@@ -37,17 +42,52 @@
     { "key": "vue", "label": "Vue 3", "file": "breadcrumb.vue.txt" }
   ],
   "preview": "breadcrumb.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "separator",
+        "label": "Separator",
+        "default": "caret",
+        "options": [
+          { "label": "Caret", "value": "caret" },
+          { "label": "Slash", "value": "slash" }
+        ]
+      },
+      {
+        "prop": "items",
+        "label": "Content",
+        "default": "icons",
+        "options": [
+          { "label": "Icons + current", "value": "[{\"label\":\"Home\",\"href\":\"#\",\"icon\":\"system-house\"},{\"label\":\"Presentations\",\"href\":\"#\",\"icon\":\"system-folder\"},{\"label\":\"Team offsite\",\"href\":\"#\"},{\"label\":\"Editor\"}]" },
+          { "label": "Plain", "value": "[{\"label\":\"Dashboard\",\"href\":\"#\"},{\"label\":\"Reports\",\"href\":\"#\"},{\"label\":\"Q3 summary\"}]" },
+          { "label": "Disabled step", "value": "[{\"label\":\"Home\",\"href\":\"#\",\"icon\":\"system-house\"},{\"label\":\"Archived\",\"href\":\"#\",\"disabled\":true},{\"label\":\"Old deck\"}]" }
+        ]
+      },
+      {
+        "prop": "maxItems",
+        "label": "Collapse",
+        "default": "__remove__",
+        "options": [
+          { "label": "Off", "value": null },
+          { "label": "maxItems 3", "value": "3" }
+        ]
+      }
+    ]
+  },
   "selfCheck": [
     { "label": "link text-secondary → hover color-primary (animated)", "verdict": "PASS" },
-    { "label": "current text-tertiary SemiBold, not a link", "verdict": "PASS" },
-    { "label": "separator is a DS <aha-icon>", "verdict": "PASS" },
+    { "label": "current text-default SemiBold, aria-current, not a link", "verdict": "PASS" },
+    { "label": "leading item icon via <aha-icon name>", "verdict": "PASS" },
+    { "label": "separator caret (<aha-icon>) | slash", "verdict": "PASS" },
+    { "label": "maxItems collapses middle into an ellipsis toggle", "verdict": "PASS" },
+    { "label": "disabled item muted + inert (aria-disabled)", "verdict": "PASS" },
     { "label": "navigate event composed", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-breadcrumb[data-probe]') && document.querySelector('aha-breadcrumb[data-probe]').shadowRoot && document.querySelector('aha-breadcrumb[data-probe]').shadowRoot.querySelector('.current'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-breadcrumb[data-probe]');var sr=el&&el.shadowRoot;var link=sr&&sr.querySelector('.crumb');var cur=sr&&sr.querySelector('.current');var nav=sr&&sr.querySelector('.nav');return{link:link?getComputedStyle(link).color:null,current:cur?getComputedStyle(cur).color:null,size:link?getComputedStyle(link).fontSize:null,gap:nav?getComputedStyle(nav).columnGap:null};})()",
-    "expect": { "link": "rgb(74, 74, 74)", "current": "rgb(138, 138, 138)", "size": "13px", "gap": "8px" }
+    "measure": "(function(){var el=document.querySelector('aha-breadcrumb[data-probe]');var sr=el&&el.shadowRoot;var link=sr&&sr.querySelector('.crumb');var cur=sr&&sr.querySelector('.current');var nav=sr&&sr.querySelector('.nav');var icon=sr&&sr.querySelector('.crumb aha-icon');var sep=sr&&sr.querySelector('.sep');return{link:link?getComputedStyle(link).color:null,current:cur?getComputedStyle(cur).color:null,currentWeight:cur?getComputedStyle(cur).fontWeight:null,size:link?getComputedStyle(link).fontSize:null,gap:nav?getComputedStyle(nav).columnGap:null,hasIcon:!!icon,hasSeparator:!!sep};})()",
+    "expect": { "link": "rgb(74, 74, 74)", "current": "rgb(26, 26, 26)", "currentWeight": "600", "size": "13px", "gap": "8px", "hasIcon": true, "hasSeparator": true }
   }
 }

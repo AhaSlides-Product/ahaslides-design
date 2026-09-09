@@ -1,5 +1,6 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-tabs';
+import '@ahaslides-product/design/icons';   // registers <aha-icon> for leading glyphs
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
@@ -9,8 +10,10 @@ const tab = ref(0);
 </script>
 
 <template>
-  <aha-tabs :value.prop="tab" @change="tab = $event.detail.value">
-    <section data-tab="Overview">Overview panel content.</section>
-    <section data-tab="Activity">Activity panel content.</section>
+  <!-- type = line | primary | card, size = default | small -->
+  <aha-tabs :value.prop="tab" type="line" @change="tab = $event.detail.value">
+    <section data-tab="Overview" data-icon="system-info">Overview panel content.</section>
+    <section data-tab="Activity" data-icon="system-chart-bar">Activity panel content.</section>
+    <section data-tab="Archived" data-disabled>Archived (disabled).</section>
   </aha-tabs>
 </template>

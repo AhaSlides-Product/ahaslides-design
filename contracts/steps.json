@@ -12,13 +12,18 @@
     { "label": "Current", "value": "filled brand icon + brand title" },
     { "label": "Finished", "value": "brand ring + check" },
     { "label": "Waiting", "value": "muted ring + grey title" },
-    { "label": "Layout", "value": "horizontal (default) or direction=vertical" }
+    { "label": "Layout", "value": "horizontal (default) or direction=vertical" },
+    { "label": "Size", "value": "default (32 icon) or size=small (24 icon)" },
+    { "label": "Style", "value": "numbered icon (default) or progressDot for a compact dot rail" },
+    { "label": "Error", "value": "status=error paints the current step red (colorError)" }
   ],
   "props": [
     { "name": "current", "type": "number", "default": "0", "desc": "Zero-based index of the active step" },
     { "name": "items", "type": "{ title, description?, icon? }[]", "default": "[]", "desc": "The ordered stages" },
     { "name": "direction", "type": "horizontal | vertical", "default": "horizontal", "desc": "Layout axis" },
     { "name": "size", "type": "default | small", "default": "default", "desc": "Step scale" },
+    { "name": "progressDot", "type": "boolean", "default": "false", "desc": "Render a compact dot rail instead of numbered icons" },
+    { "name": "status", "type": "wait | process | finish | error", "default": "process", "desc": "State of the current step — error paints it red" },
     { "name": "onChange", "type": "(current) => void", "default": "—", "desc": "Fires when a step is clicked (if navigable)" }
   ],
   "opinion": {
@@ -27,7 +32,8 @@
       { "what": "Tabs", "when": "peer views the user switches between freely — no order, no progress" },
       { "what": "Progress", "when": "a single continuous completion metric, not discrete named stages" }
     ],
-    "note": "Keep titles to a short noun phrase per stage. Reserve Steps for genuinely ordered flows — if the sections have no order, use Tabs. Show a description only when the title alone is ambiguous."
+    "note": "Keep titles to a short noun phrase per stage. Reserve Steps for genuinely ordered flows — if the sections have no order, use Tabs. Show a description only when the title alone is ambiguous.",
+    "dsv3": "COVERED — antd v6 Steps themed to DS V3 (32px brand icon, colorPrimary #6A1EBB, radius 8). Matrix demonstrated interactively: direction horizontal/vertical, size default/small, numbered vs progressDot rail, per-step wait/process/finish/error status, optional descriptions, and clickable navigation. Verified via Figma search_design_system against the DS V3 Steps set."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./steps-theme", "exportsNamed": ["stepsTheme"] },

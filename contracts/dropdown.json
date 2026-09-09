@@ -5,21 +5,29 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-dropdown",
-  "summary": "A trigger button that reveals a floating list of actions — an overflow or actions menu.",
-  "lead": "ONE custom element — <aha-dropdown> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; a trigger button reveals a floating list from the `items` JSON array. Open/close animates via the shared motion tokens on a PERSISTENT panel (a class toggles — the subtree is never rebuilt on open), the caret rotates, and it closes on outside-click or Escape. The caret is the DS glyph via <aha-icon>. Emits a composed `select` event.",
+  "summary": "A trigger button that reveals a floating overlay of actions — with leading icons, dividers, disabled rows and a red danger action.",
+  "lead": "ONE custom element — <aha-dropdown> — defined once, imported unchanged by React and Vue. A trigger button reveals a floating overlay from the `items` list. The overlay is a Menu of the DS V3 item family, not a flat list: rows carry leading icons, a divider rules them off, an item can be disabled or a red danger action, and a group title splits sections. `placement` positions the overlay (bottomLeft default · bottomRight · topLeft · topRight) and `trigger` is click (default) or hover. Open/close animates via the shared motion tokens on a PERSISTENT panel (a class toggles — the subtree is never rebuilt on open), the caret rotates, and it closes on outside-click or Escape (focus returns to the trigger). Every glyph is the DS icon by name via <aha-icon>. Emits a composed `select`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "border-hover", "bg-container", "bg-elevated", "bg-hover", "text-default", "text-disabled", "icon-muted", "border-focus", "radius-default"],
+  "tokensUsed": ["border", "border-hover", "bg-container", "bg-elevated", "bg-hover", "bg-accent", "text-default", "text-tertiary", "text-disabled", "icon-muted", "color-error", "border-focus", "split", "radius-default"],
   "spec": [
     { "label": "Trigger", "value": "height 40 · radius 8 · white bg, 1px border #E3E3E3, SemiBold 600" },
     { "label": "Trigger hover", "value": "border-hover #D3B4FF (motion-fast + ease-out)" },
     { "label": "Caret", "value": "<aha-icon name=\"system-caret-down\" size=16>, rotates 180° when open (motion-mid)" },
     { "label": "Panel", "value": "elevated white, radius 8, 6 padding, min-width 200, soft shadow" },
+    { "label": "Placement", "value": "bottomLeft · bottomRight · topLeft · topRight — anchors the persistent panel" },
+    { "label": "Trigger mode", "value": "click (default) or hover" },
     { "label": "Open motion", "value": "opacity + translateY on a persistent node (motion-mid + ease-out)" },
-    { "label": "Item", "value": "height 36 · radius 8 · hover bg-hover #F7F7F7" }
+    { "label": "Item", "value": "height 36 · radius 8 · 10px gap to a 16px leading icon · hover bg-hover #F7F7F7" },
+    { "label": "Danger item", "value": "color-error #F5222D text, error-tinted hover" },
+    { "label": "Divider", "value": "1px split #F1F1F1 rule, role=separator" },
+    { "label": "Group title", "value": "11px uppercase, text-tertiary #8A8A8A, non-interactive section header" },
+    { "label": "Disabled item", "value": "text-disabled #B5B5B5, not-allowed" }
   ],
   "props": [
     { "name": "label", "type": "string", "default": "Menu", "desc": "The trigger button text" },
-    { "name": "items", "type": "JSON [{key, label, disabled?}]", "default": "[]", "desc": "The action list revealed on open" },
+    { "name": "items", "type": "JSON list", "default": "[]", "desc": "Rows. Leaf {key,label,icon?,disabled?,danger?}; rule {type:'divider'}; section {type:'group',label,children:[]}" },
+    { "name": "placement", "type": "'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'", "default": "bottomLeft", "desc": "Where the overlay opens relative to the trigger" },
+    { "name": "trigger", "type": "'click' | 'hover'", "default": "click", "desc": "How the overlay is revealed" },
     { "name": "select", "type": "CustomEvent", "default": "—", "desc": "Composed event on choosing an item, detail { key }" }
   ],
   "opinion": {
@@ -28,8 +36,8 @@
       { "what": "Menu", "when": "the same list belongs inline, always visible — not behind a trigger" },
       { "what": "Select", "when": "the control picks a single value for a form field, not fires an action" }
     ],
-    "note": "A dropdown holds actions or navigation, not form values — use Select for a field. Keep the item list short; the panel closes on outside-click and Escape. Put a Menu inside it rather than reinventing the row styling.",
-    "dsv3": "COVERED — DS V3 has no measured Dropdown cell; spec derived from the token layer (white trigger, border #E3E3E3, border-hover, bg-elevated panel, radius-default 8) + AntD Dropdown conventions (caret trigger, floating panel, outside-click close). Motion bound to the shared motion tokens on a persistent panel; caret glyph from the DS icon library."
+    "note": "A dropdown holds actions or navigation, not form values — use Select for a field. Keep the item list short; the panel closes on outside-click and Escape. Give each action a leading icon, rule off a destructive action with a divider and mark it danger. The overlay reuses the shared Menu item vocabulary rather than reinventing the row styling.",
+    "dsv3": "COVERED — enumerated from the DS V3 Dropdown-Menu + Components/Dropdown/Menu-Item + Dropdown/Menu-Item-Group component sets: the overlay is a Menu of items carrying leading icons, dividers, group titles, disabled + danger rows — the same item family as Menu. Reference contract measured keys (dropdown|menu radius 8, dropdown|item height 40 with hover/focus states) plus the token layer: white trigger, border #E3E3E3, border-hover, bg-elevated panel, color-error danger, text-tertiary group title, radius-default 8. Placement (bottomLeft/bottomRight/topLeft/topRight) + click/hover trigger from AntD Dropdown conventions. Motion bound to the shared motion tokens on a persistent panel; every glyph from the DS icon library."
   },
   "surfaces": ["editor", "dashboard", "admin", "settings"],
   "reuse": { "entry": "./aha-dropdown", "registers": "aha-dropdown", "exportsNamed": ["AhaDropdown", "defineAhaDropdown"] },
@@ -39,18 +47,36 @@
     { "key": "vue", "label": "Vue 3", "file": "dropdown.vue.txt" }
   ],
   "preview": "dropdown.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "placement", "label": "Placement", "default": "bottomLeft", "options": [
+        { "label": "Bottom-left", "value": "bottomLeft" },
+        { "label": "Bottom-right", "value": "bottomRight" },
+        { "label": "Top-left", "value": "topLeft" },
+        { "label": "Top-right", "value": "topRight" }
+      ] },
+      { "prop": "items", "label": "Content", "default": "actions", "options": [
+        { "label": "Actions + divider + danger", "value": "[{\"key\":\"rename\",\"label\":\"Rename\",\"icon\":\"system-pencil-simple\"},{\"key\":\"duplicate\",\"label\":\"Duplicate\",\"icon\":\"system-copy\"},{\"key\":\"export\",\"label\":\"Export\",\"icon\":\"system-export\",\"disabled\":true},{\"type\":\"divider\"},{\"key\":\"delete\",\"label\":\"Delete\",\"icon\":\"system-trash\",\"danger\":true}]" },
+        { "label": "Grouped sections", "value": "[{\"type\":\"group\",\"label\":\"Manage\",\"children\":[{\"key\":\"rename\",\"label\":\"Rename\",\"icon\":\"system-pencil-simple\"},{\"key\":\"duplicate\",\"label\":\"Duplicate\",\"icon\":\"system-copy\"}]},{\"type\":\"group\",\"label\":\"Share\",\"children\":[{\"key\":\"preview\",\"label\":\"Preview\",\"icon\":\"system-eye\"},{\"key\":\"share\",\"label\":\"Share link\",\"icon\":\"system-share-network\"}]},{\"type\":\"divider\"},{\"key\":\"delete\",\"label\":\"Delete\",\"icon\":\"system-trash\",\"danger\":true}]" },
+        { "label": "Plain actions", "value": "[{\"key\":\"poll\",\"label\":\"Poll\",\"icon\":\"system-chart-bar\"},{\"key\":\"quiz\",\"label\":\"Quiz\",\"icon\":\"system-question\"},{\"key\":\"wordcloud\",\"label\":\"Word cloud\",\"icon\":\"system-chart-donut\"}]" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "trigger height 40, radius 8, border #E3E3E3", "verdict": "PASS" },
     { "label": "panel opens with opacity+translateY on a persistent node", "verdict": "PASS" },
     { "label": "caret rotates on open (motion-mid)", "verdict": "PASS" },
-    { "label": "closes on outside-click / Escape", "verdict": "PASS" },
+    { "label": "items carry leading icon, divider, disabled + danger rows", "verdict": "PASS" },
+    { "label": "danger item is color-error #F5222D", "verdict": "PASS" },
+    { "label": "placement bottomLeft/bottomRight/topLeft/topRight anchors the panel", "verdict": "PASS" },
+    { "label": "roving ArrowUp/Down; closes on outside-click / Escape (focus returns to trigger)", "verdict": "PASS" },
     { "label": "select event composed", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The trigger is always visible; the panel is measured elsewhere.",
-    "ready": "!!(document.querySelector('aha-dropdown[data-probe]') && document.querySelector('aha-dropdown[data-probe]').shadowRoot && document.querySelector('aha-dropdown[data-probe]').shadowRoot.querySelector('.trigger'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe opens on load so the panel's danger item is measurable alongside the trigger.",
+    "ready": "!!(document.querySelector('aha-dropdown[data-probe]') && document.querySelector('aha-dropdown[data-probe]').shadowRoot && document.querySelector('aha-dropdown[data-probe]').shadowRoot.querySelector('.item.danger'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-dropdown[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.trigger');var s=t?getComputedStyle(t):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null};})()",
-    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(227, 227, 227)", "radius": "8px", "height": "40px" }
+    "measure": "(function(){var el=document.querySelector('aha-dropdown[data-probe]');var r=el&&el.shadowRoot;var t=r&&r.querySelector('.trigger');var ts=t?getComputedStyle(t):null;var d=r&&r.querySelector('.item.danger');var ds=d?getComputedStyle(d):null;var div=r&&r.querySelector('.divider');return{bg:ts?ts.backgroundColor:null,border:ts?ts.borderTopColor:null,radius:ts?ts.borderTopLeftRadius:null,height:ts?ts.height:null,dangerColor:ds?ds.color:null,itemHeight:ds?ds.height:null,itemRadius:ds?ds.borderTopLeftRadius:null,hasDivider:!!div};})()",
+    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(227, 227, 227)", "radius": "8px", "height": "40px", "dangerColor": "rgb(245, 34, 45)", "itemHeight": "36px", "itemRadius": "8px", "hasDivider": true }
   }
 }

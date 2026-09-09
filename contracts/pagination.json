@@ -5,22 +5,30 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-pagination",
-  "summary": "A page selector for a paged list or table — prev / numbered pages with ellipsis / next.",
-  "lead": "ONE custom element — <aha-pagination> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; give it `total`, `page-size` and `current` and it renders prev / numbered pages (ellipsis for long ranges) / next. The current page is brand-filled; hover animates via the shared motion tokens on persistent nodes; prev/next use the DS caret glyph via <aha-icon>. Emits a composed `change` event.",
+  "summary": "A page selector for a paged list or table — prev / numbered pages with ellipsis / next; two sizes, a simple mode, and a whole-control disabled state.",
+  "lead": "ONE custom element — <aha-pagination> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; give it `total`+`page-size` (or a direct `pages` count) and `current` and it computes a page WINDOW with ellipses for long ranges — prev / numbered pages / next. It ships two `size`s (default 32px, `small` 24px), a `simple` mode that collapses the numbers to prev · n / total · next, and a whole-control `disabled` state. The current page is brand-filled; prev/next disable at the ends; hover animates via the shared motion tokens on persistent nodes; arrows use the DS caret glyph via <aha-icon>. Emits a composed `change` event.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `change`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "border-disabled", "bg-container", "text-default", "text-inverse", "text-disabled", "text-tertiary", "color-primary", "border-focus", "radius-default"],
   "spec": [
-    { "label": "Cell", "value": "min-width 32 · height 32 · radius 8 · SemiBold 600" },
+    { "label": "Cell (default)", "value": "min-width 32 · height 32 · radius 8 · SemiBold 600" },
+    { "label": "Cell (small)", "value": "min-width 24 · height 24 · radius 6 · 12px" },
     { "label": "Rest", "value": "white bg, 1px border #E3E3E3, text-default" },
     { "label": "Hover", "value": "border-hover #D3B4FF + color-primary text (motion-fast + ease-out)" },
     { "label": "Current", "value": "color-primary #6A1EBB fill, text-inverse #FFFFFF" },
+    { "label": "Ellipsis", "value": "… text-tertiary #8A8A8A, aria-hidden, for elided ranges" },
+    { "label": "Simple", "value": "prev · <b>n</b> / total · next — n in color-primary" },
     { "label": "Disabled prev/next", "value": "text-disabled #B5B5B5, not-allowed" },
+    { "label": "Disabled (all)", "value": "every cell not-allowed; current keeps brand fill at .55 opacity" },
     { "label": "Arrows", "value": "<aha-icon name=\"system-caret-left|right\" size=16>" }
   ],
   "props": [
-    { "name": "total", "type": "number", "default": "0", "desc": "Total item count across all pages" },
+    { "name": "total", "type": "number", "default": "0", "desc": "Total item count across all pages (used with page-size)" },
     { "name": "page-size", "type": "number", "default": "10", "desc": "Items per page; total ÷ page-size decides the page count" },
+    { "name": "pages", "type": "number", "default": "—", "desc": "Direct page count; wins over total+page-size when set" },
     { "name": "current", "type": "number", "default": "1", "desc": "The active page (1-based); reflected as it changes" },
+    { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Cell scale: 32px square (default) or compact 24px (small)" },
+    { "name": "simple", "type": "boolean", "default": "false", "desc": "Collapse the numbers to prev · n / total · next" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disable the whole control (every cell not-allowed)" },
     { "name": "change", "type": "CustomEvent", "default": "—", "desc": "Composed event on page change, detail { page }" }
   ],
   "opinion": {
@@ -29,8 +37,8 @@
       { "what": "infinite scroll", "when": "a feed the user grazes — not a set they navigate by position" },
       { "what": "Load more", "when": "occasional appends where exact page position doesn't matter" }
     ],
-    "note": "Show pagination only when there is more than one page. Keep page cells on the 32px square + radius-8 scale, and reserve the brand fill for the current page. The last/first ellipsis keeps long ranges compact.",
-    "dsv3": "COVERED — DS V3 has no measured Pagination cell; spec derived from the token layer (white rest, border #E3E3E3, color-primary current fill, text-inverse label, radius-default 8) + AntD Pagination conventions (32px cells, ellipsis for long ranges, disabled prev/next). Motion + arrow glyphs bound to the shared motion tokens and the DS icon library."
+    "note": "Show pagination only when there is more than one page. Keep page cells on the 32px square + radius-8 scale (or the 24px small scale for dense tables), and reserve the brand fill for the current page. The first/last ellipsis keeps long ranges compact; reach for simple mode when width is tight.",
+    "dsv3": "COVERED — enumerated from the DS V3 Pagination component-set taxonomy: Pagination (the control) + Pagination / Page (the cell, carrying size + state variants) + a prev/next arrow. The family is size (default · small), the page window with ellipses for elided ranges, a current (brand-filled) page, a simple mode (prev · n / total · next), and a whole-control disabled. No measured Pagination cell ships in the reference set, so px/rgb are derived from the token layer (white rest, border #E3E3E3, border-hover #D3B4FF, color-primary #6A1EBB current fill, text-inverse label, radius-default 8 / radius-sm 6 small, text-tertiary ellipsis) + AntD Pagination conventions. Motion + arrow glyphs bound to the shared motion tokens and the DS icon library."
   },
   "surfaces": ["dashboard", "admin", "editor"],
   "reuse": { "entry": "./aha-pagination", "registers": "aha-pagination", "exportsNamed": ["AhaPagination", "defineAhaPagination"] },
@@ -40,18 +48,31 @@
     { "key": "vue", "label": "Vue 3", "file": "pagination.vue.txt" }
   ],
   "preview": "pagination.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default", "value": null },
+        { "label": "Small", "value": "small" }
+      ] },
+      { "prop": "simple", "label": "Mode", "default": "full", "options": [
+        { "label": "Full", "value": null },
+        { "label": "Simple", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "32px square cell, radius 8", "verdict": "PASS" },
+    { "label": "32px square cell (24px small), radius 8 / 6", "verdict": "PASS" },
     { "label": "current color-primary fill, text-inverse", "verdict": "PASS" },
     { "label": "hover animates border + colour (motion tokens)", "verdict": "PASS" },
     { "label": "prev/next are DS <aha-icon> carets, disabled at ends", "verdict": "PASS" },
-    { "label": "change event composed", "verdict": "PASS" }
+    { "label": "ellipsis for long ranges; simple mode = prev · n / total · next", "verdict": "PASS" },
+    { "label": "whole-control disabled; aria-current on active page; change event composed", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-pagination[data-probe]') && document.querySelector('aha-pagination[data-probe]').shadowRoot && document.querySelector('aha-pagination[data-probe]').shadowRoot.querySelector('.page.current'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-pagination[data-probe]');var c=el&&el.shadowRoot&&el.shadowRoot.querySelector('.page.current');var s=c?getComputedStyle(c):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,minWidth:s?s.minWidth:null,radius:s?s.borderTopLeftRadius:null};})()",
-    "expect": { "bg": "rgb(106, 30, 187)", "color": "rgb(255, 255, 255)", "minWidth": "32px", "radius": "8px" }
+    "measure": "(function(){var el=document.querySelector('aha-pagination[data-probe]');var r=el&&el.shadowRoot;var c=r&&r.querySelector('.page.current');var s=c?getComputedStyle(c):null;var pg=r&&r.querySelector('.page:not(.current)');var ps=pg?getComputedStyle(pg):null;var el2=r&&r.querySelector('.ellipsis');return{bg:s?s.backgroundColor:null,color:s?s.color:null,minWidth:s?s.minWidth:null,radius:s?s.borderTopLeftRadius:null,ariaCurrent:c?c.getAttribute('aria-current'):null,pageHeight:ps?ps.height:null,hasEllipsis:!!el2};})()",
+    "expect": { "bg": "rgb(106, 30, 187)", "color": "rgb(255, 255, 255)", "minWidth": "32px", "radius": "8px", "ariaCurrent": "page", "pageHeight": "32px", "hasEllipsis": true }
   }
 }
