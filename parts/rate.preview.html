@@ -29,7 +29,7 @@ const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 5
 class AhaRate extends HTMLElement {
   get max(){ return Math.max(1, parseInt(this.getAttribute('max')||'5',10)); }
   get value(){ return parseFloat(this.getAttribute('value')||'0')||0; }
-  set value(v){ this.setAttribute('value', String(v)); this._paint(this.value); }
+  set value(v){ this.setAttribute('value', String(v)); this._paint(this.value); this._syncState(); }
   get readonly(){ return this.hasAttribute('readonly'); }
   get disabled(){ return this.hasAttribute('disabled'); }
   connectedCallback(){
@@ -37,15 +37,35 @@ class AhaRate extends HTMLElement {
     const stars = Array.from({length:this.max},(_,i)=>`<button class="star" type="button" role="radio" aria-label="${i+1} of ${this.max}" data-i="${i+1}">${STAR}</button>`).join('');
     this.shadowRoot.innerHTML = `<style>${STYLE}</style><span class="stars" role="radiogroup">${stars}</span>`;
     this._buttons = Array.from(this.shadowRoot.querySelectorAll('.star'));
-    this._paint(this.value);
-    if(this.readonly||this.disabled) return;
+    this._paint(this.value); this._syncState();
+    if(this.readonly||this.disabled){ this._buttons.forEach((btn)=>{ btn.tabIndex=-1; }); return; }
     this._buttons.forEach((btn)=>{ const n=Number(btn.dataset.i);
       btn.addEventListener('mouseenter',()=>this._paint(n));
-      btn.addEventListener('click',()=>{ this.setAttribute('value',String(n)); this._paint(n);
+      btn.addEventListener('click',()=>{ this.setAttribute('value',String(n)); this._paint(n); this._syncState();
         this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{value:n}})); }); });
-    this.shadowRoot.querySelector('.stars').addEventListener('mouseleave',()=>this._paint(this.value));
+    const group=this.shadowRoot.querySelector('.stars');
+    group.addEventListener('mouseleave',()=>this._paint(this.value));
+    group.addEventListener('keydown',(e)=>this._onKey(e));
+  }
+  _onKey(e){
+    const max=this.max; let v=this.value;
+    switch(e.key){
+      case 'ArrowRight': case 'ArrowUp': v=Math.min(max,v+1); break;
+      case 'ArrowLeft': case 'ArrowDown': v=Math.max(1,v-1); break;
+      case 'Home': v=1; break;
+      case 'End': v=max; break;
+      default: return;
+    }
+    e.preventDefault(); this.setAttribute('value',String(v)); this._paint(v); this._syncState();
+    if(this._buttons[v-1]) this._buttons[v-1].focus();
+    this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{value:v}}));
   }
   _paint(n){ if(!this._buttons) return; this._buttons.forEach((btn,i)=>btn.classList.toggle('on', i<n)); }
+  _syncState(){
+    if(!this._buttons) return; const v=this.value; let hasChecked=false;
+    this._buttons.forEach((btn,i)=>{ const checked=(i+1)===v; if(checked) hasChecked=true; btn.setAttribute('aria-checked', checked?'true':'false'); btn.tabIndex=checked?0:-1; });
+    if(!hasChecked && this._buttons[0]) this._buttons[0].tabIndex=0;
+  }
 }
 customElements.define('aha-rate', AhaRate);
 customElements.whenDefined('aha-rate').then(()=>{

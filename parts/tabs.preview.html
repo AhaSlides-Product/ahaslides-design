@@ -21,22 +21,39 @@ const STYLE = `
   .panels{ padding-top:16px; color:var(--aha-text-default,#1A1A1A); font-size:14px; line-height:21px }
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
 `;
+let tabsSeq = 0;
 class AhaTabs extends HTMLElement {
   get value(){ return parseInt(this.getAttribute('value')||'0',10)||0; }
   set value(v){ this.setAttribute('value',String(v)); this._select(this.value,false); }
   connectedCallback(){
     if(!this.shadowRoot) this.attachShadow({mode:'open'});
+    if(!this._base) this._base=`aha-tabs-${++tabsSeq}`;
     this._panels=Array.from(this.querySelectorAll('[data-tab]'));
-    const tabs=this._panels.map((p,i)=>`<button class="tab" type="button" role="tab" data-i="${i}">${p.getAttribute('data-tab')}</button>`).join('');
+    this._panels.forEach((p,i)=>{ p.setAttribute('role','tabpanel'); if(!p.id) p.id=`${this._base}-panel-${i}`; p.setAttribute('aria-labelledby',`${this._base}-tab-${i}`); p.setAttribute('tabindex','0'); });
+    const tabs=this._panels.map((p,i)=>`<button class="tab" type="button" role="tab" id="${this._base}-tab-${i}" aria-controls="${p.id}" data-i="${i}">${p.getAttribute('data-tab')}</button>`).join('');
     this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="bar" role="tablist">${tabs}</div><div class="panels"><slot></slot></div>`;
     this._tabs=Array.from(this.shadowRoot.querySelectorAll('.tab'));
     this._select(this.value,false);
     this._tabs.forEach((tab)=>tab.addEventListener('click',()=>{ const i=Number(tab.dataset.i); this.setAttribute('value',String(i)); this._select(i,true); }));
+    this.shadowRoot.querySelector('.bar').addEventListener('keydown',(e)=>this._onKey(e));
   }
-  _select(index,emit){
+  _onKey(e){
+    const count=this._tabs?this._tabs.length:0; if(!count) return;
+    const cur=this.value; let next;
+    switch(e.key){
+      case 'ArrowRight': case 'ArrowDown': next=(cur+1)%count; break;
+      case 'ArrowLeft': case 'ArrowUp': next=(cur-1+count)%count; break;
+      case 'Home': next=0; break;
+      case 'End': next=count-1; break;
+      default: return;
+    }
+    e.preventDefault(); this.setAttribute('value',String(next)); this._select(next,true,true);
+  }
+  _select(index,emit,focus){
     if(!this._tabs) return;
-    this._tabs.forEach((t,i)=>{ t.classList.toggle('on', i===index); t.setAttribute('aria-selected', i===index); });
+    this._tabs.forEach((t,i)=>{ const on=i===index; t.classList.toggle('on', on); t.setAttribute('aria-selected', on); t.tabIndex=on?0:-1; });
     this._panels.forEach((p,i)=>{ p.hidden = i!==index; });
+    if(focus && this._tabs[index]) this._tabs[index].focus();
     if(emit) this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{value:index}}));
   }
 }
