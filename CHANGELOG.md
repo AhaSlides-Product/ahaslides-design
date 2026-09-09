@@ -31,6 +31,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Dropdown** — a trigger that reveals a floating action list; open/close animates on a persistent panel via the motion tokens, the caret rotates, and it closes on outside-click/Escape, emitting a composed `select`. Shared Lit leaf. (PRO38-8)
 - **Menu** — a vertical list of selectable options; the selected row is brand-tinted and hover/selection animate on persistent nodes (a class toggle, never a rebuild), emitting a composed `select`. Shared Lit leaf. (PRO38-8)
 - **Pagination** — prev / numbered pages with ellipsis / next; the current page is brand-filled, hover animates via the motion tokens, prev/next use the DS caret glyphs, and it emits a composed `change`. Shared Lit leaf. (PRO38-8)
+### Fixed
+- **Breadcrumb** — a link click now calls `preventDefault()` before emitting `navigate`, so a real `<a href>` no longer races the SPA event with a native full-page reload; the trail renders as a semantic `<ol>`/`<li>` with `aria-current="page"` on the current item. (PRO38-8)
+- **Menu** / **Dropdown** — implemented the full `role="menu"` keyboard contract: roving `tabindex`, arrow-key focus movement, Home/End, Enter/Space to activate, Escape to close and return focus to the trigger (Dropdown), and `aria-checked` (Menu) / `aria-expanded` kept in sync with state. (PRO38-8)
 
 ## 0.7.0 — 2026-09-09
 ### Added
