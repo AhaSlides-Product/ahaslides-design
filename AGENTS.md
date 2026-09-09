@@ -21,6 +21,18 @@ npm run check    # build → standards gate (reusable) → render gate (qa)
 - **`standards.mjs` — the reusability gate.** Every component must be complete, declare a real `reuse` entry point, import by its published package name, register (leaf) / export its artifact (composite), and ship a paste-and-run **HTML snippet — every component, no exception** (a leaf uses its custom element; a composite ships a CDN-React runnable page). **No component passes otherwise.** This also runs in CI on every PR — a red gate blocks the merge.
 - **`qa.mjs` — the render gate.** Measures the real rendered UI against each contract (needs headless Chrome; run locally). If a `screenshot 0KB` line appears, that's local Chrome contention — re-run once settled; it is not a code failure.
 
+### Every merge ships a changelog entry + a version bump
+
+Before you open a PR, add your change to the **top** of `CHANGELOG.md` and bump `version` in `package.json` to match. `standards.mjs` gates this — a missing/mismatched/undated entry goes red, same as any other standard. Format (newest first, [SemVer](https://semver.org); full recipe in `CHANGELOG.md`):
+
+```
+## X.Y.Z — YYYY-MM-DD
+### Added | Changed | Fixed | Removed
+- one short bullet per change, written for a consumer (#PR)
+```
+
+Pre-1.0 bump rule: a new component/prop/token/export → **MINOR** (`0.x.0`); a fix with no API change → **PATCH** (`0.0.x`); a breaking change → MINOR too (until 1.0), and say so in the bullet. The top version must equal `package.json` → `version`; the release tag `v<version>` matches.
+
 A red gate means the work isn't done. **Fix it — don't work around it.** To add a component, copy an existing one of your tier: **Icon** / **Checkbox** (leaf), **Table** (composite), then follow `CONTRIBUTING.md`.
 
 ## House non-negotiables (detail in the `aha-design` skills)

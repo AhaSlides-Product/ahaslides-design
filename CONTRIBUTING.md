@@ -85,3 +85,18 @@ npm run check       # generate + both gates, end to end
 ```
 
 If `standards` fails, it prints the exact rule and how to fix it, per component. Fix it — don't work around it. Copy an existing component that matches your tier: **Icon** (leaf, registry-backed), **Checkbox** (leaf, single element), **Table** (composite, shared theme).
+
+## Changelog + version (every merge)
+
+Shipping a component isn't the last step — **every merge also adds a `CHANGELOG.md` entry and bumps the version.** `standards.mjs` gates this (the `repo` section), so it goes red like any other miss. Before you open the PR:
+
+1. Add your change to the **top** of `CHANGELOG.md`:
+   ```
+   ## X.Y.Z — YYYY-MM-DD
+   ### Added | Changed | Fixed | Removed
+   - one short bullet per change, written for a consumer (#PR)
+   ```
+   Include only the sections you touched. A new component/export is an **Added**.
+2. Bump `version` in `package.json` to that same `X.Y.Z`. [SemVer](https://semver.org), pre-1.0: a new component/prop/token/export → **MINOR** (`0.x.0`); a fix with no API change → **PATCH** (`0.0.x`); a breaking change → MINOR too (until 1.0), and say so in the bullet.
+
+The top changelog version must equal `package.json` → `version`; the release tag `v<version>` (what `npm publish` ships) matches. Full recipe lives at the top of `CHANGELOG.md`.
