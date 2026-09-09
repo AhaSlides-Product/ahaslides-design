@@ -24,7 +24,7 @@ const STYLE = `
     color:var(--aha-text-inverse,#FFFFFF); background:var(--aha-bg-dark,#1A1A2E);
     border-radius:var(--aha-radius-sm,6px); box-shadow:0 4px 12px rgba(26,26,46,.2);
     opacity:0; visibility:hidden;
-    transition:opacity var(--aha-motion-mid,.2s) var(--aha-ease-out-back,cubic-bezier(0.12,0.4,0.29,1.46)), transform var(--aha-motion-mid,.2s) var(--aha-ease-out-back,cubic-bezier(0.12,0.4,0.29,1.46));
+    transition:opacity var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)), transform var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1));
     z-index:10; pointer-events:none }
   .bubble::after{ content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
     border:5px solid transparent; border-top-color:var(--aha-bg-dark,#1A1A2E) }

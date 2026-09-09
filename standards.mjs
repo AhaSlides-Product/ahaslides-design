@@ -231,6 +231,12 @@ for (const ct of contracts) {
       // a transition's timing must come from a motion token — a bare literal (.12s/150ms) is the drift (.1/.12/.15) we're killing
       if (!allowMotion && /transition/i.test(line))
         for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(`L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`);
+      // no bounce/elastic easing — a cubic-bezier whose control-point Y leaves [0,1] overshoots (back/elastic),
+      // which reads dated/tacky and isn't how AntD (or a real object) decelerates. Use an exponential ease-out.
+      if (!allowMotion) for (const m of line.matchAll(/cubic-bezier\(\s*-?[0-9.]+\s*,\s*(-?[0-9.]+)\s*,\s*-?[0-9.]+\s*,\s*(-?[0-9.]+)\s*\)/gi)) {
+        const y1 = parseFloat(m[1]), y2 = parseFloat(m[2]);
+        if (y1 < 0 || y1 > 1 || y2 < 0 || y2 > 1) motionFindings.push(`L${i + 1}: bounce/elastic easing ${m[0]} — the curve overshoots (control-point Y outside 0–1). Use an exponential ease-out (var(--aha-ease-out) / --aha-ease-in-out), not a "back" ease`);
+      }
     } else {
       for (const h of line.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) if (!inPalette(h)) hits.push(`L${i + 1}: off-palette ${h} — a theme must map to a canonical token value`);
     }
