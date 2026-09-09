@@ -21,7 +21,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.13.0 — 2026-09-09
+## 0.14.0 — 2026-09-10
 ### Added
 - **Progress** (`aha-progress`) — a determinate line bar; a persistent fill node animates its width on the motion tokens, `status` recolours it (success/warning/error). Import `@ahaslides-product/design/aha-progress`.
 - **Result** (`aha-result`) — a full-block outcome state (success/error/info/warning/404) with a DS `<aha-icon>` glyph, title, subtitle and a `slot="extra"` for actions. Import `@ahaslides-product/design/aha-result`.
@@ -34,7 +34,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - **Settings list** (`aha-settings-list`) — built out into a schema-driven settings surface. Set `.schema` (`{ sections:[{ label, description?, rows:[{ key, label, description?, control }] }] }`) and it renders the rows, instantiating each `control` from an existing DS element (`aha-switch` / `aha-checkbox` / `aha-input` …) and emitting a `change` event `{ key, value, name }`. The by-hand slot form is unchanged. (#40)
 ### Fixed
-- **Progress** (`aha-progress`) — now exposes `role="progressbar"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (and `aria-valuetext`) synced to `percent`, so a quiz-timer bar is announced to assistive tech. (#40)
+- **Progress** (`aha-progress`) — now exposes `role="progressbar"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (and `aria-valuetext`) synced to `percent`, so a quiz-timer bar is announced to assistive tech. `percent`/`status` are now `observedAttributes` with an `attributeChangedCallback` that re-syncs the ARIA state, so an external attribute change can't desync the announced value. (#40)
+
+## 0.8.0 — 2026-09-10
+### Added
+- Accessibility is now gated. `qa.mjs` proves a component renders + animates but nothing about its a11y, so interactive components could ship gate-green yet be unusable by keyboard/screen-reader (PRO38-8 review). `standards.mjs` now scans element source and **hard-fails a new component** on: a **roving-widget role** (`radio`/`tab`/`menuitem`/`option`/…) declared with no arrow-key navigation; a **`document`/`window` listener** added on connect with no matching `removeEventListener` on disconnect (a mount/unmount leak); and a dynamic **`aria-*` state** set imperatively without `observedAttributes` (so an external attribute change desyncs the announced state — the controlled-`collapse` case). It also flags a **static imperative overlay** in a snippet (`message.success()`/`notification.open()`/`Modal.confirm()`) that renders outside `ConfigProvider` un-themed — use the `useMessage`/`useNotification`/`useModal` hook. Per-line opt-out `ds-lint-allow: a11y (why)`; `A11Y_DEBT` grandfathers pre-gate debt (empty today — the gate is fully hard). (#41)
 
 ## 0.7.1 — 2026-09-09
 ### Fixed
