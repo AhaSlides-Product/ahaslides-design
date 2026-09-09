@@ -251,6 +251,8 @@ a{color:var(--aha-color-primary)}
 .brand small{display:block;font-size:11px;font-weight:400;color:var(--aha-text-tertiary);letter-spacing:.2px;margin-top:1px}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
+a.ver{color:var(--aha-text-tertiary);text-decoration:none}
+a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 .doc-body{display:flex;align-items:flex-start}
 .doc-nav{position:sticky;top:64px;flex:0 0 268px;width:268px;height:calc(100vh - 64px);overflow-y:auto;padding:22px 14px 70px;border-right:1px solid var(--aha-split);background:#fff}
 .doc-main{flex:1 1 auto;min-width:0;padding:36px 52px 96px}
@@ -429,6 +431,7 @@ const RAW_FEEDS = [
   { name: 'design.md',     file: 'design.md',      page: 'design-md',     desc: 'Machine-readable visual language + token spec — the feed AI design/code tools read.' },
   { name: 'llms.txt',      file: 'llms.txt',       page: 'llms-txt',      desc: 'The index feed: one entry per component. An agent’s entry point to the system.' },
   { name: 'llms-full.txt', file: 'llms-full.txt',  page: 'llms-full-txt', desc: 'Every component doc concatenated — the full-context feed.' },
+  { name: 'CHANGELOG.md',  file: 'CHANGELOG.md',   page: 'changelog',     desc: 'Version history — what changed in each release. One entry per merge; the top version matches the package.' },
   { name: 'variables.css', file: 'variables.css',  page: 'variables-css', desc: 'The --aha-* token layer as CSS custom properties, generated from tokens.canonical.json.' },
   { name: 'icons.llms.txt', file: 'icons.llms.txt', page: 'icons-llms-txt', desc: 'Every icon name, grouped by family — the feed an agent reads to call <aha-icon name="…"> instead of writing an SVG.' },
   { name: 'icons.agent.json', file: 'icons.agent.json', page: 'icons-agent-json', desc: 'Machine feed: the full icon catalogue (names + family + recolorable) plus the <aha-icon> usage contract.' },
@@ -488,11 +491,12 @@ function docShell({ base, active, section = 'components', main, extraCss = '' })
 <link rel="alternate" type="text/plain" title="llms.txt — agent index feed" href="${SITE}/llms.txt"/>
 <link rel="alternate" type="text/plain" title="llms-full.txt — full docs" href="${SITE}/llms-full.txt"/>
 <link rel="alternate" type="text/markdown" title="design.md — visual language" href="${SITE}/design.md"/>
+<link rel="alternate" type="text/markdown" title="CHANGELOG.md — version history" href="${SITE}/CHANGELOG.md"/>
 <style>${tokenVars(TOK)}${shellCss(base)}${extraCss}</style></head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html"><span class="logo">a</span><span>AhaSlides Design<small>for agents · single source → generated</small></span></a>
   ${topNav(base, section)}
-  <div class="hmeta"><span class="ver">v${esc(PKG.version)}</span><span>React · Vue · Lit</span></div>
+  <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
 </header>
 <div class="doc-body">
   ${nav}
@@ -834,6 +838,7 @@ function renderDesignMd(t, cs) {
   const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
+> Version ${PKG.version} · changelog (what changed per release): ${SITE}/CHANGELOG.md
 
 ## Brand
 Primary is violet purple \`${c.primary}\` on near-white neutrals; ink is warm gray \`${c.textDefault}\`.
@@ -1058,6 +1063,7 @@ function renderIndex(cs) {
     <a href="feeds/llms-txt.html"><code>llms.txt</code></a> index ·
     <a href="feeds/llms-full-txt.html"><code>llms-full.txt</code></a> full ·
     <a href="feeds/design-md.html"><code>design.md</code></a> visual language ·
+    <a href="feeds/changelog.html"><code>CHANGELOG.md</code></a> version history ·
     <a href="feeds/variables-css.html"><code>variables.css</code></a> token layer ·
     per-component <code>&lt;slug&gt;.agent.json</code>
   </p>
@@ -1203,6 +1209,9 @@ writeFileSync(join(root, 'lib', 'tokens.js'),
 cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
+// CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
+// gets a styled in-shell page (see RAW_FEEDS). Single source: the repo-root file the gate enforces.
+writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
@@ -1218,6 +1227,7 @@ const indexLines = [
   '# AhaSlides Design System',
   '',
   `> The single source of truth for AhaSlides UI, generated from one contract per component.`,
+  `> Version: ${PKG.version} — changelog: ${SITE}/CHANGELOG.md`,
   `> Registry:  GitHub Packages (${REGISTRY}) — needs a GitHub token with read:packages.`,
   `> Configure once in .npmrc:  ${SCOPE}:registry=${REGISTRY}`,
   `> Install:  npm i ${PKGNAME}`,
@@ -1228,6 +1238,7 @@ const indexLines = [
   `>   ${SITE}/llms.txt          this index`,
   `>   ${SITE}/llms-full.txt     every component, full docs`,
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
+  `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '',
@@ -1250,7 +1261,9 @@ for (const c of contracts) {
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
 writeFileSync(join(OUT, 'llms.txt'), indexLines.join('\n') + '\n');
-writeFileSync(join(OUT, 'llms-full.txt'), fullDocs.join('\n---\n\n') + '\n');
+// Full-context feed ends with the changelog, so an agent reading the whole thing knows what
+// changed per release (and which version these docs describe).
+writeFileSync(join(OUT, 'llms-full.txt'), fullDocs.join('\n---\n\n') + '\n---\n\n' + read(join(root, 'CHANGELOG.md')) + '\n');
 
 /* patterns — doc page + md + agent feed per pattern, plus the two index feeds */
 for (const p of PATTERNS) {
