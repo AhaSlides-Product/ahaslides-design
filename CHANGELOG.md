@@ -23,14 +23,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.22.0 — 2026-09-10
 ### Added
-- **AhaSlides surfaces + General/Forms → DS V3 matrix + playgrounds.** The final audit group — every component now ships an interactive playground over its full DS V3 matrix. (#PR)
-- **Button** — the full matrix: 13 variants (primary, secondary, tertiary, success, danger, link, essential, pro, text, text-link, primary-alt, branding, positive) × 5 sizes (sm–2xl), plus `loading` and `block`; a variant × size × state playground. (#PR)
-- **Checkbox** — `indeterminate` (`aria-checked="mixed"`), a host `role="checkbox"` + Space-to-toggle keyboard contract, and disabled parity. (#PR)
-- **Icon** — a smart-widget playground (size + glyph), importing the real icon runtime. (#PR)
-- **Status badge** — `active`/`inactive` statuses and an `aria-label` synced from the label (the state is announced, not colour-alone). (#PR)
-- **CSAT** — a `thanks` confirmation state (`role="status"`, `aria-live`); keeps the aria-pressed thumb contract. (#PR)
-- **Settings list** — schema rows now honour `disabled` and `locked`/plan-gated rows (reusing `<aha-paywall>`), plus a `compact` density. (#PR)
-- **Paywall** — a `required-plan` (essential/pro) playground; the preview imports the real element. (#PR)
+- **AhaSlides surfaces + General/Forms → DS V3 matrix + playgrounds.** The final audit group — every component now ships an interactive playground over its full DS V3 matrix. (#53)
+- **Button** — the full matrix: 13 variants (primary, secondary, tertiary, success, danger, link, essential, pro, text, text-link, primary-alt, branding, positive) × 5 sizes (sm–2xl), plus `loading` and `block`; a variant × size × state playground. (#53)
+- **Checkbox** — `indeterminate` (`aria-checked="mixed"`), a host `role="checkbox"` + Space-to-toggle keyboard contract, and disabled parity. (#53)
+- **Icon** — a smart-widget playground (size + glyph), importing the real icon runtime. (#53)
+- **Status badge** — `active`/`inactive` statuses and an `aria-label` synced from the label (the state is announced, not colour-alone). (#53)
+- **CSAT** — a `thanks` confirmation state (`role="status"`, `aria-live`); keeps the aria-pressed thumb contract. (#53)
+- **Settings list** — schema rows now honour `disabled` and `locked`/plan-gated rows (reusing `<aha-paywall>`), plus a `compact` density. (#53)
+- **Paywall** — a `required-plan` (essential/pro) playground; the preview imports the real element. (#53)
 
 ## 0.21.0 — 2026-09-10
 ### Added
