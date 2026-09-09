@@ -275,15 +275,25 @@ a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-item.raw{color:var(--aha-text-tertiary)}
 a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondary)}
 .nav-item.raw i{font-style:normal;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;font-family:Menlo,monospace}
+/* the item you're already on hides its live-dot/count — keeps active state purely class-driven
+   so in-app navigation can retint it without rebuilding the sidebar */
+.nav-item.active .nav-dot,.nav-item.active .nav-count{display:none}
+
+/* ---- in-app (PJAX) navigation: swap the main pane, keep the shell — no full reload ---- */
+.pjax-bar{position:fixed;top:0;left:0;height:2px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:var(--aha-color-primary);z-index:60;opacity:0;pointer-events:none;border-radius:0 4px 4px 0;transition:transform var(--aha-motion-mid) var(--aha-ease-out),opacity var(--aha-motion-fast) var(--aha-ease-out)}
+.pjax-bar.on{opacity:1}
+.doc-main.pjax-in{animation:pjax-fade var(--aha-motion-mid) var(--aha-ease-out)}
+@keyframes pjax-fade{from{opacity:.35}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.doc-main.pjax-in{animation:none}.pjax-bar{transition:opacity var(--aha-motion-fast) linear}}
 
 /* ---- detail page ---- */
 .crumbs{font-size:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--aha-text-tertiary);margin:0 0 8px}
-.doc-main h1{font-size:30px;line-height:38px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:82ch}
+.doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
+.subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
 .doc-main h2{font-size:20px;line-height:28px;font-weight:600;margin:44px 0 14px;scroll-margin-top:80px}
 .doc-main h2:first-of-type{margin-top:34px}
-.body{line-height:1.75;color:var(--aha-text-default);max-width:82ch}
+.body{line-height:1.75;color:var(--aha-text-default);max-width:72ch}
 .badge{display:inline-block;font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;border-radius:6px;padding:3px 9px}
 .badge.leaf{color:#0E7C63;background:#D3F5EC;border:1px solid #16C49A}
 .badge.composite{color:#B24A20;background:#FFF0EB;border:1px solid #FF7747}
@@ -354,39 +364,176 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .install-note{margin-top:8px}
 `;
 
+// Bindable (idempotent) so it can re-run over just-swapped content after an in-app navigation.
 const WIDGET_JS = `
-document.querySelectorAll('.code-tabs').forEach(function(w){
-  var show=w.querySelector('.show-code'), panel=w.querySelector('.code-panel'), copy=w.querySelector('.copy');
-  show.addEventListener('click',function(){
-    var opening=panel.hasAttribute('hidden');
-    if(opening){panel.removeAttribute('hidden');w.dataset.open='true';show.lastChild.textContent=' Hide code';}
-    else{panel.setAttribute('hidden','');w.dataset.open='false';show.lastChild.textContent=' Show code';}
+function ahaBindWidgets(root){
+  (root||document).querySelectorAll('.code-tabs').forEach(function(w){
+    if(w.dataset.bound) return; w.dataset.bound='1';
+    var show=w.querySelector('.show-code'), panel=w.querySelector('.code-panel'), copy=w.querySelector('.copy');
+    show.addEventListener('click',function(){
+      var opening=panel.hasAttribute('hidden');
+      if(opening){panel.removeAttribute('hidden');w.dataset.open='true';show.lastChild.textContent=' Hide code';}
+      else{panel.setAttribute('hidden','');w.dataset.open='false';show.lastChild.textContent=' Show code';}
+    });
+    w.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
+      w.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      w.querySelectorAll('.code-panel pre').forEach(function(p){p.classList.remove('active');});
+      t.classList.add('active');w.querySelector('.code-panel pre.'+t.dataset.f).classList.add('active');
+    });});
+    copy.addEventListener('click',function(){
+      var a=w.querySelector('.code-panel pre.active'),text=a?a.textContent:'';
+      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},1200);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fb(text,done);});}else fb(text,done);
+      function fb(t,cb){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+    });
   });
-  w.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
-    w.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
-    w.querySelectorAll('.code-panel pre').forEach(function(p){p.classList.remove('active');});
-    t.classList.add('active');w.querySelector('.code-panel pre.'+t.dataset.f).classList.add('active');
-  });});
-  copy.addEventListener('click',function(){
-    var a=w.querySelector('.code-panel pre.active'),text=a?a.textContent:'';
-    var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},1200);};
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fb(text,done);});}else fb(text,done);
-    function fb(t,cb){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
-  });
-});
+}
 `;
 
 const FEED_JS = `
-document.querySelectorAll('.code-panel.feed').forEach(function(w){
-  var copy=w.querySelector('.copy'), pre=w.querySelector('pre');
-  if(!copy||!pre) return;
-  copy.addEventListener('click',function(){
-    var text=pre.textContent;
-    var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},1200);};
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fb(text,done);});}else fb(text,done);
-    function fb(t,cb){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+function ahaBindFeeds(root){
+  (root||document).querySelectorAll('.code-panel.feed').forEach(function(w){
+    if(w.dataset.bound) return;
+    var copy=w.querySelector('.copy'), pre=w.querySelector('pre');
+    if(!copy||!pre) return; w.dataset.bound='1';
+    copy.addEventListener('click',function(){
+      var text=pre.textContent;
+      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},1200);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fb(text,done);});}else fb(text,done);
+      function fb(t,cb){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+    });
   });
-});
+}
+`;
+
+// In-app navigation (PJAX): intercept internal .html links, fetch the target, and swap only the
+// <main> pane — keeping the header + sidebar node (and its scroll) alive so navigation no longer
+// flashes or reloads. Progressive enhancement: any failure falls back to a normal page load.
+const PJAX_JS = `
+(function(){
+  ahaBindWidgets(document); ahaBindFeeds(document);
+  if(!window.fetch||!window.history||!window.history.pushState||!window.DOMParser) return;
+  if(!document.querySelector('.doc-body')||!document.querySelector('.doc-main')) return;
+
+  // A demo page registers its <aha-*> element from a <script type="module"> that lives INSIDE
+  // <main>. A script injected via DOMParser/replaceWith never runs, so after a swap we must
+  // re-create it to execute (runScripts). Make define() idempotent first, so re-running a page's
+  // (unguarded) customElements.define on revisit is a safe no-op, not an "already defined" throw.
+  if(window.customElements && !customElements.__ahaGuard){
+    customElements.__ahaGuard=true;
+    var _def=customElements.define.bind(customElements);
+    customElements.define=function(n,c,o){ if(!customElements.get(n)){ try{ _def(n,c,o); }catch(e){} } };
+  }
+  function runScripts(root){
+    if(!root) return;
+    root.querySelectorAll('script').forEach(function(old){
+      var s=document.createElement('script');                       // a re-created node executes
+      for(var i=0;i<old.attributes.length;i++) s.setAttribute(old.attributes[i].name, old.attributes[i].value);
+      s.textContent=old.textContent;
+      old.replaceWith(s);
+    });
+  }
+
+  var bar=document.createElement('div'); bar.className='pjax-bar'; document.body.appendChild(bar);
+  var barT;
+  function startBar(){ clearTimeout(barT); bar.classList.add('on'); bar.style.transform='scaleX(0)'; requestAnimationFrame(function(){ bar.style.transform='scaleX(0.75)'; }); }
+  function stopBar(){ bar.style.transform='scaleX(1)'; barT=setTimeout(function(){ bar.classList.remove('on'); bar.style.transform='scaleX(0)'; },220); }
+
+  // Freeze relative href/src to absolute against a base URL, so links stay valid once a fragment
+  // authored for a page at one depth is injected into a document living at another.
+  function absolutize(scope, pageUrl){
+    if(!scope) return;
+    scope.querySelectorAll('[href],[src]').forEach(function(e){
+      ['href','src'].forEach(function(attr){
+        if(!e.hasAttribute(attr)) return;
+        var v=e.getAttribute(attr);
+        if(!v||/^(#|[a-z][a-z0-9+.-]*:|\\/\\/)/i.test(v)) return;
+        try{ e.setAttribute(attr, new URL(v, pageUrl).href); }catch(_){}
+      });
+    });
+  }
+  absolutize(document.querySelector('.doc-header'), location.href);
+  absolutize(document.querySelector('.doc-nav'), location.href);
+  absolutize(document.querySelector('.doc-main'), location.href);
+
+  function sectionOf(el){ return el ? el.getAttribute('data-section') : null; }
+
+  function retint(scope, url){
+    scope.querySelectorAll('a.nav-item, .top-nav a').forEach(function(a){ a.classList.toggle('active', a.href===url); });
+  }
+
+  function swap(html, url, push){
+    var doc=new DOMParser().parseFromString(html,'text/html');
+    var newBody=doc.querySelector('.doc-body'), newMain=doc.querySelector('.doc-main');
+    if(!newBody||!newMain){ location.href=url; return; }
+    absolutize(doc.querySelector('.doc-header'), url);
+    absolutize(newBody, url);
+
+    var curBody=document.querySelector('.doc-body');
+    if(sectionOf(curBody)===sectionOf(newBody)){
+      // same area — keep the sidebar node (and its scroll), swap only the content pane
+      document.querySelector('.doc-main').replaceWith(newMain);
+      var nav=document.querySelector('.doc-nav'); if(nav) retint(nav, url);
+    } else {
+      // area changed — the sidebar itself differs, so replace the whole body (header stays)
+      curBody.replaceWith(newBody);
+    }
+    var topNew=doc.querySelector('.top-nav'), topCur=document.querySelector('.top-nav');
+    if(topNew&&topCur) topCur.innerHTML=topNew.innerHTML;
+    if(doc.title) document.title=doc.title;
+
+    var main=document.querySelector('.doc-main');
+    if(main) main.classList.add('pjax-in');
+    if(push) history.pushState({pjax:1}, '', url);   // set the URL first so relative module imports resolve
+    runScripts(main);                                 // execute the page's <script type="module"> (defines <aha-*>)
+    ahaBindWidgets(main); ahaBindFeeds(main);
+    var hash=url.indexOf('#')>=0 ? url.slice(url.indexOf('#')+1) : '';
+    var t=hash && document.getElementById(hash);
+    if(t) t.scrollIntoView(); else window.scrollTo(0,0);
+  }
+
+  // Prefetch cache: hovering/focusing a link warms its HTML so the click swaps instantly.
+  var cache=new Map();
+  function load(url){
+    if(cache.has(url)) return cache.get(url);
+    var p=fetch(url,{headers:{'X-Requested-With':'pjax'}}).then(function(r){
+      if(!r.ok) throw new Error(r.status); return r.text();
+    }).catch(function(){ cache.delete(url); return null; });   // drop failures so a retry can refetch
+    cache.set(url, p); return p;
+  }
+
+  var busy=false;
+  function go(url, push){
+    if(busy) return; busy=true; startBar();
+    load(url).then(function(html){ if(html==null){ location.href=url; return; } swap(html, url, push); })
+      .catch(function(){ location.href=url; })
+      .then(function(){ busy=false; stopBar(); });
+  }
+
+  function isLocal(a){
+    if(!a||a.target==='_blank'||a.hasAttribute('download')) return false;
+    var href=a.getAttribute('href'); if(href==null) return false;
+    if(/^(#|mailto:|tel:|javascript:)/i.test(href)) return false;
+    if(a.origin!==location.origin) return false;
+    return /\\.html$/.test(a.pathname);
+  }
+
+  document.addEventListener('click', function(e){
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+    var a=e.target.closest('a'); if(!isLocal(a)) return;
+    var url=a.href;
+    if(url.split('#')[0]===location.href.split('#')[0]) return; // same page — let the browser handle #anchors
+    e.preventDefault(); go(url, true);
+  });
+  // Warm the cache on intent — hover or keyboard focus — so the eventual click is instant.
+  function warm(e){
+    var a=e.target.closest&&e.target.closest('a'); if(!isLocal(a)) return;
+    if(a.href.split('#')[0]!==location.href.split('#')[0]) load(a.href);
+  }
+  document.addEventListener('pointerover', warm);
+  document.addEventListener('focusin', warm);
+  window.addEventListener('popstate', function(){ go(location.href, false); });
+})();
 `;
 
 function codeWidget(c) {
@@ -452,11 +599,11 @@ function sidebarNav(base, active, section) {
   let inner = '';
   if (section === 'foundations') {
     const tokenItems = TOKEN_PAGES.map(p =>
-      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span>${active==='token:'+p.slug?'':'<span class="nav-dot" title="live"></span>'}</a>`).join('');
+      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('');
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
-      `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span>${active==='__icons__'?'':`<span class="nav-count">${ICONS.count}</span>`}</a>` +
+      `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components') {
     inner = CATALOG.map(g => {
@@ -499,11 +646,11 @@ function docShell({ base, active, section = 'components', main, extraCss = '' })
   ${topNav(base, section)}
   <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
 </header>
-<div class="doc-body">
+<div class="doc-body" data-section="${section}">
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${main}</div></main>
 </div>
-<script>${WIDGET_JS}${FEED_JS}</script>
+<script>${WIDGET_JS}${FEED_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 

@@ -1,0 +1,17 @@
+import '@ahaslides-product/design/aha-flex';   // registers <aha-flex>
+
+// A static layout primitive — the custom element renders identically in React, no wrapper needed.
+<aha-flex gap="middle" align="center">
+  <Button>Save</Button>
+  <Button variant="secondary">Cancel</Button>
+</aha-flex>
+
+<aha-flex direction="column" gap="large">
+  <Card />
+  <Card />
+</aha-flex>
+
+<aha-flex justify="space-between">
+  <strong>Title</strong>
+  <a href="#">Action</a>
+</aha-flex>

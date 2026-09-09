@@ -1,0 +1,21 @@
+// @ahaslides-product/design/input-number-theme — declared ONCE, consumed by both tiers.
+import { inputNumberTheme } from '@ahaslides-product/design/input-number-theme';
+
+export const inputNumberTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    controlHeight: 32,
+    colorBorder: '#E3E3E3',
+    colorTextPlaceholder: '#8A8A8A',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    InputNumber: {
+      activeBorderColor: '#6A1EBB',   // brand focus border
+      hoverBorderColor: '#D3B4FF',    // purple-30 hover border
+      borderRadius: 8,
+      controlHeight: 32,
+    },
+  },
+};

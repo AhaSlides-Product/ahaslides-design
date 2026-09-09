@@ -1,0 +1,54 @@
+{
+  "name": "Menu",
+  "slug": "menu",
+  "group": "Navigation",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-menu",
+  "summary": "A vertical list of selectable options — a side nav, settings list, or overflow menu.",
+  "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; feed it an `items` JSON array and a `value` (the selected key). The selected row is brand-tinted; hover and selection animate via the shared motion tokens on PERSISTENT nodes — selection toggles a class, it never rebuilds the row. Emits a composed `select` event.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "text-default", "text-disabled", "color-primary", "border-focus", "radius-default"],
+  "spec": [
+    { "label": "Container", "value": "white surface, 1px border #E3E3E3, radius 8, 6 padding, min-width 200" },
+    { "label": "Row", "value": "height 36 · radius 8 · SemiBold 600 · text-default" },
+    { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
+    { "label": "Selected", "value": "bg-accent #F9F5FF fill + color-primary #6A1EBB text" },
+    { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed" }
+  ],
+  "props": [
+    { "name": "items", "type": "JSON [{key, label, disabled?}]", "default": "[]", "desc": "The rows; each needs a key + label, optional disabled" },
+    { "name": "value", "type": "string", "default": "—", "desc": "The selected item's key" },
+    { "name": "select", "type": "CustomEvent", "default": "—", "desc": "Composed event on selection, detail { key }" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Menu", "when": "a vertical list of destinations or options — a side nav, a settings list, an overflow list" },
+      { "what": "Tabs", "when": "switching horizontal views within one screen" },
+      { "what": "Dropdown", "when": "the same list should sit inside a triggered overlay, not inline" }
+    ],
+    "note": "One selection at a time — reserve the brand tint for the active row. Keep labels short and in sentence case. For a triggered overlay, put a Menu inside a Dropdown rather than reinventing the list.",
+    "dsv3": "COVERED — DS V3 has no measured Menu cell; spec derived from the token layer (white surface, border #E3E3E3, bg-accent selected fill, color-primary label, radius-default 8) + AntD Menu conventions (vertical rows, single selection, disabled rows). Motion bound to the shared motion tokens on persistent nodes."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "admin"],
+  "reuse": { "entry": "./aha-menu", "registers": "aha-menu", "exportsNamed": ["AhaMenu", "defineAhaMenu"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "menu.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "menu.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "menu.vue.txt" }
+  ],
+  "preview": "menu.preview.html",
+  "selfCheck": [
+    { "label": "row height 36, radius 8", "verdict": "PASS" },
+    { "label": "selected bg-accent + color-primary", "verdict": "PASS" },
+    { "label": "hover animates on a persistent node (not a rebuild)", "verdict": "PASS" },
+    { "label": "select event composed", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-menu[data-probe]') && document.querySelector('aha-menu[data-probe]').shadowRoot && document.querySelector('aha-menu[data-probe]').shadowRoot.querySelector('.item.selected'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-menu[data-probe]');var it=el&&el.shadowRoot&&el.shadowRoot.querySelector('.item.selected');var s=it?getComputedStyle(it):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null};})()",
+    "expect": { "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)", "height": "36px", "radius": "8px" }
+  }
+}

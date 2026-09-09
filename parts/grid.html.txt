@@ -1,0 +1,24 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-grid> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-grid.js';   // registers <aha-grid>
+</script>
+
+<!-- fixed three-column grid; gap on the DS scale -->
+<aha-grid columns="3" gap="middle">
+  <div>Card A</div>
+  <div>Card B</div>
+  <div>Card C</div>
+  <div>Card D</div>
+  <div>Card E</div>
+  <div>Card F</div>
+</aha-grid>
+
+<!-- responsive: tracks are at least 220px wide, the count follows the container -->
+<aha-grid min="220" gap="large" style="margin-top:24px">
+  <div>Auto A</div>
+  <div>Auto B</div>
+  <div>Auto C</div>
+</aha-grid>

@@ -1,0 +1,56 @@
+{
+  "name": "Flex",
+  "slug": "flex",
+  "group": "Layout",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-flex",
+  "summary": "A flexbox container with the DS spacing scale baked into `gap` — direction, align, justify, wrap.",
+  "lead": "ONE custom element — <aha-flex> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `gap` takes the named steps small/middle/large (8/16/24) or a raw pixel number, and direction/align/justify/wrap map straight to flexbox. Layout only — it never paints a background. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["text-default"],
+  "spec": [
+    { "label": "Display", "value": "flex" },
+    { "label": "Gap scale", "value": "small 8 · middle 16 · large 24 (or a raw px number)" },
+    { "label": "Direction", "value": "row · row-reverse · column · column-reverse" },
+    { "label": "Align", "value": "start · center · end · baseline · stretch (align-items)" },
+    { "label": "Justify", "value": "start · center · end · space-between/around/evenly" }
+  ],
+  "props": [
+    { "name": "gap", "type": "small | middle | large | number", "default": "0", "desc": "Space between items — named DS step (8/16/24) or a raw pixel number" },
+    { "name": "direction", "type": "row | row-reverse | column | column-reverse", "default": "row", "desc": "Main-axis direction (flex-direction)" },
+    { "name": "align", "type": "start | center | end | baseline | stretch", "default": "stretch", "desc": "Cross-axis alignment (align-items)" },
+    { "name": "justify", "type": "start | center | end | space-between | space-around | space-evenly", "default": "start", "desc": "Main-axis distribution (justify-content)" },
+    { "name": "wrap", "type": "boolean", "default": "false", "desc": "Allow items to wrap onto multiple lines" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Flex", "when": "arranging a block of items in one dimension with consistent DS spacing" },
+      { "what": "Grid", "when": "you need two-dimensional rows-and-columns, not a single flow" },
+      { "what": "Space", "when": "you only need even gaps between a small inline set of items" }
+    ],
+    "note": "Keep gaps on the named scale (small/middle/large) so spacing stays consistent across surfaces — reach for a raw pixel number only for a genuine one-off. Flex is layout, never decoration: it paints no background.",
+    "dsv3": "COVERED — DS V3 has no measured Flex cell; spec derived from the DS spacing scale (8/16/24) + AntD Flex conventions (gap steps, direction/align/justify/wrap). A deliberate, documented layout extension; the only visual token it binds is inherited text colour."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-flex", "registers": "aha-flex", "exportsNamed": ["AhaFlex", "defineAhaFlex"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "flex.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "flex.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "flex.vue.txt" }
+  ],
+  "preview": "flex.preview.html",
+  "selfCheck": [
+    { "label": "display flex", "verdict": "PASS" },
+    { "label": "gap middle → 16px", "verdict": "PASS" },
+    { "label": "direction / align / justify map to flexbox", "verdict": "PASS" },
+    { "label": "wrap enables flex-wrap", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-flex[data-probe]') && document.querySelector('aha-flex[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-flex[data-probe]');var s=el?getComputedStyle(el):null;return{display:s?s.display:null,gap:s?s.columnGap:null,direction:s?s.flexDirection:null,color:s?s.color:null};})()",
+    "expect": { "display": "flex", "gap": "16px", "direction": "row", "color": "rgb(26, 26, 26)" }
+  }
+}

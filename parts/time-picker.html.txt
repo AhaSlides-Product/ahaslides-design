@@ -1,0 +1,25 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     TimePicker is a COMPOSITE (antd, no framework-free element), so its HTML form is a CDN-React
+     page — React + antd load from a CDN (esm.sh) and mount on open. It consumes the SAME shared
+     `timePickerTheme` the React/Vue wrappers use, so it renders the DS V3 look (32px field, radius
+     8, #E3E3E3 border, brand-selected cell). Times use Day.js.
+     No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<div id="root"></div>
+<script type="module">
+  import React from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import { ConfigProvider, TimePicker } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+  import dayjs from 'https://esm.sh/dayjs@1';
+  import { timePickerTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/time-picker-theme.js';
+
+  const h = React.createElement;
+
+  createRoot(document.getElementById('root')).render(
+    h(ConfigProvider, { theme: timePickerTheme },
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+        h(TimePicker, { defaultValue: dayjs('09:30', 'HH:mm'), format: 'HH:mm', style: { width: 200 } }),
+        h(TimePicker, { use12Hours: true, format: 'h:mm a', minuteStep: 15, style: { width: 200 } })
+      )
+    )
+  );
+</script>

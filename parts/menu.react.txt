@@ -1,0 +1,21 @@
+import '@ahaslides-product/design/aha-menu';   // registers <aha-menu>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the composed `select` event; React 19 can bind onSelect directly.
+function AhaMenu({ items, value, onSelect }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = (e) => onSelect?.(e.detail.key);
+    el.addEventListener('select', h);
+    return () => el.removeEventListener('select', h);
+  });
+  return <aha-menu ref={ref} value={value} items={JSON.stringify(items)} />;
+}
+
+// usage
+<AhaMenu
+  value={view}
+  items={[{ key: 'polls', label: 'Polls' }, { key: 'quizzes', label: 'Quizzes' }]}
+  onSelect={setView}
+/>

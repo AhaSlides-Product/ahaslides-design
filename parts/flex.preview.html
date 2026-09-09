@@ -1,0 +1,51 @@
+<div class="pad">
+  <div class="lbl">Row · gap middle · align center</div>
+  <aha-flex data-probe gap="middle" align="center">
+    <button>Save</button>
+    <button>Cancel</button>
+    <button>More</button>
+  </aha-flex>
+
+  <div class="lbl" style="margin-top:20px">Space between</div>
+  <aha-flex justify="space-between" style="border:1px solid var(--aha-split); border-radius:8px; padding:12px 14px">
+    <strong>Slide settings</strong>
+    <a href="#">Edit</a>
+  </aha-flex>
+
+  <div class="lbl" style="margin-top:20px">Column · gap large</div>
+  <aha-flex direction="column" gap="large">
+    <div>Row one</div>
+    <div>Row two</div>
+  </aha-flex>
+
+  <div class="lbl" style="margin-top:20px">Wrap · gap small</div>
+  <aha-flex gap="small" wrap>
+    <span class="pill">Poll</span><span class="pill">Quiz</span><span class="pill">Word cloud</span>
+    <span class="pill">Q&amp;A</span><span class="pill">Brainstorm</span><span class="pill">Spinner</span>
+  </aha-flex>
+</div>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-flex (lib/aha-flex.js),
+     inlined here so the preview is self-contained (no build step, no network). -->
+<script type="module">
+const GAP = { small: '8px', middle: '16px', large: '24px' };
+const ALIGN = { start: 'flex-start', end: 'flex-end', center: 'center', baseline: 'baseline', stretch: 'stretch' };
+const JUSTIFY = { start: 'flex-start', end: 'flex-end', center: 'center', 'space-between': 'space-between', 'space-around': 'space-around', 'space-evenly': 'space-evenly' };
+const STYLE = `
+  :host{ display:flex; box-sizing:border-box; color:var(--aha-text-default,#1A1A1A) }
+  :host([wrap]){ flex-wrap:wrap }
+`;
+class AhaFlex extends HTMLElement {
+  static get observedAttributes() { return ['gap', 'direction', 'align', 'justify', 'wrap']; }
+  connectedCallback() { if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); this.shadowRoot.innerHTML = `<style>${STYLE}</style><slot></slot>`; } this._apply(); }
+  attributeChangedCallback() { if (this.shadowRoot) this._apply(); }
+  _apply() {
+    const gap = this.getAttribute('gap');
+    this.style.gap = gap == null ? '' : (GAP[gap] || (/^\d+$/.test(gap) ? gap + 'px' : gap));
+    this.style.flexDirection = this.getAttribute('direction') || '';
+    this.style.alignItems = ALIGN[this.getAttribute('align')] || '';
+    this.style.justifyContent = JUSTIFY[this.getAttribute('justify')] || '';
+  }
+}
+customElements.define('aha-flex', AhaFlex);
+</script>

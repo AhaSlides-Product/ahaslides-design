@@ -1,0 +1,13 @@
+import { ConfigProvider, Steps } from 'antd';   // antd v6
+import { stepsTheme } from '@ahaslides-product/design/steps-theme';
+
+const items = [
+  { title: 'Details' },
+  { title: 'Content' },
+  { title: 'Publish' },
+];
+
+<ConfigProvider theme={stepsTheme}>
+  <Steps current={current} items={items} onChange={setCurrent} />
+</ConfigProvider>
+// One shared stepsTheme → the DS V3 look; reserve Steps for genuinely ordered flows, use Tabs for peers.

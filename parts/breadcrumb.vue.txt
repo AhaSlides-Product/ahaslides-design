@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-breadcrumb';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { computed } from 'vue';
+const trail = [
+  { label: 'Home', href: '/' },
+  { label: 'Presentations', href: '/p' },
+  { label: 'Editor' },
+];
+const items = computed(() => JSON.stringify(trail));
+function onNavigate(e) { router.push(e.detail.href); }
+</script>
+
+<template>
+  <aha-breadcrumb :items="items" @navigate="onNavigate" />
+</template>

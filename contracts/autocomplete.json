@@ -1,0 +1,54 @@
+{
+  "name": "AutoComplete",
+  "slug": "autocomplete",
+  "group": "Data Entry",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "Free-text input with suggestions as you type — search boxes, tag entry, known-but-open fields — rendered through the shared AutoComplete.",
+  "lead": "AutoComplete carries a popup, live filtering and free-text-with-suggestions — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue). It renders on Ant's Select internals, so both wrappers theme once through the shared autocompleteTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Select.optionSelectedBg", "Select.optionActiveBg"],
+  "spec": [
+    { "label": "Control", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Focus", "value": "brand #6A1EBB border" },
+    { "label": "Active option", "value": "#F7F7F7 (gray-20) row" },
+    { "label": "Selected option", "value": "brand-tint #F9F5FF row" },
+    { "label": "Placeholder", "value": "#8A8A8A" }
+  ],
+  "props": [
+    { "name": "options", "type": "{ value, label? }[]", "default": "[]", "desc": "Suggestions shown as the user types" },
+    { "name": "value", "type": "string", "default": "—", "desc": "Current free-text value" },
+    { "name": "onSearch", "type": "(text) => void", "default": "—", "desc": "Fires as the query changes — fetch/filter suggestions" },
+    { "name": "onSelect", "type": "(value) => void", "default": "—", "desc": "Fires when a suggestion is chosen" },
+    { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "AutoComplete", "when": "free text where suggestions help but the user may type their own value" },
+      { "what": "Select", "when": "the value MUST come from a known set — don't allow free text" },
+      { "what": "Input", "when": "free text with no suggestions to offer" }
+    ],
+    "note": "Filter suggestions on the query, don't dump the whole list. AutoComplete allows values outside the options — if the value must be from the set, use Select instead."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./autocomplete-theme", "exportsNamed": ["autocompleteTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "autocomplete.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared autocompleteTheme. No build step." },
+    { "key": "react", "label": "React", "file": "autocomplete.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "autocomplete.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "autocomplete.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (autocompleteTheme); residual drift is caught by visual regression.",
+  "preview": "autocomplete.preview.html",
+  "selfCheck": [
+    { "label": "control 32 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
+    { "label": "focus border brand", "verdict": "PASS" },
+    { "label": "active option gray-20 row", "verdict": "PASS" },
+    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 AutoComplete (Select internals) bound to autocompleteTheme.",
+    "ready": "!!document.querySelector('#react-root .ant-select-content') && !!document.querySelector('#react-root .ant-select-placeholder')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-select','borderTopLeftRadius'),radiusBR:g('.ant-select','borderBottomRightRadius'),border:g('.ant-select','borderTopColor'),borderWidth:g('.ant-select','borderTopWidth'),height:g('.ant-select','height'),placeholder:g('.ant-select-placeholder','color')};})()",
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "32px", "placeholder": "rgb(138, 138, 138)" }
+  }
+}
