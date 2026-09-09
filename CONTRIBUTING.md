@@ -25,7 +25,7 @@ Plus the reuse declaration — **this is the reusability contract**:
 `entry` MUST be a key in `package.json` → `exports`.
 
 ### 2. The importable module — `lib/<entry>.js`
-This is the thing that makes reuse real. It must resolve as `@ahaslides/design/<entry>` and:
+This is the thing that makes reuse real. It must resolve as `@ahaslides-product/design/<entry>` and:
 - **Leaf:** define + auto-register the custom element (`customElements.define('aha-my-thing', …)`), zero runtime deps, themed only by `--aha-*` tokens. Export the class + a `defineAhaMyThing()` helper.
 - **Composite:** export the shared artifact (theme/config object) both framework wrappers consume.
 
@@ -36,10 +36,10 @@ Then add the subpath to `package.json`:
 
 ### 3. Doc parts — `parts/<slug>.*`
 Every component ships a paste-and-run **`<slug>.html.txt` listed FIRST in `snippets`** — no exceptions — plus React and Vue. HTML isn't a replacement; it's the build-step-free form the docs and feeds lead with (the fast path for end-users vibe-coding decks/courses/hubs). How HTML is realised depends on tier:
-- **Leaf — the custom element is the native form.** A CDN ESM `import` of the element (`…/@ahaslides/design/lib/<entry>.js`) + `tokens.css`, then plain `<aha-*>` markup. Save as `.html`, open, it renders.
-- **Composite — a CDN-React runnable page.** No framework-free element exists, so the HTML file loads React + antd from a CDN (`esm.sh`, `React.createElement` → no JSX/build) and mounts the shared-themed grid, consuming the same `@ahaslides/design` artifact (e.g. `tableTheme`). Still opens-and-renders with no build step. (See `parts/table.html.txt`.)
-- The CDN base is `jsdelivr`/`esm.sh` for now; swappable once DevOps picks a branded URL.
-- `<slug>.react.txt` / `<slug>.vue.txt` — **still required; unchanged.** Leaf: thin adapters over the same element that **import the real `@ahaslides/design/<entry>`** (React <19 ref wrapper; Vue binds the custom element natively). Composite: the two real vendor libraries through the shared DataTable + theme. No `@aha/design/*` placeholders, no `lucide`/`heroicons`/`fontawesome`/`@ant-design/icons`, no `@mui`/`@chakra-ui`/`@radix-ui`/`@mantine`.
+- **Leaf — the custom element is the native form.** A CDN ESM `import` of the element (`…/@ahaslides-product/design/lib/<entry>.js`) + `tokens.css`, then plain `<aha-*>` markup. Save as `.html`, open, it renders.
+- **Composite — a CDN-React runnable page.** No framework-free element exists, so the HTML file loads React + antd from a CDN (`esm.sh`, `React.createElement` → no JSX/build) and mounts the shared-themed grid, consuming the same `@ahaslides-product/design` artifact (e.g. `tableTheme`). Still opens-and-renders with no build step. (See `parts/table.html.txt`.)
+- **Hosting caveat (open Q3):** the snippets import from a public CDN (`jsdelivr`/`esm.sh`), but the package currently publishes to **GitHub Packages (authed)**, which public CDNs don't serve — so paste-and-run is **pending** a public-CDN/npm publish. The snippets say so; swap the CDN base once DevOps resolves hosting.
+- `<slug>.react.txt` / `<slug>.vue.txt` — **still required; unchanged.** Leaf: thin adapters over the same element that **import the real `@ahaslides-product/design/<entry>`** (React <19 ref wrapper; Vue binds the custom element natively). Composite: the two real vendor libraries through the shared DataTable + theme. No `@aha/design/*` placeholders, no `lucide`/`heroicons`/`fontawesome`/`@ant-design/icons`, no `@mui`/`@chakra-ui`/`@radix-ui`/`@mantine`.
 - `<slug>.preview.html` — the live-preview harness the doc page renders and `qa.mjs` measures.
 
 ### 4. Conformance

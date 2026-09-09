@@ -8,9 +8,9 @@
  *   1. Contract is complete        — the fields the generator + agents rely on are present.
  *   2. It declares how it's reused  — a `reuse` block naming a real package entry point.
  *   3. That entry is published      — the subpath is in package.json "exports" and the file exists.
- *   4. It actually imports          — `import '@ahaslides/design/<entry>'` resolves and runs.
+ *   4. It actually imports          — `import '@ahaslides-product/design/<entry>'` resolves and runs.
  *   5. It registers / exports       — leaf: registers its custom element; composite: exports its artifact.
- *   6. Its snippets consume the DS  — reference @ahaslides/design, never a fake pkg or a banned library.
+ *   6. Its snippets consume the DS  — reference @ahaslides-product/design, never a fake pkg or a banned library.
  *   7. It's render-gated            — carries a `conformance` block so qa.mjs can measure the real UI.
  *
  * This is the "can a teammate contribute safely?" gate: add contracts/<slug>.json + lib/<entry>.js,
@@ -43,7 +43,7 @@ const PATTERN_REQUIRED = ['name', 'slug', 'kind', 'summary', 'skillRef', 'surfac
 //   true  → HARD FAIL: the referenced components must exist here first before the pattern can pass.
 const PATTERN_BACKLOG_HARD_FAIL = false;
 const BANNED = [
-  [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides/design'],
+  [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
   [/@mui\/|@chakra-ui\/|@radix-ui\/|@mantine\/|react-bootstrap/i, 'a non-AntD component library'],
 ];
@@ -90,7 +90,7 @@ for (const ct of contracts) {
 
   // 6) snippets consume the DS (real package) and no fakes / banned libs
   const snippetText = (ct.snippets || []).map(s => read(join(PDIR, s.file))).join('\n');
-  chk('a snippet imports @ahaslides/design', /@ahaslides\/design/.test(snippetText) || ct.tier?.includes('composite'),
+  chk('a snippet imports @ahaslides-product/design', /@ahaslides-product\/design/.test(snippetText) || ct.tier?.includes('composite'),
     'snippets must show consuming the real package');
   for (const [re, why] of BANNED) chk(`snippets free of: ${why}`, !re.test(snippetText), 'found in a snippet');
 
@@ -104,13 +104,13 @@ for (const ct of contracts) {
   if (html) {
     const htmlText = read(join(PDIR, html.file));
     if (isLeaf) {
-      chk('HTML snippet imports the DS + uses the element', /@ahaslides\/design/.test(htmlText) && new RegExp(`<${ct.element}[\\s>]`).test(htmlText),
-        'a leaf HTML snippet must import @ahaslides/design and use its custom element');
+      chk('HTML snippet imports the DS + uses the element', /@ahaslides-product\/design/.test(htmlText) && new RegExp(`<${ct.element}[\\s>]`).test(htmlText),
+        'a leaf HTML snippet must import @ahaslides-product/design and use its custom element');
     } else {
       // composite: a CDN-React page — must consume the DS (e.g. the shared theme) and be runnable
       // (loads React from a CDN, mounts into the DOM), not a hand-styled raw table.
-      chk('HTML snippet is a runnable CDN-React page consuming the DS', /@ahaslides\/design/.test(htmlText) && /esm\.sh|cdn|unpkg|jsdelivr/i.test(htmlText) && /react/i.test(htmlText),
-        'a composite HTML snippet must load React from a CDN and consume @ahaslides/design (e.g. the shared theme)');
+      chk('HTML snippet is a runnable CDN-React page consuming the DS', /@ahaslides-product\/design/.test(htmlText) && /esm\.sh|cdn|unpkg|jsdelivr/i.test(htmlText) && /react/i.test(htmlText),
+        'a composite HTML snippet must load React from a CDN and consume @ahaslides-product/design (e.g. the shared theme)');
     }
   }
 

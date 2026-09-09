@@ -28,9 +28,27 @@ const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
 const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)) : '');
-const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const esc = (s) => String(s ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
 
 const PKG = JSON.parse(read(join(root, 'package.json')));
+const PKGNAME = PKG.name;   // @ahaslides-product/design — the package to install
+const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
+/* Published to GitHub Packages (not public npmjs), so consuming the package needs a
+   one-time scoped-registry + auth setup before `npm i`. These lines are printed into
+   every install block / feed so an agent can wire it up from the page alone. */
+const REGISTRY = (PKG.publishConfig && PKG.publishConfig.registry) || 'https://npm.pkg.github.com';
+const REGISTRY_HOST = REGISTRY.replace(/^https?:\/\//, '');
+const NPMRC = `${SCOPE}:registry=${REGISTRY}\n//${REGISTRY_HOST}/:_authToken=\${GITHUB_TOKEN}   # a GitHub token with read:packages`;
+
+/* Absolute base URL where dist/ is hosted (GitHub Pages by default). The feed links
+   printed on the docs pages + in llms.txt/agent.json are ABSOLUTE so an agent that
+   lands anywhere can fetch them directly. CI overrides via AHA_SITE_URL. */
+const SITE = (process.env.AHA_SITE_URL || 'https://ahaslides-product.github.io/ahaslides-design').replace(/\/+$/, '');
 
 /* ===== R1 canonical tokens → the --aha-* var layer (single source) ===== */
 const TOK = JSON.parse(read(join(root, 'tokens.canonical.json')));
@@ -247,6 +265,17 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .copy:hover{background:rgba(199,163,255,.12)}
 .code-panel pre{display:none;margin:0;background:transparent;color:#EAE6F5;padding:18px 20px;overflow:auto;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre}
 .code-panel pre.active{display:block}
+
+/* ---- get started / consume + for-agents block ---- */
+.consume{margin:8px 0 4px}
+.consume-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}
+.cg{border:1px solid var(--aha-split);border-radius:12px;overflow:hidden;background:#fff}
+.cg-h{padding:9px 14px;font-size:12px;font-weight:600;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-bottom:1px solid var(--aha-split)}
+.cg-code{margin:0;padding:14px 16px;background:#1A1A2E;color:#EAE6F5;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.agent-feeds{font-size:13.5px;line-height:1.75}
+.agent-feeds li{margin:7px 0}
+.agent-feeds code{font-size:12px}
+.install-note{margin-top:8px}
 `;
 
 const WIDGET_JS = `
@@ -378,6 +407,14 @@ function docShell({ base, active, section = 'components', main, extraCss = '' })
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>AhaSlides Design System — for agents</title>
+<meta name="generator" content="ahaslides-design generate.mjs"/>
+<meta name="aha:package" content="${esc(PKGNAME)}"/>
+<meta name="aha:registry" content="${esc(REGISTRY)}"/>
+<meta name="aha:install" content="npm i ${esc(PKGNAME)}"/>
+<meta name="aha:llms" content="${SITE}/llms.txt"/>
+<link rel="alternate" type="text/plain" title="llms.txt — agent index feed" href="${SITE}/llms.txt"/>
+<link rel="alternate" type="text/plain" title="llms-full.txt — full docs" href="${SITE}/llms-full.txt"/>
+<link rel="alternate" type="text/markdown" title="design.md — visual language" href="${SITE}/design.md"/>
 <style>${tokenVars(TOK)}${shellCss(base)}${extraCss}</style></head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html"><span class="logo">a</span><span>AhaSlides Design<small>for agents · single source → generated</small></span></a>
@@ -422,6 +459,8 @@ function renderHtml(c) {
 
   <h2>API</h2>
   ${propsTable(c.props)}
+
+  ${componentConsume(c)}
 
   ${c.opinion ? `<h2>When to use</h2>${opinionBlock(c.opinion)}${surfaceBlock(c.surfaces)}` : ''}
 
@@ -491,6 +530,19 @@ function renderAgent(c) {
   const snippets = {};
   for (const s of c.snippets) snippets[s.key] = part(s.file);
   const leaf = c.tier === 'leaf-lit';
+  const entry = c.reuse && c.reuse.entry ? c.reuse.entry.replace(/^\.\//, '') : null;
+  const install = {
+    package: PKGNAME,
+    registry: REGISTRY,
+    scope: SCOPE,
+    auth: `Published to GitHub Packages — needs a GitHub token with read:packages. Configure the ${SCOPE} scope in .npmrc before installing.`,
+    npmrc: NPMRC,
+    command: `npm i ${PKGNAME}`,
+    tokenLayer: `import '${PKGNAME}/tokens.css';`,
+    import: entry ? `import '${PKGNAME}/${entry}';` : null,
+    element: c.element || null,
+    registers: c.reuse ? c.reuse.registers || null : null,
+  };
   const frameworks = leaf
     ? { react: { via: 'web-component', ref: c.element }, vue: { via: 'web-component', ref: c.element } }
     : { react: { package: 'antd', major: 6 }, vue: { package: 'ant-design-vue', major: 4 } };
@@ -500,6 +552,14 @@ function renderAgent(c) {
   return JSON.stringify({
     generatedFrom: `${c.slug}.contract.json`, component: c.name, slug: c.slug, group: c.group, tier: c.tier,
     summary: c.summary,
+    install,
+    feeds: {
+      doc: `${SITE}/${c.slug}/index.html`,
+      md: `${SITE}/${c.slug}/${c.slug}.md`,
+      agentJson: `${SITE}/${c.slug}.agent.json`,
+      llms: `${SITE}/${c.slug}.llms.txt`,
+      index: `${SITE}/llms.txt`,
+    },
     recommendedSnippet: hasHtml(c) ? 'html' : (c.snippets[0]?.key || 'react'),
     vibeCode: hasHtml(c)
       ? `Emit the HTML snippet by default — ${htmlKind(c)}. Paste into an .html file and it renders with no build step.`
@@ -845,6 +905,53 @@ function renderTokenPage(pageSlug) {
   return docShell({ base: '../', active: 'token:' + pageSlug, section: 'foundations', main, extraCss });
 }
 
+/* ===== self-describing "how to consume" blocks =====
+   Printed INTO the docs so a human or an agent can install + connect from the page
+   alone, without being told. Feed links are ABSOLUTE (SITE) so they resolve anywhere. */
+function consumeBlock() {
+  return `
+  <section class="consume" id="get-started">
+    <h2 style="margin-top:30px">Get started</h2>
+    <p class="body">Published to <b>GitHub Packages</b>, so point the <code>${esc(SCOPE)}</code> scope at the registry and authenticate <b>once</b>, then install, import the token layer at your app root, and import any component. It is <b>one</b> element — identical in React, Vue, and outside any app.</p>
+    <div class="consume-grid">
+      <div class="cg"><div class="cg-h">0 · Point the scope at GitHub Packages — once, in <code>.npmrc</code></div><pre class="cg-code">${esc(NPMRC)}</pre></div>
+      <div class="cg"><div class="cg-h">1 · Install</div><pre class="cg-code">npm i ${esc(PKGNAME)}</pre></div>
+      <div class="cg"><div class="cg-h">2 · Token layer — once, at the app root</div><pre class="cg-code">import '${esc(PKGNAME)}/tokens.css';</pre></div>
+      <div class="cg"><div class="cg-h">3 · A component — import its subpath, use the element</div><pre class="cg-code">import '${esc(PKGNAME)}/aha-button';   // registers &lt;aha-button&gt;
+&lt;aha-button variant="primary"&gt;Save&lt;/aha-button&gt;</pre></div>
+    </div>
+    <h3>For agents — read this, then connect automatically</h3>
+    <p class="body">Every feed below is generated from the same contract as the components, so it can never drift. Start at <code>llms.txt</code> and follow it:</p>
+    <ul class="agent-feeds">
+      <li><b>Index feed</b> — <a href="${SITE}/llms.txt"><code>${SITE}/llms.txt</code></a> — one entry per component; the entry point.</li>
+      <li><b>Full docs</b> — <a href="${SITE}/llms-full.txt"><code>${SITE}/llms-full.txt</code></a> — every component concatenated.</li>
+      <li><b>Visual language</b> — <a href="${SITE}/design.md"><code>${SITE}/design.md</code></a> · <b>Token layer</b> — <a href="${SITE}/variables.css"><code>${SITE}/variables.css</code></a></li>
+      <li><b>Per component</b> — <code>${SITE}/&lt;slug&gt;.agent.json</code> — machine feed: props, tokens, spec, opinion, install, both snippets.</li>
+    </ul>
+  </section>`;
+}
+
+// Compact per-component install + feed pointer, shown on each component's doc page.
+function componentConsume(c) {
+  const entry = c.reuse && c.reuse.entry ? c.reuse.entry.replace(/^\.\//, '') : null;
+  const npmrc = `# .npmrc — once: point the ${SCOPE} scope at GitHub Packages
+${NPMRC}
+`;
+  const install = entry
+    ? `${npmrc}
+npm i ${PKGNAME}
+import '${PKGNAME}/tokens.css';   // once, at the app root
+import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.element || c.slug)}&gt;`
+    : `${npmrc}
+npm i ${PKGNAME}
+import '${PKGNAME}/tokens.css';   // once, at the app root
+// composite — consumes antd (React) / ant-design-vue (Vue); see the snippets below`;
+  return `
+  <h2>Install</h2>
+  <pre class="cg-code">${install}</pre>
+  <p class="gen install-note">Agent feed for this component (absolute, fetchable anywhere): <a href="${SITE}/${c.slug}.agent.json"><code>${c.slug}.agent.json</code></a> · <a href="${SITE}/${c.slug}/${c.slug}.md"><code>${c.slug}.md</code></a> · <a href="${SITE}/${c.slug}.llms.txt"><code>${c.slug}.llms.txt</code></a></p>`;
+}
+
 /* ===== overview / landing page ===== */
 function renderIndex(cs) {
   const cards = cs.map(c => `<a class="card" href="${c.slug}/index.html">
@@ -857,6 +964,8 @@ function renderIndex(cs) {
   <h1>Components</h1>
   <p class="subtitle">One token source + one contract per component &rarr; this site, the <code>llms.txt</code> feeds, <code>design.md</code>, and per-component <code>agent.json</code> — all generated together, so they can't drift.</p>
   <p class="gen">◆ generated by generate.mjs — ${cs.length} live of ${planned} planned components</p>
+
+  ${consumeBlock()}
 
   <h2 style="margin-top:30px">Live components</h2>
   <div class="cards">${cards}</div>
@@ -1007,11 +1116,11 @@ if (PATTERNS.length) {
 
 writeFileSync(join(OUT, 'variables.css'), '/* Generated from tokens.canonical.json — do not edit by hand. */\n' + tokenVars(TOK) + '\n');
 
-/* Importable token layer for real consumers: @ahaslides/design/tokens.css + /tokens */
+/* Importable token layer for real consumers: @ahaslides-product/design/tokens.css + /tokens */
 mkdirSync(join(root, 'lib'), { recursive: true });
-writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
+writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
 writeFileSync(join(root, 'lib', 'tokens.js'),
-  '// @ahaslides/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
+  '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
   'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\nexport default tokens;\n');
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
@@ -1025,7 +1134,26 @@ writeFileSync(join(OUT, 'icons.llms.txt'), renderIconsLlms());
 writeFileSync(join(OUT, 'icons.agent.json'), renderIconsAgentJson());
 console.log(`  ✓ icons: registry.js · aha-icon.js · icons/index.html (${ICONS.count} glyphs) · icons.llms.txt · icons.agent.json`);
 
-const indexLines = ['# AhaSlides Design System — components', '', '> feeds: design.md · variables.css · llms-full.txt', ''];
+const indexLines = [
+  '# AhaSlides Design System',
+  '',
+  `> The single source of truth for AhaSlides UI, generated from one contract per component.`,
+  `> Registry:  GitHub Packages (${REGISTRY}) — needs a GitHub token with read:packages.`,
+  `> Configure once in .npmrc:  ${SCOPE}:registry=${REGISTRY}`,
+  `> Install:  npm i ${PKGNAME}`,
+  `> Import the token layer once at the app root:  import '${PKGNAME}/tokens.css'`,
+  `> Then import a component by subpath, e.g.  import '${PKGNAME}/aha-button'`,
+  '>',
+  '> Feeds (absolute URLs, fetch directly):',
+  `>   ${SITE}/llms.txt          this index`,
+  `>   ${SITE}/llms-full.txt     every component, full docs`,
+  `>   ${SITE}/design.md         machine-readable visual language + tokens`,
+  `>   ${SITE}/variables.css     the --aha-* token layer`,
+  `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
+  '',
+  '## Components',
+  '',
+];
 const fullDocs = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
@@ -1033,7 +1161,9 @@ for (const c of contracts) {
   if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);
-  writeFileSync(join(d, `${c.slug}.agent.json`), renderAgent(c));
+  const agentJson = renderAgent(c);
+  writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
+  writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
   indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier} — ${c.summary}`);
   fullDocs.push(md);

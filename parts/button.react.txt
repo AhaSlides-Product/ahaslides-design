@@ -1,4 +1,4 @@
-import '@ahaslides/design/aha-button';   // registers <aha-button>
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
 import { useRef } from 'react';
 
 // React 19 can use <aha-button> directly; React 18 uses this thin wrapper so onClick + slots work.

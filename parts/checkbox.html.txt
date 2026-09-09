@@ -1,9 +1,10 @@
+<!-- ⚠ Hosting pending (Q3): these CDN URLs need the package on a PUBLIC CDN/npm. It currently publishes to GitHub Packages (authed), which jsDelivr/esm.sh do NOT serve — so paste-and-run works once DevOps publishes publicly (or swap in the branded CDN base). -->
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-checkbox> is the SAME shared custom element React and Vue consume.
      Initial state is declarative (`checked`); it emits a composed `change` event. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ahaslides/design/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/npm/@ahaslides/design/lib/aha-checkbox.js';   // registers <aha-checkbox>
+  import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-checkbox.js';   // registers <aha-checkbox>
 </script>
 
 <aha-checkbox id="anon" checked>Let participants join anonymously</aha-checkbox>

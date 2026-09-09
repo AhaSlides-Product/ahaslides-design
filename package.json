@@ -1,9 +1,13 @@
 {
-  "name": "@ahaslides/design",
+  "name": "@ahaslides-product/design",
   "version": "0.1.0",
-  "private": true,
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
+  "publishConfig": { "registry": "https://npm.pkg.github.com" },
+  "engines": { "node": ">=22" },
+  "repository": { "type": "git", "url": "git+https://github.com/AhaSlides-Product/ahaslides-design.git" },
+  "homepage": "https://ahaslides-product.github.io/ahaslides-design",
+  "bugs": { "url": "https://github.com/AhaSlides-Product/ahaslides-design/issues" },
   "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js", "./lib/aha-button.js"],
   "exports": {
     "./icons": "./lib/icons.js",

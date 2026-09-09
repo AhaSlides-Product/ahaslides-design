@@ -1,3 +1,4 @@
+<!-- ⚠ Hosting pending (Q3): these CDN URLs need the package on a PUBLIC CDN/npm. It currently publishes to GitHub Packages (authed), which jsDelivr/esm.sh do NOT serve — so paste-and-run works once DevOps publishes publicly (or swap in the branded CDN base). -->
 <!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
      Table is a COMPOSITE (antd, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
@@ -9,7 +10,7 @@
   import React from 'https://esm.sh/react@18';
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
   import { ConfigProvider, Table } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
-  import { tableTheme } from 'https://cdn.jsdelivr.net/npm/@ahaslides/design/lib/table-theme.js';
+  import { tableTheme } from 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/table-theme.js';
 
   const h = React.createElement;
 
