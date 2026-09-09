@@ -23,7 +23,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.15.0 — 2026-09-10
 ### Added
-- Accessibility gate: a **fourth check** — a silent toggle button. A `<button>` that toggles a selection class (`selected`/`active`/`pressed`/`on`) on state but exposes no `aria-pressed`/`aria-checked` reads as a plain button to a screen reader (the selection is invisible) — it now hard-fails. A button carrying a roving/selectable role (`radio`/`tab`/`menuitem`/`option`) is exempt (it syncs its own aria); per-line opt-out `ds-lint-allow: a11y (why)`. Caught the CSAT thumbs and colour-picker swatches, both now fixed. (#44)
+- Accessibility gate: a **fourth check** — a silent toggle button. A `<button>` that toggles a selection class (`selected`/`active`/`pressed`/`on`) on state but exposes no `aria-pressed`/`aria-checked` reads as a plain button to a screen reader (the selection is invisible) — it now hard-fails. A button carrying a roving/selectable role (`radio`/`tab`/`menuitem`/`option`) is exempt (it syncs its own aria); per-line opt-out `ds-lint-allow: a11y (why)`. Caught the CSAT thumbs and colour-picker swatches, both now fixed. (#45)
 
 ## 0.14.0 — 2026-09-10
 ### Added
