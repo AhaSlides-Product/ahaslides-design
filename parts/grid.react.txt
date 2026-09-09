@@ -1,11 +1,17 @@
 import '@ahaslides-product/design/aha-grid';   // registers <aha-grid>
 
 // A static layout primitive — the custom element renders identically in React, no wrapper needed.
-<aha-grid columns="3" gap="middle">
+// gutter [h,v] via `gap="middle small"`, plus justify/align of the tracks.
+<aha-grid columns="3" gap="middle small" align="center">
   {cards.map((c) => <Card key={c.id} {...c} />)}
 </aha-grid>
 
-// Responsive: the column count follows the container width (auto-fit), no media queries.
+// Fixed columns that collapse to fewer on narrow widths — `responsive`, no media queries.
+<aha-grid columns="4" responsive gap="middle">
+  {tiles.map((t) => <Tile key={t.id} {...t} />)}
+</aha-grid>
+
+// Responsive auto-fit: the column count follows the container width.
 <aha-grid min="220" gap="large">
   {items.map((i) => <Tile key={i.id} {...i} />)}
 </aha-grid>

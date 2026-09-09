@@ -12,13 +12,14 @@
   "spec": [
     { "label": "Display", "value": "flex" },
     { "label": "Gap scale", "value": "small 8 · middle 16 · large 24 (or a raw px number)" },
-    { "label": "Direction", "value": "row · row-reverse · column · column-reverse" },
+    { "label": "Direction", "value": "row · row-reverse · column · column-reverse (or `vertical` for column)" },
     { "label": "Align", "value": "start · center · end · baseline · stretch (align-items)" },
     { "label": "Justify", "value": "start · center · end · space-between/around/evenly" }
   ],
   "props": [
     { "name": "gap", "type": "small | middle | large | number", "default": "0", "desc": "Space between items — named DS step (8/16/24) or a raw pixel number" },
-    { "name": "direction", "type": "row | row-reverse | column | column-reverse", "default": "row", "desc": "Main-axis direction (flex-direction)" },
+    { "name": "vertical", "type": "boolean", "default": "false", "desc": "Stack in a column — AntD's boolean shorthand for direction=column (direction wins if both set)" },
+    { "name": "direction", "type": "row | row-reverse | column | column-reverse", "default": "row", "desc": "Main-axis direction (flex-direction) — the full matrix; overrides `vertical`" },
     { "name": "align", "type": "start | center | end | baseline | stretch", "default": "stretch", "desc": "Cross-axis alignment (align-items)" },
     { "name": "justify", "type": "start | center | end | space-between | space-around | space-evenly", "default": "start", "desc": "Main-axis distribution (justify-content)" },
     { "name": "wrap", "type": "boolean", "default": "false", "desc": "Allow items to wrap onto multiple lines" }
@@ -40,17 +41,48 @@
     { "key": "vue", "label": "Vue 3", "file": "flex.vue.txt" }
   ],
   "preview": "flex.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "direction", "label": "Direction", "default": "row", "options": [
+        { "label": "Row", "value": "row" },
+        { "label": "Row reverse", "value": "row-reverse" },
+        { "label": "Column", "value": "column" },
+        { "label": "Column reverse", "value": "column-reverse" }
+      ] },
+      { "prop": "justify", "label": "Justify", "default": "space-between", "options": [
+        { "label": "Start", "value": "start" },
+        { "label": "Center", "value": "center" },
+        { "label": "End", "value": "end" },
+        { "label": "Space between", "value": "space-between" },
+        { "label": "Space around", "value": "space-around" },
+        { "label": "Space evenly", "value": "space-evenly" }
+      ] },
+      { "prop": "align", "label": "Align", "default": "center", "options": [
+        { "label": "Start", "value": "start" },
+        { "label": "Center", "value": "center" },
+        { "label": "End", "value": "end" },
+        { "label": "Baseline", "value": "baseline" },
+        { "label": "Stretch", "value": "stretch" }
+      ] },
+      { "prop": "gap", "label": "Gap", "default": "middle", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Middle", "value": "middle" },
+        { "label": "Large", "value": "large" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "display flex", "verdict": "PASS" },
     { "label": "gap middle → 16px", "verdict": "PASS" },
     { "label": "direction / align / justify map to flexbox", "verdict": "PASS" },
+    { "label": "vertical shorthand → flex-direction column", "verdict": "PASS" },
     { "label": "wrap enables flex-wrap", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-flex[data-probe]') && document.querySelector('aha-flex[data-probe]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-flex[data-probe]');var s=el?getComputedStyle(el):null;return{display:s?s.display:null,gap:s?s.columnGap:null,direction:s?s.flexDirection:null,color:s?s.color:null};})()",
-    "expect": { "display": "flex", "gap": "16px", "direction": "row", "color": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-flex[data-probe]');var s=el?getComputedStyle(el):null;return{display:s?s.display:null,gap:s?s.columnGap:null,direction:s?s.flexDirection:null,justify:s?s.justifyContent:null,align:s?s.alignItems:null,color:s?s.color:null};})()",
+    "expect": { "display": "flex", "gap": "16px", "direction": "row", "justify": "space-between", "align": "center", "color": "rgb(26, 26, 26)" }
   }
 }

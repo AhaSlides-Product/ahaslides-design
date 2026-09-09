@@ -9,13 +9,18 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     <button>Cancel</button>
   </aha-flex>
 
-  <aha-flex direction="column" gap="large">
+  <!-- `vertical` is the column shorthand; `direction` unlocks row/column-reverse -->
+  <aha-flex vertical gap="large">
     <Card />
     <Card />
   </aha-flex>
 
-  <aha-flex justify="space-between">
+  <aha-flex justify="space-between" align="center">
     <strong>Title</strong>
     <a href="#">Action</a>
+  </aha-flex>
+
+  <aha-flex wrap gap="small">
+    <span v-for="t in tags" :key="t">{{ t }}</span>
   </aha-flex>
 </template>

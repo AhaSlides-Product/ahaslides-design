@@ -7,7 +7,11 @@ function Section() {
       <p>Section one</p>
       <aha-divider />
       <p>Section two</p>
-      <aha-divider>Details</aha-divider>
+      <aha-divider>Details</aha-divider>                {/* centred heading label */}
+      <p>Section three</p>
+      <aha-divider align="left" plain>optional note</aha-divider>  {/* left, quiet regular */}
+      <p>Section four</p>
+      <aha-divider dashed />                            {/* dashed rule */}
     </>
   );
 }

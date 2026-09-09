@@ -6,12 +6,17 @@ import '@ahaslides-product/design/aha-flex';   // registers <aha-flex>
   <Button variant="secondary">Cancel</Button>
 </aha-flex>
 
-<aha-flex direction="column" gap="large">
+{/* `vertical` is the column shorthand; `direction` unlocks row/column-reverse */}
+<aha-flex vertical gap="large">
   <Card />
   <Card />
 </aha-flex>
 
-<aha-flex justify="space-between">
+<aha-flex justify="space-between" align="center">
   <strong>Title</strong>
   <a href="#">Action</a>
+</aha-flex>
+
+<aha-flex wrap gap="small">
+  {tags.map((t) => <Tag key={t}>{t}</Tag>)}
 </aha-flex>

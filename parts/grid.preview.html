@@ -1,6 +1,6 @@
 <div class="pad">
-  <div class="lbl">Fixed · 3 columns · gap middle</div>
-  <aha-grid data-probe columns="3" gap="middle">
+  <div class="lbl">Grid · fixed columns · gutter [h,v] · justify / align · responsive collapse</div>
+  <aha-grid data-probe columns="3" gap="middle small">
     <div class="gcell">Poll</div>
     <div class="gcell">Quiz</div>
     <div class="gcell">Word cloud</div>
@@ -23,26 +23,9 @@
     padding:16px; text-align:center; font-weight:600; color:var(--aha-purple-80) }
 </style>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-grid (lib/aha-grid.js),
-     inlined here so the preview is self-contained (no build step, no network). -->
+<!-- Imports the REAL shipped element (../lib/aha-grid.js) — no inlined copy, so the preview can
+     never drift from lib/. The playground control bar (Columns / Gutter / Justify / Responsive) is
+     generated from contracts/grid.json → playground and drives this element's attributes live. -->
 <script type="module">
-const GAP = { small: '8px', middle: '16px', large: '24px' };
-const STYLE = `
-  :host{ display:grid; box-sizing:border-box; color:var(--aha-text-default,#1A1A1A) }
-`;
-class AhaGrid extends HTMLElement {
-  static get observedAttributes() { return ['columns', 'min', 'gap']; }
-  connectedCallback() { if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); this.shadowRoot.innerHTML = `<style>${STYLE}</style><slot></slot>`; } this._apply(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._apply(); }
-  _apply() {
-    const gap = this.getAttribute('gap');
-    this.style.gap = gap == null ? '' : (GAP[gap] || (/^\d+$/.test(gap) ? gap + 'px' : gap));
-    const min = this.getAttribute('min');
-    const cols = this.getAttribute('columns');
-    this.style.gridTemplateColumns = min
-      ? `repeat(auto-fit, minmax(${/^\d+$/.test(min) ? min + 'px' : min}, 1fr))`
-      : cols ? `repeat(${cols}, minmax(0, 1fr))` : '';
-  }
-}
-customElements.define('aha-grid', AhaGrid);
+  import '../lib/aha-grid.js';    // registers <aha-grid> — the shipped primitive, byte-identical to what consumers get
 </script>

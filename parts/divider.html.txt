@@ -9,8 +9,12 @@
 <p>Section one</p>
 <aha-divider></aha-divider>
 <p>Section two</p>
-<aha-divider>Details</aha-divider>
+<aha-divider>Details</aha-divider>                 <!-- centred heading label -->
 <p>Section three</p>
+<aha-divider align="left" plain>optional note</aha-divider>  <!-- left, quiet regular label -->
+<p>Section four</p>
+<aha-divider dashed></aha-divider>                  <!-- dashed rule -->
+<p>Section five</p>
 
 <div style="display:flex; align-items:center">
   <span>Edit</span>

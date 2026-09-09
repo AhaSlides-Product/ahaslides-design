@@ -13,14 +13,19 @@
   <button>More</button>
 </aha-flex>
 
-<!-- column direction, larger gap -->
-<aha-flex direction="column" gap="large" style="margin-top:24px">
+<!-- column: `vertical` is the shorthand; `direction` unlocks the full row/column-reverse matrix -->
+<aha-flex vertical gap="large" style="margin-top:24px">
   <div>Row one</div>
   <div>Row two</div>
 </aha-flex>
 
-<!-- push items apart -->
-<aha-flex justify="space-between" style="margin-top:24px">
+<!-- push items apart, cross-align centred -->
+<aha-flex justify="space-between" align="center" style="margin-top:24px">
   <strong>Title</strong>
   <a href="#">Action</a>
+</aha-flex>
+
+<!-- wrap onto multiple lines with a small gap -->
+<aha-flex wrap gap="small" style="margin-top:24px">
+  <span>Poll</span><span>Quiz</span><span>Word cloud</span><span>Q&amp;A</span><span>Brainstorm</span>
 </aha-flex>

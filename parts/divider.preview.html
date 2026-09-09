@@ -1,13 +1,15 @@
 <div class="pad">
-  <div class="lbl">Horizontal · plain · labelled · dashed</div>
+  <div class="lbl">Horizontal · plain rule · labelled (heading) · left · dashed</div>
   <div style="max-width:420px">
     <div>Section one</div>
-    <aha-divider data-probe></aha-divider>
+    <aha-divider data-probe>Details</aha-divider>
     <div>Section two</div>
-    <aha-divider>Details</aha-divider>
+    <aha-divider></aha-divider>
     <div>Section three</div>
-    <aha-divider dashed></aha-divider>
+    <aha-divider align="left" plain>optional note</aha-divider>
     <div>Section four</div>
+    <aha-divider dashed></aha-divider>
+    <div>Section five</div>
   </div>
   <div class="lbl">Vertical · inline hairlines</div>
   <div class="row" style="align-items:center">
@@ -19,35 +21,9 @@
   </div>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-divider (lib/aha-divider.js),
-     inlined here so the preview is self-contained (no build step, no network). -->
+<!-- Imports the REAL shipped element (../lib/aha-divider.js) — no inlined copy, so the preview can
+     never drift from lib/. The playground control bar (Orientation / Style / Text align) is generated
+     from contracts/divider.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:block; margin:16px 0; color:var(--aha-text-secondary,#4A4A4A);
-    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:13px; line-height:22px }
-  .divider{ display:flex; align-items:center; gap:12px }
-  .line{ flex:1 1 auto; border-top:1px solid var(--aha-border,#E3E3E3) }
-  :host([dashed]) .line{ border-top-style:dashed }
-  .label{ flex:0 0 auto; font-weight:600; color:var(--aha-text-secondary,#4A4A4A) }
-  :host([orientation="vertical"]){ display:inline-block; height:1em; margin:0 8px; vertical-align:middle }
-  :host([orientation="vertical"]) .divider{ height:100% }
-  :host([orientation="vertical"]) .line{ border-top:0; border-left:1px solid var(--aha-border,#E3E3E3); align-self:stretch }
-`;
-class AhaDivider extends HTMLElement {
-  static get observedAttributes() { return ['orientation', 'dashed', 'align']; }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
-  _render() {
-    const hasText = this.textContent.trim().length > 0 && this.getAttribute('orientation') !== 'vertical';
-    const align = this.getAttribute('align') || 'center';
-    const label = `<span class="label" part="label"><slot></slot></span>`;
-    const line = `<span class="line" part="line"></span>`;
-    const body = !hasText ? line
-      : align === 'left' ? `${label}${line}`
-      : align === 'right' ? `${line}${label}`
-      : `${line}${label}${line}`;
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="divider" part="divider">${body}</div>`;
-  }
-}
-customElements.define('aha-divider', AhaDivider);
+  import '../lib/aha-divider.js';   // registers <aha-divider> — the shipped primitive, byte-identical to consumers
 </script>

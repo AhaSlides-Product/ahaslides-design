@@ -4,9 +4,16 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <template>
-  <aha-space size="middle">
+  <aha-space size="middle" align="center">
     <button>Save</button>
     <button>Cancel</button>
+  </aha-space>
+
+  <!-- A thin divider between inline actions -->
+  <aha-space size="middle" split>
+    <a href="#">Edit</a>
+    <a href="#">Duplicate</a>
+    <a href="#">Delete</a>
   </aha-space>
 
   <!-- Vertical stack -->

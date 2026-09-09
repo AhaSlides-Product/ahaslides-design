@@ -6,12 +6,14 @@
   "badge": "shared Lit web component",
   "element": "aha-divider",
   "summary": "A thin rule that separates blocks of content — full-width, with a label, or a vertical hairline.",
-  "lead": "ONE custom element — <aha-divider> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; a bare tag is a full-width rule, slotted text becomes a centred (or left/right) label, and `orientation=\"vertical\"` is an inline hairline. Zero drift — the same element, not two look-alikes.",
+  "lead": "ONE custom element — <aha-divider> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; a bare tag is a full-width rule, slotted text becomes a centred (or left/right) label, `dashed` swaps to a dashed line, and `orientation=\"vertical\"` is an inline hairline. A label reads as a heading by default (bold, text-default) or, with `plain`, as a quiet regular note. A divider is a static marker with no interactive state, so it carries no motion. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "text-secondary"],
+  "tokensUsed": ["border", "split", "text-default", "text-secondary"],
   "spec": [
     { "label": "Rule", "value": "1px solid, border #E3E3E3" },
-    { "label": "Label", "value": "Plus Jakarta SemiBold 600, 13/22, text-secondary #4A4A4A" },
+    { "label": "Label (heading)", "value": "Plus Jakarta SemiBold 600, 13/22, text-default #1A1A1A" },
+    { "label": "Label (plain)", "value": "`plain` → Regular 400, text-secondary #4A4A4A" },
+    { "label": "Align", "value": "label center (default) · left · right; the short leg becomes a 24px stub" },
     { "label": "Gap", "value": "12 between rule and label" },
     { "label": "Vertical", "value": "1px left hairline, 1em tall, 0 8 margin" },
     { "label": "Dashed", "value": "`dashed` swaps the rule to a dashed border" }
@@ -19,7 +21,8 @@
   "props": [
     { "name": "orientation", "type": "horizontal | vertical", "default": "horizontal", "desc": "Horizontal rule or an inline vertical hairline" },
     { "name": "align", "type": "left | center | right", "default": "center", "desc": "Where the slotted label sits along a horizontal rule" },
-    { "name": "dashed", "type": "boolean", "default": "false", "desc": "Render the rule as a dashed line" }
+    { "name": "dashed", "type": "boolean", "default": "false", "desc": "Render the rule as a dashed line" },
+    { "name": "plain", "type": "boolean", "default": "false", "desc": "Drop the label from heading emphasis (bold, text-default) to a quiet regular note (400, text-secondary)" }
   ],
   "opinion": {
     "whenToUse": [
@@ -28,7 +31,7 @@
       { "what": "whitespace", "when": "the separation reads clearly without any rule — prefer less chrome" }
     ],
     "note": "A divider is quiet structure — keep it 1px and on the border token. Use a label only when the section genuinely needs naming; reach for whitespace before adding a rule.",
-    "dsv3": "COVERED — DS V3 has no measured Divider cell; spec derived from the token layer (border #E3E3E3 rule, text-secondary label, SemiBold 13/22 type) + AntD Divider conventions (centred label, vertical hairline). A deliberate, documented extension bound entirely to canonical tokens."
+    "dsv3": "COVERED — matched to the DS V3 Divider component-set (fileKey MwjvUjVI0HnfwD9EwPXRAy) whose token layer defines divider/colorSplit (between container → --aha-border #E3E3E3) and divider/colorSplitSecondary (inside container → --aha-split #F1F1F1). The matrix: orientation horizontal/vertical, variant solid/dashed, and a slotted label with align left/center/right in heading (bold, text-default) or plain (regular, text-secondary) emphasis — the AntD Divider conventions the DS builds on. Bound entirely to canonical tokens; no measured px/hex literals."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-divider", "registers": "aha-divider", "exportsNamed": ["AhaDivider", "defineAhaDivider"] },
@@ -38,9 +41,31 @@
     { "key": "vue", "label": "Vue 3", "file": "divider.vue.txt" }
   ],
   "preview": "divider.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "orientation", "label": "Orientation", "default": "horizontal", "options": [
+        { "label": "Horizontal", "value": "__remove__" },
+        { "label": "Vertical", "value": "vertical" }
+      ] },
+      { "prop": "dashed", "label": "Style", "default": "solid", "options": [
+        { "label": "Solid", "value": "__remove__" },
+        { "label": "Dashed", "value": "" }
+      ] },
+      { "prop": "align", "label": "Text align", "default": "center", "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Center", "value": "__remove__" },
+        { "label": "Right", "value": "right" }
+      ] },
+      { "prop": "plain", "label": "Emphasis", "default": "heading", "options": [
+        { "label": "Heading", "value": "__remove__" },
+        { "label": "Plain", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "1px rule on border #E3E3E3", "verdict": "PASS" },
-    { "label": "label SemiBold 600 13/22 text-secondary", "verdict": "PASS" },
+    { "label": "label heading SemiBold 600 text-default; plain → 400 text-secondary", "verdict": "PASS" },
+    { "label": "align left/center/right (short leg → 24px stub)", "verdict": "PASS" },
     { "label": "vertical hairline, left border", "verdict": "PASS" },
     { "label": "dashed variant", "verdict": "PASS" }
   ],
@@ -48,7 +73,7 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-divider[data-probe]') && document.querySelector('aha-divider[data-probe]').shadowRoot && document.querySelector('aha-divider[data-probe]').shadowRoot.querySelector('.line'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-divider[data-probe]');var l=el&&el.shadowRoot&&el.shadowRoot.querySelector('.line');var s=l?getComputedStyle(l):null;return{color:s?s.borderTopColor:null,width:s?s.borderTopWidth:null,style:s?s.borderTopStyle:null,radius:s?s.borderTopLeftRadius:null};})()",
-    "expect": { "color": "rgb(227, 227, 227)", "width": "1px", "style": "solid", "radius": "0px" }
+    "measure": "(function(){var el=document.querySelector('aha-divider[data-probe]');var r=el&&el.shadowRoot;var l=r&&r.querySelector('.line');var s=l?getComputedStyle(l):null;var lab=r&&r.querySelector('.label');var ls=lab?getComputedStyle(lab):null;return{color:s?s.borderTopColor:null,width:s?s.borderTopWidth:null,style:s?s.borderTopStyle:null,radius:s?s.borderTopLeftRadius:null,labelColor:ls?ls.color:null,labelWeight:ls?ls.fontWeight:null};})()",
+    "expect": { "color": "rgb(227, 227, 227)", "width": "1px", "style": "solid", "radius": "0px", "labelColor": "rgb(26, 26, 26)", "labelWeight": "600" }
   }
 }

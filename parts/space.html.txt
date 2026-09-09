@@ -6,11 +6,23 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-space.js';   // registers <aha-space>
 </script>
 
-<!-- even gap between inline actions; size on the DS scale -->
-<aha-space size="middle">
+<!-- even gap between inline actions; size on the DS scale, cross-axis centred -->
+<aha-space size="middle" align="center">
   <button>Save</button>
   <button>Cancel</button>
   <button>More</button>
+</aha-space>
+
+<!-- a thin --aha-split rule between items -->
+<aha-space size="middle" split style="margin-top:24px">
+  <a href="#">Edit</a>
+  <a href="#">Duplicate</a>
+  <a href="#">Delete</a>
+</aha-space>
+
+<!-- a row that wraps onto multiple lines when it runs out of width -->
+<aha-space size="small" wrap style="max-width:220px; margin-top:24px">
+  <span>alpha</span><span>beta</span><span>gamma</span><span>delta</span><span>epsilon</span>
 </aha-space>
 
 <!-- vertical stack -->

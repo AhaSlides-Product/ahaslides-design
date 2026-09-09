@@ -4,8 +4,14 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <template>
-  <aha-grid columns="3" gap="middle">
+  <!-- gutter [h,v] via gap="middle small", plus justify/align of the tracks -->
+  <aha-grid columns="3" gap="middle small" align="center">
     <Card v-for="c in cards" :key="c.id" v-bind="c" />
+  </aha-grid>
+
+  <!-- Fixed columns that collapse to fewer on narrow widths — responsive, no media queries -->
+  <aha-grid columns="4" responsive gap="middle">
+    <Tile v-for="t in tiles" :key="t.id" v-bind="t" />
   </aha-grid>
 
   <!-- Responsive auto-fit: the column count follows the container width -->
