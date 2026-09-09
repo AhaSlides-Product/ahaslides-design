@@ -1,19 +1,31 @@
-// React consumes the shared <aha-button> web component.
-// React 19 handles custom elements natively; React < 19 needs a thin ref wrapper
-// (props → attributes) — shipped from @ahaslides/design/react.
-import '@ahaslides/design';                 // defines <aha-button> once
-import { AhaButton } from '@ahaslides/design/react';
+import '@ahaslides/design/aha-button';   // registers <aha-button>
+import { useRef } from 'react';
+
+// React 19 can use <aha-button> directly; React 18 uses this thin wrapper so onClick + slots work.
+function AhaButton({ variant = 'secondary', size = 'md', disabled, loading, iconOnly, icon, children, ...rest }) {
+  const ref = useRef();
+  return (
+    <aha-button
+      ref={ref}
+      variant={variant}
+      size={size}
+      {...(disabled ? { disabled: true } : {})}
+      {...(loading ? { loading: true } : {})}
+      {...(iconOnly ? { 'icon-only': true } : {})}
+      {...rest}
+    >
+      {icon ? <span slot="icon">{icon}</span> : null}
+      {children}
+    </aha-button>
+  );
+}
 
 export function SaveBar({ onSave, saving }) {
   return (
     <div style={{ display: 'flex', gap: 8 }}>
       <AhaButton variant="secondary">Cancel</AhaButton>
-      <AhaButton variant="primary" loading={saving} onClick={onSave}>
-        <span slot="icon">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-            <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-        </span>
+      <AhaButton variant="primary" loading={saving} onClick={onSave}
+        icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>}>
         Save changes
       </AhaButton>
     </div>

@@ -5,6 +5,7 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-button",
+  "reuse": { "entry": "./aha-button", "registers": "aha-button", "exportsNamed": ["AhaButton", "defineAhaButton"] },
   "summary": "Trigger an action or navigation — the primary interactive control.",
   "lead": "ONE custom element — <aha-button> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so every button reads identically across apps and even outside one. Variants and sizes are attributes; there is one rendered UI, not a per-framework look-alike.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue consumes the custom element natively. The primitive is defined once in @ahaslides/design.",

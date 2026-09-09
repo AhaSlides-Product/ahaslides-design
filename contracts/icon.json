@@ -30,6 +30,7 @@
     "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). If a glyph is genuinely missing, add the SVG under icons/svg and re-run build-icons.mjs."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./icons", "registers": "aha-icon", "exportsNamed": ["icons", "ICON_NAMES", "defineAhaIcon", "AhaIcon"] },
   "snippets": [
     { "key": "react", "label": "React", "file": "icon.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "icon.vue.txt" }

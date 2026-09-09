@@ -1,0 +1,40 @@
+name: publish
+
+# Publishes @ahaslides/design to the public npm registry when a version tag is pushed.
+#   git tag v0.1.0 && git push origin v0.1.0
+# The tag SHOULD match "version" in package.json (npm publish uses package.json's version).
+#
+# One-time setup by a maintainer:
+#   1. Create an npm automation token for the @ahaslides org (npmjs.com → Access Tokens).
+#   2. Add it as the repo secret NPM_TOKEN (Settings → Secrets and variables → Actions).
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - run: npm install --no-audit --no-fund
+
+      # Pre-publish gate (deterministic, no browser): the contract must generate AND
+      # every component must pass the reusability/import standard before anything ships.
+      - name: Build + standards gate
+        run: node build-icons.mjs && node generate.mjs && node standards.mjs
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

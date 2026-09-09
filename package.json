@@ -1,14 +1,19 @@
 {
   "name": "@ahaslides/design",
   "version": "0.1.0",
-  "private": true,
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
-  "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js"],
+  "publishConfig": { "access": "public" },
+  "engines": { "node": ">=22" },
+  "repository": { "type": "git", "url": "git+https://github.com/AhaSlides-Product/ahaslides-design.git" },
+  "homepage": "https://ahaslides-product.github.io/ahaslides-design",
+  "bugs": { "url": "https://github.com/AhaSlides-Product/ahaslides-design/issues" },
+  "sideEffects": ["./lib/icons.js", "./lib/aha-checkbox.js", "./lib/aha-button.js"],
   "exports": {
     "./icons": "./lib/icons.js",
     "./icons-registry": "./lib/icons-registry.js",
     "./aha-checkbox": "./lib/aha-checkbox.js",
+    "./aha-button": "./lib/aha-button.js",
     "./table-theme": "./lib/table-theme.js",
     "./tokens": "./lib/tokens.js",
     "./tokens.css": "./lib/tokens.css",
@@ -18,10 +23,10 @@
   "scripts": {
     "icons": "node build-icons.mjs",
     "generate": "node build-icons.mjs && node generate.mjs",
+    "standards": "node standards.mjs",
     "qa": "node qa.mjs",
-    "test:import": "node test-import.mjs",
     "build": "node build-icons.mjs && node generate.mjs",
-    "check": "node build-icons.mjs && node generate.mjs && node test-import.mjs && node qa.mjs"
+    "check": "node build-icons.mjs && node generate.mjs && node standards.mjs && node qa.mjs"
   },
   "license": "UNLICENSED"
 }
