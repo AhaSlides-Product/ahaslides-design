@@ -27,7 +27,12 @@ const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
 const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)) : '');
-const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const esc = (s) => String(s ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
 
 const PKG = JSON.parse(read(join(root, 'package.json')));
 const PKGNAME = PKG.name;   // @ahaslides-product/design — the package to install
