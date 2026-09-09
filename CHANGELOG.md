@@ -33,6 +33,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Slider** (composite) — drag-to-set value/range with marks. Brand track + handle, gray-30 rail. Themed by the shared `sliderTheme` (`@ahaslides-product/design/slider-theme`). (#38)
 - **Steps** (composite) — ordered-progress indicator for wizards/onboarding, horizontal or vertical. Brand current/finished step. Themed by the shared `stepsTheme` (`@ahaslides-product/design/steps-theme`). (#38)
 
+## 0.9.1 — 2026-09-10
+### Fixed
+- In-app navigation now renders live demos without a reload. A demo page registers its `<aha-*>` element from a `<script type="module">` that lives inside `<main>`, and a script moved into the page via `DOMParser`/`replaceWith` never executes — so after a swap the destination element was never defined and its demos stayed blank until a full reload (the `0.8.1` regression). The swap now re-creates and runs the swapped-in `<main>`'s scripts (after `pushState`, so relative `import`s resolve), with a one-time idempotent shim on `customElements.define` so re-registering an already-defined element on revisit is a safe no-op instead of an "already defined" throw. (#43)
+
 ## 0.9.0 — 2026-09-10
 ### Added
 - **Divider** — a thin separator: a full-width rule, an optional centred/left/right label, or a vertical hairline; `dashed` variant. Shared Lit leaf, bound to the `border`/`text-secondary` tokens. (PRO38-8)

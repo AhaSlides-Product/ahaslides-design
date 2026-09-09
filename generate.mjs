@@ -415,6 +415,25 @@ const PJAX_JS = `
   if(!window.fetch||!window.history||!window.history.pushState||!window.DOMParser) return;
   if(!document.querySelector('.doc-body')||!document.querySelector('.doc-main')) return;
 
+  // A demo page registers its <aha-*> element from a <script type="module"> that lives INSIDE
+  // <main>. A script injected via DOMParser/replaceWith never runs, so after a swap we must
+  // re-create it to execute (runScripts). Make define() idempotent first, so re-running a page's
+  // (unguarded) customElements.define on revisit is a safe no-op, not an "already defined" throw.
+  if(window.customElements && !customElements.__ahaGuard){
+    customElements.__ahaGuard=true;
+    var _def=customElements.define.bind(customElements);
+    customElements.define=function(n,c,o){ if(!customElements.get(n)){ try{ _def(n,c,o); }catch(e){} } };
+  }
+  function runScripts(root){
+    if(!root) return;
+    root.querySelectorAll('script').forEach(function(old){
+      var s=document.createElement('script');                       // a re-created node executes
+      for(var i=0;i<old.attributes.length;i++) s.setAttribute(old.attributes[i].name, old.attributes[i].value);
+      s.textContent=old.textContent;
+      old.replaceWith(s);
+    });
+  }
+
   var bar=document.createElement('div'); bar.className='pjax-bar'; document.body.appendChild(bar);
   var barT;
   function startBar(){ clearTimeout(barT); bar.classList.add('on'); bar.style.transform='scaleX(0)'; requestAnimationFrame(function(){ bar.style.transform='scaleX(0.75)'; }); }
@@ -465,8 +484,9 @@ const PJAX_JS = `
 
     var main=document.querySelector('.doc-main');
     if(main) main.classList.add('pjax-in');
+    if(push) history.pushState({pjax:1}, '', url);   // set the URL first so relative module imports resolve
+    runScripts(main);                                 // execute the page's <script type="module"> (defines <aha-*>)
     ahaBindWidgets(main); ahaBindFeeds(main);
-    if(push) history.pushState({pjax:1}, '', url);
     var hash=url.indexOf('#')>=0 ? url.slice(url.indexOf('#')+1) : '';
     var t=hash && document.getElementById(hash);
     if(t) t.scrollIntoView(); else window.scrollTo(0,0);
