@@ -30,6 +30,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-statistic` — a single headline number with a caption, optional prefix/suffix, and an up/down trend colour. Static display marker. (#38)
 - `aha-empty` — the placeholder for a surface with no data: a line-art illustration, a caption slot, and an optional action slot. Shared Lit web component. (#38)
 - `aha-image` — a framed image with rounded corners and a hover mask that scales the picture and fades in a preview label, both on the shared motion tokens. Shared Lit web component. (#38)
+### Fixed
+- `aha-image` — the hover mask now keeps its promise: clicking (or Enter/Space on) the frame opens a real modal preview dialog (role=dialog, aria-modal, focus moved in and restored on close), dismissed by Escape, a close button, or a backdrop click. The overlay is a persistent node faded/scaled in on the shared motion tokens. (#39)
+- `aha-collapse` — `open` is now an observed attribute, so setting it as a controlled prop keeps the header's `aria-expanded` in sync with the visuals — a screen reader no longer hears a frozen state. (#39)
 
 ## 0.7.0 — 2026-09-09
 ### Added

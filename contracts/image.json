@@ -7,12 +7,13 @@
   "element": "aha-image",
   "summary": "A framed image with rounded corners and a hover preview mask.",
   "lead": "ONE custom element — <aha-image> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `src`/`alt` set the picture, `width`/`height` the frame, and on hover the image scales while a mask fades in — both animate on a persistent node via the shared motion tokens. Zero drift — the same element.",
-  "codeNote": "The hover scale + mask fade live on a persistent node (only the :hover pseudo-class changes, never a subtree rebuild), so the transition always fires. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container-secondary", "radius-default", "text-inverse", "bg-overlay", "font-product"],
+  "codeNote": "The hover scale + mask fade live on a persistent node (only the :hover pseudo-class changes, never a subtree rebuild), so the transition always fires. Clicking (or Enter/Space on) the frame opens a modal preview overlay — a persistent node faded/scaled in on the shared tokens, never rebuilt on open. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container-secondary", "radius-default", "radius-lg", "text-inverse", "bg-overlay", "bg-container", "icon-strong", "font-product"],
   "spec": [
-    { "label": "Frame", "value": "radius 8px · bg #F7F7F7 · overflow hidden" },
+    { "label": "Frame", "value": "radius 8px · bg #F7F7F7 · overflow hidden · role=button, keyboard-focusable" },
     { "label": "Image", "value": "object-fit cover · scale 1.06 on hover, motion-slow ease-out" },
     { "label": "Mask", "value": "overlay rgba(26,26,46,.7) · #FFFFFF 13/SemiBold · fade motion-mid" },
+    { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button / backdrop dismiss; focus moves in and is restored on close" },
     { "label": "Sizing", "value": "width/height attributes drive the frame" }
   ],
   "props": [
@@ -43,7 +44,8 @@
     { "label": "frame radius 8 · bg #F7F7F7", "verdict": "PASS" },
     { "label": "image scales on hover via motion tokens (persistent node)", "verdict": "PASS" },
     { "label": "mask overlay rgba(26,26,46,.7) fades in", "verdict": "PASS" },
-    { "label": "mask label #FFFFFF 13/SemiBold", "verdict": "PASS" }
+    { "label": "mask label #FFFFFF 13/SemiBold", "verdict": "PASS" },
+    { "label": "click/Enter opens a modal preview (role=dialog, aria-modal); Esc/close/backdrop dismiss; focus restored", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",

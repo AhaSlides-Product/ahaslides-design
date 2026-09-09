@@ -30,6 +30,7 @@ const STYLE = `
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
 `;
 class AhaCollapse extends HTMLElement {
+  static get observedAttributes() { return ['open']; }
   connectedCallback() {
     if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `<style>${STYLE}</style>
@@ -39,13 +40,15 @@ class AhaCollapse extends HTMLElement {
         </button>
         <div class="body" part="body"><div class="clip"><div class="inner"><slot></slot></div></div></div>
       </div>`;
-    const head = this.shadowRoot.querySelector('.head');
-    head.addEventListener('click', () => {
+    this._head = this.shadowRoot.querySelector('.head');
+    this._syncOpen();
+    this._head.addEventListener('click', () => {
       const open = this.toggleAttribute('open');
-      head.setAttribute('aria-expanded', String(open));
       this.dispatchEvent(new CustomEvent('toggle', { bubbles: true, composed: true, detail: { open } }));
     });
   }
+  attributeChangedCallback(name) { if (name === 'open') this._syncOpen(); }
+  _syncOpen() { if (this._head) this._head.setAttribute('aria-expanded', String(this.hasAttribute('open'))); }
 }
 customElements.define('aha-collapse', AhaCollapse);
 </script>

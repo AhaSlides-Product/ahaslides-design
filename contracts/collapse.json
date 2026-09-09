@@ -7,7 +7,7 @@
   "element": "aha-collapse",
   "summary": "A single expandable panel that hides secondary content until asked.",
   "lead": "ONE custom element — <aha-collapse> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the `open` attribute IS the state, and clicking the header toggles it while CSS animates the body height + chevron on a persistent node — the transition always fires. slot=\"header\" is the summary, the default slot the body. Emits a composed `toggle` event.",
-  "codeNote": "The open/close animation lives on a persistent node (the header toggles the `open` attribute; :host([open]) drives the CSS), so it never dies to a subtree rebuild — the Switch-click trap. Defined once in @ahaslides-product/design.",
+  "codeNote": "The open/close animation lives on a persistent node (the header toggles the `open` attribute; :host([open]) drives the CSS), so it never dies to a subtree rebuild — the Switch-click trap. `open` is observed, so setting it as a controlled prop keeps both the visuals AND the header's aria-expanded in sync for a screen reader. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "border", "split", "radius-default", "text-default", "text-secondary", "bg-hover", "icon-default", "font-product"],
   "spec": [
     { "label": "Panel", "value": "border 1px #E3E3E3 · radius 8px · bg #FFFFFF" },
@@ -41,7 +41,8 @@
     { "label": "panel radius 8 · border #E3E3E3", "verdict": "PASS" },
     { "label": "chevron rotates via motion tokens (persistent node)", "verdict": "PASS" },
     { "label": "body height animates grid-rows 0fr→1fr", "verdict": "PASS" },
-    { "label": "header 15/22 SemiBold #1A1A1A", "verdict": "PASS" }
+    { "label": "header 15/22 SemiBold #1A1A1A", "verdict": "PASS" },
+    { "label": "controlled `open` prop keeps aria-expanded in sync (observedAttributes)", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
