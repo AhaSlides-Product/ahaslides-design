@@ -45,6 +45,17 @@ Every component ships a paste-and-run **`<slug>.html.txt` listed FIRST in `snipp
 ### 4. Conformance
 Add a `conformance` block (`ready`, `measure`, `expect`) that measures the real rendered UI. Leaf → measured on the doc page; composite → add a `conformancePart` + `_conformance.html` harness (see `table`).
 
+The render gate is only as strong as this block, so `standards.mjs` now enforces that it **actually pins the look**, not just that it exists:
+- **Coverage** — `expect` must measure **≥4 properties** (leaf) / **≥6** (composite), including **≥1 colour** and **≥1 dimension (px)**. A one-line block that passes `qa` trivially is rejected.
+- **On the scale / on the palette** — every measured radius must be on **4 / 6 / 8 / 12 / 16**, and every measured colour must be a **canonical token value** (no off-palette hex). Off-standard values fail here, before `qa` ever runs.
+- **Real tokens** — every DS-style entry in `tokensUsed` (kebab, e.g. `btn-primary-bg`) must resolve to a real `--aha-*` custom property. (AntD theme-token names like `colorPrimary` are the AntD layer's vocabulary and aren't resolved here.)
+
+### 4b. The visual standard on your `lib/` source (enforced)
+The house non-negotiables aren't just skill guidance any more — `standards.mjs` scans the module your `reuse.entry` points at, classified by tier:
+- **Leaf element** — colour must **bind to a `--aha-*` token**: no bare hex outside a `var(--aha-…, fallback)`, and any literal `border-radius` must be on the scale. A genuinely decorative exception (a sub-pixel tick radius, a white checkmark stroke) uses an auditable, greppable escape hatch on that line: `ds-lint-allow: hex,radius (why)`.
+- **Composite theme** — literals are expected (you're mapping the DS into a vendor theme), but **every hex must stay on-palette**, so the theme can't drift off the system.
+- **Token/registry definition layers** (`tokens.*`, the icon registry) are the value *source* — not scanned.
+
 ## Contributing a pattern (composition guide)
 
 A **pattern** is the other artifact type. It ships **no new primitive** — it documents how to *compose existing components* for a use case (settings, paywall, overlays), distils the enforceable essence of an `aha-design` skill, and links back to that skill for the "why". The narrative stays single-sourced in the skill; the repo carries only what it can enforce. `standards.mjs` gates patterns too — copy `patterns/settings.json` as the template.

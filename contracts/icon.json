@@ -7,7 +7,7 @@
   "element": "aha-icon",
   "summary": "One glyph set, called by name — 259 icons imported from Figma, rendered by the shared <aha-icon>, never inline SVG.",
   "lead": "ONE shared element — <aha-icon name=\"system-bell\"> — renders every glyph from a single registry built from Figma Design System V3 (259 icons across system / slide-type / file-type). Agents call a name; they never hand-author or paste an <svg>. Colour follows currentColor, size is 12/16/24/32, and filled/active states are dedicated -filled assets. Browse every name in the Icon library.",
-  "tokensUsed": ["fontSizeIcon", "iconDefault", "colorPrimary", "colorSuccess", "colorError"],
+  "tokensUsed": ["color-error"],
   "spec": [
     { "label": "Set", "value": "259 glyphs · system · slide-type · file-type" },
     { "label": "Source", "value": "Figma Design System V3 · node 50699-7126" },

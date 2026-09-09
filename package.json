@@ -21,6 +21,7 @@
   },
   "files": ["lib/", "icons/svg/", "icons/registry.json"],
   "scripts": {
+    "new:component": "node scaffold.mjs",
     "icons": "node build-icons.mjs",
     "generate": "node build-icons.mjs && node generate.mjs",
     "standards": "node standards.mjs",
