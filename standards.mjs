@@ -116,7 +116,9 @@ const MOTION_DEBT = {
 // blind spot. Kinds: 'role' (a roving-widget role — radio/tab/menu/option/… — with no arrow-key
 // navigation), 'leak' (a document/window listener added with no matching remove — leaks on every
 // mount), 'observed' (sets an aria-* STATE attribute imperatively but declares no observedAttributes,
-// so an external/framework-driven attribute change silently desyncs the aria — the collapse case).
+// so an external/framework-driven attribute change silently desyncs the aria — the collapse case), and
+// 'toggle' (a <button> toggles a selection class on state but never syncs aria-pressed/aria-checked,
+// so a screen reader hears a plain button, not a selected one — the csat / color-picker swatch case).
 //
 // HARD FAIL by default — a NEW component can't ship any of them. A11Y_DEBT is the same escape hatch as
 // MOTION_DEBT: a tiny, greppable allow-list of (element tag → kinds) grandfathered as WARN for debt
@@ -311,7 +313,7 @@ for (const ct of contracts) {
   const code = raw.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).split('\n').map(l => l.replace(/\/\/.*$/, ''));
   const hits = [];
   const motionFindings = [];   // [kind, msg] tuples — hard fail unless the component grandfathers that kind (MOTION_DEBT)
-  const a11yFindings = [];      // [kind, msg] tuples — hard fail unless grandfathered (A11Y_DEBT); kinds: role | leak | observed
+  const a11yFindings = [];      // [kind, msg] tuples — hard fail unless grandfathered (A11Y_DEBT); kinds: role | leak | observed | toggle
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
@@ -406,6 +408,17 @@ for (const ct of contracts) {
       const setsAriaState = /setAttribute\(\s*['"]aria-(expanded|checked|selected|pressed|current|valuenow)['"]/i.test(body);
       if (setsAriaState && !/observedAttributes/.test(body))
         a11yFindings.push(['observed', `sets an aria-* state attribute imperatively but declares no observedAttributes — an external/framework-driven attribute change flips the :host([state]) visuals while aria-* stays frozen (screen reader reads the wrong state). Add observedAttributes + an attributeChangedCallback that re-syncs the aria (the collapse controlled-open case).`]);
+      // (toggle) a <button> that toggles a SELECTION class on state (selected/active/pressed/on) but
+      //   exposes no aria-pressed/aria-checked/aria-selected is a silent toggle: the visual .selected
+      //   flips while a screen reader hears an ordinary button with no state. (A button carrying a
+      //   roving/selectable role — radio/tab/menuitem/option — syncs its own aria and is exempt.)
+      //   Sync aria-pressed to the state (the csat / color-picker swatch case).
+      const togglesSelection = /classList\.toggle\(\s*['"](selected|active|pressed|checked|on)['"]/.test(body);
+      const rendersButton = /<button\b/.test(body) || /part\s*=\s*["']button["']/.test(body);
+      const hasAriaState = /aria-(pressed|checked|selected)\b/.test(body);
+      const hasSelectableRole = /role\s*=\s*["'](radio|tab|menuitem|menuitemradio|menuitemcheckbox|option|switch|checkbox)["']/i.test(body);
+      if (togglesSelection && rendersButton && !hasAriaState && !hasSelectableRole)
+        a11yFindings.push(['toggle', `a <button> toggles a selection class on state but exposes no aria-pressed/aria-checked — a screen reader hears a plain button, not a selected one. Sync aria-pressed (or aria-checked) to the state in the same place you toggle the class (the csat / color-picker swatch case).`]);
     }
   }
   // HARD FAIL by default — a NEW component can't ship any motion defect. Only the exact (component, kind) pairs
