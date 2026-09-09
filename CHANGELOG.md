@@ -21,7 +21,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.11.0 — 2026-09-09
+## 0.12.0 — 2026-09-10
 ### Added
 - `aha-card` — a bordered surface that groups related content behind a title, with an optional `hoverable` lift that animates on the shared motion tokens. Shared Lit web component, consumed unchanged by React and Vue. (#38)
 - `aha-list` — a bordered, evenly-divided column of uniform rows; each light-DOM child becomes a row and rows highlight on hover. Shared Lit web component. (#38)
@@ -33,6 +33,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `aha-image` — the hover mask now keeps its promise: clicking (or Enter/Space on) the frame opens a real modal preview dialog (role=dialog, aria-modal, focus moved in and restored on close), dismissed by Escape, a close button, or a backdrop click. The overlay is a persistent node faded/scaled in on the shared motion tokens. (#39)
 - `aha-collapse` — `open` is now an observed attribute, so setting it as a controlled prop keeps the header's `aria-expanded` in sync with the visuals — a screen reader no longer hears a frozen state. (#39)
+
+## 0.8.0 — 2026-09-10
+### Added
+- Accessibility is now gated. `qa.mjs` proves a component renders + animates but nothing about its a11y, so interactive components could ship gate-green yet be unusable by keyboard/screen-reader (PRO38-8 review). `standards.mjs` now scans element source and **hard-fails a new component** on: a **roving-widget role** (`radio`/`tab`/`menuitem`/`option`/…) declared with no arrow-key navigation; a **`document`/`window` listener** added on connect with no matching `removeEventListener` on disconnect (a mount/unmount leak); and a dynamic **`aria-*` state** set imperatively without `observedAttributes` (so an external attribute change desyncs the announced state — the controlled-`collapse` case). It also flags a **static imperative overlay** in a snippet (`message.success()`/`notification.open()`/`Modal.confirm()`) that renders outside `ConfigProvider` un-themed — use the `useMessage`/`useNotification`/`useModal` hook. Per-line opt-out `ds-lint-allow: a11y (why)`; `A11Y_DEBT` grandfathers pre-gate debt (empty today — the gate is fully hard). (#41)
 
 ## 0.7.1 — 2026-09-09
 ### Fixed
