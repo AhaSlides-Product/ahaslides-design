@@ -1,0 +1,20 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-radio> is the SAME shared custom element React and Vue consume.
+     Radios sharing a `name` are mutually exclusive; it emits a composed `change` event. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-radio.js';   // registers <aha-radio>
+</script>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+  <aha-radio name="mode" value="poll" checked>Poll</aha-radio>
+  <aha-radio name="mode" value="quiz">Quiz</aha-radio>
+  <aha-radio name="mode" value="wordcloud">Word cloud</aha-radio>
+</div>
+
+<script>
+  // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
+  document.querySelectorAll('aha-radio[name="mode"]').forEach((r) => {
+    r.addEventListener('change', (e) => console.log('mode:', e.detail.value));
+  });
+</script>

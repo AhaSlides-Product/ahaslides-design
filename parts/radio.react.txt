@@ -1,0 +1,22 @@
+import '@ahaslides-product/design/aha-radio';   // registers <aha-radio>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-radio> directly.
+function AhaRadio({ checked, value, name, disabled, onChange, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.checked = !!checked;
+    el.disabled = !!disabled;
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return <aha-radio ref={ref} name={name} value={value}>{children}</aha-radio>;
+}
+
+// usage — one `name` makes the set mutually exclusive
+<>
+  <AhaRadio name="mode" value="poll" checked={mode === 'poll'} onChange={setMode}>Poll</AhaRadio>
+  <AhaRadio name="mode" value="quiz" checked={mode === 'quiz'} onChange={setMode}>Quiz</AhaRadio>
+</>

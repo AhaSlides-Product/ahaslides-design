@@ -1,0 +1,24 @@
+// @ahaslides-product/design/slider-theme — declared ONCE, consumed by both tiers.
+import { sliderTheme } from '@ahaslides-product/design/slider-theme';
+
+export const sliderTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Slider: {
+      railBg: '#F1F1F1',            // gray-30 rest rail
+      railHoverBg: '#E3E3E3',       // gray-40 hover rail
+      trackBg: '#6A1EBB',           // brand track
+      trackHoverBg: '#5715A0',      // purple-80 hover track
+      handleColor: '#6A1EBB',       // brand handle ring
+      handleActiveColor: '#5715A0',
+      dotActiveBorderColor: '#6A1EBB',
+      railSize: 4,
+      handleSize: 14,
+      handleSizeHover: 16,
+    },
+  },
+};

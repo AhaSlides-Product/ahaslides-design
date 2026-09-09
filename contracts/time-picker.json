@@ -1,0 +1,54 @@
+{
+  "name": "TimePicker",
+  "slug": "time-picker",
+  "group": "Data Entry",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "Pick a time of day from scrolling hour/minute/second columns — schedules, reminders, durations — rendered through the shared TimePicker.",
+  "lead": "TimePicker carries scrolling hour/minute/second columns, 12/24-hour and locale handling — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue). It is built on Ant's DatePicker internals, so both wrappers theme once through the shared timePickerTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "DatePicker.cellHoverBg", "DatePicker.borderRadius"],
+  "spec": [
+    { "label": "Field", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Selected cell", "value": "brand #6A1EBB" },
+    { "label": "Hover cell", "value": "#F7F7F7 (gray-20)" },
+    { "label": "Format", "value": "HH:mm (use=HH:mm:ss for seconds)" },
+    { "label": "Placeholder", "value": "#8A8A8A" }
+  ],
+  "props": [
+    { "name": "value", "type": "Dayjs", "default": "—", "desc": "Selected time" },
+    { "name": "format", "type": "string", "default": "HH:mm:ss", "desc": "Display/parse format (e.g. HH:mm)" },
+    { "name": "use12Hours", "type": "boolean", "default": "false", "desc": "12-hour clock with AM/PM" },
+    { "name": "minuteStep", "type": "number", "default": "1", "desc": "Granularity of the minute column" },
+    { "name": "onChange", "type": "(time) => void", "default": "—", "desc": "Fires with the new time" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "TimePicker", "when": "a time of day on its own — a reminder, a daily schedule slot" },
+      { "what": "DatePicker showTime", "when": "a date AND a time together — a precise timestamp" },
+      { "what": "Select", "when": "a small fixed set of times (e.g. 15-min slots) — a list beats scrolling" }
+    ],
+    "note": "Match format to the precision you need — HH:mm hides seconds. Use minuteStep to snap to sensible increments rather than every minute. Times use Day.js."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./time-picker-theme", "exportsNamed": ["timePickerTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "time-picker.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared timePickerTheme. No build step." },
+    { "key": "react", "label": "React", "file": "time-picker.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "time-picker.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "time-picker.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (timePickerTheme); residual drift is caught by visual regression. Both use Day.js for times.",
+  "preview": "time-picker.preview.html",
+  "selfCheck": [
+    { "label": "field 32 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
+    { "label": "selected cell brand #6A1EBB", "verdict": "PASS" },
+    { "label": "hover cell gray-20", "verdict": "PASS" },
+    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 TimePicker (DatePicker internals) bound to timePickerTheme.",
+    "ready": "!!document.querySelector('#react-root .ant-picker')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-picker','borderTopLeftRadius'),radiusBR:g('.ant-picker','borderBottomRightRadius'),border:g('.ant-picker','borderTopColor'),borderWidth:g('.ant-picker','borderTopWidth'),borderWidthB:g('.ant-picker','borderBottomWidth'),height:g('.ant-picker','height')};})()",
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "borderWidthB": "1px", "height": "32px" }
+  }
+}

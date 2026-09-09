@@ -1,0 +1,21 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, AutoComplete } from 'ant-design-vue';   // ant-design-vue v4
+import { autocompleteTheme } from '@ahaslides-product/design/autocomplete-theme';
+
+const value = ref('');
+const options = ref([{ value: 'Poll' }, { value: 'Quiz' }, { value: 'Word cloud' }, { value: 'Q&A' }]);
+</script>
+
+<template>
+  <a-config-provider :theme="autocompleteTheme">
+    <a-auto-complete
+      v-model:value="value"
+      :options="options"
+      placeholder="Type a slide type"
+      :filter-option="(input, opt) => opt.value.toLowerCase().includes(input.toLowerCase())"
+      style="width: 240px"
+    />
+  </a-config-provider>
+</template>
+<!-- The SAME autocompleteTheme as React → one DS V3 look across both vendor libraries. -->

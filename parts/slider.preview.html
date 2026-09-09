@@ -1,0 +1,46 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared sliderTheme. Vue consumes the same
+     sliderTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the real antd Slider bound to the shared theme. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__sl = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ Slider:{ railBg:'#F1F1F1', railHoverBg:'#E3E3E3', trackBg:'#6A1EBB', trackHoverBg:'#5715A0',
+    handleColor:'#6A1EBB', handleActiveColor:'#5715A0', dotActiveBorderColor:'#6A1EBB', railSize:4, handleSize:14, handleSizeHover:16 } }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Slider } = window.__antdR;
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__sl}>
+    <div style={{ width: 320 }}>
+      <Field label="Single value">
+        <Slider defaultValue={40} />
+      </Field>
+      <Field label="Range · two thumbs">
+        <Slider range defaultValue={[20, 70]} />
+      </Field>
+      <Field label="With marks">
+        <Slider defaultValue={50} marks={{ 0: '0', 50: '50', 100: '100' }} />
+      </Field>
+    </div>
+  </ConfigProvider>
+);
+</script>
