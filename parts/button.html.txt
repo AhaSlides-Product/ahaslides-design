@@ -1,9 +1,9 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
      <aha-button> is the SAME shared custom element React and Vue consume — here in its
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.1.0/lib/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.1.0/lib/aha-button.js';   // registers <aha-button>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
 </script>
 
 <div style="display:flex; gap:8px">

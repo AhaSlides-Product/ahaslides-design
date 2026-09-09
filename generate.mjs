@@ -27,7 +27,12 @@ const PATDIR = join(root, 'patterns');   // pattern artifacts (composition guide
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
-const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)) : '');
+// Single source for the paste-and-run CDN ref. Snippets author `@__REF__`; we inject it here so
+// the pin lives in ONE place. Default `master` = live-on-merge (pages.yml redeploys docs on merge,
+// and jsDelivr /gh/@master serves the current element/theme code) — no stale-tag freeze. Override
+// with AHA_CDN_REF (e.g. a release tag) if an immutable pin is ever wanted.
+const CDN_REF = process.env.AHA_CDN_REF || 'master';
+const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)).replaceAll('@__REF__', `@${CDN_REF}`) : '');
 const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
