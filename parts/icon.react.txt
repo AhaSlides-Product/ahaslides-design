@@ -1,4 +1,4 @@
-import '@ahaslides/design/icons';   // registers <aha-icon> + loads the glyph registry (259 icons)
+import '@ahaslides-product/design/icons';   // registers <aha-icon> + loads the glyph registry (259 icons)
 
 // Call any glyph BY NAME — never inline an <svg>. Browse names in the Icon library,
 // or read icons.agent.json / icons.llms.txt. Colour follows currentColor; size is 12/16/24/32.

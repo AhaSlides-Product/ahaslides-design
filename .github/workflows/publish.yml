@@ -1,12 +1,13 @@
 name: publish
 
-# Publishes @ahaslides/design to the public npm registry when a version tag is pushed.
+# Publishes @ahaslides-product/design to GitHub Packages when a version tag is pushed.
 #   git tag v0.1.0 && git push origin v0.1.0
 # The tag SHOULD match "version" in package.json (npm publish uses package.json's version).
 #
-# One-time setup by a maintainer:
-#   1. Create an npm automation token for the @ahaslides org (npmjs.com → Access Tokens).
-#   2. Add it as the repo secret NPM_TOKEN (Settings → Secrets and variables → Actions).
+# No secret setup needed: GitHub Packages publish uses the built-in GITHUB_TOKEN
+# (granted `packages: write` below). The @ahaslides-product scope matches the org owner.
+# Consumers install with a scoped .npmrc pointing at https://npm.pkg.github.com + a
+# GitHub token with read:packages (see the docs site "Get started" block / any agent.json).
 
 on:
   push:
@@ -15,6 +16,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   publish:
@@ -25,7 +27,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
+          registry-url: https://npm.pkg.github.com
+          scope: '@ahaslides-product'
 
       - run: npm install --no-audit --no-fund
 
@@ -34,7 +37,7 @@ jobs:
       - name: Build + standards gate
         run: node build-icons.mjs && node generate.mjs && node standards.mjs
 
-      - name: Publish to npm
+      - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
