@@ -23,15 +23,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.21.0 — 2026-09-10
 ### Added
-- **Feedback + Overlays group → DS V3 matrix + playgrounds.** Each feedback component widens to its full DS V3 matrix, with real code parity + an interactive playground. (#PR)
-- **Alert** — a `branding` type, regular/small `size`, `banner` mode, an icon toggle, and an `action` slot. (#PR)
-- **Progress** — a `circle` type, `steps` (segmented), `size`, the full `status` set (with ✓/✕ glyphs), and `showInfo`; keeps `role="progressbar"` + `aria-valuenow`. (#PR)
-- **Result** — `403`/`500` statuses and a custom `icon`. (#PR)
-- **Skeleton** — `paragraph` rows (last row shorter), `input`/`image` variants, `rows`, and `round`. (#PR)
-- **Spin** — a wrapper/overlay mode (dim + blur over slotted content), `size`, and `tip`. (#PR)
-- **Popover** — a `title` + `content`, `placement`, `trigger` (hover/click/focus), and an `arrow` toggle. (#PR)
+- **Feedback + Overlays group → DS V3 matrix + playgrounds.** Each feedback component widens to its full DS V3 matrix, with real code parity + an interactive playground. (#52)
+- **Alert** — a `branding` type, regular/small `size`, `banner` mode, an icon toggle, and an `action` slot. (#52)
+- **Progress** — a `circle` type, `steps` (segmented), `size`, the full `status` set (with ✓/✕ glyphs), and `showInfo`; keeps `role="progressbar"` + `aria-valuenow`. (#52)
+- **Result** — `403`/`500` statuses and a custom `icon`. (#52)
+- **Skeleton** — `paragraph` rows (last row shorter), `input`/`image` variants, `rows`, and `round`. (#52)
+- **Spin** — a wrapper/overlay mode (dim + blur over slotted content), `size`, and `tip`. (#52)
+- **Popover** — a `title` + `content`, `placement`, `trigger` (hover/click/focus), and an `arrow` toggle. (#52)
 ### Changed
-- **Modal / Drawer / Notification / Popconfirm / Toast** — interactive React playgrounds over the shared theme (type · placement · size axes), using the themed hooks (`useModal`/`useNotification`/`useMessage`), never the static calls. (#PR)
+- **Modal / Drawer / Notification / Popconfirm / Toast** — interactive React playgrounds over the shared theme (type · placement · size axes), using the themed hooks (`useModal`/`useNotification`/`useMessage`), never the static calls. (#52)
 
 ## 0.20.0 — 2026-09-10
 ### Added
