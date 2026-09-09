@@ -12,6 +12,8 @@ function remove() { /* delete the slide */ }
       description="This cannot be undone."
       ok-text="Delete"
       cancel-text="Cancel"
+      placement="top"
+      ok-type="danger"
       @confirm="remove"
     >
       <a-button danger>Delete slide</a-button>
@@ -19,3 +21,4 @@ function remove() { /* delete the slide */ }
   </a-config-provider>
 </template>
 <!-- The SAME popconfirmTheme as React → one DS V3 look across both vendor libraries. -->
+<!-- Matrix: placement (top/bottom/left/right) × ok-type (primary/danger). -->

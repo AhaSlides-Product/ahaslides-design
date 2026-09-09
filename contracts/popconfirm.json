@@ -12,14 +12,19 @@
     { "label": "Confirm", "value": "primary Button #6A1EBB · white label" },
     { "label": "Cancel", "value": "default Button · 1px #E3E3E3 border · #1A1A1A label" },
     { "label": "Title", "value": "#1A1A1A, one short question" },
-    { "label": "Anchor", "value": "pops from the trigger; not a full modal" }
+    { "label": "Anchor", "value": "pops from the trigger; not a full modal" },
+    { "label": "Placement", "value": "top · bottom · left · right (arrow tracks the trigger)" },
+    { "label": "Danger", "value": "okType=\"danger\" → red confirm #F5222D for a heavier delete" }
   ],
   "props": [
     { "name": "title", "type": "string", "default": "—", "desc": "The confirmation question" },
     { "name": "description", "type": "string", "default": "—", "desc": "Optional supporting line" },
     { "name": "okText", "type": "string", "default": "OK", "desc": "Confirm button label" },
     { "name": "cancelText", "type": "string", "default": "Cancel", "desc": "Cancel button label" },
-    { "name": "onConfirm", "type": "() => void", "default": "—", "desc": "Fires when the confirm button is clicked" }
+    { "name": "onConfirm", "type": "() => void", "default": "—", "desc": "Fires when the confirm button is clicked" },
+    { "name": "placement", "type": "'top' | 'bottom' | 'left' | 'right' | …", "default": "top", "desc": "Where the popover opens relative to the trigger" },
+    { "name": "okType", "type": "'primary' | 'danger'", "default": "primary", "desc": "danger styles the confirm as a red destructive button" },
+    { "name": "icon", "type": "ReactNode", "default": "warning", "desc": "Leading warning glyph in the popover header" }
   ],
   "opinion": {
     "whenToUse": [
@@ -28,7 +33,7 @@
       { "what": "no confirm", "when": "the action is trivial and easily undone — prefer an undo toast" }
     ],
     "note": "Reserve Popconfirm for low-risk, reversible actions — anchor it to the trigger and keep the question to one line. A destructive or irreversible action (delete account, publish) needs a Modal (see the overlays pattern), never a popover.",
-    "dsv3": "COVERED — DS V3 has no measured Popconfirm cell; the composite maps DS tokens (primary confirm, radius-8 popover, #E3E3E3 cancel border) onto antd's Popconfirm via the shared popconfirmTheme. A deliberate, documented extension."
+    "dsv3": "COVERED — antd v6 Popconfirm themed by the shared popconfirmTheme; matrix: Placement (top · bottom · left · right) × Danger (off → primary confirm #6A1EBB / on → okType=\"danger\" red #F5222D), over a radius-8 white popover with a #E3E3E3-border cancel. Verified via Figma search_design_system on the DS V3 file (MwjvUjVI0HnfwD9EwPXRAy): DS V3 ships no measured Popconfirm cell (nearest is the 'Delete confirmation' Dialog), so this is a deliberate, documented token mapping onto antd's Popconfirm rather than a re-implementation."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./popconfirm-theme", "exportsNamed": ["popconfirmTheme"] },

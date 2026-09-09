@@ -18,6 +18,8 @@
         title: 'Delete this slide?',
         description: 'This cannot be undone.',
         okText: 'Delete', cancelText: 'Cancel',
+        placement: 'top',        // top | bottom | left | right
+        okType: 'danger',        // 'primary' (purple) default; 'danger' = red confirm
         onConfirm: () => console.log('confirmed'),
       }, h(Button, { danger: true }, 'Delete slide'))
     )

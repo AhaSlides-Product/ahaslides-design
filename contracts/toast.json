@@ -25,7 +25,8 @@
       { "what": "Notification", "when": "a richer message with a title + description, or one the user may need later" },
       { "what": "Alert", "when": "a persistent, inline message tied to a region of the page" }
     ],
-    "note": "One line, past tense, no title. Never put an action inside a toast that disappears — if the user must respond, use a Notification or a Modal."
+    "note": "One line, past tense, no title. Never put an action inside a toast that disappears — if the user must respond, use a Notification or a Modal.",
+    "dsv3": "COVERED — antd v6 message API, themed by the shared toastTheme (white pill · radius 8 · ink #1A1A1A text · top-centre). Matrix: type × { success, info, warning, error, loading } — each rendered via the message.useMessage() hook + contextHolder inside <ConfigProvider> (the DS forbids the static message.success(), which bypasses the theme). duration (3s default, 0 = sticky) is the second axis. Verified via Figma search_design_system against the DS V3 message set (Component/MD-Message text style — 'toast, alert, message')."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./toast-theme", "exportsNamed": ["toastTheme"] },

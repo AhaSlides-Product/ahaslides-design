@@ -5,22 +5,27 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-progress",
-  "summary": "A horizontal bar showing how far a task has run — completion, upload, a quiz timer.",
-  "lead": "ONE custom element — <aha-progress> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `percent` drives a PERSISTENT fill node so its width animates on the shared motion tokens, and `status` recolours the fill (success/warning/error). Zero drift — the same element, not two look-alikes.",
+  "summary": "A determinate progress indicator — completion, upload, a quiz timer — as a line, segmented steps, or a circle.",
+  "lead": "ONE custom element — <aha-progress> — defined once, imported unchanged by React and Vue. The DS V3 Progress is a family, not one bar: `type` picks the shape (`line` horizontal bar · `circle` SVG ring), `steps` splits a line into discrete segments, `size` is default or `small` (the Mini variants), and `status` recolours the fill (active/success/warning/exception). `percent` drives a PERSISTENT fill node — the line's width or the ring's stroke-dashoffset — so it animates on the shared motion tokens; the shape is never rebuilt on a percent/status change. Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift — the same element, not look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["color-primary", "color-success", "color-warning", "color-error", "gray-30", "radius-pill", "text-secondary", "text-positive"],
+  "tokensUsed": ["color-primary", "color-success", "color-warning", "color-error", "gray-30", "radius-pill", "text-secondary", "text-positive", "text-negative"],
   "spec": [
-    { "label": "Track", "value": "height 8 · radius pill · #F1F1F1" },
-    { "label": "Fill", "value": "default primary #6A1EBB · width = percent" },
-    { "label": "Status", "value": "success #16C49A · warning #FF7747 · error #F5222D" },
-    { "label": "Motion", "value": "width animates on --aha-motion-slow / --aha-ease-out" },
-    { "label": "Info", "value": "percent label, right-aligned; hide with show-info=false" },
+    { "label": "Track", "value": "line height 8 (small 6) · radius pill · #F1F1F1" },
+    { "label": "Fill", "value": "default primary #6A1EBB · width (line) or stroke-dashoffset (circle) = percent" },
+    { "label": "Type", "value": "line (default) · circle (SVG ring, box 96 / small 40)" },
+    { "label": "Steps", "value": "steps=N → N equal segments, first round(percent) filled" },
+    { "label": "Status", "value": "active primary · success #16C49A · warning #FF7747 · exception #F5222D" },
+    { "label": "Motion", "value": "width / stroke-dashoffset animate on --aha-motion-slow / --aha-ease-out" },
+    { "label": "Info", "value": "percent label (✓/✕ glyph at success/exception); hide with show-info=false" },
     { "label": "A11y", "value": "role=progressbar · aria-valuemin 0 / valuemax 100 / valuenow synced to percent" }
   ],
   "props": [
-    { "name": "percent", "type": "number", "default": "0", "desc": "Completion 0–100; clamped and drives the fill width" },
-    { "name": "status", "type": "default | success | warning | error", "default": "default", "desc": "Fill colour" },
-    { "name": "show-info", "type": "boolean", "default": "true", "desc": "Show the trailing percent label (set 'false' to hide)" }
+    { "name": "percent", "type": "number", "default": "0", "desc": "Completion 0–100; clamped and drives the fill" },
+    { "name": "type", "type": "'line' | 'circle'", "default": "line", "desc": "Shape: horizontal bar or SVG ring" },
+    { "name": "steps", "type": "number", "default": "0", "desc": "Split a line into N discrete segments (line type only)" },
+    { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Compact Mini variant (thinner bar / smaller ring)" },
+    { "name": "status", "type": "default | active | success | warning | exception", "default": "default", "desc": "Fill colour (exception aliases error)" },
+    { "name": "show-info", "type": "boolean", "default": "true", "desc": "Show the trailing percent/glyph label (set 'false' to hide)" }
   ],
   "opinion": {
     "whenToUse": [
@@ -28,8 +33,8 @@
       { "what": "Spin", "when": "an indeterminate wait with no measurable percentage" },
       { "what": "Skeleton", "when": "content is loading and you want to hold its layout" }
     ],
-    "note": "Use Progress only when you can measure completion. Keep the bar thin; let the fill colour carry success/error, not a separate label. For an indeterminate wait use Spin.",
-    "dsv3": "COVERED — DS V3 has no measured Progress cell; spec derived from the token layer (fill color-primary + status color-success/warning/error, track gray-30, radius-pill) and antd Progress conventions (8px line, trailing percent). A deliberate, documented extension."
+    "note": "Use Progress only when you can measure completion. A line for inline flow, steps for a discrete multi-stage task, a circle for a compact score dial. Let the fill colour carry success/exception, not a separate label. For an indeterminate wait use Spin.",
+    "dsv3": "COVERED — enumerated from the DS V3 Progress component-set taxonomy: Progress line (Bare · Status Success/Exception), Progress-Line-Mini (small size · Success/Exception), Progress-Circle + Progress-Circle-Mini (Status Normal/Success/Exception), Progress-Step (Default/Small). i.e. the family carries type (line · circle), size (default · Mini/small), steps, and status (normal/success/exception; antd adds active/warning). No measured px cell exists; sizes/colours derived from the token layer (fill color-primary + status color-success/warning/error, track gray-30, radius-pill) and antd Progress conventions (8px line, trailing percent). A deliberate, documented extension."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./aha-progress", "registers": "aha-progress", "exportsNamed": ["AhaProgress", "defineAhaProgress"] },
@@ -39,18 +44,40 @@
     { "key": "vue", "label": "Vue 3", "file": "progress.vue.txt" }
   ],
   "preview": "progress.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "type", "label": "Type", "default": "line", "options": [
+        { "label": "Line", "value": "line" },
+        { "label": "Circle", "value": "circle" }
+      ] },
+      { "prop": "status", "label": "Status", "default": "null", "options": [
+        { "label": "Default", "value": null },
+        { "label": "Active", "value": "active" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Exception", "value": "exception" }
+      ] },
+      { "prop": "percent", "label": "Percent", "default": "60", "options": [
+        { "label": "0%", "value": "0" },
+        { "label": "30%", "value": "30" },
+        { "label": "60%", "value": "60" },
+        { "label": "100%", "value": "100" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "track height 8 · radius pill", "verdict": "PASS" },
+    { "label": "track height 8 (small 6) · radius pill", "verdict": "PASS" },
     { "label": "default fill primary #6A1EBB", "verdict": "PASS" },
-    { "label": "fill width = percent", "verdict": "PASS" },
-    { "label": "status recolours the fill", "verdict": "PASS" },
+    { "label": "line fill width / circle stroke-dashoffset = percent", "verdict": "PASS" },
+    { "label": "status recolours the fill (active/success/warning/exception)", "verdict": "PASS" },
+    { "label": "type=circle SVG ring · steps=N segments render", "verdict": "PASS" },
     { "label": "role=progressbar · aria-valuenow synced", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The [data-probe] is a default LINE bar so the base measure holds; a second element asserts the exception status colour.",
     "ready": "!!(document.querySelector('aha-progress[data-probe]') && document.querySelector('aha-progress[data-probe]').shadowRoot && document.querySelector('aha-progress[data-probe]').shadowRoot.querySelector('.fill'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-progress[data-probe]');var r=el&&el.shadowRoot;var f=r&&r.querySelector('.fill');var t=r&&r.querySelector('.track');var sf=f?getComputedStyle(f):null;var st=t?getComputedStyle(t):null;return{fillBg:sf?sf.backgroundColor:null,trackBg:st?st.backgroundColor:null,height:st?st.height:null,radius:st?st.borderTopLeftRadius:null,role:el?el.getAttribute('role'):null,ariaNow:el?el.getAttribute('aria-valuenow'):null,ariaMax:el?el.getAttribute('aria-valuemax'):null};})()",
-    "expect": { "fillBg": "rgb(106, 30, 187)", "trackBg": "rgb(241, 241, 241)", "height": "8px", "radius": "999px", "role": "progressbar", "ariaNow": "60", "ariaMax": "100" }
+    "measure": "(function(){var el=document.querySelector('aha-progress[data-probe]');var r=el&&el.shadowRoot;var f=r&&r.querySelector('.fill');var t=r&&r.querySelector('.track');var sf=f?getComputedStyle(f):null;var st=t?getComputedStyle(t):null;var ex=document.querySelector('aha-progress[status=\"error\"]')||document.querySelector('aha-progress[status=\"exception\"]');var exr=ex&&ex.shadowRoot;var exf=exr&&exr.querySelector('.fill');var sef=exf?getComputedStyle(exf):null;return{fillBg:sf?sf.backgroundColor:null,trackBg:st?st.backgroundColor:null,height:st?st.height:null,radius:st?st.borderTopLeftRadius:null,role:el?el.getAttribute('role'):null,ariaNow:el?el.getAttribute('aria-valuenow'):null,ariaMax:el?el.getAttribute('aria-valuemax'):null,exceptionFillBg:sef?sef.backgroundColor:null};})()",
+    "expect": { "fillBg": "rgb(106, 30, 187)", "trackBg": "rgb(241, 241, 241)", "height": "8px", "radius": "999px", "role": "progressbar", "ariaNow": "60", "ariaMax": "100", "exceptionFillBg": "rgb(245, 34, 45)" }
   }
 }

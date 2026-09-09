@@ -1,13 +1,17 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-progress';
+import '@ahaslides-product/design/icons';   // <aha-icon> for the status glyph
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
 import { ref } from 'vue';
 const uploaded = ref(70);
+const score = ref(75);
 </script>
 
 <template>
   <aha-progress :percent="uploaded" status="success" />
+  <aha-progress type="circle" :percent="score" />
+  <aha-progress :steps="5" :percent="uploaded" size="small" />
 </template>

@@ -12,7 +12,9 @@
     { "label": "Title", "value": "ink #1A1A1A · 18 · SemiBold" },
     { "label": "Footer", "value": "brand primary confirm + secondary cancel" },
     { "label": "Mask", "value": "ink overlay rgba(26,26,46,.7)" },
-    { "label": "Motion", "value": "antd's built-in zoom enter/leave (kept)" }
+    { "label": "Motion", "value": "antd's built-in zoom enter/leave (kept)" },
+    { "label": "Sizes", "value": "sm 432 · md 536 · lg 560 · xl 640 (via width)" },
+    { "label": "Types", "value": "content · confirm/info/success/error/warning (Modal.useModal)" }
   ],
   "props": [
     { "name": "open", "type": "boolean", "default": "false", "desc": "Controls visibility" },
@@ -20,7 +22,10 @@
     { "name": "onOk", "type": "() => void", "default": "—", "desc": "Confirm handler" },
     { "name": "onCancel", "type": "() => void", "default": "—", "desc": "Dismiss handler" },
     { "name": "confirmLoading", "type": "boolean", "default": "false", "desc": "Spinner on the confirm button" },
-    { "name": "width", "type": "number", "default": "520", "desc": "Dialog width" }
+    { "name": "width", "type": "number", "default": "520", "desc": "Dialog width — DS V3 sizes sm 432 / md 536 / lg 560 / xl 640" },
+    { "name": "centered", "type": "boolean", "default": "false", "desc": "Vertically centre the dialog in the viewport" },
+    { "name": "closable", "type": "boolean", "default": "true", "desc": "Show the top-right close (X)" },
+    { "name": "mask", "type": "boolean", "default": "true", "desc": "Render the dimming overlay behind the dialog" }
   ],
   "opinion": {
     "whenToUse": [
@@ -28,7 +33,8 @@
       { "what": "Drawer", "when": "a longer edit form or detail panel that keeps page context" },
       { "what": "Popconfirm", "when": "a lightweight yes/no on a single control" }
     ],
-    "note": "Give it a clear title and make the primary button name the action ('Delete slide', not 'OK'). Keep modals short — anything with many fields belongs in a Drawer or its own page."
+    "note": "Give it a clear title and make the primary button name the action ('Delete slide', not 'OK'). Keep modals short — anything with many fields belongs in a Drawer or its own page.",
+    "dsv3": "COVERED — antd v6 Modal themed once by modalTheme. Matrix: type (content · confirm/info/success/error/warning), size (sm 432 · md 536 · lg 560 · xl 640 via width), centered, plus closable / mask. Confirm-family types open through Modal.useModal() (the hook that inherits the ConfigProvider theme) — never the static Modal.confirm(), which the DS forbids because it renders outside the themed tree. Verified via Figma search_design_system against the DS V3 ConfirmationModal set (fileKey MwjvUjVI0HnfwD9EwPXRAy) and antd v6's Modal API; widths measured from the component-standard reference (modal|sm…xl)."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./modal-theme", "exportsNamed": ["modalTheme"] },

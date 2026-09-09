@@ -2,10 +2,18 @@ import { useState } from 'react';
 import { ConfigProvider, Modal, Button } from 'antd';   // antd v6
 import { modalTheme } from '@ahaslides-product/design/modal-theme';
 
+// DS V3 sizes — pass one to `width`: sm 432 · md 536 · lg 560 · xl 640.
+const SIZE = { sm: 432, md: 536, lg: 560, xl: 640 };
+
 function DeleteSlide() {
   const [open, setOpen] = useState(false);
+  const [modal, contextHolder] = Modal.useModal();   // the hook — inherits the ConfigProvider theme
+
   return (
     <ConfigProvider theme={modalTheme}>
+      {contextHolder}
+
+      {/* A plain content modal — controlled `open`, sized + optionally centered. */}
       <Button type="primary" danger onClick={() => setOpen(true)}>Delete slide</Button>
       <Modal
         open={open}
@@ -13,11 +21,22 @@ function DeleteSlide() {
         okText="Delete slide"
         cancelText="Cancel"
         okButtonProps={{ danger: true }}
+        width={SIZE.md}
+        centered
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
       >
         <p>This removes the slide and all of its responses. This can't be undone.</p>
       </Modal>
+
+      {/* Confirm / info / success / error / warning → the useModal() HOOK, never the
+          static Modal.confirm() (which renders outside the themed tree). */}
+      <Button onClick={() => modal.confirm({
+        title: 'Delete this slide?',
+        content: "This can't be undone.",
+        okText: 'Delete slide', cancelText: 'Cancel',
+        okButtonProps: { danger: true }, width: SIZE.sm,
+      })}>Confirm…</Button>
     </ConfigProvider>
   );
 }

@@ -10,12 +10,18 @@ const banner = ref(true);
 
 <template>
   <aha-alert type="success" heading="Saved">Your changes are live.</aha-alert>
+  <aha-alert type="branding" heading="New: AI slides">
+    Turn a prompt into a deck.
+    <button slot="action">Try it</button>
+  </aha-alert>
+  <aha-alert type="error" size="small">Upload failed — try a smaller file.</aha-alert>
   <aha-alert
     v-if="banner"
-    type="error"
+    type="warning"
+    banner
     closable
     @close="banner = false"
   >
-    Upload failed — try a smaller file.
+    Scheduled maintenance tonight 22:00–23:00 UTC.
   </aha-alert>
 </template>

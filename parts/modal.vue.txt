@@ -3,11 +3,25 @@ import { ref } from 'vue';
 import { ConfigProvider, Modal, Button } from 'ant-design-vue';   // ant-design-vue v4
 import { modalTheme } from '@ahaslides-product/design/modal-theme';
 
+// DS V3 sizes — pass one to `width`: sm 432 · md 536 · lg 560 · xl 640.
+const SIZE = { sm: 432, md: 536, lg: 560, xl: 640 };
 const open = ref(false);
+
+// Confirm / info / success / error / warning → Modal.confirm on the app instance
+// resolved from useModal(), so it inherits the ConfigProvider theme.
+const [modal, contextHolder] = Modal.useModal();
+const confirmDelete = () => modal.confirm({
+  title: 'Delete this slide?',
+  content: "This can't be undone.",
+  okText: 'Delete slide', cancelText: 'Cancel',
+  okButtonProps: { danger: true }, width: SIZE.sm,
+});
 </script>
 
 <template>
   <a-config-provider :theme="modalTheme">
+    <component :is="contextHolder" />
+
     <a-button type="primary" danger @click="open = true">Delete slide</a-button>
     <a-modal
       v-model:open="open"
@@ -15,9 +29,13 @@ const open = ref(false);
       ok-text="Delete slide"
       cancel-text="Cancel"
       :ok-button-props="{ danger: true }"
+      :width="SIZE.md"
+      centered
     >
       <p>This removes the slide and all of its responses. This can't be undone.</p>
     </a-modal>
+
+    <a-button @click="confirmDelete">Confirm…</a-button>
   </a-config-provider>
 </template>
 <!-- The SAME modalTheme as React → one DS V3 look across both vendor libraries. -->

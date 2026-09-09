@@ -1,10 +1,14 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared notificationTheme. Vue consumes the
      same notificationTheme — see "Show code". This CDN-React page (no build step) is also what
      qa.mjs measures: a sticky notification (duration 0) is opened on mount so the real antd v6
-     notification card, bound to the shared theme, can be measured. The buttons fire fresh ones. -->
+     notification card, bound to the shared theme, can be measured. Interactive: the controls drive
+     live React state (Type · Placement), and "Show notification" fires one via the hook —
+     the DS forbids the static notification.open(); the card must consume the ConfigProvider theme,
+     which only the useNotification() contextHolder does. The default render (info · topRight,
+     opened sticky on mount) is what conformance measures. -->
 <style>
-  #react-root .aha-demo { max-width:420px; font-family:var(--aha-font-product); }
-  #react-root .aha-demo .lbl { margin-bottom:10px; color:var(--aha-text-secondary); }
+  #react-root .aha-demo { max-width:620px; font-family:var(--aha-font-product); }
+  #react-root .aha-demo .lbl { margin:22px 0 10px; color:var(--aha-text-secondary); }
 </style>
 
 <div id="react-root" class="pad"></div>
@@ -17,34 +21,87 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
-window.__notif = {
-  theme: {
-    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorBgElevated:'#FFFFFF',
-             fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
-    components:{ Notification:{ width:384, borderRadiusLG:8, colorBgElevated:'#FFFFFF' } }
-  }
+window.__st = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A',
+           colorBgElevated:'#FFFFFF', colorError:'#F5222D',
+           fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ Notification:{ width:384, borderRadiusLG:8, colorBgElevated:'#FFFFFF' } }
 };
 </script>
 
 <script type="text/babel">
 const { ConfigProvider, notification, Button, Space } = window.__antdR;
-const { useEffect } = React;
-function App() {
-  const [api, ctx] = notification.useNotification();
-  useEffect(() => { api.open({ message: 'Export ready', description: 'Your CSV of responses is ready to download.', duration: 0, placement: 'topRight' }); }, []);
+const { useState, useEffect } = React;
+
+// Copy per status — a short title + one-sentence description (the DS opinion).
+const COPY = {
+  success: { message: 'Deck published',  description: 'Anyone with the link can now join.' },
+  info:    { message: 'Export ready',    description: 'Your CSV of responses is ready to download.' },
+  warning: { message: 'Storage almost full', description: 'You have used 90% of your workspace quota.' },
+  error:   { message: 'Sync failed',     description: 'We could not reach the server — retrying shortly.' },
+};
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <ConfigProvider theme={window.__notif.theme}>
-      {ctx}
-      <div className="aha-demo">
-        <div className="lbl">Trigger a notification</div>
-        <Space wrap>
-          <Button type="primary" onClick={() => api.success({ message: 'Deck published', description: 'Anyone with the link can now join.' })}>Publish</Button>
-          <Button onClick={() => api.info({ message: 'Export ready', description: 'Your CSV of responses is ready to download.' })}>Export</Button>
-          <Button danger onClick={() => api.error({ message: 'Sync failed', description: 'We could not reach the server — retrying shortly.' })}>Fail</Button>
-        </Space>
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
       </div>
-    </ConfigProvider>
+    </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(<App />);
+
+function Demo() {
+  // DS rule: the hook + contextHolder, NOT static notification.open() — only the hook's card
+  // consumes the ConfigProvider theme below.
+  const [api, ctx] = notification.useNotification();
+  const [type, setType] = useState('info');
+  const [placement, setPlacement] = useState('topRight');
+
+  const fire = (t, extra) => api[t]({ ...COPY[t], placement, ...extra });
+
+  // Conformance default: one sticky (duration 0) card on mount so qa.mjs can measure the real
+  // themed antd card. info · topRight matches the default axes.
+  useEffect(() => { api.info({ ...COPY.info, placement: 'topRight', duration: 0 }); }, []);
+
+  return (
+    <div className="aha-demo">
+      {ctx}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Type" value={type} onChange={setType}
+          options={[
+            { label: 'Success', value: 'success' },
+            { label: 'Info', value: 'info' },
+            { label: 'Warning', value: 'warning' },
+            { label: 'Error', value: 'error' },
+          ]} />
+        <Seg label="Placement" value={placement} onChange={setPlacement}
+          options={[
+            { label: 'Top left', value: 'topLeft' },
+            { label: 'Top right', value: 'topRight' },
+            { label: 'Bottom left', value: 'bottomLeft' },
+            { label: 'Bottom right', value: 'bottomRight' },
+          ]} />
+      </div>
+      <Space wrap>
+        <Button type="primary" onClick={() => fire(type)}>Show notification</Button>
+        <Button onClick={() => fire(type, {
+          btn: <Button type="primary" size="small" onClick={() => api.destroy()}>Undo</Button>,
+        })}>With action</Button>
+        <Button onClick={() => fire(type, { duration: 0 })}>Sticky (duration 0)</Button>
+      </Space>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
+);
 </script>

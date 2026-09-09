@@ -1,9 +1,13 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared drawerTheme. Vue consumes the same
      drawerTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
      measures: the drawer is rendered inline (getContainer={false}, open) so the real antd v6 drawer
-     content, bound to the shared theme, can be measured. Keeps antd's built-in motion. -->
+     content, bound to the shared theme, can be measured. Keeps antd's built-in slide motion.
+     Interactive: the controls drive live React state (Placement / Size), plus an "Open drawer"
+     trigger overlays a real masked drawer on the stage. The conformance measure reads the ALWAYS-ON
+     inline drawer (right · default · titled) rendered under #react-root — that default is intact. -->
 <style>
-  #react-root .aha-stage { position:relative; height:360px; overflow:hidden; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); background:var(--aha-bg-layout); }
+  #react-root .aha-stage { position:relative; height:380px; overflow:hidden; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); background:var(--aha-bg-layout); }
+  #react-root .aha-stage-hint { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--aha-text-secondary); font-size:13px; }
 </style>
 
 <div id="react-root" class="pad"></div>
@@ -27,10 +31,77 @@ window.__drawer = {
 
 <script type="text/babel">
 const { ConfigProvider, Drawer, Button, Space } = window.__antdR;
-function App() {
+const { useState } = React;
+
+// A segmented control mirroring the leaf widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <ConfigProvider theme={window.__drawer.theme}>
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Body/footer shared by the inline demo and the triggered overlay.
+const body = <p style={{ marginTop: 0, color: 'var(--aha-text-secondary)' }}>
+  Adjust how this slide behaves for your audience.
+</p>;
+const footer = <Space><Button>Cancel</Button><Button type="primary">Save changes</Button></Space>;
+
+// large → 736 (antd's large preset for l/r); default → 378 (DS). top/bottom use height instead.
+const dim = (placement, size) => {
+  const large = size === 'large';
+  return (placement === 'left' || placement === 'right')
+    ? { width: large ? 736 : 378 }
+    : { height: large ? 480 : 300 };
+};
+
+function Demo() {
+  const [placement, setPlacement] = useState('right');
+  const [size, setSize] = useState('default');
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ maxWidth: 620 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Placement" value={placement} onChange={setPlacement}
+          options={[{ label: 'Right', value: 'right' }, { label: 'Left', value: 'left' },
+                    { label: 'Top', value: 'top' }, { label: 'Bottom', value: 'bottom' }]} />
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label: 'Default', value: 'default' }, { label: 'Large', value: 'large' }]} />
+      </div>
+
+      {/* Triggered OVERLAY — the visible preview is a trigger button; a real masked drawer opens over the stage. */}
       <div className="aha-stage">
+        <div className="aha-stage-hint">Slide panel · {placement} · {size}</div>
+        <Button type="primary" style={{ position: 'absolute', top: 16, left: 16 }} onClick={() => setOpen(true)}>
+          Open drawer
+        </Button>
+        <Drawer
+          open={open}
+          title="Slide settings"
+          placement={placement}
+          {...dim(placement, size)}
+          onClose={() => setOpen(false)}
+          getContainer={false}
+          rootStyle={{ position: 'absolute' }}
+          footer={footer}
+        >
+          {body}
+        </Drawer>
+      </div>
+
+      {/* ALWAYS-ON inline drawer — right · default · titled — this is what conformance measures. */}
+      <div className="lbl" style={{ margin: '26px 0 10px' }}>Panel content (DS V3 look — measured here)</div>
+      <div className="aha-stage" style={{ height: 300 }}>
         <Drawer
           open
           title="Slide settings"
@@ -39,15 +110,16 @@ function App() {
           getContainer={false}
           mask={false}
           rootStyle={{ position: 'absolute' }}
-          footer={<Space><Button>Cancel</Button><Button type="primary">Save changes</Button></Space>}
+          footer={footer}
         >
-          <p style={{ marginTop: 0, color: 'var(--aha-text-secondary)' }}>
-            Adjust how this slide behaves for your audience.
-          </p>
+          {body}
         </Drawer>
       </div>
-    </ConfigProvider>
+    </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(<App />);
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__drawer.theme}><Demo /></ConfigProvider>
+);
 </script>

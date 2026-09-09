@@ -10,6 +10,7 @@
   "spec": [
     { "label": "Card", "value": "white elevated · 384 wide · radius 8" },
     { "label": "Title", "value": "ink #1A1A1A, SemiBold" },
+    { "label": "Type", "value": "success · info · warning · error (status glyph + tone)" },
     { "label": "Placement", "value": "topRight default (4 corners)" },
     { "label": "Duration", "value": "4.5s default (0 = sticky)" }
   ],
@@ -18,7 +19,8 @@
     { "name": "description", "type": "string", "default": "—", "desc": "The supporting body text" },
     { "name": "type", "type": "success | info | warning | error", "default": "—", "desc": "Status glyph + tone" },
     { "name": "placement", "type": "topLeft | topRight | bottomLeft | bottomRight", "default": "topRight", "desc": "Which corner it stacks in" },
-    { "name": "duration", "type": "number", "default": "4.5", "desc": "Seconds on screen; 0 keeps it until dismissed" }
+    { "name": "duration", "type": "number", "default": "4.5", "desc": "Seconds on screen; 0 keeps it until dismissed" },
+    { "name": "btn", "type": "ReactNode", "default": "—", "desc": "One optional action (e.g. Undo) rendered in the card" }
   ],
   "opinion": {
     "whenToUse": [
@@ -26,7 +28,8 @@
       { "what": "Toast", "when": "a one-line, past-tense confirmation with nothing to act on" },
       { "what": "Modal", "when": "the user must respond before continuing" }
     ],
-    "note": "Give it a short title and a one-sentence description. Put at most one action in it; anything more belongs in a Modal or the page itself."
+    "note": "Give it a short title and a one-sentence description. Put at most one action in it; anything more belongs in a Modal or the page itself.",
+    "dsv3": "COVERED — antd v6 notification.useNotification() themed by the shared notificationTheme (white card · 384 wide · radius 8), matrix: type {success · info · warning · error} × placement {topLeft · topRight · bottomLeft · bottomRight}, plus duration (0 = sticky) and an optional action btn. The DS forbids the static notification.open()/message() call — only the hook's contextHolder card consumes the ConfigProvider theme; every snippet (HTML/React/Vue) uses the hook. Verified via Figma search_design_system on the DS V3 set (fileKey MwjvUjVI0HnfwD9EwPXRAy): V3 ships no dedicated Notification component set (only Badge lives in V3; Notification remains in v2/Beta), so the DS V3 look is themed antd v6 against the V3 tokens (colorPrimary #6A1EBB, colorError #F5222D, borderRadius 8)."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./notification-theme", "exportsNamed": ["notificationTheme"] },

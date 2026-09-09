@@ -1,4 +1,5 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';        // registers <aha-icon> (image variant)
 import '@ahaslides-product/design/aha-skeleton';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
@@ -9,6 +10,6 @@ const loading = ref(true);
 </script>
 
 <template>
-  <aha-skeleton v-if="loading" variant="title" />
-  <CardTitle v-else>{{ title }}</CardTitle>
+  <aha-skeleton v-if="loading" variant="paragraph" rows="3" />
+  <CardBody v-else>{{ body }}</CardBody>
 </template>

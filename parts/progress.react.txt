@@ -1,9 +1,12 @@
 import '@ahaslides-product/design/aha-progress';   // registers <aha-progress>
+import '@ahaslides-product/design/icons';          // registers <aha-icon> for the status glyph
 
 // Attributes only — no events — so React 18/19 can render the element directly.
-function AhaProgress({ percent, status }) {
-  return <aha-progress percent={percent} status={status} />;
+function AhaProgress({ percent, status, type, size, steps }) {
+  return <aha-progress percent={percent} status={status} type={type} size={size} steps={steps} />;
 }
 
 // usage
-<AhaProgress percent={uploaded} status={failed ? 'error' : 'default'} />
+<AhaProgress percent={uploaded} status={failed ? 'exception' : 'default'} />
+<AhaProgress type="circle" percent={score} status="success" />
+<AhaProgress steps={5} percent={stepPct} size="small" />

@@ -1,18 +1,26 @@
 import { ConfigProvider, notification, Button } from 'antd';   // antd v6
 import { notificationTheme } from '@ahaslides-product/design/notification-theme';
 
-function ExportButton() {
-  // v6: use the hook so the card consumes the ConfigProvider theme (static notification() does not).
+function Notifications() {
+  // v6 DS rule: use the hook so the card consumes the ConfigProvider theme.
+  // The static notification.open() is FORBIDDEN — it renders outside the theme.
   const [api, contextHolder] = notification.useNotification();
+
+  // type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
+  const notify = (type, placement) =>
+    api[type]({
+      message: 'Export ready',
+      description: 'Your CSV of responses is ready to download.',
+      placement,                 // which corner it stacks in (default topRight)
+      duration: 4.5,             // seconds on screen; 0 keeps it until dismissed
+      btn: <Button type="primary" size="small" onClick={() => api.destroy()}>Undo</Button>, // optional action
+    });
+
   return (
     <ConfigProvider theme={notificationTheme}>
       {contextHolder}
-      <Button
-        type="primary"
-        onClick={() => api.open({ message: 'Export ready', description: 'Your CSV of responses is ready to download.' })}
-      >
-        Export
-      </Button>
+      <Button type="primary" onClick={() => notify('success', 'topRight')}>Publish</Button>
+      <Button danger onClick={() => notify('error', 'bottomLeft')}>Retry sync</Button>
     </ConfigProvider>
   );
 }

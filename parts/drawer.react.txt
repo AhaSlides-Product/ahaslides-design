@@ -4,14 +4,21 @@ import { drawerTheme } from '@ahaslides-product/design/drawer-theme';
 
 function SlideSettings() {
   const [open, setOpen] = useState(false);
+  // Matrix: placement (top | right | bottom | left) × size (default 378 · large 736 for left/right).
+  const placement = 'right';   // right for settings/edit; bottom for mobile-style sheets
+  const size = 'default';      // 'large' → wider panel (736 for left/right)
+  const horiz = placement === 'left' || placement === 'right';
+  const dim = horiz ? { width: size === 'large' ? 736 : 378 } : { height: size === 'large' ? 480 : 300 };
   return (
     <ConfigProvider theme={drawerTheme}>
       <Button type="primary" onClick={() => setOpen(true)}>Slide settings</Button>
       <Drawer
         open={open}
         title="Slide settings"
-        placement="right"
-        width={378}
+        placement={placement}
+        {...dim}
+        mask         /* mask + scroll-lock the page (antd default) */
+        closable     /* header close (X) */
         onClose={() => setOpen(false)}
         footer={<Space><Button onClick={() => setOpen(false)}>Cancel</Button><Button type="primary">Save changes</Button></Space>}
       >
