@@ -12,12 +12,12 @@ import { readdirSync, readFileSync, existsSync, statSync, rmSync } from 'node:fs
 import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { evaluateInPage } from './cdp.mjs';
+import { evaluateInPage, resolveChrome } from './cdp.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const DIST = join(root, 'dist');
 const CDIR = join(root, 'contracts');
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const CHROME = resolveChrome();
 const read = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
 
 function screenshotBytes(file, tag) {
@@ -100,7 +100,7 @@ const contracts = {};
 for (const f of readdirSync(CDIR).filter(f => f.endsWith('.json'))) { const j = JSON.parse(readFileSync(join(CDIR, f), 'utf8')); contracts[j.slug] = j; }
 
 /* ---- per component ---- */
-const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons']);  // generated support dirs, not components
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'patterns']);  // generated support dirs, not components (patterns are composition guides, gated by standards.mjs — see patterns/)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];

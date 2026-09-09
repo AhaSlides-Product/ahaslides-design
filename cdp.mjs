@@ -18,7 +18,23 @@ import net from 'node:net';
 import http from 'node:http';
 import crypto from 'node:crypto';
 
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+/* Resolve the Chrome/Chromium binary: honour an env override (CHROME_BIN /
+   PUPPETEER_EXECUTABLE_PATH / CHROME_PATH) first — that's how CI points at its
+   installed browser — then fall back to the common macOS and Linux locations. */
+export function resolveChrome() {
+  const fromEnv = process.env.CHROME_BIN || process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH;
+  const candidates = [
+    fromEnv,
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/usr/bin/google-chrome',
+    '/usr/bin/google-chrome-stable',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+  ].filter(Boolean);
+  return candidates.find(c => existsSync(c)) || fromEnv || candidates[1];
+}
+
+const CHROME = resolveChrome();
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 function httpGet(port, path) {

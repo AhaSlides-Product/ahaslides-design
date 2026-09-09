@@ -1,0 +1,56 @@
+{
+  "name": "Settings",
+  "slug": "settings",
+  "kind": "pattern",
+  "group": "Patterns",
+  "badge": "pattern — composition guide",
+  "summary": "How to organise a settings surface — group ordering, help-text vs tooltip, sub-settings, plan-gating, and the danger zone — built from existing components.",
+  "lead": "Settings is the most-repeated surface in the product, so it drifts fastest without shared rules. This pattern ships NO new component: it reuses Checkbox, Button, Icon and the --aha-size* spacing scale, and documents the CONVENTIONS that make every settings panel read as one product. The narrative 'why' lives in the aha-design-settings skill; this artifact carries only what the repo can enforce.",
+  "skillRef": {
+    "build": "aha-design:aha-design-settings",
+    "judge": "aha-design:aha-design-settings-judge",
+    "note": "The skill is the source of truth for rationale, worked BAD/GOOD examples, and the full 52 SETTINGS-xx assertions. This pattern distils the enforceable subset and links each rule back by ref."
+  },
+  "surfaces": ["editor", "settings", "dashboard"],
+  "surfaceChoice": [
+    { "surface": "Inline panel (editor right pane)", "useFor": "per-object settings, immediate effect on canvas", "example": "block required toggle, choice count" },
+    { "surface": "Settings page (route)", "useFor": "workspace/account-level, affects a whole scope", "example": "workspace name, billing, permissions" },
+    { "surface": "Modal", "useFor": "one-time action or short flow, not independently persisted", "example": "export options, one-time import config" },
+    { "surface": "Drawer", "useFor": "supplements a primary view, 3–8 settings", "example": "distribution settings, results filter" }
+  ],
+  "composedOf": [
+    { "ref": "checkbox", "as": "component", "use": "grouped options saved together; consent", "status": "available" },
+    { "ref": "button", "as": "component", "use": "the danger-zone CTA (danger variant → colorError)", "status": "available" },
+    { "ref": "icon", "as": "component", "use": "the ? help glyph, drag handle, per-option image, delete — functional icons only", "status": "available" },
+    { "ref": "--aha-size*", "as": "token", "use": "the whole spacing hierarchy (4/8/16/32/48) — separation comes from spacing, never dividers", "status": "available" },
+    { "ref": "--aha-color-error", "as": "token", "use": "danger CTA colour — never hardcode a hex", "status": "available" },
+    { "ref": "switch", "as": "component", "use": "a single setting that takes effect immediately (toggle rows)", "status": "missing" },
+    { "ref": "select", "as": "component", "use": "duration/unit/mode dropdowns; recommended default pre-selected", "status": "missing" },
+    { "ref": "input", "as": "component", "use": "text/number fields; NumberWithUnit for a number + unit", "status": "missing" },
+    { "ref": "tooltip", "as": "component", "use": "the ? help tooltip — shared dark-navy tooltip, arrow anchored to the ? icon", "status": "missing" }
+  ],
+  "componentBacklog": "composedOf marks 4 components this pattern needs that the DS does not yet ship (switch, select, input, tooltip). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap.",
+  "rules": [
+    { "id": "name-is-noun", "rule": "Setting name is a short noun phrase — no leading verb (Enable/Allow/Show/Turn on). The control communicates the action; the label names what is acted on.", "ref": ["SETTINGS-01", "SETTINGS-40"] },
+    { "id": "toggle-vs-checkbox", "rule": "Toggle when the change takes effect immediately; checkbox when options are saved together as a group or express consent. Never mix toggles and checkboxes in one group.", "ref": ["SETTINGS-11"] },
+    { "id": "help-text-is-exception", "rule": "Help text only for a must-see consequence that is hard to undo (≤90 chars, states the consequence). Default is ZERO help lines per panel; everything else is a ? tooltip or nothing. Never both channels on one setting.", "ref": ["SETTINGS-02", "SETTINGS-28", "SETTINGS-29"] },
+    { "id": "help-glyph", "rule": "The help trigger is a question-mark (?) glyph from the shared Icon — never an info circle (ⓘ). Every ? in a panel is the same glyph, size, and tooltip placement; the tooltip is the shared dark-navy tooltip with its arrow anchored to the icon.", "ref": ["SETTINGS-26", "SETTINGS-30", "SETTINGS-35"] },
+    { "id": "spacing-not-dividers", "rule": "Hierarchy and separation come from --aha-size* spacing tokens (4 name→help, 8 sub→parent, 16 sibling, 32 group, 48 danger zone) — never divider lines, never raw px.", "ref": ["SETTINGS-13"] },
+    { "id": "no-container-around-plain-settings", "rule": "Plain settings and groups sit directly on the panel surface, separated by spacing — never wrapped in a card or tinted/bordered container. Card styling is reserved for genuinely selectable items and the repeatable composite-item wrapper.", "ref": ["SETTINGS-15"] },
+    { "id": "group-shape", "rule": "A group has 2–6 settings. Header is a 1–3 word noun phrase, sentence case, no colon. Only the group header is bold; member labels are regular weight.", "ref": ["SETTINGS-05", "SETTINGS-06", "SETTINGS-37"] },
+    { "id": "sub-settings", "rule": "A dependent sub-setting is HIDDEN (not disabled) when its parent is off. When shown it reads as nested — indented and de-emphasised — never as a top-level peer and never bracketed by its own separators.", "ref": ["SETTINGS-07", "SETTINGS-14"] },
+    { "id": "plan-gated", "rule": "A plan-gated setting stays visible but locked (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by aha-design-paywall), not a bespoke one.", "ref": ["SETTINGS-08"] },
+    { "id": "danger-zone", "rule": "Dangerous/irreversible settings sit last, set apart by the largest gap (48). The CTA is the danger Button (colorError, no hardcoded hex); red never on the label. Any irreversible action requires a confirmation modal.", "ref": ["SETTINGS-09", "SETTINGS-10", "SETTINGS-12"] },
+    { "id": "control-placement", "rule": "A narrow control sits inline with its label (label left / control right); a wide control (textarea, wide select, radio group, image dropzone) drops below it. Never stack a narrow control or cram a wide one inline.", "ref": ["SETTINGS-47"] },
+    { "id": "no-empty-height", "rule": "Every object occupies only its real content height. A container that renders nothing visible is removed or collapsed to zero — never left holding space (the #1 source of editor mystery-gaps).", "ref": ["SETTINGS-19"] }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical composition components (SettingRow, SectionHeader, NumberedItem, OptionRow, NumberWithUnit, CardSelect, ImageDropzone) live in slide-type-creator's @/iframe/settings library; ui-standard.json → settingsLibrary is their source of truth. If a wrapper graduates into this DS, add a reuse block and it is gated like a composite.",
+  "selfCheck": [
+    { "label": "names are noun phrases, no leading verb", "verdict": "N/A — per-surface" },
+    { "label": "help text near-absent; ? tooltip carries elaboration", "verdict": "N/A — per-surface" },
+    { "label": "separation via spacing tokens, no dividers/containers", "verdict": "N/A — per-surface" },
+    { "label": "danger zone last + confirmation modal", "verdict": "N/A — per-surface" }
+  ],
+  "guide": "settings.guide.md"
+}
