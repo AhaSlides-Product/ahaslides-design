@@ -6,17 +6,21 @@
   "badge": "shared Lit web component",
   "element": "aha-empty",
   "summary": "The placeholder for a surface that has no data yet.",
-  "lead": "ONE custom element — <aha-empty> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; a line-art illustration, a short caption (the default slot) and an optional action (slot=\"action\"). A static marker — no interactive state, so no motion. Zero drift — the same element.",
-  "codeNote": "The illustration is the component's own line-art graphic, drawn with currentColor from a token-bound host colour — not a catalogue glyph. Defined once in @ahaslides-product/design.",
+  "lead": "ONE custom element — <aha-empty> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Empty is a small family: an `image` (a 64×41 line-art illustration by default, or a smaller `simple` graphic for tight surfaces, or a custom picture via slot=\"image\"), a caption from the `description` attribute or the default slot (description=\"\" hides it), and an optional action (slot=\"action\"). A static marker — no interactive state, so no motion. Zero drift — the same element.",
+  "codeNote": "The built-in illustration is the component's own line-art graphic, drawn with currentColor from a token-bound host colour — not a catalogue glyph; slot=\"image\" can supersede it with any picture (e.g. an <aha-icon>). Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-tertiary", "text-disabled", "font-product"],
   "spec": [
-    { "label": "Layout", "value": "centred column · gap 10 · padding 32/16" },
-    { "label": "Illustration", "value": "64×41 line art · #B5B5B5 (text-disabled)" },
-    { "label": "Caption", "value": "14/22 #8A8A8A (text-tertiary)" },
+    { "label": "Layout", "value": "centred column · gap 10 · padding 32/16 (simple: gap 8 · 20/16)" },
+    { "label": "Illustration", "value": "default 64×41 · simple 48×30 line art · #B5B5B5 (text-disabled)" },
+    { "label": "Caption", "value": "14/22 (simple 13/20) #8A8A8A (text-tertiary) · hidden when description=\"\"" },
+    { "label": "Custom image", "value": "slot=\"image\" · supersedes the built-in art" },
     { "label": "Action", "value": "slot=\"action\" · hidden when empty" }
   ],
   "props": [
-    { "name": "(default slot)", "type": "slot", "default": "No data", "desc": "The caption describing why the surface is empty" },
+    { "name": "image", "type": "'default' | 'simple'", "default": "default", "desc": "Built-in illustration: 64×41 line art, or a smaller 48×30 low-key graphic for tight surfaces" },
+    { "name": "description", "type": "string", "default": "—", "desc": "The caption; falls back to the default slot when absent, and renders nothing when set to \"\"" },
+    { "name": "(default slot)", "type": "slot", "default": "No data", "desc": "The caption (alternative to the `description` attribute)" },
+    { "name": "image", "type": "slot", "default": "—", "desc": "A custom picture (e.g. an <aha-icon>) that supersedes the built-in illustration" },
     { "name": "action", "type": "slot", "default": "—", "desc": "An optional call to action (a button or link)" }
   ],
   "opinion": {
@@ -26,7 +30,7 @@
       { "what": "Skeleton", "when": "content is loading, not absent" }
     ],
     "note": "The caption says what's missing and, ideally, the next step — 'No responses yet — share the join link'. Keep one action; an empty state is a nudge, not a menu.",
-    "dsv3": "COVERED — DS V3's measured set has no Empty cell; spec derived from the token layer (text-tertiary, text-disabled) + antd Empty conventions (centred line-art placeholder). A deliberate, documented extension — not a measured match."
+    "dsv3": "COVERED — enumerated from the DS V3 <Empty> component-set (fileKey MwjvUjVI0HnfwD9EwPXRAy: <Empty> set + Empty/Customize + a separate Illustration component), matching antd Empty's matrix: a default illustration vs a smaller `simple` image, a `description` (or none), a custom picture (Customize / slot=\"image\"), and an optional action. Colour/size derived from the token layer (text-tertiary caption, text-disabled art) — a deliberate extension, not a per-cell measured match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-empty", "registers": "aha-empty", "exportsNamed": ["AhaEmpty", "defineAhaEmpty"] },
@@ -36,17 +40,30 @@
     { "key": "vue", "label": "Vue 3", "file": "empty.vue.txt" }
   ],
   "preview": "empty.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "image", "label": "Image", "default": "default", "options": [
+        { "label": "Default", "value": "default" },
+        { "label": "Simple", "value": "simple" }
+      ] },
+      { "prop": "description", "label": "Description", "default": "on", "options": [
+        { "label": "On", "value": "No responses yet" },
+        { "label": "Off", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "centred column · padding 32/16", "verdict": "PASS" },
-    { "label": "illustration #B5B5B5", "verdict": "PASS" },
-    { "label": "caption 14/22 #8A8A8A", "verdict": "PASS" },
+    { "label": "centred column · padding 32/16 (simple 20/16)", "verdict": "PASS" },
+    { "label": "illustration #B5B5B5 · default 64×41 / simple 48×30", "verdict": "PASS" },
+    { "label": "caption 14/22 #8A8A8A · hidden when description=\"\"", "verdict": "PASS" },
+    { "label": "custom slot=\"image\" supersedes built-in art", "verdict": "PASS" },
     { "label": "action hidden when empty", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-empty[data-probe]') && document.querySelector('aha-empty[data-probe]').shadowRoot && document.querySelector('aha-empty[data-probe]').shadowRoot.querySelector('.desc'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-empty[data-probe]');var sr=el&&el.shadowRoot;var e=sr&&sr.querySelector('.empty');var d=sr&&sr.querySelector('.desc');var a=sr&&sr.querySelector('.art');var es=e?getComputedStyle(e):null;var ds=d?getComputedStyle(d):null;var as=a?getComputedStyle(a):null;return{descColor:ds?ds.color:null,artColor:as?as.color:null,padTop:es?es.paddingTop:null,descSize:ds?ds.fontSize:null};})()",
-    "expect": { "descColor": "rgb(138, 138, 138)", "artColor": "rgb(181, 181, 181)", "padTop": "32px", "descSize": "14px" }
+    "measure": "(function(){var el=document.querySelector('aha-empty[data-probe]');var sr=el&&el.shadowRoot;var e=sr&&sr.querySelector('.empty');var d=sr&&sr.querySelector('.desc');var a=sr&&sr.querySelector('.art');var svg=a&&a.querySelector('.built-in svg');var es=e?getComputedStyle(e):null;var ds=d?getComputedStyle(d):null;var as=a?getComputedStyle(a):null;return{descColor:ds?ds.color:null,artColor:as?as.color:null,padTop:es?es.paddingTop:null,descSize:ds?ds.fontSize:null,descText:d?d.textContent.trim():null,artW:svg?svg.getAttribute('width'):null,hasCustomArt:a?a.classList.contains('has-custom'):null};})()",
+    "expect": { "descColor": "rgb(138, 138, 138)", "artColor": "rgb(181, 181, 181)", "padTop": "32px", "descSize": "14px", "descText": "No responses yet", "artW": "64", "hasCustomArt": false }
   }
 }

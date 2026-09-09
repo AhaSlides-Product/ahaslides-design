@@ -1,10 +1,14 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared qrCodeTheme. Vue consumes the same
      qrCodeTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the real antd QRCode framed by the DS container bound to the shared theme. -->
+     measures: the real antd QRCode framed by the DS container bound to the shared theme.
+     Interactive: the controls drive live React state (Size / Error level / Status / Bordered),
+     so the whole DS V3 matrix is explorable — the default render (size 160 · error level M ·
+     status active · unbordered, in the .aha-qr frame) is what conformance measures. -->
 <style>
   /* DS V3 QR frame — 1px border, radius 8, white surface, bound to --aha-* tokens (never raw hex). */
   #react-root .aha-qr { display:inline-block; box-sizing:border-box; padding:16px; background:var(--aha-bg-container);
-    border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); }
+    border:1px solid var(--aha-border); border-radius:var(--aha-radius-default);
+    transition:border-color var(--aha-motion-duration-mid,.2s) var(--aha-ease-standard,ease); }
   #react-root .aha-qr .ant-qrcode { padding:0 !important; margin:0 !important; border:0 !important; }
   #react-root .aha-caption { margin-top:8px; font-family:var(--aha-font-product); font-size:12px; color:var(--aha-text-tertiary); text-align:center; }
 </style>
@@ -19,25 +23,67 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
-window.__qr = {
-  theme: {
-    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorBorderSecondary:'#E3E3E3',
-             fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' }
-  }
+window.__st = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorBorderSecondary:'#E3E3E3',
+           fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' }
 };
 </script>
 
 <script type="text/babel">
 const { ConfigProvider, QRCode } = window.__antdR;
-const Q = window.__qr;
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={Q.theme}>
-    <div>
-      <div className="aha-qr">
-        <QRCode value="https://ahaslides.com/join" size={160} bordered={false} color="#1A1A1A" />
+const { useState } = React;
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
+  return (
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={String(o.value)} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
       </div>
-      <div className="aha-caption">ahaslides.com/join · code 1234 5678</div>
     </div>
-  </ConfigProvider>
+  );
+}
+
+function Demo() {
+  const [size, setSize] = useState(160);
+  const [errorLevel, setErrorLevel] = useState('M');
+  const [status, setStatus] = useState('active');
+  const [bordered, setBordered] = useState(false);
+  const caption = status === 'expired' ? 'Link expired — refresh to rescan'
+    : status === 'scanned' ? 'Scanned · ahaslides.com/join'
+    : 'ahaslides.com/join · code 1234 5678';
+  return (
+    <div style={{ maxWidth: 520 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label: '120', value: 120 }, { label: '160', value: 160 }, { label: '200', value: 200 }]} />
+        <Seg label="Error level" value={errorLevel} onChange={setErrorLevel}
+          options={[{ label: 'L', value: 'L' }, { label: 'M', value: 'M' }, { label: 'Q', value: 'Q' }, { label: 'H', value: 'H' }]} />
+        <Seg label="Status" value={status} onChange={setStatus}
+          options={[{ label: 'Active', value: 'active' }, { label: 'Expired', value: 'expired' }, { label: 'Loading', value: 'loading' }, { label: 'Scanned', value: 'scanned' }]} />
+        <Seg label="Bordered" value={bordered} onChange={setBordered}
+          options={[{ label: 'Off', value: false }, { label: 'On', value: true }]} />
+      </div>
+      <div>
+        {/* Default render (160 · M · active · unbordered) is what conformance measures against .aha-qr / canvas. */}
+        <div className="aha-qr">
+          <QRCode value="https://ahaslides.com/join" size={size} errorLevel={errorLevel}
+            status={status} bordered={bordered} color="#1A1A1A" bgColor="#FFFFFF" />
+        </div>
+        <div className="aha-caption">{caption}</div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
 );
 </script>

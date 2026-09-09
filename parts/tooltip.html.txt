@@ -6,8 +6,14 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tooltip.js';   // registers <aha-tooltip>
 </script>
 
-<div style="padding:40px">
+<div style="padding:48px; display:flex; gap:40px">
+  <!-- default: dark navy, above, arrow on, shows on hover/focus -->
   <aha-tooltip text="Copy share link">
     <button style="font-family:'Plus Jakarta Sans',sans-serif">Share</button>
+  </aha-tooltip>
+
+  <!-- placement + a brand fill + no arrow + click to toggle -->
+  <aha-tooltip text="Opens below on click" placement="bottom" color="brand" arrow="false" trigger="click">
+    <button style="font-family:'Plus Jakarta Sans',sans-serif">More</button>
   </aha-tooltip>
 </div>

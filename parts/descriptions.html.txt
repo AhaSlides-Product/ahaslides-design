@@ -6,9 +6,19 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-descriptions.js';   // registers <aha-descriptions>
 </script>
 
-<aha-descriptions desc-title="Account" style="max-width:360px">
-  <div label="Plan">Pro</div>
-  <div label="Seats">25 of 50</div>
-  <div label="Billing cycle">Yearly</div>
-  <div label="Renews">9 Sep 2027</div>
+<!-- items = [{label, value, span?}]; bordered | column="N" | size="default|small|large" | layout="horizontal|vertical" -->
+<aha-descriptions desc-title="Account" bordered column="2" size="default" layout="horizontal" style="max-width:520px"
+  items='[
+    {"label":"Plan","value":"Pro"},
+    {"label":"Status","value":"Active"},
+    {"label":"Seats","value":"25 of 50"},
+    {"label":"Billing cycle","value":"Yearly"},
+    {"label":"Renews","value":"9 Sep 2027","span":2}
+  ]'>
+</aha-descriptions>
+
+<!-- …or feed rows as light-DOM children (each child's label attr + content = one item): -->
+<aha-descriptions desc-title="Plan" style="max-width:360px; margin-top:16px">
+  <div label="Tier">Pro</div>
+  <div label="Notes" span="2">Renews yearly · 25 of 50 seats used</div>
 </aha-descriptions>

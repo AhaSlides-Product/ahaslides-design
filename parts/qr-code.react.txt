@@ -3,8 +3,17 @@ import { qrCodeTheme } from '@ahaslides-product/design/qr-code-theme';
 
 <ConfigProvider theme={qrCodeTheme}>
   <div className="aha-qr">
-    <QRCode value="https://ahaslides.com/join" size={160} bordered={false} color="#1A1A1A" />
+    <QRCode
+      value="https://ahaslides.com/join"
+      size={160}                 // 120 / 160 / 200
+      errorLevel="M"             // L / M / Q / H — raise for a logo overlay
+      status="active"            // active / expired / loading / scanned
+      bordered={false}           // the .aha-qr container owns the DS frame
+      color="#1A1A1A"            // ink modules
+      bgColor="#FFFFFF"          // on white, per DS
+    />
   </div>
 </ConfigProvider>
 // One shared qrCodeTheme → the DS V3 look. Frame the code with the .aha-qr container
 // (1px --aha-border, radius --aha-radius-default) and show the join link/code alongside.
+// Add a centre logo with icon="…" and bump errorLevel to Q/H so it still scans.

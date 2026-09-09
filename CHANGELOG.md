@@ -21,6 +21,24 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.20.0 — 2026-09-10
+### Added
+- **Data Display group → DS V3 matrix + playgrounds.** Each display component widens from a thin example to its full DS V3 matrix, with real code parity + an interactive playground. (#PR)
+- **Card** — `size`, `bordered`, `hoverable`, `loading`, and `cover`/`extra`/`actions` slots. (#PR)
+- **List** — `size`, `bordered`, `split`, header/footer, a structured `items` model (avatar/meta/actions), and `loading`. (#PR)
+- **Collapse** — `accordion`, `ghost`/bordered, `size`, expand-icon position, a `disabled` panel, and an `extra` slot. (#PR)
+- **Descriptions** — `column` count, `bordered`, `size`, `layout` (horizontal/vertical), and per-item `span`. (#PR)
+- **Statistic** — `precision`, prefix/suffix icons, a `trend` (up/down arrow + success/error colour), and `loading`. (#PR)
+- **Empty** — a `simple` image variant, a `description` toggle, and a custom-image slot. (#PR)
+- **Avatar** — `shape`, named + numeric `size`, icon/text/image content, and a new `<aha-avatar-group>` (stacked overlap + `+N` overflow). (#PR)
+- **Badge** — a `count` over a wrapped child, `overflowCount`, `dot`, the full `status` set (+ a processing pulse), a custom `color`, and `showZero`. (#PR)
+- **Tag** — preset `color`s, `bordered`, a leading `icon`, `closable` (animated ✕), and a `checkable` toggle. (#PR)
+- **Tooltip** — `placement` (top/bottom/left/right), `color` (dark/brand), an `arrow` toggle, and `trigger` (hover/focus/click). (#PR)
+- **Image** — a `preview` toggle, `radius`, a loading `placeholder`, and a broken-src `fallback` (keeps the click-to-zoom dialog). (#PR)
+### Changed
+- **Carousel** — interactive playground: dot position · effect (slide/fade) · autoplay · arrows. (#PR)
+- **QR code** — interactive playground: size · error level · status · bordered. (#PR)
+
 ## 0.19.0 — 2026-09-10
 ### Changed
 - **Data Entry composites → interactive playgrounds.** The antd-composite fields now render interactive React playgrounds over the shared theme, so the full DS V3 matrix is explorable (not one static case). Contracts gain `dsv3` notes + matrix `props`/`spec`. (#50)

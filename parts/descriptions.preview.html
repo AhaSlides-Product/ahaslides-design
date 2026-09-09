@@ -1,40 +1,19 @@
 <div class="pad">
-  <div class="lbl">Descriptions · label / value grid</div>
-  <aha-descriptions data-probe desc-title="Account" style="display:block; max-width:360px">
-    <div label="Plan">Pro</div>
-    <div label="Seats">25 of 50</div>
-    <div label="Billing cycle">Yearly</div>
-    <div label="Renews">9 Sep 2027</div>
+  <div class="lbl">Descriptions · bordered · 2 columns · a spanning row · horizontal</div>
+  <aha-descriptions data-probe desc-title="Account" bordered column="2" style="display:block; max-width:520px"
+    items='[
+      {"label":"Plan","value":"Pro"},
+      {"label":"Status","value":"Active"},
+      {"label":"Seats","value":"25 of 50"},
+      {"label":"Billing cycle","value":"Yearly"},
+      {"label":"Renews","value":"9 Sep 2027","span":2}
+    ]'>
   </aha-descriptions>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-descriptions
-     (lib/aha-descriptions.js), inlined here so the preview is self-contained. -->
+<!-- Imports the REAL shipped element (../lib/aha-descriptions.js) — no inlined copy, so the preview
+     can never drift from lib/. The playground control bar (Bordered / Layout / Size / Column) is
+     generated from contracts/descriptions.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:block; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
-  .desc{ border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-default,8px);
-    overflow:hidden; background:var(--aha-bg-container,#FFFFFF) }
-  .title{ padding:12px 16px; border-bottom:1px solid var(--aha-split,#F1F1F1);
-    font-size:15px; line-height:22px; font-weight:600; color:var(--aha-text-default,#1A1A1A) }
-  .grid{ display:grid; grid-template-columns:auto 1fr }
-  .cell{ padding:12px 16px; border-bottom:1px solid var(--aha-split,#F1F1F1); font-size:14px; line-height:22px }
-  .label{ color:var(--aha-text-secondary,#4A4A4A); background:var(--aha-bg-container-secondary,#F7F7F7);
-    font-weight:600; border-right:1px solid var(--aha-split,#F1F1F1); white-space:nowrap }
-  .value{ color:var(--aha-text-default,#1A1A1A) }
-  .grid > .cell:nth-last-child(-n+2){ border-bottom:none }
-`;
-class AhaDescriptions extends HTMLElement {
-  static get observedAttributes() { return ['desc-title']; }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
-  _render() {
-    const rows = [...this.children].map((c) =>
-      `<div class="cell label" part="label">${c.getAttribute('label') || ''}</div><div class="cell value" part="value">${c.innerHTML}</div>`).join('');
-    const title = this.getAttribute('desc-title');
-    const head = title ? `<div class="title" part="title">${title}</div>` : '';
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="desc" part="desc">${head}<div class="grid">${rows}</div></div>`;
-  }
-}
-customElements.define('aha-descriptions', AhaDescriptions);
+  import '../lib/aha-descriptions.js';   // registers <aha-descriptions> — the shipped primitive, byte-identical to consumers'
 </script>

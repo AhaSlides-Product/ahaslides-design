@@ -1,12 +1,28 @@
 import '@ahaslides-product/design/aha-badge';   // registers <aha-badge>
+import '@ahaslides-product/design/icons';       // registers <aha-icon>
 
 // Attributes only — no events — so React 18/19 can render the element directly.
-function AhaBadge({ count, max, dot, status }) {
-  return <aha-badge count={count} max={max} status={status} {...(dot ? { dot: '' } : {})} />;
+// Boolean attrs (dot/showZero) are the attribute PRESENCE, so spread them conditionally.
+function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, children }) {
+  return (
+    <aha-badge
+      count={count}
+      overflow-count={overflowCount}
+      status={status}
+      text={text}
+      color={color}
+      {...(dot ? { dot: '' } : {})}
+      {...(showZero ? { 'show-zero': '' } : {})}
+    >
+      {children}
+    </aha-badge>
+  );
 }
 
-// usage — anchor the badge to the element it marks
-<span style={{ position: 'relative' }}>
+// count over a wrapped child
+<AhaBadge count={unread} overflowCount={99}>
   <BellIcon />
-  <AhaBadge count={unread} max={99} />
-</span>
+</AhaBadge>
+
+// a standalone status badge — a semantic dot + label
+<AhaBadge status="processing" text="Generating" />

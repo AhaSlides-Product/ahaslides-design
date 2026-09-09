@@ -1,18 +1,30 @@
-import '@ahaslides-product/design/aha-tag';   // registers <aha-tag>
+import '@ahaslides-product/design/icons';   // registers <aha-icon>
+import '@ahaslides-product/design/aha-tag'; // registers <aha-tag>
 import { useRef, useEffect } from 'react';
 
-// React 18 needs a thin wrapper for the composed `close` event; React 19 can bind onClose directly.
-function AhaTag({ variant, closable, onClose, children }) {
+// React 18 needs a thin wrapper for the composed `close` / `change` events; React 19 can bind directly.
+function AhaTag({ color, bordered, icon, closable, checkable, checked, onClose, onChange, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
-    const h = () => onClose?.();
-    el.addEventListener('close', h);
-    return () => el.removeEventListener('close', h);
+    const c = () => onClose?.();
+    const ch = (e) => onChange?.(e.detail.checked);
+    el.addEventListener('close', c);
+    el.addEventListener('change', ch);
+    return () => { el.removeEventListener('close', c); el.removeEventListener('change', ch); };
   });
-  return <aha-tag ref={ref} variant={variant} {...(closable ? { closable: '' } : {})}>{children}</aha-tag>;
+  return (
+    <aha-tag ref={ref} color={color} icon={icon}
+      {...(bordered ? { bordered: '' } : {})}
+      {...(closable ? { closable: '' } : {})}
+      {...(checkable ? { checkable: '' } : {})}
+      {...(checked ? { checked: '' } : {})}
+    >{children}</aha-tag>
+  );
 }
 
 // usage
-<AhaTag variant="primary">Poll</AhaTag>
+<AhaTag color="primary" icon="system-tag">Poll</AhaTag>
+<AhaTag color="success" bordered icon="system-check">Published</AhaTag>
 <AhaTag closable onClose={() => removeKeyword('Marketing')}>Marketing</AhaTag>
+<AhaTag checkable checked onChange={(on) => setFilter(on)}>Quizzes only</AhaTag>

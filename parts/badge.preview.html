@@ -1,52 +1,34 @@
 <div class="pad">
-  <div class="lbl">Counts · default error · capped · status colours</div>
-  <div class="row">
+  <div class="lbl">Count · over a wrapped child · capped as N+ · custom colour</div>
+  <div class="row" style="gap:24px; align-items:center">
     <aha-badge data-probe count="5"></aha-badge>
-    <aha-badge count="23"></aha-badge>
-    <aha-badge count="128" max="99"></aha-badge>
-    <aha-badge count="8" status="primary"></aha-badge>
-    <aha-badge count="3" status="success"></aha-badge>
-    <aha-badge count="1" status="warning"></aha-badge>
+    <aha-badge count="128" overflow-count="99"></aha-badge>
+    <aha-badge count="0" show-zero></aha-badge>
+    <aha-badge count="9" color="#722ED1"></aha-badge>
+    <aha-badge count="12"><button style="padding:8px 14px; border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-default,8px); background:#fff; font:inherit; cursor:pointer">Inbox</button></aha-badge>
+    <aha-badge dot><aha-icon name="system-bell" size="24"></aha-icon></aha-badge>
   </div>
-  <div class="lbl">Dots · status without a number</div>
-  <div class="row">
-    <aha-badge dot></aha-badge>
+  <div class="lbl">Dot · a bare marker in each status colour</div>
+  <div class="row" style="gap:16px; align-items:center">
+    <aha-badge dot status="error"></aha-badge>
     <aha-badge dot status="success"></aha-badge>
     <aha-badge dot status="warning"></aha-badge>
-    <aha-badge dot status="primary"></aha-badge>
+    <aha-badge dot status="processing"></aha-badge>
+  </div>
+  <div class="lbl">Status · a standalone semantic dot + label</div>
+  <div class="row" style="gap:20px; align-items:center; flex-wrap:wrap">
+    <aha-badge status="success" text="Published"></aha-badge>
+    <aha-badge status="processing" text="Generating"></aha-badge>
+    <aha-badge status="error" text="Failed"></aha-badge>
+    <aha-badge status="warning" text="Draft"></aha-badge>
+    <aha-badge status="default" text="Archived"></aha-badge>
   </div>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-badge (lib/aha-badge.js),
-     inlined here so the preview is self-contained (no build step, no network). -->
+<!-- Imports the REAL shipped element (../lib/aha-badge.js) + the icon library — no inlined copy, so
+     the preview can never drift from lib/. The playground control bar (Type / Status) is generated
+     from contracts/badge.json → playground and drives the [data-probe] element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:inline-flex; vertical-align:middle }
-  .badge{ box-sizing:border-box; display:inline-flex; align-items:center; justify-content:center;
-    height:18px; min-width:18px; padding:0 6px;
-    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:11px; line-height:18px; font-weight:600;
-    color:var(--aha-text-inverse,#FFFFFF); background:var(--aha-color-error,#F5222D);
-    border-radius:var(--aha-radius-pill,999px);
-    transition:background var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)), color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
-  :host([status="success"]) .badge{ background:var(--aha-color-success,#16C49A) }
-  :host([status="warning"]) .badge{ background:var(--aha-color-warning,#FF7747) }
-  :host([status="primary"]) .badge{ background:var(--aha-color-primary,#6A1EBB) }
-  :host([dot]) .badge{ width:8px; height:8px; min-width:0; padding:0 }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
-`;
-class AhaBadge extends HTMLElement {
-  static get observedAttributes() { return ['count', 'max', 'dot', 'status']; }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
-  _render() {
-    let text = '';
-    if (!this.hasAttribute('dot')) {
-      const count = Number(this.getAttribute('count') || 0);
-      const max = Number(this.getAttribute('max') || 99);
-      text = count > max ? `${max}+` : String(count);
-    }
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><span class="badge" part="badge">${text}</span>`;
-  }
-}
-customElements.define('aha-badge', AhaBadge);
+  import '../lib/icons.js';       // registers <aha-icon> so the wrapped bell glyph resolves from the DS library
+  import '../lib/aha-badge.js';   // registers <aha-badge> — the shipped primitive, byte-identical to what consumers get
 </script>

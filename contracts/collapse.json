@@ -6,18 +6,26 @@
   "badge": "shared Lit web component",
   "element": "aha-collapse",
   "summary": "A single expandable panel that hides secondary content until asked.",
-  "lead": "ONE custom element — <aha-collapse> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the `open` attribute IS the state, and clicking the header toggles it while CSS animates the body height + chevron on a persistent node — the transition always fires. slot=\"header\" is the summary, the default slot the body. Emits a composed `toggle` event.",
-  "codeNote": "The open/close animation lives on a persistent node (the header toggles the `open` attribute; :host([open]) drives the CSS), so it never dies to a subtree rebuild — the Switch-click trap. `open` is observed, so setting it as a controlled prop keeps both the visuals AND the header's aria-expanded in sync for a screen reader. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container", "border", "split", "radius-default", "text-default", "text-secondary", "bg-hover", "icon-default", "font-product"],
+  "lead": "ONE custom element — <aha-collapse> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the `open` attribute IS the state, and clicking the header toggles it while CSS animates the body height + caret on a persistent node — the transition always fires. The DS V3 Collapse is a family (a Collapse container + Collapse-Item), so one panel carries the whole matrix as attributes: `accordion` (one panel open at a time across siblings), bordered (default) vs `ghost` (borderless), `size` (default · small), `icon-position` (start · end), a `disabled` panel, and a slot=\"extra\" header accessory. slot=\"header\" is the summary, the default slot the body; the caret is an <aha-icon> from the DS library. Emits a composed `toggle` event.",
+  "codeNote": "The open/close animation lives on a persistent node (the header toggles the `open` attribute; :host([open]) drives the CSS), so it never dies to a subtree rebuild — the Switch-click trap. `open` + `disabled` are observed, so setting them as controlled props keeps both the visuals AND the header's aria-expanded/aria-disabled in sync for a screen reader. `accordion` coordinates siblings: opening a panel closes its sibling accordion panels under the same parent. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "border", "split", "radius-default", "text-default", "text-secondary", "text-disabled", "bg-hover", "icon-default", "border-focus", "font-product"],
   "spec": [
-    { "label": "Panel", "value": "border 1px #E3E3E3 · radius 8px · bg #FFFFFF" },
-    { "label": "Header", "value": "padding 14/16 · 15/22 SemiBold #1A1A1A · hover #F7F7F7" },
-    { "label": "Chevron", "value": "8×8 border glyph, rotate -45°→45° on open, motion-mid ease-in-out" },
-    { "label": "Body", "value": "grid-rows 0fr→1fr, motion-mid ease-in-out · 14/22 #4A4A4A" }
+    { "label": "Panel", "value": "border 1px #E3E3E3 · radius 8px · bg #FFFFFF (ghost: borderless, transparent)" },
+    { "label": "Header", "value": "padding 14/16 · 15/22 SemiBold #1A1A1A · hover #F7F7F7 (small: 8/12 · 14/20)" },
+    { "label": "Caret", "value": "system-caret-right <aha-icon>, rotate 0°→90° on open, motion-mid ease-in-out" },
+    { "label": "Icon position", "value": "start (leading, default) or end (trailing edge, via order)" },
+    { "label": "Body", "value": "grid-rows 0fr→1fr, motion-mid ease-in-out · 14/22 #4A4A4A" },
+    { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, hover suppressed, aria-disabled" }
   ],
   "props": [
-    { "name": "open", "type": "boolean", "default": "false", "desc": "Whether the panel is expanded; toggled on header click" },
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Whether the panel is expanded; toggled on header click (observed → aria-expanded synced)" },
+    { "name": "accordion", "type": "boolean", "default": "false", "desc": "Opening this panel closes sibling accordion panels under the same parent (one-open-at-a-time)" },
+    { "name": "ghost", "type": "boolean", "default": "false", "desc": "Borderless, transparent surface that sits seamlessly on the page" },
+    { "name": "size", "type": "'small'", "default": "—", "desc": "Denser header + body padding" },
+    { "name": "icon-position", "type": "'start' | 'end'", "default": "start", "desc": "Caret on the leading or trailing edge of the header" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive, dimmed panel (observed → aria-disabled synced)" },
     { "name": "header", "type": "slot", "default": "Section", "desc": "The always-visible summary row" },
+    { "name": "extra", "type": "slot", "default": "—", "desc": "A trailing header accessory (a tag, a count, an icon)" },
     { "name": "toggle", "type": "CustomEvent<{open}>", "default": "—", "desc": "Composed event; read e.detail.open" }
   ],
   "opinion": {
@@ -27,7 +35,7 @@
       { "what": "Card", "when": "content that should always be visible" }
     ],
     "note": "Header text names what's inside — 'Advanced settings', not 'More'. Keep panels shallow; deep nesting hides content people never find.",
-    "dsv3": "COVERED — DS V3's measured set has no Collapse cell; spec derived from the token layer (radius-default, border, split, bg-hover, icon-default) + antd Collapse conventions. A deliberate, documented extension — not a measured match."
+    "dsv3": "COVERED — enumerated from the DS V3 Collapse component-set taxonomy (fileKey MwjvUjVI0HnfwD9EwPXRAy): a Collapse container + a Collapse-Item, mirroring antd — the container carries accordion / bordered vs ghost / size / expand-icon position, the item carries disabled + an extra accessory. DS V3's measured cell set has no Collapse px/rgb, so the look is derived from the token layer (radius-default, border, split, bg-hover, icon-default, text-disabled) + antd Collapse conventions. A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-collapse", "registers": "aha-collapse", "exportsNamed": ["AhaCollapse", "defineAhaCollapse"] },
@@ -37,18 +45,39 @@
     { "key": "vue", "label": "Vue 3", "file": "collapse.vue.txt" }
   ],
   "preview": "collapse.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "accordion", "label": "Accordion", "default": "", "options": [
+        { "label": "On", "value": "" },
+        { "label": "Off", "value": null }
+      ] },
+      { "prop": "ghost", "label": "Surface", "default": null, "options": [
+        { "label": "Bordered", "value": null },
+        { "label": "Ghost", "value": "" }
+      ] },
+      { "prop": "size", "label": "Size", "default": null, "options": [
+        { "label": "Default", "value": null },
+        { "label": "Small", "value": "small" }
+      ] },
+      { "prop": "icon-position", "label": "Caret", "default": "start", "options": [
+        { "label": "Start", "value": "start" },
+        { "label": "End", "value": "end" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "panel radius 8 · border #E3E3E3", "verdict": "PASS" },
-    { "label": "chevron rotates via motion tokens (persistent node)", "verdict": "PASS" },
+    { "label": "panel radius 8 · border #E3E3E3 (ghost: borderless)", "verdict": "PASS" },
+    { "label": "caret <aha-icon> rotates 0°→90° via motion tokens (persistent node)", "verdict": "PASS" },
     { "label": "body height animates grid-rows 0fr→1fr", "verdict": "PASS" },
-    { "label": "header 15/22 SemiBold #1A1A1A", "verdict": "PASS" },
-    { "label": "controlled `open` prop keeps aria-expanded in sync (observedAttributes)", "verdict": "PASS" }
+    { "label": "header 15/22 SemiBold #1A1A1A (small: 14/20)", "verdict": "PASS" },
+    { "label": "accordion closes sibling panels; disabled suppresses toggle", "verdict": "PASS" },
+    { "label": "controlled `open`/`disabled` keep aria-expanded/aria-disabled in sync (observedAttributes)", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-collapse[data-probe]') && document.querySelector('aha-collapse[data-probe]').shadowRoot && document.querySelector('aha-collapse[data-probe]').shadowRoot.querySelector('.head'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-collapse[data-probe]');var sr=el&&el.shadowRoot;var p=sr&&sr.querySelector('.panel');var h=sr&&sr.querySelector('.head');var ps=p?getComputedStyle(p):null;var hs=h?getComputedStyle(h):null;return{panelRadius:ps?ps.borderTopLeftRadius:null,panelBorder:ps?ps.borderTopColor:null,panelBg:ps?ps.backgroundColor:null,headColor:hs?hs.color:null};})()",
-    "expect": { "panelRadius": "8px", "panelBorder": "rgb(227, 227, 227)", "panelBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-collapse[data-probe]');var sr=el&&el.shadowRoot;var p=sr&&sr.querySelector('.panel');var h=sr&&sr.querySelector('.head');var b=sr&&sr.querySelector('.body');var ps=p?getComputedStyle(p):null;var hs=h?getComputedStyle(h):null;var bs=b?getComputedStyle(b):null;return{panelRadius:ps?ps.borderTopLeftRadius:null,panelBorder:ps?ps.borderTopColor:null,panelBg:ps?ps.backgroundColor:null,headColor:hs?hs.color:null,ariaExpanded:h?h.getAttribute('aria-expanded'):null,bodyRows:bs?bs.gridTemplateRows:null,bodyOpen:bs?(parseFloat(bs.gridTemplateRows)>0):null};})()",
+    "expect": { "panelRadius": "8px", "panelBorder": "rgb(227, 227, 227)", "panelBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)", "ariaExpanded": "true", "bodyOpen": true }
   }
 }

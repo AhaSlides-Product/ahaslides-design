@@ -1,19 +1,27 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-collapse> is the SAME shared custom element React and Vue consume — here in its
-     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+     native form. Theming comes only from the --aha-* tokens in tokens.css.
+     accordion → one panel open at a time · disabled → read-only · slot="extra" → header accessory
+     ghost → borderless · size="small" → dense · icon-position="end" → caret trailing. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-collapse.js';   // registers <aha-collapse>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';        // registers <aha-icon>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-collapse.js'; // registers <aha-collapse>
 </script>
 
-<div style="display:flex; flex-direction:column; gap:8px; max-width:360px">
-  <aha-collapse open>
+<div style="display:flex; flex-direction:column; gap:8px; max-width:380px">
+  <aha-collapse accordion open>
     <span slot="header">Advanced settings</span>
+    <aha-icon slot="extra" name="system-star" size="14" aria-hidden="true"></aha-icon>
     Let participants join anonymously, and shuffle the answer order.
   </aha-collapse>
-  <aha-collapse id="scoring">
+  <aha-collapse accordion id="scoring">
     <span slot="header">Scoring</span>
     Award points by speed, and show a leaderboard between rounds.
+  </aha-collapse>
+  <aha-collapse disabled>
+    <span slot="header">Billing (read-only)</span>
+    Managed by your workspace owner.
   </aha-collapse>
 </div>
 

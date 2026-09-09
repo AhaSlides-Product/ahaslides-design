@@ -1,14 +1,29 @@
 import '@ahaslides-product/design/aha-card';   // registers <aha-card>
+import '@ahaslides-product/design/icons';      // registers <aha-icon>
 
 // The custom element renders its own shadow DOM; React just passes attributes + slots.
-function DeckCard({ title, hoverable, children }) {
+// Boolean attrs (hoverable/loading) render as presence; string attrs (size/bordered) pass through.
+function DeckCard({ title, size, bordered, hoverable, loading, cover, extra, actions, children }) {
   return (
-    <aha-card card-title={title} {...(hoverable ? { hoverable: '' } : {})}>
+    <aha-card
+      card-title={title}
+      size={size}
+      bordered={bordered}
+      {...(hoverable ? { hoverable: '' } : {})}
+      {...(loading ? { loading: '' } : {})}
+    >
+      {cover && <img slot="cover" src={cover} alt="" />}
+      {extra && <a slot="extra" href="#">{extra}</a>}
       {children}
+      {actions && <div slot="actions">{actions}</div>}
     </aha-card>
   );
 }
 
 // usage
-<DeckCard title="Live poll">Which release cadence works best for your team?</DeckCard>
-<DeckCard title="Weekly digest" hoverable>A clickable card lifts on hover.</DeckCard>
+<DeckCard title="Live poll" hoverable cover="cover.jpg" extra="Edit"
+  actions={<><aha-icon name="system-share-network" size="16" /><aha-icon name="system-bookmark-simple" size="16" /></>}>
+  Which release cadence works best for your team?
+</DeckCard>
+<DeckCard title="Weekly digest" size="small">A small card tightens its padding.</DeckCard>
+<DeckCard title="Loading" loading />

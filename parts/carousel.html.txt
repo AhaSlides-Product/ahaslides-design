@@ -23,9 +23,10 @@
   const slides = ['Create in minutes', 'Present live', 'Share the results'];
 
   // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  // Full matrix on one component: dotPosition (top/bottom/left/right) · effect (scrollx/fade) · autoplay · arrows.
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: carouselTheme },
-      h(Carousel, { dots: true },
+      h(Carousel, { dots: true, dotPosition: 'bottom', effect: 'scrollx', autoplay: false, arrows: false },
         ...slides.map((s, i) => h('div', { key: i }, h('div', { className: 'aha-slide' }, s)))
       )
     )

@@ -6,4 +6,12 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-image.js';   // registers <aha-image>
 </script>
 
+<!-- Click-to-zoom preview (default), rounded frame -->
 <aha-image width="240" height="150" src="https://picsum.photos/240/150" alt="Deck cover">Preview</aha-image>
+
+<!-- Plain framed picture — no zoom -->
+<aha-image width="240" height="150" preview="false" radius="lg" src="https://picsum.photos/240/150" alt="Cover"></aha-image>
+
+<!-- Loading placeholder + a broken-src fallback -->
+<aha-image width="240" height="150" placeholder src="https://picsum.photos/240/150" alt="Cover"></aha-image>
+<aha-image width="240" height="150" fallback="Couldn’t load cover" src="/does-not-exist.png" alt="Cover"></aha-image>

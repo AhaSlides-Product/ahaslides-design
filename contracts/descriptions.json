@@ -5,20 +5,30 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-descriptions",
-  "summary": "A read-only label/value grid summarising one entity's fields.",
-  "lead": "ONE custom element — <aha-descriptions> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; each light-DOM child supplies one row via its `label` attribute + its content, and `desc-title` renders an optional header. Zero drift — the same element, not two look-alikes.",
+  "summary": "A read-only label/value grid summarising one entity's fields — N columns, bordered or plain, horizontal or vertical, with per-item span.",
+  "lead": "ONE custom element — <aha-descriptions> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. Feed it an `items` tree ([{label, value, span?}]) or light-DOM children (each child's `label` attr + content = one item). The DS V3 / antd Descriptions is a family, not a fixed two-column list: it flows N `column`s per row (an item may `span` several), lays out `horizontal` (label : value) or `vertical` (label over value), renders `bordered` (a ruled table with a tinted label column) or plain (row dividers only), and scales padding by `size` (default · small · large). `desc-title` renders an optional header. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "bg-container-secondary", "border", "split", "radius-default", "text-default", "text-secondary", "font-product"],
   "spec": [
     { "label": "Container", "value": "border 1px #E3E3E3 · radius 8px · bg #FFFFFF" },
     { "label": "Title", "value": "padding 12/16 · 15/22 SemiBold #1A1A1A · divider #F1F1F1" },
-    { "label": "Label cell", "value": "bg #F7F7F7 · SemiBold #4A4A4A · padding 12/16" },
-    { "label": "Value cell", "value": "#1A1A1A · padding 12/16 · rows divided #F1F1F1" }
+    { "label": "Label cell", "value": "SemiBold #4A4A4A · bordered → bg #F7F7F7 + tinted column" },
+    { "label": "Value cell", "value": "#1A1A1A · 14/22 · rows/cells ruled #F1F1F1" },
+    { "label": "Column", "value": "N label/value pairs flow per row; an item spans several (default 2 · vertical 3)" },
+    { "label": "Bordered", "value": "ruled table — cell borders #F1F1F1 + tinted label column; plain = row dividers only" },
+    { "label": "Size", "value": "padding scale — default 12/16 · small 8/12 · large 16/20" },
+    { "label": "Layout", "value": "horizontal (label : value) · vertical (label over value)" }
   ],
   "props": [
+    { "name": "items", "type": "JSON [{label,value,span?}]", "default": "—", "desc": "The items, as a JSON tree. Alternative to light-DOM children" },
     { "name": "desc-title", "type": "string", "default": "—", "desc": "Renders an optional header row" },
-    { "name": "label", "type": "string (on children)", "default": "—", "desc": "Each child's label attribute names its row" },
-    { "name": "(children)", "type": "slot", "default": "—", "desc": "Each child's content is the row value" }
+    { "name": "column", "type": "number", "default": "2 (vertical 3)", "desc": "Label/value pairs per row" },
+    { "name": "bordered", "type": "boolean attr", "default": "false", "desc": "Ruled table with cell borders + tinted label column" },
+    { "name": "size", "type": "'default' | 'small' | 'large'", "default": "default", "desc": "Cell padding scale" },
+    { "name": "layout", "type": "'horizontal' | 'vertical'", "default": "horizontal", "desc": "Label : value side-by-side, or label stacked over value" },
+    { "name": "label", "type": "string (on children)", "default": "—", "desc": "Each child's label attribute names its item" },
+    { "name": "span", "type": "number (items/children)", "default": "1", "desc": "How many columns the item spans" },
+    { "name": "(children)", "type": "slot", "default": "—", "desc": "Each child's content is the item value (when not using items)" }
   ],
   "opinion": {
     "whenToUse": [
@@ -27,7 +37,7 @@
       { "what": "Table", "when": "the same fields across many records" }
     ],
     "note": "Labels are sentence case nouns — 'Billing cycle', not 'BILLING CYCLE'. Keep to the facts that matter; a long grid reads like a form nobody can fill in.",
-    "dsv3": "COVERED — DS V3's measured set has no Descriptions cell; spec derived from the token layer (radius-default, border, split, bg-container-secondary, text-default/secondary) + antd Descriptions conventions. A deliberate, documented extension — not a measured match."
+    "dsv3": "COVERED — DS V3's measured set has no Descriptions cell (confirmed via Figma search on fileKey MwjvUjVI0HnfwD9EwPXRAy — no Descriptions/Detail component-set); the variant matrix (column · bordered vs plain · size default/small/large · layout horizontal/vertical · per-item span) is enumerated from antd Descriptions conventions, bound to the token layer (radius-default, border, split, bg-container-secondary, text-default/secondary). A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["dashboard", "settings"],
   "reuse": { "entry": "./aha-descriptions", "registers": "aha-descriptions", "exportsNamed": ["AhaDescriptions", "defineAhaDescriptions"] },
@@ -37,17 +47,40 @@
     { "key": "vue", "label": "Vue 3", "file": "descriptions.vue.txt" }
   ],
   "preview": "descriptions.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "bordered", "label": "Bordered", "default": "true", "options": [
+        { "label": "Bordered", "value": "true" },
+        { "label": "Plain", "value": null }
+      ] },
+      { "prop": "layout", "label": "Layout", "default": "horizontal", "options": [
+        { "label": "Horizontal", "value": "horizontal" },
+        { "label": "Vertical", "value": "vertical" }
+      ] },
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default", "value": "default" },
+        { "label": "Small", "value": "small" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "column", "label": "Columns", "default": "2", "options": [
+        { "label": "1", "value": "1" },
+        { "label": "2", "value": "2" },
+        { "label": "3", "value": "3" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "container radius 8 · border #E3E3E3", "verdict": "PASS" },
-    { "label": "label cell bg #F7F7F7 SemiBold #4A4A4A", "verdict": "PASS" },
+    { "label": "bordered → label cell bg #F7F7F7 SemiBold #4A4A4A, cell border #F1F1F1", "verdict": "PASS" },
     { "label": "value cell #1A1A1A", "verdict": "PASS" },
-    { "label": "rows divided by #F1F1F1", "verdict": "PASS" }
+    { "label": "column flows N label/value pairs; item span merges columns", "verdict": "PASS" },
+    { "label": "size scales padding (default/small/large); layout horizontal/vertical", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-descriptions[data-probe]') && document.querySelector('aha-descriptions[data-probe]').shadowRoot && document.querySelector('aha-descriptions[data-probe]').shadowRoot.querySelector('.label'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-descriptions[data-probe]');var sr=el&&el.shadowRoot;var d=sr&&sr.querySelector('.desc');var l=sr&&sr.querySelector('.label');var v=sr&&sr.querySelector('.value');var ds=d?getComputedStyle(d):null;var lsx=l?getComputedStyle(l):null;var vs=v?getComputedStyle(v):null;return{descRadius:ds?ds.borderTopLeftRadius:null,descBorder:ds?ds.borderTopColor:null,labelColor:lsx?lsx.color:null,labelBg:lsx?lsx.backgroundColor:null,valueColor:vs?vs.color:null};})()",
-    "expect": { "descRadius": "8px", "descBorder": "rgb(227, 227, 227)", "labelColor": "rgb(74, 74, 74)", "labelBg": "rgb(247, 247, 247)", "valueColor": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-descriptions[data-probe]');var sr=el&&el.shadowRoot;var d=sr&&sr.querySelector('.desc');var l=sr&&sr.querySelector('.label');var v=sr&&sr.querySelector('.value');var ds=d?getComputedStyle(d):null;var lsx=l?getComputedStyle(l):null;var vs=v?getComputedStyle(v):null;return{descRadius:ds?ds.borderTopLeftRadius:null,descBorder:ds?ds.borderTopColor:null,labelColor:lsx?lsx.color:null,labelBg:lsx?lsx.backgroundColor:null,cellBorder:lsx?lsx.borderRightColor:null,valueColor:vs?vs.color:null};})()",
+    "expect": { "descRadius": "8px", "descBorder": "rgb(227, 227, 227)", "labelColor": "rgb(74, 74, 74)", "labelBg": "rgb(247, 247, 247)", "cellBorder": "rgb(241, 241, 241)", "valueColor": "rgb(26, 26, 26)" }
   }
 }

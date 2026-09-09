@@ -1,37 +1,24 @@
 <div class="pad">
-  <div class="lbl">Card · titled surface · hoverable</div>
+  <div class="lbl">Card · cover · title + extra action · body · footer actions · hoverable</div>
   <div class="row" style="align-items:stretch">
-    <aha-card data-probe card-title="Live poll" style="width:260px">Which release cadence works best for your team this quarter?</aha-card>
-    <aha-card hoverable card-title="Weekly digest" style="width:260px">A clickable card lifts on hover. Tap to open the full report.</aha-card>
+    <aha-card data-probe card-title="Live poll" hoverable style="width:300px">
+      <img slot="cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'300'%20height%3D'120'%3E%3Crect%20width%3D'300'%20height%3D'120'%20fill%3D'%23F9F5FF'%2F%3E%3C%2Fsvg%3E" alt="" />
+      <a slot="extra" href="#" style="color:var(--aha-text-link,#6A1EBB);text-decoration:none;font-size:14px">Edit</a>
+      Which release cadence works best for your team this quarter?
+      <div slot="actions">
+        <aha-icon name="system-share-network" size="16" aria-hidden="true"></aha-icon>
+        <aha-icon name="system-bookmark-simple" size="16" aria-hidden="true"></aha-icon>
+      </div>
+    </aha-card>
+    <aha-card size="small" card-title="Weekly digest" style="width:240px">A small card tightens its padding. One idea per card.</aha-card>
+    <aha-card bordered="false" card-title="Borderless" style="width:240px">No outline — a flat surface that leans on the page background.</aha-card>
   </div>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-card (lib/aha-card.js),
-     inlined here so the preview is self-contained (no build step, no network). -->
+<!-- Imports the REAL shipped element (../lib/aha-card.js) + the icon library — no inlined copy, so the
+     preview can never drift from lib/. The playground control bar (Size / Bordered / Hoverable) is
+     generated from contracts/card.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:block }
-  .card{ box-sizing:border-box; background:var(--aha-bg-container,#FFFFFF);
-    border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-lg,12px); overflow:hidden;
-    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif);
-    transition:box-shadow var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)), border-color var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)) }
-  .head{ display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:16px 20px; border-bottom:1px solid var(--aha-split,#F1F1F1);
-    font-size:16px; line-height:24px; font-weight:600; color:var(--aha-text-default,#1A1A1A) }
-  .body{ padding:20px; font-size:14px; line-height:22px; color:var(--aha-text-secondary,#4A4A4A) }
-  :host([hoverable]) .card{ cursor:pointer }
-  :host([hoverable]:hover) .card{ border-color:var(--aha-border-hover,#D3B4FF); box-shadow:0 4px 12px var(--aha-ink-a10,rgba(26,26,46,.1)) }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
-`;
-class AhaCard extends HTMLElement {
-  static get observedAttributes() { return ['card-title']; }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
-  _render() {
-    const title = this.getAttribute('card-title');
-    const head = title ? `<div class="head" part="head"><span>${title}</span><span class="extra"><slot name="extra"></slot></span></div>` : '';
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="card" part="card">${head}<div class="body" part="body"><slot></slot></div></div>`;
-  }
-}
-customElements.define('aha-card', AhaCard);
+  import '../lib/icons.js';      // registers <aha-icon> so the footer action glyphs resolve from the DS library
+  import '../lib/aha-card.js';   // registers <aha-card> — the shipped primitive, byte-identical to what consumers get
 </script>

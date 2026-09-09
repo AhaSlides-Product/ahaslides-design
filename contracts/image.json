@@ -5,22 +5,28 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-image",
-  "summary": "A framed image with rounded corners and a hover preview mask.",
-  "lead": "ONE custom element — <aha-image> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `src`/`alt` set the picture, `width`/`height` the frame, and on hover the image scales while a mask fades in — both animate on a persistent node via the shared motion tokens. Zero drift — the same element.",
-  "codeNote": "The hover scale + mask fade live on a persistent node (only the :hover pseudo-class changes, never a subtree rebuild), so the transition always fires. Clicking (or Enter/Space on) the frame opens a modal preview overlay — a persistent node faded/scaled in on the shared tokens, never rebuilt on open. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container-secondary", "radius-default", "radius-lg", "text-inverse", "bg-overlay", "bg-container", "icon-strong", "font-product"],
+  "summary": "A framed image with rounded corners, a hover preview mask, a loading placeholder and a broken-src fallback.",
+  "lead": "ONE custom element — <aha-image> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `src`/`alt` set the picture, `width`/`height` the frame, `radius` the corner. On hover the image scales while a mask fades in — both animate on a persistent node via the shared motion tokens — and a click opens a zoom preview. Turn the zoom off with `preview=\"false\"` (a plain framed picture); show a shimmer skeleton with `placeholder`; a broken/empty `src` swaps to a `fallback` glyph + label. Zero drift — the same element.",
+  "codeNote": "The hover scale + mask fade live on a persistent node (only the :hover pseudo-class changes, never a subtree rebuild), so the transition always fires. Clicking (or Enter/Space on) the frame opens a modal preview overlay — a persistent node faded/scaled in on the shared tokens, never rebuilt on open. The load/error lifecycle toggles data-state on the persistent frame (loading→loaded→error) so the placeholder fades and the fallback reveals without a rebuild. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container-secondary", "bg-container", "bg-container-disabled", "bg-hover", "radius-xs", "radius-sm", "radius-default", "radius-lg", "radius-xl", "radius-pill", "text-inverse", "text-tertiary", "icon-muted", "icon-strong", "bg-overlay", "color-primary", "font-product"],
   "spec": [
-    { "label": "Frame", "value": "radius 8px · bg #F7F7F7 · overflow hidden · role=button, keyboard-focusable" },
+    { "label": "Frame", "value": "radius 8px (radius attr xs 4·sm 6·default 8·lg 12·xl 16·pill) · bg #F7F7F7 · overflow hidden · role=button, keyboard-focusable" },
     { "label": "Image", "value": "object-fit cover · scale 1.06 on hover, motion-slow ease-out" },
     { "label": "Mask", "value": "overlay rgba(26,26,46,.7) · #FFFFFF 13/SemiBold · fade motion-mid" },
-    { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button / backdrop dismiss; focus moves in and is restored on close" },
+    { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button / backdrop dismiss; focus moves in and is restored on close. preview=\"false\" → plain picture, no mask/click/dialog" },
+    { "label": "Placeholder", "value": "shimmer skeleton (icon-muted on bg-secondary) shown while loading; fades on the image load, persistent node" },
+    { "label": "Fallback", "value": "broken/empty src → system-image-square glyph + label, text-tertiary on bg-secondary, role=img" },
     { "label": "Sizing", "value": "width/height attributes drive the frame" }
   ],
   "props": [
-    { "name": "src", "type": "string", "default": "—", "desc": "Image source URL" },
+    { "name": "src", "type": "string", "default": "—", "desc": "Image source URL (empty/broken → the fallback state)" },
     { "name": "alt", "type": "string", "default": "—", "desc": "Alternative text for the image" },
     { "name": "width", "type": "number", "default": "—", "desc": "Frame width in px" },
     { "name": "height", "type": "number", "default": "—", "desc": "Frame height in px" },
+    { "name": "preview", "type": "'true' | 'false'", "default": "true", "desc": "Click-to-zoom modal. `false` → a plain framed picture (no mask, no click, no dialog)" },
+    { "name": "radius", "type": "'xs'|'sm'|'default'|'lg'|'xl'|'pill'", "default": "default", "desc": "Frame corner from the DS radius scale" },
+    { "name": "placeholder", "type": "boolean", "default": "off", "desc": "Show a shimmer loading skeleton until the image loads" },
+    { "name": "fallback", "type": "string", "default": "Image unavailable", "desc": "Label shown in the broken-src error state (its presence never forces the state — a broken/empty src does)" },
     { "name": "(default slot)", "type": "slot", "default": "Preview", "desc": "The label shown in the hover mask" }
   ],
   "opinion": {
@@ -30,7 +36,7 @@
       { "what": "Card", "when": "a picture is one part of a larger grouped surface" }
     ],
     "note": "Always set alt for accessibility. Keep the mask label short — 'Preview', 'View' — it is an invitation, not a caption.",
-    "dsv3": "COVERED — DS V3's measured set has no Image cell; spec derived from the token layer (radius-default, bg-container-secondary, bg-overlay, text-inverse) + antd Image conventions (hover mask preview). A deliberate, documented extension — not a measured match."
+    "dsv3": "COVERED — enumerated against the DS V3 Image component-set (fileKey MwjvUjVI0HnfwD9EwPXRAy): it is width-driven with auto aspect ratio, fillable with a custom image OR a placeholder image style, and pairs with the Skeleton component for loading. That maps to antd's Image matrix — preview toggle, loading placeholder, broken-src fallback, width/height, shape/radius — all now supported. DS V3's measured cell set carries no per-state px for Image, so the styling derives from the token layer (radius scale, bg-container-secondary, bg-overlay, text-inverse, text-tertiary, icon-muted) + antd conventions. A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./aha-image", "registers": "aha-image", "exportsNamed": ["AhaImage", "defineAhaImage"] },
@@ -40,18 +46,38 @@
     { "key": "vue", "label": "Vue 3", "file": "image.vue.txt" }
   ],
   "preview": "image.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "preview", "label": "Preview", "default": "true", "options": [
+        { "label": "On (zoom)", "value": "true" },
+        { "label": "Off (plain)", "value": "false" }
+      ] },
+      { "prop": "radius", "label": "Radius", "default": "default", "options": [
+        { "label": "Default 8", "value": "default" },
+        { "label": "Large 12", "value": "lg" },
+        { "label": "XL 16", "value": "xl" },
+        { "label": "Pill", "value": "pill" }
+      ] },
+      { "prop": "src", "label": "Source", "default": "ok", "options": [
+        { "label": "Loads", "value": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%236A1EBB'/%3E%3Ccircle cx='180' cy='40' r='60' fill='%23FF4081' opacity='0.7'/%3E%3C/svg%3E" },
+        { "label": "Broken (fallback)", "value": "/broken-image-does-not-exist.png" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "frame radius 8 · bg #F7F7F7", "verdict": "PASS" },
+    { "label": "frame radius 8 · bg #F7F7F7 (radius attr picks the DS scale)", "verdict": "PASS" },
     { "label": "image scales on hover via motion tokens (persistent node)", "verdict": "PASS" },
     { "label": "mask overlay rgba(26,26,46,.7) fades in", "verdict": "PASS" },
     { "label": "mask label #FFFFFF 13/SemiBold", "verdict": "PASS" },
-    { "label": "click/Enter opens a modal preview (role=dialog, aria-modal); Esc/close/backdrop dismiss; focus restored", "verdict": "PASS" }
+    { "label": "click/Enter opens a modal preview (role=dialog, aria-modal); Esc/close/backdrop dismiss; focus restored", "verdict": "PASS" },
+    { "label": "preview=\"false\" → no mask, no click/dialog (plain framed picture)", "verdict": "PASS" },
+    { "label": "placeholder shimmer fades on load; broken/empty src reveals the system-image-square fallback", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-image[data-probe]') && document.querySelector('aha-image[data-probe]').shadowRoot && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.mask'))",
+    "ready": "!!(document.querySelector('aha-image[data-probe]') && document.querySelector('aha-image[data-probe]').shadowRoot && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.mask') && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.fallback'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-image[data-probe]');var sr=el&&el.shadowRoot;var f=sr&&sr.querySelector('.frame');var m=sr&&sr.querySelector('.mask');var fs=f?getComputedStyle(f):null;var ms=m?getComputedStyle(m):null;return{frameRadius:fs?fs.borderTopLeftRadius:null,frameBg:fs?fs.backgroundColor:null,maskColor:ms?ms.color:null,maskBg:ms?ms.backgroundColor:null};})()",
-    "expect": { "frameRadius": "8px", "frameBg": "rgb(247, 247, 247)", "maskColor": "rgb(255, 255, 255)", "maskBg": "rgba(26, 26, 46, 0.7)" }
+    "measure": "(function(){var el=document.querySelector('aha-image[data-probe]');var sr=el&&el.shadowRoot;var f=sr&&sr.querySelector('.frame');var m=sr&&sr.querySelector('.mask');var fb=sr&&sr.querySelector('.fallback');var pv=sr&&sr.querySelector('.pv');var fs=f?getComputedStyle(f):null;var ms=m?getComputedStyle(m):null;var fbs=fb?getComputedStyle(fb):null;return{frameRadius:fs?fs.borderTopLeftRadius:null,frameBg:fs?fs.backgroundColor:null,maskColor:ms?ms.color:null,maskBg:ms?ms.backgroundColor:null,hasFallback:!!fb,fallbackColor:fbs?fbs.color:null,previewRole:pv?pv.getAttribute('role'):null};})()",
+    "expect": { "frameRadius": "8px", "frameBg": "rgb(247, 247, 247)", "maskColor": "rgb(255, 255, 255)", "maskBg": "rgba(26, 26, 46, 0.7)", "hasFallback": true, "fallbackColor": "rgb(138, 138, 138)", "previewRole": "dialog" }
   }
 }

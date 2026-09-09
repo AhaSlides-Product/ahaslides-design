@@ -1,16 +1,20 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-badge';
+import '@ahaslides-product/design/icons';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
 import { ref } from 'vue';
-const unread = ref(5);
+const unread = ref(128);
 </script>
 
 <template>
-  <span style="position: relative">
-    <BellIcon />
-    <aha-badge :count="unread" :max="99" />
-  </span>
+  <!-- count over a wrapped child, capped as N+ -->
+  <aha-badge :count="unread" overflow-count="99">
+    <aha-icon name="system-bell" size="24" />
+  </aha-badge>
+
+  <!-- a standalone status badge — a semantic dot + label -->
+  <aha-badge status="processing" text="Generating" />
 </template>

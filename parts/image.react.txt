@@ -1,9 +1,18 @@
 import '@ahaslides-product/design/aha-image';   // registers <aha-image>
 
 // The custom element renders its own shadow DOM; React just passes attributes + the mask label.
-function Cover({ src, alt, label = 'Preview' }) {
-  return <aha-image src={src} alt={alt} width={240} height={150}>{label}</aha-image>;
+// `preview="false"` → a plain framed picture; `placeholder` shows a shimmer; a broken src falls back.
+function Cover({ src, alt, label = 'Preview', preview = true, radius = 'default' }) {
+  return (
+    <aha-image
+      src={src} alt={alt} width={240} height={150}
+      radius={radius} placeholder
+      preview={preview ? 'true' : 'false'}
+      fallback="Couldn’t load image"
+    >{label}</aha-image>
+  );
 }
 
 // usage
 <Cover src="https://picsum.photos/240/150" alt="Deck cover" />
+<Cover src="https://picsum.photos/240/150" alt="Logo" preview={false} radius="lg" />

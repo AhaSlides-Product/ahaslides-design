@@ -1,12 +1,22 @@
-import '@ahaslides-product/design/aha-empty';    // registers <aha-empty>
-import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+import '@ahaslides-product/design/icons';      // registers <aha-icon> (custom-image slot)
+import '@ahaslides-product/design/aha-empty';  // registers <aha-empty>
+import '@ahaslides-product/design/aha-button'; // registers <aha-button>
 
-// The default slot is the caption; slot="action" holds an optional call to action.
+// `description` is the caption (or use children); description="" hides it.
+// image="default" | "simple"; slot="image" swaps in a custom picture; slot="action" is a CTA.
 function NoResponses({ onShare }) {
   return (
-    <aha-empty>
-      No responses yet — share the join link
+    <aha-empty description="No responses yet — share the join link">
       <aha-button slot="action" variant="primary" onClick={onShare}>Copy link</aha-button>
+    </aha-empty>
+  );
+}
+
+// simple variant with a custom illustration and no action
+function NoResults() {
+  return (
+    <aha-empty image="simple" description="No results">
+      <aha-icon slot="image" name="system-folder" size="40" />
     </aha-empty>
   );
 }

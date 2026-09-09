@@ -1,37 +1,18 @@
 <div class="pad">
-  <div class="lbl">Statistic · KPI · trend colour</div>
-  <div class="row" style="gap:40px">
-    <aha-statistic data-probe label="Active players" value="1,284" suffix="live"></aha-statistic>
-    <aha-statistic label="Response rate" value="92" suffix="%" trend="up"></aha-statistic>
+  <div class="lbl">Statistic · prefix/suffix icons · precision · trend colour · loading</div>
+  <div class="row" style="gap:40px; align-items:flex-start; flex-wrap:wrap">
+    <aha-statistic data-probe label="Response rate" value="92" suffix="%" trend="up"></aha-statistic>
+    <aha-statistic label="Revenue" value="12840.5" precision="2" prefix-icon="system-currency-circle-dollar"></aha-statistic>
     <aha-statistic label="Drop-off" value="7" suffix="%" trend="down"></aha-statistic>
+    <aha-statistic label="Active players" value="1,284" suffix="live"></aha-statistic>
+    <aha-statistic label="Loading…" loading></aha-statistic>
   </div>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-statistic
-     (lib/aha-statistic.js), inlined here so the preview is self-contained. -->
+<!-- Imports the REAL shipped element (../lib/aha-statistic.js) + the icon library — no inlined copy,
+     so the preview can never drift from lib/. The playground control bar (Trend / Prefix / Suffix)
+     is generated from contracts/statistic.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:inline-block; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
-  .label{ font-size:14px; line-height:22px; color:var(--aha-text-secondary,#4A4A4A) }
-  .value{ display:flex; align-items:baseline; gap:4px;
-    font-size:24px; line-height:32px; font-weight:600; color:var(--aha-text-default,#1A1A1A) }
-  .affix{ font-size:14px; line-height:22px; font-weight:400; color:var(--aha-text-tertiary,#8A8A8A) }
-  :host([trend="up"]) .value{ color:var(--aha-text-positive,#13A181) }
-  :host([trend="down"]) .value{ color:var(--aha-text-negative,#F5222D) }
-`;
-class AhaStatistic extends HTMLElement {
-  static get observedAttributes() { return ['label', 'value', 'prefix', 'suffix']; }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
-  _render() {
-    const label = this.getAttribute('label') || '';
-    const value = this.getAttribute('value') || '';
-    const prefix = this.getAttribute('prefix');
-    const suffix = this.getAttribute('suffix');
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style>
-      <div class="label" part="label">${label}</div>
-      <div class="value" part="value">${prefix ? `<span class="affix" part="prefix">${prefix}</span>` : ''}<span part="number">${value}</span>${suffix ? `<span class="affix" part="suffix">${suffix}</span>` : ''}</div>`;
-  }
-}
-customElements.define('aha-statistic', AhaStatistic);
+  import '../lib/icons.js';          // registers <aha-icon> so prefix/suffix + trend glyphs resolve from the DS library
+  import '../lib/aha-statistic.js';  // registers <aha-statistic> — the shipped primitive, byte-identical to consumers
 </script>

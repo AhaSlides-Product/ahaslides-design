@@ -7,11 +7,19 @@ const slides = ['Create in minutes', 'Present live', 'Share the results'];
 
 <template>
   <a-config-provider :theme="carouselTheme">
-    <a-carousel :dots="true" @after-change="onChange">
+    <a-carousel
+      :dots="true"
+      dot-position="bottom"
+      effect="scrollx"
+      :autoplay="false"
+      :arrows="false"
+      @after-change="onChange"
+    >
       <div v-for="(s, i) in slides" :key="i">
         <div class="aha-slide">{{ s }}</div>
       </div>
     </a-carousel>
   </a-config-provider>
 </template>
-<!-- The SAME carouselTheme as React → one DS V3 look across both vendor libraries. -->
+<!-- The SAME carouselTheme as React → one DS V3 look across both vendor libraries.
+     Same matrix: dot-position (top/bottom/left/right) · effect (scrollx/fade) · autoplay · arrows. -->

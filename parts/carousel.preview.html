@@ -1,6 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared carouselTheme. Vue consumes the same
      carouselTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the real antd carousel bound to the shared theme. -->
+     measures: the real antd carousel bound to the shared theme. Interactive: the controls drive
+     live React state (Dot position / Effect / Autoplay / Arrows), so the whole matrix is
+     explorable — the default render (dots bottom · slide · autoplay off · no arrows, dots on)
+     is what conformance measures. -->
 <style>
   /* DS V3 slide panel — brand-tint surface, radius 8, bound to --aha-* tokens (never raw hex). */
   #react-root .aha-slide { box-sizing:border-box; height:160px; padding:24px; border-radius:var(--aha-radius-default);
@@ -9,9 +12,13 @@
   #react-root .aha-slide h3 { margin:0; font-size:20px; font-weight:700; }
   #react-root .aha-slide p { margin:0; font-size:14px; color:var(--aha-text-secondary); }
   #react-root .ant-carousel { max-width:520px; }
+  /* side dot positions need room beside the track */
+  #react-root .ant-carousel.dp-left, #react-root .ant-carousel.dp-right { padding:0 22px; }
   /* brand active dot (antd draws the dots; colour bound to the token) */
   #react-root .ant-carousel .slick-dots li button { background:var(--aha-gray-50); opacity:1; }
   #react-root .ant-carousel .slick-dots li.slick-active button { background:var(--aha-color-primary); }
+  /* arrows tinted to brand text */
+  #react-root .ant-carousel .slick-arrow { color:var(--aha-purple-60); font-size:18px; }
 </style>
 
 <div id="react-root" class="pad"></div>
@@ -39,19 +46,61 @@ window.__car = {
 
 <script type="text/babel">
 const { ConfigProvider, Carousel } = window.__antdR;
+const { useState } = React;
 const C = window.__car;
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={C.theme}>
-    <Carousel autoplay={false} dots>
-      {C.slides.map((s, i) => (
-        <div key={i}>
-          <div className="aha-slide">
-            <h3>{s.t}</h3>
-            <p>{s.d}</p>
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
+  return (
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={String(o.value)} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Demo() {
+  const [dotPosition, setDotPosition] = useState('bottom');
+  const [effect, setEffect] = useState('scrollx');
+  const [autoplay, setAutoplay] = useState(false);
+  const [arrows, setArrows] = useState(false);
+  return (
+    <div style={{ maxWidth: 620 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Dot position" value={dotPosition} onChange={setDotPosition}
+          options={[{ label: 'Bottom', value: 'bottom' }, { label: 'Top', value: 'top' },
+                    { label: 'Left', value: 'left' }, { label: 'Right', value: 'right' }]} />
+        <Seg label="Effect" value={effect} onChange={setEffect}
+          options={[{ label: 'Slide', value: 'scrollx' }, { label: 'Fade', value: 'fade' }]} />
+        <Seg label="Autoplay" value={autoplay} onChange={setAutoplay}
+          options={[{ label: 'Off', value: false }, { label: 'On', value: true }]} />
+        <Seg label="Arrows" value={arrows} onChange={setArrows}
+          options={[{ label: 'Off', value: false }, { label: 'On', value: true }]} />
+      </div>
+      <Carousel key={dotPosition + effect + arrows} className={'dp-' + dotPosition}
+        dots dotPosition={dotPosition} effect={effect} autoplay={autoplay} arrows={arrows}>
+        {C.slides.map((s, i) => (
+          <div key={i}>
+            <div className="aha-slide">
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </div>
           </div>
-        </div>
-      ))}
-    </Carousel>
-  </ConfigProvider>
+        ))}
+      </Carousel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__car.theme}><Demo /></ConfigProvider>
 );
 </script>

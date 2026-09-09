@@ -6,8 +6,17 @@ import { qrCodeTheme } from '@ahaslides-product/design/qr-code-theme';
 <template>
   <a-config-provider :theme="qrCodeTheme">
     <div class="aha-qr">
-      <a-qrcode value="https://ahaslides.com/join" :size="160" :bordered="false" color="#1A1A1A" />
+      <a-qrcode
+        value="https://ahaslides.com/join"
+        :size="160"
+        error-level="M"
+        status="active"
+        :bordered="false"
+        color="#1A1A1A"
+        bg-color="#FFFFFF"
+      />
     </div>
   </a-config-provider>
 </template>
-<!-- The SAME qrCodeTheme as React → one DS V3 look across both vendor libraries. -->
+<!-- The SAME qrCodeTheme as React → one DS V3 look across both vendor libraries.
+     Matrix: size 120/160/200 · error-level L/M/Q/H · status active/expired/loading/scanned. -->

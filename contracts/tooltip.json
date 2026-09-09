@@ -8,17 +8,22 @@
   "summary": "A short, transient hint shown on hover or focus of its trigger.",
   "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared dark-navy bubble (with an arrow) on hover/focus. Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-dark", "text-inverse", "radius-sm", "font-product"],
+  "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out"],
   "spec": [
-    { "label": "Bubble", "value": "dark-navy #1A1A2E, white text, radius 6, padding 6 10" },
+    { "label": "Bubble", "value": "dark-navy #1A1A2E (or brand #6A1EBB), white text, radius 6, padding 6 10" },
     { "label": "Text", "value": "Plus Jakarta 12/18" },
-    { "label": "Arrow", "value": "anchored to the trigger, same navy" },
-    { "label": "Trigger", "value": "hover / focus-within; `open` forces it visible" },
-    { "label": "Placement", "value": "above the trigger, centred" }
+    { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
+    { "label": "Placement", "value": "top (default) · bottom · left · right, centred on the trigger" },
+    { "label": "Trigger", "value": "hover + focus (default) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
+    { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the slotted trigger, shows on focus, no leaked listeners" }
   ],
   "props": [
     { "name": "text", "type": "string", "default": "—", "desc": "The hint text shown in the bubble" },
-    { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise hover/focus" }
+    { "name": "placement", "type": "'top' | 'bottom' | 'left' | 'right'", "default": "top", "desc": "Which side of the trigger the bubble + arrow sit on" },
+    { "name": "color", "type": "'dark' | 'brand'", "default": "dark", "desc": "Bubble fill: dark-navy #1A1A2E or brand color-primary #6A1EBB" },
+    { "name": "arrow", "type": "boolean", "default": "true", "desc": "Show the caret pointing at the trigger; arrow=\"false\" hides it" },
+    { "name": "trigger", "type": "'hover' | 'focus' | 'click'", "default": "hover", "desc": "How it opens: hover+focus · focus only · click to toggle" },
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise the trigger opens it" }
   ],
   "opinion": {
     "whenToUse": [
@@ -27,7 +32,7 @@
       { "what": "Popover", "when": "richer content or interactive controls — a tooltip is text only" }
     ],
     "note": "Never hide essential information in a tooltip — it is unavailable on touch and to keyboard users who don't focus the trigger. Keep it to a short phrase; the trigger must be focusable.",
-    "dsv3": "COVERED — the measured DS V3 `tooltip` cell is a rich 260px info CARD (white text, 16px padding, an icon) — a popover, not the simple text hint. This `aha-tooltip` is the simple dark-navy hint bubble the settings skill's `?` help tooltip points to; spec derived from that convention + tokens (bg-dark, text-inverse, radius-sm, 12/18). Motion now follows Ant's tooltip pop (.2s ease-out-back). A documented extension — the rich-card popover would be a separate future component."
+    "dsv3": "COVERED — enumerated from the DS V3 / AntD Tooltip matrix: `placement` (top/bottom/left/right — the 8 corner variants collapse to these 4 primary sides), a `title` (our `text`), a `color` (default dark vs a brand fill), an `arrow` on/off, and `trigger` (hover/focus/click). All five now ship on the element. The measured DS V3 `tooltip|card` cell is a distinct rich 260px info CARD (white text, 16px padding, an icon) — a popover, not this simple text hint — and remains a separate future component. This `aha-tooltip` is the dark-navy hint bubble the settings skill's `?` help tooltip points to; spec derived from that convention + tokens (bg-dark, color-primary, text-inverse, radius-sm, 12/18). Motion is the shared .2s ease-out pop on a PERSISTENT node (class/attr toggle, never a subtree rebuild — the historic MOTION_DEBT trap is clean). Follow-up: the 8 diagonal-corner placements (topLeft…bottomRight) are not yet exposed."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-tooltip", "registers": "aha-tooltip", "exportsNamed": ["AhaTooltip", "defineAhaTooltip"] },
@@ -37,17 +42,36 @@
     { "key": "vue", "label": "Vue 3", "file": "tooltip.vue.txt" }
   ],
   "preview": "tooltip.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "placement", "label": "Placement", "default": "top", "options": [
+        { "label": "Top", "value": "top" },
+        { "label": "Bottom", "value": "bottom" },
+        { "label": "Left", "value": "left" },
+        { "label": "Right", "value": "right" }
+      ] },
+      { "prop": "color", "label": "Colour", "default": "dark", "options": [
+        { "label": "Dark", "value": "dark" },
+        { "label": "Brand", "value": "brand" }
+      ] },
+      { "prop": "arrow", "label": "Arrow", "default": "on", "options": [
+        { "label": "On", "value": "true" },
+        { "label": "Off", "value": "false" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "bubble dark-navy #1A1A2E + white text", "verdict": "PASS" },
     { "label": "radius 6 · padding 6 10", "verdict": "PASS" },
-    { "label": "shows on hover / focus-within", "verdict": "PASS" },
-    { "label": "arrow anchored to trigger", "verdict": "PASS" }
+    { "label": "placement top/bottom/left/right + arrow toggle + brand fill", "verdict": "PASS" },
+    { "label": "shows on focus (aria-describedby wired), role=tooltip", "verdict": "PASS" },
+    { "label": "click trigger toggles + closes on Esc/click-away, no leaked listeners", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe uses `open` so the bubble is in layout and measurable.",
     "ready": "!!(document.querySelector('aha-tooltip[data-probe]') && document.querySelector('aha-tooltip[data-probe]').shadowRoot && document.querySelector('aha-tooltip[data-probe]').shadowRoot.querySelector('.bubble'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-tooltip[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bubble');var s=b?getComputedStyle(b):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null};})()",
-    "expect": { "bg": "rgb(26, 26, 46)", "color": "rgb(255, 255, 255)", "radius": "6px", "fontSize": "12px" }
+    "measure": "(function(){var el=document.querySelector('aha-tooltip[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bubble');var s=b?getComputedStyle(b):null;var a=b?getComputedStyle(b,'::after'):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null,arrowColor:a?a.borderTopColor:null,described:el?(el.querySelector('button').getAttribute('aria-describedby')||'').indexOf('aha-tip-')===0:false};})()",
+    "expect": { "bg": "rgb(26, 26, 46)", "color": "rgb(255, 255, 255)", "radius": "6px", "fontSize": "12px", "arrowColor": "rgb(26, 26, 46)", "described": true }
   }
 }

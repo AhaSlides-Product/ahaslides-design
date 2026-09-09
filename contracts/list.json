@@ -5,28 +5,40 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-list",
-  "summary": "A bordered, evenly-divided column of uniform rows.",
-  "lead": "ONE custom element — <aha-list> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; each light-DOM child becomes a row, the last row drops its divider, and rows highlight on hover. `list-title` renders an optional header. Zero drift — the same element, not two look-alikes.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container", "border", "split", "radius-lg", "text-default", "text-secondary", "bg-hover", "font-product"],
+  "summary": "A vertical list of uniform rows — avatar + title/description meta and trailing actions, with size, bordered and split options.",
+  "lead": "ONE custom element — <aha-list> — defined once, imported unchanged by React and Vue. Feed it structured rows via `items` (each { title, description?, avatar?, actions? } lays out a leading avatar, a title + description meta block, and a trailing actions cluster), or drop light-DOM children for plain free-form rows. Config: `size` (small · default · large row padding), `bordered` (outer container border), `split` (row dividers, on by default), `list-title` (header), `footer`, and a `loading` skeleton. Rows highlight on hover when interactive; the last row drops its divider. Zero drift — the same element, not two look-alikes. Emits a composed `action`.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper that listens for `action`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "border", "split", "radius-lg", "radius-sm", "radius-xs", "radius-pill", "text-default", "text-secondary", "text-tertiary", "bg-hover", "bg-accent", "color-primary", "color-error", "border-focus", "font-product"],
   "spec": [
-    { "label": "Container", "value": "border 1px #E3E3E3 · radius 12px · bg #FFFFFF" },
+    { "label": "Container", "value": "radius 12px · bg #FFFFFF · border 1px #E3E3E3 only when `bordered`" },
     { "label": "Header", "value": "padding 14/20 · 15/22 SemiBold #1A1A1A · divider #F1F1F1" },
-    { "label": "Row", "value": "padding 12/20 · 14/22 #4A4A4A · divider #F1F1F1" },
-    { "label": "Row hover", "value": "bg #F7F7F7, motion-fast ease-out" }
+    { "label": "Row", "value": "padding 12/20 (small 8, large 16) · 14/22 #4A4A4A · avatar 36 + meta + trailing actions" },
+    { "label": "Avatar", "value": "36px pill, bg-accent #F9F5FF fill, color-primary #6A1EBB glyph" },
+    { "label": "Meta", "value": "title 600 #1A1A1A + description 13/20 #8A8A8A, both ellipsised" },
+    { "label": "Action", "value": "28px icon button, text-tertiary #8A8A8A; danger hover error-tinted" },
+    { "label": "Split", "value": "row dividers #F1F1F1, on by default; split=false drops them" },
+    { "label": "Row hover", "value": "interactive rows → bg #F7F7F7, motion-fast ease-out (persistent node)" },
+    { "label": "Footer", "value": "padding 12/20 · 13/20 #8A8A8A · top divider" }
   ],
   "props": [
+    { "name": "items", "type": "JSON array", "default": "[]", "desc": "Structured rows: { title, description?, avatar? (icon name), actions?:[{ key, icon, danger?, label? }] }" },
+    { "name": "(children)", "type": "slot", "default": "—", "desc": "Free-form fallback — each light-DOM child renders as one plain row (used when `items` is empty)" },
+    { "name": "size", "type": "'small' | 'default' | 'large'", "default": "default", "desc": "Row vertical padding scale (8 · 12 · 16)" },
+    { "name": "bordered", "type": "boolean", "default": "false", "desc": "Draw the outer container border" },
+    { "name": "split", "type": "boolean", "default": "true", "desc": "Row dividers; set split=\"false\" to remove them" },
     { "name": "list-title", "type": "string", "default": "—", "desc": "Renders an optional header row" },
-    { "name": "(children)", "type": "slot", "default": "—", "desc": "Each light-DOM child renders as one divided row" }
+    { "name": "footer", "type": "string", "default": "—", "desc": "Renders an optional footer row" },
+    { "name": "loading", "type": "boolean", "default": "false", "desc": "Show shimmer skeleton rows in place of content" },
+    { "name": "action", "type": "CustomEvent", "default": "—", "desc": "Composed event on a trailing action click, detail { key, index }" }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "List", "when": "many uniform rows of the same shape (recent items, participants)" },
+      { "what": "List", "when": "many uniform rows of the same shape (recent items, participants, feeds)" },
       { "what": "Table", "when": "multi-column records that need sorting or alignment" },
       { "what": "Card", "when": "one titled group of mixed content" }
     ],
-    "note": "Keep rows to one shape — a label, or a label plus a trailing control. For dense multi-column data reach for the Table instead.",
-    "dsv3": "COVERED — DS V3's measured set has no List cell; spec derived from the token layer (radius-lg, border, split, bg-hover, text-default/secondary) + antd List conventions. A deliberate, documented extension — not a measured match."
+    "note": "Keep rows to one shape — a title, optionally a description and a small trailing actions cluster. Reserve `bordered` for a standalone list; drop the border when the list sits inside a card. For dense multi-column data reach for the Table instead.",
+    "dsv3": "COVERED — DS V3's measured set has no dedicated data-List container cell (search returns only list icons + the distinct Upload List Item primitive); the matrix follows antd List conventions over the DS token layer: size (small/default/large row padding), bordered (outer border), split (row dividers), optional header/footer, item content = optional avatar + title/description meta + trailing actions, and a loading state. Tokens: white surface, border #E3E3E3, split #F1F1F1, radius-lg 12, bg-accent avatar, color-primary glyph, color-error danger action, text-default/secondary/tertiary. Motion bound to the shared motion tokens on persistent nodes. A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-list", "registers": "aha-list", "exportsNamed": ["AhaList", "defineAhaList"] },
@@ -36,17 +48,36 @@
     { "key": "vue", "label": "Vue 3", "file": "list.vue.txt" }
   ],
   "preview": "list.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Default", "value": "default" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "bordered", "label": "Bordered", "default": "on", "options": [
+        { "label": "On", "value": "" },
+        { "label": "Off", "value": null }
+      ] },
+      { "prop": "split", "label": "Split", "default": "on", "options": [
+        { "label": "On", "value": "true" },
+        { "label": "Off", "value": "false" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "container radius 12 · border #E3E3E3", "verdict": "PASS" },
-    { "label": "rows divided by #F1F1F1, last drops divider", "verdict": "PASS" },
-    { "label": "row hover #F7F7F7 via motion tokens", "verdict": "PASS" },
-    { "label": "row 14/22 #4A4A4A", "verdict": "PASS" }
+    { "label": "container radius 12; border only when bordered", "verdict": "PASS" },
+    { "label": "rows divided by #F1F1F1; split=false removes dividers", "verdict": "PASS" },
+    { "label": "avatar 36px pill bg-accent + color-primary glyph", "verdict": "PASS" },
+    { "label": "title 600 #1A1A1A + description #8A8A8A meta", "verdict": "PASS" },
+    { "label": "interactive row hover #F7F7F7 via motion tokens", "verdict": "PASS" },
+    { "label": "small size → 8px row vertical padding", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-list[data-probe]') && document.querySelector('aha-list[data-probe]').shadowRoot && document.querySelector('aha-list[data-probe]').shadowRoot.querySelector('.list'))",
+    "ready": "!!(document.querySelector('aha-list[data-probe]') && document.querySelector('aha-list[data-probe]').shadowRoot && document.querySelector('aha-list[data-probe]').shadowRoot.querySelector('.row'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-list[data-probe]');var sr=el&&el.shadowRoot;var l=sr&&sr.querySelector('.list');var h=sr&&sr.querySelector('.head');var ls=l?getComputedStyle(l):null;var hs=h?getComputedStyle(h):null;return{listRadius:ls?ls.borderTopLeftRadius:null,listBorder:ls?ls.borderTopColor:null,listBg:ls?ls.backgroundColor:null,headColor:hs?hs.color:null};})()",
-    "expect": { "listRadius": "12px", "listBorder": "rgb(227, 227, 227)", "listBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-list[data-probe]');var sr=el&&el.shadowRoot;var l=sr&&sr.querySelector('.list');var h=sr&&sr.querySelector('.head');var rows=sr?sr.querySelectorAll('.row'):[];var row=rows[1]||rows[0];var av=sr&&sr.querySelector('.avatar');var t=sr&&sr.querySelector('.title');var ls=l?getComputedStyle(l):null;var hs=h?getComputedStyle(h):null;var rs=row?getComputedStyle(row):null;var as=av?getComputedStyle(av):null;var tsy=t?getComputedStyle(t):null;return{listRadius:ls?ls.borderTopLeftRadius:null,listBorder:ls?ls.borderTopStyle:null,listBg:ls?ls.backgroundColor:null,headColor:hs?hs.color:null,rowDivider:rs?rs.borderTopColor:null,rowDividerWidth:rs?rs.borderTopWidth:null,avatarBg:as?as.backgroundColor:null,avatarColor:as?as.color:null,titleColor:tsy?tsy.color:null};})()",
+    "expect": { "listRadius": "12px", "listBorder": "solid", "listBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)", "rowDivider": "rgb(241, 241, 241)", "rowDividerWidth": "1px", "avatarBg": "rgb(249, 245, 255)", "avatarColor": "rgb(106, 30, 187)", "titleColor": "rgb(26, 26, 26)" }
   }
 }

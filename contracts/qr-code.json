@@ -8,24 +8,30 @@
   "lead": "QR encoding and canvas rendering are real work best left to Ant's QRCode, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both framed once by the shared qrCodeTheme. Two implementations, one DS V3 look — ink modules on white in a 1px radius-8 frame. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "colorBorderSecondary"],
   "spec": [
-    { "label": "Modules", "value": "ink #1A1A1A on white #FFFFFF" },
+    { "label": "Modules", "value": "ink #1A1A1A on white #FFFFFF (color / bgColor)" },
     { "label": "Frame", "value": "1px #E3E3E3 border · radius 8 · padding 16" },
     { "label": "Size", "value": "160 default (set via size)" },
-    { "label": "Error level", "value": "M default (L / M / Q / H)" }
+    { "label": "Error level", "value": "M default (L / M / Q / H)" },
+    { "label": "Status", "value": "active default (active / expired / loading / scanned)" },
+    { "label": "Bordered", "value": "off — the .aha-qr frame supplies the DS border (antd's own bordered defaults on)" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "—", "desc": "The URL or text to encode" },
     { "name": "size", "type": "number", "default": "160", "desc": "Rendered pixel size" },
     { "name": "errorLevel", "type": "L | M | Q | H", "default": "M", "desc": "Error-correction level" },
+    { "name": "status", "type": "active | expired | loading | scanned", "default": "active", "desc": "Render state — expired/scanned overlay a mask, loading shows a spinner" },
     { "name": "icon", "type": "string", "default": "—", "desc": "Optional centre logo URL" },
-    { "name": "color", "type": "string", "default": "#1A1A1A", "desc": "Module colour (defaults to ink)" }
+    { "name": "color", "type": "string", "default": "#1A1A1A", "desc": "Module colour (defaults to ink)" },
+    { "name": "bgColor", "type": "string", "default": "#FFFFFF", "desc": "Module background (kept white per DS)" },
+    { "name": "bordered", "type": "boolean", "default": "false", "desc": "antd's own 1px frame — off, so the .aha-qr container owns the DS frame" }
   ],
   "opinion": {
     "whenToUse": [
       { "what": "QR code", "when": "a link people scan from a screen with a phone — a join code, a deck URL, an app download" },
       { "what": "a plain link", "when": "the destination is clicked, not scanned" }
     ],
-    "note": "Keep the encoded value short so the code stays low-density and scans fast. Always show the human-readable link or join code beside it as a fallback."
+    "note": "Keep the encoded value short so the code stays low-density and scans fast. Always show the human-readable link or join code beside it as a fallback.",
+    "dsv3": "COVERED — antd v6 QRCode (ant-design-vue v4 in Vue), framed once by the shared qrCodeTheme; matrix: value · size (120/160/200) · errorLevel (L/M/Q/H) · status (active/expired/loading/scanned) · color + bgColor · icon · bordered (off — the .aha-qr container owns the DS frame). The DS keeps ink modules on white in a 1px radius-8 padding-16 frame; verified via Figma search_design_system against the DS V3 system-qr-code component (key 74513a3c66281fccc173cf04ebed74f404a7995e)."
   },
   "surfaces": ["audience", "editor", "dashboard"],
   "reuse": { "entry": "./qr-code-theme", "exportsNamed": ["qrCodeTheme"] },

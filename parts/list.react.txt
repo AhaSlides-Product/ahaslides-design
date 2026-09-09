@@ -1,13 +1,29 @@
 import '@ahaslides-product/design/aha-list';   // registers <aha-list>
+import '@ahaslides-product/design/icons';      // registers <aha-icon>
 
-// Each child becomes a divided row; render them straight into the element.
-function DeckList({ title, items }) {
+// Structured rows: pass `items` (JSON) for avatar + title/description + trailing actions.
+// size = small | default | large · bordered = outer border · split = row dividers (default on).
+function DeckList({ title, decks }) {
   return (
-    <aha-list list-title={title}>
-      {items.map((it) => <div key={it}>{it}</div>)}
-    </aha-list>
+    <aha-list
+      bordered
+      list-title={title}
+      footer={`${decks.length} decks`}
+      items={JSON.stringify(
+        decks.map((d) => ({
+          title: d.name,
+          description: d.meta,
+          avatar: 'system-user-circle',
+          actions: [
+            { key: 'edit', icon: 'system-pencil-simple', label: 'Edit' },
+            { key: 'delete', icon: 'system-trash', danger: true, label: 'Delete' },
+          ],
+        }))
+      )}
+      ref={(el) => el && (el.onaction = (e) => console.log(e.detail))}  // { key, index }
+    />
   );
 }
 
 // usage
-<DeckList title="Recent decks" items={['Team offsite 2026', 'Q3 product review', 'Onboarding quiz']} />
+<DeckList title="Recent decks" decks={[{ name: 'Team offsite 2026', meta: '12 slides · edited 2h ago' }]} />

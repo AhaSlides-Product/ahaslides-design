@@ -11,12 +11,16 @@
     { "label": "Slide", "value": "radius 8 · brand-tint #F9F5FF panel" },
     { "label": "Active dot", "value": "brand #6A1EBB, wider (28px)" },
     { "label": "Rest dot", "value": "16×4, gap 8" },
+    { "label": "Dot position", "value": "bottom (default) · top · left · right" },
+    { "label": "Effect", "value": "slide (scrollx, default) · fade" },
+    { "label": "Arrows", "value": "opt-in prev/next via the arrows prop" },
     { "label": "Motion", "value": "antd's built-in slide/fade transition (kept)" },
     { "label": "Autoplay", "value": "opt-in via the autoplay prop" }
   ],
   "props": [
     { "name": "autoplay", "type": "boolean", "default": "false", "desc": "Advance slides automatically" },
     { "name": "dots", "type": "boolean", "default": "true", "desc": "Show the position dots" },
+    { "name": "dotPosition", "type": "top | bottom | left | right", "default": "bottom", "desc": "Where the dots sit relative to the track" },
     { "name": "effect", "type": "scrollx | fade", "default": "scrollx", "desc": "Slide transition style" },
     { "name": "arrows", "type": "boolean", "default": "false", "desc": "Show prev/next arrows" },
     { "name": "afterChange", "type": "(current) => void", "default": "—", "desc": "Fires after the active slide changes" }
@@ -27,7 +31,8 @@
       { "what": "Tabs", "when": "named sections the user jumps between directly, not in sequence" },
       { "what": "Steps", "when": "a linear process with a clear start and finish" }
     ],
-    "note": "Keep it to a handful of slides and always show the dots so people know there is more. Autoplay only for ambient galleries — never for content people need to read."
+    "note": "Keep it to a handful of slides and always show the dots so people know there is more. Autoplay only for ambient galleries — never for content people need to read.",
+    "dsv3": "COVERED — antd v6 Carousel themed once by carouselTheme; matrix: dotPosition (top/bottom/left/right) · effect (scrollx slide/fade) · autoplay (on/off) · arrows (on/off) · dots (on/off), all live in the playground. Verified via Figma search_design_system against the DS V3 Carousel set (Carousel-wrapper) — the DS themes antd's Carousel rather than re-implementing it, so the antd v6 API is the variant reference."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./carousel-theme", "exportsNamed": ["carouselTheme"] },

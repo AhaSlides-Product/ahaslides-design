@@ -1,12 +1,19 @@
 // main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';      // registers <aha-icon> (custom-image slot)
 import '@ahaslides-product/design/aha-empty';
 import '@ahaslides-product/design/aha-button';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
+// `description` is the caption (or use the default slot); description="" hides it.
+// image="default" | "simple"; slot="image" swaps in a custom picture; slot="action" is a CTA.
 <template>
-  <aha-empty>
-    No responses yet — share the join link
+  <aha-empty description="No responses yet — share the join link">
     <aha-button slot="action" variant="primary" @click="copyJoinLink">Copy link</aha-button>
+  </aha-empty>
+
+  <!-- simple variant with a custom illustration and no action -->
+  <aha-empty image="simple" description="No results">
+    <aha-icon slot="image" name="system-folder" size="40" />
   </aha-empty>
 </template>

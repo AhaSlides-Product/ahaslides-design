@@ -5,20 +5,30 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-card",
-  "summary": "A bordered surface that groups related content behind a title.",
-  "lead": "ONE custom element — <aha-card> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `card-title` renders the header, the default slot is the body, slot=\"extra\" holds a header action, and `hoverable` lifts the card on hover. Zero drift — the same element, not two look-alikes.",
+  "summary": "A surface that groups related content — cover, title, body and footer actions — in default/small size, bordered or flat, with a hover lift and a loading skeleton.",
+  "lead": "ONE custom element — <aha-card> — defined once, imported unchanged by React and Vue. The DS V3 Card is a family, not a single box: slot=\"cover\" adds a full-bleed image, `card-title` renders the header with slot=\"extra\" for a right-aligned action, the default slot is the body, slot=\"actions\" is a ruled-off footer row. `size` (default · small) tunes the padding, `bordered=\"false\"` drops the outline, `hoverable` lifts the card on hover, and `loading` swaps the body for a shimmer skeleton. Shadow-DOM CSS themed only by --aha-* tokens — zero drift, the same element in every framework.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container", "border", "split", "radius-lg", "text-default", "text-secondary", "border-hover", "ink-a10", "font-product"],
+  "tokensUsed": ["bg-container", "border", "border-hover", "split", "radius-lg", "radius-sm", "text-default", "text-secondary", "ink-a10", "bg-hover", "font-product", "motion-mid", "motion-slow", "ease-out"],
   "spec": [
     { "label": "Container", "value": "border 1px #E3E3E3 · radius 12px · bg #FFFFFF" },
-    { "label": "Header", "value": "padding 16/20 · 16/24 SemiBold #1A1A1A · divider #F1F1F1" },
+    { "label": "Cover", "value": "full-bleed media above the header, no inset; hidden when the slot is empty" },
+    { "label": "Header", "value": "padding 16/20 · 16/24 SemiBold #1A1A1A · divider #F1F1F1 · extra action right-aligned" },
     { "label": "Body", "value": "padding 20 · 14/22 #4A4A4A" },
-    { "label": "Hover (hoverable)", "value": "border #D3B4FF + shadow, motion-mid ease-out" }
+    { "label": "Actions", "value": "footer row, 12/20 padding, 8 gap, top divider #F1F1F1; hidden when empty" },
+    { "label": "Small size", "value": "header 8/12 · body 12 · actions 8/12 (antd Card size=small)" },
+    { "label": "Bordered=false", "value": "border-color transparent — a flat surface" },
+    { "label": "Hover (hoverable)", "value": "border #D3B4FF + shadow, motion-mid ease-out on a persistent node" },
+    { "label": "Loading", "value": "body → shimmer skeleton bars (aria-busy), motion-slow sweep" }
   ],
   "props": [
     { "name": "card-title", "type": "string", "default": "—", "desc": "Renders the header row; omit for a bare body" },
+    { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Padding density of header/body/actions" },
+    { "name": "bordered", "type": "boolean-ish", "default": "true", "desc": "Set bordered=\"false\" for a flat, outline-less surface" },
     { "name": "hoverable", "type": "boolean", "default": "false", "desc": "Lift the card (border + shadow) on hover" },
-    { "name": "extra", "type": "slot", "default": "—", "desc": "Right-aligned header action (a link or button)" }
+    { "name": "loading", "type": "boolean", "default": "false", "desc": "Swap the body for a shimmer skeleton while content loads" },
+    { "name": "cover", "type": "slot", "default": "—", "desc": "Full-bleed image/media above the header" },
+    { "name": "extra", "type": "slot", "default": "—", "desc": "Right-aligned header action (a link or button)" },
+    { "name": "actions", "type": "slot", "default": "—", "desc": "Ruled-off footer row of actions" }
   ],
   "opinion": {
     "whenToUse": [
@@ -26,8 +36,8 @@
       { "what": "List", "when": "many uniform rows of the same shape" },
       { "what": "Descriptions", "when": "read-only label/value pairs about one entity" }
     ],
-    "note": "Titles are sentence case and name the group — 'Live results', not 'LIVE RESULTS'. Keep one idea per card; reach for hoverable only when the whole card is clickable.",
-    "dsv3": "COVERED — DS V3's measured set has no Card cell; spec derived from the token layer (radius-lg, border, split, bg-container, text-default/secondary) + antd Card conventions (16/24 header, 20 body). A deliberate, documented extension — not a measured match."
+    "note": "Titles are sentence case and name the group — 'Live results', not 'LIVE RESULTS'. Keep one idea per card; reach for hoverable only when the whole card is clickable. Use a cover for a media-led card, footer actions for card-level operations, and loading while the body fetches.",
+    "dsv3": "COVERED — enumerated from the DS V3 Card component-set taxonomy (Card + Card_Image_Wrapper for the cover, Card_Meta_Wrapper for the title/body meta, plus size/bordered/hoverable states matching antd Card). DS V3's measured set has no Card cell, so px/rgb are derived from the token layer (radius-lg, border, border-hover, split, bg-container, text-default/secondary, ink-a10) + antd Card conventions (16/24 header + 20 body default; 8/12 header + 12 body small). A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-card", "registers": "aha-card", "exportsNamed": ["AhaCard", "defineAhaCard"] },
@@ -37,17 +47,36 @@
     { "key": "vue", "label": "Vue 3", "file": "card.vue.txt" }
   ],
   "preview": "card.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default", "value": "default" },
+        { "label": "Small", "value": "small" }
+      ] },
+      { "prop": "bordered", "label": "Bordered", "default": "true", "options": [
+        { "label": "Bordered", "value": "true" },
+        { "label": "Flat", "value": "false" }
+      ] },
+      { "prop": "hoverable", "label": "Hoverable", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "container radius 12 · border #E3E3E3", "verdict": "PASS" },
-    { "label": "header 16/24 SemiBold #1A1A1A", "verdict": "PASS" },
+    { "label": "header 16/24 SemiBold #1A1A1A · extra action right-aligned", "verdict": "PASS" },
+    { "label": "cover full-bleed above header; footer actions ruled off (hidden when empty)", "verdict": "PASS" },
     { "label": "hover lifts via motion tokens (persistent node)", "verdict": "PASS" },
+    { "label": "small size tightens header/body padding; bordered=false flattens outline", "verdict": "PASS" },
+    { "label": "loading swaps body for shimmer skeleton (aria-busy)", "verdict": "PASS" },
     { "label": "body 14/22 #4A4A4A", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-card[data-probe]') && document.querySelector('aha-card[data-probe]').shadowRoot && document.querySelector('aha-card[data-probe]').shadowRoot.querySelector('.head'))",
+    "ready": "!!(document.querySelector('aha-card[data-probe]') && document.querySelector('aha-card[data-probe]').shadowRoot && document.querySelector('aha-card[data-probe]').shadowRoot.querySelector('.actions'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-card[data-probe]');var sr=el&&el.shadowRoot;var c=sr&&sr.querySelector('.card');var h=sr&&sr.querySelector('.head');var cs=c?getComputedStyle(c):null;var hs=h?getComputedStyle(h):null;return{cardRadius:cs?cs.borderTopLeftRadius:null,cardBorder:cs?cs.borderTopColor:null,cardBg:cs?cs.backgroundColor:null,headColor:hs?hs.color:null};})()",
-    "expect": { "cardRadius": "12px", "cardBorder": "rgb(227, 227, 227)", "cardBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-card[data-probe]');var sr=el&&el.shadowRoot;var c=sr&&sr.querySelector('.card');var h=sr&&sr.querySelector('.head');var a=sr&&sr.querySelector('.actions');var cs=c?getComputedStyle(c):null;var hs=h?getComputedStyle(h):null;var as=a?getComputedStyle(a):null;return{cardRadius:cs?cs.borderTopLeftRadius:null,cardBorder:cs?cs.borderTopColor:null,cardBg:cs?cs.backgroundColor:null,headColor:hs?hs.color:null,headPad:hs?hs.paddingTop:null,actionsBorder:as?as.borderTopColor:null,actionsShown:as?as.display:null};})()",
+    "expect": { "cardRadius": "12px", "cardBorder": "rgb(227, 227, 227)", "cardBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)", "headPad": "16px", "actionsBorder": "rgb(241, 241, 241)", "actionsShown": "flex" }
   }
 }

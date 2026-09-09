@@ -3,11 +3,23 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-list.js';   // registers <aha-list>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';      // <aha-icon>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-list.js';   // <aha-list>
 </script>
 
-<aha-list list-title="Recent decks" style="max-width:320px">
-  <div>Team offsite 2026</div>
-  <div>Q3 product review</div>
-  <div>Onboarding quiz</div>
+<!-- Structured rows via `items`: avatar + title/description meta + trailing actions.
+     size = small | default | large · bordered = outer border · split = row dividers (default on). -->
+<aha-list bordered list-title="Recent decks" footer="3 of 24 decks" style="max-width:360px"
+  items='[
+    {"title":"Team offsite 2026","description":"12 slides · edited 2h ago","avatar":"system-user-circle",
+      "actions":[{"key":"edit","icon":"system-pencil-simple","label":"Edit"},{"key":"delete","icon":"system-trash","danger":true,"label":"Delete"}]},
+    {"title":"Q3 product review","description":"28 slides · edited yesterday","avatar":"system-user-circle",
+      "actions":[{"key":"edit","icon":"system-pencil-simple","label":"Edit"},{"key":"delete","icon":"system-trash","danger":true,"label":"Delete"}]}
+  ]'></aha-list>
+
+<!-- …or the free-form escape hatch: any light-DOM child becomes one plain row. -->
+<aha-list bordered list-title="Simple rows" style="max-width:360px;margin-top:16px">
+  <div>Polls</div>
+  <div>Quizzes</div>
+  <div>Word cloud</div>
 </aha-list>

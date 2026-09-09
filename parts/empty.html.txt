@@ -3,11 +3,19 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-empty.js';    // registers <aha-empty>
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // registers <aha-icon> (custom-image slot)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-empty.js';   // registers <aha-empty>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';  // registers <aha-button>
 </script>
 
-<aha-empty style="width:280px">
-  No responses yet — share the join link
+<!-- description="…" is the caption (or use the default slot); description="" hides it.
+     image="default" (line art) | "simple" (smaller, for tight surfaces).
+     slot="image" swaps in a custom picture; slot="action" is an optional CTA. -->
+<aha-empty description="No responses yet — share the join link" style="width:280px">
   <aha-button slot="action" variant="primary">Copy link</aha-button>
+</aha-empty>
+
+<!-- simple variant, custom illustration, no action -->
+<aha-empty image="simple" description="No results">
+  <aha-icon slot="image" name="system-folder" size="40"></aha-icon>
 </aha-empty>

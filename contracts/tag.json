@@ -5,21 +5,29 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-tag",
-  "summary": "A small, low-emphasis label for a category, keyword, or state.",
-  "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `variant` attribute, and `closable` adds a dismiss affordance that emits a composed `close` event. Zero drift — the same element, not two look-alikes.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-30", "purple-10", "purple-60", "bg-positive", "text-positive", "bg-warning", "text-warning", "bg-negative", "text-negative", "radius-xs"],
+  "summary": "A small label chip for a category, keyword, or state — filled or bordered, with an icon, a dismiss ×, or a checkable toggle.",
+  "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Tag is a family: a semantic `color` preset (neutral · primary · success · processing · warning · error), a filled (default) or `bordered` outlined shape, an optional leading `icon` (by name from the DS icon library), a `closable` × that animates out then removes + emits a composed `close`, and a `checkable` toggle flavour carrying a selected state (aria-pressed) that emits `change`. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the `close`/`change` events; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["gray-30", "text-secondary", "bg-container", "border", "purple-10", "purple-60", "text-inverse", "bg-positive", "text-positive", "border-success", "bg-informative", "text-link", "border-info", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "border-focus", "radius-xs"],
   "spec": [
-    { "label": "Box", "value": "height 22 · radius 4 · padding 0 8" },
+    { "label": "Box", "value": "height 22 · radius 4 · padding 0 8 · 6px gap to a 14px leading icon" },
     { "label": "Text", "value": "Plus Jakarta SemiBold 600, 12/18" },
     { "label": "Neutral", "value": "bg #F1F1F1, label #4A4A4A" },
     { "label": "Primary", "value": "bg #F9F5FF, label #6A1EBB" },
-    { "label": "Success / Warning / Error", "value": "tinted bg + matching text token" }
+    { "label": "Success / Processing / Warning / Error", "value": "tinted bg + matching text token" },
+    { "label": "Bordered", "value": "white surface + a coloured 1px hairline (the outlined DS V3 flavour)" },
+    { "label": "Closable", "value": "system-x ✕; animates out (scale + fade, motion-mid) then removes + emits close" },
+    { "label": "Checkable", "value": "outlined toggle; checked → brand fill #6A1EBB / white label; aria-pressed synced" }
   ],
   "props": [
-    { "name": "variant", "type": "neutral | primary | success | warning | error", "default": "neutral", "desc": "Tone tint" },
-    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows a dismiss × control" },
-    { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the × is pressed" }
+    { "name": "color", "type": "neutral | primary | success | processing | warning | error", "default": "neutral", "desc": "Semantic tone preset (alias: `variant`)" },
+    { "name": "bordered", "type": "boolean", "default": "false", "desc": "Outlined shape — white surface + a coloured 1px hairline instead of the filled tint" },
+    { "name": "icon", "type": "string", "default": "—", "desc": "Leading DS icon name, e.g. system-tag (resolved via <aha-icon>)" },
+    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows a dismiss × that animates out, removes the tag, and emits close" },
+    { "name": "checkable", "type": "boolean", "default": "false", "desc": "Renders a selectable toggle chip (button, aria-pressed)" },
+    { "name": "checked", "type": "boolean", "default": "false", "desc": "Selected state of a checkable tag (brand fill)" },
+    { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the × is pressed" },
+    { "name": "change", "type": "CustomEvent", "default": "—", "desc": "Composed event on a checkable toggle, detail { checked }" }
   ],
   "opinion": {
     "whenToUse": [
@@ -27,8 +35,8 @@
       { "what": "Badge", "when": "a count or a status dot attached to another element" },
       { "what": "Button", "when": "the chip should trigger an action — a Tag is a label, not a control" }
     ],
-    "note": "Keep tag text to one or two words, sentence case. Colour carries meaning — reserve success/warning/error for real states, not decoration.",
-    "dsv3": "Radius aligned to the measured DS V3 tag (radius-xs = 4). Flavour note: the measured DS V3 `tag` cell is an OUTLINED selectable chip (bordered, h34, rest→hover→active states). This `aha-tag` is the tinted-label flavour — the category/state label the status-badges skill points to as generic Tag territory. Only the shared structural value (radius 4) is taken from the measured cell; the semantic tint variants (success/warning/error) are a deliberate DS extension derived from the bg/text positive·warning·negative token families. DS V3 does not measure a tinted-label tag."
+    "note": "Keep tag text to one or two words, sentence case. Colour carries meaning — reserve success/processing/warning/error for real states, not decoration. Use `closable` for user-removable keywords; use `checkable` for an inline filter toggle. For a domain lifecycle state prefer the status pill (aha-design-status-badges).",
+    "dsv3": "COVERED — enumerated from the DS V3 Tag component sets (`Tag` + `Tag/Outlined`, fileKey MwjvUjVI0HnfwD9EwPXRAy) and the measured `tag|*` / `tagz|*` reference cells. The measured `tag` cell is an OUTLINED chip (radius 4, 1px border #D3D7E1, rest→hover→active tinting toward color-primary) — captured here as the `bordered` shape. The filled tint flavour (neutral/primary/success/processing/warning/error) is the DS label-chip form derived from the bg/text positive·informative·warning·negative token families. `icon` (leading system glyph), `closable` (system-x ✕ with animate-out + composed close), and `checkable` (the selectable toggle with a brand-fill checked state + aria-pressed + composed change) complete the matrix. Radius from the 4/6/8/12/16 scale (radius-xs). Motion bound to the shared motion tokens on persistent nodes — the checked flip and the close collapse both animate; the checked toggle syncs on the persistent chip (no subtree rebuild). Not-yet-modelled: the five discrete tagz sizes (xs/sm/md/lg/xl) — this element ships the single h22 label size; a `size` axis is the follow-up if product needs it."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-tag", "registers": "aha-tag", "exportsNamed": ["AhaTag", "defineAhaTag"] },
@@ -38,17 +46,44 @@
     { "key": "vue", "label": "Vue 3", "file": "tag.vue.txt" }
   ],
   "preview": "tag.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "color", "label": "Colour", "default": "primary", "options": [
+        { "label": "Neutral", "value": null },
+        { "label": "Primary", "value": "primary" },
+        { "label": "Success", "value": "success" },
+        { "label": "Processing", "value": "processing" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Error", "value": "error" }
+      ] },
+      { "prop": "bordered", "label": "Shape", "options": [
+        { "label": "Filled", "value": null },
+        { "label": "Bordered", "value": "" }
+      ] },
+      { "prop": "closable", "label": "Closable", "options": [
+        { "label": "Plain", "value": null },
+        { "label": "Closable", "value": "" }
+      ] },
+      { "prop": "checkable", "label": "Checkable", "options": [
+        { "label": "Off", "value": null },
+        { "label": "Checkable", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "height 22 · radius 4", "verdict": "PASS" },
     { "label": "primary bg #F9F5FF / label #6A1EBB", "verdict": "PASS" },
     { "label": "text SemiBold 600 12/18", "verdict": "PASS" },
-    { "label": "closable emits composed close", "verdict": "PASS" }
+    { "label": "leading icon resolves via <aha-icon> by name", "verdict": "PASS" },
+    { "label": "bordered shape = white surface + coloured 1px hairline", "verdict": "PASS" },
+    { "label": "closable × (system-x) animates out then removes + emits close", "verdict": "PASS" },
+    { "label": "checkable toggle: brand-fill checked, aria-pressed synced on persistent node, emits change", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probe = a primary filled tag with a leading icon + a closable sibling.",
     "ready": "!!(document.querySelector('aha-tag[data-probe]') && document.querySelector('aha-tag[data-probe]').shadowRoot && document.querySelector('aha-tag[data-probe]').shadowRoot.querySelector('.chip'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-tag[data-probe]');var c=el&&el.shadowRoot&&el.shadowRoot.querySelector('.chip');var s=c?getComputedStyle(c):null;return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,weight:s?s.fontWeight:null};})()",
-    "expect": { "bg": "rgb(249, 245, 255)", "radius": "4px", "height": "22px", "weight": "600" }
+    "measure": "(function(){var el=document.querySelector('aha-tag[data-probe]');var r=el&&el.shadowRoot;var c=r&&r.querySelector('.chip');var s=c?getComputedStyle(c):null;var ic=r&&r.querySelector('aha-icon');var cl=document.querySelector('aha-tag[closable]');var clr=cl&&cl.shadowRoot;var x=clr&&clr.querySelector('.x aha-icon');return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,weight:s?s.fontWeight:null,hasIcon:!!ic,closeGlyph:x?x.getAttribute('name'):null};})()",
+    "expect": { "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)", "radius": "4px", "height": "22px", "weight": "600", "hasIcon": true, "closeGlyph": "system-x" }
   }
 }

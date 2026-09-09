@@ -1,17 +1,24 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-tag> is the SAME shared custom element React and Vue consume — here in its
-     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+     native form. Theming comes only from the --aha-* tokens in tokens.css.
+     Icons are summoned by name from the DS icon library via <aha-icon>. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';   // registers <aha-tag>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';    // registers <aha-icon>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';  // registers <aha-tag>
 </script>
 
-<div style="display:flex; gap:8px; align-items:center">
-  <aha-tag variant="primary">Poll</aha-tag>
-  <aha-tag variant="success">Published</aha-tag>
+<div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+  <aha-tag color="primary" icon="system-tag">Poll</aha-tag>
+  <aha-tag color="success" icon="system-check">Published</aha-tag>
+  <aha-tag bordered color="processing">Scheduled</aha-tag>
   <aha-tag closable id="kw">Marketing</aha-tag>
+  <aha-tag checkable checked id="filter">Quizzes only</aha-tag>
 </div>
 
 <script>
-  document.getElementById('kw').addEventListener('close', (e) => e.target.remove());
+  // closable: fires `close`, then the tag animates out + removes itself
+  document.getElementById('kw').addEventListener('close', () => console.log('removed'));
+  // checkable: fires `change` with { checked }
+  document.getElementById('filter').addEventListener('change', (e) => console.log('checked', e.detail.checked));
 </script>

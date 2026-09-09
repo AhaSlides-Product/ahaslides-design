@@ -5,31 +5,36 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-badge",
-  "summary": "A small count or status marker — notification counts, unread dots, status colour.",
-  "lead": "ONE custom element — <aha-badge> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `count` renders a number (capped by `max` as N+), `dot` renders a bare status dot, and `status` sets the colour. Zero drift — the same element, not two look-alikes.",
+  "summary": "A small count or status marker — notification counts, unread dots, a standalone status label.",
+  "lead": "ONE custom element — <aha-badge> — defined once, imported unchanged by React and Vue. The DS V3 Badge is a family: `count` renders a number pill on the top-right of a wrapped child (capped by `overflowCount` as N+, kept at 0 with `showZero`); `dot` renders a bare marker; `status` + `text` renders a standalone semantic dot + label (success/processing/error/default/warning), with `processing` pulsing; `color` overrides the colour. Shadow-DOM CSS themed only by --aha-* tokens; the pill scales in on a persistent node. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["color-error", "color-success", "color-warning", "color-primary", "text-inverse", "radius-pill"],
+  "tokensUsed": ["color-error", "color-success", "color-warning", "color-primary", "text-tertiary", "text-inverse", "text-default", "bg-container", "radius-pill"],
   "spec": [
-    { "label": "Count bubble", "value": "height 18 · min-width 18 · radius pill · padding 0 6" },
+    { "label": "Count bubble", "value": "height 18 · min-width 18 · radius pill · padding 0 6 · scales in" },
+    { "label": "On a child", "value": "floats to the child's top-right, 1px container-colour ring" },
     { "label": "Dot", "value": "8×8, no label" },
+    { "label": "Status", "value": "standalone 6px dot + 14px label; processing pulses" },
     { "label": "Text", "value": "Plus Jakarta SemiBold 600, 11/18, #FFFFFF" },
-    { "label": "Default colour", "value": "error #F5222D" },
-    { "label": "Overflow", "value": "count > max → max+" }
+    { "label": "Default colour", "value": "count/dot → error #F5222D; status → its semantic token" },
+    { "label": "Overflow / zero", "value": "count > overflowCount → N+; 0 hides unless showZero" }
   ],
   "props": [
-    { "name": "count", "type": "number", "default": "0", "desc": "The number shown in the bubble" },
-    { "name": "max", "type": "number", "default": "99", "desc": "Cap; above it renders as max+" },
-    { "name": "dot", "type": "boolean", "default": "false", "desc": "Render a bare status dot, no number" },
-    { "name": "status", "type": "error | success | warning | primary", "default": "error", "desc": "Bubble/dot colour" }
+    { "name": "count", "type": "number", "default": "0", "desc": "The number shown in the bubble; 0 hides it unless showZero" },
+    { "name": "overflowCount", "type": "number", "default": "99", "desc": "Cap; above it renders as N+ (alias: max)" },
+    { "name": "showZero", "type": "boolean", "default": "false", "desc": "Keep the bubble visible when count is 0" },
+    { "name": "dot", "type": "boolean", "default": "false", "desc": "Render a bare marker, no number" },
+    { "name": "status", "type": "success | processing | error | warning | default | primary", "default": "error", "desc": "Semantic colour; with `text` (no count/dot) renders a standalone dot + label" },
+    { "name": "text", "type": "string", "default": "—", "desc": "Label for a standalone status badge" },
+    { "name": "color", "type": "CSS colour", "default": "—", "desc": "Custom colour overriding the semantic default" }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Badge", "when": "a count or status attached to another element (a bell, a tab, an avatar)" },
-      { "what": "Tag", "when": "a standalone label/keyword chip with text" },
-      { "what": "dot", "when": "presence/unread without a specific number" }
+      { "what": "Badge count/dot", "when": "a count or presence marker attached to another element (a bell, a tab, an avatar)" },
+      { "what": "Badge status", "when": "a standalone semantic state label (Published, Generating, Failed) in a list or header" },
+      { "what": "Tag", "when": "a standalone label/keyword chip with text but no status semantics" }
     ],
-    "note": "A badge marks another element — anchor it to one. Keep counts meaningful; cap large numbers with max so the bubble stays small.",
-    "dsv3": "COVERED — DS V3 is silent on Badge: the measured component standard has no badge cell, and the status-badges skill explicitly excludes notification/count badges (that is domain-status-pill territory). Spec derived from the token layer (default color-error, status color-success/warning/primary, radius-pill, text-inverse) + antd Badge conventions (18px count bubble, 8×8 dot, 11/18 SemiBold). A deliberate, documented extension — not a measured match."
+    "note": "A count/dot marks another element — wrap the element it belongs to so the pill anchors to its top-right. Keep counts meaningful; cap large numbers with overflowCount so the bubble stays small. Reserve the standalone status form for a semantic lifecycle state, and let processing pulse rather than spin a separate loader.",
+    "dsv3": "COVERED — enumerated from the DS V3 Badge component-set taxonomy: Badge/Count, Badge/Dot, Badge/Status (状态), Badge/Text, Badge/On-Icon, Badge/On-Image, Badge/Dot-On-Text — i.e. the family carries a count pill, a bare dot, a standalone status dot+label, and placement over a wrapped icon/image/text child. antd Badge conventions supply the count sizing (18px bubble, 8×8 dot, 11/18 SemiBold), overflowCount N+, showZero, and the status set (success/processing/error/default/warning). Token layer: count/dot default color-error, status→color-success/warning/primary(processing)/text-tertiary(default), radius-pill, text-inverse, bg-container ring. The measured component standard has no badge cell — a deliberate, documented extension, not a measured match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-badge", "registers": "aha-badge", "exportsNamed": ["AhaBadge", "defineAhaBadge"] },
@@ -39,17 +44,34 @@
     { "key": "vue", "label": "Vue 3", "file": "badge.vue.txt" }
   ],
   "preview": "badge.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "status", "label": "Status colour", "default": "error", "options": [
+        { "label": "Error", "value": "error" },
+        { "label": "Success", "value": "success" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Processing", "value": "processing" },
+        { "label": "Default", "value": "default" }
+      ] },
+      { "prop": "count", "label": "Count", "default": "5", "options": [
+        { "label": "5", "value": "5" },
+        { "label": "23", "value": "23" },
+        { "label": "128 (over 99)", "value": "128" },
+        { "label": "0 (hidden)", "value": "0" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "bubble height 18 · radius pill", "verdict": "PASS" },
-    { "label": "default error #F5222D", "verdict": "PASS" },
-    { "label": "count > max → max+", "verdict": "PASS" },
-    { "label": "dot 8×8 no label", "verdict": "PASS" }
+    { "label": "bubble height 18 · radius pill · scales in on a persistent node", "verdict": "PASS" },
+    { "label": "count default error #F5222D; status binds its semantic token", "verdict": "PASS" },
+    { "label": "count > overflowCount → N+; 0 hides unless showZero", "verdict": "PASS" },
+    { "label": "dot 8×8 no label; standalone status = dot + label (processing pulses)", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-badge[data-probe]') && document.querySelector('aha-badge[data-probe]').shadowRoot && document.querySelector('aha-badge[data-probe]').shadowRoot.querySelector('.badge'))",
+    "ready": "!!(document.querySelector('aha-badge[data-probe]') && document.querySelector('aha-badge[data-probe]').shadowRoot && document.querySelector('aha-badge[data-probe]').shadowRoot.querySelector('.marker'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-badge[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.badge');var s=b?getComputedStyle(b):null;return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,color:s?s.color:null};})()",
-    "expect": { "bg": "rgb(245, 34, 45)", "radius": "999px", "height": "18px", "color": "rgb(255, 255, 255)" }
+    "measure": "(function(){var el=document.querySelector('aha-badge[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.marker');var s=b?getComputedStyle(b):null;var st=document.querySelector('aha-badge[status=\"success\"][text]');var sr=st&&st.shadowRoot;var d=sr&&sr.querySelector('.status-dot');var ds=d?getComputedStyle(d):null;return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,color:s?s.color:null,statusDotBg:ds?ds.backgroundColor:null,statusDotW:ds?ds.width:null};})()",
+    "expect": { "bg": "rgb(245, 34, 45)", "radius": "999px", "height": "18px", "color": "rgb(255, 255, 255)", "statusDotBg": "rgb(22, 196, 154)", "statusDotW": "6px" }
   }
 }

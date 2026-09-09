@@ -1,10 +1,20 @@
-import '@ahaslides-product/design/aha-avatar';   // registers <aha-avatar>
+import '@ahaslides-product/design/aha-avatar';   // registers <aha-avatar> + <aha-avatar-group>
 
 // A plain custom element — no wrapper needed for static props.
-function AhaAvatar({ name, src, size = 40, shape = 'circle' }) {
-  return <aha-avatar name={name} src={src} size={size} shape={shape} />;
+// Content is one of three: `name` (initials), `src` (photo), or `icon` (a DS glyph).
+function AhaAvatar({ name, src, icon, size = 'default', shape = 'circle', color }) {
+  return <aha-avatar name={name} src={src} icon={icon} size={size} shape={shape} color={color} />;
 }
 
 // usage
 <AhaAvatar name="Ada Lovelace" />
-<AhaAvatar name="Grace Hopper" size={56} />
+<AhaAvatar name="Grace Hopper" src="/u/grace.jpg" size="large" />
+<AhaAvatar icon="system-user" name="Guest" />
+
+// Stacked group with a +N overflow past `max`
+<aha-avatar-group max={3}>
+  <aha-avatar name="Ada Lovelace" />
+  <aha-avatar name="Grace Hopper" />
+  <aha-avatar name="Alan Turing" />
+  <aha-avatar name="Katherine Johnson" />
+</aha-avatar-group>

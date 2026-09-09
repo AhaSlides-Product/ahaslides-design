@@ -3,14 +3,28 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-card.js';   // registers <aha-card>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';    // registers <aha-icon>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-card.js'; // registers <aha-card>
 </script>
 
-<div style="display:flex; gap:16px; flex-wrap:wrap">
-  <aha-card card-title="Live poll" style="width:260px">
+<div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start">
+  <!-- Full card: cover · title + extra action · body · footer actions · hoverable -->
+  <aha-card card-title="Live poll" hoverable style="width:300px">
+    <img slot="cover" src="cover.jpg" alt="" />
+    <a slot="extra" href="#">Edit</a>
     Which release cadence works best for your team?
+    <div slot="actions">
+      <aha-icon name="system-share-network" size="16"></aha-icon>
+      <aha-icon name="system-bookmark-simple" size="16"></aha-icon>
+    </div>
   </aha-card>
-  <aha-card hoverable card-title="Weekly digest" style="width:260px">
-    A clickable card lifts on hover.
+
+  <!-- Small size -->
+  <aha-card size="small" card-title="Weekly digest" style="width:240px">
+    A small card tightens its padding.
   </aha-card>
+
+  <!-- Borderless + loading skeleton -->
+  <aha-card bordered="false" card-title="Borderless">No outline.</aha-card>
+  <aha-card card-title="Loading" loading style="width:240px"></aha-card>
 </div>
