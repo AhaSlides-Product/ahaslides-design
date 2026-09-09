@@ -1,0 +1,59 @@
+{
+  "name": "Paywall",
+  "slug": "paywall",
+  "kind": "pattern",
+  "group": "Patterns",
+  "badge": "pattern — composition guide",
+  "summary": "How to compose a plan-gated upsell — the shared Paywall popover's anatomy (crown badge + feature label, one-sentence value prop + unlock line, single Upgrade CTA), its props/copy/behaviour contract, and the PAYWALL_SHOWN / PAYWALL_UPGRADE_CLICKED analytics funnel — built from existing components.",
+  "lead": "Every pro-gated affordance routes through ONE shared Paywall popover so the editor, share, results and dashboard surfaces feel like a single product — and so monetisation expands by evolving this one component plus the upgrade URL, never by hand-rolling another upsell. This pattern ships NO new component: it composes an overlay (popover), a crown badge, an Icon and a Button, and documents the CONVENTIONS the repo can enforce. The narrative 'why', worked examples and judge verdicts live in the aha-design-paywall / -judge skills; this artifact carries the enforceable ruleset the DS now owns.",
+  "skillRef": {
+    "build": "aha-design:aha-design-paywall",
+    "judge": "aha-design:aha-design-paywall-judge",
+    "note": "The DS now owns this build ruleset as the single source of truth; the plugin skill is generated FROM this artifact. Rationale, BAD/GOOD examples and the PASS/FAIL judge evals stay in the skill — each rule below traces back by ref to the skill's PAYWALL-xx assertions (or the section that states it)."
+  },
+  "surfaces": ["editor", "share", "results", "dashboard"],
+  "surfaceChoice": [
+    { "surface": "Paywall popover on the gated affordance", "useFor": "a locked control/action that has its own clickable anchor", "example": "a disabled export/share option, a pro-only results filter" },
+    { "surface": "PaywallCrownBadge as the anchor", "useFor": "a feature with no natural clickable anchor (e.g. a field label)", "example": "a custom-URL field label, a locked section heading" },
+    { "surface": "onUpgrade handler (in-app flow)", "useFor": "upgrading inside the app instead of the pricing page", "example": "opening an in-app upgrade modal — analytics still fires first" }
+  ],
+  "composedOf": [
+    { "ref": "button", "as": "component", "use": "the single full-width (block) primary Upgrade CTA in the footer", "status": "available" },
+    { "ref": "icon", "as": "component", "use": "functional glyphs only — NOT the crown (the crown is the custom CrownBadge SVG, never the Phosphor Crown)", "status": "available" },
+    { "ref": "popover", "as": "component", "use": "the overlay surface the paywall renders in — placement/trigger/dismiss mechanics (owned by aha-design-overlays)", "status": "missing" },
+    { "ref": "crown-badge", "as": "component", "use": "the 16×16 purple-circle custom CrownBadge SVG header glyph, and PaywallCrownBadge as a standalone anchor (role=img + aria-label)", "status": "missing" },
+    { "ref": "--aha-color-primary", "as": "token", "use": "the Upgrade CTA fill — primary brand, never a bespoke shade or hardcoded hex", "status": "available" },
+    { "ref": "--aha-radius", "as": "token", "use": "the 12px popover corner radius — from the radius scale, never an eyeballed px", "status": "available" },
+    { "ref": "--aha-size*", "as": "token", "use": "the 16px popover padding and internal spacing — spacing scale, never raw px", "status": "available" }
+  ],
+  "componentBacklog": "composedOf marks 2 components this pattern leans on that the DS does not yet ship (popover, crown-badge). Per the charter, a pattern that needs a missing component is the signal to add it HERE — this is the pattern surfacing the component roadmap. Until then the paywall's popover mechanics live in aha-design-overlays and the CrownBadge/PaywallCrownBadge SVGs live in features/paywall.",
+  "rules": [
+    { "id": "shared-component-only", "rule": "Route every pro-gated affordance through the shared Paywall component — never hand-roll an upgrade modal, tooltip, or popover for monetisation. Wrap the gated affordance in <Paywall>, or use <PaywallCrownBadge> as the anchor when the feature has no natural anchor of its own.", "ref": ["PAYWALL-01", "§1"] },
+    { "id": "anatomy-three-parts", "rule": "A paywall popover is always three stacked parts, top to bottom: header (crown badge + feature label), body (one-sentence value prop, then the unlock line), footer (single Upgrade CTA). No secondary 'View plans' button, no dismiss link, no multi-paragraph body.", "ref": ["PAYWALL-04", "§2"] },
+    { "id": "crown-badge-not-phosphor", "rule": "The header glyph is the purple circular custom CrownBadge SVG (16×16) — never the generic Phosphor Crown, which lacks the circular background.", "ref": ["PAYWALL-02", "§2", "§7"] },
+    { "id": "feature-label", "rule": "The feature label is a short noun phrase naming the locked feature, shown next to the crown — not a sentence.", "ref": ["PAYWALL-02", "§4"] },
+    { "id": "body-one-sentence", "rule": "The body is exactly one sentence describing the BENEFIT of unlocking (not 'This is a Pro feature.'), ending with a period.", "ref": ["PAYWALL-03", "§4"] },
+    { "id": "unlock-line-fixed", "rule": "The unlock line uses the fixed format 'Unlock with the <Plan> plan.' with the plan name bold — do not reword it.", "ref": ["PAYWALL-03", "§4"] },
+    { "id": "single-block-cta", "rule": "The footer is a single full-width (block) primary Upgrade CTA — no secondary button inside the popover. Label is 'Upgrade' by default (a verb); override via ctaLabel only with a clear reason.", "ref": ["PAYWALL-04", "§4"] },
+    { "id": "feature-key-token", "rule": "featureKey is a stable snake_case token (e.g. custom_survey_url), required, reused across analytics and DOM hooks.", "ref": ["PAYWALL-05", "§3"] },
+    { "id": "required-plan-tiers", "rule": "requiredPlan is one of essential|pro (defaults to pro) and drives BOTH the unlock line and the analytics plan prop.", "ref": ["PAYWALL-07", "§3"] },
+    { "id": "required-props", "rule": "featureKey, featureLabel and body are all required props; placement defaults to 'top' and trigger defaults to 'click' (or 'hover').", "ref": ["§3"] },
+    { "id": "analytics-shown", "rule": "PAYWALL_SHOWN fires when the popover opens, with props { feature: featureKey, plan: requiredPlan }.", "ref": ["PAYWALL-06", "§5"] },
+    { "id": "analytics-clicked-before-nav", "rule": "PAYWALL_UPGRADE_CLICKED fires when the CTA is clicked — with the same { feature, plan } props — BEFORE navigation or onUpgrade runs. Never gate a feature without both events; they are the upsell funnel's denominator and conversion.", "ref": ["PAYWALL-06", "§5"] },
+    { "id": "cta-default-behaviour", "rule": "The default CTA opens UPGRADE_URL (https://ahaslides.com/pricing) in a new tab with noopener,noreferrer, then closes the popover.", "ref": ["§6"] },
+    { "id": "on-upgrade-override", "rule": "When onUpgrade is provided it runs INSTEAD of opening the pricing page (e.g. an in-app upgrade modal); analytics still fires first and the popover still closes.", "ref": ["§3", "§6"] },
+    { "id": "anchor-span-wrap", "rule": "The anchor is wrapped in a <span> so children don't need to forward refs.", "ref": ["§6"] },
+    { "id": "visual-surface", "rule": "The popover surface is dark indigo (color #242442), 300px wide, 16px padding, 12px radius.", "ref": ["§7"] },
+    { "id": "crown-badge-anchor-a11y", "rule": "When a feature has no natural clickable anchor, use <PaywallCrownBadge> as the visible anchor — it carries role=img and an aria-label (default 'Upgrade required').", "ref": ["PAYWALL-02", "§8"] }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical composition lives in features/paywall (Paywall.tsx, CrownBadge, PaywallCrownBadge), mirroring the Presentation app's UpgradePopover so the two products feel like one. The popover/placement mechanics are owned by aha-design-overlays. If the Paywall wrapper or the CrownBadge graduate into this DS, add a reuse block (and a real lib/ entry) and they are gated like a composite / leaf.",
+  "selfCheck": [
+    { "label": "gated affordance wraps the shared Paywall — no bespoke upsell", "verdict": "N/A — per-surface" },
+    { "label": "header = custom CrownBadge + short feature label (not Phosphor Crown)", "verdict": "N/A — per-surface" },
+    { "label": "body one sentence ending in a period + fixed 'Unlock with the <Plan> plan.' line", "verdict": "N/A — per-surface" },
+    { "label": "single block Upgrade CTA, no secondary button", "verdict": "N/A — per-surface" },
+    { "label": "PAYWALL_SHOWN on open, PAYWALL_UPGRADE_CLICKED before nav, both { feature, plan }", "verdict": "N/A — per-surface" }
+  ],
+  "guide": "paywall.guide.md"
+}
