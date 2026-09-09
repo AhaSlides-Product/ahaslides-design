@@ -3,11 +3,24 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';      // registers <aha-icon> for leading + caret glyphs
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-menu.js';   // registers <aha-menu>
 </script>
 
+<!-- mode="vertical" (default) | "inline" (sidebar tree) | "horizontal" (top nav bar) -->
 <aha-menu id="nav" value="polls"
-  items='[{"key":"polls","label":"Polls"},{"key":"quizzes","label":"Quizzes"},{"key":"wordcloud","label":"Word cloud"},{"key":"qa","label":"Q&A"},{"key":"archived","label":"Archived","disabled":true}]'>
+  items='[
+    {"type":"group","label":"Workspace","children":[
+      {"key":"polls","label":"Polls","icon":"system-chart-bar"},
+      {"key":"quizzes","label":"Quizzes","icon":"system-question"}
+    ]},
+    {"key":"library","label":"Content library","icon":"system-folder","children":[
+      {"key":"templates","label":"Templates"},
+      {"key":"archived","label":"Archived","disabled":true}
+    ]},
+    {"type":"divider"},
+    {"key":"delete","label":"Delete workspace","icon":"system-trash","danger":true}
+  ]'>
 </aha-menu>
 
 <script>

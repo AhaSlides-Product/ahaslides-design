@@ -5,30 +5,35 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-menu",
-  "summary": "A vertical list of selectable options — a side nav, settings list, or overflow menu.",
-  "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; feed it an `items` JSON array and a `value` (the selected key). The selected row is brand-tinted; hover and selection animate via the shared motion tokens on PERSISTENT nodes — selection toggles a class, it never rebuilds the row. Emits a composed `select` event.",
+  "summary": "A list of selectable options — a side nav, a settings list, an overflow menu — with icons, groups, submenus and danger actions.",
+  "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Feed it an `items` tree and a `value` (the selected key). The DS V3 Menu is a family, not a flat list: rows carry leading icons, a group title splits sections, a divider rules them off, a submenu expands inline, an item can be disabled or a red danger action. Three `mode`s: `vertical` (compact popover list, default), `inline` (indented sidebar tree), `horizontal` (top nav bar). The selected row is brand-tinted; hover, selection, submenu expand and the caret all animate via the shared motion tokens on PERSISTENT nodes — a class toggles, the subtree is never rebuilt on a state change. Emits a composed `select`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "text-default", "text-disabled", "color-primary", "border-focus", "radius-default"],
+  "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "text-default", "text-tertiary", "text-disabled", "color-primary", "color-error", "border-focus", "split", "radius-default"],
   "spec": [
     { "label": "Container", "value": "white surface, 1px border #E3E3E3, radius 8, 6 padding, min-width 200" },
-    { "label": "Row", "value": "height 36 · radius 8 · SemiBold 600 · text-default" },
+    { "label": "Row", "value": "height 36 · radius 8 · SemiBold 600 · 10px gap to a 16px leading icon" },
+    { "label": "Group title", "value": "11px uppercase, text-tertiary #8A8A8A, non-interactive section header" },
+    { "label": "Divider", "value": "1px split #F1F1F1 rule, role=separator" },
+    { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
     { "label": "Selected", "value": "bg-accent #F9F5FF fill + color-primary #6A1EBB text" },
+    { "label": "Danger", "value": "color-error #F5222D text, error-tinted hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed" }
   ],
   "props": [
-    { "name": "items", "type": "JSON [{key, label, disabled?}]", "default": "[]", "desc": "The rows; each needs a key + label, optional disabled" },
-    { "name": "value", "type": "string", "default": "—", "desc": "The selected item's key" },
+    { "name": "items", "type": "JSON tree", "default": "[]", "desc": "Rows. Leaf {key,label,icon?,disabled?,danger?}; submenu {key,label,icon?,children:[]}; section {type:'group',label,children:[]}; rule {type:'divider'}" },
+    { "name": "value", "type": "string", "default": "—", "desc": "The selected item's key (brand-tinted row)" },
+    { "name": "mode", "type": "'vertical' | 'inline' | 'horizontal'", "default": "vertical", "desc": "Layout: compact list · indented sidebar tree · top nav bar" },
     { "name": "select", "type": "CustomEvent", "default": "—", "desc": "Composed event on selection, detail { key }" }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Menu", "when": "a vertical list of destinations or options — a side nav, a settings list, an overflow list" },
+      { "what": "Menu", "when": "a list of destinations or options — a side nav, a settings list, an overflow list" },
       { "what": "Tabs", "when": "switching horizontal views within one screen" },
       { "what": "Dropdown", "when": "the same list should sit inside a triggered overlay, not inline" }
     ],
-    "note": "One selection at a time — reserve the brand tint for the active row. Keep labels short and in sentence case. For a triggered overlay, put a Menu inside a Dropdown rather than reinventing the list.",
-    "dsv3": "COVERED — DS V3 has no measured Menu cell; spec derived from the token layer (white surface, border #E3E3E3, bg-accent selected fill, color-primary label, radius-default 8) + AntD Menu conventions (vertical rows, single selection, disabled rows). Motion bound to the shared motion tokens on persistent nodes."
+    "note": "One selection at a time — reserve the brand tint for the active row. Keep labels short and in sentence case. Group related rows under a title; rule off a destructive action with a divider and mark it danger. For a triggered overlay, put a Menu inside a Dropdown rather than reinventing the list.",
+    "dsv3": "COVERED — enumerated from the DS V3 Menu component-set taxonomy: Menu / Submenu/Inline, Menu Item / Inline / Group Title, / Inline / Navigation Item, / Horizontal menu, / Sidebar menu / Highest level, / Vertical / Popover Menu — i.e. the family carries modes (horizontal · inline/sidebar · vertical popover), group titles, submenus, navigation items, disabled + danger rows. Token layer: white surface, border #E3E3E3, bg-accent selected fill, color-primary label, color-error danger, text-tertiary group title, radius-default 8. Motion bound to the shared motion tokens on persistent nodes."
   },
   "surfaces": ["editor", "dashboard", "settings", "admin"],
   "reuse": { "entry": "./aha-menu", "registers": "aha-menu", "exportsNamed": ["AhaMenu", "defineAhaMenu"] },
@@ -38,17 +43,32 @@
     { "key": "vue", "label": "Vue 3", "file": "menu.vue.txt" }
   ],
   "preview": "menu.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "mode", "label": "Mode", "default": "vertical", "options": [
+        { "label": "Vertical", "value": "vertical" },
+        { "label": "Inline", "value": "inline" },
+        { "label": "Horizontal", "value": "horizontal" }
+      ] },
+      { "prop": "items", "label": "Content", "default": "sections", "options": [
+        { "label": "Sections + icons", "value": "[{\"type\":\"group\",\"label\":\"Workspace\",\"children\":[{\"key\":\"polls\",\"label\":\"Polls\",\"icon\":\"system-chart-bar\"},{\"key\":\"quizzes\",\"label\":\"Quizzes\",\"icon\":\"system-question\"}]},{\"key\":\"library\",\"label\":\"Content library\",\"icon\":\"system-folder\",\"children\":[{\"key\":\"templates\",\"label\":\"Templates\"},{\"key\":\"archived\",\"label\":\"Archived\",\"disabled\":true}]},{\"type\":\"divider\"},{\"key\":\"team\",\"label\":\"Team members\",\"icon\":\"system-users\"},{\"key\":\"delete\",\"label\":\"Delete workspace\",\"icon\":\"system-trash\",\"danger\":true}]" },
+        { "label": "Flat list", "value": "[{\"key\":\"polls\",\"label\":\"Polls\",\"icon\":\"system-chart-bar\"},{\"key\":\"quizzes\",\"label\":\"Quizzes\",\"icon\":\"system-question\"},{\"key\":\"wordcloud\",\"label\":\"Word cloud\",\"icon\":\"system-chart-donut\"},{\"key\":\"qa\",\"label\":\"Q&A\",\"icon\":\"system-question-bubble\"},{\"key\":\"archived\",\"label\":\"Archived\",\"icon\":\"system-folder\",\"disabled\":true}]" },
+        { "label": "Danger + disabled", "value": "[{\"type\":\"group\",\"label\":\"Danger zone\",\"children\":[{\"key\":\"reset\",\"label\":\"Reset results\",\"icon\":\"system-arrow-right\"},{\"key\":\"delete\",\"label\":\"Delete workspace\",\"icon\":\"system-trash\",\"danger\":true}]},{\"type\":\"divider\"},{\"key\":\"locked\",\"label\":\"Locked (Pro)\",\"icon\":\"system-star\",\"disabled\":true}]" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "row height 36, radius 8", "verdict": "PASS" },
+    { "label": "row height 36, radius 8, 16px leading icon", "verdict": "PASS" },
     { "label": "selected bg-accent + color-primary", "verdict": "PASS" },
-    { "label": "hover animates on a persistent node (not a rebuild)", "verdict": "PASS" },
-    { "label": "select event composed", "verdict": "PASS" }
+    { "label": "group title, divider, danger, disabled render", "verdict": "PASS" },
+    { "label": "submenu expands inline on a persistent node (aria-expanded synced)", "verdict": "PASS" },
+    { "label": "roving arrow-key nav; select event composed", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-menu[data-probe]') && document.querySelector('aha-menu[data-probe]').shadowRoot && document.querySelector('aha-menu[data-probe]').shadowRoot.querySelector('.item.selected'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-menu[data-probe]');var it=el&&el.shadowRoot&&el.shadowRoot.querySelector('.item.selected');var s=it?getComputedStyle(it):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null};})()",
-    "expect": { "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)", "height": "36px", "radius": "8px" }
+    "measure": "(function(){var el=document.querySelector('aha-menu[data-probe]');var r=el&&el.shadowRoot;var it=r&&r.querySelector('.item.selected');var s=it?getComputedStyle(it):null;var gt=r&&r.querySelector('.group-title');var gs=gt?getComputedStyle(gt):null;var sub=r&&r.querySelector('.sub');return{bg:s?s.backgroundColor:null,color:s?s.color:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,groupColor:gs?gs.color:null,hasSubmenu:!!sub};})()",
+    "expect": { "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)", "height": "36px", "radius": "8px", "groupColor": "rgb(138, 138, 138)", "hasSubmenu": true }
   }
 }

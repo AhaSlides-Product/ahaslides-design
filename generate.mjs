@@ -310,6 +310,15 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .demo-toolbar{display:flex;justify-content:flex-end;padding:9px 14px;border-top:1px dashed var(--aha-split)}
 .demo .code-panel{margin-top:0;border-radius:0}
 
+/* ---- interactive playground (the "smart widget": explore variants, don't stack them) ---- */
+.aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;border-bottom:1px dashed var(--aha-split);background:var(--aha-gray-20)}
+.aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.aha-pg-label{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-tertiary);min-width:62px}
+.aha-pg-seg{display:inline-flex;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
+.aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
+.aha-pg-opt:hover:not(.active){color:#5715A0}
+.aha-pg-opt.active{color:#5715A0;background:var(--aha-purple-10)}
+
 /* ---- utilities used by preview parts ---- */
 .tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
 .lbl{font-size:11px;letter-spacing:.3px;text-transform:uppercase;color:var(--aha-text-tertiary);margin:0 0 8px}
@@ -406,12 +415,35 @@ function ahaBindFeeds(root){
 }
 `;
 
+// The playground control bar (rendered by playgroundBar) is wired here: each segmented option sets
+// (or removes, via the __remove__ sentinel) an attribute on the demo's target element — the live
+// <aha-*> re-renders from its own attributes, so one element explores its whole variant matrix.
+const PLAYGROUND_JS = `
+function ahaBindPlayground(root){
+  (root||document).querySelectorAll('.aha-pg[data-pg]').forEach(function(pg){
+    if(pg.dataset.bound) return; pg.dataset.bound='1';
+    var demo=pg.closest('.demo');
+    var target=demo && (demo.querySelector('[data-pg-target]')||demo.querySelector('.demo-stage [data-probe]'));
+    if(!target) return;
+    function apply(prop,val){ if(val==='__remove__') target.removeAttribute(prop); else target.setAttribute(prop,val); }
+    pg.querySelectorAll('.aha-pg-opt').forEach(function(opt){
+      opt.addEventListener('click',function(){
+        var seg=opt.closest('.aha-pg-seg');
+        seg.querySelectorAll('.aha-pg-opt').forEach(function(o){o.classList.remove('active');o.setAttribute('aria-checked','false');});
+        opt.classList.add('active'); opt.setAttribute('aria-checked','true');
+        apply(opt.dataset.prop, opt.dataset.value);
+      });
+    });
+  });
+}
+`;
+
 // In-app navigation (PJAX): intercept internal .html links, fetch the target, and swap only the
 // <main> pane — keeping the header + sidebar node (and its scroll) alive so navigation no longer
 // flashes or reloads. Progressive enhancement: any failure falls back to a normal page load.
 const PJAX_JS = `
 (function(){
-  ahaBindWidgets(document); ahaBindFeeds(document);
+  ahaBindWidgets(document); ahaBindFeeds(document); ahaBindPlayground(document);
   if(!window.fetch||!window.history||!window.history.pushState||!window.DOMParser) return;
   if(!document.querySelector('.doc-body')||!document.querySelector('.doc-main')) return;
 
@@ -493,7 +525,7 @@ const PJAX_JS = `
     if(main) main.classList.add('pjax-in');
     if(push) history.pushState({pjax:1}, '', url);   // set the URL first so relative module imports resolve
     runScripts(main);                                 // execute the page's <script type="module"> (defines <aha-*>)
-    ahaBindWidgets(main); ahaBindFeeds(main);
+    ahaBindWidgets(main); ahaBindFeeds(main); ahaBindPlayground(main);
     var hash=url.indexOf('#')>=0 ? url.slice(url.indexOf('#')+1) : '';
     var t=hash && document.getElementById(hash);
     if(t) t.scrollIntoView(); else window.scrollTo(0,0);
@@ -657,7 +689,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '' })
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${main}</div></main>
 </div>
-<script>${WIDGET_JS}${FEED_JS}${PJAX_JS}</script>
+<script>${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
@@ -675,6 +707,26 @@ function renderFeedPage(f, content) {
   return docShell({ base: '../', active: 'feed:' + f.file, section: 'feeds', main });
 }
 
+// The "smart widget" control bar: one compact segmented row per playground axis. Each option carries
+// the attribute (data-prop) + value it applies to the demo's target element; PLAYGROUND_JS wires the
+// clicks. A null/undefined option value becomes the __remove__ sentinel (removeAttribute). Absent a
+// `playground` block, this renders nothing and the demo is the plain default stage.
+function playgroundBar(c) {
+  const pg = c.playground;
+  if (!pg || !Array.isArray(pg.controls) || !pg.controls.length) return '';
+  const rows = pg.controls.map((ctrl) => {
+    const opts = (ctrl.options || []).map((o, i) => {
+      const raw = (o.value === null || o.value === undefined) ? '__remove__' : String(o.value);
+      const active = ctrl.default !== undefined ? (String(o.value) === String(ctrl.default)) : i === 0;
+      return `<button type="button" class="aha-pg-opt${active ? ' active' : ''}" role="radio" aria-checked="${active}"` +
+        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}">${esc(o.label)}</button>`;
+    }).join('');
+    return `<div class="aha-pg-row"><span class="aha-pg-label">${esc(ctrl.label)}</span>` +
+      `<div class="aha-pg-seg" role="radiogroup" aria-label="${esc(ctrl.label)}">${opts}</div></div>`;
+  }).join('');
+  return `<div class="aha-pg" data-pg>${rows}</div>`;
+}
+
 function renderHtml(c) {
   const preview = part(c.preview);
   const main = `
@@ -685,6 +737,7 @@ function renderHtml(c) {
 
   <h2>Examples</h2>
   <div class="demo">
+    ${playgroundBar(c)}
     <div class="demo-stage">${preview}</div>
     ${codeWidget(c)}
   </div>
