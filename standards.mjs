@@ -12,6 +12,8 @@
  *   5. It registers / exports       — leaf: registers its custom element; composite: exports its artifact.
  *   6. Its snippets consume the DS  — reference @ahaslides-product/design, never a fake pkg or a banned library.
  *   7. It's render-gated            — carries a `conformance` block so qa.mjs can measure the real UI.
+ *   8. Its icons come from the DS   — every <aha-icon name="…"> resolves in the icon registry (the
+ *                                     published gallery); no inline <svg> glyph bypasses the library.
  *
  * This is the "can a teammate contribute safely?" gate: add contracts/<slug>.json + lib/<entry>.js,
  * and this proves your component registers and is genuinely reusable — or it fails, loudly, per rule.
@@ -48,6 +50,34 @@ const rgbToHex = (s) => { const m = String(s).match(/rgba?\((\d+),\s*(\d+),\s*(\
 const isColour = (v) => /^\s*(#[0-9A-Fa-f]{3,8}|rgba?\()/.test(String(v));
 const isPx = (v) => /^\s*\d+(\.\d+)?px\s*$/.test(String(v));
 const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test(s)) return true; const hex = s.startsWith('#') ? normHex(s) : rgbToHex(s); return !!hex && (PALETTE.has(hex) || NEUTRALS.has(hex)); };
+
+/* ===== the ICON LIBRARY — the single source every component icon must come from =====
+   icons/registry.json (built by build-icons.mjs from Figma DS V3) IS the icon library published
+   at the gallery below. The house rule is: a component never hand-rolls a glyph — it summons one
+   BY NAME via <aha-icon name="…">, and that name must be a real glyph in the registry. This gate
+   makes it enforceable: every named icon a component references (in its source, its snippets, or
+   its contract) must resolve here, and an inline <svg> glyph in element source is a bypass (caught
+   in the source scan below). */
+const ICON_REGISTRY = JSON.parse(read(join(root, 'icons', 'registry.json')) || '{"icons":{}}');
+const ICON_NAMES = new Set(Object.keys(ICON_REGISTRY.icons || {}));
+const ICON_GALLERY = 'https://ahaslides-product.github.io/ahaslides-design/icons/index.html';
+// Pull every icon referenced by name from a blob of source / snippet / contract text. A DS icon is
+// always summoned as <aha-icon name="…"> (also :name= for Vue-bind, name={…} for JSX). A plain
+// static value is one literal; a dynamic binding (ternary) is mined for its quoted string literals
+// so those are checked too. A pure-variable binding (name={icon}) carries no literal — left to runtime.
+function iconRefs(text) {
+  const names = new Set();
+  for (const tag of String(text).match(/<aha-icon\b[^>]*>/gi) || []) {
+    const m = tag.match(/(?::|\s)name\s*=\s*(?:"([^"]*)"|'([^']*)'|\{([^}]*)\})/i);
+    if (!m) continue;
+    const quoted = m[1] ?? m[2];
+    if (quoted != null && /^[^"'{}?()\s]+$/.test(quoted) && quoted.includes('-')) { names.add(quoted); continue; }
+    for (const lit of (m[1] ?? m[2] ?? m[3] ?? '').match(/['"]([^'"]+)['"]/g) || []) {
+      const s = lit.slice(1, -1); if (s.includes('-')) names.add(s);   // a literal inside a dynamic binding
+    }
+  }
+  return names;
+}
 
 // Minimal DOM shim so the custom-element modules import + self-register headlessly (no browser).
 const els = new Map();
@@ -132,6 +162,18 @@ for (const ct of contracts) {
   chk('a snippet imports @ahaslides-product/design', /@ahaslides-product\/design/.test(snippetText) || ct.tier?.includes('composite'),
     'snippets must show consuming the real package');
   for (const [re, why] of BANNED) chk(`snippets free of: ${why}`, !re.test(snippetText), 'found in a snippet');
+
+  // 6c) ICONS COME FROM THE DS LIBRARY — every glyph a component uses must be a real icon in the
+  //     registry (the published gallery), summoned as <aha-icon name="…">. Gather every named
+  //     reference from the component's own source + all its snippets + preview + the contract text,
+  //     and prove each resolves. A typo or a non-DS name renders the dashed error box at runtime —
+  //     here it fails the gate loudly instead.
+  const iconEntry = r && r.entry && EXPORTS[r.entry] ? read(resolve(root, EXPORTS[r.entry])) : '';
+  const iconText = [iconEntry, snippetText, ct.preview ? read(join(PDIR, ct.preview)) : '', JSON.stringify(ct)].join('\n');
+  for (const nm of iconRefs(iconText)) {
+    chk(`icon "${nm}" is in the DS icon library`, ICON_NAMES.has(nm),
+      `not a glyph in icons/registry.json — pick a name from the gallery (${ICON_GALLERY}) or add the SVG + re-run build-icons.mjs`);
+  }
 
   // 6b) EVERY component ships a paste-and-run HTML snippet — no exceptions — so end-users can
   //     vibe-code decks/courses/hubs with no build step. LEAF: the custom element is the native
@@ -223,6 +265,7 @@ for (const ct of contracts) {
   const r = ct.reuse; if (!r || !r.entry) continue;
   const mapped = EXPORTS[r.entry]; if (!mapped || !/\.js$/.test(mapped)) continue;
   const mode = r.registers ? 'element' : 'theme';
+  const isIconRuntime = r.registers === 'aha-icon';   // the <aha-icon> element IS the library runtime — it draws the <svg>
   const raw = read(resolve(root, mapped));
   const lines = raw.split('\n');
   // blank out comment bodies but preserve line count so findings map to real line numbers
@@ -232,6 +275,7 @@ for (const ct of contracts) {
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
+    const allowSvg = /svg/.test(allow);
     if (mode === 'element') {
       const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
       if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
@@ -245,6 +289,10 @@ for (const ct of contracts) {
         const y1 = parseFloat(m[1]), y2 = parseFloat(m[2]);
         if (y1 < 0 || y1 > 1 || y2 < 0 || y2 > 1) motionFindings.push(['bounce', `L${i + 1}: bounce/elastic easing ${m[0]} — the curve overshoots (control-point Y outside 0–1). Use an exponential ease-out (var(--aha-ease-out) / --aha-ease-in-out), not a "back" ease`]);
       }
+      // an inline <svg> glyph bypasses the icon library — a component must summon glyphs by name via
+      // <aha-icon name="…">. Genuine sub-glyph chrome (a spinner, a checkmark tick) is an auditable
+      // exception on that line: ds-lint-allow: svg (why). The icon runtime itself is exempt — it IS the drawer.
+      if (!allowSvg && !isIconRuntime && /<svg\b/i.test(line)) hits.push(`L${i + 1}: inline <svg> — use an <aha-icon name="…"> from the DS library, or justify chrome with ds-lint-allow: svg (why)`);
     } else {
       for (const h of line.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) if (!inPalette(h)) hits.push(`L${i + 1}: off-palette ${h} — a theme must map to a canonical token value`);
     }
