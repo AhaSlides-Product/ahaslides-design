@@ -35,6 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Settings list** (`aha-settings-list`) — built out into a schema-driven settings surface. Set `.schema` (`{ sections:[{ label, description?, rows:[{ key, label, description?, control }] }] }`) and it renders the rows, instantiating each `control` from an existing DS element (`aha-switch` / `aha-checkbox` / `aha-input` …) and emitting a `change` event `{ key, value, name }`. The by-hand slot form is unchanged. (#40)
 ### Fixed
 - **Progress** (`aha-progress`) — now exposes `role="progressbar"` with `aria-valuemin`/`aria-valuemax`/`aria-valuenow` (and `aria-valuetext`) synced to `percent`, so a quiz-timer bar is announced to assistive tech. `percent`/`status` are now `observedAttributes` with an `attributeChangedCallback` that re-syncs the ARIA state, so an external attribute change can't desync the announced value. (#40)
+- **CSAT** (`aha-csat`) — the thumbs are toggle buttons but exposed no selection state to assistive tech (only a `.selected` CSS class). They now carry `aria-pressed`, synced to `value` in `_update()`, so a screen reader announces which thumb is chosen. (#40)
 
 ## 0.8.0 — 2026-09-10
 ### Added

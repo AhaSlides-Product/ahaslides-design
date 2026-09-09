@@ -33,8 +33,8 @@ class AhaCsat extends HTMLElement {
       this.attachShadow({ mode: 'open' });
       this.shadowRoot.innerHTML =
         `<style>${STYLE}</style><span class="prompt" part="prompt"></span>` +
-        `<span class="btns"><button class="btn up" part="button" type="button" aria-label="Yes, helpful"><aha-icon name="system-thumbs-up" size="20" decorative></aha-icon></button>` +
-        `<button class="btn down" part="button" type="button" aria-label="No, not helpful"><aha-icon name="system-thumbs-down" size="20" decorative></aha-icon></button></span>`;
+        `<span class="btns"><button class="btn up" part="button" type="button" aria-label="Yes, helpful" aria-pressed="false"><aha-icon name="system-thumbs-up" size="20" decorative></aha-icon></button>` +
+        `<button class="btn down" part="button" type="button" aria-label="No, not helpful" aria-pressed="false"><aha-icon name="system-thumbs-down" size="20" decorative></aha-icon></button></span>`;
       this.shadowRoot.querySelector('.up').addEventListener('click', () => this._rate('up'));
       this.shadowRoot.querySelector('.down').addEventListener('click', () => this._rate('down'));
     }
@@ -48,8 +48,11 @@ class AhaCsat extends HTMLElement {
   _update() {
     this.shadowRoot.querySelector('.prompt').textContent = this.getAttribute('prompt') || '';
     const value = this.getAttribute('value');
-    this.shadowRoot.querySelector('.up').classList.toggle('selected', value === 'up');
-    this.shadowRoot.querySelector('.down').classList.toggle('selected', value === 'down');
+    const up = this.shadowRoot.querySelector('.up'), down = this.shadowRoot.querySelector('.down');
+    up.classList.toggle('selected', value === 'up');
+    down.classList.toggle('selected', value === 'down');
+    up.setAttribute('aria-pressed', String(value === 'up'));
+    down.setAttribute('aria-pressed', String(value === 'down'));
   }
 }
 customElements.define('aha-csat', AhaCsat);
