@@ -62,6 +62,13 @@ const PATTERN_REQUIRED = ['name', 'slug', 'kind', 'summary', 'skillRef', 'surfac
 //   false → WARN: the doc-only pattern lands, the gap is tracked loudly (the pattern pulls the roadmap into the open).
 //   true  → HARD FAIL: the referenced components must exist here first before the pattern can pass.
 const PATTERN_BACKLOG_HARD_FAIL = false;
+// Motion policy — interactive leaf states must animate via the shared motion tokens (--aha-motion-* durations
+// + --aha-ease-* curves), not snap and not a bare timing literal; and the transition must live on a PERSISTENT
+// node (a subtree rebuild on the state change kills it — the Switch-click bug).
+//   false → WARN: gaps surface loudly but don't block (master still ships components that rebuild on state change).
+//   true  → HARD FAIL: same bar as bare hex / off-scale radius.
+//   FLIP TO true once Fleet restructures the re-rendering leaves (switch/checkbox/tooltip) so the transitions fire (Slack PRO38-5).
+const MOTION_HARD_FAIL = false;
 const BANNED = [
   [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
@@ -213,18 +220,56 @@ for (const ct of contracts) {
   // blank out comment bodies but preserve line count so findings map to real line numbers
   const code = raw.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).split('\n').map(l => l.replace(/\/\/.*$/, ''));
   const hits = [];
+  const motionFindings = [];   // motion is WARN-first (MOTION_HARD_FAIL) — kept apart so it doesn't fail the file yet
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
-    const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow);
+    const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
     if (mode === 'element') {
       const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
       if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
       if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
+      // a transition's timing must come from a motion token — a bare literal (.12s/150ms) is the drift (.1/.12/.15) we're killing
+      if (!allowMotion && /transition/i.test(line))
+        for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(`L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`);
     } else {
       for (const h of line.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) if (!inPalette(h)) hits.push(`L${i + 1}: off-palette ${h} — a theme must map to a canonical token value`);
     }
   });
-  libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits });
+  // per-file motion smells (element only)
+  if (mode === 'element') {
+    const body = code.join('\n');
+    const interactive = /:hover|:focus|:focus-visible|:focus-within|:active|:checked|cursor\s*:\s*pointer|\[(?:checked|open|disabled)\]/i.test(body);
+    const animates = /transition|@keyframes|animation\s*:/i.test(body);
+    const fileAllows = /ds-lint-allow:\s*[a-z, ]*motion/i.test(raw);
+    // (a) an interactive element whose states SNAP — no transition declared at all
+    if (interactive && !animates && !fileAllows)
+      motionFindings.push(`interactive element declares no transition — hover/focus/checked/open states must animate (var(--aha-motion-mid) var(--aha-ease-in-out)), never snap`);
+    // (b) a DEAD transition — the element declares one but rebuilds its whole subtree on a state-attr change
+    //     (innerHTML= in attributeChangedCallback), so the browser has no "from" state and it never fires
+    //     (the Switch-click bug — survives even after the CSS is correct). The transition must live on a
+    //     PERSISTENT node: toggle the attribute/class and mutate in place, don't re-render the subtree.
+    const stateAttrs = (body.match(/observedAttributes[\s\S]{0,160}?\[([^\]]*)\]/) || [, ''])[1];
+    const togglesState = /\b(checked|open|active|selected|expanded|pressed|indeterminate)\b/i.test(stateAttrs);
+    const rerendersOnAttr = /attributeChangedCallback/.test(body) && /innerHTML\s*=/.test(body);
+    if (animates && togglesState && rerendersOnAttr && !fileAllows)
+      motionFindings.push(`transition may be DEAD — a state attribute (${stateAttrs.replace(/['"\s]/g,'').split(',').filter(a=>/checked|open|active|selected|expanded|pressed|indeterminate/i.test(a)).join('/')}) triggers a full innerHTML re-render, so the declared transition can't fire across that change. Toggle the attribute/class on a persistent node instead of rebuilding the subtree (the Switch-click case)`);
+    // (c) the EXAMPLE must show the SAME motion as the shipped component. The preview is a hand-kept copy
+    //     (a self-contained reimplementation — and qa.mjs measures IT, not lib), so it drifts: it has dropped
+    //     a transition before. Flag any transition lib ships that the preview is missing → the example lies.
+    const txns = (s) => new Set([...s.matchAll(/transition\s*:\s*([^;}`]+)/gi)]
+      .map(m => m[1].replace(/\s+/g, ' ').trim().toLowerCase())
+      .filter(t => t && !/^none\b/.test(t)));
+    const pv = read(join(PDIR, (ct.slug || '') + '.preview.html'));
+    if (pv && !fileAllows) {
+      const missing = [...txns(raw)].filter(t => !txns(pv).has(t));
+      if (missing.length)
+        motionFindings.push(`example out of sync — parts/${ct.slug}.preview.html is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than <${r.registers}> — and qa measures the preview, not lib. Keep the preview copy in sync with the element.`);
+    }
+  }
+  // WARN until the re-rendering leaves are restructured (MOTION_HARD_FAIL); then motion joins hex/radius as a hard fail
+  const motionHits = [];
+  for (const mf of motionFindings) (MOTION_HARD_FAIL ? hits : motionHits).push(mf);
+  libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 
 /* ===== patterns — composition guides. A pattern ships no primitive; it reuses components and
@@ -350,6 +395,7 @@ if (libFindings.length) {
     console.log(`${ok ? '✓' : '✗'} ${f.file}  [${f.mode}]`);
     if (ok) console.log(`      · ${f.mode === 'element' ? 'colour token-bound, radius on-scale' : 'every hex on-palette'}`);
     for (const h of f.hits) console.log(`      ✗ FAIL: ${h}`);
+    for (const h of (f.motionHits || [])) { warnCount++; console.log(`      ⚠ WARN: ${h}`); }
   }
 }
 {
