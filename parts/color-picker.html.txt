@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-color-picker> is the SAME shared custom element React and Vue consume.
+     Defaults to the brand ramp; override with swatches="#hex|#hex". Emits a composed `change`. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-color-picker.js';   // registers <aha-color-picker>
+</script>
+
+<aha-color-picker id="pick" value="#6A1EBB"></aha-color-picker>
+
+<script>
+  // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
+  document.getElementById('pick').addEventListener('change', (e) => {
+    console.log('colour:', e.detail.value);
+  });
+</script>

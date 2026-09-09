@@ -1,0 +1,16 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-tabs';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const tab = ref(0);
+</script>
+
+<template>
+  <aha-tabs :value.prop="tab" @change="tab = $event.detail.value">
+    <section data-tab="Overview">Overview panel content.</section>
+    <section data-tab="Activity">Activity panel content.</section>
+  </aha-tabs>
+</template>

@@ -21,6 +21,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.10.0 — 2026-09-09
+### Added
+- `aha-rate` — a star rating (leaf web component) for capturing or displaying a score out of `max`. Selection and hover-preview toggle a class on persistent star nodes, so the fill animates via the shared motion tokens. (PRO38-8)
+- `aha-color-picker` — a leaf colour picker: a trigger swatch opening a persistent panel of preset colours (the brand ramp by default, overridable via `swatches`). (PRO38-8)
+- `aha-uploader` — a leaf click-or-drag file drop zone; hover and drag-over animate the persistent zone's border and tint. Emits the selected `File[]`. (PRO38-8)
+- `aha-avatar` — a leaf identity marker showing a photo (`src`) or the initials of `name` on a tinted ground, in circle or square shape. (PRO38-8)
+- `aha-popover` — a leaf click-triggered floating panel for rich content, closing on outside-click and Escape; fade + lift animate on a persistent panel. (PRO38-8)
+- `aha-tabs` — a leaf line-style tab bar over slotted panels (each child labelled via `data-tab`); active colour and underline animate on persistent tab nodes. (PRO38-8)
+- `aha-segmented` — a leaf single-choice segmented control; selection slides a persistent thumb via the shared motion tokens. (PRO38-8)
+
 ## 0.7.0 — 2026-09-09
 ### Added
 - Icon library is now gated: `standards.mjs` proves every `<aha-icon name="…">` a component references (in its source, snippets, preview, or contract) resolves to a real glyph in `icons/registry.json` — the published [icon gallery](https://ahaslides-product.github.io/ahaslides-design/icons/index.html) — and flags an inline `<svg>` glyph in element source as a library bypass (genuine sub-glyph chrome opts out per-line with `ds-lint-allow: svg`). A typo or non-DS icon now fails the gate instead of rendering a runtime error box. (#30)

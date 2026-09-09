@@ -1,0 +1,10 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-avatar';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-avatar name="Ada Lovelace" />
+  <aha-avatar name="Grace Hopper" :size="56" />
+  <aha-avatar :src="photoUrl" name="Ada Lovelace" />
+</template>

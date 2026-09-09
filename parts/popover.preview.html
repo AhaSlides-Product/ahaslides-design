@@ -1,0 +1,56 @@
+<div class="pad" style="min-height:220px">
+  <div class="lbl">Interactive · click the trigger</div>
+  <div class="row" style="gap:32px;align-items:flex-start">
+    <aha-popover placement="bottom">
+      <button slot="trigger" class="pv-btn">Options</button>
+      <div>
+        <p style="margin:0 0 8px">Share, rename or export this deck.</p>
+        <a href="#">Manage access</a>
+      </div>
+    </aha-popover>
+
+    <aha-popover data-probe open placement="bottom">
+      <button slot="trigger" class="pv-btn">Open (probe)</button>
+      <div>Anchored floating content — richer than a tooltip.</div>
+    </aha-popover>
+  </div>
+</div>
+
+<style>
+  .pv-btn{ font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:14px; font-weight:600;
+    padding:6px 14px; border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-sm,6px);
+    background:var(--aha-bg-container,#FFFFFF); color:var(--aha-text-default,#1A1A1A); cursor:pointer }
+</style>
+
+<script type="module">
+const STYLE = `
+  :host{ display:inline-block; position:relative; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
+  .pop{ position:absolute; z-index:20; min-width:180px; box-sizing:border-box; padding:12px 16px;
+    background:var(--aha-bg-elevated,#FFFFFF); color:var(--aha-text-default,#1A1A1A);
+    border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-default,8px);
+    box-shadow:0 6px 16px rgba(26,26,46,.12); font-size:14px; line-height:21px;
+    opacity:0; visibility:hidden; transform:translateY(-4px);
+    transition:opacity var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)), transform var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)), visibility var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)) }
+  :host([open]) .pop{ opacity:1; visibility:visible; transform:translateY(0) }
+  :host([placement="bottom"]) .pop{ top:calc(100% + 8px); left:0 }
+  :host([placement="top"]) .pop{ bottom:calc(100% + 8px); left:0; transform:translateY(4px) }
+  :host([placement="top"][open]) .pop{ transform:translateY(0) }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
+`;
+class AhaPopover extends HTMLElement {
+  get open(){ return this.hasAttribute('open'); }
+  set open(v){ v ? this.setAttribute('open','') : this.removeAttribute('open'); }
+  connectedCallback(){
+    if(!this.shadowRoot) this.attachShadow({mode:'open'});
+    if(!this.hasAttribute('placement')) this.setAttribute('placement','bottom');
+    this.shadowRoot.innerHTML = `<style>${STYLE}</style><span class="trigger"><slot name="trigger"></slot></span><div class="pop" role="dialog"><slot></slot></div>`;
+    const trigger=this.shadowRoot.querySelector('.trigger');
+    trigger.addEventListener('click',(e)=>{ e.stopPropagation(); this.open=!this.open; });
+    this._onDoc=(e)=>{ if(this.open && !this.contains(e.target)) this.open=false; };
+    document.addEventListener('click',this._onDoc);
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'&&this.open) this.open=false; });
+  }
+  disconnectedCallback(){ document.removeEventListener('click',this._onDoc); }
+}
+customElements.define('aha-popover', AhaPopover);
+</script>

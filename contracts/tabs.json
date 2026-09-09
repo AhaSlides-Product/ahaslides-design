@@ -1,0 +1,53 @@
+{
+  "name": "Tabs",
+  "slug": "tabs",
+  "group": "Navigation",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-tabs",
+  "summary": "Switch between sibling content panels from a line-style tab bar.",
+  "lead": "ONE custom element — <aha-tabs> — defined once, imported unchanged by React and Vue. Each slotted panel carries its label in data-tab; switching toggles a class on persistent tab nodes so the active colour and underline animate. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "text-secondary", "text-default", "color-primary", "radius-xs", "font-product", "motion-mid", "ease-in-out"],
+  "spec": [
+    { "label": "Bar", "value": "gap 24, 1px border bottom (border #E3E3E3)" },
+    { "label": "Tab", "value": "SemiBold 600 14, pad 8 0, 2px underline" },
+    { "label": "Active", "value": "color-primary #6A1EBB text + underline" },
+    { "label": "Inactive", "value": "text-secondary #4A4A4A → text-default on hover" }
+  ],
+  "props": [
+    { "name": "value", "type": "number", "default": "0", "desc": "Zero-based index of the active tab" },
+    { "name": "[data-tab]", "type": "attribute on each panel child", "default": "—", "desc": "The tab label for that panel" },
+    { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value (index)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Tabs", "when": "several peer content panels the user moves between within one screen" },
+      { "what": "Segmented", "when": "switching a compact view or mode, not larger panels" },
+      { "what": "Select", "when": "the choices are many or space is tight" }
+    ],
+    "note": "Keep labels to one or two words, sentence case. Order tabs by expected use, most common first, and don't hide critical content behind a rarely-picked tab.",
+    "dsv3": "Line tabs with a 2px underline in color-primary; inactive labels text-secondary lifting to text-default on hover. Colour + underline animate on persistent nodes via the shared motion tokens — no subtree rebuild on switch."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./aha-tabs", "registers": "aha-tabs", "exportsNamed": ["AhaTabs", "defineAhaTabs"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "tabs.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "tabs.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "tabs.vue.txt" }
+  ],
+  "preview": "tabs.preview.html",
+  "selfCheck": [
+    { "label": "active color-primary + underline", "verdict": "PASS" },
+    { "label": "inactive text-secondary", "verdict": "PASS" },
+    { "label": "font SemiBold 600 14", "verdict": "PASS" },
+    { "label": "change emits composed index", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=0 so an active + an inactive tab both exist.",
+    "ready": "!!(document.querySelector('aha-tabs[data-probe]') && document.querySelector('aha-tabs[data-probe]').shadowRoot && document.querySelector('aha-tabs[data-probe]').shadowRoot.querySelector('.tab.on'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-tabs[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.tab.on');var off=sr.querySelector('.tab:not(.on)');var o=getComputedStyle(on);return{activeColor:o.color,activeBorder:o.borderBottomColor,inactiveColor:getComputedStyle(off).color,fontSize:o.fontSize};})()",
+    "expect": { "activeColor": "rgb(106, 30, 187)", "activeBorder": "rgb(106, 30, 187)", "inactiveColor": "rgb(74, 74, 74)", "fontSize": "14px" }
+  }
+}

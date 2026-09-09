@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-uploader> is the SAME shared custom element React and Vue consume.
+     Click or drag files onto the zone; it emits a composed `change` event with the File[]. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-uploader.js';   // registers <aha-uploader>
+</script>
+
+<aha-uploader id="up" accept="image/*" multiple></aha-uploader>
+
+<script>
+  // Plain DOM — no framework. Read e.detail.files off the composed CustomEvent.
+  document.getElementById('up').addEventListener('change', (e) => {
+    console.log('files:', e.detail.files.map((f) => f.name));
+  });
+</script>

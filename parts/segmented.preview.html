@@ -1,0 +1,62 @@
+<div class="pad">
+  <div class="lbl">Interactive · click to switch</div>
+  <div class="row"><aha-segmented id="demo" options="Day|Week|Month" value="Week"></aha-segmented> <span id="out" class="note">Week</span></div>
+  <div class="lbl">Probe (value=Week) · two options · disabled</div>
+  <div class="row" style="gap:16px;flex-wrap:wrap">
+    <aha-segmented data-probe options="Day|Week|Month" value="Week"></aha-segmented>
+    <aha-segmented options="List|Grid" value="List"></aha-segmented>
+    <aha-segmented options="On|Off" value="On" disabled></aha-segmented>
+  </div>
+</div>
+
+<script type="module">
+const STYLE = `
+  :host{ display:inline-flex }
+  .track{ position:relative; display:inline-flex; box-sizing:border-box; padding:2px; gap:0;
+    background:var(--aha-gray-20,#F7F7F7); border-radius:var(--aha-radius-default,8px);
+    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
+  .thumb{ position:absolute; top:2px; bottom:2px; left:2px; width:0;
+    background:var(--aha-bg-container,#FFFFFF); border-radius:var(--aha-radius-sm,6px); box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:transform var(--aha-motion-mid,.2s) var(--aha-ease-in-out-circ,cubic-bezier(0.78,0.14,0.15,0.86)), width var(--aha-motion-mid,.2s) var(--aha-ease-in-out-circ,cubic-bezier(0.78,0.14,0.15,0.86)) }
+  .seg{ position:relative; z-index:1; box-sizing:border-box; border:0; background:none; cursor:pointer;
+    padding:0 16px; height:32px; min-width:0; flex:1 1 auto;
+    font-family:inherit; font-size:14px; font-weight:600; color:var(--aha-text-secondary,#4A4A4A);
+    border-radius:var(--aha-radius-sm,6px); outline:2px solid transparent; outline-offset:-2px;
+    transition:color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
+  .seg:hover{ color:var(--aha-text-default,#1A1A1A) }
+  .seg.on{ color:var(--aha-text-default,#1A1A1A) }
+  .seg:focus-visible{ outline-color:var(--aha-color-primary,#6A1EBB) }
+  :host([disabled]){ opacity:.4 }
+  :host([disabled]) .seg{ cursor:not-allowed }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
+`;
+class AhaSegmented extends HTMLElement {
+  get options(){ return (this.getAttribute('options')||'').split('|').map(s=>s.trim()).filter(Boolean); }
+  get value(){ return this.getAttribute('value')||this.options[0]||''; }
+  set value(v){ this.setAttribute('value',String(v)); this._select(this.options.indexOf(String(v)),false); }
+  get disabled(){ return this.hasAttribute('disabled'); }
+  connectedCallback(){
+    if(!this.shadowRoot) this.attachShadow({mode:'open'});
+    const opts=this.options;
+    const segs=opts.map((o,i)=>`<button class="seg" type="button" role="tab" data-i="${i}">${o}</button>`).join('');
+    this.shadowRoot.innerHTML = `<style>${STYLE}</style><span class="track" role="tablist"><span class="thumb"></span>${segs}</span>`;
+    this._segs=Array.from(this.shadowRoot.querySelectorAll('.seg'));
+    this._thumb=this.shadowRoot.querySelector('.thumb');
+    this._select(Math.max(0,opts.indexOf(this.value)),false);
+    if(this.disabled) return;
+    this._segs.forEach((seg)=>seg.addEventListener('click',()=>{ const i=Number(seg.dataset.i); this.setAttribute('value',this.options[i]); this._select(i,true); }));
+  }
+  _select(index,emit){
+    if(!this._segs||index<0) return;
+    this._segs.forEach((s,i)=>{ s.classList.toggle('on', i===index); s.setAttribute('aria-selected', i===index); });
+    const seg=this._segs[index];
+    if(seg){ this._thumb.style.width=seg.offsetWidth+'px'; this._thumb.style.transform=`translateX(${seg.offsetLeft-2}px)`; }
+    if(emit) this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{value:this.options[index],index}}));
+  }
+}
+customElements.define('aha-segmented', AhaSegmented);
+customElements.whenDefined('aha-segmented').then(()=>{
+  const demo=document.getElementById('demo'), out=document.getElementById('out');
+  demo.addEventListener('change',(e)=>{ out.textContent=e.detail.value; });
+});
+</script>

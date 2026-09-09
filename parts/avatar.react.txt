@@ -1,0 +1,10 @@
+import '@ahaslides-product/design/aha-avatar';   // registers <aha-avatar>
+
+// A plain custom element — no wrapper needed for static props.
+function AhaAvatar({ name, src, size = 40, shape = 'circle' }) {
+  return <aha-avatar name={name} src={src} size={size} shape={shape} />;
+}
+
+// usage
+<AhaAvatar name="Ada Lovelace" />
+<AhaAvatar name="Grace Hopper" size={56} />
