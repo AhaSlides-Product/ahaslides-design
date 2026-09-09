@@ -7,7 +7,7 @@
 When you build any AhaSlides product UI, **reuse the component from this system — never rewrite it.**
 
 1. **Look it up first.** The generated feeds list every component, its API, and every icon name: `dist/<slug>.agent.json`, `dist/icons.agent.json`, `dist/llms.txt`, `dist/design.md`.
-2. **Consume it.** Same element, three ways — **lead with HTML** (paste-and-run, no build step): `import` the element from a CDN and write `<aha-button>` directly; React and Vue consume the *same* custom element (thin adapters, still supported). Call an icon by name (`<aha-icon name="system-bell" size="16" />`); bind to a token. Never hand-roll a second Button, a raw `<table>`, an inline `<svg>`, or a hardcoded hex/px.
+2. **Consume it — three ways, lead with HTML** (paste-and-run, no build step). Leaf: `import` the element from a CDN and write `<aha-button>` directly; React/Vue consume the *same* custom element (thin adapters). Composite (Table): the HTML form is a CDN-React runnable page (React + antd from a CDN) over the shared theme. Call an icon by name (`<aha-icon name="system-bell" size="16" />`); bind to a token. Never hand-roll a second Button, a raw `<table>`, an inline `<svg>`, or a hardcoded hex/px.
 3. **Missing something? Add it HERE, once** — a contract + a real `lib/` entry point (or an SVG + `build-icons.mjs`) — so the next agent reuses it. Never solve it privately in a feature branch.
 
 The ultimate goal: everyone crafts AhaSlides UI by consuming components from here. A UI built by rewriting components is a defect even if it looks right.
@@ -18,7 +18,7 @@ The ultimate goal: everyone crafts AhaSlides UI by consuming components from her
 npm run check    # build → standards gate (reusable) → render gate (qa)
 ```
 
-- **`standards.mjs` — the reusability gate.** Every component must be complete, declare a real `reuse` entry point, import by its published package name, register (leaf) / export its artifact (composite), and — for a leaf — ship a paste-and-run **HTML snippet** (a composite declares `htmlExempt`). **No component passes otherwise.** This also runs in CI on every PR — a red gate blocks the merge.
+- **`standards.mjs` — the reusability gate.** Every component must be complete, declare a real `reuse` entry point, import by its published package name, register (leaf) / export its artifact (composite), and ship a paste-and-run **HTML snippet — every component, no exception** (a leaf uses its custom element; a composite ships a CDN-React runnable page). **No component passes otherwise.** This also runs in CI on every PR — a red gate blocks the merge.
 - **`qa.mjs` — the render gate.** Measures the real rendered UI against each contract (needs headless Chrome; run locally). If a `screenshot 0KB` line appears, that's local Chrome contention — re-run once settled; it is not a code failure.
 
 A red gate means the work isn't done. **Fix it — don't work around it.** To add a component, copy an existing one of your tier: **Icon** / **Checkbox** (leaf), **Table** (composite), then follow `CONTRIBUTING.md`.

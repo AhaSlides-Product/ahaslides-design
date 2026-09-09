@@ -33,8 +33,8 @@
   },
   "surfaces": ["editor", "dashboard", "admin"],
   "reuse": { "entry": "./table-theme", "exportsNamed": ["tableTheme"] },
-  "htmlExempt": "Composite — no native web-component form. Table is two real vendor libraries (antd v6 / ant-design-vue v4) rendered through the shared DataTable; there is no framework-free element to paste into an HTML file. A CDN-React runnable page is a platform decision (open Q2), out of DS authoring scope. The gate therefore exempts composites from the HTML snippet requirement.",
   "snippets": [
+    { "key": "html", "label": "HTML", "file": "table.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared tableTheme. No build step." },
     { "key": "react", "label": "React", "file": "table.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "table.vue.txt" },
     { "key": "theme", "label": "Theme (shared)", "file": "table.theme.txt" }

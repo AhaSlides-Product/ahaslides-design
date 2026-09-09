@@ -87,21 +87,24 @@ for (const ct of contracts) {
     'snippets must show consuming the real package');
   for (const [re, why] of BANNED) chk(`snippets free of: ${why}`, !re.test(snippetText), 'found in a snippet');
 
-  // 6b) ships a paste-and-run HTML snippet — the native form of a web component, so end-users
-  //     can vibe-code decks/courses/hubs with no build step. LEAF components (a real custom
-  //     element) MUST carry one; COMPOSITES (no framework-free element) declare `htmlExempt` why.
+  // 6b) EVERY component ships a paste-and-run HTML snippet — no exceptions — so end-users can
+  //     vibe-code decks/courses/hubs with no build step. LEAF: the custom element is the native
+  //     form (the snippet uses <element> directly). COMPOSITE (no framework-free element): a
+  //     CDN-React runnable page — React + antd loaded from a CDN so it still opens-and-renders.
   const isLeaf = !!(ct.reuse && ct.reuse.registers) || /leaf/.test(ct.tier || '');
   const html = (ct.snippets || []).find(s => s.key === 'html');
-  if (isLeaf) {
-    chk('ships an HTML (paste-and-run) snippet', !!html, 'add a { key:"html" } snippet in parts/<slug>.html.txt — the native web-component form');
-    if (html) {
-      const htmlText = read(join(PDIR, html.file));
-      chk('HTML snippet exists + imports the DS element', /@ahaslides\/design/.test(htmlText) && new RegExp(`<${ct.element}[\\s>]`).test(htmlText),
-        'the HTML snippet must import @ahaslides/design and use the element');
+  chk('ships an HTML (paste-and-run) snippet', !!html, 'add a { key:"html" } snippet in parts/<slug>.html.txt — every component needs one');
+  if (html) {
+    const htmlText = read(join(PDIR, html.file));
+    if (isLeaf) {
+      chk('HTML snippet imports the DS + uses the element', /@ahaslides\/design/.test(htmlText) && new RegExp(`<${ct.element}[\\s>]`).test(htmlText),
+        'a leaf HTML snippet must import @ahaslides/design and use its custom element');
+    } else {
+      // composite: a CDN-React page — must consume the DS (e.g. the shared theme) and be runnable
+      // (loads React from a CDN, mounts into the DOM), not a hand-styled raw table.
+      chk('HTML snippet is a runnable CDN-React page consuming the DS', /@ahaslides\/design/.test(htmlText) && /esm\.sh|cdn|unpkg|jsdelivr/i.test(htmlText) && /react/i.test(htmlText),
+        'a composite HTML snippet must load React from a CDN and consume @ahaslides/design (e.g. the shared theme)');
     }
-  } else {
-    chk('composite declares HTML exemption (`htmlExempt`)', !!ct.htmlExempt,
-      'a composite with no native element must state why it has no HTML snippet');
   }
 
   // 7) render-gated (qa.mjs measures it; here we just require the block exists)
