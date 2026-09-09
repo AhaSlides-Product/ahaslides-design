@@ -1,0 +1,48 @@
+<div class="pad">
+  <div class="lbl">Fixed · 3 columns · gap middle</div>
+  <aha-grid data-probe columns="3" gap="middle">
+    <div class="gcell">Poll</div>
+    <div class="gcell">Quiz</div>
+    <div class="gcell">Word cloud</div>
+    <div class="gcell">Q&amp;A</div>
+    <div class="gcell">Brainstorm</div>
+    <div class="gcell">Spinner</div>
+  </aha-grid>
+
+  <div class="lbl" style="margin-top:20px">Responsive · min 200 · gap large</div>
+  <aha-grid min="200" gap="large">
+    <div class="gcell">Auto A</div>
+    <div class="gcell">Auto B</div>
+    <div class="gcell">Auto C</div>
+    <div class="gcell">Auto D</div>
+  </aha-grid>
+</div>
+
+<style>
+  .gcell{ background:var(--aha-purple-10); border:1px solid var(--aha-purple-30); border-radius:8px;
+    padding:16px; text-align:center; font-weight:600; color:var(--aha-purple-80) }
+</style>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-grid (lib/aha-grid.js),
+     inlined here so the preview is self-contained (no build step, no network). -->
+<script type="module">
+const GAP = { small: '8px', middle: '16px', large: '24px' };
+const STYLE = `
+  :host{ display:grid; box-sizing:border-box; color:var(--aha-text-default,#1A1A1A) }
+`;
+class AhaGrid extends HTMLElement {
+  static get observedAttributes() { return ['columns', 'min', 'gap']; }
+  connectedCallback() { if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); this.shadowRoot.innerHTML = `<style>${STYLE}</style><slot></slot>`; } this._apply(); }
+  attributeChangedCallback() { if (this.shadowRoot) this._apply(); }
+  _apply() {
+    const gap = this.getAttribute('gap');
+    this.style.gap = gap == null ? '' : (GAP[gap] || (/^\d+$/.test(gap) ? gap + 'px' : gap));
+    const min = this.getAttribute('min');
+    const cols = this.getAttribute('columns');
+    this.style.gridTemplateColumns = min
+      ? `repeat(auto-fit, minmax(${/^\d+$/.test(min) ? min + 'px' : min}, 1fr))`
+      : cols ? `repeat(${cols}, minmax(0, 1fr))` : '';
+  }
+}
+customElements.define('aha-grid', AhaGrid);
+</script>

@@ -1,0 +1,26 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-flex> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-flex.js';   // registers <aha-flex>
+</script>
+
+<!-- gap takes a named DS step (small 8 / middle 16 / large 24) or a raw pixel number -->
+<aha-flex gap="middle" align="center">
+  <button>Save</button>
+  <button>Cancel</button>
+  <button>More</button>
+</aha-flex>
+
+<!-- column direction, larger gap -->
+<aha-flex direction="column" gap="large" style="margin-top:24px">
+  <div>Row one</div>
+  <div>Row two</div>
+</aha-flex>
+
+<!-- push items apart -->
+<aha-flex justify="space-between" style="margin-top:24px">
+  <strong>Title</strong>
+  <a href="#">Action</a>
+</aha-flex>
