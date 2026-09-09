@@ -1,0 +1,13 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-card';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-card card-title="Live poll">
+    Which release cadence works best for your team?
+  </aha-card>
+  <aha-card hoverable card-title="Weekly digest">
+    A clickable card lifts on hover.
+  </aha-card>
+</template>

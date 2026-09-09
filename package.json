@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -42,7 +42,14 @@
     "./lib/aha-avatar.js",
     "./lib/aha-popover.js",
     "./lib/aha-tabs.js",
-    "./lib/aha-segmented.js"
+    "./lib/aha-segmented.js",
+    "./lib/aha-card.js",
+    "./lib/aha-list.js",
+    "./lib/aha-collapse.js",
+    "./lib/aha-descriptions.js",
+    "./lib/aha-statistic.js",
+    "./lib/aha-empty.js",
+    "./lib/aha-image.js"
   ],
   "exports": {
     "./icons": "./lib/icons.js",
@@ -83,7 +90,14 @@
     "./aha-avatar": "./lib/aha-avatar.js",
     "./aha-popover": "./lib/aha-popover.js",
     "./aha-tabs": "./lib/aha-tabs.js",
-    "./aha-segmented": "./lib/aha-segmented.js"
+    "./aha-segmented": "./lib/aha-segmented.js",
+    "./aha-card": "./lib/aha-card.js",
+    "./aha-list": "./lib/aha-list.js",
+    "./aha-collapse": "./lib/aha-collapse.js",
+    "./aha-descriptions": "./lib/aha-descriptions.js",
+    "./aha-statistic": "./lib/aha-statistic.js",
+    "./aha-empty": "./lib/aha-empty.js",
+    "./aha-image": "./lib/aha-image.js"
   },
   "files": [
     "lib/",

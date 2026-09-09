@@ -1,0 +1,38 @@
+<div class="pad">
+  <div class="lbl">List · divided rows · hover highlight</div>
+  <aha-list data-probe list-title="Recent decks" style="display:block; max-width:320px">
+    <div>Team offsite 2026</div>
+    <div>Q3 product review</div>
+    <div>Onboarding quiz</div>
+  </aha-list>
+</div>
+
+<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-list (lib/aha-list.js),
+     inlined here so the preview is self-contained (no build step, no network). -->
+<script type="module">
+const STYLE = `
+  :host{ display:block }
+  .list{ box-sizing:border-box; background:var(--aha-bg-container,#FFFFFF);
+    border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-lg,12px); overflow:hidden;
+    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
+  .head{ padding:14px 20px; border-bottom:1px solid var(--aha-split,#F1F1F1);
+    font-size:15px; line-height:22px; font-weight:600; color:var(--aha-text-default,#1A1A1A) }
+  ::slotted(*){ display:block; box-sizing:border-box; padding:12px 20px; border-bottom:1px solid var(--aha-split,#F1F1F1);
+    font-size:14px; line-height:22px; color:var(--aha-text-secondary,#4A4A4A);
+    transition:background var(--aha-motion-fast,.1s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)) }
+  ::slotted(*:last-child){ border-bottom:none }
+  ::slotted(*:hover){ background:var(--aha-bg-hover,#F7F7F7) }
+  @media (prefers-reduced-motion: reduce){ ::slotted(*){ transition:none !important } }
+`;
+class AhaList extends HTMLElement {
+  static get observedAttributes() { return ['list-title']; }
+  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this._render(); }
+  attributeChangedCallback() { if (this.shadowRoot) this._render(); }
+  _render() {
+    const title = this.getAttribute('list-title');
+    const head = title ? `<div class="head" part="head">${title}</div>` : '';
+    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="list" part="list">${head}<slot></slot></div>`;
+  }
+}
+customElements.define('aha-list', AhaList);
+</script>

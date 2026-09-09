@@ -1,0 +1,13 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-image';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-image
+    src="https://picsum.photos/240/150"
+    alt="Deck cover"
+    width="240"
+    height="150"
+  >Preview</aha-image>
+</template>

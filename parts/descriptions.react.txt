@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-descriptions';   // registers <aha-descriptions>
+
+// Each row is a child carrying a `label` attribute; its content is the value.
+function AccountFacts({ title, rows }) {
+  return (
+    <aha-descriptions desc-title={title}>
+      {rows.map(([label, value]) => <div key={label} label={label}>{value}</div>)}
+    </aha-descriptions>
+  );
+}
+
+// usage
+<AccountFacts title="Account" rows={[['Plan', 'Pro'], ['Seats', '25 of 50'], ['Billing cycle', 'Yearly']]} />
