@@ -1,0 +1,19 @@
+<script setup>
+import { ref } from 'vue';
+import { ConfigProvider, Steps } from 'ant-design-vue';   // ant-design-vue v4
+import { stepsTheme } from '@ahaslides-product/design/steps-theme';
+
+const current = ref(1);
+const items = [
+  { title: 'Details' },
+  { title: 'Content' },
+  { title: 'Publish' },
+];
+</script>
+
+<template>
+  <a-config-provider :theme="stepsTheme">
+    <a-steps v-model:current="current" :items="items" />
+  </a-config-provider>
+</template>
+<!-- The SAME stepsTheme as React → one DS V3 look across both vendor libraries. -->

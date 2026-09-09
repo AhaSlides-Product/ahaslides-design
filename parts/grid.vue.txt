@@ -1,0 +1,15 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-grid';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-grid columns="3" gap="middle">
+    <Card v-for="c in cards" :key="c.id" v-bind="c" />
+  </aha-grid>
+
+  <!-- Responsive auto-fit: the column count follows the container width -->
+  <aha-grid min="220" gap="large">
+    <Tile v-for="i in items" :key="i.id" v-bind="i" />
+  </aha-grid>
+</template>

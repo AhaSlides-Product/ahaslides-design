@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-collapse';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const open = ref(true);
+</script>
+
+<template>
+  <aha-collapse
+    :open="open || undefined"
+    @toggle="open = $event.detail.open"
+  >
+    <span slot="header">Advanced settings</span>
+    Let participants join anonymously, and shuffle the answer order.
+  </aha-collapse>
+</template>

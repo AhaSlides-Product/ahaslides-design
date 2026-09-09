@@ -1,0 +1,44 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared textareaTheme. Vue consumes the same
+     textareaTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the real antd TextArea bound to the shared theme. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__ta = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, colorBorder:'#E3E3E3',
+           colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ Input:{ activeBorderColor:'#6A1EBB', hoverBorderColor:'#D3B4FF', borderRadius:8 } }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Input } = window.__antdR;
+const { TextArea } = Input;
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__ta}>
+    <div>
+      <Field label="Autosize">
+        <TextArea placeholder="Describe your event" autoSize={{ minRows: 3, maxRows: 6 }} style={{ width: 320 }} />
+      </Field>
+      <Field label="With character count">
+        <TextArea rows={2} showCount maxLength={200} defaultValue={'Welcome to the session!'} style={{ width: 320 }} />
+      </Field>
+    </div>
+  </ConfigProvider>
+);
+</script>

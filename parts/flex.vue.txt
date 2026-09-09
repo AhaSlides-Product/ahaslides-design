@@ -1,0 +1,21 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-flex';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-flex gap="middle" align="center">
+    <button>Save</button>
+    <button>Cancel</button>
+  </aha-flex>
+
+  <aha-flex direction="column" gap="large">
+    <Card />
+    <Card />
+  </aha-flex>
+
+  <aha-flex justify="space-between">
+    <strong>Title</strong>
+    <a href="#">Action</a>
+  </aha-flex>
+</template>

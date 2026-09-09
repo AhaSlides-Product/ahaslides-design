@@ -1,0 +1,46 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared inputNumberTheme. Vue consumes the
+     same inputNumberTheme — see "Show code". This CDN-React page (no build step) is also what
+     qa.mjs measures: the real antd InputNumber bound to the shared theme. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__inum = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
+           colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ InputNumber:{ activeBorderColor:'#6A1EBB', hoverBorderColor:'#D3B4FF', borderRadius:8, controlHeight:32 } }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, InputNumber } = window.__antdR;
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__inum}>
+    <div>
+      <Field label="Count · min 0 / max 100">
+        <InputNumber min={0} max={100} defaultValue={3} style={{ width: 180 }} />
+      </Field>
+      <Field label="Ratio · step 0.1">
+        <InputNumber min={0} max={1} step={0.1} defaultValue={0.5} style={{ width: 180 }} />
+      </Field>
+      <Field label="Empty · placeholder">
+        <InputNumber placeholder="How many" style={{ width: 180 }} />
+      </Field>
+    </div>
+  </ConfigProvider>
+);
+</script>

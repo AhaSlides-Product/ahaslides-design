@@ -1,0 +1,55 @@
+{
+  "name": "Slider",
+  "slug": "slider",
+  "group": "Data Entry",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "Drag to set a value across a known range — volume, opacity, thresholds, ranges — rendered through the shared Slider.",
+  "lead": "Slider carries drag handling, marks, range thumbs and keyboard stepping — more than a zero-dep web component should own, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared sliderTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "Slider.railBg", "Slider.trackBg", "Slider.handleColor", "Slider.railSize", "Slider.handleSize"],
+  "spec": [
+    { "label": "Rail", "value": "4px · #F1F1F1 (gray-30)" },
+    { "label": "Track", "value": "brand #6A1EBB" },
+    { "label": "Handle", "value": "14px · brand ring" },
+    { "label": "Hover rail", "value": "#E3E3E3 (gray-40)" },
+    { "label": "Range", "value": "two thumbs when value is a [min,max] pair" }
+  ],
+  "props": [
+    { "name": "value", "type": "number | [number, number]", "default": "—", "desc": "Position(s); a pair renders a range slider" },
+    { "name": "min", "type": "number", "default": "0", "desc": "Range floor" },
+    { "name": "max", "type": "number", "default": "100", "desc": "Range ceiling" },
+    { "name": "step", "type": "number | null", "default": "1", "desc": "Increment; null with marks to snap to marks only" },
+    { "name": "marks", "type": "{ [value]: label }", "default": "—", "desc": "Labelled tick positions" },
+    { "name": "onChange", "type": "(value) => void", "default": "—", "desc": "Fires with the new value(s)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Slider", "when": "an approximate value across a continuous range where feel beats an exact number" },
+      { "what": "InputNumber", "when": "the exact number matters — a precise limit or count" },
+      { "what": "Slider range", "when": "a span with a low and high bound — a price or time window" }
+    ],
+    "note": "Pair a slider with a live value readout (or an InputNumber) when the exact number matters. Use marks and step to snap to meaningful positions rather than an arbitrary continuum."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./slider-theme", "exportsNamed": ["sliderTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "slider.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared sliderTheme. No build step." },
+    { "key": "react", "label": "React", "file": "slider.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "slider.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "slider.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (sliderTheme); residual drift is caught by visual regression.",
+  "preview": "slider.preview.html",
+  "selfCheck": [
+    { "label": "rail 4px gray-30", "verdict": "PASS" },
+    { "label": "track brand #6A1EBB", "verdict": "PASS" },
+    { "label": "handle 14px brand", "verdict": "PASS" },
+    { "label": "range renders two thumbs", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 Slider bound to sliderTheme.",
+    "ready": "!!document.querySelector('#react-root .ant-slider-track')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{railBg:g('.ant-slider-rail','backgroundColor'),trackBg:g('.ant-slider-track','backgroundColor'),railH:g('.ant-slider-rail','height'),trackH:g('.ant-slider-track','height'),handleW:g('.ant-slider-handle','width'),handleH:g('.ant-slider-handle','height')};})()",
+    "expect": { "railBg": "rgb(241, 241, 241)", "trackBg": "rgb(106, 30, 187)", "railH": "4px", "trackH": "4px", "handleW": "14px", "handleH": "14px" }
+  }
+}

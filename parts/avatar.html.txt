@@ -1,0 +1,11 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-avatar> is the SAME shared custom element React and Vue consume.
+     Give `name` for initials + alt text; add `src` for a photo. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-avatar.js';   // registers <aha-avatar>
+</script>
+
+<aha-avatar name="Ada Lovelace"></aha-avatar>
+<aha-avatar name="Grace Hopper" size="56"></aha-avatar>
+<aha-avatar name="Square One" shape="square"></aha-avatar>

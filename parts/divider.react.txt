@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-divider';   // registers <aha-divider>
+
+// The custom element renders identically in React — no wrapper needed for a static primitive.
+function Section() {
+  return (
+    <>
+      <p>Section one</p>
+      <aha-divider />
+      <p>Section two</p>
+      <aha-divider>Details</aha-divider>
+    </>
+  );
+}
+
+// Vertical hairline between inline actions
+<div style={{ display: 'flex', alignItems: 'center' }}>
+  <span>Edit</span>
+  <aha-divider orientation="vertical" />
+  <span>Preview</span>
+</div>

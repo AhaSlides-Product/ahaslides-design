@@ -1,0 +1,12 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-empty';
+import '@ahaslides-product/design/aha-button';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <aha-empty>
+    No responses yet — share the join link
+    <aha-button slot="action" variant="primary" @click="copyJoinLink">Copy link</aha-button>
+  </aha-empty>
+</template>

@@ -1,0 +1,52 @@
+{
+  "name": "List",
+  "slug": "list",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-list",
+  "summary": "A bordered, evenly-divided column of uniform rows.",
+  "lead": "ONE custom element — <aha-list> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; each light-DOM child becomes a row, the last row drops its divider, and rows highlight on hover. `list-title` renders an optional header. Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-container", "border", "split", "radius-lg", "text-default", "text-secondary", "bg-hover", "font-product"],
+  "spec": [
+    { "label": "Container", "value": "border 1px #E3E3E3 · radius 12px · bg #FFFFFF" },
+    { "label": "Header", "value": "padding 14/20 · 15/22 SemiBold #1A1A1A · divider #F1F1F1" },
+    { "label": "Row", "value": "padding 12/20 · 14/22 #4A4A4A · divider #F1F1F1" },
+    { "label": "Row hover", "value": "bg #F7F7F7, motion-fast ease-out" }
+  ],
+  "props": [
+    { "name": "list-title", "type": "string", "default": "—", "desc": "Renders an optional header row" },
+    { "name": "(children)", "type": "slot", "default": "—", "desc": "Each light-DOM child renders as one divided row" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "List", "when": "many uniform rows of the same shape (recent items, participants)" },
+      { "what": "Table", "when": "multi-column records that need sorting or alignment" },
+      { "what": "Card", "when": "one titled group of mixed content" }
+    ],
+    "note": "Keep rows to one shape — a label, or a label plus a trailing control. For dense multi-column data reach for the Table instead.",
+    "dsv3": "COVERED — DS V3's measured set has no List cell; spec derived from the token layer (radius-lg, border, split, bg-hover, text-default/secondary) + antd List conventions. A deliberate, documented extension — not a measured match."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-list", "registers": "aha-list", "exportsNamed": ["AhaList", "defineAhaList"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "list.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "list.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "list.vue.txt" }
+  ],
+  "preview": "list.preview.html",
+  "selfCheck": [
+    { "label": "container radius 12 · border #E3E3E3", "verdict": "PASS" },
+    { "label": "rows divided by #F1F1F1, last drops divider", "verdict": "PASS" },
+    { "label": "row hover #F7F7F7 via motion tokens", "verdict": "PASS" },
+    { "label": "row 14/22 #4A4A4A", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-list[data-probe]') && document.querySelector('aha-list[data-probe]').shadowRoot && document.querySelector('aha-list[data-probe]').shadowRoot.querySelector('.list'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-list[data-probe]');var sr=el&&el.shadowRoot;var l=sr&&sr.querySelector('.list');var h=sr&&sr.querySelector('.head');var ls=l?getComputedStyle(l):null;var hs=h?getComputedStyle(h):null;return{listRadius:ls?ls.borderTopLeftRadius:null,listBorder:ls?ls.borderTopColor:null,listBg:ls?ls.backgroundColor:null,headColor:hs?hs.color:null};})()",
+    "expect": { "listRadius": "12px", "listBorder": "rgb(227, 227, 227)", "listBg": "rgb(255, 255, 255)", "headColor": "rgb(26, 26, 26)" }
+  }
+}

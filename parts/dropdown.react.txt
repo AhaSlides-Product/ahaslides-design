@@ -1,0 +1,21 @@
+import '@ahaslides-product/design/aha-dropdown';   // registers <aha-dropdown> (+ <aha-icon>)
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the composed `select` event; React 19 can bind onSelect directly.
+function AhaDropdown({ label, items, onSelect }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = (e) => onSelect?.(e.detail.key);
+    el.addEventListener('select', h);
+    return () => el.removeEventListener('select', h);
+  });
+  return <aha-dropdown ref={ref} label={label} items={JSON.stringify(items)} />;
+}
+
+// usage
+<AhaDropdown
+  label="Actions"
+  items={[{ key: 'rename', label: 'Rename' }, { key: 'delete', label: 'Delete' }]}
+  onSelect={(key) => runAction(key)}
+/>

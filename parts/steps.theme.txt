@@ -1,0 +1,19 @@
+// @ahaslides-product/design/steps-theme — declared ONCE, consumed by both tiers.
+import { stepsTheme } from '@ahaslides-product/design/steps-theme';
+
+export const stepsTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    colorText: '#1A1A1A',
+    borderRadius: 8,
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Steps: {
+      colorPrimary: '#6A1EBB',   // current/finished accent
+      iconSize: 32,
+      iconFontSize: 14,
+      titleLineHeight: 32,
+    },
+  },
+};

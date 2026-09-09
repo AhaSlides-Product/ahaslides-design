@@ -1,0 +1,17 @@
+import '@ahaslides-product/design/aha-uploader';   // registers <aha-uploader>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-uploader> directly.
+function AhaUploader({ multiple, accept, disabled, onFiles }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = (e) => onFiles?.(e.detail.files);   // composed CustomEvent, File[]
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return <aha-uploader ref={ref} multiple={multiple || undefined} accept={accept} disabled={disabled || undefined} />;
+}
+
+// usage
+<AhaUploader accept="image/*" multiple onFiles={(files) => setFiles(files)} />
