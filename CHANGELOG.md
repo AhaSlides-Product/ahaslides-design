@@ -31,6 +31,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **CSAT** — a `thanks` confirmation state (`role="status"`, `aria-live`); keeps the aria-pressed thumb contract. (#53)
 - **Settings list** — schema rows now honour `disabled` and `locked`/plan-gated rows (reusing `<aha-paywall>`), plus a `compact` density. (#53)
 - **Paywall** — a `required-plan` (essential/pro) playground; the preview imports the real element. (#53)
+### Fixed
+- **Progress / Rate / Uploader** — the fill/reveal now animates a compositor-friendly property (`transform: scaleX` for the progress + upload bars, `clip-path` for the rate star) instead of `width`, so the animation no longer thrashes layout. (#53)
 
 ## 0.21.0 — 2026-09-10
 ### Added
