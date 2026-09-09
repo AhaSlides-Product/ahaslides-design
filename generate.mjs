@@ -427,6 +427,11 @@ body{margin:0;font-family:var(--aha-font-product);background:#fff;color:var(--ah
 <body>${part(c.conformancePart)}</body></html>`;
 }
 
+// HTML is the native, paste-and-run form of a leaf web component — lead with it so agents
+// emit it by default (no build step). Composites have no framework-free element (see htmlExempt).
+const hasHtml = (c) => (c.snippets || []).some(s => s.key === 'html');
+const frameworksLine = (c) => hasHtml(c) ? 'HTML (paste-and-run, no build step) · React · Vue 3' : 'React, Vue 3';
+
 function renderMd(c) {
   const props = (c.props||[]).map(p => `| \`${p.name}\` | ${p.type} | \`${p.default}\` | ${p.desc} |`).join('\n');
   const spec = (c.spec||[]).map(s => `- ${s.label}: ${s.value}`).join('\n');
@@ -437,7 +442,7 @@ function renderMd(c) {
 
 ${c.summary}
 
-Tier: **${c.tier}**. Frameworks: React, Vue 3.${surf}
+Tier: **${c.tier}**. Frameworks: ${frameworksLine(c)}.${surf}
 
 ## Props
 | Prop | Type | Default | Notes |
@@ -453,23 +458,34 @@ function renderLlms(c) {
   const props = (c.props||[]).map(p => `- ${p.name}: ${p.type}, default ${p.default}. ${p.desc}`).join('\n');
   const use = c.opinion ? 'Use when: ' + (c.opinion.whenToUse||[]).map(x=>`${x.what} (${x.when})`).join('; ') + '.\n' : '';
   const surf = (c.surfaces&&c.surfaces.length) ? `Surfaces: ${c.surfaces.join(', ')}.\n` : '';
+  const htmlLead = hasHtml(c) ? 'Default to the HTML snippet — <' + c.element + '> is a standard custom element that renders with no build step; the React/Vue snippets are thin adapters over the same element.\n' : '';
   return `## ${c.name}
 ${c.summary}
-Tier: ${c.tier}. Frameworks: React, Vue 3.
-${surf}Props:
+Tier: ${c.tier}. Frameworks: ${frameworksLine(c)}.
+${htmlLead}${surf}Props:
 ${props}
 Tokens: ${(c.tokensUsed||[]).join(', ')}.
 ${use}`;
 }
 function renderAgent(c) {
+  // Snippets insertion order follows c.snippets — HTML is authored first on leaf contracts,
+  // so it leads the object. Emit the `html` key order + recommendedSnippet so an agent
+  // reaching for a snippet reaches for HTML by default.
   const snippets = {};
   for (const s of c.snippets) snippets[s.key] = part(s.file);
+  const leaf = c.tier === 'leaf-lit';
+  const frameworks = leaf
+    ? { react: { via: 'web-component', ref: c.element }, vue: { via: 'web-component', ref: c.element } }
+    : { react: { package: 'antd', major: 6 }, vue: { package: 'ant-design-vue', major: 4 } };
+  if (hasHtml(c)) frameworks.html = { via: 'web-component', ref: c.element, runnable: 'paste-and-run — no build step, renders on open' };
   return JSON.stringify({
     generatedFrom: `${c.slug}.contract.json`, component: c.name, slug: c.slug, group: c.group, tier: c.tier,
     summary: c.summary,
-    frameworks: c.tier === 'leaf-lit'
-      ? { react: { via: 'web-component', ref: c.element }, vue: { via: 'web-component', ref: c.element } }
-      : { react: { package: 'antd', major: 6 }, vue: { package: 'ant-design-vue', major: 4 } },
+    recommendedSnippet: hasHtml(c) ? 'html' : (c.snippets[0]?.key || 'react'),
+    vibeCode: hasHtml(c)
+      ? `Emit the HTML snippet by default — <${c.element}> is a standard custom element; paste into an .html file and it renders with no build step. React/Vue snippets are thin adapters over the same element.`
+      : (c.htmlExempt || null),
+    frameworks,
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
     opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
   }, null, 2) + '\n';
