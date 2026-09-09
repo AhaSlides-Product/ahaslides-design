@@ -1,0 +1,22 @@
+import '@ahaslides-product/design/aha-alert';   // registers <aha-alert> (+ <aha-icon>)
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper for the composed `close` event; React 19 can bind onClose directly.
+function AhaAlert({ type, heading, closable, onClose, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = () => onClose?.();
+    el.addEventListener('close', h);
+    return () => el.removeEventListener('close', h);
+  });
+  return (
+    <aha-alert ref={ref} type={type} {...(heading ? { heading } : {})} {...(closable ? { closable: '' } : {})}>
+      {children}
+    </aha-alert>
+  );
+}
+
+// usage
+<AhaAlert type="success" heading="Saved">Your changes are live.</AhaAlert>
+<AhaAlert type="error" closable onClose={() => setBanner(null)}>Upload failed — try a smaller file.</AhaAlert>

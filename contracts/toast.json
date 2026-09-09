@@ -1,0 +1,52 @@
+{
+  "name": "Toast",
+  "slug": "toast",
+  "group": "Feedback",
+  "tier": "composite-antd",
+  "badge": "composite — antd wrappers",
+  "summary": "A brief, auto-dismissing confirmation of an action — rendered through antd's message API.",
+  "lead": "Toast is antd's imperative `message` API — a transient confirmation that appears, then fades — and keeps antd's built-in motion, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared toastTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Message.contentBg"],
+  "spec": [
+    { "label": "Surface", "value": "white elevated pill · radius 8 · ink #1A1A1A text" },
+    { "label": "Position", "value": "top-centre, floating" },
+    { "label": "Duration", "value": "3s default (0 = sticky)" },
+    { "label": "Status", "value": "success / info / warning / error / loading" }
+  ],
+  "props": [
+    { "name": "type", "type": "success | info | warning | error | loading", "default": "info", "desc": "Status glyph + tone" },
+    { "name": "content", "type": "string", "default": "—", "desc": "The message text" },
+    { "name": "duration", "type": "number", "default": "3", "desc": "Seconds on screen; 0 keeps it until dismissed" },
+    { "name": "onClose", "type": "() => void", "default": "—", "desc": "Fires after the toast leaves" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Toast", "when": "confirming a quick action succeeded (saved, copied, sent) with nothing to act on" },
+      { "what": "Notification", "when": "a richer message with a title + description, or one the user may need later" },
+      { "what": "Alert", "when": "a persistent, inline message tied to a region of the page" }
+    ],
+    "note": "One line, past tense, no title. Never put an action inside a toast that disappears — if the user must respond, use a Notification or a Modal."
+  },
+  "surfaces": ["editor", "dashboard", "settings"],
+  "reuse": { "entry": "./toast-theme", "exportsNamed": ["toastTheme"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "toast.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared toastTheme. No build step." },
+    { "key": "react", "label": "React", "file": "toast.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "toast.vue.txt" },
+    { "key": "theme", "label": "Theme (shared)", "file": "toast.theme.txt" }
+  ],
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same toastTheme; residual drift is caught by visual regression.",
+  "preview": "toast.preview.html",
+  "selfCheck": [
+    { "label": "white pill · radius 8 · ink text", "verdict": "PASS" },
+    { "label": "top-centre floating", "verdict": "PASS" },
+    { "label": "antd built-in enter/leave motion kept", "verdict": "PASS" },
+    { "label": "status variants via api.success/info/…", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page; a sticky toast (duration 0) is opened on mount so the measure reads the real antd v6 message notice bound to toastTheme.",
+    "ready": "!!document.querySelector('.ant-message-notice-title')",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};return{bg:g('.ant-message-notice','backgroundColor'),padTop:g('.ant-message-notice','paddingTop'),padLeft:g('.ant-message-notice','paddingLeft'),titleColor:g('.ant-message-notice-title','color'),titleSize:g('.ant-message-notice-title','fontSize'),titleWeight:g('.ant-message-notice-title','fontWeight')};})()",
+    "expect": { "bg": "rgb(255, 255, 255)", "padTop": "9px", "padLeft": "12px", "titleColor": "rgb(26, 26, 26)", "titleSize": "14px", "titleWeight": "400" }
+  }
+}

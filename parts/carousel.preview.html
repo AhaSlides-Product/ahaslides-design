@@ -1,0 +1,57 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared carouselTheme. Vue consumes the same
+     carouselTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the real antd carousel bound to the shared theme. -->
+<style>
+  /* DS V3 slide panel — brand-tint surface, radius 8, bound to --aha-* tokens (never raw hex). */
+  #react-root .aha-slide { box-sizing:border-box; height:160px; padding:24px; border-radius:var(--aha-radius-default);
+    background:var(--aha-purple-10); color:var(--aha-purple-60);
+    font-family:var(--aha-font-product); display:flex; flex-direction:column; justify-content:center; gap:6px; }
+  #react-root .aha-slide h3 { margin:0; font-size:20px; font-weight:700; }
+  #react-root .aha-slide p { margin:0; font-size:14px; color:var(--aha-text-secondary); }
+  #react-root .ant-carousel { max-width:520px; }
+  /* brand active dot (antd draws the dots; colour bound to the token) */
+  #react-root .ant-carousel .slick-dots li button { background:var(--aha-gray-50); opacity:1; }
+  #react-root .ant-carousel .slick-dots li.slick-active button { background:var(--aha-color-primary); }
+</style>
+
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__car = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    components:{ Carousel:{ dotWidth:16, dotHeight:4, dotActiveWidth:28, dotGap:8, arrowSize:20, arrowOffset:12 } }
+  },
+  slides: [
+    { t:'Create in minutes', d:'Build a poll, quiz or word cloud from a blank slide.' },
+    { t:'Present live', d:'Your audience joins with a code and answers in real time.' },
+    { t:'Share the results', d:'Export responses or replay the session afterwards.' }
+  ]
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Carousel } = window.__antdR;
+const C = window.__car;
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={C.theme}>
+    <Carousel autoplay={false} dots>
+      {C.slides.map((s, i) => (
+        <div key={i}>
+          <div className="aha-slide">
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </div>
+        </div>
+      ))}
+    </Carousel>
+  </ConfigProvider>
+);
+</script>

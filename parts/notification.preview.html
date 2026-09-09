@@ -1,0 +1,50 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared notificationTheme. Vue consumes the
+     same notificationTheme — see "Show code". This CDN-React page (no build step) is also what
+     qa.mjs measures: a sticky notification (duration 0) is opened on mount so the real antd v6
+     notification card, bound to the shared theme, can be measured. The buttons fire fresh ones. -->
+<style>
+  #react-root .aha-demo { max-width:420px; font-family:var(--aha-font-product); }
+  #react-root .aha-demo .lbl { margin-bottom:10px; color:var(--aha-text-secondary); }
+</style>
+
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__notif = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorBgElevated:'#FFFFFF',
+             fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    components:{ Notification:{ width:384, borderRadiusLG:8, colorBgElevated:'#FFFFFF' } }
+  }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, notification, Button, Space } = window.__antdR;
+const { useEffect } = React;
+function App() {
+  const [api, ctx] = notification.useNotification();
+  useEffect(() => { api.open({ message: 'Export ready', description: 'Your CSV of responses is ready to download.', duration: 0, placement: 'topRight' }); }, []);
+  return (
+    <ConfigProvider theme={window.__notif.theme}>
+      {ctx}
+      <div className="aha-demo">
+        <div className="lbl">Trigger a notification</div>
+        <Space wrap>
+          <Button type="primary" onClick={() => api.success({ message: 'Deck published', description: 'Anyone with the link can now join.' })}>Publish</Button>
+          <Button onClick={() => api.info({ message: 'Export ready', description: 'Your CSV of responses is ready to download.' })}>Export</Button>
+          <Button danger onClick={() => api.error({ message: 'Sync failed', description: 'We could not reach the server — retrying shortly.' })}>Fail</Button>
+        </Space>
+      </div>
+    </ConfigProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(<App />);
+</script>

@@ -1,0 +1,52 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared toastTheme. Vue consumes the same
+     toastTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: a sticky toast (duration 0) is opened on mount so the real antd message notice,
+     bound to the shared theme, can be measured. The buttons fire fresh toasts. -->
+<style>
+  #react-root .aha-demo { max-width:420px; font-family:var(--aha-font-product); }
+  #react-root .aha-demo .lbl { margin-bottom:10px; color:var(--aha-text-secondary); }
+</style>
+
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__toast = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorBgElevated:'#FFFFFF',
+             fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    components:{ Message:{ contentBg:'#FFFFFF', contentPadding:'9px 12px' } }
+  }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, message, Button, Space } = window.__antdR;
+const { useEffect } = React;
+function App() {
+  const [api, ctx] = message.useMessage();
+  // sticky toast on mount so qa can measure the rendered notice
+  useEffect(() => { api.open({ type: 'success', content: 'Slide saved', duration: 0 }); }, []);
+  return (
+    <ConfigProvider theme={window.__toast.theme}>
+      {ctx}
+      <div className="aha-demo">
+        <div className="lbl">Trigger a toast</div>
+        <Space wrap>
+          <Button type="primary" onClick={() => api.success('Slide saved')}>Save</Button>
+          <Button onClick={() => api.info('Link copied to clipboard')}>Copy link</Button>
+          <Button onClick={() => api.warning('You are near the slide limit')}>Warn</Button>
+          <Button danger onClick={() => api.error('Upload failed')}>Fail</Button>
+        </Space>
+      </div>
+    </ConfigProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(<App />);
+</script>

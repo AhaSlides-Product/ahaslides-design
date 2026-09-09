@@ -1,0 +1,23 @@
+import { useState } from 'react';
+import { ConfigProvider, Drawer, Button, Space } from 'antd';   // antd v6
+import { drawerTheme } from '@ahaslides-product/design/drawer-theme';
+
+function SlideSettings() {
+  const [open, setOpen] = useState(false);
+  return (
+    <ConfigProvider theme={drawerTheme}>
+      <Button type="primary" onClick={() => setOpen(true)}>Slide settings</Button>
+      <Drawer
+        open={open}
+        title="Slide settings"
+        placement="right"
+        width={378}
+        onClose={() => setOpen(false)}
+        footer={<Space><Button onClick={() => setOpen(false)}>Cancel</Button><Button type="primary">Save changes</Button></Space>}
+      >
+        <p>Adjust how this slide behaves for your audience.</p>
+      </Drawer>
+    </ConfigProvider>
+  );
+}
+// One shared drawerTheme → the DS V3 look; keeps antd's built-in slide motion.

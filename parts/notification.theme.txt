@@ -1,0 +1,20 @@
+// @ahaslides-product/design/notification-theme — declared ONCE, consumed by both tiers.
+import { notificationTheme } from '@ahaslides-product/design/notification-theme';
+
+export const notificationTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    colorText: '#1A1A1A',
+    colorTextHeading: '#1A1A1A',
+    colorBgElevated: '#FFFFFF',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Notification: {
+      width: 384,
+      borderRadiusLG: 8,
+      colorBgElevated: '#FFFFFF',
+    },
+  },
+};

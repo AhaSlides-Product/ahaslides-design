@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -49,7 +49,8 @@
     "./lib/aha-descriptions.js",
     "./lib/aha-statistic.js",
     "./lib/aha-empty.js",
-    "./lib/aha-image.js"
+    "./lib/aha-image.js",
+    "./lib/aha-alert.js"
   ],
   "exports": {
     "./icons": "./lib/icons.js",
@@ -97,7 +98,14 @@
     "./aha-descriptions": "./lib/aha-descriptions.js",
     "./aha-statistic": "./lib/aha-statistic.js",
     "./aha-empty": "./lib/aha-empty.js",
-    "./aha-image": "./lib/aha-image.js"
+    "./aha-image": "./lib/aha-image.js",
+    "./aha-alert": "./lib/aha-alert.js",
+    "./carousel-theme": "./lib/carousel-theme.js",
+    "./qr-code-theme": "./lib/qr-code-theme.js",
+    "./toast-theme": "./lib/toast-theme.js",
+    "./notification-theme": "./lib/notification-theme.js",
+    "./modal-theme": "./lib/modal-theme.js",
+    "./drawer-theme": "./lib/drawer-theme.js"
   },
   "files": [
     "lib/",

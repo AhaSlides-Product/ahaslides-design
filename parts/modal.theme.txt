@@ -1,0 +1,21 @@
+// @ahaslides-product/design/modal-theme — declared ONCE, consumed by both tiers.
+import { modalTheme } from '@ahaslides-product/design/modal-theme';
+
+export const modalTheme = {
+  token: {
+    colorPrimary: '#6A1EBB',
+    borderRadius: 8,
+    colorText: '#1A1A1A',
+    colorBgElevated: '#FFFFFF',
+    fontFamily: 'var(--aha-font-product, "Plus Jakarta Sans", sans-serif)',
+  },
+  components: {
+    Modal: {
+      contentBg: '#FFFFFF',
+      headerBg: '#FFFFFF',
+      titleColor: '#1A1A1A',
+      titleFontSize: 18,
+      borderRadiusLG: 8,
+    },
+  },
+};

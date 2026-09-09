@@ -1,0 +1,53 @@
+<!-- ONE UI (React · antd v6), themed to DS V3 via the shared drawerTheme. Vue consumes the same
+     drawerTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
+     measures: the drawer is rendered inline (getContainer={false}, open) so the real antd v6 drawer
+     content, bound to the shared theme, can be measured. Keeps antd's built-in motion. -->
+<style>
+  #react-root .aha-stage { position:relative; height:360px; overflow:hidden; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); background:var(--aha-bg-layout); }
+</style>
+
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+<script>window.__antdR = window.antd;</script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+window.__drawer = {
+  theme: {
+    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorBgElevated:'#FFFFFF',
+             fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    components:{ Drawer:{ colorBgElevated:'#FFFFFF', colorText:'#1A1A1A' } }
+  }
+};
+</script>
+
+<script type="text/babel">
+const { ConfigProvider, Drawer, Button, Space } = window.__antdR;
+function App() {
+  return (
+    <ConfigProvider theme={window.__drawer.theme}>
+      <div className="aha-stage">
+        <Drawer
+          open
+          title="Slide settings"
+          placement="right"
+          width={320}
+          getContainer={false}
+          mask={false}
+          rootStyle={{ position: 'absolute' }}
+          footer={<Space><Button>Cancel</Button><Button type="primary">Save changes</Button></Space>}
+        >
+          <p style={{ marginTop: 0, color: 'var(--aha-text-secondary)' }}>
+            Adjust how this slide behaves for your audience.
+          </p>
+        </Drawer>
+      </div>
+    </ConfigProvider>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-root')).render(<App />);
+</script>
