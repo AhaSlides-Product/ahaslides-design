@@ -55,6 +55,10 @@ The house non-negotiables aren't just skill guidance any more — `standards.mjs
 - **Leaf element** — colour must **bind to a `--aha-*` token**: no bare hex outside a `var(--aha-…, fallback)`, and any literal `border-radius` must be on the scale. A genuinely decorative exception (a sub-pixel tick radius, a white checkmark stroke) uses an auditable, greppable escape hatch on that line: `ds-lint-allow: hex,radius (why)`.
 - **Composite theme** — literals are expected (you're mapping the DS into a vendor theme), but **every hex must stay on-palette**, so the theme can't drift off the system.
 - **Token/registry definition layers** (`tokens.*`, the icon registry) are the value *source* — not scanned.
+- **Icons must come from the DS icon library.** A component never hand-rolls a glyph — it summons one **by name** via `<aha-icon name="…">`. The gate proves every named icon your component references — in its `lib/` source, its snippets, its preview, or its contract — resolves to a real glyph in `icons/registry.json` (the published [icon gallery](https://ahaslides-product.github.io/ahaslides-design/icons/index.html)); a typo or a non-DS name fails here instead of rendering the dashed error box at runtime. An inline `<svg>` glyph in element source is a **bypass** and also fails — use `<aha-icon>`. Genuine sub-glyph chrome (a spinner, a checkmark tick, a close ✕) is an auditable exception on that line: `ds-lint-allow: svg (why)`. Missing the icon you need? Add the SVG under `icons/svg/<family>/` and re-run `build-icons.mjs` — then it's in the library for everyone.
+
+### 4c. Icons — call them by name
+When a component needs a glyph, look it up in the [icon gallery](https://ahaslides-product.github.io/ahaslides-design/icons/index.html) (or `dist/icons.agent.json`) and reference it by name: `<aha-icon name="system-gear" size="16" />`. Never import `lucide` / `heroicons` / `fontawesome` / `@ant-design/icons`, and never inline a raw `<svg>` glyph — both are gated. If the glyph doesn't exist yet, **add it here once** (`icons/svg/<family>/<name>.svg` → `build-icons.mjs`) so the next contributor reuses it.
 
 ## Contributing a pattern (composition guide)
 
