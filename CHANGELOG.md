@@ -21,6 +21,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.8.1 — 2026-09-10
+### Changed
+- Docs site now navigates in-app: clicking a sidebar/top-nav/card link fetches the target and swaps only the `<main>` pane instead of doing a full page reload, so the header and left nav (and its scroll position) stay put — no white flash, no scroll reset. Same-area moves keep the sidebar node and just re-tint the active item; switching area swaps the sidebar too. Progressive enhancement: `pushState` + `fetch` with a thin top progress bar (animated via `transform`, not layout), `popstate`/back-forward support, `#anchor`-aware scroll, and a hard fallback to a normal page load if the fetch fails or the browser lacks the APIs. Respects `prefers-reduced-motion`. (#42)
+- Docs perf: in-app navigation now prefetches a page on link hover/focus (cached, deduped) so the click swaps instantly. (#42)
+- Docs readability: prose measure tightened from 82ch to 72ch (closer to the ideal reading line length) and the page title snapped from an off-scale 30px to 32px on the DS V3 heading scale. (#42)
+
 ## 0.8.0 — 2026-09-10
 ### Added
 - Accessibility is now gated. `qa.mjs` proves a component renders + animates but nothing about its a11y, so interactive components could ship gate-green yet be unusable by keyboard/screen-reader (PRO38-8 review). `standards.mjs` now scans element source and **hard-fails a new component** on: a **roving-widget role** (`radio`/`tab`/`menuitem`/`option`/…) declared with no arrow-key navigation; a **`document`/`window` listener** added on connect with no matching `removeEventListener` on disconnect (a mount/unmount leak); and a dynamic **`aria-*` state** set imperatively without `observedAttributes` (so an external attribute change desyncs the announced state — the controlled-`collapse` case). It also flags a **static imperative overlay** in a snippet (`message.success()`/`notification.open()`/`Modal.confirm()`) that renders outside `ConfigProvider` un-themed — use the `useMessage`/`useNotification`/`useModal` hook. Per-line opt-out `ds-lint-allow: a11y (why)`; `A11Y_DEBT` grandfathers pre-gate debt (empty today — the gate is fully hard). (#41)
