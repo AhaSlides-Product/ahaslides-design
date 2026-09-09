@@ -1,0 +1,20 @@
+<script setup>
+import '@ahaslides-product/design/aha-paywall';   // registers <aha-paywall>
+import '@ahaslides-product/design/tokens.css';
+
+// The element renders the compliant upsell; analytics comes back as events.
+const onShown = (e) => window.analytics?.track('PAYWALL_SHOWN', e.detail);
+const onUpgrade = (e) => window.analytics?.track('PAYWALL_UPGRADE_CLICKED', e.detail);
+</script>
+
+<template>
+  <aha-paywall
+    feature-key="custom_survey_url"
+    feature-label="Custom survey URL"
+    body="Give your survey a branded, memorable link."
+    required-plan="pro"
+    @paywall-shown="onShown"
+    @paywall-upgrade="onUpgrade">
+    <button>Custom URL</button>
+  </aha-paywall>
+</template>

@@ -1,0 +1,24 @@
+import '@ahaslides-product/design/aha-paywall';   // registers <aha-paywall>
+import '@ahaslides-product/design/tokens.css';
+import { useRef, useEffect } from 'react';
+
+// Wrap the gated affordance; the element renders the compliant upsell (crown badge, one-sentence
+// body, fixed unlock line, single Upgrade CTA are baked in). analytics comes back as events.
+export function CustomUrlSetting() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current, track = (name) => (e) => window.analytics?.track(name, e.detail);
+    el.addEventListener('paywall-shown', track('PAYWALL_SHOWN'));
+    el.addEventListener('paywall-upgrade', track('PAYWALL_UPGRADE_CLICKED'));
+  }, []);
+  return (
+    <aha-paywall
+      ref={ref}
+      feature-key="custom_survey_url"
+      feature-label="Custom survey URL"
+      body="Give your survey a branded, memorable link."
+      required-plan="pro">
+      <button>Custom URL</button>
+    </aha-paywall>
+  );
+}
