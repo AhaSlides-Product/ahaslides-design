@@ -28,6 +28,7 @@ Every new task starts the same way:
 ## What that demands of this repo (non-negotiable)
 
 - **Reuse must be real, not aspirational.** Every component this DS advertises must be genuinely *consumable* — importable code + a portable data source — not a reference snippet that only runs in the docs. A "copy this SVG / re-implement this" answer defeats the entire mission.
+- **Lead with the lowest-friction reuse path.** Leaf components are web components, so their native form is **paste-and-run HTML** — a CDN import + `<aha-*>` markup that renders with no build step. That's the fast path for end-users vibe-coding decks/courses/hubs, so the docs and feeds lead with it. React and Vue remain first-class — thin adapters over the *same* element — not a competing implementation.
 - **One source → everything generated.** Edit a token or a contract; the docs, feeds, and machine artifacts regenerate together. Never hand-maintain an agent-facing doc.
 - **Discovery layer + reuse layer.** The generated feeds are how an agent *finds* the right component and name; the components/registry are how it *uses* them. Both must stay in sync with the source.
 
