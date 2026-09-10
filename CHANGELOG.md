@@ -23,9 +23,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.22.1 — 2026-09-10
 ### Changed
-- **Settings pattern** — the settings-lab `@/iframe/settings` library is now mapped one-per-component to its DS form: a canonical mapping table in `parts/settings.guide.md` (mapped DS component / documented convention / backlog gap), replacing the ad-hoc `reuseNote` list. The 11 composed controls the DS doesn't yet ship (ModeField, CountedInput, CountedTextarea, CardSelect, NumberWithUnit, OptionRow, NumberedItem, QuestionList, ImageDropzone, ImageActionButton, InfoBox) are now tracked as `composedOf` backlog so the gap is explicit and buildable-by-reuse, and a `map-composed-controls` rule bars hand-rolling a library control. (#PR)
+- **Settings pattern** — the settings-lab `@/iframe/settings` library is now mapped one-per-component to its DS form: a canonical mapping table in `parts/settings.guide.md` (mapped DS component / documented convention / backlog gap), replacing the ad-hoc `reuseNote` list. The 11 composed controls the DS doesn't yet ship (ModeField, CountedInput, CountedTextarea, CardSelect, NumberWithUnit, OptionRow, NumberedItem, QuestionList, ImageDropzone, ImageActionButton, InfoBox) are now tracked as `composedOf` backlog so the gap is explicit and buildable-by-reuse, and a `map-composed-controls` rule bars hand-rolling a library control. (#58)
 ### Fixed
-- **Settings pattern + Settings list** — align docs to the shipped element and the canonical library: the group/section header is **semibold (600)**, not "bold", and guidance's one home is the `?` tooltip (the must-see-consequence help line stays the DS's narrow, near-zero exception). (#PR)
+- **Settings pattern + Settings list** — align docs to the shipped element and the canonical library: the group/section header is **semibold (600)**, not "bold", and guidance's one home is the `?` tooltip (the must-see-consequence help line stays the DS's narrow, near-zero exception). (#58)
 
 ## 0.22.0 — 2026-09-10
 ### Added
