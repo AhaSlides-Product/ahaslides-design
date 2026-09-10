@@ -13,12 +13,26 @@
   import { timePickerTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/time-picker-theme.js';
 
   const h = React.createElement;
+  const { RangePicker } = TimePicker;
+  const seed = dayjs('09:30', 'HH:mm');
 
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: timePickerTheme },
-      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
-        h(TimePicker, { defaultValue: dayjs('09:30', 'HH:mm'), format: 'HH:mm', style: { width: 200 } }),
-        h(TimePicker, { use12Hours: true, format: 'h:mm a', minuteStep: 15, style: { width: 200 } })
+      h('div', { style: { display: 'flex', flexWrap: 'wrap', gap: 12 } },
+        // Default · 24-hour
+        h(TimePicker, { defaultValue: seed, format: 'HH:mm', allowClear: true, style: { width: 200 } }),
+        // Sizes — small 24 · large 40
+        h(TimePicker, { size: 'small', format: 'HH:mm', style: { width: 200 } }),
+        h(TimePicker, { size: 'large', format: 'HH:mm', style: { width: 200 } }),
+        // Status — error / warning border
+        h(TimePicker, { status: 'error', format: 'HH:mm', style: { width: 200 } }),
+        h(TimePicker, { status: 'warning', format: 'HH:mm', style: { width: 200 } }),
+        // 12-hour · seconds · disabled
+        h(TimePicker, { use12Hours: true, format: 'h:mm a', minuteStep: 15, style: { width: 240 } }),
+        h(TimePicker, { format: 'HH:mm:ss', style: { width: 240 } }),
+        h(TimePicker, { disabled: true, format: 'HH:mm', style: { width: 200 } }),
+        // Range — start → end
+        h(RangePicker, { format: 'HH:mm', style: { width: 320 } })
       )
     )
   );

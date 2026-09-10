@@ -12,12 +12,24 @@
   import { inputNumberTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/input-number-theme.js';
 
   const h = React.createElement;
+  const w = { width: 200 };
 
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: inputNumberTheme },
       h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
-        h(InputNumber, { min: 0, max: 100, defaultValue: 3, style: { width: 180 } }),
-        h(InputNumber, { min: 0, max: 1, step: 0.1, defaultValue: 0.5, placeholder: 'Ratio', style: { width: 180 } })
+        // Default (32) · small (24) · large (40)
+        h(InputNumber, { min: 0, max: 100, defaultValue: 3, style: w }),
+        h(InputNumber, { size: 'small', min: 0, max: 100, defaultValue: 3, style: w }),
+        h(InputNumber, { size: 'large', min: 0, max: 100, defaultValue: 3, style: w }),
+        // Status: error · warning
+        h(InputNumber, { status: 'error', defaultValue: 120, max: 100, style: w }),
+        h(InputNumber, { status: 'warning', defaultValue: 95, max: 100, style: w }),
+        // Precision + affixes; steppers off; disabled / read-only
+        h(InputNumber, { prefix: '$', min: 0, step: 0.01, precision: 2, defaultValue: 19.99, style: w }),
+        h(InputNumber, { addonBefore: 'Every', addonAfter: 'min', min: 0, defaultValue: 30, style: { width: 240 } }),
+        h(InputNumber, { controls: false, defaultValue: 42, style: w }),
+        h(InputNumber, { disabled: true, defaultValue: 3, style: w }),
+        h(InputNumber, { readOnly: true, defaultValue: 3, style: w })
       )
     )
   );

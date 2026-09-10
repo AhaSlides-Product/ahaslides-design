@@ -9,16 +9,23 @@
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Select.optionSelectedBg", "Select.optionActiveBg"],
   "spec": [
     { "label": "Control", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Sizes", "value": "small 24 · default 32 · large 40 (DS V3 Input set)" },
+    { "label": "Status", "value": "error #F5222D · warning #FAAD14 border" },
     { "label": "Focus", "value": "brand #6A1EBB border" },
     { "label": "Active option", "value": "#F7F7F7 (gray-20) row" },
     { "label": "Selected option", "value": "brand-tint #F9F5FF row" },
     { "label": "Placeholder", "value": "#8A8A8A" }
   ],
   "props": [
-    { "name": "options", "type": "{ value, label? }[]", "default": "[]", "desc": "Suggestions shown as the user types" },
+    { "name": "options", "type": "{ value, label? }[] | { label, options }[]", "default": "[]", "desc": "Suggestions shown as the user types — flat, or grouped ({ label, options }) for section headers" },
     { "name": "value", "type": "string", "default": "—", "desc": "Current free-text value" },
+    { "name": "size", "type": "'small' | 'default' | 'large'", "default": "'default'", "desc": "Control height — 24 / 32 / 40, matching the DS V3 Input size set" },
+    { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — red / amber border, same as the DS V3 Input" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive, muted control" },
+    { "name": "allowClear", "type": "boolean", "default": "false", "desc": "Shows a clear (×) affordance once there's a value" },
     { "name": "onSearch", "type": "(text) => void", "default": "—", "desc": "Fires as the query changes — fetch/filter suggestions" },
     { "name": "onSelect", "type": "(value) => void", "default": "—", "desc": "Fires when a suggestion is chosen" },
+    { "name": "filterOption", "type": "boolean | (input, option) => boolean", "default": "true", "desc": "Client-side filter; set false when onSearch fetches server-side" },
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" }
   ],
   "opinion": {
@@ -27,7 +34,8 @@
       { "what": "Select", "when": "the value MUST come from a known set — don't allow free text" },
       { "what": "Input", "when": "free text with no suggestions to offer" }
     ],
-    "note": "Filter suggestions on the query, don't dump the whole list. AutoComplete allows values outside the options — if the value must be from the set, use Select instead."
+    "note": "Filter suggestions on the query, don't dump the whole list. AutoComplete allows values outside the options — if the value must be from the set, use Select instead.",
+    "dsv3": "COVERED — antd v6 AutoComplete (Select internals) themed by the shared autocompleteTheme. Matrix: size (small 24 · default 32 · large 40) × status (none · error · warning) × disabled / allowClear, plus flat vs grouped ({ label, options }) suggestions, live filtering, and custom option render. DS V3 ships no standalone AutoComplete component — it inherits the Input/Select primitive set (size × rest/focus/disabled/error), so the matrix mirrors that set; verified via Figma search_design_system against the DS V3 Input/Select set (fileKey MwjvUjVI0HnfwD9EwPXRAy). The interactive preview drives Size · Status · State (Clearable/Disabled/Plain) with a live grouped filter."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./autocomplete-theme", "exportsNamed": ["autocompleteTheme"] },

@@ -1,6 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared timePickerTheme. Vue consumes the same
      timePickerTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the real antd TimePicker field bound to the shared theme. Times use Day.js. -->
+     measures: the real antd TimePicker field bound to the shared theme. Times use Day.js. Interactive:
+     the controls drive live React state (Size / Status / Format / Mode), so the whole DS V3 matrix is
+     explorable — the DEFAULT render (default size · no status · 24h HH:mm · single field) is what
+     conformance measures (.ant-picker → height 32 · radius 8 · #E3E3E3 border). -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -13,7 +16,7 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
-window.__tp = {
+window.__st = {
   token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
            colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
   components:{ DatePicker:{ borderRadius:8, controlHeight:32, cellHoverBg:'#F7F7F7', cellActiveWithRangeBg:'#F9F5FF' } }
@@ -22,24 +25,75 @@ window.__tp = {
 
 <script type="text/babel">
 const { ConfigProvider, TimePicker } = window.__antdR;
-function Field({ label, children }) {
+const { RangePicker } = TimePicker;
+const { useState } = React;
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
-      {children}
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__tp}>
-    <div>
-      <Field label="24-hour · HH:mm">
-        <TimePicker defaultValue={dayjs('09:30', 'HH:mm')} format="HH:mm" style={{ width: 200 }} />
-      </Field>
-      <Field label="12-hour · 15-min step">
-        <TimePicker use12Hours format="h:mm a" minuteStep={15} placeholder="Pick a time" style={{ width: 200 }} />
-      </Field>
+
+function Demo() {
+  const [size, setSize] = useState('default');   // small · default · large
+  const [status, setStatus] = useState('none');  // none · error · warning
+  const [fmt, setFmt] = useState('24');          // 24h HH:mm · 24h HH:mm:ss · 12h h:mm a
+  const [mode, setMode] = useState('single');    // single · range · disabled
+
+  const use12 = fmt === '12';
+  const format = fmt === '12' ? 'h:mm a' : fmt === 'sec' ? 'HH:mm:ss' : 'HH:mm';
+  const st = status === 'none' ? undefined : status;
+  const common = {
+    size, status: st, use12Hours: use12, format,
+    disabled: mode === 'disabled', allowClear: true,
+    style: { width: use12 || fmt === 'sec' ? 240 : 200 },
+  };
+  const seed = dayjs('09:30:00', 'HH:mm:ss');
+
+  return (
+    <div style={{ maxWidth: 620 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label: 'Small', value: 'small' }, { label: 'Default', value: 'default' }, { label: 'Large', value: 'large' }]} />
+        <Seg label="Status" value={status} onChange={setStatus}
+          options={[{ label: 'None', value: 'none' }, { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' }]} />
+        <Seg label="Format" value={fmt} onChange={setFmt}
+          options={[{ label: '24h', value: '24' }, { label: '24h · sec', value: 'sec' }, { label: '12h', value: '12' }]} />
+        <Seg label="Mode" value={mode} onChange={setMode}
+          options={[{ label: 'Single', value: 'single' }, { label: 'Range', value: 'range' }, { label: 'Disabled', value: 'disabled' }]} />
+      </div>
+
+      {mode === 'range' ? (
+        <RangePicker {...common} defaultValue={[seed, seed.add(1, 'hour')]}
+          style={{ width: use12 || fmt === 'sec' ? 380 : 320 }} />
+      ) : (
+        <TimePicker {...common} defaultValue={seed} placeholder="Pick a time" />
+      )}
+
+      <div className="lbl" style={{ margin: '26px 0 10px' }}>The matrix, at a glance</div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+        <TimePicker size="small" format="HH:mm" defaultValue={seed} style={{ width: 200 }} />
+        <TimePicker status="error" format="HH:mm" defaultValue={seed} style={{ width: 200 }} />
+        <TimePicker use12Hours format="h:mm a" minuteStep={15} placeholder="12-hour" style={{ width: 240 }} />
+        <TimePicker disabled format="HH:mm" defaultValue={seed} style={{ width: 200 }} />
+      </div>
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
 );
 </script>

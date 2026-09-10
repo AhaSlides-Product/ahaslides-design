@@ -12,10 +12,17 @@
     { "label": "Hover", "value": "#D3B4FF (purple-30) border" },
     { "label": "Focus", "value": "brand #6A1EBB border" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" },
-    { "label": "Sizing", "value": "rows or autoSize={{minRows,maxRows}}" }
+    { "label": "Sizing", "value": "rows or autoSize={{minRows,maxRows}}" },
+    { "label": "Size", "value": "small · default · large (control height 24/32/40)" },
+    { "label": "Status", "value": "error #F5222D · warning #FAAD14 border" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
+    { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Control height / padding: small 24, default 32, large 40" },
+    { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — recolours the border" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; greyed fill" },
+    { "name": "readOnly", "type": "boolean", "default": "false", "desc": "Shows value but blocks editing" },
+    { "name": "placeholder", "type": "string", "default": "—", "desc": "Empty-state hint (#8A8A8A)" },
     { "name": "rows", "type": "number", "default": "—", "desc": "Fixed visible rows" },
     { "name": "autoSize", "type": "boolean | { minRows, maxRows }", "default": "false", "desc": "Grow with content between bounds" },
     { "name": "maxLength", "type": "number", "default": "—", "desc": "Cap length; pair with showCount" },
@@ -28,7 +35,8 @@
       { "what": "Input", "when": "short single-line text — a name, a title, a search term" },
       { "what": "Select", "when": "one value from a known set — don't make the user type it" }
     ],
-    "note": "Prefer autoSize with a minRows/maxRows band so the field grows with content but never dominates the layout. Pair maxLength with showCount so the limit is visible, not a surprise on submit."
+    "note": "Prefer autoSize with a minRows/maxRows band so the field grows with content but never dominates the layout. Pair maxLength with showCount so the limit is visible, not a surprise on submit.",
+    "dsv3": "COVERED — antd v6 Input.TextArea themed by textareaTheme; matrix: size {small,middle(default),large} × status {none,error,warning} × extras {autoSize,showCount+maxLength,disabled,readOnly}, placeholder throughout. Sizes map to control heights 24/32/40 and status to #F5222D/#FAAD14 borders (measured inp|{sm,md,lg}|{rest,focus,disabled,error}); verified via Figma search_design_system against the DS V3 Textarea + Form-Item/Textarea set (fileKey MwjvUjVI0HnfwD9EwPXRAy)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./textarea-theme", "exportsNamed": ["textareaTheme"] },

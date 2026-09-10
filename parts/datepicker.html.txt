@@ -2,23 +2,38 @@
      DatePicker is a COMPOSITE (antd, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
      consumes the SAME shared `datepickerTheme` the React/Vue wrappers use, so it renders
-     the DS V3 look (36px field, radius 8, #E3E3E3 border, brand-selected cell).
+     the DS V3 look (32px field, radius 8, #E3E3E3 border, brand-selected cell).
+     Shows the matrix: picker granularity, size, status, showTime, range + presets, disabled.
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <div id="root"></div>
 <script type="module">
   import React from 'https://esm.sh/react@18';
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import dayjs from 'https://esm.sh/dayjs@1';
   import { ConfigProvider, DatePicker } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
   import { datepickerTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/datepicker-theme.js';
 
   const h = React.createElement;
   const { RangePicker } = DatePicker;
+  const presets = [
+    { label: 'Last 7 days', value: [dayjs().add(-7, 'd'), dayjs()] },
+    { label: 'Last 30 days', value: [dayjs().add(-30, 'd'), dayjs()] },
+  ];
 
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: datepickerTheme },
       h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
-        h(DatePicker, { placeholder: 'Pick a date', style: { width: 240 } }),
-        h(RangePicker, { style: { width: 280 } })
+        // Granularity + size (small | middle | large)
+        h(DatePicker, { defaultValue: dayjs(), placeholder: 'Pick a date', allowClear: true, style: { width: 240 } }),
+        h(DatePicker, { picker: 'month', size: 'large', placeholder: 'Pick a month', style: { width: 240 } }),
+        // Date + time
+        h(DatePicker, { showTime: true, placeholder: 'Pick date & time', style: { width: 260 } }),
+        // Validation state
+        h(DatePicker, { status: 'error', placeholder: 'Required', style: { width: 240 } }),
+        // Range with quick presets
+        h(RangePicker, { presets: presets, style: { width: 300 } }),
+        // Disabled
+        h(DatePicker, { disabled: true, defaultValue: dayjs(), style: { width: 240 } })
       )
     )
   );

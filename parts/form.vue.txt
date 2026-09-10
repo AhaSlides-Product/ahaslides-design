@@ -6,13 +6,16 @@ import { formTheme } from '@ahaslides-product/design/form-theme';
 const model = reactive({ name: 'AhaSlides', email: '' });
 </script>
 
+<!-- layout: vertical | horizontal | inline · size: small | default | large · disabled toggles the whole form -->
 <template>
   <a-config-provider :theme="formTheme">
-    <a-form layout="vertical" :model="model" @finish="save">
+    <a-form layout="vertical" size="default" :disabled="false" required-mark :model="model" @finish="save">
       <a-form-item label="Workspace name" name="name" :rules="[{ required: true }]">
         <a-input v-model:value="model.name" placeholder="AhaSlides" />
       </a-form-item>
-      <a-form-item label="Contact email" name="email" :rules="[{ type: 'email', required: true }]">
+      <!-- Validation state — error | warning | success — colours the border + shows help text -->
+      <a-form-item label="Contact email" name="email"
+                   :rules="[{ type: 'email', required: true, message: 'Enter a valid email — e.g. you@company.com' }]">
         <a-input v-model:value="model.email" placeholder="you@company.com" />
       </a-form-item>
       <a-form-item>

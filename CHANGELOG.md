@@ -21,6 +21,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.19.0 — 2026-09-10
+### Changed
+- **Data Entry composites → interactive playgrounds.** The antd-composite fields now render interactive React playgrounds over the shared theme, so the full DS V3 matrix is explorable (not one static case). Contracts gain `dsv3` notes + matrix `props`/`spec`. (#50)
+- **Select** — size · status (error/warning) · mode (single/multiple/tags) · allowClear · loading · disabled. (#50)
+- **AutoComplete** — size · status · allowClear · grouped options · disabled. (#50)
+- **InputNumber** — size · status · steppers · min/max/step/precision · prefix/addons · readOnly · disabled. (#50)
+- **TextArea** — size · status · autoSize · showCount + maxLength · readOnly · disabled. (#50)
+- **DatePicker** — picker (date/week/month/quarter/year) · size · status · range · showTime · presets · disabled. (#50)
+- **TimePicker** — size · status · 12/24-hour format · range · allowClear · disabled. (#50)
+- **Slider** — range · marks · vertical · step/dots · disabled. (#50)
+- **Form** — layout (horizontal/vertical/inline) · size · validation states · requiredMark · disabled. (#50)
+
 ## 0.18.0 — 2026-09-10
 ### Added
 - **Data Entry controls → DS V3 matrix + playgrounds.** The leaf input controls gain interactive playgrounds and the props to back the full matrix. (#49)

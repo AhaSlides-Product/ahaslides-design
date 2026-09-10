@@ -8,7 +8,23 @@ const count = ref(3);
 
 <template>
   <a-config-provider :theme="inputNumberTheme">
-    <a-input-number v-model:value="count" :min="0" :max="100" style="width: 180px" />
+    <!-- Default field — size default (32), steppers on -->
+    <a-input-number v-model:value="count" :min="0" :max="100" style="width: 200px" />
+
+    <!-- Sizes: small (24) · large (40) -->
+    <a-input-number size="small" :min="0" :max="100" :value="3" style="width: 200px" />
+    <a-input-number size="large" :min="0" :max="100" :value="3" style="width: 200px" />
+
+    <!-- Status: error · warning -->
+    <a-input-number status="error" :value="120" :max="100" style="width: 200px" />
+    <a-input-number status="warning" :value="95" :max="100" style="width: 200px" />
+
+    <!-- Precision + affixes; steppers off; disabled / read-only -->
+    <a-input-number prefix="$" :min="0" :step="0.01" :precision="2" :value="19.99" style="width: 200px" />
+    <a-input-number addon-before="Every" addon-after="min" :min="0" :value="30" style="width: 240px" />
+    <a-input-number :controls="false" :value="42" style="width: 200px" />
+    <a-input-number disabled :value="3" style="width: 200px" />
+    <a-input-number :read-only="true" :value="3" style="width: 200px" />
   </a-config-provider>
 </template>
 <!-- The SAME inputNumberTheme as React → one DS V3 look across both vendor libraries. -->

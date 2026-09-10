@@ -2,12 +2,22 @@ import { ConfigProvider, InputNumber } from 'antd';   // antd v6
 import { inputNumberTheme } from '@ahaslides-product/design/input-number-theme';
 
 <ConfigProvider theme={inputNumberTheme}>
-  <InputNumber
-    min={0}
-    max={100}
-    defaultValue={3}
-    onChange={setCount}
-    style={{ width: 180 }}
-  />
+  {/* Default field — size default (32), steppers on */}
+  <InputNumber min={0} max={100} defaultValue={3} onChange={setCount} style={{ width: 200 }} />
+
+  {/* Sizes: small (24) · large (40) */}
+  <InputNumber size="small" min={0} max={100} defaultValue={3} style={{ width: 200 }} />
+  <InputNumber size="large" min={0} max={100} defaultValue={3} style={{ width: 200 }} />
+
+  {/* Status: error · warning */}
+  <InputNumber status="error" defaultValue={120} max={100} style={{ width: 200 }} />
+  <InputNumber status="warning" defaultValue={95} max={100} style={{ width: 200 }} />
+
+  {/* Precision + affixes; steppers off; disabled / read-only */}
+  <InputNumber prefix="$" min={0} step={0.01} precision={2} defaultValue={19.99} style={{ width: 200 }} />
+  <InputNumber addonBefore="Every" addonAfter="min" min={0} defaultValue={30} style={{ width: 240 }} />
+  <InputNumber controls={false} defaultValue={42} style={{ width: 200 }} />
+  <InputNumber disabled defaultValue={3} style={{ width: 200 }} />
+  <InputNumber readOnly defaultValue={3} style={{ width: 200 }} />
 </ConfigProvider>
 // One shared inputNumberTheme → the DS V3 look; set min/max to constrain, not post-validation.

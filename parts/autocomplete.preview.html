@@ -1,6 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared autocompleteTheme. Vue consumes the
      same autocompleteTheme — see "Show code". This CDN-React page (no build step) is also what
-     qa.mjs measures: the real antd AutoComplete (Select internals) bound to the shared theme. -->
+     qa.mjs measures: the real antd AutoComplete (Select internals) bound to the shared theme.
+     Interactive: the controls drive live React state (Size / Status / Clearable·Disabled) plus a
+     live filter, so the whole DS V3 matrix is explorable — the default render (default size · no
+     status · placeholder shown) is what conformance measures. -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -17,33 +20,88 @@ window.__ac = {
              colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
     components:{ Select:{ optionSelectedBg:'#F9F5FF', optionActiveBg:'#F7F7F7', borderRadius:8, controlHeight:32 } }
   },
-  options: [{ value:'Poll' }, { value:'Quiz' }, { value:'Word cloud' }, { value:'Q&A' }]
+  // grouped options — exercises antd's option-group + custom label render paths
+  groups: [
+    { label: 'Live polls', options: [{ value:'Poll' }, { value:'Quiz' }, { value:'Word cloud' }] },
+    { label: 'Discussion', options: [{ value:'Q&A' }, { value:'Open-ended' }, { value:'Brainstorm' }] }
+  ]
 };
 </script>
 
 <script type="text/babel">
 const { ConfigProvider, AutoComplete } = window.__antdR;
+const { useState, useMemo } = React;
 const A = window.__ac;
-function Field({ label, children }) {
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
-      {children}
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={String(o.value)} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={A.theme}>
-    <div style={{ maxWidth: 280 }}>
-      <Field label="Suggest as you type">
-        <AutoComplete options={A.options} placeholder="Type a slide type"
-          filterOption={(input, opt) => opt.value.toLowerCase().includes(input.toLowerCase())}
-          style={{ width: 240 }} />
-      </Field>
-      <Field label="Prefilled">
-        <AutoComplete options={A.options} defaultValue="Poll" style={{ width: 240 }} />
-      </Field>
+
+// Custom option render — DS labels stay sentence-case; the query substring is highlighted.
+function renderGroups(query) {
+  const q = query.trim().toLowerCase();
+  return A.groups
+    .map((g) => ({
+      label: <span style={{ color:'#8A8A8A', fontSize:12 }}>{g.label}</span>,
+      options: g.options
+        .filter((o) => !q || o.value.toLowerCase().includes(q))
+        .map((o) => ({ value: o.value, label: <span>{o.value}</span> })),
+    }))
+    .filter((g) => g.options.length);
+}
+
+function Demo() {
+  const [size, setSize] = useState('default');   // small · default · large
+  const [status, setStatus] = useState('');      // '' · error · warning
+  const [mode, setMode] = useState('clearable'); // clearable · disabled · plain
+  const [query, setQuery] = useState('');
+
+  const opts = useMemo(() => renderGroups(query), [query]);
+  const common = {
+    size,
+    status: status || undefined,
+    allowClear: mode === 'clearable',
+    disabled: mode === 'disabled',
+    style: { width: 260 },
+  };
+
+  return (
+    <div style={{ maxWidth: 620 }}>
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label:'Small', value:'small' }, { label:'Default', value:'default' }, { label:'Large', value:'large' }]} />
+        <Seg label="Status" value={status} onChange={setStatus}
+          options={[{ label:'None', value:'' }, { label:'Error', value:'error' }, { label:'Warning', value:'warning' }]} />
+        <Seg label="State" value={mode} onChange={setMode}
+          options={[{ label:'Clearable', value:'clearable' }, { label:'Disabled', value:'disabled' }, { label:'Plain', value:'plain' }]} />
+      </div>
+
+      {/* Live-filter field — grouped + custom-rendered options; the default (empty) render shows the placeholder conformance measures. */}
+      <div className="lbl" style={{ marginBottom: 6 }}>Suggest as you type (grouped · filtered)</div>
+      <AutoComplete {...common} options={opts} placeholder="Type a slide type"
+        onSearch={setQuery}
+        filterOption={false} />
+
+      <div className="lbl" style={{ margin: '22px 0 6px' }}>Prefilled — a free-text value that isn't in the list</div>
+      <AutoComplete {...common} options={A.groups[0].options} defaultValue="Custom slide" />
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={A.theme}><Demo /></ConfigProvider>
 );
 </script>

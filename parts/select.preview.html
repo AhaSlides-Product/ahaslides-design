@@ -1,6 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared selectTheme. Vue consumes the same
      selectTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the real antd selector bound to the shared theme. -->
+     measures: the real antd selector bound to the shared theme. Interactive: the controls drive
+     live React state (Size / Status / Mode / Clearable · Disabled), so the whole DS V3 matrix is
+     explorable — the default render (default size · no status · single · clearable) is what
+     conformance measures (a value-bearing .ant-select-content + a .ant-select-placeholder). -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -11,43 +14,100 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
+window.__st = {
+  token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
+           colorError:'#F5222D', colorWarning:'#FAAD14', colorTextPlaceholder:'#8A8A8A',
+           fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ Select:{ optionSelectedBg:'#F9F5FF', optionSelectedColor:'#6A1EBB', optionActiveBg:'#F7F7F7', borderRadius:8, controlHeight:32 } }
+};
 window.__sel = {
-  theme: {
-    token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
-             colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
-    components:{ Select:{ optionSelectedBg:'#F9F5FF', optionSelectedColor:'#6A1EBB', optionActiveBg:'#F7F7F7', borderRadius:8, controlHeight:32 } }
-  },
   options: [
     { value:'poll', label:'Poll' }, { value:'quiz', label:'Quiz' },
-    { value:'wordcloud', label:'Word cloud' }, { value:'qa', label:'Q&A' }
+    { value:'wordcloud', label:'Word cloud' }, { value:'qa', label:'Q&A' },
+    { value:'spinner', label:'Spinner wheel' }, { value:'openended', label:'Open-ended' }
   ]
 };
 </script>
 
 <script type="text/babel">
 const { ConfigProvider, Select } = window.__antdR;
+const { useState } = React;
 const S = window.__sel;
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
+  return (
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={String(o.value)} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Field({ label, children }) {
   return (
-    <div style={{ marginBottom: 18 }}>
+    <div style={{ marginBottom: 16 }}>
       <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
       {children}
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={S.theme}>
-    <div style={{ maxWidth: 280 }}>
-      <Field label="Single · type to search">
-        <Select showSearch placeholder="Choose a slide type" options={S.options} defaultValue="poll" style={{ width: 240 }} />
+
+function Demo() {
+  const [size, setSize] = useState('default');   // small · default · large
+  const [status, setStatus] = useState('');       // '' · error · warning
+  const [mode, setMode] = useState('single');     // single · multiple · tags
+  const [clearable, setClearable] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+
+  const antMode = mode === 'single' ? undefined : mode; // antd: multiple | tags | undefined
+  const filled = mode === 'single' ? 'poll' : ['poll', 'quiz'];
+
+  const common = {
+    size, status, mode: antMode, allowClear: clearable, disabled,
+    showSearch: true, options: S.options, style: { width: 260 },
+  };
+
+  return (
+    <div style={{ maxWidth: 640 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label:'Small', value:'small' }, { label:'Default', value:'default' }, { label:'Large', value:'large' }]} />
+        <Seg label="Status" value={status} onChange={setStatus}
+          options={[{ label:'None', value:'' }, { label:'Error', value:'error' }, { label:'Warning', value:'warning' }]} />
+        <Seg label="Mode" value={mode} onChange={setMode}
+          options={[{ label:'Single', value:'single' }, { label:'Multiple', value:'multiple' }, { label:'Tags', value:'tags' }]} />
+        <Seg label="Clearable" value={clearable} onChange={setClearable}
+          options={[{ label:'On', value:true }, { label:'Off', value:false }]} />
+        <Seg label="Disabled" value={disabled} onChange={setDisabled}
+          options={[{ label:'No', value:false }, { label:'Yes', value:true }]} />
+      </div>
+
+      {/* Value-bearing selector → renders .ant-select-content (conformance reads this). */}
+      <Field label="Selected">
+        <Select {...common} defaultValue={filled} placeholder="Choose a slide type" />
       </Field>
+      {/* Empty selector → renders .ant-select-placeholder (conformance reads this too). */}
       <Field label="Empty · placeholder">
-        <Select showSearch placeholder="Search a workspace" options={S.options} style={{ width: 240 }} />
+        <Select {...common} placeholder="Choose a slide type" />
       </Field>
-      <Field label="Multiple · tags">
-        <Select mode="multiple" placeholder="Tag topics" options={S.options} defaultValue={['poll','quiz']} style={{ width: 240 }} />
+      {/* Loading (async options) is part of the matrix but orthogonal to the axes above. */}
+      <Field label="Loading">
+        <Select showSearch loading size={size} status={status} placeholder="Fetching…" options={[]} style={{ width: 260 }} />
       </Field>
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
 );
 </script>

@@ -11,6 +11,12 @@ const options = [
 <ConfigProvider theme={selectTheme}>
   <Select
     showSearch
+    size="default"                          // small | default | large → 24 / 32 / 40
+    status={error ? 'error' : undefined}    // 'error' | 'warning' for validation
+    mode="multiple"                         // omit for single; 'multiple' | 'tags'
+    allowClear                              // × to clear the selection
+    loading={fetching}                      // spinner while async options load
+    disabled={locked}
     placeholder="Choose a slide type"
     options={options}
     value={type}

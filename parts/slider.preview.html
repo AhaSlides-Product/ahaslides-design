@@ -1,6 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared sliderTheme. Vue consumes the same
      sliderTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the real antd Slider bound to the shared theme. -->
+     measures: the real antd Slider bound to the shared theme. Interactive: the controls drive
+     live React state (Type / Marks / Orientation / Disabled), so the whole DS V3 matrix is
+     explorable — the default render (single · no marks · horizontal · enabled) is what
+     conformance measures (brand track, gray-30 rail, 14px handle). -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -20,27 +23,67 @@ window.__sl = {
 
 <script type="text/babel">
 const { ConfigProvider, Slider } = window.__antdR;
-function Field({ label, children }) {
+const { useState } = React;
+
+const marks = { 0: '0', 25: '25', 50: '50', 75: '75', 100: '100' };
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <div className="lbl" style={{ marginBottom: 6 }}>{label}</div>
-      {children}
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={String(o.value)} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__sl}>
-    <div style={{ width: 320 }}>
-      <Field label="Single value">
-        <Slider defaultValue={40} />
-      </Field>
-      <Field label="Range · two thumbs">
-        <Slider range defaultValue={[20, 70]} />
-      </Field>
-      <Field label="With marks">
-        <Slider defaultValue={50} marks={{ 0: '0', 50: '50', 100: '100' }} />
-      </Field>
+
+function Demo() {
+  const [type, setType] = useState('single');       // single | range
+  const [showMarks, setShowMarks] = useState(false); // marks on/off
+  const [vertical, setVertical] = useState(false);   // orientation
+  const [disabled, setDisabled] = useState(false);
+
+  const range = type === 'range';
+  // Default (single · no marks · horizontal · enabled) is what conformance measures.
+  const slider = (
+    <Slider
+      key={range ? 'range' : 'single'}
+      range={range}
+      defaultValue={range ? [20, 70] : 40}
+      marks={showMarks ? marks : undefined}
+      vertical={vertical}
+      disabled={disabled}
+    />
+  );
+
+  return (
+    <div style={{ maxWidth: 620 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Type" value={type} onChange={setType}
+          options={[{ label: 'Single', value: 'single' }, { label: 'Range', value: 'range' }]} />
+        <Seg label="Marks" value={showMarks} onChange={setShowMarks}
+          options={[{ label: 'Off', value: false }, { label: 'On', value: true }]} />
+        <Seg label="Orientation" value={vertical} onChange={setVertical}
+          options={[{ label: 'Horizontal', value: false }, { label: 'Vertical', value: true }]} />
+        <Seg label="Disabled" value={disabled} onChange={setDisabled}
+          options={[{ label: 'No', value: false }, { label: 'Yes', value: true }]} />
+      </div>
+      <div style={vertical ? { height: 240, paddingLeft: 8 } : { width: 320 }}>
+        {slider}
+      </div>
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__sl}><Demo /></ConfigProvider>
 );
 </script>

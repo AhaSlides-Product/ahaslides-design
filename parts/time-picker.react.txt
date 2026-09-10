@@ -2,13 +2,33 @@ import { ConfigProvider, TimePicker } from 'antd';   // antd v6
 import dayjs from 'dayjs';
 import { timePickerTheme } from '@ahaslides-product/design/time-picker-theme';
 
+const { RangePicker } = TimePicker;
+
 <ConfigProvider theme={timePickerTheme}>
+  {/* Default — 24-hour, minute granularity */}
   <TimePicker
     defaultValue={dayjs('09:30', 'HH:mm')}
     format="HH:mm"
     minuteStep={15}
+    allowClear
     onChange={setTime}
     style={{ width: 200 }}
   />
+
+  {/* Sizes — small 24 · default 32 · large 40 */}
+  <TimePicker size="small" format="HH:mm" style={{ width: 200 }} />
+  <TimePicker size="large" format="HH:mm" style={{ width: 200 }} />
+
+  {/* Status — tints the border */}
+  <TimePicker status="error" format="HH:mm" style={{ width: 200 }} />
+  <TimePicker status="warning" format="HH:mm" style={{ width: 200 }} />
+
+  {/* 12-hour + seconds + disabled */}
+  <TimePicker use12Hours format="h:mm a" style={{ width: 240 }} />
+  <TimePicker format="HH:mm:ss" style={{ width: 240 }} />
+  <TimePicker disabled format="HH:mm" style={{ width: 200 }} />
+
+  {/* Range — start → end */}
+  <RangePicker format="HH:mm" style={{ width: 320 }} />
 </ConfigProvider>
 // One shared timePickerTheme → the DS V3 look; match format to the precision you need. Times use Day.js.

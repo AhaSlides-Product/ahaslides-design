@@ -17,6 +17,12 @@
   "props": [
     { "name": "value", "type": "Dayjs | [Dayjs, Dayjs]", "default": "—", "desc": "Selected date (or range for RangePicker)" },
     { "name": "picker", "type": "date | week | month | quarter | year", "default": "date", "desc": "Granularity" },
+    { "name": "size", "type": "small | middle | large", "default": "middle", "desc": "Field height — 24 / 32 / 40" },
+    { "name": "status", "type": "error | warning", "default": "—", "desc": "Validation state on the field" },
+    { "name": "showTime", "type": "boolean | object", "default": "false", "desc": "Add a time picker to the panel" },
+    { "name": "allowClear", "type": "boolean", "default": "true", "desc": "Show the clear affordance when a value is set" },
+    { "name": "presets", "type": "{ label, value }[]", "default": "—", "desc": "Quick ranges (RangePicker) — reporting windows" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disable the field" },
     { "name": "format", "type": "string", "default": "YYYY-MM-DD", "desc": "Display/parse format" },
     { "name": "disabledDate", "type": "(d) => boolean", "default": "—", "desc": "Constrain selectable dates" },
     { "name": "onChange", "type": "(date) => void", "default": "—", "desc": "Fires with the new date(s)" }
@@ -27,7 +33,8 @@
       { "what": "RangePicker", "when": "a start and end together — a reporting window, a schedule" },
       { "what": "Input", "when": "a free-form date the user already knows precisely — but prefer the picker for validity" }
     ],
-    "note": "Pre-fill a sensible default (today, or the current period) rather than empty. Constrain impossible dates with disabledDate instead of validating after the fact. Dates use Day.js."
+    "note": "Pre-fill a sensible default (today, or the current period) rather than empty. Constrain impossible dates with disabledDate instead of validating after the fact. Dates use Day.js.",
+    "dsv3": "COVERED — antd v6 DatePicker themed by the shared datepickerTheme (ant-design-vue v4 for Vue), matrix: picker (date/week/month/quarter/year) · RangePicker (range) · size (small/middle/large) · status (error/warning) · disabled · showTime · allowClear · presets. The preview playground exposes Picker · Size · Status · Range · Disabled as live React controls (plus a showTime example); verified via Figma search_design_system against the DS V3 Date-Picker component set (componentKey ef5053a5…, fileKey MwjvUjVI0HnfwD9EwPXRAy)."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./datepicker-theme", "exportsNamed": ["datepickerTheme"] },

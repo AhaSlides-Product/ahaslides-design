@@ -5,12 +5,17 @@ import { sliderTheme } from '@ahaslides-product/design/slider-theme';
 
 const volume = ref(40);
 const window = ref([20, 70]);
+const snapped = ref(50);
+const marks = { 0: '0', 50: '50', 100: '100' };
 </script>
 
 <template>
   <a-config-provider :theme="sliderTheme">
-    <a-slider v-model:value="volume" />
-    <a-slider v-model:value="window" range />
+    <a-slider v-model:value="volume" />                    <!-- single -->
+    <a-slider v-model:value="window" range />              <!-- range · two thumbs -->
+    <a-slider v-model:value="snapped" :marks="marks" :step="null" /> <!-- marks, snap -->
+    <div style="height: 200px"><a-slider v-model:value="volume" vertical /></div> <!-- vertical -->
+    <a-slider v-model:value="volume" disabled />           <!-- disabled -->
   </a-config-provider>
 </template>
 <!-- The SAME sliderTheme as React → one DS V3 look across both vendor libraries. -->
