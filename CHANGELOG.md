@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.32.0 — 2026-09-10
 ### Removed
-- **Button** — dropped the plan / brand tone variants `essential`, `pro`, and `branding`. `variant` is now `primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link`. Plan gating belongs to the Paywall crown badge, not a button tone. **Breaking.** (#67)
+- **Button** — dropped the plan / brand tone variants `essential`, `pro`, and `branding`. `variant` is now `primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link`. Plan gating belongs to the Paywall crown badge, not a button tone. **Breaking.** (#68)
 
 ## 0.31.0 — 2026-09-10
 ### Removed
