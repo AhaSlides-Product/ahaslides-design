@@ -10,7 +10,7 @@
   "codeNote": "Same elements, same shadow-DOM CSS → identical render. React (< 19) consumes them via thin attribute wrappers; Vue binds the custom elements natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default", "text-tertiary", "text-disabled"],
   "spec": [
-    { "label": "Group", "value": "column · 16px between sibling settings · 32px between groups · bold header only" },
+    { "label": "Group", "value": "column · 16px between sibling settings · 32px between groups · semibold (600) header only (SectionHeader); member labels regular (400)" },
     { "label": "Row", "value": "label left, control right · min-height 24 · 16px gap" },
     { "label": "Label", "value": "14/21 Regular #1A1A1A (name = noun phrase, no leading verb)" },
     { "label": "Description", "value": "12/18 #8A8A8A, 4px under the label (default: none)" },
