@@ -23,7 +23,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.26.0 — 2026-09-10
 ### Added
-- **Tooltip & Popover** — 8 edge-aligned placements (`top-start` … `right-end`, AntD naming) on both `<aha-tooltip>` and `<aha-popover>`: the overlay sits on the same side but aligns to the trigger's start/end edge with the arrow offset near that edge. The 4 cardinal placements are unchanged. (#PR)
+- **Tooltip & Popover** — 8 edge-aligned placements (`top-start` … `right-end`, AntD naming) on both `<aha-tooltip>` and `<aha-popover>`: the overlay sits on the same side but aligns to the trigger's start/end edge with the arrow offset near that edge. The 4 cardinal placements are unchanged. (#55)
 
 ## 0.22.0 — 2026-09-10
 ### Added
