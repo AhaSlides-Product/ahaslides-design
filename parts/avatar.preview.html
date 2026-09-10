@@ -1,39 +1,38 @@
 <div class="pad">
-  <div class="lbl">Initials · sizes 32 / 40 / 56</div>
+  <div class="lbl">Content · initials · photo · icon</div>
   <div class="row" style="align-items:center;gap:12px">
-    <aha-avatar name="Ada Lovelace" size="32"></aha-avatar>
     <aha-avatar data-probe name="Grace Hopper"></aha-avatar>
-    <aha-avatar name="Alan Turing" size="56"></aha-avatar>
+    <aha-avatar name="Ada Lovelace" src="https://i.pravatar.cc/80?img=5"></aha-avatar>
+    <aha-avatar icon="system-user" name="Guest"></aha-avatar>
   </div>
-  <div class="lbl">Shape · circle · square</div>
+  <div class="lbl">Size · small 24 · default 40 · large 64</div>
+  <div class="row" style="align-items:center;gap:12px">
+    <aha-avatar name="Alan Turing" size="small"></aha-avatar>
+    <aha-avatar name="Alan Turing"></aha-avatar>
+    <aha-avatar name="Alan Turing" size="large"></aha-avatar>
+  </div>
+  <div class="lbl">Shape · circle · square · color ground</div>
   <div class="row" style="align-items:center;gap:12px">
     <aha-avatar name="Round One"></aha-avatar>
     <aha-avatar name="Square Two" shape="square"></aha-avatar>
+    <aha-avatar name="Green Three" color="bg-positive" style="--aha-ink:var(--aha-text-positive)"></aha-avatar>
+  </div>
+  <div class="lbl">Group · stacked with a +N overflow</div>
+  <div class="row" style="align-items:center;gap:12px">
+    <aha-avatar-group max="3">
+      <aha-avatar name="Ada Lovelace"></aha-avatar>
+      <aha-avatar name="Grace Hopper"></aha-avatar>
+      <aha-avatar name="Alan Turing"></aha-avatar>
+      <aha-avatar name="Katherine Johnson"></aha-avatar>
+      <aha-avatar name="Edsger Dijkstra"></aha-avatar>
+    </aha-avatar-group>
   </div>
 </div>
 
+<!-- Imports the REAL shipped element (../lib/aha-avatar.js) + the icon library — no inlined copy, so
+     the preview can never drift from lib/. The playground control bar (Content / Size / Shape) is
+     generated from contracts/avatar.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:inline-flex }
-  .avatar{ box-sizing:border-box; display:inline-flex; align-items:center; justify-content:center; overflow:hidden;
-    width:40px; height:40px; border-radius:var(--aha-radius-pill,999px);
-    background:var(--aha-bg-accent,#F9F5FF); color:var(--aha-purple-60,#6A1EBB);
-    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-weight:600; font-size:15px; line-height:1;
-    user-select:none }
-  :host([shape="square"]) .avatar{ border-radius:var(--aha-radius-default,8px) }
-  .avatar img{ width:100%; height:100%; object-fit:cover; display:block }
-`;
-function initials(name){ const p=String(name).trim().split(/\s+/).filter(Boolean); if(!p.length) return '?'; if(p.length===1) return p[0].slice(0,2).toUpperCase(); return (p[0][0]+p[p.length-1][0]).toUpperCase(); }
-class AhaAvatar extends HTMLElement {
-  get name(){ return this.getAttribute('name')||''; }
-  get src(){ return this.getAttribute('src')||''; }
-  get size(){ return parseInt(this.getAttribute('size')||'40',10); }
-  connectedCallback(){
-    if(!this.shadowRoot) this.attachShadow({mode:'open'});
-    const size=this.size;
-    const inner = this.src ? `<img src="${this.src}" alt="${this.name}"/>` : `<span>${initials(this.name)}</span>`;
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><span class="avatar" role="img" aria-label="${this.name||'avatar'}" style="width:${size}px;height:${size}px;font-size:${Math.round(size*0.38)}px">${inner}</span>`;
-  }
-}
-customElements.define('aha-avatar', AhaAvatar);
+  import '../lib/icons.js';        // registers <aha-icon> so the glyph content mode resolves from the DS library
+  import '../lib/aha-avatar.js';   // registers <aha-avatar> + <aha-avatar-group> — the shipped primitives
 </script>

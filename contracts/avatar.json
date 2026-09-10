@@ -5,21 +5,27 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-avatar",
-  "summary": "Represent a person or entity with a photo or their initials.",
-  "lead": "ONE custom element — <aha-avatar> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; shows the image from `src`, or the initials of `name` on a tinted ground. A purely static display marker, so it declares no motion. Zero drift.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-accent", "purple-60", "radius-pill", "radius-default", "font-product"],
+  "summary": "Represent a person or entity with a photo, initials, or an icon — solo or in a stacked group.",
+  "lead": "ONE custom element — <aha-avatar> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Avatar is a small matrix: THREE content modes (an image `src`, the initials of `name`, or an `<aha-icon>` glyph via `icon`), two `shape`s (circle · square), a named or numeric `size` (small 24 · default 40 · large 64), and a `color` ground tint. A sibling <aha-avatar-group> overlaps stacked children and collapses the overflow past `max` into a trailing +N chip. A purely static display marker, so it declares no motion. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitives are defined once in @ahaslides-product/design.",
+  "tokensUsed": ["bg-accent", "purple-60", "bg-container", "radius-pill", "radius-default", "font-product"],
   "spec": [
-    { "label": "Size", "value": "40 default (set via `size`)" },
+    { "label": "Size", "value": "small 24 · default 40 · large 64 (named), or any numeric px via `size`" },
     { "label": "Shape", "value": "circle (pill radius) · square (radius 8)" },
     { "label": "Initials", "value": "bg-accent #F9F5FF, purple-60 #6A1EBB, SemiBold 600" },
-    { "label": "Image", "value": "object-fit cover, clipped to shape" }
+    { "label": "Image", "value": "object-fit cover, clipped to shape" },
+    { "label": "Icon", "value": "<aha-icon> glyph by name, ~half the avatar diameter, currentColor" },
+    { "label": "Color", "value": "ground tint from an --aha-* token via `color` (default brand tint)" },
+    { "label": "Group", "value": "stacked overlap (-10px), 2px container-white ring, +N chip past `max`" }
   ],
   "props": [
-    { "name": "name", "type": "string", "default": "—", "desc": "Full name; initials are derived when no src" },
-    { "name": "src", "type": "string", "default": "—", "desc": "Image URL; overrides initials" },
-    { "name": "size", "type": "number", "default": "40", "desc": "Diameter in px" },
-    { "name": "shape", "type": "circle | square", "default": "circle", "desc": "Clip shape" }
+    { "name": "name", "type": "string", "default": "—", "desc": "Full name; initials are derived when no src/icon. Also the alt/aria-label" },
+    { "name": "src", "type": "string", "default": "—", "desc": "Image URL; the photo content mode (overrides icon/initials)" },
+    { "name": "icon", "type": "string", "default": "—", "desc": "DS icon name (e.g. 'system-user'); the glyph content mode when no src" },
+    { "name": "size", "type": "'small' | 'default' | 'large' | number", "default": "default", "desc": "24 / 40 / 64 named steps, or any numeric px" },
+    { "name": "shape", "type": "circle | square", "default": "circle", "desc": "Clip shape" },
+    { "name": "color", "type": "token name", "default": "—", "desc": "Ground tint — an --aha-* token suffix, e.g. 'bg-positive'" },
+    { "name": "max", "type": "number", "default": "—", "desc": "(aha-avatar-group) collapse children past this count into a +N chip" }
   ],
   "opinion": {
     "whenToUse": [
@@ -27,28 +33,47 @@
       { "what": "Icon", "when": "a generic symbol, not a specific identity" },
       { "what": "Tag", "when": "labelling with a category rather than an identity" }
     ],
-    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials fallback if the image fails.",
-    "dsv3": "Initials ground uses bg-accent (#F9F5FF) with purple-60 (#6A1EBB) text — the brand-tint pairing already used across the system. Circle is the pill radius; square is the default 8 radius."
+    "note": "Always provide `name` even when `src` is set — it becomes the alt text and the initials fallback if the image fails. Prefer initials or a photo over a generic icon for a real identity; reserve the icon mode for a placeholder/guest slot. In a group, keep sizes uniform and set `max` so the +N chip stays legible.",
+    "dsv3": "COVERED — enumerated from the DS V3 Avatar + Avatar-Group component sets (fileKey MwjvUjVI0HnfwD9EwPXRAy): 'supports images, Icons, or letters' → three content modes; circle/square shapes; small/default/large sizes; a colour ground; and a stacked group with a +N overflow. Initials/icon ground uses bg-accent (#F9F5FF) with purple-60 (#6A1EBB) — the brand-tint pairing across the system; `color` overrides the ground with any --aha-* token. Circle is the pill radius; square is the default 8 radius. Group children wear a 2px bg-container ring and overlap; the +N chip inherits the group size/shape."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
-  "reuse": { "entry": "./aha-avatar", "registers": "aha-avatar", "exportsNamed": ["AhaAvatar", "defineAhaAvatar"] },
+  "reuse": { "entry": "./aha-avatar", "registers": "aha-avatar", "exportsNamed": ["AhaAvatar", "AhaAvatarGroup", "defineAhaAvatar"] },
   "snippets": [
     { "key": "html", "label": "HTML", "file": "avatar.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
     { "key": "react", "label": "React", "file": "avatar.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "avatar.vue.txt" }
   ],
   "preview": "avatar.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "shape", "label": "Shape", "default": "circle", "options": [
+        { "label": "Circle", "value": "circle" },
+        { "label": "Square", "value": "square" }
+      ] },
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Small (24)", "value": "small" },
+        { "label": "Default (40)", "value": "default" },
+        { "label": "Large (64)", "value": "large" }
+      ] },
+      { "prop": "icon", "label": "Content", "default": null, "options": [
+        { "label": "Initials", "value": null },
+        { "label": "Icon (user)", "value": "system-user" },
+        { "label": "Icon (star)", "value": "system-star" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "size 40 default", "verdict": "PASS" },
-    { "label": "circle = pill radius", "verdict": "PASS" },
+    { "label": "size 40 default; small 24 / large 64 named steps", "verdict": "PASS" },
+    { "label": "circle = pill radius; square = radius 8", "verdict": "PASS" },
     { "label": "initials bg-accent / purple-60", "verdict": "PASS" },
-    { "label": "src renders cover image", "verdict": "PASS" }
+    { "label": "src renders cover image; icon renders an <aha-icon> glyph by name", "verdict": "PASS" },
+    { "label": "group overlaps children + collapses overflow into a +N chip past max", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is the default 40px initials avatar.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is the default 40px initials circle; the measure also asserts the square shape (radius 8) and the large (64) size on sibling avatars, plus that the group renders a +N overflow chip.",
     "ready": "!!(document.querySelector('aha-avatar[data-probe]') && document.querySelector('aha-avatar[data-probe]').shadowRoot && document.querySelector('aha-avatar[data-probe]').shadowRoot.querySelector('.avatar'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-avatar[data-probe]');var a=el.shadowRoot.querySelector('.avatar');var s=getComputedStyle(a);return{w:s.width,radius:s.borderTopLeftRadius,bg:s.backgroundColor,color:s.color};})()",
-    "expect": { "w": "40px", "radius": "999px", "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)" }
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.avatar');return a?getComputedStyle(a):null;};var s=q('aha-avatar[data-probe]');var sq=q('aha-avatar[shape=\"square\"]');var lg=q('aha-avatar[size=\"large\"]');var grp=document.querySelector('aha-avatar-group');var chip=grp&&grp.shadowRoot&&grp.shadowRoot.querySelector('.overflow');return{w:s?s.width:null,radius:s?s.borderTopLeftRadius:null,bg:s?s.backgroundColor:null,color:s?s.color:null,squareRadius:sq?sq.borderTopLeftRadius:null,largeW:lg?lg.width:null,hasOverflow:!!chip};})()",
+    "expect": { "w": "40px", "radius": "999px", "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)", "squareRadius": "8px", "largeW": "64px", "hasOverflow": true }
   }
 }

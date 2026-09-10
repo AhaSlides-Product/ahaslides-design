@@ -1,13 +1,21 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-card';
+import '@ahaslides-product/design/icons';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue
+// Component.vue — cover · title + extra action · body · footer actions
 <template>
-  <aha-card card-title="Live poll">
+  <aha-card card-title="Live poll" hoverable style="width:300px">
+    <img slot="cover" src="cover.jpg" alt="" />
+    <a slot="extra" href="#">Edit</a>
     Which release cadence works best for your team?
+    <div slot="actions">
+      <aha-icon name="system-share-network" size="16" />
+      <aha-icon name="system-bookmark-simple" size="16" />
+    </div>
   </aha-card>
-  <aha-card hoverable card-title="Weekly digest">
-    A clickable card lifts on hover.
-  </aha-card>
+
+  <aha-card card-title="Weekly digest" size="small">A small card tightens its padding.</aha-card>
+  <aha-card card-title="Borderless" bordered="false">No outline.</aha-card>
+  <aha-card card-title="Loading" loading />
 </template>

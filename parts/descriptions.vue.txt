@@ -4,12 +4,17 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
-import { ref } from 'vue';
-const rows = ref([['Plan', 'Pro'], ['Seats', '25 of 50'], ['Billing cycle', 'Yearly']]);
+import { ref, computed } from 'vue';
+const items = ref([
+  { label: 'Plan', value: 'Pro' },
+  { label: 'Status', value: 'Active' },
+  { label: 'Seats', value: '25 of 50' },
+  { label: 'Renews', value: '9 Sep 2027', span: 2 },
+]);
+const itemsJson = computed(() => JSON.stringify(items.value));
 </script>
 
 <template>
-  <aha-descriptions desc-title="Account">
-    <div v-for="[label, value] in rows" :key="label" :label="label">{{ value }}</div>
-  </aha-descriptions>
+  <!-- bordered | column="N" | size="default|small|large" | layout="horizontal|vertical" -->
+  <aha-descriptions desc-title="Account" bordered column="2" layout="horizontal" :items="itemsJson" />
 </template>

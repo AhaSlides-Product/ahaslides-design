@@ -1,46 +1,27 @@
-<div class="pad" style="padding:52px 20px 28px">
-  <div class="lbl">Hover or focus a trigger · the data-probe one is forced open for the scorecard</div>
-  <div class="row" style="gap:40px">
-    <aha-tooltip data-probe open text="Copy share link">
-      <button style="font-family:var(--aha-font-product); font-size:14px; padding:6px 12px; border:1px solid var(--aha-border); border-radius:8px; background:#fff; cursor:pointer">Share</button>
+<div class="pad" style="padding:64px 20px 40px">
+  <div class="lbl">Hover or focus a trigger · placements + a brand fill · the data-probe one is forced open for the scorecard</div>
+  <div class="row" style="gap:48px; flex-wrap:wrap; align-items:center">
+    <aha-tooltip data-probe open text="Copy share link" placement="top">
+      <button style="font-family:var(--aha-font-product); font-size:14px; padding:6px 12px; border:1px solid var(--aha-border); border-radius:8px; background:#fff; cursor:pointer">Top</button>
     </aha-tooltip>
-    <aha-tooltip text="Duplicate this slide">
-      <button style="font-family:var(--aha-font-product); font-size:14px; padding:6px 12px; border:1px solid var(--aha-border); border-radius:8px; background:#fff; cursor:pointer">Duplicate</button>
+    <aha-tooltip text="Duplicate this slide" placement="bottom">
+      <button style="font-family:var(--aha-font-product); font-size:14px; padding:6px 12px; border:1px solid var(--aha-border); border-radius:8px; background:#fff; cursor:pointer">Bottom</button>
     </aha-tooltip>
-    <aha-tooltip text="Results update as participants respond">
+    <aha-tooltip text="Move left" placement="left">
+      <button style="font-family:var(--aha-font-product); font-size:14px; padding:6px 12px; border:1px solid var(--aha-border); border-radius:8px; background:#fff; cursor:pointer">Left</button>
+    </aha-tooltip>
+    <aha-tooltip text="Move right" placement="right" color="brand">
+      <button style="font-family:var(--aha-font-product); font-size:14px; padding:6px 12px; border:1px solid var(--aha-border); border-radius:8px; background:#fff; cursor:pointer">Right · brand</button>
+    </aha-tooltip>
+    <aha-tooltip text="Results update as participants respond" arrow="false">
       <span style="display:inline-flex; width:18px; height:18px; align-items:center; justify-content:center; border:1px solid var(--aha-border); border-radius:999px; font-size:12px; color:var(--aha-text-tertiary); cursor:help">?</span>
     </aha-tooltip>
   </div>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-tooltip (lib/aha-tooltip.js),
-     inlined here so the preview is self-contained (no build step, no network). -->
+<!-- Imports the REAL shipped element (../lib/aha-tooltip.js) — no inlined copy, so the preview can
+     never drift from lib/. The playground control bar (Placement / Arrow) is generated from
+     contracts/tooltip.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ position:relative; display:inline-flex }
-  .bubble{ position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) translateY(4px);
-    box-sizing:border-box; max-width:240px; padding:6px 10px; white-space:nowrap;
-    font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:12px; line-height:18px;
-    color:var(--aha-text-inverse,#FFFFFF); background:var(--aha-bg-dark,#1A1A2E);
-    border-radius:var(--aha-radius-sm,6px); box-shadow:0 4px 12px rgba(26,26,46,.2);
-    opacity:0; visibility:hidden;
-    transition:opacity var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1)), transform var(--aha-motion-mid,.2s) var(--aha-ease-out,cubic-bezier(0.215,0.61,0.355,1));
-    z-index:10; pointer-events:none }
-  .bubble::after{ content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
-    border:5px solid transparent; border-top-color:var(--aha-bg-dark,#1A1A2E) }
-  :host(:hover) .bubble, :host(:focus-within) .bubble, :host([open]) .bubble{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0) }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
-`;
-class AhaTooltip extends HTMLElement {
-  static get observedAttributes() { return ['text', 'open']; }
-  connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); if (!this._bubble) this._build(); this._sync(); }
-  attributeChangedCallback() { if (this._bubble) this._sync(); }
-  _build() {
-    this.shadowRoot.append(document.createRange().createContextualFragment(
-      `<style>${STYLE}</style><slot></slot><span class="bubble" part="bubble" role="tooltip"></span>`));
-    this._bubble = this.shadowRoot.querySelector('.bubble');
-  }
-  _sync() { this._bubble.textContent = this.getAttribute('text') || ''; }
-}
-customElements.define('aha-tooltip', AhaTooltip);
+  import '../lib/aha-tooltip.js';   // registers <aha-tooltip> — the shipped primitive, byte-identical to consumers
 </script>

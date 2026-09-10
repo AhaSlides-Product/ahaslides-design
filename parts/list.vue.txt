@@ -1,15 +1,27 @@
-// main.ts — register the element + mark aha-* as custom elements
+// main.ts — register the elements + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-list';
+import '@ahaslides-product/design/icons';   // registers <aha-icon>
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
-import { ref } from 'vue';
-const items = ref(['Team offsite 2026', 'Q3 product review', 'Onboarding quiz']);
+import { ref, computed } from 'vue';
+// size = small | default | large · bordered = outer border · split = row dividers (default on).
+const decks = ref([
+  { name: 'Team offsite 2026', meta: '12 slides · edited 2h ago' },
+  { name: 'Q3 product review', meta: '28 slides · edited yesterday' },
+]);
+const items = computed(() => JSON.stringify(decks.value.map((d) => ({
+  title: d.name, description: d.meta, avatar: 'system-user-circle',
+  actions: [
+    { key: 'edit', icon: 'system-pencil-simple', label: 'Edit' },
+    { key: 'delete', icon: 'system-trash', danger: true, label: 'Delete' },
+  ],
+}))));
+const onAction = (e) => console.log(e.detail);   // { key, index }
 </script>
 
 <template>
-  <aha-list list-title="Recent decks">
-    <div v-for="it in items" :key="it">{{ it }}</div>
-  </aha-list>
+  <aha-list bordered list-title="Recent decks" :footer="`${decks.length} decks`"
+    :items="items" @action="onAction" />
 </template>

@@ -1,10 +1,23 @@
-import '@ahaslides-product/design/aha-statistic';   // registers <aha-statistic>
+import '@ahaslides-product/design/icons';        // registers <aha-icon> for prefix/suffix icons
+import '@ahaslides-product/design/aha-statistic'; // registers <aha-statistic>
 
 // The custom element renders its own shadow DOM; React just passes attributes.
-function Kpi({ label, value, suffix, trend }) {
-  return <aha-statistic label={label} value={value} suffix={suffix} {...(trend ? { trend } : {})} />;
+// Note: hyphenated attrs (prefix-icon, suffix-icon) are written as-is on the custom element.
+function Kpi({ label, value, suffix, precision, prefixIcon, trend, loading }) {
+  return (
+    <aha-statistic
+      label={label}
+      value={value}
+      suffix={suffix}
+      {...(precision != null ? { precision } : {})}
+      {...(prefixIcon ? { 'prefix-icon': prefixIcon } : {})}
+      {...(trend ? { trend } : {})}
+      {...(loading ? { loading: '' } : {})}
+    />
+  );
 }
 
 // usage
-<Kpi label="Active players" value="1,284" suffix="live" />
 <Kpi label="Response rate" value="92" suffix="%" trend="up" />
+<Kpi label="Revenue" value="12840.5" precision="2" prefixIcon="system-currency-circle-dollar" />
+<Kpi label="Loading…" loading />

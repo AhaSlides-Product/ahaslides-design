@@ -3,10 +3,12 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-statistic.js';   // registers <aha-statistic>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';          // registers <aha-icon> for prefix/suffix icons
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-statistic.js';  // registers <aha-statistic>
 </script>
 
-<div style="display:flex; gap:40px">
-  <aha-statistic label="Active players" value="1,284" suffix="live"></aha-statistic>
+<div style="display:flex; gap:40px; align-items:flex-start">
   <aha-statistic label="Response rate" value="92" suffix="%" trend="up"></aha-statistic>
+  <aha-statistic label="Revenue" value="12840.5" precision="2" prefix-icon="system-currency-circle-dollar"></aha-statistic>
+  <aha-statistic label="Loading…" loading></aha-statistic>
 </div>

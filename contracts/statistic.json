@@ -5,22 +5,28 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-statistic",
-  "summary": "A single headline number with a caption and optional trend colour.",
-  "lead": "ONE custom element — <aha-statistic> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `label` captions the figure, `value` is the number, `prefix`/`suffix` frame it, and `trend` tints it positive or negative. A static marker — no interactive state, so no motion (like Badge). Zero drift — the same element.",
+  "summary": "A single headline number with a caption, prefix/suffix (text or icon), precision, trend colour and a loading skeleton.",
+  "lead": "ONE custom element — <aha-statistic> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `label` captions the figure, `value` is the number (`precision` formats it to N decimals with thousands separators), `prefix`/`suffix` frame it as text and `prefix-icon`/`suffix-icon` frame it with a DS icon by name, and `trend` tints the figure success-green or error-red with a matching arrow glyph so the up/down signal is never colour-only. `loading` swaps in a shimmer skeleton. Icons are summoned by name from the DS library via <aha-icon> — never an inline glyph. Zero drift — the same element.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["text-default", "text-secondary", "text-tertiary", "text-positive", "text-negative", "font-product"],
+  "tokensUsed": ["text-default", "text-secondary", "text-tertiary", "color-success", "color-error", "bg-container-secondary", "split", "radius-xs", "font-product"],
   "spec": [
     { "label": "Caption", "value": "14/22 #4A4A4A" },
     { "label": "Value", "value": "24/32 SemiBold #1A1A1A" },
-    { "label": "Prefix / suffix", "value": "14/22 Regular #8A8A8A" },
-    { "label": "Trend", "value": "up #13A181 · down #F5222D" }
+    { "label": "Prefix / suffix", "value": "14/22 Regular #8A8A8A, text or a 16px DS icon" },
+    { "label": "Precision", "value": "value formatted to N decimals, en-US thousands separators" },
+    { "label": "Trend", "value": "up color-success #16C49A + trend-up glyph · down color-error #F5222D + trend-down glyph" },
+    { "label": "Loading", "value": "shimmer skeleton (label + value bars), motion-token animation, role=status" }
   ],
   "props": [
     { "name": "label", "type": "string", "default": "—", "desc": "The caption above the value" },
     { "name": "value", "type": "string | number", "default": "—", "desc": "The headline figure" },
+    { "name": "precision", "type": "number", "default": "—", "desc": "Format value to N decimal places with en-US thousands separators (non-numeric values left verbatim)" },
     { "name": "prefix", "type": "string", "default": "—", "desc": "Small text before the value (e.g. a currency mark)" },
     { "name": "suffix", "type": "string", "default": "—", "desc": "Small text after the value (e.g. %, unit)" },
-    { "name": "trend", "type": "up | down", "default": "—", "desc": "Tint the value positive or negative" }
+    { "name": "prefix-icon", "type": "icon name", "default": "—", "desc": "A DS icon before the value (e.g. system-currency-circle-dollar)" },
+    { "name": "suffix-icon", "type": "icon name", "default": "—", "desc": "A DS icon after the value" },
+    { "name": "trend", "type": "up | down", "default": "—", "desc": "Tint the value success-green/error-red + a matching trend arrow glyph" },
+    { "name": "loading", "type": "boolean", "default": "false", "desc": "Show a shimmer skeleton in place of the figure" }
   ],
   "opinion": {
     "whenToUse": [
@@ -28,8 +34,8 @@
       { "what": "Badge", "when": "a small count attached to another element" },
       { "what": "Progress", "when": "a value's share of a whole" }
     ],
-    "note": "Caption names the metric in sentence case — 'Active players', not 'ACTIVE PLAYERS'. Use trend only when up/down carries meaning; colour alone should never be the only signal.",
-    "dsv3": "COVERED — DS V3's measured set has no Statistic cell; spec derived from the token layer (text-default/secondary/tertiary, text-positive/negative) + antd Statistic conventions (24/32 value). A deliberate, documented extension — not a measured match."
+    "note": "Caption names the metric in sentence case — 'Active players', not 'ACTIVE PLAYERS'. Use trend only when up/down carries meaning; the element pairs the tint with a trend arrow glyph so colour is never the sole signal. Reach for prefix-icon/suffix-icon (a currency mark, a %) over a decorative image; set precision for money/rates so the figure reads consistently.",
+    "dsv3": "COVERED — DS V3 ships a real Statistic component set (key 6f817785…, 'Display statistic number') plus Components/Trend + Trend Group (the coloured up/down indicator). Element enumerated against that taxonomy: title (label) + big value + precision + prefix/suffix (text or icon) + trend colour with a matching Trend glyph + loading. Trend bound to --aha-color-success / --aha-color-error; value 24/32 SemiBold per antd Statistic. Node-id/screenshot navigation is seat-gated, so the matrix is read from the component-set taxonomy, not a pixel match."
   },
   "surfaces": ["dashboard", "audience"],
   "reuse": { "entry": "./aha-statistic", "registers": "aha-statistic", "exportsNamed": ["AhaStatistic", "defineAhaStatistic"] },
@@ -39,17 +45,37 @@
     { "key": "vue", "label": "Vue 3", "file": "statistic.vue.txt" }
   ],
   "preview": "statistic.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "trend", "label": "Trend", "default": "up", "options": [
+        { "label": "Up (success)", "value": "up" },
+        { "label": "Down (error)", "value": "down" },
+        { "label": "None", "value": null }
+      ] },
+      { "prop": "prefix-icon", "label": "Prefix", "default": null, "options": [
+        { "label": "None", "value": null },
+        { "label": "$ (currency)", "value": "system-currency-circle-dollar" }
+      ] },
+      { "prop": "suffix", "label": "Suffix", "default": "%", "options": [
+        { "label": "None", "value": null },
+        { "label": "%", "value": "%" },
+        { "label": "live", "value": "live" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "value 24/32 SemiBold #1A1A1A", "verdict": "PASS" },
     { "label": "caption 14/22 #4A4A4A", "verdict": "PASS" },
     { "label": "suffix 14/22 #8A8A8A", "verdict": "PASS" },
-    { "label": "trend up #13A181 / down #F5222D", "verdict": "PASS" }
+    { "label": "trend up color-success #16C49A / down color-error #F5222D + trend glyph", "verdict": "PASS" },
+    { "label": "precision formats value to N decimals; prefix/suffix icons resolve by name", "verdict": "PASS" },
+    { "label": "loading swaps in a shimmer skeleton (motion tokens, role=status)", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-statistic[data-probe]') && document.querySelector('aha-statistic[data-probe]').shadowRoot && document.querySelector('aha-statistic[data-probe]').shadowRoot.querySelector('.value'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-statistic[data-probe]');var sr=el&&el.shadowRoot;var lab=sr&&sr.querySelector('.label');var val=sr&&sr.querySelector('.value');var ls=lab?getComputedStyle(lab):null;var vs=val?getComputedStyle(val):null;return{labelColor:ls?ls.color:null,valueColor:vs?vs.color:null,valueSize:vs?vs.fontSize:null,valueWeight:vs?vs.fontWeight:null};})()",
-    "expect": { "labelColor": "rgb(74, 74, 74)", "valueColor": "rgb(26, 26, 26)", "valueSize": "24px", "valueWeight": "600" }
+    "measure": "(function(){var el=document.querySelector('aha-statistic[data-probe]');var sr=el&&el.shadowRoot;var lab=sr&&sr.querySelector('.label');var val=sr&&sr.querySelector('.value');var tg=sr&&sr.querySelector('.trend-glyph');var ls=lab?getComputedStyle(lab):null;var vs=val?getComputedStyle(val):null;return{labelColor:ls?ls.color:null,valueColor:vs?vs.color:null,valueSize:vs?vs.fontSize:null,valueWeight:vs?vs.fontWeight:null,hasTrendGlyph:!!tg};})()",
+    "expect": { "labelColor": "rgb(74, 74, 74)", "valueColor": "rgb(22, 196, 154)", "valueSize": "24px", "valueWeight": "600", "hasTrendGlyph": true }
   }
 }

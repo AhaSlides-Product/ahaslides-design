@@ -3,11 +3,17 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-badge.js';   // registers <aha-badge>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';    // registers <aha-icon>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-badge.js'; // registers <aha-badge>
 </script>
 
-<div style="display:flex; gap:16px; align-items:center">
-  <aha-badge count="5"></aha-badge>
-  <aha-badge count="128" max="99"></aha-badge>
+<div style="display:flex; gap:24px; align-items:center">
+  <!-- count over a wrapped child, capped as N+ -->
+  <aha-badge count="128" overflow-count="99">
+    <aha-icon name="system-bell" size="24"></aha-icon>
+  </aha-badge>
+  <!-- a bare status dot -->
   <aha-badge dot status="success"></aha-badge>
+  <!-- a standalone status: a semantic dot + a label -->
+  <aha-badge status="processing" text="Generating"></aha-badge>
 </div>

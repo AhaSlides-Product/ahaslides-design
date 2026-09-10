@@ -1,10 +1,19 @@
-// main.ts — register the element + mark aha-* as custom elements
-import '@ahaslides-product/design/aha-avatar';
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-avatar';   // <aha-avatar> + <aha-avatar-group>
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <template>
-  <aha-avatar name="Ada Lovelace" />
-  <aha-avatar name="Grace Hopper" :size="56" />
-  <aha-avatar :src="photoUrl" name="Ada Lovelace" />
+  <aha-avatar name="Ada Lovelace" />                             <!-- initials -->
+  <aha-avatar name="Grace Hopper" :size="'large'" />            <!-- 64 -->
+  <aha-avatar :src="photoUrl" name="Ada Lovelace" />           <!-- photo -->
+  <aha-avatar icon="system-user" name="Guest" />              <!-- glyph -->
+
+  <!-- Stacked group with a +N overflow past `max` -->
+  <aha-avatar-group max="3">
+    <aha-avatar name="Ada Lovelace" />
+    <aha-avatar name="Grace Hopper" />
+    <aha-avatar name="Alan Turing" />
+    <aha-avatar name="Katherine Johnson" />
+  </aha-avatar-group>
 </template>

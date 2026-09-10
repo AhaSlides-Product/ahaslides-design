@@ -1,8 +1,9 @@
 import '@ahaslides-product/design/aha-collapse';   // registers <aha-collapse>
+import '@ahaslides-product/design/icons';          // registers <aha-icon>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `toggle` event; React 19 can bind onToggle directly.
-function AhaCollapse({ header, open, onToggle, children }) {
+function AhaCollapse({ header, extra, open, disabled, accordion, size, ghost, iconPosition, onToggle, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -11,14 +12,25 @@ function AhaCollapse({ header, open, onToggle, children }) {
     return () => el.removeEventListener('toggle', h);
   });
   return (
-    <aha-collapse ref={ref} {...(open ? { open: '' } : {})}>
+    <aha-collapse
+      ref={ref}
+      {...(open ? { open: '' } : {})}
+      {...(disabled ? { disabled: '' } : {})}
+      {...(accordion ? { accordion: '' } : {})}
+      {...(ghost ? { ghost: '' } : {})}
+      {...(size ? { size } : {})}
+      {...(iconPosition ? { 'icon-position': iconPosition } : {})}
+    >
       <span slot="header">{header}</span>
+      {extra && <span slot="extra">{extra}</span>}
       {children}
     </aha-collapse>
   );
 }
 
-// usage
-<AhaCollapse header="Advanced settings" open onToggle={(o) => setOpen(o)}>
+// usage — accordion group: opening one closes its siblings
+<AhaCollapse header="Advanced settings" accordion open onToggle={(o) => setOpen(o)}>
   Let participants join anonymously, and shuffle the answer order.
 </AhaCollapse>
+<AhaCollapse header="Scoring" accordion>Award points by speed.</AhaCollapse>
+<AhaCollapse header="Billing (read-only)" disabled>Managed by your workspace owner.</AhaCollapse>

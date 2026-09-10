@@ -4,10 +4,23 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <template>
+  <!-- Click-to-zoom preview (default) -->
   <aha-image
     src="https://picsum.photos/240/150"
     alt="Deck cover"
     width="240"
     height="150"
+    radius="lg"
+    placeholder
+    fallback="Couldn’t load image"
   >Preview</aha-image>
+
+  <!-- Plain framed picture — no zoom -->
+  <aha-image
+    src="https://picsum.photos/240/150"
+    alt="Logo"
+    width="240"
+    height="150"
+    preview="false"
+  ></aha-image>
 </template>

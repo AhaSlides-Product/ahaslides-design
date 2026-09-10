@@ -19,10 +19,19 @@
   const h = React.createElement;
 
   // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  // Matrix: size 120/160/200 · errorLevel L/M/Q/H · status active/expired/loading/scanned · bordered off.
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: qrCodeTheme },
       h('div', { className: 'aha-qr' },
-        h(QRCode, { value: 'https://ahaslides.com/join', size: 160, bordered: false, color: '#1A1A1A' })
+        h(QRCode, {
+          value: 'https://ahaslides.com/join',
+          size: 160,
+          errorLevel: 'M',
+          status: 'active',
+          bordered: false,        // the .aha-qr container owns the DS frame
+          color: '#1A1A1A',
+          bgColor: '#FFFFFF'
+        })
       )
     )
   );

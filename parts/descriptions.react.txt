@@ -1,13 +1,26 @@
 import '@ahaslides-product/design/aha-descriptions';   // registers <aha-descriptions>
 
-// Each row is a child carrying a `label` attribute; its content is the value.
-function AccountFacts({ title, rows }) {
+// Feed an items tree ([{label, value, span?}]) — bordered, N columns, sized, laid out.
+function AccountFacts({ title, items }) {
   return (
-    <aha-descriptions desc-title={title}>
-      {rows.map(([label, value]) => <div key={label} label={label}>{value}</div>)}
-    </aha-descriptions>
+    <aha-descriptions
+      desc-title={title}
+      bordered
+      column="2"
+      size="default"
+      layout="horizontal"
+      items={JSON.stringify(items)}
+    />
   );
 }
 
 // usage
-<AccountFacts title="Account" rows={[['Plan', 'Pro'], ['Seats', '25 of 50'], ['Billing cycle', 'Yearly']]} />
+<AccountFacts
+  title="Account"
+  items={[
+    { label: 'Plan', value: 'Pro' },
+    { label: 'Status', value: 'Active' },
+    { label: 'Seats', value: '25 of 50' },
+    { label: 'Renews', value: '9 Sep 2027', span: 2 },
+  ]}
+/>

@@ -1,11 +1,23 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-avatar> is the SAME shared custom element React and Vue consume.
-     Give `name` for initials + alt text; add `src` for a photo. -->
+     Content is one of three: `name` (initials + alt), `src` (photo), or `icon` (a DS glyph).
+     `size` is a named step (small/default/large) or any px; `shape` is circle/square;
+     `color` tints the initials/icon ground with an --aha-* token. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-avatar.js';   // registers <aha-avatar>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-avatar.js';  // <aha-avatar> + <aha-avatar-group>
 </script>
 
-<aha-avatar name="Ada Lovelace"></aha-avatar>
-<aha-avatar name="Grace Hopper" size="56"></aha-avatar>
-<aha-avatar name="Square One" shape="square"></aha-avatar>
+<aha-avatar name="Ada Lovelace"></aha-avatar>                          <!-- initials -->
+<aha-avatar name="Grace Hopper" src="/u/grace.jpg" size="large"></aha-avatar>  <!-- photo, 64 -->
+<aha-avatar icon="system-user" name="Guest"></aha-avatar>              <!-- glyph -->
+<aha-avatar name="Square One" shape="square" size="small"></aha-avatar> <!-- 24, square -->
+
+<!-- Stacked group: overlaps children, collapses the overflow past `max` into a +N chip -->
+<aha-avatar-group max="3">
+  <aha-avatar name="Ada Lovelace"></aha-avatar>
+  <aha-avatar name="Grace Hopper"></aha-avatar>
+  <aha-avatar name="Alan Turing"></aha-avatar>
+  <aha-avatar name="Katherine Johnson"></aha-avatar>
+</aha-avatar-group>
