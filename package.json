@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.29.0",
+  "version": "0.30.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -58,7 +58,18 @@
     "./lib/aha-status-badge.js",
     "./lib/aha-csat.js",
     "./lib/aha-settings-list.js",
-    "./lib/aha-select.js"
+    "./lib/aha-select.js",
+    "./lib/aha-counted-input.js",
+    "./lib/aha-counted-textarea.js",
+    "./lib/aha-number-with-unit.js",
+    "./lib/aha-card-select.js",
+    "./lib/aha-mode-field.js",
+    "./lib/aha-info-box.js",
+    "./lib/aha-numbered-item.js",
+    "./lib/aha-image-action-button.js",
+    "./lib/aha-image-dropzone.js",
+    "./lib/aha-option-row.js",
+    "./lib/aha-question-list.js"
   ],
   "exports": {
     "./icons": "./lib/icons.js",
@@ -122,6 +133,17 @@
     "./aha-csat": "./lib/aha-csat.js",
     "./aha-settings-list": "./lib/aha-settings-list.js",
     "./aha-select": "./lib/aha-select.js",
+    "./aha-counted-input": "./lib/aha-counted-input.js",
+    "./aha-counted-textarea": "./lib/aha-counted-textarea.js",
+    "./aha-number-with-unit": "./lib/aha-number-with-unit.js",
+    "./aha-card-select": "./lib/aha-card-select.js",
+    "./aha-mode-field": "./lib/aha-mode-field.js",
+    "./aha-info-box": "./lib/aha-info-box.js",
+    "./aha-numbered-item": "./lib/aha-numbered-item.js",
+    "./aha-image-action-button": "./lib/aha-image-action-button.js",
+    "./aha-image-dropzone": "./lib/aha-image-dropzone.js",
+    "./aha-option-row": "./lib/aha-option-row.js",
+    "./aha-question-list": "./lib/aha-question-list.js",
     "./popconfirm-theme": "./lib/popconfirm-theme.js"
   },
   "files": [

@@ -1,0 +1,20 @@
+<div class="pad">
+  <div class="lbl">Option list anatomy — one bordered row, drag handle inside, borderless field; hover for the delete (top-right)</div>
+  <div class="row" style="display:flex; flex-direction:column; gap:10px; max-width:440px; align-items:stretch">
+    <aha-option-row data-probe orderable correctable image correct value="Paris" maxlength="80"></aha-option-row>
+    <aha-option-row orderable correctable image value="London" maxlength="80"></aha-option-row>
+    <aha-option-row orderable value="Berlin" maxlength="80" candelete="false"></aha-option-row>
+  </div>
+  <div class="lbl">Unordered set — no drag handle (SETTINGS-39), no correct toggle</div>
+  <div class="row" style="display:flex; flex-direction:column; gap:10px; max-width:440px; align-items:stretch">
+    <aha-option-row value="Category A" maxlength="80"></aha-option-row>
+    <aha-option-row value="Category B" maxlength="80"></aha-option-row>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-option-row.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. It transitively pulls the
+     composed leaves (counted-textarea, checkbox, image-action-button, icons). -->
+<script type="module">
+  import '../lib/aha-option-row.js';   // registers <aha-option-row> — the shipped composite
+</script>

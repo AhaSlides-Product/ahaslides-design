@@ -1,0 +1,28 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-option-row';   // registers <aha-option-row>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const options = ref([{ id: 1, text: 'Paris', correct: true }, { id: 2, text: 'London', correct: false }]);
+function remove(i) { options.value.splice(i, 1); }
+</script>
+
+<template>
+  <!-- one row per option; delete disables (not hides) at the minimum count -->
+  <aha-option-row
+    v-for="(o, i) in options"
+    :key="o.id"
+    orderable
+    correctable
+    image
+    :value.prop="o.text"
+    maxlength="80"
+    :correct="o.correct || undefined"
+    :candelete="options.length > 2 ? 'true' : 'false'"
+    @input="o.text = $event.detail.value"
+    @correct-change="o.correct = $event.detail.correct"
+    @delete="remove(i)"
+  />
+</template>

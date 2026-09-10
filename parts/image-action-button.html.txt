@@ -1,0 +1,27 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-image-action-button> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. It EMITS intents
+     (add/change/edit/delete) — the host runs the upload/crop modals; this control owns none. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-image-action-button.js';   // registers <aha-image-action-button>
+</script>
+
+<div style="display:flex; gap:12px; align-items:center">
+  <!-- empty: click emits `add` -->
+  <aha-image-action-button id="img" state="empty"></aha-image-action-button>
+  <!-- loading: spinner at the same size, no layout jump -->
+  <aha-image-action-button state="loading"></aha-image-action-button>
+  <!-- filled: hover for the pencil overlay, click for Change/Edit/Delete -->
+  <aha-image-action-button state="filled" src="https://picsum.photos/80"></aha-image-action-button>
+</div>
+
+<script type="module">
+  const el = document.getElementById('img');
+  // The host owns the flow: on `add`, open your uploader, flip to loading, then filled + src.
+  el.addEventListener('add', () => {
+    el.state = 'loading';
+    setTimeout(() => { el.src = 'https://picsum.photos/80'; el.state = 'filled'; }, 800);
+  });
+  el.addEventListener('delete', () => { el.removeAttribute('src'); el.state = 'empty'; });
+</script>

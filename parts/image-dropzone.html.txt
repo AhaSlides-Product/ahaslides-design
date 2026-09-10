@@ -1,0 +1,22 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-image-dropzone> is the SAME shared custom element React and Vue consume — here in its native
+     form. Theming comes only from the --aha-* tokens in tokens.css. It EMITS intents
+     (add/change/edit/delete) — the host runs the upload/crop modals; this field owns none. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-image-dropzone.js';   // registers <aha-image-dropzone>
+</script>
+
+<div style="max-width:420px">
+  <aha-image-dropzone id="bg" state="empty" label="Add background image"></aha-image-dropzone>
+</div>
+
+<script type="module">
+  const el = document.getElementById('bg');
+  // The host owns the flow: on `add`, open your uploader, flip to loading, then filled + src.
+  el.addEventListener('add', () => {
+    el.state = 'loading';
+    setTimeout(() => { el.src = 'https://picsum.photos/640/240'; el.state = 'filled'; }, 900);
+  });
+  el.addEventListener('delete', () => { el.removeAttribute('src'); el.state = 'empty'; });
+</script>

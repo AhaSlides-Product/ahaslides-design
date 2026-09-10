@@ -1,0 +1,29 @@
+import '@ahaslides-product/design/aha-numbered-item'; // registers <aha-numbered-item>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-numbered-item> directly.
+// The item's fields are the children; onDelete fires when the hover trash is pressed.
+function AhaNumberedItem({ n, label, variant, deletable, canDelete, onDelete, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = (e) => onDelete?.(e.detail.n);   // composed CustomEvent
+    el.addEventListener('delete', h);
+    return () => el.removeEventListener('delete', h);
+  }, [onDelete]);
+  return (
+    <aha-numbered-item
+      ref={ref}
+      n={String(n)}
+      label={label}
+      {...(variant ? { variant } : {})}
+      {...(deletable ? { deletable: '' } : {})}
+      {...(canDelete === false ? { candelete: 'false' } : {})}
+    >{children}</aha-numbered-item>
+  );
+}
+
+// usage
+<AhaNumberedItem n={1} label="Question" deletable canDelete={items.length > 1} onDelete={removeQuestion}>
+  {/* the question's fields */}
+</AhaNumberedItem>

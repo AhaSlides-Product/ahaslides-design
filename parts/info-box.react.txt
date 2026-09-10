@@ -1,0 +1,27 @@
+import '@ahaslides-product/design/aha-info-box'; // registers <aha-info-box>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-info-box> directly.
+// Bespoke callout (NOT Ant Alert); onDismiss fires after the box fades out.
+function AhaInfoBox({ variant, icon, dismissible, onDismiss, children }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const h = () => onDismiss?.();   // composed CustomEvent
+    el.addEventListener('dismiss', h);
+    return () => el.removeEventListener('dismiss', h);
+  }, [onDismiss]);
+  return (
+    <aha-info-box
+      ref={ref}
+      {...(variant ? { variant } : {})}
+      {...(icon ? { icon } : {})}
+      {...(dismissible ? { dismissible: '' } : {})}
+    >{children}</aha-info-box>
+  );
+}
+
+// usage
+<AhaInfoBox variant="warning" dismissible onDismiss={() => setSeen(true)}>
+  Turning this off clears saved responses.
+</AhaInfoBox>

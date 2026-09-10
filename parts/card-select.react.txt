@@ -1,0 +1,30 @@
+import '@ahaslides-product/design/aha-card-select'; // registers <aha-card-select>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-card-select> directly.
+// options is a PROPERTY (array), so set it imperatively; the grid is one roving radiogroup.
+function AhaCardSelect({ options, value, columns, disabled, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.options = options || [];
+    if (value != null) el.value = value;
+    el.disabled = !!disabled;
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  }, [options, value, disabled, onChange]);
+  return <aha-card-select ref={ref} {...(columns ? { columns: String(columns) } : {})} />;
+}
+
+// usage
+<AhaCardSelect
+  value={chartType}
+  columns={3}
+  options={[
+    { value: 'bar',  label: 'Bar',  icon: 'system-chart-bar' },
+    { value: 'line', label: 'Line', icon: 'system-chart-line-up' },
+    { value: 'pie',  label: 'Pie',  icon: 'system-chart-pie' },
+  ]}
+  onChange={setChartType}
+/>

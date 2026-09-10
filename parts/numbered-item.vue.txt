@@ -1,0 +1,25 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-numbered-item';   // registers <aha-numbered-item>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const questions = ref([{ id: 1 }, { id: 2 }]);
+function remove(n) { questions.value = questions.value.filter((_, i) => i + 1 !== n); }
+</script>
+
+<template>
+  <!-- the item's fields are the default slot; candelete disables (not hides) the trash at the min count -->
+  <aha-numbered-item
+    v-for="(q, i) in questions"
+    :key="q.id"
+    :n="String(i + 1)"
+    label="Question"
+    deletable
+    :candelete="questions.length > 1 ? 'true' : 'false'"
+    @delete="remove($event.detail.n)"
+  >
+    <div>Fields for question {{ i + 1 }}…</div>
+  </aha-numbered-item>
+</template>

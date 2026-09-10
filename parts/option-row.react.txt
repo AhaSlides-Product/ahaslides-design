@@ -1,0 +1,35 @@
+import '@ahaslides-product/design/aha-option-row'; // registers <aha-option-row>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-option-row> directly.
+// Composes DS leaves; forwards input / correct-change / delete (+ the image control's intents).
+function AhaOptionRow({ value, maxLength, orderable, correctable, correct, image, canDelete, onInput, onCorrect, onDelete }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value ?? '';
+    if (correct) el.setAttribute('correct', ''); else el.removeAttribute('correct');
+    const hi = (e) => onInput?.(e.detail.value);
+    const hc = (e) => onCorrect?.(e.detail.correct);
+    const hd = () => onDelete?.();
+    el.addEventListener('input', hi); el.addEventListener('correct-change', hc); el.addEventListener('delete', hd);
+    return () => { el.removeEventListener('input', hi); el.removeEventListener('correct-change', hc); el.removeEventListener('delete', hd); };
+  });
+  return (
+    <aha-option-row
+      ref={ref}
+      {...(maxLength ? { maxlength: String(maxLength) } : {})}
+      {...(orderable ? { orderable: '' } : {})}
+      {...(correctable ? { correctable: '' } : {})}
+      {...(image ? { image: '' } : {})}
+      {...(canDelete === false ? { candelete: 'false' } : {})}
+    />
+  );
+}
+
+// usage — one per option; disable delete at the minimum count
+{options.map((o, i) => (
+  <AhaOptionRow key={o.id} value={o.text} maxLength={80} orderable correctable image
+    correct={o.correct} canDelete={options.length > 2}
+    onInput={(v) => update(i, v)} onCorrect={(c) => setCorrect(i, c)} onDelete={() => remove(i)} />
+))}

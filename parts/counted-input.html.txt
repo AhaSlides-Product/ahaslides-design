@@ -1,0 +1,22 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-counted-input> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. The character counter
+     is revealed only while the field is focused (SETTINGS-21/42) — click in to see it. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-counted-input.js';   // registers <aha-counted-input>
+</script>
+
+<!-- maxlength turns the focus-only counter on (shows current/max) -->
+<aha-counted-input id="opt" maxlength="80" value="Paris" placeholder="Option text"></aha-counted-input>
+
+<!-- size: small | default | large   ·   status: error   ·   disabled / readonly -->
+<aha-counted-input size="large" maxlength="40" placeholder="Large"></aha-counted-input>
+<aha-counted-input status="error" maxlength="80" value="Too long" placeholder="Answer"></aha-counted-input>
+
+<script>
+  // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
+  document.getElementById('opt').addEventListener('input', (e) => {
+    console.log('value:', e.detail.value);
+  });
+</script>

@@ -1,0 +1,23 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-question-list> is the SAME shared custom element React and Vue consume — here in its native
+     form. It COMPOSES DS composites — NumberedItem (each question card) + OptionRow (each choice).
+     Theming comes only from the --aha-* tokens in tokens.css. Collapse a question with its caret. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-question-list.js';   // registers <aha-question-list>
+</script>
+
+<div style="max-width:440px">
+  <aha-question-list id="quiz" min="1" max="10" minoptions="2" maxoptions="6"></aha-question-list>
+</div>
+
+<script type="module">
+  const el = document.getElementById('quiz');
+  el.questions = [
+    { id: 'q1', prompt: 'Capital of France?', options: [
+      { id: 'o1', text: 'Paris', correct: true }, { id: 'o2', text: 'London' } ] },
+    { id: 'q2', prompt: 'Largest ocean?', options: [
+      { id: 'o3', text: 'Pacific', correct: true }, { id: 'o4', text: 'Atlantic' } ] },
+  ];
+  el.addEventListener('change', (e) => console.log('questions:', e.detail.questions));
+</script>

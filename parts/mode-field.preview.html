@@ -1,0 +1,24 @@
+<div class="pad">
+  <div class="lbl">Label + inline mode control — switching swaps the body in place (the hidden body keeps its state)</div>
+  <div class="row" style="display:block; max-width:420px">
+    <aha-mode-field data-probe label="Results" mode="auto"
+      modes='[{"value":"auto","label":"Automatic"},{"value":"manual","label":"Manual"}]'>
+      <div data-mode="auto">Results appear automatically when everyone has answered.</div>
+      <div data-mode="manual">You reveal results with the "Show results" button.</div>
+    </aha-mode-field>
+  </div>
+  <div class="lbl">Disabled</div>
+  <div class="row" style="display:block; max-width:420px">
+    <aha-mode-field disabled label="Points" mode="fixed"
+      modes='[{"value":"fixed","label":"Fixed"},{"value":"speed","label":"Speed"}]'>
+      <div data-mode="fixed">Everyone scores the same for a correct answer.</div>
+      <div data-mode="speed">Faster correct answers score more.</div>
+    </aha-mode-field>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-mode-field.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-mode-field.js';   // registers <aha-mode-field> — the shipped primitive
+</script>

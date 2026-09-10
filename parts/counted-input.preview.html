@@ -1,0 +1,26 @@
+<div class="pad">
+  <div class="lbl">Focus a field — the counter appears only while focused, hidden at rest</div>
+  <div class="row">
+    <aha-counted-input data-probe status="error" maxlength="80" value="Too long an answer" placeholder="Answer"></aha-counted-input>
+    <aha-counted-input maxlength="40" value="Paris" placeholder="Option text"></aha-counted-input>
+    <aha-counted-input maxlength="80" placeholder="Click to focus — counter shows"></aha-counted-input>
+  </div>
+  <div class="lbl">Sizes · small 24 · default 32 · large 40</div>
+  <div class="row">
+    <aha-counted-input size="small" maxlength="40" placeholder="Small"></aha-counted-input>
+    <aha-counted-input maxlength="40" placeholder="Default"></aha-counted-input>
+    <aha-counted-input size="large" maxlength="40" placeholder="Large"></aha-counted-input>
+  </div>
+  <div class="lbl">States · no counter · disabled · readonly</div>
+  <div class="row">
+    <aha-counted-input placeholder="No maxlength — no counter"></aha-counted-input>
+    <aha-counted-input disabled maxlength="40" value="Locked value"></aha-counted-input>
+    <aha-counted-input readonly maxlength="40" value="Read-only"></aha-counted-input>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-counted-input.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-counted-input.js';   // registers <aha-counted-input> — the shipped primitive
+</script>
