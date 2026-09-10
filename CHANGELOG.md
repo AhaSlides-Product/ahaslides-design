@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.23.0 — 2026-09-10
 ### Added
-- **Badge** — `ribbon` variant: a corner ribbon banner wrapping a card, start/end placement, colour from `color`/`status` (default primary), with a token-bound triangular fold. (#PR)
+- **Badge** — `ribbon` variant: a corner ribbon banner wrapping a card, start/end placement, colour from `color`/`status` (default primary), with a token-bound triangular fold. (#63)
 
 ## 0.22.3 — 2026-09-10
 ### Changed
