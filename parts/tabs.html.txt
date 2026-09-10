@@ -15,6 +15,14 @@
   <section data-tab="Archived" data-disabled>Archived (disabled).</section>
 </aha-tabs>
 
+<!-- Vertical left rail: tab-position="left" — tabs stack down the side, panel to the right,
+     active indicator becomes a 2px side border, arrow-key nav flips to up/down. -->
+<aha-tabs value="0" type="line" tab-position="left">
+  <section data-tab="Overview" data-icon="system-info">Overview panel content.</section>
+  <section data-tab="Activity" data-icon="system-chart-bar">Activity panel content.</section>
+  <section data-tab="Settings" data-icon="system-gear">Settings panel content.</section>
+</aha-tabs>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value (index) off the composed CustomEvent.
   document.getElementById('tabs').addEventListener('change', (e) => {

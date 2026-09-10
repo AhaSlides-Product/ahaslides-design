@@ -16,4 +16,9 @@
   <aha-tooltip text="Opens below on click" placement="bottom" color="brand" arrow="false" trigger="click">
     <button style="font-family:'Plus Jakarta Sans',sans-serif">More</button>
   </aha-tooltip>
+
+  <!-- edge-aligned: same side, aligned to the trigger's start edge, arrow offset near it -->
+  <aha-tooltip text="Aligned to the left edge" placement="bottom-start">
+    <button style="font-family:'Plus Jakarta Sans',sans-serif">Aligned</button>
+  </aha-tooltip>
 </div>

@@ -6,7 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-popover",
   "summary": "Anchor a floating card of rich content — a title, a body, and an optional arrow — to a trigger.",
-  "lead": "ONE custom element — <aha-popover> — defined once, imported unchanged by React and Vue. Richer than a Tooltip: it carries a bold `title` over a body (slotted, or via the `content` attr) and holds interactive content. Four `placement`s (top · bottom · left · right), three `trigger`s (click · hover · focus) and a toggleable `arrow`. Interaction toggles the `open` attribute on a persistent panel (never rebuilt), so opacity and lift animate. Zero drift.",
+  "lead": "ONE custom element — <aha-popover> — defined once, imported unchanged by React and Vue. Richer than a Tooltip: it carries a bold `title` over a body (slotted, or via the `content` attr) and holds interactive content. Twelve `placement`s — the 4 cardinal (top · bottom · left · right) plus the 8 edge-aligned (…-start / …-end, aligned to the trigger's start/end edge) — three `trigger`s (click · hover · focus) and a toggleable `arrow`. Interaction toggles the `open` attribute on a persistent panel (never rebuilt), so opacity and lift animate. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-elevated", "text-default", "text-secondary", "border", "radius-default", "font-product", "motion-mid", "ease-out"],
   "spec": [
@@ -14,14 +14,14 @@
     { "label": "Elevation", "value": "0 6px 16px ink 12%" },
     { "label": "Title", "value": "SemiBold 600, 14/21 text-default, 6px above the body" },
     { "label": "Body", "value": "pad 12 16, 14/21 text-secondary #4A4A4A (text-default when title-less)" },
-    { "label": "Placement", "value": "top · bottom · left · right — 8px offset from the trigger" },
+    { "label": "Placement", "value": "top · bottom · left · right (8px offset), PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "click (default) · hover · focus" },
     { "label": "Arrow", "value": "optional 8px pointer at the panel edge, matches the surface + border" },
     { "label": "Motion", "value": "fade + 4px directional lift on open (ease-out, persistent node)" }
   ],
   "props": [
     { "name": "open", "type": "boolean", "default": "false", "desc": "Controlled open state; reflected attribute" },
-    { "name": "placement", "type": "top | bottom | left | right", "default": "bottom", "desc": "Side the panel anchors to" },
+    { "name": "placement", "type": "top | bottom | left | right | top-start | top-end | bottom-start | bottom-end | left-start | left-end | right-start | right-end", "default": "bottom", "desc": "Side the panel anchors to. The 4 cardinal values align the panel to the trigger's leading edge; the 8 edge-aligned values (…-start / …-end) pin it to the trigger's start/end edge with the arrow offset near that edge (AntD naming)" },
     { "name": "trigger", "type": "click | hover | focus", "default": "click", "desc": "How the panel opens. Click closes on outside-click + Escape (focus returns); hover/focus track pointer/focus" },
     { "name": "title", "type": "string", "default": "—", "desc": "Bold header rendered above the body (hidden when empty)" },
     { "name": "content", "type": "string", "default": "—", "desc": "Text body alternative to slotted content (used when nothing is slotted)" },
@@ -36,7 +36,7 @@
       { "what": "Modal", "when": "a focused task that should block the rest of the page" }
     ],
     "note": "Trigger on click for interactive content (Tooltip owns hover). Give it a short `title` and a one-line body; a long form belongs in a Modal. A click trigger closes on outside-click and Escape (focus returns to the trigger) — both built in.",
-    "dsv3": "COVERED — from the DS V3 Popover component-set ('the floating card popped by clicking or hovering'), matching the antd Popover matrix: a `title` header over a body (unlike the Tooltip's plain hint), `placement` (top · bottom · left · right), `trigger` (click · hover · focus) and a toggleable `arrow`. White elevated surface, standard 8 radius, soft ink shadow; title SemiBold text-default over a text-secondary body. Fade + 4px directional lift via the shared motion tokens on a persistent panel — no subtree rebuild on open/close."
+    "dsv3": "COVERED — from the DS V3 Popover component-set ('the floating card popped by clicking or hovering'), matching the antd Popover matrix: a `title` header over a body (unlike the Tooltip's plain hint), the FULL 12-placement set — the 4 cardinal sides (top · bottom · left · right) PLUS the 8 edge-aligned ones (top-start, top-end, bottom-start, bottom-end, left-start, left-end, right-start, right-end — same side, aligned to the trigger's start/end edge with the arrow offset near that edge, AntD naming) — `trigger` (click · hover · focus) and a toggleable `arrow`. White elevated surface, standard 8 radius, soft ink shadow; title SemiBold text-default over a text-secondary body. Fade + 4px directional lift via the shared motion tokens on a persistent panel — no subtree rebuild on open/close."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-popover", "registers": "aha-popover", "exportsNamed": ["AhaPopover", "defineAhaPopover"] },
@@ -50,9 +50,17 @@
     "controls": [
       { "prop": "placement", "label": "Placement", "default": "bottom", "options": [
         { "label": "Bottom", "value": "bottom" },
+        { "label": "Bottom start", "value": "bottom-start" },
+        { "label": "Bottom end", "value": "bottom-end" },
         { "label": "Top", "value": "top" },
+        { "label": "Top start", "value": "top-start" },
+        { "label": "Top end", "value": "top-end" },
         { "label": "Left", "value": "left" },
-        { "label": "Right", "value": "right" }
+        { "label": "Left start", "value": "left-start" },
+        { "label": "Left end", "value": "left-end" },
+        { "label": "Right", "value": "right" },
+        { "label": "Right start", "value": "right-start" },
+        { "label": "Right end", "value": "right-end" }
       ] },
       { "prop": "trigger", "label": "Trigger", "default": "click", "options": [
         { "label": "Click", "value": "click" },

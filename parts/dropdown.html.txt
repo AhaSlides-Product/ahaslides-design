@@ -9,12 +9,17 @@
 
 <!-- placement="bottomLeft" (default) | "bottomRight" | "topLeft" | "topRight"
      trigger="click" (default) | "hover"
-     items: {key,label,icon?,disabled?,danger?} · {type:"divider"} · {type:"group",label,children:[]} -->
+     items: leaf {key,label,icon?,disabled?,danger?} · submenu-parent {key,label,icon?,children:[…]}
+            (opens an adjacent flyout — hover / ArrowRight / Enter; ArrowLeft / Escape closes it)
+            · {type:"divider"} · {type:"group",label,children:[]} -->
 <aha-dropdown id="menu" label="Actions" placement="bottomLeft"
   items='[
     {"key":"rename","label":"Rename","icon":"system-pencil-simple"},
-    {"key":"duplicate","label":"Duplicate","icon":"system-copy"},
-    {"key":"export","label":"Export","icon":"system-export","disabled":true},
+    {"key":"export","label":"Export","icon":"system-export","children":[
+      {"key":"pdf","label":"PDF","icon":"system-file"},
+      {"key":"pptx","label":"PowerPoint","icon":"system-file"},
+      {"key":"xlsx","label":"Excel","icon":"system-file"}
+    ]},
     {"type":"divider"},
     {"key":"delete","label":"Delete","icon":"system-trash","danger":true}
   ]'>

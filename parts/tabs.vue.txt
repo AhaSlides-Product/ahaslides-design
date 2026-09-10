@@ -10,10 +10,17 @@ const tab = ref(0);
 </script>
 
 <template>
-  <!-- type = line | primary | card, size = default | small -->
+  <!-- type = line | primary | card, size = default | small, tab-position = top | left -->
   <aha-tabs :value.prop="tab" type="line" @change="tab = $event.detail.value">
     <section data-tab="Overview" data-icon="system-info">Overview panel content.</section>
     <section data-tab="Activity" data-icon="system-chart-bar">Activity panel content.</section>
     <section data-tab="Archived" data-disabled>Archived (disabled).</section>
+  </aha-tabs>
+
+  <!-- vertical left rail: tab-position="left" — side active border, up/down arrow-key nav -->
+  <aha-tabs :value.prop="tab" type="line" tab-position="left" @change="tab = $event.detail.value">
+    <section data-tab="Overview" data-icon="system-info">Overview panel content.</section>
+    <section data-tab="Activity" data-icon="system-chart-bar">Activity panel content.</section>
+    <section data-tab="Settings" data-icon="system-gear">Settings panel content.</section>
   </aha-tabs>
 </template>

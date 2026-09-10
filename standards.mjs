@@ -444,6 +444,8 @@ for (const ct of contracts) {
    that resolves into the component set, rules that trace back to the skill, and (if it ships a
    wrapper) the same import/export checks a composite gets. ===== */
 const contractSlugs = new Set(contracts.map(c => c.slug));
+// custom-element tag → slug, for the elements the DS actually ships (leaves that register)
+const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [c.reuse.registers, c.slug]));
 const patterns = existsSync(PATDIR)
   ? readdirSync(PATDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(PATDIR, f))))
   : [];
@@ -488,6 +490,17 @@ for (const p of patterns) {
   const guideText = p.guide ? read(join(PDIR, p.guide)) : '';
   for (const [re, why] of BANNED) chk(`guide free of: ${why}`, !re.test(guideText), 'found in the guide');
 
+  // 4b) the guide and the reuse graph agree — every shipped DS element the guide points authors
+  //     at (a `<aha-*>` that resolves to a real contract) must be declared in composedOf, so the
+  //     machine-readable reuse graph can't drift from the human-readable mapping. Elements the DS
+  //     doesn't ship as a contract (e.g. a sub-part like <aha-settings-item>) are ignored.
+  const composedRefs = new Set((p.composedOf || []).map(d => d.ref));
+  const guideSlugs = new Set([...guideText.matchAll(/<(aha-[a-z0-9-]+)[\s/>]/g)]
+    .map(m => TAG_TO_SLUG.get(m[1])).filter(Boolean));
+  for (const slug of guideSlugs)
+    chk(`guide cites <${[...TAG_TO_SLUG].find(([, s]) => s === slug)[0]}> — composedOf declares "${slug}"`,
+      composedRefs.has(slug), 'the guide points authors at this DS element but the reuse graph omits it — add it to composedOf');
+
   // 5) optional composition code — gated like a composite when present
   if (p.reuse && p.reuse.entry) {
     const mapped = EXPORTS[p.reuse.entry];
@@ -512,7 +525,7 @@ for (const p of patterns) {
    Format (CHANGELOG.md, newest first):
      ## X.Y.Z — YYYY-MM-DD      (em-dash or hyphen; the TOP entry must equal package.json "version")
      ### Added | Changed | Fixed | Removed
-     - one bullet per change
+     - one bullet per change, linking the real PR: (#58)   ← never a leftover "(#PR)" placeholder
    ================================================================================================= */
 const repoChecks = [];
 {
@@ -530,6 +543,13 @@ const repoChecks = [];
       const block = changelog.slice(changelog.indexOf(m[0]) + m[0].length).split(/\n##\s/)[0];
       rchk('top entry lists ≥1 change bullet', /^\s*-\s+\S/m.test(block),
         'describe what changed as "- …" bullets under the version heading');
+      // a bullet's trailing PR ref must be a real number "(#123)" — never a leftover template
+      // placeholder like "(#PR)". Only the ref position (end of a line) is inspected, so prose
+      // that *mentions* "(#PR)" mid-sentence (e.g. this bullet) doesn't false-trigger.
+      const badRef = (block.match(/\(#[^)\n]*\)\s*$/gm) || [])
+        .map(s => s.trim()).find(s => !/^\(#\d+\)$/.test(s));
+      rchk('top entry PR refs are real numbers (no "(#PR)" placeholder)', !badRef,
+        badRef ? `${badRef} is an unfilled PR-ref placeholder — replace it with the real number, e.g. (#58)` : '');
     }
   }
 }
