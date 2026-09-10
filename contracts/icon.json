@@ -38,6 +38,21 @@
   ],
   "codeNote": "Same element + same registry → identical render in React and Vue. The geometry is imported from Figma DS V3 and normalised (ink #4A4A4A → currentColor) at build time by build-icons.mjs; the call site only names a glyph and a size.",
   "preview": "icon.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "32", "options": [
+        { "label": "16", "value": "16" },
+        { "label": "24", "value": "24" },
+        { "label": "32", "value": "32" }
+      ] },
+      { "prop": "name", "label": "Glyph", "default": "system-bell", "options": [
+        { "label": "Bell", "value": "system-bell" },
+        { "label": "Settings", "value": "system-gear" },
+        { "label": "AI", "value": "system-magic-wand" },
+        { "label": "Poll", "value": "slidetype-poll" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "called by name from the registry (no inline svg)", "verdict": "PASS" },
     { "label": "259 glyphs imported from Figma DS V3", "verdict": "PASS" },
@@ -47,10 +62,10 @@
     { "label": "icon-only button has aria-label", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Asserts the two promises: the requested size becomes the rendered box (24→24px, 16→16px), and a stroked glyph inherits currentColor (probe wrapped in #6A1EBB renders its stroke in that colour).",
-    "ready": "!!(window.AHA_ICONS && document.querySelector('aha-icon') && document.querySelector('aha-icon').shadowRoot && document.querySelector('aha-icon').shadowRoot.querySelector('svg'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Asserts the promises: the requested size becomes the rendered box (24→24px, 16→16px), a stroked glyph inherits currentColor (probe wrapped in #6A1EBB renders its stroke in that colour), and the smart-widget playground probe [data-pg-target] renders its default 32px box from its own size attribute.",
+    "ready": "!!(window.AHA_ICONS && document.querySelector('aha-icon[data-pg-target]') && document.querySelector('aha-icon[data-pg-target]').shadowRoot && document.querySelector('aha-icon[data-pg-target]').shadowRoot.querySelector('svg') && document.querySelector('aha-icon[data-probe=\"24\"]') && document.querySelector('aha-icon[data-probe=\"24\"]').shadowRoot && document.querySelector('aha-icon[data-probe=\"24\"]').shadowRoot.querySelector('svg'))",
     "singleUI": true,
-    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('svg');if(!s)return{};var p=s.querySelector('[stroke]')||s.querySelector('path');var cs=getComputedStyle(s);return{w:cs.width,h:cs.height,stroke:p?getComputedStyle(p).stroke:null};};var a=q('aha-icon[data-probe=\"24\"]');var b=q('aha-icon[data-probe=\"16\"]');return{w24:a.w,h24:a.h,stroke24:a.stroke,w16:b.w};})()",
-    "expect": { "w24": "24px", "h24": "24px", "stroke24": "rgb(106, 30, 187)", "w16": "16px" }
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('svg');if(!s)return{};var p=s.querySelector('[stroke]')||s.querySelector('path');var cs=getComputedStyle(s);return{w:cs.width,h:cs.height,stroke:p?getComputedStyle(p).stroke:null};};var a=q('aha-icon[data-probe=\"24\"]');var b=q('aha-icon[data-probe=\"16\"]');var pg=q('aha-icon[data-pg-target]');return{w24:a.w,h24:a.h,stroke24:a.stroke,w16:b.w,wPg:pg.w,hPg:pg.h};})()",
+    "expect": { "w24": "24px", "h24": "24px", "stroke24": "rgb(106, 30, 187)", "w16": "16px", "wPg": "32px", "hPg": "32px" }
   }
 }

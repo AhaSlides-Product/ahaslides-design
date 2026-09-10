@@ -45,6 +45,23 @@
   ],
   "codeNote": "One zero-dep custom element renders the shared upsell; the paywall skill's rules (crown-not-Phosphor, one-sentence body, fixed unlock line, single block CTA, the two analytics events, dark-indigo 300/16/12 surface) are baked into its shadow DOM — a consumer can't hand-roll a drifting prompt. The judge/eval + copy voice stay in the aha-design skill.",
   "preview": "paywall.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "required-plan", "label": "Plan", "default": "pro", "options": [
+        { "label": "Pro", "value": "pro" },
+        { "label": "Essential", "value": "essential" }
+      ] },
+      { "prop": "feature-label", "label": "Feature", "default": "Custom survey URL", "options": [
+        { "label": "Custom survey URL", "value": "Custom survey URL" },
+        { "label": "Export results", "value": "Export results" },
+        { "label": "Remove branding", "value": "Remove branding" }
+      ] },
+      { "prop": "placement", "label": "Placement", "default": "bottom", "options": [
+        { "label": "Bottom", "value": "bottom" },
+        { "label": "Top", "value": "top" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "shared component — no bespoke upsell (PAYWALL-01)", "verdict": "PASS" },
     { "label": "custom crown badge, not Phosphor (PAYWALL-02)", "verdict": "PASS" },
@@ -55,9 +72,9 @@
   ],
   "conformance": {
     "$about": "Measured against the RENDERED shadow-DOM UI (getComputedStyle via headless CDP). The first paywall is shown open so the popover is measurable.",
-    "ready": "!!(document.querySelector('aha-paywall') && document.querySelector('aha-paywall').shadowRoot && document.querySelector('aha-paywall').shadowRoot.querySelector('.pop'))",
+    "ready": "!!(document.querySelector('aha-paywall[data-probe]') && document.querySelector('aha-paywall[data-probe]').shadowRoot && document.querySelector('aha-paywall[data-probe]').shadowRoot.querySelector('.pop'))",
     "singleUI": true,
-    "measure": "(function(){var s=document.querySelector('aha-paywall').shadowRoot; var g=function(sel,p){var el=s.querySelector(sel); return el?getComputedStyle(el)[p]:null;}; return { popoverBg:g('.pop','backgroundColor'), popoverRadius:g('.pop','borderTopLeftRadius'), popoverWidth:g('.pop','width'), ctaBg:g('.cta','backgroundColor'), crownBg:g('.crown','backgroundColor') };})()",
-    "expect": { "popoverBg": "rgb(36, 36, 66)", "popoverRadius": "12px", "popoverWidth": "300px", "ctaBg": "rgb(106, 30, 187)", "crownBg": "rgb(106, 30, 187)" }
+    "measure": "(function(){var s=document.querySelector('aha-paywall[data-probe]').shadowRoot; var g=function(sel,p){var el=s.querySelector(sel); return el?getComputedStyle(el)[p]:null;}; return { popoverBg:g('.pop','backgroundColor'), popoverRadius:g('.pop','borderTopLeftRadius'), popoverWidth:g('.pop','width'), ctaBg:g('.cta','backgroundColor'), crownBg:g('.crown','backgroundColor'), crownPresent:!!s.querySelector('.crown aha-icon[name=\"system-crown-badge-fill\"]'), planLabel:(s.querySelector('.punlock b')||{}).textContent };})()",
+    "expect": { "popoverBg": "rgb(36, 36, 66)", "popoverRadius": "12px", "popoverWidth": "300px", "ctaBg": "rgb(106, 30, 187)", "crownBg": "rgb(106, 30, 187)", "crownPresent": true, "planLabel": "Pro plan" }
   }
 }

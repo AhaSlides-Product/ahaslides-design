@@ -8,6 +8,7 @@ const onUpgrade = (e) => window.analytics?.track('PAYWALL_UPGRADE_CLICKED', e.de
 </script>
 
 <template>
+  <!-- Pro gate — the affordance is the anchor -->
   <aha-paywall
     feature-key="custom_survey_url"
     feature-label="Custom survey URL"
@@ -17,4 +18,13 @@ const onUpgrade = (e) => window.analytics?.track('PAYWALL_UPGRADE_CLICKED', e.de
     @paywall-upgrade="onUpgrade">
     <button>Custom URL</button>
   </aha-paywall>
+
+  <!-- Essential gate, no natural anchor → the crown badge is the anchor -->
+  <aha-paywall
+    feature-key="export_results"
+    feature-label="Export results"
+    body="Download every response as a CSV or PDF."
+    required-plan="essential"
+    @paywall-shown="onShown"
+    @paywall-upgrade="onUpgrade" />
 </template>

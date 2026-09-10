@@ -21,6 +21,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.22.0 — 2026-09-10
+### Added
+- **AhaSlides surfaces + General/Forms → DS V3 matrix + playgrounds.** The final audit group — every component now ships an interactive playground over its full DS V3 matrix. (#53)
+- **Button** — the full matrix: 13 variants (primary, secondary, tertiary, success, danger, link, essential, pro, text, text-link, primary-alt, branding, positive) × 5 sizes (sm–2xl), plus `loading` and `block`; a variant × size × state playground. (#53)
+- **Checkbox** — `indeterminate` (`aria-checked="mixed"`), a host `role="checkbox"` + Space-to-toggle keyboard contract, and disabled parity. (#53)
+- **Icon** — a smart-widget playground (size + glyph), importing the real icon runtime. (#53)
+- **Status badge** — `active`/`inactive` statuses and an `aria-label` synced from the label (the state is announced, not colour-alone). (#53)
+- **CSAT** — a `thanks` confirmation state (`role="status"`, `aria-live`); keeps the aria-pressed thumb contract. (#53)
+- **Settings list** — schema rows now honour `disabled` and `locked`/plan-gated rows (reusing `<aha-paywall>`), plus a `compact` density. (#53)
+- **Paywall** — a `required-plan` (essential/pro) playground; the preview imports the real element. (#53)
+### Fixed
+- **Progress / Rate / Uploader** — the fill/reveal now animates a compositor-friendly property (`transform: scaleX` for the progress + upload bars, `clip-path` for the rate star) instead of `width`, so the animation no longer thrashes layout. (#53)
+
 ## 0.21.0 — 2026-09-10
 ### Added
 - **Feedback + Overlays group → DS V3 matrix + playgrounds.** Each feedback component widens to its full DS V3 matrix, with real code parity + an interactive playground. (#52)

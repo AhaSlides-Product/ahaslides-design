@@ -8,20 +8,26 @@
   "summary": "A schema-driven group of settings rows — label left, control right — reusing existing DS controls.",
   "lead": "TWO custom elements — <aha-settings-list> (a spacing-only, schema-driven group surface) and <aha-settings-item> (a labelled row with a `control` slot). Pass a settings schema (`.schema` = { sections:[{ label, description?, rows:[{ key, label, description?, control:{ type, …props } }] }] }) and it RENDERS the rows, instantiating each control from an existing DS element (aha-switch / aha-checkbox / aha-input …) — reuse, never a re-implemented control — and emits a `change` event { key, value, name }. The by-hand slot form is still supported. Spacing-only hierarchy: no divider lines, no card/box around plain settings. Shadow-DOM CSS, themed only by --aha-* tokens. Zero drift.",
   "codeNote": "Same elements, same shadow-DOM CSS → identical render. React (< 19) consumes them via thin attribute wrappers; Vue binds the custom elements natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["text-default", "text-tertiary"],
+  "tokensUsed": ["text-default", "text-tertiary", "text-disabled"],
   "spec": [
-    { "label": "Group", "value": "column · 16px between sibling settings · bold header only" },
+    { "label": "Group", "value": "column · 16px between sibling settings · 32px between groups · bold header only" },
     { "label": "Row", "value": "label left, control right · min-height 24 · 16px gap" },
     { "label": "Label", "value": "14/21 Regular #1A1A1A (name = noun phrase, no leading verb)" },
     { "label": "Description", "value": "12/18 #8A8A8A, 4px under the label (default: none)" },
+    { "label": "Disabled row", "value": "row disabled → label dims to text-disabled #B5B5B5, control disabled, aria-disabled" },
+    { "label": "Plan-gated row", "value": "row locked → visible but the control is the shared Paywall crown (opens the upsell), never hidden" },
+    { "label": "Density", "value": "density=compact tightens the rhythm (16 between groups, 8 between siblings) — spacing, never lines" },
     { "label": "Structure", "value": "no divider lines, no card/box around plain settings" },
-    { "label": "Schema", "value": "sections[] → rows[] { key, label, description?, control:{ type, …props } }; renders + reuses DS controls" }
+    { "label": "Schema", "value": "sections[] → rows[] { key, label, description?, disabled?, locked?, plan?, feature?, control:{ type, …props } }; renders + reuses DS controls" }
   ],
   "props": [
     { "name": "schema", "type": "object", "default": "—", "desc": "(list, property) Settings schema { sections:[{ label, description?, rows:[{ key, label, description?, control }] }] } — an array is treated as one section's rows; renders rows and reuses DS controls. Also settable as a JSON `schema` attribute for the build-free HTML form" },
     { "name": "label", "type": "string", "default": "—", "desc": "Group header (a 1–3 word noun phrase); on <aha-settings-item> it is the setting name. Ignored when a schema supplies section labels" },
     { "name": "description", "type": "string", "default": "—", "desc": "(item) An optional must-see consequence line under the label — default none" },
-    { "name": "control", "type": "slot | schema", "default": "—", "desc": "(item) The DS control on the right — <aha-switch>, <aha-checkbox>, <aha-input>… slotted by hand, or named in a schema row's `control:{ type }` and instantiated for you" }
+    { "name": "control", "type": "slot | schema", "default": "—", "desc": "(item) The DS control on the right — <aha-switch>, <aha-checkbox>, <aha-input>… slotted by hand, or named in a schema row's `control:{ type }` and instantiated for you" },
+    { "name": "density", "type": "'default' | 'compact'", "default": "default", "desc": "(list) Row/group rhythm. compact tightens the spacing (16 between groups, 8 between siblings) — never adds lines or boxes" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "(item / schema row) Dims the label to text-disabled, disables the reused control, sets aria-disabled" },
+    { "name": "locked", "type": "boolean", "default": "false", "desc": "(schema row) Plan-gates the row: stays visible, its control becomes the shared Paywall crown badge → upsell. Pair with `plan` ('essential'|'pro') and `feature` (the upsell label)" }
   ],
   "events": [
     { "name": "change", "detail": "{ key, value, name }", "desc": "(schema form) Fired when any rendered control changes — value is the control's boolean/string state, key is the row's key" }
@@ -33,7 +39,7 @@
       { "what": "a single Switch/Select", "when": "one setting that applies on its own" }
     ],
     "note": "Name each setting as a noun phrase (no leading verb — the control says on/off). Use a toggle for immediate effect, a checkbox for consent/saved-together — never mix in one group. Hierarchy is spacing, never lines or boxes; keep help text to at most one line per group. See the settings pattern for grouping, sub-settings and the danger zone.",
-    "dsv3": "COVERED — this is the reusable component form of the settings pattern (parts/settings.guide.md): label/control rows, spacing-only grouping, no dividers or boxes. It composes existing DS controls via a slot. A deliberate, documented AhaSlides surface."
+    "dsv3": "COVERED — this is the reusable component form of the settings pattern (parts/settings.guide.md): label/control rows, spacing-only grouping (16 between siblings, 32 between groups), no dividers or boxes. It composes existing DS controls via a slot or a schema, and carries the pattern's full row matrix: plain, with-description, disabled (dimmed to text-disabled), and plan-gated (visible-but-locked → the shared Paywall crown, never hidden). A deliberate, documented AhaSlides surface."
   },
   "surfaces": ["editor", "settings", "dashboard"],
   "reuse": { "entry": "./aha-settings-list", "registers": "aha-settings-list", "exportsNamed": ["AhaSettingsList", "AhaSettingsItem", "defineAhaSettingsList"] },
@@ -43,18 +49,32 @@
     { "key": "vue", "label": "Vue 3", "file": "settings-list.vue.txt" }
   ],
   "preview": "settings-list.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "schema", "label": "Example", "default": "presentation", "options": [
+        { "label": "Presentation", "value": "{\"sections\":[{\"label\":\"Presentation\",\"rows\":[{\"key\":\"progressBar\",\"label\":\"Progress bar\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"leaderboard\",\"label\":\"Leaderboard\",\"description\":\"Shown to the audience between slides.\",\"control\":{\"type\":\"switch\"}},{\"key\":\"deckTitle\",\"label\":\"Deck title\",\"control\":{\"type\":\"input\",\"value\":\"Untitled\"}},{\"key\":\"timer\",\"label\":\"Question timer\",\"disabled\":true,\"control\":{\"type\":\"switch\"}},{\"key\":\"branding\",\"label\":\"Custom branding\",\"locked\":true,\"plan\":\"pro\",\"feature\":\"Custom branding\"}]},{\"label\":\"Audience\",\"description\":\"How people join and answer.\",\"rows\":[{\"key\":\"anon\",\"label\":\"Anonymous join\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"consent\",\"label\":\"Data consent\",\"control\":{\"type\":\"checkbox\",\"checked\":true}}]}]}" },
+        { "label": "Account", "value": "{\"sections\":[{\"label\":\"Account\",\"rows\":[{\"key\":\"name\",\"label\":\"Display name\",\"control\":{\"type\":\"input\",\"value\":\"Alex Rivera\"}},{\"key\":\"emails\",\"label\":\"Product emails\",\"description\":\"Occasional updates about new features.\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"twofa\",\"label\":\"Two-factor auth\",\"control\":{\"type\":\"switch\"}}]},{\"label\":\"Plan\",\"rows\":[{\"key\":\"sso\",\"label\":\"Single sign-on\",\"locked\":true,\"plan\":\"pro\",\"feature\":\"Single sign-on\"},{\"key\":\"seats\",\"label\":\"Extra seats\",\"disabled\":true,\"control\":{\"type\":\"switch\"}}]}]}" }
+      ] },
+      { "prop": "density", "label": "Density", "default": "default", "options": [
+        { "label": "Default", "value": "__remove__" },
+        { "label": "Compact", "value": "compact" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "label left, control right", "verdict": "PASS" },
     { "label": "label #1A1A1A · desc #8A8A8A", "verdict": "PASS" },
-    { "label": "spacing-only (no dividers/boxes)", "verdict": "PASS" },
+    { "label": "spacing-only (16 sibling / 32 group, no dividers/boxes)", "verdict": "PASS" },
     { "label": "composes DS controls via slot", "verdict": "PASS" },
-    { "label": "renders rows from a schema + reuses DS controls", "verdict": "PASS" }
+    { "label": "renders rows from a schema + reuses DS controls", "verdict": "PASS" },
+    { "label": "disabled row dims label to text-disabled + disables control", "verdict": "PASS" },
+    { "label": "plan-gated row stays visible via the shared Paywall crown", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element family, single render. The probe is an <aha-settings-item>.",
-    "ready": "!!(document.querySelector('aha-settings-item[data-probe]') && document.querySelector('aha-settings-item[data-probe]').shadowRoot && document.querySelector('aha-settings-item[data-probe]').shadowRoot.querySelector('.label'))",
+    "ready": "!!(document.querySelector('aha-settings-item[data-probe]') && document.querySelector('aha-settings-item[data-probe]').shadowRoot && document.querySelector('aha-settings-item[data-probe]').shadowRoot.querySelector('.label') && document.querySelector('aha-settings-item[data-disabled-probe]') && document.querySelector('aha-settings-item[data-disabled-probe]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-settings-item[data-probe]');var r=el&&el.shadowRoot;var l=r&&r.querySelector('.label');var d=r&&r.querySelector('.desc');var sl=l?getComputedStyle(l):null;var sd=d?getComputedStyle(d):null;return{labelColor:sl?sl.color:null,descColor:sd?sd.color:null,labelSize:sl?sl.fontSize:null,descSize:sd?sd.fontSize:null};})()",
-    "expect": { "labelColor": "rgb(26, 26, 26)", "descColor": "rgb(138, 138, 138)", "labelSize": "14px", "descSize": "12px" }
+    "measure": "(function(){var el=document.querySelector('aha-settings-item[data-probe]');var r=el&&el.shadowRoot;var l=r&&r.querySelector('.label');var d=r&&r.querySelector('.desc');var sl=l?getComputedStyle(l):null;var sd=d?getComputedStyle(d):null;var dis=document.querySelector('aha-settings-item[data-disabled-probe]');var dr=dis&&dis.shadowRoot;var dl=dr&&dr.querySelector('.label');var sdl=dl?getComputedStyle(dl):null;var sw=el&&el.querySelector('aha-switch');return{labelColor:sl?sl.color:null,descColor:sd?sd.color:null,labelSize:sl?sl.fontSize:null,descSize:sd?sd.fontSize:null,disabledLabelColor:sdl?sdl.color:null,reusesSwitch:!!(sw&&sw.shadowRoot)};})()",
+    "expect": { "labelColor": "rgb(26, 26, 26)", "descColor": "rgb(138, 138, 138)", "labelSize": "14px", "descSize": "12px", "disabledLabelColor": "rgb(181, 181, 181)", "reusesSwitch": true }
   }
 }

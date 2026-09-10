@@ -2,9 +2,11 @@
 import '@ahaslides-product/design/aha-settings-list';   // registers <aha-settings-list> + <aha-settings-item>
 import '@ahaslides-product/design/aha-switch';          // reused as schema controls
 import '@ahaslides-product/design/aha-input';
+import '@ahaslides-product/design/aha-paywall';         // reused for a plan-gated (locked) row
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue — schema-driven: bind the schema property, listen for change.
+// A row can be disabled (dimmed) or locked (visible-but-gated → the shared Paywall crown).
 <script setup>
 import { ref, onMounted } from 'vue';
 const list = ref(null);
@@ -13,6 +15,8 @@ const schema = {
     { key: 'progressBar', label: 'Progress bar', control: { type: 'switch', checked: true } },
     { key: 'leaderboard', label: 'Leaderboard', description: 'Shown between slides.', control: { type: 'switch' } },
     { key: 'deckTitle', label: 'Deck title', control: { type: 'input', value: 'Untitled' } },
+    { key: 'timer', label: 'Question timer', disabled: true, control: { type: 'switch' } },
+    { key: 'branding', label: 'Custom branding', locked: true, plan: 'pro', feature: 'Custom branding' },
   ] }],
 };
 onMounted(() => { list.value.schema = schema; });

@@ -18,3 +18,8 @@
 <!-- Size + variant are attributes; never inline height/padding/radius/fontSize. -->
 <aha-button variant="primary" size="xl" block>Get started</aha-button>
 <aha-button icon-only variant="tertiary" aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+
+<!-- Plan / brand tones: essential · pro · branding. text / text-link are borderless label buttons. -->
+<aha-button variant="essential">Upgrade to Essential</aha-button>
+<aha-button variant="pro"><span slot="icon"><aha-icon name="system-sparkle" size="16" decorative></aha-icon></span>Go Pro</aha-button>
+<aha-button variant="text-link">Learn more</aha-button>

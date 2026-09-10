@@ -5,10 +5,14 @@
     <aha-status-badge data-probe status="published">Published</aha-status-badge>
     <aha-status-badge status="closed">Closed</aha-status-badge>
     <aha-status-badge status="archived">Archived</aha-status-badge>
+    <aha-status-badge status="active">Active</aha-status-badge>
+    <aha-status-badge status="inactive">Inactive</aha-status-badge>
   </div>
 </div>
 
-<!-- Renders the REAL shipped element from dist/lib (no mirror) so the preview never drifts. -->
+<!-- Imports the REAL shipped element (../lib/aha-status-badge.js) — no inlined copy, so the preview
+     can never drift from lib/. The playground control bar (Status) is generated from
+     contracts/status-badge.json → playground and drives this [data-probe] element's attributes live. -->
 <script type="module">
-  import '../lib/aha-status-badge.js';   // registers <aha-status-badge>
+  import '../lib/aha-status-badge.js';   // registers <aha-status-badge> — the shipped primitive
 </script>

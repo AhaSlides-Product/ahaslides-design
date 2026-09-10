@@ -7,10 +7,11 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-csat.js';   // registers <aha-csat> (+ <aha-icon>)
 </script>
 
-<aha-csat prompt="Was this helpful?" source="docs_footer"></aha-csat>
+<!-- `thanks` opts into the confirmation state — the thank-you line fades in once rated. -->
+<aha-csat prompt="Was this helpful?" source="docs_footer" thanks="Thanks for the feedback!"></aha-csat>
 
 <script>
   document.querySelector('aha-csat').addEventListener('rate', (e) => {
-    console.log('CSAT', e.detail.rating, 'from', e.detail.source);
+    console.log('CSAT', e.detail.rating, 'from', e.detail.source);   // { rating: 'up' | 'down', source }
   });
 </script>

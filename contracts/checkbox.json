@@ -27,7 +27,13 @@
       { "what": "Radio", "when": "exactly one from a small mutually-exclusive set" },
       { "what": "Switch", "when": "a single setting that takes effect immediately" }
     ],
-    "note": "Labels are sentence case and state what the control does — 'Let participants join anonymously', not 'Join Anonymously'. Keep product nouns: Q&A, Word cloud."
+    "note": "Labels are sentence case and state what the control does — 'Let participants join anonymously', not 'Join Anonymously'. Keep product nouns: Q&A, Word cloud.",
+    "dsv3": "COVERED — enumerated from the DS V3 Checkbox component-set taxonomy (Checkbox · Checkbox-Input · Form-Item/Checkbox · TableCellControl): the family carries the three ticks (unchecked · checked · indeterminate/mixed) × rest/hover/disabled. The measured reference (contract.json cells checkbox|rest, |rest|hover, |checked, |disabled) enumerates NO size axis — DS V3 Checkbox is single-size (14×14 r4), so no `size` prop is stubbed. Token layer: white surface, checked fill color-primary #6A1EBB + white 12px tick, hover border purple-30 #D3B4FF, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: host role=checkbox with aria-checked true/false/mixed synced from observedAttributes; the native <input> is aria-hidden so AT announces once; Space on the focusable host toggles. Motion on the persistent .box (never rebuilt on toggle)."
+  },
+  "a11y": {
+    "role": "checkbox on the host; aria-checked reflects true / false / mixed (indeterminate)",
+    "keyboard": "host is focusable (tabindex 0, -1 when disabled); Space toggles",
+    "note": "The visually-hidden native <input> is aria-hidden=true so screen readers announce the control once via the host role."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-checkbox", "registers": "aha-checkbox", "exportsNamed": ["AhaCheckbox", "defineAhaCheckbox"] },
@@ -38,17 +44,35 @@
   ],
   "codeNote": "Same element, same shadow-DOM CSS → identical render. The only per-framework code is binding glue (React < 19 needs the ref wrapper; Vue consumes it natively). The primitive is defined once in @aha/design.",
   "preview": "checkbox.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "checked", "label": "State", "default": "checked", "options": [
+        { "label": "Unchecked", "value": "__remove__" },
+        { "label": "Checked", "value": "" }
+      ] },
+      { "prop": "indeterminate", "label": "Indeterminate", "default": "off", "options": [
+        { "label": "Off", "value": "__remove__" },
+        { "label": "On", "value": "" }
+      ] },
+      { "prop": "disabled", "label": "Disabled", "default": "off", "options": [
+        { "label": "Off", "value": "__remove__" },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "box 14×14 r4", "verdict": "PASS" },
     { "label": "checked #6A1EBB + white tick", "verdict": "PASS" },
+    { "label": "indeterminate shows the mixed bar, aria-checked=mixed", "verdict": "PASS" },
     { "label": "hover border purple-30", "verdict": "PASS" },
-    { "label": "label 14/21 Plus Jakarta", "verdict": "PASS" }
+    { "label": "label 14/21 Plus Jakarta", "verdict": "PASS" },
+    { "label": "role=checkbox on host; Space toggles", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots).",
-    "ready": "!!(document.querySelector('aha-checkbox') && document.querySelector('aha-checkbox').shadowRoot && document.querySelector('aha-checkbox').shadowRoot.querySelector('.box'))",
+    "ready": "!!(document.querySelector('aha-checkbox[data-probe]') && document.querySelector('aha-checkbox[data-probe]').shadowRoot && document.querySelector('aha-checkbox[data-probe]').shadowRoot.querySelector('.box'))",
     "singleUI": true,
-    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.box');return b?getComputedStyle(b):null;};var u=q('aha-checkbox:not([checked]):not([disabled])');var c=q('aha-checkbox[checked]:not([disabled])');return{boxW:u?u.width:null,boxH:u?u.height:null,boxRadius:u?u.borderTopLeftRadius:null,boxBorder:u?u.borderTopColor:null,checkedBg:c?c.backgroundColor:null};})()",
-    "expect": { "boxW": "14px", "boxH": "14px", "boxRadius": "4px", "boxBorder": "rgb(212, 212, 212)", "checkedBg": "rgb(106, 30, 187)" }
+    "measure": "(function(){var box=function(sel){var el=document.querySelector(sel);var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.box');return b?getComputedStyle(b):null;};var u=box('aha-checkbox:not([checked]):not([indeterminate]):not([disabled])');var c=box('aha-checkbox[checked]:not([disabled])');var ie=document.querySelector('aha-checkbox[indeterminate]');var ir=ie&&ie.shadowRoot;var ib=ir&&ir.querySelector('.box');var ibar=ir&&ir.querySelector('.bar');var ibarS=ibar?getComputedStyle(ibar):null;return{boxW:u?u.width:null,boxH:u?u.height:null,boxRadius:u?u.borderTopLeftRadius:null,boxBorder:u?u.borderTopColor:null,checkedBg:c?c.backgroundColor:null,indeterminateBg:ib?getComputedStyle(ib).backgroundColor:null,indeterminateBarDisplay:ibarS?ibarS.display:null,indeterminateAria:ie?ie.getAttribute('aria-checked'):null};})()",
+    "expect": { "boxW": "14px", "boxH": "14px", "boxRadius": "4px", "boxBorder": "rgb(212, 212, 212)", "checkedBg": "rgb(106, 30, 187)", "indeterminateBg": "rgb(106, 30, 187)", "indeterminateBarDisplay": "block", "indeterminateAria": "mixed" }
   }
 }

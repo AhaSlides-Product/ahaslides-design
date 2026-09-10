@@ -8,14 +8,18 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item>
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';          // reused as a schema control
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';           // reused as a schema control
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';         // reused for a plan-gated (locked) row
 </script>
 
-<!-- 1) Schema-driven — the list renders the rows and reuses the named DS controls -->
+<!-- 1) Schema-driven — the list renders the rows and reuses the named DS controls.
+     A row can be disabled (dimmed) or locked (visible-but-gated → the shared Paywall crown). -->
 <aha-settings-list style="max-width:360px; display:block"
   schema='{"sections":[{"label":"Presentation","rows":[
     {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}},
     {"key":"leaderboard","label":"Leaderboard","description":"Shown to the audience between slides.","control":{"type":"switch"}},
-    {"key":"deckTitle","label":"Deck title","control":{"type":"input","value":"Untitled"}}
+    {"key":"deckTitle","label":"Deck title","control":{"type":"input","value":"Untitled"}},
+    {"key":"timer","label":"Question timer","disabled":true,"control":{"type":"switch"}},
+    {"key":"branding","label":"Custom branding","locked":true,"plan":"pro","feature":"Custom branding"}
   ]}]}'></aha-settings-list>
 <script type="module">
   document.querySelector('aha-settings-list')
