@@ -89,17 +89,17 @@ the library already defines.
 | **SubSettingGroup** | *sub-settings* rule — indent-only, hidden (not disabled) when the parent is off | convention |
 | **HelpTooltip** | `<aha-tooltip>` + `<aha-icon>` `?` glyph (the *help-glyph* rule) | **mapped** → `tooltip` |
 | **DropdownMenu** | `<aha-dropdown>` + `<aha-menu>` — themed action menu | **mapped** → `dropdown` |
-| **ModeField** | *label + inline exclusive mode control (outline radio / segmented), body swaps in place* | backlog |
+| **ModeField** | *label + inline exclusive mode control (outline radio / segmented), body swaps in place* | **mapped** → `mode-field` |
 | **CountedInput** | *single-line field + focus-only char counter (persistent sibling, no remount)* | **mapped** → `counted-input` |
 | **CountedTextarea** | *multi-line CountedInput; grows minRows–maxRows* | **mapped** → `counted-textarea` |
 | **CardSelect** | *single-select icon+label card grid* | **mapped** → `card-select` |
 | **NumberWithUnit** | *digit input + hover stepper (clamped, maxDigits) + unit-in-full + optional error line* | **mapped** → `number-with-unit` |
 | **OptionRow** | *repeatable option row: drag handle, correct toggle, borderless textarea + counter, image, delete* | backlog |
-| **NumberedItem** | *numbered composite-item wrapper: chip + `<Label> N` header + hover delete + grey container* | backlog |
+| **NumberedItem** | *numbered composite-item wrapper: chip + `<Label> N` header + hover delete + grey container* | **mapped** → `numbered-item` |
 | **QuestionList** | *collapsible questions (prompt + OptionRow choices); composes NumberedItem/OptionRow* | backlog |
 | **ImageDropzone** | *full-width settings-only image field; emits intents, host runs the upload modals* | backlog |
 | **ImageActionButton** | *per-option image control (empty/loading/thumbnail + Change/Edit/Delete)* | backlog |
-| **InfoBox** | *settings-only tinted callout; bespoke, not Ant Alert* | backlog |
+| **InfoBox** | *settings-only tinted callout; bespoke, not Ant Alert* | **mapped** → `info-box` |
 
 Backlog controls are real gaps, not licence to re-implement: author each here (contract + `lib/` +
 parts + conformance), then flip its `composedOf` entry from `missing → available` and move its row to

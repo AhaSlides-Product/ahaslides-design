@@ -1,0 +1,22 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-numbered-item> is the SAME shared custom element React and Vue consume — here in its native
+     form. Theming comes only from the --aha-* tokens in tokens.css. Hover an item to reveal its delete;
+     the whole item sits in ONE grey card (contained) with a muted-grey number chip. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-numbered-item.js';   // registers <aha-numbered-item>
+</script>
+
+<div style="display:flex; flex-direction:column; gap:8px; max-width:420px">
+  <aha-numbered-item n="1" label="Question" deletable id="q1">
+    <div>The fields for question 1 go here (prompt, options, …).</div>
+  </aha-numbered-item>
+  <!-- candelete="false" keeps the delete visible but disabled (e.g. at the minimum item count) -->
+  <aha-numbered-item n="2" label="Question" deletable candelete="false">
+    <div>The fields for question 2 go here.</div>
+  </aha-numbered-item>
+</div>
+
+<script>
+  document.getElementById('q1').addEventListener('delete', (e) => console.log('delete item', e.detail.n));
+</script>
