@@ -17,3 +17,10 @@
   <!-- a standalone status: a semantic dot + a label -->
   <aha-badge status="processing" text="Generating"></aha-badge>
 </div>
+
+<!-- ribbon — a corner banner wrapping a card (placement end = top-right, default) -->
+<aha-badge ribbon text="New" style="display:inline-block; margin-top:24px">
+  <div style="width:200px; padding:20px; border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-default,8px); background:#fff">
+    Quiz template
+  </div>
+</aha-badge>
