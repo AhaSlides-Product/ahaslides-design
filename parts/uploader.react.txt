@@ -1,17 +1,40 @@
 import '@ahaslides-product/design/aha-uploader';   // registers <aha-uploader>
+import '@ahaslides-product/design/icons';          // registers <aha-icon> (glyphs)
 import { useRef, useEffect } from 'react';
 
-// React 18 needs a thin wrapper; React 19 can use <aha-uploader> directly.
-function AhaUploader({ multiple, accept, disabled, onFiles }) {
+// React 18 needs a thin wrapper (composed CustomEvents + JSON attrs); React 19 can use the tag directly.
+function AhaUploader({ multiple, accept, disabled, listType, maxCount, items, onFiles, onRemove }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
-    const h = (e) => onFiles?.(e.detail.files);   // composed CustomEvent, File[]
-    el.addEventListener('change', h);
-    return () => el.removeEventListener('change', h);
+    const f = (e) => onFiles?.(e.detail.files);           // composed CustomEvent, File[]
+    const r = (e) => onRemove?.(e.detail.name, e.detail.index);
+    el.addEventListener('change', f);
+    el.addEventListener('remove', r);
+    return () => { el.removeEventListener('change', f); el.removeEventListener('remove', r); };
   });
-  return <aha-uploader ref={ref} multiple={multiple || undefined} accept={accept} disabled={disabled || undefined} />;
+  return (
+    <aha-uploader
+      ref={ref}
+      multiple={multiple || undefined}
+      accept={accept}
+      disabled={disabled || undefined}
+      listtype={listType}                                 // "text" | "picture-card"
+      maxcount={maxCount}
+      items={items ? JSON.stringify(items) : undefined}   // [{ name, status?, percent?, thumb? }]
+    />
+  );
 }
 
-// usage
-<AhaUploader accept="image/*" multiple onFiles={(files) => setFiles(files)} />
+// usage — a drop zone with managed rows (done / uploading / error) + a remove handler
+<AhaUploader
+  accept="image/*"
+  multiple
+  items={[
+    { name: 'cover.png', status: 'done' },
+    { name: 'clip.mov', status: 'uploading', percent: 40 },
+    { name: 'bad.zip', status: 'error' },
+  ]}
+  onFiles={(files) => setFiles(files)}
+  onRemove={(name) => dropFile(name)}
+/>

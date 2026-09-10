@@ -11,7 +11,10 @@ const score = ref(3);
 <template>
   <aha-rate
     :value.prop="score"
-    :max="5"
+    :count="5"
     @change="score = $event.detail.value"
   />
+  <!-- half-step + a custom DS character -->
+  <aha-rate :value.prop="score" :count="5" allow-half @change="score = $event.detail.value" />
+  <aha-rate :value.prop="score" icon="system-heart-straight" @change="score = $event.detail.value" />
 </template>

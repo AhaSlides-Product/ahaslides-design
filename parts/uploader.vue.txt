@@ -1,12 +1,28 @@
 // main.ts — register the element + mark aha-* as custom elements
 import '@ahaslides-product/design/aha-uploader';
+import '@ahaslides-product/design/icons';           // <aha-icon> glyphs
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue
+// Component.vue — text mode: a drop zone + managed file rows (done / uploading / error)
 <template>
   <aha-uploader
     accept="image/*"
     multiple
+    listtype="text"
+    :items="JSON.stringify(items)"          // [{ name, status?, percent?, thumb? }]
     @change="onFiles($event.detail.files)"
+    @remove="onRemove($event.detail.name, $event.detail.index)"
   />
+
+  <!-- picture-card mode: thumbnail tiles + a dashed add-box, capped at 4 -->
+  <aha-uploader listtype="picture-card" maxcount="4" :items="JSON.stringify(tiles)" />
 </template>
+
+<script setup>
+const items = [
+  { name: 'cover.png', status: 'done' },
+  { name: 'clip.mov', status: 'uploading', percent: 40 },
+  { name: 'bad.zip', status: 'error' },
+];
+const tiles = [{ name: 'a.png', status: 'done', thumb: 'a.png' }];
+</script>

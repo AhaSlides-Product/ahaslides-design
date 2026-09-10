@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-radio';   // registers <aha-radio>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-radio> directly.
-function AhaRadio({ checked, value, name, disabled, onChange, children }) {
+function AhaRadio({ checked, value, name, disabled, variant, size, onChange, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -12,11 +12,17 @@ function AhaRadio({ checked, value, name, disabled, onChange, children }) {
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   });
-  return <aha-radio ref={ref} name={name} value={value}>{children}</aha-radio>;
+  return <aha-radio ref={ref} name={name} value={value} variant={variant} size={size}>{children}</aha-radio>;
 }
 
 // usage — one `name` makes the set mutually exclusive; wrap in role="radiogroup"
 <div role="radiogroup" aria-label="Activity mode">
   <AhaRadio name="mode" value="poll" checked={mode === 'poll'} onChange={setMode}>Poll</AhaRadio>
   <AhaRadio name="mode" value="quiz" checked={mode === 'quiz'} onChange={setMode}>Quiz</AhaRadio>
+</div>
+
+// segmented button group — variant="button" (add size="small" for a compact row)
+<div role="radiogroup" aria-label="View" style={{ display: 'flex' }}>
+  <AhaRadio name="view" value="grid" variant="button" checked={view === 'grid'} onChange={setView}>Grid</AhaRadio>
+  <AhaRadio name="view" value="list" variant="button" checked={view === 'list'} onChange={setView}>List</AhaRadio>
 </div>

@@ -5,19 +5,23 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-color-picker",
-  "summary": "Pick a colour from a palette of presets.",
-  "lead": "ONE custom element — <aha-color-picker> — defined once, imported unchanged by React and Vue. A trigger swatch opens a persistent panel of preset colours (the brand ramp by default); open/close toggles the `open` attribute so the panel animates. Zero drift — the same element, not two look-alikes.",
+  "summary": "Pick a colour from a selectable palette of presets.",
+  "lead": "ONE custom element — <aha-color-picker> — defined once, imported unchanged by React and Vue. A trigger swatch opens a persistent panel of preset colours (the brand ramp by default); open/close toggles the `open` attribute so the panel animates. The palette is SELECTABLE — the swatch matching `value` is ringed in color-primary and carries a check glyph, and every swatch is a toggle button with `aria-pressed` synced to selection. Three `size`s scale the trigger + swatches; `disabled` greys and inerts the whole control. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-container", "bg-elevated", "border", "border-hover", "text-default", "color-primary", "radius-sm", "radius-xs", "radius-default", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],
+  "tokensUsed": ["bg-container", "bg-container-disabled", "bg-elevated", "border", "border-hover", "border-disabled", "text-default", "text-inverse", "text-disabled", "color-primary", "radius-sm", "radius-xs", "radius-default", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],
   "spec": [
-    { "label": "Trigger", "value": "1px border #E3E3E3, radius 6; 20px current swatch (radius 4)" },
+    { "label": "Trigger", "value": "1px border #E3E3E3, radius 6; current swatch 16/20/24 by size (radius 4)" },
     { "label": "Panel", "value": "bg-elevated #FFFFFF, radius 8, 4-col swatch grid" },
-    { "label": "Swatch", "value": "28px, radius 4; selected ringed color-primary" },
-    { "label": "Motion", "value": "panel fade + lift; swatch hover scale (ease-out)" }
+    { "label": "Swatch", "value": "22/28/34 by size, radius 4; selected ringed color-primary + check glyph" },
+    { "label": "Selected", "value": "aria-pressed=true, .on ring + system-check (dark on pale chips)" },
+    { "label": "Disabled", "value": "bg-container-disabled fill, border-disabled, not-allowed, inert" },
+    { "label": "Motion", "value": "panel fade + lift; swatch hover scale; check fade (ease-out)" }
   ],
   "props": [
-    { "name": "value", "type": "string", "default": "#6A1EBB", "desc": "Selected colour (hex)" },
-    { "name": "swatches", "type": "string", "default": "brand ramp", "desc": "Pipe-separated hex presets, e.g. \"#6A1EBB|#FF4081\"" },
+    { "name": "value", "type": "string", "default": "#6A1EBB", "desc": "Selected colour (hex) — its swatch is ringed + checked" },
+    { "name": "swatches", "type": "string", "default": "brand ramp (12)", "desc": "Pipe-separated hex presets, e.g. \"#6A1EBB|#FF4081\"" },
+    { "name": "size", "type": "'small' | 'default' | 'large'", "default": "default", "desc": "Scales trigger + swatch dimensions" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Greys + inerts the whole control" },
     { "name": "open", "type": "boolean", "default": "false", "desc": "Panel open state; reflected attribute" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value" }
   ],
@@ -28,7 +32,7 @@
       { "what": "Input", "when": "an arbitrary free-form value is genuinely needed" }
     ],
     "note": "Prefer a curated palette over a free spectrum — on-brand results, fewer accessibility misses. Show the current value beside the trigger so the choice is legible.",
-    "dsv3": "Trigger and panel use the standard border, radii and elevation; the selected swatch is ringed in color-primary. Panel fade + lift and swatch hover-scale animate on persistent nodes via the shared motion tokens."
+    "dsv3": "DS V3 has no dedicated Color-picker component-set — the selectable-swatch palette is composed from the shared DS V3 primitives: the standard control border, radii (sm trigger, default panel, xs swatch) and elevation, the color-primary selection ring, the small/default/large control-height sizing convention, and the disabled surface tokens. The selected swatch carries a system-check glyph (from the DS icon library) and aria-pressed synced to selection. Panel fade + lift, swatch hover-scale and the check fade animate on persistent nodes via the shared motion tokens."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-color-picker", "registers": "aha-color-picker", "exportsNamed": ["AhaColorPicker", "defineAhaColorPicker"] },
@@ -38,17 +42,33 @@
     { "key": "vue", "label": "Vue 3", "file": "color-picker.vue.txt" }
   ],
   "preview": "color-picker.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Default", "value": "default" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "disabled", "label": "Disabled", "default": "no", "options": [
+        { "label": "No", "value": "__remove__" },
+        { "label": "Yes", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "trigger border #E3E3E3 · radius 6", "verdict": "PASS" },
     { "label": "current swatch shows value", "verdict": "PASS" },
+    { "label": "selected swatch ringed color-primary + aria-pressed synced", "verdict": "PASS" },
+    { "label": "size scales the swatch (small 22 · default 28 · large 34)", "verdict": "PASS" },
+    { "label": "disabled greys + inerts the control", "verdict": "PASS" },
     { "label": "panel fade + lift on open", "verdict": "PASS" },
     { "label": "change emits composed value", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds the default value #6A1EBB.",
-    "ready": "!!(document.querySelector('aha-color-picker[data-probe]') && document.querySelector('aha-color-picker[data-probe]').shadowRoot && document.querySelector('aha-color-picker[data-probe]').shadowRoot.querySelector('.current'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds the default value #6A1EBB at default size, so the selected swatch (.on) is the #6A1EBB chip — its ring is color-primary and its measured 28px width proves the default size cell.",
+    "ready": "!!(document.querySelector('aha-color-picker[data-probe]') && document.querySelector('aha-color-picker[data-probe]').shadowRoot && document.querySelector('aha-color-picker[data-probe]').shadowRoot.querySelector('.swatch.on'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-color-picker[data-probe]');var sr=el.shadowRoot;var cur=sr.querySelector('.current');var trg=sr.querySelector('.trigger');return{currentBg:getComputedStyle(cur).backgroundColor,currentRadius:getComputedStyle(cur).borderTopLeftRadius,triggerBorder:getComputedStyle(trg).borderTopColor,triggerRadius:getComputedStyle(trg).borderTopLeftRadius};})()",
-    "expect": { "currentBg": "rgb(106, 30, 187)", "currentRadius": "4px", "triggerBorder": "rgb(227, 227, 227)", "triggerRadius": "6px" }
+    "measure": "(function(){var el=document.querySelector('aha-color-picker[data-probe]');var sr=el.shadowRoot;var cur=sr.querySelector('.current');var trg=sr.querySelector('.trigger');var on=sr.querySelector('.swatch.on');var os=getComputedStyle(on);return{currentBg:getComputedStyle(cur).backgroundColor,currentRadius:getComputedStyle(cur).borderTopLeftRadius,triggerBorder:getComputedStyle(trg).borderTopColor,triggerRadius:getComputedStyle(trg).borderTopLeftRadius,selectedRing:os.outlineColor,selectedPressed:on.getAttribute('aria-pressed'),swatchWidth:os.width};})()",
+    "expect": { "currentBg": "rgb(106, 30, 187)", "currentRadius": "4px", "triggerBorder": "rgb(227, 227, 227)", "triggerRadius": "6px", "selectedRing": "rgb(106, 30, 187)", "selectedPressed": "true", "swatchWidth": "28px" }
   }
 }

@@ -8,17 +8,25 @@
   "summary": "A single setting that takes effect immediately — on or off.",
   "lead": "ONE custom element — <aha-switch> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the track fills brand when checked and the knob slides. Emits a composed `change` CustomEvent<{checked}>. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-20", "gray-50", "color-primary", "white", "radius-pill"],
+  "tokensUsed": ["gray-20", "gray-50", "color-primary", "white", "text-tertiary", "radius-pill", "motion-slow"],
   "spec": [
-    { "label": "Track", "value": "44×22 · radius pill · 1px #D4D4D4 border" },
-    { "label": "Knob", "value": "18×18 white circle, slides 20px" },
+    { "label": "Track", "value": "44×22 (small 28×16) · radius pill · 1px #D4D4D4 border" },
+    { "label": "Knob", "value": "18×18 white circle, slides 20px (small 12×12, slides 12px)" },
     { "label": "Off", "value": "track #F7F7F7 (gray-20)" },
     { "label": "On", "value": "track #6A1EBB (primary)" },
-    { "label": "Disabled", "value": "40% opacity" }
+    { "label": "Disabled", "value": "40% opacity, not-allowed" },
+    { "label": "Loading", "value": "system-circle-notch spinner rides in the knob; interaction blocked" },
+    { "label": "Children", "value": "optional text or icon inside the track, away from the knob (checked ↔ unchecked)" }
   ],
   "props": [
     { "name": "checked", "type": "boolean", "default": "false", "desc": "On/off state (reflected)" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive" },
+    { "name": "loading", "type": "boolean", "default": "false", "desc": "Spinner in the knob; blocks toggle while busy (aria-busy)" },
+    { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Track 44×22 (default) or 28×16 (small)" },
+    { "name": "on-text", "type": "string", "default": "—", "desc": "Text shown inside the track when on" },
+    { "name": "off-text", "type": "string", "default": "—", "desc": "Text shown inside the track when off" },
+    { "name": "on-icon", "type": "icon name", "default": "—", "desc": "DS icon shown inside the track when on (wins over on-text)" },
+    { "name": "off-icon", "type": "icon name", "default": "—", "desc": "DS icon shown inside the track when off (wins over off-text)" },
     { "name": "change", "type": "CustomEvent<{checked}>", "default": "—", "desc": "Composed event on toggle; read e.detail.checked" }
   ],
   "opinion": {
@@ -27,8 +35,8 @@
       { "what": "Checkbox", "when": "options saved together as a group, or expressing consent" },
       { "what": "Radio", "when": "exactly one from a small mutually-exclusive set" }
     ],
-    "note": "Never mix switches and checkboxes in one group. The label names what the setting controls as a noun phrase; the switch communicates the action — don't prefix the label with Enable/Turn on.",
-    "dsv3": "Matched to the measured DS V3 `toggle` cell (the standard's name for the switch): track 44×22, radius pill, 1px #D4D4D4 border, off #F7F7F7 (gray-20), on #6A1EBB, disabled 40% opacity. Earlier rounds treated switch as DS-silent; the measured cell exists, so width (40→44), off-fill and the border were corrected to it. All bound to canonical gray/primary tokens."
+    "note": "Never mix switches and checkboxes in one group. The label names what the setting controls as a noun phrase; the switch communicates the action — don't prefix the label with Enable/Turn on. Reach for `loading` on an async setting that may fail, `size=small` in a dense list, and checked/unchecked children only when the on/off meaning isn't obvious from context.",
+    "dsv3": "COVERED — enumerated from the DS V3 Switch component-set + AntD matrix: size (default | small), disabled, loading (spinner in the knob), and checkedChildren/unCheckedChildren (text or icon inside the track). The default-size look is matched to the measured DS V3 `toggle` cell: track 44×22, radius pill, 1px #D4D4D4 border, off #F7F7F7 (gray-20), on #6A1EBB, disabled 40% opacity (small = 28×16 knob-12, from the AntD scale). All bound to canonical gray/primary/text-tertiary tokens; the knob slide + track fill + spinner animate on persistent nodes via the shared motion tokens (checked/loading toggle a host attr, never a rebuild — the Switch-click trap)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-switch", "registers": "aha-switch", "exportsNamed": ["AhaSwitch", "defineAhaSwitch"] },
@@ -38,17 +46,39 @@
     { "key": "vue", "label": "Vue 3", "file": "switch.vue.txt" }
   ],
   "preview": "switch.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default", "value": "__remove__" },
+        { "label": "Small", "value": "small" }
+      ] },
+      { "prop": "loading", "label": "State", "default": "default", "options": [
+        { "label": "Default", "value": "__remove__" },
+        { "label": "Loading", "value": "" }
+      ] },
+      { "prop": "disabled", "label": "Interactivity", "default": "enabled", "options": [
+        { "label": "Enabled", "value": "__remove__" },
+        { "label": "Disabled", "value": "" }
+      ] },
+      { "prop": "on-text", "label": "Children", "default": "on-off", "options": [
+        { "label": "On / Off text", "value": "On" },
+        { "label": "None", "value": "__remove__" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "track 44×22 radius pill · 1px border", "verdict": "PASS" },
+    { "label": "track 44×22 radius pill · 1px border (small 28×16)", "verdict": "PASS" },
     { "label": "on #6A1EBB · off #F7F7F7", "verdict": "PASS" },
-    { "label": "knob 18 white, slides 20", "verdict": "PASS" },
+    { "label": "knob 18 white, slides 20 (small 12, slides 12)", "verdict": "PASS" },
+    { "label": "loading spinner (system-circle-notch) in knob; toggle blocked", "verdict": "PASS" },
+    { "label": "checked/unchecked children render inside the track", "verdict": "PASS" },
     { "label": "change emits composed {checked}", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Asserts the checked default track (brand fill + 44px) AND a size-dependent width via the size=small sibling in the preview (28px).",
     "ready": "!!(document.querySelector('aha-switch[data-probe]') && document.querySelector('aha-switch[data-probe]').shadowRoot && document.querySelector('aha-switch[data-probe]').shadowRoot.querySelector('.track'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-switch[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.track');var s=t?getComputedStyle(t):null;return{bg:s?s.backgroundColor:null,width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null};})()",
-    "expect": { "bg": "rgb(106, 30, 187)", "width": "44px", "height": "22px", "radius": "999px" }
+    "measure": "(function(){var el=document.querySelector('aha-switch[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.track');var s=t?getComputedStyle(t):null;var sm=document.querySelector('aha-switch[size=\"small\"]');var st=sm&&sm.shadowRoot&&sm.shadowRoot.querySelector('.track');var ss=st?getComputedStyle(st):null;return{bg:s?s.backgroundColor:null,width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,smallWidth:ss?ss.width:null};})()",
+    "expect": { "bg": "rgb(106, 30, 187)", "width": "44px", "height": "22px", "radius": "999px", "smallWidth": "28px" }
   }
 }

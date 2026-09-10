@@ -1,17 +1,24 @@
-// main.ts — register the element + mark aha-* as custom elements
-import '@ahaslides-product/design/aha-input';
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';       // registers <aha-icon> (affix glyphs)
+import '@ahaslides-product/design/aha-input';   // registers <aha-input>
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
 import { ref } from 'vue';
-const name = ref('AhaSlides');
+const email = ref('');
 </script>
 
 <template>
+  <!-- size: small | default | large  ·  status: error | warning  ·  prefix-icon / suffix / clearable -->
   <aha-input
-    :value.prop="name"
-    placeholder="Workspace name"
-    @input="name = $event.detail.value"
+    size="large"
+    status="error"
+    prefix-icon="system-envelope"
+    clearable
+    placeholder="Email"
+    :value.prop="email"
+    @input="email = $event.detail.value"
+    @clear="email = ''"
   />
 </template>

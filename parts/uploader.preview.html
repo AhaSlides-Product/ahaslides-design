@@ -1,47 +1,27 @@
 <div class="pad">
-  <div class="lbl">Drop zone · click or drag (probe)</div>
-  <div style="max-width:420px"><aha-uploader data-probe accept="image/*" multiple></aha-uploader></div>
+  <div class="lbl">Uploader · drop zone + file rows · uploading / done / error states · remove ✕</div>
+  <div style="max-width:420px">
+    <aha-uploader data-probe accept="image/*" multiple
+      items='[
+        {"name":"cover-image.png","status":"done"},
+        {"name":"slides-export.pdf","status":"uploading","percent":62},
+        {"name":"broken-video.mov","status":"error"}
+      ]'>
+    </aha-uploader>
+  </div>
   <div class="note" id="out" style="margin-top:8px">No files selected</div>
 </div>
 
+<!-- Imports the REAL shipped element (../lib/aha-uploader.js) + the icon library — no inlined copy,
+     so the preview can never drift from lib/. The playground control bar (List type / State) is
+     generated from contracts/uploader.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:block; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
-  .zone{ box-sizing:border-box; display:flex; flex-direction:column; align-items:center; gap:8px;
-    padding:24px 16px; text-align:center; cursor:pointer;
-    background:var(--aha-bg-container,#FFFFFF); border:1px dashed var(--aha-border-strong,#D4D4D4);
-    border-radius:var(--aha-radius-default,8px); color:var(--aha-text-tertiary,#8A8A8A); font-size:14px; line-height:21px;
-    transition:border-color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)), background var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
-  .zone:hover, .zone.dragover{ border-color:var(--aha-color-primary,#6A1EBB); background:var(--aha-bg-accent,#F9F5FF) }
-  .zone svg{ width:28px; height:28px; fill:var(--aha-color-primary,#6A1EBB) }
-  .zone b{ color:var(--aha-color-primary,#6A1EBB); font-weight:600 }
-  :host([disabled]) .zone{ cursor:not-allowed; opacity:.5 }
-  input{ display:none }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
-`;
-const UPLOAD = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l4.5 4.5-1.4 1.4L13 6.83V15h-2V6.83L8.9 8.9 7.5 7.5 12 3zM5 17h14v2H5z"/></svg>';
-class AhaUploader extends HTMLElement {
-  get multiple(){ return this.hasAttribute('multiple'); }
-  get accept(){ return this.getAttribute('accept')||''; }
-  get disabled(){ return this.hasAttribute('disabled'); }
-  connectedCallback(){
-    if(!this.shadowRoot) this.attachShadow({mode:'open'});
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="zone" role="button" tabindex="0">${UPLOAD}<div><b>Click to upload</b> or drag files here</div></div><input type="file"${this.multiple?' multiple':''}${this.accept?` accept="${this.accept}"`:''}/>`;
-    const zone=this.shadowRoot.querySelector('.zone');
-    const input=this.shadowRoot.querySelector('input');
-    const open=()=>{ if(!this.disabled) input.click(); };
-    zone.addEventListener('click',open);
-    zone.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } });
-    input.addEventListener('change',()=>this._emit(input.files));
-    ['dragenter','dragover'].forEach(ev=>zone.addEventListener(ev,(e)=>{ e.preventDefault(); if(!this.disabled) zone.classList.add('dragover'); }));
-    ['dragleave','drop'].forEach(ev=>zone.addEventListener(ev,()=>zone.classList.remove('dragover')));
-    zone.addEventListener('drop',(e)=>{ e.preventDefault(); if(!this.disabled&&e.dataTransfer) this._emit(e.dataTransfer.files); });
-  }
-  _emit(fileList){ const files=Array.from(fileList||[]); if(files.length) this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{files}})); }
-}
-customElements.define('aha-uploader', AhaUploader);
-customElements.whenDefined('aha-uploader').then(()=>{
-  const up=document.querySelector('aha-uploader[data-probe]'), out=document.getElementById('out');
-  up.addEventListener('change',(e)=>{ out.textContent = e.detail.files.map(f=>f.name).join(', '); });
-});
+  import '../lib/icons.js';         // registers <aha-icon> so upload/file/✕/status glyphs resolve from the DS library
+  import '../lib/aha-uploader.js';  // registers <aha-uploader> — the shipped primitive, byte-identical to consumers'
+  customElements.whenDefined('aha-uploader').then(() => {
+    const up = document.querySelector('aha-uploader[data-probe]');
+    const out = document.getElementById('out');
+    up.addEventListener('change', (e) => { out.textContent = e.detail.files.map((f) => f.name).join(', '); });
+    up.addEventListener('remove', (e) => { out.textContent = 'Removed: ' + e.detail.name; });
+  });
 </script>

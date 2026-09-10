@@ -8,18 +8,22 @@
   "summary": "Pick exactly one option from a small mutually-exclusive set, all shown at once.",
   "lead": "ONE custom element — <aha-radio> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so both frameworks render byte-identical pixels. Radios sharing a `name` are mutually exclusive; selecting one clears its siblings and emits a composed `change`. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["color-primary", "border-strong", "border-hover", "bg-container", "bg-container-disabled", "border-disabled", "text-default", "text-disabled", "font-product"],
+  "tokensUsed": ["color-primary", "border-strong", "border-hover", "bg-container", "bg-container-disabled", "border-disabled", "bg-accent", "text-default", "text-disabled", "font-product", "radius-default"],
   "spec": [
-    { "label": "Ring", "value": "16×16 circle · 1px #D4D4D4 border" },
+    { "label": "Ring", "value": "16×16 circle · 1px #D4D4D4 border (small: 14×14)" },
     { "label": "Hover border", "value": "#D3B4FF (purple-30)" },
     { "label": "Checked", "value": "#6A1EBB ring + 8px brand dot (scales in)" },
     { "label": "Disabled", "value": "#F1F1F1 fill · #EBEBEB border" },
-    { "label": "Label", "value": "Plus Jakarta 14/21" }
+    { "label": "Label", "value": "Plus Jakarta 14/21 (small: 13/20)" },
+    { "label": "Button variant", "value": "segmented pill · 32px (small 24) · checked = bg-accent + brand border, shared edge collapsed" }
   ],
   "props": [
     { "name": "checked", "type": "boolean", "default": "false", "desc": "Controlled selection" },
     { "name": "value", "type": "string", "default": "\"\"", "desc": "The value this option contributes to the group" },
     { "name": "name", "type": "string", "default": "—", "desc": "Groups radios; one `name` = one mutually-exclusive set" },
+    { "name": "variant", "type": "'dot' | 'button'", "default": "dot", "desc": "dot = ring + brand dot; button = segmented connected pill (Radio-Button-Group)" },
+    { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "default = 16px ring / 32px button; small = 14px ring / 24px button" },
+    { "name": "direction", "type": "'horizontal' | 'vertical'", "default": "horizontal", "desc": "How a group flows; in button variant also picks which edges the connected pills round + share" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disables the control" },
     { "name": "change", "type": "CustomEvent<{value, checked}>", "default": "—", "desc": "Composed event; read e.detail.value" }
   ],
@@ -29,7 +33,8 @@
       { "what": "Select", "when": "one value from a known set of more than ~5 options — don't crowd the surface" },
       { "what": "Checkbox", "when": "one or more independent options that don't exclude each other" }
     ],
-    "note": "Pre-select a sensible default rather than leaving the group empty. Labels are sentence case and state the choice — 'Show results after each question', not 'Show Results'. Keep product nouns: Q&A, Word cloud."
+    "note": "Pre-select a sensible default rather than leaving the group empty. Labels are sentence case and state the choice — 'Show results after each question', not 'Show Results'. Keep product nouns: Q&A, Word cloud. Reach for variant='button' when the options are short, mutually-exclusive views (Grid/List, Day/Week/Month) that read better as a segmented control.",
+    "dsv3": "COVERED — enumerated from the DS V3 Radio component-set taxonomy: Radio-Group / Radio Group (dot radio + label, states rest·hover·checked·unchecked·disabled), Radio-Button-Group & Components/Radio-Button/Solid & Form-Item/Segmented-radio (the segmented connected-pill button variant), with size (default·small) and group direction (horizontal·vertical). Measured reference (radio|rest·hover·checked·disabled): 16px ring, rest border #D4D4D4, hover border purple-30, checked brand ring + brand dot, disabled #F1F1F1 fill / #EBEBEB border. Token layer: color-primary dot + button fill (bg-accent), border-strong rest, border-hover hover, border-disabled + bg-container-disabled disabled, radius-default pills. Motion bound to shared motion tokens on persistent nodes (dot scale, ring/button border-color)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-radio", "registers": "aha-radio", "exportsNamed": ["AhaRadio", "defineAhaRadio"] },
@@ -39,17 +44,40 @@
     { "key": "vue", "label": "Vue 3", "file": "radio.vue.txt" }
   ],
   "preview": "radio.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "variant", "label": "Variant", "default": "dot", "options": [
+        { "label": "Dot", "value": "dot" },
+        { "label": "Button", "value": "button" }
+      ] },
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default", "value": "default" },
+        { "label": "Small", "value": "small" }
+      ] },
+      { "prop": "direction", "label": "Direction", "default": "horizontal", "options": [
+        { "label": "Horizontal", "value": "horizontal" },
+        { "label": "Vertical", "value": "vertical" }
+      ] },
+      { "prop": "disabled", "label": "Disabled", "default": "__remove__", "options": [
+        { "label": "Enabled", "value": "__remove__" },
+        { "label": "Disabled", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "ring 16×16 circle #D4D4D4", "verdict": "PASS" },
+    { "label": "ring 16×16 circle #D4D4D4 (small 14×14)", "verdict": "PASS" },
     { "label": "checked #6A1EBB ring + brand dot", "verdict": "PASS" },
     { "label": "hover border purple-30", "verdict": "PASS" },
-    { "label": "dot scales in on check (motion token)", "verdict": "PASS" }
+    { "label": "dot scales in on check (motion token)", "verdict": "PASS" },
+    { "label": "button variant = segmented pill, checked bg-accent + brand border", "verdict": "PASS" },
+    { "label": "disabled = #F1F1F1 fill / #EBEBEB border, not-allowed", "verdict": "PASS" },
+    { "label": "roving arrow-key nav; change event composed", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots).",
-    "ready": "!!(document.querySelector('aha-radio') && document.querySelector('aha-radio').shadowRoot && document.querySelector('aha-radio').shadowRoot.querySelector('.ring'))",
+    "ready": "!!(document.querySelector('aha-radio[data-probe]') && document.querySelector('aha-radio[data-probe]').shadowRoot && document.querySelector('aha-radio[data-probe]').shadowRoot.querySelector('.ring'))",
     "singleUI": true,
-    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);return el&&el.shadowRoot?el.shadowRoot:null;};var u=q('aha-radio:not([checked]):not([disabled])');var c=q('aha-radio[checked]:not([disabled])');var ur=u?getComputedStyle(u.querySelector('.ring')):null;var cr=c?getComputedStyle(c.querySelector('.ring')):null;var cd=c?getComputedStyle(c.querySelector('.dot')):null;return{ringW:ur?ur.width:null,ringH:ur?ur.height:null,restBorder:ur?ur.borderTopColor:null,checkedBorder:cr?cr.borderTopColor:null,dotBg:cd?cd.backgroundColor:null};})()",
-    "expect": { "ringW": "16px", "ringH": "16px", "restBorder": "rgb(212, 212, 212)", "checkedBorder": "rgb(106, 30, 187)", "dotBg": "rgb(106, 30, 187)" }
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);return el&&el.shadowRoot?el.shadowRoot:null;};var u=q('aha-radio:not([checked]):not([disabled]):not([variant])');var c=q('aha-radio[data-probe]');var d=q('aha-radio[disabled]');var ur=u?getComputedStyle(u.querySelector('.ring')):null;var cr=c?getComputedStyle(c.querySelector('.ring')):null;var cd=c?getComputedStyle(c.querySelector('.dot')):null;var dr=d?getComputedStyle(d.querySelector('.ring')):null;return{ringW:cr?cr.width:null,ringH:cr?cr.height:null,restBorder:ur?ur.borderTopColor:null,checkedBorder:cr?cr.borderTopColor:null,dotBg:cd?cd.backgroundColor:null,disabledBg:dr?dr.backgroundColor:null,disabledBorder:dr?dr.borderTopColor:null};})()",
+    "expect": { "ringW": "16px", "ringH": "16px", "restBorder": "rgb(212, 212, 212)", "checkedBorder": "rgb(106, 30, 187)", "dotBg": "rgb(106, 30, 187)", "disabledBg": "rgb(241, 241, 241)", "disabledBorder": "rgb(235, 235, 235)" }
   }
 }

@@ -6,6 +6,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const mode = ref('poll');
+const view = ref('grid');
 </script>
 
 <template>
@@ -20,5 +21,11 @@ const mode = ref('poll');
       :checked.prop="mode === 'quiz'"
       @change="mode = $event.detail.value"
     >Quiz</aha-radio>
+  </div>
+
+  <!-- segmented button group — variant="button" (add size="small" for a compact row) -->
+  <div role="radiogroup" aria-label="View" style="display:flex">
+    <aha-radio name="view" value="grid" variant="button" :checked.prop="view === 'grid'" @change="view = $event.detail.value">Grid</aha-radio>
+    <aha-radio name="view" value="list" variant="button" :checked.prop="view === 'list'" @change="view = $event.detail.value">List</aha-radio>
   </div>
 </template>

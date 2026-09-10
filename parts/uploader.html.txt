@@ -1,16 +1,25 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-uploader> is the SAME shared custom element React and Vue consume.
-     Click or drag files onto the zone; it emits a composed `change` event with the File[]. -->
+     Click or drag files onto the zone; it emits a composed `change` event with the File[].
+     Feed `items` to render managed file rows/tiles with per-item state + a remove ✕. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-uploader.js';   // registers <aha-uploader>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon> glyphs
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-uploader.js'; // <aha-uploader>
 </script>
 
-<aha-uploader id="up" accept="image/*" multiple></aha-uploader>
+<!-- text mode: a drop zone + managed file rows (done / uploading / error) -->
+<aha-uploader id="up" accept="image/*" multiple
+  items='[{"name":"cover.png","status":"done"},{"name":"clip.mov","status":"uploading","percent":40},{"name":"bad.zip","status":"error"}]'>
+</aha-uploader>
+
+<!-- picture-card mode: thumbnail tiles + a dashed add-box; cap with maxcount -->
+<aha-uploader listtype="picture-card" maxcount="4"
+  items='[{"name":"a.png","status":"done","thumb":"a.png"}]'>
+</aha-uploader>
 
 <script>
-  // Plain DOM — no framework. Read e.detail.files off the composed CustomEvent.
-  document.getElementById('up').addEventListener('change', (e) => {
-    console.log('files:', e.detail.files.map((f) => f.name));
-  });
+  const up = document.getElementById('up');
+  up.addEventListener('change', (e) => console.log('files:', e.detail.files.map((f) => f.name)));
+  up.addEventListener('remove', (e) => console.log('remove:', e.detail.name, e.detail.index));
 </script>

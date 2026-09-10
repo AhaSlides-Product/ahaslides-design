@@ -1,52 +1,30 @@
 <div class="pad">
-  <div class="lbl">Group · one name = one mutually-exclusive set</div>
+  <div class="lbl">Group · one name = one mutually-exclusive set (the probe is the checked option)</div>
   <div class="stack" role="radiogroup" aria-label="Activity mode">
-    <aha-radio name="mode" value="poll" checked>Poll</aha-radio>
+    <aha-radio data-probe name="mode" value="poll" checked>Poll</aha-radio>
     <aha-radio name="mode" value="quiz">Quiz</aha-radio>
     <aha-radio name="mode" value="wordcloud">Word cloud</aha-radio>
   </div>
-  <div class="lbl">States · disabled</div>
+
+  <div class="lbl">Button variant · segmented connected pills</div>
+  <div class="row" role="radiogroup" aria-label="View" style="gap:0">
+    <aha-radio name="view" value="grid" variant="button" checked>Grid</aha-radio>
+    <aha-radio name="view" value="list" variant="button">List</aha-radio>
+    <aha-radio name="view" value="board" variant="button">Board</aha-radio>
+  </div>
+
+  <div class="lbl">Small size · disabled states</div>
   <div class="row">
+    <aha-radio name="sz" value="a" size="small" checked>Small on</aha-radio>
+    <aha-radio name="sz" value="b" size="small">Small off</aha-radio>
     <aha-radio name="lock" value="on" disabled checked>Locked on</aha-radio>
     <aha-radio name="lock2" value="off" disabled>Locked off</aha-radio>
   </div>
 </div>
 
+<!-- Imports the REAL shipped element (../lib/aha-radio.js) — no inlined copy, so the preview can
+     never drift from lib/. The playground control bar (Variant / Direction / Size + disabled) is
+     generated from contracts/radio.json → playground and drives the probe's attributes live. -->
 <script type="module">
-import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
-class AhaRadio extends LitElement {
-  static properties = { checked:{type:Boolean,reflect:true}, disabled:{type:Boolean,reflect:true}, value:{type:String}, name:{type:String} };
-  constructor(){ super(); this.checked=false; this.disabled=false; this.value=''; this.name=''; }
-  static styles = css`
-    :host{ display:inline-block }
-    label{ display:inline-flex; align-items:center; gap:8px;
-      font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:14px; line-height:21px;
-      color:var(--aha-text-default,#1A1A1A); cursor:pointer; user-select:none }
-    :host([disabled]) label{ cursor:not-allowed; color:var(--aha-text-disabled,#B5B5B5) }
-    input{ position:absolute; opacity:0; width:0; height:0; margin:0 }
-    .ring{ position:relative; flex:0 0 auto; width:16px; height:16px; box-sizing:border-box;
-      border:1px solid var(--aha-border-strong,#D4D4D4); border-radius:50%;
-      background:var(--aha-bg-container,#fff); display:inline-flex; align-items:center; justify-content:center;
-      transition:border-color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
-    .dot{ width:8px; height:8px; border-radius:50%; background:var(--aha-color-primary,#6A1EBB);
-      transform:scale(0);
-      transition:transform var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
-    label:hover .ring{ border-color:var(--aha-border-hover,#D3B4FF) }
-    :host([disabled]) label:hover .ring{ border-color:var(--aha-border-strong,#D4D4D4) }
-    :host([checked]) .ring{ border-color:var(--aha-color-primary,#6A1EBB) }
-    :host([checked]) .dot{ transform:scale(1) }
-    :host([disabled]) .ring{ background:var(--aha-bg-container-disabled,#F1F1F1); border-color:var(--aha-border-disabled,#EBEBEB) }
-    :host([disabled]) .dot{ background:var(--aha-text-disabled,#B5B5B5) }
-    input:focus-visible + .ring{ outline:2px solid var(--aha-color-primary,#6A1EBB); outline-offset:2px }
-    @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
-  `;
-  updated(){ const i=this.renderRoot.querySelector('input'); if(i){ i.checked=this.checked; i.disabled=this.disabled; } }
-  _toggle(){ if(this.disabled) return; if(this.checked) return; this.checked=true;
-    document.querySelectorAll('aha-radio').forEach(r => { if(r!==this && r.name===this.name) r.checked=false; });
-    this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{value:this.value,checked:true}})); }
-  render(){
-    return html`<label><input type="radio" @change=${this._toggle}/><span class="ring"><span class="dot"></span></span><slot></slot></label>`;
-  }
-}
-customElements.define('aha-radio', AhaRadio);
+  import '../lib/aha-radio.js';   // registers <aha-radio> — the shipped primitive, byte-identical to what consumers get
 </script>

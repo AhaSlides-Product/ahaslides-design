@@ -21,6 +21,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.18.0 — 2026-09-10
+### Added
+- **Data Entry controls → DS V3 matrix + playgrounds.** The leaf input controls gain interactive playgrounds and the props to back the full matrix. (#49)
+- **Input** — `size` (small/default/large), `status` (error/warning), `readonly`, `prefix`/`suffix` affixes (icon or text), `clearable`, and a password reveal toggle. (#49)
+- **Radio** — a `variant="button"` segmented pill group, `size` (default/small), and group `direction` (horizontal/vertical). (#49)
+- **Rate** — `allow-half`, `allow-clear`, a `count`, and a custom `icon` character (any DS glyph by name). (#49)
+- **Color picker** — `size` (small/default/large) and `disabled`, a richer preset ramp, and a check on the selected swatch. (#49)
+- **Switch** — `size` (default/small), `loading` (a spinner in the knob), and in-track `on-text`/`off-text` or `on-icon`/`off-icon`. (#49)
+- **Uploader** — `listtype` (text / picture-card), a managed item list with uploading/done/error states and a remove control, and `maxcount`. (#49)
+### Fixed
+- **Radio** — the shadow root was built via `insertAdjacentHTML`, which `ShadowRoot` doesn't implement (it extends `DocumentFragment`, not `Element`), so the element rendered blank in a real browser; it now builds from an appended fragment. (#49)
+
 ## 0.17.0 — 2026-09-10
 ### Added
 - **Layout group → DS V3 matrix + playgrounds.** The layout primitives gain interactive playgrounds and the props to back the full matrix. (#48)

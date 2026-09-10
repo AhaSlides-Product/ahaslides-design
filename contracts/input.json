@@ -5,27 +5,36 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-input",
-  "summary": "A single-line text field — names, search, numbers, short free text.",
-  "lead": "ONE custom element — <aha-input> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so every field reads identically across apps. State and type are attributes; it emits composed `input` / `change` events. Zero drift — the same element, not two look-alikes.",
+  "summary": "A single-line text field — names, search, numbers, short free text — with sizes, error/warning status, affixes, a clear ✕ and a password reveal.",
+  "lead": "ONE custom element — <aha-input> — defined once, imported unchanged by React and Vue. The DS V3 Input is a family, not a bare box: three sizes (small · default · large), three statuses (default · error · warning — border + ring recolour), disabled + readonly, and affixes — a leading `prefix-icon`/`prefix` and trailing `suffix-icon`/`suffix` (icon by name or text), a `clearable` ✕ that wipes the value, and a password reveal toggle. The focus ring lives on a persistent wrapper node and animates via the shared motion tokens — a class toggles, the subtree is never rebuilt on a state change. Shadow-DOM CSS, themed only by --aha-* tokens; it emits composed `input` / `change` / `clear` events. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-disabled", "text-default", "text-tertiary", "radius-default", "focus-ring-soft", "border-error"],
+  "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-tertiary", "text-disabled", "radius-default", "radius-sm", "focus-ring-soft", "border-error", "color-error", "border-warning", "color-warning", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "height 32 (md) · radius 8 · padding 0 12" },
-    { "label": "Sizes", "value": "sm 24 · md 32 · lg 40 — all radius 8" },
+    { "label": "Box", "value": "height 32 (default) · radius 8 · padding 0 12" },
+    { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
     { "label": "Rest border", "value": "1px #E3E3E3" },
     { "label": "Hover border", "value": "#D3B4FF (purple-30)" },
-    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring" },
-    { "label": "Invalid", "value": "#F5222D border + red ring" },
+    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring (on the persistent wrapper)" },
+    { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
+    { "label": "Warning", "value": "#FF7747 border + warning-tinted ring" },
+    { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
+    { "label": "Readonly", "value": "#F7F7F7 fill, still selectable" },
+    { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable ✕; password reveal (eye)" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
-    { "name": "type", "type": "text | number | email | password | search", "default": "text", "desc": "Native input type" },
-    { "name": "size", "type": "sm | md | lg", "default": "md", "desc": "Control height — sm 24 · md 32 · lg 40 (DS V3 field scale); radius stays 8" },
+    { "name": "type", "type": "text | number | email | password | search", "default": "text", "desc": "Native input type; password adds a reveal (eye) toggle" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 32 · large 40 (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases)" },
+    { "name": "status", "type": "default | error | warning", "default": "default", "desc": "Border + ring recolour; error also sets aria-invalid (legacy `invalid` boolean = status error)" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
-    { "name": "invalid", "type": "boolean", "default": "false", "desc": "Error styling (red border)" },
-    { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on each keystroke; read e.detail.value" }
+    { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
+    { "name": "prefix-icon / prefix", "type": "string", "default": "—", "desc": "Leading affix — an icon by name (from the DS library) or plain text" },
+    { "name": "suffix-icon / suffix", "type": "string", "default": "—", "desc": "Trailing affix — an icon by name or plain text (e.g. a domain)" },
+    { "name": "clearable", "type": "boolean", "default": "false", "desc": "Shows a ✕ when non-empty that wipes the value and emits `clear`" },
+    { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on each keystroke; read e.detail.value" },
+    { "name": "clear", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event when the ✕ clears the field" }
   ],
   "opinion": {
     "whenToUse": [
@@ -33,8 +42,8 @@
       { "what": "Textarea", "when": "multi-line free text (descriptions, messages)" },
       { "what": "Select", "when": "one value from a known set — don't make the user type it" }
     ],
-    "note": "Label the field with a noun phrase; use placeholder for an example, never as the label. Show the invalid state only after the user leaves the field, and pair it with a message that says how to fix it.",
-    "dsv3": "Sizes match the measured DS V3 input cells (sm/md/lg = 24/32/40, radius 8, default md 32 = controlHeight root). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker)."
+    "note": "Label the field with a noun phrase; use placeholder for an example, never as the label. Show the error status only after the user leaves the field, and pair it with a message that says how to fix it. Reach for a prefix icon to hint the field's job (a magnifier for search, an envelope for email), a suffix for a fixed unit or domain, clearable for search/filter fields, and password reveal for credentials.",
+    "dsv3": "COVERED — enumerated from the DS V3 Input component-set taxonomy: Input (Size · Status), Components/Input-Affix (prefix/suffix), Input-Addon/Label + Input-Addon/Icon (addons), Password (reveal toggle). Sizes match the measured DS V3 input cells (small/default/large = 24/32/40, radius 8, default 32 = controlHeight root). Error border is the measured error stroke bound to `border-error` (#F5222D token; the measured cell reads #FF5A7A, reconciled to the DS error token). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker). Warning status + affixes/clear/reveal follow the same token layer; motion + focus ring on a persistent node."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-input", "registers": "aha-input", "exportsNamed": ["AhaInput", "defineAhaInput"] },
@@ -44,17 +53,43 @@
     { "key": "vue", "label": "Vue 3", "file": "input.vue.txt" }
   ],
   "preview": "input.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Default", "value": "default" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "status", "label": "Status", "default": "error", "options": [
+        { "label": "Default", "value": null },
+        { "label": "Error", "value": "error" },
+        { "label": "Warning", "value": "warning" }
+      ] },
+      { "prop": "prefix-icon", "label": "Prefix", "default": "none", "options": [
+        { "label": "None", "value": null },
+        { "label": "Search", "value": "system-magnifying-glass" },
+        { "label": "Email", "value": "system-envelope" },
+        { "label": "Lock", "value": "system-lock" }
+      ] },
+      { "prop": "clearable", "label": "Clearable", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "height 32 (md) · sm 24 · lg 40 · radius 8", "verdict": "PASS" },
+    { "label": "height 32 (default) · small 24 · large 40 · radius 8", "verdict": "PASS" },
     { "label": "rest border #E3E3E3", "verdict": "PASS" },
-    { "label": "focus #6A1EBB border + ring", "verdict": "PASS" },
+    { "label": "focus #6A1EBB border + ring (persistent wrapper)", "verdict": "PASS" },
+    { "label": "error #F5222D border + aria-invalid; warning #FF7747 border", "verdict": "PASS" },
+    { "label": "prefix/suffix affix, clearable ✕, password reveal render", "verdict": "PASS" },
     { "label": "placeholder #8A8A8A 14/21", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-input[data-probe]') && document.querySelector('aha-input[data-probe]').shadowRoot && document.querySelector('aha-input[data-probe]').shadowRoot.querySelector('.field'))",
+    "ready": "!!(document.querySelector('aha-input[data-probe]') && document.querySelector('aha-input[data-probe]').shadowRoot && document.querySelector('aha-input[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-input[data-probe]');var f=el&&el.shadowRoot&&el.shadowRoot.querySelector('.field');var s=f?getComputedStyle(f):null;return{height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,border:s?s.borderTopColor:null,fontSize:s?s.fontSize:null};})()",
-    "expect": { "height": "32px", "radius": "8px", "border": "rgb(227, 227, 227)", "fontSize": "14px" }
+    "measure": "(function(){var el=document.querySelector('aha-input[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,ariaInvalid:f?f.getAttribute('aria-invalid'):null};})()",
+    "expect": { "height": "32px", "radius": "8px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "ariaInvalid": "true" }
   }
 }

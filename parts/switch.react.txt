@@ -1,13 +1,18 @@
+import '@ahaslides-product/design/icons';        // registers <aha-icon> (loading spinner + children glyphs)
 import '@ahaslides-product/design/aha-switch';   // registers <aha-switch>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-switch> directly.
-function AhaSwitch({ checked, disabled, onChange }) {
+function AhaSwitch({ checked, disabled, loading, size, checkedChildren, unCheckedChildren, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
     el.checked = !!checked;
     el.disabled = !!disabled;
+    el.loading = !!loading;
+    size ? el.setAttribute('size', size) : el.removeAttribute('size');
+    checkedChildren != null ? el.setAttribute('on-text', checkedChildren) : el.removeAttribute('on-text');
+    unCheckedChildren != null ? el.setAttribute('off-text', unCheckedChildren) : el.removeAttribute('off-text');
     const h = (e) => onChange?.(e.detail.checked);   // composed CustomEvent
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
@@ -17,3 +22,6 @@ function AhaSwitch({ checked, disabled, onChange }) {
 
 // usage — applies immediately, no save step
 <AhaSwitch checked={live} onChange={setLive} />
+<AhaSwitch size="small" checked={compact} onChange={setCompact} />
+<AhaSwitch loading checked={saving} />
+<AhaSwitch checkedChildren="On" unCheckedChildren="Off" checked={live} onChange={setLive} />
