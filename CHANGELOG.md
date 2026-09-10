@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.22.2 — 2026-09-10
+### Fixed
+- **Standards gate — pattern guide ↔ reuse graph.** A pattern's guide and its `composedOf` must now agree: every shipped DS element the guide points authors at (a `<aha-*>` tag that resolves to a real contract) has to be declared in `composedOf`, so the machine-readable reuse graph can't drift from the human-readable mapping. Sub-parts the DS doesn't ship as a contract (e.g. `<aha-settings-item>`) are ignored. (#62)
+
 ## 0.22.1 — 2026-09-10
 ### Fixed
 - **Standards gate — CHANGELOG PR ref.** The repo gate now rejects an unfilled `(#PR)` placeholder in the top changelog entry (any digit-less `(#…)` ref), closing the hole that let placeholders ship green. Rule text in `AGENTS.md`/`CHANGELOG.md` updated to require the real PR number. (#60)
