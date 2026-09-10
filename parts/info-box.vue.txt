@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-info-box';   // registers <aha-info-box>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const seen = ref(false);
+</script>
+
+<template>
+  <!-- bespoke callout (NOT Ant Alert); @dismiss fires after the box fades out -->
+  <aha-info-box
+    v-if="!seen"
+    variant="warning"
+    dismissible
+    @dismiss="seen = true"
+  >Turning this off clears saved responses.</aha-info-box>
+</template>

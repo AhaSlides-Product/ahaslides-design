@@ -1,0 +1,58 @@
+{
+  "name": "Question list",
+  "slug": "question-list",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component — composite",
+  "element": "aha-question-list",
+  "summary": "An editable list of collapsible questions — each a prompt field plus its OptionRow choices — with a full-width \"+ Add question\" that disables at max; composes NumberedItem + OptionRow (SETTINGS-31/36).",
+  "lead": "ONE custom element — <aha-question-list> — the composite settings surface for an editable list of questions (SETTINGS-31/36). Each question is a collapsible NumberedItem (a prompt field + its OptionRow choices), and a full-width \"+ Add question\" button sits beneath, disabling at `max`. It COMPOSES the DS composites it is built from — NumberedItem (the grey card, chip, header, collapse and delete) and OptionRow (each choice) — never re-implementing them. No \"X of Y\" counter: limits are conveyed by +Add disabling at max and delete disabling at min (SETTINGS-36). Question delete disables at `min`; option delete at `minoptions`. Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `change` CustomEvent<{questions}> on every edit.",
+  "codeNote": "A composite element that COMPOSES DS composites (NumberedItem, OptionRow) + the prompt CountedInput — never re-implementing them. Set the model as a property (`el.questions = [...]`) or a JSON attribute. React (< 19) via a thin ref wrapper; Vue binds natively.",
+  "tokensUsed": ["color-primary", "border-hover", "border-disabled", "bg-container", "bg-container-disabled", "bg-accent", "text-disabled", "radius-default"],
+  "spec": [
+    { "label": "Question", "value": "a collapsible NumberedItem — prompt (counted input) + OptionRow choices + \"+ Add option\"" },
+    { "label": "Add question", "value": "full-width dashed \"+ Add question\" (system-plus), disabled at max (SETTINGS-31)" },
+    { "label": "Add option", "value": "per-question \"+ Add option\", disabled at maxoptions" },
+    { "label": "Limits", "value": "no \"X of Y\" counter — +Add disables at max, delete disables at min (SETTINGS-36)" },
+    { "label": "Delete", "value": "question delete disables at min; option delete disables at minoptions" }
+  ],
+  "props": [
+    { "name": "questions", "type": "Array<{id,prompt,options:[{id,text,correct}]}>", "default": "[]", "desc": "The model; set as a property or a JSON attribute" },
+    { "name": "min", "type": "number", "default": "1", "desc": "Minimum questions — delete disables at this count" },
+    { "name": "max", "type": "number", "default": "∞", "desc": "Maximum questions — +Add disables at this count" },
+    { "name": "minoptions", "type": "number", "default": "2", "desc": "Minimum options per question — option delete disables at this count" },
+    { "name": "maxoptions", "type": "number", "default": "∞", "desc": "Maximum options per question — +Add option disables at this count" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Disable adding questions" },
+    { "name": "change", "type": "CustomEvent<{questions}>", "default": "—", "desc": "Composed event on any edit; read e.detail.questions (the full model)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Question list", "when": "an editable set of questions, each with its own prompt + choices (a quiz builder, a survey)" },
+      { "what": "Option row list", "when": "a flat list of options for ONE question — compose OptionRow directly" }
+    ],
+    "note": "The primary +Add spans the full panel width (SETTINGS-31) — never hugged to one side. Never a textual \"X of Y\" count (SETTINGS-36) — the +Add disables at max and delete disables at min. Composes NumberedItem + OptionRow; it does not re-implement the numbered card or the option row.",
+    "dsv3": "COVERED — the settings-lab QuestionList control mapped into the DS. It composes NumberedItem and OptionRow into the editable-questions surface (SETTINGS-31/36), reusing the DS composites rather than a hand-rolled numbered box."
+  },
+  "surfaces": ["editor", "settings"],
+  "reuse": { "entry": "./aha-question-list", "registers": "aha-question-list", "exportsNamed": ["AhaQuestionList", "defineAhaQuestionList"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "question-list.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "question-list.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "question-list.vue.txt" }
+  ],
+  "preview": "question-list.preview.html",
+  "playground": { "controls": [] },
+  "selfCheck": [
+    { "label": "each question is a collapsible NumberedItem (prompt + OptionRow choices)", "verdict": "PASS" },
+    { "label": "full-width \"+ Add question\", disabled at max (SETTINGS-31)", "verdict": "PASS" },
+    { "label": "no \"X of Y\" counter — +Add disables at max, delete at min (SETTINGS-36)", "verdict": "PASS" },
+    { "label": "composes NumberedItem + OptionRow — no re-implementation", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). A composite element — measured on its full-width +Add button.",
+    "ready": "!!(document.querySelector('aha-question-list[data-probe]') && document.querySelector('aha-question-list[data-probe]').shadowRoot && document.querySelector('aha-question-list[data-probe]').shadowRoot.querySelector('.add-q'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-question-list[data-probe]');var r=el&&el.shadowRoot;var a=r&&r.querySelector('.add-q');var s=a?getComputedStyle(a):null;return{color:s?s.color:null,border:s?s.borderTopColor:null,height:s?s.height:null,fontSize:s?s.fontSize:null};})()",
+    "expect": { "color": "rgb(106, 30, 187)", "border": "rgb(211, 180, 255)", "height": "32px", "fontSize": "14px" }
+  }
+}

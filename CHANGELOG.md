@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.30.0 — 2026-09-10
+## 0.32.0 — 2026-09-10
 ### Added
 - **Illustration** — new `<aha-illustration name="…" size="…">` element + a call-by-name library of 20 multi-colour spot illustrations (empty states, onboarding, plan tiers, offers, mascots) from a shared registry, sized by a single edge with aspect ratio preserved (`./illustrations` export). (#67)
 - **User info** — new leaf `<aha-user-info>`: an avatar + name row with an optional email, reusing the shared `<aha-avatar>`. (#67)
@@ -31,6 +31,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Tooltip** — new `help` attribute on `<aha-tooltip>`: a built-in, focusable `?` help trigger (DS `system-question-mark` icon) that shows the tooltip on focus as well as hover. (#67)
 - **Paywall** — an upgrade-mark → upsell popover on `<aha-paywall>`: a plan-gated affordance that opens a themed popover carrying the plan message and Upgrade / See all plans actions. (#67)
 - **CSAT** — new `inline` variant on `<aha-csat>`: a compact single-row layout (prompt + thumbs-up/down icons, no card). (#67)
+
+## 0.31.0 — 2026-09-10
+### Removed
+- **Button** — dropped the `xl` (52px) and `2xl` (60px) sizes. `size` is now `sm | md | lg`. Migrate any `size="xl"` / `size="2xl"` to `size="lg"`. **Breaking.** (#66)
+### Changed
+- **Button** — the default `size` is now **lg (40px)** (was `md`). Buttons with no explicit `size` grow from 36px to 40px; pin `size="md"` to keep the old height. (#66)
+
+## 0.30.0 — 2026-09-10
+### Added
+- **Settings controls (10 new leaves + composites)** — the settings-lab composition family graduates into the DS as real, reusable elements: `<aha-counted-textarea>` (multi-line focus-only counter, autogrow minRows→maxRows), `<aha-number-with-unit>` (digit input + inline unit-in-full + hover stepper, clamped, `role=spinbutton`), `<aha-card-select>` (single-select icon+label card grid, roving `radiogroup`), `<aha-mode-field>` (label + inline exclusive mode control, body swaps in place), `<aha-info-box>` (bespoke tinted callout info/success/warning/error, optional dismiss, `role=status`), `<aha-numbered-item>` (numbered composite-item wrapper, chip + hover delete + grey container), `<aha-image-action-button>` (per-option image control, empty/loading/thumbnail + Change/Edit/Delete, emits intents), `<aha-image-dropzone>` (full-width dashed image field, emits intents), `<aha-option-row>` (repeatable option row: drag handle + borderless counted textarea + optional correct-toggle/image + hover delete), `<aha-question-list>` (collapsible questions composing NumberedItem + OptionRow, add/remove). Each ships contract + `lib/` element + HTML/React/Vue snippets + preview, is registered and exported, and flips its `patterns/settings.json` `composedOf` entry from `missing → available`. The `<aha-counted-input>` reference (from the branch) ships in this release too. (#65)
 
 ## 0.29.0 — 2026-09-10
 ### Added

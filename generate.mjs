@@ -163,8 +163,24 @@ const CATALOG = [
     { name: 'Paywall',        slug: 'paywall' },
     { name: 'Status badge',   slug: 'status-badge' },
     { name: 'CSAT',           slug: 'csat' },
-    { name: 'Settings list',  slug: 'settings-list' },
     { name: 'Screen heading', slug: 'screen-heading' },
+  ] },
+  /* Settings — the settings-panel composition family: the schema-driven list plus the shipped
+     controls a slide-type/settings surface composes (settings-lab → DS). Not-yet-built controls
+     render greyed as "soon" so the nav shows the whole roadmap in one coherent place. */
+  { cat: 'Settings', items: [
+    { name: 'Settings list',       slug: 'settings-list' },
+    { name: 'Counted input',       slug: 'counted-input' },
+    { name: 'Counted textarea',    slug: 'counted-textarea' },
+    { name: 'Number with unit',    slug: 'number-with-unit' },
+    { name: 'Card select',         slug: 'card-select' },
+    { name: 'Mode field',          slug: 'mode-field' },
+    { name: 'Info box',            slug: 'info-box' },
+    { name: 'Numbered item',       slug: 'numbered-item' },
+    { name: 'Image action button', slug: 'image-action-button' },
+    { name: 'Image dropzone',      slug: 'image-dropzone' },
+    { name: 'Option row',          slug: 'option-row' },
+    { name: 'Question list',       slug: 'question-list' },
   ] },
 ];
 let LIVE = new Set();   // slugs with a real contract — assigned once contracts load

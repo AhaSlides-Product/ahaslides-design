@@ -1,0 +1,75 @@
+{
+  "name": "Option row",
+  "slug": "option-row",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component — composite",
+  "element": "aha-option-row",
+  "summary": "The repeatable option/answer row — one bordered row with an inside drag handle, a borderless counted textarea, an optional correct toggle and per-option image, and a floating hover delete (SETTINGS-20/34/23/39).",
+  "lead": "ONE custom element — <aha-option-row> — the repeatable option/answer row, composed from DS primitives. Its UNIVERSAL CORE (SETTINGS-34): the ROW carries the ONE border (radius 8) — the text field inside is a BORDERLESS counted textarea (no box-in-a-box / double border); the drag handle is the FIRST child INSIDE that border (not a column to its left); the delete floats just OUTSIDE the top-right, shown ONLY on hover and disabled at the minimum item count (SETTINGS-23). Per-type extras compose in only when the type has them — a correct-answer checkbox (scored types) and the per-option image control (SETTINGS-22). The drag handle appears only when order matters (`orderable`); an unordered set is not numbered (SETTINGS-39). Reuses <aha-counted-textarea borderless>, <aha-checkbox> and <aha-image-action-button>. Shadow-DOM CSS, themed only by --aha-* tokens.",
+  "codeNote": "A composite element that COMPOSES DS leaves (never re-implements them): the borderless CountedTextarea, the Checkbox, the ImageActionButton. React (< 19) via a thin ref wrapper; Vue binds natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "border-hover", "color-primary", "color-error", "bg-container", "bg-elevated", "text-disabled", "icon-muted", "radius-default", "radius-pill", "focus-ring-soft", "ink-a10"],
+  "spec": [
+    { "label": "Row", "value": "the ONE border — 1px #E3E3E3, radius 8; field inside is borderless (no double border)" },
+    { "label": "Drag handle", "value": "system-drag, FIRST child inside the border; shown only when order matters (orderable)" },
+    { "label": "Text", "value": "borderless counted textarea — focus-only counter, wraps, scrolls beyond ~4 lines (SETTINGS-21)" },
+    { "label": "Correct", "value": "optional leading checkbox (correctable) — scored types only" },
+    { "label": "Image", "value": "optional per-option ImageActionButton (image) — the full state set (SETTINGS-22)" },
+    { "label": "Delete", "value": "floats just OUTSIDE the top-right, hover-only, disabled at min (candelete=false)" },
+    { "label": "Focus", "value": "focus-within → #6A1EBB row border + ring (on the one persistent border)" }
+  ],
+  "props": [
+    { "name": "value", "type": "string", "default": "\"\"", "desc": "The option text" },
+    { "name": "placeholder", "type": "string", "default": "Option text", "desc": "Empty-field hint" },
+    { "name": "maxlength", "type": "number", "default": "—", "desc": "Character cap — turns the focus-only counter on" },
+    { "name": "orderable", "type": "boolean", "default": "false", "desc": "Show the drag handle (order carries meaning) — omit for an unordered set (SETTINGS-39)" },
+    { "name": "correctable", "type": "boolean", "default": "false", "desc": "Show the leading correct-answer checkbox (scored types)" },
+    { "name": "correct", "type": "boolean", "default": "false", "desc": "Whether this option is marked correct" },
+    { "name": "image", "type": "boolean", "default": "false", "desc": "Show the per-option image control" },
+    { "name": "imagestate", "type": "empty | loading | filled", "default": "empty", "desc": "The image control's state" },
+    { "name": "imagesrc", "type": "string", "default": "—", "desc": "The image thumbnail URL when filled" },
+    { "name": "candelete", "type": "boolean", "default": "true", "desc": "false disables the delete at the minimum item count" },
+    { "name": "input / correct-change / delete", "type": "CustomEvent", "default": "—", "desc": "Composed events; image-add/change/edit/delete are forwarded from the image control" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Option row", "when": "a slide type's option / answer list — the \"Items\" list (SETTINGS-20)" },
+      { "what": "Numbered item", "when": "a repeatable COMPOSITE item with its own body of fields (a Question)" }
+    ],
+    "note": "The row is the one border; the field inside is borderless — never a box-in-a-box (SETTINGS-34). The drag handle lives INSIDE the border and only when order matters (SETTINGS-39). The delete is hover-only and disables (not hides) at the minimum count (SETTINGS-23). No \"X of Y\" counter — the +Add disables at max and delete at min (SETTINGS-36).",
+    "dsv3": "COVERED — the settings-lab OptionRow control mapped into the DS. It composes the DS borderless field, checkbox and image control into the reference option-row anatomy (SETTINGS-20/34/23/39)."
+  },
+  "surfaces": ["editor", "settings"],
+  "reuse": { "entry": "./aha-option-row", "registers": "aha-option-row", "exportsNamed": ["AhaOptionRow", "defineAhaOptionRow"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "option-row.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "option-row.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "option-row.vue.txt" }
+  ],
+  "preview": "option-row.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "orderable", "label": "Orderable", "default": "true", "options": [
+        { "label": "Yes", "value": "" },
+        { "label": "No", "value": null }
+      ] },
+      { "prop": "correctable", "label": "Correct toggle", "default": "false", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "the ROW carries the ONE border; field inside borderless (no double border) — SETTINGS-34", "verdict": "PASS" },
+    { "label": "drag handle is the FIRST child INSIDE the border, only when orderable (SETTINGS-39)", "verdict": "PASS" },
+    { "label": "delete floats just outside the top-right, hover-only, disabled at min (SETTINGS-23)", "verdict": "PASS" },
+    { "label": "composes DS leaves (borderless CountedTextarea, Checkbox, ImageActionButton) — no re-implementation", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). A composite element — measured on its ONE rendered row.",
+    "ready": "!!(document.querySelector('aha-option-row[data-probe]') && document.querySelector('aha-option-row[data-probe]').shadowRoot && document.querySelector('aha-option-row[data-probe]').shadowRoot.querySelector('.row'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-option-row[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.row');var s=w?getComputedStyle(w):null;return{border:s?s.borderTopColor:null,bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,paddingLeft:s?s.paddingLeft:null};})()",
+    "expect": { "border": "rgb(227, 227, 227)", "bg": "rgb(255, 255, 255)", "radius": "8px", "paddingLeft": "10px" }
+  }
+}

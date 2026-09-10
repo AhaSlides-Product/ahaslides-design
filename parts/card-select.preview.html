@@ -1,0 +1,18 @@
+<div class="pad">
+  <div class="lbl">Single-select card grid — Tab in, then Arrow keys move-and-select</div>
+  <div class="row" style="display:block; max-width:420px">
+    <aha-card-select data-probe columns="3" value="bar"
+      options='[{"value":"bar","label":"Bar","icon":"system-chart-bar"},{"value":"line","label":"Line","icon":"system-chart-line-up"},{"value":"pie","label":"Pie","icon":"system-chart-pie"}]'></aha-card-select>
+  </div>
+  <div class="lbl">Disabled</div>
+  <div class="row" style="display:block; max-width:420px">
+    <aha-card-select disabled columns="3" value="line"
+      options='[{"value":"bar","label":"Bar","icon":"system-chart-bar"},{"value":"line","label":"Line","icon":"system-chart-line-up"},{"value":"pie","label":"Pie","icon":"system-chart-pie"}]'></aha-card-select>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-card-select.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-card-select.js';   // registers <aha-card-select> — the shipped primitive
+</script>

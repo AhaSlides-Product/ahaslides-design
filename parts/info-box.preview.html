@@ -1,0 +1,15 @@
+<div class="pad">
+  <div class="lbl">Four tones — bespoke tinted callouts (not Ant Alert); the warning one is dismissible</div>
+  <div class="row" style="display:flex; flex-direction:column; gap:8px; max-width:440px; align-items:stretch">
+    <aha-info-box data-probe variant="information">Points are awarded for correct answers only.</aha-info-box>
+    <aha-info-box variant="success">Your changes are saved.</aha-info-box>
+    <aha-info-box variant="warning" dismissible>Turning this off clears saved responses.</aha-info-box>
+    <aha-info-box variant="error">This slide type needs at least two options.</aha-info-box>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-info-box.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-info-box.js';   // registers <aha-info-box> — the shipped primitive
+</script>

@@ -1,0 +1,21 @@
+<div class="pad">
+  <div class="lbl">Hover a field to reveal the ▲/▼ stepper · the unit is inline (short label — "sec")</div>
+  <div class="row">
+    <aha-number-with-unit value="20" unit="sec" min="5" max="120" maxdigits="4"></aha-number-with-unit>
+    <aha-number-with-unit value="1000" unit="pt" min="0" max="9999" maxdigits="4"></aha-number-with-unit>
+    <aha-number-with-unit value="50" unit="%" min="0" max="100" maxdigits="3"></aha-number-with-unit>
+  </div>
+  <div class="lbl">Error line (probe) · sizes · disabled</div>
+  <div class="row">
+    <aha-number-with-unit data-probe value="200" unit="sec" min="5" max="120" errormessage="Must be 120 or less."></aha-number-with-unit>
+    <aha-number-with-unit size="small" value="10" unit="sec" min="5" max="120"></aha-number-with-unit>
+    <aha-number-with-unit size="large" value="30" unit="sec" min="5" max="120"></aha-number-with-unit>
+    <aha-number-with-unit disabled value="20" unit="sec"></aha-number-with-unit>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-number-with-unit.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-number-with-unit.js';   // registers <aha-number-with-unit> — the shipped primitive
+</script>

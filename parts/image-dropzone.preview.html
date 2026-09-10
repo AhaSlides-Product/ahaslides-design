@@ -1,0 +1,17 @@
+<div class="pad">
+  <div class="lbl">Empty — full-width dashed upload card (the image IS the field)</div>
+  <div class="row" style="display:block; max-width:440px">
+    <aha-image-dropzone data-probe state="empty" label="Add background image"></aha-image-dropzone>
+  </div>
+  <div class="lbl">Loading (same height — no jump) · filled (hover for the Change/Edit/Delete overlay)</div>
+  <div class="row" style="display:flex; gap:12px; max-width:900px">
+    <div style="flex:1; min-width:200px"><aha-image-dropzone state="loading" label="Add image"></aha-image-dropzone></div>
+    <div style="flex:1; min-width:200px"><aha-image-dropzone state="filled" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='140'%3E%3Crect width='320' height='140' fill='%23D3B4FF'/%3E%3C/svg%3E"></aha-image-dropzone></div>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-image-dropzone.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-image-dropzone.js';   // registers <aha-image-dropzone> — the shipped primitive
+</script>

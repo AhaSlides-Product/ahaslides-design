@@ -1,0 +1,20 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-counted-input';   // registers <aha-counted-input>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const answer = ref('');
+</script>
+
+<template>
+  <!-- size: small | default | large  ·  maxlength turns the focus-only counter on -->
+  <aha-counted-input
+    size="default"
+    maxlength="80"
+    placeholder="Answer"
+    :value.prop="answer"
+    @input="answer = $event.detail.value"
+  />
+</template>

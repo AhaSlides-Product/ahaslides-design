@@ -1,0 +1,14 @@
+<div class="pad">
+  <div class="lbl">Editable questions — each a collapsible card (prompt + choices); full-width "+ Add question" below</div>
+  <div class="row" style="display:block; max-width:460px">
+    <aha-question-list data-probe min="1" max="10" minoptions="2" maxoptions="6"
+      questions='[{"id":"q1","prompt":"Capital of France?","options":[{"id":"o1","text":"Paris","correct":true},{"id":"o2","text":"London"}]},{"id":"q2","prompt":"Largest ocean?","options":[{"id":"o3","text":"Pacific","correct":true},{"id":"o4","text":"Atlantic"}]}]'></aha-question-list>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-question-list.js) — no inlined copy, so the preview
+     can never drift from lib/. It transitively pulls the composed composites (numbered-item, option-row,
+     counted-input) and their leaves. -->
+<script type="module">
+  import '../lib/aha-question-list.js';   // registers <aha-question-list> — the shipped composite
+</script>

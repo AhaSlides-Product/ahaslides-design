@@ -1,0 +1,66 @@
+{
+  "name": "Image action button",
+  "slug": "image-action-button",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-image-action-button",
+  "summary": "The compact per-option image control — an image icon button with empty / loading / thumbnail states and a Change/Edit/Delete menu; it emits intents, the host owns the modals.",
+  "lead": "ONE custom element — <aha-image-action-button> — the per-OPTION image control (SETTINGS-22/32). It is an image ICON button, never a text button labelled \"Image\". Three states: empty (an \"Add image\" icon button), loading (a spinner at the same size, no layout jump), and filled (the thumbnail with a hover pencil overlay that opens a Change / Edit / Delete menu). It OWNS no modals — it EMITS intents (`add` / `change` / `edit` / `delete`) and the host runs the upload/crop/confirm flow. Glyphs are summoned by name via <aha-icon>. Shadow-DOM CSS, themed only by --aha-* tokens; the outside-click listener is removed on disconnect.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. Wire the host to the intents; drive `state`/`src` from the host's upload flow. React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
+  "tokensUsed": ["border", "border-hover", "border-disabled", "color-primary", "color-error", "bg-container", "bg-container-disabled", "bg-elevated", "bg-hover", "bg-overlay", "text-default", "text-inverse", "text-disabled", "icon-muted", "radius-default", "radius-sm", "radius-pill", "ink-a10"],
+  "spec": [
+    { "label": "Trigger", "value": "40×40 icon button, radius 8, 1px #E3E3E3 border" },
+    { "label": "Empty", "value": "system-image-square glyph + \"Add image\" tooltip; click emits `add`" },
+    { "label": "Loading", "value": "spinner at the same 40×40 size — no layout jump" },
+    { "label": "Filled", "value": "thumbnail + hover pencil overlay; click opens Change/Edit/Delete" },
+    { "label": "Menu", "value": "Change / Edit / Delete (Delete in #F5222D); each emits an intent" },
+    { "label": "Intents", "value": "add · change · edit · delete — host owns the modals, this owns none" },
+    { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
+  ],
+  "props": [
+    { "name": "state", "type": "empty | loading | filled", "default": "empty", "desc": "The control's state — drives which affordance shows" },
+    { "name": "src", "type": "string", "default": "—", "desc": "The thumbnail image URL when filled" },
+    { "name": "label", "type": "string", "default": "Add image", "desc": "The empty-state tooltip / aria-label" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
+    { "name": "add / change / edit / delete", "type": "CustomEvent", "default": "—", "desc": "Composed intents — the host runs the corresponding modal/flow" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Image action button", "when": "a per-OPTION image cell in an option row" },
+      { "what": "Image dropzone", "when": "a standalone MAIN image field where the image IS the field (SETTINGS-44)" }
+    ],
+    "note": "Per-option image support is all-or-nothing: present with its FULL state set, or the control is omitted entirely — never a disabled/greyed stub when unsupported (SETTINGS-22). It is a compact icon button, not a text \"Image\" button (SETTINGS-32). It emits intents; the host owns the upload/crop modals — never a self-built uploader.",
+    "dsv3": "COVERED — the settings-lab ImageActionButton control mapped into the DS. The icon button, overlay and menu reuse DS V3 tokens; the empty/loading/filled state machine + intent events are the settings-specific shape (SETTINGS-22/32)."
+  },
+  "surfaces": ["editor", "settings"],
+  "reuse": { "entry": "./aha-image-action-button", "registers": "aha-image-action-button", "exportsNamed": ["AhaImageActionButton", "defineAhaImageActionButton"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "image-action-button.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "image-action-button.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "image-action-button.vue.txt" }
+  ],
+  "preview": "image-action-button.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "state", "label": "State", "default": "empty", "options": [
+        { "label": "Empty", "value": "empty" },
+        { "label": "Loading", "value": "loading" },
+        { "label": "Filled", "value": "filled" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "compact image ICON button — not a text \"Image\" button (SETTINGS-32)", "verdict": "PASS" },
+    { "label": "full state set: empty → loading (same size, no jump) → filled + hover pencil → Change/Edit/Delete (SETTINGS-22)", "verdict": "PASS" },
+    { "label": "emits intents (add/change/edit/delete); owns no modal", "verdict": "PASS" },
+    { "label": "glyphs by name via <aha-icon>; outside-click listener removed on disconnect", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-image-action-button[data-probe]') && document.querySelector('aha-image-action-button[data-probe]').shadowRoot && document.querySelector('aha-image-action-button[data-probe]').shadowRoot.querySelector('.trigger'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-image-action-button[data-probe]');var r=el&&el.shadowRoot;var t=r&&r.querySelector('.trigger');var s=t?getComputedStyle(t):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null};})()",
+    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(227, 227, 227)", "radius": "8px", "height": "40px" }
+  }
+}

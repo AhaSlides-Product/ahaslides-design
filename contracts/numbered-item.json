@@ -1,0 +1,69 @@
+{
+  "name": "Numbered item",
+  "slug": "numbered-item",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-numbered-item",
+  "summary": "The numbered wrapper for a repeatable composite item — a grey card with a muted number chip, a \"<Label> N\" header, a hover delete, and a body slot (SETTINGS-43).",
+  "lead": "ONE custom element — <aha-numbered-item> — the wrapper for a repeatable COMPOSITE item (a Question, a Card, a Round): its own body of fields (in the slot) under a number chip + \"<Label> N\" header + hover delete (SETTINGS-43). The `contained` variant (default) wraps the WHOLE item — chip, header, delete AND body — inside ONE secondary-fill grey card (never a header sitting above a separately-grey body); the number chip is a MUTED GREY circle (never a radical-purple badge). The delete is a TERTIARY text trash (borderless, non-danger) shown ONLY on hover with its space reserved, hidden entirely for a non-removable item (`deletable=false`) and disabled at the minimum count (`candelete=false`). The `plain` variant drops the fill and is for SINGLE-FIELD items only. Delete glyph by name via <aha-icon>. Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `delete`.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. The item's fields go in the default slot. React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
+  "tokensUsed": ["bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-secondary", "text-disabled", "icon-muted", "color-error", "radius-default", "radius-sm", "radius-pill"],
+  "spec": [
+    { "label": "Contained", "value": "whole item in ONE #F7F7F7 grey card, radius 8, no border, padding 12" },
+    { "label": "Chip", "value": "22px muted-grey pill (#F1F1F1 / #4A4A4A), semibold 12 — never radical-purple" },
+    { "label": "Header", "value": "chip + \"<Label> N\" title (semibold 14) + hover delete" },
+    { "label": "Delete", "value": "tertiary text trash (system-trash), hover-only, space reserved; #F5222D on hover" },
+    { "label": "deletable=false", "value": "the delete control is hidden entirely (non-removable item)" },
+    { "label": "candelete=false", "value": "the delete is shown but disabled (minimum-count case)" },
+    { "label": "Plain", "value": "no fill — for SINGLE-FIELD items only" }
+  ],
+  "props": [
+    { "name": "variant", "type": "contained | plain", "default": "contained", "desc": "contained = grey card (composite items); plain = no fill (single-field items only)" },
+    { "name": "n", "type": "number", "default": "—", "desc": "The item's number, shown in the chip and the header" },
+    { "name": "label", "type": "string", "default": "—", "desc": "Header noun — rendered as \"<Label> N\"" },
+    { "name": "deletable", "type": "boolean", "default": "false", "desc": "Show the hover delete; omit / false hides it entirely" },
+    { "name": "candelete", "type": "boolean", "default": "true", "desc": "false disables the delete (at the minimum item count) without hiding it" },
+    { "name": "collapsible", "type": "boolean", "default": "false", "desc": "Show a header caret that collapses the body in place (the QuestionList case)" },
+    { "name": "delete", "type": "CustomEvent<{n}>", "default": "—", "desc": "Composed event when the delete is pressed; read e.detail.n" },
+    { "name": "toggle", "type": "CustomEvent<{collapsed}>", "default": "—", "desc": "Composed event when the collapse caret is toggled; read e.detail.collapsed" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Numbered item", "when": "a repeatable COMPOSITE item — more than one field, or a nested option list (a Question, a Card, a Round)" },
+      { "what": "Option row", "when": "a flat list of single values — not wrapped in a numbered card" },
+      { "what": "Plain variant", "when": "a single-field repeatable item that does not warrant a grey card" }
+    ],
+    "note": "This is the ONE exception to \"never a container around settings\" (SETTINGS-15): it wraps a repeatable composite item, not plain settings. A composite item must keep the contained grey card — dropping the fill (plain, or a hand-rolled header over a fill-less body) is a build mistake (SETTINGS-43). The chip is muted grey, never a purple badge.",
+    "dsv3": "COVERED — the settings-lab NumberedItem control mapped into the DS. The grey card, muted chip and tertiary hover delete are the settings-specific composite-item wrapper (SETTINGS-43), reusing DS V3 secondary-fill + tertiary-button tokens."
+  },
+  "surfaces": ["editor", "settings"],
+  "reuse": { "entry": "./aha-numbered-item", "registers": "aha-numbered-item", "exportsNamed": ["AhaNumberedItem", "defineAhaNumberedItem"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "numbered-item.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "numbered-item.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "numbered-item.vue.txt" }
+  ],
+  "preview": "numbered-item.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "variant", "label": "Variant", "default": "contained", "options": [
+        { "label": "Contained", "value": "contained" },
+        { "label": "Plain", "value": "plain" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "contained wraps the WHOLE item in ONE grey card (not a header over a separate body)", "verdict": "PASS" },
+    { "label": "muted grey number chip — never a radical-purple badge", "verdict": "PASS" },
+    { "label": "tertiary text delete, hover-only, space reserved; deletable=false hides, candelete=false disables", "verdict": "PASS" },
+    { "label": "plain drops the fill — single-field items only", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-numbered-item[data-probe]') && document.querySelector('aha-numbered-item[data-probe]').shadowRoot && document.querySelector('aha-numbered-item[data-probe]').shadowRoot.querySelector('.item'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-numbered-item[data-probe]');var r=el&&el.shadowRoot;var it=r&&r.querySelector('.item');var t=r&&r.querySelector('.title');var is=it?getComputedStyle(it):null;var ts=t?getComputedStyle(t):null;return{cardBg:is?is.backgroundColor:null,radius:is?is.borderTopLeftRadius:null,titleColor:ts?ts.color:null,titleSize:ts?ts.fontSize:null};})()",
+    "expect": { "cardBg": "rgb(247, 247, 247)", "radius": "8px", "titleColor": "rgb(26, 26, 26)", "titleSize": "14px" }
+  }
+}

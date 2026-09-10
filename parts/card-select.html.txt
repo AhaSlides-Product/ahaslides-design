@@ -1,0 +1,21 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-card-select> is the SAME shared custom element React and Vue consume — here in its native
+     form. Theming comes only from the --aha-* tokens in tokens.css. The whole grid is one radiogroup:
+     Tab in, then Arrow keys move-and-select. Icons are summoned by name — never an inline <svg>. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-card-select.js';   // registers <aha-card-select>
+</script>
+
+<aha-card-select id="chart" columns="3" value="bar" style="max-width:360px"></aha-card-select>
+
+<script type="module">
+  const el = document.getElementById('chart');
+  // options: value + label + an icon NAME from the DS library
+  el.options = [
+    { value: 'bar',   label: 'Bar',   icon: 'system-chart-bar' },
+    { value: 'line',  label: 'Line',  icon: 'system-chart-line-up' },
+    { value: 'pie',   label: 'Pie',   icon: 'system-chart-pie' },
+  ];
+  el.addEventListener('change', (e) => console.log('chart type:', e.detail.value));
+</script>

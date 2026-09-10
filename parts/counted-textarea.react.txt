@@ -1,0 +1,30 @@
+import '@ahaslides-product/design/aha-counted-textarea'; // registers <aha-counted-textarea>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-counted-textarea> directly.
+// The counter shows only on focus when maxLength is set; the field grows minRows→maxRows then scrolls.
+function AhaCountedTextarea({ value, placeholder, maxLength, minRows, maxRows, status, disabled, readOnly, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.value = value ?? '';
+    el.disabled = !!disabled;
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    el.addEventListener('input', h);
+    return () => el.removeEventListener('input', h);
+  });
+  return (
+    <aha-counted-textarea
+      ref={ref}
+      placeholder={placeholder}
+      {...(maxLength ? { maxlength: String(maxLength) } : {})}
+      {...(minRows ? { minrows: String(minRows) } : {})}
+      {...(maxRows ? { maxrows: String(maxRows) } : {})}
+      {...(status ? { status } : {})}
+      {...(readOnly ? { readonly: '' } : {})}
+    />
+  );
+}
+
+// usage
+<AhaCountedTextarea value={answer} placeholder="Answer" maxLength={200} minRows={2} maxRows={4} onChange={setAnswer} />

@@ -1,0 +1,32 @@
+import '@ahaslides-product/design/aha-image-dropzone'; // registers <aha-image-dropzone>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-image-dropzone> directly.
+// It emits intents; the host owns the modals — drive state/src from your upload flow.
+function AhaImageDropzone({ state, src, label, disabled, onAdd, onChange, onEdit, onDelete }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    const map = { add: onAdd, change: onChange, edit: onEdit, delete: onDelete };
+    const on = Object.entries(map).map(([k, fn]) => { const h = () => fn?.(); el.addEventListener(k, h); return [k, h]; });
+    return () => on.forEach(([k, h]) => el.removeEventListener(k, h));
+  }, [onAdd, onChange, onEdit, onDelete]);
+  return (
+    <aha-image-dropzone
+      ref={ref}
+      state={state || 'empty'}
+      {...(src ? { src } : {})}
+      {...(label ? { label } : {})}
+      {...(disabled ? { disabled: '' } : {})}
+    />
+  );
+}
+
+// usage — the host runs the uploader and flips state
+<AhaImageDropzone
+  state={bg ? 'filled' : 'empty'}
+  src={bg}
+  label="Add background image"
+  onAdd={openUploader}
+  onDelete={() => setBg(null)}
+/>

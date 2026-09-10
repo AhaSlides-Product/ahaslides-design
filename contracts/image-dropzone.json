@@ -1,0 +1,66 @@
+{
+  "name": "Image dropzone",
+  "slug": "image-dropzone",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-image-dropzone",
+  "summary": "The full-width settings image field where the image IS the field — a dashed upload card with empty / loading / filled states and a Change/Edit/Delete overlay; it emits intents, the host owns the modals (SETTINGS-44).",
+  "lead": "ONE custom element — <aha-image-dropzone> — the standalone MAIN image field where the image IS the field: a background/hero image, an interactive-image base, a picture reveal (SETTINGS-44). NOT the per-option ImageActionButton. Three states: empty (a full-width dashed upload card, 8px corners), loading (a spinner at the SAME height as the empty card so the panel does not jump), and filled (the image fitted in a display box with a Change / Edit / Delete overlay on hover). It OWNS no modals — it EMITS intents (`add` / `change` / `edit` / `delete`) and the host runs the upload/crop/confirm flow. Glyphs are summoned by name via <aha-icon>. Shadow-DOM CSS, themed only by --aha-* tokens.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. Wire the host to the intents; drive `state`/`src` from the host's upload flow. React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
+  "tokensUsed": ["border", "border-hover", "border-disabled", "color-primary", "color-error", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-elevated", "bg-overlay", "text-default", "text-tertiary", "icon-muted", "radius-default", "radius-sm", "radius-pill"],
+  "spec": [
+    { "label": "Zone", "value": "full-width, min-height 140, radius 8" },
+    { "label": "Empty", "value": "1px dashed #E3E3E3 card, centred system-image-square + label; click emits `add`" },
+    { "label": "Loading", "value": "spinner at the SAME 140 min-height — the panel does not jump" },
+    { "label": "Filled", "value": "image object-fit contain + hover Change/Edit/Delete overlay; solid border" },
+    { "label": "Intents", "value": "add · change · edit · delete — host owns the modals, this owns none" },
+    { "label": "Hover", "value": "#D3B4FF border + #6A1EBB label/icon" },
+    { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
+  ],
+  "props": [
+    { "name": "state", "type": "empty | loading | filled", "default": "empty", "desc": "The field's state — drives which affordance shows, at a constant box height" },
+    { "name": "src", "type": "string", "default": "—", "desc": "The image URL when filled" },
+    { "name": "label", "type": "string", "default": "Add image", "desc": "The empty-state prompt text" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
+    { "name": "add / change / edit / delete", "type": "CustomEvent", "default": "—", "desc": "Composed intents — the host runs the corresponding modal/flow" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Image dropzone", "when": "a standalone MAIN image field — a background/hero image, an interactive-image base, a picture reveal (SETTINGS-44)" },
+      { "what": "Image action button", "when": "a per-OPTION image cell in an option row" }
+    ],
+    "note": "The MAIN image field is this dropzone — NOT a hand-rolled \"Add image\"/\"Replace image\" button plus a separate \"Remove image\" danger button (SETTINGS-44). The loading state matches the empty card's height so the panel doesn't jump. It emits intents; the host owns the upload/crop modals.",
+    "dsv3": "COVERED — the settings-lab ImageDropzone control mapped into the DS. The dashed card, overlay and states reuse DS V3 tokens; the full-width image-field shape + no-jump loading + intent events are the settings-specific behaviour (SETTINGS-44)."
+  },
+  "surfaces": ["editor", "settings"],
+  "reuse": { "entry": "./aha-image-dropzone", "registers": "aha-image-dropzone", "exportsNamed": ["AhaImageDropzone", "defineAhaImageDropzone"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "image-dropzone.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "image-dropzone.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "image-dropzone.vue.txt" }
+  ],
+  "preview": "image-dropzone.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "state", "label": "State", "default": "empty", "options": [
+        { "label": "Empty", "value": "empty" },
+        { "label": "Loading", "value": "loading" },
+        { "label": "Filled", "value": "filled" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "full-width dashed card, 8px corners (the image IS the field — SETTINGS-44)", "verdict": "PASS" },
+    { "label": "loading matches the empty card's height — no panel jump", "verdict": "PASS" },
+    { "label": "filled = image + hover Change/Edit/Delete overlay; emits intents (host owns modals)", "verdict": "PASS" },
+    { "label": "glyphs by name via <aha-icon>; not a hand-rolled add/replace + remove-danger pair", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-image-dropzone[data-probe]') && document.querySelector('aha-image-dropzone[data-probe]').shadowRoot && document.querySelector('aha-image-dropzone[data-probe]').shadowRoot.querySelector('.zone'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-image-dropzone[data-probe]');var r=el&&el.shadowRoot;var z=r&&r.querySelector('.zone');var h=r&&r.querySelector('.hint');var zs=z?getComputedStyle(z):null;var hs=h?getComputedStyle(h):null;return{border:zs?zs.borderTopColor:null,radius:zs?zs.borderTopLeftRadius:null,hintColor:hs?hs.color:null,hintSize:hs?hs.fontSize:null};})()",
+    "expect": { "border": "rgb(227, 227, 227)", "radius": "8px", "hintColor": "rgb(138, 138, 138)", "hintSize": "14px" }
+  }
+}
