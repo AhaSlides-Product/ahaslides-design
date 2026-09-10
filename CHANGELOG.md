@@ -24,13 +24,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.30.0 — 2026-09-10
 ### Added
-- **Illustration** — new `<aha-illustration name="…" size="…">` element + a call-by-name library of 20 multi-colour spot illustrations (empty states, onboarding, plan tiers, offers, mascots) from a shared registry, sized by a single edge with aspect ratio preserved (`./illustrations` export). (#66)
-- **User info** — new leaf `<aha-user-info>`: an avatar + name row with an optional email, reusing the shared `<aha-avatar>`. (#66)
-- **Screen heading** — new leaf `<aha-screen-heading>`: a product page header — a title/greeting (with an optional brand-accent `highlight`) or a `›` breadcrumb trail (reusing `<aha-breadcrumb>`), plus a right-hand `actions` slot for `<aha-button>`s; responsive desktop/tablet/phone. (#66)
-- **Badge** — new families on `<aha-badge>`: a tinted `tone` palette (danger · success · positive · essential · pro · branding · primary-alt), `plan` presets (free · edu · essential · pro · enterprise + monthly/yearly), leaderboard `rank` (1st–4th) and `session` chips. A chip given `href` becomes a real `<a>` link (hover-animated), never a button. (#66)
-- **Tooltip** — new `help` attribute on `<aha-tooltip>`: a built-in, focusable `?` help trigger (DS `system-question-mark` icon) that shows the tooltip on focus as well as hover. (#66)
-- **Paywall** — an upgrade-mark → upsell popover on `<aha-paywall>`: a plan-gated affordance that opens a themed popover carrying the plan message and Upgrade / See all plans actions. (#66)
-- **CSAT** — new `inline` variant on `<aha-csat>`: a compact single-row layout (prompt + thumbs-up/down icons, no card). (#66)
+- **Illustration** — new `<aha-illustration name="…" size="…">` element + a call-by-name library of 20 multi-colour spot illustrations (empty states, onboarding, plan tiers, offers, mascots) from a shared registry, sized by a single edge with aspect ratio preserved (`./illustrations` export). (#67)
+- **User info** — new leaf `<aha-user-info>`: an avatar + name row with an optional email, reusing the shared `<aha-avatar>`. (#67)
+- **Screen heading** — new leaf `<aha-screen-heading>`: a product page header — a title/greeting (with an optional brand-accent `highlight`) or a `›` breadcrumb trail (reusing `<aha-breadcrumb>`), plus a right-hand `actions` slot for `<aha-button>`s; responsive desktop/tablet/phone. (#67)
+- **Badge** — new families on `<aha-badge>`: a tinted `tone` palette (danger · success · positive · essential · pro · branding · primary-alt), `plan` presets (free · edu · essential · pro · enterprise + monthly/yearly), leaderboard `rank` (1st–4th) and `session` chips. A chip given `href` becomes a real `<a>` link (hover-animated), never a button. (#67)
+- **Tooltip** — new `help` attribute on `<aha-tooltip>`: a built-in, focusable `?` help trigger (DS `system-question-mark` icon) that shows the tooltip on focus as well as hover. (#67)
+- **Paywall** — an upgrade-mark → upsell popover on `<aha-paywall>`: a plan-gated affordance that opens a themed popover carrying the plan message and Upgrade / See all plans actions. (#67)
+- **CSAT** — new `inline` variant on `<aha-csat>`: a compact single-row layout (prompt + thumbs-up/down icons, no card). (#67)
 
 ## 0.29.0 — 2026-09-10
 ### Added
