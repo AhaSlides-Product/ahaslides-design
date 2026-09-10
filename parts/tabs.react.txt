@@ -3,7 +3,7 @@ import '@ahaslides-product/design/icons';      // registers <aha-icon> for leadi
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-tabs> directly.
-function AhaTabs({ value = 0, type, size, onChange, children }) {
+function AhaTabs({ value = 0, type, size, tabPosition, onChange, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -12,7 +12,7 @@ function AhaTabs({ value = 0, type, size, onChange, children }) {
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   });
-  return <aha-tabs ref={ref} type={type} size={size}>{children}</aha-tabs>;
+  return <aha-tabs ref={ref} type={type} size={size} tab-position={tabPosition}>{children}</aha-tabs>;
 }
 
 // usage — each panel carries its label in data-tab (+ optional data-icon / data-disabled)
@@ -20,4 +20,12 @@ function AhaTabs({ value = 0, type, size, onChange, children }) {
   <section data-tab="Overview" data-icon="system-info">Overview panel content.</section>
   <section data-tab="Activity" data-icon="system-chart-bar">Activity panel content.</section>
   <section data-tab="Archived" data-disabled>Archived (disabled).</section>
+</AhaTabs>
+
+// vertical left rail — tab-position="left": tabs down the side, panel to the right,
+// side active border, up/down arrow-key nav
+<AhaTabs value={tab} type="line" tabPosition="left" onChange={setTab}>
+  <section data-tab="Overview" data-icon="system-info">Overview panel content.</section>
+  <section data-tab="Activity" data-icon="system-chart-bar">Activity panel content.</section>
+  <section data-tab="Settings" data-icon="system-gear">Settings panel content.</section>
 </AhaTabs>

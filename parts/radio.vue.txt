@@ -7,6 +7,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 import { ref } from 'vue';
 const mode = ref('poll');
 const view = ref('grid');
+const plan = ref('pro');
 </script>
 
 <template>
@@ -27,5 +28,13 @@ const view = ref('grid');
   <div role="radiogroup" aria-label="View" style="display:flex">
     <aha-radio name="view" value="grid" variant="button" :checked.prop="view === 'grid'" @change="view = $event.detail.value">Grid</aha-radio>
     <aha-radio name="view" value="list" variant="button" :checked.prop="view === 'list'" @change="view = $event.detail.value">List</aha-radio>
+  </div>
+
+  <!-- card group — variant="card"; the whole tile is the target, description adds a secondary line -->
+  <div role="radiogroup" aria-label="Plan" style="display:flex;flex-direction:column;gap:10px;max-width:360px">
+    <aha-radio name="plan" value="pro" variant="card" description="Best for teams — unlimited slides and live results."
+      :checked.prop="plan === 'pro'" @change="plan = $event.detail.value">Pro</aha-radio>
+    <aha-radio name="plan" value="essential" variant="card" description="For solo creators getting started."
+      :checked.prop="plan === 'essential'" @change="plan = $event.detail.value">Essential</aha-radio>
   </div>
 </template>
