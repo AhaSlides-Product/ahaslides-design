@@ -23,6 +23,21 @@
     <aha-badge status="warning" text="Draft"></aha-badge>
     <aha-badge status="default" text="Archived"></aha-badge>
   </div>
+  <div class="lbl">Ribbon · a corner banner wrapping a card · start / end placement</div>
+  <div class="row" style="gap:32px; align-items:flex-start; flex-wrap:wrap">
+    <aha-badge data-ribbon ribbon text="New">
+      <div style="width:200px; padding:20px; border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-default,8px); background:#fff">
+        <div style="font:600 15px/1.3 var(--aha-font-product,'Plus Jakarta Sans',sans-serif); color:var(--aha-text-default,#1A1A1A)">Quiz template</div>
+        <div style="margin-top:6px; font:14px/1.4 var(--aha-font-product,'Plus Jakarta Sans',sans-serif); color:var(--aha-text-tertiary,#8A8A8A)">Fresh from the gallery</div>
+      </div>
+    </aha-badge>
+    <aha-badge ribbon placement="start" status="error" text="Sale">
+      <div style="width:200px; padding:20px; border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-default,8px); background:#fff">
+        <div style="font:600 15px/1.3 var(--aha-font-product,'Plus Jakarta Sans',sans-serif); color:var(--aha-text-default,#1A1A1A)">Pro plan</div>
+        <div style="margin-top:6px; font:14px/1.4 var(--aha-font-product,'Plus Jakarta Sans',sans-serif); color:var(--aha-text-tertiary,#8A8A8A)">50% off this week</div>
+      </div>
+    </aha-badge>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-badge.js) + the icon library — no inlined copy, so

@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.23.0 — 2026-09-10
+### Added
+- **Badge** — `ribbon` variant: a corner ribbon banner wrapping a card, start/end placement, colour from `color`/`status` (default primary), with a token-bound triangular fold. (#PR)
+
 ## 0.22.3 — 2026-09-10
 ### Changed
 - **Settings pattern** — the settings-lab `@/iframe/settings` library is now mapped one-per-component to its DS form: a canonical mapping table in `parts/settings.guide.md` (mapped DS component / documented convention / backlog gap), replacing the ad-hoc `reuseNote` list. The 11 composed controls the DS doesn't yet ship (ModeField, CountedInput, CountedTextarea, CardSelect, NumberWithUnit, OptionRow, NumberedItem, QuestionList, ImageDropzone, ImageActionButton, InfoBox) are now tracked as `composedOf` backlog so the gap is explicit and buildable-by-reuse, and a `map-composed-controls` rule bars hand-rolling a library control. (#58)
