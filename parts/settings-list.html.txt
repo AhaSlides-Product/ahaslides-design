@@ -8,6 +8,8 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item>
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';          // reused as a schema control
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';           // reused as a schema control
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';               // <aha-icon> — the select's caret + the crown
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-select.js';          // reused as a schema control (control.type "select")
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';         // reused for a plan-gated (locked) row
 </script>
 
@@ -18,6 +20,7 @@
     {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}},
     {"key":"leaderboard","label":"Leaderboard","description":"Shown to the audience between slides.","control":{"type":"switch"}},
     {"key":"deckTitle","label":"Deck title","control":{"type":"input","value":"Untitled"}},
+    {"key":"theme","label":"Slide theme","control":{"type":"select","value":"light","options":[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]}},
     {"key":"timer","label":"Question timer","disabled":true,"control":{"type":"switch"}},
     {"key":"branding","label":"Custom branding","locked":true,"plan":"pro","feature":"Custom branding"}
   ]}]}'></aha-settings-list>

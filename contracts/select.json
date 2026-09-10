@@ -35,7 +35,7 @@
       { "what": "Radio", "when": "2–5 mutually-exclusive options all worth showing at once" },
       { "what": "Input", "when": "free text that isn't a known set" }
     ],
-    "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; for long lists keep showSearch on.",
+    "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; for long lists keep showSearch on. For a short, known set (or a select inside a shadow-DOM surface like a settings row) reach for the leaf Select field (slug `select-field`, <aha-select>) instead — this composite is for search / tags / multi / virtualised lists.",
     "dsv3": "COVERED — antd v6 Select themed by selectTheme; matrix: size (small 24 / default 32 / large 40) × status (—/error #F5222D/warning #FAAD14) × mode (single/multiple/tags) × allowClear · disabled · loading, plus showSearch and placeholder. Verified via Figma search_design_system against the DS V3 Select set (Select, Form-Item/Select, Form-Item/Select-Multiple, Input-Addon/Select-Single) on fileKey MwjvUjVI0HnfwD9EwPXRAy. Not yet exposed: prefix/suffix adornments and option groups (optGroup) — real follow-up."
   },
   "surfaces": ["editor", "dashboard", "settings"],

@@ -1,0 +1,32 @@
+import '@ahaslides-product/design/aha-select';   // registers <aha-select>
+import '@ahaslides-product/design/icons';        // <aha-icon> — the trailing caret
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper (options is a property, not a string attribute); React 19 can use
+// <aha-select> directly. Same element, same shadow-DOM CSS → byte-identical with Vue.
+function AhaSelect({ value, options, placeholder, size, status, disabled, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.options = options || [];              // set the array as a property
+    if (value != null) el.value = value;
+    el.disabled = !!disabled;
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  });
+  return (
+    <aha-select ref={ref} placeholder={placeholder} size={size} status={status} />
+  );
+}
+
+// usage
+<AhaSelect
+  placeholder="Pick a theme"
+  value={theme}
+  options={[
+    { label: 'Light', value: 'light' },
+    { label: 'Dark', value: 'dark' },
+  ]}
+  onChange={setTheme}
+/>

@@ -116,6 +116,7 @@ const CATALOG = [
     { name: 'Input number', slug: 'input-number' },
     { name: 'Textarea',     slug: 'textarea' },
     { name: 'Select',       slug: 'select' },
+    { name: 'Select field', slug: 'select-field' },
     { name: 'Autocomplete', slug: 'autocomplete' },
     { name: 'Date picker',  slug: 'datepicker' },
     { name: 'Time picker',  slug: 'time-picker' },
