@@ -21,6 +21,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.22.1 — 2026-09-10
+### Changed
+- **Settings pattern** — the settings-lab `@/iframe/settings` library is now mapped one-per-component to its DS form: a canonical mapping table in `parts/settings.guide.md` (mapped DS component / documented convention / backlog gap), replacing the ad-hoc `reuseNote` list. The 11 composed controls the DS doesn't yet ship (ModeField, CountedInput, CountedTextarea, CardSelect, NumberWithUnit, OptionRow, NumberedItem, QuestionList, ImageDropzone, ImageActionButton, InfoBox) are now tracked as `composedOf` backlog so the gap is explicit and buildable-by-reuse, and a `map-composed-controls` rule bars hand-rolling a library control. (#PR)
+### Fixed
+- **Settings pattern + Settings list** — align docs to the shipped element and the canonical library: the group/section header is **semibold (600)**, not "bold", and guidance's one home is the `?` tooltip (the must-see-consequence help line stays the DS's narrow, near-zero exception). (#PR)
+
 ## 0.22.0 — 2026-09-10
 ### Added
 - **AhaSlides surfaces + General/Forms → DS V3 matrix + playgrounds.** The final audit group — every component now ships an interactive playground over its full DS V3 matrix. (#53)
