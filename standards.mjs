@@ -512,7 +512,7 @@ for (const p of patterns) {
    Format (CHANGELOG.md, newest first):
      ## X.Y.Z — YYYY-MM-DD      (em-dash or hyphen; the TOP entry must equal package.json "version")
      ### Added | Changed | Fixed | Removed
-     - one bullet per change
+     - one bullet per change, linking the real PR: (#58)   ← never a leftover "(#PR)" placeholder
    ================================================================================================= */
 const repoChecks = [];
 {
@@ -530,6 +530,13 @@ const repoChecks = [];
       const block = changelog.slice(changelog.indexOf(m[0]) + m[0].length).split(/\n##\s/)[0];
       rchk('top entry lists ≥1 change bullet', /^\s*-\s+\S/m.test(block),
         'describe what changed as "- …" bullets under the version heading');
+      // a bullet's trailing PR ref must be a real number "(#123)" — never a leftover template
+      // placeholder like "(#PR)". Only the ref position (end of a line) is inspected, so prose
+      // that *mentions* "(#PR)" mid-sentence (e.g. this bullet) doesn't false-trigger.
+      const badRef = (block.match(/\(#[^)\n]*\)\s*$/gm) || [])
+        .map(s => s.trim()).find(s => !/^\(#\d+\)$/.test(s));
+      rchk('top entry PR refs are real numbers (no "(#PR)" placeholder)', !badRef,
+        badRef ? `${badRef} is an unfilled PR-ref placeholder — replace it with the real number, e.g. (#58)` : '');
     }
   }
 }
