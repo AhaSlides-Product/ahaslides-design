@@ -1,0 +1,23 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-counted-textarea> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. The character counter is
+     revealed only while the field is focused (SETTINGS-21/42) — click in to see it; type past a few
+     lines and the field scrolls instead of growing unbounded. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-counted-textarea.js';   // registers <aha-counted-textarea>
+</script>
+
+<!-- maxlength turns the focus-only counter on; minrows/maxrows bound the autogrow -->
+<aha-counted-textarea id="desc" maxlength="200" minrows="2" maxrows="4"
+  value="A longer answer that wraps to several lines." placeholder="Answer"></aha-counted-textarea>
+
+<!-- status: error   ·   disabled / readonly -->
+<aha-counted-textarea status="error" maxlength="120" value="Too long" placeholder="Description"></aha-counted-textarea>
+
+<script>
+  // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
+  document.getElementById('desc').addEventListener('input', (e) => {
+    console.log('value:', e.detail.value);
+  });
+</script>

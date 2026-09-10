@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-mode-field> is the SAME shared custom element React and Vue consume — here in its native form.
+     Theming comes only from the --aha-* tokens in tokens.css. The bodies are light-DOM children tagged
+     data-mode; switching mode toggles which is visible IN PLACE (the hidden one keeps its state). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-mode-field.js';   // registers <aha-mode-field>
+</script>
+
+<aha-mode-field id="results" label="Results" mode="auto" style="max-width:360px">
+  <div data-mode="auto">Results appear automatically when everyone has answered.</div>
+  <div data-mode="manual">You reveal results with the "Show results" button.</div>
+</aha-mode-field>
+
+<script type="module">
+  const el = document.getElementById('results');
+  el.modes = [{ value: 'auto', label: 'Automatic' }, { value: 'manual', label: 'Manual' }];
+  el.addEventListener('change', (e) => console.log('mode:', e.detail.mode));
+</script>

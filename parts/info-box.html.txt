@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-info-box> is the SAME shared custom element React and Vue consume — here in its native form.
+     Theming comes only from the --aha-* tokens in tokens.css. Bespoke, NOT Ant Alert. The dismiss ✕
+     fades the box out and emits `dismiss` — the host owns any "don't show again" state. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-info-box.js';   // registers <aha-info-box>
+</script>
+
+<div style="display:flex; flex-direction:column; gap:8px; max-width:420px">
+  <aha-info-box variant="information">Points are awarded for correct answers only.</aha-info-box>
+  <aha-info-box variant="success">Your changes are saved.</aha-info-box>
+  <aha-info-box variant="warning" id="warn" dismissible>Turning this off clears saved responses.</aha-info-box>
+  <aha-info-box variant="error">This slide type needs at least two options.</aha-info-box>
+</div>
+
+<script>
+  document.getElementById('warn').addEventListener('dismiss', () => console.log('dismissed'));
+</script>

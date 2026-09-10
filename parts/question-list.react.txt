@@ -1,0 +1,28 @@
+import '@ahaslides-product/design/aha-question-list'; // registers <aha-question-list>
+import { useRef, useEffect } from 'react';
+
+// React 18 needs a thin wrapper; React 19 can use <aha-question-list> directly.
+// questions is a PROPERTY (the model); onChange gives the full edited model back.
+function AhaQuestionList({ questions, min, max, minOptions, maxOptions, disabled, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const el = ref.current;
+    el.questions = questions || [];
+    const h = (e) => onChange?.(e.detail.questions);   // composed CustomEvent
+    el.addEventListener('change', h);
+    return () => el.removeEventListener('change', h);
+  }, [questions, onChange]);
+  return (
+    <aha-question-list
+      ref={ref}
+      {...(min != null ? { min: String(min) } : {})}
+      {...(max != null ? { max: String(max) } : {})}
+      {...(minOptions != null ? { minoptions: String(minOptions) } : {})}
+      {...(maxOptions != null ? { maxoptions: String(maxOptions) } : {})}
+      {...(disabled ? { disabled: '' } : {})}
+    />
+  );
+}
+
+// usage
+<AhaQuestionList questions={quiz} min={1} max={10} minOptions={2} maxOptions={6} onChange={setQuiz} />

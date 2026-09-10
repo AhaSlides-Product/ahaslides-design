@@ -1,0 +1,21 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-number-with-unit';   // registers <aha-number-with-unit>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const seconds = ref(20);
+</script>
+
+<template>
+  <!-- the unit is written inline (always the short label — "sec"); e.detail.value is the clamped number -->
+  <aha-number-with-unit
+    unit="sec"
+    min="5"
+    max="120"
+    maxdigits="4"
+    :value.prop="String(seconds)"
+    @change="seconds = $event.detail.value"
+  />
+</template>

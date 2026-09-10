@@ -1,0 +1,83 @@
+{
+  "name": "Counted input",
+  "slug": "counted-input",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-counted-input",
+  "summary": "A single-line settings field whose character counter shows only while the field is focused and is hidden at rest — the shared CountedInput pattern for option/answer text.",
+  "lead": "ONE custom element — <aha-counted-input> — the settings-panel text field. Its character counter is REVEALED ONLY ON FOCUS and hidden at rest (SETTINGS-21 / SETTINGS-42): a permanently-visible counter on every field is the anti-pattern. The counter is a persistent overlay INSIDE the field (absolute, right-aligned) — never a sibling beside it, which would steal width and misalign stacked fields — and the right padding is always reserved so revealing it never shifts the text. Focus toggles an attribute on a persistent node, so the opacity transition actually fires. Shadow-DOM CSS, themed only by --aha-* tokens; emits composed `input` / `change`. Zero drift — the same element in React and Vue.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-disabled", "radius-default", "focus-ring-soft", "border-error", "color-error", "border-disabled"],
+  "spec": [
+    { "label": "Box", "value": "height 32 (default) · radius 8 · padding 0 12" },
+    { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
+    { "label": "Rest border", "value": "1px #E3E3E3" },
+    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring (on the persistent wrapper)" },
+    { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus" },
+    { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
+    { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
+    { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
+    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" }
+  ],
+  "props": [
+    { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
+    { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
+    { "name": "maxlength", "type": "number", "default": "—", "desc": "Character cap; presence turns the focus-only counter on (shows current/max)" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 32 · large 40; radius stays 8" },
+    { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
+    { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
+    { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on each keystroke; read e.detail.value" },
+    { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on commit (blur/enter)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Counted input", "when": "a settings option/answer/label field that needs a character cap — the counter appears only on focus" },
+      { "what": "Counted textarea", "when": "the same, but multi-line (descriptions, long answers)" },
+      { "what": "Input", "when": "a general single-line field with no counter (names, search)" }
+    ],
+    "note": "Never show a permanent counter on every field — it reads as heavy and steals width. The counter belongs inside the field, revealed on focus. Label the field with a noun phrase; use placeholder for an example, never as the label.",
+    "dsv3": "COVERED — the settings-lab CountedInput control mapped into the DS. Box, sizes, border, focus ring and error status reuse the DS V3 field family (input) tokens; the counter is the settings-specific addition — a focus-only overlay (SETTINGS-21/42), not a standing sibling."
+  },
+  "surfaces": ["editor", "settings"],
+  "reuse": { "entry": "./aha-counted-input", "registers": "aha-counted-input", "exportsNamed": ["AhaCountedInput", "defineAhaCountedInput"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "counted-input.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "counted-input.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "counted-input.vue.txt" }
+  ],
+  "preview": "counted-input.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Default", "value": "default" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "maxlength", "label": "Max length", "default": "80", "options": [
+        { "label": "40", "value": "40" },
+        { "label": "80", "value": "80" },
+        { "label": "None", "value": null }
+      ] },
+      { "prop": "status", "label": "Status", "default": "default", "options": [
+        { "label": "Default", "value": null },
+        { "label": "Error", "value": "error" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "height 32 (default) · small 24 · large 40 · radius 8", "verdict": "PASS" },
+    { "label": "counter hidden at rest, revealed on focus (opacity), overlay inside the field", "verdict": "PASS" },
+    { "label": "counter space reserved — revealing it does not shift the text", "verdict": "PASS" },
+    { "label": "focus #6A1EBB border + ring (persistent wrapper)", "verdict": "PASS" },
+    { "label": "error #F5222D border + aria-invalid", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-counted-input[data-probe]') && document.querySelector('aha-counted-input[data-probe]').shadowRoot && document.querySelector('aha-counted-input[data-probe]').shadowRoot.querySelector('.wrap'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-counted-input[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,counterColor:cs?cs.color:null};})()",
+    "expect": { "height": "32px", "radius": "8px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "counterColor": "rgb(138, 138, 138)" }
+  }
+}

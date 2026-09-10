@@ -1,0 +1,21 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-counted-textarea';   // registers <aha-counted-textarea>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const answer = ref('');
+</script>
+
+<template>
+  <!-- maxlength turns the focus-only counter on; minrows/maxrows bound the autogrow -->
+  <aha-counted-textarea
+    maxlength="200"
+    minrows="2"
+    maxrows="4"
+    placeholder="Answer"
+    :value.prop="answer"
+    @input="answer = $event.detail.value"
+  />
+</template>

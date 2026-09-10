@@ -1,0 +1,22 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-number-with-unit> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. Hover the field to reveal
+     the ▲/▼ stepper; the unit is written inline (always the short label — "sec", never "s"/"seconds"). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-number-with-unit.js';   // registers <aha-number-with-unit>
+</script>
+
+<!-- a per-question timer: sec unit, clamps to 5–120, hard cap of 4 digits -->
+<aha-number-with-unit id="timer" value="20" unit="sec" min="5" max="120" maxdigits="4"></aha-number-with-unit>
+
+<!-- points, and a field carrying an error message -->
+<aha-number-with-unit value="1000" unit="pt" min="0" max="9999" maxdigits="4"></aha-number-with-unit>
+<aha-number-with-unit value="200" unit="sec" min="5" max="120" errormessage="Must be 120 or less."></aha-number-with-unit>
+
+<script>
+  // Plain DOM — no framework. e.detail.value is the clamped number.
+  document.getElementById('timer').addEventListener('change', (e) => {
+    console.log('seconds:', e.detail.value);
+  });
+</script>

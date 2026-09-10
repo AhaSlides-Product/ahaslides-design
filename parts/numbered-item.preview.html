@@ -1,0 +1,23 @@
+<div class="pad">
+  <div class="lbl">Contained (default) — the whole item in ONE grey card; hover to reveal the delete</div>
+  <div class="row" style="display:flex; flex-direction:column; gap:8px; max-width:440px; align-items:stretch">
+    <aha-numbered-item data-probe n="1" label="Question" deletable>
+      <div>The fields for question 1 go here (prompt, options, …).</div>
+    </aha-numbered-item>
+    <aha-numbered-item n="2" label="Question" deletable candelete="false">
+      <div>Question 2 — delete disabled at the minimum count.</div>
+    </aha-numbered-item>
+  </div>
+  <div class="lbl">Plain — no fill, for single-field items only</div>
+  <div class="row" style="display:block; max-width:440px">
+    <aha-numbered-item variant="plain" n="1" label="Option">
+      <div>A single-field item with no grey card.</div>
+    </aha-numbered-item>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-numbered-item.js) — no inlined copy, so the preview
+     can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-numbered-item.js';   // registers <aha-numbered-item> — the shipped primitive
+</script>
