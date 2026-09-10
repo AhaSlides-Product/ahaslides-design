@@ -1,0 +1,21 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-user-info> is the SAME shared custom element React and Vue consume — here in its native
+     form. It REUSES the shared <aha-avatar> for the picture/initials. Theming comes only from the
+     --aha-* tokens in tokens.css. `name` is required; `email` is optional (omit → compact,
+     name-only, 24px avatar); `src` sets the avatar photo; `size` is 'default' | 'compact'. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';          // <aha-icon> (avatar glyph fallback)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-user-info.js';  // registers <aha-user-info> (+ <aha-avatar>)
+</script>
+
+<div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start">
+  <!-- Default: avatar + name + email (40px avatar) -->
+  <aha-user-info name="Brian Le" email="brian@ahaslides.com"></aha-user-info>
+
+  <!-- With a photo -->
+  <aha-user-info name="Grace Hopper" email="grace@ahaslides.com" src="https://i.pravatar.cc/80?img=5"></aha-user-info>
+
+  <!-- Compact / name-only (24px avatar) — omit email, or set size="compact" -->
+  <aha-user-info name="Ada Lovelace"></aha-user-info>
+</div>

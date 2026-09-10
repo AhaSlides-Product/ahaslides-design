@@ -11,4 +11,6 @@ function onRate(e) {
 
 <template>
   <aha-csat prompt="Was this helpful?" source="editor_help" @rate="onRate" />
+  <!-- `inline` → the compact single-row form: prompt + 16px thumbs on one line, no card -->
+  <aha-csat inline prompt="Is this useful?" source="editor_inline" @rate="onRate" />
 </template>

@@ -1,0 +1,113 @@
+{
+  "name": "Screen heading",
+  "slug": "screen-heading",
+  "group": "AhaSlides surfaces",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-screen-heading",
+  "summary": "A product page header — a title/greeting or a breadcrumb trail on the left, action buttons on the right, responsive across desktop / tablet / phone.",
+  "lead": "ONE custom element — <aha-screen-heading> — the product page header. A TITLE AREA on the left is either a page title / greeting (Heading4 24/600, with an optional brand-accent `highlight` span for a name — \"Welcome, **Brian**!\") OR a `›`-arrow breadcrumb trail for a sub-page, rendered by the reused <aha-breadcrumb>. An ACTIONS AREA on the right is a slot the consumer fills with <aha-button>s. An optional `description` subtitle sits under the title. `device` gives a deterministic responsive layout for the docs / qa: desktop + tablet keep title-left / actions-right on one row, phone wraps the actions below. REUSE, not rewrite — the trail is <aha-breadcrumb>, the actions are slotted <aha-button>s; this element only lays the two areas out. Shadow-DOM CSS, themed only by --aha-* tokens. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) renders it directly via attributes (breadcrumb is a JSON attribute); Vue binds the custom element natively. Defined once in @ahaslides-product/design; the breadcrumb trail and the action buttons are the DS's own <aha-breadcrumb> / <aha-button> primitives, never rewritten here.",
+  "tokensUsed": ["text-default", "text-secondary", "color-primary"],
+  "spec": [
+    { "label": "Type", "value": "title Heading4 — Plus Jakarta 24 / SemiBold 600 / line-height 1.3 / #1A1A1A (text-default)" },
+    { "label": "Highlight", "value": "optional `highlight` substring of the title in color-primary #6A1EBB (a person's name)" },
+    { "label": "Breadcrumb", "value": "`breadcrumb` JSON [{label, href?}] → the `›` trail renders as the title via the reused <aha-breadcrumb>" },
+    { "label": "Description", "value": "optional subtitle, Plus Jakarta 14/22 · text-secondary #4A4A4A, under the title" },
+    { "label": "Actions", "value": "slot=\"actions\" — the consumer drops <aha-button>s here (never a hand-rolled button)" },
+    { "label": "Gap", "value": "16 between the title area and the actions · 8 title→description and between action buttons" },
+    { "label": "Layout", "value": "desktop / tablet: title left, actions right on one row · phone: actions wrap below the title" }
+  ],
+  "props": [
+    { "name": "title", "type": "string", "default": "—", "desc": "The page title / greeting (Heading4 24/600, text-default)" },
+    { "name": "highlight", "type": "string", "default": "—", "desc": "Optional substring of `title` rendered in color-primary — e.g. the person's name in a greeting" },
+    { "name": "breadcrumb", "type": "JSON [{label, href?}]", "default": "—", "desc": "When present, a `›` trail renders as the title via the reused <aha-breadcrumb> (for a sub-page)" },
+    { "name": "description", "type": "string", "default": "—", "desc": "Optional subtitle under the title (14px, text-secondary)" },
+    { "name": "device", "type": "'desktop' | 'tablet' | 'phone'", "default": "desktop", "desc": "Deterministic responsive layout — phone wraps the actions below the title" }
+  ],
+  "slots": [
+    { "name": "actions", "desc": "The right-hand action buttons — drop <aha-button>s here (reused, never rewritten)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Screen heading", "when": "the header row of a product page — a title/greeting or a hierarchy trail plus the page's primary actions" },
+      { "what": "Breadcrumb", "when": "only the ancestor trail is needed, with no title-level heading or actions (use <aha-breadcrumb> directly)" },
+      { "what": "Card", "when": "a titled content container, not the page-level header" }
+    ],
+    "note": "One primary action on the right at most; the rest secondary. Use a plain `title` for a top-level page (optionally with a `highlight` name), and a `breadcrumb` trail for a sub-page. Keep the title a short sentence-case phrase.",
+    "dsv3": "COVERED — DS V3 Screen heading (fileKey P764iQ6y4ZwW7W3f7FLZyW, node 2237:55733; Desktop / Tablet / Phone device variants). The Desktop symbol = a Breadcrumb instance + a (hidden) description line + a Button Group. Bindings from get_variable_defs: title Heading4 24 / weight 600 / line-height 1.3 / #1A1A1A (text-default), brand-accent name #6A1EBB (color-primary), gaps 8 (GapM) and 16 (GapL), icon 16. REUSE: the title trail is the shipped <aha-breadcrumb>; the actions are slotted <aha-button>s from the DS button — no second breadcrumb, no hand-rolled button."
+  },
+  "surfaces": ["dashboard", "editor", "admin", "settings"],
+  "reuse": { "entry": "./aha-screen-heading", "registers": "aha-screen-heading", "exportsNamed": ["AhaScreenHeading", "defineAhaScreenHeading"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "screen-heading.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "screen-heading.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "screen-heading.vue.txt" }
+  ],
+  "preview": "screen-heading.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "title",
+        "label": "Title",
+        "default": "Welcome, Brian!",
+        "options": [
+          { "label": "Greeting", "value": "Welcome, Brian!" },
+          { "label": "Page title", "value": "Presentations" }
+        ]
+      },
+      {
+        "prop": "highlight",
+        "label": "Highlight",
+        "default": "Brian",
+        "options": [
+          { "label": "Brian", "value": "Brian" },
+          { "label": "None", "value": null }
+        ]
+      },
+      {
+        "prop": "breadcrumb",
+        "label": "Breadcrumb trail",
+        "default": "__remove__",
+        "options": [
+          { "label": "Off (plain title)", "value": null },
+          { "label": "Sub-page trail", "value": "[{\"label\":\"Presentations\",\"href\":\"#\"},{\"label\":\"Team offsite\",\"href\":\"#\"},{\"label\":\"Editor\"}]" }
+        ]
+      },
+      {
+        "prop": "description",
+        "label": "Description",
+        "default": "__remove__",
+        "options": [
+          { "label": "Off", "value": null },
+          { "label": "With subtitle", "value": "Here's what's happening across your workspace today." }
+        ]
+      },
+      {
+        "prop": "device",
+        "label": "Device",
+        "default": "desktop",
+        "options": [
+          { "label": "Desktop", "value": "desktop" },
+          { "label": "Tablet", "value": "tablet" },
+          { "label": "Phone", "value": "phone" }
+        ]
+      }
+    ]
+  },
+  "selfCheck": [
+    { "label": "title Heading4 24 / SemiBold 600 / #1A1A1A (text-default)", "verdict": "PASS" },
+    { "label": "highlight substring in color-primary #6A1EBB", "verdict": "PASS" },
+    { "label": "breadcrumb trail renders via the reused <aha-breadcrumb>", "verdict": "PASS" },
+    { "label": "actions are slotted <aha-button>s (reused, not rewritten)", "verdict": "PASS" },
+    { "label": "description subtitle 14 · text-secondary #4A4A4A", "verdict": "PASS" },
+    { "label": "phone wraps actions below the title", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probes the greeting header with a highlighted name and proves it reuses <aha-breadcrumb> when a trail is set.",
+    "ready": "!!(document.querySelector('aha-screen-heading[data-probe]') && document.querySelector('aha-screen-heading[data-probe]').shadowRoot && document.querySelector('aha-screen-heading[data-probe]').shadowRoot.querySelector('.title'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-screen-heading[data-probe]');var r=el&&el.shadowRoot;var t=r&&r.querySelector('.title');var hl=r&&r.querySelector('.hl');var d=r&&r.querySelector('.desc');var st=t?getComputedStyle(t):null;var sd=d?getComputedStyle(d):null;var bc=document.querySelector('aha-screen-heading[breadcrumb]');var bcr=bc&&bc.shadowRoot;return{titleColor:st?st.color:null,titleSize:st?st.fontSize:null,titleWeight:st?st.fontWeight:null,highlightColor:hl?getComputedStyle(hl).color:null,descColor:sd?sd.color:null,reusesBreadcrumb:!!(bcr&&bcr.querySelector('aha-breadcrumb'))};})()",
+    "expect": { "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "titleWeight": "600", "highlightColor": "rgb(106, 30, 187)", "descColor": "rgb(74, 74, 74)", "reusesBreadcrumb": true }
+  }
+}

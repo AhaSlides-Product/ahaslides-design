@@ -1,0 +1,23 @@
+import '@ahaslides-product/design/illustrations';   // registers <aha-illustration> + loads the spot-art registry (20 illustrations)
+
+// Call any illustration BY NAME — never inline an <svg>. Browse names in the Illustration library,
+// or read illustration.agent.json. Unlike <aha-icon>, an illustration is MULTI-COLOUR — it keeps
+// its own palette, so there is no currentColor. Size is a single edge (px); aspect ratio is fixed.
+
+// Empty state — a large illustration above the copy + a recovery action.
+<div className="empty">
+  <aha-illustration name="empty-trash" size={160} label="Trash is empty" />
+  <p>Your trash is empty.</p>
+</div>
+
+// Plan-tier card — a compact illustration heads each tier (decorative when the label is adjacent text).
+<div className="tiers">
+  <aha-illustration name="plan-essential" size={96} decorative />
+  <aha-illustration name="plan-pro" size={96} decorative />
+  <aha-illustration name="plan-enterprise" size={96} decorative />
+</div>
+
+// Onboarding / referral / error families are the same call, different name:
+<aha-illustration name="onboarding-education" size={56} label="Education" />
+<aha-illustration name="referral" size={128} label="Refer a friend" />
+<aha-illustration name="error-ai-chatbot" size={120} label="The assistant hit an error" />

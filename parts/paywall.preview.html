@@ -1,22 +1,27 @@
-<div class="pad" style="display:flex; justify-content:center; align-items:flex-start; padding:16px 24px 220px">
-  <!-- ONE [data-probe] paywall, shown open so the popover anatomy (crown · label · body · unlock
-       line · Upgrade CTA) is visible and measurable. The Plan playground drives required-plan on
-       THIS element live. Wraps a gated affordance as its anchor. -->
-  <aha-paywall data-probe open placement="bottom" feature-key="custom_survey_url"
-    feature-label="Custom survey URL" body="Give your survey a branded, memorable link."
+<div class="pad" style="display:flex; justify-content:center; align-items:flex-start; padding:16px 24px 300px">
+  <!-- ONE [data-probe] paywall, shown OPEN so the popover anatomy (upgrade-mark crown · title ·
+       description · unlock line · Upgrade + See all plans buttons) is visible and measurable. The
+       Plan playground drives required-plan on THIS element live. Wraps a gated affordance as its anchor. -->
+  <aha-paywall data-probe open placement="bottom" feature-key="streak_bonus"
+    feature-label="Streak answer bonus point"
+    body="Let the participants play quiz and be ranked as teams instead of being ranked individually."
     required-plan="pro">
-    <span class="lbl" style="margin:0">Custom URL</span>
+    <span class="lbl" style="margin:0">Streak bonus</span>
   </aha-paywall>
 </div>
 
-<!-- Imports the REAL shipped element (../lib/aha-paywall.js) + the icon library — no inlined copy, so
-     the preview can never drift from lib/. aha-paywall.js itself imports the icon registry, but we
-     import it here too so the crown glyph resolves eagerly. The Plan control bar is generated from
-     contracts/paywall.json → playground and drives required-plan on the [data-probe] element live. -->
+<!-- Imports the REAL shipped element (../lib/aha-paywall.js) + the icon library + the shared Button —
+     no inlined copy, so the preview can never drift from lib/. aha-paywall.js itself imports the icon
+     registry AND aha-button, but we import them here too so the crown glyph + the two CTAs resolve
+     eagerly. The Plan control bar is generated from contracts/paywall.json → playground and drives
+     required-plan on the [data-probe] element live. -->
 <script type="module">
   import '../lib/icons.js';        // registers <aha-icon> + the registry (the crown badge comes from it)
+  import '../lib/aha-button.js';   // registers <aha-button> — the two popover CTAs reuse the shared primitive
   import '../lib/aha-paywall.js';  // registers <aha-paywall> — the shipped primitive, byte-identical to consumers'
 
-  // demo only: don't navigate away from the docs when the CTA is clicked
-  document.querySelector('aha-paywall[data-probe]').addEventListener('paywall-upgrade', (e) => e.preventDefault());
+  // demo only: don't navigate away from the docs when a CTA is clicked
+  const pw = document.querySelector('aha-paywall[data-probe]');
+  pw.addEventListener('paywall-upgrade', (e) => e.preventDefault());
+  pw.addEventListener('paywall-plans', (e) => e.preventDefault());
 </script>

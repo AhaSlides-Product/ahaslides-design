@@ -1,0 +1,25 @@
+// main.ts — register the element + registry, and mark aha-* as custom elements
+import '@ahaslides-product/design/illustrations';   // registers <aha-illustration> + loads the spot-art registry (20 illustrations)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — every surface renders spot art through the shared Illustration, BY NAME.
+// Browse names in the Illustration library. An illustration is MULTI-COLOUR — it keeps its own
+// palette (no currentColor). Size is a single edge (px); the aspect ratio is fixed by the source.
+<template>
+  <!-- Empty state — a large illustration above the copy + a recovery action -->
+  <div class="empty">
+    <aha-illustration name="empty-templates" :size="160" label="No templates yet" />
+    <p>No templates yet.</p>
+  </div>
+
+  <!-- Plan-tier card — a compact illustration heads each tier (decorative beside a text label) -->
+  <div class="tiers">
+    <aha-illustration name="plan-essential" :size="96" decorative />
+    <aha-illustration name="plan-pro" :size="96" decorative />
+    <aha-illustration name="plan-enterprise" :size="96" decorative />
+  </div>
+
+  <!-- Onboarding / referral / error families are the same call, different name -->
+  <aha-illustration name="onboarding-others" :size="56" label="Something else" />
+  <aha-illustration name="referral" :size="128" label="Refer a friend" />
+</template>
