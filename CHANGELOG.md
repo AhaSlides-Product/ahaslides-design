@@ -23,7 +23,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.28.0 — 2026-09-10
 ### Added
-- **Button** — introduce the named `--aha-button-*` semantic-token layer (primary/default/ghost/danger/positive/disabled + focus-ring + elevation), a pure indirection over the core tokens (e.g. `--aha-button-primary-bg: var(--aha-color-primary)`), so button theming can move independently of the core palette. `<aha-button>` now binds to it. No visual change — rendered colours are byte-identical. (#PR)
+- **Button** — introduce the named `--aha-button-*` semantic-token layer (primary/default/ghost/danger/positive/disabled + focus-ring + elevation), a pure indirection over the core tokens (e.g. `--aha-button-primary-bg: var(--aha-color-primary)`), so button theming can move independently of the core palette. `<aha-button>` now binds to it. No visual change — rendered colours are byte-identical. (#57)
 
 ## 0.22.0 — 2026-09-10
 ### Added
