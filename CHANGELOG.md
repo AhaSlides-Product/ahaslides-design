@@ -23,7 +23,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.23.0 — 2026-09-10
 ### Added
-- **Radio** — new `variant="card"`: the whole bordered card is the selectable target (radio dot + title + optional `description`), and the selected card gets a brand border + a subtle brand-tint (`bg-accent`) fill. Supports `size` and `direction`, stays mutually-exclusive within a `name` group, and is keyboard-operable exactly like the dot variant (roving arrow-key nav). (#PR)
+- **Radio** — new `variant="card"`: the whole bordered card is the selectable target (radio dot + title + optional `description`), and the selected card gets a brand border + a subtle brand-tint (`bg-accent`) fill. Supports `size` and `direction`, stays mutually-exclusive within a `name` group, and is keyboard-operable exactly like the dot variant (roving arrow-key nav). (#61)
 
 ## 0.22.0 — 2026-09-10
 ### Added
