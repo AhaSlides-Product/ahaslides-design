@@ -1,8 +1,9 @@
-import '@ahaslides-product/design/aha-dropdown';   // registers <aha-dropdown> (+ <aha-icon>)
+import '@ahaslides-product/design/icons';        // registers <aha-icon> for leading + caret glyphs
+import '@ahaslides-product/design/aha-dropdown';  // registers <aha-dropdown>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `select` event; React 19 can bind onSelect directly.
-function AhaDropdown({ label, items, onSelect }) {
+function AhaDropdown({ label, items, placement, trigger, onSelect }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -10,12 +11,20 @@ function AhaDropdown({ label, items, onSelect }) {
     el.addEventListener('select', h);
     return () => el.removeEventListener('select', h);
   });
-  return <aha-dropdown ref={ref} label={label} items={JSON.stringify(items)} />;
+  return <aha-dropdown ref={ref} label={label} placement={placement} trigger={trigger} items={JSON.stringify(items)} />;
 }
 
-// usage
+// usage — leading icons, a divider, a disabled row, a red danger action
+// placement: bottomLeft | bottomRight | topLeft | topRight · trigger: click | hover
 <AhaDropdown
   label="Actions"
-  items={[{ key: 'rename', label: 'Rename' }, { key: 'delete', label: 'Delete' }]}
+  placement="bottomLeft"
+  items={[
+    { key: 'rename', label: 'Rename', icon: 'system-pencil-simple' },
+    { key: 'duplicate', label: 'Duplicate', icon: 'system-copy' },
+    { key: 'export', label: 'Export', icon: 'system-export', disabled: true },
+    { type: 'divider' },
+    { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
+  ]}
   onSelect={(key) => runAction(key)}
 />

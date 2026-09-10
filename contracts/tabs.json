@@ -5,19 +5,26 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-tabs",
-  "summary": "Switch between sibling content panels from a line-style tab bar.",
-  "lead": "ONE custom element — <aha-tabs> — defined once, imported unchanged by React and Vue. Each slotted panel carries its label in data-tab; switching toggles a class on persistent tab nodes so the active colour and underline animate. Zero drift — the same element, not two look-alikes.",
+  "summary": "Switch between sibling content panels from a tab bar — line, primary or card, in two sizes, with per-tab icons.",
+  "lead": "ONE custom element — <aha-tabs> — defined once, imported unchanged by React and Vue. The DS V3 Tabs is a family, not one look: `type` picks line (the default underline bar), primary (a Bold 700 emphasised underline) or card (a filled bg-accent segment), and `size` is default or small. Each tab can carry a leading icon (by name, via <aha-icon>) and be disabled — roving arrow-key nav skips it. Feed it slotted panels (each child's label in data-tab, optional data-icon / data-disabled) or an `items` JSON array for a label-only bar. Switching toggles a class on persistent tab nodes so the active colour, underline and pill animate. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "text-secondary", "text-default", "color-primary", "radius-xs", "font-product", "motion-mid", "ease-in-out"],
+  "tokensUsed": ["border", "text-secondary", "text-default", "text-disabled", "color-primary", "bg-accent", "bg-hover", "border-focus", "radius-xs", "radius-sm", "font-product", "motion-mid", "ease-in-out"],
   "spec": [
-    { "label": "Bar", "value": "gap 24, 1px border bottom (border #E3E3E3)" },
-    { "label": "Tab", "value": "SemiBold 600 14, pad 8 0, 2px underline" },
-    { "label": "Active", "value": "color-primary #6A1EBB text + underline" },
-    { "label": "Inactive", "value": "text-secondary #4A4A4A → text-default on hover" }
+    { "label": "Bar", "value": "gap 24, 1px border bottom (border #E3E3E3) — card drops the rule, gap 8" },
+    { "label": "Tab", "value": "SemiBold 600 14 / line-height 21, pad 8 0, 8px gap to a 16px leading icon" },
+    { "label": "Line (default)", "value": "active color-primary #6A1EBB text + 2px color-primary underline" },
+    { "label": "Primary", "value": "same underline, active label Bold 700" },
+    { "label": "Card", "value": "active in a bg-accent #F9F5FF pill, radius-sm 6, no underline; hover bg-hover" },
+    { "label": "Inactive", "value": "text-secondary #4A4A4A → text-default on hover" },
+    { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, skipped by arrow-key nav" },
+    { "label": "Small", "value": "13px label, tighter padding + gap" }
   ],
   "props": [
     { "name": "value", "type": "number", "default": "0", "desc": "Zero-based index of the active tab" },
-    { "name": "[data-tab]", "type": "attribute on each panel child", "default": "—", "desc": "The tab label for that panel" },
+    { "name": "type", "type": "'line' | 'primary' | 'card'", "default": "line", "desc": "Underline (line), emphasised Bold underline (primary), or filled bg-accent segment (card)" },
+    { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Bar height / label size — small is a tighter, shorter bar" },
+    { "name": "items", "type": "JSON array", "default": "—", "desc": "Label-only bar (no panels): [{key?,label,icon?,disabled?}]. Omit to use slotted panels instead" },
+    { "name": "[data-tab]", "type": "attribute on each panel child", "default": "—", "desc": "The tab label for that panel; optional data-icon (icon name) + data-disabled" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value (index)" }
   ],
   "opinion": {
@@ -26,8 +33,8 @@
       { "what": "Segmented", "when": "switching a compact view or mode, not larger panels" },
       { "what": "Select", "when": "the choices are many or space is tight" }
     ],
-    "note": "Keep labels to one or two words, sentence case. Order tabs by expected use, most common first, and don't hide critical content behind a rarely-picked tab.",
-    "dsv3": "Line tabs with a 2px underline in color-primary; inactive labels text-secondary lifting to text-default on hover. Colour + underline animate on persistent nodes via the shared motion tokens — no subtree rebuild on switch."
+    "note": "Keep labels to one or two words, sentence case. Order tabs by expected use, most common first, and don't hide critical content behind a rarely-picked tab. Use line/primary for in-page view switching; reach for card when the bar sits on a tinted surface and needs a filled active chip.",
+    "dsv3": "COVERED — enumerated from the DS V3 reference contract, which carries two type families: `tabs|…` (the filled CARD look — active in a bg-accent pill, radius-sm 6, no rule) and `tabsPrimary|…` (the underline LINE look — active color-primary #6A1EBB text + 2px color-primary underline, inactive-hover lifting to color-primary), each with active / inactive / inactive|hover. Mapped to `type` = line (default underline) · primary (Bold 700 underline) · card (bg-accent pill). Both sizes (default / small) and per-tab leading icon + disabled supported. Token layer: border #E3E3E3, text-secondary inactive, color-primary active, bg-accent card fill, text-disabled disabled, radius-sm card. Colour, underline and pill animate on persistent nodes via the shared motion tokens — no subtree rebuild on switch."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-tabs", "registers": "aha-tabs", "exportsNamed": ["AhaTabs", "defineAhaTabs"] },
@@ -37,17 +44,35 @@
     { "key": "vue", "label": "Vue 3", "file": "tabs.vue.txt" }
   ],
   "preview": "tabs.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "type", "label": "Type", "default": "line", "options": [
+        { "label": "Line", "value": "line" },
+        { "label": "Primary", "value": "primary" },
+        { "label": "Card", "value": "card" }
+      ] },
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default", "value": null },
+        { "label": "Small", "value": "small" }
+      ] },
+      { "prop": "items", "label": "Content", "default": "panels", "options": [
+        { "label": "Panels (default)", "value": null },
+        { "label": "Filter strip", "value": "[{\"key\":\"all\",\"label\":\"All\",\"icon\":\"system-list\"},{\"key\":\"starred\",\"label\":\"Starred\",\"icon\":\"system-star\"},{\"key\":\"mine\",\"label\":\"Mine\",\"icon\":\"system-users\"},{\"key\":\"archived\",\"label\":\"Archived\",\"disabled\":true}]" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "active color-primary + underline", "verdict": "PASS" },
-    { "label": "inactive text-secondary", "verdict": "PASS" },
-    { "label": "font SemiBold 600 14", "verdict": "PASS" },
-    { "label": "change emits composed index", "verdict": "PASS" }
+    { "label": "line/primary active color-primary + 2px underline", "verdict": "PASS" },
+    { "label": "card active bg-accent pill, radius-sm, no rule", "verdict": "PASS" },
+    { "label": "inactive text-secondary → text-default on hover", "verdict": "PASS" },
+    { "label": "leading icon (by name) + disabled tab skipped by arrow-key nav", "verdict": "PASS" },
+    { "label": "default/small sizes; change emits composed index", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=0 so an active + an inactive tab both exist.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds type=line value=0 so an active tab, an inactive tab and a disabled tab all exist. activeBorder asserts the line-type-specific state (a 2px color-primary underline — card would render transparent here).",
     "ready": "!!(document.querySelector('aha-tabs[data-probe]') && document.querySelector('aha-tabs[data-probe]').shadowRoot && document.querySelector('aha-tabs[data-probe]').shadowRoot.querySelector('.tab.on'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-tabs[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.tab.on');var off=sr.querySelector('.tab:not(.on)');var o=getComputedStyle(on);return{activeColor:o.color,activeBorder:o.borderBottomColor,inactiveColor:getComputedStyle(off).color,fontSize:o.fontSize};})()",
-    "expect": { "activeColor": "rgb(106, 30, 187)", "activeBorder": "rgb(106, 30, 187)", "inactiveColor": "rgb(74, 74, 74)", "fontSize": "14px" }
+    "measure": "(function(){var el=document.querySelector('aha-tabs[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.tab.on');var off=sr.querySelector('.tab:not(.on):not([disabled])');var dis=sr.querySelector('.tab[disabled]');var hasIcon=!!(on&&on.querySelector('aha-icon'));var o=getComputedStyle(on);return{activeColor:o.color,activeBorderColor:o.borderBottomColor,activeBorderWidth:o.borderBottomWidth,inactiveColor:getComputedStyle(off).color,disabledColor:dis?getComputedStyle(dis).color:null,fontSize:o.fontSize,fontWeight:o.fontWeight,hasIcon:hasIcon};})()",
+    "expect": { "activeColor": "rgb(106, 30, 187)", "activeBorderColor": "rgb(106, 30, 187)", "activeBorderWidth": "2px", "inactiveColor": "rgb(74, 74, 74)", "disabledColor": "rgb(181, 181, 181)", "fontSize": "14px", "fontWeight": "600", "hasIcon": true }
   }
 }

@@ -374,10 +374,17 @@ for (const ct of contracts) {
       .map(m => m[1].replace(/\s+/g, ' ').trim().toLowerCase())
       .filter(t => t && !/^none\b/.test(t)));
     const pv = read(join(PDIR, (ct.slug || '') + '.preview.html'));
-    if (pv && !fileAllows) {
+    // A preview that IMPORTS the shipped element module (../lib/<entry>.js) runs the REAL element,
+    // not a hand-copied reimplementation — so it CANNOT drift, and the sync check doesn't apply. This
+    // is stronger than a kept-in-sync copy, and it's how the smart-widget previews stay truthful.
+    const entryMod = (r.entry || r.registers || '').replace(/^\.\//, '').replace(/\.js$/, '');
+    const importsReal = !!entryMod && new RegExp('import[^;\\n]*[\'"][^\'"]*(?:' +
+      entryMod.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '|' +
+      (r.registers || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')(?:\\.js)?[\'"]').test(pv);
+    if (pv && !fileAllows && !importsReal) {
       const missing = [...txns(raw)].filter(t => !txns(pv).has(t));
       if (missing.length)
-        motionFindings.push(['sync', `example out of sync — parts/${ct.slug}.preview.html is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than <${r.registers}> — and qa measures the preview, not lib. Keep the preview copy in sync with the element.`]);
+        motionFindings.push(['sync', `example out of sync — parts/${ct.slug}.preview.html neither imports the shipped <${r.registers}> nor inlines its motion: it is missing ${missing.length} transition(s) the component ships (e.g. "${missing[0].slice(0, 48)}…"), so the rendered example shows different motion than the element — and qa measures the preview, not lib. Either import ../lib/${entryMod}.js (best — it can't drift) or keep the inlined copy in sync.`]);
     }
 
     /* ===== the ACCESSIBILITY STANDARD (element only) — an interactive component must be OPERABLE.

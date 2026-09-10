@@ -5,20 +5,25 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-segmented",
-  "summary": "Switch between a few mutually-exclusive options inline.",
-  "lead": "ONE custom element — <aha-segmented> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; selection slides a persistent thumb (transform on a node that is never rebuilt), so it animates. Zero drift — the same element, not two look-alikes.",
+  "summary": "Switch between a few mutually-exclusive options inline — labels, leading icons, or icon-only, in three sizes.",
+  "lead": "ONE custom element — <aha-segmented> — defined once, imported unchanged by React and Vue. The DS V3 Segmented is a family, not a flat pill row: each item is a label, a leading icon + label, or an icon-only glyph (an aria-label is then required); an option can be disabled, or the whole control disabled. Three `size`s (small · medium · large) drive the height/padding/font/radius; `block` stretches it full-width with flex-equal options. Shadow-DOM CSS, themed only by --aha-* tokens; selection slides a persistent thumb (transform on a node that is never rebuilt), so it animates. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-20", "bg-container", "text-secondary", "text-default", "color-primary", "radius-default", "radius-sm", "font-product", "motion-mid", "ease-in-out", "ease-in-out-circ"],
+  "tokensUsed": ["gray-20", "gray-100", "bg-container", "text-secondary", "text-default", "text-disabled", "color-primary", "radius-xs", "radius-sm", "radius-default", "radius-lg", "font-product", "motion-mid", "ease-in-out", "ease-in-out-circ"],
   "spec": [
-    { "label": "Track", "value": "gray-20 #F7F7F7, radius 8, pad 2" },
+    { "label": "Track", "value": "gray-20 #F7F7F7, radius 8 (sm 6 · lg 12), pad 2" },
     { "label": "Thumb", "value": "bg-container #FFFFFF, radius 6, slides on select" },
-    { "label": "Segment", "value": "h32, pad 0 16, SemiBold 600 14" },
-    { "label": "Selected", "value": "text-default #1A1A1A over the thumb" }
+    { "label": "Segment", "value": "medium h32 pad 0 16 · small h24 12/12px · large h40 20/16px, SemiBold 600" },
+    { "label": "Content", "value": "label · leading icon (16) + label · icon-only (aria-label required)" },
+    { "label": "Selected", "value": "text-default #1A1A1A over the thumb" },
+    { "label": "Disabled", "value": "per-option or whole control → text-disabled, not-allowed" },
+    { "label": "Block", "value": "full-width track, options flex-equal" }
   ],
   "props": [
-    { "name": "options", "type": "string", "default": "—", "desc": "Pipe-separated labels, e.g. \"Day|Week|Month\"" },
-    { "name": "value", "type": "string", "default": "first option", "desc": "Selected option label" },
-    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the control" },
+    { "name": "options", "type": "string | JSON array", "default": "—", "desc": "Pipe labels \"Day|Week|Month\" OR items [{value,label?,icon?,disabled?,ariaLabel?}]" },
+    { "name": "value", "type": "string", "default": "first option", "desc": "Selected option value" },
+    { "name": "size", "type": "'small' | 'medium' | 'large'", "default": "medium", "desc": "Height/padding/font/radius scale" },
+    { "name": "block", "type": "boolean", "default": "false", "desc": "Full-width; options flex-equal" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the whole control" },
     { "name": "change", "type": "CustomEvent<{value,index}>", "default": "—", "desc": "Composed event; read e.detail.value" }
   ],
   "opinion": {
@@ -27,8 +32,8 @@
       { "what": "Tabs", "when": "navigating between larger content panels" },
       { "what": "Select", "when": "one option from a longer list that needn't be all visible" }
     ],
-    "note": "Keep labels to one word where possible and the option count small (2–4). It is a single-select control — for a magnitude use Rate or a Slider.",
-    "dsv3": "Track gray-20, thumb bg-container white with a soft shadow, selected label text-default. The thumb is a persistent node moved by transform via the shared motion tokens — no subtree rebuild on select."
+    "note": "Keep labels to one word where possible and the option count small (2–4). Icon-only options MUST carry an aria-label. It is a single-select control — for a magnitude use Rate or a Slider.",
+    "dsv3": "COVERED — enumerated from the DS V3 Segmented component-set taxonomy: Segmented-Group (the control), Segmented-Item (label · leading icon + label · icon-only, plus selected/disabled states), Form-Item/Segmented-radio. The family carries three sizes (small · medium · large), a block full-width mode, per-option and whole-control disabled, and icon-only items. Token layer: track gray-20, thumb bg-container white with a soft shadow, selected label text-default; radius from the 4/6/8/12 scale by size. The thumb is a persistent node moved by transform via the shared motion tokens — no subtree rebuild on select."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-segmented", "registers": "aha-segmented", "exportsNamed": ["AhaSegmented", "defineAhaSegmented"] },
@@ -38,17 +43,37 @@
     { "key": "vue", "label": "Vue 3", "file": "segmented.vue.txt" }
   ],
   "preview": "segmented.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "medium", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Medium", "value": "medium" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "options", "label": "Content", "default": "icons", "options": [
+        { "label": "Icons + labels", "value": "[{\"value\":\"day\",\"label\":\"Day\",\"icon\":\"system-calendar-dot\"},{\"value\":\"week\",\"label\":\"Week\",\"icon\":\"system-calendar-dots\"},{\"value\":\"month\",\"label\":\"Month\",\"icon\":\"system-table\"},{\"value\":\"year\",\"label\":\"Year\",\"disabled\":true}]" },
+        { "label": "Labels only", "value": "[{\"value\":\"day\",\"label\":\"Day\"},{\"value\":\"week\",\"label\":\"Week\"},{\"value\":\"month\",\"label\":\"Month\"}]" },
+        { "label": "Icon-only", "value": "[{\"value\":\"list\",\"icon\":\"system-list\",\"ariaLabel\":\"List view\"},{\"value\":\"grid\",\"icon\":\"system-squares-four\",\"ariaLabel\":\"Grid view\"},{\"value\":\"table\",\"icon\":\"system-rows\",\"ariaLabel\":\"Table view\"}]" }
+      ] },
+      { "prop": "block", "label": "Block", "default": "__remove__", "options": [
+        { "label": "Auto", "value": null },
+        { "label": "Full width", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "track gray-20 · radius 8", "verdict": "PASS" },
-    { "label": "thumb white · radius 6", "verdict": "PASS" },
-    { "label": "selected text-default", "verdict": "PASS" },
+    { "label": "track gray-20 · radius 8 (size-scaled)", "verdict": "PASS" },
+    { "label": "thumb white · radius 6 · slides on a persistent node", "verdict": "PASS" },
+    { "label": "selected text-default; leading icon / icon-only render", "verdict": "PASS" },
+    { "label": "size drives segment height (24/32/40); block stretches full-width", "verdict": "PASS" },
+    { "label": "per-option + whole disabled; roving arrows skip disabled", "verdict": "PASS" },
     { "label": "change emits composed value", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=Week so a selected segment exists.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=week at the default (medium) size so a selected segment exists and the size-dependent height is measurable.",
     "ready": "!!(document.querySelector('aha-segmented[data-probe]') && document.querySelector('aha-segmented[data-probe]').shadowRoot && document.querySelector('aha-segmented[data-probe]').shadowRoot.querySelector('.seg.on'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-segmented[data-probe]');var sr=el.shadowRoot;var track=sr.querySelector('.track');var thumb=sr.querySelector('.thumb');var on=sr.querySelector('.seg.on');var t=getComputedStyle(track);return{trackBg:t.backgroundColor,trackRadius:t.borderTopLeftRadius,thumbBg:getComputedStyle(thumb).backgroundColor,onColor:getComputedStyle(on).color};})()",
-    "expect": { "trackBg": "rgb(247, 247, 247)", "trackRadius": "8px", "thumbBg": "rgb(255, 255, 255)", "onColor": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-segmented[data-probe]');var sr=el.shadowRoot;var track=sr.querySelector('.track');var thumb=sr.querySelector('.thumb');var on=sr.querySelector('.seg.on');var t=getComputedStyle(track);var o=getComputedStyle(on);return{trackBg:t.backgroundColor,trackRadius:t.borderTopLeftRadius,thumbBg:getComputedStyle(thumb).backgroundColor,onColor:o.color,segHeight:o.height};})()",
+    "expect": { "trackBg": "rgb(247, 247, 247)", "trackRadius": "8px", "thumbBg": "rgb(255, 255, 255)", "onColor": "rgb(26, 26, 26)", "segHeight": "32px" }
   }
 }

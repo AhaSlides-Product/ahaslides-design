@@ -5,9 +5,11 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 // Component.vue
 <script setup>
 import { computed } from 'vue';
+// each item: { label, href?, icon?, disabled? }; the last / href-less entry is the current page.
 const trail = [
-  { label: 'Home', href: '/' },
-  { label: 'Presentations', href: '/p' },
+  { label: 'Home', href: '/', icon: 'system-house' },
+  { label: 'Presentations', href: '/p', icon: 'system-folder' },
+  { label: 'Team offsite', href: '/p/1' },
   { label: 'Editor' },
 ];
 const items = computed(() => JSON.stringify(trail));
@@ -15,5 +17,5 @@ function onNavigate(e) { router.push(e.detail.href); }
 </script>
 
 <template>
-  <aha-breadcrumb :items="items" @navigate="onNavigate" />
+  <aha-breadcrumb :items="items" separator="caret" :maxItems="4" @navigate="onNavigate" />
 </template>

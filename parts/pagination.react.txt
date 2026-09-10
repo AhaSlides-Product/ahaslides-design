@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-pagination';   // registers <aha-paginatio
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `change` event; React 19 can bind onChange directly.
-function AhaPagination({ total, pageSize, current, onChange }) {
+function AhaPagination({ total, pageSize, pages, current, size, simple, disabled, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -10,8 +10,21 @@ function AhaPagination({ total, pageSize, current, onChange }) {
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   });
-  return <aha-pagination ref={ref} total={total} page-size={pageSize} current={current} />;
+  return (
+    <aha-pagination
+      ref={ref}
+      total={total}
+      page-size={pageSize}
+      pages={pages}
+      current={current}
+      size={size}            // 'default' | 'small'
+      simple={simple ? '' : undefined}
+      disabled={disabled ? '' : undefined}
+    />
+  );
 }
 
-// usage
+// usage — total+page-size (or pass pages instead), size, simple, disabled
 <AhaPagination total={248} pageSize={20} current={page} onChange={setPage} />
+<AhaPagination pages={12} current={page} size="small" onChange={setPage} />
+<AhaPagination pages={12} current={page} simple onChange={setPage} />

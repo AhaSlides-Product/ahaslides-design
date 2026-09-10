@@ -1,19 +1,27 @@
 // main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';       // registers <aha-icon> for leading + caret glyphs
 import '@ahaslides-product/design/aha-menu';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue
+// Component.vue — icons, a titled group, a submenu, a danger action; mode: vertical | inline | horizontal
 <script setup>
 import { ref, computed } from 'vue';
 const view = ref('polls');
 const items = computed(() => JSON.stringify([
-  { key: 'polls', label: 'Polls' },
-  { key: 'quizzes', label: 'Quizzes' },
-  { key: 'wordcloud', label: 'Word cloud' },
+  { type: 'group', label: 'Workspace', children: [
+    { key: 'polls', label: 'Polls', icon: 'system-chart-bar' },
+    { key: 'quizzes', label: 'Quizzes', icon: 'system-question' },
+  ] },
+  { key: 'library', label: 'Content library', icon: 'system-folder', children: [
+    { key: 'templates', label: 'Templates' },
+    { key: 'archived', label: 'Archived', disabled: true },
+  ] },
+  { type: 'divider' },
+  { key: 'delete', label: 'Delete workspace', icon: 'system-trash', danger: true },
 ]));
 function onSelect(e) { view.value = e.detail.key; }
 </script>
 
 <template>
-  <aha-menu :value="view" :items="items" @select="onSelect" />
+  <aha-menu :value="view" mode="vertical" :items="items" @select="onSelect" />
 </template>

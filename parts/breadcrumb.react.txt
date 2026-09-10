@@ -10,11 +10,16 @@ function AhaBreadcrumb({ items, onNavigate }) {
     el.addEventListener('navigate', h);
     return () => el.removeEventListener('navigate', h);
   });
-  return <aha-breadcrumb ref={ref} items={JSON.stringify(items)} />;
+  return <aha-breadcrumb ref={ref} items={JSON.stringify(items)} separator="caret" maxItems={4} />;
 }
 
-// usage
+// usage — each item: { label, href?, icon?, disabled? }; the last / href-less entry is the current page.
 <AhaBreadcrumb
-  items={[{ label: 'Home', href: '/' }, { label: 'Presentations', href: '/p' }, { label: 'Editor' }]}
+  items={[
+    { label: 'Home', href: '/', icon: 'system-house' },
+    { label: 'Presentations', href: '/p', icon: 'system-folder' },
+    { label: 'Team offsite', href: '/p/1' },
+    { label: 'Editor' },
+  ]}
   onNavigate={({ href }) => router.push(href)}
 />

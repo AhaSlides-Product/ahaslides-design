@@ -1,61 +1,17 @@
 <div class="pad">
-  <div class="lbl">Interactive · click a tab (probe value=0)</div>
-  <aha-tabs data-probe value="0">
-    <section data-tab="Overview">Overview panel — a summary of the workspace.</section>
-    <section data-tab="Activity">Activity panel — recent events and edits.</section>
-    <section data-tab="Settings">Settings panel — configuration for this space.</section>
+  <div class="lbl">Tabs · line · a leading icon · a disabled tab · click or arrow-key (probe value=0)</div>
+  <aha-tabs data-probe value="0" type="line">
+    <section data-tab="Overview" data-icon="system-info">Overview panel — a summary of the workspace.</section>
+    <section data-tab="Activity" data-icon="system-chart-bar">Activity panel — recent events and edits.</section>
+    <section data-tab="Members" data-icon="system-users">Members panel — who has access.</section>
+    <section data-tab="Archived" data-disabled>Archived panel — disabled for this plan.</section>
   </aha-tabs>
 </div>
 
+<!-- Imports the REAL shipped element (../lib/aha-tabs.js) + the icon library — no inlined copy, so
+     the preview can never drift from lib/. The playground control bar (Type / Size / Content) is
+     generated from contracts/tabs.json → playground and drives this element's attributes live. -->
 <script type="module">
-const STYLE = `
-  :host{ display:block; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif) }
-  .bar{ display:flex; gap:24px; border-bottom:1px solid var(--aha-border,#E3E3E3) }
-  .tab{ position:relative; box-sizing:border-box; border:0; background:none; cursor:pointer;
-    padding:8px 0; margin-bottom:-1px; border-bottom:2px solid transparent;
-    font-family:inherit; font-size:14px; font-weight:600; color:var(--aha-text-secondary,#4A4A4A);
-    transition:color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)), border-color var(--aha-motion-mid,.2s) var(--aha-ease-in-out,cubic-bezier(0.645,0.045,0.355,1)) }
-  .tab:hover{ color:var(--aha-text-default,#1A1A1A) }
-  .tab.on{ color:var(--aha-color-primary,#6A1EBB); border-bottom-color:var(--aha-color-primary,#6A1EBB) }
-  .tab:focus-visible{ outline:2px solid var(--aha-color-primary,#6A1EBB); outline-offset:2px; border-radius:var(--aha-radius-xs,4px) }
-  .panels{ padding-top:16px; color:var(--aha-text-default,#1A1A1A); font-size:14px; line-height:21px }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important } }
-`;
-let tabsSeq = 0;
-class AhaTabs extends HTMLElement {
-  get value(){ return parseInt(this.getAttribute('value')||'0',10)||0; }
-  set value(v){ this.setAttribute('value',String(v)); this._select(this.value,false); }
-  connectedCallback(){
-    if(!this.shadowRoot) this.attachShadow({mode:'open'});
-    if(!this._base) this._base=`aha-tabs-${++tabsSeq}`;
-    this._panels=Array.from(this.querySelectorAll('[data-tab]'));
-    this._panels.forEach((p,i)=>{ p.setAttribute('role','tabpanel'); if(!p.id) p.id=`${this._base}-panel-${i}`; p.setAttribute('aria-labelledby',`${this._base}-tab-${i}`); p.setAttribute('tabindex','0'); });
-    const tabs=this._panels.map((p,i)=>`<button class="tab" type="button" role="tab" id="${this._base}-tab-${i}" aria-controls="${p.id}" data-i="${i}">${p.getAttribute('data-tab')}</button>`).join('');
-    this.shadowRoot.innerHTML = `<style>${STYLE}</style><div class="bar" role="tablist">${tabs}</div><div class="panels"><slot></slot></div>`;
-    this._tabs=Array.from(this.shadowRoot.querySelectorAll('.tab'));
-    this._select(this.value,false);
-    this._tabs.forEach((tab)=>tab.addEventListener('click',()=>{ const i=Number(tab.dataset.i); this.setAttribute('value',String(i)); this._select(i,true); }));
-    this.shadowRoot.querySelector('.bar').addEventListener('keydown',(e)=>this._onKey(e));
-  }
-  _onKey(e){
-    const count=this._tabs?this._tabs.length:0; if(!count) return;
-    const cur=this.value; let next;
-    switch(e.key){
-      case 'ArrowRight': case 'ArrowDown': next=(cur+1)%count; break;
-      case 'ArrowLeft': case 'ArrowUp': next=(cur-1+count)%count; break;
-      case 'Home': next=0; break;
-      case 'End': next=count-1; break;
-      default: return;
-    }
-    e.preventDefault(); this.setAttribute('value',String(next)); this._select(next,true,true);
-  }
-  _select(index,emit,focus){
-    if(!this._tabs) return;
-    this._tabs.forEach((t,i)=>{ const on=i===index; t.classList.toggle('on', on); t.setAttribute('aria-selected', on); t.tabIndex=on?0:-1; });
-    this._panels.forEach((p,i)=>{ p.hidden = i!==index; });
-    if(focus && this._tabs[index]) this._tabs[index].focus();
-    if(emit) this.dispatchEvent(new CustomEvent('change',{bubbles:true,composed:true,detail:{value:index}}));
-  }
-}
-customElements.define('aha-tabs', AhaTabs);
+  import '../lib/icons.js';       // registers <aha-icon> so the leading glyphs resolve from the DS library
+  import '../lib/aha-tabs.js';    // registers <aha-tabs> — the shipped primitive, byte-identical to what consumers get
 </script>

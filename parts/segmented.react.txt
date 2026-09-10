@@ -1,8 +1,10 @@
 import '@ahaslides-product/design/aha-segmented';   // registers <aha-segmented>
+import '@ahaslides-product/design/icons';           // registers <aha-icon> (leading/icon-only glyphs)
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-segmented> directly.
-function AhaSegmented({ options, value, disabled, onChange }) {
+// `options` is a pipe-string OR a JSON array of {value,label?,icon?,disabled?,ariaLabel?}.
+function AhaSegmented({ options, value, size, block, disabled, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -11,8 +13,21 @@ function AhaSegmented({ options, value, disabled, onChange }) {
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   });
-  return <aha-segmented ref={ref} options={options.join('|')} disabled={disabled || undefined} />;
+  const opts = Array.isArray(options) && typeof options[0] === 'object'
+    ? JSON.stringify(options)          // rich items → JSON string attribute
+    : [].concat(options).join('|');    // labels → pipe string
+  return <aha-segmented ref={ref} options={opts} size={size} block={block || undefined} disabled={disabled || undefined} />;
 }
 
-// usage
-<AhaSegmented options={['Day', 'Week', 'Month']} value={range} onChange={setRange} />
+// usage — rich items with leading icons
+<AhaSegmented
+  size="large"
+  value={range}
+  onChange={setRange}
+  options={[
+    { value: 'day', label: 'Day', icon: 'system-calendar-dot' },
+    { value: 'week', label: 'Week', icon: 'system-calendar-dots' },
+    { value: 'month', label: 'Month', icon: 'system-table' },
+    { value: 'year', label: 'Year', disabled: true },
+  ]}
+/>

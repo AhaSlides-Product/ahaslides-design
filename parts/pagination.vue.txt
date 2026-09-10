@@ -10,5 +10,11 @@ function onChange(e) { page.value = e.detail.page; }
 </script>
 
 <template>
+  <!-- total + page-size (the page count is total ÷ page-size) -->
   <aha-pagination :total="248" :page-size="20" :current="page" @change="onChange" />
+
+  <!-- pages="12" — a direct page count; size="small" | simple | disabled -->
+  <aha-pagination :pages="12" :current="page" size="small" @change="onChange" />
+  <aha-pagination :pages="12" :current="page" simple @change="onChange" />
+  <aha-pagination :pages="12" :current="page" disabled @change="onChange" />
 </template>

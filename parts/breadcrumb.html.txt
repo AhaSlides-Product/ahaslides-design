@@ -6,8 +6,10 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-breadcrumb.js';   // registers <aha-breadcrumb> (+ <aha-icon>)
 </script>
 
-<aha-breadcrumb id="crumbs"
-  items='[{"label":"Home","href":"/"},{"label":"Presentations","href":"/p"},{"label":"Team offsite","href":"/p/1"},{"label":"Editor"}]'>
+<!-- Each item: { label, href?, icon?, disabled? }. An href-less / last entry is the current page.
+     separator="caret" (default) or "slash"; maxItems collapses the middle into an ellipsis toggle. -->
+<aha-breadcrumb id="crumbs" separator="caret" maxItems="4"
+  items='[{"label":"Home","href":"/","icon":"system-house"},{"label":"Presentations","href":"/p","icon":"system-folder"},{"label":"Team offsite","href":"/p/1"},{"label":"Q3 deck","href":"/p/1/d"},{"label":"Editor"}]'>
 </aha-breadcrumb>
 
 <script>

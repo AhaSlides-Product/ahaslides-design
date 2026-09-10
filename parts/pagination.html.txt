@@ -6,7 +6,20 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-pagination.js';   // registers <aha-pagination> (+ <aha-icon>)
 </script>
 
+<!-- total + page-size (the page count is total ÷ page-size); ellipsis appears for long ranges -->
 <aha-pagination id="pager" total="248" page-size="20" current="3"></aha-pagination>
+
+<!-- pages="12" — pass a direct page count instead of total+page-size -->
+<aha-pagination pages="12" current="3"></aha-pagination>
+
+<!-- size="small" — the compact 24px scale for dense tables -->
+<aha-pagination pages="12" current="3" size="small"></aha-pagination>
+
+<!-- simple — prev · n / total · next, for tight widths -->
+<aha-pagination pages="12" current="3" simple></aha-pagination>
+
+<!-- disabled — the whole control -->
+<aha-pagination pages="12" current="3" disabled></aha-pagination>
 
 <script>
   // `current` reflects as it changes; each step emits a composed `change` event.

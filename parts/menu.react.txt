@@ -1,8 +1,9 @@
-import '@ahaslides-product/design/aha-menu';   // registers <aha-menu>
+import '@ahaslides-product/design/icons';       // registers <aha-icon> for leading + caret glyphs
+import '@ahaslides-product/design/aha-menu';    // registers <aha-menu>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `select` event; React 19 can bind onSelect directly.
-function AhaMenu({ items, value, onSelect }) {
+function AhaMenu({ items, value, mode, onSelect }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -10,12 +11,24 @@ function AhaMenu({ items, value, onSelect }) {
     el.addEventListener('select', h);
     return () => el.removeEventListener('select', h);
   });
-  return <aha-menu ref={ref} value={value} items={JSON.stringify(items)} />;
+  return <aha-menu ref={ref} value={value} mode={mode} items={JSON.stringify(items)} />;
 }
 
-// usage
+// usage — icons, a titled group, a submenu, a danger action; mode: vertical | inline | horizontal
 <AhaMenu
   value={view}
-  items={[{ key: 'polls', label: 'Polls' }, { key: 'quizzes', label: 'Quizzes' }]}
+  mode="vertical"
+  items={[
+    { type: 'group', label: 'Workspace', children: [
+      { key: 'polls', label: 'Polls', icon: 'system-chart-bar' },
+      { key: 'quizzes', label: 'Quizzes', icon: 'system-question' },
+    ] },
+    { key: 'library', label: 'Content library', icon: 'system-folder', children: [
+      { key: 'templates', label: 'Templates' },
+      { key: 'archived', label: 'Archived', disabled: true },
+    ] },
+    { type: 'divider' },
+    { key: 'delete', label: 'Delete workspace', icon: 'system-trash', danger: true },
+  ]}
   onSelect={setView}
 />

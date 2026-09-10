@@ -1,6 +1,8 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared stepsTheme. Vue consumes the same
      stepsTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the real antd Steps bound to the shared theme. -->
+     measures: the real antd Steps bound to the shared theme. Interactive: the controls drive
+     live React state (Direction / Size / Style / status), so the whole matrix is explorable —
+     the default render (horizontal · default · numbered · step 2) is what conformance measures. -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -20,25 +22,57 @@ window.__st = {
 
 <script type="text/babel">
 const { ConfigProvider, Steps } = window.__antdR;
-const items = [{ title: 'Details' }, { title: 'Content' }, { title: 'Publish' }];
-function Field({ label, children }) {
+const { useState } = React;
+const items = [
+  { title: 'Details', description: 'Name & type' },
+  { title: 'Content', description: 'Add slides' },
+  { title: 'Review', description: 'Check answers' },
+  { title: 'Publish', description: 'Go live' },
+];
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <div style={{ marginBottom: 22 }}>
-      <div className="lbl" style={{ marginBottom: 10 }}>{label}</div>
-      {children}
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__st}>
-    <div style={{ maxWidth: 520 }}>
-      <Field label="Horizontal · step 2 of 3">
-        <Steps current={1} items={items} />
-      </Field>
-      <Field label="Vertical">
-        <Steps current={1} direction="vertical" items={items} />
-      </Field>
+
+function Demo() {
+  const [direction, setDirection] = useState('horizontal');
+  const [size, setSize] = useState('default');
+  const [style, setStyle] = useState('number');
+  const [current, setCurrent] = useState(1);
+  return (
+    <div style={{ maxWidth: 620 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Direction" value={direction} onChange={setDirection}
+          options={[{ label: 'Horizontal', value: 'horizontal' }, { label: 'Vertical', value: 'vertical' }]} />
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[{ label: 'Default', value: 'default' }, { label: 'Small', value: 'small' }]} />
+        <Seg label="Style" value={style} onChange={setStyle}
+          options={[{ label: 'Numbered', value: 'number' }, { label: 'Dot', value: 'dot' }]} />
+      </div>
+      <Steps current={current} direction={direction} size={size} progressDot={style === 'dot'}
+        onChange={setCurrent} items={items} />
+      <div className="lbl" style={{ margin: '26px 0 10px' }}>A failed step — status="error"</div>
+      <Steps current={1} status="error" size={size}
+        items={[{ title: 'Upload' }, { title: 'Process' }, { title: 'Done' }]} />
     </div>
-  </ConfigProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
 );
 </script>

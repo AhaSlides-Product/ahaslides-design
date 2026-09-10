@@ -3,14 +3,25 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-dropdown.js';   // registers <aha-dropdown> (+ <aha-icon>)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';         // registers <aha-icon> for leading + caret glyphs
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-dropdown.js';  // registers <aha-dropdown>
 </script>
 
-<aha-dropdown id="menu" label="Actions"
-  items='[{"key":"rename","label":"Rename"},{"key":"duplicate","label":"Duplicate"},{"key":"export","label":"Export"},{"key":"delete","label":"Delete"}]'>
+<!-- placement="bottomLeft" (default) | "bottomRight" | "topLeft" | "topRight"
+     trigger="click" (default) | "hover"
+     items: {key,label,icon?,disabled?,danger?} · {type:"divider"} · {type:"group",label,children:[]} -->
+<aha-dropdown id="menu" label="Actions" placement="bottomLeft"
+  items='[
+    {"key":"rename","label":"Rename","icon":"system-pencil-simple"},
+    {"key":"duplicate","label":"Duplicate","icon":"system-copy"},
+    {"key":"export","label":"Export","icon":"system-export","disabled":true},
+    {"type":"divider"},
+    {"key":"delete","label":"Delete","icon":"system-trash","danger":true}
+  ]'>
 </aha-dropdown>
 
 <script>
-  // Opens on click, closes on outside-click / Escape; choosing an item emits a composed `select`.
+  // Opens on click, closes on outside-click / Escape (focus returns to the trigger); choosing an
+  // item emits a composed `select`.
   document.getElementById('menu').addEventListener('select', (e) => console.log('action', e.detail.key));
 </script>
