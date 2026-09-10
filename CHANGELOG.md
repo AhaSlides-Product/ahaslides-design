@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.32.0 — 2026-09-10
+### Removed
+- **Button** — dropped the plan / brand tone variants `essential`, `pro`, and `branding`. `variant` is now `primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link`. Plan gating belongs to the Paywall crown badge, not a button tone. **Breaking.** (#67)
+
 ## 0.31.0 — 2026-09-10
 ### Removed
 - **Button** — dropped the `xl` (52px) and `2xl` (60px) sizes. `size` is now `sm | md | lg`. Migrate any `size="xl"` / `size="2xl"` to `size="lg"`. **Breaking.** (#66)
