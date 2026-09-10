@@ -21,6 +21,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.26.0 — 2026-09-10
+### Added
+- **Tooltip & Popover** — 8 edge-aligned placements (`top-start` … `right-end`, AntD naming) on both `<aha-tooltip>` and `<aha-popover>`: the overlay sits on the same side but aligns to the trigger's start/end edge with the arrow offset near that edge. The 4 cardinal placements are unchanged. (#PR)
+
 ## 0.22.0 — 2026-09-10
 ### Added
 - **AhaSlides surfaces + General/Forms → DS V3 matrix + playgrounds.** The final audit group — every component now ships an interactive playground over its full DS V3 matrix. (#53)

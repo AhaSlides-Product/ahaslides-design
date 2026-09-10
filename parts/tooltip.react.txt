@@ -1,7 +1,9 @@
 import '@ahaslides-product/design/aha-tooltip';   // registers <aha-tooltip>
 
 // Attributes + slotted trigger only — no events — so React 18/19 can render it directly.
-// placement: top | bottom | left | right · color: dark | brand · arrow: true|false · trigger: hover|focus|click
+// placement: top | bottom | left | right (centred) OR edge-aligned top-start | top-end |
+//   bottom-start | bottom-end | left-start | left-end | right-start | right-end
+// color: dark | brand · arrow: true|false · trigger: hover|focus|click
 function AhaTooltip({ text, placement, color, arrow, trigger, children }) {
   return (
     <aha-tooltip text={text} placement={placement} color={color} arrow={arrow} trigger={trigger}>
@@ -11,6 +13,7 @@ function AhaTooltip({ text, placement, color, arrow, trigger, children }) {
 }
 
 // usage — wrap the focusable trigger; never hide essential info in a tooltip
-<AhaTooltip text="Copy share link" placement="bottom" color="brand">
+// edge-aligned: same side as `bottom`, aligned to the trigger's start edge, arrow near it
+<AhaTooltip text="Copy share link" placement="bottom-start" color="brand">
   <button aria-label="Copy share link">Share</button>
 </AhaTooltip>

@@ -13,13 +13,13 @@
     { "label": "Bubble", "value": "dark-navy #1A1A2E (or brand #6A1EBB), white text, radius 6, padding 6 10" },
     { "label": "Text", "value": "Plus Jakarta 12/18" },
     { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
-    { "label": "Placement", "value": "top (default) · bottom · left · right, centred on the trigger" },
+    { "label": "Placement", "value": "top (default) · bottom · left · right centred, PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "hover + focus (default) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
     { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the slotted trigger, shows on focus, no leaked listeners" }
   ],
   "props": [
     { "name": "text", "type": "string", "default": "—", "desc": "The hint text shown in the bubble" },
-    { "name": "placement", "type": "'top' | 'bottom' | 'left' | 'right'", "default": "top", "desc": "Which side of the trigger the bubble + arrow sit on" },
+    { "name": "placement", "type": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'", "default": "top", "desc": "Which side of the trigger the bubble + arrow sit on. The 4 cardinal values centre the bubble; the 8 edge-aligned values (…-start / …-end) align it to the trigger's start/end edge with the arrow offset near that edge (AntD naming)" },
     { "name": "color", "type": "'dark' | 'brand'", "default": "dark", "desc": "Bubble fill: dark-navy #1A1A2E or brand color-primary #6A1EBB" },
     { "name": "arrow", "type": "boolean", "default": "true", "desc": "Show the caret pointing at the trigger; arrow=\"false\" hides it" },
     { "name": "trigger", "type": "'hover' | 'focus' | 'click'", "default": "hover", "desc": "How it opens: hover+focus · focus only · click to toggle" },
@@ -32,7 +32,7 @@
       { "what": "Popover", "when": "richer content or interactive controls — a tooltip is text only" }
     ],
     "note": "Never hide essential information in a tooltip — it is unavailable on touch and to keyboard users who don't focus the trigger. Keep it to a short phrase; the trigger must be focusable.",
-    "dsv3": "COVERED — enumerated from the DS V3 / AntD Tooltip matrix: `placement` (top/bottom/left/right — the 8 corner variants collapse to these 4 primary sides), a `title` (our `text`), a `color` (default dark vs a brand fill), an `arrow` on/off, and `trigger` (hover/focus/click). All five now ship on the element. The measured DS V3 `tooltip|card` cell is a distinct rich 260px info CARD (white text, 16px padding, an icon) — a popover, not this simple text hint — and remains a separate future component. This `aha-tooltip` is the dark-navy hint bubble the settings skill's `?` help tooltip points to; spec derived from that convention + tokens (bg-dark, color-primary, text-inverse, radius-sm, 12/18). Motion is the shared .2s ease-out pop on a PERSISTENT node (class/attr toggle, never a subtree rebuild — the historic MOTION_DEBT trap is clean). Follow-up: the 8 diagonal-corner placements (topLeft…bottomRight) are not yet exposed."
+    "dsv3": "COVERED — enumerated from the DS V3 / AntD Tooltip matrix: `placement` now ships the FULL 12-placement set — the 4 cardinal sides (top/bottom/left/right, centred) PLUS the 8 edge-aligned ones (top-start, top-end, bottom-start, bottom-end, left-start, left-end, right-start, right-end — same side, aligned to the trigger's start/end edge with the arrow offset near that edge, AntD naming) — a `title` (our `text`), a `color` (default dark vs a brand fill), an `arrow` on/off, and `trigger` (hover/focus/click). All ship on the element. The measured DS V3 `tooltip|card` cell is a distinct rich 260px info CARD (white text, 16px padding, an icon) — a popover, not this simple text hint — and remains a separate future component. This `aha-tooltip` is the dark-navy hint bubble the settings skill's `?` help tooltip points to; spec derived from that convention + tokens (bg-dark, color-primary, text-inverse, radius-sm, 12/18). Motion is the shared .2s ease-out pop on a PERSISTENT node (class/attr toggle, never a subtree rebuild — the historic MOTION_DEBT trap is clean)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-tooltip", "registers": "aha-tooltip", "exportsNamed": ["AhaTooltip", "defineAhaTooltip"] },
@@ -46,9 +46,17 @@
     "controls": [
       { "prop": "placement", "label": "Placement", "default": "top", "options": [
         { "label": "Top", "value": "top" },
+        { "label": "Top start", "value": "top-start" },
+        { "label": "Top end", "value": "top-end" },
         { "label": "Bottom", "value": "bottom" },
+        { "label": "Bottom start", "value": "bottom-start" },
+        { "label": "Bottom end", "value": "bottom-end" },
         { "label": "Left", "value": "left" },
-        { "label": "Right", "value": "right" }
+        { "label": "Left start", "value": "left-start" },
+        { "label": "Left end", "value": "left-end" },
+        { "label": "Right", "value": "right" },
+        { "label": "Right start", "value": "right-start" },
+        { "label": "Right end", "value": "right-end" }
       ] },
       { "prop": "color", "label": "Colour", "default": "dark", "options": [
         { "label": "Dark", "value": "dark" },
