@@ -3,14 +3,18 @@ import '@ahaslides-product/design/icons';        // registers <aha-icon> for lea
 import '@ahaslides-product/design/aha-dropdown';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue — leading icons, a divider, a disabled row, a red danger action
+// Component.vue — leading icons, a submenu-parent (children[] → adjacent flyout), a divider, a danger action
 // placement: bottomLeft | bottomRight | topLeft | topRight · trigger: click | hover
+// a submenu opens on hover / ArrowRight / Enter and closes on ArrowLeft / Escape (edge-collision flip)
 <script setup>
 import { computed } from 'vue';
 const items = computed(() => JSON.stringify([
   { key: 'rename', label: 'Rename', icon: 'system-pencil-simple' },
-  { key: 'duplicate', label: 'Duplicate', icon: 'system-copy' },
-  { key: 'export', label: 'Export', icon: 'system-export', disabled: true },
+  { key: 'export', label: 'Export', icon: 'system-export', children: [
+    { key: 'pdf', label: 'PDF', icon: 'system-file' },
+    { key: 'pptx', label: 'PowerPoint', icon: 'system-file' },
+    { key: 'xlsx', label: 'Excel', icon: 'system-file' },
+  ] },
   { type: 'divider' },
   { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
 ]));
