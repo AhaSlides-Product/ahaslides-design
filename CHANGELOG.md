@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.23.0 — 2026-09-10
 ### Added
-- **Select field** — a new leaf `<aha-select>`: a native-`<select>`-backed one-of-many field (DS V3 chrome — small 24 / default 32 / large 40, radius 8, brand focus border, `#8A8A8A` placeholder, error/warning status, caret via `<aha-icon name="system-caret-down">`). It inherits the OS keyboard + AT model for free, so it embeds inside shadow-DOM surfaces the composite Select can't reach. Registered element, `./aha-select` export, HTML/React/Vue snippets + playground.
-- **Settings list** — schema rows now support `control.type:"select"`, reusing the new `<aha-select>` leaf (a row can render a one-of-many picker, not just switch/checkbox/input). Object/array control props (e.g. a select's `options`) now serialise to a JSON attribute.
+- **Select field** — a new leaf `<aha-select>`: a native-`<select>`-backed one-of-many field (DS V3 chrome — small 24 / default 32 / large 40, radius 8, brand focus border, `#8A8A8A` placeholder, error/warning status, caret via `<aha-icon name="system-caret-down">`). It inherits the OS keyboard + AT model for free, so it embeds inside shadow-DOM surfaces the composite Select can't reach. Registered element, `./aha-select` export, HTML/React/Vue snippets + playground. (#64)
+- **Settings list** — schema rows now support `control.type:"select"`, reusing the new `<aha-select>` leaf (a row can render a one-of-many picker, not just switch/checkbox/input). Object/array control props (e.g. a select's `options`) now serialise to a JSON attribute. (#64)
 ### Changed
-- **Select (composite)** — a one-line cross-link to the new leaf Select field: reach for the leaf for a short/known set or a shadow-DOM row; the composite is for search / tags / multi / virtualised lists.
+- **Select (composite)** — a one-line cross-link to the new leaf Select field: reach for the leaf for a short/known set or a shadow-DOM row; the composite is for search / tags / multi / virtualised lists. (#64)
 
 ## 0.22.3 — 2026-09-10
 ### Changed
