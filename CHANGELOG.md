@@ -23,7 +23,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.24.0 — 2026-09-10
 ### Added
-- **Tabs** — `tab-position="left"`: a vertical left-rail orientation with the panel to the right, the active indicator moving from a 2px bottom underline to a 2px color-primary side border (card keeps its pill), and roving arrow-key nav switching to up/down (Home/End unchanged). Top orientation, `type` and `size` unchanged. (#PR)
+- **Tabs** — `tab-position="left"`: a vertical left-rail orientation with the panel to the right, the active indicator moving from a 2px bottom underline to a 2px color-primary side border (card keeps its pill), and roving arrow-key nav switching to up/down (Home/End unchanged). Top orientation, `type` and `size` unchanged. (#59)
 
 ## 0.22.0 — 2026-09-10
 ### Added
