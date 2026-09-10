@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.27.0 — 2026-09-10
+### Added
+- **Button** — introduce the named `--aha-button-*` semantic-token layer (primary/default/ghost/danger/positive/disabled + focus-ring + elevation), a pure indirection over the core tokens (e.g. `--aha-button-primary-bg: var(--aha-color-primary)`), so button theming can move independently of the core palette. `<aha-button>` now binds to it. No visual change — rendered colours are byte-identical. (#57)
+
 ## 0.26.0 — 2026-09-10
 ### Added
 - **Dropdown: nested submenus** — a submenu-parent item (`children:[…]`) opens an adjacent flyout panel with keyboard nav (Up/Down within the flyout, ArrowRight/Enter to open, ArrowLeft/Escape to close back to the parent) and edge-collision flip when it would overflow the viewport. The parent carries `aria-haspopup="menu"` + a trailing `system-caret-right`, and each flyout fades/scales on its own persistent node. Flat dropdowns are unchanged. (#56)
