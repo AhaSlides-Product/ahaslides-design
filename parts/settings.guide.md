@@ -94,9 +94,9 @@ the library already defines.
 | **CountedTextarea** | *multi-line CountedInput; grows minRows–maxRows* | **mapped** → `counted-textarea` |
 | **CardSelect** | *single-select icon+label card grid* | **mapped** → `card-select` |
 | **NumberWithUnit** | *digit input + hover stepper (clamped, maxDigits) + unit-in-full + optional error line* | **mapped** → `number-with-unit` |
-| **OptionRow** | *repeatable option row: drag handle, correct toggle, borderless textarea + counter, image, delete* | backlog |
+| **OptionRow** | *repeatable option row: drag handle, correct toggle, borderless textarea + counter, image, delete* | **mapped** → `option-row` |
 | **NumberedItem** | *numbered composite-item wrapper: chip + `<Label> N` header + hover delete + grey container* | **mapped** → `numbered-item` |
-| **QuestionList** | *collapsible questions (prompt + OptionRow choices); composes NumberedItem/OptionRow* | backlog |
+| **QuestionList** | *collapsible questions (prompt + OptionRow choices); composes NumberedItem/OptionRow* | **mapped** → `question-list` |
 | **ImageDropzone** | *full-width settings-only image field; emits intents, host runs the upload modals* | **mapped** → `image-dropzone` |
 | **ImageActionButton** | *per-option image control (empty/loading/thumbnail + Change/Edit/Delete)* | **mapped** → `image-action-button` |
 | **InfoBox** | *settings-only tinted callout; bespoke, not Ant Alert* | **mapped** → `info-box` |

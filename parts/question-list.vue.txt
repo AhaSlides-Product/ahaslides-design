@@ -1,0 +1,23 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-question-list';   // registers <aha-question-list>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const quiz = ref([
+  { id: 'q1', prompt: 'Capital of France?', options: [{ id: 'o1', text: 'Paris', correct: true }, { id: 'o2', text: 'London' }] },
+]);
+</script>
+
+<template>
+  <!-- questions bound as a PROPERTY; @change returns the full edited model -->
+  <aha-question-list
+    min="1"
+    max="10"
+    minoptions="2"
+    maxoptions="6"
+    :questions.prop="quiz"
+    @change="quiz = $event.detail.questions"
+  />
+</template>

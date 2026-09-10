@@ -67,7 +67,9 @@
     "./lib/aha-info-box.js",
     "./lib/aha-numbered-item.js",
     "./lib/aha-image-action-button.js",
-    "./lib/aha-image-dropzone.js"
+    "./lib/aha-image-dropzone.js",
+    "./lib/aha-option-row.js",
+    "./lib/aha-question-list.js"
   ],
   "exports": {
     "./icons": "./lib/icons.js",
@@ -140,6 +142,8 @@
     "./aha-numbered-item": "./lib/aha-numbered-item.js",
     "./aha-image-action-button": "./lib/aha-image-action-button.js",
     "./aha-image-dropzone": "./lib/aha-image-dropzone.js",
+    "./aha-option-row": "./lib/aha-option-row.js",
+    "./aha-question-list": "./lib/aha-question-list.js",
     "./popconfirm-theme": "./lib/popconfirm-theme.js"
   },
   "files": [

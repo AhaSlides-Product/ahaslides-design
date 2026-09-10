@@ -24,7 +24,9 @@
     { "name": "label", "type": "string", "default": "—", "desc": "Header noun — rendered as \"<Label> N\"" },
     { "name": "deletable", "type": "boolean", "default": "false", "desc": "Show the hover delete; omit / false hides it entirely" },
     { "name": "candelete", "type": "boolean", "default": "true", "desc": "false disables the delete (at the minimum item count) without hiding it" },
-    { "name": "delete", "type": "CustomEvent<{n}>", "default": "—", "desc": "Composed event when the delete is pressed; read e.detail.n" }
+    { "name": "collapsible", "type": "boolean", "default": "false", "desc": "Show a header caret that collapses the body in place (the QuestionList case)" },
+    { "name": "delete", "type": "CustomEvent<{n}>", "default": "—", "desc": "Composed event when the delete is pressed; read e.detail.n" },
+    { "name": "toggle", "type": "CustomEvent<{collapsed}>", "default": "—", "desc": "Composed event when the collapse caret is toggled; read e.detail.collapsed" }
   ],
   "opinion": {
     "whenToUse": [

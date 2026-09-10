@@ -29,6 +29,7 @@
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
+    { "name": "borderless", "type": "boolean", "default": "false", "desc": "Drop the field's own border/ring/fill — for composing inside a parent that carries the one border (OptionRow, SETTINGS-34)" },
     { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on each keystroke; read e.detail.value" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on commit (blur)" }
   ],
