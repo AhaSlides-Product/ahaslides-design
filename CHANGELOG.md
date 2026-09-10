@@ -23,7 +23,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.27.0 — 2026-09-10
 ### Added
-- **Dropdown: nested submenus** — a submenu-parent item (`children:[…]`) opens an adjacent flyout panel with keyboard nav (Up/Down within the flyout, ArrowRight/Enter to open, ArrowLeft/Escape to close back to the parent) and edge-collision flip when it would overflow the viewport. The parent carries `aria-haspopup="menu"` + a trailing `system-caret-right`, and each flyout fades/scales on its own persistent node. Flat dropdowns are unchanged. (#PR)
+- **Dropdown: nested submenus** — a submenu-parent item (`children:[…]`) opens an adjacent flyout panel with keyboard nav (Up/Down within the flyout, ArrowRight/Enter to open, ArrowLeft/Escape to close back to the parent) and edge-collision flip when it would overflow the viewport. The parent carries `aria-haspopup="menu"` + a trailing `system-caret-right`, and each flyout fades/scales on its own persistent node. Flat dropdowns are unchanged. (#56)
 
 ## 0.22.0 — 2026-09-10
 ### Added
