@@ -17,12 +17,14 @@
     { "label": "Card", "value": "active in a bg-accent #F9F5FF pill, radius-sm 6, no underline; hover bg-hover" },
     { "label": "Inactive", "value": "text-secondary #4A4A4A → text-default on hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, skipped by arrow-key nav" },
-    { "label": "Small", "value": "13px label, tighter padding + gap" }
+    { "label": "Small", "value": "13px label, tighter padding + gap" },
+    { "label": "Left rail", "value": "tab-position=left — vertical rail, right-edge 1px rule; active moves to a 2px color-primary side border (line/primary), card keeps its pill; up/down arrow-key nav" }
   ],
   "props": [
     { "name": "value", "type": "number", "default": "0", "desc": "Zero-based index of the active tab" },
     { "name": "type", "type": "'line' | 'primary' | 'card'", "default": "line", "desc": "Underline (line), emphasised Bold underline (primary), or filled bg-accent segment (card)" },
     { "name": "size", "type": "'default' | 'small'", "default": "default", "desc": "Bar height / label size — small is a tighter, shorter bar" },
+    { "name": "tab-position", "type": "'top' | 'left'", "default": "top", "desc": "Orientation — top (horizontal bar, default) or left (vertical rail with the panel to the right; active indicator becomes a side border, arrow-key nav flips to up/down)" },
     { "name": "items", "type": "JSON array", "default": "—", "desc": "Label-only bar (no panels): [{key?,label,icon?,disabled?}]. Omit to use slotted panels instead" },
     { "name": "[data-tab]", "type": "attribute on each panel child", "default": "—", "desc": "The tab label for that panel; optional data-icon (icon name) + data-disabled" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value (index)" }
@@ -34,7 +36,7 @@
       { "what": "Select", "when": "the choices are many or space is tight" }
     ],
     "note": "Keep labels to one or two words, sentence case. Order tabs by expected use, most common first, and don't hide critical content behind a rarely-picked tab. Use line/primary for in-page view switching; reach for card when the bar sits on a tinted surface and needs a filled active chip.",
-    "dsv3": "COVERED — enumerated from the DS V3 reference contract, which carries two type families: `tabs|…` (the filled CARD look — active in a bg-accent pill, radius-sm 6, no rule) and `tabsPrimary|…` (the underline LINE look — active color-primary #6A1EBB text + 2px color-primary underline, inactive-hover lifting to color-primary), each with active / inactive / inactive|hover. Mapped to `type` = line (default underline) · primary (Bold 700 underline) · card (bg-accent pill). Both sizes (default / small) and per-tab leading icon + disabled supported. Token layer: border #E3E3E3, text-secondary inactive, color-primary active, bg-accent card fill, text-disabled disabled, radius-sm card. Colour, underline and pill animate on persistent nodes via the shared motion tokens — no subtree rebuild on switch."
+    "dsv3": "COVERED — enumerated from the DS V3 reference contract, which carries two type families: `tabs|…` (the filled CARD look — active in a bg-accent pill, radius-sm 6, no rule) and `tabsPrimary|…` (the underline LINE look — active color-primary #6A1EBB text + 2px color-primary underline, inactive-hover lifting to color-primary), each with active / inactive / inactive|hover. Mapped to `type` = line (default underline) · primary (Bold 700 underline) · card (bg-accent pill). Both sizes (default / small) and per-tab leading icon + disabled supported. `tab-position` = top (default) · left adds the vertical left-rail orientation: the bar's bottom rule becomes a right-edge rule and the 2px color-primary underline rotates to a 2px color-primary side border on the active edge (card keeps its pill), roving nav flipping to up/down — same tokens, same persistent-node animation. Token layer: border #E3E3E3, text-secondary inactive, color-primary active, bg-accent card fill, text-disabled disabled, radius-sm card. Colour, underline/side-border and pill animate on persistent nodes via the shared motion tokens — no subtree rebuild on switch."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-tabs", "registers": "aha-tabs", "exportsNamed": ["AhaTabs", "defineAhaTabs"] },
@@ -55,6 +57,10 @@
         { "label": "Default", "value": null },
         { "label": "Small", "value": "small" }
       ] },
+      { "prop": "tab-position", "label": "Position", "default": "top", "options": [
+        { "label": "Top", "value": null },
+        { "label": "Left", "value": "left" }
+      ] },
       { "prop": "items", "label": "Content", "default": "panels", "options": [
         { "label": "Panels (default)", "value": null },
         { "label": "Filter strip", "value": "[{\"key\":\"all\",\"label\":\"All\",\"icon\":\"system-list\"},{\"key\":\"starred\",\"label\":\"Starred\",\"icon\":\"system-star\"},{\"key\":\"mine\",\"label\":\"Mine\",\"icon\":\"system-users\"},{\"key\":\"archived\",\"label\":\"Archived\",\"disabled\":true}]" }
@@ -66,13 +72,14 @@
     { "label": "card active bg-accent pill, radius-sm, no rule", "verdict": "PASS" },
     { "label": "inactive text-secondary → text-default on hover", "verdict": "PASS" },
     { "label": "leading icon (by name) + disabled tab skipped by arrow-key nav", "verdict": "PASS" },
-    { "label": "default/small sizes; change emits composed index", "verdict": "PASS" }
+    { "label": "default/small sizes; change emits composed index", "verdict": "PASS" },
+    { "label": "tab-position=left: vertical rail, 2px color-primary side border, up/down arrow nav", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds type=line value=0 so an active tab, an inactive tab and a disabled tab all exist. activeBorder asserts the line-type-specific state (a 2px color-primary underline — card would render transparent here).",
-    "ready": "!!(document.querySelector('aha-tabs[data-probe]') && document.querySelector('aha-tabs[data-probe]').shadowRoot && document.querySelector('aha-tabs[data-probe]').shadowRoot.querySelector('.tab.on'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element. Two probes of the SAME element: [data-probe] holds type=line value=0 (top/horizontal) so an active, an inactive and a disabled tab exist — activeBorder asserts the line-type bottom underline (a 2px color-primary rule; card would render transparent). [data-probe-v] holds tab-position=left type=line value=0 (the vertical rail) — its active tab drops the bottom underline (transparent) and grows a 2px color-primary side border on the right edge, and the rail carries aria-orientation=vertical. So the vertical active indicator is measured as a colour (rgb 106,30,187) + a px width (2px) on the side edge, on the scale.",
+    "ready": "!!(document.querySelector('aha-tabs[data-probe]') && document.querySelector('aha-tabs[data-probe]').shadowRoot && document.querySelector('aha-tabs[data-probe]').shadowRoot.querySelector('.tab.on') && document.querySelector('aha-tabs[data-probe-v]') && document.querySelector('aha-tabs[data-probe-v]').shadowRoot && document.querySelector('aha-tabs[data-probe-v]').shadowRoot.querySelector('.tab.on'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-tabs[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.tab.on');var off=sr.querySelector('.tab:not(.on):not([disabled])');var dis=sr.querySelector('.tab[disabled]');var hasIcon=!!(on&&on.querySelector('aha-icon'));var o=getComputedStyle(on);return{activeColor:o.color,activeBorderColor:o.borderBottomColor,activeBorderWidth:o.borderBottomWidth,inactiveColor:getComputedStyle(off).color,disabledColor:dis?getComputedStyle(dis).color:null,fontSize:o.fontSize,fontWeight:o.fontWeight,hasIcon:hasIcon};})()",
-    "expect": { "activeColor": "rgb(106, 30, 187)", "activeBorderColor": "rgb(106, 30, 187)", "activeBorderWidth": "2px", "inactiveColor": "rgb(74, 74, 74)", "disabledColor": "rgb(181, 181, 181)", "fontSize": "14px", "fontWeight": "600", "hasIcon": true }
+    "measure": "(function(){var el=document.querySelector('aha-tabs[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.tab.on');var off=sr.querySelector('.tab:not(.on):not([disabled])');var dis=sr.querySelector('.tab[disabled]');var hasIcon=!!(on&&on.querySelector('aha-icon'));var o=getComputedStyle(on);var vel=document.querySelector('aha-tabs[data-probe-v]');var vsr=vel.shadowRoot;var von=vsr.querySelector('.tab.on');var vo=getComputedStyle(von);var orient=vsr.querySelector('[role=tablist]').getAttribute('aria-orientation');return{activeColor:o.color,activeBorderColor:o.borderBottomColor,activeBorderWidth:o.borderBottomWidth,inactiveColor:getComputedStyle(off).color,disabledColor:dis?getComputedStyle(dis).color:null,fontSize:o.fontSize,fontWeight:o.fontWeight,hasIcon:hasIcon,vSideBorderColor:vo.borderRightColor,vSideBorderWidth:vo.borderRightWidth,vBottomBorderWidth:vo.borderBottomWidth,vOrientation:orient};})()",
+    "expect": { "activeColor": "rgb(106, 30, 187)", "activeBorderColor": "rgb(106, 30, 187)", "activeBorderWidth": "2px", "inactiveColor": "rgb(74, 74, 74)", "disabledColor": "rgb(181, 181, 181)", "fontSize": "14px", "fontWeight": "600", "hasIcon": true, "vSideBorderColor": "rgb(106, 30, 187)", "vSideBorderWidth": "2px", "vBottomBorderWidth": "0px", "vOrientation": "vertical" }
   }
 }

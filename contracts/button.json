@@ -9,7 +9,7 @@
   "summary": "Trigger an action or navigation — the primary interactive control.",
   "lead": "ONE custom element — <aha-button> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so every button reads identically across apps and even outside one. Variants and sizes are attributes; there is one rendered UI, not a per-framework look-alike.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue consumes the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["btn-primary-bg", "btn-primary-bg-hover", "btn-primary-bg-press", "btn-secondary-bg", "btn-secondary-border", "btn-disabled-bg", "btn-disabled-fg", "text-default", "text-link", "radius-xs", "radius-default", "radius-lg", "focus"],
+  "tokensUsed": ["button-primary-bg", "button-primary-bg-hover", "button-primary-bg-press", "button-primary-text", "button-default-bg", "button-default-border", "button-danger-bg", "button-ghost-bg-hover", "button-positive-bg", "button-disabled-bg", "button-disabled-text", "button-focus-ring", "text-default", "text-link", "radius-xs", "radius-default", "radius-lg", "focus"],
   "spec": [
     { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8) · xl 52 (r12) · 2xl 60 (r16) — heights; fontSize 14 (sm/md/2xl) / 16 (lg/xl/2xl)" },
     { "label": "Primary", "value": "bg #6A1EBB, label #FDFDFD, hover #8644D4, active #5715A0" },
@@ -46,7 +46,8 @@
       { "what": "positive", "when": "a confirming/success action where a positive signal helps" },
       { "what": "icon-only", "when": "a compact action where the glyph is self-explanatory (close, more, add) — always give an aria-label" }
     ],
-    "note": "Size: MEDIUM (md) is the default for most actions; use SMALL (sm) to step an action down the information-hierarchy (denser/secondary regions), not by whim; lg/xl for prominent/hero moments. Size only via the size attribute — never inline height/padding/radius/fontSize. Primary fill is #6A1EBB; hover #8644D4 per DS V3."
+    "note": "Size: MEDIUM (md) is the default for most actions; use SMALL (sm) to step an action down the information-hierarchy (denser/secondary regions), not by whim; lg/xl for prominent/hero moments. Size only via the size attribute — never inline height/padding/radius/fontSize. Primary fill is #6A1EBB; hover #8644D4 per DS V3.",
+    "dsv3": "<aha-button> binds to a NAMED button semantic-token layer (--aha-button-*): --aha-button-primary-bg/-bg-hover/-bg-press/-text, --aha-button-default-bg/-text/-border/-bg-hover/-border-hover/-border-press, --aha-button-ghost-bg-hover/-bg-press (tertiary), --aha-button-danger-bg/-bg-hover/-bg-press/-text/-ring, --aha-button-positive-bg/-bg-hover/-bg-press/-text, --aha-button-disabled-bg/-text, --aha-button-focus-ring/-focus-ring-success, --aha-button-elevate-primary/-secondary. Each is a pure indirection whose value references the core DS token (e.g. --aha-button-primary-bg: var(--aha-color-primary)), so button theming can move independently of the core palette with NO visual change — the rendered colours are byte-identical to the raw --aha-btn-* seeds."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "snippets": [

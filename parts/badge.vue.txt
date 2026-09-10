@@ -17,4 +17,9 @@ const unread = ref(128);
 
   <!-- a standalone status badge — a semantic dot + label -->
   <aha-badge status="processing" text="Generating" />
+
+  <!-- a corner ribbon banner wrapping a card (placement start/end) -->
+  <aha-badge ribbon text="New">
+    <div class="template-card">Quiz template</div>
+  </aha-badge>
 </template>
