@@ -2,6 +2,8 @@ import '@ahaslides-product/design/aha-popover';   // registers <aha-popover>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-popover> directly.
+// placement: top | bottom | left | right (centred) OR edge-aligned top-start | top-end |
+//   bottom-start | bottom-end | left-start | left-end | right-start | right-end
 function AhaPopover({ placement = 'bottom', trigger = 'click', arrow = false, title, onOpenChange, anchor, children }) {
   const ref = useRef();
   useEffect(() => {
@@ -20,7 +22,7 @@ function AhaPopover({ placement = 'bottom', trigger = 'click', arrow = false, ti
   );
 }
 
-// usage
-<AhaPopover anchor={<button>Options</button>} title="Share this deck" arrow trigger="click">
+// usage — edge-aligned: aligned to the trigger's right edge, arrow near it
+<AhaPopover anchor={<button>Options</button>} title="Share this deck" placement="bottom-end" arrow trigger="click">
   <a href="#">Manage access</a>
 </AhaPopover>
