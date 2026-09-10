@@ -1,0 +1,84 @@
+{
+  "name": "Select field",
+  "slug": "select-field",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-select",
+  "summary": "Pick one value from a short, known set — a lightweight native-select-backed field that embeds anywhere.",
+  "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a popup + virtualised list, it is a styled control backed by a NATIVE <select>, so it inherits the OS keyboard model, focus and a11y for free — no custom listbox, no roving to hand-roll. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach.",
+  "tokensUsed": ["color-primary", "border", "border-hover", "border-error", "border-warning", "bg-container", "bg-container-disabled", "border-disabled", "text-default", "text-tertiary", "text-disabled", "font-product"],
+  "spec": [
+    { "label": "Control", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Size", "value": "small 24 · default 32 · large 40" },
+    { "label": "Focus", "value": "brand #6A1EBB border + soft ring" },
+    { "label": "Placeholder", "value": "#8A8A8A" },
+    { "label": "Caret", "value": "trailing aha-icon system-caret-down (UA arrow suppressed)" },
+    { "label": "Status", "value": "error #F5222D · warning #FF7747 border" }
+  ],
+  "props": [
+    { "name": "options", "type": "{ label, value }[]", "default": "[]", "desc": "The selectable set — a JSON `options` attribute or an `.options` property" },
+    { "name": "value", "type": "string", "default": "—", "desc": "Selected value (controlled)" },
+    { "name": "placeholder", "type": "string", "default": "—", "desc": "Dimmed hint shown when no value is selected" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height 24 / 32 / 40" },
+    { "name": "status", "type": "error | warning", "default": "—", "desc": "Validation border colour" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive, muted control" },
+    { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Select field (this leaf)", "when": "one value from a short, known set (≤ ~10), or a select inside a shadow-DOM surface like a settings row — no search/tags/multi needed" },
+      { "what": "Select (composite)", "when": "a long list needing type-to-search, multiple/tags, async loading, or option groups" },
+      { "what": "Radio", "when": "2–5 mutually-exclusive options all worth showing at once" }
+    ],
+    "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need search, tags, or a virtualised list.",
+    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 32 · radius 8 · 1px border #E3E3E3, size axis small 24 / default 32 / large 40, brand #6A1EBB focus border, #8A8A8A placeholder, status error #F5222D / warning #FF7747. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, border #E3E3E3, hover border-hover #D3B4FF, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
+  },
+  "a11y": {
+    "role": "the native <select> carries its own combobox/listbox semantics — no ARIA to bolt on",
+    "keyboard": "native — the OS drives it: Space/Enter opens, Up/Down move, type-ahead jumps, Esc closes; the <select> is the tab stop",
+    "note": "Backing the field with a real <select> inherits the platform keyboard model and screen-reader support for free, and dodges the roving-listbox burden a hand-rolled popup would carry. The wrapper is decorative chrome (aria-hidden caret); the field is the control."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-select", "registers": "aha-select", "exportsNamed": ["AhaSelect", "defineAhaSelect"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "select-field.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "select-field.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "select-field.vue.txt" }
+  ],
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. The only per-framework code is binding glue (React < 19 needs the ref wrapper to set `options` as a property; Vue binds `:options.prop` natively). The primitive is defined once in @ahaslides-product/design.",
+  "preview": "select-field.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Default", "value": "__remove__" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "status", "label": "Status", "default": "none", "options": [
+        { "label": "None", "value": "__remove__" },
+        { "label": "Error", "value": "error" },
+        { "label": "Warning", "value": "warning" }
+      ] },
+      { "prop": "disabled", "label": "Disabled", "default": "off", "options": [
+        { "label": "Off", "value": "__remove__" },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "control 32 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
+    { "label": "sizes small 24 · default 32 · large 40", "verdict": "PASS" },
+    { "label": "placeholder #8A8A8A when empty", "verdict": "PASS" },
+    { "label": "focus brand #6A1EBB border (persistent wrapper, animated)", "verdict": "PASS" },
+    { "label": "caret via <aha-icon name=\"system-caret-down\"> (no inline svg)", "verdict": "PASS" },
+    { "label": "native <select> — OS keyboard + AT for free", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, so there is a single render (no per-framework roots). The probe is a placeholder (value-less) <aha-select>.",
+    "ready": "!!(document.querySelector('aha-select[data-probe]') && document.querySelector('aha-select[data-probe]').shadowRoot && document.querySelector('aha-select[data-probe]').shadowRoot.querySelector('.wrap') && document.querySelector('aha-select[data-probe]').shadowRoot.querySelector('.field'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-select[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var sw=w?getComputedStyle(w):null;var sf=f?getComputedStyle(f):null;return{radius:sw?sw.borderTopLeftRadius:null,radiusBR:sw?sw.borderBottomRightRadius:null,border:sw?sw.borderTopColor:null,borderWidth:sw?sw.borderTopWidth:null,height:sw?sw.height:null,placeholder:sf?sf.color:null};})()",
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "32px", "placeholder": "rgb(138, 138, 138)" }
+  }
+}

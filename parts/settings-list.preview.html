@@ -8,6 +8,7 @@
       {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}},
       {"key":"leaderboard","label":"Leaderboard","description":"Shown to the audience between slides.","control":{"type":"switch"}},
       {"key":"deckTitle","label":"Deck title","control":{"type":"input","value":"Untitled"}},
+      {"key":"theme","label":"Slide theme","control":{"type":"select","value":"light","options":[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]}},
       {"key":"timer","label":"Question timer","disabled":true,"control":{"type":"switch"}},
       {"key":"branding","label":"Custom branding","locked":true,"plan":"pro","feature":"Custom branding"}
     ]},{"label":"Audience","description":"How people join and answer.","rows":[
@@ -37,6 +38,7 @@
   import '../lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item>
   import '../lib/aha-switch.js';          // reused as a control (slot + schema)
   import '../lib/aha-input.js';           // reused as a schema control
+  import '../lib/aha-select.js';          // reused as a schema control (control.type "select")
   import '../lib/aha-checkbox.js';        // reused as a schema control
   import '../lib/aha-paywall.js';         // reused as the plan-gated row's crown/upsell control
 </script>

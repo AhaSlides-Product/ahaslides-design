@@ -1,0 +1,48 @@
+<div class="pad">
+  <div class="lbl">Select field · native-&lt;select&gt;-backed leaf · the playground drives this one element (Size · Status · Disabled)</div>
+  <div class="demo-stage">
+    <aha-select data-probe placeholder="Pick a theme"
+      options='[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]'></aha-select>
+  </div>
+
+  <div class="lbl">Sizes · small 24 · default 32 · large 40</div>
+  <div class="row" style="align-items:center; gap:12px">
+    <aha-select size="small" value="light"
+      options='[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"}]'></aha-select>
+    <aha-select value="light"
+      options='[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"}]'></aha-select>
+    <aha-select size="large" value="light"
+      options='[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"}]'></aha-select>
+  </div>
+
+  <div class="lbl">States · placeholder · value · error · warning · disabled</div>
+  <div class="row" style="align-items:center; gap:12px; flex-wrap:wrap">
+    <aha-select placeholder="Select a language"
+      options='[{"label":"English","value":"en"},{"label":"Tiếng Việt","value":"vi"}]'></aha-select>
+    <aha-select value="en"
+      options='[{"label":"English","value":"en"},{"label":"Tiếng Việt","value":"vi"}]'></aha-select>
+    <aha-select status="error" placeholder="Required"
+      options='[{"label":"English","value":"en"},{"label":"Tiếng Việt","value":"vi"}]'></aha-select>
+    <aha-select status="warning" value="en"
+      options='[{"label":"English","value":"en"},{"label":"Tiếng Việt","value":"vi"}]'></aha-select>
+    <aha-select disabled value="en"
+      options='[{"label":"English","value":"en"},{"label":"Tiếng Việt","value":"vi"}]'></aha-select>
+  </div>
+
+  <div class="lbl">In a settings row · the leaf is the control aha-settings-list reuses (control.type "select")</div>
+  <aha-settings-list style="max-width:380px; display:block"
+    schema='{"sections":[{"label":"Presentation","rows":[
+      {"key":"theme","label":"Slide theme","control":{"type":"select","value":"light","options":[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"}]}},
+      {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}}
+    ]}]}'></aha-settings-list>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-select.js) + the icon library (the caret) + the
+     settings-list it embeds into — no inlined copy, so the preview can never drift from lib/. The
+     playground control bar (Size / Status / Disabled) is generated from contracts/select-field.json →
+     playground and drives the [data-probe] element's attributes live. -->
+<script type="module">
+  import '../lib/icons.js';               // registers <aha-icon> — the trailing caret glyph
+  import '../lib/aha-select.js';          // registers <aha-select> — the shipped primitive, byte-identical to consumers'
+  import '../lib/aha-settings-list.js';   // registers <aha-settings-list> — it reuses <aha-select> as a schema control
+</script>

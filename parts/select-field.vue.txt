@@ -1,0 +1,23 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-select';   // registers <aha-select>
+import '@ahaslides-product/design/icons';        // <aha-icon> — the trailing caret
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const theme = ref('light');
+const options = [
+  { label: 'Light', value: 'light' },
+  { label: 'Dark', value: 'dark' },
+];
+</script>
+
+<template>
+  <aha-select
+    placeholder="Pick a theme"
+    :value="theme"
+    :options.prop="options"
+    @change="theme = $event.detail.value"
+  ></aha-select>
+</template>

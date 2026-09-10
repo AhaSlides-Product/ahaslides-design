@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-select> is the SAME shared custom element React and Vue consume. It's a styled control
+     backed by a NATIVE <select>, so it inherits the OS keyboard model + a11y for free. Pass the
+     `options` as JSON and an optional `placeholder`; it emits a composed `change` event. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon> — the trailing caret
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-select.js';  // registers <aha-select>
+</script>
+
+<aha-select id="theme" placeholder="Pick a theme"
+  options='[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]'></aha-select>
+
+<script>
+  // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
+  document.getElementById('theme').addEventListener('change', (e) => {
+    console.log('theme:', e.detail.value);
+  });
+</script>
