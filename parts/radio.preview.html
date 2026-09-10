@@ -13,6 +13,15 @@
     <aha-radio name="view" value="board" variant="button">Board</aha-radio>
   </div>
 
+  <div class="lbl">Card variant · the whole bordered card is the target (checked = brand border + bg-accent fill)</div>
+  <div class="stack" role="radiogroup" aria-label="Plan" style="max-width:360px">
+    <aha-radio data-card-probe name="plan" value="pro" variant="card" checked
+      description="Best for teams — unlimited slides and live results.">Pro</aha-radio>
+    <aha-radio name="plan" value="essential" variant="card"
+      description="For solo creators getting started.">Essential</aha-radio>
+    <aha-radio name="plan" value="free" variant="card">Free</aha-radio>
+  </div>
+
   <div class="lbl">Small size · disabled states</div>
   <div class="row">
     <aha-radio name="sz" value="a" size="small" checked>Small on</aha-radio>

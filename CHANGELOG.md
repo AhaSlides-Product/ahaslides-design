@@ -21,6 +21,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.23.0 — 2026-09-10
+### Added
+- **Radio** — new `variant="card"`: the whole bordered card is the selectable target (radio dot + title + optional `description`), and the selected card gets a brand border + a subtle brand-tint (`bg-accent`) fill. Supports `size` and `direction`, stays mutually-exclusive within a `name` group, and is keyboard-operable exactly like the dot variant (roving arrow-key nav). (#PR)
+
 ## 0.22.0 — 2026-09-10
 ### Added
 - **AhaSlides surfaces + General/Forms → DS V3 matrix + playgrounds.** The final audit group — every component now ships an interactive playground over its full DS V3 matrix. (#53)
