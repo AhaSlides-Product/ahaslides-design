@@ -1,13 +1,28 @@
 <div class="pad">
-  <div class="lbl">Dropdown · icons · a divider · a disabled row · a red danger action — click to reveal</div>
-  <div class="row" style="align-items:flex-start; min-height:260px">
+  <div class="lbl">Dropdown · icons · a divider · a disabled row · a red danger action · a submenu → adjacent flyout — click to reveal, hover / ArrowRight to open a submenu</div>
+  <div class="row" style="align-items:flex-start; min-height:320px">
     <aha-dropdown data-probe label="Actions"
       items='[
         {"key":"rename","label":"Rename","icon":"system-pencil-simple"},
         {"key":"duplicate","label":"Duplicate","icon":"system-copy"},
-        {"key":"export","label":"Export","icon":"system-export","disabled":true},
+        {"key":"export","label":"Export","icon":"system-export","children":[
+          {"key":"pdf","label":"PDF","icon":"system-file"},
+          {"key":"pptx","label":"PowerPoint","icon":"system-file"},
+          {"key":"xlsx","label":"Excel","icon":"system-file"}
+        ]},
+        {"key":"disabled","label":"Archive","icon":"system-export","disabled":true},
         {"type":"divider"},
         {"key":"delete","label":"Delete","icon":"system-trash","danger":true}
+      ]'>
+    </aha-dropdown>
+    <aha-dropdown label="Move to" placement="bottomRight"
+      items='[
+        {"key":"team","label":"Team space","icon":"system-folder","children":[
+          {"key":"marketing","label":"Marketing"},
+          {"key":"sales","label":"Sales"},
+          {"key":"eng","label":"Engineering"}
+        ]},
+        {"key":"private","label":"Private","icon":"system-folder"}
       ]'>
     </aha-dropdown>
     <aha-dropdown label="Add slide"
@@ -22,10 +37,14 @@
 <script type="module">
   import '../lib/icons.js';         // registers <aha-icon> so the caret + leading glyphs resolve from the DS library
   import '../lib/aha-dropdown.js';  // registers <aha-dropdown> — the shipped primitive, byte-identical to what consumers get
-  // Open the probe panel so the preview shows the revealed state (rotated caret, danger row) and the
-  // conformance measure can read a rendered item.
+  // Open the probe panel so the preview shows the revealed state (rotated caret, danger row) AND open its
+  // submenu flyout, so the conformance measure can read the flyout panel + the submenu-parent's aria/caret.
   customElements.whenDefined('aha-dropdown').then(() => requestAnimationFrame(() => {
     const d = document.querySelector('aha-dropdown[data-probe]');
-    if (d && d._setOpen) d._setOpen(true);
+    if (d && d._setOpen) {
+      d._setOpen(true);
+      const parent = d.shadowRoot && d.shadowRoot.querySelector('.item.parent');
+      if (parent && d._openFlyout) d._openFlyout(parent);
+    }
   }));
 </script>

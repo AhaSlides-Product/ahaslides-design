@@ -14,15 +14,19 @@ function AhaDropdown({ label, items, placement, trigger, onSelect }) {
   return <aha-dropdown ref={ref} label={label} placement={placement} trigger={trigger} items={JSON.stringify(items)} />;
 }
 
-// usage — leading icons, a divider, a disabled row, a red danger action
+// usage — leading icons, a submenu-parent (children[] → adjacent flyout), a divider, a red danger action
 // placement: bottomLeft | bottomRight | topLeft | topRight · trigger: click | hover
+// a submenu opens on hover / ArrowRight / Enter and closes on ArrowLeft / Escape (edge-collision flip)
 <AhaDropdown
   label="Actions"
   placement="bottomLeft"
   items={[
     { key: 'rename', label: 'Rename', icon: 'system-pencil-simple' },
-    { key: 'duplicate', label: 'Duplicate', icon: 'system-copy' },
-    { key: 'export', label: 'Export', icon: 'system-export', disabled: true },
+    { key: 'export', label: 'Export', icon: 'system-export', children: [
+      { key: 'pdf', label: 'PDF', icon: 'system-file' },
+      { key: 'pptx', label: 'PowerPoint', icon: 'system-file' },
+      { key: 'xlsx', label: 'Excel', icon: 'system-file' },
+    ] },
     { type: 'divider' },
     { key: 'delete', label: 'Delete', icon: 'system-trash', danger: true },
   ]}
