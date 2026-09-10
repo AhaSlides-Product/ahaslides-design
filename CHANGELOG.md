@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.33.0 — 2026-09-10
+### Removed
+- **Button** — dropped the plan / brand tone variants `essential`, `pro`, and `branding`. `variant` is now `primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link`. Plan gating belongs to the Paywall crown badge / Badge `plan` families, not a button tone. **Breaking.** (#68)
+
 ## 0.32.0 — 2026-09-10
 ### Added
 - **Illustration** — new `<aha-illustration name="…" size="…">` element + a call-by-name library of 20 multi-colour spot illustrations (empty states, onboarding, plan tiers, offers, mascots) from a shared registry, sized by a single edge with aspect ratio preserved (`./illustrations` export). (#67)
