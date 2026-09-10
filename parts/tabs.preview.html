@@ -8,6 +8,16 @@
   </aha-tabs>
 </div>
 
+<div class="pad">
+  <div class="lbl">Tabs · line · tab-position=left — a vertical left rail, side active border, up/down arrow-key (probe value=0)</div>
+  <aha-tabs data-probe-v value="0" type="line" tab-position="left">
+    <section data-tab="Overview" data-icon="system-info">Overview panel — a summary of the workspace.</section>
+    <section data-tab="Activity" data-icon="system-chart-bar">Activity panel — recent events and edits.</section>
+    <section data-tab="Members" data-icon="system-users">Members panel — who has access.</section>
+    <section data-tab="Archived" data-disabled>Archived panel — disabled for this plan.</section>
+  </aha-tabs>
+</div>
+
 <!-- Imports the REAL shipped element (../lib/aha-tabs.js) + the icon library — no inlined copy, so
      the preview can never drift from lib/. The playground control bar (Type / Size / Content) is
      generated from contracts/tabs.json → playground and drives this element's attributes live. -->

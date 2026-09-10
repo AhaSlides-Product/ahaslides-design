@@ -21,6 +21,15 @@
   <aha-radio name="view" value="board" variant="button">Board</aha-radio>
 </div>
 
+<!-- variant="card" → the whole bordered card is the target; `description` adds a secondary line.
+     The selected card gets a brand border + a subtle brand-tint fill. -->
+<div role="radiogroup" aria-label="Plan" style="display:flex;flex-direction:column;gap:10px;max-width:360px">
+  <aha-radio name="plan" value="pro" variant="card" checked
+    description="Best for teams — unlimited slides and live results.">Pro</aha-radio>
+  <aha-radio name="plan" value="essential" variant="card"
+    description="For solo creators getting started.">Essential</aha-radio>
+</div>
+
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.
   document.querySelectorAll('aha-radio[name="mode"]').forEach((r) => {

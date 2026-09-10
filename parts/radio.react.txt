@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-radio';   // registers <aha-radio>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-radio> directly.
-function AhaRadio({ checked, value, name, disabled, variant, size, onChange, children }) {
+function AhaRadio({ checked, value, name, disabled, variant, size, description, onChange, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -12,7 +12,7 @@ function AhaRadio({ checked, value, name, disabled, variant, size, onChange, chi
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   });
-  return <aha-radio ref={ref} name={name} value={value} variant={variant} size={size}>{children}</aha-radio>;
+  return <aha-radio ref={ref} name={name} value={value} variant={variant} size={size} description={description}>{children}</aha-radio>;
 }
 
 // usage — one `name` makes the set mutually exclusive; wrap in role="radiogroup"
@@ -25,4 +25,12 @@ function AhaRadio({ checked, value, name, disabled, variant, size, onChange, chi
 <div role="radiogroup" aria-label="View" style={{ display: 'flex' }}>
   <AhaRadio name="view" value="grid" variant="button" checked={view === 'grid'} onChange={setView}>Grid</AhaRadio>
   <AhaRadio name="view" value="list" variant="button" checked={view === 'list'} onChange={setView}>List</AhaRadio>
+</div>
+
+// card group — variant="card"; the whole tile is the target, `description` adds a secondary line
+<div role="radiogroup" aria-label="Plan" style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 360 }}>
+  <AhaRadio name="plan" value="pro" variant="card" checked={plan === 'pro'} onChange={setPlan}
+    description="Best for teams — unlimited slides and live results.">Pro</AhaRadio>
+  <AhaRadio name="plan" value="essential" variant="card" checked={plan === 'essential'} onChange={setPlan}
+    description="For solo creators getting started.">Essential</AhaRadio>
 </div>

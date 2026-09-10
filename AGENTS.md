@@ -23,12 +23,12 @@ npm run check    # build → standards gate (reusable) → render gate (qa)
 
 ### Every merge ships a changelog entry + a version bump
 
-Before you open a PR, add your change to the **top** of `CHANGELOG.md` and bump `version` in `package.json` to match. `standards.mjs` gates this — a missing/mismatched/undated entry goes red, same as any other standard. Format (newest first, [SemVer](https://semver.org); full recipe in `CHANGELOG.md`):
+Before you open a PR, add your change to the **top** of `CHANGELOG.md` and bump `version` in `package.json` to match. `standards.mjs` gates this — a missing/mismatched/undated entry goes red, same as any other standard, **and so does a leftover `(#PR)` placeholder**: fill in the real PR number (`(#58)`) once the PR is open. Format (newest first, [SemVer](https://semver.org); full recipe in `CHANGELOG.md`):
 
 ```
 ## X.Y.Z — YYYY-MM-DD
 ### Added | Changed | Fixed | Removed
-- one short bullet per change, written for a consumer (#PR)
+- one short bullet per change, written for a consumer (#<PR-number>)
 ```
 
 Pre-1.0 bump rule: a new component/prop/token/export → **MINOR** (`0.x.0`); a fix with no API change → **PATCH** (`0.0.x`); a breaking change → MINOR too (until 1.0), and say so in the bullet. The top version must equal `package.json` → `version`; the release tag `v<version>` matches.

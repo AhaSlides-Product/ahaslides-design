@@ -2,9 +2,11 @@
 import '@ahaslides-product/design/aha-tooltip';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue — placement: top|bottom|left|right · color: dark|brand · arrow: true|false · trigger: hover|focus|click
+// Component.vue — placement: top|bottom|left|right (centred) OR edge-aligned
+//   top-start|top-end|bottom-start|bottom-end|left-start|left-end|right-start|right-end
+//   · color: dark|brand · arrow: true|false · trigger: hover|focus|click
 <template>
-  <aha-tooltip text="Copy share link" placement="bottom" color="brand">
+  <aha-tooltip text="Copy share link" placement="bottom-start" color="brand">
     <button aria-label="Copy share link">Share</button>
   </aha-tooltip>
 </template>

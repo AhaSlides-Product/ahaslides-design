@@ -5,6 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
+The gate also rejects an unfilled `(#PR)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -14,16 +15,42 @@ PR that forgets either goes red. The `v<version>` release tag (what `npm publish
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
 ### Removed       ← a removed export / component / token
-- one short bullet per change, written for a consumer; link the PR: (#123)
+- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#PR)
 ```
 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.27.0 — 2026-09-10
+## 0.26.0 — 2026-09-10
 ### Added
 - **Dropdown: nested submenus** — a submenu-parent item (`children:[…]`) opens an adjacent flyout panel with keyboard nav (Up/Down within the flyout, ArrowRight/Enter to open, ArrowLeft/Escape to close back to the parent) and edge-collision flip when it would overflow the viewport. The parent carries `aria-haspopup="menu"` + a trailing `system-caret-right`, and each flyout fades/scales on its own persistent node. Flat dropdowns are unchanged. (#56)
+
+## 0.25.0 — 2026-09-10
+### Added
+- **Tooltip & Popover** — 8 edge-aligned placements (`top-start` … `right-end`, AntD naming) on both `<aha-tooltip>` and `<aha-popover>`: the overlay sits on the same side but aligns to the trigger's start/end edge with the arrow offset near that edge. The 4 cardinal placements are unchanged. (#55)
+
+## 0.24.0 — 2026-09-10
+### Added
+- **Tabs** — `tab-position="left"`: a vertical left-rail orientation with the panel to the right, the active indicator moving from a 2px bottom underline to a 2px color-primary side border (card keeps its pill), and roving arrow-key nav switching to up/down (Home/End unchanged). Top orientation, `type` and `size` unchanged. (#59)
+
+## 0.23.0 — 2026-09-10
+### Added
+- **Radio** — new `variant="card"`: the whole bordered card is the selectable target (radio dot + title + optional `description`), and the selected card gets a brand border + a subtle brand-tint (`bg-accent`) fill. Supports `size` and `direction`, stays mutually-exclusive within a `name` group, and is keyboard-operable exactly like the dot variant (roving arrow-key nav). (#61)
+
+## 0.22.3 — 2026-09-10
+### Changed
+- **Settings pattern** — the settings-lab `@/iframe/settings` library is now mapped one-per-component to its DS form: a canonical mapping table in `parts/settings.guide.md` (mapped DS component / documented convention / backlog gap), replacing the ad-hoc `reuseNote` list. The 11 composed controls the DS doesn't yet ship (ModeField, CountedInput, CountedTextarea, CardSelect, NumberWithUnit, OptionRow, NumberedItem, QuestionList, ImageDropzone, ImageActionButton, InfoBox) are now tracked as `composedOf` backlog so the gap is explicit and buildable-by-reuse, and a `map-composed-controls` rule bars hand-rolling a library control. (#58)
+### Fixed
+- **Settings pattern + Settings list** — align docs to the shipped element and the canonical library: the group/section header is **semibold (600)**, not "bold", and guidance's one home is the `?` tooltip (the must-see-consequence help line stays the DS's narrow, near-zero exception). (#58)
+
+## 0.22.2 — 2026-09-10
+### Fixed
+- **Standards gate — pattern guide ↔ reuse graph.** A pattern's guide and its `composedOf` must now agree: every shipped DS element the guide points authors at (a `<aha-*>` tag that resolves to a real contract) has to be declared in `composedOf`, so the machine-readable reuse graph can't drift from the human-readable mapping. Sub-parts the DS doesn't ship as a contract (e.g. `<aha-settings-item>`) are ignored. (#62)
+
+## 0.22.1 — 2026-09-10
+### Fixed
+- **Standards gate — CHANGELOG PR ref.** The repo gate now rejects an unfilled `(#PR)` placeholder in the top changelog entry (any digit-less `(#…)` ref), closing the hole that let placeholders ship green. Rule text in `AGENTS.md`/`CHANGELOG.md` updated to require the real PR number. (#60)
 
 ## 0.22.0 — 2026-09-10
 ### Added
