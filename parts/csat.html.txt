@@ -10,6 +10,9 @@
 <!-- `thanks` opts into the confirmation state — the thank-you line fades in once rated. -->
 <aha-csat prompt="Was this helpful?" source="docs_footer" thanks="Thanks for the feedback!"></aha-csat>
 
+<!-- `inline` → the compact single-row form: prompt + 16px thumbs on one line, no card. -->
+<aha-csat inline prompt="Is this useful?" source="docs_inline"></aha-csat>
+
 <script>
   document.querySelector('aha-csat').addEventListener('rate', (e) => {
     console.log('CSAT', e.detail.rating, 'from', e.detail.source);   // { rating: 'up' | 'down', source }

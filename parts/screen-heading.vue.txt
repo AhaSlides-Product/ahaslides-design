@@ -1,0 +1,30 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-screen-heading';   // registers <aha-screen-heading> (+ <aha-breadcrumb>)
+import '@ahaslides-product/design/aha-button';   // registers <aha-button> for the slotted actions
+import '@ahaslides-product/design/icons';   // registers <aha-icon> for the button glyph
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — Vue 3 binds the same <aha-screen-heading> natively.
+<script setup>
+defineProps({ user: Object });
+</script>
+
+<template>
+  <!-- A greeting header: brand-accent highlight + right-hand actions (slotted <aha-button>s). -->
+  <aha-screen-heading
+    :title="`Welcome, ${user.name}!`"
+    :highlight="user.name"
+    description="Here's what's happening across your workspace today.">
+    <aha-button slot="actions" variant="secondary">Import</aha-button>
+    <aha-button slot="actions" variant="primary">
+      <span slot="icon"><aha-icon name="system-plus" :size="16" decorative /></span>
+      New presentation
+    </aha-button>
+  </aha-screen-heading>
+
+  <!-- A sub-page header: bind a `breadcrumb` JSON array → the `›` trail renders as the title. -->
+  <aha-screen-heading
+    :breadcrumb='JSON.stringify([{label:"Presentations",href:"/p"},{label:"Team offsite",href:"/p/1"},{label:"Editor"}])'>
+    <aha-button slot="actions" variant="primary">Present</aha-button>
+  </aha-screen-heading>
+</template>

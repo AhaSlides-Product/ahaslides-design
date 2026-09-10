@@ -1,0 +1,33 @@
+import '@ahaslides-product/design/aha-screen-heading';   // registers <aha-screen-heading> (+ <aha-breadcrumb>)
+import '@ahaslides-product/design/aha-button';   // registers <aha-button> for the slotted actions
+import '@ahaslides-product/design/icons';   // registers <aha-icon> for the button glyph
+
+// Attribute-driven — React 18/19 render the element directly. `breadcrumb` is a JSON array,
+// so serialise it to the attribute; the title trail is the reused <aha-breadcrumb>.
+function AhaScreenHeading({ title, highlight, breadcrumb, description, device, children }) {
+  return (
+    <aha-screen-heading
+      {...(title ? { title } : {})}
+      {...(highlight ? { highlight } : {})}
+      {...(breadcrumb ? { breadcrumb: JSON.stringify(breadcrumb) } : {})}
+      {...(description ? { description } : {})}
+      {...(device ? { device } : {})}
+    >
+      {children}
+    </aha-screen-heading>
+  );
+}
+
+// usage — a greeting header with slotted action buttons
+export function DashboardHeader({ user }) {
+  return (
+    <AhaScreenHeading title={`Welcome, ${user.name}!`} highlight={user.name}
+      description="Here's what's happening across your workspace today.">
+      <aha-button slot="actions" variant="secondary">Import</aha-button>
+      <aha-button slot="actions" variant="primary">
+        <span slot="icon"><aha-icon name="system-plus" size={16} decorative /></span>
+        New presentation
+      </aha-button>
+    </AhaScreenHeading>
+  );
+}

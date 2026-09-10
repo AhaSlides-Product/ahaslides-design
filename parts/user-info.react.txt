@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-user-info';   // registers <aha-user-info> (+ <aha-avatar>)
+
+// A plain custom element — no wrapper needed for static props. It reuses the shared <aha-avatar>
+// internally, so you never hand-roll an avatar beside a name. Omit `email` (or size="compact")
+// for the tight, name-only row.
+function AhaUserInfo({ name, email, src, size = 'default' }) {
+  return <aha-user-info name={name} email={email} src={src} size={size} />;
+}
+
+// usage
+<AhaUserInfo name="Brian Le" email="brian@ahaslides.com" />
+<AhaUserInfo name="Grace Hopper" email="grace@ahaslides.com" src="/u/grace.jpg" />
+<AhaUserInfo name="Ada Lovelace" />                          {/* compact / name-only */}

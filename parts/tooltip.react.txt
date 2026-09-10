@@ -3,10 +3,10 @@ import '@ahaslides-product/design/aha-tooltip';   // registers <aha-tooltip>
 // Attributes + slotted trigger only — no events — so React 18/19 can render it directly.
 // placement: top | bottom | left | right (centred) OR edge-aligned top-start | top-end |
 //   bottom-start | bottom-end | left-start | left-end | right-start | right-end
-// color: dark | brand · arrow: true|false · trigger: hover|focus|click
-function AhaTooltip({ text, placement, color, arrow, trigger, children }) {
+// color: dark | brand · arrow: true|false · trigger: hover|focus|click · help: built-in ? trigger
+function AhaTooltip({ text, placement, color, arrow, trigger, help, children }) {
   return (
-    <aha-tooltip text={text} placement={placement} color={color} arrow={arrow} trigger={trigger}>
+    <aha-tooltip text={text} placement={placement} color={color} arrow={arrow} trigger={trigger} help={help ? '' : undefined}>
       {children}
     </aha-tooltip>
   );
@@ -17,3 +17,10 @@ function AhaTooltip({ text, placement, color, arrow, trigger, children }) {
 <AhaTooltip text="Copy share link" placement="bottom-start" color="brand">
   <button aria-label="Copy share link">Share</button>
 </AhaTooltip>
+
+// help — the built-in `?` trigger (DS <aha-icon>, 16px muted → brand); no slotted child needed,
+// focusable so it shows on focus, not hover-only. The settings-label help-glyph pattern.
+<label style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+  Shuffle options
+  <AhaTooltip help text="Randomise the order options appear in for each participant" />
+</label>

@@ -8,14 +8,15 @@
   "summary": "A short, transient hint shown on hover or focus of its trigger.",
   "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared dark-navy bubble (with an arrow) on hover/focus. Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out"],
+  "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "icon-muted", "motion-fast", "radius-pill"],
   "spec": [
     { "label": "Bubble", "value": "dark-navy #1A1A2E (or brand #6A1EBB), white text, radius 6, padding 6 10" },
     { "label": "Text", "value": "Plus Jakarta 12/18" },
     { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
     { "label": "Placement", "value": "top (default) · bottom · left · right centred, PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "hover + focus (default) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
-    { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the slotted trigger, shows on focus, no leaked listeners" }
+    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-icon-muted #8A8A8A) → brand (#6A1EBB) on hover/focus — the settings-label help glyph; focusable, so it shows on focus, not hover-only" },
+    { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the active trigger (slotted, or the built-in help button), shows on focus, no leaked listeners" }
   ],
   "props": [
     { "name": "text", "type": "string", "default": "—", "desc": "The hint text shown in the bubble" },
@@ -23,7 +24,8 @@
     { "name": "color", "type": "'dark' | 'brand'", "default": "dark", "desc": "Bubble fill: dark-navy #1A1A2E or brand color-primary #6A1EBB" },
     { "name": "arrow", "type": "boolean", "default": "true", "desc": "Show the caret pointing at the trigger; arrow=\"false\" hides it" },
     { "name": "trigger", "type": "'hover' | 'focus' | 'click'", "default": "hover", "desc": "How it opens: hover+focus · focus only · click to toggle" },
-    { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise the trigger opens it" }
+    { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise the trigger opens it" },
+    { "name": "help", "type": "boolean", "default": "false", "desc": "Render a built-in `?` help trigger — a focusable button carrying the DS <aha-icon name=\"system-question-mark\"> (16px, muted → brand on hover/focus) — instead of requiring a slotted trigger. The settings-label help-glyph pattern; shows on focus as well as hover" }
   ],
   "opinion": {
     "whenToUse": [
@@ -65,6 +67,10 @@
       { "prop": "arrow", "label": "Arrow", "default": "on", "options": [
         { "label": "On", "value": "true" },
         { "label": "Off", "value": "false" }
+      ] },
+      { "prop": "help", "label": "Help trigger", "default": "off", "options": [
+        { "label": "Off (slotted trigger)", "value": "" },
+        { "label": "On (built-in ? icon)", "value": "true" }
       ] }
     ]
   },
@@ -73,13 +79,14 @@
     { "label": "radius 6 · padding 6 10", "verdict": "PASS" },
     { "label": "placement top/bottom/left/right + arrow toggle + brand fill", "verdict": "PASS" },
     { "label": "shows on focus (aria-describedby wired), role=tooltip", "verdict": "PASS" },
-    { "label": "click trigger toggles + closes on Esc/click-away, no leaked listeners", "verdict": "PASS" }
+    { "label": "click trigger toggles + closes on Esc/click-away, no leaked listeners", "verdict": "PASS" },
+    { "label": "help renders <aha-icon> ? at 16px, muted --aha-icon-muted, focusable, aria-describedby wired", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe uses `open` so the bubble is in layout and measurable.",
-    "ready": "!!(document.querySelector('aha-tooltip[data-probe]') && document.querySelector('aha-tooltip[data-probe]').shadowRoot && document.querySelector('aha-tooltip[data-probe]').shadowRoot.querySelector('.bubble'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The bubble probe uses `open` so the bubble is in layout and measurable; a second `data-probe-help` probe verifies the built-in `?` help trigger renders a 16px DS <aha-icon> in the muted icon colour, is focusable, and wires aria-describedby.",
+    "ready": "!!(document.querySelector('aha-tooltip[data-probe]') && document.querySelector('aha-tooltip[data-probe]').shadowRoot && document.querySelector('aha-tooltip[data-probe]').shadowRoot.querySelector('.bubble') && document.querySelector('aha-tooltip[data-probe-help]') && document.querySelector('aha-tooltip[data-probe-help]').shadowRoot.querySelector('.help aha-icon') && document.querySelector('aha-tooltip[data-probe-help]').shadowRoot.querySelector('.help aha-icon').shadowRoot && document.querySelector('aha-tooltip[data-probe-help]').shadowRoot.querySelector('.help aha-icon').shadowRoot.querySelector('svg'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-tooltip[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bubble');var s=b?getComputedStyle(b):null;var a=b?getComputedStyle(b,'::after'):null;return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null,arrowColor:a?a.borderTopColor:null,described:el?(el.querySelector('button').getAttribute('aria-describedby')||'').indexOf('aha-tip-')===0:false};})()",
-    "expect": { "bg": "rgb(26, 26, 46)", "color": "rgb(255, 255, 255)", "radius": "6px", "fontSize": "12px", "arrowColor": "rgb(26, 26, 46)", "described": true }
+    "measure": "(function(){var el=document.querySelector('aha-tooltip[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bubble');var s=b?getComputedStyle(b):null;var a=b?getComputedStyle(b,'::after'):null;var h=document.querySelector('aha-tooltip[data-probe-help]');var hb=h&&h.shadowRoot&&h.shadowRoot.querySelector('.help');var hs=hb?getComputedStyle(hb):null;var ico=hb&&hb.querySelector('aha-icon');var svg=ico&&ico.shadowRoot&&ico.shadowRoot.querySelector('svg');return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null,arrowColor:a?a.borderTopColor:null,described:el?(el.querySelector('button').getAttribute('aria-describedby')||'').indexOf('aha-tip-')===0:false,helpIconColor:hs?hs.color:null,helpIconSize:svg?svg.getAttribute('width')+'px':null,helpFocusable:hb?(hb.tagName==='BUTTON'&&parseInt(hb.getAttribute('tabindex')||'0',10)>=0):false,helpDescribed:hb?(hb.getAttribute('aria-describedby')||'').indexOf('aha-tip-')===0:false};})()",
+    "expect": { "bg": "rgb(26, 26, 46)", "color": "rgb(255, 255, 255)", "radius": "6px", "fontSize": "12px", "arrowColor": "rgb(26, 26, 46)", "described": true, "helpIconColor": "rgb(138, 138, 138)", "helpIconSize": "16px", "helpFocusable": true, "helpDescribed": true }
   }
 }

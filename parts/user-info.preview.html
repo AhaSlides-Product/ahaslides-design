@@ -1,0 +1,21 @@
+<div class="pad">
+  <div class="lbl">Default · avatar + name + email (40px avatar)</div>
+  <div class="row" style="align-items:center;gap:24px;flex-wrap:wrap">
+    <aha-user-info data-probe name="Brian Le" email="brian@ahaslides.com"></aha-user-info>
+    <aha-user-info name="Grace Hopper" email="grace@ahaslides.com" src="https://i.pravatar.cc/80?img=5"></aha-user-info>
+  </div>
+  <div class="lbl">Compact · name only (24px avatar) — no email, or size="compact"</div>
+  <div class="row" style="align-items:center;gap:24px;flex-wrap:wrap">
+    <aha-user-info name="Ada Lovelace"></aha-user-info>
+    <aha-user-info name="Alan Turing" email="alan@ahaslides.com" size="compact"></aha-user-info>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-user-info.js) + the icon library — no inlined copy,
+     so the preview can never drift from lib/. aha-user-info reuses the shipped <aha-avatar>. The
+     playground control bar (Size / Email) is generated from contracts/user-info.json → playground
+     and drives this [data-probe] element's attributes live. -->
+<script type="module">
+  import '../lib/icons.js';           // registers <aha-icon> so the avatar glyph fallback resolves
+  import '../lib/aha-user-info.js';   // registers <aha-user-info> (+ <aha-avatar>) — the shipped primitives
+</script>

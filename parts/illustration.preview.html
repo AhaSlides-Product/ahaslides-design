@@ -1,0 +1,68 @@
+<!-- Imports the REAL shipped runtime (../lib/illustrations.js → registers <aha-illustration> + the DS registry).
+     No inlined element copy, so the doc renders the exact spot art consumers get, called BY NAME.
+     The playground control bar (Size / Illustration) is generated from contracts/illustration.json →
+     playground and drives the [data-pg-target] probe's size/name attributes live. -->
+<script type="module">
+  import '../lib/illustrations.js';   // registers <aha-illustration> + exposes window.AHA_ILLUSTRATIONS below
+</script>
+
+<div class="pad">
+  <div class="lbl">Smart widget · one live <code>&lt;aha-illustration&gt;</code> — the Size / Illustration controls below drive it</div>
+  <div class="row" style="justify-content:center;padding:14px 0">
+    <aha-illustration data-pg-target name="empty-trash" size="128" label="Trash is empty"></aha-illustration>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Multi-colour spot art · each keeps its OWN palette (not currentColor) — call any by name</div>
+  <div class="row" style="gap:22px;flex-wrap:wrap;align-items:flex-end">
+    <div class="stack" style="align-items:center"><aha-illustration name="empty-presentation-list" size="96" label="No presentations"></aha-illustration><small class="cap">empty-presentation-list</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="empty-templates" size="96" label="No templates"></aha-illustration><small class="cap">empty-templates</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="onboarding-business" size="96" label="Business"></aha-illustration><small class="cap">onboarding-business</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="onboarding-education" size="96" label="Education"></aha-illustration><small class="cap">onboarding-education</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="referral" size="96" label="Referral"></aha-illustration><small class="cap">referral</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="error-ai-chatbot" size="96" label="Assistant error"></aha-illustration><small class="cap">error-ai-chatbot</small></div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Plan tiers · a compact illustration heads each card</div>
+  <div class="row" style="gap:26px;align-items:flex-end">
+    <div class="stack" style="align-items:center"><aha-illustration name="plan-edu" size="72" decorative></aha-illustration><small class="cap">edu</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="plan-essential" size="72" decorative></aha-illustration><small class="cap">essential</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="plan-pro" size="72" decorative></aha-illustration><small class="cap">pro</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="plan-enterprise" size="72" decorative></aha-illustration><small class="cap">enterprise</small></div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Size · one edge in px; the other edge follows the art's aspect ratio</div>
+  <div class="row" style="align-items:flex-end;gap:28px">
+    <div class="stack" style="align-items:center"><aha-illustration name="onboarding-business" size="56" decorative></aha-illustration><small class="cap">56</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="onboarding-business" size="96" decorative></aha-illustration><small class="cap">96</small></div>
+    <div class="stack" style="align-items:center"><aha-illustration name="onboarding-business" size="128" decorative></aha-illustration><small class="cap">128</small></div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Unknown name · a visible dashed error box (the <code>--aha-color-error</code> token) — never a silent blank</div>
+  <div class="row">
+    <aha-illustration name="__does-not-exist__" size="96"></aha-illustration>
+  </div>
+
+  <!-- conformance probes: a SQUARE illustration (plan-pro 48×48) at 128 + 64 proves the size edge
+       becomes the rendered box; a path filled #A96FF0 (an on-palette purple-40) proves the art
+       colour renders untouched; an unknown-name probe proves the error box paints in color-error.
+       Kept distinct from the playground probe (which carries data-pg-target). -->
+  <div style="position:absolute;left:-9999px" aria-hidden="true">
+    <aha-illustration name="plan-pro" size="128" data-probe="128"></aha-illustration>
+    <aha-illustration name="plan-pro" size="64" data-probe="64"></aha-illustration>
+    <aha-illustration name="__missing__" size="96" data-probe-err></aha-illustration>
+  </div>
+
+  <div class="note" style="margin-top:20px">
+    Every illustration is called by <code>name</code> from the shared registry — <b id="ill-count">…</b> pure-SVG illustrations imported from Figma, no inline SVG at the call site. Browse and copy any name in the <a href="../illustrations/index.html">Illustration library →</a>. Multi-colour art keeps its own palette; size by a single edge and the aspect ratio is fixed by the source. Raster-backed art is intentionally excluded so the library stays pure-SVG.
+  </div>
+</div>
+
+<style>
+  .cap{font-size:11px;color:var(--aha-text-tertiary,#8A8A8A);font-family:Menlo,monospace;margin-top:8px}
+</style>
+<script type="module">
+  // Expose the imported registry for the doc's count + the conformance `ready` gate (window.AHA_ILLUSTRATIONS).
+  import { illustrations } from '../lib/illustrations.js';
+  window.AHA_ILLUSTRATIONS = illustrations;
+  (function(){ var c=document.getElementById('ill-count'); if(c) c.textContent=Object.keys(illustrations).length; })();
+</script>

@@ -1,0 +1,29 @@
+<div class="pad">
+  <div class="lbl">Product page header · title left (greeting or breadcrumb trail) · actions right</div>
+
+  <div style="display:flex; flex-direction:column; gap:24px; padding:8px 0">
+    <!-- Greeting header with a brand-accent highlight + slotted action buttons. This is the probe. -->
+    <aha-screen-heading data-probe title="Welcome, Brian!" highlight="Brian"
+      description="Here's what's happening across your workspace today.">
+      <aha-button slot="actions" variant="secondary">Import</aha-button>
+      <aha-button slot="actions" variant="primary">
+        <span slot="icon"><aha-icon name="system-plus" size="16" decorative></aha-icon></span>
+        New presentation
+      </aha-button>
+    </aha-screen-heading>
+
+    <!-- Sub-page header: the `›` trail renders as the title via the reused <aha-breadcrumb>. -->
+    <aha-screen-heading breadcrumb='[{"label":"Presentations","href":"#"},{"label":"Team offsite","href":"#"},{"label":"Editor"}]'>
+      <aha-button slot="actions" variant="primary">Present</aha-button>
+    </aha-screen-heading>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-screen-heading.js) + the reused button + icon library
+     — no inlined copy, so the preview can never drift from lib/. The playground control bar is
+     generated from contracts/screen-heading.json → playground and drives the [data-probe] element. -->
+<script type="module">
+  import '../lib/icons.js';               // registers <aha-icon> for the button glyph
+  import '../lib/aha-button.js';          // registers <aha-button> for the slotted actions
+  import '../lib/aha-screen-heading.js';  // registers <aha-screen-heading> (+ <aha-breadcrumb>) — the shipped primitive
+</script>

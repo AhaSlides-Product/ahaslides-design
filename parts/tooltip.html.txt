@@ -21,4 +21,12 @@
   <aha-tooltip text="Aligned to the left edge" placement="bottom-start">
     <button style="font-family:'Plus Jakarta Sans',sans-serif">Aligned</button>
   </aha-tooltip>
+
+  <!-- help: the built-in `?` trigger — a DS <aha-icon name="system-question-mark"> at 16px, muted →
+       brand on hover/focus. No slotted trigger needed; it's focusable, so it shows on focus too.
+       The settings-label help-glyph pattern (sits next to a setting name). -->
+  <label style="display:inline-flex; align-items:center; gap:6px; font-family:'Plus Jakarta Sans',sans-serif">
+    Shuffle options
+    <aha-tooltip help text="Randomise the order options appear in for each participant"></aha-tooltip>
+  </label>
 </div>

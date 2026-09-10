@@ -18,6 +18,24 @@
   <aha-badge status="processing" text="Generating"></aha-badge>
 </div>
 
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">
+  <!-- TONE — a filled/tinted label chip (danger·success·positive·essential·pro·branding·primary-alt) -->
+  <aha-badge tone="essential">Essential</aha-badge>
+  <aha-badge tone="pro">Pro</aha-badge>
+  <aha-badge tone="branding">New</aha-badge>
+
+  <!-- PLAN preset chips — pro/enterprise lead with a crown; `cycle` appends the billing cycle -->
+  <aha-badge plan="free"></aha-badge>
+  <aha-badge plan="pro" cycle="yearly"></aha-badge>
+
+  <!-- RANK (leaderboard) + SESSION -->
+  <aha-badge rank="1"></aha-badge>
+  <aha-badge session="3"></aha-badge>
+
+  <!-- CLICKABLE = a LINK (<a href>), never a <button>. Navigates to upgrade; animates on hover. -->
+  <aha-badge plan="pro" href="/billing/upgrade"></aha-badge>
+</div>
+
 <!-- ribbon — a corner banner wrapping a card (placement end = top-right, default) -->
 <aha-badge ribbon text="New" style="display:inline-block; margin-top:24px">
   <div style="width:200px; padding:20px; border:1px solid var(--aha-border,#E3E3E3); border-radius:var(--aha-radius-default,8px); background:#fff">

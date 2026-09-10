@@ -8,7 +8,7 @@
   "summary": "A small count or status marker — notification counts, unread dots, a standalone status label.",
   "lead": "ONE custom element — <aha-badge> — defined once, imported unchanged by React and Vue. The DS V3 Badge is a family: `count` renders a number pill on the top-right of a wrapped child (capped by `overflowCount` as N+, kept at 0 with `showZero`); `dot` renders a bare marker; `status` + `text` renders a standalone semantic dot + label (success/processing/error/default/warning), with `processing` pulsing; `color` overrides the colour. Shadow-DOM CSS themed only by --aha-* tokens; the pill scales in on a persistent node. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["color-error", "color-success", "color-warning", "color-primary", "text-tertiary", "text-inverse", "text-default", "bg-container", "radius-pill", "radius-xs"],
+  "tokensUsed": ["color-error", "color-success", "color-warning", "color-primary", "text-tertiary", "text-inverse", "text-default", "bg-container", "radius-pill", "radius-xs", "bg-accent", "bg-positive", "bg-negative", "text-positive", "text-negative", "coral-10", "coral-60", "coral-70", "coral-80", "coral-20", "pink-10", "pink-70", "purple-15", "purple-55", "gray-30", "gray-20", "yellow-30", "yellow-90", "bg-dark", "text-secondary", "border-focus", "motion-mid", "ease-in-out"],
   "spec": [
     { "label": "Count bubble", "value": "height 18 · min-width 18 · radius pill · padding 0 6 · scales in" },
     { "label": "On a child", "value": "floats to the child's top-right, 1px container-colour ring" },
@@ -17,7 +17,12 @@
     { "label": "Text", "value": "Plus Jakarta SemiBold 600, 11/18, #FFFFFF" },
     { "label": "Default colour", "value": "count/dot → error #F5222D; status → its semantic token; ribbon → primary #6A1EBB" },
     { "label": "Overflow / zero", "value": "count > overflowCount → N+; 0 hides unless showZero" },
-    { "label": "Ribbon", "value": "corner banner over a wrapped card; 22px tall, radius 4, triangular fold; placement start/end" }
+    { "label": "Ribbon", "value": "corner banner over a wrapped card; 22px tall, radius 4, triangular fold; placement start/end" },
+    { "label": "Tone chip", "value": "filled/tinted pill (radius pill, 22px); danger·success·positive·essential·pro·branding·primary-alt, each bound to an --aha token" },
+    { "label": "Plan chip", "value": "preset (free·edu·essential·pro·enterprise); solid brand fill, cycle monthly/yearly; pro/enterprise lead with a crown" },
+    { "label": "Rank chip", "value": "leaderboard 1st–4th, medal-tinted (gold/silver/bronze), leading system-Medal glyph" },
+    { "label": "Session chip", "value": "\"Session N\" brand-accent pill; label from `session` / slotted text" },
+    { "label": "Clickable = link", "value": "with `href` renders <a class=\"chip\"> (native focusable link, animates on hover) — never a <button>; no href = plain <span>" }
   ],
   "props": [
     { "name": "count", "type": "number", "default": "0", "desc": "The number shown in the bubble; 0 hides it unless showZero" },
@@ -28,7 +33,13 @@
     { "name": "text", "type": "string", "default": "—", "desc": "Label for a standalone status badge" },
     { "name": "color", "type": "CSS colour", "default": "—", "desc": "Custom colour overriding the semantic default" },
     { "name": "ribbon", "type": "boolean", "default": "false", "desc": "Wrap the slotted child (a card) with a corner ribbon banner; `text` is the label, colour from color/status (default primary)" },
-    { "name": "placement", "type": "start | end", "default": "end", "desc": "Ribbon corner: end = top-right (default), start = top-left" }
+    { "name": "placement", "type": "start | end", "default": "end", "desc": "Ribbon corner: end = top-right (default), start = top-left" },
+    { "name": "tone", "type": "danger | success | positive | essential | pro | branding | primary-alt", "default": "—", "desc": "Filled/tinted LABEL chip; each tone binds bg + fg to an --aha-* token" },
+    { "name": "plan", "type": "free | edu | essential | pro | enterprise", "default": "—", "desc": "Plan preset chip (solid brand fill); pro/enterprise lead with a crown glyph" },
+    { "name": "cycle", "type": "monthly | yearly", "default": "—", "desc": "Appended to a plan chip's default label (e.g. \"Pro · Yearly\")" },
+    { "name": "rank", "type": "1 | 2 | 3 | 4", "default": "—", "desc": "Leaderboard rank chip; medal-tinted (gold/silver/bronze) with a leading system-Medal glyph" },
+    { "name": "session", "type": "string", "default": "—", "desc": "Renders a \"Session N\" chip; the value is N (slotted content / `text` overrides the label)" },
+    { "name": "href", "type": "URL", "default": "—", "desc": "Makes a tone/plan/rank/session chip a clickable LINK — renders <a class=\"chip\" href> (native focusable, animates on hover), never a <button>. Omit for a static <span> chip" }
   ],
   "opinion": {
     "whenToUse": [
@@ -65,6 +76,28 @@
       { "prop": "placement", "label": "Ribbon placement", "default": "end", "options": [
         { "label": "End (top-right)", "value": "end" },
         { "label": "Start (top-left)", "value": "start" }
+      ] },
+      { "prop": "tone", "label": "Tone chip", "default": "essential", "options": [
+        { "label": "Danger", "value": "danger" },
+        { "label": "Success", "value": "success" },
+        { "label": "Positive", "value": "positive" },
+        { "label": "Essential", "value": "essential" },
+        { "label": "Pro", "value": "pro" },
+        { "label": "Branding", "value": "branding" },
+        { "label": "Primary-alt", "value": "primary-alt" }
+      ] },
+      { "prop": "plan", "label": "Plan chip", "default": "pro", "options": [
+        { "label": "Free", "value": "free" },
+        { "label": "Edu", "value": "edu" },
+        { "label": "Essential", "value": "essential" },
+        { "label": "Pro", "value": "pro" },
+        { "label": "Enterprise", "value": "enterprise" }
+      ] },
+      { "prop": "rank", "label": "Rank chip", "default": "1", "options": [
+        { "label": "1st", "value": "1" },
+        { "label": "2nd", "value": "2" },
+        { "label": "3rd", "value": "3" },
+        { "label": "4th", "value": "4" }
       ] }
     ]
   },
@@ -73,13 +106,15 @@
     { "label": "count default error #F5222D; status binds its semantic token", "verdict": "PASS" },
     { "label": "count > overflowCount → N+; 0 hides unless showZero", "verdict": "PASS" },
     { "label": "dot 8×8 no label; standalone status = dot + label (processing pulses)", "verdict": "PASS" },
-    { "label": "ribbon wraps a card as a corner banner (22px, radius 4, primary default), placement start/end", "verdict": "PASS" }
+    { "label": "ribbon wraps a card as a corner banner (22px, radius 4, primary default), placement start/end", "verdict": "PASS" },
+    { "label": "tone/plan/rank/session = tinted pills bound to --aha tokens; radius pill", "verdict": "PASS" },
+    { "label": "a chip with href renders <a class=chip> (native link, hover-animates) — never a <button>", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-badge[data-probe]') && document.querySelector('aha-badge[data-probe]').shadowRoot && document.querySelector('aha-badge[data-probe]').shadowRoot.querySelector('.marker') && document.querySelector('aha-badge[data-ribbon]') && document.querySelector('aha-badge[data-ribbon]').shadowRoot && document.querySelector('aha-badge[data-ribbon]').shadowRoot.querySelector('.ribbon'))",
+    "ready": "!!(document.querySelector('aha-badge[data-probe]') && document.querySelector('aha-badge[data-probe]').shadowRoot && document.querySelector('aha-badge[data-probe]').shadowRoot.querySelector('.marker') && document.querySelector('aha-badge[data-ribbon]') && document.querySelector('aha-badge[data-ribbon]').shadowRoot && document.querySelector('aha-badge[data-ribbon]').shadowRoot.querySelector('.ribbon') && document.querySelector('aha-badge[data-probe-tone]') && document.querySelector('aha-badge[data-probe-tone]').shadowRoot && document.querySelector('aha-badge[data-probe-tone]').shadowRoot.querySelector('.chip') && document.querySelector('aha-badge[data-probe-plan]') && document.querySelector('aha-badge[data-probe-plan]').shadowRoot && document.querySelector('aha-badge[data-probe-link]') && document.querySelector('aha-badge[data-probe-link]').shadowRoot && document.querySelector('aha-badge[data-probe-link]').shadowRoot.querySelector('a.chip'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-badge[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.marker');var s=b?getComputedStyle(b):null;var st=document.querySelector('aha-badge[status=\"success\"][text]');var sr=st&&st.shadowRoot;var d=sr&&sr.querySelector('.status-dot');var ds=d?getComputedStyle(d):null;var rb=document.querySelector('aha-badge[data-ribbon]');var rr=rb&&rb.shadowRoot;var rn=rr&&rr.querySelector('.ribbon');var rs=rn?getComputedStyle(rn):null;return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,color:s?s.color:null,statusDotBg:ds?ds.backgroundColor:null,statusDotW:ds?ds.width:null,ribbonBg:rs?rs.backgroundColor:null,ribbonColor:rs?rs.color:null,ribbonHeight:rs?rs.height:null,ribbonRadius:rs?rs.borderTopLeftRadius:null};})()",
-    "expect": { "bg": "rgb(245, 34, 45)", "radius": "999px", "height": "18px", "color": "rgb(255, 255, 255)", "statusDotBg": "rgb(22, 196, 154)", "statusDotW": "6px", "ribbonBg": "rgb(106, 30, 187)", "ribbonColor": "rgb(255, 255, 255)", "ribbonHeight": "22px", "ribbonRadius": "4px" }
+    "measure": "(function(){var el=document.querySelector('aha-badge[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.marker');var s=b?getComputedStyle(b):null;var st=document.querySelector('aha-badge[status=\"success\"][text]');var sr=st&&st.shadowRoot;var d=sr&&sr.querySelector('.status-dot');var ds=d?getComputedStyle(d):null;var rb=document.querySelector('aha-badge[data-ribbon]');var rr=rb&&rb.shadowRoot;var rn=rr&&rr.querySelector('.ribbon');var rs=rn?getComputedStyle(rn):null;var tn=document.querySelector('aha-badge[data-probe-tone]');var tc=tn&&tn.shadowRoot&&tn.shadowRoot.querySelector('.chip');var tcs=tc?getComputedStyle(tc):null;var pn=document.querySelector('aha-badge[data-probe-plan]');var pc=pn&&pn.shadowRoot&&pn.shadowRoot.querySelector('.chip');var pcs=pc?getComputedStyle(pc):null;var ln=document.querySelector('aha-badge[data-probe-link]');var la=ln&&ln.shadowRoot&&ln.shadowRoot.querySelector('a.chip');return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,color:s?s.color:null,statusDotBg:ds?ds.backgroundColor:null,statusDotW:ds?ds.width:null,ribbonBg:rs?rs.backgroundColor:null,ribbonColor:rs?rs.color:null,ribbonHeight:rs?rs.height:null,ribbonRadius:rs?rs.borderTopLeftRadius:null,toneBg:tcs?tcs.backgroundColor:null,toneColor:tcs?tcs.color:null,toneRadius:tcs?tcs.borderTopLeftRadius:null,toneHeight:tcs?tcs.height:null,planBg:pcs?pcs.backgroundColor:null,linkTag:la?la.tagName.toLowerCase():null};})()",
+    "expect": { "bg": "rgb(245, 34, 45)", "radius": "999px", "height": "18px", "color": "rgb(255, 255, 255)", "statusDotBg": "rgb(22, 196, 154)", "statusDotW": "6px", "ribbonBg": "rgb(106, 30, 187)", "ribbonColor": "rgb(255, 255, 255)", "ribbonHeight": "22px", "ribbonRadius": "4px", "toneBg": "rgb(249, 245, 255)", "toneColor": "rgb(106, 30, 187)", "toneRadius": "999px", "toneHeight": "22px", "planBg": "rgb(255, 119, 71)", "linkTag": "a" }
   }
 }

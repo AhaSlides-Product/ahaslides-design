@@ -4,9 +4,16 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue — placement: top|bottom|left|right (centred) OR edge-aligned
 //   top-start|top-end|bottom-start|bottom-end|left-start|left-end|right-start|right-end
-//   · color: dark|brand · arrow: true|false · trigger: hover|focus|click
+//   · color: dark|brand · arrow: true|false · trigger: hover|focus|click · help: built-in ? trigger
 <template>
   <aha-tooltip text="Copy share link" placement="bottom-start" color="brand">
     <button aria-label="Copy share link">Share</button>
   </aha-tooltip>
+
+  <!-- help — the built-in `?` trigger (DS <aha-icon>, 16px muted → brand); no slotted child,
+       focusable so it shows on focus, not hover-only. The settings-label help-glyph pattern. -->
+  <label style="display:inline-flex; align-items:center; gap:6px">
+    Shuffle options
+    <aha-tooltip help text="Randomise the order options appear in for each participant" />
+  </label>
 </template>

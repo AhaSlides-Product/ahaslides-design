@@ -15,13 +15,15 @@
     { "label": "Hover", "value": "scale 1.08 · border #D3B4FF · icon primary (motion tokens)" },
     { "label": "Selected", "value": "border + icon primary #6A1EBB · aria-pressed synced" },
     { "label": "Thank-you", "value": "opt-in `thanks` — check + success #16C49A line fades in once rated (motion tokens)" },
+    { "label": "Inline", "value": "`inline` — compact single row (21px high): 14px #4A4A4A prompt + borderless 16px thumb icons, no card" },
     { "label": "Event", "value": "`rate` → { rating: 'up' | 'down', source }" }
   ],
   "props": [
     { "name": "prompt", "type": "string", "default": "—", "desc": "Optional question shown before the thumbs" },
     { "name": "source", "type": "string", "default": "—", "desc": "Stable placement token for analytics — passed in the rate event" },
     { "name": "value", "type": "up | down", "default": "—", "desc": "The current rating (also reflects a click); syncs the selected thumb's aria-pressed" },
-    { "name": "thanks", "type": "string", "default": "—", "desc": "Opt-in thank-you line — shown (role=status) once rated; fades in on a persistent node" }
+    { "name": "thanks", "type": "string", "default": "—", "desc": "Opt-in thank-you line — shown (role=status) once rated; fades in on a persistent node" },
+    { "name": "inline", "type": "boolean", "default": "false", "desc": "Compact single-row layout (Inline CSAT) — prompt + borderless 16px thumb icons on one line, no card" }
   ],
   "opinion": {
     "whenToUse": [
@@ -46,6 +48,10 @@
         { "label": "Unrated", "value": null },
         { "label": "Thumbs up selected", "value": "up" },
         { "label": "Thumbs down selected", "value": "down" }
+      ] },
+      { "prop": "inline", "label": "Layout", "default": "__remove__", "options": [
+        { "label": "Card", "value": null },
+        { "label": "Inline", "value": "inline" }
       ] }
     ]
   },
@@ -54,13 +60,14 @@
     { "label": "hover scales + recolours (motion tokens)", "verdict": "PASS" },
     { "label": "selected primary #6A1EBB · aria-pressed synced", "verdict": "PASS" },
     { "label": "thank-you line fades in once rated (opt-in)", "verdict": "PASS" },
+    { "label": "inline — single 21px row · 14px #4A4A4A prompt · borderless 16px thumbs · aria-pressed synced", "verdict": "PASS" },
     { "label": "emits rate with source", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is pre-rated (value='up') so the selected colour + the aria-pressed a11y contract are measurable.",
-    "ready": "!!(document.querySelector('aha-csat[data-probe]') && document.querySelector('aha-csat[data-probe]').shadowRoot && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('.up'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The card probe is pre-rated (value='up') so the selected colour + the aria-pressed a11y contract are measurable; a second [data-probe-inline] probe (inline, value='up') pins the compact single-row layout — the muted #4A4A4A prompt, the borderless 16px thumb icon-button, and that aria-pressed still syncs inline.",
+    "ready": "!!(document.querySelector('aha-csat[data-probe]') && document.querySelector('aha-csat[data-probe]').shadowRoot && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('.up') && document.querySelector('aha-csat[data-probe-inline]') && document.querySelector('aha-csat[data-probe-inline]').shadowRoot && document.querySelector('aha-csat[data-probe-inline]').shadowRoot.querySelector('.up aha-icon'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var d=r&&r.querySelector('.down');var b=r&&r.querySelector('.btn');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;return{promptColor:sp?sp.color:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null,upPressed:u?u.getAttribute('aria-pressed'):null,downPressed:d?d.getAttribute('aria-pressed'):null};})()",
-    "expect": { "promptColor": "rgb(74, 74, 74)", "upColor": "rgb(106, 30, 187)", "btnWidth": "40px", "btnHeight": "40px", "upPressed": "true", "downPressed": "false" }
+    "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var d=r&&r.querySelector('.down');var b=r&&r.querySelector('.btn');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;var iel=document.querySelector('aha-csat[data-probe-inline]');var ir=iel&&iel.shadowRoot;var ip=ir&&ir.querySelector('.prompt');var iu=ir&&ir.querySelector('.up');var ib=ir&&ir.querySelector('.btn');var iic=iu&&iu.querySelector('aha-icon');var sip=ip?getComputedStyle(ip):null;var sib=ib?getComputedStyle(ib):null;return{promptColor:sp?sp.color:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null,upPressed:u?u.getAttribute('aria-pressed'):null,downPressed:d?d.getAttribute('aria-pressed'):null,inlinePromptColor:sip?sip.color:null,inlineBtnWidth:sib?sib.width:null,inlineIconSize:iic?iic.getAttribute('size'):null,inlineUpPressed:iu?iu.getAttribute('aria-pressed'):null};})()",
+    "expect": { "promptColor": "rgb(74, 74, 74)", "upColor": "rgb(106, 30, 187)", "btnWidth": "40px", "btnHeight": "40px", "upPressed": "true", "downPressed": "false", "inlinePromptColor": "rgb(74, 74, 74)", "inlineBtnWidth": "16px", "inlineIconSize": "16", "inlineUpPressed": "true" }
   }
 }

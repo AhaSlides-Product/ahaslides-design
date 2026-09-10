@@ -1,0 +1,15 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-user-info';   // <aha-user-info> (+ <aha-avatar>)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <!-- Default: avatar + name + email -->
+  <aha-user-info name="Brian Le" email="brian@ahaslides.com" />
+
+  <!-- With a photo -->
+  <aha-user-info name="Grace Hopper" email="grace@ahaslides.com" :src="photoUrl" />
+
+  <!-- Compact / name-only — omit email, or set size="compact" -->
+  <aha-user-info name="Ada Lovelace" />
+</template>

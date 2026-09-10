@@ -1,0 +1,24 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     Call any illustration BY NAME — never inline an <svg>. One import loads <aha-illustration> +
+     the multi-colour spot-art registry; art keeps its OWN palette, size is one edge (px), the
+     other edge follows the art's aspect ratio. -->
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/illustrations.js';   // registers <aha-illustration> + registry
+</script>
+
+<!-- Empty state — a large spot illustration above the copy + a recovery action. -->
+<div style="display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center">
+  <aha-illustration name="empty-presentation-list" size="160" label="No presentations yet"></aha-illustration>
+  <p>No presentations yet — create your first one to get started.</p>
+  <button>Create presentation</button>
+</div>
+
+<!-- Plan-tier card — a compact illustration heads each tier. -->
+<div style="display:flex; gap:24px">
+  <div><aha-illustration name="plan-essential" size="96" decorative></aha-illustration><div>Essential</div></div>
+  <div><aha-illustration name="plan-pro" size="96" decorative></aha-illustration><div>Pro</div></div>
+  <div><aha-illustration name="plan-enterprise" size="96" decorative></aha-illustration><div>Enterprise</div></div>
+</div>
+
+<!-- Onboarding choice — sized by a single edge; the aspect ratio is fixed by the source art. -->
+<aha-illustration name="onboarding-business" size="56" label="Business"></aha-illustration>

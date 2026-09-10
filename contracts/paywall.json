@@ -5,27 +5,32 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-paywall",
-  "summary": "Wrap a pro-gated affordance; the shared upsell renders itself — crown badge, one-sentence body, the fixed unlock line, and a single Upgrade CTA are baked in.",
-  "lead": "EVERY pro-gated affordance routes through one element so both products feel like one. You give <aha-paywall> the feature, the copy and the plan; it renders the compliant popover — the purple crown badge (never a generic crown glyph), the one-sentence benefit, the fixed \"Unlock with the <Plan> plan.\" line, and the lone full-width Upgrade CTA. Analytics comes back as events. A hand-rolled upgrade modal/tooltip is the drift this replaces.",
-  "tokensUsed": ["color-primary", "bg-dark-raised", "text-inverse", "radius-lg", "btn-primary-bg", "btn-primary-fg"],
+  "summary": "Wrap a pro-gated affordance; the shared upsell renders itself — the crown upgrade mark, title, one-sentence body, the fixed unlock line, and Upgrade + See all plans CTAs are baked in.",
+  "lead": "EVERY pro-gated affordance routes through one element so both products feel like one. You give <aha-paywall> the feature, the copy and the plan; it renders the compliant popover — the purple crown upgrade mark (never a generic crown glyph), the title, the one-sentence benefit, the fixed \"Unlock with the <Plan> plan.\" line, and two shared <aha-button> CTAs: Upgrade (positive/green) + See all plans (secondary). Analytics comes back as events. A hand-rolled upgrade modal/tooltip is the drift this replaces.",
+  "tokensUsed": ["color-primary", "color-primary-hover", "color-primary-active", "bg-dark-raised", "text-inverse", "text-secondary", "radius-lg", "radius-pill", "button-positive-bg", "button-default-border", "focus-ring-soft"],
   "spec": [
-    { "label": "Crown badge", "value": "16×16 purple circle (--aha-color-primary) + white crown — the custom mark, not a Phosphor crown" },
-    { "label": "Popover", "value": "dark indigo surface #242442 (--aha-bg-dark-raised), 300px wide, 16px padding, radius 12" },
-    { "label": "Anatomy", "value": "header (crown + feature label) · body (one sentence + \"Unlock with the <Plan> plan.\") · footer (single block Upgrade CTA)" },
-    { "label": "CTA", "value": "one full-width primary Upgrade button — no secondary/dismiss button inside the popover" },
-    { "label": "Analytics", "value": "paywall-shown on open · paywall-upgrade before navigation — both { feature, plan }" },
-    { "label": "Behaviour", "value": "CTA opens ahaslides.com/pricing (new tab, noopener); preventDefault paywall-upgrade to run your own flow" }
+    { "label": "Upgrade mark", "value": "16×16 purple circle (--aha-color-primary) + white crown — a focusable control with Default/Hover/Active states; the custom mark, not a Phosphor crown" },
+    { "label": "Popover", "value": "dark indigo surface #242442 (--aha-bg-dark-raised), 300px wide, 16px padding, radius 12; animates opacity + lift on open via the motion tokens" },
+    { "label": "Anatomy", "value": "header (crown + title) · body (one sentence + \"Unlock with the <Plan> plan.\") · footer (Upgrade + See all plans)" },
+    { "label": "Buttons", "value": "TWO shared <aha-button>s — Upgrade (variant=positive, green --aha-button-positive-bg) + See all plans (variant=secondary, re-themed for the dark surface); never hand-rolled" },
+    { "label": "Analytics", "value": "paywall-shown on open · paywall-upgrade before Upgrade nav · paywall-plans before See-all-plans nav — all { feature, plan }" },
+    { "label": "Behaviour", "value": "Upgrade opens ahaslides.com/pricing (new tab, noopener); See all plans opens plans-url; preventDefault either event to run your own flow. Esc / click-away close" }
   ],
   "props": [
     { "name": "feature-key", "type": "string (snake_case)", "default": "—", "desc": "Stable token (e.g. custom_survey_url) — drives analytics + DOM hooks. Required." },
-    { "name": "feature-label", "type": "string", "default": "Pro feature", "desc": "Short noun-phrase title next to the crown" },
+    { "name": "feature-label", "type": "string", "default": "Pro feature", "desc": "Short noun-phrase title next to the crown (used as the popover title unless title is set)" },
+    { "name": "title", "type": "string", "default": "—", "desc": "Popover title override; falls back to feature-label. May wrap to two lines" },
     { "name": "body", "type": "string", "default": "—", "desc": "Exactly one sentence describing the benefit of unlocking; ends with a period" },
+    { "name": "description", "type": "string", "default": "—", "desc": "Popover description override; falls back to body" },
     { "name": "required-plan", "type": "essential | pro", "default": "pro", "desc": "Drives the unlock line and the analytics plan prop" },
     { "name": "placement", "type": "top | bottom", "default": "top", "desc": "Popover side relative to the anchor" },
-    { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away closes a click popover" },
-    { "name": "cta-label", "type": "string", "default": "Upgrade", "desc": "The CTA verb; override only with a clear reason" },
-    { "name": "slot (default)", "type": "element", "default": "crown badge", "desc": "The gated affordance = the anchor; omit it to use the crown badge as the anchor" },
-    { "name": "paywall-shown / paywall-upgrade", "type": "CustomEvent<{feature,plan}>", "default": "—", "desc": "Analytics contract; paywall-upgrade is cancelable (preventDefault to run your own upgrade flow)" }
+    { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away + Escape close a click popover" },
+    { "name": "cta-label", "type": "string", "default": "Upgrade", "desc": "The positive CTA verb; override only with a clear reason" },
+    { "name": "plans-label", "type": "string", "default": "See all plans", "desc": "The secondary CTA label — routes to the full pricing page" },
+    { "name": "upgrade-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where Upgrade navigates (new tab, noopener)" },
+    { "name": "plans-url", "type": "string (URL)", "default": "ahaslides.com/pricing", "desc": "Where See all plans navigates (new tab, noopener)" },
+    { "name": "slot (default)", "type": "element", "default": "upgrade mark", "desc": "The gated affordance = the anchor; omit it to use the crown upgrade mark as the anchor" },
+    { "name": "paywall-shown / paywall-upgrade / paywall-plans", "type": "CustomEvent<{feature,plan}>", "default": "—", "desc": "Analytics contract; paywall-upgrade + paywall-plans are cancelable (preventDefault to run your own flow)" }
   ],
   "opinion": {
     "whenToUse": [
@@ -43,7 +48,7 @@
     { "key": "react", "label": "React", "file": "paywall.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "paywall.vue.txt" }
   ],
-  "codeNote": "One zero-dep custom element renders the shared upsell; the paywall skill's rules (crown-not-Phosphor, one-sentence body, fixed unlock line, single block CTA, the two analytics events, dark-indigo 300/16/12 surface) are baked into its shadow DOM — a consumer can't hand-roll a drifting prompt. The judge/eval + copy voice stay in the aha-design skill.",
+  "codeNote": "One zero-dep custom element renders the shared upsell; the paywall skill's rules (crown-not-Phosphor upgrade mark, one-sentence body, fixed unlock line, Upgrade + See all plans CTAs — both the shared <aha-button>, the analytics events, dark-indigo 300/16/12 surface) are baked into its shadow DOM — a consumer can't hand-roll a drifting prompt. The popover animates opacity+lift on a persistent node via the motion tokens; the anchor carries aria-expanded and Escape closes it. The judge/eval + copy voice stay in the aha-design skill.",
   "preview": "paywall.preview.html",
   "playground": {
     "controls": [
@@ -51,7 +56,8 @@
         { "label": "Pro", "value": "pro" },
         { "label": "Essential", "value": "essential" }
       ] },
-      { "prop": "feature-label", "label": "Feature", "default": "Custom survey URL", "options": [
+      { "prop": "feature-label", "label": "Feature", "default": "Streak answer bonus point", "options": [
+        { "label": "Streak answer bonus point", "value": "Streak answer bonus point" },
         { "label": "Custom survey URL", "value": "Custom survey URL" },
         { "label": "Export results", "value": "Export results" },
         { "label": "Remove branding", "value": "Remove branding" }
@@ -66,15 +72,15 @@
     { "label": "shared component — no bespoke upsell (PAYWALL-01)", "verdict": "PASS" },
     { "label": "custom crown badge, not Phosphor (PAYWALL-02)", "verdict": "PASS" },
     { "label": "one-sentence body + fixed unlock line (PAYWALL-03)", "verdict": "PASS" },
-    { "label": "single block Upgrade CTA (PAYWALL-04)", "verdict": "PASS" },
+    { "label": "Upgrade (positive) + See all plans (secondary) — both shared <aha-button> (PAYWALL-04)", "verdict": "PASS" },
     { "label": "PAYWALL_SHOWN + PAYWALL_UPGRADE_CLICKED events (PAYWALL-06)", "verdict": "PASS" },
     { "label": "requiredPlan essential|pro drives unlock line + analytics (PAYWALL-07)", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured against the RENDERED shadow-DOM UI (getComputedStyle via headless CDP). The first paywall is shown open so the popover is measurable.",
-    "ready": "!!(document.querySelector('aha-paywall[data-probe]') && document.querySelector('aha-paywall[data-probe]').shadowRoot && document.querySelector('aha-paywall[data-probe]').shadowRoot.querySelector('.pop'))",
+    "$about": "Measured against the RENDERED shadow-DOM UI (getComputedStyle via headless CDP). The [data-probe] paywall is shown OPEN so the popover — dark surface, radius, crown mark, and the two shared <aha-button> CTAs — is measurable. The Upgrade button's green is read from inside aha-button's own shadow root (the primitive it reuses).",
+    "ready": "!!(document.querySelector('aha-paywall[data-probe]') && document.querySelector('aha-paywall[data-probe]').shadowRoot && document.querySelector('aha-paywall[data-probe]').shadowRoot.querySelector('.pop') && document.querySelector('aha-paywall[data-probe]').shadowRoot.querySelector('.upgrade') && document.querySelector('aha-paywall[data-probe]').shadowRoot.querySelector('.upgrade').shadowRoot && document.querySelector('aha-paywall[data-probe]').shadowRoot.querySelector('.plans').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var s=document.querySelector('aha-paywall[data-probe]').shadowRoot; var g=function(sel,p){var el=s.querySelector(sel); return el?getComputedStyle(el)[p]:null;}; return { popoverBg:g('.pop','backgroundColor'), popoverRadius:g('.pop','borderTopLeftRadius'), popoverWidth:g('.pop','width'), ctaBg:g('.cta','backgroundColor'), crownBg:g('.crown','backgroundColor'), crownPresent:!!s.querySelector('.crown aha-icon[name=\"system-crown-badge-fill\"]'), planLabel:(s.querySelector('.punlock b')||{}).textContent };})()",
-    "expect": { "popoverBg": "rgb(36, 36, 66)", "popoverRadius": "12px", "popoverWidth": "300px", "ctaBg": "rgb(106, 30, 187)", "crownBg": "rgb(106, 30, 187)", "crownPresent": true, "planLabel": "Pro plan" }
+    "measure": "(function(){var s=document.querySelector('aha-paywall[data-probe]').shadowRoot; var g=function(sel,p){var el=s.querySelector(sel); return el?getComputedStyle(el)[p]:null;}; var btnBg=function(sel){var b=s.querySelector(sel); var inner=b&&b.shadowRoot&&b.shadowRoot.querySelector('button'); return inner?getComputedStyle(inner).backgroundColor:null;}; return { popoverBg:g('.pop','backgroundColor'), popoverRadius:g('.pop','borderTopLeftRadius'), popoverWidth:g('.pop','width'), upgradeBg:btnBg('.upgrade'), markBg:g('.phead .mark','backgroundColor'), crownPresent:!!s.querySelector('.phead .mark aha-icon[name=\"system-crown-badge-fill\"]'), plansPresent:!!(s.querySelector('.plans')&&s.querySelector('.plans').textContent.trim()==='See all plans'), planLabel:(s.querySelector('.punlock b')||{}).textContent };})()",
+    "expect": { "popoverBg": "rgb(36, 36, 66)", "popoverRadius": "12px", "popoverWidth": "300px", "upgradeBg": "rgb(78, 241, 197)", "markBg": "rgb(106, 30, 187)", "crownPresent": true, "plansPresent": true, "planLabel": "Pro plan" }
   }
 }

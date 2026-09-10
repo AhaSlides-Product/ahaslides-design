@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import '@ahaslides-product/design/aha-csat';   // registers <aha-csat> (+ <aha-icon>)
 
 // The element emits a composed `rate` event — attach a ref listener (React <19 pattern).
-function AhaCsat({ prompt, source, onRate }) {
+function AhaCsat({ prompt, source, inline, onRate }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
@@ -10,8 +10,11 @@ function AhaCsat({ prompt, source, onRate }) {
     el.addEventListener('rate', h);
     return () => el.removeEventListener('rate', h);
   }, [onRate]);
-  return <aha-csat ref={ref} prompt={prompt} source={source} />;
+  // `inline` is a boolean attribute — pass "" to set it, omit it otherwise.
+  return <aha-csat ref={ref} prompt={prompt} source={source} inline={inline ? '' : undefined} />;
 }
 
 // usage
 <AhaCsat prompt="Was this helpful?" source="editor_help" onRate={(d) => track('CSAT_RATED', d)} />
+// compact single-row form
+<AhaCsat inline prompt="Is this useful?" source="editor_inline" onRate={(d) => track('CSAT_RATED', d)} />
