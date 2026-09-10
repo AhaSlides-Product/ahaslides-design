@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.32.1 — 2026-09-10
+### Fixed
+- **Illustration** — the 20 spot illustrations shipped flattened: an over-aggressive SVG normalisation unwrapped every `<g>` (dropping group `opacity`/`transform`), stripped clip-paths/masks/filters, and a coordinate heuristic deleted real art (blue/green on `offer-frame`, gold on `team-created`). `build-illustrations.mjs` now preserves the art exactly — the full `<defs>` (gradients/filters/masks/clipPaths), every group's `opacity`/`transform`, and all ids — stripping only the Figma "Oldies" board chrome (the `#E1E1E1` background, `#D5D5D5` frame, oversized white card, dashed annotation box). Each illustration now renders pixel-faithful to Figma. (#68)
+
 ## 0.32.0 — 2026-09-10
 ### Added
 - **Illustration** — new `<aha-illustration name="…" size="…">` element + a call-by-name library of 20 multi-colour spot illustrations (empty states, onboarding, plan tiers, offers, mascots) from a shared registry, sized by a single edge with aspect ratio preserved (`./illustrations` export). (#67)
