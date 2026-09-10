@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.33.1 — 2026-09-10
+### Fixed
+- **Illustration** — the 20 spot illustrations shipped flattened: an over-aggressive SVG normalisation unwrapped every `<g>` (dropping group `opacity`/`transform`), stripped clip-paths/masks/filters, and a coordinate heuristic deleted real art (blue/green on `offer-frame`, gold on `team-created`). `build-illustrations.mjs` now preserves the art exactly — the full `<defs>` (gradients/filters/masks/clipPaths), every group's `opacity`/`transform`, and all ids — stripping only the Figma "Oldies" board chrome (the `#E1E1E1` background, `#D5D5D5` frame, oversized white card, dashed annotation box). Each illustration now renders pixel-faithful to Figma. (#69)
+
 ## 0.33.0 — 2026-09-10
 ### Removed
 - **Button** — dropped the plan / brand tone variants `essential`, `pro`, and `branding`. `variant` is now `primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link`. Plan gating belongs to the Paywall crown badge / Badge `plan` families, not a button tone. **Breaking.** (#68)
