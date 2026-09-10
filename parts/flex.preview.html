@@ -1,51 +1,29 @@
-<div class="pad">
-  <div class="lbl">Row · gap middle · align center</div>
-  <aha-flex data-probe gap="middle" align="center">
-    <button>Save</button>
-    <button>Cancel</button>
-    <button>More</button>
-  </aha-flex>
+<style>
+  /* Preview-only chrome so the flex layout is VISIBLE — the element itself paints nothing. */
+  .flex-demo [data-probe] > *, .flex-demo aha-flex > *{
+    display:flex; align-items:center; justify-content:center;
+    min-width:64px; min-height:40px; padding:0 14px;
+    background:var(--aha-bg-accent); color:var(--aha-color-primary);
+    border:1px solid var(--aha-border); border-radius:var(--aha-radius-default);
+    font:600 13px/1 var(--aha-font-product);
+  }
+  .flex-demo .frame{ border:1px dashed var(--aha-border); border-radius:var(--aha-radius-default); padding:14px }
+</style>
 
-  <div class="lbl" style="margin-top:20px">Space between</div>
-  <aha-flex justify="space-between" style="border:1px solid var(--aha-split); border-radius:8px; padding:12px 14px">
-    <strong>Slide settings</strong>
-    <a href="#">Edit</a>
-  </aha-flex>
-
-  <div class="lbl" style="margin-top:20px">Column · gap large</div>
-  <aha-flex direction="column" gap="large">
-    <div>Row one</div>
-    <div>Row two</div>
-  </aha-flex>
-
-  <div class="lbl" style="margin-top:20px">Wrap · gap small</div>
-  <aha-flex gap="small" wrap>
-    <span class="pill">Poll</span><span class="pill">Quiz</span><span class="pill">Word cloud</span>
-    <span class="pill">Q&amp;A</span><span class="pill">Brainstorm</span><span class="pill">Spinner</span>
-  </aha-flex>
+<div class="pad flex-demo">
+  <div class="lbl">Flex · direction row · gap middle · justify space-between · align center</div>
+  <div class="frame" style="min-height:120px">
+    <aha-flex data-probe gap="middle" justify="space-between" align="center" style="height:92px">
+      <div>One</div>
+      <div>Two</div>
+      <div>Three</div>
+    </aha-flex>
+  </div>
 </div>
 
-<!-- Renders the SAME element shipped as @ahaslides-product/design/aha-flex (lib/aha-flex.js),
-     inlined here so the preview is self-contained (no build step, no network). -->
+<!-- Imports the REAL shipped element (../lib/aha-flex.js) — no inlined copy, so the preview can never
+     drift from lib/. The playground control bar (Direction / Justify / Align / Gap) is generated from
+     contracts/flex.json → playground and drives THIS element's attributes live. -->
 <script type="module">
-const GAP = { small: '8px', middle: '16px', large: '24px' };
-const ALIGN = { start: 'flex-start', end: 'flex-end', center: 'center', baseline: 'baseline', stretch: 'stretch' };
-const JUSTIFY = { start: 'flex-start', end: 'flex-end', center: 'center', 'space-between': 'space-between', 'space-around': 'space-around', 'space-evenly': 'space-evenly' };
-const STYLE = `
-  :host{ display:flex; box-sizing:border-box; color:var(--aha-text-default,#1A1A1A) }
-  :host([wrap]){ flex-wrap:wrap }
-`;
-class AhaFlex extends HTMLElement {
-  static get observedAttributes() { return ['gap', 'direction', 'align', 'justify', 'wrap']; }
-  connectedCallback() { if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); this.shadowRoot.innerHTML = `<style>${STYLE}</style><slot></slot>`; } this._apply(); }
-  attributeChangedCallback() { if (this.shadowRoot) this._apply(); }
-  _apply() {
-    const gap = this.getAttribute('gap');
-    this.style.gap = gap == null ? '' : (GAP[gap] || (/^\d+$/.test(gap) ? gap + 'px' : gap));
-    this.style.flexDirection = this.getAttribute('direction') || '';
-    this.style.alignItems = ALIGN[this.getAttribute('align')] || '';
-    this.style.justifyContent = JUSTIFY[this.getAttribute('justify')] || '';
-  }
-}
-customElements.define('aha-flex', AhaFlex);
+  import '../lib/aha-flex.js';   // registers <aha-flex> — the shipped primitive, byte-identical to what consumers get
 </script>

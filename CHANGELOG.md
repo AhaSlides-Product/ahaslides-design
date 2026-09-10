@@ -21,6 +21,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.17.0 — 2026-09-10
+### Added
+- **Layout group → DS V3 matrix + playgrounds.** The layout primitives gain interactive playgrounds and the props to back the full matrix. (#48)
+- **Divider** — `plain` (plain vs heading label emphasis), alongside orientation (horizontal/vertical), `dashed`, and left/center/right text alignment. (#48)
+- **Flex** — the `vertical` shorthand, alongside direction/justify/align/gap/wrap. (#48)
+- **Grid** — an asymmetric gutter (`gap="h v"`), row `justify`/`align`, and `responsive` (fixed columns collapse as the container narrows). (#48)
+- **Space** — `split` (a tokenised divider ruled between items), alongside direction/size/align/wrap. (#48)
+
 ## 0.16.0 — 2026-09-10
 ### Added
 - **Interactive component playgrounds (the "smart widget").** A component's Examples now render a compact control bar that drives the live element's variants (Mode · Size · Content · …), so you explore the whole matrix instead of reading one static case — driven by a new `playground` block in the contract. First shipped across the Navigation group. (#47)

@@ -5,20 +5,28 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-grid",
-  "summary": "A CSS-grid container — a fixed column count or a responsive auto-fit, with the DS gap scale.",
-  "lead": "ONE custom element — <aha-grid> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; give it a fixed `columns` count (equal tracks) or a `min` track width for a responsive auto-fit, and `gap` takes the named steps small/middle/large (8/16/24). Layout only — it never paints a background. Zero drift.",
+  "summary": "A CSS-grid container — a fixed column count or a responsive auto-fit, with the DS gutter scale, track justify/align, and a responsive collapse.",
+  "lead": "ONE custom element — <aha-grid> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. It mirrors the AntD Row/Col vocabulary over a CSS grid: give it a fixed `columns` count (equal tracks) or a `min` track width for a responsive auto-fit; `gap` takes the named steps small/middle/large (8/16/24) as ONE value or `\"h v\"` for a separate horizontal/vertical gutter; `justify`/`align` position the tracks; and `responsive` lets a fixed-column grid reflow to fewer columns as the container narrows — no media queries. Layout only — it never paints a background. No interactive state → no motion. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default"],
   "spec": [
     { "label": "Display", "value": "grid" },
     { "label": "Columns", "value": "columns=N → repeat(N, minmax(0, 1fr))" },
-    { "label": "Responsive", "value": "min=W → repeat(auto-fit, minmax(W, 1fr))" },
-    { "label": "Gap scale", "value": "small 8 · middle 16 · large 24 (or a raw px number)" }
+    { "label": "Auto-fit", "value": "min=W → repeat(auto-fit, minmax(W, 1fr))" },
+    { "label": "Responsive collapse", "value": "columns=N + responsive → tracks reflow to fewer as the container narrows" },
+    { "label": "Gutter scale", "value": "none 0 · small 8 · middle 16 · large 24 (or a raw px number)" },
+    { "label": "Gutter [h,v]", "value": "gap=\"h v\" → separate column-gap / row-gap" },
+    { "label": "Justify", "value": "start · center · end · space-between · space-around · space-evenly (justify-content)" },
+    { "label": "Align", "value": "start · center · end · stretch (align-items)" }
   ],
   "props": [
     { "name": "columns", "type": "number", "default": "—", "desc": "Fixed number of equal-width columns (minmax(0, 1fr) tracks)" },
     { "name": "min", "type": "number", "default": "—", "desc": "Minimum track width for a responsive auto-fit grid; wins over columns" },
-    { "name": "gap", "type": "small | middle | large | number", "default": "0", "desc": "Space between cells — named DS step (8/16/24) or a raw pixel number" }
+    { "name": "gap", "type": "none | small | middle | large | number | \"h v\"", "default": "0", "desc": "Gutter between cells — a named DS step (8/16/24) / raw px, or two values \"h v\" for a separate horizontal/vertical gutter" },
+    { "name": "gutter", "type": "same as gap", "default": "—", "desc": "Alias of gap (AntD Row vocabulary); gap wins if both are set" },
+    { "name": "justify", "type": "start | center | end | space-between | space-around | space-evenly", "default": "—", "desc": "Horizontal distribution of the tracks (justify-content)" },
+    { "name": "align", "type": "start | center | end | stretch", "default": "—", "desc": "Vertical alignment of the cells within their row (align-items)" },
+    { "name": "responsive", "type": "boolean", "default": "false", "desc": "With columns=N, lets tracks collapse to fewer as the container narrows — no media queries" }
   ],
   "opinion": {
     "whenToUse": [
@@ -26,8 +34,8 @@
       { "what": "Flex", "when": "a one-dimensional flow where items size to content" },
       { "what": "min (auto-fit)", "when": "the column count should follow the container width — prefer it over media queries" }
     ],
-    "note": "Reach for `min` (auto-fit) before hand-writing breakpoints — the grid reflows itself. Keep gaps on the named scale so spacing matches the rest of the surface. Grid is layout, never decoration: it paints no background.",
-    "dsv3": "COVERED — DS V3 has no measured Grid cell; spec derived from the DS spacing scale (8/16/24) + AntD Grid/Row conventions (fixed tracks, responsive auto-fit). A deliberate, documented layout extension; the only visual token it binds is inherited text colour."
+    "note": "Reach for `min` (auto-fit) or `responsive` before hand-writing breakpoints — the grid reflows itself. Use `gap=\"h v\"` when rows need tighter spacing than columns. Keep gutters on the named scale so spacing matches the rest of the surface. Grid is layout, never decoration: it paints no background.",
+    "dsv3": "COVERED — DS V3 ships no measured Grid/Row-Col component set (the Figma \"Grid\" hits are icon glyphs, not a layout primitive), so the matrix is derived from the AntD 24-col Row/Col reference over a CSS grid + the DS spacing scale: fixed `columns` tracks, `min` auto-fit, a `responsive` collapse (columns fold as the container narrows), a `gutter` that takes one value or `[h,v]` (column-gap / row-gap), and `justify`/`align` of the tracks. A deliberate, documented layout extension; the only visual token it binds is inherited text colour. No interactive state → no motion (correctly gated as a container)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-grid", "registers": "aha-grid", "exportsNamed": ["AhaGrid", "defineAhaGrid"] },
@@ -37,17 +45,46 @@
     { "key": "vue", "label": "Vue 3", "file": "grid.vue.txt" }
   ],
   "preview": "grid.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "columns", "label": "Columns", "default": "3", "options": [
+        { "label": "2", "value": "2" },
+        { "label": "3", "value": "3" },
+        { "label": "4", "value": "4" },
+        { "label": "6", "value": "6" }
+      ] },
+      { "prop": "gap", "label": "Gutter", "default": "middle small", "options": [
+        { "label": "None", "value": "none" },
+        { "label": "Small (8)", "value": "small" },
+        { "label": "Middle (16)", "value": "middle" },
+        { "label": "Large (24)", "value": "large" },
+        { "label": "H 16 · V 8", "value": "middle small" }
+      ] },
+      { "prop": "justify", "label": "Justify", "default": null, "options": [
+        { "label": "Stretch (default)", "value": null },
+        { "label": "Center", "value": "center" },
+        { "label": "End", "value": "end" },
+        { "label": "Space between", "value": "space-between" }
+      ] },
+      { "prop": "responsive", "label": "Responsive collapse", "default": null, "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "display grid", "verdict": "PASS" },
     { "label": "gap middle → 16px", "verdict": "PASS" },
+    { "label": "gutter \"h v\" → column-gap 16, row-gap 8", "verdict": "PASS" },
     { "label": "columns=N → N equal tracks", "verdict": "PASS" },
-    { "label": "min → responsive auto-fit", "verdict": "PASS" }
+    { "label": "min → responsive auto-fit; columns+responsive → collapse", "verdict": "PASS" },
+    { "label": "justify / align position the tracks", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe uses gap=\"middle small\" → an asymmetric [h,v] gutter (column 16 / row 8) over 3 fixed tracks.",
     "ready": "!!(document.querySelector('aha-grid[data-probe]') && document.querySelector('aha-grid[data-probe]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-grid[data-probe]');var s=el?getComputedStyle(el):null;return{display:s?s.display:null,columnGap:s?s.columnGap:null,rowGap:s?s.rowGap:null,color:s?s.color:null};})()",
-    "expect": { "display": "grid", "columnGap": "16px", "rowGap": "16px", "color": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-grid[data-probe]');var s=el?getComputedStyle(el):null;var tracks=s?String(s.gridTemplateColumns).trim().split(/\\s+/).filter(Boolean).length:0;return{display:s?s.display:null,columnGap:s?s.columnGap:null,rowGap:s?s.rowGap:null,columns:tracks,color:s?s.color:null};})()",
+    "expect": { "display": "grid", "columnGap": "16px", "rowGap": "8px", "columns": 3, "color": "rgb(26, 26, 26)" }
   }
 }

@@ -1,9 +1,16 @@
 import '@ahaslides-product/design/aha-space';   // registers <aha-space>
 
 // A static layout primitive — the custom element renders identically in React, no wrapper needed.
-<aha-space size="middle">
+<aha-space size="middle" align="center">
   <Button>Save</Button>
   <Button variant="secondary">Cancel</Button>
+</aha-space>
+
+// A thin divider between inline actions
+<aha-space size="middle" split>
+  <a href="#">Edit</a>
+  <a href="#">Duplicate</a>
+  <a href="#">Delete</a>
 </aha-space>
 
 // Vertical stack
