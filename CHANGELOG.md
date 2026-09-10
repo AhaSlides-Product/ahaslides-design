@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.30.0 — 2026-09-10
+### Removed
+- **Button** — dropped the `xl` (52px) and `2xl` (60px) sizes. `size` is now `sm | md | lg`. Migrate any `size="xl"` / `size="2xl"` to `size="lg"`. **Breaking.** (#66)
+### Changed
+- **Button** — the default `size` is now **lg (40px)** (was `md`). Buttons with no explicit `size` grow from 36px to 40px; pin `size="md"` to keep the old height. (#66)
+
 ## 0.29.0 — 2026-09-10
 ### Added
 - **Select field** — a new leaf `<aha-select>`: a native-`<select>`-backed one-of-many field (DS V3 chrome — small 24 / default 32 / large 40, radius 8, brand focus border, `#8A8A8A` placeholder, error/warning status, caret via `<aha-icon name="system-caret-down">`). It inherits the OS keyboard + AT model for free, so it embeds inside shadow-DOM surfaces the composite Select can't reach. Registered element, `./aha-select` export, HTML/React/Vue snippets + playground. (#64)
