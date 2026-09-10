@@ -65,7 +65,9 @@
     "./lib/aha-card-select.js",
     "./lib/aha-mode-field.js",
     "./lib/aha-info-box.js",
-    "./lib/aha-numbered-item.js"
+    "./lib/aha-numbered-item.js",
+    "./lib/aha-image-action-button.js",
+    "./lib/aha-image-dropzone.js"
   ],
   "exports": {
     "./icons": "./lib/icons.js",
@@ -136,6 +138,8 @@
     "./aha-mode-field": "./lib/aha-mode-field.js",
     "./aha-info-box": "./lib/aha-info-box.js",
     "./aha-numbered-item": "./lib/aha-numbered-item.js",
+    "./aha-image-action-button": "./lib/aha-image-action-button.js",
+    "./aha-image-dropzone": "./lib/aha-image-dropzone.js",
     "./popconfirm-theme": "./lib/popconfirm-theme.js"
   },
   "files": [

@@ -97,8 +97,8 @@ the library already defines.
 | **OptionRow** | *repeatable option row: drag handle, correct toggle, borderless textarea + counter, image, delete* | backlog |
 | **NumberedItem** | *numbered composite-item wrapper: chip + `<Label> N` header + hover delete + grey container* | **mapped** → `numbered-item` |
 | **QuestionList** | *collapsible questions (prompt + OptionRow choices); composes NumberedItem/OptionRow* | backlog |
-| **ImageDropzone** | *full-width settings-only image field; emits intents, host runs the upload modals* | backlog |
-| **ImageActionButton** | *per-option image control (empty/loading/thumbnail + Change/Edit/Delete)* | backlog |
+| **ImageDropzone** | *full-width settings-only image field; emits intents, host runs the upload modals* | **mapped** → `image-dropzone` |
+| **ImageActionButton** | *per-option image control (empty/loading/thumbnail + Change/Edit/Delete)* | **mapped** → `image-action-button` |
 | **InfoBox** | *settings-only tinted callout; bespoke, not Ant Alert* | **mapped** → `info-box` |
 
 Backlog controls are real gaps, not licence to re-implement: author each here (contract + `lib/` +

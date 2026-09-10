@@ -1,0 +1,23 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-image-action-button';   // registers <aha-image-action-button>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const img = ref(null);       // the option's image URL
+const state = ref('empty');  // empty | loading | filled
+function onAdd() { state.value = 'loading'; upload().then((url) => { img.value = url; state.value = 'filled'; }); }
+function onDelete() { img.value = null; state.value = 'empty'; }
+</script>
+
+<template>
+  <!-- emits intents; the host owns the upload/crop modals -->
+  <aha-image-action-button
+    :state="state"
+    :src="img || undefined"
+    @add="onAdd"
+    @edit="openCropper"
+    @delete="onDelete"
+  />
+</template>

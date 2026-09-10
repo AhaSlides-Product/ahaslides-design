@@ -1,0 +1,24 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-image-dropzone';   // registers <aha-image-dropzone>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const bg = ref(null);
+const state = ref('empty');
+function onAdd() { state.value = 'loading'; upload().then((url) => { bg.value = url; state.value = 'filled'; }); }
+function onDelete() { bg.value = null; state.value = 'empty'; }
+</script>
+
+<template>
+  <!-- emits intents; the host owns the upload/crop modals -->
+  <aha-image-dropzone
+    :state="state"
+    :src="bg || undefined"
+    label="Add background image"
+    @add="onAdd"
+    @edit="openCropper"
+    @delete="onDelete"
+  />
+</template>

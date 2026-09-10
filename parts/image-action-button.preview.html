@@ -1,0 +1,15 @@
+<div class="pad">
+  <div class="lbl">Per-option image control — empty · loading · filled (hover the thumbnail for the menu)</div>
+  <div class="row" style="display:flex; gap:12px; align-items:center">
+    <aha-image-action-button data-probe state="empty"></aha-image-action-button>
+    <aha-image-action-button state="loading"></aha-image-action-button>
+    <aha-image-action-button state="filled" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='%236A1EBB'/%3E%3C/svg%3E"></aha-image-action-button>
+    <aha-image-action-button disabled state="empty"></aha-image-action-button>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-image-action-button.js) — no inlined copy, so the
+     preview can never drift from lib/, and qa measures exactly what consumers get. -->
+<script type="module">
+  import '../lib/aha-image-action-button.js';   // registers <aha-image-action-button> — the shipped primitive
+</script>
