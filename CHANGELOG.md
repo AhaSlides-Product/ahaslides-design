@@ -5,6 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
+The gate also rejects an unfilled `(#PR)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -14,12 +15,16 @@ PR that forgets either goes red. The `v<version>` release tag (what `npm publish
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
 ### Removed       ← a removed export / component / token
-- one short bullet per change, written for a consumer; link the PR: (#123)
+- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#PR)
 ```
 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
+
+## 0.22.1 — 2026-09-10
+### Fixed
+- **Standards gate — CHANGELOG PR ref.** The repo gate now rejects an unfilled `(#PR)` placeholder in the top changelog entry (any digit-less `(#…)` ref), closing the hole that let placeholders ship green. Rule text in `AGENTS.md`/`CHANGELOG.md` updated to require the real PR number. (#60)
 
 ## 0.22.0 — 2026-09-10
 ### Added
