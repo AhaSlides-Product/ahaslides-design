@@ -59,7 +59,10 @@
     "./lib/aha-csat.js",
     "./lib/aha-settings-list.js",
     "./lib/aha-select.js",
-    "./lib/aha-counted-input.js"
+    "./lib/aha-counted-input.js",
+    "./lib/aha-counted-textarea.js",
+    "./lib/aha-number-with-unit.js",
+    "./lib/aha-card-select.js"
   ],
   "exports": {
     "./icons": "./lib/icons.js",
@@ -124,6 +127,9 @@
     "./aha-settings-list": "./lib/aha-settings-list.js",
     "./aha-select": "./lib/aha-select.js",
     "./aha-counted-input": "./lib/aha-counted-input.js",
+    "./aha-counted-textarea": "./lib/aha-counted-textarea.js",
+    "./aha-number-with-unit": "./lib/aha-number-with-unit.js",
+    "./aha-card-select": "./lib/aha-card-select.js",
     "./popconfirm-theme": "./lib/popconfirm-theme.js"
   },
   "files": [

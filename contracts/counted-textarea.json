@@ -1,0 +1,79 @@
+{
+  "name": "Counted textarea",
+  "slug": "counted-textarea",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-counted-textarea",
+  "summary": "The multi-line settings field — a CountedInput that wraps to several lines, grows from minRows to maxRows then scrolls, with the same focus-only character counter.",
+  "lead": "ONE custom element — <aha-counted-textarea> — the multi-line sibling of CountedInput for descriptions and long answers. It autogrows from `minrows` to `maxrows` and then scrolls internally rather than growing unbounded (SETTINGS-21). Its character counter is REVEALED ONLY ON FOCUS and hidden at rest (SETTINGS-42): a persistent overlay pinned to the field's bottom-right — never a sibling beside the field — with the bottom padding always reserved so revealing it never shifts the text. Focus toggles an attribute on a persistent node, so the opacity transition actually fires. Shadow-DOM CSS, themed only by --aha-* tokens; emits composed `input` / `change`. Zero drift — the same element in React and Vue.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-disabled", "radius-default", "focus-ring-soft", "border-error", "color-error", "border-disabled"],
+  "spec": [
+    { "label": "Box", "value": "radius 8 · padding 6 12 · resize off" },
+    { "label": "Autogrow", "value": "minrows (default 2) → maxrows (default 4); beyond maxrows scrolls internally, never grows unbounded" },
+    { "label": "Rest border", "value": "1px #E3E3E3" },
+    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring (on the persistent wrapper)" },
+    { "label": "Counter", "value": "12/18 #8A8A8A, overlay bottom-right; opacity 0 at rest → 1 on focus" },
+    { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
+    { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
+    { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
+    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" }
+  ],
+  "props": [
+    { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
+    { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
+    { "name": "maxlength", "type": "number", "default": "—", "desc": "Character cap; presence turns the focus-only counter on (shows current/max)" },
+    { "name": "minrows", "type": "number", "default": "2", "desc": "Rows shown at rest — the field never shrinks below this" },
+    { "name": "maxrows", "type": "number", "default": "4", "desc": "Rows the field grows to before it scrolls internally instead of growing" },
+    { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
+    { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
+    { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on each keystroke; read e.detail.value" },
+    { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on commit (blur)" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Counted textarea", "when": "a multi-line settings field — a description, a long answer — that needs a character cap; the counter appears only on focus" },
+      { "what": "Counted input", "when": "the single-line sibling — option/answer/label text with a cap" },
+      { "what": "Input", "when": "a general single-line field with no counter (names, search)" }
+    ],
+    "note": "Never show a permanent counter on every field — it reads as heavy. The counter belongs inside the field, revealed on focus. Cap the growth: a textarea that grows without bound pushes the rest of the panel down; grow to maxRows then scroll.",
+    "dsv3": "COVERED — the settings-lab CountedTextarea control mapped into the DS. Box, border, focus ring and error status reuse the DS V3 field family; the autogrow-then-scroll behaviour and the focus-only bottom-right counter are the settings-specific additions (SETTINGS-21/42)."
+  },
+  "surfaces": ["editor", "settings"],
+  "reuse": { "entry": "./aha-counted-textarea", "registers": "aha-counted-textarea", "exportsNamed": ["AhaCountedTextarea", "defineAhaCountedTextarea"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "counted-textarea.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
+    { "key": "react", "label": "React", "file": "counted-textarea.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "counted-textarea.vue.txt" }
+  ],
+  "preview": "counted-textarea.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "maxlength", "label": "Max length", "default": "200", "options": [
+        { "label": "120", "value": "120" },
+        { "label": "200", "value": "200" },
+        { "label": "None", "value": null }
+      ] },
+      { "prop": "status", "label": "Status", "default": "default", "options": [
+        { "label": "Default", "value": null },
+        { "label": "Error", "value": "error" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "grows minrows→maxrows then scrolls internally (never unbounded)", "verdict": "PASS" },
+    { "label": "counter hidden at rest, revealed on focus (opacity), overlay bottom-right", "verdict": "PASS" },
+    { "label": "counter space reserved — revealing it does not shift the text", "verdict": "PASS" },
+    { "label": "focus #6A1EBB border + ring (persistent wrapper)", "verdict": "PASS" },
+    { "label": "error #F5222D border + aria-invalid", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-counted-textarea[data-probe]') && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot.querySelector('.wrap'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-counted-textarea[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,lineHeight:fs?fs.lineHeight:null,counterColor:cs?cs.color:null};})()",
+    "expect": { "radius": "8px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "lineHeight": "21px", "counterColor": "rgb(138, 138, 138)" }
+  }
+}

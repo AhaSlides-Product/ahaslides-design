@@ -1,0 +1,24 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-card-select';   // registers <aha-card-select>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const chartType = ref('bar');
+const options = [
+  { value: 'bar',  label: 'Bar',  icon: 'system-chart-bar' },
+  { value: 'line', label: 'Line', icon: 'system-chart-line-up' },
+  { value: 'pie',  label: 'Pie',  icon: 'system-chart-pie' },
+];
+</script>
+
+<template>
+  <!-- options + value are bound as PROPERTIES (.prop); the grid is one roving radiogroup -->
+  <aha-card-select
+    columns="3"
+    :options.prop="options"
+    :value.prop="chartType"
+    @change="chartType = $event.detail.value"
+  />
+</template>

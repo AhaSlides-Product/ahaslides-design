@@ -90,10 +90,10 @@ the library already defines.
 | **HelpTooltip** | `<aha-tooltip>` + `<aha-icon>` `?` glyph (the *help-glyph* rule) | **mapped** → `tooltip` |
 | **DropdownMenu** | `<aha-dropdown>` + `<aha-menu>` — themed action menu | **mapped** → `dropdown` |
 | **ModeField** | *label + inline exclusive mode control (outline radio / segmented), body swaps in place* | backlog |
-| **CountedInput** | *single-line field + focus-only char counter (persistent sibling, no remount)* | backlog |
-| **CountedTextarea** | *multi-line CountedInput; grows minRows–maxRows* | backlog |
-| **CardSelect** | *single-select icon+label card grid* | backlog |
-| **NumberWithUnit** | *digit input + hover stepper (clamped, maxDigits) + unit-in-full + optional error line* | backlog |
+| **CountedInput** | *single-line field + focus-only char counter (persistent sibling, no remount)* | **mapped** → `counted-input` |
+| **CountedTextarea** | *multi-line CountedInput; grows minRows–maxRows* | **mapped** → `counted-textarea` |
+| **CardSelect** | *single-select icon+label card grid* | **mapped** → `card-select` |
+| **NumberWithUnit** | *digit input + hover stepper (clamped, maxDigits) + unit-in-full + optional error line* | **mapped** → `number-with-unit` |
 | **OptionRow** | *repeatable option row: drag handle, correct toggle, borderless textarea + counter, image, delete* | backlog |
 | **NumberedItem** | *numbered composite-item wrapper: chip + `<Label> N` header + hover delete + grey container* | backlog |
 | **QuestionList** | *collapsible questions (prompt + OptionRow choices); composes NumberedItem/OptionRow* | backlog |
