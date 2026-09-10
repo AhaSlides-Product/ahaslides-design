@@ -21,6 +21,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.24.0 — 2026-09-10
+### Added
+- **Tabs** — `tab-position="left"`: a vertical left-rail orientation with the panel to the right, the active indicator moving from a 2px bottom underline to a 2px color-primary side border (card keeps its pill), and roving arrow-key nav switching to up/down (Home/End unchanged). Top orientation, `type` and `size` unchanged. (#PR)
+
 ## 0.22.0 — 2026-09-10
 ### Added
 - **AhaSlides surfaces + General/Forms → DS V3 matrix + playgrounds.** The final audit group — every component now ships an interactive playground over its full DS V3 matrix. (#53)
