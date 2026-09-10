@@ -1,0 +1,24 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-screen-heading> is the SAME shared custom element React and Vue consume — here in its
+     native form. The title trail reuses <aha-breadcrumb>; the actions are slotted <aha-button>s.
+     Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-screen-heading.js';   // registers <aha-screen-heading> (+ <aha-breadcrumb>)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button> for the slotted actions
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';   // registers <aha-icon> for the button glyph
+</script>
+
+<!-- A greeting with a brand-accent highlight + right-hand actions (buttons slotted in). -->
+<aha-screen-heading title="Welcome, Brian!" highlight="Brian" description="Here's what's happening across your workspace today.">
+  <aha-button slot="actions" variant="secondary">Import</aha-button>
+  <aha-button slot="actions" variant="primary">
+    <span slot="icon"><aha-icon name="system-plus" size="16" decorative></aha-icon></span>
+    New presentation
+  </aha-button>
+</aha-screen-heading>
+
+<!-- A sub-page header: pass a `breadcrumb` JSON array and the `›` trail renders as the title. -->
+<aha-screen-heading breadcrumb='[{"label":"Presentations","href":"/p"},{"label":"Team offsite","href":"/p/1"},{"label":"Editor"}]'>
+  <aha-button slot="actions" variant="primary">Present</aha-button>
+</aha-screen-heading>

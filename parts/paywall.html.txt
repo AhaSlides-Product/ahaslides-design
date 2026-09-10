@@ -4,16 +4,17 @@
   import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-paywall.js';   // registers <aha-paywall>
 </script>
 
-<!-- Pro gate — the affordance is the anchor -->
+<!-- Pro gate — the affordance is the anchor. The popover ships the crown mark, title, description,
+     the fixed unlock line, and BOTH CTAs (Upgrade positive + See all plans) — all baked in. -->
 <aha-paywall
-  feature-key="custom_survey_url"
-  feature-label="Custom survey URL"
-  body="Give your survey a branded, memorable link."
+  feature-key="streak_bonus"
+  feature-label="Streak answer bonus point"
+  body="Let the participants play quiz and be ranked as teams instead of being ranked individually."
   required-plan="pro">
-  <button>Custom URL</button>   <!-- the gated affordance (omit for a crown-badge anchor) -->
+  <button>Streak bonus</button>   <!-- the gated affordance (omit for a crown upgrade-mark anchor) -->
 </aha-paywall>
 
-<!-- Essential gate, hover-triggered, no natural anchor → the crown badge IS the anchor -->
+<!-- No natural anchor → the crown upgrade mark IS the anchor (a focusable control); hover-triggered -->
 <aha-paywall
   feature-key="export_results"
   feature-label="Export results"
@@ -26,5 +27,6 @@
   document.querySelectorAll('aha-paywall').forEach((el) => {
     el.addEventListener('paywall-shown', (e) => console.log('PAYWALL_SHOWN', e.detail));
     el.addEventListener('paywall-upgrade', (e) => console.log('PAYWALL_UPGRADE_CLICKED', e.detail));
+    el.addEventListener('paywall-plans', (e) => console.log('PAYWALL_PLANS_CLICKED', e.detail));  // See all plans
   });
 </script>

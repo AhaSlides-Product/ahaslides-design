@@ -1,0 +1,68 @@
+{
+  "name": "User info",
+  "slug": "user-info",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-user-info",
+  "summary": "A person/identity row — an avatar next to a name, with an optional email underneath.",
+  "lead": "ONE custom element — <aha-user-info> — the identity row that pairs a person's picture with their name (and, optionally, their email). It REUSES the shared <aha-avatar> for the picture/initials; it never re-implements one. Two layouts fall out of the data: email present → a 40px avatar + name (14/600) over email (12/400); email omitted (or size=\"compact\") → a 24px avatar + name only on one line. Shadow-DOM CSS, themed only by --aha-* tokens. The name renders as real text; the avatar is decorative (aria-hidden) so the name carries the accessible identity. A purely static display marker, so it declares no motion. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design, reusing the shared aha-avatar.",
+  "tokensUsed": ["text-default", "text-tertiary", "font-product"],
+  "spec": [
+    { "label": "Layout", "value": "avatar + (name over email) · gap 8" },
+    { "label": "Name", "value": "14px · SemiBold 600 · text-default #1A1A1A" },
+    { "label": "Email", "value": "12px · Regular 400 · text-secondary #8A8A8A" },
+    { "label": "Avatar", "value": "40 when email shown · 24 name-only (reuses <aha-avatar>)" },
+    { "label": "Compact", "value": "size=\"compact\" (or no email) → 24px avatar + name only" }
+  ],
+  "props": [
+    { "name": "name", "type": "string", "default": "—", "desc": "The person's full name — rendered as text, and passed to the avatar for initials/alt" },
+    { "name": "email", "type": "string", "default": "—", "desc": "Optional email; when present (and not compact) it renders under the name in the default layout" },
+    { "name": "src", "type": "string", "default": "—", "desc": "Avatar image URL; falls through to initials of `name` when absent" },
+    { "name": "size", "type": "'default' | 'compact'", "default": "default", "desc": "'default' → 40px avatar + email row; 'compact' → 24px avatar + name only. Omitting `email` implies compact" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "User info", "when": "showing a person's identity as a row — avatar + name (+ email): a member list, an author byline, an account switcher" },
+      { "what": "Avatar", "when": "just the picture/initials with no name text beside it" },
+      { "what": "Descriptions", "when": "a labelled field grid about an entity, not a compact identity row" }
+    ],
+    "note": "Always provide `name` — it's both the visible label and the avatar's initials/alt. Reach for User info over a plain Avatar whenever the name (and email) belong next to the face; reach for the bare Avatar when only the picture is wanted. Omit `email` (or set size=\"compact\") for a tight one-line identity in menus and dense lists.",
+    "dsv3": "COVERED — the DS V3 User info component (fileKey P764iQ6y4ZwW7W3f7FLZyW, node 2684:2721): Email=Yes shows avatar + name + email (40px avatar), Email=No shows avatar + name only (24px avatar). Name = 14px / SemiBold 600 / #1A1A1A (text-default); email = 12px / Regular 400 / #8A8A8A (text-secondary); gap 8. No visible card border (the dashed box in the mock is a Figma annotation) — spacing only. Reuses the shared Avatar for the picture/initials rather than re-drawing one."
+  },
+  "surfaces": ["dashboard", "settings", "editor", "audience"],
+  "reuse": { "entry": "./aha-user-info", "registers": "aha-user-info", "exportsNamed": ["AhaUserInfo", "defineAhaUserInfo"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "user-info.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "user-info.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "user-info.vue.txt" }
+  ],
+  "preview": "user-info.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Default (avatar + name + email)", "value": "default" },
+        { "label": "Compact (avatar + name)", "value": "compact" }
+      ] },
+      { "prop": "email", "label": "Email", "default": "brian@ahaslides.com", "options": [
+        { "label": "Show email", "value": "brian@ahaslides.com" },
+        { "label": "No email", "value": null }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "name 14px / SemiBold 600 / text-default #1A1A1A", "verdict": "PASS" },
+    { "label": "email 12px / Regular 400 / text-secondary #8A8A8A", "verdict": "PASS" },
+    { "label": "avatar 40 when email shown · 24 name-only", "verdict": "PASS" },
+    { "label": "reuses the shared <aha-avatar> (no re-implemented avatar)", "verdict": "PASS" },
+    { "label": "spacing-only (no card border); gap 8", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe carries name + email so both text rows render; the measure asserts the name/email colours + sizes AND that a real <aha-avatar> (with its own shadowRoot) is nested — proving reuse, not a re-implemented avatar.",
+    "ready": "!!(document.querySelector('aha-user-info[data-probe]') && document.querySelector('aha-user-info[data-probe]').shadowRoot && document.querySelector('aha-user-info[data-probe]').shadowRoot.querySelector('.name'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-user-info[data-probe]');var r=el&&el.shadowRoot;var n=r&&r.querySelector('.name');var em=r&&r.querySelector('.email');var av=r&&r.querySelector('aha-avatar');var sn=n?getComputedStyle(n):null;var se=em?getComputedStyle(em):null;return{nameColor:sn?sn.color:null,emailColor:se?se.color:null,nameSize:sn?sn.fontSize:null,emailSize:se?se.fontSize:null,nameWeight:sn?sn.fontWeight:null,reusesAvatar:!!(av&&av.shadowRoot&&av.shadowRoot.querySelector('.avatar'))};})()",
+    "expect": { "nameColor": "rgb(26, 26, 26)", "emailColor": "rgb(138, 138, 138)", "nameSize": "14px", "emailSize": "12px", "nameWeight": "600", "reusesAvatar": true }
+  }
+}

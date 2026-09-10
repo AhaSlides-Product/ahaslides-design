@@ -92,8 +92,9 @@ const AHA_ICON_JS = `(function(){
    nav shows the whole roadmap. Order/categories mirror ant.design's component menu. ===== */
 const CATALOG = [
   { cat: 'General', items: [
-    { name: 'Button',  slug: 'button' },
-    { name: 'Icon',    slug: 'icon' },
+    { name: 'Button',       slug: 'button' },
+    { name: 'Icon',         slug: 'icon' },
+    { name: 'Illustration', slug: 'illustration' },
   ] },
   { cat: 'Layout', items: [
     { name: 'Divider', slug: 'divider' },
@@ -128,6 +129,7 @@ const CATALOG = [
   ] },
   { cat: 'Data Display', items: [
     { name: 'Avatar',       slug: 'avatar' },
+    { name: 'User info',    slug: 'user-info' },
     { name: 'Badge',        slug: 'badge' },
     { name: 'Tag',          slug: 'tag' },
     { name: 'Tooltip',      slug: 'tooltip' },
@@ -158,10 +160,11 @@ const CATALOG = [
     { name: 'Spin',         slug: 'spin' },
   ] },
   { cat: 'AhaSlides surfaces', items: [
-    { name: 'Paywall',       slug: 'paywall' },
-    { name: 'Status badge',  slug: 'status-badge' },
-    { name: 'CSAT',          slug: 'csat' },
-    { name: 'Settings list', slug: 'settings-list' },
+    { name: 'Paywall',        slug: 'paywall' },
+    { name: 'Status badge',   slug: 'status-badge' },
+    { name: 'CSAT',           slug: 'csat' },
+    { name: 'Settings list',  slug: 'settings-list' },
+    { name: 'Screen heading', slug: 'screen-heading' },
   ] },
 ];
 let LIVE = new Set();   // slugs with a real contract — assigned once contracts load

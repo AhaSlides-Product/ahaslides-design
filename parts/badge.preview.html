@@ -23,6 +23,38 @@
     <aha-badge status="warning" text="Draft"></aha-badge>
     <aha-badge status="default" text="Archived"></aha-badge>
   </div>
+  <div class="lbl">Tone · filled/tinted label chips (each bound to an --aha token)</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-badge data-probe-tone tone="essential">Essential</aha-badge>
+    <aha-badge tone="danger">Danger</aha-badge>
+    <aha-badge tone="success">Success</aha-badge>
+    <aha-badge tone="positive">Positive</aha-badge>
+    <aha-badge tone="pro">Pro</aha-badge>
+    <aha-badge tone="branding">Branding</aha-badge>
+    <aha-badge tone="primary-alt">Primary-alt</aha-badge>
+  </div>
+  <div class="lbl">Plan · preset chips (solid brand fill · cycle · crown on pro/enterprise)</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-badge plan="free"></aha-badge>
+    <aha-badge plan="edu"></aha-badge>
+    <aha-badge plan="essential"></aha-badge>
+    <aha-badge data-probe-plan plan="pro"></aha-badge>
+    <aha-badge plan="pro" cycle="yearly"></aha-badge>
+    <aha-badge plan="enterprise"></aha-badge>
+  </div>
+  <div class="lbl">Rank · leaderboard medal chips · and Session</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-badge rank="1"></aha-badge>
+    <aha-badge rank="2"></aha-badge>
+    <aha-badge rank="3"></aha-badge>
+    <aha-badge rank="4"></aha-badge>
+    <aha-badge session="3"></aha-badge>
+  </div>
+  <div class="lbl">Clickable chip = a LINK (&lt;a href&gt;), not a button · hover-animates</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-badge data-probe-link plan="pro" href="/billing/upgrade"></aha-badge>
+    <aha-badge tone="essential" href="/pricing">Upgrade</aha-badge>
+  </div>
   <div class="lbl">Ribbon · a corner banner wrapping a card · start / end placement</div>
   <div class="row" style="gap:32px; align-items:flex-start; flex-wrap:wrap">
     <aha-badge data-ribbon ribbon text="New">
