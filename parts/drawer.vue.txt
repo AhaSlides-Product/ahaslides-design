@@ -4,6 +4,9 @@ import { ConfigProvider, Drawer, Button, Space } from 'ant-design-vue';   // ant
 import { drawerTheme } from '@ahaslides-product/design/drawer-theme';
 
 const open = ref(false);
+// Matrix: placement (top | right | bottom | left) × size (default 378 · large 736 for left/right).
+const placement = 'right';   // right for settings/edit; bottom for mobile-style sheets
+const size = 'default';      // 'large' → wider panel (736 for left/right)
 </script>
 
 <template>
@@ -12,8 +15,11 @@ const open = ref(false);
     <a-drawer
       v-model:open="open"
       title="Slide settings"
-      placement="right"
-      :width="378"
+      :placement="placement"
+      :width="(placement === 'left' || placement === 'right') ? (size === 'large' ? 736 : 378) : undefined"
+      :height="(placement === 'top' || placement === 'bottom') ? (size === 'large' ? 480 : 300) : undefined"
+      :mask="true"
+      :closable="true"
     >
       <p>Adjust how this slide behaves for your audience.</p>
       <template #footer>

@@ -27,24 +27,68 @@ window.__toast = {
 </script>
 
 <script type="text/babel">
-const { ConfigProvider, message, Button, Space } = window.__antdR;
-const { useEffect } = React;
-function App() {
+const { ConfigProvider, message, Button } = window.__antdR;
+const { useState, useEffect } = React;
+
+// The DS-mandated message pattern: the useMessage() hook + contextHolder inside <ConfigProvider>.
+// The static message.success() is forbidden — it renders outside the provider and drops the theme.
+const CONTENT = {
+  success: 'Slide saved',
+  info:    'Link copied to clipboard',
+  warning: 'You are near the slide limit',
+  error:   'Upload failed',
+  loading: 'Saving your changes…',
+};
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
+  return (
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Demo() {
   const [api, ctx] = message.useMessage();
-  // sticky toast on mount so qa can measure the rendered notice
-  useEffect(() => { api.open({ type: 'success', content: 'Slide saved', duration: 0 }); }, []);
+  const [type, setType] = useState('success');
+  // sticky toast on mount so qa can measure the real rendered notice (default: success)
+  useEffect(() => { api.open({ type: 'success', content: CONTENT.success, duration: 0 }); }, []);
+  const show = () => (type === 'loading'
+    ? api.loading(CONTENT.loading)
+    : api[type](CONTENT[type]));
+  return (
+    <div className="aha-demo">
+      {ctx}
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Type" value={type} onChange={setType}
+          options={[
+            { label: 'Success', value: 'success' },
+            { label: 'Info', value: 'info' },
+            { label: 'Warning', value: 'warning' },
+            { label: 'Error', value: 'error' },
+            { label: 'Loading', value: 'loading' },
+          ]} />
+      </div>
+      <div className="lbl">Fire a "{type}" toast — top-centre, auto-dismiss in 3s</div>
+      <Button type="primary" onClick={show}>Show toast</Button>
+    </div>
+  );
+}
+
+function App() {
   return (
     <ConfigProvider theme={window.__toast.theme}>
-      {ctx}
-      <div className="aha-demo">
-        <div className="lbl">Trigger a toast</div>
-        <Space wrap>
-          <Button type="primary" onClick={() => api.success('Slide saved')}>Save</Button>
-          <Button onClick={() => api.info('Link copied to clipboard')}>Copy link</Button>
-          <Button onClick={() => api.warning('You are near the slide limit')}>Warn</Button>
-          <Button danger onClick={() => api.error('Upload failed')}>Fail</Button>
-        </Space>
-      </div>
+      <Demo />
     </ConfigProvider>
   );
 }

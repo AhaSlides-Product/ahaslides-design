@@ -6,18 +6,24 @@
   "badge": "shared Lit web component",
   "element": "aha-skeleton",
   "summary": "A greyed placeholder that holds a component's shape while its content loads.",
-  "lead": "ONE custom element — <aha-skeleton> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `variant` picks the shape (text / title / button / avatar) and the shimmer is an opacity PULSE (no gradient fill, per the no-gradient rule). Zero drift.",
+  "lead": "ONE custom element — <aha-skeleton> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Skeleton is a FAMILY of building blocks: `variant` picks the shape — text · paragraph (N rows, last one shorter) · title · avatar · button · input · image (a framed picture placeholder with a muted glyph). `rows` sets the paragraph line count, `round` softens button/input corners to the pill, `active` toggles the shimmer — an opacity PULSE (no gradient fill, per the no-gradient rule). Compose avatar + title + paragraph for the common list-item shape. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-30", "radius-xs", "radius-default", "radius-pill"],
+  "tokensUsed": ["gray-30", "gray-50", "radius-xs", "radius-default", "radius-pill"],
   "spec": [
     { "label": "Fill", "value": "#F1F1F1 · radius xs (4)" },
     { "label": "Text", "value": "height 16 · full width" },
+    { "label": "Paragraph", "value": "N rows (12 gap); last row 60% width" },
     { "label": "Title", "value": "height 24 · 38% width" },
     { "label": "Avatar", "value": "40×40 · radius pill" },
+    { "label": "Button / Input", "value": "height 32 / 36 · radius default (8)" },
+    { "label": "Image", "value": "height 96 · centred gray-50 image glyph · radius default" },
+    { "label": "Round", "value": "corner-bearing variants soften to the pill" },
     { "label": "Motion", "value": "opacity pulse 1.6s (respects reduced-motion); active=false stops it" }
   ],
   "props": [
-    { "name": "variant", "type": "text | title | button | avatar", "default": "text", "desc": "Placeholder shape" },
+    { "name": "variant", "type": "text | paragraph | title | avatar | button | input | image", "default": "text", "desc": "Placeholder shape" },
+    { "name": "rows", "type": "number", "default": "3", "desc": "Paragraph line count (last row is shorter); paragraph variant only" },
+    { "name": "round", "type": "boolean", "default": "false", "desc": "Soften button/input/image corners to the pill" },
     { "name": "active", "type": "boolean", "default": "true", "desc": "Animate the shimmer (set 'false' to freeze)" }
   ],
   "opinion": {
@@ -27,7 +33,7 @@
       { "what": "Progress", "when": "you can measure completion (a percentage)" }
     ],
     "note": "Match the skeleton to the real content's shape and size so nothing shifts when it resolves. Use it for the first load of a region; don't stack many pulsing blocks for a sub-second wait — a Spin is calmer.",
-    "dsv3": "COVERED — DS V3 has no measured Skeleton cell; spec derived from the token layer (fill gray-30, radius-xs) and antd Skeleton conventions (text/title/avatar shapes). Shimmer is an opacity pulse, not a gradient, to honour the no-gradient-on-fills rule. A deliberate, documented extension."
+    "dsv3": "COVERED — enumerated from the DS V3 Skeleton component-set (Design System V3 / 'Sceleton', fileKey MwjvUjVI0HnfwD9EwPXRAy) + antd Skeleton building blocks: paragraph (N rows, last shorter), title, avatar (round bust), button, input, and image (framed picture placeholder), plus an `active` shimmer and `round` corners. The common composite is avatar + title + paragraph (a list item). Token layer: fill gray-30, image glyph gray-50, radius-xs default / radius-default for controls / radius-pill for avatar + round. Shimmer is an opacity pulse, NOT a gradient, to honour the no-gradient-on-fills rule."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./aha-skeleton", "registers": "aha-skeleton", "exportsNamed": ["AhaSkeleton", "defineAhaSkeleton"] },
@@ -37,17 +43,40 @@
     { "key": "vue", "label": "Vue 3", "file": "skeleton.vue.txt" }
   ],
   "preview": "skeleton.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "variant", "label": "Variant", "default": "paragraph", "options": [
+        { "label": "Paragraph", "value": "paragraph" },
+        { "label": "Text", "value": "text" },
+        { "label": "Title", "value": "title" },
+        { "label": "Avatar", "value": "avatar" },
+        { "label": "Button", "value": "button" },
+        { "label": "Input", "value": "input" },
+        { "label": "Image", "value": "image" }
+      ] },
+      { "prop": "active", "label": "Active", "default": "true", "options": [
+        { "label": "On", "value": "true" },
+        { "label": "Off", "value": "false" }
+      ] },
+      { "prop": "rows", "label": "Rows", "default": "3", "options": [
+        { "label": "2", "value": "2" },
+        { "label": "3", "value": "3" },
+        { "label": "4", "value": "4" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "fill #F1F1F1 · radius xs", "verdict": "PASS" },
-    { "label": "text height 16", "verdict": "PASS" },
-    { "label": "avatar radius pill", "verdict": "PASS" },
-    { "label": "pulses while active", "verdict": "PASS" }
+    { "label": "paragraph rows; last row 60% width", "verdict": "PASS" },
+    { "label": "avatar radius pill; button/input radius 8; image glyph centred", "verdict": "PASS" },
+    { "label": "round softens corners to the pill", "verdict": "PASS" },
+    { "label": "pulses while active; active=false + reduced-motion freeze it", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-skeleton[data-probe]') && document.querySelector('aha-skeleton[data-probe]').shadowRoot && document.querySelector('aha-skeleton[data-probe]').shadowRoot.querySelector('.block'))",
+    "ready": "!!(document.querySelector('aha-skeleton[data-probe]') && document.querySelector('aha-skeleton[data-probe]').shadowRoot && document.querySelector('aha-skeleton[data-probe]').shadowRoot.querySelector('.para .block'))",
     "singleUI": true,
-    "measure": "(function(){var t=document.querySelector('aha-skeleton[data-probe]');var a=document.querySelector('aha-skeleton[data-avatar]');var tb=t&&t.shadowRoot&&t.shadowRoot.querySelector('.block');var ab=a&&a.shadowRoot&&a.shadowRoot.querySelector('.block');var st=tb?getComputedStyle(tb):null;var sa=ab?getComputedStyle(ab):null;return{textBg:st?st.backgroundColor:null,textHeight:st?st.height:null,textRadius:st?st.borderTopLeftRadius:null,avatarRadius:sa?sa.borderTopLeftRadius:null};})()",
-    "expect": { "textBg": "rgb(241, 241, 241)", "textHeight": "16px", "textRadius": "4px", "avatarRadius": "999px" }
+    "measure": "(function(){var t=document.querySelector('aha-skeleton[data-probe]');var a=document.querySelector('aha-skeleton[data-avatar]');var tr=t&&t.shadowRoot;var rows=tr?tr.querySelectorAll('.para .block'):[];var first=rows[0]?getComputedStyle(rows[0]):null;var last=rows.length?getComputedStyle(rows[rows.length-1]):null;var ab=a&&a.shadowRoot&&a.shadowRoot.querySelector('.block');var sa=ab?getComputedStyle(ab):null;return{textBg:first?first.backgroundColor:null,textHeight:first?first.height:null,textRadius:first?first.borderTopLeftRadius:null,rowCount:rows.length,lastNarrower:!!(first&&last&&parseFloat(last.width)<parseFloat(first.width)),avatarRadius:sa?sa.borderTopLeftRadius:null};})()",
+    "expect": { "textBg": "rgb(241, 241, 241)", "textHeight": "16px", "textRadius": "4px", "rowCount": 3, "lastNarrower": true, "avatarRadius": "999px" }
   }
 }

@@ -18,10 +18,16 @@
     { "name": "open", "type": "boolean", "default": "false", "desc": "Controls visibility" },
     { "name": "title", "type": "string", "default": "—", "desc": "Panel heading" },
     { "name": "placement", "type": "top | right | bottom | left", "default": "right", "desc": "Which edge it slides from" },
-    { "name": "width", "type": "number | string", "default": "378", "desc": "Panel width (for left/right)" },
+    { "name": "width", "type": "number | string", "default": "378", "desc": "Panel width for left/right (large ≈ 736)" },
+    { "name": "height", "type": "number | string", "default": "378", "desc": "Panel height for top/bottom (large ≈ 480)" },
+    { "name": "size", "type": "default | large", "default": "default", "desc": "antd preset size (378/736 l·r); the DS default is 378" },
+    { "name": "footer", "type": "ReactNode", "default": "—", "desc": "Pinned actions row (keep the primary action here)" },
+    { "name": "mask", "type": "boolean", "default": "true", "desc": "Dim + scroll-lock the page behind the panel" },
+    { "name": "closable", "type": "boolean", "default": "true", "desc": "Show the header close (X)" },
     { "name": "onClose", "type": "() => void", "default": "—", "desc": "Dismiss handler" }
   ],
   "opinion": {
+    "dsv3": "COVERED — antd v6 Drawer themed by the shared drawerTheme; matrix: placement (top·right·bottom·left) × size (default 378 · large 736 for left/right; 300/480 height for top/bottom), + title, footer, mask, closable. Right is the DS default for settings/edit, bottom for mobile-style sheets. Verified via Figma search_design_system against the DS V3 Drawer set (component_set componentKey 8c242d8ea431dcfc885d7b0a8c9611704b1039e5, 'A panel which slides in from the edge of the screen').",
     "whenToUse": [
       { "what": "Drawer", "when": "a longer edit form or detail panel where keeping page context matters" },
       { "what": "Modal", "when": "a short, blocking decision the user must complete first" },

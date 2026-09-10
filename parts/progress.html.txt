@@ -1,13 +1,19 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-progress> is the SAME shared custom element React and Vue consume — here in its
-     native form. Theming comes only from the --aha-* tokens in tokens.css. -->
+     native form. Theming comes only from the --aha-* tokens in tokens.css.
+     type: line (default) | circle · size: default | small · steps: N (segmented line) ·
+     status: default | active | success | warning | exception · show-info="false" hides the label. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-progress.js';   // registers <aha-progress>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';       // <aha-icon> for the status glyph
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-progress.js'; // registers <aha-progress>
 </script>
 
 <div style="display:flex; flex-direction:column; gap:16px; max-width:320px">
   <aha-progress percent="30"></aha-progress>
   <aha-progress percent="70" status="warning"></aha-progress>
   <aha-progress percent="100" status="success"></aha-progress>
+  <aha-progress size="small" percent="50"></aha-progress>
+  <aha-progress steps="5" percent="60"></aha-progress>
+  <aha-progress type="circle" percent="75"></aha-progress>
 </div>

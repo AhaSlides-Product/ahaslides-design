@@ -14,15 +14,20 @@
   const h = React.createElement;
 
   function App() {
+    // v6: the hook + ctx so every toast consumes the theme. Static message.success() is FORBIDDEN.
     const [api, ctx] = message.useMessage();
     return h(ConfigProvider, { theme: toastTheme },
       ctx,
       h(Space, { wrap: true },
         h(Button, { type: 'primary', onClick: () => api.success('Slide saved') }, 'Save'),
-        h(Button, { onClick: () => api.info('Link copied to clipboard') }, 'Copy link')
+        h(Button, { onClick: () => api.info('Link copied to clipboard') }, 'Copy link'),
+        h(Button, { onClick: () => api.warning('You are near the slide limit') }, 'Warn'),
+        h(Button, { danger: true, onClick: () => api.error('Upload failed') }, 'Fail'),
+        h(Button, { onClick: () => api.loading('Saving your changes…') }, 'Save (async)')
       )
     );
   }
+  // type ∈ { success, info, warning, error, loading }; duration defaults to 3s (0 = sticky).
   // Same shared theme the React/Vue wrappers pass to ConfigProvider.
   createRoot(document.getElementById('root')).render(h(App));
 </script>

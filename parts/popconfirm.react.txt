@@ -7,10 +7,13 @@ import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
     description="This cannot be undone."
     okText="Delete"
     cancelText="Cancel"
+    placement="top"          // top | bottom | left | right — arrow tracks the trigger
+    okType="danger"          // "primary" (purple) by default; "danger" = red confirm
     onConfirm={remove}
   >
     <Button danger>Delete slide</Button>
   </Popconfirm>
 </ConfigProvider>
 // One shared popconfirmTheme → the DS V3 look; primary confirm, #E3E3E3 cancel border.
+// Matrix: placement (top/bottom/left/right) × okType (primary/danger).
 // For a destructive/irreversible action use a Modal instead (overlays pattern).

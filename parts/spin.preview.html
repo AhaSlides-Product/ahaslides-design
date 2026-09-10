@@ -1,9 +1,16 @@
 <div class="pad">
-  <div class="lbl">Indeterminate wait · small · default · large + tip</div>
-  <div style="display:flex; gap:40px; align-items:center; padding:8px 0">
+  <div class="lbl">Indeterminate wait · small · default · large + tip · wrapper overlay</div>
+  <div style="display:flex; gap:40px; align-items:center; flex-wrap:wrap; padding:8px 0">
     <aha-spin size="small"></aha-spin>
     <aha-spin data-probe></aha-spin>
-    <aha-spin size="large" tip="Loading results…"></aha-spin>
+    <aha-spin size="large" data-probe-large tip="Loading results…"></aha-spin>
+    <!-- Wrapper mode: the spinner overlays slotted content with a dimmed, blurred scrim. -->
+    <aha-spin data-probe-wrap spinning tip="Loading…">
+      <div style="width:220px; padding:16px; border:1px solid var(--aha-border,#E3E3E3); border-radius:8px; background:var(--aha-bg-container,#fff)">
+        <div style="font-weight:600; margin-bottom:6px">Live results</div>
+        <div style="color:var(--aha-text-secondary,#4A4A4A)">Votes are being tallied for the current poll.</div>
+      </div>
+    </aha-spin>
   </div>
 </div>
 

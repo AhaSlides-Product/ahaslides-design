@@ -5,19 +5,27 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-popover",
-  "summary": "Anchor a floating panel of rich content to a trigger.",
-  "lead": "ONE custom element — <aha-popover> — defined once, imported unchanged by React and Vue. A click on the slotted trigger toggles the `open` attribute on a persistent panel (never rebuilt), so opacity and lift animate. Richer than a Tooltip — it holds interactive content. Zero drift.",
+  "summary": "Anchor a floating card of rich content — a title, a body, and an optional arrow — to a trigger.",
+  "lead": "ONE custom element — <aha-popover> — defined once, imported unchanged by React and Vue. Richer than a Tooltip: it carries a bold `title` over a body (slotted, or via the `content` attr) and holds interactive content. Four `placement`s (top · bottom · left · right), three `trigger`s (click · hover · focus) and a toggleable `arrow`. Interaction toggles the `open` attribute on a persistent panel (never rebuilt), so opacity and lift animate. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-elevated", "text-default", "border", "radius-default", "font-product", "motion-mid", "ease-out"],
+  "tokensUsed": ["bg-elevated", "text-default", "text-secondary", "border", "radius-default", "font-product", "motion-mid", "ease-out"],
   "spec": [
-    { "label": "Panel", "value": "bg-elevated #FFFFFF, 1px border #E3E3E3, radius 8" },
+    { "label": "Panel", "value": "bg-elevated #FFFFFF, 1px border #E3E3E3, radius 8, min-width 180 / max 280" },
     { "label": "Elevation", "value": "0 6px 16px ink 12%" },
-    { "label": "Body", "value": "pad 12 16, 14/21 text-default" },
-    { "label": "Motion", "value": "fade + 4px lift on open (ease-out)" }
+    { "label": "Title", "value": "SemiBold 600, 14/21 text-default, 6px above the body" },
+    { "label": "Body", "value": "pad 12 16, 14/21 text-secondary #4A4A4A (text-default when title-less)" },
+    { "label": "Placement", "value": "top · bottom · left · right — 8px offset from the trigger" },
+    { "label": "Trigger", "value": "click (default) · hover · focus" },
+    { "label": "Arrow", "value": "optional 8px pointer at the panel edge, matches the surface + border" },
+    { "label": "Motion", "value": "fade + 4px directional lift on open (ease-out, persistent node)" }
   ],
   "props": [
     { "name": "open", "type": "boolean", "default": "false", "desc": "Controlled open state; reflected attribute" },
-    { "name": "placement", "type": "bottom | top", "default": "bottom", "desc": "Side the panel anchors to" },
+    { "name": "placement", "type": "top | bottom | left | right", "default": "bottom", "desc": "Side the panel anchors to" },
+    { "name": "trigger", "type": "click | hover | focus", "default": "click", "desc": "How the panel opens. Click closes on outside-click + Escape (focus returns); hover/focus track pointer/focus" },
+    { "name": "title", "type": "string", "default": "—", "desc": "Bold header rendered above the body (hidden when empty)" },
+    { "name": "content", "type": "string", "default": "—", "desc": "Text body alternative to slotted content (used when nothing is slotted)" },
+    { "name": "arrow", "type": "boolean", "default": "false", "desc": "Show the pointer arrow at the panel edge" },
     { "name": "[slot=trigger]", "type": "slotted element", "default": "—", "desc": "The element that toggles the panel" },
     { "name": "open / close", "type": "CustomEvent", "default": "—", "desc": "Composed events on show / hide" }
   ],
@@ -27,8 +35,8 @@
       { "what": "Tooltip", "when": "a short, non-interactive hint on hover" },
       { "what": "Modal", "when": "a focused task that should block the rest of the page" }
     ],
-    "note": "Trigger on click for interactive content (Tooltip owns hover). Close on outside-click and Escape — both are built in. Keep the panel content short; a long form belongs in a Modal.",
-    "dsv3": "White elevated surface with the standard 8 radius and a soft ink shadow. Fade + 4px lift via the shared motion tokens on a persistent panel — no subtree rebuild on open/close."
+    "note": "Trigger on click for interactive content (Tooltip owns hover). Give it a short `title` and a one-line body; a long form belongs in a Modal. A click trigger closes on outside-click and Escape (focus returns to the trigger) — both built in.",
+    "dsv3": "COVERED — from the DS V3 Popover component-set ('the floating card popped by clicking or hovering'), matching the antd Popover matrix: a `title` header over a body (unlike the Tooltip's plain hint), `placement` (top · bottom · left · right), `trigger` (click · hover · focus) and a toggleable `arrow`. White elevated surface, standard 8 radius, soft ink shadow; title SemiBold text-default over a text-secondary body. Fade + 4px directional lift via the shared motion tokens on a persistent panel — no subtree rebuild on open/close."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-popover", "registers": "aha-popover", "exportsNamed": ["AhaPopover", "defineAhaPopover"] },
@@ -38,17 +46,33 @@
     { "key": "vue", "label": "Vue 3", "file": "popover.vue.txt" }
   ],
   "preview": "popover.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "placement", "label": "Placement", "default": "bottom", "options": [
+        { "label": "Bottom", "value": "bottom" },
+        { "label": "Top", "value": "top" },
+        { "label": "Left", "value": "left" },
+        { "label": "Right", "value": "right" }
+      ] },
+      { "prop": "trigger", "label": "Trigger", "default": "click", "options": [
+        { "label": "Click", "value": "click" },
+        { "label": "Hover", "value": "hover" },
+        { "label": "Focus", "value": "focus" }
+      ] }
+    ]
+  },
   "selfCheck": [
-    { "label": "panel radius 8 · border #E3E3E3", "verdict": "PASS" },
-    { "label": "fade + lift on open", "verdict": "PASS" },
-    { "label": "outside-click + Esc close", "verdict": "PASS" },
-    { "label": "open/close emit composed", "verdict": "PASS" }
+    { "label": "panel radius 8 · border #E3E3E3 · bg-elevated white", "verdict": "PASS" },
+    { "label": "title SemiBold over text-secondary body", "verdict": "PASS" },
+    { "label": "placement top/bottom/left/right + toggleable arrow", "verdict": "PASS" },
+    { "label": "trigger click/hover/focus; fade + lift on open", "verdict": "PASS" },
+    { "label": "click: outside-click + Esc close, focus returns; open/close composed", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is open so the panel is laid out.",
-    "ready": "!!(document.querySelector('aha-popover[data-probe]') && document.querySelector('aha-popover[data-probe]').shadowRoot && document.querySelector('aha-popover[data-probe]').shadowRoot.querySelector('.pop'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is open (title + arrow set) so the panel is laid out.",
+    "ready": "!!(document.querySelector('aha-popover[data-probe]') && document.querySelector('aha-popover[data-probe]').shadowRoot && document.querySelector('aha-popover[data-probe]').shadowRoot.querySelector('.pop') && document.querySelector('aha-popover[data-probe]').shadowRoot.querySelector('.title').textContent)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-popover[data-probe]');var p=el.shadowRoot.querySelector('.pop');var s=getComputedStyle(p);return{bg:s.backgroundColor,radius:s.borderTopLeftRadius,border:s.borderTopColor,color:s.color};})()",
-    "expect": { "bg": "rgb(255, 255, 255)", "radius": "8px", "border": "rgb(227, 227, 227)", "color": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-popover[data-probe]');var r=el.shadowRoot;var p=r.querySelector('.pop');var s=getComputedStyle(p);var t=r.querySelector('.title');var ts=getComputedStyle(t);var ar=r.querySelector('.arrow');var as=getComputedStyle(ar);return{bg:s.backgroundColor,radius:s.borderTopLeftRadius,border:s.borderTopColor,color:s.color,titleWeight:ts.fontWeight,titleText:t.textContent.length>0,arrowShown:as.display};})()",
+    "expect": { "bg": "rgb(255, 255, 255)", "radius": "8px", "border": "rgb(227, 227, 227)", "color": "rgb(26, 26, 26)", "titleWeight": "600", "titleText": true, "arrowShown": "block" }
   }
 }

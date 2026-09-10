@@ -14,6 +14,12 @@
   const h = React.createElement;
   const { useState } = React;
 
+  // Matrix: placement (top | right | bottom | left) × size (default 378 · large 736 for left/right).
+  const placement = 'right';   // right for settings/edit; bottom for mobile-style sheets
+  const size = 'default';      // 'large' → wider panel (736 for left/right)
+  const horiz = placement === 'left' || placement === 'right';
+  const dim = horiz ? { width: size === 'large' ? 736 : 378 } : { height: size === 'large' ? 480 : 300 };
+
   function App() {
     const [open, setOpen] = useState(false);
     return h(ConfigProvider, { theme: drawerTheme },
@@ -21,8 +27,10 @@
       h(Drawer, {
         open,
         title: 'Slide settings',
-        placement: 'right',
-        width: 378,
+        placement,
+        ...dim,
+        mask: true,        // mask + scroll-lock the page (antd default)
+        closable: true,    // header close (X)
         onClose: () => setOpen(false),
         footer: h(Space, null, h(Button, { onClick: () => setOpen(false) }, 'Cancel'), h(Button, { type: 'primary' }, 'Save changes')),
       }, h('p', null, 'Adjust how this slide behaves for your audience.'))

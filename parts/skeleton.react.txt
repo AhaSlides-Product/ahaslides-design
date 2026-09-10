@@ -1,9 +1,19 @@
-import '@ahaslides-product/design/aha-skeleton';   // registers <aha-skeleton>
+import '@ahaslides-product/design/icons';        // registers <aha-icon> (image variant)
+import '@ahaslides-product/design/aha-skeleton'; // registers <aha-skeleton>
 
 // Attributes only — no events — so React 18/19 can render the element directly.
-function AhaSkeleton({ variant, active }) {
-  return <aha-skeleton variant={variant} {...(active === false ? { active: 'false' } : {})} />;
+function AhaSkeleton({ variant, rows, active, round }) {
+  return (
+    <aha-skeleton
+      variant={variant}
+      {...(rows != null ? { rows: String(rows) } : {})}
+      {...(round ? { round: '' } : {})}
+      {...(active === false ? { active: 'false' } : {})}
+    />
+  );
 }
 
-// usage — hold the shape while the card loads
-{loading ? <AhaSkeleton variant="title" /> : <CardTitle>{title}</CardTitle>}
+// usage — hold the list-item shape while the card loads
+{loading
+  ? <AhaSkeleton variant="paragraph" rows={3} />
+  : <CardBody>{body}</CardBody>}

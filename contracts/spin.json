@@ -6,18 +6,20 @@
   "badge": "shared Lit web component",
   "element": "aha-spin",
   "summary": "A brand-coloured spinner for an indeterminate wait — loading a page, a panel, or results.",
-  "lead": "ONE custom element — <aha-spin> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the ring is a pure-CSS rotation (no inline <svg>, no icon), so it never blocks on the registry. `size` scales it (small/default/large) and `tip` adds a caption. Zero drift.",
+  "lead": "ONE custom element — <aha-spin> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the ring is a pure-CSS rotation (no inline <svg>, no icon), so it never blocks on the registry. Two shapes from one element: standalone (just the ring + optional `tip`), or a WRAPPER — slot content and, while `spinning`, a dimmed + blurred scrim covers the child with a centred ring floating over it. `size` scales it (small/default/large). The scrim fade + child blur animate via the shared motion tokens on a PERSISTENT overlay node — `spinning` only flips a class, the subtree is never rebuilt. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "purple-20", "text-secondary"],
   "spec": [
     { "label": "Ring", "value": "20×20 · 2px · track purple-20, head primary #6A1EBB" },
     { "label": "Sizes", "value": "small 14 · default 20 · large 32" },
-    { "label": "Motion", "value": "rotate 0.9s linear infinite (respects reduced-motion)" },
-    { "label": "Tip", "value": "optional caption below, text-secondary" }
+    { "label": "Motion", "value": "rotate 0.9s linear infinite (respects reduced-motion); scrim fade + blur via motion-mid" },
+    { "label": "Tip", "value": "optional caption below (standalone) or under the centred ring (wrapper), text-secondary" },
+    { "label": "Wrapper", "value": "slot children; when spinning, scrim = bg-container @60% over blurred child, ring centred" }
   ],
   "props": [
     { "name": "size", "type": "small | default | large", "default": "default", "desc": "Spinner diameter" },
-    { "name": "tip", "type": "string", "default": "—", "desc": "Optional caption shown under the ring" }
+    { "name": "tip", "type": "string", "default": "—", "desc": "Optional caption shown under the ring" },
+    { "name": "spinning", "type": "boolean", "default": "false", "desc": "Wrapper mode only (with slotted children): show/hide the overlay scrim + centred ring. Toggling it flips a class on a persistent node — the child subtree is never rebuilt." }
   ],
   "opinion": {
     "whenToUse": [
@@ -25,8 +27,8 @@
       { "what": "Progress", "when": "you can measure completion (a percentage)" },
       { "what": "Skeleton", "when": "you want to hold the shape of the content that is loading" }
     ],
-    "note": "Reach for Spin only when you cannot show a percentage or hold the layout. Keep one spinner per waiting region; pair it with a short tip for waits over ~1s.",
-    "dsv3": "COVERED — DS V3 has no measured Spin cell; spec derived from the token layer (head color-primary, track purple-20) and antd Spin conventions (rotating ring, small/default/large). A deliberate, documented extension."
+    "note": "Reach for Spin only when you cannot show a percentage or hold the layout. Keep one spinner per waiting region; pair it with a short tip for waits over ~1s. To block a region while it loads, wrap the content and toggle `spinning` rather than swapping it for a bare centred spinner — the layout holds and the child stays mounted.",
+    "dsv3": "COVERED — the DS V3 Spin component-set (componentKey 0f625bc383160251659708805c0382aa8acd4d68, filePath design_systems/Design System V3/components/_Spin_) has no measured cell; spec derived from the token layer (head color-primary, track purple-20) and antd Spin conventions: size (small/default/large), optional `tip`, a `spinning` toggle, and the WRAPPER mode (spinner overlays slotted content behind a dimmed scrim). A deliberate, documented extension."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./aha-spin", "registers": "aha-spin", "exportsNamed": ["AhaSpin", "defineAhaSpin"] },
@@ -36,17 +38,32 @@
     { "key": "vue", "label": "Vue 3", "file": "spin.vue.txt" }
   ],
   "preview": "spin.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "size", "label": "Size", "default": "default", "options": [
+        { "label": "Small", "value": "small" },
+        { "label": "Default", "value": "default" },
+        { "label": "Large", "value": "large" }
+      ] },
+      { "prop": "tip", "label": "Tip", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "Loading results…" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "ring 20×20 · 2px", "verdict": "PASS" },
     { "label": "head primary #6A1EBB", "verdict": "PASS" },
     { "label": "track purple-20", "verdict": "PASS" },
-    { "label": "rotates continuously", "verdict": "PASS" }
+    { "label": "rotates continuously", "verdict": "PASS" },
+    { "label": "large size scales ring to 32px", "verdict": "PASS" },
+    { "label": "wrapper overlays slotted content with a dimmed scrim on a persistent node", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-spin[data-probe]') && document.querySelector('aha-spin[data-probe]').shadowRoot && document.querySelector('aha-spin[data-probe]').shadowRoot.querySelector('.spinner'))",
+    "ready": "!!(document.querySelector('aha-spin[data-probe]') && document.querySelector('aha-spin[data-probe]').shadowRoot && document.querySelector('aha-spin[data-probe]').shadowRoot.querySelector('.spinner-solo'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-spin[data-probe]');var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('.spinner');var c=s?getComputedStyle(s):null;return{head:c?c.borderTopColor:null,width:c?c.width:null,height:c?c.height:null,ring:c?c.borderTopWidth:null};})()",
-    "expect": { "head": "rgb(106, 30, 187)", "width": "20px", "height": "20px", "ring": "2px" }
+    "measure": "(function(){var el=document.querySelector('aha-spin[data-probe]');var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('.spinner-solo');var c=s?getComputedStyle(s):null;var lg=document.querySelector('aha-spin[data-probe-large]');var ls=lg&&lg.shadowRoot&&lg.shadowRoot.querySelector('.spinner-solo');var lc=ls?getComputedStyle(ls):null;var w=document.querySelector('aha-spin[data-probe-wrap]');var box=w&&w.shadowRoot&&w.shadowRoot.querySelector('.box');var bc=box?getComputedStyle(box):null;return{head:c?c.borderTopColor:null,width:c?c.width:null,height:c?c.height:null,ring:c?c.borderTopWidth:null,largeWidth:lc?lc.width:null,wrap:w?w.hasAttribute('_wrap'):false,overlayVisible:bc?bc.visibility:null};})()",
+    "expect": { "head": "rgb(106, 30, 187)", "width": "20px", "height": "20px", "ring": "2px", "largeWidth": "32px", "wrap": true, "overlayVisible": "visible" }
   }
 }

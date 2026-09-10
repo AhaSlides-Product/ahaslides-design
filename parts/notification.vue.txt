@@ -1,17 +1,28 @@
 <script setup>
+import { h } from 'vue';
 import { ConfigProvider, notification, Button } from 'ant-design-vue';   // ant-design-vue v4
 import { notificationTheme } from '@ahaslides-product/design/notification-theme';
 
-// v4: use the hook so the card consumes the ConfigProvider theme (static notification() does not).
+// v4 DS rule: use the hook so the card consumes the ConfigProvider theme.
+// The static notification.open() is FORBIDDEN — it renders outside the theme.
 const [notificationApi, contextHolder] = notification.useNotification();
-const exportCsv = () =>
-  notificationApi.open({ message: 'Export ready', description: 'Your CSV of responses is ready to download.' });
+
+// type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
+const notify = (type, placement) =>
+  notificationApi[type]({
+    message: 'Export ready',
+    description: 'Your CSV of responses is ready to download.',
+    placement,               // which corner it stacks in (default topRight)
+    duration: 4.5,           // seconds on screen; 0 keeps it until dismissed
+    btn: h(Button, { type: 'primary', size: 'small', onClick: () => notificationApi.destroy() }, () => 'Undo'),
+  });
 </script>
 
 <template>
   <a-config-provider :theme="notificationTheme">
     <component :is="contextHolder" />
-    <a-button type="primary" @click="exportCsv">Export</a-button>
+    <a-button type="primary" @click="notify('success', 'topRight')">Publish</a-button>
+    <a-button danger @click="notify('error', 'bottomLeft')">Retry sync</a-button>
   </a-config-provider>
 </template>
 <!-- The SAME notificationTheme as React → one DS V3 look across both vendor libraries. -->

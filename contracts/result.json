@@ -5,21 +5,24 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-result",
-  "summary": "A full-block outcome state — success, error, info, warning or 404 — with an icon, title and actions.",
-  "lead": "ONE custom element — <aha-result> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `status` picks the DS glyph and colour, `result-title` / `subtitle` carry the message, and a `slot=\"extra\"` holds follow-up buttons. The status glyph is the shared <aha-icon> BY NAME — never an inline <svg>. Zero drift.",
+  "summary": "A full-block outcome state — success, error, info, warning, 404, 403 or 500 — with an icon, title and actions.",
+  "lead": "ONE custom element — <aha-result> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `status` picks the DS glyph and colour (success · error · info · warning · 404 · 403 · 500), `result-title` / `subtitle` carry the message, an `icon` attribute overrides the glyph with any DS icon name, and a `slot=\"extra\"` holds follow-up buttons. The status glyph is the shared <aha-icon> BY NAME — never an inline <svg>. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "color-success", "color-error", "color-warning", "color-info", "text-default", "text-tertiary"],
   "spec": [
-    { "label": "Icon", "value": "48px DS glyph, coloured by status" },
+    { "label": "Icon", "value": "48px DS glyph, coloured by status (or an `icon` override)" },
     { "label": "Success", "value": "check-circle · #16C49A" },
-    { "label": "Error", "value": "x-circle · #F5222D" },
+    { "label": "Error / 500", "value": "x-circle / cloud-disconnected · #F5222D" },
+    { "label": "Warning / 403", "value": "warning-circle / lock · #FF7747" },
+    { "label": "Info / 404", "value": "info / magnifying-glass · #9BB3E9" },
     { "label": "Title", "value": "24/32 SemiBold #1A1A1A, centred" },
     { "label": "Subtitle", "value": "14/21 Regular #8A8A8A" }
   ],
   "props": [
-    { "name": "status", "type": "success | error | info | warning | 404", "default": "info", "desc": "Outcome — picks the glyph and colour" },
+    { "name": "status", "type": "success | error | info | warning | 404 | 403 | 500", "default": "info", "desc": "Outcome — picks the glyph and colour" },
     { "name": "result-title", "type": "string", "default": "—", "desc": "The headline message" },
-    { "name": "subtitle", "type": "string", "default": "—", "desc": "Optional supporting line under the title" }
+    { "name": "subtitle", "type": "string", "default": "—", "desc": "Optional supporting line under the title" },
+    { "name": "icon", "type": "string (DS icon name)", "default": "—", "desc": "Overrides the status glyph with any DS icon (e.g. system-shield-warning)" }
   ],
   "opinion": {
     "whenToUse": [
@@ -28,7 +31,7 @@
       { "what": "Toast", "when": "a transient, auto-dismissing confirmation" }
     ],
     "note": "Reserve Result for a whole-region outcome — lead with the glyph + a clear title, keep the subtitle to one line, and give a primary next action in slot=\"extra\". For an in-context message use an Alert; for a transient confirmation use a Toast.",
-    "dsv3": "COVERED — DS V3 has no measured Result cell; spec derived from the token layer (status colours color-success/error/warning/info) + the DS icon library (check-circle, x-circle, warning-circle, info) and antd Result conventions. A deliberate, documented extension."
+    "dsv3": "COVERED — DS V3 has no measured Result component-set (a Figma search for Result/Empty state/Status page on MwjvUjVI0HnfwD9EwPXRAy returns only unrelated legacy/mockup nodes). The matrix is therefore derived from antd Result conventions + the token layer (status colours color-success/error/warning/info, error reused for 500, warning for 403) + the DS icon library (check-circle, x-circle, warning-circle, info, magnifying-glass-exclamation, lock, cloud-disconnected). Full status axis success/error/info/warning/404/403/500 plus a custom `icon` override. A deliberate, documented extension."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./aha-result", "registers": "aha-result", "exportsNamed": ["AhaResult", "defineAhaResult"] },
@@ -38,9 +41,24 @@
     { "key": "vue", "label": "Vue 3", "file": "result.vue.txt" }
   ],
   "preview": "result.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "status", "label": "Status", "default": "success", "options": [
+        { "label": "Success", "value": "success" },
+        { "label": "Error", "value": "error" },
+        { "label": "Info", "value": "info" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "404", "value": "404" },
+        { "label": "403", "value": "403" },
+        { "label": "500", "value": "500" }
+      ] }
+    ]
+  },
   "selfCheck": [
     { "label": "48px status glyph from DS icons", "verdict": "PASS" },
-    { "label": "success #16C49A · error #F5222D", "verdict": "PASS" },
+    { "label": "success #16C49A · error #F5222D · warning/403 #FF7747 · info/404 #9BB3E9 · 500 #F5222D", "verdict": "PASS" },
+    { "label": "status success/error/info/warning/404/403/500 each resolve a DS glyph", "verdict": "PASS" },
+    { "label": "icon attribute overrides the status glyph", "verdict": "PASS" },
     { "label": "title 24/32 #1A1A1A", "verdict": "PASS" },
     { "label": "slot=extra holds actions", "verdict": "PASS" }
   ],
@@ -48,7 +66,7 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-result[data-probe]') && document.querySelector('aha-result[data-probe]').shadowRoot && document.querySelector('aha-result[data-probe]').shadowRoot.querySelector('.title'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-result[data-probe]');var r=el&&el.shadowRoot;var ic=r&&r.querySelector('.icon');var t=r&&r.querySelector('.title');var s=r&&r.querySelector('.subtitle');var sc=ic?getComputedStyle(ic):null;var tc=t?getComputedStyle(t):null;var ss=s?getComputedStyle(s):null;return{iconColor:sc?sc.color:null,titleColor:tc?tc.color:null,titleSize:tc?tc.fontSize:null,subtitleColor:ss?ss.color:null};})()",
-    "expect": { "iconColor": "rgb(22, 196, 154)", "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "subtitleColor": "rgb(138, 138, 138)" }
+    "measure": "(function(){var el=document.querySelector('aha-result[data-probe]');var r=el&&el.shadowRoot;var ic=r&&r.querySelector('.icon');var gl=r&&r.querySelector('aha-icon');var t=r&&r.querySelector('.title');var s=r&&r.querySelector('.subtitle');var sc=ic?getComputedStyle(ic):null;var tc=t?getComputedStyle(t):null;var ss=s?getComputedStyle(s):null;return{iconColor:sc?sc.color:null,glyph:gl?gl.getAttribute('name'):null,titleColor:tc?tc.color:null,titleSize:tc?tc.fontSize:null,subtitleColor:ss?ss.color:null};})()",
+    "expect": { "iconColor": "rgb(22, 196, 154)", "glyph": "system-check-circle", "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "subtitleColor": "rgb(138, 138, 138)" }
   }
 }

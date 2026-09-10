@@ -9,5 +9,11 @@ const loading = ref(true);
 </script>
 
 <template>
+  <!-- Standalone -->
   <aha-spin v-if="loading" size="large" tip="Loading results…" />
+
+  <!-- Wrapper — slot content, toggle `spinning` (boolean attr) to overlay the scrim -->
+  <aha-spin :spinning="loading || null" tip="Loading…">
+    <ResultsPanel :data="data" />
+  </aha-spin>
 </template>

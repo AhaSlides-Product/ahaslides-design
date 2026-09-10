@@ -1,9 +1,15 @@
 import '@ahaslides-product/design/aha-spin';   // registers <aha-spin>
 
 // Attributes only — no events — so React 18/19 can render the element directly.
-function AhaSpin({ size, tip }) {
-  return <aha-spin size={size} tip={tip} />;
+// `spinning` is a boolean attribute: pass it (any value) to show, omit to hide.
+function AhaSpin({ size, tip, spinning, children }) {
+  return <aha-spin size={size} tip={tip} {...(spinning ? { spinning: '' } : {})}>{children}</aha-spin>;
 }
 
-// usage — wrap a waiting region
+// Standalone — a bare waiting region
 {loading ? <AhaSpin tip="Loading results…" /> : <Results data={data} />}
+
+// Wrapper — keep the content mounted, overlay a scrim while it loads
+<AhaSpin spinning={loading} tip="Loading…">
+  <ResultsPanel data={data} />
+</AhaSpin>

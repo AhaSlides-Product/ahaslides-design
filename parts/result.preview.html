@@ -1,10 +1,13 @@
 <div class="pad">
-  <div class="lbl">Outcome state · success (with an action) · error</div>
+  <div class="lbl">Outcome state · success (with an action) · error · 403 · 500 · custom icon</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center">
     <aha-result data-probe status="success" result-title="Presentation published" subtitle="Share the join link with your audience.">
       <button slot="extra" style="height:32px;padding:0 16px;border:0;border-radius:8px;background:var(--aha-color-primary);color:#fff;font:600 14px var(--aha-font-product);cursor:pointer">Copy join link</button>
     </aha-result>
     <aha-result status="error" result-title="Upload failed" subtitle="The file was larger than 10 MB."></aha-result>
+    <aha-result status="403" result-title="Access denied" subtitle="You don't have permission to view this."></aha-result>
+    <aha-result status="500" result-title="Something went wrong" subtitle="We couldn't reach the server. Try again."></aha-result>
+    <aha-result status="warning" icon="system-shield-warning" result-title="Verify your account" subtitle="A custom glyph via the icon attribute."></aha-result>
   </div>
 </div>
 

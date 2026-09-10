@@ -1,16 +1,23 @@
 <script setup>
-import { ConfigProvider, message, Button } from 'ant-design-vue';   // ant-design-vue v4
+import { ConfigProvider, message, Button, Space } from 'ant-design-vue';   // ant-design-vue v4
 import { toastTheme } from '@ahaslides-product/design/toast-theme';
 
-// v4: use the hook so the toast consumes the ConfigProvider theme (static message() does not).
+// v4: use the hook so every toast consumes the ConfigProvider theme.
+// The static message.success() is FORBIDDEN — it renders outside the provider and drops the theme.
 const [messageApi, contextHolder] = message.useMessage();
-const save = () => messageApi.success('Slide saved');
 </script>
 
 <template>
   <a-config-provider :theme="toastTheme">
     <component :is="contextHolder" />
-    <a-button type="primary" @click="save">Save</a-button>
+    <a-space wrap>
+      <a-button type="primary" @click="messageApi.success('Slide saved')">Save</a-button>
+      <a-button @click="messageApi.info('Link copied to clipboard')">Copy link</a-button>
+      <a-button @click="messageApi.warning('You are near the slide limit')">Warn</a-button>
+      <a-button danger @click="messageApi.error('Upload failed')">Fail</a-button>
+      <a-button @click="messageApi.loading('Saving your changes…')">Save (async)</a-button>
+    </a-space>
   </a-config-provider>
 </template>
-<!-- The SAME toastTheme as React → one DS V3 look across both vendor libraries. -->
+<!-- type ∈ { success, info, warning, error, loading }; duration defaults to 3s (0 = sticky).
+     The SAME toastTheme as React → one DS V3 look across both vendor libraries. -->

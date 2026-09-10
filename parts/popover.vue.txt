@@ -4,7 +4,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <template>
-  <aha-popover placement="bottom" @open="onOpen" @close="onClose">
+  <aha-popover placement="bottom" trigger="click" arrow title="Share this deck" @open="onOpen" @close="onClose">
     <button slot="trigger">Options</button>
     <div>
       <p>Share, rename or export this deck.</p>

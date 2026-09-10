@@ -3,6 +3,8 @@
      form is a CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It consumes
      the SAME shared `notificationTheme` the React/Vue wrappers use, so it renders the DS V3 look
      (white card, 384 wide, radius 8). Keeps antd's built-in motion.
+     DS rule: use the useNotification() hook + contextHolder — the static notification.open() is
+     FORBIDDEN (it renders outside the ConfigProvider theme).
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <div id="root"></div>
 <script type="module">
@@ -15,9 +17,19 @@
 
   function App() {
     const [api, ctx] = notification.useNotification();
+    // type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
+    const notify = (type, placement) =>
+      api[type]({
+        message: 'Export ready',
+        description: 'Your CSV is ready to download.',
+        placement,             // which corner it stacks in (default topRight)
+        duration: 4.5,         // seconds on screen; 0 keeps it until dismissed
+        btn: h(Button, { type: 'primary', size: 'small', onClick: () => api.destroy() }, 'Undo'), // optional action
+      });
     return h(ConfigProvider, { theme: notificationTheme },
       ctx,
-      h(Button, { type: 'primary', onClick: () => api.open({ message: 'Export ready', description: 'Your CSV is ready to download.' }) }, 'Export')
+      h(Button, { type: 'primary', onClick: () => notify('success', 'topRight') }, 'Publish'),
+      h(Button, { danger: true, onClick: () => notify('error', 'bottomLeft') }, 'Retry sync')
     );
   }
   // Same shared theme the React/Vue wrappers pass to ConfigProvider.

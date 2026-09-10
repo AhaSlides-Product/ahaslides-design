@@ -1,7 +1,12 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared modalTheme. Vue consumes the same
      modalTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the modal is rendered inline (getContainer={false}, open) so the real antd v6 modal
-     content, bound to the shared theme, can be measured. Keeps antd's built-in motion. -->
+     measures: the default render is a Content-type modal rendered inline (getContainer={false},
+     open) so the real antd v6 modal content, bound to the shared theme, can be measured. The
+     controls drive live React state (Type / Size / Centered) so the whole DS V3 matrix is
+     explorable — Content shows inline; the confirm-family types (confirm/info/success/error/
+     warning) open through Modal.useModal() (the hook, NOT the static Modal.confirm the DS forbids)
+     via an "Open modal" trigger. Keeps antd's built-in zoom motion. The DEFAULT render
+     (Type=Content · Md · not centered) is what conformance measures — do not change it. -->
 <style>
   #react-root .aha-stage { position:relative; }
   #react-root .aha-stage .ant-modal-root, #react-root .aha-stage .ant-modal-wrap { position:static; }
@@ -28,28 +33,105 @@ window.__modal = {
 </script>
 
 <script type="text/babel">
-const { ConfigProvider, Modal } = window.__antdR;
-function App() {
+const { ConfigProvider, Modal, Button } = window.__antdR;
+const { useState } = React;
+
+// DS V3 modal sizes (measured: sm 432 · md 536 · lg 560 · xl 640).
+const SIZES = { sm: 432, md: 536, lg: 560, xl: 640 };
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
   return (
-    <ConfigProvider theme={window.__modal.theme}>
-      <div className="aha-stage" style={{ minHeight: 300 }}>
-        <Modal
-          open
-          title="Delete this slide?"
-          okText="Delete slide"
-          cancelText="Cancel"
-          okButtonProps={{ danger: true }}
-          getContainer={false}
-          mask={false}
-          maskClosable={false}
-        >
-          <p style={{ margin: '8px 0 0', color: 'var(--aha-text-secondary)' }}>
-            This removes the slide and all of its responses. This can't be undone.
-          </p>
-        </Modal>
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
       </div>
-    </ConfigProvider>
+    </div>
   );
 }
-ReactDOM.createRoot(document.getElementById('react-root')).render(<App />);
+
+function Demo() {
+  const [type, setType] = useState('content');   // content | confirm | info | success | error | warning
+  const [size, setSize] = useState('md');
+  const [centered, setCentered] = useState(false);
+  const [modal, contextHolder] = Modal.useModal();   // the hook — NOT static Modal.confirm
+
+  // Open a confirm-family modal through the hook (theme flows via ConfigProvider below).
+  function openConfirm() {
+    const common = {
+      title: 'Delete this slide?',
+      content: "This removes the slide and all of its responses. This can't be undone.",
+      width: SIZES[size], centered,
+      okText: 'Delete slide', cancelText: 'Cancel',
+      okButtonProps: type === 'confirm' || type === 'error' ? { danger: true } : undefined,
+    };
+    modal[type](common);
+  }
+
+  return (
+    <div style={{ maxWidth: 640 }}>
+      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <Seg label="Type" value={type} onChange={setType}
+          options={[
+            { label: 'Content', value: 'content' }, { label: 'Confirm', value: 'confirm' },
+            { label: 'Info', value: 'info' }, { label: 'Success', value: 'success' },
+            { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' },
+          ]} />
+        <Seg label="Size" value={size} onChange={setSize}
+          options={[
+            { label: 'Sm 432', value: 'sm' }, { label: 'Md 536', value: 'md' },
+            { label: 'Lg 560', value: 'lg' }, { label: 'Xl 640', value: 'xl' },
+          ]} />
+        <Seg label="Centered" value={centered ? 'yes' : 'no'} onChange={(v) => setCentered(v === 'yes')}
+          options={[{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }]} />
+      </div>
+
+      {contextHolder}
+
+      {type === 'content' ? (
+        /* Content modal — rendered inline (getContainer={false}, open) so the DS V3 look is always
+           on screen and measurable. This is the conformance default (Md · not centered). */
+        <div className="aha-stage" style={{ minHeight: 300 }}>
+          <Modal
+            open
+            title="Delete this slide?"
+            okText="Delete slide"
+            cancelText="Cancel"
+            okButtonProps={{ danger: true }}
+            width={SIZES[size]}
+            centered={centered}
+            getContainer={false}
+            mask={false}
+            maskClosable={false}
+          >
+            <p style={{ margin: '8px 0 0', color: 'var(--aha-text-secondary)' }}>
+              This removes the slide and all of its responses. This can't be undone.
+            </p>
+          </Modal>
+        </div>
+      ) : (
+        /* Confirm-family types portal to body via the hook — a trigger opens them. */
+        <div style={{ padding: '28px 0' }}>
+          <Button type="primary" danger={type === 'confirm' || type === 'error'} onClick={openConfirm}>
+            Open modal
+          </Button>
+          <div className="lbl" style={{ marginTop: 14 }}>
+            Modal.useModal().{type}(…) — themed, DS-safe (no static Modal.{type})
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('react-root')).render(
+  <ConfigProvider theme={window.__modal.theme}><Demo /></ConfigProvider>
+);
 </script>

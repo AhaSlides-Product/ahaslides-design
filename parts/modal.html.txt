@@ -3,6 +3,8 @@
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
      consumes the SAME shared `modalTheme` the React/Vue wrappers use, so it renders
      the DS V3 look (white content, radius 8, ink title). Keeps antd's built-in motion.
+     Shows the matrix: a sized content modal + a confirm via Modal.useModal() (the hook,
+     never the static Modal.confirm the DS forbids).
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <div id="root"></div>
 <script type="module">
@@ -14,19 +16,34 @@
   const h = React.createElement;
   const { useState } = React;
 
+  // DS V3 sizes — pass one to `width`: sm 432 · md 536 · lg 560 · xl 640.
+  const SIZE = { sm: 432, md: 536, lg: 560, xl: 640 };
+
   function App() {
     const [open, setOpen] = useState(false);
+    const [modal, contextHolder] = Modal.useModal();   // the hook — inherits the theme
+
     return h(ConfigProvider, { theme: modalTheme },
-      h(Button, { type: 'primary', onClick: () => setOpen(true) }, 'Delete slide'),
+      contextHolder,
+      h(Button, { type: 'primary', danger: true, onClick: () => setOpen(true) }, 'Delete slide'),
       h(Modal, {
         open,
         title: 'Delete this slide?',
         okText: 'Delete slide',
         cancelText: 'Cancel',
         okButtonProps: { danger: true },
+        width: SIZE.md,
+        centered: true,
         onOk: () => setOpen(false),
         onCancel: () => setOpen(false),
-      }, h('p', null, "This removes the slide and all of its responses. This can't be undone."))
+      }, h('p', null, "This removes the slide and all of its responses. This can't be undone.")),
+      // Confirm-family: the useModal() hook, NOT the static Modal.confirm().
+      h(Button, { onClick: () => modal.confirm({
+        title: 'Delete this slide?',
+        content: "This can't be undone.",
+        okText: 'Delete slide', cancelText: 'Cancel',
+        okButtonProps: { danger: true }, width: SIZE.sm,
+      }) }, 'Confirm…')
     );
   }
   // Same shared theme the React/Vue wrappers pass to ConfigProvider.

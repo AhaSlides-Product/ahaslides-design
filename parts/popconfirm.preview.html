@@ -1,8 +1,9 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared popconfirmTheme. Vue consumes the
      same popconfirmTheme — see "Show code". This CDN-React page (no build step) is also what
      qa.mjs measures: the real antd Popconfirm popover + confirm/cancel buttons bound to the
-     shared theme. The popover is opened on mount and mounted inside #react-root so it renders
-     in the demo stage. -->
+     shared theme. Interactive: the controls drive live React state (Placement / Danger), so the
+     matrix is explorable. The DEFAULT render (placement=top · Danger OFF · open) is what
+     conformance measures — a primary purple confirm (#6A1EBB) + a default #E3E3E3-border cancel. -->
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -15,7 +16,8 @@
 <script>
 window.__pop = {
   token: { colorPrimary:'#6A1EBB', borderRadius:8, borderRadiusLG:8, controlHeight:32, colorBorder:'#E3E3E3',
-           colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorWarning:'#FF7747', colorBgElevated:'#FFFFFF',
+           colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorWarning:'#FF7747', colorError:'#F5222D',
+           colorBgElevated:'#FFFFFF',
            fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
   components: { Popover:{ borderRadiusLG:8, colorBgElevated:'#FFFFFF' },
                 Button:{ borderRadius:8, controlHeight:32 } }
@@ -24,19 +26,57 @@ window.__pop = {
 
 <script type="text/babel">
 const { ConfigProvider, Popconfirm, Button } = window.__antdR;
+const { useState } = React;
+
+// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
+// but wired to React state so an antd composite gets the same explorable playground.
+function Seg({ label, value, onChange, options }) {
+  return (
+    <div className="aha-pg-row">
+      <span className="aha-pg-label">{label}</span>
+      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
+        {options.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
+            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
+            onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Demo() {
+  const [placement, setPlacement] = useState('top');
+  const [danger, setDanger] = useState(false);
   return (
     <ConfigProvider theme={window.__pop}>
-      <div style={{ minHeight: 260, paddingBottom: 180 }}>
-        <Popconfirm
-          open
-          title="Delete this slide?"
-          description="This cannot be undone."
-          okText="Delete"
-          cancelText="Cancel"
-        >
-          <Button danger>Delete slide</Button>
-        </Popconfirm>
+      <div style={{ maxWidth: 620 }}>
+        {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
+        <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+          <Seg label="Placement" value={placement} onChange={setPlacement}
+            options={[
+              { label: 'Top', value: 'top' }, { label: 'Bottom', value: 'bottom' },
+              { label: 'Left', value: 'left' }, { label: 'Right', value: 'right' },
+            ]} />
+          <Seg label="Danger" value={danger ? 'on' : 'off'} onChange={(v) => setDanger(v === 'on')}
+            options={[{ label: 'Off', value: 'off' }, { label: 'On', value: 'on' }]} />
+        </div>
+        {/* Open Popconfirm — the popover portals to <body>; conformance reads it there.
+            Danger OFF → primary purple confirm; Danger ON → okType="danger" red confirm. */}
+        <div style={{ minHeight: 260, paddingTop: 120, paddingBottom: 120, display: 'flex', justifyContent: 'center' }}>
+          <Popconfirm
+            key={placement + String(danger)}
+            open
+            placement={placement}
+            title="Delete this slide?"
+            description="This cannot be undone."
+            okText="Delete"
+            cancelText="Cancel"
+            okType={danger ? 'danger' : 'primary'}
+          >
+            <Button danger={danger}>Delete slide</Button>
+          </Popconfirm>
+        </div>
       </div>
     </ConfigProvider>
   );

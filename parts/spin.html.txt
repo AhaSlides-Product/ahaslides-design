@@ -11,3 +11,11 @@
   <aha-spin></aha-spin>
   <aha-spin size="large" tip="Loading results…"></aha-spin>
 </div>
+
+<!-- Wrapper mode — overlay a spinner over content while it loads.
+     Slot the content; toggle `spinning` to show/hide the dimmed scrim + centred ring. -->
+<aha-spin spinning tip="Loading…" style="margin-top:24px">
+  <div style="width:240px; padding:16px; border:1px solid var(--aha-border); border-radius:8px">
+    Live results — votes are being tallied.
+  </div>
+</aha-spin>
