@@ -1303,6 +1303,45 @@ import '${PKGNAME}/tokens.css';   // once, at the app root
   <p class="gen install-note">Agent feed for this component (absolute, fetchable anywhere): <a href="${SITE}/${c.slug}.agent.json"><code>${c.slug}.agent.json</code></a> · <a href="${SITE}/${c.slug}/${c.slug}.md"><code>${c.slug}.md</code></a> · <a href="${SITE}/${c.slug}.llms.txt"><code>${c.slug}.llms.txt</code></a></p>`;
 }
 
+/* ===== anti-slop consumer feed — the build→judge→fix loop, per surface =====
+   Joins the DS-owned criteria store (binary judge criteria) with guidelines/*.json
+   (the rules), keyed by surface==guideline.slug. This is what a feed-only agent reads
+   BEFORE it builds and self-runs AFTER it builds. Generated — no rule text authored here. */
+const ANTISLOP_LOOP = [
+  'You are generating AhaSlides product UI by consuming this design system.',
+  'Before you write a screen: (1) identify the surface(s) you are building;',
+  "(2) read that surface’s rules below; (3) after building, run the surface’s BINARY judge",
+  '— every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
+  '(5) ship only when every criterion PASSes.',
+].join('\n');
+
+function renderAntiSlop(store, guidelines) {
+  const bySlug = Object.fromEntries((guidelines || []).map(p => [p.slug, p]));
+  const surfaces = store ? Object.entries(store.surfaces) : [];
+  let md = `# AhaSlides Design System — anti-slop\n\n> The official AhaSlides anti-slop loop. Generated from anti-slop/criteria.json + guidelines/*.json — do not edit by hand.\n> Owner: ${store?.owner || 'ahaslides-design'}. Feeds: ${SITE}/anti-slop.md · ${SITE}/anti-slop.agent.json\n\n## The loop\n\n${ANTISLOP_LOOP}\n\n`;
+  const agent = { generatedFrom: 'anti-slop/criteria.json + guidelines/*.json', owner: store?.owner || 'ahaslides-design', loop: ANTISLOP_LOOP, surfaces: {} };
+  for (const [key, s] of surfaces) {
+    const p = bySlug[key];
+    md += `## Surface: ${key}${p ? ` (guidelines/${key}/${key}.md)` : ''}\n`;
+    md += `${p ? p.summary : ''}\n\n`;
+    if (p && p.rules?.length) {
+      md += `Rules:\n${p.rules.map(r => `- ${r.rule}${r.ref?.length ? ` [${r.ref.join(', ')}]` : ''}`).join('\n')}\n\n`;
+    }
+    md += `Judge (binary — PASS/FAIL each):\n${(s.criteria || []).map(c => `- ${c.id}. ${c.title} — ${c.test}`).join('\n')}\n\n`;
+    agent.surfaces[key] = {
+      surface: s.surface, origin: s.origin, skillRef: s.skillRef || (p ? p.skillRef : null),
+      rules: p ? (p.rules || []) : [], criteria: s.criteria || [], selfCheck: p ? (p.selfCheck || []) : [],
+    };
+  }
+  const wired = new Set(surfaces.map(([k]) => k));
+  const notWired = (guidelines || []).map(p => p.slug).filter(sl => !wired.has(sl));
+  if (notWired.length) {
+    md += `## Not yet wired\n\nThese guidelines exist but have no anti-slop judge criteria in the store yet (Phase-2 fan-out): ${notWired.join(', ')}.\n`;
+    agent.notWired = notWired;
+  }
+  return { md, agentJson: JSON.stringify(agent, null, 2) + '\n' };
+}
+
 /* ===== overview / landing page ===== */
 function renderIndex(cs) {
   const cards = cs.map(c => `<a class="card" href="${c.slug}/index.html">
@@ -1451,6 +1490,11 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
+/* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
+   source of truth the consumer feeds compile from. Absent-safe: no store → no feed. */
+const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
+  ? JSON.parse(read(join(root, 'anti-slop', 'criteria.json')))
+  : null;
 /* top-nav landing per area — each tab opens that area's first real page */
 const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug));
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
@@ -1466,6 +1510,12 @@ if (GUIDELINES.length) {
   RAW_FEEDS.push(
     { name: 'guidelines.llms.txt',  file: 'guidelines.llms.txt',  page: 'guidelines-llms-txt',  desc: 'One entry per composition pattern — what it reuses, the rule count, and its component backlog.' },
     { name: 'guidelines.agent.json', file: 'guidelines.agent.json', page: 'guidelines-agent-json', desc: 'Machine feed: every pattern with its composedOf reuse graph, rules (each ref’d to a skill assertion), and whether it ships code.' },
+  );
+}
+if (ANTISLOP) {
+  RAW_FEEDS.push(
+    { name: 'anti-slop.md', file: 'anti-slop.md', page: 'anti-slop-md', desc: 'The official AhaSlides anti-slop loop — per-surface rules + the binary judge a consumer self-runs. Read this BEFORE building.' },
+    { name: 'anti-slop.agent.json', file: 'anti-slop.agent.json', page: 'anti-slop-agent-json', desc: 'Machine feed: the anti-slop loop + per-surface { rules, criteria, selfCheck }. Compiled from the DS-owned criteria store.' },
   );
 }
 
@@ -1574,6 +1624,13 @@ for (const p of GUIDELINES) {
 if (GUIDELINES.length) {
   writeFileSync(join(OUT, 'guidelines.llms.txt'), renderGuidelinesLlms(GUIDELINES));
   writeFileSync(join(OUT, 'guidelines.agent.json'), JSON.stringify(GUIDELINES.map(p => JSON.parse(renderGuidelineAgent(p))), null, 2) + '\n');
+}
+/* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
+if (ANTISLOP) {
+  const { md, agentJson } = renderAntiSlop(ANTISLOP, GUIDELINES);
+  writeFileSync(join(OUT, 'anti-slop.md'), md);
+  writeFileSync(join(OUT, 'anti-slop.agent.json'), agentJson);
+  console.log(`  ✓ anti-slop: anti-slop.md · anti-slop.agent.json (${Object.keys(ANTISLOP.surfaces).length} surface(s))`);
 }
 
 // Feed pages LAST — they embed the actual generated files (now all on disk) in a code wrapper.
