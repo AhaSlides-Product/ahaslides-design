@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.38.0 — 2026-09-11
+### Added
+- **Breadcrumb** — `size="page-title"` turns the current crumb into the page heading (a real `<h1>`, `heading-level` picks h1–h6): a single-item trail is the standalone page title (24/600), a longer trail is that heading with its ancestor path in front (18/600). Plus a `size="mini"` (12/18) compact scale. This is now the DS page-title — reach for it instead of a hand-rolled `<h1>`; the breadcrumb *is* the page title. (#76)
+
 ## 0.37.0 — 2026-09-11
 ### Added
 - **Settings hierarchy primitives** — five new Settings pattern components so an agent composes a settings panel and the hierarchy, spacing, and icon rules come out right *by construction*: `<aha-section-header>` (group header — semibold-600 label + `?` help + right `action` slot), `<aha-setting-row>` (one setting — label-left/control-right `inline` or `stack`, no decorative label-icon), `<aha-setting-group>` (the container — bakes in **16px** between settings, **32px** between groups, **48px** danger zone; spacing-only, no dividers/cards), `<aha-sub-setting-group>` (dependent settings — **24px** indent + **8px** gap-above), and `<aha-add-item-button>` (full-width "+ Add", disables at max). Each ships contract + `lib/` element + HTML/React/Vue snippets + preview, registered + exported.
