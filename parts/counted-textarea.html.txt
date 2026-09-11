@@ -9,7 +9,7 @@
 </script>
 
 <!-- maxlength turns the focus-only counter on; minrows/maxrows bound the autogrow -->
-<aha-counted-textarea id="desc" maxlength="200" minrows="2" maxrows="4"
+<aha-counted-textarea id="desc" maxlength="150" minrows="2" maxrows="5"
   value="A longer answer that wraps to several lines." placeholder="Answer"></aha-counted-textarea>
 
 <!-- status: error   ·   disabled / readonly -->

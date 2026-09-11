@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-option-row> directly.
 // Composes DS leaves; forwards input / correct-change / delete (+ the image control's intents).
-function AhaOptionRow({ value, maxLength, orderable, correctable, correct, image, canDelete, onInput, onCorrect, onDelete }) {
+function AhaOptionRow({ value, maxLength, orderable, correctable, correct, checkboxShape, singleLine, image, canDelete, onInput, onCorrect, onDelete }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -21,6 +21,8 @@ function AhaOptionRow({ value, maxLength, orderable, correctable, correct, image
       {...(maxLength ? { maxlength: String(maxLength) } : {})}
       {...(orderable ? { orderable: '' } : {})}
       {...(correctable ? { correctable: '' } : {})}
+      {...(checkboxShape ? { checkboxshape: checkboxShape } : {})}
+      {...(singleLine ? { singleline: '' } : {})}
       {...(image ? { image: '' } : {})}
       {...(canDelete === false ? { candelete: 'false' } : {})}
     />
@@ -30,6 +32,6 @@ function AhaOptionRow({ value, maxLength, orderable, correctable, correct, image
 // usage — one per option; disable delete at the minimum count
 {options.map((o, i) => (
   <AhaOptionRow key={o.id} value={o.text} maxLength={80} orderable correctable image
-    correct={o.correct} canDelete={options.length > 2}
+    checkboxShape="circle" correct={o.correct} canDelete={options.length > 2}
     onInput={(v) => update(i, v)} onCorrect={(c) => setCorrect(i, c)} onDelete={() => remove(i)} />
 ))}

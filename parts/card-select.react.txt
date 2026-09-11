@@ -3,24 +3,26 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-card-select> directly.
 // options is a PROPERTY (array), so set it imperatively; the grid is one roving radiogroup.
-function AhaCardSelect({ options, value, columns, disabled, onChange }) {
+function AhaCardSelect({ options, value, columns, iconOnly, disabled, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
     el.options = options || [];
     if (value != null) el.value = value;
+    el.iconOnly = !!iconOnly;   // compact 44px squares; label kept as title + aria-label
     el.disabled = !!disabled;
     const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
-  }, [options, value, disabled, onChange]);
+  }, [options, value, iconOnly, disabled, onChange]);
   return <aha-card-select ref={ref} {...(columns ? { columns: String(columns) } : {})} />;
 }
 
-// usage
+// usage — labelled tiles (default) or compact iconOnly squares
 <AhaCardSelect
   value={chartType}
   columns={3}
+  iconOnly={false}
   options={[
     { value: 'bar',  label: 'Bar',  icon: 'system-chart-bar' },
     { value: 'line', label: 'Line', icon: 'system-chart-line-up' },
