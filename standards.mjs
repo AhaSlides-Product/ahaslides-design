@@ -31,6 +31,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts — prose composition guides (settings, …)
 const PDIR = join(root, 'parts');
+const DIST = join(root, 'dist');
 const read = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
 const PKG = JSON.parse(read(join(root, 'package.json')));
 const EXPORTS = PKG.exports || {};
@@ -446,6 +447,10 @@ for (const ct of contracts) {
 const contractSlugs = new Set(contracts.map(c => c.slug));
 // custom-element tag → slug, for the elements the DS actually ships (leaves that register)
 const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [c.reuse.registers, c.slug]));
+/* anti-slop — the DS-owned criteria store. Feeds + gate read it; a guideline rule that names a
+   judge criterion (C\d+) for a wired surface must resolve here. */
+const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
+const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -486,6 +491,32 @@ for (const p of guidelines) {
     (p.rules || []).every(x => x && x.rule && Array.isArray(x.ref) && x.ref.length >= 1),
     'each rule needs ref: ["SETTINGS-xx", …] back to the skill');
 
+  // 3b) anti-slop consistency — for a surface wired into the store, every C\d+ rule ref must
+  //     resolve to a real criterion id; non-C\d+ refs (UXW-n, §n) are build-assertion ids and are
+  //     warn-only. Coverage (every store criterion referenced) is enforced ONLY for DS-AUTHORED
+  //     surfaces — a seeded surface's guideline still uses build-assertion ids (re-keyed in Phase 2).
+  const _surface = ANTISLOP?.surfaces?.[p.slug];
+  if (_surface) {
+    const _storeCrit = new Set((_surface.criteria || []).map(c => c.id));
+    for (const r of (p.rules || [])) {
+      for (const ref of (r.ref || [])) {
+        if (/^C\d+$/.test(ref)) {
+          chk(`anti-slop: rule ref ${ref} resolves in store surface "${p.slug}"`, _storeCrit.has(ref),
+            `no such criterion in anti-slop/criteria.json surfaces.${p.slug} — fix the ref or add the criterion`);
+        } else {
+          warn(`anti-slop: rule ref "${ref}" is a build-assertion id (not a C\\d+ judge criterion)`,
+            'seeded surfaces reference build assertions; Phase-2 fan-out re-keys these to judge criteria');
+        }
+      }
+    }
+    if (_surface.origin === 'authored') {
+      const _referenced = new Set((p.rules || []).flatMap(r => (r.ref || []).filter(x => /^C\d+$/.test(x))));
+      for (const id of _storeCrit)
+        chk(`anti-slop: store criterion ${id} is covered by a rule in "${p.slug}"`, _referenced.has(id),
+          `surfaces.${p.slug} defines ${id} but no authored rule references it`);
+    }
+  }
+
   // 4) the guide narrative doesn't smuggle in a banned library
   const guideText = p.guide ? read(join(PDIR, p.guide)) : '';
   for (const [re, why] of BANNED) chk(`guide free of: ${why}`, !re.test(guideText), 'found in the guide');
@@ -515,6 +546,25 @@ for (const p of guidelines) {
   }
 
   guidelineResults.push({ slug: p.slug || p.name, checks, warns });
+}
+
+/* ===== anti-slop store + feeds — the DS is the official anti-slop tool ===== */
+const antislopChecks = [];
+const achk = (name, cond, note = '') => antislopChecks.push([name, !!cond, cond ? '' : note]);
+if (ANTISLOP) {
+  achk('anti-slop store declares the DS as owner', ANTISLOP.owner === 'ahaslides-design', 'owner must be "ahaslides-design"');
+  achk('anti-slop store has ≥1 surface', ANTISLOP.surfaces && Object.keys(ANTISLOP.surfaces).length >= 1);
+  for (const [key, s] of Object.entries(ANTISLOP.surfaces || {})) {
+    achk(`surface "${key}": origin is seeded|authored`, s.origin === 'seeded' || s.origin === 'authored', `origin="${s.origin}"`);
+    achk(`surface "${key}": ≥1 well-formed criterion`,
+      Array.isArray(s.criteria) && s.criteria.length >= 1 && s.criteria.every(c => /^C\d+$/.test(c.id) && c.title && c.test),
+      'each criterion needs { id:C\\d+, title, test }');
+    achk(`surface "${key}": has a matching guideline (guidelines/${key}.json)`, guidelines.some(p => p.slug === key),
+      'a wired surface needs a guideline to supply its rules');
+  }
+  achk('anti-slop.md feed exists', existsSync(join(DIST, 'anti-slop.md')), 'run npm run generate');
+  achk('anti-slop.agent.json feed exists', existsSync(join(DIST, 'anti-slop.agent.json')), 'run npm run generate');
+  achk('anti-slop.md is generated (not hand-edited)', existsSync(join(DIST, 'anti-slop.md')) && /do not edit by hand/.test(read(join(DIST, 'anti-slop.md'))), 'feed missing the generated banner');
 }
 
 /* ===== repo gate — CHANGELOG + version ===========================================================
@@ -584,6 +634,13 @@ if (libFindings.length) {
     for (const h of f.hits) console.log(`      ✗ FAIL: ${h}`);
     for (const h of (f.motionHits || [])) { warnCount++; console.log(`      ⚠ WARN: ${h}`); }
   }
+}
+if (ANTISLOP) {
+  console.log('\nanti-slop (official tool)');
+  const ok = antislopChecks.every(x => x[1]);
+  ok ? pass++ : fail++;
+  console.log(`${ok ? '✓' : '✗'} store + feeds`);
+  for (const [n, v, note] of antislopChecks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
 }
 {
   console.log('\nrepo');
