@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.34.1 — 2026-09-11
 ### Changed
-- **Docs / feeds** — the all-in-one entry is now discoverable where people look: the `llms.txt` agent index and the docs-site "Consume" block both show the one-tag `<script src=".../lib/all.js">` snippet (alongside a note to prefer per-element imports in bundled apps). No code/API change — surfaces the `0.34.0` entry point in the DS's self-serve feeds. (#PR)
+- **Docs / feeds** — the all-in-one entry is now discoverable where people look: the `llms.txt` agent index and the docs-site "Consume" block both show the one-tag `<script src=".../lib/all.js">` snippet (alongside a note to prefer per-element imports in bundled apps). No code/API change — surfaces the `0.34.0` entry point in the DS's self-serve feeds. (#74)
 
 ## 0.34.0 — 2026-09-11
 ### Added
