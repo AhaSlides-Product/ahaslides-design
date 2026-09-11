@@ -8,73 +8,252 @@
   "summary": "A schema-driven group of settings rows — semibold label left (with a \"?\" help tooltip), control right — reusing existing DS controls.",
   "lead": "TWO custom elements — <aha-settings-list> (a spacing-only, schema-driven group surface) and <aha-settings-item> (a labelled row with a `control` slot). Pass a settings schema (`.schema` = { sections:[{ label, rows:[{ key, label, description?, layout?, consequence?, control:{ type, …props } }] }] }) and it RENDERS the rows, instantiating each control from an existing DS element (aha-switch / aha-checkbox / aha-input …) — reuse, never a re-implemented control — and emits a `change` event { key, value, name }. Guidance has ONE home: a \"?\" help trigger (DS <aha-tooltip help>, glyph system-question-mark, muted) right after the semibold label — NOT a standing description line. Rows are `inline` by default (label left / control right, gap 12) or `stack` (label above / control full-width) for wide controls. The by-hand slot form is still supported. Spacing-only hierarchy: no divider lines, no card/box around plain settings. Shadow-DOM CSS, themed only by --aha-* tokens. Zero drift.",
   "codeNote": "Same elements, same shadow-DOM CSS → identical render. React (< 19) consumes them via thin attribute wrappers; Vue binds the custom elements natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["text-default", "text-tertiary", "text-disabled", "color-primary"],
+  "tokensUsed": [
+    "text-default",
+    "text-tertiary",
+    "text-disabled",
+    "color-primary"
+  ],
   "spec": [
-    { "label": "Group", "value": "column · 16px between sibling settings · 32px between groups · semibold (600) header (SectionHeader); member/row labels are ALSO semibold (600) per the reference SettingRow" },
-    { "label": "Row (inline, default)", "value": "label left, control right · align-items:center · justify-content:space-between · min-height 24 · 12px gap" },
-    { "label": "Row (stack)", "value": "layout=stack → label above, control full-width (flex-direction:column · 8px gap) — for wide controls (textarea / wide select)" },
-    { "label": "Label", "value": "14/21 Semibold (600) #1A1A1A (name = noun phrase, no leading verb)" },
-    { "label": "Help", "value": "guidance = a \"?\" help trigger after the label (DS <aha-tooltip help>, icon system-question-mark, muted ~50% = text-tertiary #8A8A8A → brand on hover/focus) + tooltip; NO standing description line. `description` is the tooltip content" },
-    { "label": "Consequence (rare)", "value": "opt-in `consequence` → a standing must-see line 12/18 #8A8A8A under the label; default none" },
-    { "label": "Disabled row", "value": "row disabled → label dims to text-disabled #B5B5B5, control disabled, aria-disabled" },
-    { "label": "Plan-gated row", "value": "row locked → visible but the control is the shared Paywall crown (opens the upsell), never hidden" },
-    { "label": "Density", "value": "density=compact tightens the rhythm (16 between groups, 8 between siblings) — spacing, never lines" },
-    { "label": "Structure", "value": "no divider lines, no card/box around plain settings" },
-    { "label": "Schema", "value": "sections[] → rows[] { key, label, description?, layout?, consequence?, disabled?, locked?, plan?, feature?, control:{ type, …props } }; renders + reuses DS controls" }
+    {
+      "label": "Group",
+      "value": "column · 16px between sibling settings · 32px between groups · semibold (600) header (SectionHeader); member/row labels are ALSO semibold (600) per the reference SettingRow"
+    },
+    {
+      "label": "Row (inline, default)",
+      "value": "label left, control right · align-items:center · justify-content:space-between · min-height 24 · 12px gap"
+    },
+    {
+      "label": "Row (stack)",
+      "value": "layout=stack → label above, control full-width (flex-direction:column · 8px gap) — for wide controls (textarea / wide select)"
+    },
+    {
+      "label": "Label",
+      "value": "14/21 Semibold (600) #1A1A1A (name = noun phrase, no leading verb)"
+    },
+    {
+      "label": "Help",
+      "value": "guidance = a \"?\" help trigger after the label (DS <aha-tooltip help>, icon system-question-mark, muted ~50% = text-tertiary #8A8A8A → brand on hover/focus) + tooltip; NO standing description line. `description` is the tooltip content"
+    },
+    {
+      "label": "Consequence (rare)",
+      "value": "opt-in `consequence` → a standing must-see line 12/18 #8A8A8A under the label; default none"
+    },
+    {
+      "label": "Disabled row",
+      "value": "row disabled → label dims to text-disabled #B5B5B5, control disabled, aria-disabled"
+    },
+    {
+      "label": "Plan-gated row",
+      "value": "row locked → visible but the control is the shared Paywall crown (opens the upsell), never hidden"
+    },
+    {
+      "label": "Density",
+      "value": "density=compact tightens the rhythm (16 between groups, 8 between siblings) — spacing, never lines"
+    },
+    {
+      "label": "Structure",
+      "value": "no divider lines, no card/box around plain settings"
+    },
+    {
+      "label": "Schema",
+      "value": "sections[] → rows[] { key, label, description?, layout?, consequence?, disabled?, locked?, plan?, feature?, control:{ type, …props } }; renders + reuses DS controls"
+    },
+    {
+      "label": "visible_if",
+      "value": "a follow-up row shown only when its trigger is on (Shopify model) — nested (24 indent, tighter gap, de-emphasised label); hidden = display:none, no phantom gap (SETTINGS-19/07/14)"
+    }
   ],
   "props": [
-    { "name": "schema", "type": "object", "default": "—", "desc": "(list, property) Settings schema { sections:[{ label, rows:[{ key, label, description?, layout?, consequence?, control }] }] } — an array is treated as one section's rows; renders rows and reuses DS controls. Also settable as a JSON `schema` attribute for the build-free HTML form" },
-    { "name": "label", "type": "string", "default": "—", "desc": "Group header (a 1–3 word noun phrase); on <aha-settings-item> it is the setting name. Ignored when a schema supplies section labels" },
-    { "name": "description", "type": "string", "default": "—", "desc": "(item / schema row) Guidance text — rendered as the \"?\" HELP TOOLTIP after the label (DS <aha-tooltip help>), NOT a standing line. Default: no help glyph" },
-    { "name": "consequence", "type": "string", "default": "—", "desc": "(item / schema row) RARE opt-in must-see-consequence line shown as a standing line under the label (e.g. 'This cannot be undone.') — default none" },
-    { "name": "layout", "type": "'inline' | 'stack'", "default": "inline", "desc": "(item / schema row) inline = label left / control right (align-items:center, space-between, gap 12); stack = label above / control full-width (column, gap 8) for wide controls (textarea / wide select)" },
-    { "name": "control", "type": "slot | schema", "default": "—", "desc": "(item) The DS control on the right — <aha-switch>, <aha-checkbox>, <aha-input>… slotted by hand, or named in a schema row's `control:{ type }` and instantiated for you" },
-    { "name": "density", "type": "'default' | 'compact'", "default": "default", "desc": "(list) Row/group rhythm. compact tightens the spacing (16 between groups, 8 between siblings) — never adds lines or boxes" },
-    { "name": "disabled", "type": "boolean", "default": "false", "desc": "(item / schema row) Dims the label to text-disabled, disables the reused control, sets aria-disabled" },
-    { "name": "locked", "type": "boolean", "default": "false", "desc": "(schema row) Plan-gates the row: stays visible, its control becomes the shared Paywall crown badge → upsell. Pair with `plan` ('essential'|'pro') and `feature` (the upsell label)" }
+    {
+      "name": "schema",
+      "type": "object",
+      "default": "—",
+      "desc": "(list, property) Settings schema { sections:[{ label, rows:[{ key, label, description?, layout?, consequence?, control }] }] } — an array is treated as one section's rows; renders rows and reuses DS controls. Also settable as a JSON `schema` attribute for the build-free HTML form A row may declare visible_if (structured `visibleIf:{key,equals?,in?,not?}` or the Shopify string `visible_if:\"{{ settings.<key> }}\"`) — the row is shown only when its trigger is on and hidden when off, rendered nested (indented, de-emphasised)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "Group header (a 1–3 word noun phrase); on <aha-settings-item> it is the setting name. Ignored when a schema supplies section labels"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "default": "—",
+      "desc": "(item / schema row) Guidance text — rendered as the \"?\" HELP TOOLTIP after the label (DS <aha-tooltip help>), NOT a standing line. Default: no help glyph"
+    },
+    {
+      "name": "consequence",
+      "type": "string",
+      "default": "—",
+      "desc": "(item / schema row) RARE opt-in must-see-consequence line shown as a standing line under the label (e.g. 'This cannot be undone.') — default none"
+    },
+    {
+      "name": "layout",
+      "type": "'inline' | 'stack'",
+      "default": "inline",
+      "desc": "(item / schema row) inline = label left / control right (align-items:center, space-between, gap 12); stack = label above / control full-width (column, gap 8) for wide controls (textarea / wide select)"
+    },
+    {
+      "name": "control",
+      "type": "slot | schema",
+      "default": "—",
+      "desc": "(item) The DS control on the right — <aha-switch>, <aha-checkbox>, <aha-input>… slotted by hand, or named in a schema row's `control:{ type }` and instantiated for you"
+    },
+    {
+      "name": "density",
+      "type": "'default' | 'compact'",
+      "default": "default",
+      "desc": "(list) Row/group rhythm. compact tightens the spacing (16 between groups, 8 between siblings) — never adds lines or boxes"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "(item / schema row) Dims the label to text-disabled, disables the reused control, sets aria-disabled"
+    },
+    {
+      "name": "locked",
+      "type": "boolean",
+      "default": "false",
+      "desc": "(schema row) Plan-gates the row: stays visible, its control becomes the shared Paywall crown badge → upsell. Pair with `plan` ('essential'|'pro') and `feature` (the upsell label)"
+    }
   ],
   "events": [
-    { "name": "change", "detail": "{ key, value, name }", "desc": "(schema form) Fired when any rendered control changes — value is the control's boolean/string state, key is the row's key" }
+    {
+      "name": "change",
+      "detail": "{ key, value, name }",
+      "desc": "(schema form) Fired when any rendered control changes — value is the control's boolean/string state, key is the row's key"
+    }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Settings list", "when": "a group of related on/off or choice settings in a panel, page or drawer" },
-      { "what": "Form", "when": "values are submitted together with validation and a submit step" },
-      { "what": "a single Switch/Select", "when": "one setting that applies on its own" }
+      {
+        "what": "Settings list",
+        "when": "a group of related on/off or choice settings in a panel, page or drawer"
+      },
+      {
+        "what": "Form",
+        "when": "values are submitted together with validation and a submit step"
+      },
+      {
+        "what": "a single Switch/Select",
+        "when": "one setting that applies on its own"
+      }
     ],
     "note": "Name each setting as a noun phrase (no leading verb — the control says on/off). Use a toggle for immediate effect, a checkbox for consent/saved-together — never mix in one group. Guidance lives in the \"?\" help tooltip after the label — never a standing description line (reserve the rare `consequence` line for a genuine must-see, e.g. an irreversible action). Hierarchy is spacing, never lines or boxes. Use `layout:'stack'` for wide controls (textarea / wide select). See the settings pattern for grouping, sub-settings and the danger zone.",
     "dsv3": "COVERED — this is the reusable component form of the settings pattern (parts/settings.guide.md): semibold (600) label / control rows, spacing-only grouping (16 between siblings, 32 between groups), no dividers or boxes. Faithful to SettingRow: inline (label left / control right, gap 12) or stack (label above / control full-width) layout, and a single \"?\" help tooltip (system-question-mark, muted) for guidance rather than a standing description line. It composes existing DS controls via a slot or a schema, and carries the pattern's full row matrix: plain, with-help, stack, disabled (dimmed to text-disabled), and plan-gated (visible-but-locked → the shared Paywall crown, never hidden). A deliberate, documented AhaSlides surface."
   },
-  "surfaces": ["editor", "settings", "dashboard"],
-  "reuse": { "entry": "./aha-settings-list", "registers": "aha-settings-list", "exportsNamed": ["AhaSettingsList", "AhaSettingsItem", "defineAhaSettingsList"] },
+  "surfaces": [
+    "editor",
+    "settings",
+    "dashboard"
+  ],
+  "reuse": {
+    "entry": "./aha-settings-list",
+    "registers": "aha-settings-list",
+    "exportsNamed": [
+      "AhaSettingsList",
+      "AhaSettingsItem",
+      "defineAhaSettingsList"
+    ]
+  },
   "snippets": [
-    { "key": "html", "label": "HTML", "file": "settings-list.html.txt", "runnable": "paste-and-run", "note": "The native form — the web components in an HTML file render on open, no build step." },
-    { "key": "react", "label": "React", "file": "settings-list.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "settings-list.vue.txt" }
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "settings-list.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — the web components in an HTML file render on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "settings-list.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "settings-list.vue.txt"
+    }
   ],
   "preview": "settings-list.preview.html",
   "playground": {
     "controls": [
-      { "prop": "schema", "label": "Example", "default": "presentation", "options": [
-        { "label": "Presentation", "value": "{\"sections\":[{\"label\":\"Presentation\",\"rows\":[{\"key\":\"progressBar\",\"label\":\"Progress bar\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"leaderboard\",\"label\":\"Leaderboard\",\"description\":\"Shown to the audience between slides.\",\"control\":{\"type\":\"switch\"}},{\"key\":\"deckTitle\",\"label\":\"Deck title\",\"control\":{\"type\":\"input\",\"value\":\"Untitled\"}},{\"key\":\"theme\",\"label\":\"Slide theme\",\"control\":{\"type\":\"select\",\"value\":\"light\",\"options\":[{\"label\":\"Light\",\"value\":\"light\"},{\"label\":\"Dark\",\"value\":\"dark\"},{\"label\":\"High contrast\",\"value\":\"contrast\"}]}},{\"key\":\"timer\",\"label\":\"Question timer\",\"disabled\":true,\"control\":{\"type\":\"switch\"}},{\"key\":\"branding\",\"label\":\"Custom branding\",\"locked\":true,\"plan\":\"pro\",\"feature\":\"Custom branding\"}]},{\"label\":\"Audience\",\"description\":\"How people join and answer.\",\"rows\":[{\"key\":\"anon\",\"label\":\"Anonymous join\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"consent\",\"label\":\"Data consent\",\"control\":{\"type\":\"checkbox\",\"checked\":true}}]}]}" },
-        { "label": "Account", "value": "{\"sections\":[{\"label\":\"Account\",\"rows\":[{\"key\":\"name\",\"label\":\"Display name\",\"control\":{\"type\":\"input\",\"value\":\"Alex Rivera\"}},{\"key\":\"emails\",\"label\":\"Product emails\",\"description\":\"Occasional updates about new features.\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"twofa\",\"label\":\"Two-factor auth\",\"control\":{\"type\":\"switch\"}}]},{\"label\":\"Plan\",\"rows\":[{\"key\":\"sso\",\"label\":\"Single sign-on\",\"locked\":true,\"plan\":\"pro\",\"feature\":\"Single sign-on\"},{\"key\":\"seats\",\"label\":\"Extra seats\",\"disabled\":true,\"control\":{\"type\":\"switch\"}}]}]}" }
-      ] },
-      { "prop": "density", "label": "Density", "default": "default", "options": [
-        { "label": "Default", "value": "__remove__" },
-        { "label": "Compact", "value": "compact" }
-      ] }
+      {
+        "prop": "schema",
+        "label": "Example",
+        "default": "presentation",
+        "options": [
+          {
+            "label": "Presentation",
+            "value": "{\"sections\":[{\"label\":\"Presentation\",\"rows\":[{\"key\":\"progressBar\",\"label\":\"Progress bar\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"leaderboard\",\"label\":\"Leaderboard\",\"description\":\"Shown to the audience between slides.\",\"control\":{\"type\":\"switch\"}},{\"key\":\"deckTitle\",\"label\":\"Deck title\",\"control\":{\"type\":\"input\",\"value\":\"Untitled\"}},{\"key\":\"theme\",\"label\":\"Slide theme\",\"control\":{\"type\":\"select\",\"value\":\"light\",\"options\":[{\"label\":\"Light\",\"value\":\"light\"},{\"label\":\"Dark\",\"value\":\"dark\"},{\"label\":\"High contrast\",\"value\":\"contrast\"}]}},{\"key\":\"timer\",\"label\":\"Question timer\",\"disabled\":true,\"control\":{\"type\":\"switch\"}},{\"key\":\"branding\",\"label\":\"Custom branding\",\"locked\":true,\"plan\":\"pro\",\"feature\":\"Custom branding\"}]},{\"label\":\"Audience\",\"description\":\"How people join and answer.\",\"rows\":[{\"key\":\"anon\",\"label\":\"Anonymous join\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"consent\",\"label\":\"Data consent\",\"control\":{\"type\":\"checkbox\",\"checked\":true}}]}]}"
+          },
+          {
+            "label": "Account",
+            "value": "{\"sections\":[{\"label\":\"Account\",\"rows\":[{\"key\":\"name\",\"label\":\"Display name\",\"control\":{\"type\":\"input\",\"value\":\"Alex Rivera\"}},{\"key\":\"emails\",\"label\":\"Product emails\",\"description\":\"Occasional updates about new features.\",\"control\":{\"type\":\"switch\",\"checked\":true}},{\"key\":\"twofa\",\"label\":\"Two-factor auth\",\"control\":{\"type\":\"switch\"}}]},{\"label\":\"Plan\",\"rows\":[{\"key\":\"sso\",\"label\":\"Single sign-on\",\"locked\":true,\"plan\":\"pro\",\"feature\":\"Single sign-on\"},{\"key\":\"seats\",\"label\":\"Extra seats\",\"disabled\":true,\"control\":{\"type\":\"switch\"}}]}]}"
+          }
+        ]
+      },
+      {
+        "prop": "density",
+        "label": "Density",
+        "default": "default",
+        "options": [
+          {
+            "label": "Default",
+            "value": "__remove__"
+          },
+          {
+            "label": "Compact",
+            "value": "compact"
+          }
+        ]
+      }
     ]
   },
   "selfCheck": [
-    { "label": "inline row: label left, control right (gap 12)", "verdict": "PASS" },
-    { "label": "label semibold (600) #1A1A1A", "verdict": "PASS" },
-    { "label": "guidance = a \"?\" help tooltip after the label (no standing description line)", "verdict": "PASS" },
-    { "label": "stack layout: label above, control full-width", "verdict": "PASS" },
-    { "label": "spacing-only (16 sibling / 32 group, no dividers/boxes)", "verdict": "PASS" },
-    { "label": "composes DS controls via slot", "verdict": "PASS" },
-    { "label": "renders rows from a schema + reuses DS controls", "verdict": "PASS" },
-    { "label": "disabled row dims label to text-disabled + disables control", "verdict": "PASS" },
-    { "label": "plan-gated row stays visible via the shared Paywall crown", "verdict": "PASS" }
+    {
+      "label": "inline row: label left, control right (gap 12)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "label semibold (600) #1A1A1A",
+      "verdict": "PASS"
+    },
+    {
+      "label": "guidance = a \"?\" help tooltip after the label (no standing description line)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "stack layout: label above, control full-width",
+      "verdict": "PASS"
+    },
+    {
+      "label": "spacing-only (16 sibling / 32 group, no dividers/boxes)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "composes DS controls via slot",
+      "verdict": "PASS"
+    },
+    {
+      "label": "renders rows from a schema + reuses DS controls",
+      "verdict": "PASS"
+    },
+    {
+      "label": "disabled row dims label to text-disabled + disables control",
+      "verdict": "PASS"
+    },
+    {
+      "label": "plan-gated row stays visible via the shared Paywall crown",
+      "verdict": "PASS"
+    },
+    {
+      "label": "visible_if dependents hide when trigger off, show nested when on",
+      "verdict": "PASS"
+    }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element family, single render. The probe is an <aha-settings-item>. Measures ≥4 props incl a colour (label + muted help) and a px (label size + inline row gap): the semibold-600 label, the \"?\" help trigger after it, and the disabled-row dim.",
