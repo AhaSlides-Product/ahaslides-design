@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.39.0 — 2026-09-11
+### Changed
+- **Select field — themed popup.** `<aha-select>` no longer opens the browser's unstyleable native `<select>` list; it now renders a fully **themed `role="listbox"` popup** — DS surface, radius 8, elevation shadow, brand-tinted hover, a `system-check` on the selected option — matching the rest of the system. It's an accessible combobox (`role="combobox"` + `aria-expanded`/`aria-activedescendant`; Arrow/Home/End + typeahead + Enter/Escape, outside-click dismiss, edge-flip), the fade/scale motion lives on a persistent panel, and the trigger chrome/sizes/status are unchanged. New `open` state (reflected). Fixes the settings-panel select showing the OS dropdown. API-compatible — same `options`/`value`/`change`. (#77)
+
 ## 0.38.0 — 2026-09-11
 ### Added
 - **Breadcrumb** — `size="page-title"` turns the current crumb into the page heading (a real `<h1>`, `heading-level` picks h1–h6): a single-item trail is the standalone page title (24/600), a longer trail is that heading with its ancestor path in front (18/600). Plus a `size="mini"` (12/18) compact scale. This is now the DS page-title — reach for it instead of a hand-rolled `<h1>`; the breadcrumb *is* the page title. (#76)
