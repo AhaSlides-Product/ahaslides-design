@@ -1,29 +1,37 @@
 <div class="pad">
-  <div class="lbl">Schema-driven · sections → rows · reuses DS controls · disabled + plan-gated (crown) rows</div>
+  <div class="lbl">Schema-driven · sections → rows · reuses DS controls · "?" help tooltip · inline + stack · disabled + plan-gated (crown) rows</div>
   <!-- The smart widget: ONE real <aha-settings-list>. It is the playground target (data-pg-target) so
        the Example / Density controls (contracts/settings-list.json → playground) drive its `schema` and
-       `density` attributes live. A JSON `schema` attribute is what the playground sets. -->
+       `density` attributes live. A JSON `schema` attribute is what the playground sets.
+       `description` now = the "?" help tooltip content (not a standing line); `layout:"stack"` = wide. -->
   <aha-settings-list data-pg-target style="max-width:380px; display:block"
     schema='{"sections":[{"label":"Presentation","rows":[
       {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}},
       {"key":"leaderboard","label":"Leaderboard","description":"Shown to the audience between slides.","control":{"type":"switch"}},
       {"key":"deckTitle","label":"Deck title","control":{"type":"input","value":"Untitled"}},
+      {"key":"notes","label":"Speaker notes","description":"Only you see these while presenting.","layout":"stack","control":{"type":"input","value":""}},
       {"key":"theme","label":"Slide theme","control":{"type":"select","value":"light","options":[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]}},
       {"key":"timer","label":"Question timer","disabled":true,"control":{"type":"switch"}},
       {"key":"branding","label":"Custom branding","locked":true,"plan":"pro","feature":"Custom branding"}
-    ]},{"label":"Audience","description":"How people join and answer.","rows":[
-      {"key":"anon","label":"Anonymous join","control":{"type":"switch","checked":true}},
+    ]},{"label":"Audience","rows":[
+      {"key":"anon","label":"Anonymous join","description":"People join without signing in.","control":{"type":"switch","checked":true}},
       {"key":"consent","label":"Data consent","control":{"type":"checkbox","checked":true}}
     ]}]}'>
   </aha-settings-list>
 
-  <div class="lbl" style="margin-top:24px">Slot form · compose the row by hand (still supported)</div>
+  <div class="lbl" style="margin-top:24px">Slot form · a "?" help row, an inline row, a stack row (still supported)</div>
   <aha-settings-list label="Presentation" style="max-width:380px; display:block">
+    <!-- "?" help + inline probe: description → the help tooltip after the label -->
     <aha-settings-item data-probe label="Progress bar" description="Shown along the top while presenting.">
       <aha-switch slot="control" checked></aha-switch>
     </aha-settings-item>
+    <!-- plain inline row, no help -->
     <aha-settings-item label="Leaderboard">
       <aha-switch slot="control"></aha-switch>
+    </aha-settings-item>
+    <!-- stack layout: label above, control full-width -->
+    <aha-settings-item label="Speaker notes" layout="stack" description="Only you see these.">
+      <aha-input slot="control"></aha-input>
     </aha-settings-item>
     <aha-settings-item data-disabled-probe label="Question timer" disabled>
       <aha-switch slot="control" disabled></aha-switch>
@@ -34,8 +42,8 @@
 <!-- Imports the REAL shipped elements (../lib/aha-settings-list.js) + every DS control the schema
      reuses + the icon library — no inlined copy, so the preview can never drift from lib/. -->
 <script type="module">
-  import '../lib/icons.js';               // registers <aha-icon> (crown badge on a locked row)
-  import '../lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item>
+  import '../lib/icons.js';               // registers <aha-icon> (crown badge + the "?" help glyph)
+  import '../lib/aha-settings-list.js';   // registers <aha-settings-list> + <aha-settings-item> (pulls in <aha-tooltip> for the "?" help)
   import '../lib/aha-switch.js';          // reused as a control (slot + schema)
   import '../lib/aha-input.js';           // reused as a schema control
   import '../lib/aha-select.js';          // reused as a schema control (control.type "select")

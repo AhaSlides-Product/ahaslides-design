@@ -5,18 +5,20 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component — composite",
   "element": "aha-option-row",
-  "summary": "The repeatable option/answer row — one bordered row with an inside drag handle, a borderless counted textarea, an optional correct toggle and per-option image, and a floating hover delete (SETTINGS-20/34/23/39).",
-  "lead": "ONE custom element — <aha-option-row> — the repeatable option/answer row, composed from DS primitives. Its UNIVERSAL CORE (SETTINGS-34): the ROW carries the ONE border (radius 8) — the text field inside is a BORDERLESS counted textarea (no box-in-a-box / double border); the drag handle is the FIRST child INSIDE that border (not a column to its left); the delete floats just OUTSIDE the top-right, shown ONLY on hover and disabled at the minimum item count (SETTINGS-23). Per-type extras compose in only when the type has them — a correct-answer checkbox (scored types) and the per-option image control (SETTINGS-22). The drag handle appears only when order matters (`orderable`); an unordered set is not numbered (SETTINGS-39). Reuses <aha-counted-textarea borderless>, <aha-checkbox> and <aha-image-action-button>. Shadow-DOM CSS, themed only by --aha-* tokens.",
-  "codeNote": "A composite element that COMPOSES DS leaves (never re-implements them): the borderless CountedTextarea, the Checkbox, the ImageActionButton. React (< 19) via a thin ref wrapper; Vue binds natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "border-hover", "color-primary", "color-error", "bg-container", "bg-elevated", "text-disabled", "icon-muted", "radius-default", "radius-pill", "focus-ring-soft", "ink-a10"],
+  "summary": "The repeatable option/answer row — one bordered row with an inside drag handle, a borderless counted textarea, an optional correct toggle (circle or square) and per-option image, and a floating hover delete; marking correct paints the whole card success-green (SETTINGS-20/34/23/39).",
+  "lead": "ONE custom element — <aha-option-row> — the repeatable option/answer row, composed from DS primitives. Its UNIVERSAL CORE (SETTINGS-34): the ROW carries the ONE border (radius 8) — the text field inside is a BORDERLESS counted textarea (no box-in-a-box / double border); the drag handle is the FIRST child INSIDE that border (not a column to its left); the delete floats just OUTSIDE the top-right, shown ONLY on hover and disabled at the minimum item count (SETTINGS-23). Per-type extras compose in only when the type has them — a correct-answer toggle (scored types) and the per-option image control (SETTINGS-22). The correct toggle has two shapes (`checkboxShape`, default `circle`): a 20px outline circle, or a radius-6 square; either FILLS success-green with a white tick when marked correct, and the WHOLE card paints success-green (a `color-success` border over a faint `bg-positive` tint). With `singleLine` the field is a single-line answer — Enter is blocked and the text is trimmed on blur. The drag handle appears only when order matters (`orderable`); an unordered set is not numbered (SETTINGS-39). Reuses <aha-counted-textarea borderless> and <aha-image-action-button>. Shadow-DOM CSS, themed only by --aha-* tokens.",
+  "codeNote": "A composite element that COMPOSES DS leaves (never re-implements them): the borderless CountedTextarea and the ImageActionButton. The correct-answer toggle is a native <button role=\"checkbox\"> (keyboard-operable, aria-checked kept in sync) rather than the square Checkbox, because the reference toggle is success-green and shape-variant (circle | square). React (< 19) via a thin ref wrapper; Vue binds natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "border-hover", "color-primary", "color-success", "border-success", "color-error", "bg-container", "bg-positive", "bg-elevated", "text-disabled", "text-inverse", "icon-muted", "checkbox-border", "radius-default", "radius-sm", "radius-pill", "focus-ring-soft", "btn-focus-ring-success", "ink-a10"],
   "spec": [
     { "label": "Row", "value": "the ONE border — 1px #E3E3E3, radius 8; field inside is borderless (no double border)" },
     { "label": "Drag handle", "value": "system-drag, FIRST child inside the border; shown only when order matters (orderable)" },
     { "label": "Text", "value": "borderless counted textarea — focus-only counter, wraps, scrolls beyond ~4 lines (SETTINGS-21)" },
-    { "label": "Correct", "value": "optional leading checkbox (correctable) — scored types only" },
+    { "label": "Correct toggle", "value": "optional (correctable), scored types only — 20px circle (default) or radius-6 square; fills --aha-color-success with a white tick when correct" },
+    { "label": "Correct card", "value": "when correct the WHOLE row paints success-green: --aha-color-success border over a faint --aha-bg-positive tint fill" },
+    { "label": "Single line", "value": "singleLine → Enter never inserts a newline; value is trimmed on blur (single-line answers)" },
     { "label": "Image", "value": "optional per-option ImageActionButton (image) — the full state set (SETTINGS-22)" },
-    { "label": "Delete", "value": "floats just OUTSIDE the top-right, hover-only, disabled at min (candelete=false)" },
-    { "label": "Focus", "value": "focus-within → #6A1EBB row border + ring (on the one persistent border)" }
+    { "label": "Delete", "value": "floats -14px OUTSIDE the top-right, hover-only, disabled (not hidden) at min (candelete=false)" },
+    { "label": "Focus", "value": "focus-within → #6A1EBB row border + ring (success-green ring when correct), on the one persistent border" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "The option text" },
@@ -24,7 +26,9 @@
     { "name": "maxlength", "type": "number", "default": "—", "desc": "Character cap — turns the focus-only counter on" },
     { "name": "orderable", "type": "boolean", "default": "false", "desc": "Show the drag handle (order carries meaning) — omit for an unordered set (SETTINGS-39)" },
     { "name": "correctable", "type": "boolean", "default": "false", "desc": "Show the leading correct-answer checkbox (scored types)" },
-    { "name": "correct", "type": "boolean", "default": "false", "desc": "Whether this option is marked correct" },
+    { "name": "correct", "type": "boolean", "default": "false", "desc": "Whether this option is marked correct — paints the whole card success-green + fills the toggle" },
+    { "name": "checkboxShape", "type": "circle | square (attr checkboxshape)", "default": "circle", "desc": "The correct-answer toggle shape — a 20px outline circle, or a radius-6 square; both fill success-green with a white tick when correct" },
+    { "name": "singleLine", "type": "boolean (attr singleline)", "default": "false", "desc": "Single-line answer — blocks Enter (no newline) and trims the value on blur" },
     { "name": "image", "type": "boolean", "default": "false", "desc": "Show the per-option image control" },
     { "name": "imagestate", "type": "empty | loading | filled", "default": "empty", "desc": "The image control's state" },
     { "name": "imagesrc", "type": "string", "default": "—", "desc": "The image thumbnail URL when filled" },
@@ -53,17 +57,28 @@
         { "label": "Yes", "value": "" },
         { "label": "No", "value": null }
       ] },
-      { "prop": "correctable", "label": "Correct toggle", "default": "false", "options": [
-        { "label": "Off", "value": null },
-        { "label": "On", "value": "" }
+      { "prop": "correctable", "label": "Correct toggle", "default": "true", "options": [
+        { "label": "On", "value": "" },
+        { "label": "Off", "value": null }
+      ] },
+      { "prop": "checkboxShape", "label": "Toggle shape", "default": "circle", "options": [
+        { "label": "Circle", "value": "circle" },
+        { "label": "Square", "value": "square" }
+      ] },
+      { "prop": "correct", "label": "Marked correct", "default": "false", "options": [
+        { "label": "No", "value": null },
+        { "label": "Yes", "value": "" }
       ] }
     ]
   },
   "selfCheck": [
     { "label": "the ROW carries the ONE border; field inside borderless (no double border) — SETTINGS-34", "verdict": "PASS" },
     { "label": "drag handle is the FIRST child INSIDE the border, only when orderable (SETTINGS-39)", "verdict": "PASS" },
-    { "label": "delete floats just outside the top-right, hover-only, disabled at min (SETTINGS-23)", "verdict": "PASS" },
-    { "label": "composes DS leaves (borderless CountedTextarea, Checkbox, ImageActionButton) — no re-implementation", "verdict": "PASS" }
+    { "label": "delete floats -14px outside the top-right, hover-only, disabled (not hidden) at min (SETTINGS-23)", "verdict": "PASS" },
+    { "label": "correct → whole card paints success-green (color-success border + bg-positive tint) + toggle fills green with white tick", "verdict": "PASS" },
+    { "label": "correct toggle supports both shapes: circle (default, 20px outline) and radius-6 square (checkboxShape)", "verdict": "PASS" },
+    { "label": "singleLine blocks Enter (no newline) and trims on blur; role=checkbox toggle stays keyboard-operable + aria-checked in sync", "verdict": "PASS" },
+    { "label": "composes DS leaves (borderless CountedTextarea, ImageActionButton) — no re-implementation", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). A composite element — measured on its ONE rendered row.",

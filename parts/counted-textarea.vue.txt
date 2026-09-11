@@ -11,9 +11,9 @@ const answer = ref('');
 <template>
   <!-- maxlength turns the focus-only counter on; minrows/maxrows bound the autogrow -->
   <aha-counted-textarea
-    maxlength="200"
+    maxlength="150"
     minrows="2"
-    maxrows="4"
+    maxrows="5"
     placeholder="Answer"
     :value.prop="answer"
     @input="answer = $event.detail.value"

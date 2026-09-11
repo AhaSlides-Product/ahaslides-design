@@ -8,9 +8,9 @@
   "summary": "The numbered wrapper for a repeatable composite item — a grey card with a muted number chip, a \"<Label> N\" header, a hover delete, and a body slot (SETTINGS-43).",
   "lead": "ONE custom element — <aha-numbered-item> — the wrapper for a repeatable COMPOSITE item (a Question, a Card, a Round): its own body of fields (in the slot) under a number chip + \"<Label> N\" header + hover delete (SETTINGS-43). The `contained` variant (default) wraps the WHOLE item — chip, header, delete AND body — inside ONE secondary-fill grey card (never a header sitting above a separately-grey body); the number chip is a MUTED GREY circle (never a radical-purple badge). The delete is a TERTIARY text trash (borderless, non-danger) shown ONLY on hover with its space reserved, hidden entirely for a non-removable item (`deletable=false`) and disabled at the minimum count (`candelete=false`). The `plain` variant drops the fill and is for SINGLE-FIELD items only. Delete glyph by name via <aha-icon>. Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `delete`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. The item's fields go in the default slot. React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
-  "tokensUsed": ["bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-secondary", "text-disabled", "icon-muted", "color-error", "radius-default", "radius-sm", "radius-pill"],
+  "tokensUsed": ["bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-secondary", "text-disabled", "icon-muted", "color-error", "radius-lg", "radius-sm", "radius-pill"],
   "spec": [
-    { "label": "Contained", "value": "whole item in ONE #F7F7F7 grey card, radius 8, no border, padding 12" },
+    { "label": "Contained", "value": "whole item in ONE #F7F7F7 grey card, radius 12, no border, padding 12" },
     { "label": "Chip", "value": "22px muted-grey pill (#F1F1F1 / #4A4A4A), semibold 12 — never radical-purple" },
     { "label": "Header", "value": "chip + \"<Label> N\" title (semibold 14) + hover delete" },
     { "label": "Delete", "value": "tertiary text trash (system-trash), hover-only, space reserved; #F5222D on hover" },
@@ -64,6 +64,6 @@
     "ready": "!!(document.querySelector('aha-numbered-item[data-probe]') && document.querySelector('aha-numbered-item[data-probe]').shadowRoot && document.querySelector('aha-numbered-item[data-probe]').shadowRoot.querySelector('.item'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-numbered-item[data-probe]');var r=el&&el.shadowRoot;var it=r&&r.querySelector('.item');var t=r&&r.querySelector('.title');var is=it?getComputedStyle(it):null;var ts=t?getComputedStyle(t):null;return{cardBg:is?is.backgroundColor:null,radius:is?is.borderTopLeftRadius:null,titleColor:ts?ts.color:null,titleSize:ts?ts.fontSize:null};})()",
-    "expect": { "cardBg": "rgb(247, 247, 247)", "radius": "8px", "titleColor": "rgb(26, 26, 26)", "titleSize": "14px" }
+    "expect": { "cardBg": "rgb(247, 247, 247)", "radius": "12px", "titleColor": "rgb(26, 26, 26)", "titleSize": "14px" }
   }
 }

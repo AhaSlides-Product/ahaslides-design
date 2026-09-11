@@ -14,12 +14,15 @@
 </script>
 
 <!-- 1) Schema-driven — the list renders the rows and reuses the named DS controls.
-     A row can be disabled (dimmed) or locked (visible-but-gated → the shared Paywall crown). -->
+     `description` becomes a "?" help tooltip after the label (not a standing line); `layout:"stack"`
+     puts the label above a full-width control. A row can be disabled (dimmed) or locked
+     (visible-but-gated → the shared Paywall crown). -->
 <aha-settings-list style="max-width:360px; display:block"
   schema='{"sections":[{"label":"Presentation","rows":[
     {"key":"progressBar","label":"Progress bar","control":{"type":"switch","checked":true}},
     {"key":"leaderboard","label":"Leaderboard","description":"Shown to the audience between slides.","control":{"type":"switch"}},
     {"key":"deckTitle","label":"Deck title","control":{"type":"input","value":"Untitled"}},
+    {"key":"notes","label":"Speaker notes","description":"Only you see these while presenting.","layout":"stack","control":{"type":"input","value":""}},
     {"key":"theme","label":"Slide theme","control":{"type":"select","value":"light","options":[{"label":"Light","value":"light"},{"label":"Dark","value":"dark"},{"label":"High contrast","value":"contrast"}]}},
     {"key":"timer","label":"Question timer","disabled":true,"control":{"type":"switch"}},
     {"key":"branding","label":"Custom branding","locked":true,"plan":"pro","feature":"Custom branding"}

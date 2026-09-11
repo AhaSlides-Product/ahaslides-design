@@ -6,16 +6,18 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const resultsMode = ref('auto');
-const modes = [{ value: 'auto', label: 'Automatic' }, { value: 'manual', label: 'Manual' }];
+const options = [{ value: 'auto', label: 'Automatic' }, { value: 'manual', label: 'Manual' }];
 </script>
 
 <template>
-  <!-- modes + mode bound as PROPERTIES; bodies are children tagged data-mode -->
+  <!-- options + value bound as PROPERTIES; bodies are children tagged data-mode -->
+  <!-- variant="radio" (default outline) | "segmented"; label-variant="field" | "section" -->
   <aha-mode-field
     label="Results"
-    :modes.prop="modes"
-    :mode.prop="resultsMode"
-    @change="resultsMode = $event.detail.mode"
+    help="Choose when the results chart appears."
+    :options.prop="options"
+    :value.prop="resultsMode"
+    @change="resultsMode = $event.detail.value"
   >
     <div data-mode="auto">Results appear automatically.</div>
     <div data-mode="manual">You reveal results manually.</div>
