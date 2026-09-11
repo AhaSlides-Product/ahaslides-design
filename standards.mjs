@@ -29,7 +29,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
-const PATDIR = join(root, 'patterns');   // composition-guide artifacts (settings, …)
+const GDIR = join(root, 'guidelines');   // guideline artifacts — prose composition guides (settings, …)
 const PDIR = join(root, 'parts');
 const read = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
 const PKG = JSON.parse(read(join(root, 'package.json')));
@@ -91,7 +91,7 @@ globalThis.HTMLElement = class { constructor() { this.attributes = {}; } };
 
 const REQUIRED = ['name', 'slug', 'group', 'tier', 'summary', 'props', 'spec', 'snippets', 'opinion', 'surfaces', 'preview', 'conformance'];
 // A pattern is a composition guide, not a component — different required shape.
-const PATTERN_REQUIRED = ['name', 'slug', 'kind', 'summary', 'skillRef', 'surfaces', 'composedOf', 'rules'];
+const GUIDELINE_REQUIRED = ['name', 'slug', 'kind', 'summary', 'skillRef', 'surfaces', 'composedOf', 'rules'];
 // Backlog policy — a pattern that names a component the DS doesn't ship yet.
 //   false → WARN: the doc-only pattern lands, the gap is tracked loudly (the pattern pulls the roadmap into the open).
 //   true  → HARD FAIL: the referenced components must exist here first before the pattern can pass.
@@ -439,26 +439,26 @@ for (const ct of contracts) {
   libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 
-/* ===== patterns — composition guides. A pattern ships no primitive; it reuses components and
-   documents conventions. It's gated on: completeness, a real skillRef, a composedOf reuse graph
+/* ===== guidelines — prose composition guides. A guideline ships no primitive; it reuses components
+   and documents conventions. It's gated on: completeness, a real skillRef, a composedOf reuse graph
    that resolves into the component set, rules that trace back to the skill, and (if it ships a
    wrapper) the same import/export checks a composite gets. ===== */
 const contractSlugs = new Set(contracts.map(c => c.slug));
 // custom-element tag → slug, for the elements the DS actually ships (leaves that register)
 const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [c.reuse.registers, c.slug]));
-const patterns = existsSync(PATDIR)
-  ? readdirSync(PATDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(PATDIR, f))))
+const guidelines = existsSync(GDIR)
+  ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
-const patternResults = [];
-for (const p of patterns) {
+const guidelineResults = [];
+for (const p of guidelines) {
   const checks = [], warns = [];
   const chk = (name, cond, note = '') => checks.push([name, !!cond, cond ? '' : note]);
   const warn = (name, note = '') => warns.push([name, note]);
 
   // 1) completeness + kind + the skill it distils
-  const missing = PATTERN_REQUIRED.filter(k => p[k] == null || (Array.isArray(p[k]) && !p[k].length));
-  chk('pattern complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
-  chk('kind is "pattern"', p.kind === 'pattern');
+  const missing = GUIDELINE_REQUIRED.filter(k => p[k] == null || (Array.isArray(p[k]) && !p[k].length));
+  chk('guideline complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
+  chk('kind is "guideline"', p.kind === 'guideline');
   chk('links a build skill (skillRef.build)', p.skillRef && typeof p.skillRef.build === 'string', 'add skillRef.build — the design skill it distils');
 
   // 2) composedOf — the reuse graph must resolve into the component set (the teeth)
@@ -514,7 +514,7 @@ for (const p of patterns) {
     } catch (e) { chk(`import "${spec}" resolves`, false, e.message.split('\n')[0]); }
   }
 
-  patternResults.push({ slug: p.slug || p.name, checks, warns });
+  guidelineResults.push({ slug: p.slug || p.name, checks, warns });
 }
 
 /* ===== repo gate — CHANGELOG + version ===========================================================
@@ -564,9 +564,9 @@ for (const r of results) {
   console.log(`${ok ? '✓' : '✗'} ${r.slug}`);
   for (const [n, v, note] of r.checks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
 }
-if (patternResults.length) {
-  console.log('\npatterns');
-  for (const r of patternResults) {
+if (guidelineResults.length) {
+  console.log('\nguidelines');
+  for (const r of guidelineResults) {
     const ok = r.checks.every(x => x[1]);
     ok ? pass++ : fail++;
     console.log(`${ok ? '✓' : '✗'} ${r.slug}  [pattern]`);
@@ -593,5 +593,5 @@ if (libFindings.length) {
   for (const [n, v, note] of repoChecks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
 }
 console.log(`\n${pass} artifact(s) meet the standard / ${fail} fail${warnCount ? ` · ${warnCount} warning(s)` : ''}\n`);
-if (!contracts.length && !patterns.length) { console.log('No contracts or patterns found — nothing to gate.'); }
+if (!contracts.length && !guidelines.length) { console.log('No contracts or guidelines found — nothing to gate.'); }
 process.exit(fail ? 1 : 0);

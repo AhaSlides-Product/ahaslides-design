@@ -1,0 +1,162 @@
+{
+  "name": "Status badges",
+  "slug": "status-badges",
+  "kind": "guideline",
+  "group": "Patterns",
+  "badge": "pattern — composition guide",
+  "summary": "How to build a status/state pill on a domain object — dot + localised label, the aha-status-pill class convention, the role=status + aria-label contract, i18n labels, and colour driven by the modifier class — from existing components.",
+  "lead": "A status pill communicates the lifecycle state of a domain object (a survey, presentation, or collector) in one glanceable, screen-reader-announced token. This pattern ships NO new component: it documents the markup, class convention, i18n and accessibility rules that keep every state indicator reading as one product, binding colour to semantic tokens via a modifier class rather than inline hex. The narrative 'why' lives in the aha-design-status-badges skill; this artifact carries only what the repo can enforce.",
+  "skillRef": {
+    "build": "aha-design:aha-design-status-badges",
+    "judge": "aha-design:aha-design-status-badges-judge",
+    "note": "The DS now OWNS this build ruleset — it is the single source of truth and the plugin skill will be generated FROM this pattern. The skill remains the home for rationale, worked BAD/GOOD examples, the judge verdicts and evals; this pattern distils the enforceable construction rules and links each back by ref (STATUS-xx)."
+  },
+  "surfaces": [
+    "dashboard",
+    "admin",
+    "tools"
+  ],
+  "surfaceChoice": [
+    {
+      "surface": "Dashboard list / card",
+      "useFor": "the lifecycle state of a survey, presentation, or collector row",
+      "example": "draft / published / closed / archived on a survey card"
+    },
+    {
+      "surface": "Admin / ops table",
+      "useFor": "an enum-driven state column on a domain object",
+      "example": "active / inactive on an account row"
+    },
+    {
+      "surface": "Detail header",
+      "useFor": "the current state of the object being viewed",
+      "example": "a published badge beside a presentation title"
+    }
+  ],
+  "composedOf": [
+    {
+      "ref": "icon",
+      "as": "component",
+      "use": "any glyph rendered beside the status (owned by aha-design-icons) — the dot itself is decorative CSS, not a glyph",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-color-success",
+      "as": "token",
+      "use": "the semantic colour a 'published'/'active' state maps to via its modifier class — never an inline hex",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-color-error",
+      "as": "token",
+      "use": "the semantic colour a 'closed'/failed state maps to via its modifier class — never an inline hex",
+      "status": "available"
+    },
+    {
+      "ref": "status-pill",
+      "as": "component",
+      "use": "the StatusBadge wrapper itself (aha-status-pill + dot + label) — the canonical element this pattern describes",
+      "status": "missing"
+    },
+    {
+      "ref": "tag",
+      "as": "component",
+      "use": "the generic Tag for free-form labels this pattern explicitly is NOT (contrast target — a status badge is a fixed, semantic set, not a free-form Tag)",
+      "status": "available"
+    },
+    {
+      "ref": "badge",
+      "as": "component",
+      "use": "the generic count/notification Badge this pattern explicitly is NOT (contrast target — a status badge conveys state, not a count)",
+      "status": "available"
+    }
+  ],
+  "componentBacklog": "composedOf marks 3 components this pattern references that the DS does not yet ship (status-pill, tag, badge). The status pill (StatusBadge / aha-status-pill family) is the primitive this pattern is built around and currently lives only in the product repo (features/dashboard/StatusBadge.tsx) — per the charter, a pattern that leans on a missing component is the signal to add it HERE. tag and badge are named as the primitives this pattern is NOT, so the roadmap keeps them distinct.",
+  "rules": [
+    {
+      "id": "enum-only",
+      "rule": "Render a status pill only for a value from a known status enum (e.g. SurveyStatus: draft / published / closed / archived). Never use it for free-form labels, counts, or notification dots — those are AntD Badge/Tag territory.",
+      "ref": [
+        "STATUS-01"
+      ]
+    },
+    {
+      "id": "anatomy",
+      "rule": "A status pill is a single inline element containing exactly two parts: a dot span (aha-status-pill__dot) carrying the state colour, followed by the localised label text.",
+      "ref": [
+        "STATUS-02"
+      ]
+    },
+    {
+      "id": "class-convention",
+      "rule": "Markup is the base class aha-status-pill plus a per-state modifier aha-status-pill--{status}. Use the class convention, not a one-off prop or inline style.",
+      "ref": [
+        "STATUS-02"
+      ]
+    },
+    {
+      "id": "colour-by-modifier",
+      "rule": "Colour of the pill and its dot is driven by the --{status} modifier class, keeping every state's colour in one stylesheet and on semantic tokens. Never set the colour inline with a hardcoded hex.",
+      "ref": [
+        "STATUS-03"
+      ]
+    },
+    {
+      "id": "label-from-i18n",
+      "rule": "The visible label is always sourced from i18n — t(`survey_status.${status}`) or the equivalent namespace for the object. Never hardcode the visible string.",
+      "ref": [
+        "STATUS-04"
+      ]
+    },
+    {
+      "id": "new-state-two-parts",
+      "rule": "Adding a new state means adding BOTH a translation key AND a --{status} modifier class — neither alone is complete.",
+      "ref": [
+        "STATUS-03",
+        "STATUS-04"
+      ]
+    },
+    {
+      "id": "a11y-contract",
+      "rule": "The element carries role=\"status\" and an aria-label equal to the visible label, so the state is announced and not conveyed by colour alone.",
+      "ref": [
+        "STATUS-05"
+      ]
+    },
+    {
+      "id": "not-colour-alone",
+      "rule": "State is never conveyed by the dot colour alone — the text label is always present and is the source of truth; the dot is decorative.",
+      "ref": [
+        "STATUS-06"
+      ]
+    },
+    {
+      "id": "test-id",
+      "rule": "Carry a data-testid of status-badge-${status} on the pill so the rendered state is assertable.",
+      "ref": [
+        "STATUS-02"
+      ]
+    }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical StatusBadge component and the aha-status-pill class family live in the product repo at features/dashboard/StatusBadge.tsx; that is their source of truth. If the StatusBadge wrapper graduates into this DS, add a reuse block and it is gated like a leaf/composite.",
+  "selfCheck": [
+    {
+      "label": "pill renders only for a known status enum, not free-form labels/counts",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "markup is aha-status-pill + aha-status-pill--{status} with a dot span and a text label",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "colour comes from the --{status} modifier class, no inline hex",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "label from i18n; role=status + aria-label match the visible text",
+      "verdict": "N/A — per-surface"
+    }
+  ],
+  "guide": "status-badges.guide.md"
+}
