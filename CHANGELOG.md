@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.39.0 — 2026-09-11
+### Added
+- **AhaLoader** — `<aha-loader>`, the full-surface branded loading *screen* shown while a new environment boots (workspace → editor, editor → presenting). Fills its container on a white ground and cycles five branded illustration tiles with a staggered soft-flow (fade + slide + unblur in, hold, out). Reuses the shared `<aha-illustration>` spot art (`loader-award`/`-wand`/`-plane`/`-ballot`/`-chart`, added to the illustration registry), themed by `--aha-*` tokens, `role="status"`, and stills under `prefers-reduced-motion`. Lands under **Patterns · AhaSlides surfaces**. Distinct from `<aha-spin>` (the inline indeterminate spinner). (#PR)
+
 ## 0.38.0 — 2026-09-11
 ### Added
 - **Breadcrumb** — `size="page-title"` turns the current crumb into the page heading (a real `<h1>`, `heading-level` picks h1–h6): a single-item trail is the standalone page title (24/600), a longer trail is that heading with its ancestor path in front (18/600). Plus a `size="mini"` (12/18) compact scale. This is now the DS page-title — reach for it instead of a hand-rolled `<h1>`; the breadcrumb *is* the page title. (#76)

@@ -171,6 +171,7 @@ const PATTERNS_CATALOG = [
     { name: 'Status badge',   slug: 'status-badge' },
     { name: 'CSAT',           slug: 'csat' },
     { name: 'Screen heading', slug: 'screen-heading' },
+    { name: 'AhaLoader',      slug: 'aha-loader' },
   ] },
   /* Settings — the settings-panel composition family: the schema-driven list plus the shipped
      controls a slide-type/settings surface composes (settings-lab → DS). */
