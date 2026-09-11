@@ -50,6 +50,23 @@
           "test": "**Scope.** If the surface has **no** recovery-required message and **no** title+body message at all (e.g. a labels-only surface), C7 is **`N/A`** in full — not PASS."
         }
       ]
+    },
+    "app-shell": {
+      "surface": "shell",
+      "origin": "authored",
+      "skillRef": null,
+      "criteria": [
+        { "id": "C1", "title": "Real brand identity, never a placeholder",
+          "test": "The brand mark + wordmark are the real AhaSlides assets (aha-icon brand glyph / shipped logo), never a coloured letter tile or initials square standing in for a logo." },
+        { "id": "C2", "title": "No dead placeholder shipped as a final state",
+          "test": "Every region renders a real asset or a proper empty state — never a permanent 'Loading…' label, spinner, or grey box (e.g. a QR block shows a real code or an explicit 'code unavailable', not 'Loading QR…')." },
+        { "id": "C3", "title": "Deliberate hierarchy, one primary action per region",
+          "test": "Each region has one clear primary action and a scannable type hierarchy from the scale; not uniform grey-on-white cards of equal weight with evenly-spaced everything." },
+        { "id": "C4", "title": "Shell chrome is tokenised and reuses DS components",
+          "test": "Nav rail, top bar, and content region take spacing/radius/colour from --aha-* tokens and fill their slots with DS components (aha-button, aha-icon, aha-avatar, aha-badge, DataTable), never hand-rolled buttons/icons/hex/px." },
+        { "id": "C5", "title": "Active/selected nav state animates on a persistent node",
+          "test": "The active nav item and any selected state toggle an attribute/class on a persistent node via motion tokens (--aha-motion-* / --aha-ease-*), never a bare duration literal and never by rebuilding the subtree." }
+      ]
     }
   }
 }
