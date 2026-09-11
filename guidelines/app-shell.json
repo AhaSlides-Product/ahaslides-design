@@ -1,7 +1,7 @@
 {
   "name": "App shell",
   "slug": "app-shell",
-  "kind": "pattern",
+  "kind": "guideline",
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How an AhaSlides product SCREEN is assembled from DS components — the left nav rail (real brand mark + nav items + one primary CTA), the top bar (context left, actions/avatar right), the content region, and where relevant a canvas/stage — spaced by --aha-* tokens, with a real brand identity and no dead placeholders. Closes the composition gap that turns a component-correct screen into generic-admin-template slop.",
