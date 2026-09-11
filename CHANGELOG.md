@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.35.0 — 2026-09-11
+### Changed
+- **Docs taxonomy — Components / Patterns / Guidelines.** The DS now separates three artifact kinds cleanly: **Components** are the general primitives that inherit from themed Ant; **Patterns** are reusable AhaSlides components composed *from* Components (real code) — the *AhaSlides surfaces* (Paywall, Status badge, CSAT, Screen heading), *Settings* (Settings list + the 12 controls), and *Data* (DataTable) groups move here out of Components; **Guidelines** are the prose composition guides (grouping, help-text discipline, danger-zone rules) — the section previously mislabelled "Patterns". `patterns/` → `guidelines/` (artifact `kind: "guideline"`, gated as before); the top nav gains a Patterns area (composed components) and a Guidelines area, and a pattern-classified component renders under `Patterns · <group>`. No component behaviour or API change — reclassification + nav only. (#71)
+
 ## 0.34.1 — 2026-09-11
 ### Changed
 - **Docs / feeds** — the all-in-one entry is now discoverable where people look: the `llms.txt` agent index and the docs-site "Consume" block both show the one-tag `<script src=".../lib/all.js">` snippet (alongside a note to prefer per-element imports in bundled apps). No code/API change — surfaces the `0.34.0` entry point in the DS's self-serve feeds. (#74)
