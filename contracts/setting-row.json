@@ -11,7 +11,7 @@
   "tokensUsed": ["font-product", "text-default", "text-tertiary", "text-disabled"],
   "spec": [
     { "label": "Inline row", "value": "flex; align-items center; justify-content space-between; gap 12; min-height 24" },
-    { "label": "Label", "value": "Plus Jakarta 14/21, weight 600, text-default (#1A1A1A); flex:1 (label-left)" },
+    { "label": "Label", "value": "Plus Jakarta 14/21, regular (400), text-default (#1A1A1A); flex:1 (label-left)" },
     { "label": "Control", "value": "flex:0 0 auto (control-right); slotted DS control — reuse, not re-implemented" },
     { "label": "Stack", "value": "flex-direction column; align-items stretch; gap 8; control full-width" },
     { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the circled question glyph)" },
@@ -59,7 +59,7 @@
   },
   "selfCheck": [
     { "label": "inline row space-between, gap 12, min-height 24", "verdict": "PASS" },
-    { "label": "label Plus Jakarta 14/21 weight 600 text-default; label-left", "verdict": "PASS" },
+    { "label": "label Plus Jakarta 14/21 regular (400) text-default; label-left", "verdict": "PASS" },
     { "label": "control-right (flex:0 0 auto); stack → control full-width", "verdict": "PASS" },
     { "label": "\"?\" help (circled question glyph) renders after the label when help is set", "verdict": "PASS" },
     { "label": "no decorative leading-icon slot (SETTINGS-40)", "verdict": "PASS" }
@@ -69,6 +69,6 @@
     "ready": "!!(document.querySelector('aha-setting-row[data-probe]') && document.querySelector('aha-setting-row[data-probe]').shadowRoot && document.querySelector('aha-setting-row[data-probe]').shadowRoot.querySelector('.label'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-setting-row[data-probe]');var r=el&&el.shadowRoot;var row=r&&r.querySelector('.row');var lab=r&&r.querySelector('.label');var rs=row?getComputedStyle(row):null;var ls=lab?getComputedStyle(lab):null;return{fontWeight:ls?ls.fontWeight:null,fontSize:ls?ls.fontSize:null,labelColor:ls?ls.color:null,rowGap:rs?rs.columnGap||rs.gap:null,justifyContent:rs?rs.justifyContent:null,alignItems:rs?rs.alignItems:null};})()",
-    "expect": { "fontWeight": "600", "fontSize": "14px", "labelColor": "rgb(26, 26, 26)", "rowGap": "12px", "justifyContent": "space-between", "alignItems": "center" }
+    "expect": { "fontWeight": "400", "fontSize": "14px", "labelColor": "rgb(26, 26, 26)", "rowGap": "12px", "justifyContent": "space-between", "alignItems": "center" }
   }
 }
