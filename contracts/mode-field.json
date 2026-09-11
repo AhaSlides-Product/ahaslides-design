@@ -14,8 +14,8 @@
     { "label": "Radio variant (default)", "value": "OUTLINE segmented, 32 high, semibold 13; selected = #6A1EBB border + #6A1EBB text on WHITE fill (no tint pill)" },
     { "label": "Segmented variant", "value": "neutral grey control — #F7F7F7 track, secondary-grey labels, active = white raised on default-text" },
     { "label": "Label variant", "value": "field = regular 400; section = semibold 600 (a header for a grouped-list body)" },
-    { "label": "Help", "value": "optional \"?\" tooltip (system-question-mark) after the label when `help` is set" },
-    { "label": "Body", "value": "the active value's light-DOM child; others hidden in place (persistent, keep state); margin-top 12" },
+    { "label": "Help", "value": "optional \"?\" tooltip (system-question-mark) after the label when `help` is set; opens below (bottom-start) so it clears the panel top, and the bubble wraps within 240px" },
+    { "label": "Body", "value": "the active value's light-DOM child; others hidden in place (persistent, keep state); margin-top 12; de-emphasised help text — secondary #4A4A4A, 13/20, regular — so the label stays the field's primary line" },
     { "label": "Hover", "value": "#D3B4FF border + #6A1EBB label on a radio-variant button" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],
@@ -65,7 +65,7 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-mode-field[data-probe]') && document.querySelector('aha-mode-field[data-probe]').shadowRoot && document.querySelector('aha-mode-field[data-probe]').shadowRoot.querySelector('.seg-btn[aria-pressed=\"true\"]'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-mode-field[data-probe]');var r=el&&el.shadowRoot;var a=r&&r.querySelector('.seg-btn[aria-pressed=\"true\"]');var l=r&&r.querySelector('.label');var as=a?getComputedStyle(a):null;var ls=l?getComputedStyle(l):null;return{activeBg:as?as.backgroundColor:null,activeBorder:as?as.borderTopColor:null,radius:as?as.borderTopLeftRadius:null,fontSize:as?as.fontSize:null,labelColor:ls?ls.color:null};})()",
-    "expect": { "activeBg": "rgb(255, 255, 255)", "activeBorder": "rgb(106, 30, 187)", "radius": "8px", "fontSize": "13px", "labelColor": "rgb(26, 26, 26)" }
+    "measure": "(function(){var el=document.querySelector('aha-mode-field[data-probe]');var r=el&&el.shadowRoot;var a=r&&r.querySelector('.seg-btn[aria-pressed=\"true\"]');var l=r&&r.querySelector('.label');var bd=r&&r.querySelector('.body');var as=a?getComputedStyle(a):null;var ls=l?getComputedStyle(l):null;var bs=bd?getComputedStyle(bd):null;return{activeBg:as?as.backgroundColor:null,activeBorder:as?as.borderTopColor:null,radius:as?as.borderTopLeftRadius:null,fontSize:as?as.fontSize:null,labelColor:ls?ls.color:null,bodyColor:bs?bs.color:null,bodyWeight:bs?bs.fontWeight:null};})()",
+    "expect": { "activeBg": "rgb(255, 255, 255)", "activeBorder": "rgb(106, 30, 187)", "radius": "8px", "fontSize": "13px", "labelColor": "rgb(26, 26, 26)", "bodyColor": "rgb(74, 74, 74)", "bodyWeight": "400" }
   }
 }
