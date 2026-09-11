@@ -1,0 +1,19 @@
+// main.ts — register the element + its reused spot art, and mark aha-* as custom elements
+import '@ahaslides-product/design/aha-loader';   // registers <aha-loader> (+ the reused <aha-illustration>)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — the full-surface branded loading SCREEN for an environment transition
+// (workspace → editor, editor → presenting). It fills its container, so make that container
+// full-screen for a real transition. Decorative brand motion, not a progress bar: pass a `label`,
+// never a percentage. For an inline indeterminate wait, reach for <aha-spin> instead.
+<template>
+  <!-- Full-screen while the next environment boots -->
+  <div v-if="loading" style="position:fixed; inset:0">
+    <aha-loader label="Opening the editor…" />
+  </div>
+
+  <!-- Or inside any sized box (it fills its container, min-height 240px) -->
+  <div style="width:100%; height:360px">
+    <aha-loader label="Starting the presentation…" />
+  </div>
+</template>
