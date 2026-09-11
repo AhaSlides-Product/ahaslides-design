@@ -176,6 +176,11 @@ const PATTERNS_CATALOG = [
      controls a slide-type/settings surface composes (settings-lab → DS). */
   { cat: 'Settings', items: [
     { name: 'Settings list',       slug: 'settings-list' },
+    { name: 'Setting group',       slug: 'setting-group' },
+    { name: 'Section header',      slug: 'section-header' },
+    { name: 'Setting row',         slug: 'setting-row' },
+    { name: 'Sub-setting group',   slug: 'sub-setting-group' },
+    { name: 'Add item button',     slug: 'add-item-button' },
     { name: 'Counted input',       slug: 'counted-input' },
     { name: 'Counted textarea',    slug: 'counted-textarea' },
     { name: 'Number with unit',    slug: 'number-with-unit' },

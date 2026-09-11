@@ -1,0 +1,38 @@
+<div class="pad">
+  <div class="lbl">Dependent (child) settings · 8px above (binds tighter than the 16 between siblings) · 24px indent · host owns visibility (hidden when the parent is off) · no border/card</div>
+
+  <!-- The smart widget: the real <aha-sub-setting-group> nested under a parent toggle inside a
+       setting group. It is the playground target (data-pg-target) so the Parent control
+       (contracts/sub-setting-group.json → playground) toggles its `hidden` attribute live, and the
+       conformance probe (data-probe) — padding-left 24, margin-top 8, .rows gap 16 are measured off it. -->
+  <div style="max-width:380px; display:block">
+    <aha-setting-group label="Question timer">
+      <!-- the parent toggle -->
+      <aha-settings-item label="Show a timer">
+        <aha-switch slot="control" checked></aha-switch>
+      </aha-settings-item>
+
+      <!-- its dependent sub-settings — indented 24px, bound 8px under the parent -->
+      <aha-sub-setting-group data-pg-target data-probe>
+        <aha-settings-item label="Seconds per question">
+          <aha-input slot="control" value="30"></aha-input>
+        </aha-settings-item>
+        <aha-settings-item label="Auto-advance when time's up">
+          <aha-switch slot="control"></aha-switch>
+        </aha-settings-item>
+      </aha-sub-setting-group>
+    </aha-setting-group>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped elements (../lib/aha-sub-setting-group.js + its parent group) + the
+     rows/controls they compose + the icon library — no inlined copy, so the preview can never drift
+     from lib/. -->
+<script type="module">
+  import '../lib/icons.js';                  // <aha-icon> — control glyphs
+  import '../lib/aha-setting-group.js';      // registers <aha-setting-group> (the parent group)
+  import '../lib/aha-sub-setting-group.js';  // registers <aha-sub-setting-group>
+  import '../lib/aha-settings-list.js';      // <aha-settings-item> rows
+  import '../lib/aha-switch.js';             // reused row control
+  import '../lib/aha-input.js';              // reused row control
+</script>

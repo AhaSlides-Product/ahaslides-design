@@ -1,0 +1,74 @@
+{
+  "name": "Setting Row",
+  "slug": "setting-row",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-setting-row",
+  "summary": "ONE setting — a label (with an optional \"?\" help) plus a slotted DS control; inline (label-left / control-right) by default, or stacked (label above, control full-width) for a wide control.",
+  "lead": "ONE custom element — <aha-setting-row> — defined once, imported unchanged by React and Vue. The LEAF of the settings hierarchy: a single row sitting under an <aha-section-header>. It ships NO control of its own — the `control` slot carries an existing DS element (aha-switch / aha-checkbox / aha-input / aha-select …), so this is reuse, never a re-implemented control. Inline (default): label LEFT (flex:1), control RIGHT (flex:0 0 auto), justify-content space-between, gap 12. Stack: label above, control full-width — for a wide textarea or wide select. A muted \"?\" help trigger sits after the label — the shared DS <aha-tooltip help>, the CIRCLED question glyph summoned by name from the icon library, never a hand-placed icon. NO decorative leading-icon slot on the label (SETTINGS-40): functional icons live in the control. Shadow-DOM CSS, themed only by --aha-* tokens; the row is static (no roving role). Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) renders it directly; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["font-product", "text-default", "text-tertiary", "text-disabled"],
+  "spec": [
+    { "label": "Inline row", "value": "flex; align-items center; justify-content space-between; gap 12; min-height 24" },
+    { "label": "Label", "value": "Plus Jakarta 14/21, weight 600, text-default (#1A1A1A); flex:1 (label-left)" },
+    { "label": "Control", "value": "flex:0 0 auto (control-right); slotted DS control — reuse, not re-implemented" },
+    { "label": "Stack", "value": "flex-direction column; align-items stretch; gap 8; control full-width" },
+    { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the circled question glyph)" },
+    { "label": "Disabled", "value": "label dims to text-disabled (#B5B5B5); the control disables itself" },
+    { "label": "Leading icon", "value": "NONE — no decorative leading-icon slot on the label (SETTINGS-40)" }
+  ],
+  "props": [
+    { "name": "label", "type": "string", "default": "—", "desc": "The setting name — a noun phrase in sentence case" },
+    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (circled question glyph) after the label; the tooltip carries the text" },
+    { "name": "layout", "type": "inline | stack", "default": "inline", "desc": "inline: label-left / control-right (space-between). stack: label above, control full-width — for a wide control" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims the label to text-disabled and sets aria-disabled; the slotted control disables itself on its own element" },
+    { "name": "control", "type": "slot", "default": "—", "desc": "The DS control (slot=\"control\") — an existing element like <aha-switch> / <aha-checkbox> / <aha-input>; reuse, never a re-implemented control" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Setting row (inline)", "when": "a compact control — a switch, a checkbox, a short input — sits to the right of its label" },
+      { "what": "Setting row (stack)", "when": "a wide control — a textarea, a wide select — needs the full row width below the label" },
+      { "what": "Section header", "when": "the title of the GROUP these rows sit under" }
+    ],
+    "note": "Name the setting with a noun phrase in sentence case (\"Progress bar\", \"Speaker notes\") — never a question and never Title Case. Put guidance in `help` (the \"?\" tooltip), not a standing line. Choose `inline` for a toggle/checkbox/short input; switch to `stack` the moment the control needs real width (a textarea, a wide select). Never hand-place an icon before the label — functional icons belong inside the control (SETTINGS-40)."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-setting-row", "registers": "aha-setting-row", "exportsNamed": ["AhaSettingRow", "defineAhaSettingRow"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "setting-row.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "setting-row.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "setting-row.vue.txt" }
+  ],
+  "preview": "setting-row.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "layout", "label": "Layout", "default": "inline", "options": [
+        { "label": "Inline", "value": "inline" },
+        { "label": "Stack", "value": "stack" }
+      ] },
+      { "prop": "help", "label": "Help", "default": "Shown to the audience between slides.", "options": [
+        { "label": "None", "value": null },
+        { "label": "Leaderboard help", "value": "Shown to the audience between slides." }
+      ] },
+      { "prop": "disabled", "label": "Disabled", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "inline row space-between, gap 12, min-height 24", "verdict": "PASS" },
+    { "label": "label Plus Jakarta 14/21 weight 600 text-default; label-left", "verdict": "PASS" },
+    { "label": "control-right (flex:0 0 auto); stack → control full-width", "verdict": "PASS" },
+    { "label": "\"?\" help (circled question glyph) renders after the label when help is set", "verdict": "PASS" },
+    { "label": "no decorative leading-icon slot (SETTINGS-40)", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-setting-row[data-probe]') && document.querySelector('aha-setting-row[data-probe]').shadowRoot && document.querySelector('aha-setting-row[data-probe]').shadowRoot.querySelector('.label'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-setting-row[data-probe]');var r=el&&el.shadowRoot;var row=r&&r.querySelector('.row');var lab=r&&r.querySelector('.label');var rs=row?getComputedStyle(row):null;var ls=lab?getComputedStyle(lab):null;return{fontWeight:ls?ls.fontWeight:null,fontSize:ls?ls.fontSize:null,labelColor:ls?ls.color:null,rowGap:rs?rs.columnGap||rs.gap:null,justifyContent:rs?rs.justifyContent:null,alignItems:rs?rs.alignItems:null};})()",
+    "expect": { "fontWeight": "600", "fontSize": "14px", "labelColor": "rgb(26, 26, 26)", "rowGap": "12px", "justifyContent": "space-between", "alignItems": "center" }
+  }
+}

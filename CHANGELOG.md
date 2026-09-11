@@ -22,7 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.36.1 — 2026-09-11
+## 0.37.0 — 2026-09-11
+### Added
+- **Settings hierarchy primitives** — five new Settings pattern components so an agent composes a settings panel and the hierarchy, spacing, and icon rules come out right *by construction*: `<aha-section-header>` (group header — semibold-600 label + `?` help + right `action` slot), `<aha-setting-row>` (one setting — label-left/control-right `inline` or `stack`, no decorative label-icon), `<aha-setting-group>` (the container — bakes in **16px** between settings, **32px** between groups, **48px** danger zone; spacing-only, no dividers/cards), `<aha-sub-setting-group>` (dependent settings — **24px** indent + **8px** gap-above), and `<aha-add-item-button>` (full-width "+ Add", disables at max). Each ships contract + `lib/` element + HTML/React/Vue snippets + preview, registered + exported.
+- **Icon — `system-question-circle`** — a circled question-mark glyph; the shared `?` help affordance (`<aha-tooltip help>`) now uses it instead of the bare `system-question-mark`, so every settings `?` is the circled form. (#75)
 ### Fixed
 - **Docs site** — CDN-React composite previews (TimePicker, Select, Table, Modal, Form, and the other `text/babel` demos) rendered blank when reached via in-app (PJAX) navigation, only appearing after a full page reload. The swap now re-runs each preview's external scripts in order and re-triggers Babel so the JSX transpiles on navigation, not just on reload. (#73)
 
