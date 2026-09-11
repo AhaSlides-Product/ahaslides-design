@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.34.0 — 2026-09-11
 ### Added
-- **Breadcrumb** — `size="page-title"` turns the current crumb into the page heading (a real `<h1>`, `heading-level` picks h1–h6): a single-item trail is the standalone page title (24/600), a longer trail is that heading with its ancestor path in front (18/600). Plus a `size="mini"` (12/18) compact scale. This is now the DS page-title — reach for it instead of a hand-rolled `<h1>`; the breadcrumb *is* the page title. (#PR)
+- **Breadcrumb** — `size="page-title"` turns the current crumb into the page heading (a real `<h1>`, `heading-level` picks h1–h6): a single-item trail is the standalone page title (24/600), a longer trail is that heading with its ancestor path in front (18/600). Plus a `size="mini"` (12/18) compact scale. This is now the DS page-title — reach for it instead of a hand-rolled `<h1>`; the breadcrumb *is* the page title. (#76)
 
 ## 0.33.1 — 2026-09-11
 ### Fixed
