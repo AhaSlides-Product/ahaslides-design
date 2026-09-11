@@ -64,6 +64,25 @@ import '@ahaslides-product/design/tokens.css';           // the --aha-* token la
 `<aha-icon name="system-bell" size="16" />` — colour follows `currentColor`; never inline an `<svg>`.
 `npm run standards` gates every component: it must be complete, declare a real `reuse` entry, import by its package name, and register/export — or the build fails.
 
+### No build step? One tag registers everything
+
+For a CDN / no-build page (a vibe-coded deck, a quick prototype), you don't need npm or a per-element
+import — the **all-in-one entry** registers every `<aha-*>` element in a single tag. Save as `.html`,
+open in a browser:
+
+```html
+<!-- token layer (once) + every element in one tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"></script>
+
+<aha-button variant="primary">Save changes</aha-button>
+<aha-input placeholder="Your name"></aha-input>
+<aha-icon name="system-bell" size="16"></aha-icon>
+```
+
+It's **additive** — bundled apps should keep importing per-element (above) so unused elements
+tree-shake out; `all.js` intentionally pulls the whole set.
+
 ### Agent feeds — hosted, self-describing
 
 The docs site + every feed are generated together and deployed to GitHub Pages on each merge,
