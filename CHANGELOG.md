@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.40.0 — 2026-09-11
+### Changed
+- **Screen heading** — the page title now renders via the reused `<aha-breadcrumb size="page-title">` instead of a hand-rolled `<h1>`, for BOTH a plain `title` (a single-crumb page title) and a `breadcrumb` trail (the heading with its ancestor path in front) — so a sub-page header is now a real page-title-size heading, not a 13px default trail. The DS's single page-heading owner is the breadcrumb; the only local `<h1>` left is the accent-name greeting (`highlight`), which the breadcrumb can't express. No API change. (#PR)
+
 ## 0.39.0 — 2026-09-11
 ### Changed
 - **Select field — themed popup.** `<aha-select>` no longer opens the browser's unstyleable native `<select>` list; it now renders a fully **themed `role="listbox"` popup** — DS surface, radius 8, elevation shadow, brand-tinted hover, a `system-check` on the selected option — matching the rest of the system. It's an accessible combobox (`role="combobox"` + `aria-expanded`/`aria-activedescendant`; Arrow/Home/End + typeahead + Enter/Escape, outside-click dismiss, edge-flip), the fade/scale motion lives on a persistent panel, and the trigger chrome/sizes/status are unchanged. New `open` state (reflected). Fixes the settings-panel select showing the OS dropdown. API-compatible — same `options`/`value`/`change`. (#77)
