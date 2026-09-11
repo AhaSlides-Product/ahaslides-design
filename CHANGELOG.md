@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - **Screen heading** — the page title now renders via the reused `<aha-breadcrumb size="page-title">` instead of a hand-rolled `<h1>`, for BOTH a plain `title` (a single-crumb page title) and a `breadcrumb` trail (the heading with its ancestor path in front) — so a sub-page header is now a real page-title-size heading, not a 13px default trail. The DS's single page-heading owner is the breadcrumb; the only local `<h1>` left is the accent-name greeting (`highlight`), which the breadcrumb can't express. No API change. (#81)
 
+## 0.39.1 — 2026-09-11
+### Changed
+- **Settings — setting label weight.** A member setting's label is now regular (400), not semibold — only the group/section header (`aha-section-header` / `aha-setting-group` / `settings-list` group header) carries weight (600). Restores the header-vs-member hierarchy (SETTINGS-37) on `aha-setting-row` and `<aha-settings-list>` rows. (#79)
+
 ## 0.39.0 — 2026-09-11
 ### Changed
 - **Select field — themed popup.** `<aha-select>` no longer opens the browser's unstyleable native `<select>` list; it now renders a fully **themed `role="listbox"` popup** — DS surface, radius 8, elevation shadow, brand-tinted hover, a `system-check` on the selected option — matching the rest of the system. It's an accessible combobox (`role="combobox"` + `aria-expanded`/`aria-activedescendant`; Arrow/Home/End + typeahead + Enter/Escape, outside-click dismiss, edge-flip), the fade/scale motion lives on a persistent panel, and the trigger chrome/sizes/status are unchanged. New `open` state (reflected). Fixes the settings-panel select showing the OS dropdown. API-compatible — same `options`/`value`/`change`. (#77)
