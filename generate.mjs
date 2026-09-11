@@ -490,14 +490,33 @@ const PJAX_JS = `
     var _def=customElements.define.bind(customElements);
     customElements.define=function(n,c,o){ if(!customElements.get(n)){ try{ _def(n,c,o); }catch(e){} } };
   }
+  // Re-execute a swapped-in <main>'s scripts. Two hazards a naive re-create trips on:
+  //   1. External <script src> injected dynamically load ASYNC and out of order — so a composite
+  //      CDN-React preview's inline glue (dayjs.extend before dayjs, __antdR=antd before antd) can
+  //      run before its dependency. Fix: walk in document order, awaiting each external load.
+  //   2. Those composite previews author JSX as <script type="text/babel">, which only
+  //      babel-standalone's ONE-TIME DOMContentLoaded auto-scan transpiles. That scan fired on the
+  //      shell's first load and never fires again, so a re-injected text/babel block stays inert —
+  //      the preview renders blank until a full reload. Fix: after the scripts are in, invoke the
+  //      exact entry point that auto-scan uses — Babel.transformScriptTags() — to transpile + run it.
+  // (Leaf previews use an inline <script type="module">, which always executes on re-insertion, so
+  //  they already survived a swap — this only rescues the babel/CDN-React composites.)
+  function recreate(old){
+    var s=document.createElement('script');                       // a re-created node executes
+    for(var i=0;i<old.attributes.length;i++) s.setAttribute(old.attributes[i].name, old.attributes[i].value);
+    s.textContent=old.textContent;
+    if(s.src){                                                    // external: await load to hold order + globals
+      return new Promise(function(res){ s.onload=s.onerror=function(){ res(); }; old.replaceWith(s); });
+    }
+    old.replaceWith(s);                                           // inline classic runs now; module runs async; text/babel stays inert
+    return Promise.resolve();
+  }
   function runScripts(root){
-    if(!root) return;
-    root.querySelectorAll('script').forEach(function(old){
-      var s=document.createElement('script');                       // a re-created node executes
-      for(var i=0;i<old.attributes.length;i++) s.setAttribute(old.attributes[i].name, old.attributes[i].value);
-      s.textContent=old.textContent;
-      old.replaceWith(s);
-    });
+    if(!root) return Promise.resolve();
+    var list=[].slice.call(root.querySelectorAll('script'));
+    var hasBabel=list.some(function(s){ return (s.type||'').indexOf('babel')>=0; });
+    return list.reduce(function(chain, old){ return chain.then(function(){ return recreate(old); }); }, Promise.resolve())
+      .then(function(){ if(hasBabel && window.Babel && typeof window.Babel.transformScriptTags==='function') window.Babel.transformScriptTags(); });
   }
 
   var bar=document.createElement('div'); bar.className='pjax-bar'; document.body.appendChild(bar);
