@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.39.0 — 2026-09-11
+## 0.40.0 — 2026-09-11
 ### Added
 - **AhaLoader** — `<aha-loader>`, the full-surface branded loading *screen* shown while a new environment boots (workspace → editor, editor → presenting). Fills its container on a white ground and cycles five branded illustration tiles with a staggered soft-flow (fade + slide + unblur in, hold, out). Reuses the shared `<aha-illustration>` spot art (`loader-award`/`-wand`/`-plane`/`-ballot`/`-chart`, added to the illustration registry), themed by `--aha-*` tokens, `role="status"`, and stills under `prefers-reduced-motion`. Lands under **Patterns · AhaSlides surfaces**. Distinct from `<aha-spin>` (the inline indeterminate spinner). (#PR)
+
+## 0.39.0 — 2026-09-11
+### Changed
+- **Select field — themed popup.** `<aha-select>` no longer opens the browser's unstyleable native `<select>` list; it now renders a fully **themed `role="listbox"` popup** — DS surface, radius 8, elevation shadow, brand-tinted hover, a `system-check` on the selected option — matching the rest of the system. It's an accessible combobox (`role="combobox"` + `aria-expanded`/`aria-activedescendant`; Arrow/Home/End + typeahead + Enter/Escape, outside-click dismiss, edge-flip), the fade/scale motion lives on a persistent panel, and the trigger chrome/sizes/status are unchanged. New `open` state (reflected). Fixes the settings-panel select showing the OS dropdown. API-compatible — same `options`/`value`/`change`. (#77)
 
 ## 0.38.0 — 2026-09-11
 ### Added
