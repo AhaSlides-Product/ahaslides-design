@@ -1,5 +1,5 @@
 {
-  "name": "AhaLoader",
+  "name": "Loader",
   "slug": "aha-loader",
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
@@ -22,11 +22,11 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "AhaLoader", "when": "a full-screen environment transition — the user lands in a new surface (workspace → editor, editor → presenting) and waits for it to boot" },
+      { "what": "Loader", "when": "a full-screen environment transition — the user lands in a new surface (workspace → editor, editor → presenting) and waits for it to boot" },
       { "what": "Spin", "when": "an inline, indeterminate wait inside an existing surface — a button, a panel, a section loading in place" },
       { "what": "Skeleton", "when": "the layout of the content being loaded is known — show its shape rather than a spinner" }
     ],
-    "note": "One AhaLoader per transition, filling the whole surface. It is decorative brand motion, not a progress bar — don't pair it with a percentage. Keep the `label` a short present-tense phrase naming the destination (\"Opening the editor…\").",
+    "note": "One Loader per transition, filling the whole surface. It is decorative brand motion, not a progress bar — don't pair it with a percentage. Keep the `label` a short present-tense phrase naming the destination (\"Opening the editor…\").",
     "dsv3": "COVERED — ported from the product Loader (stpancras-storybook UI/AhaLoader): a white full-screen screen cycling five branded icon-cards with a staggered soft-flow (7.5s loop, 1.5s stagger). Bindings: tile 120×120 radius-xl 16 (snapped onto the DS scale from the source 14), art the reused <aha-illustration> loader-* family at 96, easing --aha-ease-in-out. a11y: host role=status + aria-live=polite + aria-label from `label`; the loop stills under prefers-reduced-motion, holding one tile."
   },
   "surfaces": ["editor", "dashboard", "audience", "settings"],
