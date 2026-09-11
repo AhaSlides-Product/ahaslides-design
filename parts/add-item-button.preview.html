@@ -1,0 +1,21 @@
+<div class="pad">
+  <div class="lbl">Add row · under a settings list · full width</div>
+  <!-- fixed-width wrapper so the full-width (100%) button has a deterministic measured width -->
+  <div class="row" style="display:block;width:260px">
+    <aha-add-item-button data-probe label="Add option"></aha-add-item-button>
+  </div>
+  <div class="lbl">States · rest · disabled (at max count)</div>
+  <div class="row" style="display:block;width:260px">
+    <aha-add-item-button label="Add question"></aha-add-item-button>
+    <div style="height:8px"></div>
+    <aha-add-item-button label="Add question" disabled></aha-add-item-button>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-add-item-button.js) + the icon library — no inlined
+     copy, so the preview can never drift from lib/. The playground control bar (Label / Disabled) is
+     generated from contracts/add-item-button.json → playground and drives this element live. -->
+<script type="module">
+  import '../lib/icons.js';                 // registers <aha-icon> so the system-plus glyph resolves from the DS library
+  import '../lib/aha-add-item-button.js';   // registers <aha-add-item-button> — the shipped primitive, byte-identical to consumers
+</script>

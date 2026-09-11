@@ -1,0 +1,21 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-section-header> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css.
+     The "?" help + its icon are summoned from the DS icon library (no inline glyph). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';               // registers <aha-icon> (the "?" glyph)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-section-header.js';  // registers <aha-section-header>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';          // registers <aha-switch> (a master switch in the action slot)
+</script>
+
+<!-- A settings GROUP header — a noun phrase in sentence case. Rows sit under it. -->
+<aha-section-header label="Presentation"></aha-section-header>
+
+<!-- with a "?" help (the circled question glyph) after the label -->
+<aha-section-header label="Audience" help="Who can see and join this deck."></aha-section-header>
+
+<!-- with an action slot (a master switch / count / link) pushed to the right -->
+<aha-section-header label="Interaction" help="Turn the whole group on or off.">
+  <aha-switch slot="action" checked></aha-switch>
+</aha-section-header>

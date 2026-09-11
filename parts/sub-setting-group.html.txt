@@ -1,0 +1,41 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-sub-setting-group> is the SAME shared custom element React and Vue consume — here in its
+     native form. It nests DEPENDENT settings under a parent toggle: 8px above (binds tighter than
+     the 16 between siblings) + a 24px indent — no left border, no card. The host owns visibility:
+     add `hidden` when the parent is off. Theming comes only from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';                  // <aha-icon> — row control glyphs
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-setting-group.js';      // registers <aha-setting-group> (the parent group)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-sub-setting-group.js';  // registers <aha-sub-setting-group>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-settings-list.js';      // <aha-settings-item> rows
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';             // reused row control
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';              // reused row control
+</script>
+
+<div style="max-width:380px">
+  <aha-setting-group label="Question timer">
+    <!-- the parent toggle -->
+    <aha-settings-item label="Show a timer">
+      <aha-switch slot="control" id="parent" checked></aha-switch>
+    </aha-settings-item>
+
+    <!-- its dependent sub-settings — indented 24px, bound 8px under the parent, hidden when off -->
+    <aha-sub-setting-group id="sub">
+      <aha-settings-item label="Seconds per question">
+        <aha-input slot="control" value="30"></aha-input>
+      </aha-settings-item>
+      <aha-settings-item label="Auto-advance when time's up">
+        <aha-switch slot="control"></aha-switch>
+      </aha-settings-item>
+    </aha-sub-setting-group>
+  </aha-setting-group>
+</div>
+
+<script>
+  // Host owns visibility: collapse the dependent sub-settings when the parent is off.
+  const sub = document.getElementById('sub');
+  document.getElementById('parent').addEventListener('change', (e) => {
+    sub.hidden = !e.detail.checked;
+  });
+</script>
