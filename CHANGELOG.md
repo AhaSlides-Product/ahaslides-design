@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.36.1 — 2026-09-11
+### Fixed
+- **Docs site** — CDN-React composite previews (TimePicker, Select, Table, Modal, Form, and the other `text/babel` demos) rendered blank when reached via in-app (PJAX) navigation, only appearing after a full page reload. The swap now re-runs each preview's external scripts in order and re-triggers Babel so the JSX transpiles on navigation, not just on reload. (#73)
+
 ## 0.36.0 — 2026-09-11
 ### Changed
 - **Settings pattern — fidelity pass to the settings-lab reference.** The composed settings controls now *translate* the reference anatomy instead of drifting: (1) **help text** — the always-visible per-row/per-section description lines are gone; guidance moves into a `?` help tooltip after the label (the reference's one-home rule), across `settings-list`, `mode-field`, `option-row`; (2) **alignment** — `settings-list` rows are `inline` (label-left / control-right, 12px gap, **semibold-600** label) with an opt-in `stack` layout for wide controls; (3) **variants** — `mode-field` gains `variant` (outline-radio default / segmented, never a solid pill) + `labelVariant` (field/section); `card-select` gains `iconOnly` (44px squares) + `columns`; `option-row` gains `checkboxShape` (circle/square) + `singleLine`; `info-box`'s **error** tint is now Radical Pink (`--aha-pink-20`/`--aha-pink-60`), not red; `number-with-unit` renders the unit **in full** ("seconds", not "sec"); `numbered-item` card radius 12; `image-action-button` compacts to 36px and fixes its loading `aria-label`; `image-dropzone` gains `fit` (contain/cover). All colours token-bound; no behaviour lost. (#72)
