@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.38.0 — 2026-09-11
+### Added
+- **Anti-slop consumer feeds** — the DS now ships the official AhaSlides build→judge→fix loop to any agent that connects: `anti-slop.md` + `anti-slop.agent.json` carry, per surface, the composition rules and a **binary self-judge** (PASS/FAIL each, no partial credit), and `llms.txt` points a connecting agent at them first. A new **App shell** guideline closes the screen-composition gap (real brand mark, no dead placeholders, deliberate hierarchy, tokenised chrome, animated nav state). Criteria live in the DS-owned `anti-slop/criteria.json` — the DS is the single source of truth for anti-slop, seeded once from the aha-design skills. `standards.mjs` gains a consistency gate over the store + feeds.
+
 ## 0.37.0 — 2026-09-11
 ### Added
 - **Settings hierarchy primitives** — five new Settings pattern components so an agent composes a settings panel and the hierarchy, spacing, and icon rules come out right *by construction*: `<aha-section-header>` (group header — semibold-600 label + `?` help + right `action` slot), `<aha-setting-row>` (one setting — label-left/control-right `inline` or `stack`, no decorative label-icon), `<aha-setting-group>` (the container — bakes in **16px** between settings, **32px** between groups, **48px** danger zone; spacing-only, no dividers/cards), `<aha-sub-setting-group>` (dependent settings — **24px** indent + **8px** gap-above), and `<aha-add-item-button>` (full-width "+ Add", disables at max). Each ships contract + `lib/` element + HTML/React/Vue snippets + preview, registered + exported.
