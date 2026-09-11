@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.34.0 — 2026-09-11
+### Added
+- **All-in-one entry (`@ahaslides-product/design/all`)** — one import now registers every shared `<aha-*>` element (incl. `<aha-icon>`/`<aha-illustration>`), so a no-build / CDN page needs a single `<script type="module" src=".../lib/all.js">` tag instead of one `import` per element. The token layer is still loaded separately (`import '@ahaslides-product/design/tokens.css'` or a `<link>` to `lib/tokens.css`). Bundled apps should keep importing per-element for tree-shaking. Generated from the shipped element set, so it can't drift. Also wired `unpkg`/`jsdelivr`/`browser` → `lib/all.js` for bare CDN resolution. (#70)
+
 ## 0.33.1 — 2026-09-10
 ### Fixed
 - **Illustration** — the 20 spot illustrations shipped flattened: an over-aggressive SVG normalisation unwrapped every `<g>` (dropping group `opacity`/`transform`), stripped clip-paths/masks/filters, and a coordinate heuristic deleted real art (blue/green on `offer-frame`, gold on `team-created`). `build-illustrations.mjs` now preserves the art exactly — the full `<defs>` (gradients/filters/masks/clipPaths), every group's `opacity`/`transform`, and all ids — stripping only the Figma "Oldies" board chrome (the `#E1E1E1` background, `#D5D5D5` frame, oversized white card, dashed annotation box). Each illustration now renders pixel-faithful to Figma. (#69)
