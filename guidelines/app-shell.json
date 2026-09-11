@@ -1,0 +1,41 @@
+{
+  "name": "App shell",
+  "slug": "app-shell",
+  "kind": "pattern",
+  "group": "Patterns",
+  "badge": "pattern — composition guide",
+  "summary": "How an AhaSlides product SCREEN is assembled from DS components — the left nav rail (real brand mark + nav items + one primary CTA), the top bar (context left, actions/avatar right), the content region, and where relevant a canvas/stage — spaced by --aha-* tokens, with a real brand identity and no dead placeholders. Closes the composition gap that turns a component-correct screen into generic-admin-template slop.",
+  "lead": "The DS ships no shell/nav/rail leaf, so a consumer hand-rolls the screen scaffold — and hand-rolled scaffold is where slop enters: a placeholder letter-tile logo, a 'Loading…' block shipped as final, evenly-spaced equal-weight cards. This pattern ships NO new component; it documents how to compose the shell from existing DS components and binds each rule to a binary criterion the consumer self-judges.",
+  "skillRef": {
+    "build": "ahaslides-design:app-shell",
+    "judge": "ahaslides-design:app-shell",
+    "note": "Authored in the DS — there is no aha-design plugin skill for the app shell. The DS OWNS this surface's criteria in anti-slop/criteria.json (surfaces.app-shell, C1..C5). Backfilling a matching aha-design build+judge skill pair is a follow-up, not a dependency."
+  },
+  "surfaces": ["dashboard", "editor", "presenter"],
+  "composedOf": [
+    { "ref": "button", "as": "component", "use": "the primary CTA in the nav rail (e.g. New presentation), top-bar actions, and per-row actions — one primary per region, sized via the size prop, never inline height/padding/radius", "status": "available" },
+    { "ref": "icon", "as": "component", "use": "the brand mark glyph, every nav-item glyph, and top-bar action glyphs — an <aha-icon name> from the library, never an inline <svg> or a foreign icon set", "status": "available" },
+    { "ref": "avatar", "as": "component", "use": "the top-bar account avatar and any per-row user avatar", "status": "available" },
+    { "ref": "badge", "as": "component", "use": "the 'New' marker on a nav item or menu row", "status": "available" },
+    { "ref": "divider", "as": "component", "use": "top-bar and rail section separators", "status": "available" },
+    { "ref": "--aha-motion-mid", "as": "token", "use": "the active/selected nav-item transition duration — toggled on a persistent node, never a bare literal", "status": "available" },
+    { "ref": "--aha-borderRadius", "as": "token", "use": "the radius on rail/top-bar/content surfaces — from the 4/6/8/12/16 scale", "status": "available" }
+  ],
+  "componentBacklog": "No missing components — the shell composes entirely from shipped DS leaves plus tokens. The gap this pattern closes is COMPOSITION knowledge, not a missing primitive.",
+  "rules": [
+    { "rule": "Use the real AhaSlides brand mark + wordmark at the top of the nav rail — the shipped logo / an <aha-icon> brand glyph — never a coloured letter-tile or initials square standing in for a logo.", "ref": ["C1"] },
+    { "rule": "Never ship a placeholder as a final state: a QR/thumbnail/region renders a real asset or an explicit, styled empty state — never a permanent 'Loading QR…' label, spinner, or grey box.", "ref": ["C2"] },
+    { "rule": "Give each region one primary action and a scannable type hierarchy from the scale; do not render uniform grey-on-white equal-weight cards with evenly-spaced everything (the admin-template tell).", "ref": ["C3"] },
+    { "rule": "Fill every shell slot with a DS component (aha-button, aha-icon, aha-avatar, aha-badge, DataTable) and take all spacing/radius/colour from --aha-* tokens — never a hand-rolled <button>/<div> with inline hex/px, never a raw <table>.", "ref": ["C4"] },
+    { "rule": "Animate the active/selected nav state by toggling an attribute/class on a persistent node via the motion tokens (--aha-motion-* + --aha-ease-*); never snap, never a bare duration literal, never rebuild the subtree on selection.", "ref": ["C5"] }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only pattern — the DS ships no shell wrapper leaf. The composition lives in the consuming app; this pattern is the conventions + the binary criteria (anti-slop/criteria.json → surfaces.app-shell) a consumer self-judges against.",
+  "selfCheck": [
+    { "label": "real brand mark + wordmark, no placeholder letter-tile", "verdict": "consumer self-judges (C1)" },
+    { "label": "no dead 'Loading…' placeholder shipped as final; real asset or explicit empty state", "verdict": "consumer self-judges (C2)" },
+    { "label": "one primary action per region; scannable hierarchy, not equal-weight cards", "verdict": "consumer self-judges (C3)" },
+    { "label": "every slot is a DS component; all spacing/radius/colour from tokens; no raw table", "verdict": "consumer self-judges (C4)" },
+    { "label": "active nav state animates on a persistent node via motion tokens", "verdict": "consumer self-judges (C5)" }
+  ]
+}
