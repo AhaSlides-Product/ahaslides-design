@@ -1231,6 +1231,9 @@ function consumeBlock() {
       <div class="cg"><div class="cg-h">2 · Token layer — once, at the app root</div><pre class="cg-code">import '${esc(PKGNAME)}/tokens.css';</pre></div>
       <div class="cg"><div class="cg-h">3 · A component — import its subpath, use the element</div><pre class="cg-code">import '${esc(PKGNAME)}/aha-button';   // registers &lt;aha-button&gt;
 &lt;aha-button variant="primary"&gt;Save&lt;/aha-button&gt;</pre></div>
+      <div class="cg"><div class="cg-h">No build step? — one tag registers every element (CDN / no-build pages)</div><pre class="cg-code">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css"&gt;
+&lt;script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"&gt;&lt;/script&gt;
+&lt;aha-button variant="primary"&gt;Save&lt;/aha-button&gt;   // bundled apps: prefer per-element imports (tree-shaking)</pre></div>
     </div>
     <h3>For agents — read this, then connect automatically</h3>
     <p class="body">Every feed below is generated from the same contract as the components, so it can never drift. Start at <code>llms.txt</code> and follow it:</p>
@@ -1485,6 +1488,9 @@ const indexLines = [
   `> Install:  npm i ${PKGNAME}`,
   `> Import the token layer once at the app root:  import '${PKGNAME}/tokens.css'`,
   `> Then import a component by subpath, e.g.  import '${PKGNAME}/aha-button'`,
+  `> No build step? One tag registers every element — CDN / no-build pages:`,
+  `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"></script>`,
+  `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
   '>',
   '> Feeds (absolute URLs, fetch directly):',
   `>   ${SITE}/llms.txt          this index`,
