@@ -1,0 +1,23 @@
+<!-- Imports the REAL shipped runtime (../lib/aha-loader.js → registers <aha-loader> + the reused
+     <aha-illustration> spot art). No inlined element copy, so the doc renders the exact loading
+     screen consumers get, and qa.mjs measures the real element (it can't drift from lib). The
+     Label control below is generated from contracts/aha-loader.json → playground and drives the
+     [data-pg-target] probe's `label` live. -->
+<script type="module">
+  import '../lib/aha-loader.js';   // registers <aha-loader> (+ <aha-illustration>)
+</script>
+
+<div class="pad">
+  <div class="lbl">The full-surface loading screen · shown while a new environment boots (workspace → editor, editor → presenting)</div>
+  <div class="row" style="padding:14px 0">
+    <div style="position:relative; width:100%; height:420px; border:1px solid var(--aha-gray-40,#E3E3E3); border-radius:var(--aha-radius-lg,12px); overflow:hidden">
+      <aha-loader data-probe data-pg-target label="Opening the editor…"></aha-loader>
+    </div>
+  </div>
+
+  <div class="lbl" style="margin-top:22px">Five branded tiles cycle with a staggered soft-flow — each fades + slides + unblurs in, holds, then out</div>
+
+  <div class="note" style="margin-top:20px">
+    <code>&lt;aha-loader&gt;</code> fills its container on a white ground — make the container full-screen for a real environment transition. The five tiles are the shared <code>&lt;aha-illustration&gt;</code> spot art (the <code>loader-*</code> family), called by name — never an inline SVG. It is decorative brand motion, not a progress bar: pass a present-tense <code>label</code> (announced via <code>role="status"</code>), never a percentage. The loop stills under <code>prefers-reduced-motion</code>. For an inline indeterminate wait inside an existing surface, reach for <a href="../spin/index.html">Spin →</a> instead.
+  </div>
+</div>
