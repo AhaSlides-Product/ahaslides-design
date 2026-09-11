@@ -9,9 +9,9 @@ const seconds = ref(20);
 </script>
 
 <template>
-  <!-- the unit is written inline (always the short label — "sec"); e.detail.value is the clamped number -->
+  <!-- the unit is written inline IN FULL — rendered exactly as passed ("seconds"); e.detail.value is the clamped number -->
   <aha-number-with-unit
-    unit="sec"
+    unit="seconds"
     min="5"
     max="120"
     maxdigits="4"

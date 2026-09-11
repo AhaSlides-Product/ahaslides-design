@@ -1,0 +1,69 @@
+{
+  "name": "Section Header",
+  "slug": "section-header",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-section-header",
+  "summary": "A settings GROUP header — the hierarchy parent that a stack of setting rows sits under: a noun-phrase label, an optional \"?\" help, and a right-aligned action slot (a master switch, a count, a link).",
+  "lead": "ONE custom element — <aha-section-header> — defined once, imported unchanged by React and Vue. It is the PARENT node of the settings hierarchy: a group title over a stack of <aha-setting-row>s. The label is the group's labelled heading (role=\"heading\" aria-level=\"3\") — a noun phrase in sentence case (\"Presentation\", \"Audience settings\"), never a full sentence. A muted \"?\" help trigger sits right after the label — the shared DS <aha-tooltip help>, the CIRCLED question glyph summoned by name from the icon library, never a hand-placed icon — and an `action` slot pushes right (margin-left:auto) to carry a master switch, a count, or a link. NO decorative leading-icon slot (SETTINGS-40): the label is text + the \"?\" only. Shadow-DOM CSS, themed only by --aha-* tokens; the header is static (no interactive state of its own). Zero drift — the same element, not two look-alikes.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) renders it directly (no events to wire); Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["font-product", "text-default", "text-tertiary"],
+  "spec": [
+    { "label": "Row", "value": "flex; align-items center; gap 8" },
+    { "label": "Label", "value": "Plus Jakarta 14/21, weight 600, text-default (#1A1A1A) — a role=heading aria-level=3" },
+    { "label": "Casing", "value": "noun phrase, sentence case — \"Presentation\", NOT \"Presentation Settings\"" },
+    { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the circled question glyph)" },
+    { "label": "Action", "value": "right-aligned slot (margin-left:auto) — a master switch / count / link" },
+    { "label": "Motion", "value": "none — static header, no interactive state of its own" }
+  ],
+  "props": [
+    { "name": "label", "type": "string", "default": "—", "desc": "The group title — a noun phrase in sentence case; exposed as a role=heading aria-level=3" },
+    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (circled question glyph) after the label; the tooltip carries the text" },
+    { "name": "action", "type": "slot", "default": "—", "desc": "Right-aligned slot (slot=\"action\") — a master switch, a count, or a link" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Section header", "when": "the title of a GROUP of settings — the hierarchy parent over a stack of rows" },
+      { "what": "Setting row", "when": "ONE setting inside the group — a label + a control" },
+      { "what": "Settings list", "when": "a whole schema-driven surface of groups + rows at once" }
+    ],
+    "note": "Name the group with a short noun phrase in sentence case (\"Audience\", \"Interaction\") — never a full sentence and never Title Case. Add `help` only when the group needs a word of guidance; keep the label itself terse. Reach for the `action` slot to hang a master switch that toggles the whole group, a count of items, or a \"Manage\" link — anything that acts on the group, not on one row."
+  },
+  "surfaces": ["editor", "dashboard", "settings", "audience"],
+  "reuse": { "entry": "./aha-section-header", "registers": "aha-section-header", "exportsNamed": ["AhaSectionHeader", "defineAhaSectionHeader"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "section-header.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "section-header.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "section-header.vue.txt" }
+  ],
+  "preview": "section-header.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "label", "label": "Label", "default": "Presentation", "options": [
+        { "label": "Presentation", "value": "Presentation" },
+        { "label": "Audience", "value": "Audience" },
+        { "label": "Interaction", "value": "Interaction" }
+      ] },
+      { "prop": "help", "label": "Help", "default": "Controls shown while you present.", "options": [
+        { "label": "None", "value": null },
+        { "label": "Present help", "value": "Controls shown while you present." },
+        { "label": "Audience help", "value": "Who can see and join this deck." }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "label Plus Jakarta 14/21 weight 600 text-default", "verdict": "PASS" },
+    { "label": "label is a role=heading aria-level=3", "verdict": "PASS" },
+    { "label": "\"?\" help (circled question glyph) renders after the label when help is set", "verdict": "PASS" },
+    { "label": "action slot pushed right (margin-left:auto)", "verdict": "PASS" },
+    { "label": "no decorative leading-icon slot (SETTINGS-40)", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-section-header[data-probe]') && document.querySelector('aha-section-header[data-probe]').shadowRoot && document.querySelector('aha-section-header[data-probe]').shadowRoot.querySelector('.label'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-section-header[data-probe]');var r=el&&el.shadowRoot;var row=r&&r.querySelector('.row');var lab=r&&r.querySelector('.label');var act=r&&r.querySelector('.action');var rs=row?getComputedStyle(row):null;var ls=lab?getComputedStyle(lab):null;var as=act?getComputedStyle(act):null;return{fontWeight:ls?ls.fontWeight:null,fontSize:ls?ls.fontSize:null,labelColor:ls?ls.color:null,rowGap:rs?rs.columnGap||rs.gap:null,role:lab?lab.getAttribute('role'):null,ariaLevel:lab?lab.getAttribute('aria-level'):null};})()",
+    "expect": { "fontWeight": "600", "fontSize": "14px", "labelColor": "rgb(26, 26, 26)", "rowGap": "8px", "role": "heading", "ariaLevel": "3" }
+  }
+}

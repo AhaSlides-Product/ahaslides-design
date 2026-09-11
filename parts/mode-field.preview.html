@@ -1,18 +1,37 @@
 <div class="pad">
-  <div class="lbl">Label + inline mode control — switching swaps the body in place (the hidden body keeps its state)</div>
+  <div class="lbl">variant="radio" (default) — OUTLINE segmented control: active = brand border + brand text on a WHITE fill (never a solid brand-filled pill). Switching swaps the body in place (the hidden body keeps its state).</div>
   <div class="row" style="display:block; max-width:420px">
-    <aha-mode-field data-probe label="Results" mode="auto"
-      modes='[{"value":"auto","label":"Automatic"},{"value":"manual","label":"Manual"}]'>
+    <aha-mode-field data-probe label="Results" value="auto" help="Choose when the results chart appears to the audience."
+      options='[{"value":"auto","label":"Automatic"},{"value":"manual","label":"Manual"}]'>
       <div data-mode="auto">Results appear automatically when everyone has answered.</div>
       <div data-mode="manual">You reveal results with the "Show results" button.</div>
     </aha-mode-field>
   </div>
-  <div class="lbl">Disabled</div>
+
+  <div class="lbl">variant="segmented" — the neutral grey segmented control (the alternative look)</div>
   <div class="row" style="display:block; max-width:420px">
-    <aha-mode-field disabled label="Points" mode="fixed"
-      modes='[{"value":"fixed","label":"Fixed"},{"value":"speed","label":"Speed"}]'>
+    <aha-mode-field variant="segmented" label="Points" value="fixed"
+      options='[{"value":"fixed","label":"Fixed"},{"value":"speed","label":"Speed"}]'>
       <div data-mode="fixed">Everyone scores the same for a correct answer.</div>
       <div data-mode="speed">Faster correct answers score more.</div>
+    </aha-mode-field>
+  </div>
+
+  <div class="lbl">label-variant="section" — semibold header for a grouped-list body</div>
+  <div class="row" style="display:block; max-width:420px">
+    <aha-mode-field label-variant="section" label="Scoring" value="on"
+      options='[{"value":"on","label":"On"},{"value":"off","label":"Off"}]'>
+      <div data-mode="on">Award points for correct answers.</div>
+      <div data-mode="off">No points — this is just for fun.</div>
+    </aha-mode-field>
+  </div>
+
+  <div class="lbl">Disabled</div>
+  <div class="row" style="display:block; max-width:420px">
+    <aha-mode-field disabled label="Timer" value="off"
+      options='[{"value":"off","label":"Off"},{"value":"on","label":"On"}]'>
+      <div data-mode="off">No countdown on this slide.</div>
+      <div data-mode="on">A countdown limits answering time.</div>
     </aha-mode-field>
   </div>
 </div>

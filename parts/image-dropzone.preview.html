@@ -3,10 +3,11 @@
   <div class="row" style="display:block; max-width:440px">
     <aha-image-dropzone data-probe state="empty" label="Add background image"></aha-image-dropzone>
   </div>
-  <div class="lbl">Loading (same height — no jump) · filled (hover for the Change/Edit/Delete overlay)</div>
+  <div class="lbl">Loading (same height — no jump) · filled contain · filled cover (hover for the Change/Edit/Delete overlay)</div>
   <div class="row" style="display:flex; gap:12px; max-width:900px">
     <div style="flex:1; min-width:200px"><aha-image-dropzone state="loading" label="Add image"></aha-image-dropzone></div>
     <div style="flex:1; min-width:200px"><aha-image-dropzone state="filled" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='140'%3E%3Crect width='320' height='140' fill='%23D3B4FF'/%3E%3C/svg%3E"></aha-image-dropzone></div>
+    <div style="flex:1; min-width:200px"><aha-image-dropzone state="filled" fit="cover" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='140'%3E%3Crect width='320' height='140' fill='%236A1EBB'/%3E%3C/svg%3E"></aha-image-dropzone></div>
   </div>
 </div>
 

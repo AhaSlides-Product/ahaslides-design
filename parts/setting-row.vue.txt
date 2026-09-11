@@ -1,0 +1,19 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';            // registers <aha-icon> (the "?" glyph)
+import '@ahaslides-product/design/aha-setting-row';  // registers <aha-setting-row>
+import '@ahaslides-product/design/aha-switch';       // registers <aha-switch> (a control it carries)
+import '@ahaslides-product/design/aha-input';        // registers <aha-input> (a wide control for stack)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <!-- inline (default) — label LEFT, control RIGHT; help fills the "?" tooltip -->
+  <aha-setting-row label="Leaderboard" help="Shown to the audience between slides.">
+    <aha-switch slot="control" />
+  </aha-setting-row>
+
+  <!-- stack — label above, control full-width (a wide textarea / wide select) -->
+  <aha-setting-row label="Speaker notes" layout="stack">
+    <aha-input slot="control" placeholder="Notes only you can see" />
+  </aha-setting-row>
+</template>

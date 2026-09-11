@@ -1,0 +1,46 @@
+import '@ahaslides-product/design/icons';                 // <aha-icon> — the header "?" help glyph + row controls
+import '@ahaslides-product/design/aha-setting-group';     // registers <aha-setting-group>
+import '@ahaslides-product/design/aha-sub-setting-group'; // registers <aha-sub-setting-group>
+import '@ahaslides-product/design/aha-settings-list';     // <aha-settings-item> rows
+import '@ahaslides-product/design/aha-switch';
+import '@ahaslides-product/design/aha-input';
+import { useState } from 'react';
+
+// <aha-setting-group> bakes in the spacing scale: rows 16px apart, groups 32px apart automatically,
+// tone="danger" 48px down — no dividers, no cards. Put guidance in `help` (the "?" tooltip), an
+// action in the `action` slot, and dependent settings in a nested <aha-sub-setting-group> that you
+// hide when the parent is off.
+function DeckSettings() {
+  const [timerOn, setTimerOn] = useState(true);
+  return (
+    <div style={{ maxWidth: 380 }}>
+      <aha-setting-group label="Presentation" help="How the deck shows to the audience.">
+        <aha-settings-item label="Progress bar">
+          <aha-switch slot="control" checked="" />
+        </aha-settings-item>
+
+        <aha-settings-item label="Question timer">
+          <aha-switch slot="control"
+            {...(timerOn ? { checked: '' } : {})}
+            onChange={(e) => setTimerOn(e.detail.checked)} />
+        </aha-settings-item>
+        {/* dependent settings — hidden when the parent toggle is off */}
+        <aha-sub-setting-group {...(timerOn ? {} : { hidden: '' })}>
+          <aha-settings-item label="Seconds per question">
+            <aha-input slot="control" value="30" />
+          </aha-settings-item>
+          <aha-settings-item label="Auto-advance">
+            <aha-switch slot="control" />
+          </aha-settings-item>
+        </aha-sub-setting-group>
+      </aha-setting-group>
+
+      {/* Group 2 — no wiring: it sits 32px below automatically. */}
+      <aha-setting-group label="Audience">
+        <aha-settings-item label="Anonymous join">
+          <aha-switch slot="control" checked="" />
+        </aha-settings-item>
+      </aha-setting-group>
+    </div>
+  );
+}

@@ -17,6 +17,7 @@ function remove(i) { options.value.splice(i, 1); }
     orderable
     correctable
     image
+    checkboxshape="circle"
     :value.prop="o.text"
     maxlength="80"
     :correct="o.correct || undefined"

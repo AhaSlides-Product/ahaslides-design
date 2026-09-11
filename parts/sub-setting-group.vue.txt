@@ -1,0 +1,36 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';                 // <aha-icon> — row control glyphs
+import '@ahaslides-product/design/aha-setting-group';     // the parent group
+import '@ahaslides-product/design/aha-sub-setting-group'; // registers <aha-sub-setting-group>
+import '@ahaslides-product/design/aha-settings-list';     // <aha-settings-item> rows
+import '@ahaslides-product/design/aha-switch';
+import '@ahaslides-product/design/aha-input';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — <aha-sub-setting-group> nests DEPENDENT settings under a parent toggle: 8px above
+// + 24px indent, spacing only. The host owns visibility — bind `hidden` off the parent state.
+<script setup>
+import { ref } from 'vue';
+const on = ref(true);
+</script>
+
+<template>
+  <div style="max-width:380px">
+    <aha-setting-group label="Question timer">
+      <aha-settings-item label="Show a timer">
+        <aha-switch slot="control" :checked.prop="on"
+          @change="on = $event.detail.checked" />
+      </aha-settings-item>
+
+      <!-- dependent sub-settings — hidden when the parent is off -->
+      <aha-sub-setting-group :hidden="!on">
+        <aha-settings-item label="Seconds per question">
+          <aha-input slot="control" value="30" />
+        </aha-settings-item>
+        <aha-settings-item label="Auto-advance when time's up">
+          <aha-switch slot="control" />
+        </aha-settings-item>
+      </aha-sub-setting-group>
+    </aha-setting-group>
+  </div>
+</template>

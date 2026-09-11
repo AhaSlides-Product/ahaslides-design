@@ -1,0 +1,47 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';                 // <aha-icon> — the header "?" help glyph + row controls
+import '@ahaslides-product/design/aha-setting-group';     // registers <aha-setting-group>
+import '@ahaslides-product/design/aha-sub-setting-group'; // registers <aha-sub-setting-group>
+import '@ahaslides-product/design/aha-settings-list';     // <aha-settings-item> rows
+import '@ahaslides-product/design/aha-switch';
+import '@ahaslides-product/design/aha-input';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue — <aha-setting-group> bakes in the spacing scale (rows 16 · groups 32 · danger 48).
+// Guidance goes in `help` (the "?" tooltip); dependent settings nest in <aha-sub-setting-group>,
+// hidden when the parent is off.
+<script setup>
+import { ref } from 'vue';
+const timerOn = ref(true);
+</script>
+
+<template>
+  <div style="max-width:380px">
+    <aha-setting-group label="Presentation" help="How the deck shows to the audience.">
+      <aha-settings-item label="Progress bar">
+        <aha-switch slot="control" checked />
+      </aha-settings-item>
+
+      <aha-settings-item label="Question timer">
+        <aha-switch slot="control" :checked.prop="timerOn"
+          @change="timerOn = $event.detail.checked" />
+      </aha-settings-item>
+      <!-- dependent settings — hidden when the parent toggle is off -->
+      <aha-sub-setting-group :hidden="!timerOn">
+        <aha-settings-item label="Seconds per question">
+          <aha-input slot="control" value="30" />
+        </aha-settings-item>
+        <aha-settings-item label="Auto-advance">
+          <aha-switch slot="control" />
+        </aha-settings-item>
+      </aha-sub-setting-group>
+    </aha-setting-group>
+
+    <!-- Group 2 — no wiring: it sits 32px below automatically. -->
+    <aha-setting-group label="Audience">
+      <aha-settings-item label="Anonymous join">
+        <aha-switch slot="control" checked />
+      </aha-settings-item>
+    </aha-setting-group>
+  </div>
+</template>

@@ -1,0 +1,69 @@
+{
+  "name": "Add Item Button",
+  "slug": "add-item-button",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-add-item-button",
+  "summary": "The full-width \"+ Add\" affordance that sits under a settings list (OptionRow / QuestionList) — a dashed, tertiary add row that appends a new item.",
+  "lead": "ONE custom element — <aha-add-item-button> — defined once, imported unchanged by React and Vue. It is the subtle full-width add row beneath an editable list: a leading system-plus glyph + a label inside a dashed 1px border, radius 8, transparent/white fill, secondary-grey text. On hover the border + text tint toward brand and a faint accent fill fades in — animated on the persistent <button> node via the shared motion tokens (the subtree is never rebuilt on a state change, so the transition fires). Click emits a composed `add` event so the host can append an item; when the list hits its max count the host sets `disabled` → muted, no hover, aria-disabled. The `+` is decorative; the label carries the accessible name. Shadow-DOM CSS, themed only by --aha-* tokens.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
+  "tokensUsed": ["border", "border-disabled", "color-primary", "bg-container", "bg-accent", "text-secondary", "text-disabled", "focus-ring-soft"],
+  "spec": [
+    { "label": "Box", "value": "full width (100%) · height 40 · radius 8 · padding 0 12" },
+    { "label": "Border", "value": "1px dashed #E3E3E3 (rest)" },
+    { "label": "Content", "value": "centered — system-plus 16px + label, 8px gap" },
+    { "label": "Text", "value": "Plus Jakarta 14/600, #4A4A4A (secondary)" },
+    { "label": "Hover", "value": "border + text → #6A1EBB, #F9F5FF fill (animated)" },
+    { "label": "Focus", "value": "#6A1EBB border + 2px soft ring" },
+    { "label": "Disabled", "value": "#B5B5B5 text, #EBEBEB border, not-allowed, no hover, aria-disabled" }
+  ],
+  "props": [
+    { "name": "label", "type": "string", "default": "Add", "desc": "The add-affordance text; carries the accessible name" },
+    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive (e.g. at the max item count); muted, no hover, sets aria-disabled" },
+    { "name": "add", "type": "CustomEvent<{}>", "default": "—", "desc": "Composed event fired on click when enabled — the host appends a new item" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Add Item Button", "when": "append a new row to an editable settings list — options, questions, list items" },
+      { "what": "Button (tertiary)", "when": "a standalone action that isn't 'add another row to this list'" }
+    ],
+    "note": "Place it directly under the list it grows, full-width so it reads as part of the stack. Label it with the item noun — 'Add option', 'Add question' — not a bare 'Add' when the context needs it. Disable (don't hide) it at the max count so the ceiling stays discoverable; pair with a tooltip or helper line explaining the limit.",
+    "dsv3": "COVERED — the DS V3 settings option-list 'Add' row (§10 of the settings pattern): a full-width dashed tertiary affordance under OptionRow / QuestionList lists. Dashed border + text bind to the DS `border` / `text-secondary` tokens; the hover tint binds to `color-primary` + `bg-accent`; radius 8 on-scale. Motion + focus ring on the persistent button node."
+  },
+  "surfaces": ["editor", "settings", "dashboard"],
+  "reuse": { "entry": "./aha-add-item-button", "registers": "aha-add-item-button", "exportsNamed": ["AhaAddItemButton", "defineAhaAddItemButton"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "add-item-button.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "add-item-button.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "add-item-button.vue.txt" }
+  ],
+  "preview": "add-item-button.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "label", "label": "Label", "default": "Add option", "options": [
+        { "label": "Add option", "value": "Add option" },
+        { "label": "Add question", "value": "Add question" },
+        { "label": "Add", "value": "Add" }
+      ] },
+      { "prop": "disabled", "label": "Disabled", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "full width (100%) · height 40 · radius 8", "verdict": "PASS" },
+    { "label": "1px dashed #E3E3E3 rest border", "verdict": "PASS" },
+    { "label": "text #4A4A4A (secondary) · leading system-plus glyph", "verdict": "PASS" },
+    { "label": "hover border+text → #6A1EBB + #F9F5FF fill (animated on persistent node)", "verdict": "PASS" },
+    { "label": "disabled #B5B5B5 text, not-allowed, aria-disabled", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-add-item-button[data-probe]') && document.querySelector('aha-add-item-button[data-probe]').shadowRoot && document.querySelector('aha-add-item-button[data-probe]').shadowRoot.querySelector('button'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-add-item-button[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('button');var s=b?getComputedStyle(b):null;return{width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,border:s?s.borderTopColor:null,borderStyle:s?s.borderTopStyle:null,color:s?s.color:null};})()",
+    "expect": { "width": "260px", "height": "40px", "radius": "8px", "border": "rgb(227, 227, 227)", "borderStyle": "dashed", "color": "rgb(74, 74, 74)" }
+  }
+}

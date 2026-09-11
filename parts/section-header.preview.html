@@ -1,0 +1,37 @@
+<div class="pad">
+  <div class="lbl">Section header · the settings GROUP header (label + "?" help + action slot)</div>
+  <div class="demo-stage">
+    <aha-section-header data-probe label="Presentation" help="Controls shown while you present.">
+      <aha-switch slot="action" checked></aha-switch>
+    </aha-section-header>
+  </div>
+
+  <div class="lbl">Variants · plain · with "?" help · with an action (master switch / count / link)</div>
+  <div class="stack">
+    <aha-section-header label="Presentation"></aha-section-header>
+    <aha-section-header label="Audience" help="Who can see and join this deck."></aha-section-header>
+    <aha-section-header label="Interaction" help="Turn the whole group on or off.">
+      <aha-switch slot="action" checked></aha-switch>
+    </aha-section-header>
+    <aha-section-header label="Slides">
+      <span slot="action" style="font-size:14px;line-height:21px;color:var(--aha-text-tertiary,#8A8A8A)">12</span>
+    </aha-section-header>
+  </div>
+
+  <div class="lbl">A group in context · a header over its setting rows</div>
+  <div class="stack">
+    <aha-section-header label="Presentation" help="Controls shown while you present."></aha-section-header>
+    <aha-setting-row label="Progress bar"><aha-switch slot="control" checked></aha-switch></aha-setting-row>
+    <aha-setting-row label="Question timer"><aha-switch slot="control"></aha-switch></aha-setting-row>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-section-header.js) — no inlined copy, so the preview
+     can never drift from lib/. The playground control bar (Help / Action) is generated from
+     contracts/section-header.json → playground and drives the [data-probe] element's attributes live. -->
+<script type="module">
+  import '../lib/icons.js';                // registers <aha-icon> so the "?" help glyph resolves from the DS library
+  import '../lib/aha-section-header.js';   // registers <aha-section-header> — the shipped primitive, byte-identical to what consumers get
+  import '../lib/aha-setting-row.js';      // registers <aha-setting-row> (shown under the header in context)
+  import '../lib/aha-switch.js';           // registers <aha-switch> (action / control slots)
+</script>

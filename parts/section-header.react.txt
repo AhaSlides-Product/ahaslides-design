@@ -1,0 +1,16 @@
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (the "?" glyph)
+import '@ahaslides-product/design/aha-section-header';  // registers <aha-section-header>
+
+// One shared custom element — React 18 renders it directly (no ref needed; it takes no events).
+// React 19 can pass the same attributes. `label` is a noun phrase in sentence case; `help` fills
+// the "?" tooltip; the `action` slot carries a master switch / count / link pushed to the right.
+function SectionHeader({ label, help, action }) {
+  return (
+    <aha-section-header label={label} {...(help ? { help } : {})}>
+      {action ? <span slot="action">{action}</span> : null}
+    </aha-section-header>
+  );
+}
+
+// usage
+<SectionHeader label="Audience" help="Who can see and join this deck." />

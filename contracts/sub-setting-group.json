@@ -1,0 +1,61 @@
+{
+  "name": "Sub setting group",
+  "slug": "sub-setting-group",
+  "group": "Settings",
+  "tier": "leaf-lit",
+  "badge": "shared Lit web component",
+  "element": "aha-sub-setting-group",
+  "summary": "The dependent (child) settings wrapper — indents a cluster of sub-settings under one parent toggle with a tight gap, spacing only (no border, no card).",
+  "lead": "ONE custom element — <aha-sub-setting-group> — for the settings-panel case where turning one setting on reveals a cluster of dependent sub-settings. It gives them the nesting treatment with SPACING only: 8px above (tighter than the 16 between siblings, so the child reads as \"belongs to\" its parent) and a 24px indent — NO left border, NO card. The host owns visibility: the author adds `hidden` when the parent is off (`:host([hidden]){display:none}`); the component just does the nesting. The nested content is subtly de-emphasised via a context flag — the indent + tight gap are the primary signal. role=\"group\". Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": ["text-default"],
+  "spec": [
+    { "label": "Bind", "value": "margin-top 8px — tighter than the 16 between siblings, so the child binds to its parent" },
+    { "label": "Indent", "value": "padding-left 24px — the primary nesting signal (no left border, no card)" },
+    { "label": "Rows", "value": "column · 16px between dependent sub-settings (the settings scale)" },
+    { "label": "Visibility", "value": "host owns it — author adds `hidden` when the parent is off (:host([hidden]){display:none})" },
+    { "label": "Structure", "value": "no divider lines, no card/box — spacing + indent only" }
+  ],
+  "props": [
+    { "name": "hidden", "type": "boolean", "default": "false", "desc": "Author-controlled: collapse the sub-settings when the parent setting is off (the component does not derive this itself)" },
+    { "name": "(default slot)", "type": "slot", "default": "—", "desc": "The dependent sub-settings; they stack 16px apart, indented 24px under the parent" }
+  ],
+  "opinion": {
+    "whenToUse": [
+      { "what": "Sub setting group", "when": "settings that only apply when a parent toggle is on — indent them under it and hide when off" },
+      { "what": "Setting group", "when": "a top-level titled cluster of settings (the 16/32/48 scale + optional header)" },
+      { "what": "a disabled row", "when": "the setting always shows but isn't currently changeable — dim it, don't nest it" }
+    ],
+    "note": "Use this only for genuinely dependent settings — ones that are meaningless until a parent is on. Keep the parent row and its sub-group inside the same setting group. Hide (not disable) the sub-settings when the parent is off, so the panel doesn't fill with dead controls. Never draw a left rail or box around the nest — the 24px indent + the tight 8px bind are the whole signal."
+  },
+  "surfaces": ["editor", "settings", "dashboard"],
+  "reuse": { "entry": "./aha-sub-setting-group", "registers": "aha-sub-setting-group", "exportsNamed": ["AhaSubSettingGroup", "defineAhaSubSettingGroup"] },
+  "snippets": [
+    { "key": "html", "label": "HTML", "file": "sub-setting-group.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
+    { "key": "react", "label": "React", "file": "sub-setting-group.react.txt" },
+    { "key": "vue", "label": "Vue 3", "file": "sub-setting-group.vue.txt" }
+  ],
+  "preview": "sub-setting-group.preview.html",
+  "playground": {
+    "controls": [
+      { "prop": "hidden", "label": "Parent", "default": "on", "options": [
+        { "label": "On (shown)", "value": null },
+        { "label": "Off (hidden)", "value": "" }
+      ] }
+    ]
+  },
+  "selfCheck": [
+    { "label": "8px above (binds tighter than the 16 between siblings)", "verdict": "PASS" },
+    { "label": "24px indent (the nesting signal)", "verdict": "PASS" },
+    { "label": "dependent rows 16px apart", "verdict": "PASS" },
+    { "label": "hidden → display:none (host-owned visibility)", "verdict": "PASS" },
+    { "label": "no left border / no card — spacing + indent only", "verdict": "PASS" }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is a sub-group nested under a parent row inside a setting group. Measures ≥4 props incl a colour (nested text) + px (padding-left 24, margin-top 8).",
+    "ready": "!!(document.querySelector('aha-sub-setting-group[data-probe]') && document.querySelector('aha-sub-setting-group[data-probe]').shadowRoot && document.querySelector('aha-sub-setting-group[data-probe]').shadowRoot.querySelector('.rows'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-sub-setting-group[data-probe]');var s=el?getComputedStyle(el):null;var r=el&&el.shadowRoot;var rows=r&&r.querySelector('.rows');var srows=rows?getComputedStyle(rows):null;return{paddingLeft:s?s.paddingLeft:null,marginTop:s?s.marginTop:null,rowsGap:srows?srows.rowGap:null,textColor:s?s.color:null,borderLeft:s?s.borderLeftWidth:null};})()",
+    "expect": { "paddingLeft": "24px", "marginTop": "8px", "rowsGap": "16px", "textColor": "rgb(26, 26, 26)", "borderLeft": "0px" }
+  }
+}

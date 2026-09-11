@@ -22,13 +22,36 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.34.0 — 2026-09-11
+## 0.38.0 — 2026-09-11
 ### Added
 - **Breadcrumb** — `size="page-title"` turns the current crumb into the page heading (a real `<h1>`, `heading-level` picks h1–h6): a single-item trail is the standalone page title (24/600), a longer trail is that heading with its ancestor path in front (18/600). Plus a `size="mini"` (12/18) compact scale. This is now the DS page-title — reach for it instead of a hand-rolled `<h1>`; the breadcrumb *is* the page title. (#76)
 
-## 0.33.1 — 2026-09-11
+## 0.37.0 — 2026-09-11
+### Added
+- **Settings hierarchy primitives** — five new Settings pattern components so an agent composes a settings panel and the hierarchy, spacing, and icon rules come out right *by construction*: `<aha-section-header>` (group header — semibold-600 label + `?` help + right `action` slot), `<aha-setting-row>` (one setting — label-left/control-right `inline` or `stack`, no decorative label-icon), `<aha-setting-group>` (the container — bakes in **16px** between settings, **32px** between groups, **48px** danger zone; spacing-only, no dividers/cards), `<aha-sub-setting-group>` (dependent settings — **24px** indent + **8px** gap-above), and `<aha-add-item-button>` (full-width "+ Add", disables at max). Each ships contract + `lib/` element + HTML/React/Vue snippets + preview, registered + exported.
+- **Icon — `system-question-circle`** — a circled question-mark glyph; the shared `?` help affordance (`<aha-tooltip help>`) now uses it instead of the bare `system-question-mark`, so every settings `?` is the circled form. (#75)
 ### Fixed
-- **Docs site** — CDN-React composite previews (TimePicker, Select, Table, Modal, Form, and the other `text/babel` demos) rendered blank when reached via in-app (PJAX) navigation, only appearing after a full page reload. The swap now re-runs each preview's external scripts in order and re-triggers Babel so the JSX transpiles on navigation, not just on reload.
+- **Docs site** — CDN-React composite previews (TimePicker, Select, Table, Modal, Form, and the other `text/babel` demos) rendered blank when reached via in-app (PJAX) navigation, only appearing after a full page reload. The swap now re-runs each preview's external scripts in order and re-triggers Babel so the JSX transpiles on navigation, not just on reload. (#73)
+
+## 0.36.0 — 2026-09-11
+### Changed
+- **Settings pattern — fidelity pass to the settings-lab reference.** The composed settings controls now *translate* the reference anatomy instead of drifting: (1) **help text** — the always-visible per-row/per-section description lines are gone; guidance moves into a `?` help tooltip after the label (the reference's one-home rule), across `settings-list`, `mode-field`, `option-row`; (2) **alignment** — `settings-list` rows are `inline` (label-left / control-right, 12px gap, **semibold-600** label) with an opt-in `stack` layout for wide controls; (3) **variants** — `mode-field` gains `variant` (outline-radio default / segmented, never a solid pill) + `labelVariant` (field/section); `card-select` gains `iconOnly` (44px squares) + `columns`; `option-row` gains `checkboxShape` (circle/square) + `singleLine`; `info-box`'s **error** tint is now Radical Pink (`--aha-pink-20`/`--aha-pink-60`), not red; `number-with-unit` renders the unit **in full** ("seconds", not "sec"); `numbered-item` card radius 12; `image-action-button` compacts to 36px and fixes its loading `aria-label`; `image-dropzone` gains `fit` (contain/cover). All colours token-bound; no behaviour lost. (#72)
+
+## 0.35.0 — 2026-09-11
+### Changed
+- **Docs taxonomy — Components / Patterns / Guidelines.** The DS now separates three artifact kinds cleanly: **Components** are the general primitives that inherit from themed Ant; **Patterns** are reusable AhaSlides components composed *from* Components (real code) — the *AhaSlides surfaces* (Paywall, Status badge, CSAT, Screen heading), *Settings* (Settings list + the 12 controls), and *Data* (DataTable) groups move here out of Components; **Guidelines** are the prose composition guides (grouping, help-text discipline, danger-zone rules) — the section previously mislabelled "Patterns". `patterns/` → `guidelines/` (artifact `kind: "guideline"`, gated as before); the top nav gains a Patterns area (composed components) and a Guidelines area, and a pattern-classified component renders under `Patterns · <group>`. No component behaviour or API change — reclassification + nav only. (#71)
+
+## 0.34.1 — 2026-09-11
+### Changed
+- **Docs / feeds** — the all-in-one entry is now discoverable where people look: the `llms.txt` agent index and the docs-site "Consume" block both show the one-tag `<script src=".../lib/all.js">` snippet (alongside a note to prefer per-element imports in bundled apps). No code/API change — surfaces the `0.34.0` entry point in the DS's self-serve feeds. (#74)
+
+## 0.34.0 — 2026-09-11
+### Added
+- **All-in-one entry (`@ahaslides-product/design/all`)** — one import now registers every shared `<aha-*>` element (incl. `<aha-icon>`/`<aha-illustration>`), so a no-build / CDN page needs a single `<script type="module" src=".../lib/all.js">` tag instead of one `import` per element. The token layer is still loaded separately (`import '@ahaslides-product/design/tokens.css'` or a `<link>` to `lib/tokens.css`). Bundled apps should keep importing per-element for tree-shaking. Generated from the shipped element set, so it can't drift. Also wired `unpkg`/`jsdelivr`/`browser` → `lib/all.js` for bare CDN resolution. (#70)
+
+## 0.33.1 — 2026-09-10
+### Fixed
+- **Illustration** — the 20 spot illustrations shipped flattened: an over-aggressive SVG normalisation unwrapped every `<g>` (dropping group `opacity`/`transform`), stripped clip-paths/masks/filters, and a coordinate heuristic deleted real art (blue/green on `offer-frame`, gold on `team-created`). `build-illustrations.mjs` now preserves the art exactly — the full `<defs>` (gradients/filters/masks/clipPaths), every group's `opacity`/`transform`, and all ids — stripping only the Figma "Oldies" board chrome (the `#E1E1E1` background, `#D5D5D5` frame, oversized white card, dashed annotation box). Each illustration now renders pixel-faithful to Figma. (#69)
 
 ## 0.33.0 — 2026-09-10
 ### Removed

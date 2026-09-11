@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-number-with-unit'; // registers <aha-numbe
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-number-with-unit> directly.
-// e.detail.value is the clamped number; the unit is written inline (always the short label — "sec").
+// e.detail.value is the clamped number; the unit is written inline IN FULL — rendered exactly as passed ("seconds").
 function AhaNumberWithUnit({ value, unit, min, max, step, maxDigits, size, errorMessage, disabled, onChange }) {
   const ref = useRef();
   useEffect(() => {
@@ -28,4 +28,4 @@ function AhaNumberWithUnit({ value, unit, min, max, step, maxDigits, size, error
 }
 
 // usage
-<AhaNumberWithUnit value={20} unit="sec" min={5} max={120} maxDigits={4} onChange={setSeconds} />
+<AhaNumberWithUnit value={20} unit="seconds" min={5} max={120} maxDigits={4} onChange={setSeconds} />

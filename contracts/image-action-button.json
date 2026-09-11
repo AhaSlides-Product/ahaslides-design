@@ -10,9 +10,9 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. Wire the host to the intents; drive `state`/`src` from the host's upload flow. React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
   "tokensUsed": ["border", "border-hover", "border-disabled", "color-primary", "color-error", "bg-container", "bg-container-disabled", "bg-elevated", "bg-hover", "bg-overlay", "text-default", "text-inverse", "text-disabled", "icon-muted", "radius-default", "radius-sm", "radius-pill", "ink-a10"],
   "spec": [
-    { "label": "Trigger", "value": "40×40 icon button, radius 8, 1px #E3E3E3 border" },
+    { "label": "Trigger", "value": "36×36 icon button, radius 8, 1px #E3E3E3 border" },
     { "label": "Empty", "value": "system-image-square glyph + \"Add image\" tooltip; click emits `add`" },
-    { "label": "Loading", "value": "spinner at the same 40×40 size — no layout jump" },
+    { "label": "Loading", "value": "spinner at the same 36×36 size — no layout jump; role=status, aria-label \"Loading\", aria-busy" },
     { "label": "Filled", "value": "thumbnail + hover pencil overlay; click opens Change/Edit/Delete" },
     { "label": "Menu", "value": "Change / Edit / Delete (Delete in #F5222D); each emits an intent" },
     { "label": "Intents", "value": "add · change · edit · delete — host owns the modals, this owns none" },
@@ -52,7 +52,7 @@
   },
   "selfCheck": [
     { "label": "compact image ICON button — not a text \"Image\" button (SETTINGS-32)", "verdict": "PASS" },
-    { "label": "full state set: empty → loading (same size, no jump) → filled + hover pencil → Change/Edit/Delete (SETTINGS-22)", "verdict": "PASS" },
+    { "label": "full state set: empty → loading (same 36×36, aria-label \"Loading\", no jump) → filled + hover pencil → Change/Edit/Delete (SETTINGS-22)", "verdict": "PASS" },
     { "label": "emits intents (add/change/edit/delete); owns no modal", "verdict": "PASS" },
     { "label": "glyphs by name via <aha-icon>; outside-click listener removed on disconnect", "verdict": "PASS" }
   ],
@@ -61,6 +61,6 @@
     "ready": "!!(document.querySelector('aha-image-action-button[data-probe]') && document.querySelector('aha-image-action-button[data-probe]').shadowRoot && document.querySelector('aha-image-action-button[data-probe]').shadowRoot.querySelector('.trigger'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-image-action-button[data-probe]');var r=el&&el.shadowRoot;var t=r&&r.querySelector('.trigger');var s=t?getComputedStyle(t):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null};})()",
-    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(227, 227, 227)", "radius": "8px", "height": "40px" }
+    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(227, 227, 227)", "radius": "8px", "height": "36px" }
   }
 }

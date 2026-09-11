@@ -1,13 +1,13 @@
 <div class="pad">
   <div class="lbl">Focus a field — the counter appears only while focused; type past a few lines and it scrolls</div>
   <div class="row">
-    <aha-counted-textarea data-probe status="error" maxlength="200" minrows="2" maxrows="4" value="A longer answer that wraps across several lines of the field." placeholder="Answer"></aha-counted-textarea>
-    <aha-counted-textarea maxlength="120" minrows="2" maxrows="4" value="Paris is the capital of France." placeholder="Description"></aha-counted-textarea>
-    <aha-counted-textarea maxlength="200" minrows="2" maxrows="4" placeholder="Click to focus — counter shows"></aha-counted-textarea>
+    <aha-counted-textarea data-probe status="error" maxlength="150" minrows="2" maxrows="5" value="A longer answer that wraps across several lines of the field." placeholder="Answer"></aha-counted-textarea>
+    <aha-counted-textarea maxlength="120" minrows="2" maxrows="5" value="Paris is the capital of France." placeholder="Description"></aha-counted-textarea>
+    <aha-counted-textarea maxlength="150" minrows="2" maxrows="5" placeholder="Click to focus — counter shows"></aha-counted-textarea>
   </div>
   <div class="lbl">States · no counter · disabled · readonly</div>
   <div class="row">
-    <aha-counted-textarea minrows="2" maxrows="4" placeholder="No maxlength — no counter"></aha-counted-textarea>
+    <aha-counted-textarea maxlength="none" minrows="2" maxrows="5" placeholder="No maxlength — no counter"></aha-counted-textarea>
     <aha-counted-textarea disabled maxlength="120" value="Locked value"></aha-counted-textarea>
     <aha-counted-textarea readonly maxlength="120" value="Read-only value"></aha-counted-textarea>
   </div>
