@@ -12,6 +12,15 @@
   items='[{"label":"Home","href":"/","icon":"system-house"},{"label":"Presentations","href":"/p","icon":"system-folder"},{"label":"Team offsite","href":"/p/1"},{"label":"Q3 deck","href":"/p/1/d"},{"label":"Editor"}]'>
 </aha-breadcrumb>
 
+<!-- PAGE TITLE — this is how you render a page heading. size="page-title" makes the current crumb a
+     real <h1> (heading-level picks h1–h6). Never hand-roll a plain <h1> for a page header — use this,
+     so the type scale, the ancestor trail, aria-current and the navigate event all come for free. -->
+<aha-breadcrumb size="page-title" items='[{"label":"Presentations"}]'></aha-breadcrumb>
+<!-- …or with the ancestor path in front of the heading -->
+<aha-breadcrumb size="page-title"
+  items='[{"label":"Home","href":"/"},{"label":"Presentations","href":"/p"},{"label":"Team offsite"}]'>
+</aha-breadcrumb>
+
 <script>
   // The last item is the current page (not a link); links emit a composed `navigate` event.
   document.getElementById('crumbs').addEventListener('navigate', (e) => console.log('go to', e.detail.href));
