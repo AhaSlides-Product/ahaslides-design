@@ -1173,7 +1173,7 @@ function renderTokenPage(pageSlug) {
     + `</div></div>`;
   const primitives = Object.keys(P).filter(h => h!=='white' && h!=='black').map(ramp).join('');
   const typeRows = [['display1',s.display1],['display2',s.display2],['h1',s.h1],['h2',s.h2],['h3',s.h3],['h4',s.h4],['h5 / xl',s.xl],['h6',s.h6],['body (default)',s.default],['bodyLG (l)',s.l],['bodySM (sm)',s.sm]]
-    .map(([role,px]) => `<tr><td style="font-size:${Math.min(px,28)}px;line-height:1.2">${esc(role)}</td><td><code>${px}px</code></td></tr>`).join('');
+    .map(([role,px]) => `<tr><td style="font-size:${px}px;line-height:1.2">${esc(role)}</td><td><code>${px}px</code></td></tr>`).join('');
   const radScale = [['xs',r.xs],['sm',r.sm],['default',r.default],['lg',r.lg],['xl',r.xl]];
   const radChips = radScale.map(([n,v]) => `<div class="scale-cell"><div class="radius-chip" style="border-radius:${v}px"></div><div class="hex">${n} · ${v}px</div></div>`).join('');
   const chRows = `<tr><td>Fields — Input / Select / DatePicker (root)</td><td><code>${ch.root}px</code></td></tr>`
