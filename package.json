@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.43.2",
+  "version": "0.44.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -166,9 +166,11 @@
     "./aha-image-dropzone": "./lib/aha-image-dropzone.js",
     "./aha-option-row": "./lib/aha-option-row.js",
     "./aha-question-list": "./lib/aha-question-list.js",
-    "./popconfirm-theme": "./lib/popconfirm-theme.js"
+    "./popconfirm-theme": "./lib/popconfirm-theme.js",
+    "./screen-lint": "./screen-lint.mjs"
   },
   "files": [
+    "screen-lint.mjs",
     "lib/",
     "icons/svg/",
     "icons/registry.json",
@@ -182,8 +184,9 @@
     "generate": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
     "standards": "node standards.mjs",
     "qa": "node qa.mjs",
+    "lint:screen": "node screen-lint.mjs",
     "build": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
-    "check": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node qa.mjs"
+    "check": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node screen-lint.mjs --self-test && node qa.mjs"
   },
   "license": "UNLICENSED"
 }
