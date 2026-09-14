@@ -52,7 +52,7 @@
     "stylized": null,
     "$note": "NO Inter. The export (SoT) declares Inter a Figma-local system face, 'not a brand face, not loaded'. The skill's Inter label rule is from a different Figma frame and is overruled. Load product self-hosted (aha-design-antd)."
   },
-  "weight": { "regular": 400, "semibold": 600, "bold": 700, "$note": "400/600 only; 700 for Display 1/2. Export's unused 500 removed (skill rule wins)." },
+  "weight": { "regular": 400, "semibold": 600, "$note": "400/600 ONLY (design-owner decision 2026-09-14: 700 dropped from the product type scale — Display uses 600, not Bold). Export's unused 500 also removed. The sole remaining literal font-weight:700 is the MEASURED aha-tabs primary-tab active label (lib/aha-tabs.js:56) — a component-standard exception pending re-measure, not part of the scale." },
   "size": { "sm": 12, "default": 14, "l": 16, "h6": 18, "xl": 20, "h4": 24, "h3": 32, "h2": 40, "h1": 48, "display2": 56, "display1": 64,
     "$note": "18 (h6) added from skill; export's size-tiny 8px is spacing, not a text role — smallest text role is 10 (skill 'tiny')." },
   "lineHeight": { "tight": 1.2, "heading": 1.3, "body": 1.5, "normal": "normal",

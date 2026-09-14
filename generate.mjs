@@ -642,6 +642,8 @@ function surfaceBlock(s) {
 // docs stay consistent instead of dumping unstyled raw text in the browser.
 const RAW_FEEDS = [
   { name: 'design.md',     file: 'design.md',      page: 'design-md',     desc: 'Machine-readable visual language + token spec — the feed AI design/code tools read.' },
+  { name: 'DESIGN-LANGUAGE.md',      file: 'DESIGN-LANGUAGE.md',      page: 'design-language',      desc: 'The design-language charter — the composition/“feel” layer the per-component gates can’t see. Two worlds (Product-UI vs Canvas/Audience) + the cross-cutting laws and per-world principles. Read before composing a whole screen.' },
+  { name: 'DESIGN-LANGUAGE-JUDGE.md', file: 'DESIGN-LANGUAGE-JUDGE.md', page: 'design-language-judge', desc: 'The verdict counterpart to the charter — a page/screen-level judge that routes to a world then emits PASS/FAIL per principle. Run it to self-check a composed screen (build→judge→fix).' },
   { name: 'llms.txt',      file: 'llms.txt',       page: 'llms-txt',      desc: 'The index feed: one entry per component. An agent’s entry point to the system.' },
   { name: 'llms-full.txt', file: 'llms-full.txt',  page: 'llms-full-txt', desc: 'Every component doc concatenated — the full-context feed.' },
   { name: 'CHANGELOG.md',  file: 'CHANGELOG.md',   page: 'changelog',     desc: 'Version history — what changed in each release. One entry per merge; the top version matches the package.' },
@@ -1074,7 +1076,26 @@ function renderDesignMd(t, cs) {
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
 > Version ${PKG.version} · changelog (what changed per release): ${SITE}/CHANGELOG.md
 
-## Brand
+## Design language — READ THIS BEFORE COMPOSING A SCREEN
+Per-component correctness is not enough: a screen of on-token components can still be off-language
+(too many primary actions, boxes-in-boxes, decorative colour, the wrong world's palette). The rules
+below live between components. Full charter: ${SITE}/DESIGN-LANGUAGE.md · verdict rubric: ${SITE}/DESIGN-LANGUAGE-JUDGE.md
+
+### Step 1 — route to the world (do this first; wrong world = wrong everything)
+AhaSlides has **two design languages** that do not share a look:
+- **Product UI** (editor, dashboard, settings, admin, billing, docs) — fixed palette: violet \`${c.primary}\` on white, warm-gray ink \`${c.textDefault}\`. Calm, quiet. Rules \`PU*\` + \`X*\` below.
+- **Canvas / Audience** (the projected/cast slide + the participant's phone) — **NO fixed palette: colour, font, background all read from the deck theme at runtime (\`xprops.*\`)**; the frame is transparent; ink is derived from the fill by luminance. Legible from the back of a room. Rules \`CV*\` + \`X*\` below.
+A screen with both (e.g. an editor with a live preview) → apply each world to its own region.
+
+### Step 2 — apply the principles for that world
+**X — cross-cutting (both worlds):** X1 reuse the shipped primitive (a fresh rewrite is a defect) · X2 accessibility is law (colour never the sole signal — pair with glyph/text; icon-only needs an aria-label; contrast ≥ WCAG AA) · X3 motion animates on a persistent node via \`--aha-motion-*\`/\`--aha-ease-*\`, respects reduced-motion, never carries meaning.
+**PU — Product UI:** PU1 one primary (violet) action per view · PU2 hierarchy is space, not lines/boxes (no box-in-a-box) · PU3 colour is reserved & semantic, never decoration · PU4 sentence case, name the thing, one canonical label, failure/empty copy = outcome + next step · PU5 guide don't interrogate (defaults; constrain, don't validate-after) · PU6 quiet until needed (progressive disclosure) · PU7 right instrument + right surface-weight (page/modal/drawer/popover/toast) · PU8 feedback transient & honest (a required message never lives only in a toast) · PU9 destructive set-apart + confirmed, danger on the button not the label, no dismiss-on-stray-click · PU10 gate gracefully (locked stays visible, one upgrade CTA) · material: white bg, no gradient fills, radius 4/6/8/12/16, type 400/600 on the fixed scale, no hardcoded hex.
+**CV — Canvas/Audience:** CV1 colour/font from \`xprops\`, frame transparent, nothing hardcoded · CV2 ink derived from fill, contrast verified against the composited background (scrim over photos), AA floor · CV3 palette entries are marks not fill-and-text; state on a ✓/✗ indicator, never painted on the chart · CV4 type ≥16px floor, primary 18px+, no \`vh\`/\`vw\` font-sizes · CV5 the host owns the chrome (no faux brand watermark; every element carries real data) · CV6 text is running words (no stacked/rotated letters); motion holds 60fps inside the clipped iframe.
+
+### Step 3 — self-check before you ship (build → judge → fix)
+Run the screen through the judge (${SITE}/DESIGN-LANGUAGE-JUDGE.md): route the world, grade \`X*\` + that world's criteria PASS/FAIL, apply the ordered fixes, re-judge. One FAIL = off-language.
+
+## Brand — the Product-UI world (Canvas/Audience reads colour from the deck; see Design language above)
 Primary is violet purple \`${c.primary}\` on near-white neutrals; ink is warm gray \`${c.textDefault}\`.
 Backgrounds are **white by default**; no gradients on fills (AI-affordance border-only exception).
 Success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\`.
@@ -1106,7 +1127,7 @@ ${tbl(btn)}
 ${tbl(brand)}
 
 ## Typography
-Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** (Display 700). Base body **14** at line-height ratio **1.5**.
+Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** only. Base body **14** at line-height ratio **1.5**.
 Size scale: 12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64. Letter-spacing: headings 0, body 0.2px, subtext 0.3px. No Inter.
 
 ## Shape & density
@@ -1164,7 +1185,7 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}`,
     },
     typography: {
-      title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> (Display 700). No Inter.',
+      title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
       body: `
   <p class="body">Line-height ratios: tight 1.2 · heading 1.3 · body 1.5. Letter-spacing: headlines 0 · body 0.2px · subtext 0.3px.</p>
   ${docTable('<th>Role</th><th>Size</th>', typeRows)}`,
@@ -1446,6 +1467,11 @@ writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
 // gets a styled in-shell page (see RAW_FEEDS). Single source: the repo-root file the gate enforces.
 writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
+// The design-language charter + its judge are hand-authored prose (like PRINCIPLES.md) but served
+// as feeds so an agent composing a screen can fetch them: the router + principles (charter) and the
+// build→judge→fix rubric (judge). Mirror the CHANGELOG copy so ${SITE}/DESIGN-LANGUAGE(-JUDGE).md resolve.
+writeFileSync(join(OUT, 'DESIGN-LANGUAGE.md'), read(join(root, 'DESIGN-LANGUAGE.md')));
+writeFileSync(join(OUT, 'DESIGN-LANGUAGE-JUDGE.md'), read(join(root, 'DESIGN-LANGUAGE-JUDGE.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
@@ -1475,6 +1501,14 @@ const indexLines = [
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
+  '',
+  '## Composing a whole screen? Read the design language FIRST',
+  '',
+  '> Reusing correct components is necessary but NOT sufficient — a screen of on-token parts can still',
+  '> be off-language. Before composing a page/view/slide:',
+  `>   1. Route the world — Product UI (fixed violet-on-white) vs Canvas/Audience (colour from the deck theme). Wrong world = wrong everything.`,
+  `>   2. Follow the principles — ${SITE}/DESIGN-LANGUAGE.md (charter) / the "Design language" section of ${SITE}/design.md`,
+  `>   3. Self-check — run the screen through ${SITE}/DESIGN-LANGUAGE-JUDGE.md (build → judge → fix).`,
   '',
   '## Components',
   '',

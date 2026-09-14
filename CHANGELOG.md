@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.35.0 — 2026-09-14
+### Added
+- **Design language** — a new composition-level layer above the per-component standard, capturing the "feel" the component gates can't see (one loud action per view, hierarchy from space not boxes, colour that means one thing, the right instrument). The charter `DESIGN-LANGUAGE.md` names the **two worlds** — Product UI (fixed violet-on-white) vs Canvas/Audience (colour/font read from the deck theme at runtime) — plus the cross-cutting laws and per-world principles. It's generated into the feeds: `design.md` gains a "Design language" section with the world-router + principle index, and `llms.txt` points to it before the component list, so an agent composing a whole screen is routed at the entry point.
+- **Design-language judge** — `DESIGN-LANGUAGE-JUDGE.md`, the page/screen-level verdict counterpart to the charter (companion to the per-component `*-judge` skills): it routes a screen to its world, then emits a binary PASS/FAIL per principle with ordered fixes, to close a build→judge→fix loop.
+- **Screen-lint** — a new mechanical gate: `node screen-lint.mjs --surface=product|canvas <files>` (`./screen-lint` export, `npm run lint:screen`). It hard-fails the zero-interpretation subset of the design language on a consumer screen — raw hex / off-scale radius / gradient fills / icon-only-without-an-accessible-name (Product UI); hardcoded colour / sub-16px or viewport-unit fonts (Canvas) — with a `ds-lint-allow` escape hatch, and is now part of `npm run check`. Statically-undecidable rules (token-layer contrast, copy, right-instrument) stay the judge's job.
+
+### Fixed
+- **Badge snippet** — the paste-and-run example set a raw `background:#fff` on its demo container; now bound to `var(--aha-bg-container,#fff)` (the first defect caught by the new screen-lint gate).
+
 ## 0.34.0 — 2026-09-11
 ### Added
 - **Breadcrumb** — `size="page-title"` turns the current crumb into the page heading (a real `<h1>`, `heading-level` picks h1–h6): a single-item trail is the standalone page title (24/600), a longer trail is that heading with its ancestor path in front (18/600). Plus a `size="mini"` (12/18) compact scale. This is now the DS page-title — reach for it instead of a hand-rolled `<h1>`; the breadcrumb *is* the page title. (#76)
