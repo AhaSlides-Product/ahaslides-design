@@ -1143,7 +1143,7 @@ ${tbl(btn)}
 ${tbl(brand)}
 
 ## Typography
-Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** (Display 700). Base body **14** at line-height ratio **1.5**.
+Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** only. Base body **14** at line-height ratio **1.5**.
 Size scale: 12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64. Letter-spacing: headings 0, body 0.2px, subtext 0.3px. No Inter.
 
 ## Shape & density
@@ -1201,7 +1201,7 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}`,
     },
     typography: {
-      title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> (Display 700). No Inter.',
+      title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
       body: `
   <p class="body">Line-height ratios: tight 1.2 · heading 1.3 · body 1.5. Letter-spacing: headlines 0 · body 0.2px · subtext 0.3px.</p>
   ${docTable('<th>Role</th><th>Size</th>', typeRows)}`,
@@ -1311,8 +1311,10 @@ import '${PKGNAME}/tokens.css';   // once, at the app root
 const ANTISLOP_LOOP = [
   'You are generating AhaSlides product UI by consuming this design system.',
   'Before you write a screen: (1) identify the surface(s) you are building;',
-  "(2) read that surface’s rules below; (3) after building, run the surface’s BINARY judge",
-  '— every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
+  "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
+  '(node screen-lint.mjs --surface=<product|canvas> <files>) to hard-fail the zero-interpretation',
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts), then the",
+  'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
 
