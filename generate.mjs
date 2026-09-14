@@ -1069,10 +1069,11 @@ function renderLandingHtml(b) {
   return docShell({ base: '../../', active: b.slug, section: 'landing', main, extraCss });
 }
 function renderLandingIndex() {
+  const base = '../';
   const cards = landingGroups().map(g =>
     `<div class="nav-group"><h2 class="lg-cat">${esc(g.cat)}</h2><div class="lg-grid">` +
     g.items.map(b =>
-      `<a class="lg-card" href="landing/${b.slug}/index.html"><div class="lg-thumb">${landingSnippet(b)}</div>` +
+      `<a class="lg-card" href="${base}landing/${b.slug}/index.html"><div class="lg-thumb">${landingSnippet(b)}</div>` +
       `<div class="lg-meta"><b>${esc(b.name)}</b><span>${esc(b.summary)}</span></div></a>`).join('') +
     `</div></div>`).join('');
   const main = `
@@ -1090,7 +1091,7 @@ function renderLandingIndex() {
   .lg-meta{padding:var(--aha-space-12) var(--aha-space-16)}
   .lg-meta b{display:block;font-size:15px;margin-bottom:2px}
   .lg-meta span{font-size:13px;color:var(--aha-text-secondary)}`;
-  return docShell({ base: '', active: '', section: 'landing', main, extraCss });
+  return docShell({ base, active: '', section: 'landing', main, extraCss });
 }
 function renderLandingMd(b) {
   return `# ${b.name} — landing block
