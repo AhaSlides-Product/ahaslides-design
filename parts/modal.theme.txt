@@ -20,15 +20,17 @@ export const modalTheme = {
   },
 };
 
-// DS V3 size policy — a modal never grows bigger than the screen, in either axis. Three
-// size tiers (Action-modal use cases; a Confirmation modal uses `simple`), each pairing a
-// target px width with a viewport cap. WIDTH caps via the `width` prop (antd centres by
-// width): modalWidth(size) → min(<target px>, <vw>). HEIGHT caps via styles={modalStyles(size)}
-// — the body scrolls while the title + footer stay pinned. antd has no width/height token.
-export const modalMaxWidth  = { simple: '35vw', complexity: '50vw', rich: '90vw' };
+// DS V3 size policy — a modal never grows bigger than the screen and stays usable on mobile.
+// Three size tiers (Action-modal use cases; a Confirmation modal uses `simple`), each a target
+// px width. WIDTH via the `width` prop: modalWidth(size) → min(<target px>, calc(100vw − 32px)),
+// so it's the px width on desktop and near-full-width on a phone (a fixed vw would collapse to
+// ~135px). HEIGHT via styles={modalStyles(size)} — the body scrolls, title + footer stay pinned.
 export const modalMaxHeight = { simple: '75vh', complexity: '80vh', rich: '90vh' };
 const MODAL_TARGET_W = { simple: 504, complexity: 720, rich: 1280 };
-export const modalWidth = (size = 'simple') => `min(${MODAL_TARGET_W[size]}px, ${modalMaxWidth[size]})`;
+const MODAL_GUTTER = 32;   // 16px each side kept on small screens
+// Per-tier vw on a 1440 design — reference only; modalWidth() does NOT use it (not mobile-safe).
+export const modalMaxWidth  = { simple: '35vw', complexity: '50vw', rich: '90vw' };
+export const modalWidth = (size = 'simple') => `min(${MODAL_TARGET_W[size]}px, calc(100vw - ${MODAL_GUTTER}px))`;
 export const modalStyles = (size = 'simple') => ({
   // `container` = the antd v6 dialog box (.ant-modal-container), NOT `content` (dead key in v6).
   container: { display: 'flex', flexDirection: 'column', maxHeight: modalMaxHeight[size] },
