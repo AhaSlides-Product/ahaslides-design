@@ -11,8 +11,8 @@ const isExternalUrl = (href) =>
 // The DS has TWO modal types, both controlled <Modal>s (never the imperative confirm dialog):
 //   • Confirmation — a focused yes/no with an optional status icon + Learn-more link. `simple` size.
 //   • Action       — a task surface (form / picker / editor). Sizes: simple · complexity · rich.
-// A button TRIGGERS each; width={modalWidth(size)} + styles={modalStyles(size)} keep it inside the
-// viewport (base 35vw·75vh / 50vw·80vh / 90vw·90vh), the body scrolling once content passes the cap.
+// A button TRIGGERS each; width={modalWidth(size)} keeps it near-full-width on mobile (min(px,
+// 100vw−32)) and styles={modalStyles(size)} caps the height, the body scrolling past the cap.
 function ModalDemo() {
   const [confirm, setConfirm] = useState(false);
   const [action, setAction] = useState(false);
@@ -52,7 +52,7 @@ function ModalDemo() {
         <p>This removes the team and everyone's access. This can't be undone.</p>
       </Modal>
 
-      {/* Action modal — a longer task; `complexity` (720 · 50vw · 80vh), body scrolls when tall. */}
+      {/* Action modal — a longer task; `complexity` (720px · 80vh), body scrolls when tall. */}
       <Modal
         open={action}
         title="Share course"

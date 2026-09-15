@@ -43,14 +43,12 @@ const { ConfigProvider, Modal, Button } = window.__antdR;
 const { useState } = React;
 
 // DS V3 size policy — three tiers (Action-modal use cases; a Confirmation modal uses `simple`), each
-// a target px width capped to a fraction of the viewport so a modal never grows bigger than the
-// screen. WIDTH via the `width` prop (min(px, vw), centred); HEIGHT via styles + body scroll. These
-// mirror the shipped modalWidth() / modalStyles() from @ahaslides-product/design (real vw/vh — the
-// modal is a real full-viewport overlay, so a large one is capped + scrolls, never clipped).
-const MAX_W = { simple: '35vw', complexity: '50vw', rich: '90vw' };
+// a target px width. WIDTH via the `width` prop: min(px, calc(100vw − 32px)) — the px width on
+// desktop, near-full-width on mobile (never the ~135px a fixed 35vw would give). HEIGHT via styles +
+// body scroll. Mirrors the shipped modalWidth() / modalStyles() from @ahaslides-product/design.
 const MAX_H = { simple: '75vh', complexity: '80vh', rich: '90vh' };
 const TARGET_W = { simple: 504, complexity: 720, rich: 1280 };
-const modalWidth = (size = 'simple') => `min(${TARGET_W[size]}px, ${MAX_W[size]})`;
+const modalWidth = (size = 'simple') => `min(${TARGET_W[size]}px, calc(100vw - 32px))`;
 const modalStyles = (size = 'simple') => ({
   // `container` = the antd v6 dialog box (.ant-modal-container), NOT `content` (dead key in v6).
   container: { display: 'flex', flexDirection: 'column', maxHeight: MAX_H[size] },

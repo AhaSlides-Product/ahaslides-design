@@ -43,7 +43,7 @@
       h(Button, { onClick: () => setConfirm(true) }, 'Delete team…'),
       h(Button, { type: 'primary', onClick: () => setAction(true) }, 'Share course…'),
 
-      // Confirmation modal — always `simple` (504 · 35vw · 75vh); danger tints Apply.
+      // Confirmation modal — always `simple` (504px · 75vh); danger tints Apply.
       h(Modal, {
         open: confirm, title: 'Delete this team?',
         width: modalWidth('simple'), styles: modalStyles('simple'), centered: true,
@@ -51,7 +51,7 @@
         onCancel: () => setConfirm(false),
       }, h('p', null, "This removes the team and everyone's access. This can't be undone.")),
 
-      // Action modal — a longer task; `complexity` (720 · 50vw · 80vh), body scrolls when tall.
+      // Action modal — a longer task; `complexity` (720px · 80vh), body scrolls when tall.
       h(Modal, {
         open: action, title: 'Share course',
         width: modalWidth('complexity'), styles: modalStyles('complexity'), centered: true,
