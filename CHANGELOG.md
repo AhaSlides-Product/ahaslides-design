@@ -27,6 +27,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **CSAT — borderless single row only, with a thumbs-down feedback popover** (**breaking**, pre-1.0). `<aha-csat>` now renders one layout: the canonical borderless surface — prompt + two 16px thumb icons on one line, no chrome, a 400-weight prompt. The old boxed form is gone (the `card` attribute is removed), and the legacy `inline` attribute stays a no-op (a stray `<aha-csat inline>` renders the same row). **Thumbs-up** rates instantly (emits `rate`); **thumbs-down** registers the down rating (emits `rate`) *and* opens a feedback popover anchored to the down thumb — a short prompt, a free-text field and a primary Send button — reusing the shared `<aha-popover>` + `<aha-counted-textarea>` + `<aha-button>`; dismissing it (Esc / outside-click) keeps the down rating. New optional `feedback-prompt` / `feedback-placeholder` attributes theme the popover copy. Submitting emits a dedicated composed **`feedback`** event `{ rating: 'down', source, feedback }` (mapping to the pattern's distinct `CSAT_FEEDBACK_SUBMITTED`), then reveals the opt-in `thanks` line — shown instantly on an up rating, after submit on a down rating. (#90)
 ### Fixed
 - **Popover — clicking inside the panel no longer closes it when the popover is nested in another element's shadow root.** The outside-click guard used `contains(event.target)`, but a document-level click is retargeted to the shadow host, so any click read as "outside" — closing the popover before an interactive control inside it (e.g. the CSAT feedback field) could be used. It now tests the composed event path. (#90)
+## 0.47.2 — 2026-09-15
+### Fixed
+- **Landing Button — re-scanned against the live Webflow homepage, closed the completeness gaps.**
+  `landing/button.json`'s secondary variant was missing the hover text-colour and press-border
+  states, and used a plain `outline` for focus instead of the product `aha-button.js`'s soft
+  box-shadow ring (`--aha-button-focus-ring`) — both now match the canonical Button primitive
+  exactly. `landing/SCAN.md`'s Buttons section is rewritten with a full per-property verdict table
+  and 14 new Webflow-to-update deltas (primary press colour, focus-ring colour, pill radius vs the
+  live site's square `8px`, label weight, and the secondary border/hover/font-size shades) — DS
+  wins every one, nothing was reconciled down to the live site. (#92)
 
 ## 0.47.1 — 2026-09-15
 ### Fixed
