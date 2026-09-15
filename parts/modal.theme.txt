@@ -1,5 +1,5 @@
 // @ahaslides-product/design/modal-theme — declared ONCE, consumed by both tiers.
-import { modalTheme } from '@ahaslides-product/design/modal-theme';
+import { modalTheme, modalStyles, modalWidth } from '@ahaslides-product/design/modal-theme';
 
 export const modalTheme = {
   token: {
@@ -19,3 +19,18 @@ export const modalTheme = {
     },
   },
 };
+
+// DS V3 size policy — a modal never grows bigger than the screen, in either axis. Three
+// size tiers (Action-modal use cases; a Confirmation modal uses `simple`), each pairing a
+// target px width with a viewport cap. WIDTH caps via the `width` prop (antd centres by
+// width): modalWidth(size) → min(<target px>, <vw>). HEIGHT caps via styles={modalStyles(size)}
+// — the body scrolls while the title + footer stay pinned. antd has no width/height token.
+export const modalMaxWidth  = { simple: '35vw', complexity: '50vw', rich: '90vw' };
+export const modalMaxHeight = { simple: '75vh', complexity: '80vh', rich: '90vh' };
+const MODAL_TARGET_W = { simple: 504, complexity: 720, rich: 1280 };
+export const modalWidth = (size = 'simple') => `min(${MODAL_TARGET_W[size]}px, ${modalMaxWidth[size]})`;
+export const modalStyles = (size = 'simple') => ({
+  // `container` = the antd v6 dialog box (.ant-modal-container), NOT `content` (dead key in v6).
+  container: { display: 'flex', flexDirection: 'column', maxHeight: modalMaxHeight[size] },
+  body: { flex: '1 1 auto', minHeight: 0, overflowY: 'auto' },
+});
