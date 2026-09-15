@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.48.0 — 2026-09-15
 ### Changed
-- **CSAT — the borderless single row is now the default layout** (**breaking**, pre-1.0). A plain `<aha-csat prompt="How's your experience?">` now renders the canonical CSAT surface: prompt + two 16px thumb icons on one line, no chrome, a 400-weight prompt — matching the intended design. The old boxed form (40×40 bordered thumb buttons, semibold prompt) moves to a new opt-in **`card`** attribute; the former `inline` attribute is retired (the row it named is the default now, so existing `<aha-csat inline>` markup keeps rendering the same borderless row). Add `card` to any placement that still needs the boxed form. (#PR)
+- **CSAT — the borderless single row is now the default layout** (**breaking**, pre-1.0). A plain `<aha-csat prompt="How's your experience?">` now renders the canonical CSAT surface: prompt + two 16px thumb icons on one line, no chrome, a 400-weight prompt — matching the intended design. The old boxed form (40×40 bordered thumb buttons, semibold prompt) moves to a new opt-in **`card`** attribute; the former `inline` attribute is retired (the row it named is the default now, so existing `<aha-csat inline>` markup keeps rendering the same borderless row). Add `card` to any placement that still needs the boxed form. (#90)
 
 ## 0.47.0 — 2026-09-15
 ### Added
