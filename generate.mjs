@@ -1029,6 +1029,8 @@ function surfaceChoiceTable(rows) {
    so a marketing site and the product app stay on one brand source. One artifact per block in
    landing/<slug>.json: { slug, name, cat, summary, html, css }. ===== */
 const landingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
+// Preview may carry per-item annotations (previewHtml); the paste block stays the clean html.
+const landingPreview = (b) => `<style>\n${b.css || ''}\n</style>\n${b.previewHtml || b.html || ''}\n`;
 // Category order follows first appearance in the loaded set, not an alpha sort.
 function landingGroups() {
   const order = [];
@@ -1048,7 +1050,7 @@ function renderLandingHtml(b) {
   <p class="gen">◆ generated from landing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Preview</h2>
-  <div class="landing-stage">${snippet}</div>
+  <div class="landing-stage">${landingPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
   <p class="body">Framework-free — copy the whole block into any page (Webflow, WordPress, a static site). It binds only to the shared <code>--aha-*</code> tokens, so load the token layer once on the page first and the block inherits the AhaSlides brand automatically.</p>
@@ -1065,7 +1067,11 @@ function renderLandingHtml(b) {
   </div>`;
   const extraCss = `
   .badge.landing{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
-  .landing-stage{border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);overflow:hidden;margin:0 0 12px;background:var(--aha-white)}`;
+  .landing-stage{margin:0 0 12px}
+  .aha-btns--annotated{align-items:flex-start}
+  .aha-btn-item{display:inline-flex;flex-direction:column;gap:var(--aha-space-8)}
+  .aha-btn-anno{font-size:var(--aha-size-sm);line-height:var(--aha-line-height-body);color:var(--aha-text-tertiary)}
+  .aha-btn-anno code{font-family:var(--aha-font-mono);color:var(--aha-text-secondary)}`;
   return docShell({ base: '../../', active: b.slug, section: 'landing', main, extraCss });
 }
 function renderLandingIndex() {

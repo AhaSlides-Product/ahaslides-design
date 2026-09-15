@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.47.4 — 2026-09-15
+### Changed
+- **Landing Button preview — annotated items, no container box.** The Preview drops the bordered
+  `landing-stage` container, and each variant now carries a caption annotation naming its class and
+  role (`aha-btn--primary` — one main call-to-action per section, etc.). Annotations render in the
+  Preview only via a new optional `previewHtml` field on landing blocks; the paste-and-run snippet
+  stays the clean block. (#94)
+
 ## 0.47.3 — 2026-09-15
 ### Changed
 - **Landing Button — matches the buttons the site ships today.** `landing/button.json` reverts the
