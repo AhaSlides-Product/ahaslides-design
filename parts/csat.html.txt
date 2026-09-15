@@ -1,21 +1,24 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-csat> is the SAME shared custom element React and Vue consume — here in its native
-     form. Its thumbs are the shared <aha-icon>, loaded automatically by the element.
-     Theming comes only from the --aha-* tokens in tokens.css. -->
+     form. Its thumbs are the shared <aha-icon>, and a thumbs-down opens a feedback popover built
+     from the shared <aha-popover> + <aha-counted-textarea> + <aha-button> — all loaded by the
+     element itself. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-csat.js';   // registers <aha-csat> (+ <aha-icon>)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-csat.js';   // registers <aha-csat> (+ <aha-icon>, <aha-popover>, <aha-counted-textarea>, <aha-button>)
 </script>
 
-<!-- Default — the borderless single row: prompt + 16px thumbs on one line, no chrome.
-     `thanks` opts into the confirmation state — the thank-you line fades in once rated. -->
+<!-- The borderless single row (the only layout): prompt + 16px thumbs on one line, no chrome.
+     Thumbs-up rates instantly; thumbs-down opens the free-text feedback popover.
+     `thanks` opts into the confirmation line, shown after the up rating / feedback submit. -->
 <aha-csat prompt="How's your experience?" source="docs_footer" thanks="Thanks for the feedback!"></aha-csat>
 
-<!-- `card` → the boxed form: 40px bordered thumb buttons with a semibold prompt. -->
-<aha-csat card prompt="Was this helpful?" source="docs_card"></aha-csat>
-
 <script>
-  document.querySelector('aha-csat').addEventListener('rate', (e) => {
+  const csat = document.querySelector('aha-csat');
+  csat.addEventListener('rate', (e) => {
     console.log('CSAT', e.detail.rating, 'from', e.detail.source);   // { rating: 'up' | 'down', source }
+  });
+  csat.addEventListener('feedback', (e) => {
+    console.log('CSAT feedback', e.detail.feedback, 'from', e.detail.source);   // { rating: 'down', source, feedback }
   });
 </script>

@@ -1,20 +1,24 @@
 import { useEffect, useRef } from 'react';
-import '@ahaslides-product/design/aha-csat';   // registers <aha-csat> (+ <aha-icon>)
+import '@ahaslides-product/design/aha-csat';   // registers <aha-csat> (+ <aha-icon>, <aha-popover>, <aha-counted-textarea>, <aha-button>)
 
-// The element emits a composed `rate` event — attach a ref listener (React <19 pattern).
-function AhaCsat({ prompt, source, card, onRate }) {
+// The element emits composed `rate` and `feedback` events — attach ref listeners (React <19 pattern).
+function AhaCsat({ prompt, source, onRate, onFeedback }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
-    const h = (e) => onRate?.(e.detail);   // { rating: 'up' | 'down', source }
-    el.addEventListener('rate', h);
-    return () => el.removeEventListener('rate', h);
-  }, [onRate]);
-  // `card` is a boolean attribute — pass "" to set it, omit it otherwise.
-  return <aha-csat ref={ref} prompt={prompt} source={source} card={card ? '' : undefined} />;
+    const rate = (e) => onRate?.(e.detail);         // { rating: 'up' | 'down', source }
+    const feedback = (e) => onFeedback?.(e.detail);  // { rating: 'down', source, feedback }
+    el.addEventListener('rate', rate);
+    el.addEventListener('feedback', feedback);
+    return () => { el.removeEventListener('rate', rate); el.removeEventListener('feedback', feedback); };
+  }, [onRate, onFeedback]);
+  return <aha-csat ref={ref} prompt={prompt} source={source} />;
 }
 
-// usage — the default borderless single row
-<AhaCsat prompt="How's your experience?" source="editor_help" onRate={(d) => track('CSAT_RATED', d)} />
-// boxed card form
-<AhaCsat card prompt="Was this helpful?" source="editor_card" onRate={(d) => track('CSAT_RATED', d)} />
+// usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover
+<AhaCsat
+  prompt="How's your experience?"
+  source="editor_help"
+  onRate={(d) => track('CSAT_RATED', d)}
+  onFeedback={(d) => track('CSAT_FEEDBACK_SUBMITTED', d)}
+/>

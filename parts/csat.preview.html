@@ -1,21 +1,23 @@
 <div class="pad">
   <div class="lbl">Binary satisfaction · borderless single row — unrated · rated up · rated down · thank-you</div>
-  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0">
+  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0 48px">
     <aha-csat prompt="How's your experience?" source="preview_unrated"></aha-csat>
     <aha-csat data-probe prompt="How's your experience?" value="up" source="preview_rated_up"></aha-csat>
     <aha-csat prompt="How's your experience?" value="down" source="preview_rated_down"></aha-csat>
     <aha-csat prompt="How's your experience?" value="up" thanks="Thanks for the feedback!" source="preview_thanks"></aha-csat>
   </div>
-  <div class="lbl">Card · boxed opt-in form — 40×40 bordered thumb buttons, semibold prompt</div>
-  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0">
-    <aha-csat card prompt="Was this helpful?" source="preview_card"></aha-csat>
-    <aha-csat data-probe-card card prompt="Was this helpful?" value="up" source="preview_card_rated"></aha-csat>
+  <div class="lbl">Thumbs-down → feedback popover — click the down thumb to open the free-text follow-up</div>
+  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0 96px">
+    <aha-csat prompt="Was this helpful?" thanks="Thanks — we'll use this!"
+      feedback-prompt="What went wrong?" feedback-placeholder="Tell us what we could improve"
+      source="preview_dislike_flow"></aha-csat>
   </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-csat.js) + the icon library — no inlined copy, so
-     the preview can never drift from lib/. The playground control bar (State) is generated from
-     contracts/csat.json → playground and drives this element's `value` attribute live. -->
+     the preview can never drift from lib/. The element pulls in the shared <aha-popover>,
+     <aha-counted-textarea> and <aha-button> it composes. The playground control bar (State) is
+     generated from contracts/csat.json → playground and drives this element's `value` attribute live. -->
 <script type="module">
   import '../lib/icons.js';      // registers <aha-icon> + the registry (the thumbs come from it)
   import '../lib/aha-csat.js';   // registers <aha-csat> — the shipped primitive, byte-identical to what consumers get
