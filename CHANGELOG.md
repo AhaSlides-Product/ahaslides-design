@@ -22,6 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.47.2 — 2026-09-15
+### Fixed
+- **Landing Button — re-scanned against the live Webflow homepage, closed the completeness gaps.**
+  `landing/button.json`'s secondary variant was missing the hover text-colour and press-border
+  states, and used a plain `outline` for focus instead of the product `aha-button.js`'s soft
+  box-shadow ring (`--aha-button-focus-ring`) — both now match the canonical Button primitive
+  exactly. `landing/SCAN.md`'s Buttons section is rewritten with a full per-property verdict table
+  and 14 new Webflow-to-update deltas (primary press colour, focus-ring colour, pill radius vs the
+  live site's square `8px`, label weight, and the secondary border/hover/font-size shades) — DS
+  wins every one, nothing was reconciled down to the live site. (#92)
+
 ## 0.47.1 — 2026-09-15
 ### Fixed
 - **Modal — responsive width on mobile.** `modalWidth(size)` capped the dialog at a fixed viewport fraction (`35vw`/`50vw`/`90vw`), so on a phone a `simple` modal collapsed to ~135px. It now resolves to `min(<target px>, calc(100vw − 32px))` — the tier's px width on desktop, and near-full-width (16px gutter each side) on mobile. Height caps (`75/80/90vh`) are unchanged. `modalMaxWidth` stays exported as the per-tier desktop reference (no longer used to compute the width). (#91)
