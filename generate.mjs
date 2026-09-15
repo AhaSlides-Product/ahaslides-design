@@ -1068,7 +1068,7 @@ function renderLandingHtml(b) {
   const extraCss = `
   .badge.landing{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
   .landing-stage{margin:0 0 12px}
-  .aha-btns--annotated{align-items:flex-start}
+  .aha-btns--annotated{flex-direction:column;align-items:flex-start;gap:var(--aha-space-20)}
   .aha-btn-item{display:inline-flex;flex-direction:column;gap:var(--aha-space-8)}
   .aha-btn-anno{font-size:var(--aha-size-sm);line-height:var(--aha-line-height-body);color:var(--aha-text-tertiary)}
   .aha-btn-anno code{font-family:var(--aha-font-mono);color:var(--aha-text-secondary)}`;
