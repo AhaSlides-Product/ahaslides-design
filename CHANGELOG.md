@@ -33,6 +33,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   label weight (`600` vs the DS text-link contract's `400`), the hover colour (one shade too
   dark), and the hard-border focus style (vs the DS soft ring). (#96)
 
+## 0.50.1 — 2026-09-15
+### Fixed
+- **Landing Section container — definition pass against the live homepage.** Re-scanned the live
+  marketing site's `--_spacing---section-p-*` custom properties: max-width and the padding-x cap
+  already matched the DS tokens exactly, so fixed a one-token-off mobile padding-x floor
+  (`--aha-space-20` &rarr; `--aha-space-16`, matching the live `1rem` mobile value) and a stale
+  title font-family/line-height pair left over from before the round-3 Fonts decision (the title
+  was forcing the H1/Display treatment onto what is an H2; now inherits the body face and
+  `--aha-line-height-heading` like `landing/fonts.json`'s own H2). No Webflow-to-update items —
+  the live geometry already agreed with the DS tokens everywhere a live counterpart exists.
+  `landing/SCAN.md`'s Section container entry expanded to a full deep-pass table. (#97)
 ## 0.50.0 — 2026-09-15
 ### Changed
 - **Landing Button preview — annotated items, no container box.** The Preview drops the bordered
