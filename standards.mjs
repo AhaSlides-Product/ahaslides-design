@@ -128,6 +128,19 @@ const MOTION_DEBT = {
 const A11Y_DEBT = {
   // 'aha-example': ['role'],   // pre-gate debt tracked on <ticket> — remove when fixed
 };
+// Responsive policy — product UI is FLUID: it reflows from a 360px phone up and never traps its width.
+// The zero-interpretation source tell is a fixed `min-width` px literal at or above the 360px floor: it
+// CANNOT shrink to fit a phone, so it forces a horizontal scroll — a device defect. (A fixed `width` below
+// the floor is fine — it's a max the element occupies and shrinks in a flex/inline context; a min-width ≥
+// floor is the definitive trap.) The render-side truth — does the demo actually overflow at 360 — is qa.mjs's
+// responsive sweep; this catches the trap statically so CI hard-fails it without a browser.
+// HARD FAIL by default (same escape hatch as MOTION_DEBT/A11Y_DEBT): a NEW component can't ship a
+// min-width trap. master ships NONE today (every lib min-width is ≤300px), so it starts empty — fully hard.
+// Kinds: 'minwidth' (a fixed min-width ≥ the 360px floor). Per-line override: ds-lint-allow: responsive (why).
+const RESPONSIVE_FLOOR = 360;
+const RESPONSIVE_DEBT = {
+  // 'aha-example': ['minwidth'],   // pre-gate responsive debt tracked on <ticket> — remove when fixed
+};
 // Roving-widget roles: an AT user drives these with the arrow keys (a single tab-stop, roving focus).
 // Declaring one obliges the component to implement arrow-key navigation — a click handler is not enough.
 // (Container/single-control roles like dialog/switch/checkbox are NOT here: they need focus-management
@@ -315,10 +328,17 @@ for (const ct of contracts) {
   const hits = [];
   const motionFindings = [];   // [kind, msg] tuples — hard fail unless the component grandfathers that kind (MOTION_DEBT)
   const a11yFindings = [];      // [kind, msg] tuples — hard fail unless grandfathered (A11Y_DEBT); kinds: role | leak | observed | toggle
+  const responsiveFindings = []; // [kind, msg] tuples — hard fail unless grandfathered (RESPONSIVE_DEBT); kinds: minwidth
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
     const allowSvg = /svg/.test(allow);
+    const allowResponsive = /responsive/.test(allow);
+    // a fixed min-width ≥ the 360px floor can't shrink to fit a phone — it forces a horizontal scroll (element + theme)
+    if (!allowResponsive)
+      for (const m of line.matchAll(/min-width\s*:\s*([0-9]+)px/gi))
+        if (parseFloat(m[1]) >= RESPONSIVE_FLOOR)
+          responsiveFindings.push(['minwidth', `L${i + 1}: min-width ${m[1]}px is at/above the ${RESPONSIVE_FLOOR}px phone floor — it can't reflow on a phone (horizontal scroll). Use a fluid width (max-width/%/min()) or drop below the floor; justify with ds-lint-allow: responsive (why)`]);
     if (mode === 'element') {
       const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
       if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
@@ -437,6 +457,9 @@ for (const ct of contracts) {
   // Same hard-fail-with-grandfather handling for the accessibility findings (A11Y_DEBT).
   const a11yDebt = A11Y_DEBT[r.registers] || [];
   for (const [kind, msg] of a11yFindings) (a11yDebt.includes(kind) ? motionHits : hits).push(a11yDebt.includes(kind) ? `${msg}  [grandfathered a11y: ${r.registers}/${kind}]` : msg);
+  // Same hard-fail-with-grandfather handling for the responsive findings (RESPONSIVE_DEBT).
+  const respDebt = RESPONSIVE_DEBT[r.registers] || [];
+  for (const [kind, msg] of responsiveFindings) (respDebt.includes(kind) ? motionHits : hits).push(respDebt.includes(kind) ? `${msg}  [grandfathered responsive: ${r.registers}/${kind}]` : msg);
   libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 
