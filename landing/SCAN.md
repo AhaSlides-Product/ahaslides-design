@@ -1,7 +1,8 @@
 # Landing scan — what the live AhaSlides marketing site actually uses
 
 > Scanned 2026-09-14, re-scanned 2026-09-15 (round 3, Buttons + Fonts only — see those two
-> sections for the deep pass) from the live Webflow-authored homepage (current A/B variant
+> sections for the deep pass), re-scanned again 2026-09-15 (round 4, the Text link component
+> only — see that section below) from the live Webflow-authored homepage (current A/B variant
 > `home-2`): `https://ahaslides.com/homepage-test-july-2026/home-2/` (prod `https://ahaslides.com/`
 > is byte-identical). Webflow inlines its CSS, so the design language was read from the page's
 > inlined rules and CSS custom properties (`--_color---*`, `--_spacing---*`, `--_typography---*`).
@@ -106,6 +107,30 @@ DS wins on every delta row above (the "Webflow-to-update" list below is the fix-
 Two DS-side gaps closed this round (secondary hover text-colour + press border, and the box-shadow
 focus ring) — both taken verbatim from `lib/aha-button.js`, the canonical product Button.
 
+### Text link — scanned 2026-09-15 (round 4): the requester named this Webflow's "tertiary" —
+the third button-family CTA style, `.text-link-wrapper` (+ `.text-link-label-child` /
+`.text-link-icon-child`, 5 live instances on the scanned page). This is a separate component from
+`.btn.is-pink` / `.btn.is-secondary` (Buttons, above) and from the plain body-copy `a` (Links,
+below) — added to `landing/button.json` as the fourth variant, `aha-btn--text-link`.
+
+| Property | Live Webflow (`.text-link-wrapper`) | DS token | Verdict |
+|---|---|---|---|
+| Colour | `#6a1ebb` (`--_color---fg--purple`) | `--aha-color-primary` `#6A1EBB` | **match** |
+| Background | transparent | transparent (`.aha-btn--text-link`) | **match** |
+| Border | none | none (inherited `.aha-btn` transparent border) | **match** |
+| Padding | `0` | — (landing block keeps the `.aha-btn` family padding for row alignment; not chased) | informational, no action |
+| Font size | `1rem` = `16px` | `--aha-size-l` `16px` | **match** |
+| Font weight | `600` | product text-link contract (`contracts/button.json` / `aha-button.js` `variant=text-link`) is `400` | **Webflow-to-update** — Webflow's Text link is bolder than the DS text-link contract |
+| Line-height | `1.5` | `--aha-line-height-body` `1.5` | **match** |
+| Icon↔label gap | `4px` | `--aha-space-8` (button family gap) | minor, not chased |
+| `:hover` colour | `#8644d4` (`--_color---fg--purple-hover`, purple-50) | `--aha-text-link-hover` `#A96FF0` (purple-40) | **Webflow-to-update** — one shade too dark |
+| `:focus` colour | stays purple (no change) | n/a | match |
+| `:focus-visible` | `1px solid #6A1EBB` border + `2px` border-radius | `--aha-button-focus-ring` box-shadow (shared `.aha-btn:focus-visible`) | **Webflow-to-update** — a hard border instead of the DS soft ring |
+| Inverse (dark-band) variant | `w-variant-bb449d6f…`: colour = inverse-base (white-ish), hover `#f0f0f0` | on-dark register, no DS token yet | informational only, no DS action |
+
+DS wins on the three delta rows above (weight, hover colour, focus style) — folded into the
+Webflow-to-update list below, continuing its numbering.
+
 ### Links
 - `a{ color:var(--_color---fg--purple); font-weight:500 }` — purple text, medium weight, no underline.
 - Delta: **weight 500** — the DS type scale is 400/600 only. *Webflow-to-update* → DS `link` uses
@@ -146,6 +171,12 @@ focus ring) — both taken verbatim from `lib/aha-button.js`, the canonical prod
     standardise on DS `--aha-weight-semibold` (`600`) everywhere; the DS scale has no `700` role.
 18. Muted/secondary paragraph tones (`#475569`, `#64748b`, `#8a8a8a`) → DS `--aha-text-secondary`
     `#4A4A4A` for secondary copy (`#8a8a8a` already matches `--aha-text-tertiary` — keep that one).
+19. Text link label weight `600` → DS text-link contract `400` (`contracts/button.json` /
+    `aha-button.js` `variant=text-link`).
+20. Text link hover colour `#8644d4` (purple-50) → DS `--aha-text-link-hover` `#A96FF0` (purple-40).
+21. Text link `:focus-visible` style — a hard `1px solid #6A1EBB` border + `2px` radius → the DS
+    soft box-shadow `--aha-button-focus-ring`, the one focus treatment every button-family variant
+    (including `aha-btn--text-link`) uses.
 
 Everything else the live site uses is already on the DS foundations, so the landing basics below
 bind to `--aha-*` tokens with no new brand source. Sizes, line-heights and letter-spacing for type
