@@ -7,11 +7,12 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-csat.js';   // registers <aha-csat> (+ <aha-icon>)
 </script>
 
-<!-- `thanks` opts into the confirmation state — the thank-you line fades in once rated. -->
-<aha-csat prompt="Was this helpful?" source="docs_footer" thanks="Thanks for the feedback!"></aha-csat>
+<!-- Default — the borderless single row: prompt + 16px thumbs on one line, no chrome.
+     `thanks` opts into the confirmation state — the thank-you line fades in once rated. -->
+<aha-csat prompt="How's your experience?" source="docs_footer" thanks="Thanks for the feedback!"></aha-csat>
 
-<!-- `inline` → the compact single-row form: prompt + 16px thumbs on one line, no card. -->
-<aha-csat inline prompt="Is this useful?" source="docs_inline"></aha-csat>
+<!-- `card` → the boxed form: 40px bordered thumb buttons with a semibold prompt. -->
+<aha-csat card prompt="Was this helpful?" source="docs_card"></aha-csat>
 
 <script>
   document.querySelector('aha-csat').addEventListener('rate', (e) => {

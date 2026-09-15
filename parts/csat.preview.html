@@ -1,15 +1,15 @@
 <div class="pad">
-  <div class="lbl">Binary satisfaction · unrated · rated up · rated down · thank-you</div>
+  <div class="lbl">Binary satisfaction · borderless single row — unrated · rated up · rated down · thank-you</div>
   <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0">
-    <aha-csat prompt="Was this helpful?" source="preview_unrated"></aha-csat>
-    <aha-csat data-probe prompt="Was this helpful?" value="up" source="preview_rated_up"></aha-csat>
-    <aha-csat prompt="Was this helpful?" value="down" source="preview_rated_down"></aha-csat>
-    <aha-csat prompt="Was this helpful?" value="up" thanks="Thanks for the feedback!" source="preview_thanks"></aha-csat>
+    <aha-csat prompt="How's your experience?" source="preview_unrated"></aha-csat>
+    <aha-csat data-probe prompt="How's your experience?" value="up" source="preview_rated_up"></aha-csat>
+    <aha-csat prompt="How's your experience?" value="down" source="preview_rated_down"></aha-csat>
+    <aha-csat prompt="How's your experience?" value="up" thanks="Thanks for the feedback!" source="preview_thanks"></aha-csat>
   </div>
-  <div class="lbl">Inline CSAT · compact single row — prompt + 16px thumbs, no card</div>
+  <div class="lbl">Card · boxed opt-in form — 40×40 bordered thumb buttons, semibold prompt</div>
   <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0">
-    <aha-csat inline prompt="Is this useful?" source="preview_inline"></aha-csat>
-    <aha-csat data-probe-inline inline prompt="Is this useful?" value="up" source="preview_inline_rated"></aha-csat>
+    <aha-csat card prompt="Was this helpful?" source="preview_card"></aha-csat>
+    <aha-csat data-probe-card card prompt="Was this helpful?" value="up" source="preview_card_rated"></aha-csat>
   </div>
 </div>
 
