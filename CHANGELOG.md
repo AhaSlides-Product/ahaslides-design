@@ -22,6 +22,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.52.0 — 2026-09-15
+### Changed
+- **Landing Button — tertiary is now the DS ghost button, and the page is restructured.** The
+  Landing → Button page follows the requested structure: a short intro, then a Primary, Secondary
+  and Tertiary section, each showing all three control sizes (sm 28px / md 36px / lg 40px) with its
+  own paste-and-run snippet. The tertiary variant (`aha-btn--tertiary`) replaces the 0.51
+  `aha-btn--text-link`: it now follows the product Button's `variant=tertiary` (a ghost — transparent,
+  purple label, soft purple hover fill `#F9F5FF` / active `#F0E4FF`, per-tone soft focus ring), the
+  shape the requester accepted, rather than the live Text link's colour-only hover. `landing/SCAN.md`'s
+  Text link section is re-reconciled against the ghost tertiary — hover fill, active fill, focus style
+  and focus radius are the Webflow-to-update deltas; label weight and hover colour are now matches. (#96)
+### Added
+- **Landing blocks — per-variant / per-size sections.** A landing block may declare a `variants`
+  array (each with `sizes`) in `landing/<slug>.json`; `renderLandingBlock` renders one section per
+  variant, each previewing every size with its own copy-paste snippet. Blocks without `variants`
+  render exactly as before. (#96)
+
 ## 0.51.0 — 2026-09-15
 ### Added
 - **Landing Button — fourth `text-link` variant.** Webflow's "Text link" component (the live

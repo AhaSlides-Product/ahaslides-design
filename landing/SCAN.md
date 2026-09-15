@@ -125,29 +125,39 @@ DS wins on every delta row above (the "Webflow-to-update" list below is the fix-
 Two DS-side gaps closed this round (secondary hover text-colour + press border, and the box-shadow
 focus ring) — both taken verbatim from `lib/aha-button.js`, the canonical product Button.
 
-### Text link — scanned 2026-09-15 (round 4): the requester named this Webflow's "tertiary" —
-the third button-family CTA style, `.text-link-wrapper` (+ `.text-link-label-child` /
-`.text-link-icon-child`, 5 live instances on the scanned page). This is a separate component from
-`.btn.is-pink` / `.btn.is-secondary` (Buttons, above) and from the plain body-copy `a` (Links,
-below) — added to `landing/button.json` as the fourth variant, `aha-btn--text-link`.
+### Text link (tertiary) — scanned 2026-09-15 (round 4), reconciled round 5: the requester named
+this Webflow's "tertiary" — the third button-family CTA style, `.text-link-wrapper` (+
+`.text-link-label-child` / `.text-link-icon-child`, 5 live instances on the scanned page). This is
+a separate component from `.btn.is-pink` / `.btn.is-secondary` (Buttons, above) and from the plain
+body-copy `a` (Links, below). Per the locked doctrine (DS wins) it is reflected in
+`landing/button.json` as the DS **ghost tertiary** variant `aha-btn--tertiary` — the same shape as
+the product Button's `variant=tertiary` (transparent → soft purple hover fill `#F9F5FF` / active
+`#F0E4FF`), keeping the live Text link's purple label and purple-50 hover *colour* (both already on
+the DS scale). The Webflow Text link's own hover behaviour (colour only, no fill) and hard-border
+focus disagree with that ghost definition, so the DS value wins and the diffs are logged below.
 
-| Property | Live Webflow (`.text-link-wrapper`) | DS token | Verdict |
+| Property | Live Webflow (`.text-link-wrapper`) | DS ghost tertiary (`aha-btn--tertiary` / `aha-button.js` `variant=tertiary`) | Verdict |
 |---|---|---|---|
-| Colour | `#6a1ebb` (`--_color---fg--purple`) | `--aha-color-primary` `#6A1EBB` | **match** |
-| Background | transparent | transparent (`.aha-btn--text-link`) | **match** |
+| Colour (resting) | `#6a1ebb` (`--_color---fg--purple`) | `--aha-color-primary` `#6A1EBB` | **match** |
+| Background (resting) | transparent | transparent | **match** |
 | Border | none | none (inherited `.aha-btn` transparent border) | **match** |
 | Padding | `0` | — (landing block keeps the `.aha-btn` family padding for row alignment; not chased) | informational, no action |
-| Font size | `1rem` = `16px` | `--aha-size-l` `16px` | **match** |
-| Font weight | `600` | product text-link contract (`contracts/button.json` / `aha-button.js` `variant=text-link`) is `400` | **Webflow-to-update** — Webflow's Text link is bolder than the DS text-link contract |
+| Font size | `1rem` = `16px` | `--aha-size-l` `16px` (lg) | **match** |
+| Font weight | `600` | `--aha-weight-semibold` `600` | **match** |
 | Line-height | `1.5` | `--aha-line-height-body` `1.5` | **match** |
 | Icon↔label gap | `4px` | `--aha-space-8` (button family gap) | minor, not chased |
-| `:hover` colour | `#8644d4` (`--_color---fg--purple-hover`, purple-50) | `--aha-text-link-hover` `#A96FF0` (purple-40) | **Webflow-to-update** — one shade too dark |
+| `:hover` colour | `#8644d4` (`--_color---fg--purple-hover`, purple-50) | `--aha-purple-50` `#8644D4` | **match** |
+| `:hover` background | none (colour-only, no fill) | soft purple fill `--aha-button-ghost-bg-hover` `#F9F5FF` | **Webflow-to-update** — a ghost button fills on hover; the DS wins |
+| `:active` background | none | `--aha-button-ghost-bg-press` `#F0E4FF` | **Webflow-to-update** — no pressed state live; DS adds the ghost press fill |
 | `:focus` colour | stays purple (no change) | n/a | match |
-| `:focus-visible` | `1px solid #6A1EBB` border + `2px` border-radius | `--aha-button-focus-ring` box-shadow (shared `.aha-btn:focus-visible`) | **Webflow-to-update** — a hard border instead of the DS soft ring |
+| `:focus-visible` | `1px solid #6A1EBB` border | `--aha-button-focus-ring` box-shadow (shared `.aha-btn:focus-visible`) | **Webflow-to-update** — a hard border instead of the DS soft ring |
+| `:focus-visible` radius | `2px` | off the DS radius scale (4/6/8/12/16) | **Webflow-to-update** — the soft ring has no radius |
 | Inverse (dark-band) variant | `w-variant-bb449d6f…`: colour = inverse-base (white-ish), hover `#f0f0f0` | on-dark register, no DS token yet | informational only, no DS action |
 
-DS wins on the three delta rows above (weight, hover colour, focus style) — folded into the
-Webflow-to-update list below, continuing its numbering.
+Colour, background, border, size, weight, line-height and hover *colour* all already match the DS —
+the live Text link and the DS ghost tertiary agree on the palette. DS wins on the four delta rows
+(hover fill, active fill, focus style, focus radius) — folded into the Webflow-to-update list below,
+continuing its numbering.
 
 ### Links
 - `a{ color:var(--_color---fg--purple); font-weight:500 }` — purple text, medium weight, no underline.
@@ -189,12 +199,14 @@ Webflow-to-update list below, continuing its numbering.
     standardise on DS `--aha-weight-semibold` (`600`) everywhere; the DS scale has no `700` role.
 18. Muted/secondary paragraph tones (`#475569`, `#64748b`, `#8a8a8a`) → DS `--aha-text-secondary`
     `#4A4A4A` for secondary copy (`#8a8a8a` already matches `--aha-text-tertiary` — keep that one).
-19. Text link label weight `600` → DS text-link contract `400` (`contracts/button.json` /
-    `aha-button.js` `variant=text-link`).
-20. Text link hover colour `#8644d4` (purple-50) → DS `--aha-text-link-hover` `#A96FF0` (purple-40).
-21. Text link `:focus-visible` style — a hard `1px solid #6A1EBB` border + `2px` radius → the DS
-    soft box-shadow `--aha-button-focus-ring`, the one focus treatment every button-family variant
-    (including `aha-btn--text-link`) uses.
+19. Text link / tertiary `:hover` is colour-only (no background) → the DS ghost tertiary fills the
+    background on hover with `--aha-button-ghost-bg-hover` `#F9F5FF` (`.aha-btn--tertiary` /
+    `aha-button.js` `variant=tertiary`). A ghost button gains a soft tint on hover; the DS wins.
+20. Text link / tertiary has no pressed state live → the DS ghost tertiary adds an `:active`
+    background `--aha-button-ghost-bg-press` `#F0E4FF`.
+21. Text link / tertiary `:focus-visible` — a hard `1px solid #6A1EBB` border at a `2px` radius
+    (off the DS 4/6/8/12/16 scale) → the DS soft box-shadow `--aha-button-focus-ring`, the one
+    focus treatment every button-family variant (including `aha-btn--tertiary`) uses.
 
 Everything else the live site uses is already on the DS foundations, so the landing basics below
 bind to `--aha-*` tokens with no new brand source. Sizes, line-heights and letter-spacing for type
