@@ -1043,7 +1043,7 @@ function renderLandingHtml(b) {
   const snippet = landingSnippet(b);
   const main = `
   <p class="crumbs">Landing · ${esc(b.cat)}</p>
-  <h1>${esc(b.name)} <span class="badge landing">landing block</span></h1>
+  <h1>${esc(b.name)}</h1>
   <p class="subtitle">${esc(b.summary)}</p>
   <p class="gen">◆ generated from landing/${b.slug}.json — do not edit by hand</p>
 
