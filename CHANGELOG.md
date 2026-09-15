@@ -32,7 +32,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   was forcing the H1/Display treatment onto what is an H2; now inherits the body face and
   `--aha-line-height-heading` like `landing/fonts.json`'s own H2). No Webflow-to-update items —
   the live geometry already agreed with the DS tokens everywhere a live counterpart exists.
-  `landing/SCAN.md`'s Section container entry expanded to a full deep-pass table. (#96)
+  `landing/SCAN.md`'s Section container entry expanded to a full deep-pass table. (#97)
 
 ## 0.50.0 — 2026-09-15
 ### Changed
