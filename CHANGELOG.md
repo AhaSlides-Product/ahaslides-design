@@ -31,7 +31,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   `--aha-button-focus-ring`, at the landing button family's semibold weight. `landing/SCAN.md`
   gets a new Text link subsection (round 4) logging three Webflow-to-update deltas: the live
   label weight (`600` vs the DS text-link contract's `400`), the hover colour (one shade too
-  dark), and the hard-border focus style (vs the DS soft ring). (#PR)
+  dark), and the hard-border focus style (vs the DS soft ring). (#96)
 
 ## 0.50.0 — 2026-09-15
 ### Changed
