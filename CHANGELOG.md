@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.50.0 — 2026-09-15
+### Changed
+- **Landing Button preview — annotated items, no container box.** The Preview drops the bordered
+  `landing-stage` container, and each variant now carries a caption annotation naming its class and
+  role (`aha-btn--primary` — one main call-to-action per section, etc.). Annotations render in the
+  Preview only via a new optional `previewHtml` field on landing blocks; the paste-and-run snippet
+  stays the clean block. The annotated items stack vertically, one per row. Landing **Fonts** gets a
+  `previewHtml` too — a Role/Size type-scale specimen table (each role rendered at its `--aha-size-*`
+  token, with a size pill), mirroring the Foundations typography table. (#94)
+
 ## 0.49.0 — 2026-09-15
 ### Changed
 - **CSAT — borderless single row only, with a thumbs-down feedback popover** (**breaking**, pre-1.0). `<aha-csat>` now renders one layout: the canonical borderless surface — prompt + two 16px thumb icons on one line, no chrome, a 400-weight prompt. The old boxed form is gone (the `card` attribute is removed), and the legacy `inline` attribute stays a no-op (a stray `<aha-csat inline>` renders the same row). **Thumbs-up** rates instantly (emits `rate`); **thumbs-down** registers the down rating (emits `rate`) *and* opens a feedback popover anchored to the down thumb — a short prompt, a free-text field and a primary Send button — reusing the shared `<aha-popover>` + `<aha-counted-textarea>` + `<aha-button>`; dismissing it (Esc / outside-click) keeps the down rating. New optional `feedback-prompt` / `feedback-placeholder` attributes theme the popover copy. Submitting emits a dedicated composed **`feedback`** event `{ rating: 'down', source, feedback }` (mapping to the pattern's distinct `CSAT_FEEDBACK_SUBMITTED`), then the opt-in `thanks` line cross-fades in over the same cell — replacing the prompt + thumbs in place rather than sitting beside them — shown instantly on an up rating, after submit on a down rating. (#90)
