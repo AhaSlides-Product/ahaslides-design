@@ -1071,7 +1071,13 @@ function renderLandingHtml(b) {
   .aha-btns--annotated{flex-direction:column;align-items:flex-start;gap:var(--aha-space-20)}
   .aha-btn-item{display:inline-flex;flex-direction:column;gap:var(--aha-space-8)}
   .aha-btn-anno{font-size:var(--aha-size-sm);line-height:var(--aha-line-height-body);color:var(--aha-text-tertiary)}
-  .aha-btn-anno code{font-family:var(--aha-font-mono);color:var(--aha-text-secondary)}`;
+  .aha-btn-anno code{font-family:var(--aha-font-mono);color:var(--aha-text-secondary)}
+  .aha-type-scale{width:100%;border-collapse:collapse;font-family:var(--aha-font-product)}
+  .aha-type-scale th{text-align:left;text-transform:uppercase;letter-spacing:.4px;font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);color:var(--aha-text-tertiary);background:var(--aha-bg-layout);padding:var(--aha-space-12) var(--aha-space-16);border-bottom:1px solid var(--aha-split)}
+  .aha-type-scale td{padding:var(--aha-space-16);border-bottom:1px solid var(--aha-split);vertical-align:middle}
+  .aha-type-scale td.size{width:96px}
+  .aha-type-role{color:var(--aha-text-default);line-height:var(--aha-line-height-tight)}
+  .aha-type-size{display:inline-block;font-family:var(--aha-font-mono);font-size:var(--aha-size-sm);color:var(--aha-purple-80);background:var(--aha-purple-10);border-radius:var(--aha-radius-sm);padding:3px 9px}`;
   return docShell({ base: '../../', active: b.slug, section: 'landing', main, extraCss });
 }
 function renderLandingIndex() {

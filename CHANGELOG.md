@@ -28,7 +28,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   `landing-stage` container, and each variant now carries a caption annotation naming its class and
   role (`aha-btn--primary` — one main call-to-action per section, etc.). Annotations render in the
   Preview only via a new optional `previewHtml` field on landing blocks; the paste-and-run snippet
-  stays the clean block. The annotated items stack vertically, one per row. (#94)
+  stays the clean block. The annotated items stack vertically, one per row. Landing **Fonts** gets a
+  `previewHtml` too — a Role/Size type-scale specimen table (each role rendered at its `--aha-size-*`
+  token, with a size pill), mirroring the Foundations typography table. (#94)
 
 ## 0.47.3 — 2026-09-15
 ### Changed
