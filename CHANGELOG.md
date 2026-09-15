@@ -22,7 +22,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.47.2 — 2026-09-15
+## 0.47.3 — 2026-09-15
+### Changed
+- **Landing Button — matches the buttons the site ships today.** `landing/button.json` reverts the
+  round-3 XL-pill styling: the block now uses the DS default `8px` radius (`--aha-radius-default`)
+  and the large control height (`--aha-control-height-button-lg`, 40px) with `20px` padding — the
+  same shape and size as both the product `aha-button` and the live `.btn`, so the docs preview reads
+  as the real buttons. The pink-accent variant now uses `--aha-pink-60` (`#FF4081`, the live bold
+  pink) resting and `--aha-pink-50` on hover. The state fixes from 0.47.2 (focus ring, secondary
+  hover/press) are kept. `landing/SCAN.md`'s radius/size/pink rows and Webflow-to-update items 2 and
+  8 are corrected accordingly (`#ff4081` is on the DS pink scale; no pill to apply in Webflow).
+- **Landing docs — preview labels + no block badge.** The Button preview now labels each variant by
+  name (Primary / Secondary / Pink), and the `landing block` badge is removed from every landing
+  page heading in `generate.mjs`. (#93)
+
 ### Fixed
 - **Landing Button — re-scanned against the live Webflow homepage, closed the completeness gaps.**
   `landing/button.json`'s secondary variant was missing the hover text-colour and press-border
