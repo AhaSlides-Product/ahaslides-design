@@ -29,12 +29,47 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999, 9999]);   // 4/6/8/12/16 + pill
+const RESPONSIVE_FLOOR = 360;   // narrowest realistic phone — a screen must reflow to fit it, never force a horizontal scroll
 
 /* ---- args ---- */
 const argv = process.argv.slice(2);
 const selfTest = argv.includes('--self-test');
+const measure = argv.includes('--measure');   // opt-in: also RENDER each screen at 360/768/1200 and fail on horizontal overflow (needs headless Chrome)
 let surface = (argv.find(a => a.startsWith('--surface=')) || '').split('=')[1] || '';
 const files = argv.filter(a => !a.startsWith('--'));
+
+/* The measured responsive pass — the render-side twin of the static min-width trap. A real consumer
+   SCREEN (not a component showcase) must fit a phone: render it at the 360px floor up and fail if it
+   forces a horizontal scroll (documentElement.scrollWidth exceeds the viewport). This is SOUND at the
+   screen layer precisely because a screen is a single composed layout — unlike a doc/showcase page
+   that packs many wide variants — so overflow here is a real device defect, not demo width. Opt-in
+   (`--measure`) and Chrome-gated so the static path stays dependency-free for consumer CI. */
+const MEASURE_VIEWPORTS = [
+  { label: '360', width: 360, height: 640 },
+  { label: '768', width: 768, height: 1024 },
+  { label: '1200', width: 1200, height: 900 },
+];
+async function runMeasure(fileList) {
+  const { measureAtViewports } = await import('./cdp.mjs');
+  const expr = `(function(){var de=document.documentElement;return {ow:Math.round(de.scrollWidth),cw:de.clientWidth};})()`;
+  let hardCount = 0;
+  console.log(`\n=== SCREEN-LINT · measured responsive pass (360/768/1200) ===\n`);
+  for (const f of fileList) {
+    try {
+      const r = await measureAtViewports('file://' + f, expr, { viewports: MEASURE_VIEWPORTS, readyExpr: "document.readyState==='complete'", timeout: 45000 });
+      const over = MEASURE_VIEWPORTS.filter(v => { const m = r[v.label] || {}; return (m.ow - m.cw) > 1; })
+        .map(v => `${v.label}px +${(r[v.label].ow - r[v.label].cw)}`);
+      console.log(`${over.length ? '✗' : '✓'} ${f.replace(root + '/', '')}`);
+      if (over.length) { hardCount++; console.log(`      ✗ FAIL [overflow] horizontal scroll at ${over.join(', ')} — the screen must reflow to fit the phone floor`); }
+      else console.log('      · fits every viewport (no horizontal overflow)');
+    } catch (e) {
+      hardCount++;
+      console.log(`✗ ${f.replace(root + '/', '')}\n      ✗ FAIL [measure] could not render: ${e.message}`);
+    }
+  }
+  console.log(`\n${fileList.length} screen(s) measured · ${hardCount} overflow fail(s)\n`);
+  return hardCount;
+}
 
 /* CSS-value contexts we scan for colour/gradient/radius/font — avoids hex in a URL, id, or href. */
 const COLOR_PROP = /(?:^|[;{"'\s])(?:color|background(?:-color|-image)?|fill|stroke|border(?:-[a-z]+)?|box-shadow|outline|caret-color)\s*:/i;
@@ -74,6 +109,16 @@ function lintFile(path, text, surf) {
       for (const m of css.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi))
         if (!RADIUS_SCALE.has(parseFloat(m[1])))
           hard.push([`${L}`, 'radius-off-scale', `border-radius ${m[1]}px is off the 4/6/8/12/16 scale`]);
+
+    // responsive: a fixed min-width ≥ the 360px phone floor can't reflow — it forces a horizontal scroll
+    if (!ok('responsive'))
+      for (const m of stripVars(raw).matchAll(/min-width\s*:\s*([0-9]+)px/gi))
+        if (parseFloat(m[1]) >= RESPONSIVE_FLOOR)
+          hard.push([`${L}`, 'min-width-trap', `min-width ${m[1]}px is at/above the ${RESPONSIVE_FLOOR}px phone floor — the screen can't reflow on a phone (horizontal scroll). Use a fluid width (max-width/%/min()), or justify with ds-lint-allow: responsive (why)`]);
+    // responsive (WARN): overflow-x scroll/auto papers over a layout that doesn't fit — reflow instead of scroll
+    if (!ok('responsive'))
+      for (const m of stripVars(raw).matchAll(/overflow-x\s*:\s*(scroll|auto)/gi))
+        warn.push([`${L}`, 'overflow-x-scroll', `overflow-x: ${m[1]} — a horizontal scroll usually hides a non-reflowing layout; prefer wrapping/stacking on small screens (a wide data table is the legitimate exception)`]);
 
     // icon-only interactive control with no accessible name
     const iconOnlyBtn = /<aha-button\b[^>]*\bicon-only\b[^>]*>/i.test(raw);
@@ -179,4 +224,7 @@ if (!files.length) {
   console.error('screen-lint: pass one or more files to lint, e.g. node screen-lint.mjs --surface=product page.html');
   process.exit(2);
 }
-process.exit(run(files.map(f => (f.startsWith('/') ? f : join(process.cwd(), f))), surface) > 0 ? 1 : 0);
+const abs = files.map(f => (f.startsWith('/') ? f : join(process.cwd(), f)));
+let hard = run(abs, surface);
+if (measure) hard += await runMeasure(abs);   // opt-in render pass — a real screen must fit the phone floor
+process.exit(hard > 0 ? 1 : 0);

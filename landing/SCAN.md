@@ -88,7 +88,9 @@ promo-bar "Join" pill — a nav micro-utility outside the marketing CTA register
 | Primary `:focus` bg | `#5715a0` (darkens the fill) | no bg change on focus, ring only | **Webflow-to-update** — focus shouldn't restyle the fill, that's the press colour |
 | Primary label weight | `400` | `--aha-weight-semibold` `600` | **Webflow-to-update** |
 | Primary label colour | `#fff` | `--aha-button-primary-text` (gray-10) `#FDFDFD` | match (negligible hex diff) |
-| Radius (all buttons) | `8px` (`.btn` base, square-ish) | `--aha-radius-pill` (999, landing CTA is deliberately an XL pill) | **Webflow-to-update** — corrects the earlier round's "match" note, which compared against the wrong base rule |
+| Radius (all buttons) | `8px` (`.btn` base) | `--aha-radius-default` `8px` | **match** — the landing block now uses the DS default 8px radius, the same as both the live `.btn` and the product `aha-button`; the earlier round's `--aha-radius-pill` was an unrequested marketing embellishment and has been reverted |
+| Size / height | default CTA `40px`, hero `52`/`64`; padding `0 20px` | `--aha-control-height-button-lg` `40px`, padding `0 var(--aha-space-20)` `20px` | **match** — reflects the live default button; the earlier round's XL-pill size has been reverted |
+| Pink-accent bg | bold pink `#ff4081` (`--_color---fg--pink`) | `--aha-pink-60` `#FF4081` | **match** — `#ff4081` is exactly DS `--aha-pink-60`, so it is on the DS scale (correcting round 3's "off-scale → snap to pink-50"); the block uses pink-60 resting, pink-50 hover |
 | Secondary bg | `#fff` | `--aha-button-default-bg` (white) | match |
 | Secondary border (default) | `#d4d4d4` | `--aha-button-default-border` (gray-40) `#E3E3E3` | **Webflow-to-update** — a press-tier shade used as the default |
 | Secondary border (hover) | `#8644d4` (purple-50) | `--aha-button-default-border-hover` (purple-40) `#A96FF0` | **Webflow-to-update** — one shade too dark |
@@ -116,7 +118,7 @@ focus ring) — both taken verbatim from `lib/aha-button.js`, the canonical prod
 
 ## Webflow-to-update list (DS is authoritative)
 1. Body text tint `#1e293b`/`#1a1a2e` → DS neutral `--aha-text-default` `#1A1A1A`.
-2. Bold pink `#ff4081` → nearest DS pink token (pink hover `#ff6996` already matches `--aha-pink-50`).
+2. Bold pink `#ff4081` is already exactly DS `--aha-pink-60` (and `#ff6996` = `--aha-pink-50`) — on the DS scale, no Webflow change needed. The landing block uses pink-60 resting, pink-50 hover.
 3. Off-scale radii `10px`/`14px` → DS scale `12`/`16`.
 4. Ad-hoc button shadow `0 2px 5px #0003` → DS `--aha-button-elevate-primary`.
 5. Link weight `500` → DS `--aha-weight-semibold` (600).
@@ -124,8 +126,9 @@ focus ring) — both taken verbatim from `lib/aha-button.js`, the canonical prod
    colour-family bug, not just an off-token shade.
 7. Primary button `:focus` darkens the fill to `#5715a0` → remove; focus should only add the ring,
    never restyle the fill (that's what `:active` is for).
-8. Primary/CTA button radius `8px` (square) → DS's landing register is a full pill
-   (`--aha-radius-pill`); apply the pill radius, not the product component's default-8 radius.
+8. Primary/CTA button radius `8px` — no change. The DS landing register uses the DS default 8px
+   radius (`--aha-radius-default`), matching the live `.btn` and the product `aha-button`; the pill
+   proposed in round 3 was reverted as an unrequested embellishment.
 9. Primary button label weight `400` → DS `--aha-weight-semibold` (600).
 10. Secondary button default border `#d4d4d4` → DS default border `#E3E3E3` (gray-40); reserve
     `#D4D4D4` for the pressed state only.
