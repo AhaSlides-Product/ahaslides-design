@@ -26,6 +26,30 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - **Responsive gate — one UI, every device.** Device responsiveness is now a house non-negotiable with a rule + gates, so a new component/pattern/screen can't ship a layout that traps on a phone. Product UI must be **fluid from a 360px floor up** (reflow, never a horizontal scroll) with **≥ 24px** touch targets (WCAG 2.5.8 AA). `standards.mjs` (component source) and `screen-lint.mjs` (consumer screens) now **hard-fail a fixed `min-width` ≥ 360px trap** — the zero-interpretation source tell that a layout can't fit a phone (a fixed *width* below the floor is fine; a per-line `ds-lint-allow: responsive (why)` overrides). `screen-lint.mjs` also gains an opt-in **`--measure`** pass that renders a real screen at **360 / 768 / 1200** and hard-fails a horizontal overflow — the render-side twin, Chrome-gated so the static path stays dependency-free for consumer CI. New **`measureAtViewports()`** in `cdp.mjs` sweeps several viewports in one Chrome launch. (The measured pass is scoped to *screens*, not component showcases — a single composed screen must fit a phone, whereas a doc/showcase page legitimately packs many wide variants; a wide data table that scrolls is the one exception.) (#95)
 
+## 0.47.3 — 2026-09-15
+### Changed
+- **Landing Button — matches the buttons the site ships today.** `landing/button.json` reverts the
+  round-3 XL-pill styling: the block now uses the DS default `8px` radius (`--aha-radius-default`)
+  and the large control height (`--aha-control-height-button-lg`, 40px) with `20px` padding — the
+  same shape and size as both the product `aha-button` and the live `.btn`, so the docs preview reads
+  as the real buttons. The pink-accent variant now uses `--aha-pink-60` (`#FF4081`, the live bold
+  pink) resting and `--aha-pink-50` on hover. The state fixes from 0.47.2 (focus ring, secondary
+  hover/press) are kept. `landing/SCAN.md`'s radius/size/pink rows and Webflow-to-update items 2 and
+  8 are corrected accordingly (`#ff4081` is on the DS pink scale; no pill to apply in Webflow).
+- **Landing docs — preview labels + no block badge.** The Button preview now labels each variant by
+  name (Primary / Secondary / Pink), and the `landing block` badge is removed from every landing
+  page heading in `generate.mjs`. (#93)
+
+### Fixed
+- **Landing Button — re-scanned against the live Webflow homepage, closed the completeness gaps.**
+  `landing/button.json`'s secondary variant was missing the hover text-colour and press-border
+  states, and used a plain `outline` for focus instead of the product `aha-button.js`'s soft
+  box-shadow ring (`--aha-button-focus-ring`) — both now match the canonical Button primitive
+  exactly. `landing/SCAN.md`'s Buttons section is rewritten with a full per-property verdict table
+  and 14 new Webflow-to-update deltas (primary press colour, focus-ring colour, pill radius vs the
+  live site's square `8px`, label weight, and the secondary border/hover/font-size shades) — DS
+  wins every one, nothing was reconciled down to the live site. (#92)
+
 ## 0.47.1 — 2026-09-15
 ### Fixed
 - **Modal — responsive width on mobile.** `modalWidth(size)` capped the dialog at a fixed viewport fraction (`35vw`/`50vw`/`90vw`), so on a phone a `simple` modal collapsed to ~135px. It now resolves to `min(<target px>, calc(100vw − 32px))` — the tier's px width on desktop, and near-full-width (16px gutter each side) on mobile. Height caps (`75/80/90vh`) are unchanged. `modalMaxWidth` stays exported as the per-tier desktop reference (no longer used to compute the width). (#91)
