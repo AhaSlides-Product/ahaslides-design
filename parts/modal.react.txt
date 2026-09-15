@@ -1,42 +1,69 @@
 import { useState } from 'react';
 import { ConfigProvider, Modal, Button } from 'antd';   // antd v6
-import { modalTheme } from '@ahaslides-product/design/modal-theme';
+import { modalTheme, modalStyles, modalWidth } from '@ahaslides-product/design/modal-theme';
+import '@ahaslides-product/design/icons';   // registers <aha-icon> for the Learn-more glyph
 
-// DS V3 sizes — pass one to `width`: sm 432 · md 536 · lg 560 · xl 640.
-const SIZE = { sm: 432, md: 536, lg: 560, xl: 640 };
+// External = an absolute URL whose host isn't ahaslides.com — only then does a link show the
+// external-link glyph and open in a new tab. A relative / *.ahaslides.com link stays in-product.
+const isExternalUrl = (href) =>
+  /^https?:\/\//i.test(href) && !/(^|\.)ahaslides\.com$/i.test(new URL(href).hostname);
 
-function DeleteSlide() {
-  const [open, setOpen] = useState(false);
-  const [modal, contextHolder] = Modal.useModal();   // the hook — inherits the ConfigProvider theme
+// The DS has TWO modal types, both controlled <Modal>s (never the imperative confirm dialog):
+//   • Confirmation — a focused yes/no with an optional status icon + Learn-more link. `simple` size.
+//   • Action       — a task surface (form / picker / editor). Sizes: simple · complexity · rich.
+// A button TRIGGERS each; width={modalWidth(size)} + styles={modalStyles(size)} keep it inside the
+// viewport (base 35vw·75vh / 50vw·80vh / 90vw·90vh), the body scrolling once content passes the cap.
+function ModalDemo() {
+  const [confirm, setConfirm] = useState(false);
+  const [action, setAction] = useState(false);
+
+  const learnMore = 'https://help.example.com/reuse-themes';   // external → shows the ↗ glyph
+  const external = isExternalUrl(learnMore);
+  const footer = (danger) => (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      {/* "Learn more" is navigation → a DS link (--aha-text-link + shared <aha-icon>), not a Button.
+          The external-link glyph shows ONLY when the target leaves AhaSlides. */}
+      <a href={learnMore} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}
+         style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' }}>
+        Learn more {external && <aha-icon name="system-arrow-square-out" size="14" />}
+      </a>
+      <span style={{ display: 'inline-flex', gap: 8 }}>
+        <Button onClick={() => { setConfirm(false); setAction(false); }}>Cancel</Button>
+        <Button type="primary" danger={danger}>Apply</Button>
+      </span>
+    </div>
+  );
 
   return (
     <ConfigProvider theme={modalTheme}>
-      {contextHolder}
+      <Button onClick={() => setConfirm(true)}>Delete team…</Button>
+      <Button type="primary" onClick={() => setAction(true)}>Share course…</Button>
 
-      {/* A plain content modal — controlled `open`, sized + optionally centered. */}
-      <Button type="primary" danger onClick={() => setOpen(true)}>Delete slide</Button>
+      {/* Confirmation modal — always `simple`; the danger context tints Apply. */}
       <Modal
-        open={open}
-        title="Delete this slide?"
-        okText="Delete slide"
-        cancelText="Cancel"
-        okButtonProps={{ danger: true }}
-        width={SIZE.md}
+        open={confirm}
+        title="Delete this team?"
+        width={modalWidth('simple')}
+        styles={modalStyles('simple')}
         centered
-        onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
+        footer={footer(true)}
+        onCancel={() => setConfirm(false)}
       >
-        <p>This removes the slide and all of its responses. This can't be undone.</p>
+        <p>This removes the team and everyone's access. This can't be undone.</p>
       </Modal>
 
-      {/* Confirm / info / success / error / warning → the useModal() HOOK, never the
-          static Modal.confirm() (which renders outside the themed tree). */}
-      <Button onClick={() => modal.confirm({
-        title: 'Delete this slide?',
-        content: "This can't be undone.",
-        okText: 'Delete slide', cancelText: 'Cancel',
-        okButtonProps: { danger: true }, width: SIZE.sm,
-      })}>Confirm…</Button>
+      {/* Action modal — a longer task; `complexity` (720 · 50vw · 80vh), body scrolls when tall. */}
+      <Modal
+        open={action}
+        title="Share course"
+        width={modalWidth('complexity')}
+        styles={modalStyles('complexity')}
+        centered
+        footer={footer(false)}
+        onCancel={() => setAction(false)}
+      >
+        {/* …form fields / picker / editor… */}
+      </Modal>
     </ConfigProvider>
   );
 }
