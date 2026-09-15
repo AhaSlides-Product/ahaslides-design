@@ -1,7 +1,7 @@
 # Landing scan — what the live AhaSlides marketing site actually uses
 
-> Scanned 2026-09-14, re-scanned 2026-09-15 (round 3, Buttons + Fonts only — see those two
-> sections for the deep pass) from the live Webflow-authored homepage (current A/B variant
+> Scanned 2026-09-14, re-scanned 2026-09-15 (round 3, Buttons + Fonts; round 4, Section container —
+> see those sections for each deep pass) from the live Webflow-authored homepage (current A/B variant
 > `home-2`): `https://ahaslides.com/homepage-test-july-2026/home-2/` (prod `https://ahaslides.com/`
 > is byte-identical). Webflow inlines its CSS, so the design language was read from the page's
 > inlined rules and CSS custom properties (`--_color---*`, `--_spacing---*`, `--_typography---*`).
@@ -70,9 +70,27 @@ No delta — the marketing rhythm is expressible entirely in DS space tokens.
 - `--radius:10px` and `--radius-lg:14px` are **off the DS scale** (4/6/8/12/16/20).
   *Webflow-to-update* → snap to `--aha-radius-lg` (12) / `--aha-radius-xl` (16).
 
-### Section container
-- Full-bleed background band, centred content column, `max-width:1280px`, section padding-y ~64px,
-  padding-x ~32px. This is the concrete pattern the `section-container` block encodes.
+### Section container — re-scanned 2026-09-15 (round 4, deep pass), reading `body`'s
+`--_spacing---section-p-*` custom properties and the `@media (max-width:991px)` override directly,
+plus every `bg-purple`/`x-compact-section`/`x-section` band on the page for the soft-tint pattern.
+
+| Property | Live Webflow (`--_spacing---section-*`, root + `≤991px`) | DS token / `landing/section-container.json` | Verdict |
+|---|---|---|---|
+| Content max-width | `--_spacing---max-width:1280px` (unchanged at every breakpoint seen) | `--aha-breakpoint-desktop` `1280px` | **exact match** |
+| Section padding-x (desktop, `>991px`) | `--_spacing---section-p-x:2rem` = `32px` | `.aha-section` padding-x clamps `16px`&rarr;`32px` (`--aha-space-16`&rarr;`--aha-space-32`), capping at `32px` from ~`800px` viewport up | **match at the cap** |
+| Section padding-x (`≤991px`) | `--_spacing---section-p-x:1rem` = `16px` | same clamp floors to `--aha-space-16` (`16px`) below ~`400px` viewport | **match at the floor** — round-4 fix: the floor was `--aha-space-20` (`20px`), one token off the live `16px` mobile value; corrected to `--aha-space-16` |
+| Section padding-y (every breakpoint) | `--_spacing---section-p-y:4rem` = `64px`, **flat** — Webflow never reduces it on mobile | `.aha-section` padding-y clamps `48px`&rarr;`96px` (`--aha-space-48`&rarr;`--aha-space-96`) | **deliberate DS-wins delta** — Webflow ships one fixed value at every width; the DS landing register instead scales the band fluidly (per this repo's house responsiveness rule: bind to a fluid range, never a fixed pixel), giving less vertical padding on a phone and more on very large screens. Not logged as *Webflow-to-update*: it is a responsiveness improvement, not a correction of a wrong Webflow value. |
+| Soft band background | `.x-compact-section.bg-purple{background-color:var(--_color---bg--purple-soft)}` = `#f9f5ff` | `.aha-section--soft{background:var(--aha-purple-10)}` = `#F9F5FF` | **exact match** (already logged under Colour, above) |
+| Dark band | not present on the current live homepage variant — no section on the page uses a dark/inverse background | `.aha-section--dark{background:var(--aha-bg-dark);color:var(--aha-icon-inverse)}` | **no live counterpart to check** — kept as a DS-provided variant (a high-contrast closing band is a reasonable marketing pattern even where this particular page doesn't use one yet); not a delta since there is no live value to disagree with |
+| Section title font (h2 in the block's markup) | n/a — the live page's own headings all render in the body face, `"Plus Jakarta Sans"` (see Type, above; item 15 in Webflow-to-update) | was `--aha-font-display` (Nunito) | **DS-internal bug, fixed this round** — the locked round-3 Fonts decision reserves `--aha-font-display` for Display/H1 only; H2/H3 stay on the body face (`landing/fonts.json` `.aha-type__h2` carries no family override). `section-container.json` predates that decision (written in round 5 of PRO38-14, before the round-3 Fonts deep pass) and still forced its `<h2>` title onto the display face. Removed the override so the title inherits `--aha-font-product` from `.aha-section`, matching `fonts.json`'s own H2 treatment. |
+| Section title line-height | n/a (see Type, above: heading-large `129%` &asymp; DS `--aha-line-height-heading` `1.3`) | was `--aha-line-height-tight` (`1.2`, the H1/Display line-height) | **DS-internal bug, fixed this round** — same drift as the font-family: the title is an H2, so it should carry `--aha-line-height-heading` (`1.3`, what `fonts.json`'s `.aha-type__h2` uses), not the tighter H1/Display value. Corrected. |
+| Section eyebrow/lead type | eyebrow: size-sm/semibold/uppercase/primary-colour; lead: size-l/body line-height/secondary colour | unchanged, already token-bound and matching the `hero.json` eyebrow/lead treatment | **match** — no change |
+
+**Verdict: the block already matched the live geometry (max-width, padding cap, soft-band colour) with
+no drift; the two genuine findings were internal** — a stale font-family/line-height pair left over from
+before the round-3 Fonts decision locked H2 onto the body face, and a one-token-off mobile padding-x
+floor. Both fixed in `landing/section-container.json` this round; no new *Webflow-to-update* items — the
+live site's own geometry already agrees with the DS token values wherever a live counterpart exists.
 
 ### Buttons — re-scanned 2026-09-15 (round 3): the real buttons on the page are `.btn.is-pink`
 (primary CTA — "Get started", "Sign up", "Try it now") and `.btn.is-secondary` ("Log in", "See our
