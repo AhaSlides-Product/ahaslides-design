@@ -140,6 +140,11 @@ export async function evaluateInPage(fileUrl, expression, { timeout = 30000, rea
       setTimeout(() => { if (pending.has(mid)) { pending.delete(mid); rej(new Error('cmd timeout: ' + method)); } }, timeout);
     });
     await cmd('Runtime.enable');
+    // Measure the design's RESTING state: emulate reduced-motion so the shared `transition:none`
+    // fallback applies and interactive-state animations (e.g. a pre-rated thumb easing from muted to
+    // primary over 0.2s) settle instantly. Without it the conformance probe can sample mid-transition,
+    // so an exact colour expect passes or fails on render timing — flaky across machines and CI.
+    try { await cmd('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] }); } catch {}
     if (readyExpr) {
       let ready = false;
       while (Date.now() - t0 < timeout) {
