@@ -141,6 +141,18 @@ const RESPONSIVE_FLOOR = 360;
 const RESPONSIVE_DEBT = {
   // 'aha-example': ['minwidth'],   // pre-gate responsive debt tracked on <ticket> — remove when fixed
 };
+// Font policy — a leaf must let its shadow text INHERIT the host app's typography. The product font is
+// pinned ONCE on :host (so standalone usage stays DS-branded); every text-bearing content element then
+// inherits it (font-family:inherit). A font-family that names --aha-font-product (or a bare literal font
+// stack) on a NON-:host selector re-isolates the text behind the shadow boundary — a themed host can't
+// override it and the text drifts off the app's own font (the aha-alert case, PR #98). The mono/display/
+// secondary tokens are a distinct surface, not the product-font anti-pattern, so they're allowed.
+// HARD FAIL by default (same escape hatch as MOTION/A11Y/RESPONSIVE debt); this PR normalizes every leaf,
+// so it starts empty — fully hard. Kind: 'inherit'. Per-line override: ds-lint-allow: font (why).
+// Spec: plans/font-inheritance-normalization.md.
+const FONT_DEBT = {
+  // 'aha-example': ['inherit'],   // pre-gate font debt tracked on <ticket> — remove when fixed
+};
 // Roving-widget roles: an AT user drives these with the arrow keys (a single tab-stop, roving focus).
 // Declaring one obliges the component to implement arrow-key navigation — a click handler is not enough.
 // (Container/single-control roles like dialog/switch/checkbox are NOT here: they need focus-management
@@ -329,6 +341,7 @@ for (const ct of contracts) {
   const motionFindings = [];   // [kind, msg] tuples — hard fail unless the component grandfathers that kind (MOTION_DEBT)
   const a11yFindings = [];      // [kind, msg] tuples — hard fail unless grandfathered (A11Y_DEBT); kinds: role | leak | observed | toggle
   const responsiveFindings = []; // [kind, msg] tuples — hard fail unless grandfathered (RESPONSIVE_DEBT); kinds: minwidth
+  const fontFindings = [];       // [kind, msg] tuples — hard fail unless grandfathered (FONT_DEBT); kind: inherit
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
@@ -363,6 +376,35 @@ for (const ct of contracts) {
   // per-file motion smells (element only)
   if (mode === 'element') {
     const body = code.join('\n');
+    /* ===== FONT INHERITANCE (element only) — a leaf must let its shadow text inherit the host app's
+       typography. Pin the product font ONCE on :host; every text-bearing content element inherits it
+       (font-family:inherit). A font-family that names --aha-font-product (or a bare literal font stack)
+       on a selector whose subject is NOT :host re-isolates the text behind the shadow boundary, so a
+       themed host can't override it and the text drifts off the app's font (the aha-alert case, PR #98).
+       Allowed: font-family on :host; inherit on content; the mono/display/secondary tokens (a distinct
+       surface). Per-line escape: ds-lint-allow: font (why). Spec: plans/font-inheritance-normalization.md.
+       Rule blocks are flat CSS (a @media wrapper's braces make the flat matcher fall through to the inner
+       rule, which is what we want to check); the subject test allows only a bare :host / :host([…]). */
+    const hostSubject = (sel) => sel.split(',').every(s => /^:host(\([^)]*\))?$/.test(s.trim()));
+    for (let m, RULE_RE = /([^{}]+)\{([^{}]*)\}/g; (m = RULE_RE.exec(body));) {
+      // The style is CSS inside a JS template literal; the first rule's selector is preceded by JS
+      // (`const STYLE = \``) with no brace boundary — keep only the tail after the last ; or backtick,
+      // neither of which can appear in a CSS selector, so the JS prefix drops away.
+      const sel = m[1].split(/[;`]/).pop().trim();
+      if (!sel || hostSubject(sel)) continue;
+      const declStart = m.index + m[0].indexOf('{') + 1;
+      for (const fm of m[2].matchAll(/font-family\s*:\s*([^;}]+)/gi)) {
+        const v = fm[1].trim();
+        if (/^inherit$/i.test(v)) continue;
+        const stripped = v.replace(/var\([^()]*\)/g, ' ');   // drop var(--token, fallback…) — the token is the value
+        const refsProduct = /--aha-font-product\b/.test(v);
+        const bareLiteral = /["']/.test(stripped) || /\b(plus jakarta sans|inter|nunito|roboto|menlo|monaco|segoe ui|-apple-system|sans-serif|serif|monospace)\b/i.test(stripped);
+        if (!refsProduct && !bareLiteral) continue;          // only mono/display/secondary or a plain keyword → allowed
+        const ln = body.slice(0, declStart + fm.index).split('\n').length;
+        if (/ds-lint-allow:\s*[a-z, ]*font/i.test(lines[ln - 1] || '')) continue;
+        fontFindings.push(['inherit', `L${ln}: font-family on "${sel.replace(/\s+/g, ' ').slice(0, 48)}" pins the product font on shadow content — a themed host can't override it, so the text drifts off the app's typography. Pin the font on :host and set font-family:inherit here (plans/font-inheritance-normalization.md §4). Justify a deviation with ds-lint-allow: font (why).`]);
+      }
+    }
     const interactive = /:hover|:focus|:focus-visible|:focus-within|:active|:checked|cursor\s*:\s*pointer|\[(?:checked|open|disabled)\]/i.test(body);
     const animates = /transition|@keyframes|animation\s*:/i.test(body);
     const fileAllows = /ds-lint-allow:\s*[a-z, ]*motion/i.test(raw);
@@ -460,6 +502,9 @@ for (const ct of contracts) {
   // Same hard-fail-with-grandfather handling for the responsive findings (RESPONSIVE_DEBT).
   const respDebt = RESPONSIVE_DEBT[r.registers] || [];
   for (const [kind, msg] of responsiveFindings) (respDebt.includes(kind) ? motionHits : hits).push(respDebt.includes(kind) ? `${msg}  [grandfathered responsive: ${r.registers}/${kind}]` : msg);
+  // Same hard-fail-with-grandfather handling for the font-inheritance findings (FONT_DEBT).
+  const fontDebt = FONT_DEBT[r.registers] || [];
+  for (const [kind, msg] of fontFindings) (fontDebt.includes(kind) ? motionHits : hits).push(fontDebt.includes(kind) ? `${msg}  [grandfathered font: ${r.registers}/${kind}]` : msg);
   libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 
