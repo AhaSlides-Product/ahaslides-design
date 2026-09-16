@@ -1029,6 +1029,8 @@ function surfaceChoiceTable(rows) {
    so a marketing site and the product app stay on one brand source. One artifact per block in
    landing/<slug>.json: { slug, name, cat, summary, html, css }. ===== */
 const landingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
+// Preview may carry per-item annotations (previewHtml); the paste block stays the clean html.
+const landingPreview = (b) => `<style>\n${b.css || ''}\n</style>\n${b.previewHtml || b.html || ''}\n`;
 // Category order follows first appearance in the loaded set, not an alpha sort.
 function landingGroups() {
   const order = [];
@@ -1039,16 +1041,41 @@ function landingGroups() {
   }
   return order.map(cat => ({ cat, items: byCat.get(cat) }));
 }
+// A block may declare `variants` (each with `sizes`): render one section per variant, previewing
+// every size with its own snippet. Blocks without `variants` fall through to the single Preview stage.
+function renderLandingVariants(b) {
+  const sizes = b.sizes || [];
+  const anchor = (v, s) => `<a class="aha-btn ${v.cls}${s && s.cls ? ' ' + s.cls : ''}"`;
+  const sizeCell = (v, s) =>
+    `<span class="aha-size-cell">${anchor(v, s)} href="#">${esc(v.sample || v.name)}</a>` +
+    `<span class="aha-size-tag">${esc(s.label)}${s.note ? ' · ' + esc(s.note) : ''}</span></span>`;
+  const code = (v) => esc((sizes.length ? sizes : [null])
+    .map(s => `${anchor(v, s)}>${v.sample || v.name}</a>`).join('\n'));
+  const sections = (b.variants || []).map(v => `
+  <section class="landing-variant">
+    <h2>${esc(v.name)}</h2>
+    ${v.lead ? `<p class="body">${esc(v.lead)}</p>` : ''}
+    ${sizes.length ? '<p class="sizes-label">All sizes</p>' : ''}
+    <div class="landing-stage"><div class="aha-size-row">${sizes.map(s => sizeCell(v, s)).join('')}</div></div>
+    <div class="code-panel feed">
+      <div class="code-head"><div class="tabs"><span class="tab active">${esc(b.slug)}--${esc(v.key || v.cls)}.html</span></div><button class="copy" type="button">Copy</button></div>
+      <pre class="active">${code(v)}</pre>
+    </div>
+  </section>`).join('');
+  return `<style>\n${b.css || ''}\n</style>\n${b.intro ? `<p class="body landing-intro">${esc(b.intro)}</p>` : ''}\n${sections}`;
+}
 function renderLandingHtml(b) {
   const snippet = landingSnippet(b);
+  const preview = (b.variants && b.variants.length)
+    ? renderLandingVariants(b)
+    : `<h2>Preview</h2>\n  <div class="landing-stage">${landingPreview(b)}</div>`;
   const main = `
   <p class="crumbs">Landing · ${esc(b.cat)}</p>
   <h1>${esc(b.name)}</h1>
   <p class="subtitle">${esc(b.summary)}</p>
   <p class="gen">◆ generated from landing/${b.slug}.json — do not edit by hand</p>
 
-  <h2>Preview</h2>
-  <div class="landing-stage">${snippet}</div>
+  ${preview}
 
   <h2>Paste-and-run HTML</h2>
   <p class="body">Framework-free — copy the whole block into any page (Webflow, WordPress, a static site). It binds only to the shared <code>--aha-*</code> tokens, so load the token layer once on the page first and the block inherits the AhaSlides brand automatically.</p>
@@ -1065,7 +1092,24 @@ function renderLandingHtml(b) {
   </div>`;
   const extraCss = `
   .badge.landing{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
-  .landing-stage{border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);overflow:hidden;margin:0 0 12px;background:var(--aha-white)}`;
+  .landing-stage{margin:0 0 12px}
+  .landing-intro{font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary);max-width:62ch;margin:0 0 var(--aha-space-8)}
+  .landing-variant{border-top:1px solid var(--aha-split);padding-top:var(--aha-space-24);margin-top:var(--aha-space-32)}
+  .landing-variant h2{margin-bottom:var(--aha-space-8)}
+  .sizes-label{font-size:var(--aha-size-sm);letter-spacing:.5px;text-transform:uppercase;color:var(--aha-text-tertiary);font-weight:var(--aha-weight-semibold);margin:0 0 10px}
+  .aha-size-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--aha-space-24)}
+  .aha-size-cell{display:inline-flex;flex-direction:column;align-items:center;gap:var(--aha-space-8)}
+  .aha-size-tag{font-size:var(--aha-size-sm);color:var(--aha-text-tertiary);font-weight:var(--aha-weight-semibold);letter-spacing:.4px}
+  .aha-btns--annotated{flex-direction:column;align-items:flex-start;gap:var(--aha-space-20)}
+  .aha-btn-item{display:inline-flex;flex-direction:column;gap:var(--aha-space-8)}
+  .aha-btn-anno{font-size:var(--aha-size-sm);line-height:var(--aha-line-height-body);color:var(--aha-text-tertiary)}
+  .aha-btn-anno code{font-family:var(--aha-font-mono);color:var(--aha-text-secondary)}
+  .aha-type-scale{width:100%;border-collapse:collapse;font-family:var(--aha-font-product)}
+  .aha-type-scale th{text-align:left;text-transform:uppercase;letter-spacing:.4px;font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);color:var(--aha-text-tertiary);background:var(--aha-bg-layout);padding:var(--aha-space-12) var(--aha-space-16);border-bottom:1px solid var(--aha-split)}
+  .aha-type-scale td{padding:var(--aha-space-16);border-bottom:1px solid var(--aha-split);vertical-align:middle}
+  .aha-type-scale td.size{width:96px}
+  .aha-type-role{color:var(--aha-text-default);line-height:var(--aha-line-height-tight)}
+  .aha-type-size{display:inline-block;font-family:var(--aha-font-mono);font-size:var(--aha-size-sm);color:var(--aha-purple-80);background:var(--aha-purple-10);border-radius:var(--aha-radius-sm);padding:3px 9px}`;
   return docShell({ base: '../../', active: b.slug, section: 'landing', main, extraCss });
 }
 function renderLandingIndex() {

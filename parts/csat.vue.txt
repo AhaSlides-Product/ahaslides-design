@@ -2,15 +2,18 @@
 import '@ahaslides-product/design/aha-csat';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue — the custom element's `rate` event binds natively with @rate
+// Component.vue — the custom element's `rate` and `feedback` events bind natively with @rate / @feedback
 <script setup>
 function onRate(e) {
   track('CSAT_RATED', e.detail);   // { rating: 'up' | 'down', source }
 }
+function onFeedback(e) {
+  track('CSAT_FEEDBACK_SUBMITTED', e.detail);   // { rating: 'down', source, feedback }
+}
 </script>
 
 <template>
-  <aha-csat prompt="Was this helpful?" source="editor_help" @rate="onRate" />
-  <!-- `inline` → the compact single-row form: prompt + 16px thumbs on one line, no card -->
-  <aha-csat inline prompt="Is this useful?" source="editor_inline" @rate="onRate" />
+  <!-- The borderless single row (the only layout). Thumbs-up rates instantly; thumbs-down opens the
+       free-text feedback popover, which emits `feedback` on submit. -->
+  <aha-csat prompt="How's your experience?" source="editor_help" @rate="onRate" @feedback="onFeedback" />
 </template>

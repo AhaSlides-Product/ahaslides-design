@@ -22,11 +22,76 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.49.0 — 2026-09-16
+## 0.53.0 — 2026-09-16
 ### Changed
-- **Leaf components now inherit the host app's typography.** A leaf that pinned the product font on its shadow content (`font-family:var(--aha-font-product,…)` on a `.class`) couldn't be re-themed — its text drifted off a host app's own font even when both used Plus Jakarta Sans (the `aha-alert`-in-AntD case). The product font is now set **once on `:host`** and every text-bearing content element uses `font-family:inherit`, so a themed host that sets `--aha-font-product` (or inherits a font into the element) gets matching text with **zero per-component config**. Standalone usage is unchanged — `:host` still supplies Plus Jakarta Sans. Normalized across 24 leaves: `aha-add-item-button`, `aha-alert`, `aha-avatar`, `aha-badge`, `aha-button`, `aha-card`, `aha-card-select`, `aha-checkbox`, `aha-counted-input`, `aha-counted-textarea`, `aha-image`, `aha-image-action-button`, `aha-input`, `aha-number-with-unit`, `aha-progress`, `aha-radio`, `aha-rate`, `aha-segmented`, `aha-select`, `aha-status-badge`, `aha-switch`, `aha-tag`, `aha-tooltip`, `aha-user-info`. Font size/weight/line-height are unchanged. (#99)
+- **Leaf components now inherit the host app's typography (library-wide).** A leaf that pinned the product font on its shadow content (`font-family:var(--aha-font-product,…)` on a `.class`) couldn't be re-themed — its text drifted off a host app's own font even when both used Plus Jakarta Sans (the `aha-alert`-in-AntD case, first fixed in #98). The product font is now set **once on `:host`** and every text-bearing content element uses `font-family:inherit`, so a themed host that sets `--aha-font-product` (or inherits a font into the element) gets matching text with **zero per-component config**. Standalone usage is unchanged — `:host` still supplies Plus Jakarta Sans. Normalized across 23 more leaves: `aha-add-item-button`, `aha-avatar`, `aha-badge`, `aha-button`, `aha-card`, `aha-card-select`, `aha-checkbox`, `aha-counted-input`, `aha-counted-textarea`, `aha-image`, `aha-image-action-button`, `aha-input`, `aha-number-with-unit`, `aha-progress`, `aha-radio`, `aha-rate`, `aha-segmented`, `aha-select`, `aha-status-badge`, `aha-switch`, `aha-tag`, `aha-tooltip`, `aha-user-info`. Font size/weight/line-height are unchanged. (#99)
 ### Added
-- **Font-inheritance gate in `standards.mjs`.** The per-leaf source scan now hard-fails a `font-family` that pins `--aha-font-product` (or a bare literal font stack) on any selector other than `:host`, so the anti-pattern can't regress. Allowed: `font-family:inherit` on content, the font on `:host`, and the mono/display/secondary tokens; a justified deviation carries a per-line `ds-lint-allow: font (why)`. Ships hard-fail with an empty `FONT_DEBT` grandfather map (same idiom as the motion/a11y/responsive gates). Plan: `plans/font-inheritance-normalization.md`. (#99)
+- **Font-inheritance gate in `standards.mjs`.** The per-leaf source scan now hard-fails a `font-family` that pins `--aha-font-product` (or a bare literal font stack) on any selector other than `:host`, so the anti-pattern (the one #98 fixed) can't regress anywhere in the library. Allowed: `font-family:inherit` on content, the font on `:host`, and the mono/display/secondary tokens; a justified deviation carries a per-line `ds-lint-allow: font (why)`. Ships hard-fail with an empty `FONT_DEBT` grandfather map (same idiom as the motion/a11y/responsive gates). Plan: `plans/font-inheritance-normalization.md`. (#99)
+
+## 0.52.1 — 2026-09-16
+### Changed
+- **Alert — inherit the host app's font instead of pinning it on the content.** `aha-alert`
+  was the only leaf that set `font-family:var(--aha-font-product,…)` directly on `.alert`, so it
+  could not pick up a consuming app's typography and its text drifted from the surrounding UI
+  (different fallback chain / spacing) inside themed apps. Moved the branded default to `:host`
+  and set the content to `font-family:inherit`, matching the `tabs`/`collapse`/`segmented` idiom —
+  standalone alerts still get the DS product font, and host apps can now theme it via
+  `--aha-font-product` (or plain inheritance). (#98)
+
+## 0.52.0 — 2026-09-15
+### Changed
+- **Landing Button — tertiary is now the DS ghost button, and the page is restructured.** The
+  Landing → Button page follows the requested structure: a short intro, then a Primary, Secondary
+  and Tertiary section, each showing all three control sizes (sm 28px / md 36px / lg 40px) with its
+  own paste-and-run snippet. The tertiary variant (`aha-btn--tertiary`) replaces the 0.51
+  `aha-btn--text-link`: it now follows the product Button's `variant=tertiary` (a ghost — transparent,
+  purple label, soft purple hover fill `#F9F5FF` / active `#F0E4FF`, per-tone soft focus ring), the
+  shape the requester accepted, rather than the live Text link's colour-only hover. `landing/SCAN.md`'s
+  Text link section is re-reconciled against the ghost tertiary — hover fill, active fill, focus style
+  and focus radius are the Webflow-to-update deltas; label weight and hover colour are now matches. (#96)
+### Added
+- **Landing blocks — per-variant / per-size sections.** A landing block may declare a `variants`
+  array (each with `sizes`) in `landing/<slug>.json`; `renderLandingBlock` renders one section per
+  variant, each previewing every size with its own copy-paste snippet. Blocks without `variants`
+  render exactly as before. (#96)
+
+## 0.51.0 — 2026-09-15
+### Added
+- **Landing Button — fourth `text-link` variant.** Webflow's "Text link" component (the live
+  site's tertiary CTA, `.text-link-wrapper`) is now reflected in `landing/button.json` as
+  `aha-btn--text-link`: transparent, borderless, brand-purple label, bound to the product
+  text-link colour tokens (`--aha-color-primary` / `--aha-text-link-hover`) and the shared
+  `--aha-button-focus-ring`, at the landing button family's semibold weight. `landing/SCAN.md`
+  gets a new Text link subsection (round 4) logging three Webflow-to-update deltas: the live
+  label weight (`600` vs the DS text-link contract's `400`), the hover colour (one shade too
+  dark), and the hard-border focus style (vs the DS soft ring). (#96)
+
+## 0.50.1 — 2026-09-15
+### Fixed
+- **Landing Section container — definition pass against the live homepage.** Re-scanned the live
+  marketing site's `--_spacing---section-p-*` custom properties: max-width and the padding-x cap
+  already matched the DS tokens exactly, so fixed a one-token-off mobile padding-x floor
+  (`--aha-space-20` &rarr; `--aha-space-16`, matching the live `1rem` mobile value) and a stale
+  title font-family/line-height pair left over from before the round-3 Fonts decision (the title
+  was forcing the H1/Display treatment onto what is an H2; now inherits the body face and
+  `--aha-line-height-heading` like `landing/fonts.json`'s own H2). No Webflow-to-update items —
+  the live geometry already agreed with the DS tokens everywhere a live counterpart exists.
+  `landing/SCAN.md`'s Section container entry expanded to a full deep-pass table. (#97)
+## 0.50.0 — 2026-09-15
+### Changed
+- **Landing Button preview — annotated items, no container box.** The Preview drops the bordered
+  `landing-stage` container, and each variant now carries a caption annotation naming its class and
+  role (`aha-btn--primary` — one main call-to-action per section, etc.). Annotations render in the
+  Preview only via a new optional `previewHtml` field on landing blocks; the paste-and-run snippet
+  stays the clean block. The annotated items stack vertically, one per row. Landing **Fonts** gets a
+  `previewHtml` too — a Role/Size type-scale specimen table (each role rendered at its `--aha-size-*`
+  token, with a size pill), mirroring the Foundations typography table. (#94)
+
+## 0.49.0 — 2026-09-15
+### Changed
+- **CSAT — borderless single row only, with a thumbs-down feedback popover** (**breaking**, pre-1.0). `<aha-csat>` now renders one layout: the canonical borderless surface — prompt + two 16px thumb icons on one line, no chrome, a 400-weight prompt. The old boxed form is gone (the `card` attribute is removed), and the legacy `inline` attribute stays a no-op (a stray `<aha-csat inline>` renders the same row). **Thumbs-up** rates instantly (emits `rate`); **thumbs-down** registers the down rating (emits `rate`) *and* opens a feedback popover anchored to the down thumb — a short prompt, a free-text field and a primary Send button — reusing the shared `<aha-popover>` + `<aha-counted-textarea>` + `<aha-button>`; dismissing it (Esc / outside-click) keeps the down rating. New optional `feedback-prompt` / `feedback-placeholder` attributes theme the popover copy. Submitting emits a dedicated composed **`feedback`** event `{ rating: 'down', source, feedback }` (mapping to the pattern's distinct `CSAT_FEEDBACK_SUBMITTED`), then the opt-in `thanks` line cross-fades in over the same cell — replacing the prompt + thumbs in place rather than sitting beside them — shown instantly on an up rating, after submit on a down rating. (#90)
+### Fixed
+- **Popover — clicking inside the panel no longer closes it when the popover is nested in another element's shadow root.** The outside-click guard used `contains(event.target)`, but a document-level click is retargeted to the shadow host, so any click read as "outside" — closing the popover before an interactive control inside it (e.g. the CSAT feedback field) could be used. It now tests the composed event path. (#90)
 
 ## 0.48.0 — 2026-09-15
 ### Added
