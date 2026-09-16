@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.52.1 — 2026-09-16
+### Changed
+- **Alert — inherit the host app's font instead of pinning it on the content.** `aha-alert`
+  was the only leaf that set `font-family:var(--aha-font-product,…)` directly on `.alert`, so it
+  could not pick up a consuming app's typography and its text drifted from the surrounding UI
+  (different fallback chain / spacing) inside themed apps. Moved the branded default to `:host`
+  and set the content to `font-family:inherit`, matching the `tabs`/`collapse`/`segmented` idiom —
+  standalone alerts still get the DS product font, and host apps can now theme it via
+  `--aha-font-product` (or plain inheritance). (#98)
+
 ## 0.52.0 — 2026-09-15
 ### Changed
 - **Landing Button — tertiary is now the DS ghost button, and the page is restructured.** The
