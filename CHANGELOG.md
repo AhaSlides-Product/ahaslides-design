@@ -30,7 +30,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
   (different fallback chain / spacing) inside themed apps. Moved the branded default to `:host`
   and set the content to `font-family:inherit`, matching the `tabs`/`collapse`/`segmented` idiom —
   standalone alerts still get the DS product font, and host apps can now theme it via
-  `--aha-font-product` (or plain inheritance). (#PR)
+  `--aha-font-product` (or plain inheritance). (#98)
 
 ## 0.52.0 — 2026-09-15
 ### Changed
