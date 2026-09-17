@@ -137,10 +137,13 @@ antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable
 
 **Distribution (D2 — decided):** the package is published to **GitHub Packages**
 (`@ahaslides-product/design`); docs/feeds are hosted on **GitHub Pages** (public, no auth).
-CI in `.github/workflows/`: `publish.yml` publishes on a `v*` tag (gated by build + standards,
-using the built-in `GITHUB_TOKEN` — no npm secret needed); `pages.yml` deploys `dist/` on every
-push to `master`. Maintainer one-time setup: set Pages → Source = "GitHub Actions". Consumers
-add a scoped `.npmrc` (`@ahaslides-product:registry=https://npm.pkg.github.com`) + a
-`read:packages` GitHub token before `npm i`.
+CI in `.github/workflows/`: `publish.yml` **publishes automatically on every merge to `master`**
+whose `version` is new (gated by build + standards, tags the release, verifies it resolved —
+using the built-in `GITHUB_TOKEN`, no npm secret; run it via `workflow_dispatch` to re-publish
+or backfill), so the registry can never drift behind master. `pages.yml` deploys `dist/` on every
+push to `master`. Bumping `version` (which the standards gate requires per PR) is therefore all a
+merge needs to ship — no manual `git tag`. Maintainer one-time setup: set Pages → Source =
+"GitHub Actions". Consumers add a scoped `.npmrc`
+(`@ahaslides-product:registry=https://npm.pkg.github.com`) + a `read:packages` GitHub token before `npm i`.
 
 Next: scale contracts, MCP/CLI query layer over the hosted feeds, full visual-regression vs the reference screenshots.
