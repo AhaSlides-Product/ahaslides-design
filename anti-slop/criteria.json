@@ -1,0 +1,72 @@
+{
+  "owner": "ahaslides-design",
+  "seededFrom": {
+    "plugin": "aha-design",
+    "version": "1.78.0",
+    "importedOn": "2026-09-11"
+  },
+  "surfaces": {
+    "ux-writing": {
+      "surface": "copy",
+      "origin": "seeded",
+      "skillRef": {
+        "build": "aha-design:aha-design-ux-writing",
+        "judge": "aha-design:aha-design-ux-writing-judge"
+      },
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Casing — sentence case across all product UI text",
+          "test": "**Rule.** Sentence case is the house default for **all** product UI text — buttons/CTAs, menu/tab/nav items, **slide-type and interactive-component names**, headings, tooltips, dialog titles, empty states, messages. Capitalize the **first letter only**; keep proper nouns / brand names / acronyms as-is."
+        },
+        {
+          "id": "C2",
+          "title": "Specific — names the object + what happened",
+          "test": "**Rule.** A problem message says *which* thing and *what* about it. Vague, information-free shells are banned as a standalone message: *Something went wrong · An error occurred · Oops / Uh oh · Unexpected error · Some items could not be loaded · bare Failed / Error · Invalid input*."
+        },
+        {
+          "id": "C3",
+          "title": "Actionable — states the next step AND exposes the recovery",
+          "test": "**Rule.** Any **recoverable** problem tells the user what to do now and exposes the recovery as a real control when a one-tap recovery exists (Retry / Reload / Log in again / Go back / Contact support). An outcome with no next step is a **dead-end** — the \"*so what now?*\" reaction."
+        },
+        {
+          "id": "C4",
+          "title": "Human — blameless, jargon-free, no raw codes in the headline",
+          "test": "**Rule.** Don't blame the user; keep raw error codes / stack / HTTP status out of the headline (a code belongs in secondary detail); use plain language; lead with the user's goal. ✅ **GOOD:** \"That file type isn't supported — try a PNG or JPG.\" / \"We couldn't open your presentation.\" ❌ **BAD:** \"You entered an invalid file.\" · \"Null reference in render pipeline\" · \"Error 500\" **Common failure mode"
+        },
+        {
+          "id": "C5",
+          "title": "Proportional — severity of wording matches real impact",
+          "test": "**Rule.** The words (and the type handed to the surface) match actual impact. A transient, retryable hiccup is a calm info/warning, not a blaring red \"Error\"."
+        },
+        {
+          "id": "C6",
+          "title": "Empty ≠ error",
+          "test": "**Rule.** An empty state (\"nothing here yet\") is a success with no data — encouraging, with a **primary create action**, never an apology or a red alarm. A load **failure** is never disguised as emptiness (\"No presentations\" when the fetch actually errored hides the Retry the user needs)."
+        },
+        {
+          "id": "C7",
+          "title": "Right home & shape",
+          "test": "**Scope.** If the surface has **no** recovery-required message and **no** title+body message at all (e.g. a labels-only surface), C7 is **`N/A`** in full — not PASS."
+        }
+      ]
+    },
+    "app-shell": {
+      "surface": "shell",
+      "origin": "authored",
+      "skillRef": null,
+      "criteria": [
+        { "id": "C1", "title": "Real brand identity, never a placeholder",
+          "test": "The brand mark + wordmark are the real AhaSlides assets (aha-icon brand glyph / shipped logo), never a coloured letter tile or initials square standing in for a logo." },
+        { "id": "C2", "title": "No dead placeholder shipped as a final state",
+          "test": "Every region renders a real asset or a proper empty state — never a permanent 'Loading…' label, spinner, or grey box (e.g. a QR block shows a real code or an explicit 'code unavailable', not 'Loading QR…')." },
+        { "id": "C3", "title": "Deliberate hierarchy, one primary action per region",
+          "test": "Each region has one clear primary action and a scannable type hierarchy from the scale; not uniform grey-on-white cards of equal weight with evenly-spaced everything." },
+        { "id": "C4", "title": "Shell chrome is tokenised and reuses DS components",
+          "test": "Nav rail, top bar, and content region take spacing/radius/colour from --aha-* tokens and fill their slots with DS components (aha-button, aha-icon, aha-avatar, aha-badge, DataTable), never hand-rolled buttons/icons/hex/px." },
+        { "id": "C5", "title": "Active/selected nav state animates on a persistent node",
+          "test": "The active nav item and any selected state toggle an attribute/class on a persistent node via motion tokens (--aha-motion-* / --aha-ease-*), never a bare duration literal and never by rebuilding the subtree." }
+      ]
+    }
+  }
+}

@@ -1,0 +1,34 @@
+import '@ahaslides-product/design/icons';                 // <aha-icon> — row control glyphs
+import '@ahaslides-product/design/aha-setting-group';     // the parent group
+import '@ahaslides-product/design/aha-sub-setting-group'; // registers <aha-sub-setting-group>
+import '@ahaslides-product/design/aha-settings-list';     // <aha-settings-item> rows
+import '@ahaslides-product/design/aha-switch';
+import '@ahaslides-product/design/aha-input';
+import { useState } from 'react';
+
+// <aha-sub-setting-group> nests DEPENDENT settings under a parent toggle: 8px above + 24px indent,
+// spacing only (no border, no card). The host owns visibility — add `hidden` when the parent is off.
+function TimerSettings() {
+  const [on, setOn] = useState(true);
+  return (
+    <div style={{ maxWidth: 380 }}>
+      <aha-setting-group label="Question timer">
+        <aha-settings-item label="Show a timer">
+          <aha-switch slot="control"
+            {...(on ? { checked: '' } : {})}
+            onChange={(e) => setOn(e.detail.checked)} />
+        </aha-settings-item>
+
+        {/* dependent sub-settings — hidden when the parent is off */}
+        <aha-sub-setting-group {...(on ? {} : { hidden: '' })}>
+          <aha-settings-item label="Seconds per question">
+            <aha-input slot="control" value="30" />
+          </aha-settings-item>
+          <aha-settings-item label="Auto-advance when time's up">
+            <aha-switch slot="control" />
+          </aha-settings-item>
+        </aha-sub-setting-group>
+      </aha-setting-group>
+    </div>
+  );
+}

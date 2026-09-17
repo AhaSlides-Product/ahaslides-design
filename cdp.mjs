@@ -140,6 +140,11 @@ export async function evaluateInPage(fileUrl, expression, { timeout = 30000, rea
       setTimeout(() => { if (pending.has(mid)) { pending.delete(mid); rej(new Error('cmd timeout: ' + method)); } }, timeout);
     });
     await cmd('Runtime.enable');
+    // Measure the design's RESTING state: emulate reduced-motion so the shared `transition:none`
+    // fallback applies and interactive-state animations (e.g. a pre-rated thumb easing from muted to
+    // primary over 0.2s) settle instantly. Without it the conformance probe can sample mid-transition,
+    // so an exact colour expect passes or fails on render timing — flaky across machines and CI.
+    try { await cmd('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] }); } catch {}
     if (readyExpr) {
       let ready = false;
       while (Date.now() - t0 < timeout) {
@@ -153,6 +158,64 @@ export async function evaluateInPage(fileUrl, expression, { timeout = 30000, rea
     conn.close();
     if (r.result && r.result.exceptionDetails) throw new Error('eval exception: ' + JSON.stringify(r.result.exceptionDetails));
     return r.result && r.result.result ? r.result.result.value : undefined;
+  } finally {
+    cleanup();
+  }
+}
+
+/**
+ * measureAtViewports(fileUrl, expression, opts) → { [label]: value } — measure the SAME expression
+ * at several viewport widths in ONE Chrome launch (Emulation.setDeviceMetricsOverride reflows the
+ * page between measurements, no relaunch). Used by qa.mjs's responsive sweep to prove a page reflows
+ * and doesn't overflow from a phone (360) up. opts.viewports = [{label,width,height}, …].
+ */
+export async function measureAtViewports(fileUrl, expression, { timeout = 45000, readyExpr = null, viewports = [] } = {}) {
+  const dir = mkdtempSync(join(tmpdir(), 'aha-cdp-'));
+  const proc = spawn(CHROME, [
+    '--headless=new', '--disable-gpu', '--no-sandbox', '--hide-scrollbars',
+    '--allow-file-access-from-files',
+    '--remote-debugging-port=0', `--user-data-dir=${dir}`, '--window-size=1200,1400', fileUrl,
+  ], { stdio: 'ignore' });
+  const t0 = Date.now();
+  const cleanup = () => { try { proc.kill('SIGKILL'); } catch {} try { rmSync(dir, { recursive: true, force: true }); } catch {} };
+  try {
+    const portFile = join(dir, 'DevToolsActivePort');
+    let port;
+    while (Date.now() - t0 < timeout) { if (existsSync(portFile)) { const p = Number(readFileSync(portFile, 'utf8').split('\n')[0]); if (p) { port = p; break; } } await sleep(80); }
+    if (!port) throw new Error('no DevTools port');
+    let wsUrl;
+    while (Date.now() - t0 < timeout) {
+      try { const list = JSON.parse(await httpGet(port, '/json')); const pg = list.find(t => t.type === 'page' && t.webSocketDebuggerUrl); if (pg) { wsUrl = pg.webSocketDebuggerUrl; break; } } catch {}
+      await sleep(120);
+    }
+    if (!wsUrl) throw new Error('no page target');
+    const conn = await wsConnect(wsUrl, timeout);
+    let id = 0; const pending = new Map();
+    conn.onMessage(txt => { let m; try { m = JSON.parse(txt); } catch { return; } if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } });
+    const cmd = (method, params = {}) => new Promise((res, rej) => {
+      const mid = ++id; pending.set(mid, res); conn.send({ id: mid, method, params });
+      setTimeout(() => { if (pending.has(mid)) { pending.delete(mid); rej(new Error('cmd timeout: ' + method)); } }, timeout);
+    });
+    await cmd('Runtime.enable');
+    if (readyExpr) {
+      let ready = false;
+      while (Date.now() - t0 < timeout) {
+        const r = await cmd('Runtime.evaluate', { expression: readyExpr, returnByValue: true });
+        if (r.result && r.result.result && r.result.result.value) { ready = true; break; }
+        await sleep(200);
+      }
+      if (!ready) throw new Error('readyExpr never became true within timeout');
+    }
+    const out = {};
+    for (const vp of viewports) {
+      await cmd('Emulation.setDeviceMetricsOverride', { width: vp.width, height: vp.height, deviceScaleFactor: 1, mobile: false });
+      await sleep(150);   // let layout settle after the reflow
+      const r = await cmd('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true });
+      if (r.result && r.result.exceptionDetails) throw new Error('eval exception: ' + JSON.stringify(r.result.exceptionDetails));
+      out[vp.label] = r.result && r.result.result ? r.result.result.value : undefined;
+    }
+    conn.close();
+    return out;
   } finally {
     cleanup();
   }

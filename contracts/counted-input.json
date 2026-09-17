@@ -23,7 +23,7 @@
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
-    { "name": "maxlength", "type": "number", "default": "—", "desc": "Character cap; presence turns the focus-only counter on (shows current/max)" },
+    { "name": "maxlength", "type": "number", "default": "100", "desc": "Character cap (settings-lab default 100); drives the focus-only counter (shows current/max). Pass `none` to drop the cap and hide the counter" },
     { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 32 · large 40; radius stays 8" },
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
@@ -55,10 +55,10 @@
         { "label": "Default", "value": "default" },
         { "label": "Large", "value": "large" }
       ] },
-      { "prop": "maxlength", "label": "Max length", "default": "80", "options": [
+      { "prop": "maxlength", "label": "Max length", "default": "100", "options": [
         { "label": "40", "value": "40" },
-        { "label": "80", "value": "80" },
-        { "label": "None", "value": null }
+        { "label": "100", "value": "100" },
+        { "label": "None", "value": "none" }
       ] },
       { "prop": "status", "label": "Status", "default": "default", "options": [
         { "label": "Default", "value": null },

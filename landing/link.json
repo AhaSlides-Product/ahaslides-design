@@ -1,0 +1,8 @@
+{
+  "slug": "link",
+  "name": "Link",
+  "cat": "Elements",
+  "summary": "Inline text links for landing copy: the brand purple, a soft underline that strengthens on hover, and a quiet variant for footer and secondary links. Colour binds to --aha-color-primary (matching the live site) and weight to --aha-weight-semibold (the DS type scale is 400/600, so the DS wins over the live site's 500). No product Link component exists yet, so this is the landing definition.",
+  "html": "<p class=\"aha-copy\">Explore our <a class=\"aha-link\" href=\"#docs\">documentation</a>, browse <a class=\"aha-link\" href=\"#templates\">ready-made templates</a>, or <a class=\"aha-link aha-link--quiet\" href=\"#pricing\">see pricing</a> before you sign up.</p>",
+  "css": ".aha-copy{\n  font-family:var(--aha-font-product);\n  font-size:var(--aha-size-l);\n  line-height:var(--aha-line-height-body);\n  color:var(--aha-text-secondary);\n  max-width:60ch;\n}\n.aha-link{\n  color:var(--aha-color-primary);\n  font-weight:var(--aha-weight-semibold);\n  text-decoration:none;\n  border-bottom:1px solid var(--aha-purple-30);\n  transition:color var(--aha-motion-fast) var(--aha-ease-in-out),border-color var(--aha-motion-fast) var(--aha-ease-in-out);\n}\n.aha-link:hover{color:var(--aha-color-primary-hover);border-bottom-color:var(--aha-color-primary-hover)}\n.aha-link:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2);border-radius:var(--aha-radius-xs)}\n.aha-link--quiet{color:var(--aha-text-secondary);border-bottom-color:var(--aha-border)}\n.aha-link--quiet:hover{color:var(--aha-color-primary);border-bottom-color:var(--aha-color-primary)}"
+}

@@ -1,0 +1,63 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-setting-group> is the SAME shared custom element React and Vue consume — here in its
+     native form. It BAKES IN the settings-panel spacing scale: rows 16px apart, groups 32px apart
+     automatically, a danger zone 48px down — no dividers, no cards, white bg. Theming comes only
+     from the --aha-* tokens in tokens.css. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';                  // <aha-icon> — the header "?" help glyph + row controls
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-setting-group.js';      // registers <aha-setting-group>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-sub-setting-group.js';  // registers <aha-sub-setting-group> (the nested cluster)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-settings-list.js';      // <aha-settings-item> rows (reused for the labelled rows)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';             // reused row control
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';              // reused row control
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';            // the danger-zone CTA (danger styling lives on the button)
+</script>
+
+<!-- A mini settings panel: TWO groups → the 32px between-group gap is automatic (you set nothing),
+     and the first group has a row with a nested sub-setting-group (8px above + 24px indent). -->
+<div style="max-width:380px">
+
+  <!-- Group 1 — an optional header (semibold) + a "?" help; rows sit 16px apart on their own. -->
+  <aha-setting-group label="Presentation" help="How the deck shows to the audience.">
+    <aha-settings-item label="Progress bar">
+      <aha-switch slot="control" checked></aha-switch>
+    </aha-settings-item>
+
+    <!-- A parent toggle + its dependent settings, nested + hidden when the parent is off. -->
+    <aha-settings-item label="Question timer">
+      <aha-switch slot="control" id="timerToggle" checked></aha-switch>
+    </aha-settings-item>
+    <aha-sub-setting-group id="timerSub">
+      <aha-settings-item label="Seconds per question">
+        <aha-input slot="control" value="30"></aha-input>
+      </aha-settings-item>
+      <aha-settings-item label="Auto-advance">
+        <aha-switch slot="control"></aha-switch>
+      </aha-settings-item>
+    </aha-sub-setting-group>
+  </aha-setting-group>
+
+  <!-- Group 2 — no wiring: it just sits 32px below Group 1 automatically. -->
+  <aha-setting-group label="Audience">
+    <aha-settings-item label="Anonymous join">
+      <aha-switch slot="control" checked></aha-switch>
+    </aha-settings-item>
+  </aha-setting-group>
+
+  <!-- A danger zone — tone="danger" drops it 48px below the previous group (the CTA carries the danger look). -->
+  <aha-setting-group tone="danger" label="Danger zone">
+    <aha-settings-item label="Reset all scores">
+      <aha-button slot="control" danger>Reset</aha-button>
+    </aha-settings-item>
+  </aha-setting-group>
+
+</div>
+
+<script>
+  // The parent toggle hides its dependent sub-group when off — visibility is the author's job.
+  const sub = document.getElementById('timerSub');
+  document.getElementById('timerToggle').addEventListener('change', (e) => {
+    sub.hidden = !e.detail.checked;
+  });
+</script>

@@ -29,8 +29,9 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
-const PATDIR = join(root, 'patterns');   // composition-guide artifacts (settings, …)
+const GDIR = join(root, 'guidelines');   // guideline artifacts — prose composition guides (settings, …)
 const PDIR = join(root, 'parts');
+const DIST = join(root, 'dist');
 const read = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
 const PKG = JSON.parse(read(join(root, 'package.json')));
 const EXPORTS = PKG.exports || {};
@@ -91,7 +92,7 @@ globalThis.HTMLElement = class { constructor() { this.attributes = {}; } };
 
 const REQUIRED = ['name', 'slug', 'group', 'tier', 'summary', 'props', 'spec', 'snippets', 'opinion', 'surfaces', 'preview', 'conformance'];
 // A pattern is a composition guide, not a component — different required shape.
-const PATTERN_REQUIRED = ['name', 'slug', 'kind', 'summary', 'skillRef', 'surfaces', 'composedOf', 'rules'];
+const GUIDELINE_REQUIRED = ['name', 'slug', 'kind', 'summary', 'skillRef', 'surfaces', 'composedOf', 'rules'];
 // Backlog policy — a pattern that names a component the DS doesn't ship yet.
 //   false → WARN: the doc-only pattern lands, the gap is tracked loudly (the pattern pulls the roadmap into the open).
 //   true  → HARD FAIL: the referenced components must exist here first before the pattern can pass.
@@ -126,6 +127,31 @@ const MOTION_DEBT = {
 // an entry only to grandfather real pre-existing debt, and delete it the moment the component is fixed.
 const A11Y_DEBT = {
   // 'aha-example': ['role'],   // pre-gate debt tracked on <ticket> — remove when fixed
+};
+// Responsive policy — product UI is FLUID: it reflows from a 360px phone up and never traps its width.
+// The zero-interpretation source tell is a fixed `min-width` px literal at or above the 360px floor: it
+// CANNOT shrink to fit a phone, so it forces a horizontal scroll — a device defect. (A fixed `width` below
+// the floor is fine — it's a max the element occupies and shrinks in a flex/inline context; a min-width ≥
+// floor is the definitive trap.) The render-side truth — does the demo actually overflow at 360 — is qa.mjs's
+// responsive sweep; this catches the trap statically so CI hard-fails it without a browser.
+// HARD FAIL by default (same escape hatch as MOTION_DEBT/A11Y_DEBT): a NEW component can't ship a
+// min-width trap. master ships NONE today (every lib min-width is ≤300px), so it starts empty — fully hard.
+// Kinds: 'minwidth' (a fixed min-width ≥ the 360px floor). Per-line override: ds-lint-allow: responsive (why).
+const RESPONSIVE_FLOOR = 360;
+const RESPONSIVE_DEBT = {
+  // 'aha-example': ['minwidth'],   // pre-gate responsive debt tracked on <ticket> — remove when fixed
+};
+// Font policy — a leaf must let its shadow text INHERIT the host app's typography. The product font is
+// pinned ONCE on :host (so standalone usage stays DS-branded); every text-bearing content element then
+// inherits it (font-family:inherit). A font-family that names --aha-font-product (or a bare literal font
+// stack) on a NON-:host selector re-isolates the text behind the shadow boundary — a themed host can't
+// override it and the text drifts off the app's own font (the aha-alert case, PR #98). The mono/display/
+// secondary tokens are a distinct surface, not the product-font anti-pattern, so they're allowed.
+// HARD FAIL by default (same escape hatch as MOTION/A11Y/RESPONSIVE debt); this PR normalizes every leaf,
+// so it starts empty — fully hard. Kind: 'inherit'. Per-line override: ds-lint-allow: font (why).
+// Spec: plans/font-inheritance-normalization.md.
+const FONT_DEBT = {
+  // 'aha-example': ['inherit'],   // pre-gate font debt tracked on <ticket> — remove when fixed
 };
 // Roving-widget roles: an AT user drives these with the arrow keys (a single tab-stop, roving focus).
 // Declaring one obliges the component to implement arrow-key navigation — a click handler is not enough.
@@ -314,10 +340,18 @@ for (const ct of contracts) {
   const hits = [];
   const motionFindings = [];   // [kind, msg] tuples — hard fail unless the component grandfathers that kind (MOTION_DEBT)
   const a11yFindings = [];      // [kind, msg] tuples — hard fail unless grandfathered (A11Y_DEBT); kinds: role | leak | observed | toggle
+  const responsiveFindings = []; // [kind, msg] tuples — hard fail unless grandfathered (RESPONSIVE_DEBT); kinds: minwidth
+  const fontFindings = [];       // [kind, msg] tuples — hard fail unless grandfathered (FONT_DEBT); kind: inherit
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
     const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
     const allowSvg = /svg/.test(allow);
+    const allowResponsive = /responsive/.test(allow);
+    // a fixed min-width ≥ the 360px floor can't shrink to fit a phone — it forces a horizontal scroll (element + theme)
+    if (!allowResponsive)
+      for (const m of line.matchAll(/min-width\s*:\s*([0-9]+)px/gi))
+        if (parseFloat(m[1]) >= RESPONSIVE_FLOOR)
+          responsiveFindings.push(['minwidth', `L${i + 1}: min-width ${m[1]}px is at/above the ${RESPONSIVE_FLOOR}px phone floor — it can't reflow on a phone (horizontal scroll). Use a fluid width (max-width/%/min()) or drop below the floor; justify with ds-lint-allow: responsive (why)`]);
     if (mode === 'element') {
       const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
       if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
@@ -342,6 +376,35 @@ for (const ct of contracts) {
   // per-file motion smells (element only)
   if (mode === 'element') {
     const body = code.join('\n');
+    /* ===== FONT INHERITANCE (element only) — a leaf must let its shadow text inherit the host app's
+       typography. Pin the product font ONCE on :host; every text-bearing content element inherits it
+       (font-family:inherit). A font-family that names --aha-font-product (or a bare literal font stack)
+       on a selector whose subject is NOT :host re-isolates the text behind the shadow boundary, so a
+       themed host can't override it and the text drifts off the app's font (the aha-alert case, PR #98).
+       Allowed: font-family on :host; inherit on content; the mono/display/secondary tokens (a distinct
+       surface). Per-line escape: ds-lint-allow: font (why). Spec: plans/font-inheritance-normalization.md.
+       Rule blocks are flat CSS (a @media wrapper's braces make the flat matcher fall through to the inner
+       rule, which is what we want to check); the subject test allows only a bare :host / :host([…]). */
+    const hostSubject = (sel) => sel.split(',').every(s => /^:host(\([^)]*\))?$/.test(s.trim()));
+    for (let m, RULE_RE = /([^{}]+)\{([^{}]*)\}/g; (m = RULE_RE.exec(body));) {
+      // The style is CSS inside a JS template literal; the first rule's selector is preceded by JS
+      // (`const STYLE = \``) with no brace boundary — keep only the tail after the last ; or backtick,
+      // neither of which can appear in a CSS selector, so the JS prefix drops away.
+      const sel = m[1].split(/[;`]/).pop().trim();
+      if (!sel || hostSubject(sel)) continue;
+      const declStart = m.index + m[0].indexOf('{') + 1;
+      for (const fm of m[2].matchAll(/font-family\s*:\s*([^;}]+)/gi)) {
+        const v = fm[1].trim();
+        if (/^inherit$/i.test(v)) continue;
+        const stripped = v.replace(/var\([^()]*\)/g, ' ');   // drop var(--token, fallback…) — the token is the value
+        const refsProduct = /--aha-font-product\b/.test(v);
+        const bareLiteral = /["']/.test(stripped) || /\b(plus jakarta sans|inter|nunito|roboto|menlo|monaco|segoe ui|-apple-system|sans-serif|serif|monospace)\b/i.test(stripped);
+        if (!refsProduct && !bareLiteral) continue;          // only mono/display/secondary or a plain keyword → allowed
+        const ln = body.slice(0, declStart + fm.index).split('\n').length;
+        if (/ds-lint-allow:\s*[a-z, ]*font/i.test(lines[ln - 1] || '')) continue;
+        fontFindings.push(['inherit', `L${ln}: font-family on "${sel.replace(/\s+/g, ' ').slice(0, 48)}" pins the product font on shadow content — a themed host can't override it, so the text drifts off the app's typography. Pin the font on :host and set font-family:inherit here (plans/font-inheritance-normalization.md §4). Justify a deviation with ds-lint-allow: font (why).`]);
+      }
+    }
     const interactive = /:hover|:focus|:focus-visible|:focus-within|:active|:checked|cursor\s*:\s*pointer|\[(?:checked|open|disabled)\]/i.test(body);
     const animates = /transition|@keyframes|animation\s*:/i.test(body);
     const fileAllows = /ds-lint-allow:\s*[a-z, ]*motion/i.test(raw);
@@ -436,29 +499,39 @@ for (const ct of contracts) {
   // Same hard-fail-with-grandfather handling for the accessibility findings (A11Y_DEBT).
   const a11yDebt = A11Y_DEBT[r.registers] || [];
   for (const [kind, msg] of a11yFindings) (a11yDebt.includes(kind) ? motionHits : hits).push(a11yDebt.includes(kind) ? `${msg}  [grandfathered a11y: ${r.registers}/${kind}]` : msg);
+  // Same hard-fail-with-grandfather handling for the responsive findings (RESPONSIVE_DEBT).
+  const respDebt = RESPONSIVE_DEBT[r.registers] || [];
+  for (const [kind, msg] of responsiveFindings) (respDebt.includes(kind) ? motionHits : hits).push(respDebt.includes(kind) ? `${msg}  [grandfathered responsive: ${r.registers}/${kind}]` : msg);
+  // Same hard-fail-with-grandfather handling for the font-inheritance findings (FONT_DEBT).
+  const fontDebt = FONT_DEBT[r.registers] || [];
+  for (const [kind, msg] of fontFindings) (fontDebt.includes(kind) ? motionHits : hits).push(fontDebt.includes(kind) ? `${msg}  [grandfathered font: ${r.registers}/${kind}]` : msg);
   libFindings.push({ file: mapped.replace(/^\.\//, ''), mode, hits, motionHits });
 }
 
-/* ===== patterns — composition guides. A pattern ships no primitive; it reuses components and
-   documents conventions. It's gated on: completeness, a real skillRef, a composedOf reuse graph
+/* ===== guidelines — prose composition guides. A guideline ships no primitive; it reuses components
+   and documents conventions. It's gated on: completeness, a real skillRef, a composedOf reuse graph
    that resolves into the component set, rules that trace back to the skill, and (if it ships a
    wrapper) the same import/export checks a composite gets. ===== */
 const contractSlugs = new Set(contracts.map(c => c.slug));
 // custom-element tag → slug, for the elements the DS actually ships (leaves that register)
 const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [c.reuse.registers, c.slug]));
-const patterns = existsSync(PATDIR)
-  ? readdirSync(PATDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(PATDIR, f))))
+/* anti-slop — the DS-owned criteria store. Feeds + gate read it; a guideline rule that names a
+   judge criterion (C\d+) for a wired surface must resolve here. */
+const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
+const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
+const guidelines = existsSync(GDIR)
+  ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
-const patternResults = [];
-for (const p of patterns) {
+const guidelineResults = [];
+for (const p of guidelines) {
   const checks = [], warns = [];
   const chk = (name, cond, note = '') => checks.push([name, !!cond, cond ? '' : note]);
   const warn = (name, note = '') => warns.push([name, note]);
 
   // 1) completeness + kind + the skill it distils
-  const missing = PATTERN_REQUIRED.filter(k => p[k] == null || (Array.isArray(p[k]) && !p[k].length));
-  chk('pattern complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
-  chk('kind is "pattern"', p.kind === 'pattern');
+  const missing = GUIDELINE_REQUIRED.filter(k => p[k] == null || (Array.isArray(p[k]) && !p[k].length));
+  chk('guideline complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
+  chk('kind is "guideline"', p.kind === 'guideline');
   chk('links a build skill (skillRef.build)', p.skillRef && typeof p.skillRef.build === 'string', 'add skillRef.build — the design skill it distils');
 
   // 2) composedOf — the reuse graph must resolve into the component set (the teeth)
@@ -485,6 +558,32 @@ for (const p of patterns) {
   chk('every rule traces to a skill assertion (ref)',
     (p.rules || []).every(x => x && x.rule && Array.isArray(x.ref) && x.ref.length >= 1),
     'each rule needs ref: ["SETTINGS-xx", …] back to the skill');
+
+  // 3b) anti-slop consistency — for a surface wired into the store, every C\d+ rule ref must
+  //     resolve to a real criterion id; non-C\d+ refs (UXW-n, §n) are build-assertion ids and are
+  //     warn-only. Coverage (every store criterion referenced) is enforced ONLY for DS-AUTHORED
+  //     surfaces — a seeded surface's guideline still uses build-assertion ids (re-keyed in Phase 2).
+  const _surface = ANTISLOP?.surfaces?.[p.slug];
+  if (_surface) {
+    const _storeCrit = new Set((_surface.criteria || []).map(c => c.id));
+    for (const r of (p.rules || [])) {
+      for (const ref of (r.ref || [])) {
+        if (/^C\d+$/.test(ref)) {
+          chk(`anti-slop: rule ref ${ref} resolves in store surface "${p.slug}"`, _storeCrit.has(ref),
+            `no such criterion in anti-slop/criteria.json surfaces.${p.slug} — fix the ref or add the criterion`);
+        } else {
+          warn(`anti-slop: rule ref "${ref}" is a build-assertion id (not a C\\d+ judge criterion)`,
+            'seeded surfaces reference build assertions; Phase-2 fan-out re-keys these to judge criteria');
+        }
+      }
+    }
+    if (_surface.origin === 'authored') {
+      const _referenced = new Set((p.rules || []).flatMap(r => (r.ref || []).filter(x => /^C\d+$/.test(x))));
+      for (const id of _storeCrit)
+        chk(`anti-slop: store criterion ${id} is covered by a rule in "${p.slug}"`, _referenced.has(id),
+          `surfaces.${p.slug} defines ${id} but no authored rule references it`);
+    }
+  }
 
   // 4) the guide narrative doesn't smuggle in a banned library
   const guideText = p.guide ? read(join(PDIR, p.guide)) : '';
@@ -514,7 +613,26 @@ for (const p of patterns) {
     } catch (e) { chk(`import "${spec}" resolves`, false, e.message.split('\n')[0]); }
   }
 
-  patternResults.push({ slug: p.slug || p.name, checks, warns });
+  guidelineResults.push({ slug: p.slug || p.name, checks, warns });
+}
+
+/* ===== anti-slop store + feeds — the DS is the official anti-slop tool ===== */
+const antislopChecks = [];
+const achk = (name, cond, note = '') => antislopChecks.push([name, !!cond, cond ? '' : note]);
+if (ANTISLOP) {
+  achk('anti-slop store declares the DS as owner', ANTISLOP.owner === 'ahaslides-design', 'owner must be "ahaslides-design"');
+  achk('anti-slop store has ≥1 surface', ANTISLOP.surfaces && Object.keys(ANTISLOP.surfaces).length >= 1);
+  for (const [key, s] of Object.entries(ANTISLOP.surfaces || {})) {
+    achk(`surface "${key}": origin is seeded|authored`, s.origin === 'seeded' || s.origin === 'authored', `origin="${s.origin}"`);
+    achk(`surface "${key}": ≥1 well-formed criterion`,
+      Array.isArray(s.criteria) && s.criteria.length >= 1 && s.criteria.every(c => /^C\d+$/.test(c.id) && c.title && c.test),
+      'each criterion needs { id:C\\d+, title, test }');
+    achk(`surface "${key}": has a matching guideline (guidelines/${key}.json)`, guidelines.some(p => p.slug === key),
+      'a wired surface needs a guideline to supply its rules');
+  }
+  achk('anti-slop.md feed exists', existsSync(join(DIST, 'anti-slop.md')), 'run npm run generate');
+  achk('anti-slop.agent.json feed exists', existsSync(join(DIST, 'anti-slop.agent.json')), 'run npm run generate');
+  achk('anti-slop.md is generated (not hand-edited)', existsSync(join(DIST, 'anti-slop.md')) && /do not edit by hand/.test(read(join(DIST, 'anti-slop.md'))), 'feed missing the generated banner');
 }
 
 /* ===== repo gate — CHANGELOG + version ===========================================================
@@ -564,9 +682,9 @@ for (const r of results) {
   console.log(`${ok ? '✓' : '✗'} ${r.slug}`);
   for (const [n, v, note] of r.checks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
 }
-if (patternResults.length) {
-  console.log('\npatterns');
-  for (const r of patternResults) {
+if (guidelineResults.length) {
+  console.log('\nguidelines');
+  for (const r of guidelineResults) {
     const ok = r.checks.every(x => x[1]);
     ok ? pass++ : fail++;
     console.log(`${ok ? '✓' : '✗'} ${r.slug}  [pattern]`);
@@ -585,6 +703,13 @@ if (libFindings.length) {
     for (const h of (f.motionHits || [])) { warnCount++; console.log(`      ⚠ WARN: ${h}`); }
   }
 }
+if (ANTISLOP) {
+  console.log('\nanti-slop (official tool)');
+  const ok = antislopChecks.every(x => x[1]);
+  ok ? pass++ : fail++;
+  console.log(`${ok ? '✓' : '✗'} store + feeds`);
+  for (const [n, v, note] of antislopChecks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
+}
 {
   console.log('\nrepo');
   const ok = repoChecks.every(x => x[1]);
@@ -593,5 +718,5 @@ if (libFindings.length) {
   for (const [n, v, note] of repoChecks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
 }
 console.log(`\n${pass} artifact(s) meet the standard / ${fail} fail${warnCount ? ` · ${warnCount} warning(s)` : ''}\n`);
-if (!contracts.length && !patterns.length) { console.log('No contracts or patterns found — nothing to gate.'); }
+if (!contracts.length && !guidelines.length) { console.log('No contracts or guidelines found — nothing to gate.'); }
 process.exit(fail ? 1 : 0);

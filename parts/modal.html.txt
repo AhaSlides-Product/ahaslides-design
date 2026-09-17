@@ -1,51 +1,65 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
      Modal is a COMPOSITE (antd, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
-     consumes the SAME shared `modalTheme` the React/Vue wrappers use, so it renders
-     the DS V3 look (white content, radius 8, ink title). Keeps antd's built-in motion.
-     Shows the matrix: a sized content modal + a confirm via Modal.useModal() (the hook,
-     never the static Modal.confirm the DS forbids).
+     consumes the SAME shared modalTheme / modalWidth / modalStyles the React/Vue
+     wrappers use, so it renders the DS V3 look (white content, radius 8, ink title)
+     and stays inside the viewport. Keeps antd's built-in motion.
+     Shows the TWO modal types — a Confirmation (simple) and an Action (complexity) —
+     each TRIGGERED by a button, both controlled <Modal>s (never static Modal.confirm).
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
 <div id="root"></div>
 <script type="module">
   import React from 'https://esm.sh/react@18';
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
   import { ConfigProvider, Modal, Button } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
-  import { modalTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/modal-theme.js';
+  import { modalTheme, modalStyles, modalWidth } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/modal-theme.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';   // registers <aha-icon>
 
   const h = React.createElement;
   const { useState } = React;
 
-  // DS V3 sizes — pass one to `width`: sm 432 · md 536 · lg 560 · xl 640.
-  const SIZE = { sm: 432, md: 536, lg: 560, xl: 640 };
+  // External = an absolute URL whose host isn't ahaslides.com — only then show the ↗ glyph + a new tab.
+  const isExternalUrl = (href) =>
+    /^https?:\/\//i.test(href) && !/(^|\.)ahaslides\.com$/i.test(new URL(href).hostname);
+  const learnMore = 'https://help.example.com/reuse-themes';   // external → shows the glyph
+  const external = isExternalUrl(learnMore);
+
+  // Footer: a "Learn more" link (navigation → a DS link, --aha-text-link + shared <aha-icon>, not a
+  // Button) on the left, Cancel + Apply on the right. The glyph shows ONLY when the link leaves AhaSlides.
+  const footer = (danger, close) => h('div',
+    { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' } },
+    h('a', { href: learnMore, target: external ? '_blank' : undefined, rel: external ? 'noreferrer' : undefined,
+             style: { display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' } },
+      'Learn more ', external && h('aha-icon', { name: 'system-arrow-square-out', size: '14' })),
+    h('span', { style: { display: 'inline-flex', gap: 8 } },
+      h(Button, { onClick: close }, 'Cancel'),
+      h(Button, { type: 'primary', danger }, 'Apply')));
 
   function App() {
-    const [open, setOpen] = useState(false);
-    const [modal, contextHolder] = Modal.useModal();   // the hook — inherits the theme
+    const [confirm, setConfirm] = useState(false);
+    const [action, setAction] = useState(false);
 
     return h(ConfigProvider, { theme: modalTheme },
-      contextHolder,
-      h(Button, { type: 'primary', danger: true, onClick: () => setOpen(true) }, 'Delete slide'),
+      h(Button, { onClick: () => setConfirm(true) }, 'Delete team…'),
+      h(Button, { type: 'primary', onClick: () => setAction(true) }, 'Share course…'),
+
+      // Confirmation modal — always `simple` (504px · 75vh); danger tints Apply.
       h(Modal, {
-        open,
-        title: 'Delete this slide?',
-        okText: 'Delete slide',
-        cancelText: 'Cancel',
-        okButtonProps: { danger: true },
-        width: SIZE.md,
-        centered: true,
-        onOk: () => setOpen(false),
-        onCancel: () => setOpen(false),
-      }, h('p', null, "This removes the slide and all of its responses. This can't be undone.")),
-      // Confirm-family: the useModal() hook, NOT the static Modal.confirm().
-      h(Button, { onClick: () => modal.confirm({
-        title: 'Delete this slide?',
-        content: "This can't be undone.",
-        okText: 'Delete slide', cancelText: 'Cancel',
-        okButtonProps: { danger: true }, width: SIZE.sm,
-      }) }, 'Confirm…')
+        open: confirm, title: 'Delete this team?',
+        width: modalWidth('simple'), styles: modalStyles('simple'), centered: true,
+        footer: footer(true, () => setConfirm(false)),
+        onCancel: () => setConfirm(false),
+      }, h('p', null, "This removes the team and everyone's access. This can't be undone.")),
+
+      // Action modal — a longer task; `complexity` (720px · 80vh), body scrolls when tall.
+      h(Modal, {
+        open: action, title: 'Share course',
+        width: modalWidth('complexity'), styles: modalStyles('complexity'), centered: true,
+        footer: footer(false, () => setAction(false)),
+        onCancel: () => setAction(false),
+      })
     );
   }
-  // Same shared theme the React/Vue wrappers pass to ConfigProvider.
+  // Same shared theme + helpers the React/Vue wrappers pass to ConfigProvider.
   createRoot(document.getElementById('root')).render(h(App));
 </script>

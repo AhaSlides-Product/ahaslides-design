@@ -1,0 +1,33 @@
+<div class="pad">
+  <div class="lbl">Setting row · ONE setting — label + a slotted DS control (the playground drives this one)</div>
+  <div class="demo-stage">
+    <aha-setting-row data-probe label="Leaderboard" help="Shown to the audience between slides.">
+      <aha-switch slot="control" checked></aha-switch>
+    </aha-setting-row>
+  </div>
+
+  <div class="lbl">Inline (default) · label LEFT · control RIGHT · space-between</div>
+  <div class="stack">
+    <aha-setting-row label="Progress bar"><aha-switch slot="control" checked></aha-switch></aha-setting-row>
+    <aha-setting-row label="Leaderboard" help="Shown to the audience between slides."><aha-switch slot="control"></aha-switch></aha-setting-row>
+    <aha-setting-row label="Show correct answers"><aha-checkbox slot="control"></aha-checkbox></aha-setting-row>
+    <aha-setting-row label="Question timer" disabled><aha-switch slot="control" disabled></aha-switch></aha-setting-row>
+  </div>
+
+  <div class="lbl">Stack · label above · control full-width (a wide textarea / wide select)</div>
+  <div class="stack">
+    <aha-setting-row label="Deck title" layout="stack"><aha-input slot="control" value="Untitled"></aha-input></aha-setting-row>
+    <aha-setting-row label="Speaker notes" help="Notes only you can see." layout="stack"><aha-input slot="control" placeholder="Add a note"></aha-input></aha-setting-row>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-setting-row.js) — no inlined copy, so the preview
+     can never drift from lib/. The playground control bar (Layout / Help / Disabled) is generated
+     from contracts/setting-row.json → playground and drives the [data-probe] element's attributes live. -->
+<script type="module">
+  import '../lib/icons.js';             // registers <aha-icon> so the "?" help glyph resolves from the DS library
+  import '../lib/aha-setting-row.js';   // registers <aha-setting-row> — the shipped primitive, byte-identical to what consumers get
+  import '../lib/aha-switch.js';        // registers <aha-switch> (a control it carries)
+  import '../lib/aha-checkbox.js';      // registers <aha-checkbox> (a control it carries)
+  import '../lib/aha-input.js';         // registers <aha-input> (a wide control for the stack layout)
+</script>

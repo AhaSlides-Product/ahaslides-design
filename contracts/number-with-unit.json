@@ -5,14 +5,14 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-number-with-unit",
-  "summary": "A fixed-width digit input with the unit written inline as its short label (a seconds unit is always \"sec\"), a hover ▲/▼ stepper, a hard digit cap, clamp-on-change, and an error line — the settings field for a number that carries a unit.",
-  "lead": "ONE custom element — <aha-number-with-unit> — for a number that carries a UNIT: a duration, points, a per-item count (SETTINGS-45). The unit is written INSIDE the field as its conventional SHORT label — a seconds unit is always `sec`, never `s` or `seconds` (SETTINGS-46) — so it never reads as a selectable box beside the input. A hover-revealed ▲/▼ tertiary stepper nudges the value; a hard digit cap (`maxdigits`, default 4 — a 5th keystroke is ignored) and clamp-to-min/max on change AND blur keep it valid without deliberate misuse; an `errormessage` prop draws a red border/ring and a message line below. The host is the accessible spinbutton (role=\"spinbutton\", aria-valuenow/min/max, ArrowUp/Down + PageUp/Down). Shadow-DOM CSS, themed only by --aha-* tokens; motion on persistent nodes. Zero drift — the same element in React and Vue.",
+  "summary": "A fixed-width digit input with the unit written IN FULL inline (rendered exactly as passed — \"seconds\", \"points\" — muted grey), a hover ▲/▼ stepper, a hard digit cap, clamp-on-change, and an error line — the settings field for a number that carries a unit.",
+  "lead": "ONE custom element — <aha-number-with-unit> — for a number that carries a UNIT: a duration, points, a per-item count (SETTINGS-45). The unit is written IN FULL INSIDE the field as an inline suffix — rendered exactly as passed (`seconds`, `points`), muted grey via --aha-text-tertiary, never truncated to a short label — so it never reads as a selectable box beside the input. A hover-revealed ▲/▼ tertiary stepper nudges the value; a hard digit cap (`maxdigits`, default 4 — a 5th keystroke is ignored) and clamp-to-min/max on change AND blur keep it valid without deliberate misuse; an `errormessage` prop draws a red border/ring and a message line below. The host is the accessible spinbutton (role=\"spinbutton\", aria-valuenow/min/max, ArrowUp/Down + PageUp/Down). Shadow-DOM CSS, themed only by --aha-* tokens; motion on persistent nodes. Zero drift — the same element in React and Vue.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-disabled", "bg-accent", "text-default", "text-tertiary", "text-disabled", "icon-muted", "radius-default", "radius-xs", "focus-ring-soft", "border-error", "color-error", "border-disabled"],
   "spec": [
     { "label": "Box", "value": "height 32 (default) · radius 8 · digit input + inline unit + stepper" },
     { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
-    { "label": "Unit", "value": "12/18–14/21 #8A8A8A inline suffix; conventional short label (sec, not s/seconds)" },
+    { "label": "Unit", "value": "14/21 #8A8A8A inline suffix; written IN FULL, rendered exactly as passed (seconds, points)" },
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },
@@ -22,7 +22,7 @@
   ],
   "props": [
     { "name": "value", "type": "number", "default": "—", "desc": "Controlled numeric value" },
-    { "name": "unit", "type": "string", "default": "—", "desc": "Inline suffix — the conventional SHORT label (sec, pt, %) — never s/seconds" },
+    { "name": "unit", "type": "string", "default": "—", "desc": "Inline suffix — written IN FULL, rendered exactly as passed (seconds, points, %)" },
     { "name": "min", "type": "number", "default": "—", "desc": "Lower clamp bound" },
     { "name": "max", "type": "number", "default": "—", "desc": "Upper clamp bound" },
     { "name": "step", "type": "number", "default": "1", "desc": "Stepper / arrow-key increment" },
@@ -38,7 +38,7 @@
       { "what": "Host time limit", "when": "a standard whole-slide countdown — use the host-native enableTimeLimit, not this" },
       { "what": "Select", "when": "the unit itself is changeable — a unit dropdown, not an inline suffix" }
     ],
-    "note": "A fixed unit is an inline suffix inside the field (SETTINGS-41) — a bordered box beside the input implies the unit is selectable. Always the short label: `sec`, never `s` or `seconds` (SETTINGS-46). Ship pre-filled with the recommended default and clamp immediately.",
+    "note": "A fixed unit is an inline suffix inside the field (SETTINGS-41) — a bordered box beside the input implies the unit is selectable. Write the unit IN FULL, rendered exactly as passed (`seconds`, `points`) — never truncated to a short label. Ship pre-filled with the recommended default and clamp immediately.",
     "dsv3": "COVERED — the settings-lab NumberWithUnit control mapped into the DS. Box, border and focus ring reuse the DS V3 field family; the inline unit, hover stepper, digit cap, clamp-on-change/blur and errorMessage line are the settings-specific additions (SETTINGS-45/46/41/25)."
   },
   "surfaces": ["editor", "settings"],
@@ -51,9 +51,9 @@
   "preview": "number-with-unit.preview.html",
   "playground": {
     "controls": [
-      { "prop": "unit", "label": "Unit", "default": "sec", "options": [
-        { "label": "sec", "value": "sec" },
-        { "label": "pt", "value": "pt" },
+      { "prop": "unit", "label": "Unit", "default": "seconds", "options": [
+        { "label": "seconds", "value": "seconds" },
+        { "label": "points", "value": "points" },
         { "label": "%", "value": "%" }
       ] },
       { "prop": "size", "label": "Size", "default": "default", "options": [
@@ -64,7 +64,7 @@
     ]
   },
   "selfCheck": [
-    { "label": "unit is an inline short label (sec, not s/seconds) inside the field", "verdict": "PASS" },
+    { "label": "unit is written IN FULL, rendered exactly as passed (seconds, points), muted grey inside the field", "verdict": "PASS" },
     { "label": "hover ▲/▼ stepper, disabled at min/max; role=spinbutton + arrow keys", "verdict": "PASS" },
     { "label": "hard digit cap (maxDigits) — a 5th keystroke is dropped; numeric only", "verdict": "PASS" },
     { "label": "clamps to min/max on change AND blur", "verdict": "PASS" },

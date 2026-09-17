@@ -1,0 +1,21 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-add-item-button'; // registers <aha-add-item-button> (also pulls in <aha-icon>)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref, computed } from 'vue';
+const options = ref([{ text: '' }]);
+const max = 10;
+const atMax = computed(() => options.value.length >= max);
+</script>
+
+<template>
+  <!-- full-width add row under the option list; disabled at the max item count -->
+  <!-- …option rows… -->
+  <aha-add-item-button
+    label="Add option"
+    :disabled.prop="atMax"
+    @add="options.push({ text: '' })"
+  />
+</template>

@@ -1,0 +1,26 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-setting-row> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css. The row ships NO
+     control of its own — it carries an existing DS control in its `control` slot (reuse). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';            // registers <aha-icon> (the "?" glyph)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-setting-row.js';  // registers <aha-setting-row>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';       // registers <aha-switch> (a control it carries)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';        // registers <aha-input> (a wide control for the stack layout)
+</script>
+
+<!-- inline (default) — label LEFT, control RIGHT -->
+<aha-setting-row label="Progress bar">
+  <aha-switch slot="control" checked></aha-switch>
+</aha-setting-row>
+
+<!-- with a "?" help (the circled question glyph) after the label -->
+<aha-setting-row label="Leaderboard" help="Shown to the audience between slides.">
+  <aha-switch slot="control"></aha-switch>
+</aha-setting-row>
+
+<!-- stack — label above, control full-width (a wide textarea / wide select) -->
+<aha-setting-row label="Speaker notes" layout="stack">
+  <aha-input slot="control" placeholder="Notes only you can see"></aha-input>
+</aha-setting-row>

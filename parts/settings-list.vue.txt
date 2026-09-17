@@ -6,7 +6,9 @@ import '@ahaslides-product/design/aha-paywall';         // reused for a plan-gat
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue — schema-driven: bind the schema property, listen for change.
-// A row can be disabled (dimmed) or locked (visible-but-gated → the shared Paywall crown).
+// `description` renders as a "?" help tooltip after the label (not a standing line);
+// `layout: 'stack'` puts the label above a full-width control. A row can be disabled
+// (dimmed) or locked (visible-but-gated → the shared Paywall crown).
 <script setup>
 import { ref, onMounted } from 'vue';
 const list = ref(null);
@@ -15,6 +17,7 @@ const schema = {
     { key: 'progressBar', label: 'Progress bar', control: { type: 'switch', checked: true } },
     { key: 'leaderboard', label: 'Leaderboard', description: 'Shown between slides.', control: { type: 'switch' } },
     { key: 'deckTitle', label: 'Deck title', control: { type: 'input', value: 'Untitled' } },
+    { key: 'notes', label: 'Speaker notes', layout: 'stack', description: 'Only you see these.', control: { type: 'input' } },
     { key: 'timer', label: 'Question timer', disabled: true, control: { type: 'switch' } },
     { key: 'branding', label: 'Custom branding', locked: true, plan: 'pro', feature: 'Custom branding' },
   ] }],

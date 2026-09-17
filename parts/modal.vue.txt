@@ -1,41 +1,66 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, h } from 'vue';
 import { ConfigProvider, Modal, Button } from 'ant-design-vue';   // ant-design-vue v4
-import { modalTheme } from '@ahaslides-product/design/modal-theme';
+import { modalTheme, modalStyles, modalWidth } from '@ahaslides-product/design/modal-theme';
+import '@ahaslides-product/design/icons';   // registers <aha-icon> for the Learn-more glyph
 
-// DS V3 sizes — pass one to `width`: sm 432 · md 536 · lg 560 · xl 640.
-const SIZE = { sm: 432, md: 536, lg: 560, xl: 640 };
-const open = ref(false);
+// External = an absolute URL whose host isn't ahaslides.com — only then show the ↗ glyph + a new tab.
+const isExternalUrl = (href) =>
+  /^https?:\/\//i.test(href) && !/(^|\.)ahaslides\.com$/i.test(new URL(href).hostname);
+const learnMore = 'https://help.example.com/reuse-themes';   // external → shows the glyph
+const external = isExternalUrl(learnMore);
 
-// Confirm / info / success / error / warning → Modal.confirm on the app instance
-// resolved from useModal(), so it inherits the ConfigProvider theme.
-const [modal, contextHolder] = Modal.useModal();
-const confirmDelete = () => modal.confirm({
-  title: 'Delete this slide?',
-  content: "This can't be undone.",
-  okText: 'Delete slide', cancelText: 'Cancel',
-  okButtonProps: { danger: true }, width: SIZE.sm,
-});
+// The DS has TWO modal types, both controlled <a-modal>s (never the imperative confirm dialog):
+//   • Confirmation — a focused yes/no with an optional status icon + Learn-more link. `simple` size.
+//   • Action       — a task surface (form / picker / editor). Sizes: simple · complexity · rich.
+// A button TRIGGERS each; :width="modalWidth(size)" keeps it near-full-width on mobile (min(px,
+// 100vw−32)) and :styles="modalStyles(size)" caps the height, the body scrolling past the cap.
+const confirm = ref(false);
+const action = ref(false);
+
+// Footer render-fn: a Learn-more link (navigation → DS link, not a Button) on the left,
+// Cancel + Apply on the right.
+const footer = (danger, close) => h('div',
+  { style: 'display:flex;align-items:center;justify-content:space-between' }, [
+    h('a', { href: learnMore, target: external ? '_blank' : undefined, rel: external ? 'noreferrer' : undefined,
+             style: 'display:inline-flex;align-items:center;gap:6px;color:var(--aha-text-link);text-decoration:none' }, [
+      'Learn more ', external ? h('aha-icon', { name: 'system-arrow-square-out', size: '14' }) : null,
+    ]),
+    h('span', { style: 'display:inline-flex;gap:8px' }, [
+      h(Button, { onClick: close }, () => 'Cancel'),
+      h(Button, { type: 'primary', danger }, () => 'Apply'),
+    ]),
+  ]);
 </script>
 
 <template>
   <a-config-provider :theme="modalTheme">
-    <component :is="contextHolder" />
+    <a-button @click="confirm = true">Delete team…</a-button>
+    <a-button type="primary" @click="action = true">Share course…</a-button>
 
-    <a-button type="primary" danger @click="open = true">Delete slide</a-button>
+    <!-- Confirmation modal — always `simple`; the danger context tints Apply. -->
     <a-modal
-      v-model:open="open"
-      title="Delete this slide?"
-      ok-text="Delete slide"
-      cancel-text="Cancel"
-      :ok-button-props="{ danger: true }"
-      :width="SIZE.md"
+      v-model:open="confirm"
+      title="Delete this team?"
+      :width="modalWidth('simple')"
+      :styles="modalStyles('simple')"
       centered
+      :footer="footer(true, () => (confirm = false))"
     >
-      <p>This removes the slide and all of its responses. This can't be undone.</p>
+      <p>This removes the team and everyone's access. This can't be undone.</p>
     </a-modal>
 
-    <a-button @click="confirmDelete">Confirm…</a-button>
+    <!-- Action modal — a longer task; `complexity` (720px · 80vh), body scrolls when tall. -->
+    <a-modal
+      v-model:open="action"
+      title="Share course"
+      :width="modalWidth('complexity')"
+      :styles="modalStyles('complexity')"
+      centered
+      :footer="footer(false, () => (action = false))"
+    >
+      <!-- …form fields / picker / editor… -->
+    </a-modal>
   </a-config-provider>
 </template>
-<!-- The SAME modalTheme as React → one DS V3 look across both vendor libraries. -->
+<!-- The SAME modalTheme + modalWidth/modalStyles as React → one DS V3 look across both vendor libraries. -->

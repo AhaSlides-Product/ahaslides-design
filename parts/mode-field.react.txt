@@ -2,26 +2,31 @@ import '@ahaslides-product/design/aha-mode-field'; // registers <aha-mode-field>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-mode-field> directly.
-// modes is a PROPERTY; bodies are children tagged data-mode — the hidden one keeps its state.
-function AhaModeField({ label, modes, mode, disabled, onChange, children }) {
+// options is a PROPERTY; bodies are children tagged data-mode — the hidden one keeps its state.
+// variant: 'radio' (default outline) | 'segmented' (neutral grey). labelVariant: 'field' | 'section'.
+function AhaModeField({ label, options, value, variant, labelVariant, help, disabled, onChange, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
-    el.modes = modes || [];
-    if (mode != null) el.mode = mode;
+    el.options = options || [];
+    if (value != null) el.value = value;
+    if (variant != null) el.variant = variant;
+    if (labelVariant != null) el.labelVariant = labelVariant;
+    if (help != null) el.help = help;
     el.disabled = !!disabled;
-    const h = (e) => onChange?.(e.detail.mode);   // composed CustomEvent
+    const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
-  }, [modes, mode, disabled, onChange]);
+  }, [options, value, variant, labelVariant, help, disabled, onChange]);
   return <aha-mode-field ref={ref} label={label}>{children}</aha-mode-field>;
 }
 
 // usage
 <AhaModeField
   label="Results"
-  mode={resultsMode}
-  modes={[{ value: 'auto', label: 'Automatic' }, { value: 'manual', label: 'Manual' }]}
+  value={resultsMode}
+  options={[{ value: 'auto', label: 'Automatic' }, { value: 'manual', label: 'Manual' }]}
+  help="Choose when the results chart appears."
   onChange={setResultsMode}
 >
   <div data-mode="auto">Results appear automatically.</div>

@@ -1,0 +1,23 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-add-item-button> is the SAME shared custom element React and Vue consume — here in its
+     native form. Theming comes only from the --aha-* tokens in tokens.css.
+     The + glyph is summoned by name from the DS icon library via <aha-icon>. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-add-item-button.js'; // registers <aha-add-item-button> (also pulls in <aha-icon>)
+</script>
+
+<!-- full-width add row — sits under an editable settings list; disabled = at the max item count -->
+<div style="width:320px">
+  <aha-add-item-button id="add" label="Add option"></aha-add-item-button>
+  <br>
+  <aha-add-item-button label="Add option" disabled></aha-add-item-button>
+</div>
+
+<script>
+  // Plain DOM — no framework. The composed `add` CustomEvent fires on click; append a new item here.
+  let count = 1;
+  document.getElementById('add').addEventListener('add', () => {
+    console.log('add item #', ++count);
+  });
+</script>

@@ -7,15 +7,22 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-card-select.js';   // registers <aha-card-select>
 </script>
 
+<!-- labelled tiles — stretch to fill each of `columns` tracks -->
 <aha-card-select id="chart" columns="3" value="bar" style="max-width:360px"></aha-card-select>
 
+<!-- iconOnly — compact 44px squares packed to the start; the label is kept as title + aria-label -->
+<aha-card-select id="chartCompact" icon-only columns="3" value="bar"></aha-card-select>
+
 <script type="module">
-  const el = document.getElementById('chart');
   // options: value + label + an icon NAME from the DS library
-  el.options = [
+  const options = [
     { value: 'bar',   label: 'Bar',   icon: 'system-chart-bar' },
     { value: 'line',  label: 'Line',  icon: 'system-chart-line-up' },
     { value: 'pie',   label: 'Pie',   icon: 'system-chart-pie' },
   ];
+  const el = document.getElementById('chart');
+  el.options = options;
   el.addEventListener('change', (e) => console.log('chart type:', e.detail.value));
+
+  document.getElementById('chartCompact').options = options;
 </script>

@@ -1,0 +1,52 @@
+<div class="pad">
+  <div class="lbl">Spacing scale baked in · rows 16 · between groups 32 (automatic) · danger zone 48 · optional header + "?" help + action slot · no dividers/cards</div>
+
+  <!-- The smart widget: the FIRST real <aha-setting-group> is the playground target (data-pg-target)
+       so the Header / Help / Tone controls (contracts/setting-group.json → playground) drive its
+       attributes live. It is also the conformance probe (data-probe): a header + 2 rows — the .rows
+       gap (16) + the header label (semibold 600 #1A1A1A) are measured off it. -->
+  <div style="max-width:380px; display:block">
+    <aha-setting-group data-pg-target data-probe label="Presentation" help="How the deck shows to the audience.">
+      <aha-settings-item label="Progress bar">
+        <aha-switch slot="control" checked></aha-switch>
+      </aha-settings-item>
+
+      <!-- a parent toggle + its dependent, nested settings -->
+      <aha-settings-item label="Question timer">
+        <aha-switch slot="control" checked></aha-switch>
+      </aha-settings-item>
+      <aha-sub-setting-group>
+        <aha-settings-item label="Seconds per question">
+          <aha-input slot="control" value="30"></aha-input>
+        </aha-settings-item>
+      </aha-sub-setting-group>
+    </aha-setting-group>
+
+    <!-- Group 2 — data-next-probe: its automatic 32px top margin (between groups) is measured. -->
+    <aha-setting-group data-next-probe label="Audience">
+      <aha-settings-item label="Anonymous join">
+        <aha-switch slot="control" checked></aha-switch>
+      </aha-settings-item>
+    </aha-setting-group>
+
+    <!-- Danger zone — tone="danger" sits 48px down; the danger styling lives on the CTA button. -->
+    <aha-setting-group tone="danger" label="Danger zone">
+      <aha-settings-item label="Reset all scores">
+        <aha-button slot="control" danger>Reset</aha-button>
+      </aha-settings-item>
+    </aha-setting-group>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped elements (../lib/aha-setting-group.js + ../lib/aha-sub-setting-group.js)
+     + the rows/controls they compose + the icon library — no inlined copy, so the preview can never
+     drift from lib/. -->
+<script type="module">
+  import '../lib/icons.js';                  // <aha-icon> — the header "?" help glyph + control glyphs
+  import '../lib/aha-setting-group.js';      // registers <aha-setting-group> (pulls in <aha-tooltip> for the "?" help)
+  import '../lib/aha-sub-setting-group.js';  // registers <aha-sub-setting-group>
+  import '../lib/aha-settings-list.js';      // <aha-settings-item> rows
+  import '../lib/aha-switch.js';             // reused row control
+  import '../lib/aha-input.js';              // reused row control
+  import '../lib/aha-button.js';             // the danger-zone CTA
+</script>

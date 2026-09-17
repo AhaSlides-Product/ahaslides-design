@@ -1,16 +1,20 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-option-row> is the SAME shared custom element React and Vue consume — here in its native form.
-     It COMPOSES DS leaves (borderless CountedTextarea, Checkbox, ImageActionButton). Theming comes only
-     from the --aha-* tokens in tokens.css. Hover a row to reveal its delete (top-right). -->
+     It COMPOSES DS leaves (borderless CountedTextarea, ImageActionButton) + a success-green correct
+     toggle (circle | square). Theming comes only from the --aha-* tokens in tokens.css. Hover a row to
+     reveal its delete (top-right). -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-option-row.js';   // registers <aha-option-row>
 </script>
 
 <div style="display:flex; flex-direction:column; gap:8px; max-width:420px">
-  <!-- quiz answer: orderable + correct toggle + image; delete disabled at the minimum of 2 -->
+  <!-- quiz answer: orderable + correct toggle (circle, default) + image; correct paints the card green.
+       delete disabled at the minimum of 2. Use checkboxshape="square" for the square toggle,
+       and singleline for a single-line answer (Enter blocked, trims on blur). -->
   <aha-option-row id="a" orderable correctable image correct value="Paris" maxlength="80"></aha-option-row>
   <aha-option-row orderable correctable image value="London" maxlength="80"></aha-option-row>
+  <aha-option-row orderable correctable checkboxshape="square" singleline value="Rome" maxlength="80"></aha-option-row>
 </div>
 
 <script>

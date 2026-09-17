@@ -5,34 +5,39 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-breadcrumb",
-  "summary": "A trail of ancestor links ending in the current page, with the DS caret separator.",
-  "lead": "ONE custom element — <aha-breadcrumb> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; feed it an `items` JSON array — each entry { label, href?, icon?, disabled? }: an entry with an `href` is a link, the last (or any href-less) entry is the current page (stronger colour, aria-current). A leading `icon` draws by name via <aha-icon>. `separator` picks the DS caret (default) or a slash; `maxItems` collapses the middle into an ellipsis toggle. Links + the ellipsis animate on hover via the shared motion tokens. Emits a composed `navigate` event.",
+  "summary": "A trail of ancestor links ending in the current page — and, at size=page-title, the page heading itself (there is no separate page-title component).",
+  "lead": "ONE custom element — <aha-breadcrumb> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; feed it an `items` JSON array — each entry { label, href?, icon?, disabled? }: an entry with an `href` is a link, the last (or any href-less) entry is the current page (stronger colour, aria-current). A leading `icon` draws by name via <aha-icon>. `separator` picks the DS caret (default) or a slash; `maxItems` collapses the middle into an ellipsis toggle. `size` scales the trail — `default` (13/22) or `mini` (12/18) for sub-page nav, and `page-title`, where the current crumb becomes a REAL heading (`<h1>` by default, `heading-level` picks h1–h6): a single-item trail is the page title alone (Heading4 24/600), a longer trail is that heading with its ancestor path in front (18/600). This is why AhaSlides has no separate page-title component — the breadcrumb IS the page title, so a page header is never a hand-rolled <h1>. Links + the ellipsis animate on hover via the shared motion tokens. Emits a composed `navigate` event.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `navigate`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-secondary", "text-default", "text-disabled", "color-primary", "icon-muted", "bg-hover", "border-focus", "radius-xs"],
   "spec": [
-    { "label": "Type", "value": "Plus Jakarta 13/22" },
+    { "label": "Type", "value": "Plus Jakarta — default 13/22, mini 12/18, page-title 18/1.3 (solo title 24/1.3)" },
     { "label": "Link", "value": "text-secondary #4A4A4A → hover color-primary #6A1EBB (motion-fast + ease-out)" },
     { "label": "Current", "value": "text-default #1A1A1A, SemiBold 600, aria-current=page (stronger than links)" },
-    { "label": "Item icon", "value": "optional leading <aha-icon size=14>, currentColor" },
+    { "label": "Page title", "value": "size=page-title → current crumb is a real heading (<h1>, heading-level picks h1–h6); whole trail SemiBold 600; standalone (1 item) = Heading4 24/600/ls 0, in a trail = 18/1.3/ls 0.2" },
+    { "label": "Item icon", "value": "optional leading <aha-icon>, currentColor — 12 mini / 14 default / 16 page-title" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not a link (aria-disabled)" },
-    { "label": "Separator", "value": "caret (<aha-icon name=\"system-caret-right\" size=12>, icon-muted) or slash \"/\"" },
+    { "label": "Separator", "value": "caret (<aha-icon name=\"system-caret-right\">, icon-muted, 12 · 16 at page-title) or slash \"/\"" },
     { "label": "Collapse", "value": "maxItems > trail → first + ellipsis toggle + trailing (maxItems−1)" },
-    { "label": "Gap", "value": "8 between crumbs, 6 icon→label" }
+    { "label": "Gap", "value": "8 between crumbs (4 at mini), 6 icon→label" }
   ],
   "props": [
     { "name": "items", "type": "JSON [{label, href?, icon?, disabled?}]", "default": "[]", "desc": "The trail; an entry with href is a link, the last / href-less entry is the current page, icon adds a leading DS glyph, disabled mutes it" },
+    { "name": "size", "type": "'default' | 'mini' | 'page-title'", "default": "default", "desc": "Scale of the trail. default 13/22 · mini 12/18 for sub-page nav; page-title renders the current crumb as the page heading (24/600 alone, 18/600 in a trail)" },
+    { "name": "heading-level", "type": "1 | 2 | 3 | 4 | 5 | 6", "default": "1", "desc": "Heading tag used for the current crumb when size=page-title — an <h1> page title by default; drop to h2–h6 if the breadcrumb isn't the page's top heading" },
     { "name": "separator", "type": "'caret' | 'slash'", "default": "caret", "desc": "Divider glyph between crumbs — the DS caret (default) or a slash" },
     { "name": "maxItems", "type": "number", "default": "0", "desc": "Collapse the middle into an ellipsis toggle when the trail is longer than N (0 = never)" },
     { "name": "navigate", "type": "CustomEvent", "default": "—", "desc": "Composed event on a link click, detail { index, href }" }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Breadcrumb", "when": "showing where a page sits in a hierarchy the user can climb back up" },
+      { "what": "Breadcrumb (page-title)", "when": "the heading of a product page — size=page-title makes the current crumb the page <h1>, alone or at the end of its ancestor path. This is THE page title; do not hand-roll a plain <h1>/heading" },
+      { "what": "Breadcrumb (default / mini)", "when": "showing where a page sits in a hierarchy the user can climb back up, without heading-level prominence" },
+      { "what": "Screen heading", "when": "the page header ROW — a page title (via this breadcrumb) plus right-aligned action buttons" },
       { "what": "Tabs", "when": "switching between sibling views at the same level — not a hierarchy" },
       { "what": "Back button", "when": "a single linear step back is all that's needed" }
     ],
-    "note": "Keep breadcrumbs to the real ancestor path — don't pad them. The last item is the current page and is never a link. Labels are short nouns, sentence case.",
-    "dsv3": "COVERED — DS V3 Breadcrumb component set (fileKey MwjvUjVI0HnfwD9EwPXRAy) with Components/Link + Components/Separator sub-parts. No measured px/rgb cell, so colour is token-derived: text-secondary link, text-default SemiBold current (stronger than the link, aria-current), color-primary hover, icon-muted separator, text-disabled disabled item. Matrix covered: leading item icons, caret vs slash separator, maxItems middle-collapse (ellipsis toggle), disabled item. Motion + glyphs bound to the shared motion tokens and the DS icon library."
+    "note": "The page title is NOT a plain <h1> — it is <aha-breadcrumb size=\"page-title\">, with just the current page as the only item (or the full ancestor path in front of it). A hand-rolled heading is the wrong answer: it drifts from the DS type scale and loses the built-in trail, aria-current, and navigate event. Keep breadcrumbs to the real ancestor path — don't pad them. The last item is the current page and is never a link. Labels are short nouns, sentence case.",
+    "dsv3": "COVERED — DS V3 Breadcrumb component set (fileKey MwjvUjVI0HnfwD9EwPXRAy, node 61346:4893) with Components/Link + Components/Separator sub-parts and a Count × Size matrix (Size = Mini / Default / Page title, Count = 1…4+). Bindings from get_variable_defs: default = Body 14 (fontSizeDefault) / lh 1.5 / ls 0.2 (Paragraph); mini = 12 (fontSizeSM) / lh 1.5 / ls 0.3 (Subtext); page-title = SemiBold 600 across the trail at Heading6 18 / lh 1.3 / ls 0.2 (Subheadings), and standalone (Count=1) at Heading4 24 / lh 1.3 / ls 0 (Headlines). Colour token-derived: text-secondary link, text-default current (aria-current, and a real heading in page-title), color-primary hover, icon-muted separator, text-disabled disabled item. Matrix covered: three sizes, page-title heading (h1–h6 via heading-level, solo vs trailed), leading item icons, caret vs slash separator, maxItems middle-collapse (ellipsis toggle), disabled item. Motion + glyphs bound to the shared motion tokens and the DS icon library. (Default kept at 13/22, matching the shipped element and its conformance probe; the Figma Default cell is 14 — within a px of the same role.)"
   },
   "surfaces": ["editor", "dashboard", "admin", "settings"],
   "reuse": { "entry": "./aha-breadcrumb", "registers": "aha-breadcrumb", "exportsNamed": ["AhaBreadcrumb", "defineAhaBreadcrumb"] },
@@ -44,6 +49,16 @@
   "preview": "breadcrumb.preview.html",
   "playground": {
     "controls": [
+      {
+        "prop": "size",
+        "label": "Size",
+        "default": "default",
+        "options": [
+          { "label": "Default", "value": "default" },
+          { "label": "Mini", "value": "mini" },
+          { "label": "Page title", "value": "page-title" }
+        ]
+      },
       {
         "prop": "separator",
         "label": "Separator",
@@ -77,6 +92,8 @@
   "selfCheck": [
     { "label": "link text-secondary → hover color-primary (animated)", "verdict": "PASS" },
     { "label": "current text-default SemiBold, aria-current, not a link", "verdict": "PASS" },
+    { "label": "size scales the trail — default 13/22 · mini 12/18 · page-title 18 (solo 24)", "verdict": "PASS" },
+    { "label": "size=page-title: current crumb is a real heading (<h1>, heading-level → h1–h6)", "verdict": "PASS" },
     { "label": "leading item icon via <aha-icon name>", "verdict": "PASS" },
     { "label": "separator caret (<aha-icon>) | slash", "verdict": "PASS" },
     { "label": "maxItems collapses middle into an ellipsis toggle", "verdict": "PASS" },
@@ -85,9 +102,9 @@
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-breadcrumb[data-probe]') && document.querySelector('aha-breadcrumb[data-probe]').shadowRoot && document.querySelector('aha-breadcrumb[data-probe]').shadowRoot.querySelector('.current'))",
+    "ready": "!!(document.querySelector('aha-breadcrumb[data-probe]') && document.querySelector('aha-breadcrumb[data-probe]').shadowRoot && document.querySelector('aha-breadcrumb[data-probe]').shadowRoot.querySelector('.current') && document.querySelector('aha-breadcrumb[data-probe-title]') && document.querySelector('aha-breadcrumb[data-probe-title]').shadowRoot && document.querySelector('aha-breadcrumb[data-probe-title]').shadowRoot.querySelector('.current'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-breadcrumb[data-probe]');var sr=el&&el.shadowRoot;var link=sr&&sr.querySelector('.crumb');var cur=sr&&sr.querySelector('.current');var nav=sr&&sr.querySelector('.nav');var icon=sr&&sr.querySelector('.crumb aha-icon');var sep=sr&&sr.querySelector('.sep');return{link:link?getComputedStyle(link).color:null,current:cur?getComputedStyle(cur).color:null,currentWeight:cur?getComputedStyle(cur).fontWeight:null,size:link?getComputedStyle(link).fontSize:null,gap:nav?getComputedStyle(nav).columnGap:null,hasIcon:!!icon,hasSeparator:!!sep};})()",
-    "expect": { "link": "rgb(74, 74, 74)", "current": "rgb(26, 26, 26)", "currentWeight": "600", "size": "13px", "gap": "8px", "hasIcon": true, "hasSeparator": true }
+    "measure": "(function(){var el=document.querySelector('aha-breadcrumb[data-probe]');var sr=el&&el.shadowRoot;var link=sr&&sr.querySelector('.crumb');var cur=sr&&sr.querySelector('.current');var nav=sr&&sr.querySelector('.nav');var icon=sr&&sr.querySelector('.crumb aha-icon');var sep=sr&&sr.querySelector('.sep');var tel=document.querySelector('aha-breadcrumb[data-probe-title]');var tsr=tel&&tel.shadowRoot;var title=tsr&&tsr.querySelector('.current');return{link:link?getComputedStyle(link).color:null,current:cur?getComputedStyle(cur).color:null,currentWeight:cur?getComputedStyle(cur).fontWeight:null,size:link?getComputedStyle(link).fontSize:null,gap:nav?getComputedStyle(nav).columnGap:null,hasIcon:!!icon,hasSeparator:!!sep,titleTag:title?title.tagName:null,titleSize:title?getComputedStyle(title).fontSize:null,titleWeight:title?getComputedStyle(title).fontWeight:null};})()",
+    "expect": { "link": "rgb(74, 74, 74)", "current": "rgb(26, 26, 26)", "currentWeight": "600", "size": "13px", "gap": "8px", "hasIcon": true, "hasSeparator": true, "titleTag": "H1", "titleSize": "24px", "titleWeight": "600" }
   }
 }

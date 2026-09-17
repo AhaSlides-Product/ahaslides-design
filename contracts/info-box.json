@@ -8,13 +8,13 @@
   "summary": "A settings-only tinted callout in four tones (information / success / warning / error), optionally dismissible — a bespoke component, not Ant Alert.",
   "lead": "ONE custom element — <aha-info-box> — the settings-panel callout. Four tones (information / success / warning / error), each with its own tinted background, border and leading glyph, and an optional dismiss control. It is a status region (role=\"status\") so assistive tech announces it. Dismiss fades the box out on a PERSISTENT node (opacity + a class toggle, never a subtree rebuild) and emits `dismiss`; the host owns any persisted \"don't show again\" state. The glyph is summoned by name via <aha-icon> — never an inline svg. Bespoke by design — NOT Ant Alert. Shadow-DOM CSS, themed only by --aha-* tokens.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "border-success", "color-success", "bg-warning", "border-warning", "color-warning", "bg-negative", "border-error", "color-error", "text-default", "icon-muted", "bg-hover", "radius-default", "radius-sm"],
+  "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "border-success", "color-success", "bg-warning", "border-warning", "color-warning", "pink-20", "pink-60", "text-default", "icon-muted", "bg-hover", "radius-default", "radius-sm"],
   "spec": [
     { "label": "Box", "value": "padding 12 · radius 8 · 1px tinted border + tinted fill per tone" },
     { "label": "Information", "value": "#F4F8FF fill · #BFD2FF border · #9BB3E9 glyph (system-info)" },
     { "label": "Success", "value": "#D8FAEF fill · #16C49A border/glyph (system-check-circle)" },
     { "label": "Warning", "value": "#FFF5F0 fill · #FF7747 border/glyph (system-warning-circle)" },
-    { "label": "Error", "value": "#FFF1F0 fill · #F5222D border/glyph (system-x-circle)" },
+    { "label": "Error", "value": "#FFE3E9 fill · #FF4081 border/glyph — Radical Pink, NOT red (system-x-circle)" },
     { "label": "Dismiss", "value": "optional ✕ (system-x); fades out on a persistent node, emits `dismiss`" },
     { "label": "Text", "value": "Plus Jakarta 14/21 #1A1A1A" }
   ],
@@ -62,6 +62,6 @@
     "ready": "!!(document.querySelector('aha-info-box[data-probe]') && document.querySelector('aha-info-box[data-probe]').shadowRoot && document.querySelector('aha-info-box[data-probe]').shadowRoot.querySelector('.box'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-info-box[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.box');var t=r&&r.querySelector('.text');var bs=b?getComputedStyle(b):null;var ts=t?getComputedStyle(t):null;return{bg:bs?bs.backgroundColor:null,border:bs?bs.borderTopColor:null,radius:bs?bs.borderTopLeftRadius:null,fontSize:ts?ts.fontSize:null};})()",
-    "expect": { "bg": "rgb(244, 248, 255)", "border": "rgb(191, 210, 255)", "radius": "8px", "fontSize": "14px" }
+    "expect": { "bg": "rgb(255, 227, 233)", "border": "rgb(255, 64, 129)", "radius": "8px", "fontSize": "14px" }
   }
 }

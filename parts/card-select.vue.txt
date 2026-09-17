@@ -15,6 +15,7 @@ const options = [
 
 <template>
   <!-- options + value are bound as PROPERTIES (.prop); the grid is one roving radiogroup -->
+  <!-- add icon-only for compact 44px squares (label kept as title + aria-label) -->
   <aha-card-select
     columns="3"
     :options.prop="options"

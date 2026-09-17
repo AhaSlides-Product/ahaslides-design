@@ -1,0 +1,16 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (the "?" glyph)
+import '@ahaslides-product/design/aha-section-header';  // registers <aha-section-header>
+import '@ahaslides-product/design/aha-switch';          // registers <aha-switch> (action slot)
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<template>
+  <!-- A settings GROUP header — label is a noun phrase in sentence case; help fills the "?" tooltip. -->
+  <aha-section-header label="Audience" help="Who can see and join this deck." />
+
+  <!-- action slot — a master switch / count / link pushed to the right -->
+  <aha-section-header label="Interaction" help="Turn the whole group on or off.">
+    <aha-switch slot="action" checked />
+  </aha-section-header>
+</template>

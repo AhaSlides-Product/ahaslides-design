@@ -1,0 +1,24 @@
+import '@ahaslides-product/design/icons';            // registers <aha-icon> (the "?" glyph)
+import '@ahaslides-product/design/aha-setting-row';  // registers <aha-setting-row>
+import '@ahaslides-product/design/aha-switch';       // registers <aha-switch> (a control it carries)
+
+// One shared custom element — React 18 renders it directly (it holds no state of its own).
+// `label` is a noun phrase; `help` fills the "?" tooltip; `layout` is 'inline' (default) or 'stack'.
+// The row ships NO control — pass an existing DS control in the `control` slot (reuse).
+function SettingRow({ label, help, layout, children }) {
+  return (
+    <aha-setting-row label={label} {...(help ? { help } : {})} {...(layout ? { layout } : {})}>
+      {children}
+    </aha-setting-row>
+  );
+}
+
+// usage — inline (default), label LEFT / control RIGHT
+<SettingRow label="Leaderboard" help="Shown to the audience between slides.">
+  <aha-switch slot="control" />
+</SettingRow>
+
+// usage — stack, label above / control full-width
+<SettingRow label="Speaker notes" layout="stack">
+  <aha-input slot="control" placeholder="Notes only you can see" />
+</SettingRow>

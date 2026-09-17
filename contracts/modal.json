@@ -4,17 +4,19 @@
   "group": "Feedback",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
-  "summary": "A focused, blocking dialog — confirm, edit, or make a decision — rendered through the shared Modal.",
+  "summary": "A focused, blocking dialog in two types — a Confirmation (yes/no decision) and an Action (a task surface) — rendered through the shared Modal.",
   "lead": "Modal carries focus-trapping, a mask, scroll-locking and enter/leave motion — too much to rebuild as a web component — so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared modalTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "Modal.contentBg", "Modal.headerBg", "Modal.titleColor", "Modal.titleFontSize"],
   "spec": [
     { "label": "Content", "value": "white surface · radius 8" },
     { "label": "Title", "value": "ink #1A1A1A · 18 · SemiBold" },
     { "label": "Footer", "value": "brand primary confirm + secondary cancel" },
-    { "label": "Mask", "value": "ink overlay rgba(26,26,46,.7)" },
+    { "label": "Overlay", "value": "always-on mask (ink rgba(26,26,46,.7)) · portals to body · locks page scroll · click mask / Esc / ✕ to close (destructive: mask not closable)" },
     { "label": "Motion", "value": "antd's built-in zoom enter/leave (kept)" },
-    { "label": "Sizes", "value": "sm 432 · md 536 · lg 560 · xl 640 (via width)" },
-    { "label": "Types", "value": "content · confirm/info/success/error/warning (Modal.useModal)" }
+    { "label": "Types", "value": "Confirmation (status icon + copy) · Action (task surface)" },
+    { "label": "Confirmation", "value": "contexts: default · confirm · warning · info · danger (status icon left of title)" },
+    { "label": "Action sizes", "value": "simple 504 · complexity 720 · rich 1280 (px width) × height 75/80/90vh · divider on/off" },
+    { "label": "Viewport cap", "value": "width={modalWidth(size)} = min(px, calc(100vw − 32px)) — px on desktop, near-full-width on mobile; styles={modalStyles(size)} caps height, body scrolls past it" }
   ],
   "props": [
     { "name": "open", "type": "boolean", "default": "false", "desc": "Controls visibility" },
@@ -22,7 +24,9 @@
     { "name": "onOk", "type": "() => void", "default": "—", "desc": "Confirm handler" },
     { "name": "onCancel", "type": "() => void", "default": "—", "desc": "Dismiss handler" },
     { "name": "confirmLoading", "type": "boolean", "default": "false", "desc": "Spinner on the confirm button" },
-    { "name": "width", "type": "number", "default": "520", "desc": "Dialog width — DS V3 sizes sm 432 / md 536 / lg 560 / xl 640" },
+    { "name": "width", "type": "string", "default": "modalWidth('simple')", "desc": "Dialog width — pass modalWidth(size): min(target px, calc(100vw − 32px)) so it's the px width on desktop and near-full-width on mobile. Targets: simple 504 / complexity 720 / rich 1280" },
+    { "name": "styles", "type": "object", "default": "modalStyles('simple')", "desc": "Height cap + body scroll for the size — modalStyles(size)" },
+    { "name": "footer", "type": "ReactNode", "default": "—", "desc": "DS footer: Learn-more link (left, a --aha-text-link anchor — external-link glyph only when it leaves AhaSlides) + Cancel + Apply (right)" },
     { "name": "centered", "type": "boolean", "default": "false", "desc": "Vertically centre the dialog in the viewport" },
     { "name": "closable", "type": "boolean", "default": "true", "desc": "Show the top-right close (X)" },
     { "name": "mask", "type": "boolean", "default": "true", "desc": "Render the dimming overlay behind the dialog" }
@@ -33,11 +37,11 @@
       { "what": "Drawer", "when": "a longer edit form or detail panel that keeps page context" },
       { "what": "Popconfirm", "when": "a lightweight yes/no on a single control" }
     ],
-    "note": "Give it a clear title and make the primary button name the action ('Delete slide', not 'OK'). Keep modals short — anything with many fields belongs in a Drawer or its own page.",
-    "dsv3": "COVERED — antd v6 Modal themed once by modalTheme. Matrix: type (content · confirm/info/success/error/warning), size (sm 432 · md 536 · lg 560 · xl 640 via width), centered, plus closable / mask. Confirm-family types open through Modal.useModal() (the hook that inherits the ConfigProvider theme) — never the static Modal.confirm(), which the DS forbids because it renders outside the themed tree. Verified via Figma search_design_system against the DS V3 ConfirmationModal set (fileKey MwjvUjVI0HnfwD9EwPXRAy) and antd v6's Modal API; widths measured from the component-standard reference (modal|sm…xl)."
+    "note": "Two types. A CONFIRMATION modal is a focused yes/no — one of five contexts (default · confirm · warning · info · danger) puts a status icon left of the title, with a short line of copy, a Learn-more link, and Cancel + Apply; it's always `simple` size. An ACTION modal is a task surface (form, picker, editor) at one of three sizes — simple / complexity / rich — with an optional header/footer divider. Both are controlled `<Modal>`s, never the static Modal.confirm(). Every modal opens as a real overlay: it portals to `<body>` with an always-on mask, locks page scroll while open, and closes on a mask click / Esc / the ✕ — EXCEPT a destructive confirmation, which overrides `mask={{ closable: false }}` so a stray backdrop click can't trigger the action (Esc + ✕ only). Name the primary button the action ('Delete team', not 'OK'). A modal must never grow bigger than the screen in either axis: set `width={modalWidth(size)}` (resolves to `min(<target px>, calc(100vw − 32px))` — the px width on desktop, near-full-width on mobile with a 16px gutter; antd centres the dialog by its width, so the cap lives on the prop, not inner styles) and `styles={modalStyles(size)}` (height `auto` up to the cap, then the body scrolls while title + footer stay pinned). Anything bigger than `rich` belongs in its own page.",
+    "dsv3": "COVERED — antd v6 Modal themed once by modalTheme. TWO types: Confirmation (5 contexts, status icon + copy + Learn-more + Cancel/Apply, `simple` size) and Action (sizes simple 504 / complexity 720 / rich 1280 px width × 75/80/90vh height, divider on/off). Width via width={modalWidth(size)} = min(px, calc(100vw − 32px)) — px on desktop, near-full-width on mobile; height via styles={modalStyles(size)}. A modal never grows bigger than the screen — the body scrolls, the title + footer stay pinned. Both types are controlled <Modal>s — never the static Modal.confirm(), which the DS forbids (renders outside the themed tree). Verified against the DS V3 Figma (fileKey MwjvUjVI0HnfwD9EwPXRAy): ConfirmationModal (Context=Default/Confirm/Warning/Info/Danger) and Action modal (use case=simple/complexity/rich × divider), with the max-width/max-height annotations."
   },
   "surfaces": ["editor", "dashboard", "settings"],
-  "reuse": { "entry": "./modal-theme", "exportsNamed": ["modalTheme"] },
+  "reuse": { "entry": "./modal-theme", "exportsNamed": ["modalTheme", "modalStyles", "modalWidth", "modalMaxWidth", "modalMaxHeight"] },
   "snippets": [
     { "key": "html", "label": "HTML", "file": "modal.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared modalTheme. No build step." },
     { "key": "react", "label": "React", "file": "modal.react.txt" },
@@ -49,13 +53,15 @@
   "selfCheck": [
     { "label": "white content · radius 8", "verdict": "PASS" },
     { "label": "ink title 18 SemiBold", "verdict": "PASS" },
-    { "label": "brand confirm + secondary cancel", "verdict": "PASS" },
+    { "label": "two types: Confirmation + Action, button-triggered", "verdict": "PASS" },
+    { "label": "brand Apply + secondary Cancel + Learn-more link", "verdict": "PASS" },
+    { "label": "size capped to viewport (both axes) · body scrolls", "verdict": "PASS" },
     { "label": "antd built-in motion kept", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page; the modal is rendered inline (getContainer={false}, open) so the measure reads the real antd v6 modal content bound to modalTheme.",
-    "ready": "!!document.querySelector('#react-root .ant-modal-container') && !!document.querySelector('#react-root .ant-modal-title')",
-    "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{contentBg:g('.ant-modal-container','backgroundColor'),contentRadius:g('.ant-modal-container','borderTopLeftRadius'),contentPadTop:g('.ant-modal-container','paddingTop'),titleColor:g('.ant-modal-title','color'),titleSize:g('.ant-modal-title','fontSize'),titleWeight:g('.ant-modal-title','fontWeight')};})()",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page. The modal is a real overlay (portals to <body>), so `ready` opens the Simple Action variant via its trigger button, then the measure reads the real antd v6 modal box (bound to modalTheme) at body level.",
+    "ready": "(function(){if(!document.querySelector('.ant-modal-container')){var b=Array.prototype.slice.call(document.querySelectorAll('#react-root button')).find(function(x){return x.textContent.trim()==='Simple';});if(b)b.click();}return !!document.querySelector('.ant-modal-container') && !!document.querySelector('.ant-modal-title');})()",
+    "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};return{contentBg:g('.ant-modal-container','backgroundColor'),contentRadius:g('.ant-modal-container','borderTopLeftRadius'),contentPadTop:g('.ant-modal-container','paddingTop'),titleColor:g('.ant-modal-title','color'),titleSize:g('.ant-modal-title','fontSize'),titleWeight:g('.ant-modal-title','fontWeight')};})()",
     "expect": { "contentBg": "rgb(255, 255, 255)", "contentRadius": "8px", "contentPadTop": "20px", "titleColor": "rgb(26, 26, 26)", "titleSize": "18px", "titleWeight": "600" }
   }
 }

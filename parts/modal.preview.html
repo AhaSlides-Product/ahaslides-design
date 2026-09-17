@@ -1,17 +1,23 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared modalTheme. Vue consumes the same
-     modalTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs
-     measures: the default render is a Content-type modal rendered inline (getContainer={false},
-     open) so the real antd v6 modal content, bound to the shared theme, can be measured. The
-     controls drive live React state (Type / Size / Centered) so the whole DS V3 matrix is
-     explorable — Content shows inline; the confirm-family types (confirm/info/success/error/
-     warning) open through Modal.useModal() (the hook, NOT the static Modal.confirm the DS forbids)
-     via an "Open modal" trigger. Keeps antd's built-in zoom motion. The DEFAULT render
-     (Type=Content · Md · not centered) is what conformance measures — do not change it. -->
+     modalTheme — see "Show code". This CDN-React page (no build step) is also what qa.mjs measures.
+     The DS has TWO modal types, each TRIGGERED by a button (click → open), matching real use:
+       • Confirmation modal — Default / Confirm / Warning / Info / Danger (status icon + copy +
+         Learn-more link + Cancel/Apply). Always `simple` size (504 · 35vw · 75vh).
+       • Action modal — Simple 504·35vw·75vh · Complexity 720·50vw·80vh · Rich 1280·90vw·90vh,
+         with an optional header/footer divider. Body scrolls once content passes the height cap.
+     Every variant opens as a REAL overlay: it portals to <body>, an always-on mask covers the whole
+     viewport, page scroll is locked while it's open, and clicking the mask (or Esc / the ✕) closes it.
+     Nothing is scoped to the preview — this is exactly the runtime behaviour, so a big modal is never
+     clipped. Conformance opens the Simple variant via its trigger, then measures it. -->
 <style>
-  #react-root .aha-stage { position:relative; }
-  #react-root .aha-stage .ant-modal-root, #react-root .aha-stage .ant-modal-wrap { position:static; }
-  #react-root .aha-stage .ant-modal { top:0; padding-bottom:0; }
+  /* outline:none suppresses the DS global :focus-visible ring on the modal POSITIONER (a
+     non-interactive div antd focuses on open); interactive children keep their focus rings. */
+  .ant-modal { outline: none; }
 </style>
+
+<!-- Register <aha-icon> so the Confirmation status glyphs (check/warning/info/x-circle) resolve
+     from the DS library — same import every leaf preview uses. -->
+<script type="module">import '../lib/icons.js';</script>
 
 <div id="react-root" class="pad"></div>
 
@@ -36,97 +42,149 @@ window.__modal = {
 const { ConfigProvider, Modal, Button } = window.__antdR;
 const { useState } = React;
 
-// DS V3 modal sizes (measured: sm 432 · md 536 · lg 560 · xl 640).
-const SIZES = { sm: 432, md: 536, lg: 560, xl: 640 };
+// DS V3 size policy — three tiers (Action-modal use cases; a Confirmation modal uses `simple`), each
+// a target px width. WIDTH via the `width` prop: min(px, calc(100vw − 32px)) — the px width on
+// desktop, near-full-width on mobile (never the ~135px a fixed 35vw would give). HEIGHT via styles +
+// body scroll. Mirrors the shipped modalWidth() / modalStyles() from @ahaslides-product/design.
+const MAX_H = { simple: '75vh', complexity: '80vh', rich: '90vh' };
+const TARGET_W = { simple: 504, complexity: 720, rich: 1280 };
+const modalWidth = (size = 'simple') => `min(${TARGET_W[size]}px, calc(100vw - 32px))`;
+const modalStyles = (size = 'simple') => ({
+  // `container` = the antd v6 dialog box (.ant-modal-container), NOT `content` (dead key in v6).
+  container: { display: 'flex', flexDirection: 'column', maxHeight: MAX_H[size] },
+  body: { flex: '1 1 auto', minHeight: 0, overflowY: 'auto' },
+});
 
-// A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
-// but wired to React state so an antd composite gets the same explorable playground.
-function Seg({ label, value, onChange, options }) {
+// Confirmation contexts → status glyph (shared <aha-icon> by name) + semantic colour token.
+const CTX = {
+  default: null,
+  confirm: { icon: 'system-check-circle',   color: 'var(--aha-color-success)' },
+  warning: { icon: 'system-warning-circle', color: 'var(--aha-color-warning)' },
+  info:    { icon: 'system-info',           color: 'var(--aha-color-info)' },
+  danger:  { icon: 'system-x-circle',       color: 'var(--aha-color-error)' },
+};
+const cap = (s) => s[0].toUpperCase() + s.slice(1);
+
+// External = an absolute URL whose host isn't ahaslides.com. A relative or *.ahaslides.com link
+// stays in-product. (Guards `new URL` behind the protocol test so a relative href never throws.)
+const isExternalUrl = (href) =>
+  /^https?:\/\//i.test(href) && !/(^|\.)ahaslides\.com$/i.test(new URL(href).hostname);
+
+// The DS footer: a "Learn more" link on the left, Cancel + Apply on the right (Apply is primary;
+// danger tints it for the Danger confirmation).
+function Footer({ danger, onCancel, learnMoreHref = 'https://example.com/reuse-themes' }) {
+  const external = isExternalUrl(learnMoreHref);
   return (
-    <div className="aha-pg-row">
-      <span className="aha-pg-label">{label}</span>
-      <div className="aha-pg-seg" role="radiogroup" aria-label={label}>
-        {options.map((o) => (
-          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
-            className={'aha-pg-opt' + (o.value === value ? ' active' : '')}
-            onClick={() => onChange(o.value)}>{o.label}</button>
-        ))}
-      </div>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+      {/* "Learn more" is NAVIGATION → a DS link (--aha-text-link, weight 400), not a Button. The
+          shared <aha-icon> external-link glyph shows ONLY when the target leaves AhaSlides (and such
+          links open in a new tab); an internal or relative link omits it. */}
+      <a href={learnMoreHref} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}
+         style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' }}>
+        Learn more
+        {external && <aha-icon name="system-arrow-square-out" size="14"></aha-icon>}
+      </a>
+      <span style={{ display: 'inline-flex', gap: 8 }}>
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button type="primary" danger={danger}>Apply</Button>
+      </span>
+    </div>
+  );
+}
+
+// Placeholder body — height grows with the size so the bigger tiers overflow the height cap and the
+// body scrolls (title + footer stay pinned), demonstrating the scroll behaviour in the real overlay.
+const BODY_H = { simple: 96, complexity: 480, rich: 980 };
+function ActionBody({ size }) {
+  return (
+    <div style={{ minHeight: BODY_H[size], display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  border: '1px dashed var(--aha-split)', borderRadius: 8, color: 'var(--aha-text-secondary)' }}>
+      Body
     </div>
   );
 }
 
 function Demo() {
-  const [type, setType] = useState('content');   // content | confirm | info | success | error | warning
-  const [size, setSize] = useState('md');
-  const [centered, setCentered] = useState(false);
-  const [modal, contextHolder] = Modal.useModal();   // the hook — NOT static Modal.confirm
+  const [open, setOpen] = useState(false);          // starts closed — a button triggers it
+  const [kind, setKind] = useState('action');       // 'confirmation' | 'action'
+  const [context, setContext] = useState('default');
+  const [size, setSize] = useState('simple');
+  const [divider, setDivider] = useState(false);
 
-  // Open a confirm-family modal through the hook (theme flows via ConfigProvider below).
-  function openConfirm() {
-    const common = {
-      title: 'Delete this slide?',
-      content: "This removes the slide and all of its responses. This can't be undone.",
-      width: SIZES[size], centered,
-      okText: 'Delete slide', cancelText: 'Cancel',
-      okButtonProps: type === 'confirm' || type === 'error' ? { danger: true } : undefined,
-    };
-    modal[type](common);
-  }
+  const isConf = kind === 'confirmation';
+  const sizeKey = isConf ? 'simple' : size;
+  const ctx = CTX[context];
+  const close = () => setOpen(false);
+
+  const openConfirmation = (c) => { setKind('confirmation'); setContext(c); setOpen(true); };
+  const openAction = (s) => { setKind('action'); setSize(s); setOpen(true); };
+
+  // A styled title: Confirmation contexts prefix a status icon; Action is a plain heading.
+  const title = isConf && ctx
+    ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+        <aha-icon name={ctx.icon} size="22" style={{ color: ctx.color }}></aha-icon>
+        <span>Modal title</span>
+      </span>
+    : 'Modal title';
+
+  // Divider variant (Action only): a hairline under the header + above the footer.
+  const dividerStyles = (!isConf && divider)
+    ? { header: { borderBottom: '1px solid var(--aha-split)', marginBottom: 0, paddingBottom: 12 },
+        footer: { borderTop: '1px solid var(--aha-split)', marginTop: 0, paddingTop: 12 } }
+    : {};
+
+  const Trigger = ({ onClick, active, children }) => (
+    <Button size="small" type={active ? 'primary' : 'default'} onClick={onClick}>{children}</Button>
+  );
 
   return (
-    <div style={{ maxWidth: 640 }}>
-      {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
-      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
-        <Seg label="Type" value={type} onChange={setType}
-          options={[
-            { label: 'Content', value: 'content' }, { label: 'Confirm', value: 'confirm' },
-            { label: 'Info', value: 'info' }, { label: 'Success', value: 'success' },
-            { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' },
-          ]} />
-        <Seg label="Size" value={size} onChange={setSize}
-          options={[
-            { label: 'Sm 432', value: 'sm' }, { label: 'Md 536', value: 'md' },
-            { label: 'Lg 560', value: 'lg' }, { label: 'Xl 640', value: 'xl' },
-          ]} />
-        <Seg label="Centered" value={centered ? 'yes' : 'no'} onChange={(v) => setCentered(v === 'yes')}
-          options={[{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }]} />
+    <div style={{ maxWidth: 820 }}>
+      {/* Button triggers — click to OPEN each modal, the way it's actually used. */}
+      <div className="aha-pg" style={{ borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <div className="aha-pg-row">
+          <span className="aha-pg-label">Confirmation</span>
+          <span style={{ display: 'inline-flex', gap: 8, flexWrap: 'wrap' }}>
+            {Object.keys(CTX).map((c) => (
+              <Trigger key={c} active={open && isConf && context === c} onClick={() => openConfirmation(c)}>{cap(c)}</Trigger>
+            ))}
+          </span>
+        </div>
+        <div className="aha-pg-row">
+          <span className="aha-pg-label">Action</span>
+          <span style={{ display: 'inline-flex', gap: 8, flexWrap: 'wrap' }}>
+            {['simple', 'complexity', 'rich'].map((s) => (
+              <Trigger key={s} active={open && !isConf && size === s} onClick={() => openAction(s)}>{cap(s)}</Trigger>
+            ))}
+            <Trigger active={divider} onClick={() => setDivider((v) => !v)}>Divider {divider ? 'on' : 'off'}</Trigger>
+          </span>
+        </div>
       </div>
 
-      {contextHolder}
+      <p className="lbl" style={{ marginTop: 14, color: 'var(--aha-text-secondary)' }}>
+        Pick a type — the modal opens as a real full-viewport overlay (masked, page scroll locked).
+        Click the dimmed area, press Esc, or the ✕ to close.
+      </p>
 
-      {type === 'content' ? (
-        /* Content modal — rendered inline (getContainer={false}, open) so the DS V3 look is always
-           on screen and measurable. This is the conformance default (Md · not centered). */
-        <div className="aha-stage" style={{ minHeight: 300 }}>
-          <Modal
-            open
-            title="Delete this slide?"
-            okText="Delete slide"
-            cancelText="Cancel"
-            okButtonProps={{ danger: true }}
-            width={SIZES[size]}
-            centered={centered}
-            getContainer={false}
-            mask={false}
-            maskClosable={false}
-          >
-            <p style={{ margin: '8px 0 0', color: 'var(--aha-text-secondary)' }}>
-              This removes the slide and all of its responses. This can't be undone.
+      {/* Real overlay: no getContainer → portals to <body>; mask + scroll-lock are antd defaults;
+          maskClosable closes on a mask click. DEFAULT variant (Action · Simple) is the conformance
+          target — opened by its trigger during measurement. */}
+      <Modal
+        open={open}
+        onCancel={close}
+        title={title}
+        width={modalWidth(sizeKey)}
+        styles={{ ...modalStyles(sizeKey), ...dividerStyles }}
+        footer={<Footer danger={context === 'danger'} onCancel={close} />}
+        centered
+        maskClosable
+        destroyOnHidden
+      >
+        {isConf
+          ? <p style={{ margin: '8px 0 0', color: 'var(--aha-text-secondary)' }}>
+              Create a team to share and reuse this theme with others.
             </p>
-          </Modal>
-        </div>
-      ) : (
-        /* Confirm-family types portal to body via the hook — a trigger opens them. */
-        <div style={{ padding: '28px 0' }}>
-          <Button type="primary" danger={type === 'confirm' || type === 'error'} onClick={openConfirm}>
-            Open modal
-          </Button>
-          <div className="lbl" style={{ marginTop: 14 }}>
-            Modal.useModal().{type}(…) — themed, DS-safe (no static Modal.{type})
-          </div>
-        </div>
-      )}
+          : <ActionBody size={size} />}
+      </Modal>
     </div>
   );
 }

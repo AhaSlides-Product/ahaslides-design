@@ -27,4 +27,4 @@ function AhaCountedTextarea({ value, placeholder, maxLength, minRows, maxRows, s
 }
 
 // usage
-<AhaCountedTextarea value={answer} placeholder="Answer" maxLength={200} minRows={2} maxRows={4} onChange={setAnswer} />
+<AhaCountedTextarea value={answer} placeholder="Answer" maxLength={150} minRows={2} maxRows={5} onChange={setAnswer} />

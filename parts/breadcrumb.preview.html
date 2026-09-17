@@ -8,6 +8,20 @@
       {"label":"Editor"}
     ]'>
   </aha-breadcrumb>
+
+  <div class="lbl" style="margin-top:24px">Page title · the current crumb IS the page heading (never a plain &lt;h1&gt;)</div>
+  <!-- size=page-title, single item → the standalone page title, a real <h1> at 24/600 -->
+  <aha-breadcrumb data-probe-title size="page-title" heading-level="1"
+    items='[{"label":"Presentations"}]'>
+  </aha-breadcrumb>
+  <!-- and the same size with an ancestor path in front of the heading (18/600) -->
+  <aha-breadcrumb size="page-title" heading-level="1" style="margin-top:12px"
+    items='[
+      {"label":"Home","href":"#"},
+      {"label":"Presentations","href":"#"},
+      {"label":"Team offsite"}
+    ]'>
+  </aha-breadcrumb>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-breadcrumb.js) + the icon library — no inlined copy,
