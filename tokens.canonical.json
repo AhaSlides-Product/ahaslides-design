@@ -12,7 +12,7 @@
     "borderHover": "#D3B4FF", "borderActive": "#A96FF0", "borderError": "#F5222D", "borderSuccess": "#16C49A", "borderWarning": "#FF7747", "borderInfo": "#BFD2FF",
     "checkboxBorder": "#D4D4D4", "focus": "#D3B4FF", "focusRingSoft": "rgba(211,180,255,.3)",
     "bgBase": "#FFFFFF", "bgContainer": "#FFFFFF", "bgContainerSecondary": "#F7F7F7", "bgContainerDisabled": "#F1F1F1", "bgElevated": "#FFFFFF",
-    "bgLayout": "#F7F7F7", "bgAccent": "#F9F5FF", "bgInformative": "#F4F8FF", "bgHover": "#F7F7F7",
+    "bgLayout": "#FFFFFF", "bgAccent": "#F9F5FF", "bgInformative": "#F4F8FF", "bgHover": "#F7F7F7",
     "bgPositive": "#D8FAEF", "bgNegative": "#FFF1F0", "bgWarning": "#FFF5F0", "bgOverlay": "rgba(26,26,46,.7)", "bgDark": "#1A1A2E", "bgDarkRaised": "#242442",
     "iconDefault": "#4A4A4A", "iconStrong": "#1A1A1A", "iconMuted": "#8A8A8A", "iconDisabled": "#B5B5B5", "iconInverse": "#FFFFFF", "iconActive": "#6A1EBB",
     "button": {

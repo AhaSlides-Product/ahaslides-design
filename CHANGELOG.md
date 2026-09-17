@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.36.0 — 2026-09-17
+### Changed
+- **App canvas → white.** `--aha-bg-layout` (the app shell / canvas ground) is now `#FFFFFF`, matching `--aha-bg-base`/`-container` — the shell no longer sits on a `#F7F7F7` grey. `--aha-bg-hover` and `--aha-bg-container-secondary` keep `#F7F7F7` (hover/secondary surfaces are unaffected). Rebind any surface that leaned on the grey canvas for separation. (#102)
+
 ## 0.35.0 — 2026-09-14
 ### Added
 - **Design language** — a new composition-level layer above the per-component standard, capturing the "feel" the component gates can't see (one loud action per view, hierarchy from space not boxes, colour that means one thing, the right instrument). The charter `DESIGN-LANGUAGE.md` names the **two worlds** — Product UI (fixed violet-on-white) vs Canvas/Audience (colour/font read from the deck theme at runtime) — plus the cross-cutting laws and per-world principles. It's generated into the feeds: `design.md` gains a "Design language" section with the world-router + principle index, and `llms.txt` points to it before the component list, so an agent composing a whole screen is routed at the entry point. (#84)

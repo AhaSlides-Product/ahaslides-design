@@ -69,7 +69,7 @@ and colour that mean exactly one thing. The UI gets out of the way so the conten
 ### The material
 - **Accent:** one violet — `--aha-color-primary` `#6A1EBB`, *rationed* (primary action, current
   nav/tab, links, active state). When everything is purple, nothing is.
-- **Ground:** white (`--aha-bg-base`/`-container` `#FFFFFF`); app canvas `--aha-bg-layout` `#F7F7F7`.
+- **Ground:** white (`--aha-bg-base`/`-container` `#FFFFFF`); app canvas `--aha-bg-layout` `#FFFFFF`.
   **No gradients on backgrounds/fills** (border-only AI-affordance is the sole exception).
 - **Ink:** warm, **solid** gray — `#1A1A1A` / `#4A4A4A` / `#8A8A8A`. Never alpha-of-a-colour (it
   vanishes on tint).
