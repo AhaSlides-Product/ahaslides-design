@@ -39,7 +39,7 @@ Before you open a PR, add your change to the **top** of `CHANGELOG.md` and bump 
 - one short bullet per change, written for a consumer (#<PR-number>)
 ```
 
-Pre-1.0 bump rule: a new component/prop/token/export → **MINOR** (`0.x.0`); a fix with no API change → **PATCH** (`0.0.x`); a breaking change → MINOR too (until 1.0), and say so in the bullet. The top version must equal `package.json` → `version`; the release tag `v<version>` matches.
+Pre-1.0 bump rule: a new component/prop/token/export → **MINOR** (`0.x.0`); a fix with no API change → **PATCH** (`0.0.x`); a breaking change → MINOR too (until 1.0), and say so in the bullet. The top version must equal `package.json` → `version`. **Publishing is automatic:** on merge to `master`, `publish.yml` ships the new `version` to GitHub Packages and creates the matching `v<version>` tag — you never tag or publish by hand, and a merge that bumped the version is a live release. So a correct `version` bump is the whole job.
 
 A red gate means the work isn't done. **Fix it — don't work around it.** To add a component, copy an existing one of your tier: **Icon** / **Checkbox** (leaf), **Table** (composite), then follow `CONTRIBUTING.md`.
 

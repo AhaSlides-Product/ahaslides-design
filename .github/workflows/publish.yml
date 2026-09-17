@@ -1,28 +1,43 @@
 name: publish
 
-# Publishes @ahaslides-product/design to GitHub Packages when a version tag is pushed.
-#   git tag v0.1.0 && git push origin v0.1.0
-# The tag SHOULD match "version" in package.json (npm publish uses package.json's version).
+# Publishes @ahaslides-product/design to GitHub Packages AUTOMATICALLY on every merge to
+# master — no manual tagging. The standards gate already forces a version bump per PR; this
+# workflow turns that bump into a published release so the registry can never drift behind
+# master again (the failure that stranded 0.42→0.53 unpublished while master moved on).
+#
+# How it works: on a push to master it reads `version` from package.json and publishes ONLY
+# if no matching v<version> tag exists yet (idempotent — a push that didn't bump the version
+# is a no-op), then creates the v<version> tag as the release record and verifies the version
+# is resolvable in the registry.
+#
+# Manual re-publish / backfill: run this workflow via workflow_dispatch (Actions tab) on master.
 #
 # No secret setup needed: GitHub Packages publish uses the built-in GITHUB_TOKEN
-# (granted `packages: write` below). The @ahaslides-product scope matches the org owner.
-# Consumers install with a scoped .npmrc pointing at https://npm.pkg.github.com + a
-# GitHub token with read:packages (see the docs site "Get started" block / any agent.json).
+# (`packages: write`). `contents: write` is needed to push the version tag. Consumers install
+# with a scoped .npmrc pointing at https://npm.pkg.github.com + a token with read:packages
+# (see the docs site "Get started" block / any agent.json).
 
 on:
   push:
-    tags: ['v*']
+    branches: [master]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  packages: write
+  contents: write   # push the v<version> tag
+  packages: write   # publish to GitHub Packages
+
+# Never publish two runs concurrently; let an in-flight publish finish rather than cancel it.
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history + tags so the "already published?" check is accurate
 
       - uses: actions/setup-node@v4
         with:
@@ -37,7 +52,54 @@ jobs:
       - name: Build + standards gate
         run: node build-icons.mjs && node generate.mjs && node standards.mjs
 
+      # Publish only when package.json's version has no matching tag yet. This makes
+      # merge == publish, idempotently: a merge that bumped the version ships; a merge that
+      # didn't (docs-only follow-up, etc.) is a clean no-op.
+      - name: Decide whether to publish
+        id: decide
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          git fetch --tags --force
+          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
+            echo "v$VERSION already tagged — nothing to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "v$VERSION is new — will publish."
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish to GitHub Packages
+        if: steps.decide.outputs.publish == 'true'
         run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag the published version
+        if: steps.decide.outputs.publish == 'true'
+        run: |
+          VERSION="${{ steps.decide.outputs.version }}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+
+      # Gate: prove the version is actually resolvable in the registry after publishing, so a
+      # silent publish failure turns the run red instead of leaving a phantom "shipped" version.
+      # Brief retry absorbs GitHub Packages propagation delay.
+      - name: Verify published
+        if: steps.decide.outputs.publish == 'true'
+        run: |
+          VERSION="${{ steps.decide.outputs.version }}"
+          for i in 1 2 3 4 5; do
+            if npm view "@ahaslides-product/design@$VERSION" version; then
+              echo "Verified @ahaslides-product/design@$VERSION in the registry."
+              exit 0
+            fi
+            echo "Not visible yet (attempt $i) — retrying in 5s…"
+            sleep 5
+          done
+          echo "::error::@ahaslides-product/design@$VERSION did not resolve in the registry after publish."
+          exit 1
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
