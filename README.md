@@ -2,6 +2,8 @@
 
 The AhaSlides design system **for agents** — one source of truth, everything else generated.
 
+> **Agents start here →** fetch **`https://ahaslides-product.github.io/ahaslides-design/llms.txt`** (public, no auth). That one URL indexes every component and links each `<slug>.agent.json`. Two hosts, two jobs: **GitHub Pages** (`ahaslides-product.github.io/ahaslides-design/…`) serves everything you *read* (docs + feeds, at the site root — no `dist/` prefix); **jsDelivr** (`.../gh/ahaslides-product/ahaslides-design@master/lib/<element>.js`) serves only the element source you *import at runtime*. `dist/` is a gitignored local build folder — never a fetch path.
+
 Initiative: PRO38-1. This repo is the permanent home for the design-system-for-agents
 (replaces the in-monorepo spike PR #118).
 

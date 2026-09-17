@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.33.1 — 2026-09-17
+### Fixed
+- **Agent onboarding docs** — `AGENTS.md` and `README.md` now name the correct host for each surface: docs + feeds are read from **GitHub Pages** at the site root (`https://ahaslides-product.github.io/ahaslides-design/llms.txt` is the single entry point — no `dist/` prefix), while jsDelivr `/gh/@master/lib/*.js` serves only the element source imported at runtime. Removes the misleading `dist/…`-path and "feeds on jsDelivr" wording that led agents to fetch 404 URLs. Adds a `lib/README.md` pointer so a wrong guess at that path redirects to the index. (#100)
+
 ## 0.33.0 — 2026-09-10
 ### Removed
 - **Button** — dropped the plan / brand tone variants `essential`, `pro`, and `branding`. `variant` is now `primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link`. Plan gating belongs to the Paywall crown badge / Badge `plan` families, not a button tone. **Breaking.** (#68)

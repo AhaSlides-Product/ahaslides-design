@@ -2,12 +2,20 @@
 
 **This repo is the AhaSlides design system: the single source of truth for product UI, covering BOTH design and code. The rule is REUSE, not rewrite.** Full charter in `PRINCIPLES.md`; the component recipe in `CONTRIBUTING.md`. Read them before building or changing a component.
 
+> **Agents start here →** fetch **`https://ahaslides-product.github.io/ahaslides-design/llms.txt`** (public, no auth). That one URL indexes every component and links each machine feed (`<slug>.agent.json`) — it is the entire entry point. **Do not guess file paths, and do not fetch docs/feeds from jsDelivr.** Two hosts, two jobs: **GitHub Pages** (`ahaslides-product.github.io/ahaslides-design/…`) serves everything you *read* (docs + feeds, at the site root — no `dist/` prefix); **jsDelivr** (`cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/<element>.js`) serves only the element source you *import at runtime*. `dist/` is a local build folder — gitignored, never a fetch path.
+
 ## The one rule
 
 When you build any AhaSlides product UI, **reuse the component from this system — never rewrite it.**
 
-1. **Look it up first.** The generated feeds list every component, its API, and every icon name: `dist/<slug>.agent.json`, `dist/icons.agent.json`, `dist/llms.txt`, `dist/design.md`.
-2. **Consume it — three ways, lead with HTML** (paste-and-run, no build step — served publicly from jsDelivr `/gh/@master`, so a merge to master is live automatically). Leaf: `import` the element from a CDN and write `<aha-button>` directly; React/Vue consume the *same* custom element (thin adapters). Composite (Table): the HTML form is a CDN-React runnable page (React + antd from a CDN) over the shared theme. Call an icon by name (`<aha-icon name="system-bell" size="16" />`); bind to a token. Never hand-roll a second Button, a raw `<table>`, an inline `<svg>`, or a hardcoded hex/px.
+1. **Look it up first.** The generated feeds list every component, its API, and every icon name — all hosted on **GitHub Pages** (public, no auth), so fetch them directly at the site root (no `dist/` prefix):
+   - Index (start here): `https://ahaslides-product.github.io/ahaslides-design/llms.txt`
+   - Per component: `https://ahaslides-product.github.io/ahaslides-design/<slug>.agent.json`
+   - Icons: `https://ahaslides-product.github.io/ahaslides-design/icons.agent.json`
+   - Visual language: `https://ahaslides-product.github.io/ahaslides-design/design.md`
+
+   (`dist/` is only the local build folder — gitignored, never a URL. The old `dist/<slug>.agent.json` form is a filesystem path, not something you can fetch.)
+2. **Consume it — three ways, lead with HTML** (paste-and-run, no build step). The runnable snippets `import` the element source from **jsDelivr** — `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/<element>.js` (jsDelivr `/gh/` serves what's committed to git — the `lib/*.js` elements — so a merge to master is live automatically). Keep the split straight: **feeds/docs on GitHub Pages (step 1); runtime element imports on jsDelivr `/gh/@master/lib`.** Leaf: `import` the element from a CDN and write `<aha-button>` directly; React/Vue consume the *same* custom element (thin adapters). Composite (Table): the HTML form is a CDN-React runnable page (React + antd from a CDN) over the shared theme. Call an icon by name (`<aha-icon name="system-bell" size="16" />`); bind to a token. Never hand-roll a second Button, a raw `<table>`, an inline `<svg>`, or a hardcoded hex/px.
 3. **Missing something? Add it HERE, once** — a contract + a real `lib/` entry point (or an SVG + `build-icons.mjs`) — so the next agent reuses it. Never solve it privately in a feature branch.
 
 The ultimate goal: everyone crafts AhaSlides UI by consuming components from here. A UI built by rewriting components is a defect even if it looks right.
