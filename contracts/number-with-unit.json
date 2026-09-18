@@ -12,7 +12,7 @@
   "spec": [
     { "label": "Box", "value": "height 32 (default) · radius 8 · a compact content-width chip: 4ch tabular-nums digit input + stepper + inline unit, packed left (stepper sits LEFT of the unit — reference order)" },
     { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
-    { "label": "Unit", "value": "12/18–14/21 #8A8A8A inline suffix; conventional short label (sec, not s/seconds)" },
+    { "label": "Unit", "value": "14/21 #999999 (--aha-text-placeholder) inline suffix, 4px from the stepper; conventional short label (sec, not s/seconds)" },
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },

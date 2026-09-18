@@ -10,10 +10,10 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-disabled", "radius-default", "focus-ring-soft", "border-error", "color-error", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "radius 8 · padding 6 12 · resize off" },
-    { "label": "Autogrow", "value": "minrows (default 2) → maxrows (default 4); beyond maxrows scrolls internally, never grows unbounded" },
-    { "label": "Rest border", "value": "1px #E3E3E3" },
-    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring (on the persistent wrapper)" },
+    { "label": "Box", "value": "radius 6 · padding 6 12 · resize off" },
+    { "label": "Autogrow", "value": "minrows (default 2) → maxrows (default 5); beyond maxrows scrolls internally, never grows unbounded" },
+    { "label": "Rest border", "value": "1px #D3D7E1 (--aha-border-input)" },
+    { "label": "Focus", "value": "#D3B4FF border (textarea hover/focus is the lighter tint, not full primary) + solid 2px #D3B4FF ring" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay bottom-right; opacity 0 at rest → 1 on focus" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
@@ -75,6 +75,6 @@
     "ready": "!!(document.querySelector('aha-counted-textarea[data-probe]') && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-counted-textarea[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,lineHeight:fs?fs.lineHeight:null,counterColor:cs?cs.color:null};})()",
-    "expect": { "radius": "8px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "lineHeight": "21px", "counterColor": "rgb(138, 138, 138)" }
+    "expect": { "radius": "6px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "lineHeight": "21px", "counterColor": "rgb(138, 138, 138)" }
   }
 }

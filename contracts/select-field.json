@@ -9,10 +9,10 @@
   "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a popup + virtualised list, it is a styled control backed by a NATIVE <select>, so it inherits the OS keyboard model, focus and a11y for free — no custom listbox, no roving to hand-roll. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach.",
   "tokensUsed": ["color-primary", "border", "border-hover", "border-error", "border-warning", "bg-container", "bg-container-disabled", "border-disabled", "text-default", "text-tertiary", "text-disabled", "font-product"],
   "spec": [
-    { "label": "Control", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
-    { "label": "Size", "value": "small 24 · default 32 · large 40" },
-    { "label": "Focus", "value": "brand #6A1EBB border + soft ring" },
-    { "label": "Placeholder", "value": "#8A8A8A" },
+    { "label": "Control", "value": "height 40 · radius 8 · 1px #D3D7E1 border (--aha-border-input)" },
+    { "label": "Size", "value": "small 32 · default 40 · large 48" },
+    { "label": "Focus", "value": "brand #6A1EBB border + solid 2px #D3B4FF ring; hover border #6A1EBB" },
+    { "label": "Placeholder", "value": "#999999 (--aha-text-placeholder)" },
     { "label": "Caret", "value": "trailing aha-icon system-caret-down (UA arrow suppressed)" },
     { "label": "Status", "value": "error #F5222D · warning #FF7747 border" }
   ],
@@ -79,6 +79,6 @@
     "ready": "!!(document.querySelector('aha-select[data-probe]') && document.querySelector('aha-select[data-probe]').shadowRoot && document.querySelector('aha-select[data-probe]').shadowRoot.querySelector('.wrap') && document.querySelector('aha-select[data-probe]').shadowRoot.querySelector('.field'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-select[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var sw=w?getComputedStyle(w):null;var sf=f?getComputedStyle(f):null;return{radius:sw?sw.borderTopLeftRadius:null,radiusBR:sw?sw.borderBottomRightRadius:null,border:sw?sw.borderTopColor:null,borderWidth:sw?sw.borderTopWidth:null,height:sw?sw.height:null,placeholder:sf?sf.color:null};})()",
-    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "32px", "placeholder": "rgb(138, 138, 138)" }
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(211, 215, 225)", "borderWidth": "1px", "height": "40px", "placeholder": "rgb(153, 153, 153)" }
   }
 }

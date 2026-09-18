@@ -10,10 +10,10 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-disabled", "radius-default", "focus-ring-soft", "border-error", "color-error", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "height 32 (default) · radius 8 · padding 0 12" },
-    { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
-    { "label": "Rest border", "value": "1px #E3E3E3" },
-    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring (on the persistent wrapper)" },
+    { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12" },
+    { "label": "Sizes", "value": "small 32 · default 40 · large 48 — all radius 8" },
+    { "label": "Rest border", "value": "1px #D3D7E1 (--aha-border-input, the presenter input border)" },
+    { "label": "Focus", "value": "#6A1EBB border + solid 2px #D3B4FF ring (persistent wrapper); hover border is full primary #6A1EBB" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
@@ -78,6 +78,6 @@
     "ready": "!!(document.querySelector('aha-counted-input[data-probe]') && document.querySelector('aha-counted-input[data-probe]').shadowRoot && document.querySelector('aha-counted-input[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-counted-input[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,counterColor:cs?cs.color:null};})()",
-    "expect": { "height": "32px", "radius": "8px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "counterColor": "rgb(138, 138, 138)" }
+    "expect": { "height": "40px", "radius": "8px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "counterColor": "rgb(138, 138, 138)" }
   }
 }
