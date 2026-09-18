@@ -8,16 +8,16 @@
   "summary": "A fixed-width digit input with the unit written inline as its short label (a seconds unit is always \"sec\"), a hover ▲/▼ stepper, a hard digit cap, clamp-on-change, and an error line — the settings field for a number that carries a unit.",
   "lead": "ONE custom element — <aha-number-with-unit> — for a number that carries a UNIT: a duration, points, a per-item count (SETTINGS-45). The unit is written INSIDE the field as its conventional SHORT label — a seconds unit is always `sec`, never `s` or `seconds` (SETTINGS-46) — so it never reads as a selectable box beside the input. A hover-revealed ▲/▼ tertiary stepper nudges the value; a hard digit cap (`maxdigits`, default 4 — a 5th keystroke is ignored) and clamp-to-min/max on change AND blur keep it valid without deliberate misuse; an `errormessage` prop draws a red border/ring and a message line below. The host is the accessible spinbutton (role=\"spinbutton\", aria-valuenow/min/max, ArrowUp/Down + PageUp/Down). Shadow-DOM CSS, themed only by --aha-* tokens; motion on persistent nodes. Zero drift — the same element in React and Vue.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-disabled", "bg-accent", "text-default", "text-tertiary", "text-disabled", "icon-muted", "radius-default", "radius-xs", "focus-ring-soft", "border-error", "color-error", "border-disabled"],
+  "tokensUsed": ["border", "border-focus", "color-primary", "bg-container", "bg-container-disabled", "bg-accent", "text-default", "text-tertiary", "text-disabled", "icon-muted", "radius-default", "radius-xs", "border-error", "color-error", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "height 32 (default) · radius 8 · digit input + stepper + inline unit (stepper sits LEFT of the unit — reference order)" },
+    { "label": "Box", "value": "height 32 (default) · radius 8 · a compact content-width chip: 4ch tabular-nums digit input + stepper + inline unit, packed left (stepper sits LEFT of the unit — reference order)" },
     { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
     { "label": "Unit", "value": "12/18–14/21 #8A8A8A inline suffix; conventional short label (sec, not s/seconds)" },
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },
     { "label": "Error", "value": "#F5222D border + ring + a 12/18 #F5222D message line below; sets aria-invalid" },
-    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring (persistent wrapper)" },
+    { "label": "Focus", "value": "#6A1EBB border + solid 2px #D3B4FF ring (persistent wrapper); hover border is full primary #6A1EBB" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],
   "props": [
