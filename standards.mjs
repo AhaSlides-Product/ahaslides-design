@@ -66,13 +66,20 @@ const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test
 const ICON_REGISTRY = JSON.parse(read(join(root, 'icons', 'registry.json')) || '{"icons":{}}');
 const ICON_NAMES = new Set(Object.keys(ICON_REGISTRY.icons || {}));
 const ICON_GALLERY = 'https://ahaslides-product.github.io/ahaslides-design/icons/index.html';
-// Pull every icon referenced by name from a blob of source / snippet / contract text. A DS icon is
-// always summoned as <aha-icon name="…"> (also :name= for Vue-bind, name={…} for JSX). A plain
-// static value is one literal; a dynamic binding (ternary) is mined for its quoted string literals
-// so those are checked too. A pure-variable binding (name={icon}) carries no literal — left to runtime.
+// Pull every icon referenced by name from a blob of source / snippet / contract text. A DS icon
+// reaches the runtime by two paths, and BOTH must be gated or a bad name ships green:
+//   1. the ELEMENT — <aha-icon name="…"> (also :name= for Vue-bind, name={…} for JSX);
+//   2. as DATA — an "icon":"…" property inside a component's items tree, a playground option, a
+//      preview or the contract JSON (the Menu row {"icon":"system-chart-bar"} is never a tag, so
+//      path 1 alone never saw it — the hole that kept shipping broken names).
+// A plain static value is one literal; a dynamic binding (ternary) is mined for its quoted string
+// literals so those are checked too. A pure-variable binding (name={icon}) carries no literal —
+// left to runtime. Only a literal that looks like an icon name (kebab, carries a "-") is validated.
 function iconRefs(text) {
   const names = new Set();
-  for (const tag of String(text).match(/<aha-icon\b[^>]*>/gi) || []) {
+  const str = String(text);
+  // 1) the element form
+  for (const tag of str.match(/<aha-icon\b[^>]*>/gi) || []) {
     const m = tag.match(/(?::|\s)name\s*=\s*(?:"([^"]*)"|'([^']*)'|\{([^}]*)\})/i);
     if (!m) continue;
     const quoted = m[1] ?? m[2];
@@ -80,6 +87,13 @@ function iconRefs(text) {
     for (const lit of (m[1] ?? m[2] ?? m[3] ?? '').match(/['"]([^'"]+)['"]/g) || []) {
       const s = lit.slice(1, -1); if (s.includes('-')) names.add(s);   // a literal inside a dynamic binding
     }
+  }
+  // 2) the data form — an icon property written "icon":"…" (JSON) or icon:"…" / :icon="…" (JS/Vue).
+  //    Backslashes are tolerated so a value escaped inside a stringified-JSON playground option
+  //    (\"icon\":\"…\") is still caught. Same literal-only rule as the element form (must carry a "-").
+  for (const m of str.matchAll(/(?<![\w-])icon\\?["']?\s*[:=]\s*\\?["']([^"'\\]+)\\?["']/gi)) {
+    const s = m[1];
+    if (/^[^"'{}?()\s]+$/.test(s) && s.includes('-')) names.add(s);
   }
   return names;
 }

@@ -20,7 +20,7 @@
     { "label": "Ribbon", "value": "corner banner over a wrapped card; 22px tall, radius 4, triangular fold; placement start/end" },
     { "label": "Tone chip", "value": "filled/tinted pill (radius pill, 22px); danger·success·positive·essential·pro·branding·primary-alt, each bound to an --aha token" },
     { "label": "Plan chip", "value": "preset (free·edu·essential·pro·enterprise); solid brand fill, cycle monthly/yearly; pro/enterprise lead with a crown" },
-    { "label": "Rank chip", "value": "leaderboard 1st–4th, medal-tinted (gold/silver/bronze), leading system-Medal glyph" },
+    { "label": "Rank chip", "value": "leaderboard 1st–4th, medal-tinted (gold/silver/bronze), leading system-medal glyph" },
     { "label": "Session chip", "value": "\"Session N\" brand-accent pill; label from `session` / slotted text" },
     { "label": "Clickable = link", "value": "with `href` renders <a class=\"chip\"> (native focusable link, animates on hover) — never a <button>; no href = plain <span>" }
   ],
@@ -37,7 +37,7 @@
     { "name": "tone", "type": "danger | success | positive | essential | pro | branding | primary-alt", "default": "—", "desc": "Filled/tinted LABEL chip; each tone binds bg + fg to an --aha-* token" },
     { "name": "plan", "type": "free | edu | essential | pro | enterprise", "default": "—", "desc": "Plan preset chip (solid brand fill); pro/enterprise lead with a crown glyph" },
     { "name": "cycle", "type": "monthly | yearly", "default": "—", "desc": "Appended to a plan chip's default label (e.g. \"Pro · Yearly\")" },
-    { "name": "rank", "type": "1 | 2 | 3 | 4", "default": "—", "desc": "Leaderboard rank chip; medal-tinted (gold/silver/bronze) with a leading system-Medal glyph" },
+    { "name": "rank", "type": "1 | 2 | 3 | 4", "default": "—", "desc": "Leaderboard rank chip; medal-tinted (gold/silver/bronze) with a leading system-medal glyph" },
     { "name": "session", "type": "string", "default": "—", "desc": "Renders a \"Session N\" chip; the value is N (slotted content / `text` overrides the label)" },
     { "name": "href", "type": "URL", "default": "—", "desc": "Makes a tone/plan/rank/session chip a clickable LINK — renders <a class=\"chip\" href> (native focusable, animates on hover), never a <button>. Omit for a static <span> chip" }
   ],
