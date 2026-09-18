@@ -11,8 +11,8 @@
   "tokensUsed": ["gray-20", "gray-100", "bg-container", "text-secondary", "text-default", "text-disabled", "color-primary", "radius-xs", "radius-sm", "radius-default", "radius-lg", "font-product", "motion-mid", "ease-in-out", "ease-in-out-circ"],
   "spec": [
     { "label": "Track", "value": "gray-20 #F7F7F7, radius 8 (sm 6 · lg 12), pad 2" },
-    { "label": "Thumb", "value": "bg-container #FFFFFF, radius 6, slides on select" },
-    { "label": "Segment", "value": "medium h32 pad 0 16 · small h24 12/12px · large h40 20/16px, SemiBold 600" },
+    { "label": "Thumb", "value": "bg-container #FFFFFF, radius 4, slides on select" },
+    { "label": "Segment", "value": "medium h32 pad 0 16 · small h24 12/12px · large h40 20/16px, Regular 400 (settings-lab weight)" },
     { "label": "Content", "value": "label · leading icon (16) + label · icon-only (aria-label required)" },
     { "label": "Selected", "value": "text-default #1A1A1A over the thumb" },
     { "label": "Disabled", "value": "per-option or whole control → text-disabled, not-allowed" },
