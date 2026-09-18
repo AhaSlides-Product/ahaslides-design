@@ -66,6 +66,6 @@
     "ready": "!!(document.querySelector('aha-card-select[data-probe]') && document.querySelector('aha-card-select[data-probe]').shadowRoot && document.querySelector('aha-card-select[data-probe]').shadowRoot.querySelector('.card[aria-checked=\"true\"]'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-card-select[data-probe]');var r=el&&el.shadowRoot;var sel=r&&r.querySelector('.card[aria-checked=\"true\"]');var s=sel?getComputedStyle(sel):null;return{selBorder:s?s.borderTopColor:null,selBg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null};})()",
-    "expect": { "selBorder": "rgb(106, 30, 187)", "selBg": "rgba(106, 30, 187, 0.05)", "radius": "8px", "fontSize": "13px" }
+    "expect": { "selBorder": "rgb(106, 30, 187)", "selBg": "color(srgb 0.415686 0.117647 0.733333 / 0.05)", "radius": "8px", "fontSize": "13px" }
   }
 }
