@@ -24,6 +24,7 @@
   --aha-ink-a10:rgba(26,26,46,.1); --aha-ink-a30:rgba(26,26,46,.3); --aha-ink-a50:rgba(26,26,46,.5); --aha-ink-a70:rgba(26,26,46,.7); --aha-ink-a90:rgba(26,26,46,.9); --aha-white-a0:rgba(255,255,255,0); --aha-white-a50:rgba(255,255,255,.5); --aha-white-a70:rgba(255,255,255,.7); --aha-white-a90:rgba(255,255,255,.9);
   --aha-font-product:"Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, sans-serif; --aha-font-display:"Nunito", sans-serif; --aha-font-secondary:"Nunito Sans", sans-serif; --aha-font-mono:Menlo, Monaco, monospace;
   --aha-radius-xs:4px; --aha-radius-sm:6px; --aha-radius-default:8px; --aha-radius-lg:12px; --aha-radius-xl:16px; --aha-radius-marketing:20px; --aha-radius-pill:999px;
+  --aha-content-max-width:1440px;
   --aha-size-sm:12px; --aha-size-default:14px; --aha-size-l:16px; --aha-size-h6:18px; --aha-size-xl:20px; --aha-size-h4:24px; --aha-size-h3:32px; --aha-size-h2:40px; --aha-size-h1:48px; --aha-size-display2:56px; --aha-size-display1:64px;
   --aha-space-0:0px; --aha-space-2:2px; --aha-space-4:4px; --aha-space-6:6px; --aha-space-8:8px; --aha-space-10:10px; --aha-space-12:12px; --aha-space-14:14px; --aha-space-16:16px; --aha-space-20:20px; --aha-space-24:24px; --aha-space-28:28px; --aha-space-32:32px; --aha-space-36:36px; --aha-space-40:40px; --aha-space-44:44px; --aha-space-48:48px; --aha-space-56:56px; --aha-space-60:60px; --aha-space-64:64px; --aha-space-68:68px; --aha-space-80:80px; --aha-space-96:96px; --aha-space-100:100px;
   --aha-weight-regular:400; --aha-weight-semibold:600;
