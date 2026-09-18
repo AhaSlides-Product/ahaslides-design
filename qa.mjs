@@ -38,8 +38,38 @@ function screenshotBytes(file, tag) {
    a single UI; leaf measures the doc page directly. */
 async function runConformance(slug, conf, harness) {
   const file = 'file://' + join(DIST, slug, harness ? '_conformance.html' : 'index.html');
-  const bad = (v) => Object.keys(conf.expect).filter(k => String(v[k]) !== String(conf.expect[k]));
-  const detail = (v, keys) => keys.map(k => `${k}=${v[k]} want ${conf.expect[k]}`).join(', ');
+  // Normalise a colour to a canonical rgba() tuple so equivalent forms compare equal. Chrome
+  // serialises color-mix() as `color(srgb …)`, not rgba(), so a raw string compare falsely fails an
+  // rgba/hex `expect` — the drift that passed the local static gate and only surfaced in CI qa.
+  const canon = (s) => {
+    const t = String(s).trim(); let m;
+    if ((m = t.match(/color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/i))) {
+      const c = x => Math.round(parseFloat(x) * 255), a = m[4] != null ? +parseFloat(m[4]).toFixed(3) : 1;
+      return `rgba(${c(m[1])},${c(m[2])},${c(m[3])},${a})`;
+    }
+    if ((m = t.match(/rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)/i))) {
+      const a = m[4] == null ? 1 : (String(m[4]).endsWith('%') ? parseFloat(m[4]) / 100 : parseFloat(m[4]));
+      return `rgba(${+m[1]},${+m[2]},${+m[3]},${+a.toFixed(3)})`;
+    }
+    if ((m = t.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i))) {
+      let h = m[1]; if (h.length === 3) h = [...h].map(c => c + c).join(''); const n = parseInt(h, 16);
+      return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},1)`;
+    }
+    return t;
+  };
+  const px = (s) => parseFloat(String(s));
+  // A key fails if it doesn't equal the expected (colour-normalised) OR exceeds an optional
+  // `expectMax` upper bound. `expectMax` guards the "compact control rendered too tall" class — a
+  // single-line OptionRow row ballooning to two lines — without pinning a brittle exact pixel height.
+  const bad = (v) => {
+    const keys = new Set([...Object.keys(conf.expect || {}), ...Object.keys(conf.expectMax || {})]);
+    return [...keys].filter(k => {
+      if (conf.expect && k in conf.expect && canon(v[k]) !== canon(conf.expect[k])) return true;
+      if (conf.expectMax && k in conf.expectMax && !(px(v[k]) <= px(conf.expectMax[k]))) return true;
+      return false;
+    });
+  };
+  const detail = (v, keys) => keys.map(k => `${k}=${v[k]} want ${conf.expect && k in conf.expect ? conf.expect[k] : '≤' + conf.expectMax[k]}`).join(', ');
   if (conf.roots) {
     const expr = `(function(){var measure=(${conf.measure});var roots=${JSON.stringify(conf.roots)};var out={};roots.forEach(function(r){out[r]=measure(r);});return out;})()`;
     const res = await evaluateInPage(file, expr, { readyExpr: conf.ready, timeout: 45000 });
