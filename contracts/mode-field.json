@@ -16,6 +16,7 @@
     { "label": "Label variant", "value": "field = regular 400; section = semibold 600 (a header for a grouped-list body)" },
     { "label": "Help", "value": "optional \"?\" tooltip (system-question-mark) after the label when `help` is set; opens below (bottom-start) so it clears the panel top, and the bubble wraps within 240px" },
     { "label": "Body", "value": "the active value's light-DOM child; others hidden in place (persistent, keep state); margin-top 12; de-emphasised help text — secondary #4A4A4A, 13/20, regular — so the label stays the field's primary line" },
+    { "label": "Data safety", "value": "a hidden mode's form controls are disabled while hidden (marked data-mf-off) and re-enabled only when that mode is active — a hidden mode never leaks a value into saved config" },
     { "label": "Hover", "value": "#D3B4FF border + #6A1EBB label on a radio-variant button" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],
@@ -59,6 +60,7 @@
     { "label": "variant=segmented is the neutral grey control (#F7F7F7 track, white active)", "verdict": "PASS" },
     { "label": "labelVariant section = semibold 600; help renders a \"?\" tooltip after the label", "verdict": "PASS" },
     { "label": "body swaps in place — inactive bodies hidden, not rebuilt (keep state)", "verdict": "PASS" },
+    { "label": "hidden mode's controls are disabled (data-mf-off) so it can't leak a value into saved config", "verdict": "PASS" },
     { "label": "exclusive selection via aria-pressed buttons (no faked roving role)", "verdict": "PASS" }
   ],
   "conformance": {

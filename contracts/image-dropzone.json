@@ -8,12 +8,12 @@
   "summary": "The full-width settings image field where the image IS the field — a dashed upload card with empty / loading / filled states and a Change/Edit/Delete overlay; it emits intents, the host owns the modals (SETTINGS-44).",
   "lead": "ONE custom element — <aha-image-dropzone> — the standalone MAIN image field where the image IS the field: a background/hero image, an interactive-image base, a picture reveal (SETTINGS-44). NOT the per-option ImageActionButton. Three states: empty (a full-width dashed upload card, 8px corners), loading (a spinner at the SAME height as the empty card so the panel does not jump), and filled (the image fitted in a display box with a Change / Edit / Delete overlay on hover). It OWNS no modals — it EMITS intents (`add` / `change` / `edit` / `delete`) and the host runs the upload/crop/confirm flow. Glyphs are summoned by name via <aha-icon>. Shadow-DOM CSS, themed only by --aha-* tokens.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. Wire the host to the intents; drive `state`/`src` from the host's upload flow. React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
-  "tokensUsed": ["border", "border-hover", "border-disabled", "color-primary", "color-error", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-elevated", "bg-overlay", "text-default", "text-tertiary", "icon-muted", "radius-default", "radius-sm", "radius-pill"],
+  "tokensUsed": ["border", "border-strong", "border-hover", "border-disabled", "color-primary", "color-error", "gray-20", "bg-container", "bg-container-disabled", "bg-elevated", "ink-a50", "text-default", "text-secondary", "text-tertiary", "icon-muted", "radius-default", "radius-sm", "radius-pill"],
   "spec": [
-    { "label": "Zone", "value": "full-width, min-height 132, radius 8" },
-    { "label": "Empty", "value": "1px dashed #E3E3E3 card, centred system-image-square + label; click emits `add`" },
-    { "label": "Loading", "value": "spinner at the SAME 132 min-height — the panel does not jump" },
-    { "label": "Filled", "value": "image fitted (fit=contain default | cover) + hover Change/Edit/Delete overlay; solid border" },
+    { "label": "Zone", "value": "full-width, min-height 120, radius 8, #F7F7F7 fill" },
+    { "label": "Empty", "value": "2px dashed #D4D4D4 card, centred system-image-square (16px #4A4A4A) + 14px #8A8A8A label; click emits `add`" },
+    { "label": "Loading", "value": "24px #6A1EBB spinner at the SAME 120 min-height — the panel does not jump" },
+    { "label": "Filled", "value": "fixed 135px frame, 1px #E3E3E3 border, radius 8, overflow hidden; image fitted (fit=contain default | cover) + hover Change/Edit/Delete overlay (#1A1A2E @50%)" },
     { "label": "Intents", "value": "add · change · edit · delete — host owns the modals, this owns none" },
     { "label": "Hover", "value": "#D3B4FF border + #6A1EBB label/icon" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
@@ -62,6 +62,6 @@
     "ready": "!!(document.querySelector('aha-image-dropzone[data-probe]') && document.querySelector('aha-image-dropzone[data-probe]').shadowRoot && document.querySelector('aha-image-dropzone[data-probe]').shadowRoot.querySelector('.zone'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-image-dropzone[data-probe]');var r=el&&el.shadowRoot;var z=r&&r.querySelector('.zone');var h=r&&r.querySelector('.hint');var zs=z?getComputedStyle(z):null;var hs=h?getComputedStyle(h):null;return{border:zs?zs.borderTopColor:null,radius:zs?zs.borderTopLeftRadius:null,hintColor:hs?hs.color:null,hintSize:hs?hs.fontSize:null};})()",
-    "expect": { "border": "rgb(227, 227, 227)", "radius": "8px", "hintColor": "rgb(138, 138, 138)", "hintSize": "14px" }
+    "expect": { "border": "rgb(212, 212, 212)", "radius": "8px", "hintColor": "rgb(138, 138, 138)", "hintSize": "14px" }
   }
 }
