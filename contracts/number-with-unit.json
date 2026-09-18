@@ -10,7 +10,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-disabled", "bg-accent", "text-default", "text-tertiary", "text-disabled", "icon-muted", "radius-default", "radius-xs", "focus-ring-soft", "border-error", "color-error", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "height 32 (default) · radius 8 · digit input + inline unit + stepper" },
+    { "label": "Box", "value": "height 32 (default) · radius 8 · digit input + stepper + inline unit (stepper sits LEFT of the unit — reference order)" },
     { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
     { "label": "Unit", "value": "12/18–14/21 #8A8A8A inline suffix; conventional short label (sec, not s/seconds)" },
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
@@ -74,7 +74,7 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-number-with-unit[data-probe]') && document.querySelector('aha-number-with-unit[data-probe]').shadowRoot && document.querySelector('aha-number-with-unit[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-number-with-unit[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var u=r&&r.querySelector('.unit');var m=r&&r.querySelector('.msg');var ws=w?getComputedStyle(w):null;var us=u?getComputedStyle(u):null;var ms=m?getComputedStyle(m):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,unitColor:us?us.color:null,msgColor:ms?ms.color:null};})()",
-    "expect": { "height": "32px", "radius": "8px", "border": "rgb(245, 34, 45)", "unitColor": "rgb(138, 138, 138)", "msgColor": "rgb(245, 34, 45)" }
+    "measure": "(function(){var el=document.querySelector('aha-number-with-unit[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var u=r&&r.querySelector('.unit');var s=r&&r.querySelector('.stepper');var m=r&&r.querySelector('.msg');var ws=w?getComputedStyle(w):null;var us=u?getComputedStyle(u):null;var ms=m?getComputedStyle(m):null;var order=(s&&u)?((s.compareDocumentPosition(u)&Node.DOCUMENT_POSITION_FOLLOWING)?'stepper-before-unit':'unit-before-stepper'):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,unitColor:us?us.color:null,msgColor:ms?ms.color:null,order:order};})()",
+    "expect": { "height": "32px", "radius": "8px", "border": "rgb(245, 34, 45)", "unitColor": "rgb(138, 138, 138)", "msgColor": "rgb(245, 34, 45)", "order": "stepper-before-unit" }
   }
 }
