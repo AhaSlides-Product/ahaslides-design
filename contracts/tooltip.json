@@ -8,14 +8,14 @@
   "summary": "A short, transient hint shown on hover or focus of its trigger.",
   "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared dark-navy bubble (with an arrow) on hover/focus. Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "icon-muted", "motion-fast", "radius-pill"],
+  "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "text-tertiary", "motion-fast", "radius-pill"],
   "spec": [
     { "label": "Bubble", "value": "dark-navy #1A1A2E (or brand #6A1EBB), white text, radius 6, padding 6 10" },
     { "label": "Text", "value": "Plus Jakarta 12/18" },
     { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
     { "label": "Placement", "value": "top (default) · bottom · left · right centred, PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "hover + focus (default) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
-    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-icon-muted #8A8A8A) → brand (#6A1EBB) on hover/focus — the settings-label help glyph; focusable, so it shows on focus, not hover-only" },
+    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#6A1EBB) on hover/focus, focus ring 2px #6A1EBB — the settings-label help glyph; focusable, so it shows on focus, not hover-only. Bakes `help` defaults: no author placement → bottom-start; no author arrow → arrow off (both still overridable)" },
     { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the active trigger (slotted, or the built-in help button), shows on focus, no leaked listeners" }
   ],
   "props": [
@@ -80,7 +80,8 @@
     { "label": "placement top/bottom/left/right + arrow toggle + brand fill", "verdict": "PASS" },
     { "label": "shows on focus (aria-describedby wired), role=tooltip", "verdict": "PASS" },
     { "label": "click trigger toggles + closes on Esc/click-away, no leaked listeners", "verdict": "PASS" },
-    { "label": "help renders <aha-icon> ? at 16px, muted --aha-icon-muted, focusable, aria-describedby wired", "verdict": "PASS" }
+    { "label": "help renders <aha-icon> ? at 16px, muted --aha-text-tertiary, focus ring 2px #6A1EBB, focusable, aria-describedby wired", "verdict": "PASS" },
+    { "label": "help bakes defaults: no author placement → bottom-start, no author arrow → off (both overridable)", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The bubble probe uses `open` so the bubble is in layout and measurable; a second `data-probe-help` probe verifies the built-in `?` help trigger renders a 16px DS <aha-icon> in the muted icon colour, is focusable, and wires aria-describedby.",
