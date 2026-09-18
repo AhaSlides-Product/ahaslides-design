@@ -15,7 +15,7 @@
     { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
     { "label": "Placement", "value": "top (default) · bottom · left · right centred, PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "hover + focus (default) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
-    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#6A1EBB) on hover/focus, 2px color-primary focus ring — the settings-label help glyph; focusable, so it shows on focus, not hover-only" },
+    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#6A1EBB) on hover/focus, 2px color-primary focus ring — the settings-label help glyph; focusable, so it shows on focus, not hover-only. Defaults to placement=bottom-start + arrow=false (the settings ? sits in a narrow panel near the left edge; a top-centred arrowed bubble overflows) — both still overridable per instance" },
     { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the active trigger (slotted, or the built-in help button), shows on focus, no leaked listeners" }
   ],
   "props": [

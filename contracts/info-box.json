@@ -13,7 +13,7 @@
     { "label": "Box", "value": "padding 12/16 (v/h) · radius 8 · 1px tinted border + tinted fill per tone" },
     { "label": "Information", "value": "#F4F8FF fill · #BFD2FF border · #9BB3E9 glyph (system-info)" },
     { "label": "Success", "value": "#D8FAEF fill · #20E8B5 border (teal-50) · #16C49A glyph (system-check-circle)" },
-    { "label": "Warning", "value": "#FFF5F0 fill · #FF7747 border/glyph (system-warning-circle)" },
+    { "label": "Warning", "value": "#FFE5D6 fill (bg-warning-subtle — warmer, reads 'warning' more clearly) · #FF7747 border/glyph (system-warning-circle)" },
     { "label": "Error", "value": "Radical Pink — #FFE3E9 fill (pink-20) · #FF4081 border/glyph (pink-60, system-x-circle) — NOT red" },
     { "label": "Dismiss", "value": "optional ✕ (system-x); fades out on a persistent node, emits `dismiss`" },
     { "label": "Text", "value": "Plus Jakarta 14/21 #1A1A1A" }
