@@ -261,6 +261,8 @@ function tokenVars(t) {
   /* type + shape */
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-secondary:${f.secondary}; --aha-font-mono:${f.mono};`);
   L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px; --aha-radius-pill:${r.pill}px;`);
+  /* layout — default max-width for centred app content (page/screen container) */
+  L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px;`);
   /* type scale + spacing + weight + line-height + tracking — the canonical size/space/weight/lineHeight/
      letterSpacing scales exposed as CSS vars so framework-free surfaces (the Landing tier) and future
      components can bind dimensions to tokens instead of hardcoding px. Values are DERIVED from
@@ -1315,6 +1317,7 @@ Size scale: 12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64. Lett
 Radius scale: ${t.radius.xs} · ${t.radius.sm} · **${t.radius.default}** (default) · ${t.radius.lg} · ${t.radius.xl}; pills ${t.radius.pill}.
 Control height: root **${t.controlHeight.root}** (Input/Select inherit); Button ${t.controlHeight.button.sm}/${t.controlHeight.button.md}/${t.controlHeight.button.lg}/${t.controlHeight.button.xl}.
 Spacing: 4-based — ${t.space.slice(0,12).join(' · ')} …
+Layout: app content max-width **${t.layout.contentMaxWidth}** (centred; bind to \`--aha-content-max-width\`).
 
 ## Architecture
 Leaf primitives (button, checkbox, input, tag, badge, switch) = ONE shared Lit web component, same code + CSS in React and Vue.
@@ -1384,10 +1387,12 @@ function renderTokenPage(pageSlug) {
   <p class="body">Pill <code>${r.pill}px</code> for capsules; <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
     },
     sizing: {
-      title: 'Sizing', lead: 'Control heights — the root field height and the Button size ramp.',
+      title: 'Sizing', lead: 'Control heights — the root field height and the Button size ramp — plus the app-content max-width.',
       body: `
   ${docTable('<th>Control</th><th>Height</th>', chRows)}
-  <p class="body">Fields share the root height; Button steps sm / md / lg / xl. Set size via the <code>size</code> prop — never inline a height.</p>`,
+  <p class="body">Fields share the root height; Button steps sm / md / lg / xl. Set size via the <code>size</code> prop — never inline a height.</p>
+  <h3 class="tok-h3">Layout</h3>
+  <p class="body">App content caps at <code>${TOK.layout.contentMaxWidth}px</code> — bind the page/screen container to <code>--aha-content-max-width</code> and centre it (<code>max-width:var(--aha-content-max-width);margin-inline:auto</code>). Don't hardcode a content width.</p>`,
     },
   };
   const pg = BODY[pageSlug];
