@@ -1,5 +1,18 @@
 <div class="pad">
-  <div class="lbl">Menu · icons · a group · a submenu · a disabled row · a danger action</div>
+  <div class="lbl">App navigation · the real AhaSlides main menu (sidebar)</div>
+  <aha-menu mode="inline" value="home"
+    items='[
+      {"key":"home","label":"Home","icon":"system-house"},
+      {"key":"presentations","label":"My Presentations","icon":"system-presentation-chart"},
+      {"key":"templates","label":"Template Library","icon":"system-squares-four"},
+      {"key":"shared","label":"Shared Presentations","icon":"system-share-network"},
+      {"key":"plan","label":"My Plan","icon":"system-plan"},
+      {"key":"integrations","label":"Integration Center","icon":"system-link"},
+      {"key":"team","label":"Team Management","icon":"system-users"}
+    ]'>
+  </aha-menu>
+
+  <div class="lbl">Menu features · a group · a submenu · a disabled row · a danger action</div>
   <aha-menu data-probe value="polls"
     items='[
       {"type":"group","label":"Workspace","children":[
@@ -18,8 +31,11 @@
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-menu.js) + the icon library — no inlined copy, so
-     the preview can never drift from lib/. The playground control bar (Mode / Content) is generated
-     from contracts/menu.json → playground and drives this element's attributes live. -->
+     the preview can never drift from lib/. Two menus: the headline replicates the real AhaSlides main
+     nav (Home · My Presentations · Template Library · Shared Presentations · My Plan · Integration
+     Center · Team Management) so implementers have a faithful reference; the second (data-probe) is
+     the feature showcase (group · submenu · divider · danger · disabled) that qa.mjs measures and the
+     playground control bar (Mode / Content, from contracts/menu.json → playground) drives live. -->
 <script type="module">
   import '../lib/icons.js';       // registers <aha-icon> so the leading/caret glyphs resolve from the DS library
   import '../lib/aha-menu.js';    // registers <aha-menu> — the shipped primitive, byte-identical to what consumers get
