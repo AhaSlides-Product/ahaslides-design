@@ -34,7 +34,7 @@
       { "what": "Tabs", "when": "switching between peer views of equal importance" },
       { "what": "Card", "when": "content that should always be visible" }
     ],
-    "note": "Header text names what's inside — 'Advanced settings', not 'More'. Keep panels shallow; deep nesting hides content people never find.",
+    "note": "Header text names what's inside — 'Advanced settings', not 'More'. Keep panels shallow; deep nesting hides content people never find. Settings mapping: aha-collapse IS the caret + animated-collapse control (the settings 'Advanced' section wrapper and the QuestionList accordion) — its settings-lab prior art is the Ant Collapse used in QuestionList, NOT SubSettingGroup. A dependent SUB-SETTING is a different pattern: it nests by indent + spacing alone (an indent-only wrapper, no caret, no rotation, no grid animation — visibility is the caller's condition), so it is NOT backed by aha-collapse.",
     "dsv3": "COVERED — enumerated from the DS V3 Collapse component-set taxonomy (fileKey MwjvUjVI0HnfwD9EwPXRAy): a Collapse container + a Collapse-Item, mirroring antd — the container carries accordion / bordered vs ghost / size / expand-icon position, the item carries disabled + an extra accessory. DS V3's measured cell set has no Collapse px/rgb, so the look is derived from the token layer (radius-default, border, split, bg-hover, icon-default, text-disabled) + antd Collapse conventions. A deliberate, documented extension — not a measured match."
   },
   "surfaces": ["editor", "dashboard", "settings"],
