@@ -26,6 +26,7 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
@@ -671,6 +672,22 @@ const repoChecks = [];
     if (m) {
       rchk(`top version ${m[1]} matches package.json ${PKG.version}`, m[1] === PKG.version,
         `they must match — bump package.json "version" to ${m[1]} (or fix the heading)`);
+      // The version must not go BACKWARDS — the "branched off a stale base" trap that shipped a PR cut
+      // from a branch ~18 versions behind master: it reused an already-published version (v0.37.0 was
+      // already a tag) that would REVERT everything merged since. Guard it against the published git
+      // tags: the version must be ≥ the latest release (== is master just after its own publish; < is a
+      // stale base). Doesn't pin > (that would false-fail master post-release). No tags fetched (a
+      // shallow CI checkout) → skip rather than false-fail; use fetch-depth:0/fetch-tags to keep it live.
+      try {
+        const tags = execFileSync('git', ['tag', '-l', 'v*'], { cwd: root, encoding: 'utf8' })
+          .split('\n').map(t => t.trim()).filter(t => /^v\d+\.\d+\.\d+$/.test(t)).map(t => t.slice(1));
+        const cmp = (a, b) => { const A = a.split('.').map(Number), B = b.split('.').map(Number); return A[0] - B[0] || A[1] - B[1] || A[2] - B[2]; };
+        if (tags.length) {
+          const latest = tags.slice().sort(cmp).pop();
+          rchk(`version ${PKG.version} is not behind the latest release v${latest}`, cmp(PKG.version, latest) >= 0,
+            `${PKG.version} < ${latest}: you branched off a STALE base and would revert merged work — rebase onto master and bump above ${latest} (git fetch origin master --tags first)`);
+        }
+      } catch { /* no git / no tags (fresh or shallow CI) — skip rather than false-fail */ }
       // the block from this heading up to the next "## " must carry at least one "- " bullet
       const block = changelog.slice(changelog.indexOf(m[0]) + m[0].length).split(/\n##\s/)[0];
       rchk('top entry lists ≥1 change bullet', /^\s*-\s+\S/m.test(block),
