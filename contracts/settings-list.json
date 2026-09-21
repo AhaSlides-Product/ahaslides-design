@@ -2,6 +2,7 @@
   "name": "Settings list",
   "slug": "settings-list",
   "group": "Settings",
+  "hubRef": "settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-settings-list",

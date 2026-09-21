@@ -1,6 +1,7 @@
 {
   "name": "Settings",
   "slug": "settings",
+  "hub": "settings",
   "kind": "guideline",
   "group": "Patterns",
   "badge": "pattern — composition guide",

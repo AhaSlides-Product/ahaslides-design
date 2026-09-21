@@ -176,7 +176,7 @@ const PATTERNS_CATALOG = [
   ] },
   /* Settings — the settings-panel composition family: the schema-driven list plus the shipped
      controls a slide-type/settings surface composes (settings-lab → DS). */
-  { cat: 'Settings', items: [
+  { cat: 'Settings', hub: 'settings', items: [
     { name: 'Settings list',       slug: 'settings-list' },
     { name: 'Setting group',       slug: 'setting-group' },
     { name: 'Section header',      slug: 'section-header' },
@@ -323,6 +323,9 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 .nav-top.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
 .nav-group{margin:16px 0 8px}
 .nav-cat{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--aha-text-tertiary);font-weight:600;padding:6px 12px}
+a.nav-cat-link{display:block;text-decoration:none;border-radius:8px}
+a.nav-cat-link:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
+a.nav-cat-link.active{color:var(--aha-color-primary)}
 .nav-item{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:7px 12px;border-radius:8px;line-height:20px;margin:1px 0}
 a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-item.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
@@ -349,6 +352,8 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
+.hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:9px 13px;margin:0 0 18px}
+.hub-back a{color:var(--aha-color-primary);font-weight:600}
 .doc-main h2{font-size:20px;line-height:28px;font-weight:600;margin:44px 0 14px;scroll-margin-top:80px}
 .doc-main h2:first-of-type{margin-top:34px}
 .body{line-height:1.75;color:var(--aha-text-default);max-width:72ch}
@@ -731,7 +736,11 @@ function sidebarNav(base, active, section) {
           return `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
         return `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`;
       }).join('');
-      return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
+      // A group with a `hub` gets a consolidated landing page; its cat header links there.
+      const catHead = g.hub
+        ? `<a class="nav-cat nav-cat-link${active==='hub:'+g.hub?' active':''}" href="${base}${g.hub}/index.html">${esc(g.cat)}</a>`
+        : `<div class="nav-cat">${esc(g.cat)}</div>`;
+      return `<div class="nav-group">${catHead}${items}</div>`;
     }).join('');
   } else if (section === 'landing') {
     // No "soon" state here (unlike Components/Patterns): a block exists only once it ships markup.
@@ -821,6 +830,7 @@ function renderHtml(c) {
   <h1>${esc(c.name)}</h1>
   <p class="subtitle">${esc(c.summary)}</p>
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
+  ${c.hubRef ? `<p class="hub-back">Part of the <a href="../${esc(c.hubRef)}/index.html">Settings group hub</a> — one URL for the pattern, this component, and every settings control.</p>` : ''}
 
   <h2>Examples</h2>
   <div class="demo">
@@ -1177,6 +1187,8 @@ function renderGuidelineHtml(p) {
   <p class="subtitle">${esc(p.summary)}</p>
   <p class="gen">◆ generated from guidelines/${p.slug}.json${p.guide ? ` + parts/${esc(p.guide)}` : ''} — do not edit by hand</p>
 
+  ${p.hub ? `<p class="hub-back">Part of the <a href="../../${esc(p.hub)}/index.html">Settings group hub</a> — one URL for the pattern, the settings-list component, and every settings control.</p>` : ''}
+
   ${p.lead ? `<div class="note" style="margin:0 0 18px">${mdInline(p.lead)}</div>` : ''}
 
   <h2>Based on</h2>
@@ -1258,6 +1270,95 @@ function renderGuidelinesLlms(patterns) {
     s += `## ${p.name} (guidelines/${p.slug}/${p.slug}.md)\n${p.summary}\nBased on: ${(p.skillRef||{}).build || '—'}. Surfaces: ${(p.surfaces||[]).join(', ')}.\nReuses: ${(p.composedOf||[]).map(x=>x.ref).join(', ')}.${missing.length?` Component backlog: ${missing.join(', ')}.`:''}\nRules: ${(p.rules||[]).length}. Ships code: ${p.reuse?'yes':'no (doc-only)'}.\n\n`;
   }
   return s;
+}
+
+/* ===== Settings hub — ONE consolidated URL (settings/index.html) that gathers the whole
+   Settings group: the composition pattern (surfaces, rules, composed-of) from guidelines/settings.json
+   AND the schema-driven settings-list component's API from contracts/settings-list.json, plus a link
+   to every shipped Settings-group control. It READS from the same data files the detail pages render
+   from — no duplicated content, so it cannot drift — and reuses the shared shell + table helpers. ===== */
+function renderSettingsHub() {
+  const guide = GUIDELINES.find(p => p.slug === 'settings');
+  const list = contracts.find(c => c.slug === 'settings-list');
+  const group = PATTERNS_CATALOG.find(g => g.cat === 'Settings');
+  const chips = (group ? group.items : []).map(it => LIVE.has(it.slug)
+    ? `<a class="pat-chip" href="../${it.slug}/index.html">${esc(it.name)}</a>`
+    : `<span class="pat-chip soon">${esc(it.name)} <i>soon</i></span>`).join('');
+  const main = `
+  <p class="crumbs">Patterns · Settings</p>
+  <h1>Settings <span class="badge pattern">group hub</span></h1>
+  <p class="subtitle">One URL for the whole settings surface — the composition pattern, the schema-driven <code>&lt;aha-settings-list&gt;</code> component, and every settings control in the design system. Point tooling here for all of it.</p>
+  <p class="gen">◆ generated from guidelines/settings.json + contracts/settings-list.json — do not edit by hand</p>
+
+  ${guide && guide.lead ? `<div class="note" style="margin:0 0 18px">${mdInline(guide.lead)}</div>` : ''}
+
+  <h2>In this group</h2>
+  <p class="body">Every settings pattern and control, gathered here. Follow a chip for that component's full page.</p>
+  <div class="pat-chips">${chips}</div>
+
+  ${guide && guide.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(guide.surfaceChoice)}` : ''}
+
+  ${guide && guide.rules ? `<h2>Rules</h2><p class="body">The shippable checklist for any settings surface — the rationale and worked examples live in <a href="../guidelines/${guide.slug}/index.html">the full Settings pattern</a>.</p>${rulesTable(guide.rules)}` : ''}
+
+  ${guide && guide.composedOf ? `<h2>Composed of</h2><p class="body">What a compliant settings surface reuses from this design system.</p>${composedOfTable(guide.composedOf)}` : ''}
+
+  ${list ? `<h2>Settings list component</h2>
+  <p class="body"><code>&lt;${esc(list.element)}&gt;</code> — ${esc(list.summary)} See the <a href="../${list.slug}/index.html">full component page</a> for live examples and framework code.</p>
+  ${propsTable(list.props)}` : ''}
+
+  <h2>Full pages</h2>
+  <ul class="hub-links">
+    ${guide ? `<li><a href="../guidelines/${guide.slug}/index.html">Settings pattern</a> — the composition guide with rationale and worked examples</li>` : ''}
+    ${list ? `<li><a href="../${list.slug}/index.html">Settings list</a> — the schema-driven <code>&lt;aha-settings-list&gt;</code> component</li>` : ''}
+  </ul>`;
+  const extraCss = `
+  .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
+  .pill.warn{background:#FFF0EB;color:#B24A20}
+  .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
+  .pat-chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 8px}
+  .pat-chip{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:13px;color:var(--aha-color-primary);background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:5px 11px}
+  a.pat-chip:hover{background:var(--aha-purple-30)}
+  .pat-chip.soon{color:var(--aha-text-disabled);background:var(--aha-gray-20);border-color:var(--aha-split)}
+  .pat-chip.soon i{font-style:normal;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px}
+  .hub-links{margin:6px 0 0;padding-left:18px}
+  .hub-links li{font-size:14px;line-height:1.7;color:var(--aha-text-secondary)}`;
+  return docShell({ base: '../', active: 'hub:settings', section: 'patterns', main, extraCss });
+}
+
+/* Consolidated Settings hub as a Markdown feed — the same content agents/devs can consume flat. */
+function renderSettingsHubMd() {
+  const guide = GUIDELINES.find(p => p.slug === 'settings');
+  const list = contracts.find(c => c.slug === 'settings-list');
+  const group = PATTERNS_CATALOG.find(g => g.cat === 'Settings');
+  const chips = (group ? group.items : []).map(it => `- ${it.name}${LIVE.has(it.slug) ? ` (${it.slug}/${it.slug}.md)` : ' — soon'}`).join('\n');
+  const rules = guide ? (guide.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n') : '';
+  const co = guide ? (guide.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n') : '';
+  const surf = guide ? (guide.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n') : '';
+  const props = list ? (list.props || []).map(p => `- \`${p.name}\` (${p.type}) — ${p.desc}`).join('\n') : '';
+  return `# Settings — group hub
+> Generated from guidelines/settings.json + contracts/settings-list.json — do not edit by hand. One URL for the whole settings surface.
+
+${guide ? guide.summary : ''}
+
+## In this group
+${chips}
+
+## Choose the surface
+${surf}
+
+## Rules
+${rules}
+
+## Composed of
+${co}
+
+## Settings list component
+${list ? `\`<${list.element}>\` — ${list.summary}\n\n${props}` : ''}
+
+## Full pages
+- Settings pattern — guidelines/settings/settings.md
+- Settings list — settings-list/settings-list.md
+`;
 }
 
 /* ===== G3 · design.md ===== */
@@ -1810,6 +1911,14 @@ for (const p of GUIDELINES) {
   writeFileSync(join(d, `${p.slug}.agent.json`), renderGuidelineAgent(p));
   const missing = (p.composedOf || []).filter(x => x.status === 'missing').length;
   console.log(`  ✓ guideline ${p.slug}: index.html · ${p.slug}.md · ${p.slug}.agent.json${missing?` (⚠ ${missing} backlog component${missing===1?'':'s'})`:''}`);
+}
+/* Settings hub — one consolidated top-level URL (settings/index.html) for the whole Settings
+   group, composed from the guideline + settings-list contract (no duplicated content). */
+if (GUIDELINES.some(p => p.slug === 'settings')) {
+  const sd = join(OUT, 'settings'); mkdirSync(sd, { recursive: true });
+  writeFileSync(join(sd, 'index.html'), renderSettingsHub());
+  writeFileSync(join(sd, 'settings.md'), renderSettingsHubMd());
+  console.log('  ✓ settings hub: settings/index.html · settings/settings.md');
 }
 if (GUIDELINES.length) {
   writeFileSync(join(OUT, 'guidelines.llms.txt'), renderGuidelinesLlms(GUIDELINES));
