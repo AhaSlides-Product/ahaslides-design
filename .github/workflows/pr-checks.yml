@@ -1,0 +1,25 @@
+# Baseline automated PR checks (SOC 2: change management).
+# Required on the default branch via the "pr-checks-required" ruleset.
+name: pr-checks
+
+on:
+  pull_request:
+  merge_group:
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Scan PR commits for verified secrets
+        uses: trufflesecurity/trufflehog@v3.97.5
+        with:
+          base: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+          head: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          extra_args: --only-verified
