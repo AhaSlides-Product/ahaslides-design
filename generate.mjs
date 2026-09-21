@@ -744,17 +744,21 @@ function sidebarNav(base, active, section) {
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
   } else if (section === 'settings') {
-    // Settings is its OWN area. Lead with the consolidated one-page hub (everything inline), then
-    // the individual control pages beneath it.
+    // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
+    // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
+    // that same page. On the hub the href is a bare hash (pure in-page scroll, no URL change); on a
+    // standalone control page it lands back on the one page at that section.
+    const onHub = active === 'hub:settings';
+    const anchorHref = (slug) => onHub ? `#ctrl-${slug}` : `${base}settings/index.html#ctrl-${slug}`;
     const items = SETTINGS_CATALOG.map(g =>
       `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>` +
       g.items.map(it => LIVE.has(it.slug)
-        ? `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`
+        ? `<a class="nav-item${it.slug===active?' active':''}" href="${anchorHref(it.slug)}"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`
         : `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`).join('') +
       `</div>`).join('');
     inner =
       `<div class="nav-group"><div class="nav-cat">Overview</div>` +
-      `<a class="nav-item${active==='hub:settings'?' active':''}" href="${base}settings/index.html"><span>All settings (one page)</span><span class="nav-dot" title="live"></span></a>` +
+      `<a class="nav-item${onHub?' active':''}" href="${onHub ? '#top' : `${base}settings/index.html`}"><span>All settings (one page)</span><span class="nav-dot" title="live"></span></a>` +
       `</div>` + items;
   } else if (section === 'landing') {
     // No "soon" state here (unlike Components/Patterns): a block exists only once it ships markup.
@@ -1295,98 +1299,152 @@ function renderGuidelinesLlms(patterns) {
    example + framework code + full API from contracts/settings-list.json, and every settings control's
    summary + spec + API from its own contract. It READS from those same source files the detail pages
    render from — no hand-authored duplication, so it cannot drift — and reuses the shared shell + table
-   + demo helpers. Cross-links to each control's full page remain, but the page stands alone. ===== */
-function settingsControls() {
-  return SETTINGS_CATALOG.flatMap(g => g.items)
-    .map(it => ({ name: it.name, slug: it.slug, c: contracts.find(x => x.slug === it.slug) }))
-    .filter(x => x.c);
-}
+   + demo helpers. It never routes off this page — component nav is an in-page antd Anchor. ===== */
 function renderSettingsHub() {
   const guide = GUIDELINES.find(p => p.slug === 'settings');
-  const list = contracts.find(c => c.slug === 'settings-list');
-  const ctrls = settingsControls();
-  const others = ctrls.filter(x => x.slug !== 'settings-list');
-  // On-this-page contents — every inlined section, so the one page is navigable without leaving it.
-  const toc = [
-    ...(guide && guide.surfaceChoice ? [['surfaces', 'Choose the surface']] : []),
-    ...(guide && guide.rules ? [['rules', 'Rules']] : []),
-    ...(guide && guide.composedOf ? [['composed-of', 'Composed of']] : []),
-    ...(list ? [['settings-list', 'Settings list component']] : []),
-    ...(others.length ? [['controls', 'All settings controls']] : []),
-  ].map(([id, label]) => `<a href="#${id}" class="toc-link">${esc(label)}</a>`).join('');
-  const controlBlock = (x) => {
-    const c = x.c;
-    return `<section class="ctrl" id="ctrl-${esc(c.slug)}">
-    <h3>${esc(c.name)} ${c.element ? `<code>&lt;${esc(c.element)}&gt;</code>` : ''} <a class="ctrl-more" href="../${esc(c.slug)}/index.html">full page →</a></h3>
+  // The inlined components, grouped exactly as the reference IA (Composition, then Controls). One
+  // source of truth (SETTINGS_CATALOG ∩ live contracts) drives BOTH the antd Anchor items and the
+  // rendered sections, so the nav can never point at a section that isn't on the page.
+  const liveByCat = SETTINGS_CATALOG.map(g => ({
+    cat: g.cat,
+    slug: g.cat.toLowerCase(),
+    items: g.items
+      .map(it => ({ name: it.name, slug: it.slug, c: contracts.find(x => x.slug === it.slug) }))
+      .filter(x => x.c),
+  })).filter(g => g.items.length);
+
+  // Anchor items map each inlined section id, nested under its group — one antd <Anchor> tree.
+  const anchorItems = liveByCat.map(g => ({
+    key: 'grp-' + g.slug,
+    href: '#grp-' + g.slug,
+    title: g.cat,
+    children: g.items.map(x => ({ key: x.slug, href: '#ctrl-' + x.slug, title: x.name })),
+  }));
+  // ConfigProvider theme sourced from the canonical tokens (brand primary drives the Anchor ink).
+  const anchorTheme = { token: { colorPrimary: TOK.color.primary, fontFamily: TOK.font.product, borderRadius: 8 } };
+
+  // Compact block: summary + spec + API, INLINE — no away-link, the section never routes off the page.
+  const controlBlock = (c) => `<section class="ctrl" id="ctrl-${esc(c.slug)}">
+    <h3>${esc(c.name)} ${c.element ? `<code>&lt;${esc(c.element)}&gt;</code>` : ''}</h3>
     <p class="body">${esc(c.summary)}</p>
     ${c.spec && c.spec.length ? `<div class="spec-line">${specList(c.spec)}</div>` : ''}
     ${c.props && c.props.length ? propsTable(c.props) : ''}
     </section>`;
-  };
+  // Settings list leads Composition with a LIVE example + framework code + full API.
+  const richBlock = (c) => `<section class="ctrl ctrl-rich" id="ctrl-${esc(c.slug)}">
+    <h3>${esc(c.name)} <code>&lt;${esc(c.element)}&gt;</code></h3>
+    <p class="body">${esc(c.summary)}</p>
+    <div class="demo">
+      ${playgroundBar(c)}
+      <div class="demo-stage">${part(c.preview)}</div>
+      ${codeWidget(c)}
+    </div>
+    <h4>API</h4>
+    ${propsTable(c.props)}
+    ${c.opinion ? `<h4>When to use</h4>${opinionBlock(c.opinion)}` : ''}
+    ${c.spec && c.spec.length ? `<h4>Spec</h4><div class="spec-line">${specList(c.spec)}</div>` : ''}
+    </section>`;
+
+  const groupBody = liveByCat.map(g => `
+  <h2 id="grp-${g.slug}" class="grp-h">${esc(g.cat)}</h2>
+  ${g.items.map(x => x.slug === 'settings-list' ? richBlock(x.c) : controlBlock(x.c)).join('\n')}`).join('\n');
+
+  // No-JS / CDN-down fallback: plain in-page anchors, same grouping, so the one-page nav always works.
+  const anchorFallback = liveByCat.map(g =>
+    `<div class="sa-fb-group"><div class="sa-fb-cat">${esc(g.cat)}</div>` +
+    g.items.map(x => `<a href="#ctrl-${esc(x.slug)}">${esc(x.name)}</a>`).join('') + `</div>`).join('');
+
   const main = `
+  <span id="top"></span>
   <p class="crumbs">Settings</p>
-  <h1>Settings <span class="badge pattern">one page · everything inline</span></h1>
-  <p class="subtitle">The whole settings surface on a single self-contained page — the composition pattern, the schema-driven <code>&lt;aha-settings-list&gt;</code> component (live, with code), and every settings control's spec and API. An agent reads only this page and has it all.</p>
-  <p class="gen">◆ generated from guidelines/settings.json + contracts/settings-list.json + the settings control contracts — do not edit by hand</p>
+  <h1>Settings <span class="badge pattern">one page · one URL · everything inline</span></h1>
+  <p class="subtitle">Every settings component on a single self-contained page under one URL — the composition pieces and every control, inline. Switching between components scrolls within this page (antd <code>Anchor</code>); it never loads another page or changes the URL. An agent reads only this page and has it all.</p>
+  <p class="gen">◆ generated from guidelines/settings.json + the settings-list &amp; control contracts — do not edit by hand</p>
 
   ${guide && guide.lead ? `<div class="note" style="margin:0 0 16px">${mdInline(guide.lead)}</div>` : ''}
 
-  ${toc ? `<nav class="toc" aria-label="On this page"><span class="toc-h">On this page</span>${toc}</nav>` : ''}
-
   ${guide && guide.surfaceChoice ? `<h2 id="surfaces">Choose the surface</h2>${surfaceChoiceTable(guide.surfaceChoice)}` : ''}
-
   ${guide && guide.rules ? `<h2 id="rules">Rules</h2><p class="body">The shippable checklist for any settings surface — each rule traces to an assertion in the design skill <code>${esc((guide.skillRef||{}).build || '')}</code>.</p>${rulesTable(guide.rules)}` : ''}
-
   ${guide && guide.composedOf ? `<h2 id="composed-of">Composed of</h2><p class="body">What a compliant settings surface reuses from this design system.</p>${composedOfTable(guide.composedOf)}` : ''}
 
-  ${list ? `<h2 id="settings-list">Settings list component</h2>
-  <p class="body"><code>&lt;${esc(list.element)}&gt;</code> — ${esc(list.summary)}</p>
-  <div class="demo">
-    ${playgroundBar(list)}
-    <div class="demo-stage">${part(list.preview)}</div>
-    ${codeWidget(list)}
+  <div class="settings-layout">
+    <aside class="settings-anchor" aria-label="Settings components">
+      <div class="settings-anchor-h">On this page</div>
+      <div id="settings-anchor-root" class="settings-anchor-mount">
+        <nav class="sa-fallback" aria-label="Settings components (fallback)">${anchorFallback}</nav>
+      </div>
+    </aside>
+    <div class="settings-body">
+      ${groupBody}
+    </div>
   </div>
-  <h3>API</h3>
-  ${propsTable(list.props)}
-  ${list.opinion ? `<h3>When to use</h3>${opinionBlock(list.opinion)}` : ''}
-  ${list.spec && list.spec.length ? `<h3>Spec</h3><div class="spec-line">${specList(list.spec)}</div>` : ''}` : ''}
 
-  ${others.length ? `<h2 id="controls">All settings controls</h2>
-  <p class="body">Every control the settings surface composes, with its summary, spec and API inline. Each also has its own page.</p>
-  ${others.map(controlBlock).join('\n')}` : ''}`;
+  <script type="module">
+    // antd v6 Anchor mounted as a small React island (CDN-React over the shared theme — the DS
+    // composite pattern, see Table). It tracks scroll + smooth-scrolls WITHIN this page, so moving
+    // between components is an in-page anchor scroll and the URL never changes. Replaces the fallback
+    // list above once React + antd load. targetOffset clears the sticky site header.
+    import React from 'https://esm.sh/react@18';
+    import { createRoot } from 'https://esm.sh/react-dom@18/client';
+    import { ConfigProvider, Anchor } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+    const mount = document.getElementById('settings-anchor-root');
+    if (mount) {
+      const h = React.createElement;
+      const items = ${JSON.stringify(anchorItems)};
+      const theme = ${JSON.stringify(anchorTheme)};
+      mount.textContent = '';
+      createRoot(mount).render(
+        h(ConfigProvider, { theme },
+          h(Anchor, { affix: false, targetOffset: 84, items })
+        )
+      );
+    }
+  </script>`;
   const extraCss = `
   .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
   .pill.warn{background:#FFF0EB;color:#B24A20}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
-  .toc{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 22px;padding:12px 14px;background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:10px}
-  .toc-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600}
-  a.toc-link{font-size:13px;color:var(--aha-color-primary);text-decoration:none}
-  a.toc-link:hover{text-decoration:underline}
-  .ctrl{padding:16px 0;border-top:1px solid var(--aha-split)}
+  .settings-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
+  .settings-anchor{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow:auto;padding-right:4px}
+  .settings-anchor-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600;margin:0 0 10px;padding-left:2px}
+  .settings-anchor .ant-anchor-link-title{font-size:13px;color:var(--aha-text-secondary)}
+  .settings-anchor .ant-anchor-link-title-active{color:var(--aha-color-primary);font-weight:600}
+  .settings-anchor .ant-anchor>.ant-anchor-link>.ant-anchor-link-title{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary)}
+  .sa-fallback{display:flex;flex-direction:column}
+  .sa-fb-group{margin-bottom:14px}
+  .sa-fb-cat{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary);margin:0 0 6px}
+  .sa-fallback a{display:block;font-size:13px;color:var(--aha-text-secondary);text-decoration:none;padding:3px 0 3px 12px;border-left:2px solid var(--aha-split)}
+  .sa-fallback a:hover{color:var(--aha-color-primary);border-left-color:var(--aha-color-primary)}
+  .grp-h{margin:36px 0 4px;text-transform:uppercase;letter-spacing:.4px;font-size:13px;color:var(--aha-text-tertiary);border-bottom:1px solid var(--aha-split);padding-bottom:8px;scroll-margin-top:84px}
+  .ctrl{padding:16px 0;border-top:1px solid var(--aha-split);scroll-margin-top:84px}
   .ctrl h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:16px;margin:0 0 6px}
+  .ctrl h4{font-size:13px;margin:16px 0 6px;color:var(--aha-text-secondary)}
   .ctrl h3 code{font-size:12px;font-weight:400;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-radius:5px;padding:1px 7px}
-  a.ctrl-more{font-size:12px;font-weight:400;color:var(--aha-color-primary);text-decoration:none;margin-left:auto}
-  a.ctrl-more:hover{text-decoration:underline}`;
+  @media (max-width:900px){
+    .settings-layout{grid-template-columns:1fr}
+    .settings-anchor{display:none}
+  }`;
   return docShell({ base: '../', active: 'hub:settings', section: 'settings', main, extraCss });
 }
 
 /* Consolidated Settings page as a Markdown feed — the same self-contained content, flat, for agents. */
 function renderSettingsHubMd() {
   const guide = GUIDELINES.find(p => p.slug === 'settings');
-  const list = contracts.find(c => c.slug === 'settings-list');
-  const ctrls = settingsControls();
   const rules = guide ? (guide.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n') : '';
   const co = guide ? (guide.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n') : '';
   const surf = guide ? (guide.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n') : '';
   const propLines = (c) => (c.props || []).map(p => `  - \`${p.name}\` (${p.type}) — ${p.desc}`).join('\n');
-  const listBlock = list ? `\`<${list.element}>\` — ${list.summary}\n\n${propLines(list)}` : '';
-  const controlBlocks = ctrls.filter(x => x.slug !== 'settings-list').map(x => {
-    const c = x.c;
+  const ctrlMd = (c) => {
     const spec = (c.spec || []).map(s => `${s.label}: ${s.value}`).join(' · ');
     return `### ${c.name}${c.element ? ` (<${c.element}>)` : ''}\n${c.summary}\n${spec ? `\nSpec: ${spec}\n` : ''}${(c.props||[]).length ? `\nProps:\n${propLines(c)}\n` : ''}`;
-  }).join('\n');
-  return `# Settings — one self-contained page
-> Generated from guidelines/settings.json + contracts/settings-list.json + the settings control contracts — do not edit by hand. Everything for the settings surface is on this one page.
+  };
+  // Every component inline, grouped exactly as the on-page IA (Composition, then Controls).
+  const groupsMd = SETTINGS_CATALOG.map(g => {
+    const items = g.items.map(it => contracts.find(x => x.slug === it.slug)).filter(Boolean);
+    return items.length ? `## ${g.cat}\n${items.map(ctrlMd).join('\n')}` : '';
+  }).filter(Boolean).join('\n\n');
+  return `# Settings — one self-contained page, one URL
+> Generated from guidelines/settings.json + the settings-list & control contracts — do not edit by hand. Every settings component is inline on this one page; switching between them is an in-page scroll, never a new URL.
 
 ${guide ? guide.summary : ''}
 
@@ -1399,11 +1457,7 @@ ${rules}
 ## Composed of
 ${co}
 
-## Settings list component
-${listBlock}
-
-## All settings controls
-${controlBlocks}
+${groupsMd}
 `;
 }
 
