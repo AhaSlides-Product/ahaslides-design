@@ -237,11 +237,25 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 /* ---- helpers box ---- */
 .helperbox{margin:0;background:color-mix(in srgb,var(--ink) 6%,transparent);border-radius:var(--aha-radius-default);padding:var(--aha-space-16);color:var(--ink);font-family:var(--aha-font-mono);font-size:var(--aha-size-sm);overflow-x:auto}
 
-/* ---- code footer ---- */
-.code{background:var(--aha-gray-15);border-top:1px solid var(--aha-border-secondary);padding:var(--aha-space-20) var(--aha-space-24)}
-.code .imp{margin:0 0 var(--aha-space-8);font-family:var(--aha-font-mono);font-size:var(--aha-size-sm);color:var(--aha-indigo-60)}
-.code pre{margin:0;overflow-x:auto}
-.code code{font-family:var(--aha-font-mono);font-size:var(--aha-size-sm);color:var(--aha-indigo-90);white-space:pre;line-height:1.55}
+/* ---- code-support tabs — reuses this DS's own .code-tabs presentation
+       (markup/CSS/JS mirrored from generate.mjs so it looks and behaves
+       identically to every generated doc page) ---- */
+.card .code-tabs{border-top:1px solid var(--aha-border-secondary)}
+.demo-toolbar{display:flex;justify-content:flex-end;padding:9px 14px}
+.show-code{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.show-code:hover{background:#F0E7FF}
+.show-code .chev{transition:transform .15s ease}
+.code-tabs[data-open="true"] .show-code .chev{transform:rotate(90deg)}
+.code-panel{background:#1A1A2E;overflow:hidden}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.tabs{display:flex;gap:4px}
+.tab{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:#8A83B0;background:transparent;border:none;border-radius:8px;padding:6px 16px;cursor:pointer}
+.tab.active{color:#fff;background:#2E2A48}
+.tab:hover:not(.active){color:#C7A3FF}
+.copy{font-family:var(--aha-font-product);font-size:12px;font-weight:600;color:#C7A3FF;background:transparent;border:1px solid rgba(199,163,255,.4);border-radius:8px;padding:5px 12px;cursor:pointer}
+.copy:hover{background:rgba(199,163,255,.12)}
+.code-panel pre{display:none;margin:0;background:transparent;color:#EAE6F5;padding:18px 20px;overflow:auto;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre}
+.code-panel pre.active{display:block}
 
 /* ---- page footer ---- */
 .page-f{border-top:1px solid var(--aha-border-secondary);background:var(--aha-bg-container);padding:var(--aha-space-24) 0;font-size:var(--aha-size-sm);color:var(--aha-indigo-60)}
@@ -298,7 +312,15 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
         <div class="aol-row sel" style="border-color:var(--aha-brand-4)"><span class="cbx on" style="background:var(--aha-brand-4);border-color:var(--aha-brand-4);color:var(--aha-indigo-100)">✓</span><span class="lbl">Nước ép</span><span class="pct">14%</span></div>
       </div></div></div>
 </div>
-<footer class="code"><p class="imp">import { AnswerOptionList } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;AnswerOptionList
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { AnswerOptionList } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;AnswerOptionList
   :options=&quot;options&quot;
   v-model=&quot;picked&quot;
   :ink=&quot;slide.textColour&quot;
@@ -314,7 +336,47 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   :counts=&quot;counts&quot;
   :total=&quot;total&quot;
   count-mode=&quot;percent&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { AnswerOptionList } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Question({ options, slide, hasSubmitted }) {
+  const [picked, setPicked] = useState(null);
+  return (
+    &lt;AnswerOptionList
+      options={options}
+      value={picked}
+      onChange={setPicked}
+      ink={slide.textColour}
+      palette={slide.presentationColorPalette}
+      answered={hasSubmitted}
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { AnswerOptionList } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;AnswerOptionList
+    :options=&quot;options&quot;
+    v-model=&quot;picked&quot;
+    :ink=&quot;slide.textColour&quot;
+    :palette=&quot;slide.presentationColorPalette&quot;
+    :answered=&quot;hasSubmitted&quot;
+  /&gt;
+
+  &lt;!-- multi-select, with the live tally on the rows --&gt;
+  &lt;AnswerOptionList
+    :options=&quot;options&quot;
+    v-model=&quot;pickedMany&quot;
+    selection-mode=&quot;multiple&quot;
+    :counts=&quot;counts&quot;
+    :total=&quot;total&quot;
+    count-mode=&quot;percent&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="AnswerOption" class="card">
 <header class="card-h">
@@ -340,10 +402,14 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
         <div class="aol-row muted"><span class="verdict" style="color:var(--aha-red-60);opacity:.5">✕</span><span class="lbl">Nước ép</span></div>
       </div></div></div>
 </div>
-<footer class="code"><p class="imp">import { AnswerOption } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- Reach for AnswerOptionList first; this is the single row it
-     repeats, for the rare screen that is not a list. The row does not
-     work out its own state — answerOptionState() does, from the host&#x27;s
-     quiz phase plus this participant&#x27;s answer. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { AnswerOption } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
 &lt;AnswerOption
   v-for=&quot;(o, i) in options&quot;
   :key=&quot;o.id&quot;
@@ -358,7 +424,55 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   :ink=&quot;slide.textColour&quot;
   :accent=&quot;palette[i % palette.length]&quot;
   @pick=&quot;picked = o.id&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { AnswerOption } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+// Reach for AnswerOptionList first; this is the single row it repeats, for the
+// rare screen that is not a list. The row is driven by answerOptionState(), never
+// by working its own state out.
+import { answerOptionState } from &#x27;@/iframe/audience&#x27;;
+
+export function Rows({ options, slide, palette, picked, setPicked, hasSubmitted, canShowResult }) {
+  return options.map((o, i) =&gt; (
+    &lt;AnswerOption
+      key={o.id}
+      label={o.label}
+      state={answerOptionState({
+        quizStatus: slide.quizStatus,
+        answered: hasSubmitted,
+        revealed: canShowResult,
+        selected: picked === o.id,
+        correct: o.correct,
+      })}
+      ink={slide.textColour}
+      accent={palette[i % palette.length]}
+      onPick={() =&gt; setPicked(o.id)}
+    /&gt;
+  ));
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { AnswerOption } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;AnswerOption
+    v-for=&quot;(o, i) in options&quot;
+    :key=&quot;o.id&quot;
+    :label=&quot;o.label&quot;
+    :state=&quot;answerOptionState({
+      quizStatus: slide.quizStatus,
+      answered: hasSubmitted,
+      revealed: canShowResult,
+      selected: picked === o.id,
+      correct: o.correct,
+    })&quot;
+    :ink=&quot;slide.textColour&quot;
+    :accent=&quot;palette[i % palette.length]&quot;
+    @pick=&quot;picked = o.id&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="DraggableOptions" class="card">
 <header class="card-h">
@@ -374,10 +488,18 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body"><p class="grouplbl">Đặt các hành tinh theo thứ tự từ gần Mặt Trời nhất</p><div class="aol"><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-2)">1</span><span class="lbl">Sao Thuỷ</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-1)">2</span><span class="thumb" style="background:var(--aha-brand-6)"></span><span class="lbl">Trái Đất</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-4)">3</span><span class="thumb" style="background:var(--aha-brand-2)"></span><span class="lbl">Sao Hoả</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-6)">4</span><span class="lbl">Sao Mộc</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div></div></div></div>
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body"><p class="grouplbl">Đặt các hành tinh theo thứ tự từ gần Mặt Trời nhất</p><div class="aol"><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-2)">1</span><span class="lbl">Sao Thuỷ</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-1)">2</span><span class="thumb" style="background:var(--aha-brand-6)"></span><span class="lbl">Trái Đất</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-4)">3</span><span class="thumb" style="background:var(--aha-brand-2)"></span><span class="lbl">Sao Hoả</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div><div class="aol-row drag"><span class="ord" style="background:var(--aha-brand-6)">4</span><span class="lbl">Sao Mộc</span><span class="steppers"><span class="stp">▲</span><span class="stp">▼</span></span><span class="grip">⋮⋮</span></div></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { DraggableOptions } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- &quot;Put the options in the correct order&quot;. v-model is the ordered
-     id array (null before the participant moves anything). Reorder by
-     dragging a row OR with each row&#x27;s up/down buttons — the keyboard path.
-     An option may carry an imageUrl, shown IN FULL (contain, never cropped). --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { DraggableOptions } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- &quot;Put the options in the correct order&quot;. v-model is the ordered id array
+     (null before the participant moves anything). Reorder by dragging a row OR
+     with each row&#x27;s up/down buttons. An option may carry an imageUrl, shown IN
+     FULL (contain, never cropped). --&gt;
 &lt;DraggableOptions
   :options=&quot;options&quot;
   v-model=&quot;ordering&quot;
@@ -385,7 +507,43 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   :palette=&quot;slide.presentationColorPalette&quot;
   :group-label=&quot;questionText&quot;
   :disabled=&quot;hasSubmitted&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { DraggableOptions } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Ordering({ options, slide, questionText, hasSubmitted }) {
+  const [ordering, setOrdering] = useState(null);   // ordered id array
+  return (
+    &lt;DraggableOptions
+      options={options}
+      value={ordering}
+      onChange={setOrdering}
+      ink={slide.textColour}
+      palette={slide.presentationColorPalette}
+      groupLabel={questionText}
+      disabled={hasSubmitted}
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { DraggableOptions } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- &quot;Put the options in the correct order&quot;. v-model is the ordered id array
+       (null before the participant moves anything). Reorder by dragging a row OR
+       with each row&#x27;s up/down buttons. An option may carry an imageUrl, shown IN
+       FULL (contain, never cropped). --&gt;
+  &lt;DraggableOptions
+    :options=&quot;options&quot;
+    v-model=&quot;ordering&quot;
+    :ink=&quot;slide.textColour&quot;
+    :palette=&quot;slide.presentationColorPalette&quot;
+    :group-label=&quot;questionText&quot;
+    :disabled=&quot;hasSubmitted&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="Input" class="card">
 <header class="card-h">
@@ -402,9 +560,16 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body"><label class="flabel">Tên đồ uống của bạn</label><div class="field"><span class="fval">Cà phê sữa đá</span><span class="fcount">12 / 40</span></div></div></div>
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body"><label class="flabel">Tên đồ uống của bạn</label><div class="field"><span class="fval">Cà phê sữa đá</span><span class="fcount">12 / 40</span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { Input } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- The field is a FIXED white fill + Deep Space ink on any deck; only
-     the label tracks the deck ink. Opt into the in-field counter with
-     show-count + maxlength. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { Input } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- FIXED white fill + Deep Space ink on any deck; only the label tracks the
+     deck ink. Opt into the in-field counter with show-count + maxlength. --&gt;
 &lt;Input
   v-model=&quot;name&quot;
   :ink=&quot;slide.textColour&quot;
@@ -412,7 +577,41 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   placeholder=&quot;Type here&quot;
   :maxlength=&quot;40&quot;
   show-count
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { Input } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function NameField({ slide }) {
+  const [name, setName] = useState(&#x27;&#x27;);
+  return (
+    &lt;Input
+      value={name}
+      onChange={setName}
+      ink={slide.textColour}
+      label=&quot;Your answer&quot;
+      placeholder=&quot;Type here&quot;
+      maxlength={40}
+      showCount
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { Input } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- FIXED white fill + Deep Space ink on any deck; only the label tracks the
+       deck ink. Opt into the in-field counter with show-count + maxlength. --&gt;
+  &lt;Input
+    v-model=&quot;name&quot;
+    :ink=&quot;slide.textColour&quot;
+    label=&quot;Your answer&quot;
+    placeholder=&quot;Type here&quot;
+    :maxlength=&quot;40&quot;
+    show-count
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="TextArea" class="card">
 <header class="card-h">
@@ -429,8 +628,14 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body"><label class="flabel">Nhận xét của bạn</label><div class="field ta"><span class="fval"><span class="ph">Bạn nghĩ gì về buổi hôm nay?</span></span><span class="fcount">0 / 140</span></div></div></div>
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body"><label class="flabel">Nhận xét của bạn</label><div class="field ta"><span class="fval">Hôm nay trời đẹp.</span><span class="fcount">17 / 140</span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { TextArea } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- Multiline sibling of Input, same fixed field + deck-tracking
-     label. auto-size grows it to fit; the counter is opt-in. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { TextArea } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
 &lt;TextArea
   v-model=&quot;comment&quot;
   :ink=&quot;slide.textColour&quot;
@@ -438,7 +643,39 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   :auto-size=&quot;{ minRows: 3, maxRows: 6 }&quot;
   :maxlength=&quot;140&quot;
   show-count
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { TextArea } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function CommentField({ slide }) {
+  const [comment, setComment] = useState(&#x27;&#x27;);
+  return (
+    &lt;TextArea
+      value={comment}
+      onChange={setComment}
+      ink={slide.textColour}
+      label=&quot;Your thoughts&quot;
+      autoSize={{ minRows: 3, maxRows: 6 }}
+      maxlength={140}
+      showCount
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { TextArea } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;TextArea
+    v-model=&quot;comment&quot;
+    :ink=&quot;slide.textColour&quot;
+    label=&quot;Your thoughts&quot;
+    :auto-size=&quot;{ minRows: 3, maxRows: 6 }&quot;
+    :maxlength=&quot;140&quot;
+    show-count
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="InputNumber" class="card">
 <header class="card-h">
@@ -455,15 +692,51 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body"><label class="flabel">Số người trong nhóm</label><div class="field"><span class="fval">3</span><span class="numstep"><span>▲</span><span>▼</span></span></div></div></div>
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body"><label class="flabel">Số người trong nhóm</label><div class="field"><span class="fval">3</span><span class="numstep"><span>▲</span><span>▼</span></span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { InputNumber } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- The numeric field with steppers. The model is a number,
-     undefined when the field is cleared. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { InputNumber } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
 &lt;InputNumber
   v-model=&quot;teamSize&quot;
   :ink=&quot;slide.textColour&quot;
   label=&quot;Team size&quot;
   :min=&quot;0&quot;
   :max=&quot;20&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { InputNumber } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function TeamSizeField({ slide }) {
+  const [teamSize, setTeamSize] = useState();   // number | undefined when cleared
+  return (
+    &lt;InputNumber
+      value={teamSize}
+      onChange={setTeamSize}
+      ink={slide.textColour}
+      label=&quot;Team size&quot;
+      min={0}
+      max={20}
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { InputNumber } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;InputNumber
+    v-model=&quot;teamSize&quot;
+    :ink=&quot;slide.textColour&quot;
+    label=&quot;Team size&quot;
+    :min=&quot;0&quot;
+    :max=&quot;20&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="Select" class="card">
 <header class="card-h">
@@ -480,7 +753,15 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body"><label class="flabel">Pick a drink</label><div class="field"><span class="fval">Espresso</span><span class="selcaret">▾</span></div></div></div>
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body"><label class="flabel">Pick a drink</label><div class="field"><span class="fval">Espresso</span><span class="selcaret">▾</span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { Select } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- Options come from the :options prop ({ value, label, disabled? });
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { Select } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- Options come from the :options prop ({ value, label, disabled? });
      callers needing groups pass their own &lt;SelectOption&gt;s in the slot. --&gt;
 &lt;Select
   v-model=&quot;drink&quot;
@@ -488,7 +769,39 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   :options=&quot;drinkOptions&quot;
   label=&quot;Pick a drink&quot;
   placeholder=&quot;Choose one&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { Select } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function DrinkPicker({ slide, drinkOptions }) {
+  const [drink, setDrink] = useState();
+  return (
+    &lt;Select
+      value={drink}
+      onChange={setDrink}
+      ink={slide.textColour}
+      options={drinkOptions}
+      label=&quot;Pick a drink&quot;
+      placeholder=&quot;Choose one&quot;
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { Select } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- Options come from the :options prop ({ value, label, disabled? });
+       callers needing groups pass their own &lt;SelectOption&gt;s in the slot. --&gt;
+  &lt;Select
+    v-model=&quot;drink&quot;
+    :ink=&quot;slide.textColour&quot;
+    :options=&quot;drinkOptions&quot;
+    label=&quot;Pick a drink&quot;
+    placeholder=&quot;Choose one&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="Timer" class="card">
 <header class="card-h">
@@ -512,18 +825,50 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
         <span class="tclock">0:37</span>
       </div></div></div>
 </div>
-<footer class="code"><p class="imp">import { Timer } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- endsAt is an ABSOLUTE instant, not a duration, so every phone in
-     the room reaches zero together and a late joiner starts part-way. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { Timer } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- endsAt is an ABSOLUTE instant, not a duration, so every phone in the room
+     reaches zero together and a late joiner starts part-way. --&gt;
 &lt;Timer
   :ink=&quot;slide.textColour&quot;
   :ends-at=&quot;slide.stopSubmissionTime&quot;
   :total-ms=&quot;slide.timeToAnswer * 1000&quot;
   :stopped=&quot;slide.stopSubmission&quot;
-/&gt;
+/&gt;</pre>
+<pre class="code react ">import { Timer } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
 
-&lt;!-- accent is optional: a lone timer has no palette position to take a
-     colour by, so it defaults to brand primary. --&gt;
-&lt;Timer :ink=&quot;ink&quot; :ends-at=&quot;endsAt&quot; :total-ms=&quot;60000&quot; :show-clock=&quot;false&quot; /&gt;</code></pre></footer>
+export function CountdownBar({ slide }) {
+  return (
+    &lt;Timer
+      ink={slide.textColour}
+      endsAt={slide.stopSubmissionTime}   // absolute instant, not a duration
+      totalMs={slide.timeToAnswer * 1000}
+      stopped={slide.stopSubmission}
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { Timer } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- endsAt is an ABSOLUTE instant, not a duration, so every phone in the room
+       reaches zero together and a late joiner starts part-way. --&gt;
+  &lt;Timer
+    :ink=&quot;slide.textColour&quot;
+    :ends-at=&quot;slide.stopSubmissionTime&quot;
+    :total-ms=&quot;slide.timeToAnswer * 1000&quot;
+    :stopped=&quot;slide.stopSubmission&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="ScaleSlider" class="card">
 <header class="card-h">
@@ -547,8 +892,16 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
         <div class="sends"><span>Kém</span><span>Tuyệt</span></div>
       </div></div></div>
 </div>
-<footer class="code"><p class="imp">import { ScaleSlider } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- accent is REQUIRED and comes from the deck palette BY POSITION:
-     a scale always belongs to a statement, so it always has an index. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { ScaleSlider } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- accent is REQUIRED and comes from the deck palette BY POSITION: a scale
+     always belongs to a statement, so it always has an index. --&gt;
 &lt;ScaleSlider
   v-for=&quot;(row, i) in statements&quot;
   :key=&quot;row.id&quot;
@@ -559,8 +912,45 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   :max=&quot;5&quot;
   :low-label=&quot;row.low&quot;
   :high-label=&quot;row.high&quot;
-  :step-labels=&quot;row.stepLabels&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { ScaleSlider } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Scales({ statements, slide, palette, answers, setAnswer }) {
+  return statements.map((row, i) =&gt; (
+    &lt;ScaleSlider
+      key={row.id}
+      value={answers[row.id]}
+      onChange={(v) =&gt; setAnswer(row.id, v)}
+      ink={slide.textColour}
+      accent={palette[i % palette.length]}   // required, by position
+      min={1}
+      max={5}
+      lowLabel={row.low}
+      highLabel={row.high}
+    /&gt;
+  ));
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { ScaleSlider } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- accent is REQUIRED and comes from the deck palette BY POSITION: a scale
+       always belongs to a statement, so it always has an index. --&gt;
+  &lt;ScaleSlider
+    v-for=&quot;(row, i) in statements&quot;
+    :key=&quot;row.id&quot;
+    v-model=&quot;answers[row.id]&quot;
+    :ink=&quot;slide.textColour&quot;
+    :accent=&quot;palette[i % palette.length]&quot;
+    :min=&quot;1&quot;
+    :max=&quot;5&quot;
+    :low-label=&quot;row.low&quot;
+    :high-label=&quot;row.high&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="Chip" class="card">
 <header class="card-h">
@@ -576,7 +966,15 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body"><div class="chips"><span class="chip on" style="background:var(--aha-brand-1);border-color:var(--aha-brand-1);color:var(--aha-white)">Cà phê</span><span class="chip">Trà sữa</span><span class="chip on" style="background:var(--aha-brand-4);border-color:var(--aha-brand-4);color:var(--aha-indigo-100)">Nước ép</span><span class="chip">Sinh tố</span><span class="chip">Đá xay</span></div></div></div>
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body"><div class="chips"><span class="chip on" style="background:var(--aha-brand-1);border-color:var(--aha-brand-1);color:var(--aha-white)">Cà phê</span><span class="chip">Trà sữa</span><span class="chip on" style="background:var(--aha-brand-4);border-color:var(--aha-brand-4);color:var(--aha-indigo-100)">Nước ép</span><span class="chip">Sinh tố</span><span class="chip">Đá xay</span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { Chip } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;Chip
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { Chip } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;Chip
   v-for=&quot;(tag, i) in tags&quot;
   :key=&quot;tag.id&quot;
   :label=&quot;tag.label&quot;
@@ -584,7 +982,38 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   :ink=&quot;slide.textColour&quot;
   :accent=&quot;palette[i % palette.length]&quot;
   @click=&quot;toggle(tag.id)&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { Chip } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Tags({ tags, slide, palette, picked, toggle }) {
+  return tags.map((tag, i) =&gt; (
+    &lt;Chip
+      key={tag.id}
+      label={tag.label}
+      selected={picked.includes(tag.id)}
+      ink={slide.textColour}
+      accent={palette[i % palette.length]}
+      onClick={() =&gt; toggle(tag.id)}
+    /&gt;
+  ));
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { Chip } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Chip
+    v-for=&quot;(tag, i) in tags&quot;
+    :key=&quot;tag.id&quot;
+    :label=&quot;tag.label&quot;
+    :selected=&quot;picked.includes(tag.id)&quot;
+    :ink=&quot;slide.textColour&quot;
+    :accent=&quot;palette[i % palette.length]&quot;
+    @click=&quot;toggle(tag.id)&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="ImageUploader" class="card">
 <header class="card-h">
@@ -604,8 +1033,16 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
       <div class="dropzone"><span class="dz-ic">🖼️</span><span class="dz-t">Tải ảnh lên</span><span class="dz-s">Chạm để chọn ảnh từ máy</span></div>
       <div class="dz-btn"><span>📷</span> Thêm ảnh</div></div></div>
 </div>
-<footer class="code"><p class="imp">import { ImageUploader } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- The HOST uploads. Pass its function through; never build a
-     file input, and never hold the file yourself. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { ImageUploader } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- The HOST uploads. Pass its function through; never build a file input, and
+     never hold the file yourself. --&gt;
 &lt;ImageUploader
   v-model=&quot;image&quot;
   :upload-image=&quot;uploadImage&quot;
@@ -614,7 +1051,40 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 /&gt;
 
 &lt;!-- compact variant, for beside a text field --&gt;
-&lt;ImageUploader v-model=&quot;image&quot; variant=&quot;button&quot; :upload-image=&quot;uploadImage&quot; /&gt;</code></pre></footer>
+&lt;ImageUploader v-model=&quot;image&quot; variant=&quot;button&quot; :upload-image=&quot;uploadImage&quot; /&gt;</pre>
+<pre class="code react ">import { ImageUploader } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function PhotoAnswer({ slide, uploadImage, showToast }) {
+  const [image, setImage] = useState(null);
+  return (
+    &lt;ImageUploader
+      value={image}
+      onChange={setImage}
+      uploadImage={uploadImage}   // the HOST performs the upload
+      ink={slide.textColour}
+      onError={showToast}
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { ImageUploader } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- The HOST uploads. Pass its function through; never build a file input, and
+       never hold the file yourself. --&gt;
+  &lt;ImageUploader
+    v-model=&quot;image&quot;
+    :upload-image=&quot;uploadImage&quot;
+    :ink=&quot;slide.textColour&quot;
+    @error=&quot;showToast&quot;
+  /&gt;
+
+  &lt;!-- compact variant, for beside a text field --&gt;
+  &lt;ImageUploader v-model=&quot;image&quot; variant=&quot;button&quot; :upload-image=&quot;uploadImage&quot; /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="SubmitButton" class="card">
 <header class="card-h">
@@ -634,10 +1104,18 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
       <button class="submitbtn" style="background:var(--aha-brand-2);color:var(--aha-white)">Submit</button>
       <button class="submitbtn closed">🔒 Submissions closed</button></div></div>
 </div>
-<footer class="code"><p class="imp">import { SubmitButton } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- One primary per screen. The fill is the deck&#x27;s first palette
-     colour; the label is a readable black/white against that fill (never
-     deck ink), and disabled is Ant&#x27;s grey. Pass submission-closed when the host
-     closes submissions: the accent drops to grey and the lock caption shows. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { SubmitButton } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- One primary per screen. The fill is the deck&#x27;s first palette colour; the
+     label is a readable black/white against that fill (never deck ink), and
+     disabled is Ant&#x27;s grey. Pass submission-closed when the host closes
+     submissions: the accent drops to grey and the lock caption shows. --&gt;
 &lt;SubmitButton
   :ink=&quot;slide.textColour&quot;
   :accent=&quot;palette[0]&quot;
@@ -648,7 +1126,47 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
   @click=&quot;submit&quot;
 &gt;
   Submit
-&lt;/SubmitButton&gt;</code></pre></footer>
+&lt;/SubmitButton&gt;</pre>
+<pre class="code react ">import { SubmitButton } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Submit({ slide, palette, sending, picked, submissionsClosed, submit }) {
+  return (
+    &lt;SubmitButton
+      ink={slide.textColour}
+      accent={palette[0]}   // deck&#x27;s first palette colour
+      loading={sending}
+      disabled={!picked}
+      submissionClosed={submissionsClosed}
+      closedLabel=&quot;Submissions closed&quot;
+      onClick={submit}
+    &gt;
+      Submit
+    &lt;/SubmitButton&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { SubmitButton } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- One primary per screen. The fill is the deck&#x27;s first palette colour; the
+       label is a readable black/white against that fill (never deck ink), and
+       disabled is Ant&#x27;s grey. Pass submission-closed when the host closes
+       submissions: the accent drops to grey and the lock caption shows. --&gt;
+  &lt;SubmitButton
+    :ink=&quot;slide.textColour&quot;
+    :accent=&quot;palette[0]&quot;
+    :loading=&quot;sending&quot;
+    :disabled=&quot;!picked&quot;
+    :submission-closed=&quot;submissionsClosed&quot;
+    closed-label=&quot;Submissions closed&quot;
+    @click=&quot;submit&quot;
+  &gt;
+    Submit
+  &lt;/SubmitButton&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="InstructionLine" class="card">
 <header class="card-h">
@@ -665,10 +1183,39 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body"><p class="instruction">Pick the answer you think is right.</p></div></div>
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body"><p class="instruction">Pick the answer you think is right.</p></div></div>
 </div>
-<footer class="code"><p class="imp">import { InstructionLine } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- The one fixed idle hint: 16px regular deck ink, centred. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { InstructionLine } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- The one fixed idle hint: 16px regular deck ink, centred. --&gt;
 &lt;InstructionLine :ink=&quot;slide.textColour&quot;&gt;
   Pick the answer you think is right.
-&lt;/InstructionLine&gt;</code></pre></footer>
+&lt;/InstructionLine&gt;</pre>
+<pre class="code react ">import { InstructionLine } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Hint({ slide }) {
+  return (
+    &lt;InstructionLine ink={slide.textColour}&gt;
+      Pick the answer you think is right.
+    &lt;/InstructionLine&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { InstructionLine } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- The one fixed idle hint: 16px regular deck ink, centred. --&gt;
+  &lt;InstructionLine :ink=&quot;slide.textColour&quot;&gt;
+    Pick the answer you think is right.
+  &lt;/InstructionLine&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="WaitingForHost" class="card">
 <header class="card-h">
@@ -686,13 +1233,47 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body">
       <div class="waiting"><span class="w-emoji">⏳</span><span class="w-head">Waiting for the host</span><span class="w-sub">The question appears the moment they start.</span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { WaitingForHost } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- Lobby / between-rounds screen; derives entirely from the deck
-     ink. emoji, headline and subline are all slot-overridable. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { WaitingForHost } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- Lobby / between-rounds screen; derives entirely from the deck ink. emoji,
+     headline and subline are all slot-overridable. --&gt;
 &lt;WaitingForHost
   :ink=&quot;slide.textColour&quot;
   headline=&quot;Waiting for the host&quot;
   subline=&quot;The question appears the moment they start.&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { WaitingForHost } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Lobby({ slide }) {
+  return (
+    &lt;WaitingForHost
+      ink={slide.textColour}
+      headline=&quot;Waiting for the host&quot;
+      subline=&quot;The question appears the moment they start.&quot;
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { WaitingForHost } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- Lobby / between-rounds screen; derives entirely from the deck ink. emoji,
+       headline and subline are all slot-overridable. --&gt;
+  &lt;WaitingForHost
+    :ink=&quot;slide.textColour&quot;
+    headline=&quot;Waiting for the host&quot;
+    subline=&quot;The question appears the moment they start.&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="SubmittedCard" class="card">
 <header class="card-h">
@@ -711,14 +1292,50 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body">
       <div class="submitted"><span class="s-pip">✅</span><span class="s-title">Submitted: Dogs</span><span class="s-sub">Wait for the presenter to reveal the answer.</span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { SubmittedCard } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- The frosted confirmation after a submission — deck-ink hairline,
-     muted subtitle, pip glyph, all keyed to the deck. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { SubmittedCard } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- The frosted confirmation after a submission — deck-ink hairline, muted
+     subtitle, pip glyph, all keyed to the deck. --&gt;
 &lt;SubmittedCard
   :ink=&quot;slide.textColour&quot;
   glyph=&quot;✅&quot;
   title=&quot;Submitted: Dogs&quot;
   subtitle=&quot;Wait for the presenter to reveal the answer.&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { SubmittedCard } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function Confirmation({ slide }) {
+  return (
+    &lt;SubmittedCard
+      ink={slide.textColour}
+      glyph=&quot;✅&quot;
+      title=&quot;Submitted: Dogs&quot;
+      subtitle=&quot;Wait for the presenter to reveal the answer.&quot;
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { SubmittedCard } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- The frosted confirmation after a submission — deck-ink hairline, muted
+       subtitle, pip glyph, all keyed to the deck. --&gt;
+  &lt;SubmittedCard
+    :ink=&quot;slide.textColour&quot;
+    glyph=&quot;✅&quot;
+    title=&quot;Submitted: Dogs&quot;
+    subtitle=&quot;Wait for the presenter to reveal the answer.&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="AudienceIdentityStrip" class="card">
 <header class="card-h">
@@ -736,15 +1353,52 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body">
       <div class="idstrip"><span class="id-eyebrow">Round 2</span><span class="id-line"><span class="id-emoji">🦊</span> Submitting as <b>Minh</b></span></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { AudienceIdentityStrip } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;!-- A compact &quot;Submitting as …&quot; line for the screens that need it;
-     an anonymous participant falls back to the guest name. NOT the default
-     header — the audience app already shows who joined. --&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { AudienceIdentityStrip } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;!-- A compact &quot;Submitting as …&quot; line for the screens that need it; an anonymous
+     participant falls back to the guest name. NOT the default header — the
+     audience app already shows who joined. --&gt;
 &lt;AudienceIdentityStrip
   :ink=&quot;slide.textColour&quot;
   :name=&quot;audienceName&quot;
   :emoji=&quot;audienceEmoji&quot;
   eyebrow=&quot;Round 2&quot;
-/&gt;</code></pre></footer>
+/&gt;</pre>
+<pre class="code react ">import { AudienceIdentityStrip } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function IdentityHeader({ slide, audienceName, audienceEmoji }) {
+  return (
+    &lt;AudienceIdentityStrip
+      ink={slide.textColour}
+      name={audienceName}
+      emoji={audienceEmoji}
+      eyebrow=&quot;Round 2&quot;
+    /&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { AudienceIdentityStrip } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- A compact &quot;Submitting as …&quot; line for the screens that need it; an anonymous
+       participant falls back to the guest name. NOT the default header — the
+       audience app already shows who joined. --&gt;
+  &lt;AudienceIdentityStrip
+    :ink=&quot;slide.textColour&quot;
+    :name=&quot;audienceName&quot;
+    :emoji=&quot;audienceEmoji&quot;
+    eyebrow=&quot;Round 2&quot;
+  /&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="Card" class="card">
 <header class="card-h">
@@ -763,12 +1417,43 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body">
       <div class="swipecard"><span class="sc-hint">← swipe →</span><p class="sc-statement">A hot dog is a sandwich.</p></div></div></div>
 </div>
-<footer class="code"><p class="imp">import { Card } from &#x27;@/iframe/audience&#x27;</p><pre><code>&lt;Card :ink=&quot;slide.textColour&quot; aria-label=&quot;Statement&quot; @swipe=&quot;onSwipe&quot;&gt;
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Audience components are Vue components from the marketplace iframe package
+     (@/iframe/audience). They inherit the same --aha-* tokens via tokens.css. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { Card } from &#x27;@/iframe/audience&#x27;;   // registers the audience component
+&lt;/script&gt;
+
+&lt;!-- Declarative usage inside the audience slide: --&gt;
+&lt;Card :ink=&quot;slide.textColour&quot; aria-label=&quot;Statement&quot; @swipe=&quot;onSwipe&quot;&gt;
   &lt;p class=&quot;text-lg font-semibold&quot;&gt;{{ statement }}&lt;/p&gt;
 &lt;/Card&gt;
 
 &lt;!-- not a deck of cards? turn the gesture off --&gt;
-&lt;Card :ink=&quot;slide.textColour&quot; :swipeable=&quot;false&quot;&gt;…&lt;/Card&gt;</code></pre></footer>
+&lt;Card :ink=&quot;slide.textColour&quot; :swipeable=&quot;false&quot;&gt;…&lt;/Card&gt;</pre>
+<pre class="code react ">import { Card } from &#x27;@/iframe/audience&#x27;;   // same marketplace package
+import { useState } from &#x27;react&#x27;;
+
+export function SwipeCard({ slide, statement, onSwipe }) {
+  return (
+    &lt;Card ink={slide.textColour} aria-label=&quot;Statement&quot; onSwipe={onSwipe}&gt;
+      &lt;p style={{ fontSize: 18, fontWeight: 600 }}&gt;{statement}&lt;/p&gt;
+    &lt;/Card&gt;
+  );
+}</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { Card } from &#x27;@/iframe/audience&#x27;;
+// bindings (v-model refs, palette, deck ink) come from the slide
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Card :ink=&quot;slide.textColour&quot; aria-label=&quot;Statement&quot; @swipe=&quot;onSwipe&quot;&gt;
+    &lt;p class=&quot;text-lg font-semibold&quot;&gt;{{ statement }}&lt;/p&gt;
+  &lt;/Card&gt;
+
+  &lt;!-- not a deck of cards? turn the gesture off --&gt;
+  &lt;Card :ink=&quot;slide.textColour&quot; :swipeable=&quot;false&quot;&gt;…&lt;/Card&gt;
+&lt;/template&gt;</pre></div></div>
 </section>
 <section id="Helpers" class="card">
 <header class="card-h">
@@ -793,10 +1478,65 @@ main.wrap{display:flex;flex-direction:column;gap:var(--aha-space-32);padding-top
 }) → { visible, interactive,
        dimmed, tone, verdict, mine }</code></pre></div></div>
 </div>
-<footer class="code"><p class="imp">import { answerOptionState } from &#x27;@/iframe/audience&#x27;</p><pre><code>answerOptionState({ quizStatus, answered, revealed, selected, correct })
-  → { visible, interactive, dimmed, tone, verdict, mine }</code></pre></footer>
+<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab " type="button" data-f="react">React</button><button class="tab " type="button" data-f="vue">Vue 3</button></div><button class="copy" type="button">Copy</button></div><pre class="code html active">&lt;!-- Pure functions from the same package (@/iframe/audience). Nothing to render;
+     the same question applies: which one, and when. --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+  import { answerOptionState } from &#x27;@/iframe/audience&#x27;;
+  // answerOptionState() interprets the quiz lifecycle for one AnswerOption row.
+&lt;/script&gt;</pre>
+<pre class="code react ">import { answerOptionState } from &#x27;@/iframe/audience&#x27;;
+
+// Resolves one option row&#x27;s state from the host quiz phase + this participant&#x27;s answer.
+const state = answerOptionState({
+  quizStatus: slide.quizStatus,
+  answered: hasSubmitted,
+  revealed: canShowResult,
+  selected: picked === option.id,
+  correct: option.correct,
+});
+// -&gt; { visible, interactive, dimmed, tone, verdict, mine }</pre>
+<pre class="code vue ">&lt;script setup&gt;
+import { answerOptionState } from &#x27;@/iframe/audience&#x27;;
+
+// The only place the quiz lifecycle is interpreted, so a slide never has to
+// know what quizStatus 4 means.
+const state = answerOptionState({
+  quizStatus: slide.quizStatus,
+  answered: hasSubmitted,
+  revealed: canShowResult,
+  selected: picked === option.id,
+  correct: option.correct,
+});
+// -&gt; { visible, interactive, dimmed, tone, verdict, mine }
+&lt;/script&gt;</pre></div></div>
 </section>
 </main>
-<footer class="page-f"><div class="wrap">Every colour, size and radius on this page is expressed through the AhaSlides design-system tokens (<code class="ic">--aha-*</code> from <code class="ic">tokens.canonical.json</code>). UI mirrors the reference audience-lab; the values are the DS.</div></footer>
+<footer class="page-f"><div class="wrap">Every colour, size and radius on this page is expressed through the AhaSlides design-system tokens (<code class="ic">--aha-*</code> from <code class="ic">tokens.canonical.json</code>). UI mirrors the reference audience-lab; the values are the DS. Code panels use this DS's own tabbed code-support presentation; audience components are honestly imported from <code class="ic">@/iframe/audience</code>.</div></footer>
+<script>
+function ahaBindWidgets(root){
+  (root||document).querySelectorAll('.code-tabs').forEach(function(w){
+    if(w.dataset.bound) return; w.dataset.bound='1';
+    var show=w.querySelector('.show-code'), panel=w.querySelector('.code-panel'), copy=w.querySelector('.copy');
+    show.addEventListener('click',function(){
+      var opening=panel.hasAttribute('hidden');
+      if(opening){panel.removeAttribute('hidden');w.dataset.open='true';show.lastChild.textContent=' Hide code';}
+      else{panel.setAttribute('hidden','');w.dataset.open='false';show.lastChild.textContent=' Show code';}
+    });
+    w.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
+      w.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      w.querySelectorAll('.code-panel pre').forEach(function(p){p.classList.remove('active');});
+      t.classList.add('active');w.querySelector('.code-panel pre.'+t.dataset.f).classList.add('active');
+    });});
+    copy.addEventListener('click',function(){
+      var a=w.querySelector('.code-panel pre.active'),text=a?a.textContent:'';
+      var done=function(){copy.textContent='Copied';setTimeout(function(){copy.textContent='Copy';},1200);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fb(text,done);});}else fb(text,done);
+      function fb(t,cb){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){ahaBindWidgets(document);});
+</script>
 </body>
 </html>
