@@ -174,14 +174,21 @@ const PATTERNS_CATALOG = [
     { name: 'Screen heading', slug: 'screen-heading' },
     { name: 'Loader',         slug: 'aha-loader' },
   ] },
-  /* Settings — the settings-panel composition family: the schema-driven list plus the shipped
-     controls a slide-type/settings surface composes (settings-lab → DS). */
-  { cat: 'Settings', hub: 'settings', items: [
+];
+const PATTERN_SLUGS = new Set(PATTERNS_CATALOG.flatMap(g => g.items.map(i => i.slug)));
+/* SETTINGS — its OWN top-level area (not a Patterns sub-group). The settings-panel family: the
+   schema-driven list plus the shipped controls a slide-type/settings surface composes
+   (settings-lab → DS). The consolidated hub (settings/index.html) inlines ALL of these so an agent
+   reads one page; each control still ships its own page under the Settings area sidebar. */
+const SETTINGS_CATALOG = [
+  { cat: 'Composition', items: [
     { name: 'Settings list',       slug: 'settings-list' },
     { name: 'Setting group',       slug: 'setting-group' },
     { name: 'Section header',      slug: 'section-header' },
     { name: 'Setting row',         slug: 'setting-row' },
     { name: 'Sub-setting group',   slug: 'sub-setting-group' },
+  ] },
+  { cat: 'Controls', items: [
     { name: 'Add item button',     slug: 'add-item-button' },
     { name: 'Counted input',       slug: 'counted-input' },
     { name: 'Counted textarea',    slug: 'counted-textarea' },
@@ -196,7 +203,7 @@ const PATTERNS_CATALOG = [
     { name: 'Question list',       slug: 'question-list' },
   ] },
 ];
-const PATTERN_SLUGS = new Set(PATTERNS_CATALOG.flatMap(g => g.items.map(i => i.slug)));
+const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.slug)));
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
 let LANDING = [];           // loaded landing blocks (marketing sections) — drives the Landing nav + pages
@@ -210,6 +217,7 @@ const SECTIONS = [
   { key: 'foundations', label: 'Foundations' },
   { key: 'components',  label: 'Components' },
   { key: 'patterns',    label: 'Patterns' },
+  { key: 'settings',    label: 'Settings' },
   { key: 'landing',     label: 'Landing' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'feeds',       label: 'Agent feeds' },
@@ -323,9 +331,6 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 .nav-top.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
 .nav-group{margin:16px 0 8px}
 .nav-cat{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--aha-text-tertiary);font-weight:600;padding:6px 12px}
-a.nav-cat-link{display:block;text-decoration:none;border-radius:8px}
-a.nav-cat-link:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
-a.nav-cat-link.active{color:var(--aha-color-primary)}
 .nav-item{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:7px 12px;border-radius:8px;line-height:20px;margin:1px 0}
 a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-item.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
@@ -736,12 +741,21 @@ function sidebarNav(base, active, section) {
           return `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`;
         return `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`;
       }).join('');
-      // A group with a `hub` gets a consolidated landing page; its cat header links there.
-      const catHead = g.hub
-        ? `<a class="nav-cat nav-cat-link${active==='hub:'+g.hub?' active':''}" href="${base}${g.hub}/index.html">${esc(g.cat)}</a>`
-        : `<div class="nav-cat">${esc(g.cat)}</div>`;
-      return `<div class="nav-group">${catHead}${items}</div>`;
+      return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
+  } else if (section === 'settings') {
+    // Settings is its OWN area. Lead with the consolidated one-page hub (everything inline), then
+    // the individual control pages beneath it.
+    const items = SETTINGS_CATALOG.map(g =>
+      `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>` +
+      g.items.map(it => LIVE.has(it.slug)
+        ? `<a class="nav-item${it.slug===active?' active':''}" href="${base}${it.slug}/index.html"><span>${esc(it.name)}</span><span class="nav-dot" title="live"></span></a>`
+        : `<span class="nav-item soon"><span>${esc(it.name)}</span><i>soon</i></span>`).join('') +
+      `</div>`).join('');
+    inner =
+      `<div class="nav-group"><div class="nav-cat">Overview</div>` +
+      `<a class="nav-item${active==='hub:settings'?' active':''}" href="${base}settings/index.html"><span>All settings (one page)</span><span class="nav-dot" title="live"></span></a>` +
+      `</div>` + items;
   } else if (section === 'landing') {
     // No "soon" state here (unlike Components/Patterns): a block exists only once it ships markup.
     inner = landingGroups().map(g =>
@@ -824,13 +838,16 @@ function playgroundBar(c) {
 
 function renderHtml(c) {
   const preview = part(c.preview);
-  const isPattern = PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → renders under the Patterns area
+  const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
+  const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
+  const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
+  const crumbArea = isSettings ? 'Settings' : isPattern ? 'Patterns' : 'Components';
   const main = `
-  <p class="crumbs">${isPattern ? 'Patterns' : 'Components'} · ${esc(c.group)}</p>
+  <p class="crumbs">${crumbArea} · ${esc(c.group)}</p>
   <h1>${esc(c.name)}</h1>
   <p class="subtitle">${esc(c.summary)}</p>
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
-  ${c.hubRef ? `<p class="hub-back">Part of the <a href="../${esc(c.hubRef)}/index.html">Settings group hub</a> — one URL for the pattern, this component, and every settings control.</p>` : ''}
+  ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
   <h2>Examples</h2>
   <div class="demo">
@@ -848,7 +865,7 @@ function renderHtml(c) {
 
   <h2>Spec</h2>
   <div class="spec-line">${specList(c.spec)}</div>`;
-  return docShell({ base: '../', active: c.slug, section: isPattern ? 'patterns' : 'components', main });
+  return docShell({ base: '../', active: c.slug, section: area, main });
 }
 
 // Hidden conformance harness (composites): mounts both framework tiers with the token layer,
@@ -1187,7 +1204,7 @@ function renderGuidelineHtml(p) {
   <p class="subtitle">${esc(p.summary)}</p>
   <p class="gen">◆ generated from guidelines/${p.slug}.json${p.guide ? ` + parts/${esc(p.guide)}` : ''} — do not edit by hand</p>
 
-  ${p.hub ? `<p class="hub-back">Part of the <a href="../../${esc(p.hub)}/index.html">Settings group hub</a> — one URL for the pattern, the settings-list component, and every settings control.</p>` : ''}
+  ${p.hub ? `<p class="hub-back">See the standalone <a href="../../${esc(p.hub)}/index.html">Settings page</a> — the whole settings surface (this pattern, the settings-list component, and every control) inline on one page.</p>` : ''}
 
   ${p.lead ? `<div class="note" style="margin:0 0 18px">${mdInline(p.lead)}</div>` : ''}
 
@@ -1272,76 +1289,106 @@ function renderGuidelinesLlms(patterns) {
   return s;
 }
 
-/* ===== Settings hub — ONE consolidated URL (settings/index.html) that gathers the whole
-   Settings group: the composition pattern (surfaces, rules, composed-of) from guidelines/settings.json
-   AND the schema-driven settings-list component's API from contracts/settings-list.json, plus a link
-   to every shipped Settings-group control. It READS from the same data files the detail pages render
-   from — no duplicated content, so it cannot drift — and reuses the shared shell + table helpers. ===== */
+/* ===== Settings — its OWN standalone area, and ONE self-contained page (settings/index.html).
+   Everything an agent needs lives INLINE here: the composition pattern (surfaces, the full rule text,
+   composed-of) from guidelines/settings.json, the schema-driven settings-list component with a LIVE
+   example + framework code + full API from contracts/settings-list.json, and every settings control's
+   summary + spec + API from its own contract. It READS from those same source files the detail pages
+   render from — no hand-authored duplication, so it cannot drift — and reuses the shared shell + table
+   + demo helpers. Cross-links to each control's full page remain, but the page stands alone. ===== */
+function settingsControls() {
+  return SETTINGS_CATALOG.flatMap(g => g.items)
+    .map(it => ({ name: it.name, slug: it.slug, c: contracts.find(x => x.slug === it.slug) }))
+    .filter(x => x.c);
+}
 function renderSettingsHub() {
   const guide = GUIDELINES.find(p => p.slug === 'settings');
   const list = contracts.find(c => c.slug === 'settings-list');
-  const group = PATTERNS_CATALOG.find(g => g.cat === 'Settings');
-  const chips = (group ? group.items : []).map(it => LIVE.has(it.slug)
-    ? `<a class="pat-chip" href="../${it.slug}/index.html">${esc(it.name)}</a>`
-    : `<span class="pat-chip soon">${esc(it.name)} <i>soon</i></span>`).join('');
+  const ctrls = settingsControls();
+  const others = ctrls.filter(x => x.slug !== 'settings-list');
+  // On-this-page contents — every inlined section, so the one page is navigable without leaving it.
+  const toc = [
+    ...(guide && guide.surfaceChoice ? [['surfaces', 'Choose the surface']] : []),
+    ...(guide && guide.rules ? [['rules', 'Rules']] : []),
+    ...(guide && guide.composedOf ? [['composed-of', 'Composed of']] : []),
+    ...(list ? [['settings-list', 'Settings list component']] : []),
+    ...(others.length ? [['controls', 'All settings controls']] : []),
+  ].map(([id, label]) => `<a href="#${id}" class="toc-link">${esc(label)}</a>`).join('');
+  const controlBlock = (x) => {
+    const c = x.c;
+    return `<section class="ctrl" id="ctrl-${esc(c.slug)}">
+    <h3>${esc(c.name)} ${c.element ? `<code>&lt;${esc(c.element)}&gt;</code>` : ''} <a class="ctrl-more" href="../${esc(c.slug)}/index.html">full page →</a></h3>
+    <p class="body">${esc(c.summary)}</p>
+    ${c.spec && c.spec.length ? `<div class="spec-line">${specList(c.spec)}</div>` : ''}
+    ${c.props && c.props.length ? propsTable(c.props) : ''}
+    </section>`;
+  };
   const main = `
-  <p class="crumbs">Patterns · Settings</p>
-  <h1>Settings <span class="badge pattern">group hub</span></h1>
-  <p class="subtitle">One URL for the whole settings surface — the composition pattern, the schema-driven <code>&lt;aha-settings-list&gt;</code> component, and every settings control in the design system. Point tooling here for all of it.</p>
-  <p class="gen">◆ generated from guidelines/settings.json + contracts/settings-list.json — do not edit by hand</p>
+  <p class="crumbs">Settings</p>
+  <h1>Settings <span class="badge pattern">one page · everything inline</span></h1>
+  <p class="subtitle">The whole settings surface on a single self-contained page — the composition pattern, the schema-driven <code>&lt;aha-settings-list&gt;</code> component (live, with code), and every settings control's spec and API. An agent reads only this page and has it all.</p>
+  <p class="gen">◆ generated from guidelines/settings.json + contracts/settings-list.json + the settings control contracts — do not edit by hand</p>
 
-  ${guide && guide.lead ? `<div class="note" style="margin:0 0 18px">${mdInline(guide.lead)}</div>` : ''}
+  ${guide && guide.lead ? `<div class="note" style="margin:0 0 16px">${mdInline(guide.lead)}</div>` : ''}
 
-  <h2>In this group</h2>
-  <p class="body">Every settings pattern and control, gathered here. Follow a chip for that component's full page.</p>
-  <div class="pat-chips">${chips}</div>
+  ${toc ? `<nav class="toc" aria-label="On this page"><span class="toc-h">On this page</span>${toc}</nav>` : ''}
 
-  ${guide && guide.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(guide.surfaceChoice)}` : ''}
+  ${guide && guide.surfaceChoice ? `<h2 id="surfaces">Choose the surface</h2>${surfaceChoiceTable(guide.surfaceChoice)}` : ''}
 
-  ${guide && guide.rules ? `<h2>Rules</h2><p class="body">The shippable checklist for any settings surface — the rationale and worked examples live in <a href="../guidelines/${guide.slug}/index.html">the full Settings pattern</a>.</p>${rulesTable(guide.rules)}` : ''}
+  ${guide && guide.rules ? `<h2 id="rules">Rules</h2><p class="body">The shippable checklist for any settings surface — each rule traces to an assertion in the design skill <code>${esc((guide.skillRef||{}).build || '')}</code>.</p>${rulesTable(guide.rules)}` : ''}
 
-  ${guide && guide.composedOf ? `<h2>Composed of</h2><p class="body">What a compliant settings surface reuses from this design system.</p>${composedOfTable(guide.composedOf)}` : ''}
+  ${guide && guide.composedOf ? `<h2 id="composed-of">Composed of</h2><p class="body">What a compliant settings surface reuses from this design system.</p>${composedOfTable(guide.composedOf)}` : ''}
 
-  ${list ? `<h2>Settings list component</h2>
-  <p class="body"><code>&lt;${esc(list.element)}&gt;</code> — ${esc(list.summary)} See the <a href="../${list.slug}/index.html">full component page</a> for live examples and framework code.</p>
-  ${propsTable(list.props)}` : ''}
+  ${list ? `<h2 id="settings-list">Settings list component</h2>
+  <p class="body"><code>&lt;${esc(list.element)}&gt;</code> — ${esc(list.summary)}</p>
+  <div class="demo">
+    ${playgroundBar(list)}
+    <div class="demo-stage">${part(list.preview)}</div>
+    ${codeWidget(list)}
+  </div>
+  <h3>API</h3>
+  ${propsTable(list.props)}
+  ${list.opinion ? `<h3>When to use</h3>${opinionBlock(list.opinion)}` : ''}
+  ${list.spec && list.spec.length ? `<h3>Spec</h3><div class="spec-line">${specList(list.spec)}</div>` : ''}` : ''}
 
-  <h2>Full pages</h2>
-  <ul class="hub-links">
-    ${guide ? `<li><a href="../guidelines/${guide.slug}/index.html">Settings pattern</a> — the composition guide with rationale and worked examples</li>` : ''}
-    ${list ? `<li><a href="../${list.slug}/index.html">Settings list</a> — the schema-driven <code>&lt;aha-settings-list&gt;</code> component</li>` : ''}
-  </ul>`;
+  ${others.length ? `<h2 id="controls">All settings controls</h2>
+  <p class="body">Every control the settings surface composes, with its summary, spec and API inline. Each also has its own page.</p>
+  ${others.map(controlBlock).join('\n')}` : ''}`;
   const extraCss = `
   .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
   .pill.warn{background:#FFF0EB;color:#B24A20}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
-  .pat-chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 8px}
-  .pat-chip{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:13px;color:var(--aha-color-primary);background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:5px 11px}
-  a.pat-chip:hover{background:var(--aha-purple-30)}
-  .pat-chip.soon{color:var(--aha-text-disabled);background:var(--aha-gray-20);border-color:var(--aha-split)}
-  .pat-chip.soon i{font-style:normal;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px}
-  .hub-links{margin:6px 0 0;padding-left:18px}
-  .hub-links li{font-size:14px;line-height:1.7;color:var(--aha-text-secondary)}`;
-  return docShell({ base: '../', active: 'hub:settings', section: 'patterns', main, extraCss });
+  .toc{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 22px;padding:12px 14px;background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:10px}
+  .toc-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600}
+  a.toc-link{font-size:13px;color:var(--aha-color-primary);text-decoration:none}
+  a.toc-link:hover{text-decoration:underline}
+  .ctrl{padding:16px 0;border-top:1px solid var(--aha-split)}
+  .ctrl h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:16px;margin:0 0 6px}
+  .ctrl h3 code{font-size:12px;font-weight:400;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-radius:5px;padding:1px 7px}
+  a.ctrl-more{font-size:12px;font-weight:400;color:var(--aha-color-primary);text-decoration:none;margin-left:auto}
+  a.ctrl-more:hover{text-decoration:underline}`;
+  return docShell({ base: '../', active: 'hub:settings', section: 'settings', main, extraCss });
 }
 
-/* Consolidated Settings hub as a Markdown feed — the same content agents/devs can consume flat. */
+/* Consolidated Settings page as a Markdown feed — the same self-contained content, flat, for agents. */
 function renderSettingsHubMd() {
   const guide = GUIDELINES.find(p => p.slug === 'settings');
   const list = contracts.find(c => c.slug === 'settings-list');
-  const group = PATTERNS_CATALOG.find(g => g.cat === 'Settings');
-  const chips = (group ? group.items : []).map(it => `- ${it.name}${LIVE.has(it.slug) ? ` (${it.slug}/${it.slug}.md)` : ' — soon'}`).join('\n');
+  const ctrls = settingsControls();
   const rules = guide ? (guide.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n') : '';
   const co = guide ? (guide.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n') : '';
   const surf = guide ? (guide.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n') : '';
-  const props = list ? (list.props || []).map(p => `- \`${p.name}\` (${p.type}) — ${p.desc}`).join('\n') : '';
-  return `# Settings — group hub
-> Generated from guidelines/settings.json + contracts/settings-list.json — do not edit by hand. One URL for the whole settings surface.
+  const propLines = (c) => (c.props || []).map(p => `  - \`${p.name}\` (${p.type}) — ${p.desc}`).join('\n');
+  const listBlock = list ? `\`<${list.element}>\` — ${list.summary}\n\n${propLines(list)}` : '';
+  const controlBlocks = ctrls.filter(x => x.slug !== 'settings-list').map(x => {
+    const c = x.c;
+    const spec = (c.spec || []).map(s => `${s.label}: ${s.value}`).join(' · ');
+    return `### ${c.name}${c.element ? ` (<${c.element}>)` : ''}\n${c.summary}\n${spec ? `\nSpec: ${spec}\n` : ''}${(c.props||[]).length ? `\nProps:\n${propLines(c)}\n` : ''}`;
+  }).join('\n');
+  return `# Settings — one self-contained page
+> Generated from guidelines/settings.json + contracts/settings-list.json + the settings control contracts — do not edit by hand. Everything for the settings surface is on this one page.
 
 ${guide ? guide.summary : ''}
-
-## In this group
-${chips}
 
 ## Choose the surface
 ${surf}
@@ -1353,11 +1400,10 @@ ${rules}
 ${co}
 
 ## Settings list component
-${list ? `\`<${list.element}>\` — ${list.summary}\n\n${props}` : ''}
+${listBlock}
 
-## Full pages
-- Settings pattern — guidelines/settings/settings.md
-- Settings list — settings-list/settings-list.md
+## All settings controls
+${controlBlocks}
 `;
 }
 
@@ -1775,13 +1821,14 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   ? JSON.parse(read(join(root, 'anti-slop', 'criteria.json')))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
-const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug));
+const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug));
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
   foundations: `foundations/${TOKEN_PAGES[0].slug}.html`,
   components: (firstComponent ? `${firstComponent.slug}/index.html` : 'index.html'),
   patterns: (firstPattern ? `${firstPattern.slug}/index.html` : 'index.html'),
+  settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   landing: (LANDING.length ? 'landing/index.html' : 'index.html'),
   feeds: 'feeds/llms-txt.html',
