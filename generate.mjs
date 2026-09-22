@@ -771,12 +771,6 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>` +
       g.items.map(b => `<a class="nav-item${b.slug===active?' active':''}" href="${base}landing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>`).join('');
-  } else if (section === 'audience') {
-    // A single scroll page: the sidebar lists each audience component as an in-page anchor
-    // (#Name) — the DS scoped-sidebar IA over the one-page gallery the requester asked for.
-    const items = (AUDIENCE ? AUDIENCE.sections : []).filter(s => s.name !== 'Helpers').map(s =>
-      `<a class="nav-item" href="#${esc(s.name)}"><span>${esc(s.name)}</span><span class="nav-dot" title="live"></span></a>`).join('');
-    inner = `<div class="nav-group"><div class="nav-cat">Audience components</div>${items}</div>`;
   } else if (section === 'guidelines') {
     inner = `<div class="nav-group"><div class="nav-cat">Guidelines</div>` +
       GUIDELINES.map(p => `<a class="nav-item${active===('guideline:'+p.slug)?' active':''}" href="${base}guidelines/${p.slug}/index.html"><span>${esc(p.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
@@ -1130,7 +1124,13 @@ function renderAudienceCard(sec) {
 </section>`;
 }
 function renderAudienceLibrary() {
-  const chips = AUDIENCE.sections.filter(s => s.name !== 'Helpers').map(s => `<a href="#${esc(s.name)}">${esc(s.name)}</a>`).join('');
+  // One-page area: the same sticky antd <Anchor> "On this page" nav the Settings hub uses (shared
+  // hubAnchor* helpers), replacing BOTH the shell sidebar (noSidebar) and the old header chipnav.
+  // The nav lists each component section in page order; Helpers (a code-signature appendix) stays on
+  // the page but out of the nav, as it always has been.
+  const navSecs = AUDIENCE.sections.filter(s => s.name !== 'Helpers');
+  const anchorItems = navSecs.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
+  const fallbackGroups = [{ cat: 'Audience components', links: navSecs.map(s => ({ id: s.name, title: s.name })) }];
   const cards = AUDIENCE.sections.map(renderAudienceCard).join('\n');
   const main = `<div class="audience-lib">
     <p class="crumbs">Audience Library</p>
@@ -1138,16 +1138,19 @@ function renderAudienceLibrary() {
       <h1>${esc(AUDIENCE.title)}</h1>
       <p class="rule">${audMd(AUDIENCE.rule)}</p>
       <p class="why">${audMd(AUDIENCE.why)}</p>
-      <nav class="chipnav">${chips}</nav>
     </header>
-    <div class="al-cards">${cards}</div>
+    <div class="hub-layout">
+      ${hubAnchorAside(fallbackGroups)}
+      <div class="hub-body"><div class="al-cards">${cards}</div></div>
+    </div>
   </div>
   <!-- The demos call DS glyphs by name via <aha-icon> — never an inline SVG or an emoji.
        Load the same runtime + registry the icon gallery uses (relative to /audience/).
        PJAX re-executes these on navigation (runScripts holds external-script order). -->
   <script src="../icons/registry.js"></script>
-  <script src="../icons/aha-icon.js"></script>`;
-  return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS });
+  <script src="../icons/aha-icon.js"></script>
+  ${hubAnchorScript(anchorItems)}`;
+  return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
 function renderLandingVariants(b) {
@@ -1367,6 +1370,74 @@ function renderGuidelinesLlms(patterns) {
   return s;
 }
 
+/* ===== Shared one-page in-page nav — ONE sticky antd <Anchor> island for every single-scroll DS
+   area (the Settings hub, the Audience Library). Both pages `noSidebar` the shell nav and mount this
+   instead, so the "On this page" component is defined once and can't drift between areas. Callers pass
+   the antd Anchor `items` tree and a matching `fallbackGroups` list for the pre-hydration / no-JS nav.
+   `fallbackGroups`: [{ cat: string|null, links: [{ id, title }] }]. ===== */
+const HUB_ANCHOR_THEME = { token: { colorPrimary: TOK.color.primary, fontFamily: TOK.font.product, borderRadius: 8 } };
+
+// The sticky aside. The no-JS fallback list lives inside the mount; the React island replaces it once
+// antd loads (so the nav works even before/without hydration).
+function hubAnchorAside(fallbackGroups, mountId = 'hub-anchor-root') {
+  const fb = fallbackGroups.map(g =>
+    `<div class="sa-fb-group">${g.cat ? `<div class="sa-fb-cat">${esc(g.cat)}</div>` : ''}` +
+    g.links.map(l => `<a href="#${esc(l.id)}">${esc(l.title)}</a>`).join('') + `</div>`).join('');
+  return `<aside class="hub-anchor" aria-label="On this page">
+      <div class="hub-anchor-h">On this page</div>
+      <div id="${mountId}" class="hub-anchor-mount">
+        <nav class="sa-fallback" aria-label="On this page (fallback)">${fb}</nav>
+      </div>
+    </aside>`;
+}
+
+// The React island that mounts the antd v6 Anchor (CDN React + antd over the shared token theme — the
+// DS composite pattern, same as Table). It tracks scroll + smooth-scrolls WITHIN the page; the URL
+// never changes. targetOffset clears the sticky site header.
+function hubAnchorScript(items, mountId = 'hub-anchor-root') {
+  return `<script type="module">
+    import React from 'https://esm.sh/react@18';
+    import { createRoot } from 'https://esm.sh/react-dom@18/client';
+    // ?bundle-deps inlines antd's transitive deps (notably @ant-design/fast-color) into this module.
+    // Without it, esm.sh resolves fast-color as a separate module whose build currently fails to export
+    // FastColor, which throws at eval time and the Anchor silently never mounts (falls back). This was
+    // live on the Settings page too — the shared helper fixes both areas at once.
+    import { ConfigProvider, Anchor } from 'https://esm.sh/antd@6?bundle-deps&deps=react@18,react-dom@18';
+    const mount = document.getElementById('${mountId}');
+    if (mount) {
+      const h = React.createElement;
+      const items = ${JSON.stringify(items)};
+      const theme = ${JSON.stringify(HUB_ANCHOR_THEME)};
+      mount.textContent = '';
+      createRoot(mount).render(
+        h(ConfigProvider, { theme }, h(Anchor, { affix: false, targetOffset: 84, items }))
+      );
+    }
+  </script>`;
+}
+
+// The shared two-column hub layout + sticky-anchor + fallback CSS. Included in each hub page's
+// extraCss. The body column's section anchors set their own scroll-margin-top (84px) to clear the header.
+const HUB_ANCHOR_CSS = `
+  .hub-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
+  .hub-anchor{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow:auto;padding-right:4px}
+  .hub-anchor-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600;margin:0 0 10px;padding-left:2px}
+  .hub-anchor .ant-anchor-link-title{font-size:13px;color:var(--aha-text-secondary)}
+  .hub-anchor .ant-anchor-link-title-active{color:var(--aha-color-primary);font-weight:600}
+  /* A top-level link that CONTAINS nested links is a group header (Settings' Composition/Controls) —
+     render it as a small-caps label. A flat list of leaf links (the Audience page) has no parents, so
+     every item stays the normal 13px link — not uppercased like a header. */
+  .hub-anchor .ant-anchor>.ant-anchor-link:has(.ant-anchor-link)>.ant-anchor-link-title{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary)}
+  .sa-fallback{display:flex;flex-direction:column}
+  .sa-fb-group{margin-bottom:14px}
+  .sa-fb-cat{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary);margin:0 0 6px}
+  .sa-fallback a{display:block;font-size:13px;color:var(--aha-text-secondary);text-decoration:none;padding:3px 0 3px 12px;border-left:2px solid var(--aha-split)}
+  .sa-fallback a:hover{color:var(--aha-color-primary);border-left-color:var(--aha-color-primary)}
+  @media (max-width:900px){
+    .hub-layout{grid-template-columns:1fr}
+    .hub-anchor{display:none}
+  }`;
+
 /* ===== Settings — its OWN standalone area, and ONE self-contained page (settings/index.html).
    Everything an agent needs lives INLINE here: the composition pattern (surfaces, the full rule text,
    composed-of) from guidelines/settings.json, the schema-driven settings-list component with a LIVE
@@ -1412,8 +1483,6 @@ function renderSettingsHub() {
       children: g.items.map(x => ({ key: x.slug, href: '#ctrl-' + x.slug, title: x.name })),
     })),
   ];
-  // ConfigProvider theme sourced from the canonical tokens (brand primary drives the Anchor ink).
-  const anchorTheme = { token: { colorPrimary: TOK.color.primary, fontFamily: TOK.font.product, borderRadius: 8 } };
 
   // Every control renders its OWN live preview inline — the point of "one page" is that an agent
   // reads only this URL and has everything, so each component gets the full treatment (live example
@@ -1440,12 +1509,12 @@ function renderSettingsHub() {
   ${g.items.map(x => richBlock(x.c)).join('\n')}`).join('\n');
 
   // No-JS / CDN-down fallback: plain in-page anchors, whole-page IA (overview sections + component
-  // groups), so the one-page nav always works even before the antd Anchor mounts.
-  const anchorFallback =
-    (overview.length ? `<div class="sa-fb-group">` + overview.map(o => `<a href="#${o.id}">${esc(o.title)}</a>`).join('') + `</div>` : '') +
-    liveByCat.map(g =>
-      `<div class="sa-fb-group"><div class="sa-fb-cat">${esc(g.cat)}</div>` +
-      g.items.map(x => `<a href="#ctrl-${esc(x.slug)}">${esc(x.name)}</a>`).join('') + `</div>`).join('');
+  // groups), so the one-page nav always works even before the antd Anchor mounts. Same shape the
+  // shared hubAnchorAside() renders: overview links flat (no cat), then each component group.
+  const fallbackGroups = [
+    ...(overview.length ? [{ cat: null, links: overview.map(o => ({ id: o.id, title: o.title })) }] : []),
+    ...liveByCat.map(g => ({ cat: g.cat, links: g.items.map(x => ({ id: 'ctrl-' + x.slug, title: x.name })) })),
+  ];
 
   const main = `
   <span id="top"></span>
@@ -1456,65 +1525,26 @@ function renderSettingsHub() {
 
   ${guide && guide.lead ? `<div class="note" style="margin:0 0 16px">${mdInline(guide.lead)}</div>` : ''}
 
-  <div class="settings-layout">
-    <aside class="settings-anchor" aria-label="On this page">
-      <div class="settings-anchor-h">On this page</div>
-      <div id="settings-anchor-root" class="settings-anchor-mount">
-        <nav class="sa-fallback" aria-label="On this page (fallback)">${anchorFallback}</nav>
-      </div>
-    </aside>
-    <div class="settings-body">
+  <div class="hub-layout">
+    ${hubAnchorAside(fallbackGroups)}
+    <div class="hub-body">
       ${overview.map(o => o.html).join('\n')}
       ${groupBody}
     </div>
   </div>
 
-  <script type="module">
-    // antd v6 Anchor mounted as a small React island (CDN-React over the shared theme — the DS
-    // composite pattern, see Table). It tracks scroll + smooth-scrolls WITHIN this page, so moving
-    // between components is an in-page anchor scroll and the URL never changes. Replaces the fallback
-    // list above once React + antd load. targetOffset clears the sticky site header.
-    import React from 'https://esm.sh/react@18';
-    import { createRoot } from 'https://esm.sh/react-dom@18/client';
-    import { ConfigProvider, Anchor } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
-    const mount = document.getElementById('settings-anchor-root');
-    if (mount) {
-      const h = React.createElement;
-      const items = ${JSON.stringify(anchorItems)};
-      const theme = ${JSON.stringify(anchorTheme)};
-      mount.textContent = '';
-      createRoot(mount).render(
-        h(ConfigProvider, { theme },
-          h(Anchor, { affix: false, targetOffset: 84, items })
-        )
-      );
-    }
-  </script>`;
+  ${hubAnchorScript(anchorItems)}`;
   const extraCss = `
   .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
   .pill.warn{background:#FFF0EB;color:#B24A20}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
-  .settings-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
-  .settings-body>h2{scroll-margin-top:84px}
-  .settings-anchor{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow:auto;padding-right:4px}
-  .settings-anchor-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600;margin:0 0 10px;padding-left:2px}
-  .settings-anchor .ant-anchor-link-title{font-size:13px;color:var(--aha-text-secondary)}
-  .settings-anchor .ant-anchor-link-title-active{color:var(--aha-color-primary);font-weight:600}
-  .settings-anchor .ant-anchor>.ant-anchor-link>.ant-anchor-link-title{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary)}
-  .sa-fallback{display:flex;flex-direction:column}
-  .sa-fb-group{margin-bottom:14px}
-  .sa-fb-cat{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary);margin:0 0 6px}
-  .sa-fallback a{display:block;font-size:13px;color:var(--aha-text-secondary);text-decoration:none;padding:3px 0 3px 12px;border-left:2px solid var(--aha-split)}
-  .sa-fallback a:hover{color:var(--aha-color-primary);border-left-color:var(--aha-color-primary)}
+${HUB_ANCHOR_CSS}
+  .hub-body>h2{scroll-margin-top:84px}
   .grp-h{margin:36px 0 4px;text-transform:uppercase;letter-spacing:.4px;font-size:13px;color:var(--aha-text-tertiary);border-bottom:1px solid var(--aha-split);padding-bottom:8px;scroll-margin-top:84px}
   .ctrl{padding:16px 0;border-top:1px solid var(--aha-split);scroll-margin-top:84px}
   .ctrl h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:16px;margin:0 0 6px}
   .ctrl h4{font-size:13px;margin:16px 0 6px;color:var(--aha-text-secondary)}
-  .ctrl h3 code{font-size:12px;font-weight:400;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-radius:5px;padding:1px 7px}
-  @media (max-width:900px){
-    .settings-layout{grid-template-columns:1fr}
-    .settings-anchor{display:none}
-  }`;
+  .ctrl h3 code{font-size:12px;font-weight:400;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-radius:5px;padding:1px 7px}`;
   return docShell({ base: '../', active: 'hub:settings', section: 'settings', main, extraCss, noSidebar: true });
 }
 
