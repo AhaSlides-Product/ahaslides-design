@@ -1141,7 +1141,12 @@ function renderAudienceLibrary() {
       <nav class="chipnav">${chips}</nav>
     </header>
     <div class="al-cards">${cards}</div>
-  </div>`;
+  </div>
+  <!-- The demos call DS glyphs by name via <aha-icon> — never an inline SVG or an emoji.
+       Load the same runtime + registry the icon gallery uses (relative to /audience/).
+       PJAX re-executes these on navigation (runScripts holds external-script order). -->
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>`;
   return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS });
 }
 
