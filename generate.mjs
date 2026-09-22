@@ -1392,16 +1392,14 @@ function renderSettingsHub() {
   // ConfigProvider theme sourced from the canonical tokens (brand primary drives the Anchor ink).
   const anchorTheme = { token: { colorPrimary: TOK.color.primary, fontFamily: TOK.font.product, borderRadius: 8 } };
 
-  // Compact block: summary + spec + API, INLINE — no away-link, the section never routes off the page.
-  const controlBlock = (c) => `<section class="ctrl" id="ctrl-${esc(c.slug)}">
-    <h3>${esc(c.name)} ${c.element ? `<code>&lt;${esc(c.element)}&gt;</code>` : ''}</h3>
-    <p class="body">${esc(c.summary)}</p>
-    ${c.spec && c.spec.length ? `<div class="spec-line">${specList(c.spec)}</div>` : ''}
-    ${c.props && c.props.length ? propsTable(c.props) : ''}
-    </section>`;
-  // Settings list leads Composition with a LIVE example + framework code + full API.
+  // Every control renders its OWN live preview inline — the point of "one page" is that an agent
+  // reads only this URL and has everything, so each component gets the full treatment (live example
+  // + playground + framework code + API + spec), identical to its per-component detail page. (A
+  // preview carries its own <script type="module"> importing the real ../lib/ elements, so inlining
+  // every control here also registers each <aha-*> on the page — module dedup makes the overlapping
+  // imports across previews run once.)
   const richBlock = (c) => `<section class="ctrl ctrl-rich" id="ctrl-${esc(c.slug)}">
-    <h3>${esc(c.name)} <code>&lt;${esc(c.element)}&gt;</code></h3>
+    <h3>${esc(c.name)} ${c.element ? `<code>&lt;${esc(c.element)}&gt;</code>` : ''}</h3>
     <p class="body">${esc(c.summary)}</p>
     <div class="demo">
       ${playgroundBar(c)}
@@ -1416,7 +1414,7 @@ function renderSettingsHub() {
 
   const groupBody = liveByCat.map(g => `
   <h2 id="grp-${g.slug}" class="grp-h">${esc(g.cat)}</h2>
-  ${g.items.map(x => x.slug === 'settings-list' ? richBlock(x.c) : controlBlock(x.c)).join('\n')}`).join('\n');
+  ${g.items.map(x => richBlock(x.c)).join('\n')}`).join('\n');
 
   // No-JS / CDN-down fallback: plain in-page anchors, same grouping, so the one-page nav always works.
   const anchorFallback = liveByCat.map(g =>

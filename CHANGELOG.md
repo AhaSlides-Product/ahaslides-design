@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.59.2 — 2026-09-22
+### Fixed
+- **Settings page: every control shows its live preview again.** When the settings surface was consolidated onto one page, only `<aha-settings-list>` kept a live demo — the other 16 controls (setting group/row, sub-setting group, option row, question list, number-with-unit, image dropzone, card select, section header, mode field, counted input/textarea, add-item button, image-action button, info box, numbered item) were reduced to text-only blocks, so their previews disappeared from `settings/index.html`. Every control now renders its full inline treatment — live example + playground + framework code + API — identical to its per-component detail page, so an agent reading only the one page sees every component rendered. Each preview loads the real shipped `../lib/aha-*.js` element (module dedup keeps the shared imports single); verified all 17 previews upgrade non-blank in a headless render. (#PR)
+
 ## 0.59.1 — 2026-09-22
 ### Fixed
 - **Settings page: one nav, not two.** Dropped the shell left sidebar on `settings/index.html` — it duplicated the in-page "On this page" antd `Anchor` (same Composition/Controls items) and didn't match the reference IA. The Anchor is now the single navigation; the content reclaims the full width. (#115)
