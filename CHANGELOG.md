@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.59.3 — 2026-09-22
+## 0.59.4 — 2026-09-22
 ### Fixed
 - **Audience Library: every demo glyph is a DS `<aha-icon>`, no more emoji or Unicode stand-ins.** The audience gallery mocks faked their iconography with raw characters and emoji — the InputNumber/DraggableOptions steppers were 9px `▲`/`▼` triangles (indistinguishable from a native `<input type=number>` spinner, the very thing the component says it replaces), the Select caret a `▾`, the drag grip `⋮⋮`, the AnswerOption verdicts `✓`/`✕`, and ImageUploader/SubmitButton/WaitingForHost/SubmittedCard used 🖼️/📷/🔒/⏳/✅. Each is now the design-system glyph called by name (`system-caret-up/down`, `system-drag`, `system-check`, `system-x`, `system-image-square`, `system-upload-simple`, `system-lock`, `system-hourglass-high`, `system-check-circle`) — the same `never-inline-an-SVG` rule the icon gallery enforces. The page now loads the shared `icons/registry.js` + `icons/aha-icon.js` runtime (PJAX-safe); verified all 54 icons render real SVGs (zero unknown-icon fallbacks) on both light and dark decks. AudienceIdentityStrip keeps its 🦊 — that glyph is the participant's real `audienceEmoji` avatar data, not chrome. (#118)
+
+## 0.59.3 — 2026-09-22
+### Fixed
+- **The product face (Plus Jakarta Sans) now actually loads on the docs site.** The shell `@font-face` referenced `<base>fonts/PlusJakartaSans-{Regular,SemiBold}.woff2`, but those files were never added to the repo or copied into `dist/`, so every page 404'd the woff2 and silently fell back to `-apple-system` — including the shadow-DOM component previews, which is where it read as "wrong font". The two self-hosted weights (400/600) are now committed under `fonts/` and copied into `dist/fonts/` by the build (and shipped in the npm package), so `<base>fonts/…woff2` resolves and the whole site — previews included — renders in Plus Jakarta Sans. Verified the woff2 loads (200, `document.fonts` status `loaded`) and the previews compute the brand face. (#117)
 
 ## 0.59.2 — 2026-09-22
 ### Fixed
