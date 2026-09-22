@@ -25,6 +25,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
 const LDIR = join(root, 'landing');      // landing blocks — framework-free marketing sections (Hero, …) for the AhaSlides marketing sites, bound to the shared --aha-* tokens
+const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
@@ -207,6 +208,8 @@ const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
 let LANDING = [];           // loaded landing blocks (marketing sections) — drives the Landing nav + pages
+let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
+let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
 
 /* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
@@ -219,6 +222,7 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
   { key: 'landing',     label: 'Landing' },
+  { key: 'audience',    label: 'Audience Library' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'feeds',       label: 'Agent feeds' },
 ];
@@ -714,6 +718,7 @@ const RAW_FEEDS = [
 function topNav(base, section) {
   return `<nav class="top-nav">` + SECTIONS.map(s => {
     if (s.key === 'guidelines' && !GUIDELINES.length) return '';
+    if (s.key === 'audience' && !AUDIENCE) return '';
     const href = base + (NAV_LANDING[s.key] || 'index.html');
     return `<a class="${section===s.key?'active':''}" href="${href}">${esc(s.label)}</a>`;
   }).join('') + `</nav>`;
@@ -766,6 +771,12 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>` +
       g.items.map(b => `<a class="nav-item${b.slug===active?' active':''}" href="${base}landing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>`).join('');
+  } else if (section === 'audience') {
+    // A single scroll page: the sidebar lists each audience component as an in-page anchor
+    // (#Name) — the DS scoped-sidebar IA over the one-page gallery the requester asked for.
+    const items = (AUDIENCE ? AUDIENCE.sections : []).filter(s => s.name !== 'Helpers').map(s =>
+      `<a class="nav-item" href="#${esc(s.name)}"><span>${esc(s.name)}</span><span class="nav-dot" title="live"></span></a>`).join('');
+    inner = `<div class="nav-group"><div class="nav-cat">Audience components</div>${items}</div>`;
   } else if (section === 'guidelines') {
     inner = `<div class="nav-group"><div class="nav-cat">Guidelines</div>` +
       GUIDELINES.map(p => `<a class="nav-item${active===('guideline:'+p.slug)?' active':''}" href="${base}guidelines/${p.slug}/index.html"><span>${esc(p.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
@@ -1076,6 +1087,62 @@ function landingGroups() {
 }
 // A block may declare `variants` (each with `sizes`): render one section per variant, previewing
 // every size with its own snippet. Blocks without `variants` fall through to the single Preview stage.
+/* ---- Audience Library — a first-class top-level area (sibling to Landing). ONE scroll
+   page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
+   the DS top-nav + scoped sidebar like every other area. Content is data
+   (audience/library.json); the collapsible HTML/React/Vue code panels reuse the shell's
+   own .code-tabs CSS + ahaBindWidgets JS. Honest imports: audience components are
+   marketplace Vue components at @/iframe/audience, not DS web components. */
+const AUDIENCE_KIND_ACCENT = {
+  Answers: 'var(--aha-brand-2)', Input: 'var(--aha-color-primary)', Feedback: 'var(--aha-brand-4)',
+  Action: 'var(--aha-brand-6)', Layout: 'var(--aha-soft-indigo-60)', '': 'var(--aha-indigo-60)',
+};
+// Inline `code` spans in the reference copy; everything else is escaped.
+const audMd = (s) => String(s ?? '').split('`').map((seg, i) => i % 2 ? `<code class="ic">${esc(seg)}</code>` : esc(seg)).join('');
+function audienceCodeTabs(snips) {
+  if (!snips) return '';
+  const order = [['html', 'HTML'], ['react', 'React'], ['vue', 'Vue 3']];
+  const tabs = order.map(([k, l], i) => `<button class="tab ${i === 0 ? 'active' : ''}" type="button" data-f="${k}">${esc(l)}</button>`).join('');
+  const panes = order.map(([k], i) => `<pre class="code ${k} ${i === 0 ? 'active' : ''}">${esc(snips[k] || '')}</pre>`).join('');
+  return `<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs">${tabs}</div><button class="copy" type="button">Copy</button></div>${panes}</div></div>`;
+}
+function renderAudienceCard(sec) {
+  const accent = AUDIENCE_KIND_ACCENT[sec.kind] ?? 'var(--aha-indigo-60)';
+  const badge = sec.kind ? `<span class="badge" style="background:${accent}">${esc(sec.kind)}</span>` : '';
+  const replaces = sec.replaces ? `<p class="replaces">${audMd(sec.replaces)}</p>` : '';
+  const note = sec.note ? `<p class="note">${audMd(sec.note)}</p>` : '';
+  return `<section id="${esc(sec.name)}" class="card">
+  <header class="card-h">
+    <div class="card-title"><h2>${esc(sec.name)}</h2>${badge}</div>
+    <p class="what">${audMd(sec.what)}</p>
+    <dl class="callout">
+      <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
+      <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
+    </dl>${replaces}${note}
+  </header>
+  <div class="decks">
+    <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body">${sec.demoLight}</div></div>
+    <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body">${sec.demoDark}</div></div>
+  </div>
+  ${audienceCodeTabs(sec.snippets)}
+</section>`;
+}
+function renderAudienceLibrary() {
+  const chips = AUDIENCE.sections.filter(s => s.name !== 'Helpers').map(s => `<a href="#${esc(s.name)}">${esc(s.name)}</a>`).join('');
+  const cards = AUDIENCE.sections.map(renderAudienceCard).join('\n');
+  const main = `<div class="audience-lib">
+    <p class="crumbs">Audience Library</p>
+    <header class="al-head">
+      <h1>${esc(AUDIENCE.title)}</h1>
+      <p class="rule">${audMd(AUDIENCE.rule)}</p>
+      <p class="why">${audMd(AUDIENCE.why)}</p>
+      <nav class="chipnav">${chips}</nav>
+    </header>
+    <div class="al-cards">${cards}</div>
+  </div>`;
+  return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS });
+}
+
 function renderLandingVariants(b) {
   const sizes = b.sizes || [];
   const anchor = (v, s) => `<a class="aha-btn ${v.cls}${s && s.cls ? ' ' + s.cls : ''}"`;
@@ -1869,6 +1936,10 @@ GUIDELINES = existsSync(GDIR)
 LANDING = existsSync(LDIR)
   ? readdirSync(LDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(LDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
+/* audience library — a single-page area loaded from its data file. Absent-safe: no
+   audience/library.json → no Audience tab/page. */
+AUDIENCE = existsSync(join(ADIR, 'library.json')) ? JSON.parse(read(join(ADIR, 'library.json'))) : null;
+AUD_CSS = existsSync(join(ADIR, 'audience.css')) ? read(join(ADIR, 'audience.css')) : '';
 /* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
    source of truth the consumer feeds compile from. Absent-safe: no store → no feed. */
 const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
@@ -1885,6 +1956,7 @@ NAV_LANDING = {
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   landing: (LANDING.length ? 'landing/index.html' : 'index.html'),
+  audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
   feeds: 'feeds/llms-txt.html',
 };
 if (GUIDELINES.length) {
@@ -2038,6 +2110,12 @@ if (LANDING.length) {
   }
   writeFileSync(join(OUT, 'landing.llms.txt'), renderLandingLlms(LANDING));
   writeFileSync(join(OUT, 'landing.agent.json'), JSON.stringify(LANDING.map(b => JSON.parse(renderLandingAgent(b))), null, 2) + '\n');
+}
+/* audience library — one first-class in-site page (audience/index.html) under the DS shell */
+if (AUDIENCE) {
+  mkdirSync(join(OUT, 'audience'), { recursive: true });
+  writeFileSync(join(OUT, 'audience', 'index.html'), renderAudienceLibrary());
+  console.log(`  ✓ audience library: audience/index.html (${AUDIENCE.sections.length} component sections)`);
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
 if (ANTISLOP) {
