@@ -2065,6 +2065,12 @@ console.log(`  ✓ lib/all.js — all-in-one entry (${ELEMENT_MODULES.length} el
    live preview 404s its import. Single source: the preview runs the real element. */
 cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
 
+/* Ship the self-hosted product face (Plus Jakarta Sans, weights 400/600) INTO the site
+   (dist/fonts) so the shellCss @font-face `url(<base>fonts/…woff2)` actually resolves.
+   Without this the woff2 404s on GitHub Pages and every page — including the shadow-DOM
+   component previews — silently falls back to -apple-system instead of the brand face. */
+cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
+
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
 // gets a styled in-shell page (see RAW_FEEDS). Single source: the repo-root file the gate enforces.
