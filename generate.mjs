@@ -789,8 +789,10 @@ function sidebarNav(base, active, section) {
   return `<nav class="doc-nav">${inner}</nav>`;
 }
 
-function docShell({ base, active, section = 'components', main, extraCss = '' }) {
-  const nav = sidebarNav(base, active, section);
+function docShell({ base, active, section = 'components', main, extraCss = '', noSidebar = false }) {
+  // The Settings page carries its own in-page antd Anchor, so the shell sidebar would be a second
+  // nav of the same items — noSidebar drops it and .doc-main (flex:1) reclaims the width.
+  const nav = noSidebar ? '' : sidebarNav(base, active, section);
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>AhaSlides Design System — for agents</title>
@@ -1491,7 +1493,7 @@ function renderSettingsHub() {
     .settings-layout{grid-template-columns:1fr}
     .settings-anchor{display:none}
   }`;
-  return docShell({ base: '../', active: 'hub:settings', section: 'settings', main, extraCss });
+  return docShell({ base: '../', active: 'hub:settings', section: 'settings', main, extraCss, noSidebar: true });
 }
 
 /* Consolidated Settings page as a Markdown feed — the same self-contained content, flat, for agents. */
