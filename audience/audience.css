@@ -7,9 +7,6 @@
 .audience-lib .al-head h1{font-family:var(--aha-font-display);font-size:var(--aha-size-h3);line-height:var(--aha-line-height-heading);color:var(--aha-indigo-100);margin:0;font-weight:800;letter-spacing:var(--aha-letter-spacing-headlines)}
 .audience-lib .al-head .rule{margin:var(--aha-space-12) 0 0;max-width:720px;color:var(--aha-text-primary-ink);line-height:var(--aha-line-height-body)}
 .audience-lib .al-head .why{margin:var(--aha-space-12) 0 0;max-width:720px;font-size:var(--aha-size-sm);color:var(--aha-indigo-60);line-height:var(--aha-line-height-body)}
-.audience-lib .chipnav{margin-top:var(--aha-space-20);display:flex;flex-wrap:wrap;gap:var(--aha-space-8)}
-.audience-lib .chipnav a{border:1px solid var(--aha-border);border-radius:var(--aha-radius-pill);padding:var(--aha-space-4) var(--aha-space-12);font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);color:var(--aha-indigo-80);text-decoration:none;transition:border-color var(--aha-motion-fast) var(--aha-ease-out),color var(--aha-motion-fast) var(--aha-ease-out)}
-.audience-lib .chipnav a:hover{border-color:var(--aha-color-primary);color:var(--aha-color-primary)}
 
 /* cards */
 .audience-lib .al-cards{display:flex;flex-direction:column;gap:var(--aha-space-32)}
@@ -59,11 +56,11 @@
 .audience-lib .deck.dark .radio.on::after{background:var(--aha-gray-15)}
 .audience-lib .cbx{width:20px;height:20px;border-radius:var(--aha-radius-sm);border:2px solid var(--aha-gray-55);flex:none;display:flex;align-items:center;justify-content:center;color:var(--aha-white);font-size:13px;font-weight:700}
 .audience-lib .cbx.on{border:none}
-.audience-lib .verdict{width:20px;flex:none;text-align:center;font-weight:800;font-size:16px}
+.audience-lib .verdict{width:20px;flex:none;display:inline-flex;align-items:center;justify-content:center}
 .audience-lib .ord{width:24px;height:24px;flex:none;border-radius:var(--aha-radius-pill);color:var(--aha-white);display:flex;align-items:center;justify-content:center;font-size:var(--aha-size-sm);font-weight:800}
 .audience-lib .thumb{width:28px;height:28px;flex:none;border-radius:var(--aha-radius-sm)}
 .audience-lib .steppers{display:flex;flex-direction:column;gap:2px;color:var(--ink-muted);font-size:9px;line-height:1}
-.audience-lib .grip{color:var(--ink-muted);letter-spacing:-3px;font-size:14px}
+.audience-lib .grip{color:var(--ink-muted);display:inline-flex;align-items:center}
 .audience-lib .grouplbl{margin:0 0 var(--aha-space-4);font-size:var(--aha-size-sm);color:var(--ink-muted)}
 
 /* fields */
@@ -98,7 +95,7 @@
 
 /* image uploader */
 .audience-lib .dropzone{border:2px dashed color-mix(in srgb,var(--ink) 25%,transparent);border-radius:var(--aha-radius-lg);padding:var(--aha-space-24);display:flex;flex-direction:column;align-items:center;gap:var(--aha-space-4);text-align:center}
-.audience-lib .dz-ic{font-size:28px}
+.audience-lib .dz-ic{color:var(--ink-muted)}
 .audience-lib .dz-t{font-weight:800;color:var(--ink)}
 .audience-lib .dz-s{font-size:var(--aha-size-sm);color:var(--ink-muted)}
 .audience-lib .dz-btn{align-self:flex-start;display:inline-flex;gap:var(--aha-space-8);align-items:center;border:1.5px solid var(--surf-line);border-radius:var(--aha-radius-default);padding:var(--aha-space-8) var(--aha-space-16);color:var(--ink);font-weight:var(--aha-weight-semibold);font-size:var(--aha-size-sm)}
@@ -112,11 +109,11 @@
 
 /* waiting / submitted */
 .audience-lib .waiting,.audience-lib .submitted{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--aha-space-6);padding:var(--aha-space-20) 0}
-.audience-lib .w-emoji{font-size:34px}
+.audience-lib .w-emoji{color:var(--ink-muted)}
 .audience-lib .w-head,.audience-lib .s-title{font-weight:800;font-size:var(--aha-size-l);color:var(--ink)}
 .audience-lib .w-sub,.audience-lib .s-sub{font-size:var(--aha-size-sm);color:var(--ink-muted)}
 .audience-lib .submitted{background:color-mix(in srgb,var(--ink) 5%,transparent);border:1px solid color-mix(in srgb,var(--ink) 12%,transparent);border-radius:var(--aha-radius-lg)}
-.audience-lib .s-pip{font-size:24px}
+.audience-lib .s-pip{color:var(--aha-color-success)}
 
 /* identity strip */
 .audience-lib .idstrip{display:flex;flex-direction:column;gap:2px}
