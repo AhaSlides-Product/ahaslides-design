@@ -1382,13 +1382,31 @@ function renderSettingsHub() {
       .filter(x => x.c),
   })).filter(g => g.items.length);
 
-  // Anchor items map each inlined section id, nested under its group — one antd <Anchor> tree.
-  const anchorItems = liveByCat.map(g => ({
-    key: 'grp-' + g.slug,
-    href: '#grp-' + g.slug,
-    title: g.cat,
-    children: g.items.map(x => ({ key: x.slug, href: '#ctrl-' + x.slug, title: x.name })),
-  }));
+  // The page-level sections (the overview above the components) — defined once so the Anchor, the
+  // no-JS fallback, and the rendered body all draw from the same list and stay in lock-step. Each is
+  // rendered inside the body column (not above the layout), so the sticky Anchor sits beside the WHOLE
+  // page and its links reflect the full IA — the overview sections AND the components — not just the
+  // component list.
+  const overview = [
+    guide && guide.surfaceChoice ? { id: 'surfaces', title: 'Choose the surface',
+      html: `<h2 id="surfaces">Choose the surface</h2>${surfaceChoiceTable(guide.surfaceChoice)}` } : null,
+    guide && guide.rules ? { id: 'rules', title: 'Rules',
+      html: `<h2 id="rules">Rules</h2><p class="body">The shippable checklist for any settings surface — each rule traces to an assertion in the design skill <code>${esc((guide.skillRef||{}).build || '')}</code>.</p>${rulesTable(guide.rules)}` } : null,
+    guide && guide.composedOf ? { id: 'composed-of', title: 'Composed of',
+      html: `<h2 id="composed-of">Composed of</h2><p class="body">What a compliant settings surface reuses from this design system.</p>${composedOfTable(guide.composedOf)}` } : null,
+  ].filter(Boolean);
+
+  // Anchor items reflect the whole page IA: the overview sections first (flat, top-level), then each
+  // component group with its components nested — one antd <Anchor> tree, matching top-to-bottom order.
+  const anchorItems = [
+    ...overview.map(o => ({ key: o.id, href: '#' + o.id, title: o.title })),
+    ...liveByCat.map(g => ({
+      key: 'grp-' + g.slug,
+      href: '#grp-' + g.slug,
+      title: g.cat,
+      children: g.items.map(x => ({ key: x.slug, href: '#ctrl-' + x.slug, title: x.name })),
+    })),
+  ];
   // ConfigProvider theme sourced from the canonical tokens (brand primary drives the Anchor ink).
   const anchorTheme = { token: { colorPrimary: TOK.color.primary, fontFamily: TOK.font.product, borderRadius: 8 } };
 
@@ -1416,10 +1434,13 @@ function renderSettingsHub() {
   <h2 id="grp-${g.slug}" class="grp-h">${esc(g.cat)}</h2>
   ${g.items.map(x => richBlock(x.c)).join('\n')}`).join('\n');
 
-  // No-JS / CDN-down fallback: plain in-page anchors, same grouping, so the one-page nav always works.
-  const anchorFallback = liveByCat.map(g =>
-    `<div class="sa-fb-group"><div class="sa-fb-cat">${esc(g.cat)}</div>` +
-    g.items.map(x => `<a href="#ctrl-${esc(x.slug)}">${esc(x.name)}</a>`).join('') + `</div>`).join('');
+  // No-JS / CDN-down fallback: plain in-page anchors, whole-page IA (overview sections + component
+  // groups), so the one-page nav always works even before the antd Anchor mounts.
+  const anchorFallback =
+    (overview.length ? `<div class="sa-fb-group">` + overview.map(o => `<a href="#${o.id}">${esc(o.title)}</a>`).join('') + `</div>` : '') +
+    liveByCat.map(g =>
+      `<div class="sa-fb-group"><div class="sa-fb-cat">${esc(g.cat)}</div>` +
+      g.items.map(x => `<a href="#ctrl-${esc(x.slug)}">${esc(x.name)}</a>`).join('') + `</div>`).join('');
 
   const main = `
   <span id="top"></span>
@@ -1430,18 +1451,15 @@ function renderSettingsHub() {
 
   ${guide && guide.lead ? `<div class="note" style="margin:0 0 16px">${mdInline(guide.lead)}</div>` : ''}
 
-  ${guide && guide.surfaceChoice ? `<h2 id="surfaces">Choose the surface</h2>${surfaceChoiceTable(guide.surfaceChoice)}` : ''}
-  ${guide && guide.rules ? `<h2 id="rules">Rules</h2><p class="body">The shippable checklist for any settings surface — each rule traces to an assertion in the design skill <code>${esc((guide.skillRef||{}).build || '')}</code>.</p>${rulesTable(guide.rules)}` : ''}
-  ${guide && guide.composedOf ? `<h2 id="composed-of">Composed of</h2><p class="body">What a compliant settings surface reuses from this design system.</p>${composedOfTable(guide.composedOf)}` : ''}
-
   <div class="settings-layout">
-    <aside class="settings-anchor" aria-label="Settings components">
+    <aside class="settings-anchor" aria-label="On this page">
       <div class="settings-anchor-h">On this page</div>
       <div id="settings-anchor-root" class="settings-anchor-mount">
-        <nav class="sa-fallback" aria-label="Settings components (fallback)">${anchorFallback}</nav>
+        <nav class="sa-fallback" aria-label="On this page (fallback)">${anchorFallback}</nav>
       </div>
     </aside>
     <div class="settings-body">
+      ${overview.map(o => o.html).join('\n')}
       ${groupBody}
     </div>
   </div>
@@ -1472,6 +1490,7 @@ function renderSettingsHub() {
   .pill.warn{background:#FFF0EB;color:#B24A20}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
   .settings-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
+  .settings-body>h2{scroll-margin-top:84px}
   .settings-anchor{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow:auto;padding-right:4px}
   .settings-anchor-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600;margin:0 0 10px;padding-left:2px}
   .settings-anchor .ant-anchor-link-title{font-size:13px;color:var(--aha-text-secondary)}
