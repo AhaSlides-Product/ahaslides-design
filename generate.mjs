@@ -143,6 +143,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Card',         slug: 'card' },
     { name: 'List',         slug: 'list' },
     { name: 'Table',        slug: 'table' },
+    { name: 'Data table',   slug: 'data-table' },
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
@@ -1282,6 +1283,7 @@ function renderLandingLlms(blocks) {
 function renderGuidelineHtml(p) {
   const missing = (p.composedOf || []).filter(x => x.status === 'missing');
   const skill = p.skillRef || {};
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const guide = p.guide ? part(p.guide) : '';
   const main = `
   <p class="crumbs">Patterns · composition guide</p>
@@ -1298,6 +1300,7 @@ function renderGuidelineHtml(p) {
   <div class="skillrefs">
     ${skill.build ? `<span class="skillref"><b>build</b> <code>${esc(skill.build)}</code></span>` : ''}
     ${skill.judge ? `<span class="skillref"><b>judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
+    ${antiSlop ? `<span class="skillref"><b>anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
   </div>
 
   ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}
@@ -1331,6 +1334,7 @@ function renderGuidelineHtml(p) {
 }
 function renderGuidelineMd(p) {
   const skill = p.skillRef || {};
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const co = (p.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n');
   const rules = (p.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n');
   const surf = (p.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n');
@@ -1339,7 +1343,7 @@ function renderGuidelineMd(p) {
 
 ${p.summary}
 
-Based on: ${skill.build || '—'}${skill.judge ? ` · judge: ${skill.judge}` : ''}
+Based on: ${skill.build || '—'}${skill.judge ? ` · judge: ${skill.judge}` : ''}${antiSlop ? `\nAnti-slop judge: ${antiSlop.criteria.length} binary criteria (surface "${p.slug}") — ${SITE}/anti-slop.md` : ''}
 Surfaces: ${(p.surfaces||[]).join(', ')}.
 
 ## Choose the surface
@@ -1357,12 +1361,14 @@ ${p.reuse ? 'Ships a reusable wrapper (gated like a composite).' : `Doc-only. ${
 `;
 }
 function renderGuidelineAgent(p) {
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   return JSON.stringify({
     generatedFrom: `guidelines/${p.slug}.json`, kind: 'guideline', pattern: p.name, slug: p.slug,
     summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
     surfaceChoice: p.surfaceChoice || null, composedOf: p.composedOf || [],
     componentBacklog: p.componentBacklog || null, rules: p.rules || [],
     shipsCode: !!p.reuse, reuse: p.reuse || null,
+    antiSlop: antiSlop ? { surface: p.slug, criteria: antiSlop.criteria.length, feed: `${SITE}/anti-slop.agent.json` } : null,
   }, null, 2) + '\n';
 }
 function renderGuidelinesLlms(patterns) {
@@ -1789,7 +1795,9 @@ ${NPMRC}
     ? `${npmrc}
 npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
-import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.element || c.slug)}&gt;`
+${c.reuse.registers
+  ? `import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.reuse.registers)}&gt;`
+  : `import { ${esc((c.reuse.exportsNamed || []).join(', '))} } from '${PKGNAME}/${entry}';`}`
     : `${npmrc}
 npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root

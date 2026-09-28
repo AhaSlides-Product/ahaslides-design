@@ -1,0 +1,162 @@
+{
+  "name": "Viewport switch (useIsMobile)",
+  "slug": "viewport-switch",
+  "group": "Layout",
+  "tier": "leaf-lit",
+  "badge": "shared web component + hook",
+  "element": "aha-viewport-switch",
+  "summary": "The ONE mobile breakpoint (max-width 767.98px) for renders that change shape — the useIsMobile() React hook, a framework-agnostic store, and <aha-viewport-switch> for HTML.",
+  "lead": "Mobile in AhaSlides is `(max-width: 767.98px)` — .98 so there is no sub-pixel gap against a 768px rule at fractional device-pixel ratios. Three ways to consume the same decision: React calls useIsMobile() from @ahaslides-product/design/use-is-mobile (react is an optional peer); any framework subscribes through @ahaslides-product/design/viewport (isMobileViewport / subscribeMobileViewport / MOBILE_MEDIA_QUERY); plain HTML wraps both shapes in <aha-viewport-switch> and marks them slot=\"mobile\" / slot=\"desktop\" — exactly one shows, the host reflects a `mobile` attribute, and `viewport-change` fires when the breakpoint is crossed. This is for SHAPE switches only (table → card list, sidebar → drawer); pure styling stays in `@media (max-width: 767.98px)`.",
+  "codeNote": "useIsMobile() never gates styling — padding, gaps and font sizes belong in the media query. Server renders see desktop (false) and settle on the client.",
+  "tokensUsed": [
+    "font-product",
+    "border",
+    "radius-default"
+  ],
+  "spec": [
+    {
+      "label": "Breakpoint",
+      "value": "mobile = (max-width: 767.98px) — MOBILE_MEDIA_QUERY, MOBILE_MAX_WIDTH 767.98"
+    },
+    {
+      "label": "React",
+      "value": "useIsMobile() from ./use-is-mobile — useSyncExternalStore over the store; SSR = false"
+    },
+    {
+      "label": "Any framework",
+      "value": "./viewport → isMobileViewport() · subscribeMobileViewport(cb) → unsubscribe"
+    },
+    {
+      "label": "HTML",
+      "value": "<aha-viewport-switch> shows slot=mobile or slot=desktop; host [mobile] reflects it"
+    },
+    {
+      "label": "Event",
+      "value": "viewport-change { detail: { mobile } } when the breakpoint is crossed"
+    },
+    {
+      "label": "Scope",
+      "value": "shape switches only — styling uses @media (max-width: 767.98px)"
+    }
+  ],
+  "props": [
+    {
+      "name": "slot=\"mobile\"",
+      "type": "child",
+      "default": "—",
+      "desc": "Rendered below 768px"
+    },
+    {
+      "name": "slot=\"desktop\"",
+      "type": "child",
+      "default": "—",
+      "desc": "Rendered at 768px and up"
+    },
+    {
+      "name": "mobile",
+      "type": "boolean (read-only, reflected)",
+      "default": "—",
+      "desc": "Set by the element when the viewport is mobile"
+    },
+    {
+      "name": "useIsMobile()",
+      "type": "() => boolean",
+      "default": "—",
+      "desc": "React hook — @ahaslides-product/design/use-is-mobile"
+    },
+    {
+      "name": "subscribeMobileViewport(cb)",
+      "type": "(cb: (mobile) => void) => () => void",
+      "default": "—",
+      "desc": "Framework-agnostic subscription — @ahaslides-product/design/viewport"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "useIsMobile() / <aha-viewport-switch>",
+        "when": "the mobile render is a DIFFERENT shape — a table becomes a card list, a sidebar becomes a drawer"
+      },
+      {
+        "what": "@media (max-width: 767.98px)",
+        "when": "only spacing, sizing or visibility tweaks change — no JS"
+      },
+      {
+        "what": "Grid / Flex",
+        "when": "the layout should simply reflow"
+      }
+    ],
+    "note": "Never an ad-hoc useMediaQuery('(max-width: 600px)') or window.innerWidth check, and never 768px / 767px in a media query — one breakpoint, 767.98px. Replaces the aha-design plugin's aha-design-shared-components registry entry (SHARED-05).",
+    "dsv3": "No DS V3 frame — a behavioural primitive. The breakpoint matches the house responsive rule in aha-design-shared-components §3."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "audience",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-viewport-switch",
+    "registers": "aha-viewport-switch",
+    "exportsNamed": [
+      "AhaViewportSwitch",
+      "defineAhaViewportSwitch",
+      "MOBILE_MEDIA_QUERY",
+      "MOBILE_MAX_WIDTH",
+      "isMobileViewport",
+      "subscribeMobileViewport"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "viewport-switch.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "viewport-switch.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "viewport-switch.vue.txt"
+    }
+  ],
+  "preview": "viewport-switch.preview.html",
+  "selfCheck": [
+    {
+      "label": "one breakpoint: (max-width: 767.98px)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "exactly one slot rendered; host [mobile] reflects it",
+      "verdict": "PASS"
+    },
+    {
+      "label": "media-query listener removed on disconnect",
+      "verdict": "PASS"
+    },
+    {
+      "label": "React hook uses useSyncExternalStore (SSR-safe)",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs on the doc page at the 1200px QA window, i.e. the DESKTOP branch: the desktop slot renders, the mobile slot does not, and the host carries no [mobile]. The demo content in each slot is token-styled to prove the slotted shape renders; the 360px branch is verified in a real browser at review.",
+    "ready": "!!(document.querySelector('aha-viewport-switch[data-probe]') && document.querySelector('aha-viewport-switch[data-probe]').shadowRoot && window.AHA_MOBILE_MEDIA_QUERY)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-viewport-switch[data-probe]');var r=el.shadowRoot;var d=document.querySelector('[data-probe] [slot=\"desktop\"]');var ds=getComputedStyle(d);return{hostMobile:String(el.hasAttribute('mobile')),desktopBranch:getComputedStyle(r.querySelector('.desktop')).display,mobileBranch:getComputedStyle(r.querySelector('.mobile')).display,mediaQuery:window.AHA_MOBILE_MEDIA_QUERY,desktopBorder:ds.borderTopColor,desktopRadius:ds.borderTopLeftRadius};})()",
+    "expect": {
+      "hostMobile": "false",
+      "desktopBranch": "block",
+      "mobileBranch": "none",
+      "mediaQuery": "(max-width: 767.98px)",
+      "desktopBorder": "rgb(227, 227, 227)",
+      "desktopRadius": "8px"
+    }
+  }
+}

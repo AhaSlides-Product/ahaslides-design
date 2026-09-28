@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.62.0",
+  "version": "0.65.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -77,7 +77,12 @@
     "./lib/aha-question-list.js",
     "./lib/illustrations.js",
     "./lib/aha-user-info.js",
-    "./lib/aha-screen-heading.js"
+    "./lib/aha-screen-heading.js",
+    "./lib/aha-field-error.js",
+    "./lib/aha-live-region.js",
+    "./lib/aha-progressbar.js",
+    "./lib/aha-viewport-switch.js",
+    "./lib/aha-error-page.js"
   ],
   "unpkg": "./lib/all.js",
   "jsdelivr": "./lib/all.js",
@@ -105,6 +110,7 @@
     "./aha-menu": "./lib/aha-menu.js",
     "./aha-pagination": "./lib/aha-pagination.js",
     "./table-theme": "./lib/table-theme.js",
+    "./aha-data-table": "./lib/aha-data-table.js",
     "./select-theme": "./lib/select-theme.js",
     "./form-theme": "./lib/form-theme.js",
     "./datepicker-theme": "./lib/datepicker-theme.js",
@@ -166,8 +172,18 @@
     "./aha-image-dropzone": "./lib/aha-image-dropzone.js",
     "./aha-option-row": "./lib/aha-option-row.js",
     "./aha-question-list": "./lib/aha-question-list.js",
+    "./aha-field-error": "./lib/aha-field-error.js",
+    "./aha-live-region": "./lib/aha-live-region.js",
+    "./aha-progressbar": "./lib/aha-progressbar.js",
+    "./aha-viewport-switch": "./lib/aha-viewport-switch.js",
+    "./aha-error-page": "./lib/aha-error-page.js",
+    "./viewport": "./lib/viewport.js",
+    "./use-is-mobile": "./lib/use-is-mobile.js",
     "./popconfirm-theme": "./lib/popconfirm-theme.js",
-    "./screen-lint": "./screen-lint.mjs"
+    "./screen-lint": "./screen-lint.mjs",
+    "./tokens.canonical.json": "./tokens.canonical.json",
+    "./guidelines/*": "./guidelines/*",
+    "./anti-slop/criteria.json": "./anti-slop/criteria.json"
   },
   "files": [
     "screen-lint.mjs",
@@ -176,7 +192,10 @@
     "icons/svg/",
     "icons/registry.json",
     "illustrations/svg/",
-    "illustrations/registry.json"
+    "illustrations/registry.json",
+    "tokens.canonical.json",
+    "guidelines/",
+    "anti-slop/"
   ],
   "scripts": {
     "new:component": "node scaffold.mjs",
@@ -189,6 +208,14 @@
     "evals:anti-slop": "node anti-slop/evals-harness.mjs",
     "build": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
     "check": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node screen-lint.mjs --self-test && node qa.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   },
   "license": "UNLICENSED"
 }

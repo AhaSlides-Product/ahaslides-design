@@ -1,0 +1,12 @@
+import { useIsMobile } from '@ahaslides-product/design/use-is-mobile';   // react is an optional peer
+import { DataTable } from './DataTable';        // the shared antd Table + tableTheme
+import { ResponseCards } from './ResponseCards';
+
+// A SHAPE switch: a different component below 768px, not a styling tweak.
+export function Responses({ rows }) {
+  const isMobile = useIsMobile();
+  return isMobile ? <ResponseCards rows={rows} /> : <DataTable rows={rows} />;
+}
+
+// Styling-only differences stay in CSS:
+// @media (max-width: 767.98px) { .toolbar { gap: 8px; } }

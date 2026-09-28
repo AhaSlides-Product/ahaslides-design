@@ -1,0 +1,14 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     code → state + British-English copy; heading / body / action-label take your translations.
+     Listen for error-page-view (telemetry) and action (retry / navigate). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';              // <aha-icon> for the status glyph
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-error-page.js';     // registers <aha-error-page> (+ <aha-result>, <aha-button>)
+
+  const page = document.querySelector('aha-error-page');
+  page.addEventListener('error-page-view', (event) => console.info('error shown', event.detail.code));
+  page.addEventListener('action', () => location.reload());
+</script>
+
+<aha-error-page code="500"></aha-error-page>

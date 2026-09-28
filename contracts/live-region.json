@@ -1,0 +1,157 @@
+{
+  "name": "Live region",
+  "slug": "live-region",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-live-region",
+  "summary": "The screen-reader announcement region — aria-live assertive + atomic, always mounted (even empty), never role=alert.",
+  "lead": "ONE custom element — <aha-live-region> — defined once, imported unchanged by React and Vue. Mount it once and KEEP it mounted: a live region that appears together with its text is often not announced, because assistive tech was not yet watching it. It is aria-live=\"assertive\" + aria-atomic=\"true\" by default (politeness=\"polite\" for non-urgent updates) and deliberately carries NO role=\"alert\", which would announce the text twice. Drive it with the `message` attribute, or call announce(text) — it clears, then writes on the next tick, so the same message announced twice is heard twice. Visually hidden unless `visible` is set.",
+  "codeNote": "Same element in every framework. Keep ONE instance mounted near the app root and announce through it; do not render a fresh region per message.",
+  "tokensUsed": [
+    "text-secondary",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "A11y",
+      "value": "aria-live=assertive (or polite) · aria-atomic=true · no role=alert"
+    },
+    {
+      "label": "Lifecycle",
+      "value": "stays in the DOM when empty so AT is already tracking it"
+    },
+    {
+      "label": "Hidden (default)",
+      "value": "visually hidden 1×1 clip — read by AT, not seen"
+    },
+    {
+      "label": "Visible",
+      "value": "visible → 14/22 #4A4A4A (text-secondary) status line"
+    },
+    {
+      "label": "Re-announce",
+      "value": "announce(text) clears then writes after 50ms → a repeat is heard again"
+    }
+  ],
+  "props": [
+    {
+      "name": "message",
+      "type": "string",
+      "default": "''",
+      "desc": "Text to announce; changing it announces the new text"
+    },
+    {
+      "name": "politeness",
+      "type": "'assertive' | 'polite'",
+      "default": "assertive",
+      "desc": "polite waits for the screen reader to finish; assertive interrupts"
+    },
+    {
+      "name": "visible",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Show the text as a secondary status line instead of hiding it"
+    },
+    {
+      "name": "announce(text)",
+      "type": "method",
+      "default": "—",
+      "desc": "Imperative announce; re-announces identical text"
+    },
+    {
+      "name": "clear()",
+      "type": "method",
+      "default": "—",
+      "desc": "Empty the region without removing it"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Live region",
+        "when": "something changed that a sighted user sees but a screen-reader user would miss (saved, results updated, timer ended)"
+      },
+      {
+        "what": "Field error variant=\"respondent\"",
+        "when": "the change is a validation error on one field"
+      },
+      {
+        "what": "Toast",
+        "when": "a visible transient confirmation — it carries its own live semantics"
+      }
+    ],
+    "note": "Never an ad-hoc <div aria-live> rendered only while there is a message — it unmounts empty and misses the announcement. Assertive interrupts the user: use it for time-critical news, polite for the rest. Replaces the aha-design plugin's aha-design-shared-components registry entry (SHARED-03).",
+    "dsv3": "No DS V3 frame — a non-visual a11y primitive. The optional visible line uses the token layer (text-secondary, 14/22)."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "audience",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-live-region",
+    "registers": "aha-live-region",
+    "exportsNamed": [
+      "AhaLiveRegion",
+      "defineAhaLiveRegion"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "live-region.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "live-region.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "live-region.vue.txt"
+    }
+  ],
+  "preview": "live-region.preview.html",
+  "selfCheck": [
+    {
+      "label": "aria-live assertive + aria-atomic true, no role=alert",
+      "verdict": "PASS"
+    },
+    {
+      "label": "stays mounted while empty",
+      "verdict": "PASS"
+    },
+    {
+      "label": "visually hidden 1×1 by default",
+      "verdict": "PASS"
+    },
+    {
+      "label": "visible line 14/22 #4A4A4A",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is the default hidden, EMPTY region (proves it stays mounted empty); the [visible] sibling proves the visible status line.",
+    "ready": "!!(document.querySelector('aha-live-region[data-probe]') && document.querySelector('aha-live-region[data-probe]').shadowRoot && document.querySelector('aha-live-region[visible]'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-live-region[data-probe]');var s=getComputedStyle(el);var v=document.querySelector('aha-live-region[visible]');var vs=getComputedStyle(v);return{ariaLive:el.getAttribute('aria-live'),ariaAtomic:el.getAttribute('aria-atomic'),role:el.getAttribute('role')||'none',mountedEmpty:String(el.isConnected&&el.textContent===''),width:s.width,height:s.height,position:s.position,visibleColor:vs.color,visibleFontSize:vs.fontSize,visibleLive:v.getAttribute('aria-live')};})()",
+    "expect": {
+      "ariaLive": "assertive",
+      "ariaAtomic": "true",
+      "role": "none",
+      "mountedEmpty": "true",
+      "width": "1px",
+      "height": "1px",
+      "position": "absolute",
+      "visibleColor": "rgb(74, 74, 74)",
+      "visibleFontSize": "14px",
+      "visibleLive": "polite"
+    }
+  }
+}

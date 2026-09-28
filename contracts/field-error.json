@@ -1,0 +1,156 @@
+{
+  "name": "Field error",
+  "slug": "field-error",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-field-error",
+  "summary": "The accessible field / validation error every input points aria-describedby at — the a11y FieldError (forms) and FieldErrorDisplay (respondent renderers) in one element.",
+  "lead": "ONE custom element — <aha-field-error> — defined once, imported unchanged by React and Vue. It is the only error node a field should describe itself with: a stable id (minted if you give none) for aria-describedby, danger text bound to --aha-text-negative, and NOTHING rendered while `message` is empty. `variant=\"respondent\"` is the FieldErrorDisplay contract for respondent element renderers — role=\"alert\" + aria-live=\"assertive\", so the error is announced the moment it appears. The message is mirrored into the host's light DOM so aria-describedby and the alert read it directly. The input still owns its half of the wiring: aria-invalid + aria-describedby=\"<error id>\".",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. Pass the TRANSLATED string as `message`; the DS does not own i18n keys. The input owns its half of the wiring: aria-invalid + aria-describedby=\"<error id>\". A DS <aha-input> does both for you — status=\"error\" sets aria-invalid and it forwards its aria-describedby to the inner field.",
+  "tokensUsed": [
+    "text-negative",
+    "space-4",
+    "motion-mid",
+    "ease-out",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Text",
+      "value": "14/22 regular · #F5222D (text-negative) · 4px above (space-4)"
+    },
+    {
+      "label": "Empty",
+      "value": "message empty or absent → form variant hidden (renders nothing); respondent stays mounted at zero height so the alert is tracked"
+    },
+    {
+      "label": "Form variant (default)",
+      "value": "a11y FieldError — stable id for aria-describedby, no live role"
+    },
+    {
+      "label": "Respondent variant",
+      "value": "FieldErrorDisplay — role=alert + aria-live=assertive"
+    },
+    {
+      "label": "Wiring",
+      "value": "input: aria-invalid=\"true\" + aria-describedby=\"<error id>\""
+    },
+    {
+      "label": "Motion",
+      "value": "fades + slides 4px in on --aha-motion-mid / --aha-ease-out; off under prefers-reduced-motion"
+    }
+  ],
+  "props": [
+    {
+      "name": "message",
+      "type": "string",
+      "default": "''",
+      "desc": "The (translated) error text. Empty hides the element."
+    },
+    {
+      "name": "variant",
+      "type": "'form' | 'respondent'",
+      "default": "form",
+      "desc": "form = a11y FieldError (AntD / form contexts); respondent = FieldErrorDisplay (role=alert, assertive)"
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "default": "minted",
+      "desc": "Target for the input's aria-describedby; minted as aha-field-error-N when absent"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Field error",
+        "when": "one field failed validation and the user must fix it before continuing"
+      },
+      {
+        "what": "Field error variant=\"respondent\"",
+        "when": "inside a respondent element renderer (audience answer inputs)"
+      },
+      {
+        "what": "Alert",
+        "when": "the problem is page- or form-level, not tied to one field"
+      },
+      {
+        "what": "Toast",
+        "when": "never for a validation error — it disappears before it can be fixed"
+      }
+    ],
+    "note": "Never hand-roll a red <span> under an input: it has no id to describe the field, no alert semantics and drifts off the token. Say what is wrong and how to fix it (\"Enter an email address, like name@example.com\"), not just \"Invalid\". Colour is never the only signal — the text is the error. Replaces the aha-design plugin's aha-design-shared-components registry entry (SHARED-01, SHARED-02).",
+    "dsv3": "Derived — the DS V3 Form item carries the error explain under the control; size and colour come from the token layer (text-negative, 14/22) matching antd Form's explain line. No separate DS V3 frame."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "audience",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-field-error",
+    "registers": "aha-field-error",
+    "exportsNamed": [
+      "AhaFieldError",
+      "defineAhaFieldError"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "field-error.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "field-error.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "field-error.vue.txt"
+    }
+  ],
+  "preview": "field-error.preview.html",
+  "selfCheck": [
+    {
+      "label": "danger text #F5222D · 14/22 · 4px gap",
+      "verdict": "PASS"
+    },
+    {
+      "label": "empty message renders nothing",
+      "verdict": "PASS"
+    },
+    {
+      "label": "respondent variant is role=alert + aria-live=assertive",
+      "verdict": "PASS"
+    },
+    {
+      "label": "input aria-describedby resolves to the error id",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is the form-variant error under a DS <aha-input status=\"error\">: the input's REAL inner field must be aria-invalid and described by the error element. Siblings assert the empty and respondent states.",
+    "ready": "!!(function(){var el=document.querySelector('aha-field-error[data-probe]');var i=document.querySelector('#fe-email');return el&&el.shadowRoot&&i&&i.shadowRoot&&i.shadowRoot.querySelector('.field');})()",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-field-error[data-probe]');var s=getComputedStyle(el);var field=document.querySelector('#fe-email').shadowRoot.querySelector('.field');var described=field.ariaDescribedByElements||[];var empty=document.querySelector('aha-field-error[data-empty]');var resp=document.querySelector('aha-field-error[variant=\"respondent\"]');return{color:s.color,fontSize:s.fontSize,lineHeight:s.lineHeight,marginTop:s.marginTop,describedBy:String(described[0]===el),inputInvalid:field.getAttribute('aria-invalid'),text:el.textContent,emptyDisplay:getComputedStyle(empty).display,respondentRole:resp.getAttribute('role'),respondentLive:resp.getAttribute('aria-live')};})()",
+    "expect": {
+      "color": "rgb(245, 34, 45)",
+      "fontSize": "14px",
+      "lineHeight": "22px",
+      "marginTop": "4px",
+      "describedBy": "true",
+      "inputInvalid": "true",
+      "text": "Enter an email address, like name@example.com",
+      "emptyDisplay": "none",
+      "respondentRole": "alert",
+      "respondentLive": "assertive"
+    }
+  }
+}
