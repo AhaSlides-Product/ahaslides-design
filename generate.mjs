@@ -16,8 +16,10 @@
  *   dist/<slug>/<slug>.md         per-component markdown feed
  *   dist/<slug>/<slug>.agent.json machine feed (props + tokens + spec + opinion + both snippets)
  *   dist/<slug>.llms.txt          the component's llms entry
+ *   dist/search-index.json        the header search index, crawled from every built page
  */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync, cpSync } from 'node:fs';
+import { anchorHeadings, buildSearchIndex, searchHeaderHtml, SEARCH_CSS, SEARCH_JS, SEARCH_GLYPHS } from './docs-search.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -81,11 +83,15 @@ const AHA_ICON_JS = `(function(){
     el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>'
       +'<svg width="'+size+'" height="'+size+'" viewBox="'+ic.viewBox+'" fill="none" '+a11y+'>'+ic.body+'</svg>';
   }
-  if(!customElements.get('aha-icon')) customElements.define('aha-icon',class extends HTMLElement{
-    static get observedAttributes(){return['name','size','label','decorative'];}
-    connectedCallback(){ var s=this; if(window.AHA_ICONS){draw(s);} else {var t=setInterval(function(){if(window.AHA_ICONS){clearInterval(t);draw(s);}},20);} }
-    attributeChangedCallback(){ if(this.shadowRoot) draw(this); }
-  });
+  if(!customElements.get('aha-icon')){
+    customElements.define('aha-icon',class extends HTMLElement{
+      static get observedAttributes(){return['name','size','label','decorative'];}
+      connectedCallback(){ var s=this; if(window.AHA_ICONS){draw(s);} else {var t=setInterval(function(){if(window.AHA_ICONS){clearInterval(t);draw(s);}},20);} }
+      attributeChangedCallback(){ if(this.shadowRoot) draw(this); }
+    });
+    // The shell ships only the header's glyphs; redraw once the full registry arrives.
+    window.addEventListener('aha-icons-loaded',function(){ document.querySelectorAll('aha-icon').forEach(function(el){ if(el.shadowRoot) draw(el); }); });
+  }
 })();
 `;
 
@@ -783,6 +789,9 @@ function sidebarNav(base, active, section) {
   return `<nav class="doc-nav">${inner}</nav>`;
 }
 
+const missingGlyphs = SEARCH_GLYPHS.filter(n => !ICONS.icons[n]);
+if (missingGlyphs.length && ICONS.count) throw new Error(`docs search uses glyphs missing from icons/registry.json: ${missingGlyphs.join(', ')}`);
+const HEADER_GLYPHS_JS = `window.AHA_ICONS=Object.assign(${JSON.stringify(Object.fromEntries(SEARCH_GLYPHS.filter(n => ICONS.icons[n]).map(n => [n, ICONS.icons[n]])))},window.AHA_ICONS||{});`;
 function docShell({ base, active, section = 'components', main, extraCss = '', noSidebar = false }) {
   // The Settings page carries its own in-page antd Anchor, so the shell sidebar would be a second
   // nav of the same items — noSidebar drops it and .doc-main (flex:1) reclaims the width.
@@ -799,17 +808,18 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <link rel="alternate" type="text/plain" title="llms-full.txt — full docs" href="${SITE}/llms-full.txt"/>
 <link rel="alternate" type="text/markdown" title="design.md — visual language" href="${SITE}/design.md"/>
 <link rel="alternate" type="text/markdown" title="CHANGELOG.md — version history" href="${SITE}/CHANGELOG.md"/>
-<style>${tokenVars(TOK)}${shellCss(base)}${extraCss}</style></head><body>
+<style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style></head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html"><svg class="logo" viewBox="0 0 802 788" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M170.733 275.998C278.798 265.243 378.859 323.322 335.099 444.05C314.506 506.19 275.855 581.827 243.31 638.991C215.75 687.389 176.897 762.933 120.57 779.886C47.4014 801.893 13.3568 737.231 38.653 673.946C50.1622 645.147 76.3125 617.797 98.9558 596.777C156.207 543.64 209.364 500.767 267.058 447.815C322.558 396.876 304.327 320.548 218.229 348.597C177.136 361.996 147.118 395.204 100.29 386.241C77.245 381.831 59.1047 363.439 62.4007 338.917C68.3362 294.758 133.204 278.683 170.733 275.998Z" fill="#FF4081"/><path d="M450.382 386.525C486.54 382.591 528.879 404.694 561.903 419.06C613.821 441.642 719.681 495.692 751.619 545.435C773.16 578.987 758.736 620.992 723.868 629.865C680.288 637.375 652.573 611.747 625.142 583.886C583.067 541.158 542.425 487.894 502.946 446.124C459.708 404.54 411.899 421.557 428.008 479.843C437.434 513.92 476.519 553.502 451.17 590.608C432.96 617.264 400.896 603.783 387.05 579.1C355.646 523.118 368.986 393.785 450.369 386.525H450.382Z" fill="#6A1EBB"/><path d="M395.401 274.91C359.243 278.844 311.02 252.439 277.995 238.073C226.078 215.492 127.572 164.107 98.4196 118.689C76.8782 85.137 82.5894 39.0804 126.17 31.5704C169.75 24.0603 197.412 51.5244 223.829 78.3561C263.853 119.008 305.44 175.986 347.904 218.444C381.523 254.744 436.591 242.313 420.482 184.027C411.056 149.95 369.615 104.535 398.068 68.6762C418.857 42.4809 447.41 59.2659 459.706 83.1959C490.656 143.426 480.25 265.499 395.414 274.91L395.401 274.91Z" fill="#6A1EBB"/><path d="M513.867 313.624C513.866 313.622 513.869 313.62 513.87 313.622C537.558 338.301 582.265 297.03 606.997 294.547C624.974 292.744 647.013 299.901 646.488 321.974C646.488 358.004 581.094 363.359 554.43 360.693C502.932 355.544 465.718 321.759 484.522 264.702C500.282 216.871 551.389 106.373 589.653 75.139C630.502 41.788 679.136 67.0343 663.298 119.505C651.501 158.567 571.718 215.383 539.267 245.611C522.147 261.559 494.137 291.042 513.863 313.626C513.865 313.628 513.868 313.626 513.867 313.624Z" fill="#FF4081"/></svg><span>AhaSlides Design</span></a>
   ${topNav(base, section)}
+  ${searchHeaderHtml(base)}
   <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
 </header>
 <div class="doc-body" data-section="${section}">
   ${nav}
-  <main class="doc-main"><div class="doc-main-inner">${main}</div></main>
+  <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
-<script>${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
+<script>${HEADER_GLYPHS_JS}${AHA_ICON_JS}${SEARCH_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
@@ -1884,7 +1894,8 @@ function renderIndex(cs) {
 // The client artifacts every icon-bearing page loads: the registry data + the shared element.
 function writeIconRuntime() {
   mkdirSync(join(OUT, 'icons'), { recursive: true });
-  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(ICONS.icons) + ';\n');
+  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=Object.assign(window.AHA_ICONS||{},' + JSON.stringify(ICONS.icons) + ');\n'
+    + "window.AHA_ICONS_COMPLETE=true;window.dispatchEvent(new Event('aha-icons-loaded'));\n");
   writeFileSync(join(OUT, 'icons', 'aha-icon.js'), AHA_ICON_JS);
 }
 const GALLERY_JS = `
@@ -1901,6 +1912,7 @@ const GALLERY_JS = `
     count.textContent=n+' icon'+(n===1?'':'s');
   }
   q.addEventListener('input',apply);
+  var linked=new URLSearchParams(location.search).get('q'); if(linked) q.value=linked;
   fams.forEach(function(b){b.addEventListener('click',function(){fams.forEach(function(x){x.classList.remove('on')});b.classList.add('on');fam=b.dataset.fam;apply();});});
   grid.addEventListener('click',function(e){
     var c=e.target.closest('.ic'); if(!c)return;
@@ -2190,4 +2202,7 @@ mkdirSync(join(OUT, 'feeds'), { recursive: true });
 for (const f of RAW_FEEDS) {
   writeFileSync(join(OUT, 'feeds', `${f.page}.html`), renderFeedPage(f, read(join(OUT, f.file))));
 }
+const searchIndex = buildSearchIndex({ outDir: OUT, contracts, icons: ICONS, tokenCss: tokenVars(TOK), version: PKG.version });
+writeFileSync(join(OUT, 'search-index.json'), JSON.stringify(searchIndex));
+console.log(`  ✓ search: search-index.json (${searchIndex.count} entries)`);
 console.log(`\nGenerated ${contracts.length} component(s) + variables.css + design.md + ${TOKEN_PAGES.length} token pages + index.html + llms feeds + ${RAW_FEEDS.length} feed pages → dist/`);
