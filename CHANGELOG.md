@@ -31,6 +31,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - **`sync-skills.mjs import` seeds cleaner criterion text.** It reads only the paragraph under each `### Cn.` header (following a lead-in that ends in ":"), cuts long text at a word boundary with "…" rather than mid-word, and keeps DS-authored fields such as `links` when a surface is re-seeded. (#123)
 
+## 0.59.6 — 2026-09-28
+### Changed
+- **Table moves back to Components (Data Display).** It is a themed antd primitive, not an AhaSlides composition, so it no longer sits under Patterns · Data; the empty Data pattern group is gone and the contract's `group` is now `Data Display`. No component behaviour or API change. (#122)
+
 ## 0.59.5 — 2026-09-22
 ### Changed
 - **Audience Library: the one-page nav is now the shared antd `Anchor` "On this page" component — the same one the Settings hub uses.** The audience gallery carried two hand-rolled navs (the shell left-sidebar of in-page `#` links **and** a header pill `chipnav`); both are replaced by the sticky antd `Anchor` island (via `noSidebar`), so every single-scroll DS area navigates through one component instead of a per-area re-implementation. Extracted the Settings hub's inline Anchor into shared `hubAnchor*` helpers (aside markup + React island + layout CSS) and pointed both pages at them. (#119)

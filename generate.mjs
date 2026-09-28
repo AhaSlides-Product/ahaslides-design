@@ -140,6 +140,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Segmented',    slug: 'segmented' },
     { name: 'Card',         slug: 'card' },
     { name: 'List',         slug: 'list' },
+    { name: 'Table',        slug: 'table' },
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
@@ -165,9 +166,6 @@ const COMPONENTS_CATALOG = [
    not prose — prose guidance is Guidelines). Reclassified out of Components; same grouping as before.
    A contract whose slug is here renders under the Patterns area (breadcrumb "Patterns · <group>"). */
 const PATTERNS_CATALOG = [
-  { cat: 'Data', items: [
-    { name: 'Table',          slug: 'table' },
-  ] },
   { cat: 'AhaSlides surfaces', items: [
     { name: 'Paywall',        slug: 'paywall' },
     { name: 'Status badge',   slug: 'status-badge' },
