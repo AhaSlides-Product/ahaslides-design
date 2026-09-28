@@ -175,6 +175,7 @@ const FONT_DEBT = {
 const ROVING_ROLES = /role\s*=\s*["'](radiogroup|radio|tablist|tab|menu|menubar|menuitem|menuitemradio|menuitemcheckbox|listbox|option|tree|treeitem|grid|gridcell|combobox)["']/i;
 const BANNED = [
   [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
+  [/@aha\/ui-react\b|@aha\/ui-vue\b/, 'a fictional package — a composite snippet must import the real vendor library + the shared theme'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
   [/@mui\/|@chakra-ui\/|@radix-ui\/|@mantine\/|react-bootstrap/i, 'a non-AntD component library'],
 ];
@@ -531,9 +532,12 @@ const contractSlugs = new Set(contracts.map(c => c.slug));
 // custom-element tag → slug, for the elements the DS actually ships (leaves that register)
 const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [c.reuse.registers, c.slug]));
 /* anti-slop — the DS-owned criteria store. Feeds + gate read it; a guideline rule that names a
-   judge criterion (C\d+) for a wired surface must resolve here. */
+   judge criterion (C\d+, or a judge's own letter like J\d+) for a wired surface must resolve here. */
 const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
+const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
+const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json)$/;
+const FROZEN_SNAPSHOT = /contract\.json|typography\.json|review\.html|references\//;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -583,7 +587,7 @@ for (const p of guidelines) {
     const _storeCrit = new Set((_surface.criteria || []).map(c => c.id));
     for (const r of (p.rules || [])) {
       for (const ref of (r.ref || [])) {
-        if (/^C\d+$/.test(ref)) {
+        if (JUDGE_CRITERION_ID.test(ref)) {
           chk(`anti-slop: rule ref ${ref} resolves in store surface "${p.slug}"`, _storeCrit.has(ref),
             `no such criterion in anti-slop/criteria.json surfaces.${p.slug} — fix the ref or add the criterion`);
         } else {
@@ -593,7 +597,7 @@ for (const p of guidelines) {
       }
     }
     if (_surface.origin === 'authored') {
-      const _referenced = new Set((p.rules || []).flatMap(r => (r.ref || []).filter(x => /^C\d+$/.test(x))));
+      const _referenced = new Set((p.rules || []).flatMap(r => (r.ref || []).filter(x => JUDGE_CRITERION_ID.test(x))));
       for (const id of _storeCrit)
         chk(`anti-slop: store criterion ${id} is covered by a rule in "${p.slug}"`, _referenced.has(id),
           `surfaces.${p.slug} defines ${id} but no authored rule references it`);
@@ -640,10 +644,19 @@ if (ANTISLOP) {
   for (const [key, s] of Object.entries(ANTISLOP.surfaces || {})) {
     achk(`surface "${key}": origin is seeded|authored`, s.origin === 'seeded' || s.origin === 'authored', `origin="${s.origin}"`);
     achk(`surface "${key}": ≥1 well-formed criterion`,
-      Array.isArray(s.criteria) && s.criteria.length >= 1 && s.criteria.every(c => /^C\d+$/.test(c.id) && c.title && c.test),
-      'each criterion needs { id:C\\d+, title, test }');
-    achk(`surface "${key}": has a matching guideline (guidelines/${key}.json)`, guidelines.some(p => p.slug === key),
-      'a wired surface needs a guideline to supply its rules');
+      Array.isArray(s.criteria) && s.criteria.length >= 1 && s.criteria.every(c => JUDGE_CRITERION_ID.test(c.id) && c.title && c.test),
+      'each criterion needs { id:C\\d+ (or the judge\'s own letter, e.g. J\\d+), title, test }');
+    const targets = s.targets || [];
+    achk(`surface "${key}": has a matching guideline (guidelines/${key}.json) or live DS targets`,
+      guidelines.some(p => p.slug === key) || targets.length >= 1,
+      'a wired surface needs a guideline to supply its rules, or targets naming the live DS sources it is judged against');
+    for (const t of targets)
+      achk(`surface "${key}": target "${t?.source}" is a live DS source`,
+        LIVE_TARGET_SOURCE.test(t?.source) && existsSync(join(root, t.source)) && !!t.use,
+        'targets name a DS contract / tokens.canonical.json / icons/registry.json / guideline that exists, with a use');
+    for (const c of (s.criteria || []))
+      achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(`${c.title} ${c.test}`),
+        'the test cites a plugin snapshot (contract.json / typography.json / review.html / references/) — point it at the DS contract or tokens');
   }
   achk('anti-slop.md feed exists', existsSync(join(DIST, 'anti-slop.md')), 'run npm run generate');
   achk('anti-slop.agent.json feed exists', existsSync(join(DIST, 'anti-slop.agent.json')), 'run npm run generate');

@@ -33,8 +33,7 @@
   "snippets": [
     { "key": "html", "label": "HTML", "file": "toast.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared toastTheme. No build step." },
     { "key": "react", "label": "React", "file": "toast.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "toast.vue.txt" },
-    { "key": "theme", "label": "Theme (shared)", "file": "toast.theme.txt" }
+    { "key": "vue", "label": "Vue 3", "file": "toast.vue.txt" }
   ],
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same toastTheme; residual drift is caught by visual regression.",
   "preview": "toast.preview.html",
