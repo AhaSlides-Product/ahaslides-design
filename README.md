@@ -63,6 +63,14 @@ import { tokens } from '@ahaslides-product/design/tokens';           // canonica
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer (CSS)
 ```
 
+Agent-facing rules ship in the package too, so an agent that only installs it still gets them:
+
+```js
+import criteria from '@ahaslides-product/design/anti-slop/criteria.json' with { type: 'json' };  // anti-slop judge criteria
+import settings from '@ahaslides-product/design/guidelines/settings.json' with { type: 'json' };  // any guidelines/*.json
+import canonical from '@ahaslides-product/design/tokens.canonical.json' with { type: 'json' };    // raw token source
+```
+
 `<aha-icon name="system-bell" size="16" />` — colour follows `currentColor`; never inline an `<svg>`.
 `npm run standards` gates every component: it must be complete, declare a real `reuse` entry, import by its package name, and register/export — or the build fails.
 
