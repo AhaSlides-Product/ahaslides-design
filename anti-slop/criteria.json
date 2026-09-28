@@ -394,7 +394,7 @@
       ]
     },
     "shared-components": {
-      "surface": "primitive",
+      "surface": "shared primitives",
       "origin": "seeded",
       "seededFrom": {
         "plugin": "aha-design",
@@ -421,28 +421,48 @@
         {
           "source": "contracts/result.json",
           "use": "the DS Result page"
+        },
+        {
+          "source": "contracts/field-error.json",
+          "use": "the DS FieldError / FieldErrorDisplay"
+        },
+        {
+          "source": "contracts/live-region.json",
+          "use": "the DS LiveRegion"
+        },
+        {
+          "source": "contracts/progressbar.json",
+          "use": "the DS a11y Progressbar wrapper"
+        },
+        {
+          "source": "contracts/viewport-switch.json",
+          "use": "useIsMobile() / the DS viewport switch"
+        },
+        {
+          "source": "contracts/error-page.json",
+          "use": "the DS ErrorPage"
         }
       ],
       "criteria": [
         {
           "id": "C1",
-          "title": "Reaches for the canonical registry primitive, not a hand-rolled one",
-          "test": "A need the registry covers uses its canonical primitive — empty / progress / skeleton / result → the DS Empty, Progress, Skeleton and Result components where the repo can consume the package; field error → FieldErrorDisplay or a11y FieldError; announcement → a11y LiveRegion; full-page respondent error → ErrorPage — never a hand-rolled or half-reused copy."
+          "title": "Reaches for the canonical DS primitive, not a hand-rolled one",
+          "test": "Every registry need is met by its DS primitive — field error → <aha-field-error>; announcement → <aha-live-region>; announced progress → <aha-progressbar>; mobile shape switch → useIsMobile() / <aha-viewport-switch>; full-page error → <aha-error-page>; empty state → <aha-empty>; loading → layout-mirroring <aha-skeleton>. A fresh reimplementation — even a correct one — FAILS."
         },
         {
           "id": "C2",
-          "title": "Correct field-error component chosen and wired",
-          "test": "The right field-error component is chosen by context: FieldErrorDisplay in respondent element renderers (role=\"alert\", aria-live=\"assertive\", i18n messageKey); a11y FieldError in AntD forms (stable id, Typography.Text type=\"danger\", null when empty)."
+          "title": "Correct field-error variant, wired to its input",
+          "test": "Forms use the default <aha-field-error> (a11y FieldError); respondent element renderers use variant=\"respondent\" (FieldErrorDisplay: role=alert, aria-live=assertive). Either way the input sets aria-invalid and its aria-describedby points at the error's id (a DS <aha-input> forwards both). FAIL on the wrong variant or missing wiring."
         },
         {
           "id": "C3",
-          "title": "Responsive shape switches use `useIsMobile()`; pure styling uses the media query",
-          "test": "A render that changes shape below 768px (table → cards, sidebar → drawer) is gated on useIsMobile(); pure styling uses @media (max-width: 767.98px) directly — never styling through the hook, never an ad-hoc breakpoint."
+          "title": "Shape switches use useIsMobile(); styling uses @media (max-width: 767.98px)",
+          "test": "A render that changes shape below 768px is gated on useIsMobile() / <aha-viewport-switch>; pure styling uses @media (max-width: 767.98px) directly. FAIL on an ad-hoc breakpoint, the hook driving pure styling, or a 768px / 767px media query."
         },
         {
           "id": "C4",
           "title": "Accessibility house rules honoured",
-          "test": "The primitives' a11y contracts hold: LiveRegion is aria-live=\"assertive\" + aria-atomic=\"true\", has no role=\"alert\" and stays mounted when empty; Progress carries role=\"progressbar\" + aria-valuenow/min/max + aria-label; loading skeletons carry role=\"status\" + aria-busy."
+          "test": "The live region stays mounted when empty, is assertive + atomic and has no role=alert; an announced progress bar carries role=progressbar + aria-valuenow/min/max + aria-label; skeleton containers carry role=status + aria-busy; visible text uses DS / Typography text, not raw span/p; no state is conveyed by colour alone."
         }
       ]
     },
@@ -1096,21 +1116,6 @@
           "title": "An ACTIVE audience submit button is passed the deck accent, not left on the component's purple fallback",
           "test": "**Rule.** This repo's submit CTA is the shared library component (`SubmitButton` / `AudienceSubmitButton` from `@/iframe/audience`), whose fill DEFAULTS to the fixed brand purple and only tracks the deck when it is passed `:accent=\"presentationColorPalette[0]\"`. So an ACTIVE (answerable) submit button MUST bind that accent."
         }
-      ]
-    },
-    "shared-components": {
-      "surface": "shared primitives",
-      "origin": "seeded",
-      "skillRef": { "build": "aha-design:aha-design-shared-components", "judge": "aha-design:aha-design-shared-components-judge" },
-      "criteria": [
-        { "id": "C1", "title": "Reaches for the canonical DS primitive, not a hand-rolled one",
-          "test": "Every registry need is met by its DS primitive — field error → <aha-field-error>; announcement → <aha-live-region>; announced progress → <aha-progressbar>; mobile shape switch → useIsMobile() / <aha-viewport-switch>; full-page error → <aha-error-page>; empty state → <aha-empty>; loading → layout-mirroring <aha-skeleton>. A fresh reimplementation — even a correct one — FAILS." },
-        { "id": "C2", "title": "Correct field-error variant, wired to its input",
-          "test": "Forms use the default <aha-field-error> (a11y FieldError); respondent element renderers use variant=\"respondent\" (FieldErrorDisplay: role=alert, aria-live=assertive). Either way the input sets aria-invalid and its aria-describedby points at the error's id (a DS <aha-input> forwards both). FAIL on the wrong variant or missing wiring." },
-        { "id": "C3", "title": "Shape switches use useIsMobile(); styling uses @media (max-width: 767.98px)",
-          "test": "A render that changes shape below 768px is gated on useIsMobile() / <aha-viewport-switch>; pure styling uses @media (max-width: 767.98px) directly. FAIL on an ad-hoc breakpoint, the hook driving pure styling, or a 768px / 767px media query." },
-        { "id": "C4", "title": "Accessibility house rules honoured",
-          "test": "The live region stays mounted when empty, is assertive + atomic and has no role=alert; an announced progress bar carries role=progressbar + aria-valuenow/min/max + aria-label; skeleton containers carry role=status + aria-busy; visible text uses DS / Typography text, not raw span/p; no state is conveyed by colour alone." }
       ]
     }
   }
