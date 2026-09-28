@@ -1,0 +1,211 @@
+{
+  "surface": "overlays",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.overlays",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-overlays-judge",
+    "path": "plugins/aha-design/skills/aha-design-overlays-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this overlay. A multi-step configuration wizard (three sequential steps with Back/Next) is crammed into a Popover: `<Popover content={<MultiStepWizard />} />` anchored to a toolbar button.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C1 — right surface: modal for blocking decision, drawer for detail/panel, popover for anchored snippet only",
+      "expected_output": "C1 FAILs. A multi-step flow is shoved into a popover, which is only for a small, anchored, contextual snippet — never a multi-step flow. Fix: render the multi-step wizard in a modal (blocking short flow) or a drawer (medium-complexity panel), not a popover. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Cites a multi-step flow crammed into a popover",
+        "C4 is marked N/A (not a drawer)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this delete-survey confirmation modal (a destructive, data-loss action): `<Modal maskClosable title=\"Delete this survey permanently?\" onCancel={onClose}>…</Modal>`. It leaves mask-close enabled and onCancel is live even while the delete is busy.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C2 — destructive overlays MUST NOT close on outside/mask click; Esc + X only, dismissal suppressed while busy",
+      "expected_output": "C2 FAILs. This destructive/data-loss modal is left maskClosable, so a stray backdrop click destroys the survey, and onCancel stays live while busy so the user can dismiss mid-operation. Fix: set mask={{ closable: false }} leaving Esc (keyboard) and the explicit X as the only dismiss paths, and suppress onCancel while busy (onCancel={busy ? undefined : onClose}, cancelButtonProps={{ disabled: busy }}). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Cites destructive modal left maskClosable / backdrop click destroys",
+        "Cites cancel/close still live while busy"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this modal. It renders form input and an inline error area but sets no destroyOnHidden and no destroyOnClose, and it never clears its error/busy state on open — the instance stays mounted between opens: `<Modal open={open} onCancel={onClose}>…</Modal>`.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 — state must reset between opens via destroyOnHidden (Modal) / destroyOnClose (Drawer)",
+      "expected_output": "C3 FAILs. The modal sets neither destroyOnHidden (Modal) nor clears transient state on open, so stale form input, error text, and the busy flag bleed into the next open. Fix: add destroyOnHidden to the Modal (or destroyOnClose on a Drawer) so transient state resets between opens; if it must stay mounted, clear error/busy explicitly on open. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Cites missing destroyOnHidden / destroyOnClose",
+        "Cites stale error/input/busy bleeding into the next open"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this detail drawer showing a respondent report: `<Drawer placement=\"right\" width={720} title=\"Respondent report\">…</Drawer>`. The width is a fixed 720 with no mobile branch and useIsMobile() is not used.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — drawers default placement=right with responsive width isMobile ? '100%' : <fixed> via useIsMobile()",
+      "expected_output": "C4 FAILs. The drawer uses a fixed width of 720 with no mobile branch, so it overflows/clips on small screens. Fix: drive the width off useIsMobile() as a prop — width={isMobile ? '100%' : 720} — full-bleed on mobile, fixed panel on desktop; keep placement=\"right\". Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites fixed drawer width with no mobile branch",
+        "Cites missing useIsMobile() responsive width prop"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this destructive confirm handler on a delete modal: `const onConfirm = () => { onDelete(); onClose(); };`. onDelete returns a promise but is not awaited, there is no busy guard, and the modal closes immediately.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 — async-confirm pattern: busy guard, await, stay open on failure, never fire-and-forget",
+      "expected_output": "C5 FAILs. The confirm is fire-and-forget: the onDelete promise is not awaited, there is no re-entry (busy) guard so a double-click fires the delete twice, and the modal closes before the destructive action resolves (so a failure is lost). Fix: guard re-entry (if (busy) return), setBusy(true) and clear prior error, await onDelete inside try/catch, close only on success, on rejection stay open and surface the error inline (C6), and clear busy in finally. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Cites fire-and-forget / promise not awaited",
+        "Cites missing busy re-entry guard and/or closing before the action resolves"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this error handling inside a modal's confirm catch block: `catch (e) { Modal.error({ title: 'Failed' }); }`. On failure it stacks a second Modal.error dialog on top of the open modal to report the error.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C6 — errors surface inline via AntD Alert (title, not message), never a nested modal on top",
+      "expected_output": "C6 FAILs. The failure is reported by stacking a nested Modal.error on top of the overlay instead of surfacing it inline. Fix: keep the overlay open on failure and render the error inline with an AntD Alert — {error && <Alert type=\"error\" showIcon title={error.message} />} (AntD v6 uses title, not message); never stack a second modal to report an error. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Cites a nested Modal.error stacked on top",
+        "Prescribes an inline AntD Alert type=error showIcon with title"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this destructive delete confirm modal: `<Modal title={<span style={{ color: 'red' }}>Delete</span>} okButtonProps={{ type: 'primary' }} cancelButtonProps={{}}>…</Modal>`. The danger colour is applied to the title text and the OK button is a plain primary with no danger and no loading; cancel is not disabled while busy.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C7 — destructive confirm uses a danger-styled okButton (danger on the button, not the title/body)",
+      "expected_output": "C7 FAILs. The destructive confirm styles the title red instead of the action button and uses a plain primary OK button with no danger and no loading state. Fix: put danger on the action button — okButtonProps={{ danger: true, loading: busy }} — keep the title a plain question (\"Delete this survey permanently?\") with no red, and disable cancel while busy (cancelButtonProps={{ disabled: busy }}). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Cites danger/red on the title instead of the action button",
+        "Cites plain/primary OK button missing danger and loading"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this destructive delete-survey confirmation modal. `<Modal title=\"Delete this survey permanently?\" mask={{ closable: false }} keyboard destroyOnHidden onCancel={busy ? undefined : onClose} okButtonProps={{ danger: true, loading: busy }} cancelButtonProps={{ disabled: busy }}>`. The confirm handler is `const onConfirm = async () => { if (busy) return; setBusy(true); setError(null); try { await onDelete(); onClose(); } catch (e) { setError(e); } finally { setBusy(false); } };` and on error it renders `{error && <Alert type=\"error\" showIcon title={error.message} />}` inline inside the modal.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — a correct destructive modal; every applicable criterion passes, C4 N/A (not a drawer)",
+      "expected_output": "All applicable criteria PASS. C1: a modal is the right surface for a blocking destructive decision. C2: mask={{ closable: false }} with keyboard (Esc) and X only, and onCancel suppressed while busy. C3: destroyOnHidden resets state between opens. C5: busy re-entry guard, awaited action, closes only on success, stays open and sets error on rejection, clears busy in finally. C6: the error is surfaced inline via an AntD Alert type=error showIcon title, no nested modal. C7: danger lives on the okButton with loading, cancel disabled while busy, title is a question. C4 is N/A (this is a modal, not a drawer). Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C4 is marked N/A",
+        "C1, C2, C3, C5, C6, C7 are all marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-overlays-judge",
+        "id": 8,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    }
+  ]
+}

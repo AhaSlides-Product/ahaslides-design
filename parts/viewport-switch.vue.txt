@@ -1,0 +1,25 @@
+// useIsMobile.ts — the Vue composable over the same DS store
+import { ref, onMounted, onUnmounted } from 'vue';
+import { isMobileViewport, subscribeMobileViewport } from '@ahaslides-product/design/viewport';
+
+export function useIsMobile() {
+  const isMobile = ref(false);
+  let stop = () => {};
+  onMounted(() => {
+    isMobile.value = isMobileViewport();
+    stop = subscribeMobileViewport((mobile) => { isMobile.value = mobile; });
+  });
+  onUnmounted(() => stop());
+  return isMobile;
+}
+
+// Responses.vue
+<script setup>
+import { useIsMobile } from './useIsMobile';
+const isMobile = useIsMobile();
+</script>
+
+<template>
+  <ResponseCards v-if="isMobile" :rows="rows" />
+  <DataTable v-else :rows="rows" />
+</template>

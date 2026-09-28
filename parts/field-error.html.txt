@@ -1,0 +1,22 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-field-error> is the SAME shared custom element React and Vue consume. The input owns its
+     half of the wiring: aria-invalid + aria-describedby pointing at the error's id. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-field-error.js';   // registers <aha-field-error>
+
+  const input = document.getElementById('email');
+  const error = document.getElementById('email-error');
+  input.addEventListener('blur', () => {
+    const valid = /.+@.+\..+/.test(input.value);
+    error.setAttribute('message', valid ? '' : 'Enter an email address, like name@example.com');
+    valid ? input.removeAttribute('aria-invalid') : input.setAttribute('aria-invalid', 'true');
+  });
+</script>
+
+<label for="email">Email</label>
+<input id="email" type="email" aria-describedby="email-error">
+<aha-field-error id="email-error"></aha-field-error>
+
+<!-- Respondent element renderers: the FieldErrorDisplay contract (role=alert, assertive) -->
+<aha-field-error id="q3-error" variant="respondent" message="Pick at least one option"></aha-field-error>

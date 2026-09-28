@@ -1,0 +1,17 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-live-region';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// SaveButton.vue
+<script setup>
+import { ref } from 'vue';
+const announcer = ref(null);
+const resultCount = ref(12);
+function save() { announcer.value?.announce('Slide saved'); }
+</script>
+
+<template>
+  <aha-live-region ref="announcer" />
+  <button type="button" @click="save">Save slide</button>
+  <aha-live-region visible politeness="polite" :message="`${resultCount} results`" />
+</template>

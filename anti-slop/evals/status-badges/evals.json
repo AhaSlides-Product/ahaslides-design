@@ -1,0 +1,160 @@
+{
+  "surface": "status-badges",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.status-badges",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-status-badges-judge",
+    "path": "plugins/aha-design/skills/aha-design-status-badges-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this status badge. A dashboard renders a survey's published state as a bare coloured dot with no text beside it: `<span className=\"aha-status-pill aha-status-pill--published\" />`. Is this status pill correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — the pill is a dot + a localised text label.",
+      "expected_output": "C1 FAILs: a status pill must be a dot (aha-status-pill__dot) plus a visible localised text label — the text is the source of truth and the dot is decorative — but this is a dot only with no label, so the state is conveyed by dot colour alone. Fix: render the dot span plus the {label} text inside the pill. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Identifies the missing visible text label (dot-only)",
+        "Notes the state is conveyed by colour alone"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-status-badges-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this status badge. A presentation status renders with `className=\"badge badge-green\"` and a nested `<span className=\"dot\" />`, using an ad-hoc class family instead of the house convention. Is the markup correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — aha-status-pill / aha-status-pill--{status} class convention.",
+      "expected_output": "C2 FAILs: the markup must use the aha-status-pill base class plus a per-state modifier aha-status-pill--{status} and the aha-status-pill__dot element — but this uses a bespoke `badge badge-green` class family with an inline `dot` class, not the pill convention. Fix: use className={`aha-status-pill aha-status-pill--${status}`} and the aha-status-pill__dot element for the dot. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Flags the ad-hoc `badge badge-green` class family",
+        "Recommends the aha-status-pill / aha-status-pill--{status} convention and aha-status-pill__dot"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-status-badges-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this status badge. A closed-survey pill renders `<span className=\"aha-status-pill aha-status-pill--closed\"><span className=\"aha-status-pill__dot\" />{label}</span>` — no role and no aria-label on the element. Is the accessibility contract satisfied?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — role=status + aria-label accessibility contract.",
+      "expected_output": "C3 FAILs: the pill must carry role=\"status\" and an aria-label equal to the visible label so the state is announced to assistive tech and not conveyed by colour alone — this element has neither. Fix: add role=\"status\" and aria-label={label} to the pill span, keeping the visible text label present. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Identifies the missing role=\"status\" and aria-label",
+        "Recommends adding role=status and aria-label={label}"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-status-badges-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this status badge. The label is set with `const label = \"Published\";` — a hardcoded English string used as the pill's visible text. Is the label sourced correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — label sourced from i18n, never hardcoded.",
+      "expected_output": "C4 FAILs: the visible label must always be a translation lookup — t(`survey_status.${status}`) or the equivalent namespace — never a hardcoded visible string; adding a state means adding a translation key, not typing the word. Fix: use const label = t(`survey_status.${status}`) and add the translation key for the state. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags the hardcoded \"Published\" string",
+        "Recommends an i18n lookup like t(`survey_status.${status}`)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-status-badges-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this status badge. The pill colour is applied inline: `<span className=\"aha-status-pill\" style={{ color: \"#16c49a\" }}>` with a raw hex literal instead of a modifier class. Is the colour handled correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5 — colour via --{status} modifier class, no inline hex.",
+      "expected_output": "C5 FAILs: colour must be driven by the --{status} modifier class resolving to semantic tokens, not an inline style or a raw hex — here #16c49a is a hardcoded hex on an inline style and there is no aha-status-pill--{status} modifier, so states can't diverge in one stylesheet. Fix: drop the inline style, add the aha-status-pill--{status} modifier, and set colour in CSS on a semantic token, e.g. .aha-status-pill--published .aha-status-pill__dot { background: var(--aha-colorSuccess); }. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Flags the inline hex #16c49a and missing --{status} modifier",
+        "Recommends modifier-class colour on semantic tokens"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-status-badges-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this status badge. A survey status pill renders `<span className={`aha-status-pill aha-status-pill--${status}`} role=\"status\" aria-label={label}><span className=\"aha-status-pill__dot\" />{label}</span>` where `const label = t(`survey_status.${status}`)`, and the dot/pill colour is defined in CSS via `.aha-status-pill--published .aha-status-pill__dot { background: var(--aha-colorSuccess); }`. Is this status pill correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — passes all 5 criteria (C1-C5).",
+      "expected_output": "All 5 criteria PASS: C1 — dot plus visible localised text label; C2 — aha-status-pill base class with the aha-status-pill--{status} modifier and aha-status-pill__dot element; C3 — role=\"status\" and aria-label={label} present, not colour-alone; C4 — label from t(`survey_status.${status}`), no hardcoded string; C5 — colour via the --{status} modifier class on the semantic --aha-colorSuccess token, no inline hex. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All 5 criteria (C1-C5) are marked PASS",
+        "No fixes are recommended"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-status-badges-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    }
+  ]
+}

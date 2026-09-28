@@ -1,0 +1,256 @@
+{
+  "surface": "ux-writing",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.ux-writing",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-ux-writing-judge",
+    "path": "plugins/aha-design/skills/aha-design-ux-writing-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review the copy on this presentation card and its menu. The card's primary button reads \"View Report\", the overflow menu item for the same action reads \"View report\", and a tooltip reads \"view report\". Elsewhere the slide-type picker lists the types as \"Multiple Choice\", \"Word Cloud\", and \"Open-Ended\".",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C1 — sentence case for all UI text; 'View report' not 'View Report'; slide-type names sentence case; one canonical form per label",
+      "expected_output": "C1 FAILs. The casing is wrong and inconsistent: \"View Report\" is Title Case (should be sentence case \"View report\"), and the same action is cased three different ways across the card, menu, and tooltip. The slide-type names \"Multiple Choice\", \"Word Cloud\", \"Open-Ended\" are Title Case and should be sentence case \"Multiple choice\", \"Word cloud\", \"Open-ended\". Fix: use sentence case (first letter only) everywhere and one canonical form per label — \"View report\" on the card, menu, and tooltip; \"Multiple choice\" / \"Word cloud\" / \"Open-ended\" in the picker. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Cites Title Case on the label / slide-type names (View Report, Multiple Choice)",
+        "Cites inconsistent casing of the same label across places and recommends sentence case 'View report'"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this error message shown in an inline banner on the My presentations list when a partial fetch fails: `<Alert type=\"warning\" message=\"Some items could not be loaded.\" />`. The label casing is fine; there is no other text and no action.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C2 — message must name the specific object + what happened; 'some items' is a banned vague shell",
+      "expected_output": "C2 FAILs. \"Some items could not be loaded.\" is a vague, information-free shell — \"items\" names no object and the user cannot tell what broke. Fix: name the object and what happened, e.g. \"Couldn't load some presentations.\" Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Cites the vague 'some items' / unnamed object",
+        "Suggests naming the concrete object (e.g. presentations)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this load-failure banner. It reads \"Couldn't load your presentations.\" and stops there — there is no next step and no Retry button or link anywhere on the surface, even though the fetch can simply be retried. Casing and wording are otherwise fine.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 — any recoverable problem must state the next step AND expose the recovery action; no dead-ends",
+      "expected_output": "C3 FAILs. The message names the failure but dead-ends the user — a recoverable load failure with no next step and no Retry control, the classic \"so what now?\" reaction. Fix: add the next step and a real recovery action, e.g. \"Check your connection and try again.\" plus a Try again button that refetches. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Cites the missing next step / dead-end",
+        "Cites the missing Retry recovery action"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this error message shown after a file upload fails: \"You uploaded an invalid file. Error 500.\" It blames the user and surfaces a raw HTTP status as part of the headline.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — copy must be blameless, jargon-free, and keep raw codes/stack/HTTP status out of the headline",
+      "expected_output": "C4 FAILs. The copy blames the user (\"You uploaded an invalid file\") and puts a raw HTTP status (Error 500) in the headline instead of a plain, goal-led message. Fix: make it blameless and jargon-free, e.g. \"That file type isn't supported — try a PNG or JPG.\", and keep any code in secondary detail, not the headline. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites blaming the user",
+        "Cites the raw error code / HTTP status in the headline"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this destructive confirmation dialog copy for deleting a slide that holds live audience data: the entire message is \"Are you sure?\" with Cancel and Delete buttons. The slide has 12 responses and the delete is irreversible.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 — severity of wording must match real impact; a destructive/data-loss outcome must state the stakes",
+      "expected_output": "C5 FAILs. The wording under-states a destructive, irreversible action — \"Are you sure?\" gives no sense of the stakes for a delete that permanently removes the slide and its 12 responses. Fix: state the stakes plainly, e.g. \"Delete this slide? This permanently deletes the slide and its 12 responses. This can't be undone.\" Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Cites the under-stated stakes for a destructive/irreversible action",
+        "Suggests stating the data-loss stakes plainly"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this empty state on the presentations list, shown when the user has no presentations yet (the list loaded successfully and is genuinely empty): `<div className=\"empty\">⚠️ No presentations found.</div>`. It uses a warning glyph and apologetic framing, and offers no way to create one.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C6 — empty states must be encouraging with a primary create action, distinct from failures/alarms",
+      "expected_output": "C6 FAILs. A genuinely-empty successful list is written as a failure — an alarm glyph and \"No presentations found\" apologetic framing, with no primary create action. Fix: make it an encouraging empty state with a next action, e.g. \"No presentations yet. Create your first one.\" plus a + New presentation button, and drop the warning styling. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Cites the empty state styled/worded as a failure or alarm",
+        "Cites the missing primary create action"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this feedback call for a save that the user must act on: `message.error('Save failed')` in the editor's save handler. This transient bottom toast is the ONLY place the failure and its recovery appear — there is no inline Alert or on-page message, and it auto-dismisses in ~3s.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C7 — recovery-required copy must not live only in an auto-dismissing toast; title = outcome, body = next step",
+      "expected_output": "C7 FAILs. A recovery-required error lives only in an auto-dismissing toast (message.error) that vanishes in ~3s, so the user can miss it and has nowhere to retry. Fix: surface the failure as an inline Alert / on-page message that persists, with the outcome in the title and the next step in the body plus a Retry action — e.g. \"Couldn't save your changes. Try again.\" The toast/Alert surface mechanics are owned by aha-design-feedback. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Cites the recovery-required message living only in an auto-dismissing toast",
+        "Recommends a persistent inline Alert / on-page message with a retry"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this presentations screen. Labels are sentence case and consistent: the button reads \"View report\" on the card, in the overflow menu, and in the tooltip; the slide-type picker lists \"Multiple choice\", \"Word cloud\", \"Open-ended\", and \"Q&A\". On a fetch error the list shows an inline warning Alert \"Some presentations didn't load. Check your connection and try again.\" with a [ Try again ] button that refetches. When the user genuinely has none, the list shows \"No presentations yet. Create your first one.\" with a [ + New presentation ] button. The upload error reads \"That file type isn't supported — try a PNG or JPG.\" with a [ Choose another file ] action. No recovery-required message lives only in a toast, and the delete confirmation states \"This permanently deletes the slide and its 12 responses. This can't be undone.\"",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — every applicable criterion (C1-C7) passes; guards against a judge that only ever fails",
+      "expected_output": "All applicable criteria PASS. C1: casing is sentence case and consistent — \"View report\" everywhere, slide-type names \"Multiple choice\" / \"Word cloud\" / \"Open-ended\", acronym \"Q&A\" kept. C2: messages name the object and what happened. C3: each recoverable error states the next step and exposes a real recovery action (Try again, Choose another file). C4: copy is blameless and jargon-free with no raw codes in the headline. C5: the retryable load hiccup is a calm warning while the destructive delete states its data-loss stakes. C6: the empty state is encouraging with a primary create action, distinct from the failure. C7: recovery-required copy is a persistent inline Alert, not a lone toast. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C1 is marked PASS",
+        "C2, C3, C4, C5, C6, C7 are all marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-ux-writing-judge",
+        "id": 8,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this empty-state copy: heading \"No responses yet — share your code\" and helper text \"Results appear here in real time – usually within seconds.\"",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C8: em dash and en dash used as punctuation",
+      "expected_output": "C8 FAILs. The heading uses an em dash and the helper text uses an en dash as punctuation. Fix: \"No responses yet. Share your code.\" and \"Results appear here in real time, usually within seconds.\" Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Cites both the em dash and the en dash"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this empty-state copy: heading \"No responses yet\" and helper text \"Share your code. Results appear here in real time (usually within seconds).\"",
+      "files": [],
+      "label": "good-control",
+      "notes": "C8: no dashes as punctuation",
+      "expected_output": "C8 PASSes: the copy uses full stops and parentheses, with no em or en dash. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C8 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C8": "PASS"
+        }
+      }
+    }
+  ]
+}

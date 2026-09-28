@@ -1,0 +1,277 @@
+{
+  "surface": "component-standard",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.component-standard",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-component-standard-judge",
+    "path": "plugins/aha-design/skills/aha-design-component-standard-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this Tag component CSS against the standard. It ships `.aha-tag { border-radius: 6px; height: 28px; padding: 0 8px; font-size: 14px; font-weight: 500; }`. The author says it matches the design system tag.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — structural value (radius) off from the live DS contract.",
+      "expected_output": "C1 (Structural values match the live DS contract) FAILs: the Tag's `border-radius: 6px` is off — the live DS tag contract (tag.agent.json) fixes Tag radius at 4, height 22 and text 12/18 SemiBold 600. Fix: change `border-radius` to 4px and re-verify height/padding/font against the same contract. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Evidence cites built 6px vs standard 4px Tag radius",
+        "Fix says set border-radius to 4px"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 1,
+        "remap": "expected_output: cites the live DS tag contract instead of the plugin's frozen contract.json cell"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Audit this Button component. It only styles the `primary`, `secondary`, and `danger` variants at `md` size. The author says the button is done.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — not every variant x size in the axes matrix is covered.",
+      "expected_output": "C2 (Every variant & size is covered) FAILs: the live DS button contract (button.agent.json) declares variant primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link and size sm | md | lg, but only 3 variants at 1 size are styled — the remaining variants (tertiary, link, success/positive, primary-alt, text, text-link) and the sm/lg sizes are unstyled or fall back to a wrong default. Fix: implement the remaining variants and sizes from the live contract, or explicitly scope the component to the variants it ships and say so. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Evidence references the live button contract's variant × size matrix",
+        "Fix says implement the remaining variants/sizes from the contract"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 2,
+        "remap": "expected_output + assertions: the live DS button has 10 variants × 3 sizes (sm/md/lg), not the plugin's frozen 13 × 5 axes"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this Modal component. The CSS styles `.modal-content` (the outer box) and `.modal-body`. There are no rules for the header, the action footer, or the close button.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — modal sub-parts (header/footer/close button) unstyled.",
+      "expected_output": "C3 (Every sub-part is styled) FAILs: a Modal is content + header + body + action footer + close button, but the header, footer, and close button are missing/unstyled. Fix: style the header, footer and close button from the live DS modal contract — the close button is itself a button and must match the button standard. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Evidence names missing header, footer, and close button",
+        "Fix mentions the close button must match the button standard"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 3,
+        "remap": "expected_output: points at the live DS modal contract instead of frozen contract.json cells"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Audit this icon-button. The CSS defines `:hover` styling only. `:focus`, `:active`, and `:disabled` are left at browser defaults.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — missing interaction states (focus/active/disabled).",
+      "expected_output": "C4 (Every interaction state exists) FAILs: for a clickable component all of rest/hover/focus/active/disabled must exist, but only `:hover` is styled — `:focus`, `:active`, and `:disabled` fall back to browser defaults. Fix: add the focus, active, and disabled states the component's live DS contract specifies. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Evidence notes focus/active/disabled left at browser defaults",
+        "Fix says add the missing states"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 4,
+        "remap": "expected_output: points at the live DS contract instead of frozen contract.json cells"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this Tag active state. The rest state has a transparent background with a border; for the active state the author fills the tag's background with the accent colour instead of thickening/colouring the outline.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5 — state on wrong property (tag active should be outline, built as fill).",
+      "expected_output": "C5 (Each state is rendered on the SAME property the contract uses) FAILs: the DS renders tag active as an outline, but this reproduces active as a background fill — the wrong property. Fix: render active on the outline (border) property as the live DS tag contract does, not the background. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Evidence says active was reproduced on background instead of the outline",
+        "Fix says render active on the outline/border property"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 5,
+        "remap": "expected_output: points at the live DS tag contract instead of a frozen contract.json cell"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Audit this canvas-context component (renders on a theme-following slide canvas). The author hardcodes `background: #7C3AED` (a literal brand purple) for the accent instead of binding it to the user's accent role.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6 — colour hardcoded hex instead of bound as a role for the canvas context.",
+      "expected_output": "C6 (Colour is bound as a role for the right context) FAILs: on a theme-following canvas the accent must follow the user's/neutral role for that binding, but a literal purple hex is baked in — an off-binding hardcoded hex. Fix: bind the colour as the `user`/canvas accent role for this context rather than hardcoding `#7C3AED`. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Evidence cites the hardcoded brand-purple hex on a canvas component",
+        "Fix says bind the colour as the user/canvas accent role"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review the leading icon inside this Button. The icon is set to a fixed `width: 24px; height: 24px` and `fill: #333` (hardcoded) rather than sized to the button's icon box and inheriting the surrounding text colour.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 — icon sized off the box and hardcoded fill instead of inheriting text colour.",
+      "expected_output": "C7 (Icon size / box / spacing matches) FAILs: the standard fixes the icon box size and requires the icon to take the surrounding text colour, but this hardcodes a 24px size off the standard's box and a fixed `#333` fill instead of inheriting `currentColor`. Fix: size the icon to the standard's icon box and let it inherit the text colour (currentColor) instead of hardcoding a fill. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Evidence notes hardcoded size off the box and hardcoded fill",
+        "Fix says size to the icon box and inherit currentColor"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this Dropdown. The author asserts 'the menu and items look right to me — matches the design system' but supplies no screenshot; the open menu state was never captured or compared with the DS doc-site render of the dropdown.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C8 — no screenshot compared with the DS render; overlay open state not captured.",
+      "expected_output": "C8 (Verified against the DS render, not eyeballed) FAILs: the 'matches' claim rests on prose ('looks right to me') with no screenshot compared with the DS doc-site render of the dropdown, and the overlay (dropdown menu) was never captured in its open state. Fix: screenshot the built dropdown in its open state and compare it with the DS doc-site render (or cite the values in its live DS contract). Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Evidence notes no screenshot compared with the DS render and open state not captured",
+        "Fix says screenshot the open dropdown and compare with the DS doc-site render"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 8,
+        "remap": "rewritten: the plugin case cited its frozen review.html; the DS criterion compares with the live doc-site render"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Self-check this Tag component after a restyle. It ships `border-radius: 4px`, height 22 and 12/18 SemiBold 600 text matching the live DS tag contract; every interaction state — rest, hover, focus, active and disabled — is styled, with active rendered as an outline (not a fill); the leading icon and the closable × are styled too; colour is bound to the neutral/brand role for its chrome context (no hardcoded hex); its icon is sized to the contract's 14px box and inherits currentColor; and a screenshot of the built tag (including the active state) was compared with the DS doc-site render of the tag and matches. Every colour preset the contract declares (neutral, primary, success, processing, warning, error) is styled in both the filled and bordered shapes at the contract's single h22 size.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — a fully-correct Tag passing all 8 criteria.",
+      "expected_output": "All 8 criteria PASS. C1: radius 4px, height and font equal the live DS tag contract. C2: every colour preset in both shapes at the single h22 size is styled. C3: the chip, leading icon and close × are all styled. C4: rest, hover, focus, active and disabled all present. C5: active rendered on the outline property as the contract uses. C6: colour bound as the correct role, no off-binding hex. C7: icon sized to the box and inherits currentColor. C8: screenshot compared with the DS doc-site render (active state captured). Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All of C1 through C8 are marked PASS",
+        "C1 confirms Tag radius is 4px",
+        "C5 confirms active rendered as an outline"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS",
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 9,
+        "remap": "rewritten against the live DS tag contract and doc-site render; 'MATCHES STANDARD' normalised to OK TO SHIP"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Self-check this Button after a restyle. Every variant the live DS button contract declares (primary, secondary, tertiary, link, danger, success, positive, primary-alt, text, text-link) is styled at all three sizes (sm 28 / md 36 / lg 40); radii are correct per size (sm 4px, md 8px, lg 8px); every state rest/hover/focus/active/disabled exists on each interactive variant using the same properties the contract uses; the brand accent is bound as the brand role (danger/positive stay fixed); leading icons are sized to the button icon box and inherit currentColor; and screenshots of representative variants were compared with the DS doc-site render and match.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — a fully-correct Button (full variant/size matrix, correct per-size radii) passing all 8 criteria.",
+      "expected_output": "All 8 criteria PASS. C1: radii per size match (sm 4px, md 8px, lg 8px) plus heights 28/36/40. C2: the full 10-variant x 3-size matrix of the live contract is styled. C3: sub-parts (label, icon) styled. C4: rest/hover/focus/active/disabled all present. C5: each state on the contract's property. C6: brand accent bound as the brand role, danger/positive fixed. C7: icon sized to the box, inherits currentColor. C8: screenshots compared with the DS doc-site render. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All of C1 through C8 are marked PASS",
+        "C1 confirms per-size radii (sm 4px, md 8px, lg 8px)",
+        "C2 confirms the live contract's variant/size matrix is covered"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS",
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-component-standard-judge",
+        "id": 10,
+        "remap": "rewritten against the live DS button contract (10 variants × sm/md/lg, not the frozen 13 × 5 with xl) and doc-site render; 'MATCHES STANDARD' normalised to OK TO SHIP"
+      }
+    }
+  ]
+}

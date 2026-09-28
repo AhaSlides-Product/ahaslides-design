@@ -1,0 +1,168 @@
+{
+  "name": "Error page",
+  "slug": "error-page",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-error-page",
+  "summary": "The full-page error — an error code (404 · 403 · 500 · offline · generic) mapped to a DS Result with British-English copy, an optional action, role=alert and a telemetry event.",
+  "lead": "ONE custom element — <aha-error-page> — composed from the shipped <aha-result> and <aha-button>. `code` picks the state and its default copy, each of which names what failed, says why and gives a next step; the retryable codes (500 · offline · generic) carry a primary \"Try again\" action. heading / body / action-label override the defaults with your translated strings, and action-label=\"\" drops the button. The host is role=\"alert\" so the failure is announced, fires `error-page-view` { code } once per code for telemetry, and `action` { code } when the button is pressed. Fills the viewport by default; `contained` fits it to a parent box.",
+  "codeNote": "Map your router / fetch failures to a code and render this — never a bespoke \"Something went wrong\" div. Listen for error-page-view to report the error, and action to retry or navigate.",
+  "tokensUsed": [
+    "bg-base",
+    "space-24",
+    "space-16",
+    "font-product",
+    "text-default",
+    "color-primary"
+  ],
+  "spec": [
+    {
+      "label": "Layout",
+      "value": "centred column, max 480 wide · fills the viewport (100dvh) or its parent with `contained` · 24/16 padding"
+    },
+    {
+      "label": "Codes",
+      "value": "404 · 403 · 500 · offline · anything else = generic"
+    },
+    {
+      "label": "Content",
+      "value": "DS <aha-result>: status glyph 48 · title 24/32 #1A1A1A · body 14/21 #8A8A8A"
+    },
+    {
+      "label": "Action",
+      "value": "primary <aha-button size=\"lg\"> (40px) — default \"Try again\" for 500 / offline / generic; none for 404 / 403 unless action-label is set"
+    },
+    {
+      "label": "A11y",
+      "value": "host role=alert — the failure is announced on arrival"
+    },
+    {
+      "label": "Telemetry",
+      "value": "error-page-view { code } once per code · action { code } on press"
+    }
+  ],
+  "props": [
+    {
+      "name": "code",
+      "type": "'404' | '403' | '500' | 'offline' | string",
+      "default": "generic",
+      "desc": "Error code → state + default copy; unknown codes fall back to generic"
+    },
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "per code",
+      "desc": "Override the title (pass your translated string)"
+    },
+    {
+      "name": "body",
+      "type": "string",
+      "default": "per code",
+      "desc": "Override the explanation"
+    },
+    {
+      "name": "action-label",
+      "type": "string",
+      "default": "per code",
+      "desc": "Button label; \"\" removes the button"
+    },
+    {
+      "name": "contained",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Fit the parent box instead of the viewport"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Error page",
+        "when": "the WHOLE page or respondent view cannot render — not found, no access, server or network failure"
+      },
+      {
+        "what": "Result",
+        "when": "reporting the outcome of an action inside a page"
+      },
+      {
+        "what": "Alert",
+        "when": "part of the page failed but the rest still works"
+      },
+      {
+        "what": "Empty",
+        "when": "nothing failed — there is simply no content yet"
+      }
+    ],
+    "note": "An error page names what failed, gives a cause and offers a next step — never a bare \"Oops!\" or \"Something went wrong\". Keep failure and emptiness distinct: no data is an Empty state, not an error. Replaces the aha-design plugin's aha-design-shared-components registry entry (SHARED-06); the copy follows the ux-writing guideline.",
+    "dsv3": "Composed from the DS V3 Result (status glyphs 404 / 403 / 500) and Button; no separate DS V3 frame."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-error-page",
+    "registers": "aha-error-page",
+    "exportsNamed": [
+      "AhaErrorPage",
+      "defineAhaErrorPage",
+      "ERROR_PAGE_CODES"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "error-page.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "error-page.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "error-page.vue.txt"
+    }
+  ],
+  "preview": "error-page.preview.html",
+  "selfCheck": [
+    {
+      "label": "code → DS Result state + British-English copy",
+      "verdict": "PASS"
+    },
+    {
+      "label": "host role=alert",
+      "verdict": "PASS"
+    },
+    {
+      "label": "retryable codes carry a primary Try again; 404 / 403 do not",
+      "verdict": "PASS"
+    },
+    {
+      "label": "error-page-view + action events fire with the code",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a contained 404 (no default action); the [code=\"500\"] sibling proves the retry action renders as a primary DS button.",
+    "ready": "!!(function(){var el=document.querySelector('aha-error-page[data-probe]');var r=el&&el.shadowRoot&&el.shadowRoot.querySelector('aha-result');var b=document.querySelector('aha-error-page[code=\"500\"]');var bb=b&&b.shadowRoot&&b.shadowRoot.querySelector('aha-button');return r&&r.shadowRoot&&r.shadowRoot.querySelector('.title')&&bb&&bb.shadowRoot&&bb.shadowRoot.querySelector('button');})()",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-error-page[data-probe]');var r=el.shadowRoot.querySelector('aha-result');var t=r.shadowRoot.querySelector('.title');var ts=getComputedStyle(t);var b=document.querySelector('aha-error-page[code=\"500\"]');var ab=b.shadowRoot.querySelector('aha-button');var btn=ab.shadowRoot.querySelector('button');return{role:el.getAttribute('role'),title:t.textContent,titleColor:ts.color,titleSize:ts.fontSize,hostBg:getComputedStyle(el).backgroundColor,probeAction:getComputedStyle(el.shadowRoot.querySelector('aha-button')).display,retryLabel:ab.textContent,retryBg:getComputedStyle(btn).backgroundColor,retryHeight:getComputedStyle(btn).height};})()",
+    "expect": {
+      "role": "alert",
+      "title": "We can’t find this page",
+      "titleColor": "rgb(26, 26, 26)",
+      "titleSize": "24px",
+      "hostBg": "rgb(255, 255, 255)",
+      "probeAction": "none",
+      "retryLabel": "Try again",
+      "retryBg": "rgb(106, 30, 187)",
+      "retryHeight": "40px"
+    }
+  }
+}

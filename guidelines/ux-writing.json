@@ -86,7 +86,7 @@
       "ref": "error-page",
       "as": "component",
       "use": "the full-page failure whose headline names the object + outcome and offers a next step",
-      "status": "missing"
+      "status": "available"
     }
   ],
   "componentBacklog": "composedOf marks 4 components this pattern's copy lives inside that the DS does not yet ship (alert, toast, empty-state, error-page). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap for the surfaces that host product copy.",

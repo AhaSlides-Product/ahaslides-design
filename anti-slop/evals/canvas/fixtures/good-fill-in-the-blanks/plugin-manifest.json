@@ -1,0 +1,10 @@
+{
+  "name": "fill-in-the-blanks",
+  "setting": {
+    "enableFullScreen": true
+  },
+  "actions": [
+    { "id": "prev", "icon": "arrow-left", "variant": "secondary" },
+    { "id": "next", "label": "common.next", "variant": "primary", "shortcut": "Enter", "disabled": false }
+  ]
+}

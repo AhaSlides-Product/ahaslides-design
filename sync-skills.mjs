@@ -26,7 +26,16 @@ function arg(name, dflt) {
   return i >= 0 ? process.argv[i + 1] : dflt;
 }
 
-// Parse `### Cn. <title> → PASS / FAIL` headers (typography's judge keys them Jn), then the paragraph under each as the test text.
+const TEST_MAX_CHARS = 400;
+
+function truncateAtWord(text, max) {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:—-]+$/, '') + '…';
+}
+
+// Parse `### Cn. <title> → PASS / FAIL` headers (typography's judge keys them Jn), then the first paragraph under each as the test text.
 function parseCriteria(md) {
   const out = [];
   const re = /^###\s+([A-Z]\d+)\.\s+(.+?)\s*(?:→\s*PASS\s*\/\s*FAIL)?\s*$/gm;
@@ -36,8 +45,12 @@ function parseCriteria(md) {
     const title = heads[k][2].trim();
     const start = heads[k].index + heads[k][0].length;
     const end = k + 1 < heads.length ? heads[k + 1].index : md.length;
-    const body = md.slice(start, end).replace(/\s+/g, ' ').trim();
-    const test = body.split(/(?<=[.])\s/).slice(0, 2).join(' ').slice(0, 400);
+    const paragraphs = md.slice(start, end).split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+    let body = paragraphs.shift() || '';
+    // A lead-in ending in ":" introduces the actual test, so pull in the paragraph it points at.
+    while (body.endsWith(':') && paragraphs.length) body += ' ' + paragraphs.shift();
+    body = body.replace(/\s+/g, ' ');
+    const test = truncateAtWord(body.split(/(?<=[.])\s/).slice(0, 2).join(' '), TEST_MAX_CHARS);
     out.push({ id, title, test });
   }
   return out;

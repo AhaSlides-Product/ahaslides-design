@@ -1,0 +1,46 @@
+<nav class="rail" aria-label="Main">
+  <a class="rail__brand" href="/">
+    <img src="/brand/ahaslides-logo.svg" alt="AhaSlides" class="rail__logo">
+  </a>
+  <aha-button variant="primary" size="md">New presentation</aha-button>
+  <ul class="rail__nav">
+    <li><a class="nav-item" href="/home" aria-current="page"><aha-icon name="system-house" size="16" aria-hidden="true"></aha-icon> Home</a></li>
+    <li><a class="nav-item" href="/library"><aha-icon name="system-folder" size="16" aria-hidden="true"></aha-icon> My presentations</a></li>
+    <li><a class="nav-item" href="/team"><aha-icon name="system-users" size="16" aria-hidden="true"></aha-icon> Team <aha-badge status="primary" text="New"></aha-badge></a></li>
+  </ul>
+</nav>
+<header class="topbar">
+  <aha-breadcrumb size="page-title" items='[{"label":"Home"}]'></aha-breadcrumb>
+  <aha-button variant="secondary" size="md" icon-only aria-label="Notifications"><aha-icon name="system-bell" size="16"></aha-icon></aha-button>
+  <aha-avatar name="Linh Tran"></aha-avatar>
+</header>
+<main class="content">
+  <section class="join">
+    <img class="join__qr" src="/api/presentations/123/qr.svg" alt="QR code to join">
+    <p class="join__fallback" hidden>Join code unavailable — share the link instead.</p>
+  </section>
+</main>
+<script type="module">
+  const qr = document.querySelector('.join__qr');
+  qr.addEventListener('error', () => {
+    qr.hidden = true;
+    document.querySelector('.join__fallback').hidden = false;
+  });
+  const links = document.querySelectorAll('.nav-item');
+  links.forEach(link => link.addEventListener('click', () => {
+    links.forEach(other => other.removeAttribute('aria-current'));
+    link.setAttribute('aria-current', 'page');
+  }));
+</script>
+<style>
+  .rail { display: flex; flex-direction: column; gap: var(--aha-space-16); padding: var(--aha-space-16); background: var(--aha-bg-container); }
+  .topbar { display: flex; align-items: center; gap: var(--aha-space-12); padding: var(--aha-space-12) var(--aha-space-24); }
+  .rail__logo { height: var(--aha-space-28); }
+  .content { background: var(--aha-bg-layout); padding: var(--aha-space-24); }
+  .nav-item {
+    display: flex; gap: var(--aha-space-8); padding: var(--aha-space-8) var(--aha-space-12);
+    border-radius: var(--aha-radius-default);
+    transition: background var(--aha-motion-fast) var(--aha-ease-out), color var(--aha-motion-fast) var(--aha-ease-out);
+  }
+  .nav-item[aria-current="page"] { background: var(--aha-bg-hover); color: var(--aha-color-primary); }
+</style>

@@ -1,0 +1,1648 @@
+{
+  "surface": "settings",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.settings",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-settings-judge",
+    "path": "plugins/aha-design/skills/aha-design-settings-judge/evals/evals.json"
+  },
+  "notPorted": [
+    {
+      "id": 46,
+      "reason": "no DS criterion covers it: the case fails only the composite-item body-field rule (build assertion SETTINGS-43), which the DS store does not carry as a judge criterion"
+    },
+    {
+      "id": 57,
+      "reason": "no DS criterion covers it: the case fails only the judge's CR (reuse over rebuild — CardSelect), which the DS store does not carry"
+    }
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review the Content panel (editor right-panel config) for the Split the Points slide type. The 'Total budget' field shows its explanation/current value only as a hover-state readout that pops up when you hover the field — there is no ? help icon next to the label.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHA-46438 (Split the Points). The total-budget value's info was surfaced as a hover state instead of the standard ? tooltip. Sourced from the AHA-46123 QA batch as a BAD example for the settings judge.",
+      "expected_output": "FAILs C3 (help text is the exception; explanation lives in a ? tooltip). A setting's explanation must live in the standard ? help tooltip placed right after the label and reachable on hover, keyboard focus, AND tap — not a bespoke hover-state readout that keyboard and touch users can't reach and that is never the sole home of the information. Fix: add the shared ? tooltip on the 'Total budget' label and drop the ad-hoc hover value. All other criteria may pass; overall NEEDS FIX.",
+      "assertions": [],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review the Content panel for Split the Points. The ? help icon next to 'Your question' is a different glyph AND a different size from the ? icons on the other settings, and its tooltip points a different direction from the rest.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bugs AHA-46489 + AHA-46544 (Split the Points) — the Content panel shipped two different ? glyphs and mismatched icon sizes / tooltip directions. BAD example for C3's consistency rule.",
+      "expected_output": "FAILs C3 (consistency clause). Every ? in one panel must be the same shared-component glyph at the same size with the same tooltip placement — mixed help icons, mixed sizes, or inconsistent up/down tooltip direction read as unfinished. Fix: pull every ? from the DS icon library (`<aha-icon>`) sized to the setting-name text, with one consistent tooltip direction. Overall NEEDS FIX.",
+      "assertions": [],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 2,
+        "remap": "the fix cites the live DS icon library (`<aha-icon>`) instead of the plugin's aha-design-icons skill"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review the 'Total budget' numeric input in the Split the Points config. It accepts any number of digits (no maxlength), accepts letters and symbols, and only snaps back into the allowed 10–1000 range when the creator types something invalid on purpose and then clicks outside the box.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHA-46440 (Split the Points). Total-budget input had no maxlength, no numbers-only rule, and only fell back on blur after intentional bad input. BAD example for the C10 numeric-input contract added from this ticket.",
+      "expected_output": "FAILs C10 (numeric/stepper config-input contract). A numeric config input must: cap its length (mirror Poll's 4-digit cap), accept numbers only, clamp to its min/max with an IMMEDIATE fallback on change/blur (not only on deliberate misuse), and ship pre-filled with the recommended default. Fix all four. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags the missing length/maxlength cap on the numeric input",
+        "Flags that the input must accept numbers only (reject letters/symbols)",
+        "Flags that min/max clamping must be immediate (on change/blur), not only after deliberate bad input"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review the option list in a freshly-created Split the Points slide. The category option rows are blank with no placeholder text, and an option the creator hasn't filled in still renders on the canvas / audience view.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHA-46484 (Split the Points). Missing option placeholders and placeholder-rendered-as-real-content. BAD example for the C10 placeholder rule.",
+      "expected_output": "FAILs C10 (option list / placeholders). Option rows must show a neutral placeholder matching an equivalent existing slide type (Poll uses 'Option 1', 'Option 2'), and a placeholder is NEVER treated as real content — an option still holding its placeholder must not render downstream. Fix: add the 'Option N' placeholders and gate canvas rendering on a real value. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags the missing option placeholder (should be 'Option 1/2', mirroring an existing slide type)",
+        "Flags that a placeholder must not be rendered as real content downstream"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review the Split the Points right-panel config. It has the question and the option list, but there is no Time-limit control and no show/hide-results control anywhere in the panel.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHA-46508 (Split the Points) — the config was missing show/hide-result and timer functions. BAD example for C12's 'standard sections present' rule.",
+      "expected_output": "FAILs C12 (arrangement / standard sections present). A poll-like slide's config must include the standard sections in the reference order — a Time-limit toggle (Timing) that reveals its duration select, and a show/hide-results toggle (collapsed Advanced). Both were omitted. Fix: add the Timing toggle and the Advanced show-results toggle per §10.4. Overall NEEDS FIX.",
+      "assertions": [],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C12": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review the 'Measurement unit' select in Split the Points. It offers points / dollars ($) / percent (%); it defaults to 'points' and lists percent last. Product intent is percent as the recommended default.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHA-46562 (Split the Points). Wrong default and wrong option order in the measurement-unit select. BAD example for C12's select-default/order rule.",
+      "expected_output": "FAILs C12 (select default + option order). A select must pre-select the recommended default and order its options most-relevant-first, with the default at the top — percent should be the default and sit first, not default to 'points' with percent buried last. Fix: default to percent and move it to the top of the list. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C12 is marked FAIL",
+        "Flags that the select must pre-select the recommended default (percent)",
+        "Flags that percent should be ordered first (most-relevant-first), not last"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C12": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review the corrected Split the Points Content panel: Question (title + alignment + optional image + Add description) → option list with 'Option 1/2' placeholders, a focus-only char counter, on-hover delete disabled at 2 items, and no image button (this type has no per-option images) → a 'Total budget' numeric input capped at 4 digits, numbers-only, clamped to 10–1000, default 100 → a 'Measurement unit' select defaulting to percent listed first → a Time-limit toggle revealing a duration select → a collapsed Advanced section with a show-results toggle. Every ? is the same shared glyph and size.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control derived from the corrected Split the Points config (the fixes for AHA-46438/46440/46484/46489/46508/46544/46562 applied). Guards against a judge that only ever FAILs — it must pass a correct surface.",
+      "expected_output": "All applicable criteria PASS (C10, C11 image button correctly omitted — not a disabled stub, C12, plus C1–C9); overall OK TO SHIP. This is the control case: the judge should NOT invent fails on a config that matches the reference and the C10/C12 contracts.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP (does not invent fails)",
+        "C10, C11, and C12 are all PASS",
+        "Does NOT FAIL C11 for the omitted image button — recognizes omission is correct for a no-image slide type"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this AI-generated right panel. Every setting has an always-visible help line under its name: 'Mark a correct answer' — 'Reveal the right choice after the vote.'; 'Result chart' — 'Only bar charts show option images.'; 'Allow multiple choices' — 'Off means one pick per person.'; 'Show percentages' — 'Display % instead of raw vote counts.'; 'Presenter note' — 'Optional context shown under the question on the canvas.'; 'Reset' — 'Put the starter options back.' Each setting ALSO has a small circled info icon (ⓘ) next to its name.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Classic AI over-help-text panel: help line on every setting, info (ⓘ) icons instead of ? glyphs, and both channels stacked on one setting. Reported by Lan from a generated settings panel. BAD example for C3 (panel-level default, redundancy, and wrong glyph).",
+      "expected_output": "FAILs C3 on three counts. (1) Panel-level help-text anti-pattern — nearly every setting carries a help line; help text must be near-absent (default zero). Every line here is descriptive, not a must-see irreversible consequence, so each moves into the ? tooltip or is deleted; 'Put the starter options back.' becomes nothing (or, if Reset discards edits, help text stating THAT loss). (2) Redundancy — settings carry both a help icon AND a help line (same explanation twice); keep the tooltip, drop the line. (3) Wrong glyph — the help trigger is an info icon (ⓘ); it must be the shared question-mark (?) help glyph. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C3 is marked FAIL",
+        "Flags the panel-level help-text overuse: a help line on every/most settings is the anti-pattern; descriptions belong in the ? tooltip",
+        "Flags that the tooltip trigger is an info icon (ⓘ) and must be a question-mark (?) glyph",
+        "Flags the redundancy of a setting carrying both a help icon AND a help-text line"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 8,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review the option list in a generated right panel. The rows look right (drag handle, colour dot, text input, Image button, delete), but the '+ Add option' button beneath them is a small button hugged to the left at content width, not spanning the panel.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan — the '+ Add option' button rendered hug-left instead of full-width, breaking the aligned single-column read of the panel. BAD example for C10's full-width '+ Add' rule.",
+      "expected_output": "FAILs C10. The '+ Add' list button must span the full panel width, edge-to-edge and aligned with the option rows above it — not hug content width on one side. Fix: make '+ Add option' full-width. Overall NEEDS FIX. (Other row-anatomy checks may pass.)",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags that the '+ Add' button must span the full panel width, not hug content width on one side"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 9,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review the corrected panel: each setting shows only its noun-phrase name with a single question-mark (?) help glyph after it (no help-text lines) except 'Response limit', which keeps one help line stating the must-see consequence ('New responses are blocked once the limit is reached.'); the '+ Add option' button spans the full panel width.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control for the help-text/glyph/full-width fixes (counterpart to evals 8 and 9). Ensures the judge accepts a panel that keeps exactly one justified help line and moves everything else into ? tooltips.",
+      "expected_output": "C3 and C10 PASS; overall OK TO SHIP. The panel has near-zero help text (one justified must-see-consequence line), no redundant icon+line pairs, ? (not ⓘ) glyphs, and a full-width '+ Add'. The judge must not invent fails on a correctly-restrained panel.",
+      "assertions": [],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C10": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 10,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this poll 'Options' list. Each option row is: a drag handle, a colour dot, a text input, a button that says the word 'Image', and a trash icon that is visible on every row all the time. Diff it against the shipped Ranking slide's option row.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan from a generated Options list — a worded 'Image' text button instead of the reference's image icon, and an always-visible trash instead of on-hover. BAD example for C11 (image icon, not text button) and C10 (on-hover delete).",
+      "expected_output": "FAILs C11 and C10 — but NOT for the colour dot. The per-option image control must be a compact image ICON, not a text 'Image' button (C11); and the delete must appear on ROW HOVER only, not be permanently visible (C10). The colour dot is a legitimate per-type feature (a poll's per-option chart colour) — do not flag it. Fix: swap the 'Image' text button for the icon, and show the trash on hover (disabled at the minimum). Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C11 (and/or C10) is marked FAIL",
+        "Flags the worded 'Image' text button (must be a compact image icon)",
+        "Flags the always-visible delete (must be on row hover only)",
+        "Does NOT flag the colour dot — it is a legitimate per-type feature (poll chart colour)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C11": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 11,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this full Poll-style right panel. OPTIONS list: each row has a drag handle, a colour dot, a text input, a button labelled 'Image', and a trash icon shown on EVERY row all the time; the '+ Add option' button below is hugged to the left at content width. The 'Options' label has an ⓘ info icon and a help line 'Between 2 and 30 choices. Drag to reorder.' Then every setting below has BOTH an ⓘ info icon AND an always-visible help line: 'Mark a correct answer' — 'Reveal the right choice after the vote.' (toggle); 'Result chart' — 'Only bar charts show option images.' (Bar/Pie/Donut); 'Allow multiple choices' — 'Off means one pick per person.' (toggle); 'Show percentages' — 'Display % instead of raw vote counts.' (toggle); 'Presenter note' — 'Optional context shown under the question on the canvas.' (textarea); 'Reset' — 'Put the starter options back.' with a red 'Reset options' button.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Full-panel holistic BAD example provided by Lan (screenshot of a generated Poll-style panel). Combines help-text-on-every-setting, ⓘ instead of ?, icon+line redundancy, 'Image' text buttons, always-visible delete, and a hug-left '+ Add option' in one surface — the realistic worst case.",
+      "expected_output": "FAILs multiple criteria; overall NEEDS FIX. C3: help text is on nearly every setting (panel-level anti-pattern) — move the descriptive lines into ? tooltips; the tooltip trigger is an info icon (ⓘ) and must be a question-mark (?); and settings carry both an icon and a help line (redundant). C11/C10: the per-option image control is a worded 'Image' button, not a compact image icon, and the delete is permanently visible instead of on hover; the '+ Add option' button is hug-left instead of full-width. (If Reset discards the creator's edits, its danger action also needs a confirmation modal — C7.) The single most valuable takeaway: this is the classic over-help-texted AI panel.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL for panel-level help-text overuse (a help line on nearly every setting)",
+        "Flags that the ⓘ info icons must be question-mark (?) help glyphs",
+        "Flags the redundancy of both an icon and a help-text line on the same setting",
+        "C11 (and/or C10) FAIL: the per-option image control is a text 'Image' button instead of a compact image icon",
+        "Flags that the option delete/trash must be on row hover, not permanently visible",
+        "Flags that the '+ Add option' button must span the full panel width, not hug-left"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL",
+          "C11": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 12,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review a poll option row. An outer bordered row contains, from the left OUTSIDE the input, a drag handle; then a separately-bordered text input holding a selection checkbox and the label; and a bordered delete button pinned at the top-right that is always visible. Diff it against the shipped Ranking slide's option row.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug from another repo's Claude generating a poll-style option row (reported by Lan): drag handle outside the input, a double border, and an always-visible delete. The checkbox/colour dot are legitimate per-type poll features and must NOT be flagged — only the structural core (frame, handle, delete) must match Ranking.",
+      "expected_output": "FAILs C10 on the STRUCTURE — not the checkbox. The row div itself must BE the single bordered input with a borderless textarea inside; here it is a box-in-a-box (row wrapping a separately-bordered input). The drag handle must be the first child INSIDE that one border, not a column to its left. The delete must float just outside the top-right on HOVER, not sit always-visible. The selection checkbox is a legitimate per-type feature for a scored poll — do NOT flag it. Fix: collapse to one border (row = input, textarea borderless), move the drag handle inside, make the delete hover-only. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags the drag handle placed outside/left of the input (must be first child inside the one border)",
+        "Flags the double border — an outer row wrapping a separately-bordered input (the row div itself is the single input; textarea borderless)",
+        "Flags the always-visible delete (must be hover-only, floating just outside the top-right)",
+        "Does NOT flag the selection checkbox — it is a legitimate per-type feature for a scored poll"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 13,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 14,
+      "prompt": "Review a 'Response settings' group in a settings panel. It contains a single toggle, 'Multiple submissions', and that one toggle row is wrapped in a grey/tinted rounded container with its own background fill, set apart from the rest of the panel.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (screenshot) — a lone 'Multiple submissions' toggle wrapped in a tinted rounded background container. BAD example for C4: no filled/tinted container around a plain setting or single toggle row.",
+      "expected_output": "FAILs C4. A plain setting — especially a lone toggle row — sits directly on the panel surface, separated from its neighbours by spacing tokens; it must NOT be wrapped in a card or any container with its own background/tinted fill or border. A filled pill reads as a selectable object, not a configuration row. Fix: drop the tinted container and separate with spacing. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags that the toggle row must not be wrapped in a container with a background/tinted fill (or border) — it sits directly on the panel surface, separated by spacing"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 14,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 15,
+      "prompt": "Review the ? help tooltip on an 'Options' setting label. When it opens, the tooltip's arrow does not point at the ? icon (it floats off to the side), the tooltip text is in a large body/heading-size font, and the tooltip background is a plain grey/black instead of the standard dark-navy tooltip colour.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (BAD screenshot): ? tooltip with a mis-anchored arrow, oversized font, and wrong background colour. The GOOD counterpart uses the default a-tooltip (arrow on the icon, small font, dark-navy bg) as in the shipped MarkQuestionLabel.vue. BAD example for C3's styling/arrow rule.",
+      "expected_output": "FAILs C3 (styling & arrow). The ? help tooltip must use the standard/shared tooltip: the default dark-navy background token (not grey/black), the small default tooltip font size (not body/heading size), and an arrow anchored to point directly at the ? icon. Fix: reuse the shared tooltip component and anchor its placement to the icon; don't restyle background or font. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Flags that the tooltip arrow must point at / be anchored to the ? icon (not floating off to the side)",
+        "Flags the oversized font (must be the small default tooltip font size)",
+        "Flags the wrong background (must be the standard dark-navy tooltip token, not grey/black)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 15,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 16,
+      "prompt": "Review the ? help tooltip on a setting label. It opens with its arrow pointing directly at the ? icon, the text in the small default tooltip font, and the standard dark-navy tooltip background.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control (GOOD screenshot from Lan) matching the shipped MarkQuestionLabel.vue default a-tooltip. Counterpart to eval 15; ensures the judge accepts a correctly-styled ? tooltip.",
+      "expected_output": "C3 PASSES for the tooltip styling — this is the correct shared/default tooltip (arrow anchored to the icon, small font, dark-navy background). The judge should NOT flag a correctly-styled standard tooltip.",
+      "assertions": [
+        "C3 is marked PASS (the tooltip styling is correct)",
+        "Does not flag the tooltip background, font size, or arrow anchoring"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 16,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 17,
+      "prompt": "Review a 'Categories' option list in a slide's editor. Next to the section label, at the top right, it shows a running count '4 of 8'. The list has 4 option rows and a '+ Add' button.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (screenshot): a 'Categories' list showing a '4 of 8' count next to the label. The shipped Ranking Items list has no such counter. BAD example for C10 (no count indicator on the section label).",
+      "expected_output": "FAILs C10. The option-list section label must not show an 'X of Y' count ('4 of 8'). Item limits are already conveyed by behaviour — the '+ Add' button disables at the maximum and the delete disables at the minimum — so the counter is redundant clutter the reference doesn't have. Fix: remove the '4 of 8' indicator; rely on the Add/delete disabled states. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags the 'X of Y' / '4 of 8' count indicator next to the section label as redundant and to be removed",
+        "Notes that item limits are conveyed by the Add button (disabled at max) and delete (disabled at min), not a counter"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 17,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 18,
+      "prompt": "Review a 'Game rules' section in a slide's settings panel. The whole section — its header, an 'End the raid when...' segmented control, a 'Time limit' select, and a 'Set score' input with its help line — is wrapped inside a light-purple rounded container/card that sets the entire group apart from the rest of the panel with a coloured background.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (screenshot): a 'Game rules' group wrapped in a light-purple container. Companion to eval 14 (single toggle) — this one is a whole section. BAD example for C4: no coloured/tinted container around a settings group.",
+      "expected_output": "FAILs C4. A group of settings is separated from its neighbours by the group gap (sizeXL) and its header — never by wrapping the whole block in a card or a coloured/tinted panel. A filled container makes the section read as a single selectable object rather than a configuration group. Fix: drop the coloured container; separate the section with spacing + its header. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags that a whole settings group/section must not be wrapped in a coloured/tinted container or card — separation comes from the group gap (sizeXL) and the header, not a filled background"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 18,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 19,
+      "prompt": "Review a 'Game rules' settings group. The group header 'Game rules' is bold, and every setting label inside it — 'End the raid when...', 'Time limit', 'Set score (leaderboard pool)', 'Play music & sound effects' — is also rendered small and bold, the same emphasis as the header.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (BAD screenshot): a 'Game rules' group where the setting labels are small+bold like the header. GOOD counterpart: 'Points' group with a bold header and regular-weight 'Total'/'Increment' labels. BAD example for C4's weight-hierarchy rule.",
+      "expected_output": "FAILs C4 (weight hierarchy). Exactly one level is bold per group — the group header. The member setting labels must be REGULAR weight so the header reads as the parent and the settings as its contents; rendering every label small+bold flattens the hierarchy. Fix: keep only 'Game rules' bold; set the member setting labels to regular weight at the normal label size. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags that member setting labels must be regular weight, not bold like the group header (only the header is bold)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 19,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 20,
+      "prompt": "Review a 'Points' settings group. The group header 'Points' is bold; the setting labels inside — 'Total' and 'Increment' — are regular weight at the normal label size.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control (GOOD screenshot from Lan): 'Points' group, bold header + regular member labels. Counterpart to eval 19.",
+      "expected_output": "C4 PASSES for weight hierarchy — exactly one level is bold (the group header), and the member setting labels are regular weight. The judge should NOT flag this correct hierarchy.",
+      "assertions": [
+        "C4 is marked PASS (weight hierarchy is correct)",
+        "Does not flag the setting-label weight (only the group header is bold; members are regular)"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 20,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 21,
+      "prompt": "Review an 'End the raid when...' setting that lets the creator pick one of two options: 'Time runs out' and 'A hunter reaches a gold target'. It is built as a segmented (pill) switch, and the long second label wraps/overflows its pill and breaks the row layout.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (BAD screenshot): a 2-option segmented switch with long labels ('Time runs out' / 'A hunter reaches a gold target') breaking the layout. GOOD counterpart: a dropdown ('Type: QR code'). BAD example for C2's segmented-vs-dropdown rule.",
+      "expected_output": "FAILs C2 (correct control). A segmented control is only for ~2–4 short one-line options; these labels are long (multi-word), so they break the layout. The correct control is a dropdown/select. Fix: render this choice as a dropdown instead of a segmented switch. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Flags that a segmented/pill control is wrong for long multi-word options (they break the layout) and a dropdown/select should be used instead"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 21,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 22,
+      "prompt": "Review a 'Type' setting whose choice ('QR code', among a few longer named options) is rendered as a dropdown/select control.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control (GOOD screenshot from Lan): a 'Type' choice as a dropdown. Counterpart to eval 21.",
+      "expected_output": "C2 PASSES — a dropdown/select is the correct control for options that are long or numerous (a segmented switch would break the layout). The judge should NOT flag this.",
+      "assertions": [
+        "C2 is marked PASS (correct control choice)",
+        "Does not flag the dropdown/select (correct for long/many options)"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C2": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 22,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 23,
+      "prompt": "Review a 'Total' points setting: a number input sits on one row, and next to it — in the limited width left on that row — a segmented (pill) control offers three choices '% / pts / Custom'. The pills are cramped in the tight space beside the input.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (BAD screenshot): a '% / pts / Custom' segmented control cramped next to the Total input. GOOD counterpart: a '% ▾' dropdown beside Total. Companion to eval 21 (long labels); this one is the limited-space case for C2's segmented-vs-dropdown rule.",
+      "expected_output": "FAILs C2 (correct control). A segmented control needs room for ~2–4 short options; here three choices are squeezed into the tight space beside an input on the same row. The correct control is a dropdown/select. Fix: replace the '% / pts / Custom' segmented switch with a dropdown ('% ▾') beside the Total input. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Flags that a segmented control crammed with several options in a tight/limited space (beside an input) should be a dropdown/select"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 23,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 24,
+      "prompt": "Review a 'Total' points setting where the number input shares its row with a compact dropdown/select ('% ▾') for the unit, instead of a segmented pill control.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control (GOOD screenshot from Lan): a '% ▾' dropdown beside the Total input. Counterpart to eval 23.",
+      "expected_output": "C2 PASSES — in the limited space beside the input, a dropdown/select is the correct control for the unit choice (a segmented switch would be cramped). The judge should NOT flag this.",
+      "assertions": [
+        "C2 is marked PASS (correct control for the space)",
+        "Does not flag the dropdown/select beside the input"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C2": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 24,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 25,
+      "prompt": "Review a 'Categories' option list where each row is prefixed with a filled number badge (1, 2, 3, 4). The categories are an unordered set — their position carries no sequence meaning.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (screenshot): a 'Categories' list numbering each option 1-4 though order is not meaningful. BAD example for C10 (no per-option numbering unless sequence is meaningful).",
+      "expected_output": "FAILs C10. A per-option number badge implies a meaningful sequence; on an unordered set (categories, poll options) it is misleading and should be omitted. Reordering, if it applies, is afforded by the drag handle, not a number badge. Fix: drop the 1/2/3/4 badges. Overall NEEDS FIX. (Numbering is fine only when the option's position genuinely carries sequence meaning.)",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags that per-option number badges should be removed on an unordered set (numbering implies a sequence that isn't meaningful; reordering is the drag handle's job)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 25,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 26,
+      "prompt": "Review a scoring settings panel where several setting labels have a topically-relevant leading icon: a star before 'Scoring', a star before 'Points', a trophy before 'Leaderboard', and a clock before 'Time limit'. Someone argues these are fine because each icon 'matches' its setting's meaning.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan. A prior review wrongly passed a panel that keeps star/trophy/clock icons on labels by treating them as 'meaningful' rather than decorative. This eval pins the loophole: topically-relevant icons still FAIL C1; functional = drag handle, image, delete, ? help only.",
+      "expected_output": "FAILs C1. A topically-relevant icon is STILL decorative — a trophy on 'Leaderboard', a clock on 'Time limit', a star on 'Scoring'/'Points' must all be removed. 'Matches the setting's topic' does not make an icon functional; the only allowed panel icons are the four controls (drag handle, image, delete, ? help). Do not accept the 'it's meaningful, so it's fine' rationalization. Fix: remove the leading icons; the names identify the settings. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Flags the leading icons (star/trophy/clock) as decorative and to be removed",
+        "Explicitly rejects the 'topically relevant / meaningful, so it's fine' rationalization — a topical icon is still decorative, not functional"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 26,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 27,
+      "prompt": "Review a scoring settings panel where EVERY setting label is bold — the section-style labels ('Scoring', 'Points', 'Leaderboard', 'Time limit') and the individual toggle rows ('Faster answers get more points', 'Partial scoring') are all rendered in the same bold weight.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (screenshot): every setting label in a scoring panel is bold. Panel-scale instance of the weight-hierarchy rule (companion to eval 19/20). BAD example for C4.",
+      "expected_output": "FAILs C4 (weight hierarchy). Bold is reserved for section/group headers; toggle rows and member setting labels must be regular weight. With every label bold there is no hierarchy — the list reads as one flat wall of emphasis. Fix: keep the section headers emphasised and set the member/toggle labels (e.g. 'Faster answers get more points', 'Partial scoring') to regular weight. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags that not every label should be bold — bold is reserved for section/group headers; toggle rows and member setting labels are regular weight"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 27,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 28,
+      "prompt": "Review a 'Time limit' setting rendered as a number box showing '20' next to a SEPARATE framed box containing the word 'seconds'. The unit is fixed (not changeable), and the number box has no stepper.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (BAD screenshot): 'Time limit' with '20' and 'seconds' in two separate boxes, unit not changeable. GOOD counterpart: one input '45 up/down seconds'. BAD example for C10 (fixed unit as inline suffix + stepper, not a framed box).",
+      "expected_output": "FAILs C10. A fixed unit must be an inline suffix inside the same field, with a stepper on the number — not a separate framed box beside the input, which makes the non-changeable unit look selectable/interactive. Fix: merge into one input showing the number, a stepper, and 'seconds' as a suffix (e.g. '45 up/down seconds'). Overall NEEDS FIX. (A changeable unit would be a dropdown, not a static box.)",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags that the fixed unit must be an inline suffix inside the same input (with a stepper), not a separate framed box beside it"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 28,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 29,
+      "prompt": "Review a 'Time limit' setting rendered as a single input showing '45' with up/down stepper arrows and 'seconds' as an inline suffix inside the same field.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control (GOOD screenshot from Lan): '45 up/down seconds' in one input. Counterpart to eval 28.",
+      "expected_output": "C10 PASSES for the numeric-with-unit treatment — the fixed unit is an inline suffix inside one field, with a stepper on the number. The judge should NOT flag this.",
+      "assertions": [
+        "C10 is marked PASS (unit-inside-field + stepper is correct)",
+        "Does not flag the inline 'seconds' suffix or the stepper"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C10": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 29,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 30,
+      "prompt": "Review a slide's settings panel. Every text input permanently shows its character limit at the trailing edge by default — the 'Y-axis Label' and 'X-axis Label' inputs each show '30', and every 'Items' option input shows '150' — even when the input is not focused.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan (screenshot): axis-label and item inputs all showing their char limit ('30', '150') by default. Generalises the focus-only counter rule beyond option rows. BAD example for C10.",
+      "expected_output": "FAILs C10. A character/limit counter on any text input shows only while the input is focused and is hidden at rest; permanently displaying it on every input is needless standing clutter. Fix: reveal the counter on focus and hide it otherwise (applies to the axis-label inputs and the item inputs alike). Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags that the character/limit counter must show only on focus (hidden at rest) on all inputs — not always-visible by default on every input (axis labels and item inputs)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 30,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 31,
+      "prompt": "Review the Question field of this slide-type settings panel (fill-in-the-blanks). The \"Add blank\" button sits directly beneath the question input box with no space between them — the button visually fuses to the bottom edge of the input. Note that the field wrapper is `SETTINGS_FIELD_GAP_CLASS` (\"mb-6\") and the panel root is \"flex flex-col p-4\" (no `gap`), so a child gets no vertical spacing unless it sets its own:\n\n```vue\n<!-- fill-in-the-blanks/Settings.vue (PR #557) -->\n<div :class=\"SETTINGS_FIELD_GAP_CLASS\">   <!-- resolves to \"mb-6\"; the root is \"flex flex-col p-4\" with NO gap -->\n  <SectionHeader label=\"Question\" help=\"...\" />\n  <div ref=\"questionBox\" class=\"fitb-q\">\n    <Textarea :value=\"sentence\" :auto-size=\"{ minRows: 2, maxRows: 10 }\" :maxlength=\"QUESTION_MAX_LEN\"\n      placeholder=\"Write your sentence and type [ ] where a word goes missing\"\n      data-testid=\"fitb-question-input\" @update:value=\"(v) => applySentence(v)\" />\n    <span class=\"fitb-q-count text-aha-panel-ink\" aria-hidden=\"true\">{{ QUESTION_MAX_LEN - (sentence?.length ?? 0) }}</span>\n  </div>\n  <Tooltip :title=\"atBlankCap ? LIMIT_COPY.blanksTooltip : 'Drop a blank in at the cursor'\">\n    <Button :class=\"{ 'cursor-not-allowed opacity-50': atBlankCap }\" :aria-disabled=\"atBlankCap\"\n      data-testid=\"fitb-add-blank-button\" @click=\"insertBlank\">\n      <template #icon><PlusOutlined /></template>\n      Add blank\n    </Button>\n  </Tooltip>\n</div>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan, from PR #557 (AHAM-458) fill-in-the-blanks. The \"Add blank\" button was moved out of its old bordered footer into a plain themed Ant Button but shipped without the 8px `mt-2` the reference applies, so it fused to the question input. Real-code BAD example for C4 spacing — and a boundary case teaching the judge to separate a genuine spacing miss from C10s full-width rule.",
+      "expected_output": "FAILs C4. Separation between stacked controls must come from a spacing token, but the \"Add blank\" `<Button>` has no top-margin utility and neither its `mb-6` field wrapper nor the gap-less `flex flex-col` root supplies one — so it butts flush (0px) against the `.fitb-q` question box. Expected the standard ~8px (sizeXS) gap the reference `ui-standard/Settings.vue` gives its add-action (`<Button class=\"mt-2\" …>`). Fix: add `class=\"mt-2\"` to the button (compose it into any existing `:class`). This is NOT a C10 full-width miss — a secondary inline add-action is legitimately content-width; the only defect is the missing vertical spacing. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags that the add-action button abuts the input above it with 0px and must be separated by an ~8px spacing token (e.g. mt-2), matching the reference",
+        "Does NOT FAIL the button for being content-width (a secondary inline add-action need not be full-width — that is a C10 rule for the option-list + Add)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 31,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 32,
+      "prompt": "Review the same Question field after the fix — the \"Add blank\" button now carries an 8px top margin, so it is clearly separated from the question input box:\n\n```vue\n<!-- fill-in-the-blanks/Settings.vue (fixed) — matches ui-standard/Settings.vue s Add-option button -->\n  </div>  <!-- .fitb-q question box -->\n  <Tooltip :title=\"atBlankCap ? LIMIT_COPY.blanksTooltip : 'Drop a blank in at the cursor'\">\n    <Button class=\"mt-2\"   <!-- 8px (sizeXS) gap between the field and its add-action, like the reference -->\n      :class=\"{ 'cursor-not-allowed opacity-50': atBlankCap }\" :aria-disabled=\"atBlankCap\"\n      data-testid=\"fitb-add-blank-button\" @click=\"insertBlank\">\n      <template #icon><PlusOutlined /></template>\n      Add blank\n    </Button>\n  </Tooltip>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 31 — the fixed fill-in-the-blanks \"Add blank\" spacing (8px mt-2). GOOD control for C4.",
+      "expected_output": "PASSES C4. The add-action is separated from the field above it by the standard ~8px (sizeXS) spacing token (`mt-2`), matching the reference `ui-standard/Settings.vue`. The button is content-width, which is correct for a secondary inline add-action (C10s full-width rule governs the option-list \"+ Add\", not this). Overall OK TO SHIP (for this field).",
+      "assertions": [
+        "C4 is marked PASS",
+        "Recognises the 8px mt-2 spacing between the input and the add-action as correct",
+        "Does not FAIL the content-width secondary add-action"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 32,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 33,
+      "prompt": "Review the image field of a slide-type settings panel (Interactive Image). The image is the MAIN field the slide is built around (a background picture with hotspots on it). It is built from a full-width primary Button that reads \"Add image\" / \"Replace image\", plus a separate red \"Remove image\" danger button below the hotspot list:\n\n```vue\n<!-- interactive-images/Settings.vue — the MAIN image field -->\n<div class=\"aha-settings-label\">Image</div>\n<Button type=\"primary\" block @click=\"pickImage\">\n  {{ config.backgroundImageUrl ? 'Replace image' : 'Add image' }}\n</Button>\n<Button v-if=\"config.backgroundImageUrl\" danger @click=\"removeImage\">Remove image</Button>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Reported by Lan: ran the settings judge to improve the Interactive Image slide, but it did not adopt ImageDropzone. Root cause was that neither skill named ImageDropzone (only ImageActionButton), so the judge had no basis to require it. BAD example added alongside the C11/CR + SETTINGS-44 skill updates that teach the per-option (ImageActionButton) vs standalone-field (ImageDropzone) split.",
+      "expected_output": "FAILs C11 (and CR). A standalone MAIN image field — the image IS the field, not a per-option cell — must use the shipped `ImageDropzone` (full-width dashed upload card; empty -> loading -> filled = the image fitted in a display box with a Change/Edit/Delete overlay; host-modal intents), not a hand-rolled \"Add image\"/\"Replace image\" + \"Remove image\" danger button set. `ImageActionButton` is the per-option sibling and is also wrong here. Fix: compose `<ImageDropzone>` and wire its select/change/edit/remove/drop intents to the host modals. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C11 is marked FAIL (and CR is a FAIL for the rebuilt control)",
+        "Names ImageDropzone as the correct component for a standalone full-width image field",
+        "Distinguishes it from ImageActionButton (the per-option image control) and from the hand-rolled Add/Replace/Remove buttons"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C11": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 33,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 34,
+      "prompt": "Review the same Interactive Image image field after the fix — the main image is now the shipped ImageDropzone:\n\n```vue\n<!-- interactive-images/Settings.vue — using the shipped component -->\n<SectionHeader label=\"Image\" help=\"...\" />\n<ImageDropzone\n  :image-url=\"config.backgroundImageUrl\"\n  :loading=\"uploading\"\n  @select=\"pickImage\" @change=\"pickImage\" @edit=\"editImage\" @remove=\"removeImage\" @drop=\"onDrop\" />\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 33 — the Interactive Image main image field using ImageDropzone. GOOD control for C11 (standalone image field).",
+      "expected_output": "PASSES C11. The standalone main image field uses `ImageDropzone` (full-width upload card with empty/loading/filled states and a Change/Edit/Delete overlay), emitting host-modal intents rather than performing the upload. No hand-rolled Add/Replace/Remove buttons. Overall OK TO SHIP (for this field).",
+      "assertions": [
+        "C11 is marked PASS",
+        "Recognises ImageDropzone as correct for the standalone image field",
+        "Does not FAIL it for using a full-width component (that is the intended shape for a main image field)"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C11": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 34,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 35,
+      "prompt": "Review this Flip Cards settings list. Each card is a composite item (Front + Back label fields) rendered as a hand-rolled numbered box:\n\n```vue\n<!-- flip-cards-v2/Settings.vue — hand-rolled numbered item -->\n<div v-for=\"(card, i) in cards\" :key=\"card.id\" class=\"rounded-lg border border-aha-space/10 p-3\">\n  <div class=\"mb-2 flex items-center gap-2\">\n    <span class=\"flex h-6 w-6 items-center justify-center rounded-full bg-aha-purple text-white\">{{ i + 1 }}</span>\n    <span class=\"flex-1 font-semibold\">Card {{ i + 1 }}</span>\n    <Button danger size=\"small\"><template #icon><DeleteOutlined /></template></Button>\n  </div>\n  <Input v-model:value=\"card.front\" placeholder=\"Front label\" />\n  <Input v-model:value=\"card.back\" placeholder=\"Back label\" />\n</div>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "CR / SETTINGS-43 — a repeatable COMPOSITE item (a Flip Card with its own Front/Back fields) hand-rolled as a numbered box: an inline radical-purple number badge, a per-item border, and a bordered (secondary) delete. Should FAIL CR (rebuilt instead of the shipped NumberedItem) and the chip/delete treatment.",
+      "expected_output": "FAILS CR (and SETTINGS-43). Each Flip Card is a repeatable COMPOSITE item (Front + Back fields) but is hand-rolled as a numbered box instead of the shipped `NumberedItem` from `@/iframe/settings`. Even ignoring the reuse miss, the treatment is off-spec: the number chip is a radical-purple filled badge (must be a muted grey chip), the item carries a per-item border, and the delete is a danger/bordered button (must be a tertiary `type=\"text\"`, borderless, non-danger). Fix: compose `NumberedItem` (contained variant) with two `ModeField`s (or Inputs) in its slot.",
+      "assertions": [
+        "FAILs CR — the composite item is hand-rolled instead of the shipped NumberedItem wrapper",
+        "Flags the radical-purple number-badge fill (chip must be a muted grey, not radical purple)",
+        "Flags the per-item border",
+        "Flags the danger/red (and bordered) delete — it must be a tertiary type=\"text\" non-danger button",
+        "Does NOT excuse the grey/purple box as an allowed selectable card"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 35,
+        "remap": "label bad-control → bad-example (the plugin used bad-control for a bad case); judge criterion CR (reuse over rebuild) → C13: the DS store has no CR; C13 is the DS criterion this case's rebuild violates"
+      }
+    },
+    {
+      "id": 36,
+      "prompt": "Review the same Flip Cards list after the fix — each card now uses the shipped NumberedItem:\n\n```vue\n<!-- flip-cards-v2/Settings.vue — using the shipped component -->\n<NumberedItem v-for=\"(card, i) in cards\" :key=\"card.id\" :index=\"i\" label=\"Card\"\n  :can-delete=\"cards.length > 1\" @delete=\"removeCard(card.id)\">\n  <ModeField v-model=\"card.frontType\" label=\"Front label\" :options=\"TEXT_IMAGE\"> … </ModeField>\n  <ModeField v-model=\"card.backType\" label=\"Back label\" :options=\"TEXT_IMAGE\"> … </ModeField>\n</NumberedItem>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with the previous case — the same Flip Cards list using the shipped NumberedItem (muted chip, no per-item border, secondary-fill container, tertiary delete) with the fields composed in its slot. PASSES CR / SETTINGS-43; the grey container is NOT a C4 no-card violation.",
+      "expected_output": "PASSES CR (and SETTINGS-43). Each composite Card uses the shipped `NumberedItem` (muted grey chip, no per-item border, secondary-fill `contained` container, tertiary `type=\"text\"` non-danger delete) and composes `ModeField` for Front/Back in its slot — no hand-rolled numbered box. The grey container is the intended shape for a repeatable composite item, NOT a C4 no-card violation. OK TO SHIP (for this list).",
+      "assertions": [
+        "PASSES CR — the composite item uses the shipped NumberedItem wrapper, composing ModeField in its slot",
+        "Does NOT FAIL the secondary-fill grey container under C4 (composite-item carve-out)",
+        "Recognises the grey contained card wrapping the WHOLE item (chip + label + delete + body) as correct",
+        "Recognises the muted chip / no border / tertiary delete as correct"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 36,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 37,
+      "prompt": "Review this Spinner Wheel round-duration setting. It is a number with a unit (seconds), hand-built from an Ant InputNumber plus a separate bordered box reading \"seconds\", with a hand-written red line on overflow:\n\n```vue\n<!-- spinner-wheel/Settings.vue — round duration -->\n<div class=\"aha-settings-label\">Round time</div>\n<div class=\"flex items-center gap-2\">\n  <InputNumber v-model:value=\"config.roundSeconds\" :min=\"5\" :max=\"6000\" />\n  <span class=\"rounded border px-2 py-1\">seconds</span>\n</div>\n<div v-if=\"config.roundSeconds > 6000\" class=\"text-red-500 text-xs\">Maximum is 6000 seconds.</div>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "NumberWithUnit — a number-with-unit (round duration) hand-rolled as InputNumber + a framed unit box + a hand-written error line. Should FAIL CR / C10 (SETTINGS-41, SETTINGS-45); the shipped NumberWithUnit supplies the inline unit, hover stepper, maxDigits cap and errorMessage. Added for the AHAM-471 NumberWithUnit skill updates (Lan).",
+      "expected_output": "FAILS CR (and C10 / SETTINGS-41 / SETTINGS-45). A number that carries a unit must use the shipped `NumberWithUnit`, not a hand-rolled `InputNumber` plus a separate bordered \"seconds\" box (a bordered box makes the fixed unit look selectable) plus a hand-written red validation line. `NumberWithUnit` ships the unit as an inline suffix, a hover-revealed up/down tertiary stepper, a hard `maxDigits` digit cap, and an `errorMessage` prop that renders the red line — none of which should be re-invented. Fix: compose `<NumberWithUnit unit=\"seconds\" :max=\"6000\" :error-message=\"err\">`. (If this were a standard whole-slide countdown, prefer the host `enableTimeLimit` over any custom field.) Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "CR is marked FAIL (hand-rolled number+unit instead of the shipped NumberWithUnit)",
+        "Flags the separate bordered \"seconds\" box — a fixed unit belongs as an inline suffix inside the field",
+        "Flags the hand-written red validation line — validation uses NumberWithUnit's errorMessage prop",
+        "Names NumberWithUnit as the correct component"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 37,
+        "remap": "pinned C10 (the case's own 'and C10'): the DS store has no CR (reuse over rebuild) criterion"
+      }
+    },
+    {
+      "id": 38,
+      "prompt": "Review the same round-duration field after the fix — it now uses the shipped NumberWithUnit:\n\n```vue\n<!-- spinner-wheel/Settings.vue — using the shipped component -->\n<SectionHeader label=\"Round time\" />\n<NumberWithUnit v-model=\"config.roundSeconds\" unit=\"seconds\" :min=\"5\" :max=\"6000\"\n  :error-message=\"config.roundSeconds > 6000 ? 'Maximum is 6000 seconds.' : ''\" />\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 37 — the round-duration field using the shipped NumberWithUnit (inline unit, hover stepper, maxDigits cap, errorMessage). GOOD control for the NumberWithUnit selection rule.",
+      "expected_output": "PASSES CR (and C10). The number-with-unit uses the shipped `NumberWithUnit` — the unit \"seconds\" is an inline suffix, the up/down stepper is hover-revealed, the digit input is hard-capped (`maxDigits`), and validation is the built-in `errorMessage` line rather than a hand-rolled one. No separate framed unit box. Overall OK TO SHIP (for this field).",
+      "assertions": [
+        "CR is marked PASS (and C10)",
+        "Recognises NumberWithUnit as correct for a number-with-unit field",
+        "Does not FAIL the inline unit suffix or the built-in errorMessage line"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 38,
+        "remap": "dropped the CR pin: the DS store has no CR (reuse over rebuild) criterion; the case is graded on its other criteria"
+      }
+    },
+    {
+      "id": 39,
+      "prompt": "Review this Fill-in-the-blanks list. Each blank uses the shipped NumberedItem, but the number chip and \"Blank N\" header are rendered ABOVE the wrapper (so the grey card wraps only the body), and the slot textarea is borderless:\n\n```vue\n<!-- fill-in-the-blanks/Settings.vue — NumberedItem, off-spec usage -->\n<div v-for=\"(blank, i) in blanks\" :key=\"blank.id\">\n  <div class=\"mb-1 flex items-center gap-2\">\n    <span class=\"aha-ni-chip\">{{ i + 1 }}</span>\n    <span class=\"flex-1\">Blank {{ i + 1 }}</span>\n  </div>\n  <NumberedItem :index=\"i\" variant=\"contained\">\n    <a-textarea v-model:value=\"blank.answer\" :bordered=\"false\" placeholder=\"Answer\" />\n  </NumberedItem>\n</div>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "NumberedItem used but off-spec — external header (grey wraps body only) plus a borderless slot textarea. Encodes the two AHAM-471 FAILs: the contained variant wraps the WHOLE item, and slot inputs stay bordered. Should FAIL CR / SETTINGS-43.",
+      "expected_output": "FAILS CR (and SETTINGS-43). The item uses `NumberedItem` but off-spec on two counts. First, the number chip and \"Blank N\" header are hand-rendered ABOVE the wrapper, so the grey `contained` card wraps only the body — the `contained` variant must wrap the WHOLE item (chip + label + delete + body) on ONE grey card; let `NumberedItem`'s own `index`/`label` render the header inside. Second, the slot `<a-textarea>` is `:bordered=\"false\"` — controls composed into the slot must be the theme's default BORDERED field, not a borderless one. Fix: pass `:index=\"i\"` and `label=\"Blank\"` to `NumberedItem`, drop the external header, and remove `:bordered=\"false\"`. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "CR / SETTINGS-43 is marked FAIL",
+        "Flags the header rendered outside the wrapper so the grey wraps only the body (contained must wrap the whole item)",
+        "Flags the borderless (:bordered=\"false\") slot textarea — slot inputs must be the default bordered field",
+        "Does NOT FAIL the grey contained container itself under C4"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 39,
+        "remap": "judge criterion CR (reuse over rebuild) → C13: the DS store has no CR; C13 is the DS criterion this case's rebuild violates"
+      }
+    },
+    {
+      "id": 40,
+      "prompt": "Review this Duck Race settings panel. Both settings are lone controls, but 'Race duration' is titled with a bold SectionHeader (label stacked above the number field) while 'Race sound' is a SettingRow:\n\n```vue\n<SectionHeader label=\"Race duration\" help=\"How long the race runs.\" />\n<NumberWithUnit v-model=\"duration\" unit=\"sec\" :min=\"5\" :max=\"60\" />\n\n<SettingRow label=\"Race sound\" help=\"Turn the music off to run silently.\">\n  <Switch v-model:checked=\"sound\" />\n</SettingRow>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Lone setting titled with the bold SectionHeader instead of SettingRow — the AHAM-473 rule. Should FAIL C4 / SETTINGS-48; the sibling SettingRow is correct.",
+      "expected_output": "FAILS C4 (and SETTINGS-48). 'Race duration' is one control with one label — a lone setting, not a group — so it must be a regular-weight SettingRow, not a bold SectionHeader. Using SectionHeader here renders a group-level bold label with no group beneath it, and it reads inconsistently beside the regular-weight 'Race sound' row. Fix: make 'Race duration' a SettingRow too (`<SettingRow label=\"Race duration\" help=\"…\"><NumberWithUnit …/></SettingRow>`); reserve SectionHeader for a real group header over 2+ settings or a master-toggle row. Everything else passes; overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL (SETTINGS-48)",
+        "Flags SectionHeader used to title a lone setting (should be a regular-weight SettingRow)",
+        "Notes SectionHeader is reserved for a real group header over 2+ settings / a master-toggle",
+        "Does NOT FAIL the 'Race sound' SettingRow"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 40,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 41,
+      "prompt": "Review this settings row. 'Race duration' is a narrow NumberWithUnit (a 4-char field + the 'sec' suffix), but it is stacked BELOW its label on its own row, leaving the right half of the label's row empty:\n\n```vue\n<SettingRow label=\"Race duration\" layout=\"stack\">\n  <NumberWithUnit v-model=\"duration\" unit=\"sec\" :min=\"5\" :max=\"60\" />\n</SettingRow>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Narrow number+unit field stacked instead of inline — the AHAM-473 inline-when-it-fits layout rule. Should FAIL C4 / SETTINGS-47.",
+      "expected_output": "FAILS C4 (and SETTINGS-47). The number+unit field is narrow enough to sit beside its label, so it should be INLINE (label left / control right — SettingRow's default layout). Stacking a narrow control wastes vertical space and makes a lightweight setting read as a heavy stacked field. Fix: drop layout=\"stack\" and use the default inline. Reserve stack only for a control too wide to share the row — a multi-line textarea, a wide select, a multi-option radio/segmented group, or an image dropzone. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL (SETTINGS-47)",
+        "Flags a narrow control stacked below its label when it should be inline",
+        "Prescribes the default inline layout (drop layout=\"stack\")",
+        "Notes stack is reserved for controls too wide to share the label's row"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 41,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 42,
+      "prompt": "Review this duration field. It uses the shipped NumberWithUnit inline in a SettingRow, but the seconds unit is rendered as a single letter 's':\n\n```vue\n<SettingRow label=\"Race duration\">\n  <NumberWithUnit v-model=\"duration\" unit=\"s\" :min=\"5\" :max=\"60\" />\n</SettingRow>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Seconds unit shown as 's' instead of 'sec' — the AHAM-473 unit rule. Should FAIL the C10 unit clause / SETTINGS-46; layout and component choice are correct.",
+      "expected_output": "FAILS C10 (the unit clause) / SETTINGS-46. A seconds unit is always written `sec` — never the cryptic `s`, never the long `seconds`. Fix: set unit=\"sec\". Every unit uses its conventional short label, seconds being the standard `sec` case. The inline SettingRow layout and the NumberWithUnit component choice are both correct — only the unit spelling fails. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "Flags the seconds unit written as 's' instead of 'sec' (SETTINGS-46 / C10 unit clause)",
+        "Prescribes unit=\"sec\"",
+        "Does NOT FAIL the inline SettingRow layout or the NumberWithUnit choice"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 42,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 43,
+      "prompt": "Review this Duck Race duration row. A narrow NumberWithUnit sits INLINE beside its label — SettingRow's default layout, label left / control right:\n\n```vue\n<SettingRow label=\"Race duration\" help=\"How long the race runs.\">\n  <NumberWithUnit v-model=\"durationModel\" unit=\"sec\" :min=\"5\" :max=\"60\" />\n</SettingRow>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control for SETTINGS-47 — narrow control inline is correct. Pairs with the bad-example id 41 (a narrow control stacked).",
+      "expected_output": "PASSES C4 (and SETTINGS-47). The number+unit field is narrow, so it correctly shares the label's row inline rather than stacking below it. All applicable criteria PASS; overall OK TO SHIP — the judge must not invent a layout fail on a correctly-inline narrow control.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP (does not invent fails)",
+        "C4 PASSES (SETTINGS-47)",
+        "Recognizes a narrow control correctly placed inline with its label",
+        "Does NOT ask for the control to be stacked below the label"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 43,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 44,
+      "prompt": "Review this Duck Race panel. Both lone settings use a regular-weight SettingRow (no bold SectionHeader), each label beside its control:\n\n```vue\n<SettingRow label=\"Race duration\" help=\"How long the race runs.\">\n  <NumberWithUnit v-model=\"durationModel\" unit=\"sec\" :min=\"5\" :max=\"60\" />\n</SettingRow>\n<SettingRow label=\"Race sound\" help=\"Turn the music off to run silently.\">\n  <Switch v-model:checked=\"soundEnabled\" />\n</SettingRow>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control for SETTINGS-48 — lone settings on SettingRow, the real corrected Duck Race panel. Pairs with the bad-example id 40 (a lone setting on a SectionHeader).",
+      "expected_output": "PASSES C4 (and SETTINGS-48). Each is one control with one label — a lone setting — so a regular-weight SettingRow is correct; neither uses the bold SectionHeader, and the two rows read consistently. All applicable criteria PASS; overall OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C4 PASSES (SETTINGS-48)",
+        "Recognizes lone settings correctly use a regular-weight SettingRow, not a bold SectionHeader",
+        "Does NOT demand a SectionHeader over the two rows"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 44,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 45,
+      "prompt": "Review this duration field. The NumberWithUnit renders the seconds unit as `sec`:\n\n```vue\n<SettingRow label=\"Race duration\">\n  <NumberWithUnit v-model=\"durationModel\" unit=\"sec\" :min=\"5\" :max=\"60\" />\n</SettingRow>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control for SETTINGS-46 — seconds unit as `sec`. Pairs with the bad-example id 42 (unit as `s`).",
+      "expected_output": "PASSES C10 (the unit clause) / SETTINGS-46 — a seconds unit written `sec` is the standard conventional short label. All applicable criteria PASS; overall OK TO SHIP; the judge must not flag a correctly-abbreviated unit.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "The `sec` unit PASSES (SETTINGS-46 / C10 unit clause)",
+        "Does NOT demand `s` or `seconds`"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 45,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 47,
+      "prompt": "Review the hotspot list in this interactive-image Settings.vue. Each hotspot is a repeatable NumberedItem composite item whose body holds a Title and a Description. Judge the two body fields against the composite-item field rules — one matching component family, each labelled, each full-width, and a focus counter as an overlay inside the field, not a width-stealing sibling:\n\n```vue\n<NumberedItem v-for=\"(h, i) in hotspots\" :key=\"h.id\" :index=\"i\" label=\"Hotspot\" @delete=\"deleteHotspot(h.id)\">\n  <div class=\"flex flex-col gap-3\">\n    <SettingRow label=\"Title\" layout=\"stack\">\n      <div class=\"aha-hs-field\">\n        <Textarea :value=\"h.title\" :maxlength=\"TITLE_MAX\" :auto-size=\"{ minRows: 1, maxRows: 2 }\" placeholder=\"Hotspot title\"\n                  @update:value=\"v => updateHotspot(h.id, 'title', v)\" />\n        <span class=\"aha-hs-count\" aria-hidden=\"true\">{{ TITLE_MAX - (h.title?.length ?? 0) }}</span>\n      </div>\n    </SettingRow>\n    <SettingRow label=\"Description\" layout=\"stack\">\n      <div class=\"aha-hs-field\">\n        <Textarea :value=\"h.description\" :maxlength=\"DESC_MAX\" :auto-size=\"{ minRows: 2, maxRows: 4 }\" placeholder=\"Add a short description\"\n                  @update:value=\"v => updateHotspot(h.id, 'description', v)\" />\n        <span class=\"aha-hs-count\" aria-hidden=\"true\">{{ DESC_MAX - (h.description?.length ?? 0) }}</span>\n      </div>\n    </SettingRow>\n  </div>\n</NumberedItem>\n<!-- scoped: .aha-hs-field{position:relative} .aha-hs-field .ant-input{padding-right:40px}\n     .aha-hs-count{position:absolute;right:12px;bottom:8px;font-size:12px;opacity:0;transition:opacity .18s}\n     .aha-hs-field:focus-within .aha-hs-count{opacity:1} -->\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Real after-state from AHAM-466 (reported by Lan): the GOOD half of the before/after pair, matching id 46. Together they exercise the composite-item field rule in the settings build + judge skills.",
+      "expected_output": "PASSES. The two fields are now ONE component family (both a themed Textarea; the one-line title is a single-row auto-sizing Textarea so it matches its multi-line sibling exactly — correct, not a FAIL). Each field is wrapped in a labelled, full-width row (SettingRow layout=\"stack\" with a 'Title' / 'Description' label). The focus counter is an absolute `:focus-within` OVERLAY inside the field (`.aha-hs-count` on a `position:relative` `.aha-hs-field`), so it does not sit in the row stealing width and both fields render at the same full width. The NumberedItem wrapper is used correctly. Overall PASS.",
+      "assertions": [
+        "Overall verdict is PASS",
+        "Recognises both fields as one component family (a themed Textarea)",
+        "Recognises each field is labelled via SettingRow layout=\"stack\"",
+        "Recognises each field is full-width and the counter is a :focus-within overlay, not a width-stealing sibling",
+        "Does NOT FAIL the one-line title implemented as a single-row auto-sizing Textarea to match its multi-line sibling"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 47,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 48,
+      "prompt": "Review the blanks list in this Fill-in-the-blanks Settings.vue. Each blank is a repeatable composite item (its own answer/option list), rendered as a bare \"Blank N\" label with a per-blank delete and the fields stacked beneath it — no shipped wrapper:\n\n```vue\n<!-- fill-in-the-blanks/Settings.vue (before) — bare-labelled composite, no NumberedItem -->\n<div v-for=\"(blank, idx) in config.blanks\" :key=\"blank.id\" class=\"mb-4\">\n  <div class=\"mb-2 flex items-center gap-2\">\n    <span class=\"flex-1 font-semibold\">Blank {{ idx + 1 }}</span>\n    <Button danger size=\"small\" @click=\"removeBlank(blank.id)\">\n      <template #icon><DeleteOutlined /></template>\n    </Button>\n  </div>\n  <OptionRow v-for=\"(opt, optIdx) in blank.dropdownOptions\" :key=\"optIdx\"\n    :index=\"optIdx\" :text=\"opt\" :placeholder=\"`Option ${optIdx + 1}`\" />\n</div>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real before-state from AHAM-458 (fill-in-the-blanks, reported by Lan): each blank was a bare-labelled composite with no NumberedItem wrapper plus a redundant danger delete. BAD half of the before/after pair with id 49; exercises CR/SETTINGS-43 (a composite item must use the shipped NumberedItem) and the deletable=false non-removable-item rule.",
+      "expected_output": "FAILS CR (and SETTINGS-43). Each blank is a repeatable COMPOSITE item (it owns an answer/option list) but is rendered as a bare \"Blank N\" label with no shipped `NumberedItem` from `@/iframe/settings` — no muted grey number chip and no secondary-fill `contained` card grouping the WHOLE item, so the blanks don't read as discrete grouped cards. The per-blank delete is also off-spec twice over: it is a danger/bordered `<Button>` (must be a tertiary `type=\"text\"`, borderless, non-danger), and it is a redundant affordance — a FiB blank is added/removed by editing the sentence's `[ ]` markers (the single source of truth), so the item is NON-REMOVABLE and should carry no delete at all. Fix: wrap each blank in `NumberedItem` (contained variant, `label=\"Blank\"`, `index`) and set `deletable=false` to hide the delete entirely. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "FAILs CR / SETTINGS-43 — the composite blank is hand-rolled as a bare label with no shipped NumberedItem wrapper",
+        "Flags the missing muted grey chip and secondary-fill contained card that should group the whole item",
+        "Flags the danger/bordered per-blank delete (must be a tertiary type=\"text\", non-danger button)",
+        "Recognises the per-blank delete as a redundant affordance for a non-removable item (blank add/remove is owned by the sentence [ ] markers) — it should be dropped via deletable=false"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 48,
+        "remap": "judge criterion CR (reuse over rebuild) → C13: the DS store has no CR; C13 is the DS criterion this case's rebuild violates"
+      }
+    },
+    {
+      "id": 49,
+      "prompt": "Review the same blanks list after the fix — each blank now uses the shipped NumberedItem, and because a blank is added/removed only by editing the sentence's `[ ]` markers, the delete is dropped via `deletable=false`:\n\n```vue\n<!-- fill-in-the-blanks/Settings.vue (after) — the shipped fix -->\n<NumberedItem\n  v-for=\"(blank, idx) in config.blanks\"\n  :key=\"blank.id\"\n  :index=\"idx\"\n  label=\"Blank\"\n  :deletable=\"false\"\n  variant=\"contained\"\n>\n  <OptionRow v-for=\"(opt, optIdx) in blank.dropdownOptions\" :key=\"optIdx\"\n    :index=\"optIdx\" :text=\"opt\" :placeholder=\"`Option ${optIdx + 1}`\" />\n</NumberedItem>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Real after-state from AHAM-458 (fill-in-the-blanks, reported by Lan): the shipped fix — NumberedItem contained variant with deletable=false for the non-removable blank. GOOD half of the before/after pair with id 48; the only eval exercising deletable=false (delete intentionally absent).",
+      "expected_output": "PASSES CR (and SETTINGS-43). Each blank is a repeatable composite item rendered with the shipped `NumberedItem` (muted grey chip, \"Blank N\" header, secondary-fill `contained` card wrapping the WHOLE item) and composes its `OptionRow` answer list in the slot. Because a FiB blank is added/removed by editing the sentence's `[ ]` markers — not by a per-item control — the item is non-removable and correctly sets `deletable=false`, so NO delete affordance renders (no greyed dead icon). `deletable=false` is the intended way to drop an inapplicable delete and is NOT a FAIL. The grey `contained` container is the correct shape for a composite item, not a C4 no-card violation. OK TO SHIP (for this list).",
+      "assertions": [
+        "Overall verdict is PASS",
+        "PASSES CR / SETTINGS-43 — the composite blank uses the shipped NumberedItem, composing OptionRow in its slot",
+        "Recognises deletable=false correctly HIDES the delete for a non-removable item (add/remove owned by the sentence [ ] markers) — NOT a FAIL",
+        "Does NOT FAIL the secondary-fill grey contained card under C4 (composite-item carve-out)",
+        "Recognises the muted chip, whole-item contained card, and absent per-item delete as correct"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 49,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 50,
+      "prompt": "Review the True/False marketplace slide type's editor right-panel settings. On every deck a large empty block appears BELOW the panel's one visible field (the answer options). The Vue renders correctly and the settings iframe DOES report a height. The plugin's settings.html and the sole field wrapper:\n\n```html\n<!-- slide/true-or-false/settings.html -->\n<body class=\"h-full bg-transparent\">\n  <div id=\"app\" class=\"h-screen\"></div>\n  <script type=\"module\" src=\"/src/slide-types/true-or-false/settings.main.ts\"></script>\n</body>\n```\n```vue\n<!-- true-or-false/Settings.vue — the ONLY field still carries the between-fields margin -->\n<div :class=\"SETTINGS_ROOT_CLASS\">\n  <div :class=\"SETTINGS_FIELD_GAP_CLASS\">   <!-- resolves to \"mb-6\", on the sole/last field -->\n    <SectionHeader label=\"Answer\" help=\"…\" />\n    <div class=\"flex flex-col gap-2\"> …two OptionRows… </div>\n  </div>\n</div>\n```\nThe panel uses `usePresenterPlugin({ autoHeight: true })`, whose auto-height reporter posts `#app.offsetHeight` back to the host.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real incident AHAM-463 (2026-08, True/False redesign). A large empty block under the panel persisted for several rounds: the Vue rendered fine and the iframe reported a height, so the null-report and empty-body checks looked clean. Root cause: settings.html set #app to h-screen (100vh), so driveSettingsAutoHeight/Zoid autoResize measured #app.offsetHeight as a full viewport and reported that. An early round mis-fixed a trailing SETTINGS_FIELD_GAP_CLASS margin on the sole field (a real but ~24px minor bug); the reporter flagged it as 'sửa nhầm' (fixed the wrong thing) and 'khoảng trống rất to' (a very large empty space) remained until the h-screen root was fixed. BAD example teaching the third iframe-height mode (mount root stretched to the viewport) and the don't-stop-at-the-smaller-cause differential (mirrors AHA-283).",
+      "expected_output": "FAILs C9. The DOMINANT cause is the iframe measuring the wrong element: `#app` is `h-screen` (100vh), so the autoResize reporter reads `#app.offsetHeight` as a full viewport and reports a full-screen height regardless of the panel's small content — the large empty block. This is the THIRD iframe-height failure mode, distinct from a null report and an empty body (a height IS reported and the body is NOT empty), and it is where the fix belongs: make the mount root shrink-wrap (`html, body, #app { height: auto; min-height: 0 }`; drop `h-screen`/`h-full`), matching the healthy settings panels. SECONDARY, minor defect: the between-fields margin (`SETTINGS_FIELD_GAP_CLASS`/`mb-6`) sits on the sole field, leaving ~24px trailing dead space (C4/§5) — remove it, preferring a parent `flex flex-col gap-*`. Do NOT stop at the trailing margin: ~24px is not the large block; the h-screen root is dominant. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C9 is marked FAIL",
+        "Identifies the mount root forced to viewport height (h-screen/100vh on #app) as the DOMINANT cause — the iframe measures #app.offsetHeight as a full viewport and reports a full-screen height",
+        "Prescribes making the settings-iframe root shrink-wrap (height:auto), not chasing per-field margins",
+        "Recognises this as a distinct third iframe-height mode (not a null report / not an empty body)",
+        "Flags the trailing SETTINGS_FIELD_GAP_CLASS margin on the sole field as a SECONDARY ~24px defect, not the dominant cause"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 50,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 51,
+      "prompt": "Review the same True/False settings after the fix — the mount root now shrink-wraps and the sole-field margin is gone:\n\n```html\n<!-- slide/true-or-false/settings.html -->\n<head><style>html, body, #app { height: auto; min-height: 0; }</style></head>\n<body class=\"bg-transparent\">\n  <div id=\"app\" class=\"aha-iframe-root\"></div>\n  <script type=\"module\" src=\"/src/slide-types/true-or-false/settings.main.ts\"></script>\n</body>\n```\n```vue\n<!-- true-or-false/Settings.vue — no trailing field margin; the field sits directly in the root -->\n<div :class=\"SETTINGS_ROOT_CLASS\">\n  <div>\n    <SectionHeader label=\"Answer\" help=\"…\" />\n    <div class=\"flex flex-col gap-2\"> …two OptionRows… </div>\n  </div>\n</div>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with the previous case (id 50) — the fixed True/False settings.html (height:auto root) and Settings.vue (no trailing field margin). GOOD control for C9's third iframe-height mode; guards against a judge that over-flags a correctly shrink-wrapped settings iframe.",
+      "expected_output": "PASSES C9. The settings-iframe root shrink-wraps its content (`height:auto`, no `h-screen`/`100vh`), so the auto-height reporter posts the real content height and the iframe is exactly as tall as the panel — no empty block. The sole field no longer carries the between-fields margin, so there is no trailing dead space. The judge must NOT invent a fail on a correctly-sized settings iframe. Overall OK TO SHIP (for this surface).",
+      "assertions": [
+        "C9 is marked PASS",
+        "Recognises the height:auto mount root as correct (reports the real content height)",
+        "Does not flag the settings iframe height or a trailing gap"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C9": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 51,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 52,
+      "prompt": "Review this slide-type settings panel. The slide has MULTIPLE QUESTIONS, each a prompt plus its own answer choices, and the editor is built by hand out of NumberedItem + OptionRow:\n\n```vue\n<!-- slide/quiz-battle/Settings.vue -->\n<template>\n  <div class=\"aha-settings\">\n    <SectionHeader title=\"Questions\" />\n    <NumberedItem\n      v-for=\"(q, i) in config.questions\" :key=\"q.id\"\n      :index=\"i\" label=\"Question\" @delete=\"removeQuestion(q.id)\"\n    >\n      <Input v-model:value=\"q.prompt\" placeholder=\"Type your question\" />\n      <OptionRow\n        v-for=\"c in q.choices\" :key=\"c.id\"\n        v-model:text=\"c.text\" :correct=\"c.correct\" @delete=\"removeChoice(q, c.id)\"\n      />\n      <Button type=\"text\" @click=\"addChoice(q)\">+ Add answer</Button>\n    </NumberedItem>\n    <Button block @click=\"addQuestion\">+ Add question</Button>\n  </div>\n</template>\n```\n\nIs this the correct list wrapper?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C13 list-wrapper mis-pick (AHAM-641) — the real This-or-That case that motivated the criterion: a multiple-question list must use QuestionList, not a hand-rolled NumberedItem+OptionRow accordion. Bad-example (before).",
+      "expected_output": "FAILs C13. The list items are QUESTIONS — a prompt plus a set of answer choices — so the correct wrapper is the shipped `QuestionList`, the collapsible question editor (prompt = SectionHeader + Input, choices = OptionRow, per-question tertiary delete, image-as-intent). This panel instead rebuilds that accordion by hand out of `NumberedItem` + `OptionRow` + a manual prompt Input and add/delete wiring — reinventing a component that already exists (also a CR reuse-over-rebuild miss). `NumberedItem` is for composite item-groups the creator counts by ordinal, not for a question+choices list (remember QuestionList *composes* NumberedItem, never the reverse). Fix: replace the whole hand-rolled block with `<QuestionList v-model=\"config.questions\" ... @image=\"...\" />`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C13 is marked FAIL",
+        "Identifies the items are questions (prompt + answer choices) so QuestionList is the correct wrapper",
+        "Flags that NumberedItem + OptionRow hand-rebuilds the QuestionList accordion",
+        "Fix replaces the block with QuestionList",
+        "Notes QuestionList composes NumberedItem, never the reverse"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 52,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 53,
+      "prompt": "Review the same multiple-question settings panel after the fix — it now uses the shipped question editor:\n\n```vue\n<!-- slide/quiz-battle/Settings.vue -->\n<script setup lang=\"ts\">\nimport { QuestionList } from '@/iframe/settings'\n</script>\n<template>\n  <div class=\"aha-settings\">\n    <QuestionList\n      v-model=\"config.questions\"\n      title=\"Questions\"\n      prompt-label=\"Question\"\n      add-question-label=\"+ Add question\"\n      @image=\"onQuestionImage\"\n    />\n  </div>\n</template>\n```\n\nIs this the correct list wrapper?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C13 good-control (AHAM-641), paired with id 52 — the fixed quiz-battle panel using QuestionList. Guards against the judge over-firing on a correct multiple-question list. Good-control (after).",
+      "expected_output": "PASSES C13. The items are questions (prompt + answer choices), and the panel uses the shipped `QuestionList` — the collapsible question editor that already encodes the prompt field, OptionRow choices, per-question delete and image-as-intent — rather than rebuilding it. Correct wrapper for the list shape; the judge must not invent a fail on a correctly-composed question list. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C13 is marked PASS",
+        "Recognises QuestionList as the correct wrapper for a multiple-question list",
+        "Does not over-flag a correctly-composed question editor"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C13": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 53,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 54,
+      "prompt": "Review this slide-type settings panel. The slide is a fill-in-the-blanks type: the config is a list of BLANKS, each a composite item-group (an accepted-answers list plus a case-sensitivity toggle) that the creator refers to by number (Blank 1, Blank 2). The editor uses NumberedItem:\n\n```vue\n<!-- slide/fill-in-the-blanks/Settings.vue -->\n<template>\n  <div class=\"aha-settings\">\n    <SectionHeader title=\"Blanks\" />\n    <NumberedItem\n      v-for=\"(b, i) in config.blanks\" :key=\"b.id\"\n      :index=\"i\" label=\"Blank\" :deletable=\"false\"\n    >\n      <OptionRow\n        v-for=\"a in b.answers\" :key=\"a.id\"\n        v-model:text=\"a.text\" @delete=\"removeAnswer(b, a.id)\"\n      />\n      <Button type=\"text\" @click=\"addAnswer(b)\">+ Add accepted answer</Button>\n      <SettingRow label=\"Case-sensitive\"><Switch v-model:checked=\"b.caseSensitive\" /></SettingRow>\n    </NumberedItem>\n  </div>\n</template>\n```\n\nIs this the correct list wrapper?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C13 good-control (AHAM-641) for the OTHER arm — fill-in-the-blanks composite item-groups correctly use NumberedItem (the real consumer). Proves the criterion does not over-fire on the item-group side and documents when NumberedItem (not QuestionList) is right.",
+      "expected_output": "PASSES C13. Each item is a COMPOSITE item-group (an accepted-answers list + a case-sensitivity toggle) that the creator counts by ordinal (Blank 1, Blank 2), so `NumberedItem` is the correct wrapper — it owns the number chip, `Blank N` header and card chrome, and the body (OptionRow list + Switch) is composed in its slot. This is NOT a question+choices accordion (that would be QuestionList) nor a flat single-value list (that would be OptionRow directly). `deletable=false` is correct here because blanks are added/removed by editing the sentence markers, not in this list. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C13 is marked PASS",
+        "Recognises composite item-groups counted by ordinal use NumberedItem",
+        "Does not confuse the composite item-group list with a QuestionList case",
+        "Does not over-flag the correct NumberedItem usage"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C13": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 54,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 55,
+      "prompt": "Review the Content panel (editor right-panel config) for the Split the Points slide type. The presenter's AhaSlides editor chrome is set to Vietnamese, but the deck they are editing has content language English. The settings panel renders in English. Here is Settings.vue:\n\n```vue\n<!-- slide/split-the-points/Settings.vue -->\n<script setup lang=\"ts\">\nconst props = defineProps<{\n  presentationProps: PresentationProps\n  currentUserProps: CurrentUserProps\n}>()\n\n// BAD: localises the settings panel off the DECK's content language\nconst language = computed(() => props.presentationProps?.language)\n\nconst labels = computed(() => LABELS[language.value] ?? LABELS.en)\n</script>\n\n<template>\n  <SettingRow :label=\"labels.totalBudget\" />\n  <SettingRow :label=\"labels.increment\" />\n</template>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHAM-664 (Split the Points). The presenter's editor chrome was in Vietnamese but the settings panel rendered in English because it localised off presentation.language (deck content language) instead of the presenter app's own locale. BAD example for the new C14 criterion.",
+      "expected_output": "FAILs C14 (settings surface text localised to the viewer's own app locale). The panel reads `presentationProps.value?.language` — the DECK's content language — for its own chrome, so it tracks the deck's language instead of the presenter's own editor locale. With the editor in Vietnamese and the deck content in English, the settings panel wrongly renders English. Fix: localise off `currentUserProps.value?.presenterLanguage` (falling back to `presentationProps.value?.language` only when the presenter locale is unavailable), so the panel follows the presenter app's own locale. Overall NEEDS FIX.",
+      "assertions": [],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C14": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 55,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 56,
+      "prompt": "Review the Content panel (editor right-panel config) for the Split the Points slide type. The presenter's AhaSlides editor chrome is set to Vietnamese, and the deck they are editing has content language English. The settings panel renders in Vietnamese, matching the presenter's editor. Here is Settings.vue:\n\n```vue\n<!-- slide/split-the-points/Settings.vue -->\n<script setup lang=\"ts\">\nconst props = defineProps<{\n  presentationProps: PresentationProps\n  currentUserProps: CurrentUserProps\n}>()\n\n// GOOD: localises the settings panel off the PRESENTER APP's own locale,\n// falling back to the deck language only when the presenter locale is unavailable\nconst language = computed(\n  () => props.currentUserProps?.presenterLanguage ?? props.presentationProps?.language,\n)\n\nconst labels = computed(() => LABELS[language.value] ?? LABELS.en)\n</script>\n\n<template>\n  <SettingRow :label=\"labels.totalBudget\" />\n  <SettingRow :label=\"labels.increment\" />\n</template>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good-control counterpart to the AHAM-664 (Split the Points) bad-example above — proves C14 does not over-fire when the settings panel correctly follows the presenter app's own locale via currentUserProps.presenterLanguage.",
+      "expected_output": "PASSES C14 (settings surface text localised to the viewer's own app locale). The panel localises off `currentUserProps.value?.presenterLanguage` — the PRESENTER APP's own UI locale — matching the editor chrome the presenter is already using, falling back to `presentationProps.value?.language` (the deck's content language) only when the presenter locale is unavailable. This is the fix for AHAM-664: the settings panel correctly renders in Vietnamese (the presenter's locale) even though the deck content is English. Overall OK TO SHIP.",
+      "assertions": [],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 56,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 58,
+      "prompt": "Review the same Split the Points results-chart-type picker after the fix — composed on the shipped CardSelect:\n\n```vue\n<!-- slide/split-the-points/Settings.vue — using the shipped component -->\n<SectionHeader label=\"Chart type\" />\n<CardSelect v-model=\"config.chartType\" :options=\"chartOptions\" />\n```\n```ts\nconst chartOptions = [\n  { value: 'bar', label: 'Bar', icon: BarChartIcon },\n  { value: 'pie', label: 'Pie', icon: PieChartIcon },\n  { value: 'donut', label: 'Donut', icon: DonutChartIcon },\n]\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 57 — the Split the Points (AHAM-664) results-chart-type picker composed on CardSelect. GOOD control for CR / SETTINGS-51 (card-grid single-select picker).",
+      "expected_output": "PASSES CR. The results-chart-type picker composes the shipped `CardSelect` with `options[].icon`, so the card's selected/hover/focus states, spacing and layout come from the library component rather than a hand-rolled button grid. No re-implemented selected-state styling or inline SVG markup in the template. Overall OK TO SHIP (for this control).",
+      "assertions": [],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 58,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 59,
+      "prompt": "Review the results-view Categories list in the Content panel for the Split the Points slide type. Each item is a single value (a category name) — not a composite with its own nested fields. It is built as a hand-rolled draggable list:\n\n```vue\n<!-- slide/split-the-points/Settings.vue — category list -->\n<VueDraggable v-model=\"config.categories\" handle=\".drag-handle\" item-key=\"id\">\n  <div v-for=\"(cat, i) in config.categories\" :key=\"cat.id\" class=\"flex items-center gap-2 py-1\">\n    <span class=\"drag-handle cursor-grab\">⋮⋮</span>\n    <span class=\"flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 text-xs\">{{ i + 1 }}</span>\n    <Input v-model=\"cat.label\" placeholder=\"Category name\" />\n    <Button type=\"text\" danger @click=\"removeCategory(i)\">\n      <TrashIcon />\n    </Button>\n  </div>\n</VueDraggable>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real pattern from AHAM-664 (Split the Points): the flat Categories list was hand-rolled as VueDraggable + bespoke rows (numbered badge + raw Input + always-visible delete Button) instead of composing the shipped OptionRow. BAD example closing the gap where existing C13 evals (52–54) only covered the WRAPPER choice (QuestionList vs NumberedItem), not the flat-list-vs-OptionRow reuse case.",
+      "expected_output": "FAILs CR (and C10). This is a FLAT list of single values (a category name) — not a repeatable composite item, so it should compose the shipped `OptionRow`, not a bespoke row. Hand-rolling `VueDraggable` around a numbered grey badge + a raw `Input` + a separate always-visible danger `Button` re-implements OptionRow's drag-handle, border, and hover-only delete anatomy by hand: the delete is always visible (not on-hover per SETTINGS-23) and is a danger button (a bordered/danger delete on the row is a FAIL, not a tertiary hover delete), and the number badge is unwarranted for an unordered category set (SETTINGS-39). Fix: replace with a list of `OptionRow`s (drag handle built in, tertiary hover-only delete, no number badge since categories are unordered). Overall NEEDS FIX.",
+      "assertions": [],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL",
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 59,
+        "remap": "CR (reuse over rebuild) → C13, whose DS test names a flat single-value list → OptionRow; C10 kept from the case's own 'and C10'"
+      }
+    },
+    {
+      "id": 60,
+      "prompt": "Review the same Split the Points Categories list after the fix — composed on the shipped OptionRow:\n\n```vue\n<!-- slide/split-the-points/Settings.vue — using the shipped component -->\n<SectionHeader label=\"Categories\" help=\"...\" />\n<OptionRow\n  v-for=\"cat in config.categories\"\n  :key=\"cat.id\"\n  v-model=\"cat.label\"\n  placeholder=\"Category name\"\n  draggable\n  :deletable=\"config.categories.length > minCategories\"\n  @delete=\"removeCategory(cat.id)\"\n/>\n<Button type=\"primary\" block @click=\"addCategory\">+ Add category</Button>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 59 — the Split the Points (AHAM-664) Categories list composed on OptionRow. GOOD control for CR / C10 (flat single-value list reuse, distinct from the C13 wrapper-choice cases).",
+      "expected_output": "PASSES CR (and C10). The flat Categories list composes the shipped `OptionRow` — drag handle, single-bordered row, tertiary hover-only delete, and the min-count delete-disable are all inherited from the component rather than hand-built. No number badge on this unordered set (SETTINGS-39), and the \"+ Add\" spans full width (SETTINGS-31). Overall OK TO SHIP (for this control).",
+      "assertions": [],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 60,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 61,
+      "prompt": "Review the Dilemma Ladder slide type's editor right panel. After the dilemma list (a QuestionList of prompt + two options) the LAST field is a destructive control:\n\n```vue\n<!-- slide-types/dilemma-ladder/Settings.vue -->\n<div>\n  <SectionHeader label=\"Reset\" help=\"Restores the starter ladder. Anything typed here is discarded.\" />\n  <Button danger @click=\"resetDilemmas\">Reset ladder</Button>\n</div>\n\n<script setup>\nasync function resetDilemmas() {\n  const ok = await showConfirmModal({ title: 'Reset the dilemmas?', okText: 'Reset ladder', variant: 'danger' })\n  if (!ok) return\n  config.value = { ...config.value, rounds: createDefaultDilemmaLadderConfig().rounds }\n}\n</script>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real pattern from AHAM-701 (Dilemma Ladder / Snap Vote / Bucket Sort / Auction House all shipped an identical 'Reset <content>' danger block). BAD control for the new C15 — a content-reset/restore-defaults button in a slide-type config panel. Paired with the good control 62. Reporter: 'Never render the Reset setting.'",
+      "expected_output": "FAILs C15. This is a slide-type right-panel config carrying a \"Reset ladder\" danger control whose handler re-seeds the panel's own authored content back to `createDefaultDilemmaLadderConfig()` — exactly the content-reset control C15 prohibits. It is not a setting (a one-shot editor action with no state); it duplicates the QuestionList's own per-item delete + direct edit (reuse over rebuild, CR); and it collides with the host's native \"Reset results\" control. The confirmation modal does NOT rescue it — C15 fails regardless of the confirm. This is distinct from C7: C7 is not triggered here (no account/workspace danger zone). Fix: delete the whole Reset block, its handler, and any now-unused import. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C15 is marked FAIL",
+        "Recognises the danger Button re-seeds the panel's own authored content from createDefault…()",
+        "Notes the confirmation modal does NOT rescue it",
+        "Does NOT mis-file this under C7 as a legitimate danger zone"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C15": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 61,
+        "remap": "label bad-control → bad-example (the plugin used bad-control for a bad case)"
+      }
+    },
+    {
+      "id": 62,
+      "prompt": "Review the same Dilemma Ladder right panel after the fix — the Reset control has been removed entirely, so the panel ends on the dilemma list:\n\n```vue\n<!-- slide-types/dilemma-ladder/Settings.vue -->\n<div :class=\"SETTINGS_ROOT_CLASS\">\n  <div>\n    <SectionHeader label=\"Dilemmas\" help=\"...\" />\n    <QuestionList v-model=\"config.rounds\" ... />\n  </div>\n</div>\n```\nThe presenter still starts over by deleting or editing rows in the list, and the host's own \"Reset results\" control on the slide control bar is untouched.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 61 — the AHAM-701 Dilemma Ladder panel with the Reset-content block removed. GOOD control for C15; guards against a judge that invents a C15 fail on a panel that legitimately has no reset control.",
+      "expected_output": "PASSES C15 (and the other applicable criteria). The panel carries no content-reset / restore-defaults control — \"start over\" is reachable through the QuestionList's per-item delete + direct edit, and submissions are reset by the host's native control, not a duplicated one in the config. A legitimate account/workspace delete-account danger zone would still PASS under C7, but none appears here. Overall OK TO SHIP (for this control).",
+      "assertions": [
+        "Overall verdict is OK TO SHIP (does not invent fails)",
+        "C15 is marked PASS",
+        "Recognises 'start over' is covered by the item list's own delete/edit and the host's native Reset results"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C15": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 62,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 63,
+      "prompt": "Review a Road-Trip slide's settings panel. Several independent top-level fields — Checkpoints (a segmented CardSelect), Timer per team (a CardSelect) and Solo play (a toggle) — are all wrapped inside ONE `<div :class=\"SETTINGS_FIELD_GAP_CLASS\">`:\n\n```vue\n<div :class=\"SETTINGS_FIELD_GAP_CLASS\">\n  <SettingRow label=\"Checkpoints\" ...><CardSelect .../></SettingRow>\n  <SettingRow label=\"Timer per team\" ...><CardSelect .../></SettingRow>\n  <SettingRow label=\"Solo play\" ...><Switch .../></SettingRow>\n</div>\n```\nOn screen the 'Timer per team' and 'Solo play' labels sit flush against the segmented control of the field above and overlap it.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHAM-960 (Road Trip). All SettingRows shared one SETTINGS_FIELD_GAP_CLASS div, so labels collided with the CardSelect above. BAD control for C4 (welded top-level fields).",
+      "expected_output": "FAILs C4. The field-gap token must sit between EVERY pair of top-level fields, but welding several fields into one `SETTINGS_FIELD_GAP_CLASS` div applies the gap once around the whole group, so the fields inside abut with 0px (the panel root carries no `gap-*`) and their labels collide with the control above. Fix: give each top-level field its OWN field-gap wrapper (the last may omit the trailing one). Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Identifies that multiple top-level fields share a single SETTINGS_FIELD_GAP_CLASS wrapper so the inner fields abut with 0px",
+        "Prescribes one field-gap wrapper per top-level field"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 63,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 64,
+      "prompt": "Review the same Road-Trip panel after the fix — each top-level field is wrapped in its OWN field-gap div:\n\n```vue\n<div :class=\"SETTINGS_FIELD_GAP_CLASS\">\n  <SettingRow label=\"Checkpoints\" ...><CardSelect .../></SettingRow>\n</div>\n<div :class=\"SETTINGS_FIELD_GAP_CLASS\">\n  <SettingRow label=\"Timer per team\" ...><CardSelect .../></SettingRow>\n</div>\n<div>\n  <SettingRow label=\"Solo play\" ...><Switch .../></SettingRow>\n</div>\n```",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 63 — the fixed Road Trip panel (AHAM-960). GOOD control for C4 (per-field gap wrappers).",
+      "expected_output": "PASSES C4. Every pair of top-level fields is separated by the standard field-gap token because each field owns its wrapper; the last field omits the trailing wrapper by design. No fields abut. Overall OK TO SHIP (for this spacing).",
+      "assertions": [
+        "C4 is marked PASS",
+        "Recognises one field-gap wrapper per top-level field as correct",
+        "Does not invent a fail on the last field omitting the trailing wrapper"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 64,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 65,
+      "prompt": "Review the 'Accepted answers' field of a Picture Clues slide's settings panel. The answer list is hidden when empty (`v-if=\"acceptedAnswers.length\"`), and the 'Add accepted answer' block `<Button>` carries a STATIC `class=\"mt-2\"`:\n\n```vue\n<SectionHeader label=\"Accepted answers\" help=\"...\" />\n<div v-if=\"acceptedAnswers.length\" :class=\"SETTINGS_OPTION_LIST_CLASS\">\n  <OptionRow v-for=\"...\" />\n</div>\n<Button block class=\"mt-2\" @click=\"addAccepted\">Add accepted answer</Button>\n```\nWith one answer present the button sits 8px below the list, but with NO answer it sits 12px below the label.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Real bug AHAM-960 (Picture Clues accepted answers). A static mt-2 read 12px empty / 8px filled because .ant-btn-block is display:flex. BAD control for C4 (two-state add-button gap).",
+      "expected_output": "FAILs C4. An add-action under a CONDITIONALLY-rendered list must hold the same ~8px gap in BOTH states. A single static `mt-2` only lands 8px in one state: the AntD block button is `display:flex` (a block formatting context), so its top margin does not collapse with the label's `mb-1` (4px), and with the list hidden it lands 12px below the label (4 + 8) instead of 8. Fix: use a two-state margin (`mt-1` when the list is hidden, `mt-2` when shown) or the shipped AddItemButton. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Identifies that a static mt-2 lands 12px below the label when the v-if'd list is hidden because the flex block button's margin does not collapse with the label's mb-1",
+        "Prescribes a two-state margin (mt-1 hidden / mt-2 shown) or the shipped AddItemButton"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 65,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 66,
+      "prompt": "Review the same 'Accepted answers' field after the fix — the add-action uses the shipped AddItemButton (equivalently `:class=\"acceptedAnswers.length ? 'mt-2' : 'mt-1'\"`):\n\n```vue\n<div v-if=\"acceptedAnswers.length\" :class=\"SETTINGS_OPTION_LIST_CLASS\">\n  <OptionRow v-for=\"...\" />\n</div>\n<AddItemButton :has-items=\"acceptedAnswers.length > 0\" label=\"Add accepted answer\" @click=\"addAccepted\" />\n```\nNow the button sits 8px below the label when the list is hidden and 8px below the list when it is shown.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control paired with case 65 — the fixed Picture Clues accepted-answers add-action (AHAM-960), using AddItemButton / two-state margin. GOOD control for C4.",
+      "expected_output": "PASSES C4. The add-action holds the standard ~8px in BOTH states via a two-state top margin (`mt-1` when the list is hidden, `mt-2` when shown), handling the flex block button's non-collapsing margin; AddItemButton bakes this in. Overall OK TO SHIP (for this spacing).",
+      "assertions": [
+        "C4 is marked PASS",
+        "Recognises the two-state margin (or AddItemButton) as correct for an add-action under a conditionally-rendered list",
+        "Does not FAIL the content-width secondary add-action"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-settings-judge",
+        "id": 66,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 67,
+      "prompt": "Review this Poll slide's Settings panel. 'Allow multiple answers' is a toggle; its sub-setting 'Maximum answers per person' is always shown, greyed out and disabled while the toggle is off, at the same indent and label weight as the toggle above it.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5 — dependent sub-setting shown disabled and flat.",
+      "expected_output": "C5 FAILs: a sub-setting that only applies when its parent is on must be hidden while the parent is off (disabled is reserved for an upgrade path), and when shown it must read as nested — indented (sizeLG), a tighter gap above (sizeXS) and a lighter label. Fix: render 'Maximum answers per person' only when 'Allow multiple answers' is on, indented and de-emphasised. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Flags the sub-setting shown disabled instead of hidden while its parent is off",
+        "Flags that it is not indented or de-emphasised under its parent"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin case made this DS criterion fire"
+      }
+    },
+    {
+      "id": 68,
+      "prompt": "Review this Presentation settings panel for a Free-plan user. 'Remove AhaSlides branding' requires Pro, so the panel filters it out with `settings.filter(s => !s.requiresPro || user.isPro)` — Free users never see the row.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6 — plan-gated setting hidden.",
+      "expected_output": "C6 FAILs: a plan-gated setting stays visible, shown locked with a crown badge that opens the shared Paywall popover (one primary Upgrade CTA). Hiding it removes the upgrade path. Fix: always render the row; for Free users show it locked with the crown badge wired to the shared Paywall popover. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Flags that the Pro-only setting is hidden instead of shown locked",
+        "Fix names the crown badge opening the shared Paywall popover"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin case made this DS criterion fire"
+      }
+    },
+    {
+      "id": 69,
+      "prompt": "Review this Workspace settings page. 'Delete workspace' is the second row, between 'Workspace name' and 'Default language'; it is separated from its neighbours by `<Divider />` lines and is a default `<Button>` whose label text is coloured `#F5222D`. Clicking it opens a confirmation modal.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 — danger setting mid-list, divider-separated, hex red.",
+      "expected_output": "C7 FAILs: a destructive setting sits last (bottom of the section or a Danger zone), set apart by the largest spacing gap (sizeXXL), not a divider, and its CTA is an AntD `danger` Button — red on the button via colorError, never a hex on a label. The confirmation modal is right. Fix: move 'Delete workspace' to a Danger zone at the bottom, drop the dividers for sizeXXL spacing, and use `<Button danger>`. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Flags the destructive row sitting mid-list with dividers",
+        "Flags the hex-red label instead of a danger Button",
+        "Does not flag the confirmation modal, which is correct"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin case made this DS criterion fire"
+      }
+    },
+    {
+      "id": 70,
+      "prompt": "Review this Word Cloud slide. Its per-slide settings 'Max words per participant' and 'Profanity filter' are not in the editor's right panel; instead a gear icon opens a full-screen Account settings page where they sit under a 'Slide options' heading.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C8 — per-object settings on the wrong surface.",
+      "expected_output": "C8 FAILs: per-object, immediate-effect settings live in the inline editor panel; an account-scope page is the wrong surface for them. Fix: move both settings into the slide's editor panel. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Flags per-slide settings living on an account-scope page instead of the editor panel"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin case made this DS criterion fire"
+      }
+    }
+  ]
+}

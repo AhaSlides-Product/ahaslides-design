@@ -1,0 +1,243 @@
+{
+  "surface": "typography",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.typography",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-typography-judge",
+    "path": "plugins/aha-design/skills/aha-design-typography-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this typography. A dashboard body paragraph (role: body) is styled with `font-family: Inter; font-size: 16px; font-weight: 400;`. Inter is being used on a body role. Is the font family correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J1 — font family matches the role.",
+      "expected_output": "J1 FAILs: product UI text uses Plus Jakarta Sans (the font.product token) for every role — the live DS scale has no Inter label set, so Inter on a body role is a family mismatch. Fix: set font-family to Plus Jakarta Sans. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J1 is marked FAIL",
+        "Identifies Inter used on a body role as wrong",
+        "Recommends Plus Jakarta Sans"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 1,
+        "remap": "expected_output: dropped the plugin's 'Inter for the stylized label set' exception — tokens.canonical.json font.$note overrules it"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this typography. A section heading (role: heading2) is styled with `font-family: Plus Jakarta Sans; font-size: 32px; font-weight: 500;`. Weight 500 is used on a content heading. Is the weight correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J2 — weight is 400 or 600, exceptions only.",
+      "expected_output": "J2 FAILs: font weight is 400 or 600 only, per the live weight tokens (Display included) — 500 on a role-based content heading is a weight violation. Fix: set the heading2 weight to 600 (or 400). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J2 is marked FAIL",
+        "Flags weight 500 on a content heading as not permitted",
+        "Recommends 400 or 600"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 2,
+        "remap": "expected_output: DS allows 400/600 only (Display included, no 700 exception) and cites the live weight tokens, not typography.json"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this typography. A dashboard page title (role: heading1) is styled with `font-family: Plus Jakarta Sans; font-size: 28px; font-weight: 600;`. The size 28px was eyeballed. Is the size correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J3 — size snaps to the scale.",
+      "expected_output": "J3 FAILs: sizes must snap to the DS size tokens (12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64) and 28px is an in-between value — the classic symptom of eyeballing instead of snapping to a role. Fix: a dashboard page title is heading1 → 48px (or, if intentionally smaller, snap to the nearest role — 40 / 32 / 24 — never an in-between value). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J3 is marked FAIL",
+        "Identifies 28px as an off-scale in-between value",
+        "Recommends snapping to a scale value such as 48px"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 3,
+        "remap": "expected_output: DS size scale has no 10px step"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this typography. An H2 section heading is styled with `font-family: Plus Jakarta Sans; font-size: 32px; font-weight: 600; line-height: 28px;`. The line-height is set in px. Is the line-height correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J4 — line-height is a unitless ratio matching the role.",
+      "expected_output": "J4 FAILs: line-height must be a unitless ratio matching the role (1.2 for H1/H2) and there is no px line-height scale — `line-height: 28px` is set in px and doesn't match the H2 ratio. Fix: set line-height to the unitless 1.2 for the H2 role. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J4 is marked FAIL",
+        "Flags the px line-height (line-height: 28px)",
+        "Recommends the unitless ratio 1.2 for H1/H2"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this typography. A hero headline (role: heading1) is styled with `font-family: Plus Jakarta Sans; font-size: 48px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em;`. Negative tracking is applied to a headline. Is the letter-spacing correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J5 — letter-spacing matches the role's category.",
+      "expected_output": "J5 FAILs: letter-spacing by category requires headlines (Display, H1-H4) at 0 — negative tracking (-0.02em) on a headline doesn't match the category. Fix: remove the negative tracking; headlines use 0. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J5 is marked FAIL",
+        "Flags the negative letter-spacing -0.02em on a headline",
+        "Recommends 0 for headlines"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this typography. The title of a confirmation dialog (\"Delete this slide?\") is styled as role heading1: `font-family: Plus Jakarta Sans; font-size: 48px; font-weight: 600; line-height: 1.2; letter-spacing: 0;`. The author picked heading1 because the title should 'stand out'. Is the role applied correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J6 — role fits the text's job (dialog title is heading4/5, not heading1).",
+      "expected_output": "J6 FAILs: the role is chosen by the text's job, not by how prominent it should look — a card/dialog title is heading4/5, and heading1 is reserved for the page title. Fix: restyle the dialog title as heading4 (or heading5) with that role's size, weight, line height and letter spacing. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J6 is marked FAIL",
+        "Identifies heading1 as the wrong role for a dialog title",
+        "Recommends heading4 or heading5"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J6": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 6,
+        "remap": "rewritten: the plugin case tested the 'capitalized' Inter label role, which the live DS scale does not have; retargeted J6 at a DS role (dialog title → heading4/5)"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this typography. The text under review is the hero headline of the ahaslides.com marketing landing page, styled with `font-family: Plus Jakarta Sans; font-size: 56px; font-weight: 300; optical-sizing: auto;` — a brand/marketing asset being forced onto the product-UI scale. Is this in scope for the product type scale?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J7 — in scope: product UI, not marketing/brand.",
+      "expected_output": "J7 FAILs: this scale governs in-app product UI (presenter, audience, editor, dashboard); a marketing/brand surface like a landing-page hero must NOT be forced onto this scale (note the weight 300 and optical sizing, which belong to the brand range 200-800). Fix: redirect this to aha-marketing-typography, which owns marketing/brand type. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J7 is marked FAIL",
+        "Identifies the text as a marketing/brand landing-page asset out of scope",
+        "Redirects to aha-marketing-typography"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J7": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this typography. A dashboard page title (role: heading1) is styled with `font-family: Plus Jakarta Sans; font-size: 48px; font-weight: 600; line-height: 1.2; letter-spacing: 0;` and the element is in-app product UI. Is this typography correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — passes all 7 criteria (J1-J7).",
+      "expected_output": "All 7 criteria PASS: J1 — Plus Jakarta Sans matches the heading1 role; J2 — weight 600 is permitted; J3 — 48px is on the scale; J4 — line-height 1.2 is the unitless ratio for H1; J5 — letter-spacing 0 matches the headline category; J6 — heading1 fits a page title's job; J7 — it is in-app product UI, in scope. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All 7 criteria (J1-J7) are marked PASS",
+        "No fixes are recommended"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "J1": "PASS",
+          "J2": "PASS",
+          "J3": "PASS",
+          "J4": "PASS",
+          "J5": "PASS",
+          "J6": "PASS",
+          "J7": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 8,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this typography. An all-caps eyebrow label (role: capitalized) is styled with `font-family: Inter; font-size: 12px; font-weight: 600; line-height: normal; letter-spacing: 2px; text-transform: uppercase;` in the editor product UI. Is this typography correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets J1 — the plugin's Inter 'capitalized' label exception does not exist in the DS; guards against a judge that still accepts it.",
+      "expected_output": "J1 FAILs: the live DS scale has no Inter label set — every product-UI role, an all-caps eyebrow included, uses Plus Jakarta Sans (font.product). Fix: set font-family to Plus Jakarta Sans. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "J1 is marked FAIL",
+        "Rejects Inter on the eyebrow label",
+        "Recommends Plus Jakarta Sans"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "J1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-typography-judge",
+        "id": 9,
+        "remap": "flipped good-control → bad-example: the plugin accepted Inter for the capitalized label set; the DS token font.$note overrules that (no Inter)"
+      }
+    }
+  ]
+}

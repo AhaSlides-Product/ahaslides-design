@@ -1,0 +1,14 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-progressbar> is the accessible bar: the host is role=progressbar with YOUR range + label;
+     the visual is the DS <aha-progress>. Always give a label. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';              // <aha-icon> for the status glyph
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-progressbar.js';    // registers <aha-progressbar> (+ <aha-progress>)
+</script>
+
+<div style="display:flex; flex-direction:column; gap:16px; max-width:320px">
+  <aha-progressbar value="3" max="10" label="Quiz progress" value-text="Question 3 of 10"></aha-progressbar>
+  <aha-progressbar value="64" label="Uploading image" status="active"></aha-progressbar>
+  <aha-progressbar value="2" max="4" steps="4" label="Setup steps" value-text="Step 2 of 4"></aha-progressbar>
+</div>
