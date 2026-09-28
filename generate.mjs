@@ -1817,7 +1817,7 @@ function antiSlopTargetUrl(source) {
   if (m) return `${SITE}/${m[1]}.agent.json`;
   m = source.match(/^guidelines\/([a-z0-9-]+)\.json$/);
   if (m) return `${SITE}/guidelines/${m[1]}/${m[1]}.agent.json`;
-  return null;
+  throw new Error(`anti-slop target "${source}" has no published feed — map it in antiSlopTargetUrl`);
 }
 
 function renderAntiSlop(store, guidelines) {

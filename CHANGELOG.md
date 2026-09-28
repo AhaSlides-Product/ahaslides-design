@@ -5,7 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-The gate also rejects an unfilled `(#121)` placeholder in the top entry: link the **real** PR number.
+The gate also rejects an unfilled `(#PR)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -15,7 +15,7 @@ The gate also rejects an unfilled `(#121)` placeholder in the top entry: link th
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
 ### Removed       ← a removed export / component / token
-- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#121)
+- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#PR)
 ```
 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:

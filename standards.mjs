@@ -651,11 +651,11 @@ if (ANTISLOP) {
       guidelines.some(p => p.slug === key) || targets.length >= 1,
       'a wired surface needs a guideline to supply its rules, or targets naming the live DS sources it is judged against');
     for (const t of targets)
-      achk(`surface "${key}": target "${t.source}" is a live DS source`,
-        t && LIVE_TARGET_SOURCE.test(t.source) && existsSync(join(root, t.source)) && t.use,
+      achk(`surface "${key}": target "${t?.source}" is a live DS source`,
+        LIVE_TARGET_SOURCE.test(t?.source) && existsSync(join(root, t.source)) && !!t.use,
         'targets name a DS contract / tokens.canonical.json / icons/registry.json / guideline that exists, with a use');
     for (const c of (s.criteria || []))
-      achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(c.test || ''),
+      achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(`${c.title} ${c.test}`),
         'the test cites a plugin snapshot (contract.json / typography.json / review.html / references/) — point it at the DS contract or tokens');
   }
   achk('anti-slop.md feed exists', existsSync(join(DIST, 'anti-slop.md')), 'run npm run generate');
