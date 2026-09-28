@@ -22,7 +22,7 @@
     },
     {
       "label": "Empty",
-      "value": "message empty or absent → host hidden (renders nothing)"
+      "value": "message empty or absent → form variant hidden (renders nothing); respondent stays mounted at zero height so the alert is tracked"
     },
     {
       "label": "Form variant (default)",
