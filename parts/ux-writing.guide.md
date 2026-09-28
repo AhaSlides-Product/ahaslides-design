@@ -77,7 +77,7 @@ support). The recovery lives **in the message**, not only in a toast that vanish
 ### Human, blameless, jargon-free · UXW-4
 
 - **Don't blame the user.** ❌ "You entered an invalid file." → ✅ "That file type isn't
-  supported — try a PNG or JPG."
+  supported. Try a PNG or JPG."
 - **No raw codes / stack / HTTP status as the headline** — tuck any code into secondary detail.
 - **Lead with the user's goal, not the system's failure.** ❌ "An exception was thrown" →
   ✅ "We couldn't open your presentation."
@@ -104,6 +104,17 @@ support). The recovery lives **in the message**, not only in a toast that vanish
 - **(b) Shape (only when there's a title + body).** Title carries the outcome; body the next step —
   not inverted. A shapeless single-string message is fine here — its vagueness is a UXW-2 problem,
   not a UXW-7 one.
+
+### No dash as punctuation · UXW-8
+
+Product copy never uses an em dash (—) or en dash (–) as punctuation.
+
+- Replace it with a full stop, a comma, a colon, parentheses, or split the sentence into two.
+- A plain hyphen (`-`) is fine only inside a compound word, such as "Open-ended".
+- Write a range with "to" ("1 to 10"), not a dash.
+- ❌ "That file type isn't supported — try a PNG or JPG." → ✅ "That file type isn't supported.
+  Try a PNG or JPG."
+- ❌ "Delete this slide — this can't be undone." → ✅ "Delete this slide? This can't be undone."
 
 ### Worked example
 

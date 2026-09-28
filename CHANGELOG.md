@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.61.0 — 2026-09-28
+### Added
+- **UX writing rule UXW-8: no em dash or en dash in product copy.** Added to `guidelines/ux-writing.json` (rule + ref), the `ux-writing` composition guide (`parts/ux-writing.guide.md`), and the DS-owned anti-slop store as criterion `C8`, re-seeded from the `aha-design-ux-writing-judge` skill (plugin v1.81.0) via `sync-skills.mjs`. Pairs with `aha-claude-plugins` PR #191, which adds the rule to the skill itself. Fixed the one existing example in `guidelines/ux-writing.json` and `parts/ux-writing.guide.md` that used an em dash as punctuation, so the page's own copy follows its new rule (#PR)
+
 ## 0.60.0 — 2026-09-28
 ### Added
 - **Seven more anti-slop surfaces in the DS-owned store: `antd`, `component-standard`, `icons`, `typography`, `table`, `shared-components` and `background`.** Each was seeded from its aha-design judge (plugin v1.80.0) with `sync-skills.mjs import`, then reviewed so every binary criterion judges against the DS's **live** contracts and tokens instead of the plugin's frozen `contract.json` / `typography.json` snapshots. Where the live DS overrules the old snapshot, the criterion follows the DS — e.g. typography is Plus Jakarta Sans at weights 400/600 only, with no Inter label set. `anti-slop.md` / `anti-slop.agent.json` now carry all nine surfaces. (#121)
