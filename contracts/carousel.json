@@ -39,8 +39,7 @@
   "snippets": [
     { "key": "html", "label": "HTML", "file": "carousel.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared carouselTheme. No build step." },
     { "key": "react", "label": "React", "file": "carousel.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "carousel.vue.txt" },
-    { "key": "theme", "label": "Theme (shared)", "file": "carousel.theme.txt" }
+    { "key": "vue", "label": "Vue 3", "file": "carousel.vue.txt" }
   ],
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same carouselTheme; residual drift is caught by visual regression.",
   "preview": "carousel.preview.html",
