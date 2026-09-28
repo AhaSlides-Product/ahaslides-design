@@ -1,11 +1,11 @@
 {
   "name": "Table",
   "slug": "table",
-  "group": "Data",
+  "group": "Data Display",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
-  "summary": "A data grid — results, leaderboard, participant/admin list — rendered through the shared DataTable.",
-  "lead": "Too complex to rebuild as a web component, so Table stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both rendered through the shared DataTable and themed once by components.Table. Two implementations, one DS V3 look, policed by visual regression. This is the composite half of the hybrid.",
+  "summary": "A data grid — results, leaderboard, participant/admin list — rendered as the real antd Table themed by the shared tableTheme.",
+  "lead": "Too complex to rebuild as a web component, so Table stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared tableTheme (components.Table) passed to ConfigProvider. Two implementations, one DS V3 look, policed by visual regression. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorBorderSecondary", "Table.headerBg", "Table.headerColor", "Table.borderColor", "Table.rowHoverBg", "Table.cellPaddingBlock", "Table.cellPaddingInline"],
   "spec": [
     { "label": "Container", "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the whole grid" },
@@ -26,8 +26,8 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "DataTable", "when": "any rows×columns grid — results, leaderboard, admin list" },
-      { "what": "never a raw <Table>", "when": "a bare antd Table restyled per call site is the drift this replaces" }
+      { "what": "Table + tableTheme in ConfigProvider", "when": "any rows×columns grid — results, leaderboard, admin list" },
+      { "what": "never a per-call-site restyle", "when": "a bare antd Table restyled at each call site is the drift this replaces" }
     ],
     "note": "White header (not antd grey #fafafa), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
   },
