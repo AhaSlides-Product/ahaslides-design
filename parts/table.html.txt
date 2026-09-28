@@ -25,12 +25,12 @@
     { key: '3', name: 'Sam Okafor',    team: 'Growth',  responses: 97,  score: 81 },
   ];
 
-  // Same shared theme the React/Vue DataTable wrappers pass to ConfigProvider.
+  // Same shared theme the React/Vue snippets pass to ConfigProvider.
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: tableTheme },
       h(Table, { rowKey: 'key', columns, dataSource: rows, pagination: { pageSize: 5, showSizeChanger: true } })
     )
   );
-  // In a real app use the shared DataTable (DS V3 single-arrow sort, filter, freeze, reorder) —
-  // never a raw <Table>. This page shows the paste-and-run form of the same themed grid.
+  // The React/Vue snippets show the same real Table + tableTheme wired through a bundler;
+  // this page is the paste-and-run form of the same themed grid, no build step.
 </script>

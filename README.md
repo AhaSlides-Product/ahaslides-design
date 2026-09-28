@@ -58,7 +58,7 @@ import '@ahaslides-product/design/tokens.css';           // the --aha-* token la
 import '@ahaslides-product/design/icons';               // registers <aha-icon> (259 glyphs, call by name)
 import { ICON_NAMES } from '@ahaslides-product/design/icons';   // discover valid names
 import '@ahaslides-product/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
-import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared DataTable theme
+import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared Table theme
 import { tokens } from '@ahaslides-product/design/tokens';           // canonical design tokens (JS)
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer (CSS)
 ```

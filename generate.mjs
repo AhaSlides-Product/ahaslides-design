@@ -140,6 +140,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Segmented',    slug: 'segmented' },
     { name: 'Card',         slug: 'card' },
     { name: 'List',         slug: 'list' },
+    { name: 'Table',        slug: 'table' },
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
@@ -165,9 +166,6 @@ const COMPONENTS_CATALOG = [
    not prose — prose guidance is Guidelines). Reclassified out of Components; same grouping as before.
    A contract whose slug is here renders under the Patterns area (breadcrumb "Patterns · <group>"). */
 const PATTERNS_CATALOG = [
-  { cat: 'Data', items: [
-    { name: 'Table',          slug: 'table' },
-  ] },
   { cat: 'AhaSlides surfaces', items: [
     { name: 'Paywall',        slug: 'paywall' },
     { name: 'Status badge',   slug: 'status-badge' },
@@ -896,7 +894,7 @@ const leafHtml = (c) => c.tier === 'leaf-lit';
 const frameworksLine = (c) => hasHtml(c) ? 'HTML (paste-and-run, no build step) · React · Vue 3' : 'React, Vue 3';
 const htmlKind = (c) => leafHtml(c)
   ? `<${c.element}> is a standard custom element that renders on open — React/Vue are thin adapters over the same element`
-  : `a CDN-React runnable page (React + antd loaded from a CDN, no build step) — React/Vue use the same shared-themed DataTable via your bundler`;
+  : `a CDN-React runnable page (React + antd loaded from a CDN, no build step) — React/Vue wire the same real vendor component to the shared theme via ConfigProvider in your bundler`;
 
 function renderMd(c) {
   const props = (c.props||[]).map(p => `| \`${p.name}\` | ${p.type} | \`${p.default}\` | ${p.desc} |`).join('\n');

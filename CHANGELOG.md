@@ -30,6 +30,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - **The anti-slop consistency gate covers the new surfaces.** A wired surface now needs a guideline **or** live targets; every target must be an existing DS source; no criterion may cite a frozen plugin snapshot; and judge ids may use the judge's own letter (typography's `J1..J7`). `seededFrom` provenance moved from the store root to each seeded surface, since surfaces are now seeded from different plugin versions. (#121)
 
+## 0.59.7 — 2026-09-28
+### Changed
+- **Composite components no longer have a separate "Theme (shared)" code tab — the theme is wired inside the React and Vue code you copy.** Each snippet imports the real `<slug>Theme` from `@ahaslides-product/design/<slug>-theme` and passes it to `ConfigProvider` / `a-config-provider`, so one paste gives the themed component. The Table React/Vue snippets drop the fictional `@aha/ui-react` / `@aha/ui-vue` `DataTable` for the real antd v6 / ant-design-vue v4 `Table` + `tableTheme`, and `standards` now rejects those placeholder packages. (#124)
+
+## 0.59.6 — 2026-09-28
+### Changed
+- **Table moves back to Components (Data Display).** It is a themed antd primitive, not an AhaSlides composition, so it no longer sits under Patterns · Data; the empty Data pattern group is gone and the contract's `group` is now `Data Display`. No component behaviour or API change. (#122)
+
 ## 0.59.5 — 2026-09-22
 ### Changed
 - **Audience Library: the one-page nav is now the shared antd `Anchor` "On this page" component — the same one the Settings hub uses.** The audience gallery carried two hand-rolled navs (the shell left-sidebar of in-page `#` links **and** a header pill `chipnav`); both are replaced by the sticky antd `Anchor` island (via `noSidebar`), so every single-scroll DS area navigates through one component instead of a per-area re-implementation. Extracted the Settings hub's inline Anchor into shared `hubAnchor*` helpers (aside markup + React island + layout CSS) and pointed both pages at them. (#119)
