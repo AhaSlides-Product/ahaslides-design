@@ -15,18 +15,24 @@ The gate also rejects an unfilled `(#PR)` placeholder in the top entry: link the
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
 ### Removed       ← a removed export / component / token
-- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#PR)
+- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#125)
 ```
 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.61.0 — 2026-09-28
+## 0.62.0 — 2026-09-28
 ### Added
 - **An accuracy gate for the anti-slop store: every surface now ships a labelled eval set at `anti-slop/evals/<surface>/evals.json`.** The aha-design judge datasets (plugin v1.80.0) are ported for `antd`, `background`, `component-standard`, `icons`, `shared-components`, `table`, `typography` and `ux-writing`, each case pinned to an explicit `expected` verdict keyed to the DS criterion ids. Cases that contradicted the live DS were remapped rather than copied: typography no longer accepts Inter for a label role (the DS has no Inter), component-standard cases cite the live contracts and doc-site render instead of the plugin's frozen `contract.json` / `review.html`, and the Button matrix is the live 10 variants × sm/md/lg. `app-shell` has no plugin judge, so its set is DS-authored with code fixtures, and `icons` gains an authored case for C6. Every store criterion now has at least one FAIL case. (#PR)
 - **`standards.mjs` gates the eval sets (no model call).** For every store surface: an eval set exists, every case is well-formed, every expected criterion id exists in `criteria.json`, both PASS and FAIL cases are present, every fixture resolves and no case cites a frozen plugin snapshot; plus a verdict-parser self-test. A new surface without an eval set now fails `npm run check`. (#PR)
 - **`npm run evals:anti-slop` — the live, model-in-the-loop scorer.** Hands the judge the store's own criteria for a surface, majority-votes over `--samples`, and prints per-case results, a per-criterion confusion table and overall accuracy (`--min-accuracy` to gate, `--dry-run` to print prompts). Documented in `anti-slop/README.md`. (#PR)
+
+## 0.61.0 — 2026-09-28
+### Added
+- **Docs site: one global search in the header, on every page.** Searches the whole design system — components and patterns (by name, element tag, props and variant options), every icon, every `--aha-*` token (with its value and a colour swatch), guidelines, landing blocks, Audience Library sections, agent feeds and every docs section heading. Results are grouped by type and deep-link to the page or heading; icons open the gallery pre-filtered (`icons/index.html?q=…`), with a "See all N icons" row past the first 8. `/` or Ctrl/⌘ K focuses it; arrow keys + Enter to open, Esc to close (ARIA combobox + listbox). Collapses to an icon button that opens a full-width panel below 768px. The index (`search-index.json`) is crawled from the built site at generate time and loads on first open — no backend, no new dependency. (#125)
+### Changed
+- **Docs header reflows instead of widening the page:** the area tabs scroll horizontally when space runs out, the "React · Vue · Lit" label hides below 1280px, and the wordmark hides below 768px. Docs `h2`/`h3` headings now carry stable `id`s so any section can be linked to. (#125)
 
 ## 0.60.0 — 2026-09-28
 ### Added
