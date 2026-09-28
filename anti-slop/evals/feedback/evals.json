@@ -1,0 +1,164 @@
+{
+  "surface": "feedback",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.feedback",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-feedback-judge",
+    "path": "plugins/aha-design/skills/aha-design-feedback-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this feedback surface. A bespoke bottom-right confirmation pill is rendered in-tree: `return <div style={{ position: 'fixed', bottom: 16, right: 16 }}>Saved</div>;`. It is not portalled to document.body, carries no role attribute, and its dismiss uses `setTimeout(() => setOpen(false), 3000)` with no cleanup returned from the effect. The pill lives inside a card whose ancestor has `transform: translateZ(0)`.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C1 — toasts must be portalled bottom-right, ~3s auto-dismiss with timer cleared on unmount, role=status",
+      "expected_output": "C1 FAILs. The fixed toast is rendered in-tree instead of being portalled via createPortal(node, document.body), so it is clipped by the transformed ancestor; it also has no role=\"status\" and the ~3s timer is never cleared on unmount (a leak, silent to screen readers). Fix: portal the pill to document.body, add role=\"status\", and clear the setTimeout in the effect cleanup (return () => clearTimeout(id)). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Cites the missing createPortal(node, document.body) / not portalled to body",
+        "Cites missing role=status and/or timer not cleared on unmount"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-feedback-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this inline post-answer result panel shown after a respondent submits: `<div className=\"answer\" style={{ border: '1px solid #ff4d4f', background: '#fff1f0' }}>Wrong</div>`. There is no role or aria-live attribute and no data-* hooks.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C2 — inline correct/incorrect needs role=status aria-live=polite + --aha-colorSuccess/Error(+Bg) tokens, no hardcoded hex",
+      "expected_output": "C2 FAILs. The inline correct/incorrect panel is missing role=\"status\" with aria-live=\"polite\" and uses hardcoded hex (#ff4d4f border, #fff1f0 background) instead of the semantic tokens. Fix: add role=\"status\" aria-live=\"polite\", replace the hex with border var(--aha-colorError) and background var(--aha-colorErrorBg), lead with a strong Incorrect label, and expose data-correct / data-element-id hooks. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Cites missing role=status / aria-live=polite",
+        "Cites hardcoded hex instead of --aha-colorError/--aha-colorErrorBg tokens"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-feedback-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this satisfaction prompt shipped after survey export. It renders a hand-rolled control `<MyStarRating onChange={handleRate} />`, passes no source, emits no csat.* events, and calls `analytics.track(CSAT_RATED)` directly (unguarded) inside the rate handler.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 — CSAT must use shared Csat widget, a required CsatSource union source, and best-effort csat.* tracking",
+      "expected_output": "C3 FAILs. The satisfaction prompt uses a bespoke rating control instead of the shared Csat widget, passes no required source from the CsatSource union, emits no CSAT_SHOWN/CSAT_RATED/CSAT_FEEDBACK_SUBMITTED events, and calls track() unguarded so a throw can break render or block the thank-you toast. Fix: replace it with <Csat source={CsatSource.PostSurveyExport} />, wire the csat.* events, and wrap track() in try/catch so tracking is best-effort. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Cites bespoke rating control instead of the shared Csat widget",
+        "Cites missing source from CsatSource union and/or unguarded track()"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-feedback-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this inline banner warning the user of unsaved changes: `<Alert type=\"warning\" message=\"CHANGES NOT SAVED\" />`. It is a bare AntD Alert with default styling and an ALL CAPS title.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — inline banners must use DS V3 `<aha-alert>` (5 types incl branding, distinct glyph, weights 400/600), not a bare AntD Alert",
+      "expected_output": "C4 FAILs. This is a bare AntD <Alert> with default styling — not the Design System V3 Alert — the DS `<aha-alert>` element — so it lacks the per-type DS bg-surface/border/icon token and distinct glyph guarantee, and its title is ALL CAPS instead of sentence case. Fix: use <aha-alert type=\"warning\" size=\"regular\" heading=\"Changes not saved\">Save before you leave.</aha-alert> with the DS surface/border/icon token, distinct warning glyph, Plus Jakarta Sans 400/600, and a sentence-case title. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites bare AntD Alert instead of DS V3 `<aha-alert>`",
+        "Cites missing distinct glyph / DS token or the ALL CAPS (non-sentence-case) title"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-feedback-judge",
+        "id": 4,
+        "remap": "retargeted the fix at the live DS `<aha-alert>` element (contracts/alert.json, `heading` attribute) instead of the plugin's AhaAlert wrapper, as the store's C4 now does"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review these two feedback calls in a survey flow: `message.error('Delete this survey? This cannot be undone')` on the delete button, and `notification.error({ message: 'Email is required' })` in the form submit handler.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 — actionable errors, field validation, destructive confirms, and full-page failures must NOT live in a toast",
+      "expected_output": "C5 FAILs. A destructive confirmation is delivered as a transient toast (message.error) and a field-validation error is delivered as a toast (notification.error) — both required messages that would vanish in ~3s. Fix: move the destructive confirmation into a modal (aha-design-overlays), and route the field validation through FieldErrorDisplay / a11y FieldError (aha-design-shared-components); a toast must never be the only place a required message lives. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Cites destructive confirmation delivered as a toast",
+        "Cites field validation delivered as a toast (should be modal / FieldError)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-feedback-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this feedback surface. An ordinary success uses `message.success('Copied')`. A bespoke bottom-right pill is portalled with `createPortal(<div role=\"status\" className=\"toast toast--bottom-right\">Thanks for your feedback</div>, document.body)` and its effect returns `() => clearTimeout(id)` after a 3000ms setTimeout. The inline post-answer panel is `<div role=\"status\" aria-live=\"polite\" data-correct={isCorrect} data-element-id={id} className=\"answer--incorrect\">` (border var(--aha-colorError), bg var(--aha-colorErrorBg)) with a strong Incorrect label. CSAT uses `<Csat source={CsatSource.PostSurveyExport} />` with track() wrapped in try/catch. The inline banner is `<aha-alert type=\"warning\" size=\"regular\" heading=\"Changes not saved\">Save before you leave.</aha-alert>`. No destructive confirms or field validations are routed through toasts.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — every applicable criterion (C1-C5) passes; guards against a judge that only ever fails",
+      "expected_output": "All applicable criteria PASS. C1: the bespoke pill is portalled to document.body, carries role=\"status\", auto-dismisses at ~3s with the timer cleared on unmount, and ordinary success uses AntD message. C2: the inline result has role=\"status\" aria-live=\"polite\", uses --aha-colorError/--aha-colorErrorBg tokens, and exposes data-* hooks. C3: shared Csat with a CsatSource union source and best-effort guarded track(). C4: DS V3 `<aha-alert>` with sentence-case title. C5: no required message lives only in a toast. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C1 is marked PASS",
+        "C2, C3, C4, C5 are all marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-feedback-judge",
+        "id": 6,
+        "remap": "the good banner is the live DS `<aha-alert>` element (contracts/alert.json, `heading` attribute), not the plugin's AhaAlert wrapper"
+      }
+    }
+  ]
+}

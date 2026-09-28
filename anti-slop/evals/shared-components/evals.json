@@ -15,12 +15,12 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C1 — hand-rolled progress bar and live region instead of canonical Progressbar/LiveRegion.",
-      "expected_output": "C1 (Reaches for the canonical registry primitive, not a hand-rolled one) FAILs: the progress bar is a bespoke `<div className=\"progress\">` instead of the a11y `Progressbar` wrapper, and the announcement is a hand-rolled `<div aria-live>` instead of the a11y `LiveRegion` — even a correct reimplementation fails here because it drops the primitives' encoded contracts. Fix: replace the bar with `<Progressbar value={n} min={0} max={total} label={...} />` and the announcement with `<LiveRegion message={announcement} />`. Overall verdict: NEEDS FIX.",
+      "expected_output": "C1 (Reaches for the canonical DS primitive, not a hand-rolled one) FAILs: the progress bar is a bespoke `<div className=\"progress\">` instead of `<aha-progressbar>`, and the announcement is a hand-rolled `<div aria-live>` instead of `<aha-live-region>` — even a correct reimplementation fails because it drops the primitives' encoded contracts. Fix: replace the bar with `<aha-progressbar value={n} min={0} max={total} label={t('quiz.progress')}>` and the announcement with `<aha-live-region message={announcement}>`. Overall verdict: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C1 is marked FAIL",
         "Evidence names the bespoke progress bar and hand-rolled aria-live div",
-        "Fix says replace with Progressbar and LiveRegion"
+        "Fix says replace with <aha-progressbar> and <aha-live-region>"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -31,21 +31,21 @@
       "source": {
         "judge": "aha-design-shared-components-judge",
         "id": 1,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "remap": "rewritten for the 0.64.0 C1–C4 wording (#127): the store now names the DS primitives (<aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page>, <aha-empty>, <aha-skeleton>), so the fix and the good controls cite those instead of the product's a11y React components"
       }
     },
     {
       "id": 2,
-      "prompt": "Review this AntD form email field. It renders `<Input status=\"error\" />` followed by `<span className=\"err\">{msg}</span>` for the message. The input has no `aria-invalid` and no `aria-describedby`, and the error is not the a11y `FieldError` component.",
+      "prompt": "Review this AntD form email field. It renders `<Input status=\"error\" />` followed by `<span className=\"err\">{msg}</span>` for the message. The input has no `aria-invalid` and no `aria-describedby`, and the error is not the DS `<aha-field-error>`.",
       "files": [],
       "label": "bad-example",
       "notes": "Targets C2 — wrong/hand-rolled field-error component in an AntD form and missing aria wiring.",
-      "expected_output": "C2 (Correct field-error component chosen and wired) FAILs: this AntD-form field uses a hand-rolled `<span className=\"err\">` instead of the a11y `FieldError` component, and the input is missing `aria-invalid` plus an `aria-describedby` pointing at the error's `id`. Fix: render `<FieldError id=\"email-err\" message={msg} />` and set `aria-invalid={!!msg}` + `aria-describedby=\"email-err\"` on the Input. Overall verdict: NEEDS FIX.",
+      "expected_output": "C2 (Correct field-error variant, wired to its input) FAILs: this form field uses a hand-rolled `<span className=\"err\">` instead of the DS `<aha-field-error>` (the default form variant), and the input is missing `aria-invalid` plus an `aria-describedby` pointing at the error's `id`. Fix: render `<aha-field-error id=\"email-err\" message={msg}>` and set `aria-invalid={!!msg}` + `aria-describedby=\"email-err\"` on the input (a DS `<aha-input>` forwards both to its inner field). Overall verdict: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C2 is marked FAIL",
         "Evidence notes hand-rolled span and missing aria-invalid/aria-describedby",
-        "Fix says use a11y FieldError with aria-invalid and aria-describedby wired to its id"
+        "Fix says use <aha-field-error> with aria-invalid and aria-describedby wired to its id"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -56,7 +56,7 @@
       "source": {
         "judge": "aha-design-shared-components-judge",
         "id": 2,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "remap": "rewritten for the 0.64.0 C1–C4 wording (#127): the store now names the DS primitives (<aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page>, <aha-empty>, <aha-skeleton>), so the fix and the good controls cite those instead of the product's a11y React components"
       }
     },
     {
@@ -81,7 +81,7 @@
       "source": {
         "judge": "aha-design-shared-components-judge",
         "id": 3,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "remap": "identity — judge criterion ids equal the DS criterion ids; still matches the 0.64.0 C3 wording (#127)"
       }
     },
     {
@@ -90,7 +90,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C4 — live region unmounts empty/has role=alert/no aria-atomic; skeleton missing role=status+aria-busy.",
-      "expected_output": "C4 (Accessibility house rules honoured) FAILs: the live region unmounts when `msg` is empty (screen readers lose track), carries a `role=\"alert\"` (double-announce with aria-live), and is missing `aria-atomic=\"true\"`; the skeleton is missing `role=\"status\"` and `aria-busy`. Fix: keep `LiveRegion` mounted always with `aria-live=\"assertive\"` + `aria-atomic=\"true\"` and no `role=\"alert\"`, and give the skeleton `role=\"status\"` + `aria-busy`. Overall verdict: NEEDS FIX.",
+      "expected_output": "C4 (Accessibility house rules honoured) FAILs: the live region unmounts when `msg` is empty (screen readers lose track), carries a `role=\"alert\"` (double-announce with aria-live), and is missing `aria-atomic=\"true\"`; the skeleton container is missing `role=\"status\"` and `aria-busy`. Fix: use `<aha-live-region>`, which stays mounted, is assertive + atomic and has no `role=\"alert\"`, and give the skeleton container `role=\"status\"` + `aria-busy`. Overall verdict: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C4 is marked FAIL",
@@ -106,21 +106,21 @@
       "source": {
         "judge": "aha-design-shared-components-judge",
         "id": 4,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "remap": "rewritten for the 0.64.0 C1–C4 wording (#127): the store now names the DS primitives (<aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page>, <aha-empty>, <aha-skeleton>), so the fix and the good controls cite those instead of the product's a11y React components"
       }
     },
     {
       "id": 5,
-      "prompt": "Self-check this respondent quiz screen. Announcements use `<LiveRegion message={announcement} />` (always mounted); progress uses `<Progressbar value={n} min={0} max={total} label={t('quiz.progress')} />`; the inline field error uses `<FieldErrorDisplay id=\"q3-err\" messageKey={error} />` with the input carrying `aria-invalid={!!error}` and `aria-describedby=\"q3-err\"`; the mobile layout swap is gated on `useIsMobile()` while toolbar styling uses `@media (max-width: 767.98px)`; the loading placeholder is a layout-mirroring skeleton with `role=\"status\"` + `aria-busy`; and all visible text is wrapped in AntD `Typography`.",
+      "prompt": "Self-check this respondent quiz screen. Announcements use `<aha-live-region message={announcement}>` (always mounted); progress uses `<aha-progressbar value={n} min={0} max={total} label={t('quiz.progress')}>`; the inline answer error uses `<aha-field-error id=\"q3-err\" variant=\"respondent\" message={error}>` with the input carrying `aria-invalid={!!error}` and `aria-describedby=\"q3-err\"`; the mobile layout swap is gated on `useIsMobile()` while toolbar styling uses `@media (max-width: 767.98px)`; the loading placeholder is a layout-mirroring set of `<aha-skeleton>` inside a container with `role=\"status\"` + `aria-busy`; and all visible text is DS / Typography text.",
       "files": [],
       "label": "good-control",
       "notes": "Good control (respondent context) — all primitives reused, correct FieldErrorDisplay, canonical breakpoint, a11y contracts intact.",
-      "expected_output": "All 4 criteria PASS. C1: LiveRegion, Progressbar, FieldErrorDisplay, and a layout-mirroring skeleton are all canonical registry primitives, nothing hand-rolled. C2: FieldErrorDisplay is the correct choice for a respondent renderer, with aria-invalid + aria-describedby wired to its id. C3: shape switch on useIsMobile(), styling at the canonical 767.98px. C4: LiveRegion stays mounted (assertive+atomic, no role=alert), Progressbar carries role/aria-value*/aria-label, skeleton has role=status+aria-busy, text in Typography. Overall verdict: OK TO SHIP.",
+      "expected_output": "All 4 criteria PASS. C1: <aha-live-region>, <aha-progressbar>, <aha-field-error> and a layout-mirroring <aha-skeleton> are the canonical DS primitives, nothing hand-rolled. C2: variant=\"respondent\" is the right field-error variant for a respondent renderer, with aria-invalid + aria-describedby wired to its id. C3: shape switch on useIsMobile(), styling at the canonical 767.98px. C4: the live region stays mounted (assertive + atomic, no role=alert), the progressbar carries role/aria-value*/aria-label, the skeleton container has role=status + aria-busy, text is DS / Typography. Overall verdict: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "All of C1 through C4 are marked PASS",
-        "C2 confirms FieldErrorDisplay is correct for a respondent renderer with aria wiring",
-        "C4 confirms LiveRegion stays mounted, assertive+atomic, no role=alert"
+        "C2 confirms variant=\"respondent\" is correct for a respondent renderer with aria wiring",
+        "C4 confirms the live region stays mounted, assertive+atomic, no role=alert"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",
@@ -134,21 +134,21 @@
       "source": {
         "judge": "aha-design-shared-components-judge",
         "id": 5,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "remap": "rewritten for the 0.64.0 C1–C4 wording (#127): the store now names the DS primitives (<aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page>, <aha-empty>, <aha-skeleton>), so the fix and the good controls cite those instead of the product's a11y React components"
       }
     },
     {
       "id": 6,
-      "prompt": "Self-check this AntD settings form. Validation errors use a11y `<FieldError id=\"email-err\" message={msg} />` (returns null when empty) with the Input carrying `aria-invalid={!!msg}` and `aria-describedby=\"email-err\"`; the empty results view uses the AntD `Empty` pattern (strong title + secondary body, actions in a `Space`, secondary then `type=\"primary\"`); a full-page load failure returns `<ErrorPage code={code} onRetry={retry} />`; the sidebar->drawer shape switch is gated on `useIsMobile()`; and all copy is AntD `Typography`.",
+      "prompt": "Self-check this AntD settings form. Validation errors use `<aha-field-error id=\"email-err\" message={msg}>` (renders nothing while empty) with the input carrying `aria-invalid={!!msg}` and `aria-describedby=\"email-err\"`; the empty results view is `<aha-empty description={t('results.empty')}>` with a primary button in its `action` slot; a full-page load failure returns `<aha-error-page code={code}>`; the sidebar->drawer shape switch is gated on `useIsMobile()`; and all copy is AntD `Typography`.",
       "files": [],
       "label": "good-control",
       "notes": "Good control (AntD-form context) — a11y FieldError chosen correctly, Empty + ErrorPage reused, useIsMobile shape switch.",
-      "expected_output": "All 4 criteria PASS. C1: a11y FieldError, the AntD Empty pattern, and ErrorPage are canonical registry primitives, nothing hand-rolled. C2: a11y FieldError is the correct choice for an AntD form, with aria-invalid + aria-describedby pointing at its id. C3: the sidebar->drawer shape switch uses useIsMobile(). C4: text wrapped in Typography and the primitives' a11y contracts hold. Overall verdict: OK TO SHIP.",
+      "expected_output": "All 4 criteria PASS. C1: <aha-field-error>, <aha-empty> and <aha-error-page> are the canonical DS primitives, nothing hand-rolled. C2: the default (form) <aha-field-error> is correct for an AntD form, with aria-invalid + aria-describedby pointing at its id. C3: the sidebar->drawer shape switch uses useIsMobile(). C4: text wrapped in Typography and the primitives' a11y contracts hold. Overall verdict: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "All of C1 through C4 are marked PASS",
-        "C2 confirms a11y FieldError is correct for an AntD form with aria wiring",
-        "C1 confirms ErrorPage and the AntD Empty pattern are reused, not hand-rolled"
+        "C2 confirms the default <aha-field-error> is correct for an AntD form with aria wiring",
+        "C1 confirms <aha-error-page> and <aha-empty> are reused, not hand-rolled"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",
@@ -162,7 +162,104 @@
       "source": {
         "judge": "aha-design-shared-components-judge",
         "id": 6,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "remap": "rewritten for the 0.64.0 C1–C4 wording (#127): the store now names the DS primitives (<aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page>, <aha-empty>, <aha-skeleton>), so the fix and the good controls cite those instead of the product's a11y React components"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this dashboard's not-found route. It returns `<div className=\"not-found\"><h1>404</h1><p>We couldn't find that page.</p><Button onClick={() => navigate('/')}>Go home</Button></div>` with its own centred layout CSS.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — hand-rolled full-page error instead of <aha-error-page>.",
+      "expected_output": "C1 FAILs: a full-page error is a hand-built `<div className=\"not-found\">` instead of the DS `<aha-error-page>`, so it loses the shared Result layout, British-English default copy, role=\"alert\" and the error-page-view telemetry. Fix: `<aha-error-page code=\"404\">` (pass `heading` / `body` / `action-label` only to translate). Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Flags the hand-built 404 page",
+        "Fix says use <aha-error-page code=\"404\">"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "covers a DS primitive added in 0.64.0 (#127) that no plugin case exercised"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this respondent poll element renderer. When the respondent submits without picking an option it renders `<aha-field-error id=\"poll-err\" message=\"Pick at least one option\">` (no `variant`), and the option group carries `aria-invalid=\"true\"` + `aria-describedby=\"poll-err\"`.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — right primitive, right wiring, wrong variant; guards against over-firing on the wiring.",
+      "expected_output": "C2 FAILs: the wiring is right, but a respondent element renderer needs `variant=\"respondent\"` (the FieldErrorDisplay contract: role=alert, assertive) — the default form variant is announced politely and can be missed mid-answer. Fix: `<aha-field-error id=\"poll-err\" variant=\"respondent\" message=\"Pick at least one option\">`. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Flags the missing variant=\"respondent\" on a respondent renderer",
+        "Does not flag the aria-invalid / aria-describedby wiring, which is correct"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "covers a DS primitive added in 0.64.0 (#127) that no plugin case exercised"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this plain-HTML presenter page. It swaps a sidebar for a bottom sheet with `const mobile = window.innerWidth < 768; window.addEventListener('resize', render);` and toggles `hidden` on the two layouts by hand.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — the HTML path (no React hook) of the shape switch.",
+      "expected_output": "C3 FAILs: the shape switch uses an ad-hoc `window.innerWidth < 768` resize listener instead of `<aha-viewport-switch>` (or `subscribeMobileViewport`), which share the one canonical `(max-width: 767.98px)` query. Fix: put the two layouts in `<aha-viewport-switch>` with `slot=\"mobile\"` and `slot=\"desktop\"`. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Flags the hand-rolled innerWidth resize listener",
+        "Fix says use <aha-viewport-switch> slot=\"mobile\" / slot=\"desktop\""
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "covers a DS primitive added in 0.64.0 (#127) that no plugin case exercised"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this upload screen. Progress renders `<aha-progressbar value={pct} max={100}>` with no `label`, next to a visible caption \"Uploading…\".",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — the right primitive missing its required accessible name; guards C1 against over-firing.",
+      "expected_output": "C4 FAILs: an announced progress bar needs an accessible name — `<aha-progressbar>`'s `label` is required (it becomes aria-label), and a nearby caption does not name it. Fix: `<aha-progressbar value={pct} max={100} label=\"Upload progress\">`. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags the missing label / aria-label on the progress bar",
+        "Does not flag C1: the DS <aha-progressbar> is the right primitive"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "PASS",
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "covers a DS primitive added in 0.64.0 (#127) that no plugin case exercised"
       }
     }
   ]

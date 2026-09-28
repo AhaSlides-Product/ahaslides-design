@@ -1,0 +1,211 @@
+{
+  "surface": "paywall",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.paywall",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-paywall-judge",
+    "path": "plugins/aha-design/skills/aha-design-paywall-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this pro-gated affordance in the editor. Instead of the shared component, the custom survey URL feature is gated with a hand-rolled modal: `<Modal title=\"Upgrade to Pro\"><p>This is a Pro feature. Upgrade to unlock it.</p><Button onClick={goPricing}>See plans</Button></Modal>`.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C1 — gated affordance must use the shared Paywall component (or PaywallCrownBadge), not a bespoke modal/tooltip/popover",
+      "expected_output": "C1 FAILs. The upgrade prompt is a bespoke <Modal> with a \"See plans\" button rather than the shared <Paywall> component, so it drifts from the presenter app's UpgradePopover and breaks the single-source-of-truth contract (PAYWALL-01). Fix: wrap the gated field in <Paywall featureKey=\"custom_survey_url\" featureLabel=\"Custom survey URL\" body=\"Give your survey a branded, memorable link.\" requiredPlan=\"pro\"> and delete the bespoke modal. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Cites a hand-rolled Modal instead of the shared Paywall component",
+        "References the single-source-of-truth / UpgradePopover contract (PAYWALL-01)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this paywall popover markup: `<Popover><Crown /><h4>Custom survey URL is a premium feature and gives you a branded link plus more control…</h4><Button block type=\"primary\">Upgrade</Button><Button block>View all plans</Button></Popover>`. It uses the Phosphor Crown glyph, a multi-line body, and a secondary 'View all plans' button.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C2 — popover anatomy: crown badge (custom SVG not Phosphor) + label + one-sentence body + fixed unlock line + single block Upgrade CTA",
+      "expected_output": "C2 FAILs. The popover anatomy is wrong: it uses the generic Phosphor <Crown /> instead of the custom purple-circle CrownBadge (16×16 SVG), the body runs longer than one sentence, the fixed \"Unlock with the <Plan> plan.\" line is missing, and it adds a banned secondary \"View all plans\" button. Fix: use the CrownBadge + short feature label, a one-sentence value prop, the verbatim \"Unlock with the <Plan> plan.\" line (plan name bold), and a single full-width block primary Upgrade CTA — remove the secondary button (PAYWALL-02/-03/-04). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Cites Phosphor Crown instead of the custom CrownBadge",
+        "Cites the banned secondary CTA and/or multi-sentence body / missing unlock line"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this paywall props contract: `<Paywall featureKey=\"Results Export\" featureLabel=\"Export results\" body=\"Download every response as a CSV.\" requiredPlan=\"premium\" />`. featureKey is Title Case with a space and requiredPlan is 'premium'.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 — props contract: featureKey stable snake_case, requiredPlan one of essential|pro",
+      "expected_output": "C3 FAILs. The props contract is violated: featureKey \"Results Export\" is Title Case with a space rather than a stable snake_case token, and requiredPlan=\"premium\" is not a real tier (must be essential | pro) (PAYWALL-05/-07). Fix: set featureKey=\"results_export\" (snake_case, reused across analytics and DOM hooks) and requiredPlan=\"essential\" (or \"pro\"). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Cites featureKey not being snake_case",
+        "Cites requiredPlan not being a real tier (essential|pro)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this paywall copy: featureLabel is \"Unlock a custom URL for your survey now!\", body is \"This is a Pro feature.\", and the CTA label is \"Go Pro\".",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — copy rules: noun-phrase label, one benefit sentence body, fixed unlock line, verb 'Upgrade' CTA",
+      "expected_output": "C4 FAILs. The copy breaks every rule: the feature label is a CTA-style sentence instead of a short noun phrase, the body names the tier (\"This is a Pro feature.\") instead of describing the one-sentence benefit of unlocking, and the CTA \"Go Pro\" is not the verb \"Upgrade\" without a clear reason. Fix: label a noun phrase like \"Custom survey URL\"; body one benefit sentence ending in a period, e.g. \"Give your survey a branded, memorable link.\"; keep the fixed unlock line verbatim; CTA \"Upgrade\". Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites the sentence/CTA-style feature label",
+        "Cites body naming the tier instead of the benefit and/or the non-verb CTA"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this paywall CTA handler: `const onCta = () => { openUpgradeUrl(); track('upgrade_clicked'); };`. There is also no PAYWALL_SHOWN event fired when the popover opens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 — analytics: PAYWALL_SHOWN on open + PAYWALL_UPGRADE_CLICKED before navigation, each with { feature, plan }",
+      "expected_output": "C5 FAILs. The analytics contract is not wired: there is no PAYWALL_SHOWN on open, the click event is named 'upgrade_clicked' (not PAYWALL_UPGRADE_CLICKED) with no { feature, plan } props, and it fires after navigation instead of before. Fix: fire PAYWALL_SHOWN with { feature: featureKey, plan: requiredPlan } when the popover opens, and in the handler call track('PAYWALL_UPGRADE_CLICKED', { feature: featureKey, plan: requiredPlan }) BEFORE openUpgradeUrl()/onUpgrade() (PAYWALL-06). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Cites missing PAYWALL_SHOWN on open",
+        "Cites renamed/mis-propped event and/or click firing after navigation"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this default paywall Upgrade handler: `const onCta = () => { window.location.href = UPGRADE_URL; };`. It navigates in the same tab, does not close the popover, and when an onUpgrade prop is provided it is ignored.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C6 — upgrade URL/handler: open UPGRADE_URL in a new tab with noopener,noreferrer, close popover, honour onUpgrade",
+      "expected_output": "C6 FAILs. The upgrade handler navigates in the same tab via window.location.href with no noopener,noreferrer, never closes the popover, and ignores the provided onUpgrade prop. Fix: for the default path call window.open(UPGRADE_URL, '_blank', 'noopener,noreferrer') then close the popover; when onUpgrade is provided, run it instead (analytics still fires first) and still close the popover. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Cites same-tab navigation / missing noopener,noreferrer",
+        "Cites popover not closing and/or onUpgrade ignored"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this plan-gated bare field label that has no natural clickable anchor: `<label>Theme colour <LockIcon onClick={showUpsell} /></label>`. It uses a bespoke lock icon as the anchor with no role or aria-label.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C7 — feature with no natural anchor must use PaywallCrownBadge (role=img + aria-label), not a bespoke glyph",
+      "expected_output": "C7 FAILs. A feature with no natural anchor uses a bespoke, unlabelled LockIcon instead of the crown-badge-only anchor. Fix: use <label>Theme colour <PaywallCrownBadge featureKey=\"custom_theme\" /></label> — the shared PaywallCrownBadge carries role=\"img\" and an aria-label (default \"Upgrade required\"); do not invent an ad-hoc lock/crown glyph. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Cites a bespoke lock/crown glyph instead of PaywallCrownBadge",
+        "Cites missing role=img / aria-label"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this pro-gated custom survey URL field. `<Paywall featureKey=\"custom_survey_url\" featureLabel=\"Custom survey URL\" body=\"Give your survey a branded, memorable link.\" requiredPlan=\"pro\"><UrlField disabled /></Paywall>`. The popover renders the purple-circle CrownBadge + \"Custom survey URL\", the one-sentence body, the line \"Unlock with the pro plan.\" (plan bold), and a single block primary \"Upgrade\" CTA. On open it fires track('PAYWALL_SHOWN', { feature: 'custom_survey_url', plan: 'pro' }); the CTA handler is `const onCta = () => { track('PAYWALL_UPGRADE_CLICKED', { feature: 'custom_survey_url', plan: 'pro' }); onUpgrade ? onUpgrade() : window.open(UPGRADE_URL, '_blank', 'noopener,noreferrer'); close(); };`. The field has a natural anchor so no crown-badge-only anchor is needed.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — a correct Paywall; every applicable criterion passes, C7 N/A (feature has a natural anchor)",
+      "expected_output": "All applicable criteria PASS. C1: routes through the shared <Paywall> component. C2: correct anatomy — custom CrownBadge + short label, one-sentence body, verbatim \"Unlock with the <Plan> plan.\" line, single block primary Upgrade CTA. C3: featureKey is snake_case and requiredPlan is a real tier (pro). C4: noun-phrase label, one benefit-sentence body, verb CTA \"Upgrade\". C5: PAYWALL_SHOWN on open and PAYWALL_UPGRADE_CLICKED before navigation, each with { feature, plan }. C6: default CTA opens UPGRADE_URL in a new tab with noopener,noreferrer, honours onUpgrade, and closes the popover. C7 is N/A — the field has its own natural anchor. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C7 is marked N/A",
+        "C1, C2, C3, C4, C5, C6 are all marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "judge": "aha-design-paywall-judge",
+        "id": 8,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    }
+  ]
+}

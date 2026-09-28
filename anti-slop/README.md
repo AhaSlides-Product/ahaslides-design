@@ -32,7 +32,9 @@
 `expected` is the only thing graded: `overall` (`OK_TO_SHIP` | `NEEDS_FIX`) plus the per-criterion
 verdicts the case pins. A `good-control` expects `OK_TO_SHIP` and no FAIL; a `bad-example` expects
 `NEEDS_FIX` and at least one FAIL. A criterion a case leaves N/A (e.g. an unused table freeze) is
-simply not pinned. `portedFrom` is `null` for a DS-authored set.
+simply not pinned. `portedFrom` is `null` for a DS-authored set. A DS-authored case in a ported set carries
+`source.authored` instead of a plugin id. A plugin case with no DS criterion to grade it against is
+left out and listed under the set's optional `notPorted` (`[{ id, reason }]`), so the gap stays visible.
 
 ## Tier 1 — deterministic gate (no model, runs in `npm run check` and CI)
 
