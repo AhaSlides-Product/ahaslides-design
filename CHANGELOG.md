@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.68.0 — 2026-09-28
 ### Removed
-- **Landing tab removed from the docs site.** It duplicated the rest of the system: its Button and Link blocks repeated Components (`<aha-button>`, including the `link` / `text-link` variants), and its Fonts, Spacing and Grid blocks repeated Foundations and the product Grid. Breaking for anyone reading the old feeds: `landing.llms.txt`, `landing.agent.json` and the per-block `landing/<slug>/<slug>.md` / `.agent.json` are gone. The old `landing/…` page URLs now forward to where each block lives. (#PR)
+- **Landing tab removed from the docs site.** It duplicated the rest of the system: its Button and Link blocks repeated Components (`<aha-button>`, including the `link` / `text-link` variants), and its Fonts, Spacing and Grid blocks repeated Foundations and the product Grid. Breaking for anyone reading the old feeds: `landing.llms.txt`, `landing.agent.json` and the per-block `landing/<slug>/<slug>.md` / `.agent.json` are gone. The old `landing/…` page URLs now forward to where each block lives. (#131)
 ### Changed
-- **Hero and Section container move to Patterns → Marketing sections.** Same preview, paste-and-run HTML and token-load snippet; source is now `marketing/<slug>.json`, pages are `marketing/<slug>/index.html`, and the feeds are `marketing.llms.txt` / `marketing.agent.json`. (#PR)
-- **The Webflow-to-update audit is kept in the repo** at `docs/landing-webflow-scan.md` (was `landing/SCAN.md`; not a site page). It now records the three landing-only values not yet in the product system: the pink promotional button, the underlined prose link, and the Nunito Display/H1-only headline rule. (#PR)
+- **Hero and Section container move to Patterns → Marketing sections.** Same preview, paste-and-run HTML and token-load snippet; source is now `marketing/<slug>.json`, pages are `marketing/<slug>/index.html`, and the feeds are `marketing.llms.txt` / `marketing.agent.json`. (#131)
+- **The Webflow-to-update audit is kept in the repo** at `docs/landing-webflow-scan.md` (was `landing/SCAN.md`; not a site page). It now records the three landing-only values not yet in the product system: the pink promotional button, the underlined prose link, and the Nunito Display/H1-only headline rule. (#131)
 
 ## 0.67.0 — 2026-09-28
 ### Added
