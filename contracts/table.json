@@ -1,7 +1,7 @@
 {
   "name": "Table",
   "slug": "table",
-  "group": "Data",
+  "group": "Data Display",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A data grid — results, leaderboard, participant/admin list — rendered through the shared DataTable.",
