@@ -83,15 +83,11 @@ const AHA_ICON_JS = `(function(){
     el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>'
       +'<svg width="'+size+'" height="'+size+'" viewBox="'+ic.viewBox+'" fill="none" '+a11y+'>'+ic.body+'</svg>';
   }
-  if(!customElements.get('aha-icon')){
-    customElements.define('aha-icon',class extends HTMLElement{
-      static get observedAttributes(){return['name','size','label','decorative'];}
-      connectedCallback(){ var s=this; if(window.AHA_ICONS){draw(s);} else {var t=setInterval(function(){if(window.AHA_ICONS){clearInterval(t);draw(s);}},20);} }
-      attributeChangedCallback(){ if(this.shadowRoot) draw(this); }
-    });
-    // The shell ships only the header's glyphs; redraw once the full registry arrives.
-    window.addEventListener('aha-icons-loaded',function(){ document.querySelectorAll('aha-icon').forEach(function(el){ if(el.shadowRoot) draw(el); }); });
-  }
+  if(!customElements.get('aha-icon')) customElements.define('aha-icon',class extends HTMLElement{
+    static get observedAttributes(){return['name','size','label','decorative'];}
+    connectedCallback(){ var s=this; if(window.AHA_ICONS){draw(s);} else {var t=setInterval(function(){if(window.AHA_ICONS){clearInterval(t);draw(s);}},20);} }
+    attributeChangedCallback(){ if(this.shadowRoot) draw(this); }
+  });
 })();
 `;
 
@@ -789,7 +785,6 @@ function sidebarNav(base, active, section) {
 
 const missingGlyphs = SEARCH_GLYPHS.filter(n => !ICONS.icons[n]);
 if (missingGlyphs.length && ICONS.count) throw new Error(`docs search uses glyphs missing from icons/registry.json: ${missingGlyphs.join(', ')}`);
-const HEADER_GLYPHS_JS = `window.AHA_ICONS=Object.assign(${JSON.stringify(Object.fromEntries(SEARCH_GLYPHS.filter(n => ICONS.icons[n]).map(n => [n, ICONS.icons[n]])))},window.AHA_ICONS||{});`;
 function docShell({ base, active, section = 'components', main, extraCss = '', noSidebar = false }) {
   // The Settings page carries its own in-page antd Anchor, so the shell sidebar would be a second
   // nav of the same items — noSidebar drops it and .doc-main (flex:1) reclaims the width.
@@ -817,7 +812,8 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
-<script>${HEADER_GLYPHS_JS}${AHA_ICON_JS}${SEARCH_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
+<script type="module">import '${base}lib/icons.js';</script>
+<script>${SEARCH_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
@@ -1892,8 +1888,7 @@ function renderIndex(cs) {
 // The client artifacts every icon-bearing page loads: the registry data + the shared element.
 function writeIconRuntime() {
   mkdirSync(join(OUT, 'icons'), { recursive: true });
-  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=Object.assign(window.AHA_ICONS||{},' + JSON.stringify(ICONS.icons) + ');\n'
-    + "window.AHA_ICONS_COMPLETE=true;window.dispatchEvent(new Event('aha-icons-loaded'));\n");
+  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(ICONS.icons) + ';\n');
   writeFileSync(join(OUT, 'icons', 'aha-icon.js'), AHA_ICON_JS);
 }
 const GALLERY_JS = `

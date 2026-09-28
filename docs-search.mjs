@@ -22,7 +22,7 @@ export const SEARCH_TYPE_ICONS = {
   token: 'system-sliders-horizontal',
   more: 'system-arrow-right',
 };
-/* Glyphs the header needs before the full registry is loaded (inlined into every page). */
+/* Every glyph the search UI renders — checked against icons/registry.json at build time. */
 export const SEARCH_GLYPHS = [...new Set([
   ...Object.values(SEARCH_TYPE_ICONS),
   'system-magnifying-glass', 'system-magnifying-glass-exclamation', 'system-x', 'system-warning-circle',
@@ -251,15 +251,9 @@ export const SEARCH_JS = `
   function norm(s){ return String(s||'').toLowerCase().replace(/colour/g,'color').replace(/[^a-z0-9]+/g,' ').trim(); }
   function icon(name,size,cls){ return '<aha-icon name="'+name+'" size="'+(size||16)+'" decorative'+(cls?' class="'+cls+'"':'')+'></aha-icon>'; }
 
-  function loadFullIcons(){
-    if(window.AHA_ICONS_COMPLETE||document.querySelector('script[data-ds-search-icons]')) return;
-    var s=document.createElement('script'); s.src=root+'icons/registry.js'; s.setAttribute('data-ds-search-icons','');
-    document.head.appendChild(s);
-  }
   function load(){
     if(index) return Promise.resolve(index);
     if(loading) return loading;
-    loadFullIcons();
     loading=fetch(root+'search-index.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(data){
         data.items.forEach(function(it){ it.nt=norm(it.n); it.ct=it.nt.replace(/ /g,''); it.hay=it.nt+' '+norm(it.k)+' '+norm(it.s); });
@@ -277,6 +271,8 @@ export const SEARCH_JS = `
     else if(it.nt.indexOf(q)>=0||it.ct.indexOf(cq)>=0) s=400-Math.min(it.nt.length,100);
     else if(terms.every(function(t){ return it.hay.indexOf(t)>=0; })){
       s=100; terms.forEach(function(t){ if(it.nt.indexOf(t)>=0) s+=40; });
+      // A heading matched only through its parent page's name ("API" under Checkbox) is noise.
+      if(it.t==='section'&&s===100) s=0;
     }
     return s ? s+(TYPE_BONUS[it.t]||0) : 0;
   }
