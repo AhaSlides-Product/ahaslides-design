@@ -26,7 +26,8 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Table + tableTheme in ConfigProvider", "when": "any rows×columns grid — results, leaderboard, admin list" },
+      { "what": "Table + tableTheme in ConfigProvider", "when": "a plain rows×columns grid — results, leaderboard, admin list" },
+      { "what": "Data table", "when": "the grid needs DS V3 behaviour — single-arrow sort, checklist / range filters, reorder, freeze, resize, edit columns — import DataTable from @ahaslides-product/design/aha-data-table" },
       { "what": "never a per-call-site restyle", "when": "a bare antd Table restyled at each call site is the drift this replaces" }
     ],
     "note": "White header (not antd grey #fafafa), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."

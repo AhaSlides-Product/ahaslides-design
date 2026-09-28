@@ -1,0 +1,76 @@
+<!-- ONE UI (React · antd v6): every card renders the SHIPPED DataTable from ../lib/aha-data-table.js —
+     the byte-identical module consumers import — so the demo cannot drift from the component. -->
+<div id="react-root" class="pad"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+<script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
+
+<script type="module">
+import '../lib/icons.js';
+import { createDataTable } from '../lib/aha-data-table.js';
+
+const React = window.React, antd = window.antd, h = React.createElement;
+const DataTable = createDataTable({ React, antd });
+const { Button, Space } = antd;
+
+const rows = [
+  { key: '1', name: 'Mai Tran',   team: 'Product', responses: 25, score: 1040, accuracy: '92%', time: '9s' },
+  { key: '2', name: 'Sara Kim',   team: 'Growth',  responses: 24, score: 980,  accuracy: '88%', time: '11s' },
+  { key: '3', name: 'John Lee',   team: 'Growth',  responses: 22, score: 910,  accuracy: '85%', time: '12s' },
+  { key: '4', name: 'Ana Silva',  team: 'Product', responses: 21, score: 880,  accuracy: '84%', time: '12s' },
+  { key: '5', name: 'Diego Ruiz', team: 'Sales',   responses: 19, score: 760,  accuracy: '80%', time: '14s' },
+  { key: '6', name: 'Tom Fox',    team: 'Sales',   responses: 18, score: 720,  accuracy: '78%', time: '15s' },
+  { key: '7', name: 'Lena Park',  team: 'Product', responses: 17, score: 690,  accuracy: '75%', time: '16s' },
+  { key: '8', name: 'Omar Nadir', team: 'Growth',  responses: 15, score: 610,  accuracy: '71%', time: '18s' },
+];
+const base = [
+  { key: 'name',      title: 'Name',      dataIndex: 'name' },
+  { key: 'team',      title: 'Team',      dataIndex: 'team' },
+  { key: 'responses', title: 'Responses', dataIndex: 'responses' },
+  { key: 'score',     title: 'Score',     dataIndex: 'score' },
+];
+const byName = (a, b) => a.name.localeCompare(b.name);
+const icon = (name) => h('aha-icon', { name, size: '16', decorative: '' });
+
+function Case({ title, hint, children }) {
+  return h('div', { className: 'aha-case', style: { marginBottom: 'var(--aha-space-8)' } },
+    h('div', { className: 'lbl', style: { marginBottom: 'var(--aha-space-10)' } }, title + (hint ? ' · ' + hint : '')),
+    children);
+}
+
+function App() {
+  return h(Space, { direction: 'vertical', size: 28, style: { display: 'flex' } },
+    h(Case, { title: 'Basic', hint: 'toolbar title + actions' },
+      h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), columns: base, pagination: false,
+        toolbarTitle: 'Leaderboard', toolbarActions: h(Button, { icon: icon('system-download-simple') }, 'Export') })),
+    h(Case, { title: 'Sorting', hint: 'single directional arrow; click a header to cycle ↓ → ↑ → none' },
+      h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), pagination: false, columns: [
+        { ...base[0], sorter: byName, help: 'Participant display name' },
+        base[1],
+        { ...base[2], sorter: (a, b) => a.responses - b.responses },
+        { ...base[3], sorter: (a, b) => a.score - b.score, defaultSortOrder: 'descend' },
+      ] })),
+    h(Case, { title: 'Filtering', hint: 'Team = checklist, Score = min / max range' },
+      h(DataTable, { rowKey: 'key', dataSource: rows, pagination: false, columns: [
+        base[0],
+        { ...base[1], filter: { type: 'checklist', options: ['Product', 'Growth', 'Sales'] } },
+        base[2],
+        { ...base[3], filter: { type: 'range' } },
+      ] })),
+    h(Case, { title: 'Config rows per page', hint: 'brand-outlined page + "N / page"' },
+      h(DataTable, { rowKey: 'key', dataSource: rows, columns: base, pagination: { defaultPageSize: 5, pageSizeOptions: [5, 10, 20] } })),
+    h(Case, { title: 'Reorder · freeze · resize', hint: 'drag a header · right-click a header → Freeze · drag a header’s right edge' },
+      h(DataTable, { rowKey: 'key', dataSource: rows, pagination: false, reorderable: true, freezable: true, resizable: true, columns: [
+        { ...base[0], width: 180 }, { ...base[1], width: 160 }, { ...base[2], width: 160 }, { ...base[3], width: 160 },
+        { key: 'accuracy', title: 'Accuracy', dataIndex: 'accuracy', width: 160 },
+        { key: 'time', title: 'Avg time', dataIndex: 'time', width: 160 },
+      ] })),
+    h(Case, { title: 'Add / remove columns', hint: 'Edit columns → checklist' },
+      h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), pagination: false, columnsEditable: true, toolbarTitle: 'Leaderboard',
+        columns: [{ ...base[0], hideable: false }, base[1], base[2], base[3]] })));
+}
+
+window.ReactDOM.createRoot(document.getElementById('react-root')).render(h(App));
+</script>

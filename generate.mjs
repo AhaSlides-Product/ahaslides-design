@@ -143,6 +143,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Card',         slug: 'card' },
     { name: 'List',         slug: 'list' },
     { name: 'Table',        slug: 'table' },
+    { name: 'Data table',   slug: 'data-table' },
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
@@ -1789,7 +1790,9 @@ ${NPMRC}
     ? `${npmrc}
 npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
-import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.element || c.slug)}&gt;`
+${c.reuse.registers
+  ? `import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.reuse.registers)}&gt;`
+  : `import { ${esc((c.reuse.exportsNamed || []).join(', '))} } from '${PKGNAME}/${entry}';`}`
     : `${npmrc}
 npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
