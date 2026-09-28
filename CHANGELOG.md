@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.65.0 — 2026-09-28
+### Removed
+- **Breaking: the `antd` anti-slop surface is gone.** The DS components already wrap AntD v6 with the house theme, so a separate "is this AntD styled right" judge duplicated them. The store now has 15 surfaces. `background` stays: it has its own guideline, and its criteria never depended on the antd judge. (#130)
+
 ## 0.64.0 — 2026-09-28
 ### Added
 - **The a11y runtime primitives now ship in the DS — the `aha-design-shared-components` plugin registry resolves to real exports.** Five new components, each with a contract, doc page, HTML/React/Vue snippets and a render-gated conformance block:
