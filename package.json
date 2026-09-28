@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.61.0",
+  "version": "0.61.1",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -167,7 +167,10 @@
     "./aha-option-row": "./lib/aha-option-row.js",
     "./aha-question-list": "./lib/aha-question-list.js",
     "./popconfirm-theme": "./lib/popconfirm-theme.js",
-    "./screen-lint": "./screen-lint.mjs"
+    "./screen-lint": "./screen-lint.mjs",
+    "./tokens.canonical.json": "./tokens.canonical.json",
+    "./guidelines/*": "./guidelines/*",
+    "./anti-slop/criteria.json": "./anti-slop/criteria.json"
   },
   "files": [
     "screen-lint.mjs",
@@ -176,7 +179,10 @@
     "icons/svg/",
     "icons/registry.json",
     "illustrations/svg/",
-    "illustrations/registry.json"
+    "illustrations/registry.json",
+    "tokens.canonical.json",
+    "guidelines/",
+    "anti-slop/"
   ],
   "scripts": {
     "new:component": "node scaffold.mjs",
