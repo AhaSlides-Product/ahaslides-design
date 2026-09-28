@@ -532,9 +532,12 @@ const contractSlugs = new Set(contracts.map(c => c.slug));
 // custom-element tag → slug, for the elements the DS actually ships (leaves that register)
 const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [c.reuse.registers, c.slug]));
 /* anti-slop — the DS-owned criteria store. Feeds + gate read it; a guideline rule that names a
-   judge criterion (C\d+) for a wired surface must resolve here. */
+   judge criterion (C\d+, or a judge's own letter like J\d+) for a wired surface must resolve here. */
 const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
+const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
+const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json)$/;
+const FROZEN_SNAPSHOT = /contract\.json|typography\.json|review\.html|references\//;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -582,19 +585,17 @@ for (const p of guidelines) {
   const _surface = ANTISLOP?.surfaces?.[p.slug];
   if (_surface) {
     const _storeCrit = new Set((_surface.criteria || []).map(c => c.id));
-    for (const r of (p.rules || [])) {
-      for (const ref of (r.ref || [])) {
-        if (/^C\d+$/.test(ref)) {
-          chk(`anti-slop: rule ref ${ref} resolves in store surface "${p.slug}"`, _storeCrit.has(ref),
-            `no such criterion in anti-slop/criteria.json surfaces.${p.slug} — fix the ref or add the criterion`);
-        } else {
-          warn(`anti-slop: rule ref "${ref}" is a build-assertion id (not a C\\d+ judge criterion)`,
-            'seeded surfaces reference build assertions; Phase-2 fan-out re-keys these to judge criteria');
-        }
+    for (const ref of new Set((p.rules || []).flatMap(r => r.ref || []))) {
+      if (JUDGE_CRITERION_ID.test(ref)) {
+        chk(`anti-slop: rule ref ${ref} resolves in store surface "${p.slug}"`, _storeCrit.has(ref),
+          `no such criterion in anti-slop/criteria.json surfaces.${p.slug} — fix the ref or add the criterion`);
+      } else {
+        warn(`anti-slop: rule ref "${ref}" is a build-assertion id (not a C\\d+ judge criterion)`,
+          'seeded surfaces reference build assertions; Phase-2 fan-out re-keys these to judge criteria');
       }
     }
     if (_surface.origin === 'authored') {
-      const _referenced = new Set((p.rules || []).flatMap(r => (r.ref || []).filter(x => /^C\d+$/.test(x))));
+      const _referenced = new Set((p.rules || []).flatMap(r => (r.ref || []).filter(x => JUDGE_CRITERION_ID.test(x))));
       for (const id of _storeCrit)
         chk(`anti-slop: store criterion ${id} is covered by a rule in "${p.slug}"`, _referenced.has(id),
           `surfaces.${p.slug} defines ${id} but no authored rule references it`);
@@ -641,10 +642,28 @@ if (ANTISLOP) {
   for (const [key, s] of Object.entries(ANTISLOP.surfaces || {})) {
     achk(`surface "${key}": origin is seeded|authored`, s.origin === 'seeded' || s.origin === 'authored', `origin="${s.origin}"`);
     achk(`surface "${key}": ≥1 well-formed criterion`,
-      Array.isArray(s.criteria) && s.criteria.length >= 1 && s.criteria.every(c => /^C\d+$/.test(c.id) && c.title && c.test),
-      'each criterion needs { id:C\\d+, title, test }');
-    achk(`surface "${key}": has a matching guideline (guidelines/${key}.json)`, guidelines.some(p => p.slug === key),
-      'a wired surface needs a guideline to supply its rules');
+      Array.isArray(s.criteria) && s.criteria.length >= 1 && s.criteria.every(c => JUDGE_CRITERION_ID.test(c.id) && c.title && c.test),
+      'each criterion needs { id:C\\d+ (or the judge\'s own letter, e.g. J\\d+), title, test }');
+    const criterionIds = (s.criteria || []).map(c => c.id);
+    achk(`surface "${key}": criterion ids are unique`, new Set(criterionIds).size === criterionIds.length,
+      'two criteria share an id — rule refs and judge verdicts would be ambiguous');
+    if (s.origin === 'seeded')
+      achk(`surface "${key}": records its seed provenance`, !!(s.seededFrom?.version && s.skillRef?.judge),
+        'a seeded surface needs seededFrom.version + skillRef.judge — re-run sync-skills.mjs import');
+    const targets = s.targets || [];
+    const targetSources = targets.map(t => t?.source);
+    achk(`surface "${key}": each target is listed once`, new Set(targetSources).size === targetSources.length,
+      'a target source appears twice — merge the two uses into one target');
+    achk(`surface "${key}": has a matching guideline (guidelines/${key}.json) or live DS targets`,
+      guidelines.some(p => p.slug === key) || targets.length >= 1,
+      'a wired surface needs a guideline to supply its rules, or targets naming the live DS sources it is judged against');
+    for (const t of targets)
+      achk(`surface "${key}": target "${t?.source}" is a live DS source`,
+        LIVE_TARGET_SOURCE.test(t?.source) && existsSync(join(root, t.source)) && !!t.use,
+        'targets name a DS contract / tokens.canonical.json / icons/registry.json / guideline that exists, with a use');
+    for (const c of (s.criteria || []))
+      achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(`${c.title} ${c.test}`),
+        'the test cites a plugin snapshot (contract.json / typography.json / review.html / references/) — point it at the DS contract or tokens');
   }
   achk('anti-slop.md feed exists', existsSync(join(DIST, 'anti-slop.md')), 'run npm run generate');
   achk('anti-slop.agent.json feed exists', existsSync(join(DIST, 'anti-slop.agent.json')), 'run npm run generate');

@@ -16,8 +16,10 @@
  *   dist/<slug>/<slug>.md         per-component markdown feed
  *   dist/<slug>/<slug>.agent.json machine feed (props + tokens + spec + opinion + both snippets)
  *   dist/<slug>.llms.txt          the component's llms entry
+ *   dist/search-index.json        the header search index, crawled from every built page
  */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync, cpSync } from 'node:fs';
+import { anchorHeadings, buildSearchIndex, searchHeaderHtml, SEARCH_CSS, SEARCH_JS, SEARCH_GLYPHS } from './docs-search.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -141,6 +143,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Card',         slug: 'card' },
     { name: 'List',         slug: 'list' },
     { name: 'Table',        slug: 'table' },
+    { name: 'Data table',   slug: 'data-table' },
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
@@ -781,6 +784,8 @@ function sidebarNav(base, active, section) {
   return `<nav class="doc-nav">${inner}</nav>`;
 }
 
+const missingGlyphs = SEARCH_GLYPHS.filter(n => !ICONS.icons[n]);
+if (missingGlyphs.length && ICONS.count) throw new Error(`docs search uses glyphs missing from icons/registry.json: ${missingGlyphs.join(', ')}`);
 function docShell({ base, active, section = 'components', main, extraCss = '', noSidebar = false }) {
   // The Settings page carries its own in-page antd Anchor, so the shell sidebar would be a second
   // nav of the same items — noSidebar drops it and .doc-main (flex:1) reclaims the width.
@@ -797,17 +802,19 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <link rel="alternate" type="text/plain" title="llms-full.txt — full docs" href="${SITE}/llms-full.txt"/>
 <link rel="alternate" type="text/markdown" title="design.md — visual language" href="${SITE}/design.md"/>
 <link rel="alternate" type="text/markdown" title="CHANGELOG.md — version history" href="${SITE}/CHANGELOG.md"/>
-<style>${tokenVars(TOK)}${shellCss(base)}${extraCss}</style></head><body>
+<style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style></head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html"><svg class="logo" viewBox="0 0 802 788" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M170.733 275.998C278.798 265.243 378.859 323.322 335.099 444.05C314.506 506.19 275.855 581.827 243.31 638.991C215.75 687.389 176.897 762.933 120.57 779.886C47.4014 801.893 13.3568 737.231 38.653 673.946C50.1622 645.147 76.3125 617.797 98.9558 596.777C156.207 543.64 209.364 500.767 267.058 447.815C322.558 396.876 304.327 320.548 218.229 348.597C177.136 361.996 147.118 395.204 100.29 386.241C77.245 381.831 59.1047 363.439 62.4007 338.917C68.3362 294.758 133.204 278.683 170.733 275.998Z" fill="#FF4081"/><path d="M450.382 386.525C486.54 382.591 528.879 404.694 561.903 419.06C613.821 441.642 719.681 495.692 751.619 545.435C773.16 578.987 758.736 620.992 723.868 629.865C680.288 637.375 652.573 611.747 625.142 583.886C583.067 541.158 542.425 487.894 502.946 446.124C459.708 404.54 411.899 421.557 428.008 479.843C437.434 513.92 476.519 553.502 451.17 590.608C432.96 617.264 400.896 603.783 387.05 579.1C355.646 523.118 368.986 393.785 450.369 386.525H450.382Z" fill="#6A1EBB"/><path d="M395.401 274.91C359.243 278.844 311.02 252.439 277.995 238.073C226.078 215.492 127.572 164.107 98.4196 118.689C76.8782 85.137 82.5894 39.0804 126.17 31.5704C169.75 24.0603 197.412 51.5244 223.829 78.3561C263.853 119.008 305.44 175.986 347.904 218.444C381.523 254.744 436.591 242.313 420.482 184.027C411.056 149.95 369.615 104.535 398.068 68.6762C418.857 42.4809 447.41 59.2659 459.706 83.1959C490.656 143.426 480.25 265.499 395.414 274.91L395.401 274.91Z" fill="#6A1EBB"/><path d="M513.867 313.624C513.866 313.622 513.869 313.62 513.87 313.622C537.558 338.301 582.265 297.03 606.997 294.547C624.974 292.744 647.013 299.901 646.488 321.974C646.488 358.004 581.094 363.359 554.43 360.693C502.932 355.544 465.718 321.759 484.522 264.702C500.282 216.871 551.389 106.373 589.653 75.139C630.502 41.788 679.136 67.0343 663.298 119.505C651.501 158.567 571.718 215.383 539.267 245.611C522.147 261.559 494.137 291.042 513.863 313.626C513.865 313.628 513.868 313.626 513.867 313.624Z" fill="#FF4081"/></svg><span>AhaSlides Design</span></a>
   ${topNav(base, section)}
+  ${searchHeaderHtml(base)}
   <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
 </header>
 <div class="doc-body" data-section="${section}">
   ${nav}
-  <main class="doc-main"><div class="doc-main-inner">${main}</div></main>
+  <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
-<script>${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
+<script type="module">import '${base || './'}lib/icons.js';</script>
+<script>${SEARCH_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
@@ -1276,6 +1283,7 @@ function renderLandingLlms(blocks) {
 function renderGuidelineHtml(p) {
   const missing = (p.composedOf || []).filter(x => x.status === 'missing');
   const skill = p.skillRef || {};
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const guide = p.guide ? part(p.guide) : '';
   const main = `
   <p class="crumbs">Patterns · composition guide</p>
@@ -1292,6 +1300,7 @@ function renderGuidelineHtml(p) {
   <div class="skillrefs">
     ${skill.build ? `<span class="skillref"><b>build</b> <code>${esc(skill.build)}</code></span>` : ''}
     ${skill.judge ? `<span class="skillref"><b>judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
+    ${antiSlop ? `<span class="skillref"><b>anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
   </div>
 
   ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}
@@ -1325,6 +1334,7 @@ function renderGuidelineHtml(p) {
 }
 function renderGuidelineMd(p) {
   const skill = p.skillRef || {};
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const co = (p.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n');
   const rules = (p.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n');
   const surf = (p.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n');
@@ -1333,7 +1343,7 @@ function renderGuidelineMd(p) {
 
 ${p.summary}
 
-Based on: ${skill.build || '—'}${skill.judge ? ` · judge: ${skill.judge}` : ''}
+Based on: ${skill.build || '—'}${skill.judge ? ` · judge: ${skill.judge}` : ''}${antiSlop ? `\nAnti-slop judge: ${antiSlop.criteria.length} binary criteria (surface "${p.slug}") — ${SITE}/anti-slop.md` : ''}
 Surfaces: ${(p.surfaces||[]).join(', ')}.
 
 ## Choose the surface
@@ -1351,12 +1361,14 @@ ${p.reuse ? 'Ships a reusable wrapper (gated like a composite).' : `Doc-only. ${
 `;
 }
 function renderGuidelineAgent(p) {
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   return JSON.stringify({
     generatedFrom: `guidelines/${p.slug}.json`, kind: 'guideline', pattern: p.name, slug: p.slug,
     summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
     surfaceChoice: p.surfaceChoice || null, composedOf: p.composedOf || [],
     componentBacklog: p.componentBacklog || null, rules: p.rules || [],
     shipsCode: !!p.reuse, reuse: p.reuse || null,
+    antiSlop: antiSlop ? { surface: p.slug, criteria: antiSlop.criteria.length, feed: `${SITE}/anti-slop.agent.json` } : null,
   }, null, 2) + '\n';
 }
 function renderGuidelinesLlms(patterns) {
@@ -1783,7 +1795,9 @@ ${NPMRC}
     ? `${npmrc}
 npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
-import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.element || c.slug)}&gt;`
+${c.reuse.registers
+  ? `import '${PKGNAME}/${entry}';   // registers &lt;${esc(c.reuse.registers)}&gt;`
+  : `import { ${esc((c.reuse.exportsNamed || []).join(', '))} } from '${PKGNAME}/${entry}';`}`
     : `${npmrc}
 npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
@@ -1808,6 +1822,18 @@ const ANTISLOP_LOOP = [
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
 
+// A surface target is a DS source path; consumers fetch its published live feed, never a snapshot.
+function antiSlopTargetUrl(source) {
+  if (source === 'tokens.canonical.json') return `${SITE}/design.md`;
+  if (source === 'contracts') return `${SITE}/llms.txt`;
+  if (source === 'icons/registry.json') return `${SITE}/icons.agent.json`;
+  let m = source.match(/^contracts\/([a-z0-9-]+)\.json$/);
+  if (m) return `${SITE}/${m[1]}.agent.json`;
+  m = source.match(/^guidelines\/([a-z0-9-]+)\.json$/);
+  if (m) return `${SITE}/guidelines/${m[1]}/${m[1]}.agent.json`;
+  throw new Error(`anti-slop target "${source}" has no published feed — map it in antiSlopTargetUrl`);
+}
+
 function renderAntiSlop(store, guidelines) {
   const bySlug = Object.fromEntries((guidelines || []).map(p => [p.slug, p]));
   const surfaces = store ? Object.entries(store.surfaces) : [];
@@ -1816,13 +1842,17 @@ function renderAntiSlop(store, guidelines) {
   for (const [key, s] of surfaces) {
     const p = bySlug[key];
     md += `## Surface: ${key}${p ? ` (guidelines/${key}/${key}.md)` : ''}\n`;
-    md += `${p ? p.summary : ''}\n\n`;
+    md += p ? `${p.summary}\n\n` : '\n';
     if (p && p.rules?.length) {
       md += `Rules:\n${p.rules.map(r => `- ${r.rule}${r.ref?.length ? ` [${r.ref.join(', ')}]` : ''}`).join('\n')}\n\n`;
     }
+    const targets = (s.targets || []).map(t => ({ ...t, url: antiSlopTargetUrl(t.source) }));
+    if (targets.length) {
+      md += `Judge against the live DS (never a frozen snapshot):\n${targets.map(t => `- ${t.url} — ${t.use}`).join('\n')}\n\n`;
+    }
     md += `Judge (binary — PASS/FAIL each):\n${(s.criteria || []).map(c => `- ${c.id}. ${c.title} — ${c.test}`).join('\n')}\n\n`;
     agent.surfaces[key] = {
-      surface: s.surface, origin: s.origin, skillRef: s.skillRef || (p ? p.skillRef : null),
+      surface: s.surface, origin: s.origin, skillRef: s.skillRef || (p ? p.skillRef : null), targets,
       rules: p ? (p.rules || []) : [], criteria: s.criteria || [], selfCheck: p ? (p.selfCheck || []) : [],
     };
   }
@@ -1899,6 +1929,7 @@ const GALLERY_JS = `
     count.textContent=n+' icon'+(n===1?'':'s');
   }
   q.addEventListener('input',apply);
+  var linked=new URLSearchParams(location.search).get('q'); if(linked) q.value=linked;
   fams.forEach(function(b){b.addEventListener('click',function(){fams.forEach(function(x){x.classList.remove('on')});b.classList.add('on');fam=b.dataset.fam;apply();});});
   grid.addEventListener('click',function(e){
     var c=e.target.closest('.ic'); if(!c)return;
@@ -2188,4 +2219,7 @@ mkdirSync(join(OUT, 'feeds'), { recursive: true });
 for (const f of RAW_FEEDS) {
   writeFileSync(join(OUT, 'feeds', `${f.page}.html`), renderFeedPage(f, read(join(OUT, f.file))));
 }
+const searchIndex = buildSearchIndex({ outDir: OUT, contracts, icons: ICONS, tokenCss: tokenVars(TOK), version: PKG.version });
+writeFileSync(join(OUT, 'search-index.json'), JSON.stringify(searchIndex));
+console.log(`  ✓ search: search-index.json (${searchIndex.count} entries)`);
 console.log(`\nGenerated ${contracts.length} component(s) + variables.css + design.md + ${TOKEN_PAGES.length} token pages + index.html + llms feeds + ${RAW_FEEDS.length} feed pages → dist/`);
