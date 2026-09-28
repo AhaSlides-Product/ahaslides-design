@@ -13,10 +13,6 @@
         "build": "aha-design:aha-design-ux-writing",
         "judge": "aha-design:aha-design-ux-writing-judge"
       },
-      "links": {
-        "source": "guidelines/ux-writing.json",
-        "page": "guidelines/ux-writing/index.html"
-      },
       "criteria": [
         {
           "id": "C1",
@@ -59,10 +55,6 @@
       "surface": "shell",
       "origin": "authored",
       "skillRef": null,
-      "links": {
-        "source": "guidelines/app-shell.json",
-        "page": "guidelines/app-shell/index.html"
-      },
       "criteria": [
         {
           "id": "C1",
@@ -91,6 +83,409 @@
         }
       ]
     },
+    "antd": {
+      "surface": "theme",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-antd",
+        "judge": "aha-design:aha-design-antd-judge"
+      },
+      "targets": [
+        {
+          "source": "tokens.canonical.json",
+          "use": "colour, size, radius (4/6/8/12/16), control-height and spacing values every criterion binds to"
+        },
+        {
+          "source": "contracts/button.json",
+          "use": "the Button system (C4): sizes, variants and the CTA fill"
+        },
+        {
+          "source": "contracts/input.json",
+          "use": "the inherited control height (C5)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "One component library — AntD v6 only",
+          "test": "UI is built on Ant Design v6 (antd, @ant-design/cssinjs, @ant-design/plots for charts, @ant-design/x for AI) plus the DS elements; no other UI kit (MUI, Chakra, Radix, Headless, Mantine, react-bootstrap, react-aria), no recharts/victory/chart.js, and no icons from @ant-design/icons, Lucide, Heroicons or FontAwesome."
+        },
+        {
+          "id": "C2",
+          "title": "No hardcoded hex or px in components",
+          "test": "Colours, sizes and font sizes come from a theme token (theme.useToken()) or an --aha-* var from the live DS tokens — never a literal #hex, rgb() or bare px baked into a component. Surface background colour is scored by the background surface, not here."
+        },
+        {
+          "id": "C3",
+          "title": "Border-radius is token-bound, not eyeballed",
+          "test": "Corner radius on a custom container binds to the DS radius scale (--aha-radius-* : 4 / 6 / 8 / 12 / 16), never an eyeballed number; AntD components keep their theme radius, and a per-component radius follows that component's live DS contract."
+        },
+        {
+          "id": "C4",
+          "title": "Button system honoured",
+          "test": "A Button is sized only via the size prop (small / middle / large) or <XLButtonScope> for the single hero CTA — never inline height, minHeight, padding, borderRadius or fontSize, never an aha-*-btn className — and the CTA fill is the primary token (--aha-color-primary), not a bespoke shade."
+        },
+        {
+          "id": "C5",
+          "title": "Control heights & provider nesting",
+          "test": "Input / Select / DatePicker and other form controls inherit the root controlHeight (32) rather than being grown per instance, and <ConfigProvider> is mounted once at the app root; the only sanctioned nested provider is <XLButtonScope>."
+        },
+        {
+          "id": "C6",
+          "title": "Focus ring & non-colour state",
+          "test": "The global :focus-visible ring (2px solid --aha-color-primary, 2px offset) is never overridden with outline: none, and state is never conveyed by colour alone — a colour change is paired with a shape, text or icon change."
+        },
+        {
+          "id": "C7",
+          "title": "WCAG AA on custom (non-AntD) components",
+          "test": "A custom (non-AntD) component with hand-picked colours clears WCAG AA against its real rendered background — 4.5:1 for body text, 3:1 for large text (>= 18.66px bold / >= 24px) and meaningful non-text — with text on a dark surface flipped to the inverse text token."
+        },
+        {
+          "id": "C8",
+          "title": "Hierarchy from spacing, not dividers",
+          "test": "Separation and grouping come from the size of the gap (the --aha-space-* scale), not from lines: a <Divider>, <hr> or border-top/border-bottom rule added to carve a layout into sections fails unless the user asked for it. A component's own edge (Card/Input border, Menu rule, Modal header underline) and the DataTable's dividers-only body are exempt."
+        }
+      ]
+    },
+    "component-standard": {
+      "surface": "component",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-component-standard",
+        "judge": "aha-design:aha-design-component-standard-judge"
+      },
+      "targets": [
+        {
+          "source": "contracts",
+          "use": "every shared component's live DS contract (spec, variants, sizes, states, conformance) — the target look, replacing the frozen Storybook contract.json snapshot"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the colour roles and structural values the contracts bind to"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Structural values match the measured standard",
+          "test": "Radius, height, padding, gap and font family / size / weight for the component under review equal the values in its live DS contract (the <slug>.agent.json feed) — structural values are the same in every binding; any off-by value fails (e.g. radius 6px where the contract says 8px)."
+        },
+        {
+          "id": "C2",
+          "title": "Every variant & size is covered",
+          "test": "Every variant and size the live DS contract declares is implemented — none of the matrix is missing."
+        },
+        {
+          "id": "C3",
+          "title": "Every sub-part is styled",
+          "test": "Every sub-part is styled, not just the outer box: Modal = content + header + body + action footer + close button; Dropdown = menu + item; Input = box + placeholder."
+        },
+        {
+          "id": "C4",
+          "title": "Every interaction state exists",
+          "test": "Anything clickable has every interaction state — rest / hover / focus / active / disabled; an absent state fails."
+        },
+        {
+          "id": "C5",
+          "title": "Each state is rendered on the SAME property the standard uses",
+          "test": "Each state is rendered on the same property the contract uses (tag active = an outline; radio checked = the tick; checkbox/toggle on = a fill; upload error = the text colour; tooltip = its theme); reproducing a state on the wrong property fails."
+        },
+        {
+          "id": "C6",
+          "title": "Colour is bound as a role for the right context",
+          "test": "Structural values are fixed and only colours change per binding: the component uses the colour role for its context — brand (app chrome) or user/neutral (a theme-following canvas) — while danger, positive and brand-pink stay fixed in every binding, all bound to DS colour tokens."
+        },
+        {
+          "id": "C7",
+          "title": "Icon size / box / spacing matches",
+          "test": "The icon inside a component has the size, box and spacing the contract fixes and takes the surrounding text colour; the glyph itself is the repo's own asset (exempt)."
+        },
+        {
+          "id": "C8",
+          "title": "Verified against the reference picture, not eyeballed",
+          "test": "A \"matches\" claim is evidenced by a screenshot of the built component compared with the DS doc-site render of that component (or the value read from its live DS contract) — not prose, not \"looks right\"; overlay/interactive parts are captured in their open state."
+        }
+      ]
+    },
+    "icons": {
+      "surface": "icon",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-icons",
+        "judge": "aha-design:aha-design-icons-judge"
+      },
+      "targets": [
+        {
+          "source": "contracts/icon.json",
+          "use": "the <aha-icon> API: on-grid sizes, currentColor/token colour, -filled state assets, accessible name"
+        },
+        {
+          "source": "icons/registry.json",
+          "use": "the catalogue of glyph names a view must reuse"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "One shared icon set — never mixed",
+          "test": "Every glyph comes from the single shared icon component (<aha-icon name> in the DS, the shared SVG Icon in an app) and one view uses the system-* outline family consistently — never mixed with @ant-design/icons, Lucide, Heroicons, FontAwesome, Material, Phosphor in a migrated repo, a hand-rolled inline <svg>, or a legacy fill/multicolour glyph."
+        },
+        {
+          "id": "C2",
+          "title": "On-grid size with its paired line-width token",
+          "test": "Size is one of the four on-grid values — 12 / 16 / 24 / 32 — via the icon's size prop, so its paired line width (1 / 1.5 / 2 / 2.5) comes with it; never an off-grid size (no 20px) and never a hardcoded one-off stroke width."
+        },
+        {
+          "id": "C3",
+          "title": "Emphasis via variant; colour via token, not a hardcoded hex",
+          "test": "State and emphasis use the -filled glyph variant (or a colour token), never a thickened stroke; colour inherits currentColor or a semantic/brand token (--aha-icon-*, --aha-color-*), never a hardcoded hex on the icon."
+        },
+        {
+          "id": "C4",
+          "title": "Accessibility — labelled, tooltipped, or hidden",
+          "test": "An icon-only button carries an accessible name (aria-label or an sr-only label) plus a tooltip when the glyph's meaning isn't obvious; a decorative icon that repeats adjacent text is aria-hidden; state is never conveyed by colour alone."
+        },
+        {
+          "id": "C5",
+          "title": "Standard catalog glyph reused, not a new inline drawing",
+          "test": "Common meanings reuse the established catalogue glyph from the live icon registry (validation → warning-circle, success → check-circle, search → magnifying-glass, settings → gear, more → dots-three-vertical, add → plus) rather than a new synonym or a fresh inline drawing; a genuinely missing glyph is added to the DS library."
+        },
+        {
+          "id": "C6",
+          "title": "presenter-app render mode matches the intended fill/outline state",
+          "test": "In presenter-app the render mode matches the intended look: an outline-intended system-* glyph uses maintain-color (the default fill: currentColor would blob it), a filled/active glyph or *-fill / *-solid asset stays filled, colour flows through the surrounding element (there is no color prop), and a baked-in stroke hex is fixed at the asset, not with a prop."
+        }
+      ]
+    },
+    "typography": {
+      "surface": "type",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-typography",
+        "judge": "aha-design:aha-design-typography-judge"
+      },
+      "targets": [
+        {
+          "source": "tokens.canonical.json",
+          "use": "the live type scale — font (product), weight (400/600), size, lineHeight and letterSpacing — replacing the frozen typography.json snapshot"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "J1",
+          "title": "Font family matches the role",
+          "test": "Product UI text uses the DS product face (Plus Jakarta Sans, the font.product token) for every role; any other family (Poppins, Roboto, Helvetica, SF, Inter) fails — the live DS scale has no Inter label set."
+        },
+        {
+          "id": "J2",
+          "title": "Weight is 400 or 600",
+          "test": "Font weight is 400 (regular) or 600 (semibold) only, per the live weight tokens — Display included; 500 / 700 / 800 on a role-based heading or body fails. Text baked into a shared component follows that component's DS contract instead."
+        },
+        {
+          "id": "J3",
+          "title": "Size snaps to the scale",
+          "test": "Font size snaps to the DS size tokens (12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 48 · 56 · 64); an in-between value (15, 17, 22, 28, 36…) or a rem/em that computes off-scale fails."
+        },
+        {
+          "id": "J4",
+          "title": "Line-height is a unitless ratio matching the role",
+          "test": "Line height is a unitless ratio from the DS lineHeight tokens matching the role — 1.2 (H1/H2), 1.3 (H3–H6, blockquote), 1.5 (body, lead) or normal; a px line height, or a ratio that doesn't match the role, fails."
+        },
+        {
+          "id": "J5",
+          "title": "Letter-spacing matches the role's category",
+          "test": "Letter spacing matches the role's category per the DS letterSpacing tokens — headlines 0 · subheadings 0.2px · paragraph 0.2px · subtext 0.3px; negative tracking on a heading fails."
+        },
+        {
+          "id": "J6",
+          "title": "Role fits the text's job",
+          "test": "The role is chosen by the text's job, not its rough size — page title → heading1 (via <aha-breadcrumb size=\"page-title\">); section → heading2/3; card/dialog title → heading4/5; base UI → body; caption/helper → bodySM — and the five values together match a single DS role."
+        },
+        {
+          "id": "J7",
+          "title": "In scope — product UI, not marketing/brand",
+          "test": "The scale governs in-app product UI (presenter, audience, editor, dashboard); a marketing/brand surface (landing, blog, email, social graphic) is not forced onto it, and vice versa."
+        }
+      ]
+    },
+    "table": {
+      "surface": "table",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-table",
+        "judge": "aha-design:aha-design-table-judge"
+      },
+      "targets": [
+        {
+          "source": "contracts/table.json",
+          "use": "the DS V3 DataTable — header, body, sort, filter, freeze, pagination, cell padding"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the colour and radius tokens the grid binds to"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "It is the shared DataTable — not hand-rolled, not a restyled raw Table",
+          "test": "The grid renders through the shared DataTable (AntD <Table> underneath); a raw <table>/<div> grid or a bare AntD <Table> with its own styling fails."
+        },
+        {
+          "id": "C2",
+          "title": "The look is theme-driven — no per-table styling",
+          "test": "The look comes from the theme (components.Table), not the call site — a per-table bordered, size, rowClassName zebra, inline header/cell style or ad-hoc container styling fails."
+        },
+        {
+          "id": "C3",
+          "title": "Header is white with secondary-grey labels",
+          "test": "The header is white (Table.headerBg) with secondary-grey labels (Table.headerColor) and a bottom divider — never AntD's default grey #fafafa fill, a tinted header, or default-colour labels."
+        },
+        {
+          "id": "C4",
+          "title": "Body has horizontal dividers only — no zebra, no vertical grid lines",
+          "test": "Rows are separated by horizontal dividers only (the border token) — no zebra striping, no vertical cell borders (bordered)."
+        },
+        {
+          "id": "C5",
+          "title": "Behaviour matches DS V3 — sort arrow, filter popovers, freeze, pagination",
+          "test": "Where present, behaviour matches DS V3: sort = a single directional arrow (not the dual caret); filter = the checklist (search + Reset/Apply) or Min/Max range popover; freeze = right-click, one column at a time, pinned leftmost with a shadow; pagination = brand-outlined active page + the \"N / page\" size changer."
+        },
+        {
+          "id": "C6",
+          "title": "Every icon is @phosphor-icons/react — never emoji",
+          "test": "Every glyph (help, filter funnel, sort arrow, export, pin, drag handle) comes from @phosphor-icons/react as the DS table contract specifies; an emoji or a glyph from @ant-design/icons or another set fails."
+        },
+        {
+          "id": "C7",
+          "title": "Colour & radius come from tokens — no raw hex/px",
+          "test": "Colour and radius in columns, cell renderers, rowClassName and the container bind to theme.useToken() / --aha-* and the radius scale — never a raw #hex, rgb() or magic px radius."
+        },
+        {
+          "id": "C8",
+          "title": "Cell padding is a live 16px — not collapsed to 0 by an undefined token",
+          "test": "components.Table.cellPaddingBlock/Inline resolves to 16 (the literal 16 or token.size), not token.padding / paddingSM / paddingM, which are undefined in the AhaSlides token object and collapse the padding to 0."
+        }
+      ]
+    },
+    "shared-components": {
+      "surface": "primitive",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-shared-components",
+        "judge": "aha-design:aha-design-shared-components-judge"
+      },
+      "targets": [
+        {
+          "source": "contracts/empty.json",
+          "use": "the DS Empty state"
+        },
+        {
+          "source": "contracts/progress.json",
+          "use": "the DS Progress (role=progressbar + aria-value*)"
+        },
+        {
+          "source": "contracts/skeleton.json",
+          "use": "the DS loading Skeleton"
+        },
+        {
+          "source": "contracts/result.json",
+          "use": "the DS Result page"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Reaches for the canonical registry primitive, not a hand-rolled one",
+          "test": "A need the registry covers uses its canonical primitive — empty / progress / skeleton / result → the DS Empty, Progress, Skeleton and Result components where the repo can consume the package; field error → FieldErrorDisplay or a11y FieldError; announcement → a11y LiveRegion; full-page respondent error → ErrorPage — never a hand-rolled or half-reused copy."
+        },
+        {
+          "id": "C2",
+          "title": "Correct field-error component chosen and wired",
+          "test": "The right field-error component is chosen by context: FieldErrorDisplay in respondent element renderers (role=\"alert\", aria-live=\"assertive\", i18n messageKey); a11y FieldError in AntD forms (stable id, Typography.Text type=\"danger\", null when empty)."
+        },
+        {
+          "id": "C3",
+          "title": "Responsive shape switches use `useIsMobile()`; pure styling uses the media query",
+          "test": "A render that changes shape below 768px (table → cards, sidebar → drawer) is gated on useIsMobile(); pure styling uses @media (max-width: 767.98px) directly — never styling through the hook, never an ad-hoc breakpoint."
+        },
+        {
+          "id": "C4",
+          "title": "Accessibility house rules honoured",
+          "test": "The primitives' a11y contracts hold: LiveRegion is aria-live=\"assertive\" + aria-atomic=\"true\", has no role=\"alert\" and stays mounted when empty; Progress carries role=\"progressbar\" + aria-valuenow/min/max + aria-label; loading skeletons carry role=\"status\" + aria-busy."
+        }
+      ]
+    },
+    "background": {
+      "surface": "background",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-antd",
+        "judge": "aha-design:aha-design-background-judge"
+      },
+      "targets": [
+        {
+          "source": "guidelines/background.json",
+          "use": "the DS background rule: white by default, the sanctioned exceptions, and the one gradient allowed"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the --aha-bg-* surface tokens every non-white background binds to"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Every surface is white-by-default or a sanctioned exception",
+          "test": "Cards, panels, page/section wrappers, modal/drawer bodies, table/list rows and tab panels are white or unset (--aha-bg-container) unless the non-white background is a sanctioned exception — a semantic feedback tint (--aha-bg-positive / -negative / -warning / -informative), the app-shell layout grey (--aha-bg-layout), an interactive hover/selected/active fill (--aha-bg-hover) — or the task carries explicit evidence the human asked for the colour; a decorative or brand tint on a neutral container fails here only."
+        },
+        {
+          "id": "C2",
+          "title": "No gradient as a background or fill",
+          "test": "No linear-, radial- or conic-gradient is used as a background or fill; the only exception is the AI affordance, where the gradient sits on the border (border-box) and the padding-box fill stays white."
+        },
+        {
+          "id": "C3",
+          "title": "Non-white colour comes from a token, never a raw hex",
+          "test": "A legitimately non-white surface takes its value from a DS token (--aha-bg-* / --aha-color-*), never a hardcoded #hex, rgb() or hsl() literal — a disallowed non-white surface is already a C1 fail and is not re-flagged here."
+        }
+      ]
+    },
     "paywall": {
       "surface": "paywall",
       "origin": "seeded",
@@ -103,10 +498,12 @@
         "build": "aha-design:aha-design-paywall",
         "judge": "aha-design:aha-design-paywall-judge"
       },
-      "links": {
-        "source": "contracts/paywall.json",
-        "page": "paywall/index.html"
-      },
+      "targets": [
+        {
+          "source": "contracts/paywall.json",
+          "use": "the shared <aha-paywall>: popover anatomy, props, copy, analytics events and upgrade handler (C1–C7)"
+        }
+      ],
       "criteria": [
         {
           "id": "C1",
@@ -157,10 +554,16 @@
         "build": "aha-design:aha-design-status-badges",
         "judge": "aha-design:aha-design-status-badges-judge"
       },
-      "links": {
-        "source": "guidelines/status-badges.json",
-        "page": "guidelines/status-badges/index.html"
-      },
+      "targets": [
+        {
+          "source": "guidelines/status-badges.json",
+          "use": "the status-pill pattern: dot + localised label, role=status, --{status} modifier colours"
+        },
+        {
+          "source": "contracts/status-badge.json",
+          "use": "the DS status badge markup and status variants (C1, C2, C5)"
+        }
+      ],
       "criteria": [
         {
           "id": "C1",
@@ -201,10 +604,16 @@
         "build": "aha-design:aha-design-settings",
         "judge": "aha-design:aha-design-settings-judge"
       },
-      "links": {
-        "source": "guidelines/settings.json",
-        "page": "guidelines/settings/index.html"
-      },
+      "targets": [
+        {
+          "source": "guidelines/settings.json",
+          "use": "the settings pattern: naming, control choice, grouping by spacing, dependent and gated settings, danger zone, surface choice"
+        },
+        {
+          "source": "contracts/settings-list.json",
+          "use": "the shared settings list, rows and groups (C4, C5, C9)"
+        }
+      ],
       "criteria": [
         {
           "id": "C1",
@@ -295,10 +704,24 @@
         "build": "aha-design:aha-design-feedback",
         "judge": "aha-design:aha-design-feedback-judge"
       },
-      "links": {
-        "source": "guidelines/feedback.json",
-        "page": "guidelines/feedback/index.html"
-      },
+      "targets": [
+        {
+          "source": "guidelines/feedback.json",
+          "use": "the feedback pattern: toast vs inline vs banner, correct/incorrect states, CSAT"
+        },
+        {
+          "source": "contracts/toast.json",
+          "use": "the DS toast (C1)"
+        },
+        {
+          "source": "contracts/alert.json",
+          "use": "the DS V3 <aha-alert> inline banner (C4)"
+        },
+        {
+          "source": "contracts/csat.json",
+          "use": "the shared CSAT widget (C3)"
+        }
+      ],
       "criteria": [
         {
           "id": "C1",
@@ -339,10 +762,24 @@
         "build": "aha-design:aha-design-overlays",
         "judge": "aha-design:aha-design-overlays-judge"
       },
-      "links": {
-        "source": "guidelines/overlays.json",
-        "page": "guidelines/overlays/index.html"
-      },
+      "targets": [
+        {
+          "source": "guidelines/overlays.json",
+          "use": "the overlay pattern: surface choice, dismiss safety, state reset, async confirm, inline errors"
+        },
+        {
+          "source": "contracts/modal.json",
+          "use": "the DS Modal (C1, C3, C5, C7)"
+        },
+        {
+          "source": "contracts/drawer.json",
+          "use": "the DS Drawer — right placement, responsive width (C4)"
+        },
+        {
+          "source": "contracts/popover.json",
+          "use": "the DS Popover (C1)"
+        }
+      ],
       "criteria": [
         {
           "id": "C1",
@@ -393,10 +830,16 @@
         "build": "aha-design:aha-design-canvas",
         "judge": "aha-design:aha-design-canvas-judge"
       },
-      "links": {
-        "source": "guidelines/canvas.json",
-        "page": "guidelines/canvas/index.html"
-      },
+      "targets": [
+        {
+          "source": "guidelines/canvas.json",
+          "use": "the presenter-canvas pattern: framed vs full-canvas, declared actions, deck ink and fonts"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the colour and type tokens every hard-coded colour/font check binds to (C1, C2)"
+        }
+      ],
       "criteria": [
         {
           "id": "C1",
@@ -492,10 +935,16 @@
         "build": "aha-design:aha-design-audience",
         "judge": "aha-design:aha-design-audience-judge"
       },
-      "links": {
-        "source": "guidelines/audience.json",
-        "page": "guidelines/audience/index.html"
-      },
+      "targets": [
+        {
+          "source": "guidelines/audience.json",
+          "use": "the audience-screen pattern: mobile-first column, self-rendered states, deck-tracking controls, text economy"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the colour and type tokens every hard-coded colour/font check binds to (C1, C2)"
+        }
+      ],
       "criteria": [
         {
           "id": "C1",

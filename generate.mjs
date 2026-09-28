@@ -1276,7 +1276,7 @@ function renderLandingLlms(blocks) {
 function renderGuidelineHtml(p) {
   const missing = (p.composedOf || []).filter(x => x.status === 'missing');
   const skill = p.skillRef || {};
-  const antiSlop = antiSlopSurfaceForSource(`guidelines/${p.slug}.json`);
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const guide = p.guide ? part(p.guide) : '';
   const main = `
   <p class="crumbs">Patterns · composition guide</p>
@@ -1293,7 +1293,7 @@ function renderGuidelineHtml(p) {
   <div class="skillrefs">
     ${skill.build ? `<span class="skillref"><b>build</b> <code>${esc(skill.build)}</code></span>` : ''}
     ${skill.judge ? `<span class="skillref"><b>judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
-    ${antiSlop ? `<span class="skillref"><b>anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(antiSlop.key)}</code></a></span>` : ''}
+    ${antiSlop ? `<span class="skillref"><b>anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
   </div>
 
   ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}
@@ -1327,7 +1327,7 @@ function renderGuidelineHtml(p) {
 }
 function renderGuidelineMd(p) {
   const skill = p.skillRef || {};
-  const antiSlop = antiSlopSurfaceForSource(`guidelines/${p.slug}.json`);
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const co = (p.composedOf || []).map(x => `- ${x.ref} (${x.as}) — ${x.use} [${x.status}]`).join('\n');
   const rules = (p.rules || []).map(r => `- ${r.rule} (${(r.ref||[]).join(', ')})`).join('\n');
   const surf = (p.surfaceChoice || []).map(s => `- **${s.surface}** — ${s.useFor} (e.g. ${s.example})`).join('\n');
@@ -1336,7 +1336,7 @@ function renderGuidelineMd(p) {
 
 ${p.summary}
 
-Based on: ${skill.build || '—'}${skill.judge ? ` · judge: ${skill.judge}` : ''}${antiSlop ? `\nAnti-slop judge: ${antiSlop.criteria.length} binary criteria (surface "${antiSlop.key}") — ${SITE}/anti-slop.md` : ''}
+Based on: ${skill.build || '—'}${skill.judge ? ` · judge: ${skill.judge}` : ''}${antiSlop ? `\nAnti-slop judge: ${antiSlop.criteria.length} binary criteria (surface "${p.slug}") — ${SITE}/anti-slop.md` : ''}
 Surfaces: ${(p.surfaces||[]).join(', ')}.
 
 ## Choose the surface
@@ -1354,14 +1354,14 @@ ${p.reuse ? 'Ships a reusable wrapper (gated like a composite).' : `Doc-only. ${
 `;
 }
 function renderGuidelineAgent(p) {
-  const antiSlop = antiSlopSurfaceForSource(`guidelines/${p.slug}.json`);
+  const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   return JSON.stringify({
     generatedFrom: `guidelines/${p.slug}.json`, kind: 'guideline', pattern: p.name, slug: p.slug,
     summary: p.summary, skillRef: p.skillRef || null, surfaces: p.surfaces || null,
     surfaceChoice: p.surfaceChoice || null, composedOf: p.composedOf || [],
     componentBacklog: p.componentBacklog || null, rules: p.rules || [],
     shipsCode: !!p.reuse, reuse: p.reuse || null,
-    antiSlop: antiSlop ? { surface: antiSlop.key, criteria: antiSlop.criteria.length, feed: `${SITE}/anti-slop.agent.json` } : null,
+    antiSlop: antiSlop ? { surface: p.slug, criteria: antiSlop.criteria.length, feed: `${SITE}/anti-slop.agent.json` } : null,
   }, null, 2) + '\n';
 }
 function renderGuidelinesLlms(patterns) {
@@ -1813,55 +1813,42 @@ const ANTISLOP_LOOP = [
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
 
-function antiSlopSourceOf(key, surface) {
-  return surface.links?.source || `guidelines/${key}.json`;
+// A surface target is a DS source path; consumers fetch its published live feed, never a snapshot.
+function antiSlopTargetUrl(source) {
+  if (source === 'tokens.canonical.json') return `${SITE}/design.md`;
+  if (source === 'contracts') return `${SITE}/llms.txt`;
+  if (source === 'icons/registry.json') return `${SITE}/icons.agent.json`;
+  let m = source.match(/^contracts\/([a-z0-9-]+)\.json$/);
+  if (m) return `${SITE}/${m[1]}.agent.json`;
+  m = source.match(/^guidelines\/([a-z0-9-]+)\.json$/);
+  if (m) return `${SITE}/guidelines/${m[1]}/${m[1]}.agent.json`;
+  throw new Error(`anti-slop target "${source}" has no published feed — map it in antiSlopTargetUrl`);
 }
 
-function resolveAntiSlopSource(sourcePath, guidelines, contracts) {
-  const match = /^(guidelines|contracts)\/([a-z0-9-]+)\.json$/.exec(sourcePath || '');
-  if (!match) return null;
-  const [, folder, slug] = match;
-  if (folder === 'guidelines') {
-    const guideline = (guidelines || []).find(p => p.slug === slug);
-    return guideline ? { kind: 'guideline', doc: guideline } : null;
-  }
-  const contract = (contracts || []).find(c => c.slug === slug);
-  return contract ? { kind: 'component', doc: contract } : null;
-}
-
-function antiSlopSurfaceForSource(sourcePath) {
-  const entry = Object.entries(ANTISLOP?.surfaces || {}).find(([key, s]) => antiSlopSourceOf(key, s) === sourcePath);
-  return entry ? { key: entry[0], ...entry[1] } : null;
-}
-
-function renderAntiSlop(store, guidelines, contracts) {
+function renderAntiSlop(store, guidelines) {
+  const bySlug = Object.fromEntries((guidelines || []).map(p => [p.slug, p]));
   const surfaces = store ? Object.entries(store.surfaces) : [];
   let md = `# AhaSlides Design System — anti-slop\n\n> The official AhaSlides anti-slop loop. Generated from anti-slop/criteria.json + guidelines/*.json — do not edit by hand.\n> Owner: ${store?.owner || 'ahaslides-design'}. Feeds: ${SITE}/anti-slop.md · ${SITE}/anti-slop.agent.json\n\n## The loop\n\n${ANTISLOP_LOOP}\n\n`;
   const agent = { generatedFrom: 'anti-slop/criteria.json + guidelines/*.json', owner: store?.owner || 'ahaslides-design', loop: ANTISLOP_LOOP, surfaces: {} };
-  const wiredSources = new Set();
   for (const [key, s] of surfaces) {
-    const sourcePath = antiSlopSourceOf(key, s);
-    wiredSources.add(sourcePath);
-    const source = resolveAntiSlopSource(sourcePath, guidelines, contracts);
-    const doc = source?.doc;
-    const pageUrl = s.links?.page ? `${SITE}/${s.links.page}` : null;
-    md += `## Surface: ${key}${doc ? ` (${sourcePath})` : ''}\n`;
-    md += `${doc ? doc.summary : ''}\n\n`;
-    if (pageUrl) md += `${source?.kind === 'component' ? 'Component' : 'Pattern'}: ${pageUrl}\n\n`;
-    if (doc && source.kind === 'guideline' && doc.rules?.length) {
-      md += `Rules:\n${doc.rules.map(r => `- ${r.rule}${r.ref?.length ? ` [${r.ref.join(', ')}]` : ''}`).join('\n')}\n\n`;
+    const p = bySlug[key];
+    md += `## Surface: ${key}${p ? ` (guidelines/${key}/${key}.md)` : ''}\n`;
+    md += p ? `${p.summary}\n\n` : '\n';
+    if (p && p.rules?.length) {
+      md += `Rules:\n${p.rules.map(r => `- ${r.rule}${r.ref?.length ? ` [${r.ref.join(', ')}]` : ''}`).join('\n')}\n\n`;
     }
-    if (doc && source.kind === 'component' && doc.selfCheck?.length) {
-      md += `Self-check:\n${doc.selfCheck.map(c => `- ${c.label}`).join('\n')}\n\n`;
+    const targets = (s.targets || []).map(t => ({ ...t, url: antiSlopTargetUrl(t.source) }));
+    if (targets.length) {
+      md += `Judge against the live DS (never a frozen snapshot):\n${targets.map(t => `- ${t.url} — ${t.use}`).join('\n')}\n\n`;
     }
     md += `Judge (binary — PASS/FAIL each):\n${(s.criteria || []).map(c => `- ${c.id}. ${c.title} — ${c.test}`).join('\n')}\n\n`;
     agent.surfaces[key] = {
-      surface: s.surface, origin: s.origin, skillRef: s.skillRef || (doc ? doc.skillRef || null : null),
-      links: { source: sourcePath, page: pageUrl },
-      rules: source?.kind === 'guideline' ? (doc.rules || []) : [], criteria: s.criteria || [], selfCheck: doc ? (doc.selfCheck || []) : [],
+      surface: s.surface, origin: s.origin, skillRef: s.skillRef || (p ? p.skillRef : null), targets,
+      rules: p ? (p.rules || []) : [], criteria: s.criteria || [], selfCheck: p ? (p.selfCheck || []) : [],
     };
   }
-  const notWired = (guidelines || []).map(p => p.slug).filter(slug => !wiredSources.has(`guidelines/${slug}.json`));
+  const wired = new Set(surfaces.map(([k]) => k));
+  const notWired = (guidelines || []).map(p => p.slug).filter(sl => !wired.has(sl));
   if (notWired.length) {
     md += `## Not yet wired\n\nThese guidelines exist but have no anti-slop judge criteria in the store yet (Phase-2 fan-out): ${notWired.join(', ')}.\n`;
     agent.notWired = notWired;
@@ -2211,7 +2198,7 @@ if (AUDIENCE) {
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
 if (ANTISLOP) {
-  const { md, agentJson } = renderAntiSlop(ANTISLOP, GUIDELINES, contracts);
+  const { md, agentJson } = renderAntiSlop(ANTISLOP, GUIDELINES);
   writeFileSync(join(OUT, 'anti-slop.md'), md);
   writeFileSync(join(OUT, 'anti-slop.agent.json'), agentJson);
   console.log(`  ✓ anti-slop: anti-slop.md · anti-slop.agent.json (${Object.keys(ANTISLOP.surfaces).length} surface(s))`);

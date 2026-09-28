@@ -4,6 +4,7 @@
  * Reads an aha-design *judge* SKILL.md and writes that surface's binary criteria
  * into the DS-owned store anti-slop/criteria.json under origin:"seeded". The store
  * is the source of truth from here on; this script only bootstraps a seeded surface.
+ * DS-authored fields on an existing surface (e.g. `targets`) survive a re-seed.
  *
  * Usage:
  *   node sync-skills.mjs import ux-writing \
@@ -12,8 +13,6 @@
  *     --judge-ref aha-design:aha-design-ux-writing-judge \
  *     --surface copy \
  *     --plugin-version 1.80.0 --date 2026-09-28
- *
- * DS-authored fields on an existing surface (e.g. `links`) survive a re-seed.
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -36,10 +35,10 @@ function truncateAtWord(text, max) {
   return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:—-]+$/, '') + '…';
 }
 
-// Parse `### Cn. <title> → PASS / FAIL` headers, then the first paragraph under each as the test text.
+// Parse `### Cn. <title> → PASS / FAIL` headers (typography's judge keys them Jn), then the first paragraph under each as the test text.
 function parseCriteria(md) {
   const out = [];
-  const re = /^###\s+(C\d+)\.\s+(.+?)\s*(?:→\s*PASS\s*\/\s*FAIL)?\s*$/gm;
+  const re = /^###\s+([A-Z]\d+)\.\s+(.+?)\s*(?:→\s*PASS\s*\/\s*FAIL)?\s*$/gm;
   const heads = [...md.matchAll(re)];
   for (let k = 0; k < heads.length; k++) {
     const id = heads[k][1];
