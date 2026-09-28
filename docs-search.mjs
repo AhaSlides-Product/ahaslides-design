@@ -52,8 +52,28 @@ function stripTags(html) {
 }
 const textOf = (html) => decode(stripTags(html)).replace(/\s+/g, ' ').trim();
 const slugify = (s) => textOf(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'section';
-const PROTECTED_BLOCK = /<(script|style|pre|template)\b[\s\S]*?<\/\1\s*>/gi;
-const stripNonContent = (html) => html.replace(PROTECTED_BLOCK, '');
+const PROTECTED_TAGS = ['script', 'style', 'pre', 'template'];
+/* Split HTML into alternating [content, protected block, content, …] — script/style/pre/template
+   bodies are code or live preview, never docs prose, so headings inside them are left alone. */
+function splitProtected(html) {
+  const lower = html.toLowerCase(), chunks = [];
+  let cursor = 0;
+  for (;;) {
+    let start = -1, tag = '';
+    for (const candidate of PROTECTED_TAGS) {
+      const at = lower.indexOf('<' + candidate, cursor);
+      if (at >= 0 && (start < 0 || at < start) && /[\s>]/.test(lower[at + candidate.length + 1] || '')) { start = at; tag = candidate; }
+    }
+    if (start < 0) break;
+    const close = lower.indexOf('</' + tag, start);
+    const end = close < 0 ? html.length : lower.indexOf('>', close) + 1 || html.length;
+    chunks.push(html.slice(cursor, start), html.slice(start, end));
+    cursor = end;
+  }
+  chunks.push(html.slice(cursor));
+  return chunks;
+}
+const stripNonContent = (html) => splitProtected(html).filter((_, index) => index % 2 === 0).join(' ');
 
 /* A heading is a docs heading (anchor + index it) when it carries no class, or one of the docs
    classes — never a class from a live preview (aha-section__title, aha-type__h2, …). */
@@ -63,15 +83,13 @@ const DOC_HEADING = /<(h2|h3)((?:\s+(?:class="(?:lg-cat|grp-h|tok-h3|pat-h3)"|st
  *  Script/pre/style blocks are left untouched; existing ids are kept. */
 export function anchorHeadings(html) {
   const used = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]));
-  const blocks = [];
-  const masked = html.replace(PROTECTED_BLOCK, (block) => `\u0000${blocks.push(block) - 1}\u0000`);
-  return masked.replace(DOC_HEADING, (whole, tag, attrs, inner) => {
+  return splitProtected(html).map((chunk, index) => index % 2 ? chunk : chunk.replace(DOC_HEADING, (whole, tag, attrs, inner) => {
     if (/\bid="/.test(attrs) || (tag === 'h3' && !/class="(tok-h3|pat-h3)"/.test(attrs))) return whole;
     let id = slugify(inner), n = 2;
     while (used.has(id)) id = `${slugify(inner)}-${n++}`;
     used.add(id);
     return `<${tag} id="${id}"${attrs}>${inner}</${tag}>`;
-  }).replace(/\u0000(\d+)\u0000/g, (_, index) => blocks[Number(index)]);
+  })).join('');
 }
 
 function walkHtml(dir) {
