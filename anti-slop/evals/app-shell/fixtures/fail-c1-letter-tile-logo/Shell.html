@@ -1,0 +1,23 @@
+<nav class="rail">
+  <div class="rail__brand">
+    <span class="logo-tile">A</span>
+    <span class="wordmark">AhaSlides</span>
+  </div>
+  <aha-button variant="primary" size="md">New presentation</aha-button>
+  <ul class="rail__nav">
+    <li class="nav-item" data-active><aha-icon name="system-house" size="16"></aha-icon> Home</li>
+    <li class="nav-item"><aha-icon name="system-folder" size="16"></aha-icon> My presentations</li>
+    <li class="nav-item"><aha-icon name="system-users" size="16"></aha-icon> Team</li>
+  </ul>
+</nav>
+<style>
+  .rail { padding: var(--aha-space-16); background: var(--aha-bg-container); }
+  .logo-tile {
+    display: inline-grid; place-items: center;
+    width: var(--aha-space-32); height: var(--aha-space-32);
+    border-radius: var(--aha-radius-default);
+    background: var(--aha-color-primary); color: var(--aha-bg-container);
+  }
+  .nav-item { transition: background var(--aha-motion-fast) var(--aha-ease-out); }
+  .nav-item[data-active] { background: var(--aha-bg-hover); }
+</style>

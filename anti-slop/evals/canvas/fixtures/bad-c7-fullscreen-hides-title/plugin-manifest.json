@@ -1,0 +1,8 @@
+{
+  "name": "this-or-that",
+  "setting": {
+    "enableQuestionTitle": true,
+    "enableVoteCount": true,
+    "enableFullScreen": true
+  }
+}

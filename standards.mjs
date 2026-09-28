@@ -27,6 +27,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
@@ -537,7 +538,6 @@ const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
 const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
 const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json)$/;
-const FROZEN_SNAPSHOT = /contract\.json|typography\.json|review\.html|references\//;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -636,6 +636,7 @@ for (const p of guidelines) {
 /* ===== anti-slop store + feeds — the DS is the official anti-slop tool ===== */
 const antislopChecks = [];
 const achk = (name, cond, note = '') => antislopChecks.push([name, !!cond, cond ? '' : note]);
+const antislopWarnings = [];
 if (ANTISLOP) {
   achk('anti-slop store declares the DS as owner', ANTISLOP.owner === 'ahaslides-design', 'owner must be "ahaslides-design"');
   achk('anti-slop store has ≥1 surface', ANTISLOP.surfaces && Object.keys(ANTISLOP.surfaces).length >= 1);
@@ -665,6 +666,11 @@ if (ANTISLOP) {
       achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(`${c.title} ${c.test}`),
         'the test cites a plugin snapshot (contract.json / typography.json / review.html / references/) — point it at the DS contract or tokens');
   }
+  const evalGate = validateEvalSets(ANTISLOP);
+  for (const [name, ok, note] of evalGate.checks) achk(name, ok, note);
+  antislopWarnings.push(...evalGate.warnings);
+  const harnessFailures = evalHarnessSelfTest();
+  achk('evals: verdict parser + grader self-test', harnessFailures.length === 0, harnessFailures.join('; '));
   achk('anti-slop.md feed exists', existsSync(join(DIST, 'anti-slop.md')), 'run npm run generate');
   achk('anti-slop.agent.json feed exists', existsSync(join(DIST, 'anti-slop.agent.json')), 'run npm run generate');
   achk('anti-slop.md is generated (not hand-edited)', existsSync(join(DIST, 'anti-slop.md')) && /do not edit by hand/.test(read(join(DIST, 'anti-slop.md'))), 'feed missing the generated banner');
@@ -760,6 +766,7 @@ if (ANTISLOP) {
   ok ? pass++ : fail++;
   console.log(`${ok ? '✓' : '✗'} store + feeds`);
   for (const [n, v, note] of antislopChecks) console.log(`      ${v ? '·' : '✗ FAIL:'} ${n}${!v && note ? `  [${note}]` : ''}`);
+  for (const [n, note] of antislopWarnings) { warnCount++; console.log(`      ⚠ WARN: ${n}${note ? `  [${note}]` : ''}`); }
 }
 {
   console.log('\nrepo');

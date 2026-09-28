@@ -1,0 +1,1924 @@
+{
+  "surface": "audience",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.audience",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-audience-judge",
+    "path": "plugins/aha-design/skills/aha-design-audience-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this audience iframe slide. The AudiencePoll.vue stylesheet contains `.audience-canvas { color: #313131; font-family: 'Inter', sans-serif; }` and a `.bar-track { background: rgba(0, 0, 0, 0.08); }` rule for the vote-bar tracks. The component also cold-starts with `xprops?.slide?.textColour ?? '#1F2937'` and `xprops?.presentationColorPalette ?? ['#5B5BD6', '#0EA5E9']` fallback constants. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C1 — hard-coded colours/fonts and hex/palette cold-start fallbacks",
+      "expected_output": "C1 (No hard-coded colours/fonts) FAILs. The code uses hard-coded hex text colour (#313131), a hard-coded font-family 'Inter' instead of xprops.presentation.fontFamily, an rgba(0,0,0,0.08) literal for the track (should be color-mix(in srgb, currentColor 8%, transparent)), and hex/palette fallback constants for textColour and presentationColorPalette that flash to the deck's real colours when xprops loads. Fix: read color from xprops.slide.textColour and font from xprops.presentation.fontFamily, replace the rgba track with color-mix(in srgb, currentColor 8%, transparent), and remove the hex/palette fallbacks in favour of a skeleton placeholder guarded by a themeReady check (only #FFFFFF surface and 'Plus Jakarta Sans' font are allowed literals). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Flags the hard-coded 'Inter' font and #313131 hex",
+        "Flags the hex/palette fallback constants as visible-drift"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this audience quiz slide. After results come in, the vote bar is painted `background: option.isCorrect ? semanticTokens.colorSuccess : semanticTokens.colorError` — the bundled design-system tokens applied directly to the chart bar fill. Is the state colouring correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C2 — right token source, wrong layer (bar instead of indicator)",
+      "expected_output": "C2 (Semantic state bundled, on indicator not chart) FAILs. The semantic tokens come from the right source (the plugin's bundled design-system tokens) but are applied to the wrong layer — the chart bar fill. State colours belong on the state indicator (the ✓ icon / status badge / validation border), not the visualisation. Fix: move semanticTokens.colorSuccess/colorError onto the ✓/✗ indicator icon and let the bar fill use xprops.presentationColorPalette[colorIndex] for visualisation. The two layers must stay separated. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Identifies the violation as the layer (bar) not the source",
+        "Fix keeps bar on palette and moves semantic token to the indicator"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this audience slide layout. AudienceRoot.vue renders a `.layout { display: grid; grid-template-columns: 1fr 1fr; }` with a left question panel and a right answer panel, wraps them in `.audience-root { height: 600px; overflow-y: scroll; }`, and there is no onHeightChange call anywhere in the component. Does this meet the mobile-first contract?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 — 2-column layout, fixed height, missing onHeightChange",
+      "expected_output": "C3 (Mobile-first single column + onHeightChange) FAILs. The layout is a 2-column grid (side-by-side panels) that breaks at phone widths, uses a fixed height: 600px device assumption with inner overflow-y: scroll instead of letting the host shrink-wrap, and never calls onHeightChange so the host cannot size the iframe. Fix: collapse to a single stacked column (flex-direction: column), drop the fixed height and inner scroll, and report content height via window.xprops.onHeightChange(h) on every reflow (e.g. via a ResizeObserver). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Flags the 2-column grid and fixed 600px height",
+        "Flags the missing onHeightChange call"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this audience poll slide. On submit it sets submitted=true but renders nothing afterwards — the template only has `<div v-if=\"!submitted\"><OptionList /></div>` and assumes the host shows a waiting screen. Errors are shown via a custom in-iframe `<div class=\"custom-error-banner\">` and there is a hand-rolled `<div class=\"custom-modal-overlay\">` for details. Is the post-submission UX handled correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C4 — blank after submit + custom banner/modal instead of host utilities",
+      "expected_output": "C4 (Self-rendered submitted/waiting; host utilities used) FAILs. The plugin renders nothing after submit and relies on a host waiting screen that does not exist for plugins — the iframe goes blank. It also reinvents host utilities: a custom in-iframe error banner instead of xprops.showToastError, and a custom modal overlay instead of openPluginModal. Fix: render the submitted/waiting state inside the iframe (✓ confirmation + calm hold state), route the 'Submitted' notification through xprops.showToastSuccess, surface errors via xprops.showToastError, and use openPluginModal for the bottom-sheet modal. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags the blank post-submit state (no host waiting screen for plugins)",
+        "Flags custom banner/modal instead of showToastError/openPluginModal"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this audience vote slide for accessibility. Vote buttons are styled `.tiny-vote { height: 24px; padding: 2px 8px; }` with `margin-top: 2px` between them, option label text is set to 13px, and the plugin background is left transparent (never explicitly chosen). Does this pass WCAG AA and mobile readability?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5 — undersized tap targets, cramped spacing, wrong body size, unchosen background",
+      "expected_output": "C5 (WCAG AA + touch targets ~44-48px) FAILs. Tap targets are 24px tall (well under the ~44-48px range), spacing between tappables is only 2px (needs at least 8px), option/body text is 13px instead of the mandated exactly 14px, and the plugin background is transparent rather than explicitly chosen, making contrast unpredictable on light and dark decks. Fix: raise vote buttons to ~44-48px min-height, put at least 8px (12px shown in the good example) between them, set body/option/button label text to exactly 14px, and pick an explicit background then verify the 4.5:1 text / 3:1 shape floors against it on both light and dark deck themes. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Flags the 24px tap targets and <8px spacing",
+        "Flags body text not being exactly 14px and the transparent/unchosen background"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this audience results bar chart. Correct vs incorrect options are distinguished only by `background: option.isCorrect ? '#22C55E' : '#EF4444'` on the bar fill — no icon, no label. The leader row alone gets an inline `<span class=\"leading-chip\">leading</span>` inside the same flex row (no slot reserved on other rows), and the track border is `2px solid var(--textColour)`. Any accessibility concerns?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C6 — colour-only signal, chip eats track, textColour border",
+      "expected_output": "C6 (Non-colour cue paired; chart geometry honest) FAILs. Correct/incorrect is conveyed by colour alone with no paired non-colour cue (an icon is preferred). The 'leading' word chip should be an icon (e.g. trophy), and because it sits inline with no fixed-width slot reserved on the other rows it eats the leader row's track so the chart geometry lies. The track border also uses textColour directly (body-type intensity ornament). Fix: pair the colour with a ✓/✗ icon (with aria-label), replace the leading chip with a trophy icon in a fixed-width slot reserved on every row (or a positioned overlay), and derive the track border from color-mix(in srgb, currentColor 10%, transparent). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Flags correct/incorrect distinguished by colour only",
+        "Flags the chip eating the track and the textColour border"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this audience plugin's declaration. The plugin-manifest.json has `{ \"name\": \"live-poll\", \"audienceUrl\": \"/join/live-poll/audience\" }` with no setting block at all, and AudiencePage.vue renders `<h1 class=\"question-title\">What's your favourite framework?</h1>`. Is the framed/full-canvas declaration correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C7 — missing enableFullScreen + duplicate title in framed mode",
+      "expected_output": "C7 (Framed vs full-canvas in manifest) FAILs. The manifest has no setting.enableFullScreen field, so it falls to a silent default and the reviewer cannot tell whether framed or full-canvas was intended. On top of that, in the default framed mode the audience page renders its own question title, which duplicates the title the host paints above the iframe. Fix: add an explicit setting.enableFullScreen to the manifest, and in framed mode (false) remove the plugin's own question title so it doesn't duplicate the host chrome. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Flags the missing setting.enableFullScreen field",
+        "Flags the duplicate question title in framed mode"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this audience slide's i18n. main.ts creates i18n with `createI18n({ locale: 'en', messages: { en: {} } })` and never reads xprops. The template hard-codes `<h2>What's your favourite framework?</h2>`, `<button>Submit</button>`, a `<div v-if=\"loading\">Loading...</div>` state, and renders percentages via `option.pct.toFixed(1) + '%'`. Is localisation handled correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C8 — i18n never reads xprops, hard-coded English, toFixed percentages",
+      "expected_output": "C8 (Plugin locale initialised from xprops) FAILs. The i18n instance hard-defaults to 'en' and never initialises from xprops.presentation.language (fallback xprops.currentUser.presenterLanguage) or reacts to host locale changes. There is hard-coded English in the heading, Submit button, and Loading state, and percentages use toFixed(1) + '%' which breaks locales that use ',' as the decimal separator. Fix: set the i18n locale from xprops.presentation.language at startup and update on onPresentationUpdate, move all visible strings (including the Loading/Submit states, aria-labels, placeholders) into t(...), and format numbers with Intl.NumberFormat(locale). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Flags i18n defaulting to 'en' and never reading xprops",
+        "Flags hard-coded English and toFixed(1) + '%' formatting"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 8,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this audience submit button. It is `<button class=\"submit\" @click=\"handleSubmit\" style=\"background: #4F46E5; color: white\">Submit</button>` — a hard-coded brand hex background, label text hard-coded 'Submit', no disabled state when input is invalid, and when submitting it swaps the whole button for a `<div class=\"spinner-only\" />` (label disappears). There is no locked state when the host stops submission and no onSubmitButtonHeightChange call. Does the submit button match the standard spec?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C9 — hard-coded colour/label, no disabled/locked state, spinner layout shift, missing wiring",
+      "expected_output": "C9 (Submit button matches the standard spec) FAILs. The background is a hard-coded brand hex instead of an accent shade from xprops.presentationColorPalette / presentationLighterColorPalette, the label 'Submit' is hard-coded rather than via t(...), there is no disabled/aria-disabled state for invalid input (user can submit empty), the spinner replaces the whole button so the layout shifts during submit, there is no locked state when the host stops submission, no onSubmitButtonHeightChange call for the sticky 'Scroll to submit' pill, and no kebab-case data-testid. Fix: draw the background from xprops.presentationColorPalette, label via t(...), disable+aria-disable on invalid/submitting/closed, render the spinner inline with no layout shift, add a locked state (lock icon + i18n 'closed' label) on stopSubmission, call onSubmitButtonHeightChange with the button's y-offset, and add a data-testid like audience-<slidetype>-submit-button. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C9 is marked FAIL",
+        "Flags hard-coded brand hex background and hard-coded 'Submit' label",
+        "Flags missing disabled/locked states, spinner layout shift, and missing onSubmitButtonHeightChange/data-testid"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 9,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this finished audience quiz iframe. All colours read from xprops.slide.textColour and the palette, font from xprops.presentation.fontFamily, and semantic colorSuccess/colorError (imported from the bundled design-system tokens, the real function tokens — not a lookalike brand accent) are applied only to the ✓/✗ indicator icons on bounded filled badges that clear contrast, while bar fills use xprops.presentationColorPalette[i]. The layout is a single stacked column that reports height via a ResizeObserver → xprops.onHeightChange, with no horizontal scroll at 320px. After submit it renders a ✓ 'Submitted' state and calls xprops.showToastSuccess. Vote buttons are 48px tall with 12px spacing, body text is exactly 14px at line-height 1.5, inputs 16px, header handled by host chrome. Correct/incorrect pairs colour with a ✓/✗ icon (aria-labelled) and a trophy leader cue sits in a fixed-width slot on every row; track borders use color-mix(in srgb, currentColor 10%, transparent). The manifest declares setting.enableFullScreen: false and the page renders no duplicate title. i18n initialises locale from xprops.presentation.language (fallback presenterLanguage), updates on onPresentationUpdate, and formats percentages with Intl.NumberFormat(locale). The full-width submit button uses xprops.presentationColorPalette[0], t(...) label, disabled+aria-disabled states, an inline spinner with no layout shift, a locked state on stopSubmission, calls onSubmitButtonHeightChange, and has data-testid=\"audience-quiz-submit-button\". Option tiles and the submit button use ≤8px corners, text weight is 400/600 (no extra-bold), and no surface is a pastel wash under same-tone ink. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — passes every criterion, guards against a judge that only ever fails",
+      "expected_output": "All ten criteria PASS. C1: all colour/font from xprops, no hard-coded values. C2: bundled semantic function tokens applied to the indicator only (not a lookalike accent), bars use the palette. C3: single-column layout with onHeightChange, no horizontal scroll at 320px. C4: self-renders submitted/waiting via ✓ state and uses showToastSuccess for feedback. C5: 48px tap targets, 12px spacing, body exactly 14px / line-height 1.5, inputs 16px, contrast on chosen background. C6: colour paired with ✓/✗ and trophy icons, leader cue in a fixed-width slot so chart geometry stays honest, subtle color-mix borders. C7: setting.enableFullScreen: false declared and no duplicate title. C8: locale initialised from xprops and Intl.NumberFormat used. C9: submit button matches the standard spec (palette background, t label, disabled/locked states, inline spinner, height wiring, data-testid). C10: ≤8px corners, weight 400/600, no pastel-monotone surface. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All criteria C1 through C10 are marked PASS",
+        "No criterion is marked FAIL",
+        "Recognises the semantic token is correctly on the indicator not the bar"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C10": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 10,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this audience quiz slide. The 'correct' tick shown to the audience is rendered `<span :style=\"{ background: '#fff', color: ahaBrand.teal }\">✓</span>` where ahaBrand.teal is the Bright Teal brand accent #20E8B5 — picked because it looks green. Is the correct-mark colour right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Rule 1 (AHAM-507) — the correct mark uses a lookalike brand accent, not the function token, and fails contrast on the phone surface. Extends C2 (source) + C5 (contrast).",
+      "expected_output": "C2 (Semantic state on the indicator) and C5 (contrast) FAIL. The ✓ uses a bright brand ACCENT (#20E8B5) that merely looks green, not the semantic success FUNCTION token colorSuccess (#16C49A) — so it isn't the design-system success colour and drifts per brand. It also fails contrast: Bright Teal on the white phone surface is ~1.58:1, far below the 3:1 mark floor. Fix: bind the mark to the bundled colorSuccess function token, and because a light success colour on white is still only ~2.23:1, put it on a bounded fill (a colorSuccess badge with a white ✓) so it clears the floor. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "C5 is marked FAIL",
+        "Flags the Bright Teal brand accent as not the semantic success function token",
+        "Flags the ~1.58:1 contrast of the teal tick on the white surface"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL",
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 11,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this audience quiz slide. The 'correct' mark is a white ✓ glyph on a filled circular badge whose background is the bundled semantic token colorSuccess (#16C49A, imported from the plugin's own design-system tokens); the incorrect mark is a white ✗ on a colorError badge. Bar fills stay on xprops.presentationColorPalette. Is the correct-mark colour right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Rule 1 (AHAM-507) AFTER — the function token on a bounded fill with a contrasting glyph; passes both the token-source (C2) and contrast (C5) axes. Focused good-control pinned to C2/C5.",
+      "expected_output": "C2 and C5 PASS on the semantic-mark axis. The mark uses the actual semantic FUNCTION token (colorSuccess / colorError), not a lookalike brand accent, and it sits on a bounded filled badge with a white glyph, so it clears the contrast floor even though colorSuccess on a light surface alone would be only ~2.23:1. The bar stays on the deck palette.",
+      "assertions": [
+        "C2 is marked PASS",
+        "C5 is marked PASS",
+        "Recognises the function token on a bounded fill clears contrast"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C2": "PASS",
+          "C5": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 12,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review this audience option list. Each option chip is `background: color-mix(in srgb, ${accent} 14%, white)` (a pastel wash) with its icon and label set to `color: ${accent}` — the same accent hue, just darker. Is the chip styling right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Rule 2 (AHAM-507) — pastel wash + same-tone ink on an option chip (the monotone AI tell). Maps to new C10.",
+      "expected_output": "C10 (Visual restraint) FAILs. A pastel/tinted chip carrying icon + text in the same hue (the accent at two brightnesses) reads monotone, low-contrast, and 'AI-generated' on the phone. Fix: bind the ink to xprops.slide.textColour (which tracks and contrasts), or if the tint stays, carry genuinely high-contrast ink with a clear hierarchy — not one hue at two brightnesses. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags the pastel chip paired with same-hue icon/text as a monotone AI look",
+        "Fix uses deck-tracking ink or a genuinely high-contrast pairing"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 13,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 14,
+      "prompt": "Review this audience option list. Each option chip has a transparent surface and its icon + label bind to xprops.slide.textColour, so they track and contrast against whatever background the plugin chose. Is the chip styling right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Rule 2 (AHAM-507) AFTER — deck-tracking ink; no monotone pastel. Focused good-control pinned to C10.",
+      "expected_output": "C10 (Visual restraint) PASSes on the pastel-monotone axis. The chip ink tracks xprops.slide.textColour on a chosen surface, so there is no pastel-wash-under-same-tone monotone; the content contrasts rather than blending into a tint of its own accent.",
+      "assertions": [
+        "C10 is marked PASS",
+        "Recognises the tracking ink avoids the monotone pastel look"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C10": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 14,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 15,
+      "prompt": "Review this audience UI. The option tiles use `class=\"rounded-3xl\"` and the submit button uses `border-radius: 20px`. Is the corner radius right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Rule 3 (AHAM-507) — over-rounded content containers (>8px) on the phone. Maps to new C10.",
+      "expected_output": "C10 (Visual restraint) FAILs on the corner-radius axis. Content containers (option tiles, submit button) use rounded-3xl / 20px, well above the 8px cap the submit-button spec already lands at — over-rounded reads toy-like and 'AI'. Fix: use ≤8px on rectangular containers. Intentionally circular elements — pills, badges, avatars, progress bars — may stay fully rounded; the cap is for boxes. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags rounded-3xl / 20px on tiles and the submit button as over the 8px cap",
+        "Fix uses ≤8px on rectangular containers"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 15,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 16,
+      "prompt": "Review this audience UI. The option tiles and submit button use `border-radius: 8px`, while the thin timer/progress bar keeps `border-radius: 999px` pill ends. Is the corner radius right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Rule 3 (AHAM-507) AFTER — 8px boxes; pills stay fully rounded (exempt). Focused good-control pinned to C10.",
+      "expected_output": "C10 (Visual restraint) PASSes on the corner-radius axis. Rectangular containers use 8px, the cap, and the fully-rounded 999px is on the progress bar — an intentionally-pill element that is exempt from the 8px cap.",
+      "assertions": [
+        "C10 is marked PASS",
+        "Recognises 8px boxes comply and the 999px is an exempt pill/bar"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C10": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 16,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 17,
+      "prompt": "Review this audience results screen. The correct/incorrect count numbers are rendered `class=\"font-extrabold\"` (font-weight 800). Is the font weight right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Rule 4 (AHAM-507) — extra-bold (800) text on the phone. Maps to new C10.",
+      "expected_output": "C10 (Visual restraint) FAILs on the font-weight axis. Text uses font-extrabold (800); the design system allows weight 400 or 600 only (the standard submit button is 600) — heavy weights (700/800/900) read heavy and 'AI', and a count set to 800 'for emphasis' is the classic tell. Fix: use weight 600 for emphasis, or 400 for body. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags font-extrabold / weight 800 as heavier than the allowed 400 or 600",
+        "Fix uses weight 600 or 400"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 17,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 18,
+      "prompt": "Review this audience results screen. The correct/incorrect count numbers are rendered with `style=\"font-weight: 600\"` and body text at weight 400. Is the font weight right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Rule 4 (AHAM-507) AFTER — weight 600 emphasis / 400 body. Focused good-control pinned to C10.",
+      "expected_output": "C10 (Visual restraint) PASSes on the font-weight axis. Text uses weight 600 for emphasis and 400 for body — within the allowed 400-or-600 range, with no heavy extra-bold.",
+      "assertions": [
+        "C10 is marked PASS",
+        "Recognises weight 600/400 complies with the restraint rule"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C10": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 18,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 19,
+      "prompt": "Review this audience swipe slide (True/False card). On drag the card animates `.swipe-card.dragging { transform: rotate(14deg) scale(1.04); }`, tuned for feel, with no headroom above the card, and the component reports height with `onHeightChange(card.getBoundingClientRect().height)` from the tilting card element. On a hard swipe the top-leading corner lifts ~35px above the reported top and the host iframe cuts it off. Is this audience animation correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C11 (AHAM-547) — swipe tilt overhangs the reported box and gets iframe-clipped; height reported from the animating rect. New C11.",
+      "expected_output": "C11 (Transform / animation stays inside the reported box) FAILs. The 14deg + scale transform lifts the top corner past the reported top with no headroom budgeted, so the shrink-wrapped iframe clips the overhang on the extreme frame; and height is reported from the animating element's live rect, so the reported height jitters with the animation instead of describing the resting box. Fix: cap the tilt (e.g. 8deg, which raises the corner far less at zero downward cost), reserve a few px of headroom above the card for the lifted corner, and report height from the resting stage box (offsetHeight of a non-transformed wrapper), not the tilting element. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C11 is marked FAIL",
+        "Flags that the transform overhangs the reported box with no headroom budgeted",
+        "Flags reporting height from the animating/tilted element instead of the resting box",
+        "Recommends capping the tilt and reserving headroom"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C11": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 19,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 20,
+      "prompt": "Review this audience swipe slide (True/False card). The card tilts only `--tilt: 8deg` on drag, a `.card-stage { padding-top: 12px; }` reserves headroom for the lifted corner, and height is reported via `onHeightChange(stage.offsetHeight)` from the non-transformed stage wrapper (a ResizeObserver on the stage). At its most extreme swipe frame the tilted card's bounding box still fits inside the reported height. Is this audience animation correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C11 (AHAM-547) AFTER — small tilt + budgeted headroom + height from the resting box. Focused good-control pinned to C11.",
+      "expected_output": "C11 PASSes. The transform is capped to a small tilt that lives within the budgeted headroom, so the tilted bounding box stays inside the reported box and the iframe does not clip it; height is reported from the resting stage, not the animating element, so the reported height is stable. Correct on the transform-in-box axis.",
+      "assertions": [
+        "C11 is marked PASS",
+        "Recognises the capped tilt fits within the budgeted headroom",
+        "Recognises height is reported from the resting box, not the animating element"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C11": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 20,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 21,
+      "prompt": "Review this audience swipe slide. The question sits in a fixed-size bounded card that must stay one screen; a long question overflows and the card inner-scrolls (`overflow-y: auto`). There is no fade cue on the scrollable edges, so the audience can't tell there's more below. A teammate's alternate version instead fades the bottom with `background: linear-gradient(transparent, #FFFFFF)` overlaid on the card. Is the bounded-card scrolling handled correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C3 extension (AHAM-547) — bounded card scrolls with no fade, or a coloured-gradient fade instead of a mask. Extends C3.",
+      "expected_output": "C3 (bounded-card scroll needs a mask fade) FAILs. The bounded card is allowed to inner-scroll (the one sanctioned exception), but it must signal the overflow with a fade cue and it shows none, so the audience doesn't know content is hidden. The alternate version's coloured `linear-gradient(transparent, #FFFFFF)` overlay is also a FAIL: the audience surface has no forwarded baseColour, so a white fade can't match an unknown deck background and shows as a smear on a dark deck. Fix: fade the overflowing edge(s) with a CSS `mask-image` (fades content to true transparency on any surface), shown only while content overflows and dropped when it all fits. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Flags the missing fade cue on the scrollable bounded card",
+        "Flags the coloured gradient overlay as unable to match an unknown deck background",
+        "Recommends a CSS mask-image fade shown only on overflow"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 21,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 22,
+      "prompt": "Review this audience swipe slide. The question sits in a fixed-size bounded card. When the content overflows, the card inner-scrolls and applies a `mask-image` that fades whichever edge still has hidden content (top and/or bottom, computed reactively from scrollTop / scrollHeight); the mask is removed when everything fits. The card stays a fixed box and the iframe still shrink-wraps to it — there is no page-level scroll. Is the bounded-card scrolling handled correctly?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C3 extension (AHAM-547) AFTER — bounded card inner-scroll with a reactive mask-image fade, no page scroll. Focused good-control pinned to C3.",
+      "expected_output": "C3 PASSes on the bounded-card axis. This is the sanctioned inner-scroll exception done right: a fixed bounded card scrolls its own overflow, signals it with a mask-image fade on the overflowing edge(s) (which fades to true transparency and so works on any deck background), shows the fade only while content overflows, and keeps the card a fixed box with no page-level scroll. Correct.",
+      "assertions": [
+        "C3 is marked PASS",
+        "Recognises the mask-image fade (not a coloured gradient) as correct for an unknown deck background",
+        "Recognises the fade is shown only while content overflows",
+        "Recognises the card stays a fixed box with no page-level scroll"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 22,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 23,
+      "prompt": "Review this audience swipe slide for gesture smoothness. The frosted card keeps `backdrop-filter: blur(16px)` applied the whole time it is dragged, the drag is driven by animating the card's `left` property each frame (no `will-change: transform`), and on pointer-up it commits only when the drag distance passes a fixed threshold — a fast flick that hasn't travelled far springs back. Is the swipe/drag performance handled correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C12 (AHAM-548) BEFORE — swipe card keeps its backdrop blur through the drag, animates `left` each frame, and commits on distance only. Pinned to C12.",
+      "expected_output": "C12 FAILs. Three tells: (1) the expensive backdrop-filter blur stays on the moving element so the browser re-samples the blurred backdrop every frame → jank on a phone; it must be dropped while the card is moving (a dragging||flinging||settling flag) and restored on settle. (2) the drag animates `left` (a layout property) instead of `transform`, and there is no will-change:transform — only transform/opacity should animate. (3) commit is distance-only, so a fast flick under the threshold springs back and reads as laggy/unresponsive; it must also commit on a flick-velocity (pointer px/ms) in the drag direction. Other criteria may pass; the verdict is NEEDS FIX on C12.",
+      "assertions": [
+        "C12 is marked FAIL",
+        "Flags the backdrop-filter blur staying on the moving element (re-sampled every frame) → jank; must be dropped while moving and restored on settle",
+        "Flags animating `left` (a layout property) instead of `transform`, and the missing `will-change: transform`",
+        "Flags distance-only commit — a fast flick under the threshold springs back and reads as laggy; must also commit on flick-velocity"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C12": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 23,
+        "remap": "label bad-control → bad-example (the plugin used bad-control for a bad case)"
+      }
+    },
+    {
+      "id": 24,
+      "prompt": "Review this audience swipe slide for gesture smoothness. A computed `cardMoving = dragging || flinging || resetting` flag nulls out the card's `backdrop-filter` while it moves and restores `blur(16px)` when it settles; the drag animates only `transform`/`opacity` with `will-change: transform`; pointer velocity is tracked in px/ms across moves and pointer-up commits when the drag passes the distance threshold OR a flick-velocity in that direction. Is the swipe/drag performance handled correctly?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C12 (AHAM-548) AFTER — blur dropped while `cardMoving` and restored on settle, only transform/opacity animate, release commits on distance OR flick-velocity. Pinned to C12.",
+      "expected_output": "C12 PASSes. The per-frame-expensive backdrop blur is dropped while the card moves and restored on settle, only compositor properties (transform/opacity) animate with will-change:transform, and the release commits on distance OR flick-velocity so a fast natural flick flings instead of springing back. This is the smooth-swipe pattern done right; C12 OK.",
+      "assertions": [
+        "C12 is marked PASS",
+        "Recognises the backdrop blur is dropped while the card moves and restored on settle",
+        "Recognises only transform/opacity animate with will-change:transform (no per-frame layout props)",
+        "Recognises the release commits on distance OR flick-velocity so a fast flick flings instead of springing back"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C12": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 24,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 25,
+      "prompt": "Review this True/False audience iframe. Above the two labelled buttons it renders a header `<span>True or False</span>`, and between the True and False buttons sits a centred `<span class=\"rounded-full px-3 font-black uppercase tracking-widest shadow-aha-md\">OR</span>` pill. The idle instruction is a full-width `<div class=\"flex w-full items-center justify-center rounded-full font-bold\" :style=\"{ background: cardSurface(ahaBrand.purple, 8), color: ahaBrand.purple }\">Tap your answer — or swipe it</div>`. Is the audience text/UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C13 (AHAM-512) — redundant restating label + 'OR' divider between two labelled options, and an idle instruction boxed in a prominent tinted pill. Real before-state from the True/False audience rebuild.",
+      "expected_output": "C13 (Text economy) FAILs on both facets. (1) Redundant text: the 'True or False' header restates the two button labels and the 'OR' divider restates that a binary choice is one-or-the-other — the labelled buttons already are the prompt, so both add nothing and must be deleted. (2) Instruction chrome: the 'Tap your answer — or swipe it' hint is wrapped in a full-width, purple-tinted, shadowed, extra-bold pill, so it competes with the actual controls; it should be ONE short line of body-size text in muted deck ink with no container ('Tap or swipe to answer'). Fix: drop the header and the OR divider; render the hint as a plain body-text span in ~60%-opacity deck ink, no pill/card/shadow, shortened wording. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C13 is marked FAIL",
+        "Flags the 'True or False' header and the 'OR' divider as redundant with the labelled buttons",
+        "Flags the instruction being wrapped in a prominent container (pill/tint/shadow) instead of plain body text",
+        "Recommends plain body-size text in muted deck ink, no container, shortened wording"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 25,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 26,
+      "prompt": "Review this True/False audience iframe. It renders just the two labelled buttons `<button>{{ displayTrue }}</button>` / `<button>{{ displayFalse }}</button>` with no header and no divider between them, and the only idle instruction is `<span v-if=\"phase === 'idle'\" class=\"font-semibold\" :style=\"{ fontSize: BODY_TEXT, color: ink(62) }\">{{ labels.tapOrSwipe }}</span>` (\"Tap or swipe to answer\"), unwrapped. Is the audience text/UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C13 (AHAM-512) AFTER — no redundant label/divider, instruction is one unboxed body-text line in muted deck ink. Focused good-control pinned to C13.",
+      "expected_output": "C13 (Text economy) PASSes. The two labelled buttons carry the prompt with no restating header and no redundant 'OR' divider. The single instruction is one short line of body-size text in muted deck ink (ink(62)) with no container — a quiet hint that does not compete with the controls, using the shortest wording. Overall: PASS on C13.",
+      "assertions": [
+        "C13 is marked PASS",
+        "Notes there is no redundant header or OR divider",
+        "Notes the instruction is plain body-size text with no container, in muted deck ink"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C13": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 26,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 27,
+      "prompt": "Review this True/False audience iframe running in framed mode (setting.enableFullScreen: false). When the round reveals and this phone never submitted, it renders `<span v-else-if=\"phase === 'revealed' && !answered\" data-testid=\"tof-timesup\" class=\"font-semibold\">{{ labels.timesUp }}</span>` — i.e. its own \"Time's up\" line inside the iframe. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C14 (AHAM-512) — the plugin drew its own 'Time's up' notice in framed mode; removed in commit a976795d. The host announces expiry in its chrome.",
+      "expected_output": "C14 (Host-owned transient notices) FAILs. In framed mode the host owns the countdown AND its expiry, announcing 'Time's up' in its own chrome above the iframe (like the 'Submitted' toast). A plugin-drawn 'Time's up' inside the iframe double-announces and, being iframe-local, can drift from the host's real clock. Fix: delete the in-iframe tof-timesup notice; let the reveal/result state the plugin owns carry the round-end, and use xprops.timeLimit only as logic (lock input at <= 0). (Only full-canvas mode, where the host hides its chrome, would render its own expiry notice — bound to live xprops.timeLimit.) Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C14 is marked FAIL",
+        "Identifies that the host owns the countdown expiry notice in framed mode",
+        "Recommends deleting the in-iframe 'Time's up' and using timeLimit as logic only",
+        "Notes full-canvas mode as the exception"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C14": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 27,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 28,
+      "prompt": "Review this True/False audience iframe in framed mode. It renders no 'Time's up' text; the round-end is carried by the reveal state `<TofReveal v-if=\"phase === 'revealed'\" :correct=\"correctAnswer\" />`, and xprops.timeLimit is only read as logic: `const submittable = computed(() => roundOpen.value && xprops.timeLimit > 0)`. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C14 (AHAM-512) AFTER — no in-iframe 'Time's up'; host announces expiry, timeLimit used as logic only. Focused good-control pinned to C14.",
+      "expected_output": "C14 (Host-owned transient notices) PASSes. In framed mode the plugin renders no in-iframe expiry notice — it leaves 'Time's up' to the host chrome and lets the reveal state it owns carry the round-end. xprops.timeLimit is used only as logic (locking submit at <= 0), not as a second visible countdown or banner. Overall: PASS on C14.",
+      "assertions": [
+        "C14 is marked PASS",
+        "Notes no in-iframe expiry/'Time's up' notice is rendered in framed mode",
+        "Notes xprops.timeLimit is used as logic only, not a visible countdown"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C14": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 28,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 29,
+      "prompt": "Review this audience iframe slide from slide-type-creator. Audience.vue imports nothing from '@/iframe/audience'. It renders the answers as `<button v-for=\"o in config.options\" :key=\"o.id\" class=\"flex w-full items-center gap-3 rounded-lg p-3\" :class=\"picked === o.id && 'ring-2 ring-pink-500'\" @click=\"picked = o.id\">`, and above them a countdown built from a `setInterval` that recomputes `String(s).padStart(2, '0')` every tick. Screenshots show it renders correctly on the default light deck. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C15 — a rebuild that renders correctly on a light deck. The point of the case is that 'it looks fine' is not a defence, because the dropped guarantees only show on a dark or photographic deck.",
+      "expected_output": "C15 (Shared components used, not rebuilt) FAILs. The repo ships @/iframe/audience and this surface imports none of it: the repeated `<button>` in a v-for carrying its own selected-state ring is a hand-rolled AnswerOption/AnswerOptionList, and the setInterval + padStart clock is a hand-rolled Timer — `npm run verify:audience-library -- <slug> --json` reports both with file:line. Rendering correctly on a light deck is not a defence: the rebuild drops the submission lock across an iframe remount, the deck-tracking ink, the frosted surface that survives a dark or photographic deck, accent-by-position, and the deck font (a `<button>` does not inherit font-family). Fix: import AnswerOptionList and Timer rather than restyling the buttons. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C15 is marked FAIL",
+        "Identifies the v-for of clickable rows as a hand-rolled AnswerOption/AnswerOptionList",
+        "Identifies the setInterval + padStart clock as a hand-rolled Timer",
+        "Does not accept 'it renders correctly on the light deck' as a pass"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C15": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 29,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 30,
+      "prompt": "Review this audience iframe slide. Audience.vue imports `{ AnswerOptionList, Timer }` from '@/iframe/audience' and renders both. Elsewhere in the same file there is a plain `<button type=\"button\" @click=\"skip\">Skip</button>` for the optional skip action, and a `<div v-for=\"t in tips\">` rendering static help text. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C15 over-fire control. A judge that flags the lone Skip button or the static v-for is reading the SHAPE without the purpose gate, which is the failure mode that teaches people to ignore the criterion.",
+      "expected_output": "C15 (Shared components used, not rebuilt) PASSes. The library is imported and used for the shapes it owns. The skip control is a single action button, not a repeated selectable row, so it is not an AnswerOption rebuild; the v-for renders static text with no click handler and no selected state, so it is not an answer list. C15's qualifier is purpose, not taste — a control the library has no component for, and a loop that is not a tappable row, are both correct. Overall: PASS on C15.",
+      "assertions": [
+        "C15 is marked PASS",
+        "Notes the library components are imported and used",
+        "Does not flag the single Skip button as an AnswerOption rebuild",
+        "Does not flag the static v-for of tips as an answer list"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C15": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 30,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 31,
+      "prompt": "Review this This-or-That audience swipe card. The root inks from `xprops.slide.textColour` and the two option halves fill from `xprops.presentationColorPalette`. The swipe card is `<div class=\"relative flex min-h-0 w-full flex-1 cursor-grab touch-none overflow-hidden rounded-3xl shadow-aha-lg\">` holding the two halves; the centre VS chip is a `rounded-full` pip and the locked-in confirmation is a `rounded-full` circular badge. Body text is 14px, weight 600. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C10.b (AHAM-649) — a REAL missed case: the this-or-that swipe card shipped `rounded-3xl` (24px) on the rectangular card and an audience-judge review PASSED it, because the reviewer eyeballed instead of enumerating every corner radius. Anchors the mandatory enumerate-every-radius step. Isolation: only C10 should FAIL; the `rounded-full` pip + badge are exempt, so the judge must NOT over-flag them.",
+      "expected_output": "C10 (Visual restraint) FAILs on the corner-radius axis. The swipe card container is a rectangular content container styled `rounded-3xl` (24px), well over the 8px cap — over-rounded reads toy-like/'AI'. The `rounded-full` VS pip and the circular confirmation badge are EXEMPT (intentionally circular pills/badges) and must NOT be flagged. Everything else (deck-tracking ink, palette fills, 14px/600 text) is clean. Fix: cap the swipe card at ≤8px (e.g. `rounded-lg`); leave the circular pips fully rounded. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C10 is marked FAIL",
+        "Flags the swipe card's rounded-3xl (24px) as over the 8px cap on a rectangular container",
+        "Does NOT flag the rounded-full VS pip or the circular confirmation badge (intentionally circular, exempt)",
+        "Fix caps the card at ≤8px (rounded-lg) while leaving the circular pips fully rounded"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 31,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 32,
+      "prompt": "Review this This-or-That audience swipe card AFTER a fix. The swipe card container now uses `rounded-lg` (8px) and the two halves inherit it; only the centre VS pip and the locked-in confirmation badge keep `rounded-full`. Body text 14px/600, ink from `xprops.slide.textColour`, halves from `xprops.presentationColorPalette`. Is the corner radius right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C10.b (AHAM-649) AFTER — the this-or-that card capped at `rounded-lg`/8px; circular pips stay exempt. Good-control so the judge doesn't learn to flag every `rounded-*` including exempt pills/badges.",
+      "expected_output": "C10 PASSes. The rectangular swipe card is at 8px (`rounded-lg`), within the cap; the fully-rounded VS pip and confirmation badge are exempt (intentionally circular). No over-rounding, no pastel-monotone, no extra-bold. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C10 is marked PASS",
+        "Recognises the rounded-full VS pip and confirmation badge as exempt (intentionally circular)",
+        "Confirms the rectangular card at 8px is within the cap"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C10": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 32,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 33,
+      "prompt": "Review the deck-font handling on this This-or-That Audience.vue. The root is `<div :style=\"{ color: deckInk, fontFamily: deckFont }\">` with `const deckFont = computed(() => presentationProps.value?.fontFamily ?? undefined)`. There is NO `useDeckFont` call and no injected font `<link>` anywhere in the component. Every element inherits font-family correctly from the root. The deck's font is set to Poppins (not Plus Jakarta Sans). On the audience's phone, does the text render in the deck font?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C16 (AHAM-642) BEFORE — this-or-that Audience binds fontFamily but never loads the face. Distinct from C1 (reads the xprop) and C15 (button inheritance): the whole-iframe face is never loaded.",
+      "expected_output": "C16 (Deck font loaded into the iframe, not just referenced) FAILs. The name is read from xprops (C1 passes) and every element inherits it (so C15's button-inheritance concern is not the issue here), but the audience iframe is a separate cross-origin document that never loaded the Poppins face — there is no useDeckFont call. So all audience text (prompt, option labels, submitted state) renders in the browser serif fallback on the phone. Fix: call useDeckFont(deckFont) in Audience.vue — it is a separate iframe from the presenter Canvas and needs its own load. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C16 is marked FAIL",
+        "Distinguishes this from C1 (name is read) and C15 (element inheritance)",
+        "Notes the audience iframe needs its own useDeckFont call, separate from the presenter Canvas"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "PASS",
+          "C16": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 33,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 34,
+      "prompt": "Review the deck-font handling on this This-or-That Audience.vue AFTER a fix. It now imports `import { useDeckFont } from '@/iframe/deckFont'`, computes `const deckFont = computed(() => presentationProps.value?.fontFamily ?? undefined)`, calls `useDeckFont(deckFont)`, and binds `:style=\"{ color: deckInk, fontFamily: deckFont }\"` on the root. Is the deck font loaded into the audience iframe?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C16 (AHAM-642) AFTER — useDeckFont(deckFont) loads the face into the audience iframe. Good-control so the judge doesn't FAIL every fontFamily binding.",
+      "expected_output": "C16 PASSes. The audience iframe now both reads the font name from xprops AND loads the face: useDeckFont(deckFont) injects the Google-Fonts <link> for the deck's family into this iframe, so the deck font resolves on the phone instead of falling back to serif. Idempotent, no-ops for Plus Jakarta Sans. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C16 is marked PASS",
+        "Confirms the audience iframe loads its own deck font face via useDeckFont"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C16": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 34,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 35,
+      "prompt": "Review this audience slide. The submit CTA is `<a-button type=\"primary\" size=\"large\" block :disabled=\"!canSubmit\">Submit</a-button>` with no per-deck styling — it takes the ConfigProvider's fixed colorPrimary (#6A1EBB) on every deck. Its disabled rule is `.ant-btn-primary:disabled { opacity: 0.4 }`, and it has no border. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C9 — fixed-purple submit, purple-at-opacity disabled, no edge",
+      "expected_output": "C9 (Submit button matches the standard spec) FAILs. The fill is the theme's fixed purple, not the deck's presentationColorPalette[0], so it reads purple on every deck; the disabled state is the coloured fill at opacity 0.4, which still reads as the enabled purple rather than a distinct neutral grey; and the filled CTA has no deck-ink edge, so it can merge into a same-hue deck. Fix: bind the fill to presentationColorPalette[0] with a readable-ink label (readableInk against the fill), a ~10% deck-textColour hairline border, and a neutral grey disabled surface (grey fill + grey text) rather than a dimmed purple. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C9 is marked FAIL",
+        "Flags the fixed theme purple fill instead of presentationColorPalette[0]",
+        "Flags the disabled state being a dimmed coloured fill rather than a distinct grey",
+        "Flags the missing deck-ink edge on the filled CTA"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 35,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 36,
+      "prompt": "Review this audience slide. The submit CTA fill is `background: xprops.presentationColorPalette[0]`, its label colour is `readableInk(xprops.presentationColorPalette[0])` (black or white by the fill's luminance), it carries `border: 1px solid color-mix(in srgb, ${xprops.slide.textColour} 10%, transparent)`, and its disabled state is a neutral grey surface (`background:#E3E3E3; color:#B5B5B5`) rather than the coloured fill dimmed. It is block, ~48px, calls onSubmitButtonHeightChange, and has a kebab-case data-testid. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C9 — palette fill, readable ink, deck-ink edge, grey disabled",
+      "expected_output": "C9 (Submit button matches the standard spec) PASSes. The fill is the deck's first palette colour (not a fixed brand purple), the label is a readable ink chosen against the fill (not a hard-coded white that would fail on a light shade), the filled CTA carries a deck-ink hairline so it holds its shape on a same-hue deck, and the disabled state is a distinct neutral grey rather than a dimmed coloured fill. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C9 is marked PASS",
+        "Recognises the palette-driven fill with a readable-ink label",
+        "Recognises the deck-ink edge and the grey disabled surface"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C9": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 36,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 37,
+      "prompt": "Review these two audience slides in the same family. Slide A renders its instruction as `<p class=\"text-sm font-semibold\" :style=\"{ color: 'color-mix(in srgb, currentColor 45%, transparent)' }\">Keep or drop each one</p>` (14px, semibold, muted). Slide B renders its instruction through a different component at 16px regular full deck ink. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C13 — instruction inconsistent, semibold, muted, hand-rolled",
+      "expected_output": "C13 (Text economy — instructions are unboxed body text) FAILs. Slide A's instruction is 14px semibold in a muted grey, and the two slides in the same family style the same kind of instruction line differently, so they drift. The default audience body is 16px, regular (400) weight, the deck's own text colour, and every slide should render its instruction through ONE shared instruction component so it never drifts. Fix: route Slide A's instruction through the same shared InstructionLine as Slide B (16px, regular, deck textColour). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C13 is marked FAIL",
+        "Flags the semibold sub-16px muted instruction as off the default body",
+        "Flags the inconsistency between the two slides / the hand-rolled instruction"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 37,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 38,
+      "prompt": "Review these two audience slides in the same family. Both render their instruction through the shared `<InstructionLine :ink=\"deckInk\">…</InstructionLine>` component, which is one centred line at 16px, regular (400) weight, `color: deckInk` (the deck's textColour), with no card/pill/border/shadow. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C13 — shared 16px regular deck-ink instruction across slides",
+      "expected_output": "C13 (Text economy — instructions are unboxed body text) PASSes. Both slides render the instruction as one unboxed line at the default audience body — 16px, regular weight, the deck's own text colour — through the SAME shared component, so the instruction never drifts in size, weight, or colour between slides. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C13 is marked PASS",
+        "Recognises the 16px regular deck-textColour default body",
+        "Recognises the shared component keeps instructions consistent across slides"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C13": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 38,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 39,
+      "prompt": "Review this audience slide from slide-type-creator, which ships a shared `SubmitButton` component in `@/iframe/audience`. The slide hand-rolls its CTA as `<Button type=\"primary\" size=\"large\" block :disabled=\"!canSubmit\">Submit</Button>` imported directly from ant-design-vue, not the shared SubmitButton. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C15 — hand-rolled type=primary submit where a shared SubmitButton exists",
+      "expected_output": "C15 (Shared components used, not rebuilt) FAILs. The repo ships a shared SubmitButton, and the palette-driven fill, readable-ink label, deck-ink border and grey-disabled state all live in it; hand-rolling `<Button type=\"primary\">` re-opens every one of those guarantees (it is how the fixed-purple, no-border, purple-disabled CTA shipped). Fix: import and use `SubmitButton` from `@/iframe/audience`, passing the deck ink and palette accent, rather than restyling a local `type=\"primary\"` button. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C15 is marked FAIL",
+        "Flags the hand-rolled type=primary CTA where a shared SubmitButton exists",
+        "Names importing the shared SubmitButton as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C15": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 39,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 40,
+      "prompt": "Review this audience slide from slide-type-creator. Its CTA is `<SubmitButton :ink=\"deckInk\" :accent=\"palette[0]\" :disabled=\"!canSubmit\" :loading=\"sending\" @click=\"submit\">Submit</SubmitButton>`, imported from `@/iframe/audience`. Answer rows use the shared AnswerOptionList and the countdown uses the shared Timer. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C15 — imports the shared SubmitButton",
+      "expected_output": "C15 (Shared components used, not rebuilt) PASSes. The CTA is the shared SubmitButton (so the palette fill, readable-ink label, deck-ink border and grey-disabled state come from one place), and the answer rows and timer are the shared library components too — nothing is hand-rolled. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C15 is marked PASS",
+        "Recognises the shared SubmitButton, AnswerOptionList and Timer are used"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C15": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 40,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 41,
+      "prompt": "Review this audience answer list. Each option is an `<a-radio>` that renders the theme's fixed colorPrimary (#6A1EBB) purple when checked, and the row the participant picked is ringed with `box-shadow: 0 0 0 2px #1A1A1A` (a fixed near-black). The deck under test has a dark green background with white text. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C17 — fixed purple radio + fixed black selected ring",
+      "expected_output": "C17 (Selection controls and the 'your pick' indicator track the deck) FAILs. The checked radio uses the theme's fixed purple instead of the deck accent (presentationColorPalette[0]), so it reads purple on a green deck; and the selected-row ring is a fixed near-black (#1A1A1A) that is invisible on this dark deck, where the text is white. Fix: paint the checked radio from the deck accent (e.g. a --aha-control-accent custom property = palette[0]), and set the selected ring to xprops.slide.textColour so it tracks the deck ink and stays visible on light AND dark decks. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C17 is marked FAIL",
+        "Flags the checked radio on the fixed theme purple instead of the deck accent",
+        "Flags the selected ring being a fixed near-black that disappears on a dark deck"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C17": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 41,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 42,
+      "prompt": "Review this audience answer list. The checked control's dot is painted from `--aha-control-accent` set to `presentationColorPalette[0]`, and the row the participant picked is ringed with `box-shadow: 0 0 0 2px ${xprops.slide.textColour}`. On a dark deck the ring is white; on a light deck it is dark. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C17 — palette-accent control + deck-textColour ring",
+      "expected_output": "C17 (Selection controls and the 'your pick' indicator track the deck) PASSes. The checked control takes the deck's first palette accent rather than a fixed purple, and the selected-row ring is the deck's own textColour, so it stays visible on both light and dark decks. The accent marks the pick on the control while the ring carries visibility. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C17 is marked PASS",
+        "Recognises the control accent = palette[0]",
+        "Recognises the selected ring = deck textColour, visible on light and dark decks"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C17": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 42,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 43,
+      "prompt": "Review this audience scale slider. The unfilled rail carries `border: 1px solid color-mix(in srgb, currentColor 20%, transparent)`, but the FILLED track is only `background: var(--accent)` with no border. On a deck whose background is close to the accent hue (a brown fill on a green deck), the filled portion has no boundary. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C18 — filled slider track with no edge while rail has one",
+      "expected_output": "C18 (A filled slider/progress track carries a deck-ink edge) FAILs. The filled track has a colour fill but no border while the empty rail does carry a deck-ink edge, so the coloured portion sinks into a same-hue deck with no boundary. Fix: give the filled `.slider-track` the SAME deck-ink hairline the rail has — `border: 1px solid color-mix(in srgb, currentColor 20%, transparent)` — so both halves of the bar are outlined the same way. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C18 is marked FAIL",
+        "Flags the filled track having no edge while the rail does",
+        "Names giving the filled track the same deck-ink hairline as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C18": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 43,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 44,
+      "prompt": "Review this audience scale slider. Both the unfilled rail and the filled track carry `border: 1px solid color-mix(in srgb, currentColor 20%, transparent)` (the deck ink at the control-border alpha, via currentColor). The filled track's fill is the deck accent. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C18 — filled slider track carries the rail's deck-ink edge",
+      "expected_output": "C18 (A filled slider/progress track carries a deck-ink edge) PASSes. The filled track carries the same deck-ink hairline the empty rail uses, reached through currentColor so it tracks the deck, so the coloured portion holds its shape on a same-hue deck. It is a hairline matching the rail, not a heavy ink ring around the whole control. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C18 is marked PASS",
+        "Recognises both halves of the bar carry the same deck-ink hairline"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C18": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 44,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 45,
+      "prompt": "Review this audience answer list. The checked-dot CSS reads `.audience-radio.checked::after { background: var(--aha-control-accent, #6A1EBB); }`. Searching the whole component tree, `--aha-control-accent` is never set anywhere — no inline style, no `:style` binding, nothing publishes it. The deck under test has a green background. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C17 — accent var referenced but never published, fallback purple renders",
+      "expected_output": "C17 (Selection controls and the 'your pick' indicator track the deck) FAILs. The fill rule references `--aha-control-accent` and looks deck-aware, but nothing in the component ever publishes that custom property, so the var is permanently unset and the fallback (#6A1EBB, a fixed purple) is what actually renders on every deck, including this green one. A mechanism that is only referenced and never published is the same visible defect as no mechanism at all. Fix: publish `--aha-control-accent` as an inline style (or `:style` binding) on the control or an ancestor, set from `presentationColorPalette[0]`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C17 is marked FAIL",
+        "Flags that --aha-control-accent is referenced in the CSS but never published/set anywhere",
+        "Does not accept the presence of var(--aha-control-accent, ...) alone as proof of PASS"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C17": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 45,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 46,
+      "prompt": "Review this audience answer list. The checked-dot CSS reads `.audience-radio.checked::after { background: var(--aha-control-accent, #6A1EBB); }`, and the option row wrapper carries `:style=\"{ '--aha-control-accent': presentationColorPalette[0] }\"`, so the custom property is set on an ancestor of every radio. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C17 — accent var published inline from the deck palette, dot renders deck colour",
+      "expected_output": "C17 (Selection controls and the 'your pick' indicator track the deck) PASSes. The accent var is not just referenced in the fill rule but actually published — set inline on the row wrapper from `presentationColorPalette[0]` — so the checked dot genuinely renders the deck's own accent colour rather than falling through to the fixed-purple fallback. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C17 is marked PASS",
+        "Recognises the var is published (set) on an ancestor, not merely referenced",
+        "Recognises the published value derives from presentationColorPalette[0]"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C17": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 46,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 47,
+      "prompt": "Review this audience poll. Each answer-option label is `<span class=\"text-sm\">{{ option.text }}</span>` (14px), and the vote-count chip beside it is also `text-sm`. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C19 — option label shrunk to text-sm (14px) instead of the 16px default",
+      "expected_output": "C19 (Body copy and option labels use the audience default body size) FAILs. The answer-option label — primary reading content — is set at text-sm (14px) instead of the audience default 16px. text-sm is only legitimate on secondary metadata like the vote-count chip; using it on the option label itself shrinks the text people actually read. Fix: set the option label to the 16px default (text-base), keep text-sm only on the count chip. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C19 is marked FAIL",
+        "Flags the option label being set at text-sm/14px",
+        "Distinguishes that text-sm would be acceptable on the count chip but not on the label"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 47,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 48,
+      "prompt": "Review this audience poll. Each answer-option label is `<span class=\"text-base\">{{ option.text }}</span>` (16px), and the vote-count chip beside it is `<span class=\"text-sm text-muted\">{{ voteCount }} votes</span>` (14px). Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C19 — option label at default 16px, text-sm reserved for the vote-count metadata",
+      "expected_output": "C19 (Body copy and option labels use the audience default body size) PASSes. The primary option label renders at the audience default 16px (text-base); text-sm is used only on the secondary vote-count metadata beside it, which is exactly the legitimate use of the smaller size. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C19 is marked PASS",
+        "Recognises the option label is 16px (text-base)",
+        "Recognises text-sm is used only on the secondary vote-count chip"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C19": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 48,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 49,
+      "prompt": "Review this audience horizontal slider. The rail is `<a-slider>` with no custom margin override, so Ant's default `margin: 10px 6px` insets the rail roughly 6px on each side inside its container. The min/max end labels (\"0\" and \"100\") sit in a row spanning the full container width, flush to its edges. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C20 — Ant's default slider margin left in place, rail misaligned with end labels",
+      "expected_output": "C20 (A horizontal slider's rail sits flush with its end labels) FAILs. Ant's default slider margin is left in place, so the rail is inset ~6px on each side while the min/max label row spans the full container width — the rail no longer lines up under the \"0\" and \"100\" captions it belongs to. Fix: zero out the slider's default margin (e.g. `margin: 0` on the `.ant-slider` override) so the rail runs edge-to-edge under the label row. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C20 is marked FAIL",
+        "Flags Ant's default slider margin as the cause of the misalignment",
+        "Notes the rail no longer shares bounds with the min/max label row"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C20": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 49,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 50,
+      "prompt": "Review this audience horizontal slider. The component overrides Ant's default with `:deep(.ant-slider) { margin: 0; }`, so the rail spans the full container width, flush under the min/max end labels (\"0\" and \"100\") which also span the full width. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C20 — slider margin zeroed, rail flush with the min/max label row",
+      "expected_output": "C20 (A horizontal slider's rail sits flush with its end labels) PASSes. Ant's default slider margin is zeroed out, so the rail runs edge-to-edge and shares the same left/right bounds as the min/max label row — the rail sits flush under its end labels. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C20 is marked PASS",
+        "Recognises the default Ant margin is zeroed out",
+        "Recognises the rail and label row share the same bounds"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C20": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 50,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 51,
+      "prompt": "Review this audience screen. It stacks two labelled sections in one column: `<div class=\"flex flex-col gap-2\">` holding a `Choose a lot` heading + an `<AnswerOptionList>`, then a `Set your bid` heading (with `class=\"mt-2\"`) + a `<ScaleSlider>`, then the submit button. The single `gap-2` (8px) is the only spacing between every child, so the `Set your bid` heading sits ~16px below the last answer option. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C21 — two labelled sections share one 8px gap (plus mt-2 ~16px), no ≥24px section break",
+      "expected_output": "C21 (Distinct labelled sections are separated by ≥24px) FAILs. The two labelled sections — `Choose a lot` + the options and `Set your bid` + the slider — share the single 8px tappable gap (with only an extra `mt-2` before the second heading, ~16px total), so the sections crowd together and read as one undifferentiated stack instead of two steps. Fix: wrap each section (its heading + its control) in its own `flex flex-col gap-2`, and space the sections apart on the outer column with ≥24px (`gap-6`), dropping the per-label `mt-2`. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C21 is marked FAIL",
+        "Identifies that the two labelled sections share the small tappable gap instead of a ≥24px break",
+        "Recommends per-section wrappers with a ≥24px gap between sections"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C21": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 51,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 52,
+      "prompt": "Review this audience screen. The outer column is `<div class=\"flex flex-col gap-6\">` (24px). Inside it, each labelled section is its own wrapper: `<div class=\"flex flex-col gap-2\">` holding a `Choose a lot` heading + an `<AnswerOptionList>`, and a second `<div class=\"flex flex-col gap-2\">` holding a `Set your bid` heading + a `<ScaleSlider>`, followed by the submit button. So the label stays 8px from its control while the two sections sit 24px apart. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C21 — per-section wrappers at gap-2, whole sections spaced by gap-6 (24px)",
+      "expected_output": "C21 (Distinct labelled sections are separated by ≥24px) PASSes. Each labelled section keeps its heading tight to its control with an inner 8px gap, and the outer column separates the whole sections by 24px (`gap-6`), so `Choose a lot` and `Set your bid` read as two distinct steps. Overall: PASS",
+      "assertions": [
+        "Overall verdict is PASS",
+        "C21 is marked PASS",
+        "Recognises each section keeps a tight label-to-control gap",
+        "Recognises the sections are separated by ≥24px on the outer column"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C21": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 52,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 53,
+      "prompt": "Review this audience iframe. Every answer-option label and the submit button label render at `font-size: 14px`; the vote-count chip beside each option is also 14px. The developer says they matched the judge's own type-scale bullet under C5. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C5/C19 — body at 14px; the stale C5 bullet that contradicted C19, C13.2 and the standard",
+      "expected_output": "C19 (and C5, which now agrees with it) FAILs. Primary body text — an answer-option label, the submit button label — renders at the audience DEFAULT body size of 16px (ui-standard.json typography.audienceBodyPx, AHAM-701), not 14px. `text-sm`/14px is legitimate ONLY on secondary metadata, so the vote-count chip at 14px is fine and passes. The C5 bullet the developer quoted said 14px and was stale: it contradicted C19, C13.2 and the standard, which is why the judge could not previously return a consistent verdict on body size. Fix: option labels and the CTA label to 16px; leave the count chip at 14px.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C19 is marked FAIL",
+        "Names 16px as the audience default body size, not 14px",
+        "Does NOT flag the 14px vote-count chip — secondary metadata is the carve-out"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 53,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 54,
+      "prompt": "Review this audience iframe. Answer-option labels and the submit button label render at 16px; the per-option vote percentage chip renders at `text-sm`; help text under the question is 12px; the host paints the question at 22px in framed mode. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C5/C19 good control — 16px body, text-sm confined to metadata, host paints the 22px prompt",
+      "expected_output": "C5 and C19 both PASS. Primary body copy and option labels are at the 16px audience default, `text-sm` is confined to genuinely secondary metadata (the percentage chip), help text is exactly 12px, and the screen has a level-1 prompt at 22px — supplied by the host chrome, which is correct in framed mode since the plugin must not paint a second title. No criterion fires.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C5 is marked PASS",
+        "C19 is marked PASS",
+        "Accepts the host-painted question as the level-1 prompt in framed mode"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C5": "PASS",
+          "C19": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 54,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 55,
+      "prompt": "Review this audience iframe. The ballot lists five items. The list container is `flex flex-col gap-6`, each item is `flex flex-col gap-2` (label above its control), AND each item is wrapped in a `rounded border bg-white/5` card whose inner button-group is itself a `rounded border` div. The container also carries `divide-y`. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C21 second half — a divider AND a per-item card AND a nested button-group on a list the 8/24 spacing already grouped",
+      "expected_output": "C21 FAILs on its second half. The 8/24 spacing (gap-2 inside an item, gap-6 between items) has already done the grouping, and the design then draws that same grouping twice more: a `divide-y` rule between the items, and a bounded card per item wrapping a second bounded button-group — three nested outlines deep. Both are a second instrument saying what the gap already said, and each leaves an edge the eye reads past on every row. Fix: drop `divide-y`, drop the per-item card and the button-group's own box, and let the gaps group. A control inside a container would have been fine — a control is not a container.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C21 is marked FAIL",
+        "Flags the divide-y as a second instrument saying what the gap already said",
+        "Flags the nested bounded containers, three deep"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C21": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 55,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 56,
+      "prompt": "Review this audience iframe. The ballot lists five items on the deck with no card and no rule: the list is `flex flex-col gap-6`, each item is `flex flex-col gap-2` with its label above a full-width segmented control. The segmented control has an outer border and a `border-l` seam between its two halves. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C21 good control — spacing groups the list, nothing drawn on top; a control's own border is not a divider",
+      "expected_output": "C21 PASSES. The 8/24 rhythm groups the list on its own and nothing is drawn on top of it — no divider between items, no per-item card, no nested containers. The segmented control's own border and its `border-l` seam are INSIDE one object, not a rule between repeated siblings, so they are out of scope for this criterion.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C21 is marked PASS",
+        "Recognises the border-l seam as internal to one control, not a rule between siblings"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C21": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 56,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 57,
+      "prompt": "Review this audience iframe. Each ballot row renders `<div :class=\"item.label.length > 44 ? 'flex-col items-start gap-2' : 'flex-row items-center gap-3'\">` — a full-width label with the control beneath it for long labels, and label-left/control-right for short ones. The control is a fixed 128px wide. The Settings `<Input>` for an item label declares no maxlength. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C22 — no declared maxlength, a 44-character layout branch, and a fixed void beside a 128px control",
+      "expected_output": "C22 FAILs on all three sub-rules. (a) The Settings input declares no `maxlength`, so the string is unbounded and the row cannot be proven at its limits at all. (b) The 44-character ternary is a content-length branch between two arrangements — two layouts sharing one name, each exercised only by the half of the content that selects it; on mixed copy the control lands right, then left, then right, and the zig-zag reads before the labels. (c) In the stacked arrangement a 128px control under a full-width label strands a constant ~206px of empty row on every item at every viewport — a fixed void. Fix: declare a maxlength on the Settings control; use ONE row shape; make the control full-width so both blocks span the row.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C22 is marked FAIL",
+        "Flags the missing maxlength as the root cause, not the wrapping",
+        "Flags the content-length ternary as two layouts rather than one",
+        "Flags the constant empty space beside the fixed-width control"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C22": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 57,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 58,
+      "prompt": "Review this audience iframe. Every ballot row is the same shape at any content length: a full-width label, then a full-width two-segment control beneath it, `gap-2` between them and `gap-6` between rows. The Settings `<Input>` for an item label declares `:maxlength=\"120\"`, and the row was rendered at 1 character and at 120 characters at 320px, 390px and 430px — same arrangement in every case, control at the same offset in every row, no constant gap beside it. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C22 good control — declared maxlength proven at both ends, one row shape, two full-width blocks",
+      "expected_output": "C22 PASSES on all three sub-rules. The range is DECLARED (`maxlength=120`) and the layout is evidenced at both ends of it at the narrowest supported viewport rather than against sample content. There is ONE row shape — no content-length branch, so nothing moves sideways between items. And there is no fixed void: both blocks span the row, so no constant empty space sits beside the control. The label wrapping to several lines at 120 characters is space coming from the content, which is legitimate.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C22 is marked PASS",
+        "Accepts evidence at 1 character and at the declared maximum across viewports",
+        "Accepts the label wrapping at the maximum as content-driven space, not a void"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C22": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 58,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 59,
+      "prompt": "Review this audience iframe for an Image Show slide. The submitted-state screen renders a header row: an emoji badge next to the text \"Adding as {{ audienceName }}\", bound to `audienceName` / `audienceEmoji` from `useAudiencePlugin`. The slide's OVERRIDES in scripts/generate-slide-types-api.mjs do not set `enableAudienceJoinPresentation`. In the playground the row shows \"Adding as Sample participant\". Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C23 — identity row bound to audienceName on a slide that does not declare enableAudienceJoinPresentation; playground fakes the name so it looks populated in preview only",
+      "expected_output": "C23 FAILs. The host populates `audienceName` / `audienceEmoji` only when the manifest declares `setting.enableAudienceJoinPresentation: true`; this slide does not, so those refs are `undefined` in production and the identity row renders blank (or a hard-coded stand-in) on a real phone. The \"Adding as Sample participant\" seen in preview is the playground broker faking a name, which hides the defect. Fix: remove the identity row (the slide does not run the host join flow), or — only if participant identity is genuinely wanted — declare `enableAudienceJoinPresentation: true` so the host actually hands the name down. The plugin must never prompt for identity itself.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C23 is marked FAIL",
+        "Identifies that audienceName is only populated when enableAudienceJoinPresentation is declared, and this slide does not declare it",
+        "Notes the playground faking the sample name as why the defect is invisible in preview",
+        "Recommends removing the identity row or declaring the flag, not prompting for identity in the iframe"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C23": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 59,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 60,
+      "prompt": "Review this audience iframe for a live-poll slide. Its submitted screen shows \"Adding as {{ audienceName }}\" with the participant's emoji, bound to `audienceName` / `audienceEmoji` from `useAudiencePlugin`. The slide's OVERRIDES in scripts/generate-slide-types-api.mjs set `setting.enableAudienceJoinPresentation: true`, and there is no in-iframe prompt for the name — it is read from the host value. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C23 good control — identity row is backed by a declared enableAudienceJoinPresentation flag and consumes the host value rather than prompting",
+      "expected_output": "C23 PASSES. The slide declares `enableAudienceJoinPresentation: true`, so the host runs the join/identity flow and hands `audienceName` / `audienceEmoji` down; the identity row therefore renders a real name in production, not a placeholder. The plugin consumes the host-provided value and does not prompt for identity itself, so the host owns that flow. Rendering the participant identity here is legitimate.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C23 is marked PASS",
+        "Accepts the identity row because the slide declares enableAudienceJoinPresentation so the host supplies the name",
+        "Confirms the plugin consumes the host value rather than prompting for identity"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C23": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 60,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 61,
+      "prompt": "Review this audience iframe for a Fill in the Blanks slide. The answer field is `<input class=\"blank-input\" v-model=\"answer\" />` with `.blank-input { color: #111; border-radius: 8px; padding: 8px 12px; }` and no `background` declared anywhere, so the input is transparent over the plugin surface. It looks like a normal text field in the playground. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C24 -- transparent form field (invisible on a photo deck) plus fixed dark ink (dies on a dark deck); looks fine in the white playground only",
+      "expected_output": "C24 (Form field on a chosen legible surface with deck-tracking ink) FAILs on both counts. (a) The input sets no explicit background, so it is transparent and borrows whatever is behind it; on a photographic or dark presenter deck the box vanishes and reads as no field at all, even though it looks like a field on the white playground. (b) The ink is a fixed #111, which dies on a dark deck where the plugin ink is light. Fix: give the field the plugin's chosen frosted surface (an explicit background, e.g. a color-mix frost / near-opaque panel), set its color / placeholder / caret from xprops.slide.textColour on a contrast-verified surface, and prove it against a dark and a photographic deck, not just the white playground. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C24 is marked FAIL",
+        "Flags the transparent input (no explicit background) as reading as no-field on a photographic/dark deck",
+        "Flags the fixed #111 ink as dying on a dark deck instead of tracking xprops.slide.textColour",
+        "Notes the white-playground evidence hides the defect"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C24": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 61,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 62,
+      "prompt": "Review this audience Fill in the Blanks input. The field is `<textarea class=\"blank-input\" :style=\"{ color: deckInk, background: frostedSurface }\" />` where `deckInk` = xprops.slide.textColour and `frostedSurface` is the plugin's chosen deck-aware frost panel; `caret-color: currentColor` and `::placeholder { color: currentColor; opacity: .6 }`. Contrast of deckInk on frostedSurface is verified on both a light and a dark deck. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C24 good control -- form field on the plugin's chosen frosted surface with deck-tracking ink/caret/placeholder, contrast verified on light and dark decks",
+      "expected_output": "C24 PASSES. The form field has an explicitly chosen surface (the plugin's frosted panel), so it stays a visible bounded field on a photographic or dark deck rather than borrowing the background. Its text, caret and placeholder all track xprops.slide.textColour on a contrast-verified surface, so the participant can read their own typing on both light and dark decks. The chosen-surface + deck-ink pair is exactly the invariant this criterion asks for.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C24 is marked PASS",
+        "Accepts the field because it sets an explicit chosen surface rather than staying transparent",
+        "Confirms the ink/caret/placeholder track xprops.slide.textColour on a contrast-verified surface"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C24": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 62,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 63,
+      "prompt": "Review this audience slide that asks the participant to pick from a list via an Ant `<a-select v-model:value=\"choice\" placement=\"topLeft\" />`. There is no `popupClassName` / dropdown styling, so the open panel is the Ant default (white panel, dark options), the panel opens above and overlaps the closed selector, and the option list is long enough to extend past the height reported to onHeightChange. It renders fine in the white playground. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C25 -- Select opens over the control, unthemed default white panel, and the list overflows the reported iframe box and is clipped",
+      "expected_output": "C25 (Select/dropdown popup opens below, panel themed, stays in the iframe box) FAILs on all three axes. (a) `placement=\"topLeft\"` opens the panel OVER the closed control, hiding the field the participant just tapped. (b) The open panel is left at the Ant default (white panel / dark options), so on a dark deck it is a bright light-on-nothing flash and is not themed to the deck the way the rest of the plugin is. (c) The long list extends past the height reported to onHeightChange, so the shrink-wrapped iframe clips the bottom options and they become untappable. Fix: open below (placement bottomLeft), theme the panel surface AND option ink from the deck via popupClassName (dark panel + light ink on a dark deck), and keep the panel inside the reported box -- re-report height on open, or cap and scroll the list (max-height + overflow) so no option is clipped. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C25 is marked FAIL",
+        "Flags the panel opening over/covering the closed control instead of below it",
+        "Flags the unthemed default white panel / dark options on a dark deck",
+        "Flags the panel overflowing the onHeightChange-reported box and being clipped"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C25": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 63,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 64,
+      "prompt": "Review this audience Select. It is `<a-select v-model:value=\"choice\" placement=\"bottomLeft\" popup-class-name=\"deck-select-popup\" :get-popup-container=\"() => rootEl\" @dropdown-visible-change=\"reReportHeight\" />`. The `.deck-select-popup` CSS sets `background: var(--frosted-surface)` and `color: var(--deck-ink)` (both deck-derived) and `max-height: 40vh; overflow-y: auto`. Opening the panel re-reports height via onHeightChange. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C25 good control -- opens below, popup panel + option ink themed to the deck, capped/scrolled and height re-reported so nothing is clipped",
+      "expected_output": "C25 PASSES. (a) placement=\"bottomLeft\" opens the panel below the closed control, so the field stays visible. (b) The popup panel surface and its option ink are themed from the deck (frosted surface + deck ink), so on a dark deck the panel is dark with light options rather than the library default white. (c) The panel is capped with max-height + overflow and the plugin re-reports height on open, so the panel stays inside the reported iframe box and no option is clipped. All three axes of the criterion hold.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C25 is marked PASS",
+        "Confirms the panel opens below the closed control",
+        "Confirms the popup panel surface and option ink are themed to the deck, not the default",
+        "Confirms the panel stays inside the reported box via max-height/overflow and a height re-report on open"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C25": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 64,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 65,
+      "prompt": "Review this audience Fill in the Blanks reveal screen. After the host reveals answers, the plugin renders per-blank marks (a green check on each correct blank, a red cross on each wrong one) AND, above them, a large `<div class=\"overall-verdict\">Not quite</div>` line summarising the whole result. The host already shows its own overall correct/partly/not-quite banner and the participant's own result banner in its chrome (framed mode). Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C14b -- plugin prints its own overall reveal verdict (Not quite) duplicating the host's aggregate/result banner instead of per-item marks only",
+      "expected_output": "C14 FAILs (facet b -- host-owned overall reveal verdict). On reveal the host already renders the overall result (its correct/partly/not-quite aggregate and the participant's result banner), so the plugin's own \"Not quite\" overall-verdict line is a duplicate of the host's line -- two verdicts arguing inside and outside the iframe. The plugin should own per-item marks ONLY (the per-blank check/cross, aria-labelled) so the participant sees WHICH parts were right, and drop the overall-verdict sentence. This recurred (True or False in AHAM-546, Fill in the Blanks in AHAM-804). Fix: delete the overall-verdict div; keep only the per-blank marks. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C14 is marked FAIL",
+        "Identifies the overall-verdict line as a duplicate of the host's own result banner",
+        "Says the plugin should keep per-item check/cross marks only and drop the overall verdict",
+        "References that this recurred (AHAM-546 True or False, AHAM-804 Fill in the Blanks)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C14": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 65,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 66,
+      "prompt": "Review this audience Fill in the Blanks reveal screen. After the host reveals answers, the plugin renders only per-blank marks -- each blank gets a check (aria-label \"correct\") or a cross (aria-label \"incorrect\") next to the participant's entry -- and prints NO overall summary sentence; the host's own chrome shows the overall correct/partly/not-quite banner and the participant's result banner. Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C14b good control -- per-blank check/cross marks only, no duplicate overall verdict, host owns the aggregate/result banner",
+      "expected_output": "C14 PASSES. The plugin confines itself to per-item marks (a per-blank check/cross with aria-labels) so the participant sees which parts were right, and leaves the overall reveal verdict to the host, which already renders the aggregate and the participant's result banner in its chrome. There is no duplicate overall-verdict sentence competing with the host's line. This is the correct division: host owns the overall verdict, the plugin owns the per-item detail.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C14 is marked PASS",
+        "Accepts the per-item check/cross marks as the plugin's own detail",
+        "Confirms the plugin prints no overall-verdict sentence, leaving that to the host"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C14": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 66,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 67,
+      "prompt": "Review this audience Hot Zones screen. The participant taps spots on an image, up to 3. The plugin renders a top instruction line \"Tap every spot that stands out — up to 3 taps.\" AND, directly below the image, a SECOND line \"Tap the image to mark a spot — up to 3.\" Both lines are 16px regular deck-ink body text (each is styled correctly on its own). Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C26 — two instruction lines on one audience screen restating the same task + cap (hot-zones: top \"up to 3 taps\" line duplicated by a below-image \"up to 3\" line); each is styled fine (so C13 passes) but the COUNT is the defect",
+      "expected_output": "C26 FAILs. The screen carries TWO instruction lines that restate the same task — the top \"Tap every spot that stands out — up to 3 taps.\" and the below-image \"Tap the image to mark a spot — up to 3.\" The second line says nothing the first didn't (same action, same cap of 3) and, on the shrink-wrapped mobile surface, two instructions compete for the eye and push the image control down the fold. Correct styling on each line does not save it — C26 polices the COUNT, not the styling (that is C13). Fix: keep ONE instruction line and delete the other. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C26 is marked FAIL",
+        "Identifies the two instruction lines as restating the same task/cap",
+        "Says to keep one instruction line and delete the other",
+        "Notes the defect is the COUNT of instruction lines, not their styling (distinct from C13)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C26": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 67,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 68,
+      "prompt": "Review this audience Hot Zones screen. The participant taps spots on an image, up to 3. The plugin renders a SINGLE instruction line \"Tap every spot that stands out — up to 3 taps.\" above the image, and the image itself is the tap target with no second instruction below it (a small \"2 of 3 used\" live counter sits beside the image, showing remaining taps). Is this audience UI correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C26 good control — one instruction line only; the live \"2 of 3 used\" counter is distinct information (progress), not a restating second instruction, so it is allowed",
+      "expected_output": "C26 PASSES. The screen has exactly ONE instruction line telling the participant what to do; the image is the control and needs no restating line beneath it. The \"2 of 3 used\" counter is not a duplicate instruction — it carries DIFFERENT information (live progress against the cap), which C26 explicitly allows. One instruction, no redundant second line competing for the eye or pushing the control down. This is the correct division.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C26 is marked PASS",
+        "Accepts the single instruction line as sufficient",
+        "Confirms the live counter is distinct information, not a duplicate instruction"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C26": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 68,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 69,
+      "prompt": "Review this audience Opinion Poll screen. The participant taps one of four opinion options to vote. After submitting, the plugin REPLACES the whole answer surface with the shared full-surface SubmittedCard component (a standalone \"You're in — waiting for the next slide\" card). The option list the participant tapped disappears. This is a poll, not a swipe-card slide. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C27 — a non-swipe slide (opinion poll) swaps its whole answer surface for the full SubmittedCard; the correct pattern is an in-place locked option list + AudienceSubmitButton flipped to Submitted. SubmittedCard is swipe-card-only.",
+      "expected_output": "C27 FAILs. This is a non-swipe-card slide (an opinion poll) that renders the full SubmittedCard for its submitted state instead of locking its own answer surface in place. The separate SubmittedCard is reserved for swipe-card interactions (true-or-false swipe, this-or-that) where the answer IS a card. On a poll the submitted state must keep the option list on screen, LOCKED (options disabled, the chosen one marked), and flip the CTA to a Submitted state via AudienceSubmitButton — swapping in a standalone card throws away the participant's own answer context. Fix: lock the option list in place and flip the submit button to Submitted rather than swapping in SubmittedCard. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C27 is marked FAIL",
+        "Identifies that a non-swipe slide is using the full SubmittedCard for its submitted state",
+        "Says to lock the answer surface in place and flip the CTA to a Submitted state instead of swapping in SubmittedCard",
+        "Notes SubmittedCard is reserved for swipe-card interactions"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C27": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 69,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 70,
+      "prompt": "Review this audience True-or-False screen. The mechanic is a card the participant swipes left/right (or taps) to answer. Before answering the plugin shows the swipe card; after the swipe it shows the shared SubmittedCard component confirming the choice and holding for the next slide. Separately, a sibling Opinion Poll screen keeps its option list on screen after submit, LOCKED with the chosen option marked, and flips its AudienceSubmitButton to a disabled \"Submitted\" state. Are these audience UIs correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C27 good control — swipe-card slide (true-or-false) correctly uses SubmittedCard; non-swipe slide (opinion poll) correctly locks its answer list in place and flips AudienceSubmitButton to Submitted. Both sides of the rule pass.",
+      "expected_output": "C27 PASSES for both. The True-or-False slide IS a swipe-card interaction — the answer is a card the participant swipes — so showing the full SubmittedCard after the swipe is exactly what that component is for. The Opinion Poll, a non-swipe slide, uses the correct in-place pattern: it locks its own option list on screen (chosen option marked, options disabled) and flips the CTA to a Submitted state via AudienceSubmitButton rather than swapping in a standalone card. Both honour C27's split — SubmittedCard for the swipe mechanic, in-place lock for everything else. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C27 is marked PASS",
+        "Accepts SubmittedCard on the swipe-card (true-or-false) slide as correct",
+        "Accepts the in-place locked option list + Submitted CTA on the non-swipe poll as correct",
+        "Confirms the split: SubmittedCard for swipe-card, in-place lock for other slides"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C27": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 70,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 71,
+      "prompt": "Review this audience Open-Ended text slide. The participant types a short answer. The field's label is rendered with Ant's `<a-form-item label=\"Your answer\">` wrapping an `<a-textarea>`, so the label picks up Ant's default ~14px `.ant-form-item-label` size and its default `colorTextHeading` ink. The label ink is not read from xprops. Is this audience UI correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C28 - the field label inherits Ant Form.Item's 14px + fixed colorTextHeading ink; it should be 16px and track xprops.slide.textColour so it reads at body size and survives a dark deck.",
+      "expected_output": "C28 FAILs. The field label uses Ant's Form.Item label defaults: ~14px (not the 16px audience body size) and a fixed dark heading ink (colorTextHeading) rather than the deck-derived xprops.slide.textColour. The 14px reads as secondary chrome next to the 16px field, and the fixed dark ink goes white-on-white and disappears on a dark deck. Fix: render the label at 16px and colour it xprops.slide.textColour (set both explicitly, or draw a plain <label> instead of relying on Form.Item's defaults). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C28 is marked FAIL",
+        "Flags the 14px Ant Form.Item label default (should be the 16px body size)",
+        "Flags the fixed dark label ink (should be deck-derived xprops.slide.textColour)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C28": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 71,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 72,
+      "prompt": "Review this audience Open-Ended text slide. The field label above the textarea is a plain `<label>` styled `font-size: 16px; line-height: 1.4` and coloured `:style=\"{ color: deckInk }\"` where `deckInk = xprops.slide.textColour`. The textarea below it sits on its own frosted surface with its own field ink. Is the label correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C28 good control - a plain 16px label coloured xprops.slide.textColour; body size and deck-tracking ink both correct.",
+      "expected_output": "C28 PASSES. The field label renders at the 16px audience body size (not Ant's 14px form-label default) and tracks the deck ink via xprops.slide.textColour, so it reads at body size and stays legible on a light, dark, or photographic deck. It correctly obeys the deck-body rules because it sits on the deck rather than on the field's own fill. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C28 is marked PASS",
+        "Accepts the 16px label size as the audience body size",
+        "Accepts the deck-derived label ink (xprops.slide.textColour)"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C28": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 72,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 73,
+      "prompt": "Review this audience Open-Ended text slide with a 120-character cap. The character counter is an `<a-textarea :maxlength=\"120\" :show-count=\"focused\" @focus=\"focused = true\">` whose count Ant renders BELOW the field as a `12 / 120` used-of-max ratio, and a helper line under it is coloured `xprops.slide.textColour`. Is the counter correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C29 - counter below the field, Ant :show-count toggled on focus (drops the caret), a used/max ratio instead of the countdown, and deck ink that dies on the field fill; the shipped CountedTextarea pattern is inside + focus-within + count-down + muted field ink.",
+      "expected_output": "C29 FAILs on every point. The counter (a) sits BELOW the field rather than inside it, (b) uses Ant's :show-count toggled on focus, which reflows the control and drops the caret so the participant loses their place mid-type, (c) shows characters USED as a used/max ratio (12 / 120) instead of the characters-LEFT countdown, and (d) is painted in deck ink (xprops.slide.textColour) which is invisible on the white field fill on a dark deck. Fix: position the counter INSIDE the field (bottom-right for a textarea), keep it always in the DOM and reveal it via :focus-within (never :show-count on focus), print the characters LEFT (max - length) counting down, and colour it a muted FIELD ink - mirroring the shipped CountedTextarea. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C29 is marked FAIL",
+        "Flags the counter sitting below the field rather than inside it",
+        "Flags Ant :show-count toggled on focus as dropping the caret",
+        "Flags the used/max ratio instead of the characters-left countdown",
+        "Flags the deck ink (should be a muted field ink)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C29": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 73,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 74,
+      "prompt": "Review this audience Open-Ended text slide with a 120-character cap. The textarea is wrapped in a relatively-positioned container; a `<span class=\"counter\">{{ max - answer.length }}</span>` is absolutely positioned bottom-right INSIDE the field, `opacity: 0` by default and `opacity: 1` under `.counted-field:focus-within`, coloured `color-mix(in srgb, var(--field-ink) 55%, transparent)`. Is the counter correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C29 good control - counter inside the field, focus-revealed via :focus-within (caret kept), counting down the remaining characters, in a muted field ink; the shipped CountedTextarea pattern.",
+      "expected_output": "C29 PASSES on all four points. The counter sits INSIDE the field (absolute bottom-right), is always in the DOM and revealed only on focus via :focus-within (so the caret is never dropped), counts DOWN the characters left (max - length), and uses a muted FIELD ink (a color-mix of the field ink) rather than deck ink, so it reads on the field's white/frosted fill on any deck. This mirrors the shipped CountedTextarea / CountedInput pattern. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C29 is marked PASS",
+        "Accepts the counter positioned inside the field, revealed via :focus-within",
+        "Accepts the count-down of characters left",
+        "Accepts the muted field ink rather than deck ink"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C29": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 74,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 75,
+      "prompt": "Review this audience Story-Chain slide. Its 'Add my line' button is the shared `<AudienceSubmitButton :ink=\"deckInk\" :disabled=\"!draft.trim()\" @click=\"add\">` — it is the library component and its states are wired, but it is NOT passed an `:accent`. The locked twin uses `:submission-closed=\"true\"` with no accent. Is the submit button correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C30 - an active AudienceSubmitButton with no :accent bound; the shared component falls back to the fixed brand purple on every deck. The locked :submission-closed twin correctly omits the accent.",
+      "expected_output": "C30 FAILS. The active submit button is the shared component but no `:accent` is bound, so its fill falls back to the fixed brand primary purple and renders purple on every deck instead of `presentationColorPalette[0]` — it looks right in the theme-less playground and ships purple on a real deck (the story-chain / undercover regression). It must bind `:accent=\"presentationColorPalette[0]\"`. The `:submission-closed` twin correctly omits the accent (it goes grey by design), so that instance is fine. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C30 is marked FAIL",
+        "Identifies that the active submit button omits :accent so it falls back to the fixed purple",
+        "Requires :accent=\"presentationColorPalette[0]\" on the active button",
+        "Does NOT require an accent on the :submission-closed / locked instance"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C30": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 75,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 76,
+      "prompt": "Review this audience Story-Chain slide. Its active 'Add my line' button is `<AudienceSubmitButton :ink=\"deckInk\" :accent=\"accent\" :disabled=\"!draft.trim()\" :loading=\"sending\" @click=\"add\">`, where `accent` is `presentationColorPalette[0]`; when the line is locked it renders `<AudienceSubmitButton :ink=\"deckInk\" :submission-closed=\"true\" closed-label=\"Line added\" />` with no accent. Is the submit button correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C30 good control - the active AudienceSubmitButton is passed :accent=presentationColorPalette[0] so it tracks the deck; the locked :submission-closed twin correctly omits the accent to go grey.",
+      "expected_output": "C30 PASSES. The active submit button binds `:accent=\"presentationColorPalette[0]\"`, so the shared component paints the deck's own colour rather than the fixed purple fallback. The locked instance uses `:submission-closed` and deliberately omits the accent so it falls to the shared grey-disabled treatment — that is correct, not a miss. Per-instance the rule holds: every active submit carries the accent, the locked one does not. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C30 is marked PASS",
+        "Accepts the deck accent bound on the active submit button",
+        "Accepts that the :submission-closed instance omits the accent by design"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C30": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-audience-judge",
+        "id": 76,
+        "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    }
+  ]
+}
