@@ -22,6 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.64.0 — 2026-09-28
+### Added
+- **The a11y runtime primitives now ship in the DS — the `aha-design-shared-components` plugin registry resolves to real exports.** Five new components, each with a contract, doc page, HTML/React/Vue snippets and a render-gated conformance block:
+  - **`<aha-field-error>`** (`./aha-field-error`) — the accessible field / validation error: a stable id for the input's `aria-describedby`, danger text, nothing rendered while empty (the a11y FieldError); `variant="respondent"` is the FieldErrorDisplay contract (`role="alert"`, assertive). (#127)
+  - **`<aha-live-region>`** (`./aha-live-region`) — screen-reader announcements: assertive + atomic, stays mounted when empty, no `role="alert"`; `announce(text)` re-announces identical text; `politeness="polite"` and `visible` options. (#127)
+  - **`<aha-progressbar>`** (`./aha-progressbar`) — the accessible bar over `<aha-progress>`: the host is `role="progressbar"` with your real `value`/`min`/`max`, a `label` and optional `value-text`; the visual bar is hidden from AT so it is announced once. (#127)
+  - **`useIsMobile()`** (`./use-is-mobile`, React as an optional peer) + the framework-agnostic **`./viewport`** store (`MOBILE_MEDIA_QUERY` = `(max-width: 767.98px)`, `isMobileViewport`, `subscribeMobileViewport`) + **`<aha-viewport-switch>`** (`./aha-viewport-switch`) for HTML shape switches (`slot="mobile"` / `slot="desktop"`, `viewport-change` event). (#127)
+  - **`<aha-error-page>`** (`./aha-error-page`) — the full-page error: `code` (404 · 403 · 500 · offline · generic) → DS Result with British-English copy and a "Try again" action for retryable codes, `role="alert"`, `error-page-view` telemetry and `action` events; `heading`/`body`/`action-label` take translations. (#127)
+- **`<aha-input>` forwards its `aria-describedby` to the inner field** (as element references, re-resolved on focus), so a DS input can actually be described by an `<aha-field-error>` — an id reference cannot cross the shadow root on its own. (#127)
+- **Shared-components pattern + anti-slop surface.** `guidelines/shared-components.json` is the registry (need → DS primitive → contract kept), and `anti-slop/criteria.json` gains `surfaces.shared-components` (C1–C4, seeded from the aha-design v1.80.0 judge), so the anti-slop feeds now carry this loop. The ux-writing pattern's `error-page` dependency is now available. (#127)
+
 ## 0.63.0 — 2026-09-28
 ### Added
 - **Seven more anti-slop surfaces in the DS-owned store: `paywall`, `status-badges`, `settings`, `feedback`, `overlays`, `canvas` and `audience`.** Each was seeded from its aha-design judge (plugin v1.80.0) with `sync-skills.mjs import` — 85 binary criteria in all — so `anti-slop.md` / `anti-slop.agent.json` now carry sixteen surfaces and every guideline is wired (the "Not yet wired" list is gone). Feedback C4 now points at the DS `<aha-alert>` contract instead of the plugin's `references/alert.md`. (#123)

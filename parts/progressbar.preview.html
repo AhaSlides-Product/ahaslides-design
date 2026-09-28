@@ -1,0 +1,16 @@
+<div class="pad">
+  <div class="lbl">Real range + label on the host · the DS Progress draws it</div>
+  <div style="display:flex; flex-direction:column; gap:16px; max-width:360px">
+    <aha-progressbar data-probe value="3" max="10" label="Quiz progress" value-text="Question 3 of 10"></aha-progressbar>
+    <aha-progressbar value="64" label="Uploading image" status="active"></aha-progressbar>
+    <aha-progressbar value="100" label="Upload complete" status="success"></aha-progressbar>
+    <aha-progressbar value="2" max="4" steps="4" label="Setup steps" value-text="Step 2 of 4"></aha-progressbar>
+    <aha-progressbar value="45" type="circle" size="small" label="Poll turnout"></aha-progressbar>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped elements — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-progressbar.js';
+</script>

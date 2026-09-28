@@ -1,0 +1,12 @@
+import '@ahaslides-product/design/aha-progressbar';   // registers <aha-progressbar> (+ <aha-progress>)
+import '@ahaslides-product/design/icons';             // <aha-icon> for the status glyph
+
+// Attributes only — React 18/19 render the element directly.
+function QuizProgress({ current, total }) {
+  return (
+    <aha-progressbar value={current} max={total} label="Quiz progress"
+      value-text={`Question ${current} of ${total}`} />
+  );
+}
+
+<aha-progressbar value={uploadedPercent} label="Uploading image" status={failed ? 'exception' : 'active'} />

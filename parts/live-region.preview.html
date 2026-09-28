@@ -1,0 +1,18 @@
+<div class="pad">
+  <div class="lbl">Hidden region (default) — mounted and empty until you announce</div>
+  <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+    <aha-live-region data-probe id="lr-announcer"></aha-live-region>
+    <aha-button id="lr-save" variant="primary">Save slide</aha-button>
+    <span style="font-size:14px; line-height:22px; color:var(--aha-text-tertiary)">Each press announces “Slide saved”, even when repeated.</span>
+  </div>
+  <div class="lbl" style="margin-top:24px">Visible, polite status line</div>
+  <aha-live-region visible politeness="polite" message="12 results"></aha-live-region>
+</div>
+
+<!-- Imports the REAL shipped elements — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-button.js';
+  import '../lib/aha-live-region.js';
+  const announcer = document.getElementById('lr-announcer');
+  document.getElementById('lr-save').addEventListener('click', () => announcer.announce('Slide saved'));
+</script>

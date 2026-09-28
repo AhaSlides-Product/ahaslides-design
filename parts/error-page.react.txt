@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-error-page';   // registers <aha-error-page>
+import '@ahaslides-product/design/icons';
+import { useLayoutEffect, useRef } from 'react';
+
+// React < 19 does not bind custom-element events from JSX — attach them with a ref.
+// useLayoutEffect, not useEffect: error-page-view fires right after mount, before a passive effect runs.
+export function ErrorPage({ code, onRetry, track }) {
+  const ref = useRef(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const onView = (event) => track('error_page_view', { code: event.detail.code });
+    el.addEventListener('error-page-view', onView);
+    el.addEventListener('action', onRetry);
+    return () => { el.removeEventListener('error-page-view', onView); el.removeEventListener('action', onRetry); };
+  }, [onRetry, track]);
+  return <aha-error-page ref={ref} code={code} />;
+}
+
+// usage — map the failure to a code; pass translated copy when you have it
+if (error) return <ErrorPage code={error.status ?? 'generic'} onRetry={refetch} track={analytics.track} />;

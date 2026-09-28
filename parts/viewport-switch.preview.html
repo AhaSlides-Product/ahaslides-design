@@ -1,0 +1,26 @@
+<div class="pad">
+  <div class="lbl">Resize below 768px — the desktop table-row shape swaps for a stacked card</div>
+  <aha-viewport-switch data-probe>
+    <div slot="mobile" style="display:flex; flex-direction:column; gap:4px; padding:12px 16px; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); max-width:360px">
+      <span style="font-size:14px; line-height:22px; font-weight:600; color:var(--aha-text-default)">Team retro</span>
+      <span style="font-size:14px; line-height:22px; color:var(--aha-text-tertiary)">24 responses · updated today</span>
+    </div>
+    <div slot="desktop" style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:16px; padding:12px 16px; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); font-size:14px; line-height:22px; color:var(--aha-text-default)">
+      <span style="font-weight:600">Team retro</span>
+      <span>24 responses</span>
+      <span style="color:var(--aha-text-tertiary)">Updated today</span>
+    </div>
+  </aha-viewport-switch>
+  <div class="lbl" style="margin-top:16px">Current branch: <code id="vs-state">—</code> · breakpoint <code id="vs-query">—</code></div>
+</div>
+
+<!-- Imports the REAL shipped element — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import { MOBILE_MEDIA_QUERY } from '../lib/aha-viewport-switch.js';
+  window.AHA_MOBILE_MEDIA_QUERY = MOBILE_MEDIA_QUERY;
+  const probe = document.querySelector('aha-viewport-switch[data-probe]');
+  const show = () => { document.getElementById('vs-state').textContent = probe.mobile ? 'mobile' : 'desktop'; };
+  document.getElementById('vs-query').textContent = MOBILE_MEDIA_QUERY;
+  customElements.whenDefined('aha-viewport-switch').then(show);
+  probe.addEventListener('viewport-change', show);
+</script>

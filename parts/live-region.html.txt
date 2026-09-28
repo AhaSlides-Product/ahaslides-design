@@ -1,0 +1,17 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     Mount ONE <aha-live-region> and keep it mounted; announce through it. Turn on a screen reader
+     (VoiceOver: Cmd+F5) and press the button — "Slide saved" is announced, and again on every press. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-live-region.js';   // registers <aha-live-region>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';
+
+  const announcer = document.getElementById('announcer');
+  document.getElementById('save').addEventListener('click', () => announcer.announce('Slide saved'));
+</script>
+
+<aha-live-region id="announcer"></aha-live-region>
+<aha-button id="save" variant="primary">Save slide</aha-button>
+
+<!-- Declarative + visible: a polite status line that is also read out -->
+<aha-live-region visible politeness="polite" message="12 results"></aha-live-region>

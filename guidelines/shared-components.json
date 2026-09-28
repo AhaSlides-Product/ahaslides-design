@@ -1,0 +1,215 @@
+{
+ "name": "Shared components",
+ "slug": "shared-components",
+ "kind": "guideline",
+ "group": "Patterns",
+ "badge": "pattern — composition guide",
+ "summary": "The registry of house a11y and responsive primitives an agent must reach for instead of rolling its own — field errors, live-region announcements, the accessible progress bar, the useIsMobile() shape switch, the full-page error, empty states and loading skeletons.",
+ "lead": "A fresh-but-correct reimplementation of an error node, a live region or a progress bar still fragments the system: it drops the ARIA wiring, the canonical breakpoint and the house copy the primitive already encodes. This pattern is the lookup table — for each need, the DS primitive to reuse and the contract it keeps — and binds each rule to a binary criterion (anti-slop/criteria.json → surfaces.shared-components) a consumer self-judges.",
+ "skillRef": {
+  "build": "aha-design:aha-design-shared-components",
+  "judge": "aha-design:aha-design-shared-components-judge",
+  "note": "Seeded from the aha-design plugin v1.80.0 (aha-design-shared-components + its -judge). The DS now SHIPS every primitive that skill registered — <aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page> — so the registry resolves to real DS exports instead of plugin-only React components. The judge criteria C1..C4 live in anti-slop/criteria.json."
+ },
+ "surfaces": [
+  "editor",
+  "dashboard",
+  "audience",
+  "settings"
+ ],
+ "surfaceChoice": [
+  {
+   "surface": "Field error",
+   "useFor": "one field failed validation — <aha-field-error> (variant=\"respondent\" in respondent renderers)",
+   "example": "\"Enter an email address, like name@example.com\""
+  },
+  {
+   "surface": "Live region",
+   "useFor": "a change a screen-reader user would otherwise miss — one mounted <aha-live-region>",
+   "example": "\"Slide saved\", \"12 results\""
+  },
+  {
+   "surface": "Progressbar",
+   "useFor": "progress that must be announced — <aha-progressbar> with a label",
+   "example": "\"Question 3 of 10\""
+  },
+  {
+   "surface": "Viewport switch",
+   "useFor": "a render that changes SHAPE below 768px — useIsMobile() / <aha-viewport-switch>",
+   "example": "table → card list"
+  },
+  {
+   "surface": "Error page",
+   "useFor": "the whole page cannot render — <aha-error-page code>",
+   "example": "404 · 403 · 500 · offline"
+  },
+  {
+   "surface": "Empty",
+   "useFor": "nothing failed, there is simply no content yet — <aha-empty>",
+   "example": "\"No responses yet\""
+  },
+  {
+   "surface": "Skeleton",
+   "useFor": "content is loading — <aha-skeleton> blocks mirroring the real layout",
+   "example": "a list of rows while fetching"
+  }
+ ],
+ "composedOf": [
+  {
+   "ref": "field-error",
+   "as": "component",
+   "use": "the one error node a field describes itself with — form variant (a11y FieldError) or respondent variant (FieldErrorDisplay)",
+   "status": "available"
+  },
+  {
+   "ref": "input",
+   "as": "component",
+   "use": "the DS field: status=\"error\" sets aria-invalid and its aria-describedby is forwarded to the inner input",
+   "status": "available"
+  },
+  {
+   "ref": "live-region",
+   "as": "component",
+   "use": "screen-reader announcements — assertive + atomic, mounted even when empty, no role=alert",
+   "status": "available"
+  },
+  {
+   "ref": "progressbar",
+   "as": "component",
+   "use": "accessible progress — role=progressbar + aria-valuenow/min/max + aria-label over the DS Progress",
+   "status": "available"
+  },
+  {
+   "ref": "progress",
+   "as": "component",
+   "use": "the visual bar <aha-progressbar> draws; alone only for a decorative bar beside its own numbers",
+   "status": "available"
+  },
+  {
+   "ref": "viewport-switch",
+   "as": "component",
+   "use": "the useIsMobile() shape switch — the React hook, the ./viewport store, or <aha-viewport-switch> in HTML",
+   "status": "available"
+  },
+  {
+   "ref": "error-page",
+   "as": "component",
+   "use": "full-page errors — code → DS Result + British-English copy, role=alert, error-page-view telemetry",
+   "status": "available"
+  },
+  {
+   "ref": "empty",
+   "as": "component",
+   "use": "the empty state — says what is missing and offers one next step",
+   "status": "available"
+  },
+  {
+   "ref": "skeleton",
+   "as": "component",
+   "use": "loading placeholders that mirror the real layout, inside a role=status aria-busy container",
+   "status": "available"
+  },
+  {
+   "ref": "result",
+   "as": "component",
+   "use": "the state layout <aha-error-page> composes; use directly for an in-page action outcome",
+   "status": "available"
+  }
+ ],
+ "componentBacklog": "None — every primitive the aha-design-shared-components registry names now ships here.",
+ "rules": [
+  {
+   "id": "reach-for-the-primitive",
+   "rule": "Meet every registry need with its DS primitive — <aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page>, <aha-empty>, <aha-skeleton>. A hand-rolled <div aria-live>, red <span>, width-% bar or bespoke error page fails even when it looks right.",
+   "ref": [
+    "C1"
+   ]
+  },
+  {
+   "id": "field-error-per-context",
+   "rule": "Pick the field-error variant by context: the default form variant (a11y FieldError) in forms, variant=\"respondent\" (FieldErrorDisplay: role=alert, assertive) in respondent element renderers.",
+   "ref": [
+    "C2"
+   ]
+  },
+  {
+   "id": "field-error-wiring",
+   "rule": "The input sets aria-invalid and aria-describedby pointing at the error's id. A DS <aha-input> does both — status=\"error\" + aria-describedby, which it forwards to its inner field.",
+   "ref": [
+    "C2"
+   ]
+  },
+  {
+   "id": "shape-switch-hook",
+   "rule": "Gate a render that changes SHAPE below 768px on useIsMobile() (or <aha-viewport-switch>) — never an ad-hoc useMediaQuery / window.innerWidth check.",
+   "ref": [
+    "C3"
+   ]
+  },
+  {
+   "id": "styling-media-query",
+   "rule": "Pure styling uses @media (max-width: 767.98px) directly — never the hook, and never 768px / 767px.",
+   "ref": [
+    "C3"
+   ]
+  },
+  {
+   "id": "live-region-contract",
+   "rule": "Keep one <aha-live-region> mounted (even empty) and announce through it — assertive + atomic, no role=alert, so nothing is missed or read twice.",
+   "ref": [
+    "C4"
+   ]
+  },
+  {
+   "id": "progressbar-contract",
+   "rule": "An announced progress bar is <aha-progressbar> with value/min/max and a label (plus value-text when the raw number is not what a person would say).",
+   "ref": [
+    "C4"
+   ]
+  },
+  {
+   "id": "error-and-empty",
+   "rule": "A whole-page failure is <aha-error-page code> (role=alert, fires error-page-view for telemetry); an absence of content is <aha-empty>, never an error.",
+   "ref": [
+    "C1",
+    "C4"
+   ]
+  },
+  {
+   "id": "skeleton-contract",
+   "rule": "A loading placeholder mirrors the real layout with <aha-skeleton> blocks inside a container carrying role=\"status\" and aria-busy=\"true\" — never a lone spinner or grey box.",
+   "ref": [
+    "C1",
+    "C4"
+   ]
+  },
+  {
+   "id": "text-and-colour",
+   "rule": "Visible text uses the DS text components / AntD Typography, not raw <span>/<p>; state is never conveyed by colour alone — pair every status colour with text or an ARIA label.",
+   "ref": [
+    "C4"
+   ]
+  }
+ ],
+ "reuse": null,
+ "reuseNote": "Doc-only pattern — each primitive ships as its own DS component (see composedOf); this page is the registry and the judge criteria.",
+ "selfCheck": [
+  {
+   "label": "every registry need uses its DS primitive, nothing hand-rolled",
+   "verdict": "consumer self-judges (C1)"
+  },
+  {
+   "label": "right field-error variant; aria-invalid + aria-describedby wired",
+   "verdict": "consumer self-judges (C2)"
+  },
+  {
+   "label": "useIsMobile() for shape only; styling at @media 767.98px",
+   "verdict": "consumer self-judges (C3)"
+  },
+  {
+   "label": "live region / progressbar / skeleton a11y contracts intact; no colour-only state",
+   "verdict": "consumer self-judges (C4)"
+  }
+ ],
+ "guide": "shared-components.guide.md"
+}

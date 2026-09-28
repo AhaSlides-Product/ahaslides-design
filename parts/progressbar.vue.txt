@@ -1,0 +1,14 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-progressbar';
+import '@ahaslides-product/design/icons';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// QuizProgress.vue
+<script setup>
+const props = defineProps({ current: Number, total: Number });
+</script>
+
+<template>
+  <aha-progressbar :value="props.current" :max="props.total" label="Quiz progress"
+    :value-text="`Question ${props.current} of ${props.total}`" />
+</template>

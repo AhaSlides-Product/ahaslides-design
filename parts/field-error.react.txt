@@ -1,0 +1,18 @@
+import '@ahaslides-product/design/aha-field-error';   // registers <aha-field-error>
+import { Form, Input } from 'antd';
+
+// AntD form: the a11y FieldError contract. Empty message → renders nothing.
+function EmailField({ value, error, onChange }) {
+  return (
+    <Form.Item label="Email" htmlFor="email">
+      <Input id="email" value={value} onChange={onChange}
+        aria-invalid={error ? 'true' : undefined} aria-describedby="email-error" />
+      <aha-field-error id="email-error" message={error ?? ''} />
+    </Form.Item>
+  );
+}
+
+// Respondent renderer: the FieldErrorDisplay contract — pass the TRANSLATED message.
+function RespondentError({ id, message }) {
+  return <aha-field-error id={id} variant="respondent" message={message ?? ''} />;
+}
