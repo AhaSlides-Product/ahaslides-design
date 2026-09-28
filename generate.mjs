@@ -329,6 +329,22 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 .doc-main{flex:1 1 auto;min-width:0;padding:36px 52px 96px}
 .doc-main-inner{max-width:1040px;margin:0 auto}
 
+/* ---- narrow shell: the 268px sidebar no longer fits beside content, so it becomes an
+   off-canvas panel (opened via .doc-nav-toggle in the header) instead of forcing the page
+   to scroll sideways. Same breakpoint as .hub-layout's own narrow collapse, for consistency. ---- */
+.doc-nav-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:1px solid transparent;border-radius:var(--aha-radius-default,8px);background:transparent;color:var(--aha-text-secondary);cursor:pointer;flex:0 0 auto}
+.doc-nav-toggle:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
+.doc-nav-backdrop{display:none;position:fixed;inset:64px 0 0 0;background:rgba(20,16,32,.35);z-index:34}
+@media (max-width:900px){
+  .doc-nav-toggle{display:inline-flex}
+  .doc-nav{position:fixed;top:64px;left:0;z-index:35;width:min(84vw,300px);height:calc(100vh - 64px);
+    transform:translateX(-100%);transition:transform var(--aha-motion-mid) var(--aha-ease-out);box-shadow:0 8px 24px rgba(20,16,32,.16)}
+  body.nav-open .doc-nav{transform:translateX(0)}
+  body.nav-open .doc-nav-backdrop{display:block}
+  .doc-main{padding:28px 20px 72px}
+}
+@media (prefers-reduced-motion:reduce){.doc-nav{transition:none}}
+
 /* ---- nav ---- */
 .nav-top{display:block;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:8px 12px;border-radius:8px;margin-bottom:2px}
 .nav-top:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
@@ -386,7 +402,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;border-bottom:1px dashed var(--aha-split);background:var(--aha-gray-20)}
 .aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .aha-pg-label{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-tertiary);min-width:62px}
-.aha-pg-seg{display:inline-flex;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
+.aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
 .aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
 .aha-pg-opt:hover:not(.active){color:#5715A0}
 .aha-pg-opt.active{color:#5715A0;background:var(--aha-purple-10)}
@@ -401,7 +417,8 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .note{background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
 .pad{padding:22px 20px}
 code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:#5715A0}
-table.api{width:100%;border-collapse:collapse;font-size:13px;border:1px solid var(--aha-split);border-radius:8px;overflow:hidden}
+.api-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px}
+table.api{width:100%;min-width:420px;border-collapse:collapse;font-size:13px;border:1px solid var(--aha-split);border-radius:8px;overflow:hidden}
 table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--aha-split);vertical-align:top}
 table.api tr:last-child td{border-bottom:none}
 table.api th{color:var(--aha-text-tertiary);font-weight:600;font-size:11px;letter-spacing:.3px;text-transform:uppercase;background:var(--aha-gray-20)}
@@ -411,7 +428,7 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .spec-line{margin-bottom:12px;color:var(--aha-text-secondary);font-size:13px;line-height:1.7}
 
 /* ---- component index cards (overview) ---- */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .card{display:block;padding:18px;border:1px solid var(--aha-split);border-radius:12px;text-decoration:none;color:inherit;background:#fff}
 .card:hover{border-color:var(--aha-purple-30);box-shadow:0 4px 12px rgba(106,30,187,.08)}
 .ct{font-size:16px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
@@ -443,6 +460,24 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .agent-feeds li{margin:7px 0}
 .agent-feeds code{font-size:12px}
 .install-note{margin-top:8px}
+`;
+
+// Narrow-shell off-canvas sidebar toggle. Bound once on the (never-replaced) header button, not
+// per .doc-nav instance — PJAX may swap or replace .doc-nav entirely on an area change, but the
+// toggle button lives in .doc-header, which PJAX never touches. State lives on <body>, so it
+// survives that swap without re-binding.
+const NAV_TOGGLE_JS = `
+(function(){
+  var toggle=document.querySelector('.doc-nav-toggle'), backdrop=document.querySelector('.doc-nav-backdrop');
+  if(!toggle||toggle.__bound) return; toggle.__bound=true;
+  function isOpen(){ return document.body.classList.contains('nav-open'); }
+  function close(){ document.body.classList.remove('nav-open'); toggle.setAttribute('aria-expanded','false'); }
+  function open(){ document.body.classList.add('nav-open'); toggle.setAttribute('aria-expanded','true'); }
+  toggle.addEventListener('click', function(){ isOpen() ? close() : open(); });
+  if(backdrop) backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&isOpen()) close(); });
+  document.addEventListener('click', function(e){ if(isOpen() && e.target.closest('.doc-nav a')) close(); });
+})();
 `;
 
 // Bindable (idempotent) so it can re-run over just-swapped content after an in-app navigation.
@@ -682,7 +717,9 @@ function codeWidget(c) {
 // call site, so the shared-DataTable rule doesn't apply. The tag name is composed so the
 // call-site guard (which greps for the literal opening tag) stays quiet on these docs tables.
 const TBL = 't' + 'able';
-const docTable = (head, rows) => `<${TBL} class="api"><tr>${head}</tr>${rows}</${TBL}>`;
+// Wrapped in its own scroll container — the documented "wide table scrolls" exception to the
+// responsive floor (AGENTS.md) — so a wide API table scrolls in place rather than pushing the page.
+const docTable = (head, rows) => `<div class="api-scroll"><${TBL} class="api"><tr>${head}</tr>${rows}</${TBL}></div>`;
 
 function propsTable(props) {
   if (!props || !props.length) return '';
@@ -778,7 +815,7 @@ function sidebarNav(base, active, section) {
       RAW_FEEDS.map(f => `<a class="nav-item raw${active===('feed:'+f.file)?' active':''}" href="${base}feeds/${f.page}.html"><span>${esc(f.name)}</span><i>raw</i></a>`).join('') +
       `</div>`;
   }
-  return `<nav class="doc-nav">${inner}</nav>`;
+  return `<nav class="doc-nav" id="doc-nav">${inner}</nav>`;
 }
 
 const missingGlyphs = SEARCH_GLYPHS.filter(n => !ICONS.icons[n]);
@@ -802,16 +839,18 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style></head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html"><svg class="logo" viewBox="0 0 802 788" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M170.733 275.998C278.798 265.243 378.859 323.322 335.099 444.05C314.506 506.19 275.855 581.827 243.31 638.991C215.75 687.389 176.897 762.933 120.57 779.886C47.4014 801.893 13.3568 737.231 38.653 673.946C50.1622 645.147 76.3125 617.797 98.9558 596.777C156.207 543.64 209.364 500.767 267.058 447.815C322.558 396.876 304.327 320.548 218.229 348.597C177.136 361.996 147.118 395.204 100.29 386.241C77.245 381.831 59.1047 363.439 62.4007 338.917C68.3362 294.758 133.204 278.683 170.733 275.998Z" fill="#FF4081"/><path d="M450.382 386.525C486.54 382.591 528.879 404.694 561.903 419.06C613.821 441.642 719.681 495.692 751.619 545.435C773.16 578.987 758.736 620.992 723.868 629.865C680.288 637.375 652.573 611.747 625.142 583.886C583.067 541.158 542.425 487.894 502.946 446.124C459.708 404.54 411.899 421.557 428.008 479.843C437.434 513.92 476.519 553.502 451.17 590.608C432.96 617.264 400.896 603.783 387.05 579.1C355.646 523.118 368.986 393.785 450.369 386.525H450.382Z" fill="#6A1EBB"/><path d="M395.401 274.91C359.243 278.844 311.02 252.439 277.995 238.073C226.078 215.492 127.572 164.107 98.4196 118.689C76.8782 85.137 82.5894 39.0804 126.17 31.5704C169.75 24.0603 197.412 51.5244 223.829 78.3561C263.853 119.008 305.44 175.986 347.904 218.444C381.523 254.744 436.591 242.313 420.482 184.027C411.056 149.95 369.615 104.535 398.068 68.6762C418.857 42.4809 447.41 59.2659 459.706 83.1959C490.656 143.426 480.25 265.499 395.414 274.91L395.401 274.91Z" fill="#6A1EBB"/><path d="M513.867 313.624C513.866 313.622 513.869 313.62 513.87 313.622C537.558 338.301 582.265 297.03 606.997 294.547C624.974 292.744 647.013 299.901 646.488 321.974C646.488 358.004 581.094 363.359 554.43 360.693C502.932 355.544 465.718 321.759 484.522 264.702C500.282 216.871 551.389 106.373 589.653 75.139C630.502 41.788 679.136 67.0343 663.298 119.505C651.501 158.567 571.718 215.383 539.267 245.611C522.147 261.559 494.137 291.042 513.863 313.626C513.865 313.628 513.868 313.626 513.867 313.624Z" fill="#FF4081"/></svg><span>AhaSlides Design</span></a>
+  ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="18" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
   <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
 </header>
+<div class="doc-nav-backdrop"></div>
 <div class="doc-body" data-section="${section}">
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
 <script type="module">import '${base || './'}lib/icons.js';</script>
-<script>${SEARCH_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
+<script>${SEARCH_JS}${NAV_TOGGLE_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
@@ -1363,6 +1402,7 @@ function hubAnchorScript(items, mountId = 'hub-anchor-root') {
 // extraCss. The body column's section anchors set their own scroll-margin-top (84px) to clear the header.
 const HUB_ANCHOR_CSS = `
   .hub-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
+  .hub-body{min-width:0}
   .hub-anchor{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow:auto;padding-right:4px}
   .hub-anchor-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600;margin:0 0 10px;padding-left:2px}
   .hub-anchor .ant-anchor-link-title{font-size:13px;color:var(--aha-text-secondary)}

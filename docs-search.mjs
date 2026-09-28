@@ -239,7 +239,9 @@ export const SEARCH_CSS = `
 .top-nav{min-width:0;overflow-x:auto;scrollbar-width:none}
 .top-nav::-webkit-scrollbar{display:none}
 .top-nav a{flex:0 0 auto}
-@media (max-width:1279px){.hmeta>span{display:none}.doc-header{gap:var(--aha-space-16)}}
+/* frees enough header width to fit every top-nav tab with no internal scroll at 1440px — the
+   site's widest responsive-check width (screen-lint.mjs --measure) */
+@media (max-width:1489px){.hmeta>span{display:none}.doc-header{gap:var(--aha-space-16)}}
 @media (max-width:767px){
   .doc-header{padding:0 var(--aha-space-16);gap:var(--aha-space-8)}
   .brand>span{display:none}

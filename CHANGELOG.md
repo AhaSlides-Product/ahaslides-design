@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.68.1 — 2026-09-28
+### Fixed
+- **Docs site shell is responsive at 360 / 768 / 1440.** The 268px sidebar forced horizontal page scroll on every component/guideline page below ~630px; it's now an off-canvas panel below 900px, opened via a new header toggle (closes on a nav click, the backdrop, or Escape). Two remaining generator-output overflow sources are fixed too: the playground's variant segmented control now wraps instead of forcing width, and the API prop table now scrolls in its own container (the documented "wide table scrolls" exception) instead of pushing the page wide. The header's top-nav tabs no longer need an internal scroll at 1440px (the site's own hidden-metadata breakpoint moved from 1279 to 1489). (#132)
+### Changed
+- **The house responsive contract's top check width moves from 1200px to 1440px.** `screen-lint.mjs --measure` now renders 360/768/1440 (was 360/768/1200); the AGENTS.md non-negotiable text updated to match. (#132)
+
 ## 0.68.0 — 2026-09-28
 ### Removed
 - **Landing tab removed from the docs site.** It duplicated the rest of the system: its Button and Link blocks repeated Components (`<aha-button>`, including the `link` / `text-link` variants), and its Fonts, Spacing and Grid blocks repeated Foundations and the product Grid. Breaking for anyone reading the old feeds: `landing.llms.txt`, `landing.agent.json` and the per-block `landing/<slug>/<slug>.md` / `.agent.json` are gone. The old `landing/…` page URLs now forward to where each block lives. (#131)
