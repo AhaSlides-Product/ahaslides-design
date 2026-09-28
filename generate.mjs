@@ -1817,8 +1817,6 @@ function antiSlopSourceOf(key, surface) {
   return surface.links?.source || `guidelines/${key}.json`;
 }
 
-/* A surface's rules come from its linked source: a guideline (patterns) or, where no guideline
-   exists, the component contract it judges. */
 function resolveAntiSlopSource(sourcePath, guidelines, contracts) {
   const match = /^(guidelines|contracts)\/([a-z0-9-]+)\.json$/.exec(sourcePath || '');
   if (!match) return null;

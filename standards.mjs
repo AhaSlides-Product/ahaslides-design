@@ -534,6 +534,7 @@ const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [
    judge criterion (C\d+) for a wired surface must resolve here. */
 const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
+const antiSlopSourceOf = (key, surface) => surface.links?.source || `guidelines/${key}.json`;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -578,13 +579,14 @@ for (const p of guidelines) {
   //     resolve to a real criterion id; non-C\d+ refs (UXW-n, §n) are build-assertion ids and are
   //     warn-only. Coverage (every store criterion referenced) is enforced ONLY for DS-AUTHORED
   //     surfaces — a seeded surface's guideline still uses build-assertion ids (re-keyed in Phase 2).
-  const _surface = ANTISLOP?.surfaces?.[p.slug];
+  const [_surfaceKey, _surface] = Object.entries(ANTISLOP?.surfaces || {})
+    .find(([key, s]) => antiSlopSourceOf(key, s) === `guidelines/${p.slug}.json`) || [];
   if (_surface) {
     const _storeCrit = new Set((_surface.criteria || []).map(c => c.id));
     for (const ref of new Set((p.rules || []).flatMap(r => r.ref || []))) {
       if (/^C\d+$/.test(ref)) {
-        chk(`anti-slop: rule ref ${ref} resolves in store surface "${p.slug}"`, _storeCrit.has(ref),
-          `no such criterion in anti-slop/criteria.json surfaces.${p.slug} — fix the ref or add the criterion`);
+        chk(`anti-slop: rule ref ${ref} resolves in store surface "${_surfaceKey}"`, _storeCrit.has(ref),
+          `no such criterion in anti-slop/criteria.json surfaces.${_surfaceKey} — fix the ref or add the criterion`);
       } else {
         warn(`anti-slop: rule ref "${ref}" is a build-assertion id (not a C\\d+ judge criterion)`,
           'seeded surfaces reference build assertions; Phase-2 fan-out re-keys these to judge criteria');
@@ -594,7 +596,7 @@ for (const p of guidelines) {
       const _referenced = new Set((p.rules || []).flatMap(r => (r.ref || []).filter(x => /^C\d+$/.test(x))));
       for (const id of _storeCrit)
         chk(`anti-slop: store criterion ${id} is covered by a rule in "${p.slug}"`, _referenced.has(id),
-          `surfaces.${p.slug} defines ${id} but no authored rule references it`);
+          `surfaces.${_surfaceKey} defines ${id} but no authored rule references it`);
     }
   }
 
@@ -640,16 +642,21 @@ if (ANTISLOP) {
     achk(`surface "${key}": ≥1 well-formed criterion`,
       Array.isArray(s.criteria) && s.criteria.length >= 1 && s.criteria.every(c => /^C\d+$/.test(c.id) && c.title && c.test),
       'each criterion needs { id:C\\d+, title, test }');
-    const sourcePath = s.links?.source || `guidelines/${key}.json`;
+    const criterionIds = (s.criteria || []).map(c => c.id);
+    achk(`surface "${key}": criterion ids are unique`, new Set(criterionIds).size === criterionIds.length,
+      'two criteria share an id — rule refs and judge verdicts would be ambiguous');
+    const sourcePath = antiSlopSourceOf(key, s);
+    const sharedWith = Object.entries(ANTISLOP.surfaces).find(([other, o]) => other !== key && antiSlopSourceOf(other, o) === sourcePath);
+    achk(`surface "${key}": is the only surface judging ${sourcePath}`, !sharedWith,
+      `surface "${sharedWith?.[0]}" links the same source — one surface per guideline/contract`);
     const sourceMatch = /^(guidelines|contracts)\/([a-z0-9-]+)\.json$/.exec(sourcePath);
     const sourceResolves = !!sourceMatch && (sourceMatch[1] === 'guidelines'
       ? guidelines.some(p => p.slug === sourceMatch[2])
       : contracts.some(c => c.slug === sourceMatch[2]));
     achk(`surface "${key}": links a source that supplies its rules (${sourcePath})`, sourceResolves,
       'links.source must name an existing guidelines/<slug>.json, or contracts/<slug>.json when no guideline exists');
-    if (s.links?.page)
-      achk(`surface "${key}": links a generated page (${s.links.page})`, existsSync(join(DIST, s.links.page)),
-        'links.page must be a page npm run generate writes — fix the path or regenerate');
+    achk(`surface "${key}": links a generated page (${s.links?.page})`, !!s.links?.page && existsSync(join(DIST, s.links.page)),
+      'links.page must be a page npm run generate writes — fix the path or regenerate');
     if (s.origin === 'seeded')
       achk(`surface "${key}": records its seed provenance`, !!(s.seededFrom?.version && s.skillRef?.judge),
         'a seeded surface needs seededFrom.version + skillRef.judge — re-run sync-skills.mjs import');

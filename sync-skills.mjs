@@ -32,7 +32,8 @@ const TEST_MAX_CHARS = 400;
 function truncateAtWord(text, max) {
   if (text.length <= max) return text;
   const cut = text.slice(0, max - 1);
-  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s,;:—-]+$/, '') + '…';
+  const lastSpace = cut.lastIndexOf(' ');
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:—-]+$/, '') + '…';
 }
 
 // Parse `### Cn. <title> → PASS / FAIL` headers, then the first paragraph under each as the test text.

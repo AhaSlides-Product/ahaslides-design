@@ -36,7 +36,7 @@
         {
           "id": "C4",
           "title": "Human — blameless, jargon-free, no raw codes in the headline",
-          "test": "**Rule.** Don't blame the user; keep raw error codes / stack / HTTP status out of the headline (a code belongs in secondary detail); use plain language; lead with the user's goal. ✅ **GOOD:** \"That file type isn't supported — try a PNG or JPG.\" / \"We couldn't open your presentation.\" ❌ **BAD:** \"You entered an invalid file.\" · \"Null reference in render pipeline\" · \"Error 500\" **Common failure mode"
+          "test": "**Rule.** Don't blame the user; keep raw error codes / stack / HTTP status out of the headline (a code belongs in secondary detail); use plain language; lead with the user's goal."
         },
         {
           "id": "C5",

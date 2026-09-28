@@ -5,7 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-The gate also rejects an unfilled `(#123)` placeholder in the top entry: link the **real** PR number.
+The gate also rejects an unfilled `(#PR)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -15,7 +15,7 @@ The gate also rejects an unfilled `(#123)` placeholder in the top entry: link th
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
 ### Removed       ← a removed export / component / token
-- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#123)
+- one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#PR)
 ```
 
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
@@ -27,9 +27,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Seven more anti-slop surfaces in the DS-owned store: `paywall`, `status-badges`, `settings`, `feedback`, `overlays`, `canvas` and `audience`.** Each was seeded from its aha-design judge (plugin v1.80.0) with `sync-skills.mjs import` — 85 binary criteria in all — so `anti-slop.md` / `anti-slop.agent.json` now carry nine surfaces and every guideline is wired (the "Not yet wired" list is gone). Feedback C4 now points at the DS `<aha-alert>` contract instead of the plugin's `references/alert.md`. (#123)
 - **Each surface links the DS source that supplies its rules and its doc page (`links.source` / `links.page`).** Six surfaces link their `guidelines/<name>.json` and pattern page; `paywall`, which has no guideline, links the `contracts/paywall.json` component and its page, and the feed lists that component's self-check in place of pattern rules. Each pattern page, `.md` and `.agent.json` now links back to its anti-slop judge. (#123)
 ### Changed
-- **The anti-slop gate checks those links.** A surface's `links.source` must be an existing guideline or component contract, its `links.page` must be a page `generate.mjs` writes, and a seeded surface must record its own `seededFrom` + judge `skillRef`. `seededFrom` moved from the store root to each surface, since surfaces are seeded from different plugin versions. Build-assertion refs (`SETTINGS-01`, `§2`, …) now warn once per guideline rather than once per rule. (#123)
+- **The anti-slop gate checks those links.** A surface's `links.source` must be an existing guideline or component contract, its `links.page` must be a page `generate.mjs` writes, no two surfaces may judge the same source, criterion ids must be unique, and a seeded surface must record its own `seededFrom` + judge `skillRef`. `seededFrom` moved from the store root to each surface, since surfaces are seeded from different plugin versions. Build-assertion refs (`SETTINGS-01`, `§2`, …) now warn once per guideline rather than once per rule. (#123)
 ### Fixed
-- **`sync-skills.mjs import` seeds cleaner criterion text.** It reads only the paragraph under each `### Cn.` header (following a lead-in that ends in ":"), cuts long text at a word boundary with "…" rather than mid-word, and keeps DS-authored fields such as `links` when a surface is re-seeded. (#123)
+- **`sync-skills.mjs import` seeds cleaner criterion text.** It reads only the paragraph under each `### Cn.` header (following a lead-in that ends in ":"), cuts long text at a word boundary with "…" rather than mid-word, and keeps DS-authored fields such as `links` when a surface is re-seeded. `ux-writing` C4 loses the stray example text an earlier import had cut mid-word. (#123)
 
 ## 0.59.6 — 2026-09-28
 ### Changed
