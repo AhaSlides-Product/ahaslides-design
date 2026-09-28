@@ -45,9 +45,15 @@ const AREA_LABEL = {
 
 const decode = (s) => s.replace(/&nbsp;/g, ' ').replace(/&mdash;/g, '—').replace(/&rarr;/g, '→').replace(/&lt;/g, '<')
   .replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
-const textOf = (html) => decode(String(html || '').replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
+function stripTags(html) {
+  let text = String(html || ''), previous;
+  do { previous = text; text = text.replace(/<[^>]*>/g, ' '); } while (text !== previous);
+  return text.replace(/[<>]/g, ' ');
+}
+const textOf = (html) => decode(stripTags(html)).replace(/\s+/g, ' ').trim();
 const slugify = (s) => textOf(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'section';
-const stripNonContent = (html) => html.replace(/<(script|style|pre|template)\b[\s\S]*?<\/\1>/gi, '');
+const PROTECTED_BLOCK = /<(script|style|pre|template)\b[\s\S]*?<\/\1\s*>/gi;
+const stripNonContent = (html) => html.replace(PROTECTED_BLOCK, '');
 
 /* A heading is a docs heading (anchor + index it) when it carries no class, or one of the docs
    classes — never a class from a live preview (aha-section__title, aha-type__h2, …). */
@@ -57,14 +63,15 @@ const DOC_HEADING = /<(h2|h3)((?:\s+(?:class="(?:lg-cat|grp-h|tok-h3|pat-h3)"|st
  *  Script/pre/style blocks are left untouched; existing ids are kept. */
 export function anchorHeadings(html) {
   const used = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]));
-  const parts = html.split(/(<(?:script|style|pre|template)\b[\s\S]*?<\/(?:script|style|pre|template)>)/i);
-  return parts.map((chunk, i) => i % 2 ? chunk : chunk.replace(DOC_HEADING, (whole, tag, attrs, inner) => {
+  const blocks = [];
+  const masked = html.replace(PROTECTED_BLOCK, (block) => `\u0000${blocks.push(block) - 1}\u0000`);
+  return masked.replace(DOC_HEADING, (whole, tag, attrs, inner) => {
     if (/\bid="/.test(attrs) || (tag === 'h3' && !/class="(tok-h3|pat-h3)"/.test(attrs))) return whole;
     let id = slugify(inner), n = 2;
     while (used.has(id)) id = `${slugify(inner)}-${n++}`;
     used.add(id);
     return `<${tag} id="${id}"${attrs}>${inner}</${tag}>`;
-  })).join('');
+  }).replace(/\u0000(\d+)\u0000/g, (_, index) => blocks[Number(index)]);
 }
 
 function walkHtml(dir) {
