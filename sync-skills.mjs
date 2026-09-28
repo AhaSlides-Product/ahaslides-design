@@ -4,13 +4,15 @@
  * Reads an aha-design *judge* SKILL.md and writes that surface's binary criteria
  * into the DS-owned store anti-slop/criteria.json under origin:"seeded". The store
  * is the source of truth from here on; this script only bootstraps a seeded surface.
+ * DS-authored fields on an existing surface (e.g. `targets`) survive a re-seed.
  *
  * Usage:
  *   node sync-skills.mjs import ux-writing \
  *     --judge <path-to>/aha-design-ux-writing-judge/SKILL.md \
  *     --build aha-design:aha-design-ux-writing \
  *     --judge-ref aha-design:aha-design-ux-writing-judge \
- *     --surface copy
+ *     --surface copy \
+ *     --plugin-version 1.80.0 --date 2026-09-28
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -24,10 +26,10 @@ function arg(name, dflt) {
   return i >= 0 ? process.argv[i + 1] : dflt;
 }
 
-// Parse `### Cn. <title> → PASS / FAIL` headers, then the paragraph under each as the test text.
+// Parse `### Cn. <title> → PASS / FAIL` headers (typography's judge keys them Jn), then the paragraph under each as the test text.
 function parseCriteria(md) {
   const out = [];
-  const re = /^###\s+(C\d+)\.\s+(.+?)\s*(?:→\s*PASS\s*\/\s*FAIL)?\s*$/gm;
+  const re = /^###\s+([A-Z]\d+)\.\s+(.+?)\s*(?:→\s*PASS\s*\/\s*FAIL)?\s*$/gm;
   const heads = [...md.matchAll(re)];
   for (let k = 0; k < heads.length; k++) {
     const id = heads[k][1];
@@ -54,13 +56,14 @@ if (!criteria.length) { console.error('parsed 0 criteria — check the SKILL.md 
 mkdirSync(dirname(STORE), { recursive: true });
 const store = existsSync(STORE)
   ? JSON.parse(readFileSync(STORE, 'utf8'))
-  : { owner: 'ahaslides-design', seededFrom: {}, surfaces: {} };
+  : { owner: 'ahaslides-design', surfaces: {} };
 
-store.seededFrom = { plugin: 'aha-design', version: arg('plugin-version', 'unknown'), importedOn: arg('date', 'unknown') };
 store.surfaces = store.surfaces || {};
 store.surfaces[surfaceKey] = {
+  ...store.surfaces[surfaceKey],
   surface: arg('surface', surfaceKey),
   origin: 'seeded',
+  seededFrom: { plugin: 'aha-design', version: arg('plugin-version', 'unknown'), importedOn: arg('date', 'unknown') },
   skillRef: { build: arg('build', null), judge: arg('judge-ref', null) },
   criteria,
 };
