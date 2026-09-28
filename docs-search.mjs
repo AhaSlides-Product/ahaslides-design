@@ -77,7 +77,7 @@ const stripNonContent = (html) => splitProtected(html).filter((_, index) => inde
 
 /* A heading is a docs heading (anchor + index it) when it carries no class, or one of the docs
    classes — never a class from a live preview (aha-section__title, aha-type__h2, …). */
-const DOC_HEADING = /<(h2|h3)((?:\s+(?:class="(?:lg-cat|grp-h|tok-h3|pat-h3)"|style="[^"]*"|id="[^"]*"))*)\s*>([\s\S]*?)<\/\1>/g;
+const DOC_HEADING = /<(h2|h3)((?:\s+(?:class="(?:grp-h|tok-h3|pat-h3)"|style="[^"]*"|id="[^"]*"))*)\s*>([\s\S]*?)<\/\1>/g;
 
 /** Give every docs heading in a page's main HTML a stable id so search results can deep-link to it.
  *  Script/pre/style blocks are left untouched; existing ids are kept. */

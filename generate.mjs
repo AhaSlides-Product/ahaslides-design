@@ -1194,7 +1194,7 @@ function renderMarketingLlms(blocks) {
   for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md) — ${b.summary}\n`;
   return s;
 }
-/* The Landing tab was removed; its old URLs forward to where each block now lives. */
+/* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
 const LANDING_REDIRECTS = {
   '': 'marketing/hero/index.html',
   hero: 'marketing/hero/index.html',
