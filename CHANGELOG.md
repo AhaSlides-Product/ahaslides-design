@@ -24,9 +24,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.60.0 — 2026-09-28
 ### Added
-- **`DataTable` — a real, importable data-grid component (`@ahaslides-product/design/aha-data-table`).** Until now the DS shipped only `tableTheme`, so every app rebuilt the DataTable itself. `createDataTable({ React, antd })` binds the shared component to your own React + antd (zero runtime deps, works from a bundler or a CDN page) and brings the whole DS V3 table: white header that stays white when sorted, dividers only, radius 8, 16px cells, gray-30 hover, single-arrow sort (↓ → ↑ → none), checklist and min/max filter popovers with Reset / Apply, drag reorder (Alt+←/→ from the keyboard), right-click freeze (one column, pinned left), column resize, rows-per-page and an Edit columns checklist — icons from the DS library by name. Also exports `dataTableTheme` (the Vue path until the Vue twin lands) and `dataTableLabels` (i18n). New **Data table** docs page under Patterns · Data; the Table page's React snippet now imports it instead of a placeholder package. `table-theme` is unchanged. (#PR)
+- **`DataTable` — a real, importable data-grid component (`@ahaslides-product/design/aha-data-table`).** Until now the DS shipped only `tableTheme`, so every app rebuilt the DataTable itself. `createDataTable({ React, antd })` binds the shared component to your own React + antd (zero runtime deps, works from a bundler or a CDN page) and brings the whole DS V3 table: white header that stays white when sorted, dividers only, radius 8, 16px cells, gray-30 hover, single-arrow sort (↓ → ↑ → none), checklist and min/max filter popovers with Reset / Apply, drag reorder (Alt+←/→ from the keyboard), right-click freeze (one column, pinned left), column resize, rows-per-page and an Edit columns checklist — icons from the DS library by name. Also exports `dataTableTheme` (the Vue path until the Vue twin lands) and `dataTableLabels` (i18n). New **Data table** docs page under Components · Data Display, linked from Table's *When to use*. `table-theme` and the Table page are unchanged. (#PR)
 ### Fixed
 - Composite doc pages' install block now shows the named imports (`import { … } from …`) instead of claiming the module registers a custom element. (#PR)
+
+## 0.59.7 — 2026-09-28
+### Changed
+- **Composite components no longer have a separate "Theme (shared)" code tab — the theme is wired inside the React and Vue code you copy.** Each snippet imports the real `<slug>Theme` from `@ahaslides-product/design/<slug>-theme` and passes it to `ConfigProvider` / `a-config-provider`, so one paste gives the themed component. The Table React/Vue snippets drop the fictional `@aha/ui-react` / `@aha/ui-vue` `DataTable` for the real antd v6 / ant-design-vue v4 `Table` + `tableTheme`, and `standards` now rejects those placeholder packages. (#124)
+
+## 0.59.6 — 2026-09-28
+### Changed
+- **Table moves back to Components (Data Display).** It is a themed antd primitive, not an AhaSlides composition, so it no longer sits under Patterns · Data; the empty Data pattern group is gone and the contract's `group` is now `Data Display`. No component behaviour or API change. (#122)
 
 ## 0.59.5 — 2026-09-22
 ### Changed
