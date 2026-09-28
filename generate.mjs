@@ -812,7 +812,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
-<script type="module">import '${base}lib/icons.js';</script>
+<script type="module">import '${base || './'}lib/icons.js';</script>
 <script>${SEARCH_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }

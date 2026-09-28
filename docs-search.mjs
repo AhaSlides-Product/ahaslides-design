@@ -10,7 +10,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 
 /* One DS glyph per result type — every name must resolve in icons/registry.json. */
-export const SEARCH_TYPE_ICONS = {
+const SEARCH_TYPE_ICONS = {
   component: 'system-squares-four',
   guideline: 'system-book-simple',
   foundation: 'system-palette',
@@ -22,7 +22,6 @@ export const SEARCH_TYPE_ICONS = {
   token: 'system-sliders-horizontal',
   more: 'system-arrow-right',
 };
-/* Every glyph the search UI renders — checked against icons/registry.json at build time. */
 export const SEARCH_GLYPHS = [...new Set([
   ...Object.values(SEARCH_TYPE_ICONS),
   'system-magnifying-glass', 'system-magnifying-glass-exclamation', 'system-x', 'system-warning-circle',
@@ -34,13 +33,16 @@ const GROUPS = [
   ['token', 'Tokens'], ['icon', 'Icons'], ['landing', 'Landing'], ['audience', 'Audience Library'],
   ['section', 'Sections'], ['page', 'Pages'], ['feed', 'Agent feeds'],
 ];
-const AREA_TYPE = {
-  overview: 'page', foundations: 'foundation', components: 'component', patterns: 'component',
-  settings: 'component', landing: 'landing', audience: 'audience', guidelines: 'guideline', feeds: 'feed',
-};
-const AREA_LABEL = {
-  overview: 'Overview', foundations: 'Foundations', components: 'Components', patterns: 'Patterns',
-  settings: 'Settings', landing: 'Landing', audience: 'Audience Library', guidelines: 'Guidelines', feeds: 'Agent feeds',
+const AREAS = {
+  overview: { type: 'page', label: 'Overview' },
+  foundations: { type: 'foundation', label: 'Foundations' },
+  components: { type: 'component', label: 'Components' },
+  patterns: { type: 'component', label: 'Patterns' },
+  settings: { type: 'component', label: 'Settings' },
+  landing: { type: 'landing', label: 'Landing' },
+  audience: { type: 'audience', label: 'Audience Library' },
+  guidelines: { type: 'guideline', label: 'Guidelines' },
+  feeds: { type: 'feed', label: 'Agent feeds' },
 };
 
 const decode = (s) => s.replace(/&nbsp;/g, ' ').replace(/&mdash;/g, '—').replace(/&rarr;/g, '→').replace(/&lt;/g, '<')
@@ -85,8 +87,9 @@ export function anchorHeadings(html) {
   const used = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]));
   return splitProtected(html).map((chunk, index) => index % 2 ? chunk : chunk.replace(DOC_HEADING, (whole, tag, attrs, inner) => {
     if (/\bid="/.test(attrs) || (tag === 'h3' && !/class="(tok-h3|pat-h3)"/.test(attrs))) return whole;
-    let id = slugify(inner), n = 2;
-    while (used.has(id)) id = `${slugify(inner)}-${n++}`;
+    const slug = slugify(inner);
+    let id = slug, n = 2;
+    while (used.has(id)) id = `${slug}-${n++}`;
     used.add(id);
     return `<${tag} id="${id}"${attrs}>${inner}</${tag}>`;
   })).join('');
@@ -106,7 +109,7 @@ export function buildSearchIndex({ outDir, contracts, icons, tokenCss, version }
   const add = (type, title, url, subtitle = '', keywords = '', extra = {}) =>
     items.push({ t: type, n: title, u: url, s: subtitle, k: keywords, ...extra });
   const bySlug = new Map(contracts.map(c => [c.slug, c]));
-  const pageText = [];   // [url, content, headings[]] for token → page resolution
+  const pageText = [];
 
   for (const file of walkHtml(outDir)) {
     const url = relative(outDir, file).split(sep).join('/');
@@ -123,9 +126,9 @@ export function buildSearchIndex({ outDir, contracts, icons, tokenCss, version }
       ...(c.props || []).map(p => p.name),
       ...((c.playground && c.playground.controls) || []).flatMap(ctl => (ctl.options || []).map(o => o.label)),
     ].filter(Boolean).join(' ') : '';
-    const type = AREA_TYPE[area] || 'page';
+    const { type, label } = AREAS[area] || { type: 'page', label: '' };
     const titleShort = title.split(' — ')[0].trim();
-    add(type, titleShort, url, subtitle || AREA_LABEL[area] || '', keywords, { a: AREA_LABEL[area] });
+    add(type, titleShort, url, subtitle || label, keywords, { a: label || undefined });
 
     const headings = [];
     for (const m of main.matchAll(/<(h2|h3) id="([^"]+)"[^>]*>([\s\S]*?)<\/\1>/g)) {
@@ -133,7 +136,7 @@ export function buildSearchIndex({ outDir, contracts, icons, tokenCss, version }
       if (!text) continue;
       headings.push({ id: m[2], index: m.index });
       const headingType = area === 'audience' ? 'audience' : 'section';
-      add(headingType, text, `${url}#${m[2]}`, `${titleShort} · ${AREA_LABEL[area] || ''}`.replace(/ · $/, ''));
+      add(headingType, text, `${url}#${m[2]}`, label ? `${titleShort} · ${label}` : titleShort);
     }
     pageText.push({ url, main, headings, area });
   }
@@ -145,7 +148,7 @@ export function buildSearchIndex({ outDir, contracts, icons, tokenCss, version }
     const [, name, value] = m;
     let url = 'feeds/variables-css.html';
     for (const p of foundationPages) {
-      const at = p.main.indexOf(name);
+      const at = p.main.search(new RegExp(name + '(?![a-z0-9-])'));
       if (at < 0) continue;
       const heading = p.headings.filter(h => h.index < at).pop();
       url = heading ? `${p.url}#${heading.id}` : p.url;
@@ -174,7 +177,7 @@ export function searchHeaderHtml(base) {
     </div>
     <div class="ds-search-panel" data-open="false">
       <div class="ds-search-state"></div>
-      <div class="ds-search-list" id="ds-search-list" role="listbox" aria-label="Search results"></div>
+      <div class="ds-search-list" id="ds-search-list" role="listbox" aria-label="Search results" tabindex="-1"></div>
       <div class="ds-search-foot" aria-hidden="true"><span><kbd><aha-icon name="system-arrow-up" size="12" decorative></aha-icon></kbd><kbd><aha-icon name="system-arrow-down" size="12" decorative></aha-icon></kbd> to move</span><span><kbd><aha-icon name="system-key-return" size="12" decorative></aha-icon></kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
       <div class="ds-search-live" role="status" aria-live="polite"></div>
     </div>
@@ -182,7 +185,6 @@ export function searchHeaderHtml(base) {
 }
 
 export const SEARCH_CSS = `
-/* ---- global search (header) ---- */
 .ds-search{position:relative;flex:0 0 auto;display:flex;align-items:center}
 .ds-search-toggle{display:none;align-items:center;justify-content:center;width:var(--aha-control-height-root);height:var(--aha-control-height-root);padding:0;border:1px solid transparent;border-radius:var(--aha-radius-default);background:transparent;color:var(--aha-icon-default);cursor:pointer;transition:background var(--aha-motion-fast) var(--aha-ease-out),color var(--aha-motion-fast) var(--aha-ease-out)}
 .ds-search-toggle:hover{background:var(--aha-bg-hover);color:var(--aha-color-primary)}
@@ -262,7 +264,7 @@ export const SEARCH_CSS = `
 export const SEARCH_JS = `
 (function(){
   var host=document.querySelector('.ds-search'); if(!host||host.__bound) return; host.__bound=true;
-  var root=new URL(host.getAttribute('data-root')||'', location.href).href;
+  var root=new URL(host.getAttribute('data-root')||'./', location.href).href;
   var input=host.querySelector('.ds-search-input'), panel=host.querySelector('.ds-search-panel'),
       list=host.querySelector('.ds-search-list'), state=host.querySelector('.ds-search-state'),
       live=host.querySelector('.ds-search-live'), toggle=host.querySelector('.ds-search-toggle'),
@@ -274,7 +276,7 @@ export const SEARCH_JS = `
 
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
   function norm(s){ return String(s||'').toLowerCase().replace(/colour/g,'color').replace(/[^a-z0-9]+/g,' ').trim(); }
-  function icon(name,size,cls){ return '<aha-icon name="'+name+'" size="'+(size||16)+'" decorative'+(cls?' class="'+cls+'"':'')+'></aha-icon>'; }
+  function icon(name,size,cls){ return '<aha-icon name="'+esc(name)+'" size="'+(size||16)+'" decorative'+(cls?' class="'+cls+'"':'')+'></aha-icon>'; }
 
   function load(){
     if(index) return Promise.resolve(index);
@@ -387,9 +389,9 @@ export const SEARCH_JS = `
     if(!isOpen()){ panel.setAttribute('data-open','true'); input.setAttribute('aria-expanded','true'); }
     render();
   }
-  function close(collapse){
-    panel.setAttribute('data-open','false'); input.setAttribute('aria-expanded','false');
-    if(collapse!==false){ host.setAttribute('data-expanded','false'); toggle.setAttribute('aria-expanded','false'); }
+  function close(){
+    panel.setAttribute('data-open','false'); input.setAttribute('aria-expanded','false'); setActive(-1);
+    host.setAttribute('data-expanded','false'); toggle.setAttribute('aria-expanded','false');
   }
   function expand(){
     host.setAttribute('data-expanded','true'); toggle.setAttribute('aria-expanded','true');
@@ -425,14 +427,17 @@ export const SEARCH_JS = `
     if(chip){ input.value=chip.getAttribute('data-q'); input.focus(); render(); return; }
     if(e.target.closest('.ds-search-retry')){ input.focus(); render(); }
   });
-  state.addEventListener('mousedown', function(e){ if(e.target.closest('button')) e.preventDefault(); });
+  panel.addEventListener('mousedown', function(e){ e.preventDefault(); });
+  host.addEventListener('focusout', function(e){ if(!host.contains(e.relatedTarget)) close(); });
   toggle.addEventListener('click', expand);
   closeBtn.addEventListener('click', function(){ close(); toggle.focus(); });
   document.addEventListener('pointerdown', function(e){ if(!host.contains(e.target)) close(); });
   document.addEventListener('keydown', function(e){
-    var t=e.target, typing=t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
-    if((e.key==='k'||e.key==='K')&&(e.metaKey||e.ctrlKey)&&!e.altKey){ e.preventDefault(); narrow()?expand():input.focus(); }
-    else if(e.key==='/'&&!typing&&!e.metaKey&&!e.ctrlKey&&!e.altKey){ e.preventDefault(); narrow()?expand():input.focus(); }
+    if(e.defaultPrevented||e.isComposing) return;
+    var t=e.composedPath?e.composedPath()[0]:e.target;
+    if(t!==input&&t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    var shortcut=(e.key==='k'||e.key==='K')&&(e.metaKey||e.ctrlKey)&&!e.altKey;
+    if(shortcut||(e.key==='/'&&t!==input&&!e.metaKey&&!e.ctrlKey&&!e.altKey)){ e.preventDefault(); narrow()?expand():input.focus(); }
   });
   window.addEventListener('popstate', function(){ close(); });
   var mac=/Mac|iPhone|iPad/.test(navigator.platform||'');
