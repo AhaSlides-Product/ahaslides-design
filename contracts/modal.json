@@ -45,8 +45,7 @@
   "snippets": [
     { "key": "html", "label": "HTML", "file": "modal.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared modalTheme. No build step." },
     { "key": "react", "label": "React", "file": "modal.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "modal.vue.txt" },
-    { "key": "theme", "label": "Theme (shared)", "file": "modal.theme.txt" }
+    { "key": "vue", "label": "Vue 3", "file": "modal.vue.txt" }
   ],
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same modalTheme; residual drift is caught by visual regression.",
   "preview": "modal.preview.html",
