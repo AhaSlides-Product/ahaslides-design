@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.60.0 — 2026-09-28
+### Added
+- **Seven more anti-slop surfaces in the DS-owned store: `antd`, `component-standard`, `icons`, `typography`, `table`, `shared-components` and `background`.** Each was seeded from its aha-design judge (plugin v1.80.0) with `sync-skills.mjs import`, then reviewed so every binary criterion judges against the DS's **live** contracts and tokens instead of the plugin's frozen `contract.json` / `typography.json` snapshots. Where the live DS overrules the old snapshot, the criterion follows the DS — e.g. typography is Plus Jakarta Sans at weights 400/600 only, with no Inter label set. `anti-slop.md` / `anti-slop.agent.json` now carry all nine surfaces. (#PR)
+- **Surfaces declare `targets` — the live DS sources they are judged against.** Each target names a contract, `tokens.canonical.json`, the icon registry or a guideline, and the feeds publish it as its fetchable URL (`<slug>.agent.json`, `design.md`, `icons.agent.json`, …), so a consumer's judge never reads a stale copy. (#PR)
+- **`guidelines/background.json` — the Background pattern.** White by default; the sanctioned non-white exceptions (feedback tint, app-shell layout grey, interactive state fill, explicitly requested colour), each bound to an `--aha-bg-*` token; no gradients except the AI affordance's border; token-only colours. (#PR)
+### Changed
+- **The anti-slop consistency gate covers the new surfaces.** A wired surface now needs a guideline **or** live targets; every target must be an existing DS source; no criterion may cite a frozen plugin snapshot; and judge ids may use the judge's own letter (typography's `J1..J7`). `seededFrom` provenance moved from the store root to each seeded surface, since surfaces are now seeded from different plugin versions. (#PR)
+
 ## 0.59.5 — 2026-09-22
 ### Changed
 - **Audience Library: the one-page nav is now the shared antd `Anchor` "On this page" component — the same one the Settings hub uses.** The audience gallery carried two hand-rolled navs (the shell left-sidebar of in-page `#` links **and** a header pill `chipnav`); both are replaced by the sticky antd `Anchor` island (via `noSidebar`), so every single-scroll DS area navigates through one component instead of a per-area re-implementation. Extracted the Settings hub's inline Anchor into shared `hubAnchor*` helpers (aside markup + React island + layout CSS) and pointed both pages at them. (#119)
