@@ -190,7 +190,7 @@
       "files": [],
       "label": "good-control",
       "notes": "Good control — conformant implementation passing all 8 criteria.",
-      "expected_output": "All 8 criteria PASS: single library (AntD v6 + @ant-design/plots), no hardcoded hex/px (values bound to theme tokens), radius from a token (borderRadiusLG), Button sized via size prop / XLButtonScope with colorPrimary fill, controls at theme controlHeight with one root ConfigProvider, focus ring intact and state shown by colour + icon, and no bespoke-coloured components to fail AA. and separation/grouping come from spacing rather than added divider lines or fencing boxes (C8). Overall: OK TO SHIP.",
+      "expected_output": "All 8 criteria PASS: single library (AntD v6 + @ant-design/plots), no hardcoded hex/px (values bound to theme tokens), radius from a token (borderRadiusLG), Button sized via size prop / XLButtonScope with colorPrimary fill, controls at theme controlHeight with one root ConfigProvider, focus ring intact and state shown by colour + icon, no bespoke-coloured components to fail AA, and separation/grouping come from spacing rather than added divider lines or fencing boxes (C8). Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C1 through C8 are all marked PASS",
@@ -221,7 +221,7 @@
       "files": [],
       "label": "good-control",
       "notes": "Good control — minimal conformant toolbar passing all 8 criteria.",
-      "expected_output": "All 8 criteria PASS: only AntD v6 imported, no hardcoded hex/px (token-bound values), radius from borderRadiusSM (4, on scale), Buttons sized via the size prop with the theme colorPrimary #6a1ebb fill, controls at theme height with a single root ConfigProvider, focus ring intact, and no custom-coloured components to fail AA. and separation/grouping come from spacing rather than added divider lines or fencing boxes (C8). Overall: OK TO SHIP.",
+      "expected_output": "All 8 criteria PASS: only AntD v6 imported, no hardcoded hex/px (token-bound values), radius from borderRadiusSM (4, on scale), Buttons sized via the size prop with the theme colorPrimary #6a1ebb fill, controls at theme height with a single root ConfigProvider, focus ring intact, no custom-coloured components to fail AA, and separation/grouping come from spacing rather than added divider lines or fencing boxes (C8). Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C1 through C8 are all marked PASS",

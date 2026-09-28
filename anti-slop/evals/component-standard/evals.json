@@ -211,11 +211,11 @@
     },
     {
       "id": 9,
-      "prompt": "Self-check this Tag component after a restyle. It ships `border-radius: 4px`, height 22 and 12/18 SemiBold 600 text matching the live DS tag contract; both rest AND active are styled with active rendered as an outline (not a fill); colour is bound to the neutral/brand role for its chrome context (no hardcoded hex); its icon is sized to the contract's 14px box and inherits currentColor; and a screenshot of the built tag (including the active state) was compared with the DS doc-site render of the tag and matches. The tag has a single variant and single size, both styled.",
+      "prompt": "Self-check this Tag component after a restyle. It ships `border-radius: 4px`, height 22 and 12/18 SemiBold 600 text matching the live DS tag contract; every interaction state — rest, hover, focus, active and disabled — is styled, with active rendered as an outline (not a fill); the leading icon and the closable × are styled too; colour is bound to the neutral/brand role for its chrome context (no hardcoded hex); its icon is sized to the contract's 14px box and inherits currentColor; and a screenshot of the built tag (including the active state) was compared with the DS doc-site render of the tag and matches. Every colour preset the contract declares (neutral, primary, success, processing, warning, error) is styled in both the filled and bordered shapes at the contract's single h22 size.",
       "files": [],
       "label": "good-control",
       "notes": "Good control — a fully-correct Tag passing all 8 criteria.",
-      "expected_output": "All 8 criteria PASS. C1: radius 4px, height and font equal the live DS tag contract. C2: the tag's single variant x size is styled. C3: no unstyled sub-parts. C4: rest and active states present. C5: active rendered on the outline property as the contract uses. C6: colour bound as the correct role, no off-binding hex. C7: icon sized to the box and inherits currentColor. C8: screenshot compared with the DS doc-site render (active state captured). Overall: OK TO SHIP.",
+      "expected_output": "All 8 criteria PASS. C1: radius 4px, height and font equal the live DS tag contract. C2: every colour preset in both shapes at the single h22 size is styled. C3: the chip, leading icon and close × are all styled. C4: rest, hover, focus, active and disabled all present. C5: active rendered on the outline property as the contract uses. C6: colour bound as the correct role, no off-binding hex. C7: icon sized to the box and inherits currentColor. C8: screenshot compared with the DS doc-site render (active state captured). Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "All of C1 through C8 are marked PASS",

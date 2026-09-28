@@ -180,11 +180,11 @@
     },
     {
       "id": 8,
-      "prompt": "Review a leaderboard rendered via the shared DataTable: theme-driven look (components.Table, no per-instance bordered/size/rowClassName), white header with secondary-grey labels and a bottom divider, horizontal dividers only, single-arrow sort, canonical checklist filter with Reset/Apply, right-click freeze that pins leftmost, pagination with the 'N / page' size changer, all glyphs from @phosphor-icons/react, and colour/radius bound to theme.useToken() (container borderRadius = token.borderRadius = 8). Column freeze is not used on this table.",
+      "prompt": "Review a leaderboard rendered via the shared DataTable: theme-driven look (components.Table, no per-instance bordered/size/rowClassName), white header with secondary-grey labels and a bottom divider, horizontal dividers only, single-arrow sort, canonical checklist filter with Reset/Apply, pagination with the 'N / page' size changer, all glyphs from @phosphor-icons/react, and colour/radius bound to theme.useToken() (container borderRadius = token.borderRadius = 8). Column freeze is not used on this table.",
       "files": [],
       "label": "good-control",
       "notes": "Positive control — correct DS V3 DataTable. Guards against a judge that only ever fails and confirms N/A handling for an absent feature (freeze).",
-      "expected_output": "All applicable criteria PASS (C5 freeze marked N/A since the table doesn't use it); overall OK TO SHIP. This is the control case — the judge must not invent fails on a correct DS V3 grid, and must accept N/A for an absent feature.",
+      "expected_output": "All criteria PASS; C5 passes on sort, filter and pagination, and the unused freeze is simply absent (N/A for that part, never a FAIL); overall OK TO SHIP. This is the control case — the judge must not invent fails on a correct DS V3 grid, and must accept N/A for an absent feature.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C1 through C8 are PASS (with any absent feature marked N/A, not FAIL)",
@@ -197,6 +197,7 @@
           "C2": "PASS",
           "C3": "PASS",
           "C4": "PASS",
+          "C5": "PASS",
           "C6": "PASS",
           "C7": "PASS",
           "C8": "PASS"

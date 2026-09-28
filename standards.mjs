@@ -27,7 +27,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
+import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
@@ -538,7 +538,6 @@ const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
 const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
 const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json)$/;
-const FROZEN_SNAPSHOT = /contract\.json|typography\.json|review\.html|references\//;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];

@@ -67,6 +67,9 @@ them. Each case is sampled `--samples` times (default 3) and majority-voted — 
 both directions. Output: a PASS/FAIL line per case, a per-criterion `expected→got` confusion table
 (which criterion the judge gets wrong, which one pass rate hides), and overall accuracy.
 `--judge-cmd` receives the prompt on stdin (default `claude -p`); `--timeout` is per call, in seconds.
+Before any model call the chosen surfaces' sets must pass the Tier 1 checks. Exit codes: `0` done,
+`1` below `--min-accuracy` (or a failed `--self-test`), `2` a usage error, an invalid eval set or a
+missing judge command. A judge call that fails or times out is logged and counted as no verdict.
 
 ## Writing a case
 

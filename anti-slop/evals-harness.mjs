@@ -3,7 +3,7 @@
  * evals-harness.mjs — validates the anti-slop eval sets (deterministic, gated by standards.mjs) and
  * scores a model against them (live, run by hand). Usage and the eval-set format: anti-slop/README.md.
  */
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
 import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
@@ -15,13 +15,16 @@ export const EVALS_DIR = join(HERE, 'evals');
 export const PASS = 'PASS', FAIL = 'FAIL', NOT_APPLICABLE = 'N/A';
 export const OK_TO_SHIP = 'OK_TO_SHIP', NEEDS_FIX = 'NEEDS_FIX';
 const LABEL_OVERALL = { 'good-control': OK_TO_SHIP, 'bad-example': NEEDS_FIX };
-const FROZEN_SNAPSHOT = /contract\.json|typography\.json|review\.html|references\//;
+export const FROZEN_SNAPSHOT = /contract\.json|typography\.json|review\.html|references\//;
 
 export const evalSetPath = (surface) => join(EVALS_DIR, surface, 'evals.json');
 
 /* ---------- verdict parsing + grading ---------- */
 
-const ROW = /^\s*\|?\s*([A-Z]\d{1,2})\s*\|.*?\b(PASS|FAIL|N\/A)\b/i;
+const ROW_ID = /^[A-Z]\d{1,2}$/i;
+// A bare-verdict cell beats one that merely leads with a verdict word, so a title like "Pass/fail contrast" loses to "❌ FAIL".
+const BARE_VERDICT_CELL = /^[^A-Za-z]*(PASS|FAIL|N\/A)[^A-Za-z]*$/i;
+const LEADING_VERDICT_CELL = /^[^A-Za-z]*(PASS|FAIL|N\/A)\b/i;
 const OVERALL = /Overall\b[^\n]*?\b(OK[\s-]*TO[\s-]*SHIP|NEEDS[\s-]*FIX)/i;
 
 const normaliseOverall = (token) => (/^OK/i.test(token.replace(/[\s-]/g, '')) ? OK_TO_SHIP : NEEDS_FIX);
@@ -30,8 +33,13 @@ const normaliseOverall = (token) => (/^OK/i.test(token.replace(/[\s-]/g, '')) ? 
 export function parseVerdict(report) {
   const criteria = {};
   for (const line of String(report || '').split('\n')) {
-    const match = line.match(ROW);
-    if (match && !(match[1].toUpperCase() in criteria)) criteria[match[1].toUpperCase()] = match[2].toUpperCase();
+    if (!line.includes('|')) continue;
+    const cells = line.split('|').map(cell => cell.trim()).filter(Boolean);
+    const id = cells[0]?.toUpperCase();
+    if (!ROW_ID.test(id || '') || id in criteria) continue;
+    const verdictCell = (pattern) => cells.slice(1).map(cell => cell.match(pattern)?.[1]).find(Boolean);
+    const verdict = verdictCell(BARE_VERDICT_CELL) || verdictCell(LEADING_VERDICT_CELL);
+    if (verdict) criteria[id] = verdict.toUpperCase();
   }
   const overallMatch = String(report || '').match(OVERALL);
   let overall = overallMatch ? normaliseOverall(overallMatch[1]) : null;
@@ -78,6 +86,7 @@ export function validateEvalSets(store) {
     let set;
     try { set = JSON.parse(readFileSync(path, 'utf8')); }
     catch (error) { check(`evals "${surface}": evals.json parses`, false, error.message); continue; }
+    if (!set || typeof set !== 'object' || Array.isArray(set)) { check(`evals "${surface}": evals.json is an object`, false, 'expected { surface, evals: [...] }'); continue; }
 
     const cases = Array.isArray(set.evals) ? set.evals : [];
     const storeIds = new Set((definition.criteria || []).map(c => c.id));
@@ -99,11 +108,13 @@ export function validateEvalSets(store) {
       if (testCase?.label === 'bad-example' && !fails.length) malformed.push(`${tag}: a bad-example must expect ≥1 FAIL criterion`);
       if (testCase?.label === 'good-control' && fails.length) malformed.push(`${tag}: a good-control cannot expect a FAIL`);
       for (const [id] of expectedCriteria) if (!storeIds.has(id)) unknownIds.add(id);
-      for (const file of testCase?.files || []) {
+      if (testCase?.files !== undefined && !Array.isArray(testCase.files)) malformed.push(`${tag}: files must be an array`);
+      for (const file of Array.isArray(testCase?.files) ? testCase.files : []) {
         const filePath = typeof file === 'string' ? file : file?.path;
         const absolute = resolve(dirname(path), String(filePath));
-        const inside = absolute.startsWith(dirname(path) + sep);
-        if (!filePath || !inside || !existsSync(absolute) || !statSync(absolute).isFile()) missingFixtures.push(`${tag}: ${filePath}`);
+        const resolves = filePath && existsSync(absolute) && statSync(absolute).isFile()
+          && realpathSync(absolute).startsWith(realpathSync(dirname(path)) + sep);
+        if (!resolves) missingFixtures.push(`${tag}: ${filePath}`);
       }
       const text = [testCase?.prompt, testCase?.expected_output, ...(testCase?.assertions || [])].join(' ');
       if (FROZEN_SNAPSHOT.test(text)) frozen.push(tag);
@@ -156,6 +167,8 @@ export function selfTest() {
   expect(judgeLetter.overall === OK_TO_SHIP, 'parser: normalises OK-TO-SHIP');
   expect(parseVerdict('| C1 | x | FAIL |').overall === NEEDS_FIX, 'parser: derives Overall from a FAIL row when the line is missing');
   expect(parseVerdict('no table here').overall === null, 'parser: an empty report has no overall');
+  expect(parseVerdict('| C3 | Pass/fail contrast | ❌ FAIL |').criteria.C3 === FAIL, 'parser: a verdict word inside the title is not the verdict');
+  expect(parseVerdict('| C4 | Focus ring | FAIL — outline: none |').criteria.C4 === FAIL, 'parser: reads a verdict followed by a note');
 
   const bad = { label: 'bad-example', expected: { overall: NEEDS_FIX, criteria: { C2: FAIL } } };
   expect(grade(parsed, bad).ok, 'grader: a matching bad-example passes');
@@ -206,6 +219,9 @@ function scoreSurface(surface, definition, options) {
     for (let i = 0; i < options.samples; i++) {
       const [command, ...args] = options.judgeCmd.split(/\s+/);
       const run = spawnSync(command, args, { input: prompt, encoding: 'utf8', timeout: options.timeout * 1000, maxBuffer: 16 << 20 });
+      if (run.error?.code === 'ENOENT') throw new UsageError(`--judge-cmd: ${command} not found`);
+      if (run.error || run.status !== 0)
+        console.error(`  ! ${surface} case ${testCase.id} sample ${i + 1}: judge ${run.error ? run.error.message : `exited ${run.status}`} — counted as no verdict`);
       samples.push(parseVerdict(run.stdout));
     }
     const ids = new Set(samples.flatMap(s => Object.keys(s.criteria)));
@@ -230,20 +246,29 @@ function scoreSurface(surface, definition, options) {
   return { correct, graded: options.dryRun ? 0 : set.evals.length };
 }
 
+class UsageError extends Error {}
+
+function numberFlag(flag, raw, isValid) {
+  const value = Number(raw);
+  if (raw === undefined || !Number.isFinite(value) || !isValid(value)) throw new UsageError(`${flag} got "${raw}"`);
+  return value;
+}
+
 function parseArguments(argv) {
   const options = { samples: 3, judgeCmd: 'claude -p', timeout: 300, minAccuracy: null, dryRun: false, all: false, surface: null, selfTest: false };
   for (let i = 0; i < argv.length; i++) {
     const flag = argv[i];
     if (flag === '--surface') options.surface = argv[++i];
     else if (flag === '--all') options.all = true;
-    else if (flag === '--samples') options.samples = Number(argv[++i]);
-    else if (flag === '--judge-cmd') options.judgeCmd = argv[++i];
-    else if (flag === '--timeout') options.timeout = Number(argv[++i]);
-    else if (flag === '--min-accuracy') options.minAccuracy = Number(argv[++i]);
+    else if (flag === '--samples') options.samples = numberFlag(flag, argv[++i], v => Number.isInteger(v) && v >= 1);
+    else if (flag === '--judge-cmd') options.judgeCmd = argv[++i]?.trim() || '';
+    else if (flag === '--timeout') options.timeout = numberFlag(flag, argv[++i], v => v > 0);
+    else if (flag === '--min-accuracy') options.minAccuracy = numberFlag(flag, argv[++i], v => v >= 0 && v <= 1);
     else if (flag === '--dry-run') options.dryRun = true;
     else if (flag === '--self-test') options.selfTest = true;
-    else throw new Error(`unknown flag ${flag}`);
+    else throw new UsageError(`unknown flag ${flag}`);
   }
+  if (!options.judgeCmd) throw new UsageError('--judge-cmd needs a command');
   return options;
 }
 
@@ -263,6 +288,11 @@ function main() {
     console.error(`pass --surface <${Object.keys(store.surfaces).join('|')}> or --all`);
     return 2;
   }
+  const invalid = validateEvalSets(store).checks.filter(([name, ok]) => !ok && surfaces.some(s => name.startsWith(`evals "${s}"`)));
+  if (invalid.length) {
+    for (const [name, , note] of invalid) console.error(`✗ ${name}  [${note}]`);
+    return 2;
+  }
   let correct = 0, graded = 0;
   for (const surface of surfaces) {
     const result = scoreSurface(surface, store.surfaces[surface], options);
@@ -278,4 +308,11 @@ function main() {
   return 0;
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) process.exit(main());
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try { process.exit(main()); }
+  catch (error) {
+    if (!(error instanceof UsageError)) throw error;
+    console.error(error.message);
+    process.exit(2);
+  }
+}
