@@ -4,8 +4,8 @@
   "group": "Data Display",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
-  "summary": "A data grid — results, leaderboard, participant/admin list — rendered through the shared DataTable.",
-  "lead": "Too complex to rebuild as a web component, so Table stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both rendered through the shared DataTable and themed once by components.Table. Two implementations, one DS V3 look, policed by visual regression. This is the composite half of the hybrid.",
+  "summary": "A data grid — results, leaderboard, participant/admin list — rendered as the real antd Table themed by the shared tableTheme.",
+  "lead": "Too complex to rebuild as a web component, so Table stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared tableTheme (components.Table) passed to ConfigProvider. Two implementations, one DS V3 look, policed by visual regression. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorBorderSecondary", "Table.headerBg", "Table.headerColor", "Table.borderColor", "Table.rowHoverBg", "Table.cellPaddingBlock", "Table.cellPaddingInline"],
   "spec": [
     { "label": "Container", "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the whole grid" },
@@ -26,8 +26,8 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "DataTable", "when": "any rows×columns grid — results, leaderboard, admin list" },
-      { "what": "never a raw <Table>", "when": "a bare antd Table restyled per call site is the drift this replaces" }
+      { "what": "Table + tableTheme in ConfigProvider", "when": "any rows×columns grid — results, leaderboard, admin list" },
+      { "what": "never a per-call-site restyle", "when": "a bare antd Table restyled at each call site is the drift this replaces" }
     ],
     "note": "White header (not antd grey #fafafa), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
   },
@@ -36,14 +36,13 @@
   "snippets": [
     { "key": "html", "label": "HTML", "file": "table.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared tableTheme. No build step." },
     { "key": "react", "label": "React", "file": "table.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "table.vue.txt" },
-    { "key": "theme", "label": "Theme (shared)", "file": "table.theme.txt" }
+    { "key": "vue", "label": "Vue 3", "file": "table.vue.txt" }
   ],
-  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme + the same DataTable wrapper; residual drift is caught by visual regression.",
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same tableTheme, passed to each tier's own ConfigProvider around the real antd v6 / ant-design-vue v4 Table; residual drift is caught by visual regression.",
   "preview": "table.preview.html",
   "conformancePart": "table.conformance.html",
   "selfCheck": [
-    { "label": "shared DataTable not raw <Table>", "verdict": "PASS" },
+    { "label": "themed via ConfigProvider + tableTheme, not a restyled <Table>", "verdict": "PASS" },
     { "label": "white header + grey labels", "verdict": "PASS" },
     { "label": "dividers-only, no zebra", "verdict": "PASS" },
     { "label": "radius 8 · 16px padding", "verdict": "PASS" },

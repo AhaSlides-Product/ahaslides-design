@@ -36,8 +36,7 @@
   "snippets": [
     { "key": "html", "label": "HTML", "file": "notification.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared notificationTheme. No build step." },
     { "key": "react", "label": "React", "file": "notification.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "notification.vue.txt" },
-    { "key": "theme", "label": "Theme (shared)", "file": "notification.theme.txt" }
+    { "key": "vue", "label": "Vue 3", "file": "notification.vue.txt" }
   ],
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same notificationTheme; residual drift is caught by visual regression.",
   "preview": "notification.preview.html",

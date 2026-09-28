@@ -175,6 +175,7 @@ const FONT_DEBT = {
 const ROVING_ROLES = /role\s*=\s*["'](radiogroup|radio|tablist|tab|menu|menubar|menuitem|menuitemradio|menuitemcheckbox|listbox|option|tree|treeitem|grid|gridcell|combobox)["']/i;
 const BANNED = [
   [/@aha\/design\b/, 'the old placeholder specifier @aha/design — must be @ahaslides-product/design'],
+  [/@aha\/ui-react\b|@aha\/ui-vue\b/, 'a fictional package — a composite snippet must import the real vendor library + the shared theme'],
   [/lucide|heroicons|font-?awesome|@ant-design\/icons/i, 'a non-DS icon set — use <aha-icon> by name'],
   [/@mui\/|@chakra-ui\/|@radix-ui\/|@mantine\/|react-bootstrap/i, 'a non-AntD component library'],
 ];
