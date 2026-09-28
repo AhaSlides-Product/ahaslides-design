@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.60.0 — 2026-09-28
+### Added
+- **The package now ships the agent rules: `guidelines/`, `anti-slop/criteria.json` and `tokens.canonical.json`.** They were missing from `files`, so an agent that only installed `@ahaslides-product/design` never received the surface guidelines or the anti-slop judge criteria and could reach them only through the docs-site feeds. All three are now in the tarball and exported as `./guidelines/*`, `./anti-slop/criteria.json` and `./tokens.canonical.json` (import with `with { type: 'json' }`). (#PR)
+
 ## 0.59.5 — 2026-09-22
 ### Changed
 - **Audience Library: the one-page nav is now the shared antd `Anchor` "On this page" component — the same one the Settings hub uses.** The audience gallery carried two hand-rolled navs (the shell left-sidebar of in-page `#` links **and** a header pill `chipnav`); both are replaced by the sticky antd `Anchor` island (via `noSidebar`), so every single-scroll DS area navigates through one component instead of a per-area re-implementation. Extracted the Settings hub's inline Anchor into shared `hubAnchor*` helpers (aside markup + React island + layout CSS) and pointed both pages at them. (#119)
