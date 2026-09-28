@@ -48,6 +48,11 @@
           "id": "C7",
           "title": "Right home & shape",
           "test": "**Scope.** If the surface has **no** recovery-required message and **no** title+body message at all (e.g. a labels-only surface), C7 is **`N/A`** in full — not PASS."
+        },
+        {
+          "id": "C8",
+          "title": "Punctuation: no em dash or en dash",
+          "test": "**Rule.** Product copy never uses an em dash (—) or en dash (–) as punctuation. Use a full stop, a comma, a colon, parentheses, or split into two sentences instead."
         }
       ]
     },

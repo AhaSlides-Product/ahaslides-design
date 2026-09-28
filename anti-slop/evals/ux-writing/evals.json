@@ -214,6 +214,43 @@
         "id": 8,
         "remap": "identity — judge criterion ids equal the DS criterion ids"
       }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this empty-state copy: heading \"No responses yet — share your code\" and helper text \"Results appear here in real time – usually within seconds.\"",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C8: em dash and en dash used as punctuation",
+      "expected_output": "C8 FAILs. The heading uses an em dash and the helper text uses an en dash as punctuation. Fix: \"No responses yet. Share your code.\" and \"Results appear here in real time, usually within seconds.\" Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Cites both the em dash and the en dash"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this empty-state copy: heading \"No responses yet\" and helper text \"Share your code. Results appear here in real time (usually within seconds).\"",
+      "files": [],
+      "label": "good-control",
+      "notes": "C8: no dashes as punctuation",
+      "expected_output": "C8 PASSes: the copy uses full stops and parentheses, with no em or en dash. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C8 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C8": "PASS"
+        }
+      }
     }
   ]
 }

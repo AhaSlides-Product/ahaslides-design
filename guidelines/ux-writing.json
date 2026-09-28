@@ -9,7 +9,7 @@
   "skillRef": {
     "build": "aha-design:aha-design-ux-writing",
     "judge": "aha-design:aha-design-ux-writing-judge",
-    "note": "The skill is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-7 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, tooltips, onboarding, and confirmation copy are stubbed there and land here as they're written."
+    "note": "The skill is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-8 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, tooltips, onboarding, and confirmation copy are stubbed there and land here as they're written."
   },
   "surfaces": [
     "editor",
@@ -137,7 +137,7 @@
     },
     {
       "id": "human-blameless",
-      "rule": "Be blameless, jargon-free, and front-loaded. Don't blame the user ('That file type isn't supported — try a PNG or JPG', not 'You entered an invalid file'). Keep raw codes / stack traces / HTTP status out of the headline — tuck any code into secondary detail. Lead with the user's goal, not the system's failure.",
+      "rule": "Be blameless, jargon-free, and front-loaded. Don't blame the user ('That file type isn't supported. Try a PNG or JPG', not 'You entered an invalid file'). Keep raw codes / stack traces / HTTP status out of the headline — tuck any code into secondary detail. Lead with the user's goal, not the system's failure.",
       "ref": [
         "UXW-4"
       ]
@@ -161,6 +161,13 @@
       "rule": "Recovery-required copy must not live only in an auto-dismissing toast — it belongs in an inline Alert or on the page so the words survive. When a message has a title + body, the title carries the outcome and the body the next step (a shapeless single-string message isn't penalised on shape — its vagueness is a be-specific problem).",
       "ref": [
         "UXW-7"
+      ]
+    },
+    {
+      "id": "no-dash-punctuation",
+      "rule": "Product copy never uses an em dash or en dash as punctuation. Replace it with a full stop, a comma, a colon, parentheses, or split the sentence into two. A plain hyphen is fine only inside a compound word, such as \"Open-ended\", or, if the surface has decided so, to mark a range (\"1 to 10\"). \"That file type isn't supported. Try a PNG or JPG.\" not \"That file type isn't supported — try a PNG or JPG.\"",
+      "ref": [
+        "UXW-8"
       ]
     }
   ],
