@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
-const LDIR = join(root, 'landing');      // landing blocks — framework-free marketing sections (Hero, …) for the AhaSlides marketing sites, bound to the shared --aha-* tokens
+const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
@@ -208,7 +208,7 @@ const SETTINGS_CATALOG = [
 const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.slug)));
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
-let LANDING = [];           // loaded landing blocks (marketing sections) — drives the Landing nav + pages
+let MARKETING = [];         // loaded marketing sections — drives the Patterns → Marketing sections group + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
@@ -222,7 +222,6 @@ const SECTIONS = [
   { key: 'components',  label: 'Components' },
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
-  { key: 'landing',     label: 'Landing' },
   { key: 'audience',    label: 'Audience Library' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'feeds',       label: 'Agent feeds' },
@@ -277,7 +276,7 @@ function tokenVars(t) {
   /* layout — default max-width for centred app content (page/screen container) */
   L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px;`);
   /* type scale + spacing + weight + line-height + tracking — the canonical size/space/weight/lineHeight/
-     letterSpacing scales exposed as CSS vars so framework-free surfaces (the Landing tier) and future
+     letterSpacing scales exposed as CSS vars so framework-free surfaces (the marketing sections) and future
      components can bind dimensions to tokens instead of hardcoding px. Values are DERIVED from
      tokens.canonical.json — no new numbers authored here. */
   const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
@@ -749,6 +748,10 @@ function sidebarNav(base, active, section) {
       }).join('');
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
+    if (section === 'patterns' && MARKETING.length) inner +=
+      `<div class="nav-group"><div class="nav-cat">${MARKETING_CAT}</div>` +
+      MARKETING.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
+      `</div>`;
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -766,12 +769,6 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">Overview</div>` +
       `<a class="nav-item${onHub?' active':''}" href="${onHub ? '#top' : `${base}settings/index.html`}"><span>All settings (one page)</span><span class="nav-dot" title="live"></span></a>` +
       `</div>` + items;
-  } else if (section === 'landing') {
-    // No "soon" state here (unlike Components/Patterns): a block exists only once it ships markup.
-    inner = landingGroups().map(g =>
-      `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>` +
-      g.items.map(b => `<a class="nav-item${b.slug===active?' active':''}" href="${base}landing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
-      `</div>`).join('');
   } else if (section === 'guidelines') {
     inner = `<div class="nav-group"><div class="nav-cat">Guidelines</div>` +
       GUIDELINES.map(p => `<a class="nav-item${active===('guideline:'+p.slug)?' active':''}" href="${base}guidelines/${p.slug}/index.html"><span>${esc(p.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
@@ -1067,28 +1064,14 @@ function surfaceChoiceTable(rows) {
   return docTable('<th>Surface</th><th>Use for</th><th>Example</th>', body);
 }
 
-/* ===== landing — framework-free marketing blocks for the AhaSlides landing/marketing sites.
-   A SEPARATE tier from product Patterns: these are paste-and-run HTML+CSS sections (no build step,
-   no custom element) that landing builders drop into Webflow/WordPress/a static page. They REUSE
-   the shared Foundations — every colour, size, space, radius and weight binds to an --aha-* token,
-   so a marketing site and the product app stay on one brand source. One artifact per block in
-   landing/<slug>.json: { slug, name, cat, summary, html, css }. ===== */
-const landingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
-// Preview may carry per-item annotations (previewHtml); the paste block stays the clean html.
-const landingPreview = (b) => `<style>\n${b.css || ''}\n</style>\n${b.previewHtml || b.html || ''}\n`;
-// Category order follows first appearance in the loaded set, not an alpha sort.
-function landingGroups() {
-  const order = [];
-  const byCat = new Map();
-  for (const b of LANDING) {
-    if (!byCat.has(b.cat)) { byCat.set(b.cat, []); order.push(b.cat); }
-    byCat.get(b.cat).push(b);
-  }
-  return order.map(cat => ({ cat, items: byCat.get(cat) }));
-}
-// A block may declare `variants` (each with `sizes`): render one section per variant, previewing
-// every size with its own snippet. Blocks without `variants` fall through to the single Preview stage.
-/* ---- Audience Library — a first-class top-level area (sibling to Landing). ONE scroll
+/* ===== marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites,
+   listed under Patterns. Unlike a pattern contract they ship no custom element: a builder pastes
+   the block into Webflow/WordPress/a static page, and every value binds to an --aha-* token so the
+   marketing site and the product app stay on one brand source.
+   marketing/<slug>.json: { slug, name, summary, html, css }. ===== */
+const MARKETING_CAT = 'Marketing sections';
+const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
+/* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
    the DS top-nav + scoped sidebar like every other area. Content is data
    (audience/library.json); the collapsible HTML/React/Vue code panels reuse the shell's
@@ -1158,45 +1141,21 @@ function renderAudienceLibrary() {
   return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
-function renderLandingVariants(b) {
-  const sizes = b.sizes || [];
-  const anchor = (v, s) => `<a class="aha-btn ${v.cls}${s && s.cls ? ' ' + s.cls : ''}"`;
-  const sizeCell = (v, s) =>
-    `<span class="aha-size-cell">${anchor(v, s)} href="#">${esc(v.sample || v.name)}</a>` +
-    `<span class="aha-size-tag">${esc(s.label)}${s.note ? ' · ' + esc(s.note) : ''}</span></span>`;
-  const code = (v) => esc((sizes.length ? sizes : [null])
-    .map(s => `${anchor(v, s)}>${v.sample || v.name}</a>`).join('\n'));
-  const sections = (b.variants || []).map(v => `
-  <section class="landing-variant">
-    <h2>${esc(v.name)}</h2>
-    ${v.lead ? `<p class="body">${esc(v.lead)}</p>` : ''}
-    ${sizes.length ? '<p class="sizes-label">All sizes</p>' : ''}
-    <div class="landing-stage"><div class="aha-size-row">${sizes.map(s => sizeCell(v, s)).join('')}</div></div>
-    <div class="code-panel feed">
-      <div class="code-head"><div class="tabs"><span class="tab active">${esc(b.slug)}--${esc(v.key || v.cls)}.html</span></div><button class="copy" type="button">Copy</button></div>
-      <pre class="active">${code(v)}</pre>
-    </div>
-  </section>`).join('');
-  return `<style>\n${b.css || ''}\n</style>\n${b.intro ? `<p class="body landing-intro">${esc(b.intro)}</p>` : ''}\n${sections}`;
-}
-function renderLandingHtml(b) {
-  const snippet = landingSnippet(b);
-  const preview = (b.variants && b.variants.length)
-    ? renderLandingVariants(b)
-    : `<h2>Preview</h2>\n  <div class="landing-stage">${landingPreview(b)}</div>`;
+function renderMarketingHtml(b) {
   const main = `
-  <p class="crumbs">Landing · ${esc(b.cat)}</p>
+  <p class="crumbs">Patterns · ${MARKETING_CAT}</p>
   <h1>${esc(b.name)}</h1>
   <p class="subtitle">${esc(b.summary)}</p>
-  <p class="gen">◆ generated from landing/${b.slug}.json — do not edit by hand</p>
+  <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-  ${preview}
+  <h2>Preview</h2>
+  <div class="marketing-stage">${marketingSnippet(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
   <p class="body">Framework-free — copy the whole block into any page (Webflow, WordPress, a static site). It binds only to the shared <code>--aha-*</code> tokens, so load the token layer once on the page first and the block inherits the AhaSlides brand automatically.</p>
   <div class="code-panel feed">
     <div class="code-head"><div class="tabs"><span class="tab active">${esc(b.slug)}.html</span></div><button class="copy" type="button">Copy</button></div>
-    <pre class="active">${esc(snippet)}</pre>
+    <pre class="active">${esc(marketingSnippet(b))}</pre>
   </div>
 
   <h2>Load the tokens once</h2>
@@ -1205,80 +1164,54 @@ function renderLandingHtml(b) {
     <div class="code-head"><div class="tabs"><span class="tab active">head</span></div><button class="copy" type="button">Copy</button></div>
     <pre class="active">${esc(`<link rel="stylesheet" href="${SITE}/variables.css">`)}</pre>
   </div>`;
-  const extraCss = `
-  .badge.landing{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
-  .landing-stage{margin:0 0 12px}
-  .landing-intro{font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary);max-width:62ch;margin:0 0 var(--aha-space-8)}
-  .landing-variant{border-top:1px solid var(--aha-split);padding-top:var(--aha-space-24);margin-top:var(--aha-space-32)}
-  .landing-variant h2{margin-bottom:var(--aha-space-8)}
-  .sizes-label{font-size:var(--aha-size-sm);letter-spacing:.5px;text-transform:uppercase;color:var(--aha-text-tertiary);font-weight:var(--aha-weight-semibold);margin:0 0 10px}
-  .aha-size-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--aha-space-24)}
-  .aha-size-cell{display:inline-flex;flex-direction:column;align-items:center;gap:var(--aha-space-8)}
-  .aha-size-tag{font-size:var(--aha-size-sm);color:var(--aha-text-tertiary);font-weight:var(--aha-weight-semibold);letter-spacing:.4px}
-  .aha-btns--annotated{flex-direction:column;align-items:flex-start;gap:var(--aha-space-20)}
-  .aha-btn-item{display:inline-flex;flex-direction:column;gap:var(--aha-space-8)}
-  .aha-btn-anno{font-size:var(--aha-size-sm);line-height:var(--aha-line-height-body);color:var(--aha-text-tertiary)}
-  .aha-btn-anno code{font-family:var(--aha-font-mono);color:var(--aha-text-secondary)}
-  .aha-type-scale{width:100%;border-collapse:collapse;font-family:var(--aha-font-product)}
-  .aha-type-scale th{text-align:left;text-transform:uppercase;letter-spacing:.4px;font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);color:var(--aha-text-tertiary);background:var(--aha-bg-layout);padding:var(--aha-space-12) var(--aha-space-16);border-bottom:1px solid var(--aha-split)}
-  .aha-type-scale td{padding:var(--aha-space-16);border-bottom:1px solid var(--aha-split);vertical-align:middle}
-  .aha-type-scale td.size{width:96px}
-  .aha-type-role{color:var(--aha-text-default);line-height:var(--aha-line-height-tight)}
-  .aha-type-size{display:inline-block;font-family:var(--aha-font-mono);font-size:var(--aha-size-sm);color:var(--aha-purple-80);background:var(--aha-purple-10);border-radius:var(--aha-radius-sm);padding:3px 9px}`;
-  return docShell({ base: '../../', active: b.slug, section: 'landing', main, extraCss });
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, section: 'patterns', main, extraCss: `
+  .marketing-stage{margin:0 0 12px}` });
 }
-function renderLandingIndex() {
-  const base = '../';
-  const cards = landingGroups().map(g =>
-    `<div class="nav-group"><h2 class="lg-cat">${esc(g.cat)}</h2><div class="lg-grid">` +
-    g.items.map(b =>
-      `<a class="lg-card" href="${base}landing/${b.slug}/index.html"><div class="lg-thumb">${landingSnippet(b)}</div>` +
-      `<div class="lg-meta"><b>${esc(b.name)}</b><span>${esc(b.summary)}</span></div></a>`).join('') +
-    `</div></div>`).join('');
-  const main = `
-  <p class="crumbs">Landing</p>
-  <h1>Landing blocks</h1>
-  <p class="subtitle">Paste-and-run marketing sections for the AhaSlides landing sites — heroes, feature grids, CTA bands and more. Framework-free HTML + CSS, bound to the same Foundations tokens as the product design system, so marketing and product never drift apart.</p>
-  ${LANDING.length ? cards : `<p class="body">No landing blocks yet.</p>`}`;
-  const extraCss = `
-  .lg-cat{font-size:15px;margin:26px 0 12px}
-  .lg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,20rem),1fr));gap:var(--aha-space-16)}
-  .lg-card{display:block;border:1px solid var(--aha-split);border-radius:var(--aha-radius-lg);overflow:hidden;text-decoration:none;color:inherit;background:var(--aha-white);transition:border-color var(--aha-motion-mid) var(--aha-ease-in-out),box-shadow var(--aha-motion-mid) var(--aha-ease-in-out)}
-  .lg-card:hover{border-color:var(--aha-purple-40);box-shadow:0 6px 20px var(--aha-ink-a10)}
-  .lg-thumb{height:180px;overflow:hidden;pointer-events:none;border-bottom:1px solid var(--aha-split);position:relative}
-  .lg-thumb>*{transform:scale(.42);transform-origin:top left;width:238%}
-  .lg-meta{padding:var(--aha-space-12) var(--aha-space-16)}
-  .lg-meta b{display:block;font-size:15px;margin-bottom:2px}
-  .lg-meta span{font-size:13px;color:var(--aha-text-secondary)}`;
-  return docShell({ base, active: '', section: 'landing', main, extraCss });
-}
-function renderLandingMd(b) {
-  return `# ${b.name} — landing block
-> Generated from landing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
+function renderMarketingMd(b) {
+  return `# ${b.name} — marketing section
+> Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
 
-Category: ${b.cat}. Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
+Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
 \`\`\`html
-${landingSnippet(b)}\`\`\`
+${marketingSnippet(b)}\`\`\`
 `;
 }
-function renderLandingAgent(b) {
+function renderMarketingAgent(b) {
   return JSON.stringify({
-    generatedFrom: `landing/${b.slug}.json`, kind: 'landing-block', name: b.name, slug: b.slug,
-    cat: b.cat, summary: b.summary,
+    generatedFrom: `marketing/${b.slug}.json`, kind: 'marketing-section', name: b.name, slug: b.slug,
+    summary: b.summary,
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
-function renderLandingLlms(blocks) {
-  let s = `# AhaSlides Design System — landing blocks\n\n> Framework-free marketing sections for the AhaSlides landing sites. Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
-  for (const b of blocks) s += `- [${b.name}](landing/${b.slug}/${b.slug}.md) — ${b.cat} — ${b.summary}\n`;
+function renderMarketingLlms(blocks) {
+  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Patterns → ${MARKETING_CAT}). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
+  for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md) — ${b.summary}\n`;
   return s;
 }
+/* The Landing tab was removed; its old URLs forward to where each block now lives. */
+const LANDING_REDIRECTS = {
+  '': 'marketing/hero/index.html',
+  hero: 'marketing/hero/index.html',
+  'section-container': 'marketing/section-container/index.html',
+  button: 'button/index.html',
+  link: 'button/index.html',
+  fonts: 'foundations/typography.html',
+  spacing: 'foundations/spacing.html',
+  grid: 'grid/index.html',
+};
+const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<title>Moved — AhaSlides Design System</title>
+<meta name="robots" content="noindex"/>
+<meta http-equiv="refresh" content="0; url=${target}"/>
+<link rel="canonical" href="${target}"/>
+</head><body><p>This page moved to <a href="${target}">${target}</a>.</p></body></html>
+`;
 
 function renderGuidelineHtml(p) {
   const missing = (p.composedOf || []).filter(x => x.status === 'missing');
@@ -2014,10 +1947,10 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
-/* landing blocks — framework-free marketing sections (loaded before any page renders so the Landing
-   nav is present everywhere). Absent-safe: no landing/ dir → no Landing pages/feed. */
-LANDING = existsSync(LDIR)
-  ? readdirSync(LDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(LDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
+/* marketing sections — loaded before any page renders so the Patterns sidebar lists them everywhere.
+   Absent-safe: no marketing/ dir → no group/pages/feed. */
+MARKETING = existsSync(MDIR)
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -2038,7 +1971,6 @@ NAV_LANDING = {
   patterns: (firstPattern ? `${firstPattern.slug}/index.html` : 'index.html'),
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
-  landing: (LANDING.length ? 'landing/index.html' : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
   feeds: 'feeds/llms-txt.html',
 };
@@ -2048,10 +1980,10 @@ if (GUIDELINES.length) {
     { name: 'guidelines.agent.json', file: 'guidelines.agent.json', page: 'guidelines-agent-json', desc: 'Machine feed: every pattern with its composedOf reuse graph, rules (each ref’d to a skill assertion), and whether it ships code.' },
   );
 }
-if (LANDING.length) {
+if (MARKETING.length) {
   RAW_FEEDS.push(
-    { name: 'landing.llms.txt',  file: 'landing.llms.txt',  page: 'landing-llms-txt',  desc: 'One entry per landing block — the marketing sections (Hero, …) for the AhaSlides landing sites, paste-and-run and token-bound.' },
-    { name: 'landing.agent.json', file: 'landing.agent.json', page: 'landing-agent-json', desc: 'Machine feed: every landing block with its category, summary, paste-and-run html/css, and how to consume it.' },
+    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero, Section container) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
+    { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
 if (ANTISLOP) {
@@ -2186,19 +2118,20 @@ if (GUIDELINES.length) {
   writeFileSync(join(OUT, 'guidelines.llms.txt'), renderGuidelinesLlms(GUIDELINES));
   writeFileSync(join(OUT, 'guidelines.agent.json'), JSON.stringify(GUIDELINES.map(p => JSON.parse(renderGuidelineAgent(p))), null, 2) + '\n');
 }
-/* landing — the area gallery + a doc page/md/agent feed per block, plus the two index feeds */
-if (LANDING.length) {
-  mkdirSync(join(OUT, 'landing'), { recursive: true });
-  writeFileSync(join(OUT, 'landing', 'index.html'), renderLandingIndex());
-  for (const b of LANDING) {
-    const d = join(OUT, 'landing', b.slug); mkdirSync(d, { recursive: true });
-    writeFileSync(join(d, 'index.html'), renderLandingHtml(b));
-    writeFileSync(join(d, `${b.slug}.md`), renderLandingMd(b));
-    writeFileSync(join(d, `${b.slug}.agent.json`), renderLandingAgent(b));
-    console.log(`  ✓ landing ${b.slug}: index.html · ${b.slug}.md · ${b.slug}.agent.json`);
+if (MARKETING.length) {
+  for (const b of MARKETING) {
+    const d = join(OUT, 'marketing', b.slug); mkdirSync(d, { recursive: true });
+    writeFileSync(join(d, 'index.html'), renderMarketingHtml(b));
+    writeFileSync(join(d, `${b.slug}.md`), renderMarketingMd(b));
+    writeFileSync(join(d, `${b.slug}.agent.json`), renderMarketingAgent(b));
+    console.log(`  ✓ marketing ${b.slug}: index.html · ${b.slug}.md · ${b.slug}.agent.json`);
   }
-  writeFileSync(join(OUT, 'landing.llms.txt'), renderLandingLlms(LANDING));
-  writeFileSync(join(OUT, 'landing.agent.json'), JSON.stringify(LANDING.map(b => JSON.parse(renderLandingAgent(b))), null, 2) + '\n');
+  writeFileSync(join(OUT, 'marketing.llms.txt'), renderMarketingLlms(MARKETING));
+  writeFileSync(join(OUT, 'marketing.agent.json'), JSON.stringify(MARKETING.map(b => JSON.parse(renderMarketingAgent(b))), null, 2) + '\n');
+}
+for (const [slug, target] of Object.entries(LANDING_REDIRECTS)) {
+  const d = join(OUT, 'landing', slug); mkdirSync(d, { recursive: true });
+  writeFileSync(join(d, 'index.html'), redirectStub((slug ? '../../' : '../') + target));
 }
 /* audience library — one first-class in-site page (audience/index.html) under the DS shell */
 if (AUDIENCE) {

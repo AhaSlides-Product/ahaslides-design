@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.68.0 — 2026-09-28
+### Removed
+- **Landing tab removed from the docs site.** It duplicated the rest of the system: its Button and Link blocks repeated Components (`<aha-button>`, including the `link` / `text-link` variants), and its Fonts, Spacing and Grid blocks repeated Foundations and the product Grid. Breaking for anyone reading the old feeds: `landing.llms.txt`, `landing.agent.json` and the per-block `landing/<slug>/<slug>.md` / `.agent.json` are gone. The old `landing/…` page URLs now forward to where each block lives. (#PR)
+### Changed
+- **Hero and Section container move to Patterns → Marketing sections.** Same preview, paste-and-run HTML and token-load snippet; source is now `marketing/<slug>.json`, pages are `marketing/<slug>/index.html`, and the feeds are `marketing.llms.txt` / `marketing.agent.json`. (#PR)
+- **The Webflow-to-update audit is kept in the repo** at `docs/landing-webflow-scan.md` (was `landing/SCAN.md`; not a site page). It now records the three landing-only values not yet in the product system: the pink promotional button, the underlined prose link, and the Nunito Display/H1-only headline rule. (#PR)
+
 ## 0.67.0 — 2026-09-28
 ### Added
 - **UX writing rule UXW-8: no em dash or en dash in product copy.** Added to `guidelines/ux-writing.json` (rule + ref), the `ux-writing` composition guide (`parts/ux-writing.guide.md`), and the DS-owned anti-slop store as criterion `C8`, authored here in the DS (the plugin's ux-writing skill is retired in aha-design 2.0.0, so the DS is the only home for the rule). Fixed the one existing example in `guidelines/ux-writing.json` and `parts/ux-writing.guide.md` that used an em dash as punctuation, so the page's own copy follows its new rule (#128)
