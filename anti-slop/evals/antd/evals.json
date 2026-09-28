@@ -1,0 +1,337 @@
+{
+  "surface": "antd",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.antd",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-antd-judge",
+    "path": "plugins/aha-design/skills/aha-design-antd-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this PR diff for a new date-range widget. Alongside the usual `import { Button, DatePicker } from 'antd'`, the developer added `import { DateRangePicker } from '@mui/x-date-pickers'` and `import { Column } from 'recharts'` for a small usage chart, explaining in the description that AntD's picker 'wasn't flexible enough for this one widget.'",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — banned second component library (MUI) + non-plots chart (recharts).",
+      "expected_output": "C1 (One component library — AntD v6 only) FAILs: the diff imports from @mui/x-date-pickers (a banned second UI kit) and charts from recharts instead of @ant-design/plots. Even 'just for one widget' a second library is not allowed. Fix: drop the MUI picker and use AntD DatePicker.RangePicker, and render the chart with @ant-design/plots (Column). All other criteria pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Cites the @mui/x-date-pickers import as a banned second UI kit",
+        "Flags recharts as a non-@ant-design/plots chart library"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review a new StatusBadge component. The JSX renders `<span style={{ color: '#6a1ebb', fontSize: '14px', gap: '8px' }}>` with the hex and px values baked directly into the inline style object. No call to theme.useToken() and no --aha-* CSS vars anywhere in the file.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — hardcoded hex + px literals in a component.",
+      "expected_output": "C2 (No hardcoded hex or px in components) FAILs: the component bakes a literal `#6a1ebb` colour and bare `14px`/`8px` sizes into the inline style instead of consuming theme tokens or --aha-* vars. Fix: pull `const { token } = theme.useToken()` and bind color to `token.colorPrimary`, fontSize to `token.fontSize`, and gap to a size token (or use the --aha-* CSS vars). All other criteria pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Identifies the literal #6a1ebb hex and 14px as the violation",
+        "Fix recommends theme.useToken() / --aha-* token binding"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review a bespoke promo container. Its CSS sets `border-radius: 13px;` — a value the developer picked by eye to 'look balanced', with no radius token referenced and no Design System reference cited. The same file also does `<Card styles={{ body: { borderRadius: 27 } }}>`, overriding the AntD Card's theme corner at the call site.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — eyeballed radius off the scale + override of an AntD component corner.",
+      "expected_output": "C3 (Border-radius is token-bound, not eyeballed) FAILs: `border-radius: 13px` is an arbitrary eyeballed value matching neither the radius scale (4 · 6 · 8 · 12 · 16 / 50% pill) nor any DS reference, and `borderRadius: 27` is an ad-hoc override of the AntD Card's theme corner. Fix: bind the bespoke box to a radius token / --aha-* var (or the DS reference radius, e.g. 12 for a card) and remove the per-call-site Card corner override so it keeps its theme radius. All other criteria pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Notes 13px/27 match neither the 4·6·8·12·16 scale nor a DS reference",
+        "Flags the ad-hoc override of the AntD Card theme corner"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review a hero call-to-action. The code is `<Button type=\"primary\" style={{ height: 52, fontSize: 18, borderRadius: 12, background: '#5A189A' }} className=\"aha-hero-btn\">Start free</Button>` — sized by hand, given a per-feature className, and filled with a bespoke darker purple.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — inline Button sizing, aha-*-btn className, and bespoke CTA fill instead of colorPrimary.",
+      "expected_output": "C4 (Button system honoured) FAILs: the Button is inline-sized with height/fontSize/borderRadius, carries an eslint-blocked `aha-hero-btn` className, and its fill is a bespoke `#5A189A` shade rather than colorPrimary #6a1ebb. Fix: wrap the hero CTA in `<XLButtonScope>`, drop the inline height/fontSize/borderRadius and the aha-hero-btn className, and let the fill be the theme colorPrimary #6a1ebb instead of #5A189A. All other criteria pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Flags the bespoke #5A189A fill as not colorPrimary #6a1ebb",
+        "Fix recommends <XLButtonScope> and removing inline sizing + aha-hero-btn className"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review a search form. It renders `<Input style={{ height: 44 }} />` and `<Select style={{ height: 44 }} />` to make the controls 'feel bigger', and it wraps that form section in a second `<ConfigProvider theme={{ token: { colorPrimary: '#f00' } }}>` nested inside the app's root ConfigProvider.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5 — per-instance control-height growth + ad-hoc nested ConfigProvider.",
+      "expected_output": "C5 (Control heights & provider nesting) FAILs: the Input and Select are grown per-instance to height 44 instead of inheriting the root controlHeight (32), and there is an ad-hoc nested `<ConfigProvider>` (not the only sanctioned nested provider, `<XLButtonScope>`). Fix: remove the per-instance height overrides so controls inherit theme controlHeight, and delete the nested ConfigProvider — mount ConfigProvider once at the app root. All other criteria pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Flags the height:44 per-instance control override against controlHeight 32",
+        "Flags the nested ConfigProvider that isn't <XLButtonScope>"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review a custom toolbar. The stylesheet has `button:focus-visible { outline: none; }` removing the global focus ring with no replacement, and a status tag rendered as `<Tag color={ok ? 'green' : 'red'} />` where the pass/fail meaning is carried by colour alone (no icon, text, or shape difference).",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6 — focus ring removed + state conveyed by colour alone.",
+      "expected_output": "C6 (Focus ring & non-colour state) FAILs: the global `:focus-visible` ring is overridden with `outline: none` on a focusable element with no equivalent replacement, and the Tag conveys ok/not-ok state by colour alone, which fails colour-blind/greyscale users. Fix: remove the `outline: none` (leave the global 2px focus ring intact), and pair the colour with a shape/text/icon change (e.g. a check vs cross glyph or label) so state survives greyscale. All other criteria pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Flags outline: none removing the global :focus-visible ring",
+        "Flags state conveyed by colour alone on the Tag"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review a custom chip that renders on a dark brand-purple fill. The CSS is `.chip-on-dark { background: var(--aha-colorPrimary); color: var(--aha-colorTextSecondary); }` — reusing the black-alpha secondary text token on top of the dark #6a1ebb fill, giving roughly 1.2:1 contrast.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 — black-alpha text token on a dark custom fill, below AA.",
+      "expected_output": "C7 (WCAG AA on custom components) FAILs: this bespoke chip hand-picks colours and the black-alpha `colorTextSecondary` token collapses to ~1.2:1 on the dark colorPrimary fill, far below the 4.5:1 body-text AA threshold. Fix: on a dark fill flip the text to `colorWhite` / --brand-white (white on #6a1ebb is ~8.3:1) and re-check against the real rendered background. All other criteria pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Notes colorTextSecondary collapses to ~1.2:1 on the dark fill, below 4.5:1",
+        "Fix recommends flipping text to colorWhite / --brand-white"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 7,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review a settings card. Imports are `import { Button, Card, Form, Input, Select } from 'antd'` and `import { Column } from '@ant-design/plots'`. Colours and sizes come from `const { token } = theme.useToken()` (color: token.colorText, fontSize: token.fontSize); a bespoke wrapper uses `borderRadius: token.borderRadiusLG`. The primary action is `<Button type=\"primary\" size=\"large\">Save</Button>` and the hero CTA is `<XLButtonScope><Button type=\"primary\">Start</Button></XLButtonScope>`. Inputs/Selects are left at theme height, ConfigProvider is mounted once at the app root, the global focus ring is untouched, and a selected chip changes colour AND shows a check icon. No custom-coloured components.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — conformant implementation passing all 8 criteria.",
+      "expected_output": "All 8 criteria PASS: single library (AntD v6 + @ant-design/plots), no hardcoded hex/px (values bound to theme tokens), radius from a token (borderRadiusLG), Button sized via size prop / XLButtonScope with colorPrimary fill, controls at theme controlHeight with one root ConfigProvider, focus ring intact and state shown by colour + icon, and no bespoke-coloured components to fail AA. and separation/grouping come from spacing rather than added divider lines or fencing boxes (C8). Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C1 through C8 are all marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS",
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 8,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review a compact toolbar built entirely on AntD: `import { Button, Tooltip, Space } from 'antd'`. A small Tag uses `borderRadius: token.borderRadiusSM` (4). Buttons are `<Button size=\"small\">` and `<Button type=\"primary\" size=\"middle\">Apply</Button>` — no inline styles, no custom classNames, primary fill left at the theme colorPrimary #6a1ebb. All colours/sizes reference theme.useToken(), controls sit at theme height, ConfigProvider is mounted once at root, the :focus-visible ring is untouched, and there are no bespoke hand-coloured components.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — minimal conformant toolbar passing all 8 criteria.",
+      "expected_output": "All 8 criteria PASS: only AntD v6 imported, no hardcoded hex/px (token-bound values), radius from borderRadiusSM (4, on scale), Buttons sized via the size prop with the theme colorPrimary #6a1ebb fill, controls at theme height with a single root ConfigProvider, focus ring intact, and no custom-coloured components to fail AA. and separation/grouping come from spacing rather than added divider lines or fencing boxes (C8). Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C1 through C8 are all marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS",
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 9,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this Vue settings panel change. The '+' glyph in the panel's \"+ Add\" button was sitting a few px below the label, so the developer added a class to the button and a scoped style to correct it:\n\n```vue\n<Button block class=\"aha-add-btn mt-2\" @click=\"addItem\">\n  <template #icon><PlusOutlined /></template>\n  Add item\n</Button>\n\n<style scoped>\n.aha-add-btn { display: flex; align-items: center; justify-content: center; }\n</style>\n```\n\nThey note the icon measured 4px below the button's centre before the change and 0px after, and that the panel now looks correct.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — correct diagnosis, wrong layer. Guards against a judge that waves the change through because the button now measures centred, and against one that flags the alignment but misses the blocked aha-*-btn className.",
+      "expected_output": "C4 (Button system honoured) FAILs. Two faults, both about the FIX rather than the symptom: (1) `aha-add-btn` is a per-feature `aha-*-btn` className on a <Button>, which the Button system blocks outright; (2) the misalignment is inherited from the library's default Button layout (inline-block + text-align:center baseline-aligns a glyph with line-height:0 and a negative vertical-align), so it affects EVERY icon+label Button — a call-site patch fixes one button and leaves the rest broken while reading as the intended pattern. Fix: move it to the theme / AntD-extensions layer as `.ant-btn { display: inline-flex; align-items: center; justify-content: center }` and delete the per-feature class and scoped style. The measurement itself is good practice and the diagnosis is correct — only the layer is wrong. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Cites `aha-add-btn` as a blocked per-feature Button className",
+        "Says the fix belongs in the theme / AntD-extensions layer, not the call site",
+        "Notes the defect is systemic — every icon+label Button is affected, not just this one",
+        "Does not FAIL the developer for measuring the offset"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 10,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this PR diff for a settings panel. Imports are `import { Form, Input, Select, Switch, Divider } from 'antd'`; colours and sizes bind to `theme.useToken()`. To separate the panel's three groups (\"General\", \"Sharing\", \"Danger zone\") the developer places a `<Divider />` between each group, and wraps the whole \"Sharing\" group in `<div style={{ background: token.colorFillTertiary, borderRadius: token.borderRadius, padding: 16 }}>` to \"make it stand out\". The task description does not ask for any divider or boxed section. Everything else — one library, token-bound values, radius from a token, Buttons sized via the size prop, controls at theme height, one ConfigProvider, focus ring intact, no bespoke-coloured components — is clean.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C8 — unrequested <Divider /> between sections + a tinted/bordered fencing box to separate a group; both should be spacing instead.",
+      "expected_output": "C8 (Hierarchy from spacing, not dividers) FAILs: the diff adds `<Divider />` lines between groups and a tinted/rounded box around the \"Sharing\" group purely to separate sections, with no user request for either. Separation must come from the --aha-size* spacing scale (a bigger gap for a bigger break), not from divider lines or a fencing/tinted container. Fix: drop the `<Divider />`s and the tinted wrapper; separate the three groups with a group-gap spacing token (e.g. sizeXL) and their headers. All other criteria (C1–C7) pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C8 is marked FAIL",
+        "Cites the added <Divider /> lines used to separate sections",
+        "Flags the tinted/rounded box wrapping the group as a fencing container that should be spacing",
+        "Recommends spacing (--aha-size*) instead of dividers/boxes",
+        "Does not FAIL C1–C7"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 11,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this PR diff for a results dashboard. Imports are `import { Card, Typography } from 'antd'` plus the shared `DataTable`. Colours/sizes bind to `theme.useToken()`. The layout stacks three sections separated only by spacing: `<div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--aha-sizeXL)' }}>` holds a summary block, a `<Card>` (its default AntD border), and the shared `<DataTable columns={...} dataSource={...} />` (which renders its standard dividers-only row separators). No `<Divider />`, `<hr>`, or added border-top rules anywhere. Buttons sized via the size prop, one ConfigProvider, focus ring intact, no bespoke-coloured components.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control for C8 — verifies the judge does not over-flag: spacing-based separation passes, and the exempt Card border + DataTable dividers-only body are not mistaken for added hierarchy dividers.",
+      "expected_output": "All 8 criteria PASS, including C8: separation between the three sections comes from a spacing token (sizeXL gap), not divider lines. The `<Card>` border and the `DataTable`'s dividers-only row separators are a component's own shipped edge/structure — explicitly exempt from C8 — so they must NOT be flagged as hierarchy dividers. No added `<Divider>`/`<hr>`/rule line exists. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C1 through C8 are all marked PASS",
+        "Does NOT flag the DataTable dividers-only body as a C8 violation",
+        "Does NOT flag the Card's own border as a C8 violation",
+        "Notes separation comes from spacing (sizeXL gap)"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS",
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-antd-judge",
+        "id": 12,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    }
+  ]
+}

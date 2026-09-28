@@ -1,0 +1,114 @@
+{
+  "surface": "background",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.background",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-background-judge",
+    "path": "plugins/aha-design/skills/aha-design-background-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a dashboard surface diff. A plain data panel is styled `.dashboard-panel { background: var(--brand-violet-purple); }` and a summary card is styled `.hero-card { background: #f3e8ff; }` described in the PR as 'tinted for emphasis'. Neither is a feedback surface, an app-shell layout, or an interactive state, and nothing in the task asked for a coloured background.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — decorative/brand fill on a neutral surface with no sanctioned reason or request.",
+      "expected_output": "C1 (Every surface is white-by-default or a sanctioned exception) FAILs: a neutral data panel is painted brand purple and a card is given a pastel tint 'for emphasis' — neither maps to a sanctioned reason (semantic feedback tint, app-shell colorBgLayout grey, or interactive state fill) and there is no evidence the human requested the colour. Fix: remove the fills so both surfaces inherit white colorBgContainer (or, if the colour was actually requested, cite where in the task and keep it as a brand token). This is a C1-only failure — do not re-flag under C3. C2 and C3 pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Notes the panel/card have no feedback/state/layout role and no request",
+        "Does not double-count the same fill under C3"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-background-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review a landing surface. The page wrapper is `.page { background: linear-gradient(135deg, #6a1ebb, #16c49a); }` and a promo card is `.cta-card { background: radial-gradient(circle, #7f58f0, #d7b8ff); }`. Both gradients paint the full surface fill; neither is the AI border-gradient technique (there is no transparent border with a white padding-box fill).",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — gradient used as a surface background/fill, not the AI border-only exception.",
+      "expected_output": "C2 (No gradient as a background or fill) FAILs: both surfaces use a gradient as their background fill (a linear-gradient page and a radial-gradient card), and neither is the sole sanctioned exception — the AI affordance, where the gradient sits on the border-box only with a white padding-box fill. Fix: replace the gradient fills with a solid token (white colorBgContainer by default), reserving gradients only for the AI border technique. C1 and C3 pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Identifies both the linear-gradient and radial-gradient surface fills",
+        "Notes the AI border-gradient (white padding-box) is the only exception"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-background-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review an inline result panel that is a legitimate semantic feedback surface (an incorrect-answer banner). It is styled `.answer--incorrect { background: #fff1f0; }` — a raw hex literal, even though it is the correct error-tint colour, instead of the semantic token.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — legitimately non-white feedback surface but value is a raw hex instead of a token.",
+      "expected_output": "C3 (Non-white colour comes from a token, never a raw hex) FAILs: this surface is legitimately non-white (a sanctioned semantic feedback tint, so C1 passes), but the value is a raw `#fff1f0` hex literal rather than the semantic token. Fix: replace the hex with `var(--aha-colorErrorBg)` so the error tint comes from the token. C1 and C2 pass. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Confirms the surface is allowed non-white (C1 passes) so the failure is only C3",
+        "Fix replaces #fff1f0 with var(--aha-colorErrorBg)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-background-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review a dashboard build. The main data Card is left unset so it inherits white colorBgContainer, the app shell Layout body uses `background: var(--aha-colorBgLayout)` grey, list rows use `.list-row:hover { background: var(--aha-colorFillTertiary); }`, and an incorrect-answer panel uses `.answer--incorrect { background: var(--aha-colorErrorBg); }`. No gradients anywhere and every non-white value is a token/--aha-* var.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — white-default plus only sanctioned non-white surfaces, all token-bound.",
+      "expected_output": "All 3 criteria PASS: every surface is either white-by-default (the Card) or a sanctioned exception (app-shell colorBgLayout grey, an interactive hover fill, a semantic feedback tint), there are no gradient backgrounds/fills, and every non-white value comes from a token/--aha-* var rather than a raw hex. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C1, C2, and C3 are all marked PASS",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-background-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "surface": "icons",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.icons",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-icons-judge",
+    "path": "plugins/aha-design/skills/aha-design-icons-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this icon usage. A toolbar component imports `import { SearchOutlined } from '@ant-design/icons';` and `import { Gear } from 'lucide-react';` and renders both glyphs in the same view, while the rest of the app renders icons via the shared `<Icon>` from '@ahaslides/ui'. Is this icon sourcing correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — one shared icon set, never mixed.",
+      "expected_output": "C1 FAILs: glyphs must all come from the single shared AhaSlides SVG icon component, but this view mixes @ant-design/icons (a second set) and lucide-react (a third set) side by side — different stroke widths and corner radii read as unfinished. Fix: replace both with the shared <Icon name=\"magnifying-glass\" /> and <Icon name=\"gear\" /> so one set is used per view. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Flags @ant-design/icons and lucide-react as mixed second/third icon sets",
+        "Recommends the shared AhaSlides <Icon> component"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-icons-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this icon usage. A search button renders `<Icon name=\"magnifying-glass\" size={20} strokeWidth={2} />`. The designer eyeballed 20px against the adjacent text. Is the size and stroke correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — on-grid size with its paired line-width token.",
+      "expected_output": "C2 FAILs: 20px is off-grid — the only sanctioned sizes are 12 / 16 / 24 / 32, and 20px has no defined line width; the stroke is also hardcoded to 2 rather than the size's paired line-width token. Fix: snap to size={16} (cap height of adjacent text) and drop the hardcoded strokeWidth so the component derives the 1.5 line-width token. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Identifies 20px as off-grid (not 12/16/24/32)",
+        "Flags the hardcoded strokeWidth={2} and cites the paired line-width token"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-icons-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this icon usage. A rated-star indicator uses `<Icon name=\"star\" size={24} strokeWidth={3} />` to look bolder when active, and a settings glyph uses `<Icon name=\"gear\" size={16} color=\"#6A1EBB\" />`. Is emphasis and colour handled correctly?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — emphasis via variant; colour via token, not hardcoded hex.",
+      "expected_output": "C3 FAILs: emphasis must come from the fill (solid) variant, not a thickened stroke — strokeWidth={3} thickens the stroke to signal state; and colour must inherit currentColor or a semantic/brand token, never a hardcoded hex — #6A1EBB is a raw literal that drifts from the theme. Fix: use variant={isRated ? 'fill' : 'outline'} for emphasis and route colour through a token, e.g. color='var(--aha-colorPrimary)'. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Flags strokeWidth={3} as thickened stroke for emphasis instead of the fill variant",
+        "Flags the hardcoded hex #6A1EBB and recommends currentColor or a semantic token"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-icons-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this icon usage. A settings control renders `<button><Icon name=\"gear\" size={16} /></button>` — an icon-only button with no visible text, no aria-label, and no tooltip. Is the accessibility correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — accessibility: labelled, tooltipped, or hidden.",
+      "expected_output": "C4 FAILs: an icon-only button must carry an accessible name (aria-label on the button or an sr-only label) and a tooltip when the action isn't obvious — this button has neither, so it is invisible to screen readers. Fix: wrap in <Tooltip title=\"Settings\"> and add aria-label=\"Settings\" to the button. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Identifies the icon-only button as missing an aria-label / accessible name",
+        "Recommends adding aria-label and a tooltip"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-icons-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this icon usage. A validation-error message in a feature view draws a bespoke inline glyph: `<svg viewBox=\"0 0 24 24\"><path d=\"M12 2a10 10 0 100 20 10 10 0 000-20z\" /></svg>` instead of using a catalog entry. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5 — standard catalog glyph reused, not a new inline drawing.",
+      "expected_output": "C5 FAILs: common meanings must reuse the established catalog glyph rather than a one-off inline <svg> drawn into a feature view — validation should use warning-circle, and the inline-<svg> form is the banned anti-pattern. Fix: replace with <Icon name=\"warning-circle\" size={16} />; if a glyph is genuinely missing, draw it to the geometry spec, add it to the shared icon component as a named entry, and flag it for design review. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Flags the hand-rolled inline <svg> as the banned anti-pattern",
+        "Recommends the catalog warning-circle glyph via the shared component"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-icons-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this icon usage. A toolbar search button renders `<Tooltip title=\"Search\"><button aria-label=\"Search\"><Icon name=\"magnifying-glass\" size={16} /></button></Tooltip>`, and a rated star uses `<Icon name=\"star\" size={24} variant={isRated ? 'fill' : 'outline'} />` with colour left to inherit currentColor. All glyphs come from the shared @ahaslides/ui Icon component. Is this icon usage correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control — passes all 5 criteria (C1-C5).",
+      "expected_output": "All 5 criteria PASS: C1 — every glyph is the single shared @ahaslides/ui Icon, no mixed set; C2 — sizes 16 and 24 are on-grid and stroke is derived from the size's line-width token; C3 — emphasis uses the fill variant not a thickened stroke, colour inherits currentColor with no hardcoded hex; C4 — the icon-only button carries aria-label=\"Search\" plus a tooltip; C5 — magnifying-glass and star are standard catalog glyphs, no inline <svg>. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All 5 criteria (C1-C5) are marked PASS",
+        "No fixes are recommended"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-icons-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "prompt": "Review this presenter-app (Vue) toolbar. An inactive, neutral 'Comments' toggle renders `<Icon name=\"system-chat-circle\" />` — no `maintain-color` — and the design shows it as an outline glyph until the panel is opened. Next to it the active 'Play' control renders `<Icon name=\"system-play\" />`, intentionally solid. Is the render mode right?",
+      "expected_output": "C6 FAILs: in presenter-app the Vue Icon applies fill: currentColor by default, so the stroke-only system-chat-circle renders as a solid blob where an outline was intended. Fix: add maintain-color to the inactive comments icon. The deliberately solid system-play is fine. Overall: NEEDS FIX.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6 — presenter-app render mode vs intended outline state; the solid play icon guards against over-firing on a deliberate fill.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Flags the missing maintain-color on the outline-intended chat icon",
+        "Does not flag the deliberately solid play icon"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "id": 7,
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin case exercised this DS criterion"
+      }
+    }
+  ]
+}

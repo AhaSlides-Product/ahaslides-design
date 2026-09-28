@@ -1,0 +1,74 @@
+{
+  "surface": "app-shell",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.app-shell",
+  "portedFrom": null,
+  "authoredNote": "The aha-design plugin has no app-shell judge, so this set is DS-authored from the surface's criteria and guidelines/app-shell.json.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this dashboard app-shell nav rail (Shell.html). It is the logged-in home screen the presenter lands on.",
+      "files": [{ "path": "fixtures/fail-c1-letter-tile-logo/Shell.html" }],
+      "label": "bad-example",
+      "notes": "Targets C1 — a coloured letter tile standing in for the brand mark; everything else in the rail is DS-built so the failure is isolated.",
+      "expected_output": "C1 FAILs: the brand slot is a purple 'A' letter tile plus a text wordmark, not the real AhaSlides brand mark / shipped logo. Fix: render the shipped AhaSlides logo (or the DS brand glyph) in the rail's brand slot. Overall: NEEDS FIX.",
+      "assertions": ["Overall verdict is NEEDS FIX", "C1 is marked FAIL", "Cites the letter tile standing in for the logo", "Recommends the shipped AhaSlides logo"],
+      "expected": { "overall": "NEEDS_FIX", "criteria": { "C1": "FAIL" } },
+      "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this presenter dashboard's 'Join' panel. It renders `<div class=\"qr-box\"><aha-spin></aha-spin><span>Loading QR…</span></div>`; the QR endpoint is not wired yet, so in production the panel shows the spinner and 'Loading QR…' indefinitely. The rest of the shell uses the real logo, DS components and tokens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — a permanent loading placeholder shipped as the final state.",
+      "expected_output": "C2 FAILs: the QR region ships a spinner and 'Loading QR…' that never resolves — a dead placeholder as a final state. Fix: render the real QR code, or an explicit styled empty state such as 'Join code unavailable — share the link instead.' Overall: NEEDS FIX.",
+      "assertions": ["Overall verdict is NEEDS FIX", "C2 is marked FAIL", "Cites the permanent 'Loading QR…' placeholder", "Recommends a real asset or an explicit empty state"],
+      "expected": { "overall": "NEEDS_FIX", "criteria": { "C2": "FAIL" } },
+      "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this dashboard home. The content region is a 3 × 3 grid of identical white cards — 'Presentations', 'Templates', 'Team', 'Billing', 'Integrations', 'Reports', 'Help', 'Settings', 'Profile' — each with the same 14px grey title, the same grey body line and an identical secondary 'Open' button. There is no primary action anywhere in the region and no heading above the grid. Spacing, colour and components all come from DS tokens and elements.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — uniform equal-weight cards, no primary action, no type hierarchy (the admin-template tell).",
+      "expected_output": "C3 FAILs: the content region has no primary action and no hierarchy — nine equal-weight grey-on-white cards with identical titles and buttons. Fix: give the region one primary action (e.g. New presentation), a page title via the breadcrumb and a heading/body hierarchy from the type scale, and let the most important content lead. Overall: NEEDS FIX.",
+      "assertions": ["Overall verdict is NEEDS FIX", "C3 is marked FAIL", "Cites the uniform equal-weight card grid", "Cites the missing primary action"],
+      "expected": { "overall": "NEEDS_FIX", "criteria": { "C3": "FAIL" } },
+      "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this top bar: `<header style=\"height:56px;padding:0 24px;background:#FFFFFF;border-bottom:1px solid #E3E3E3\"><button style=\"background:#6A1EBB;color:#fff;border-radius:10px;padding:8px 14px\">Share</button><div class=\"avatar\" style=\"width:32px;height:32px;border-radius:50%;background:#F0E4FF\">LT</div></header>`. The nav rail next to it uses the real logo and DS components.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — hand-rolled button and avatar with inline hex/px instead of DS components and tokens.",
+      "expected_output": "C4 FAILs: the top bar hand-rolls a <button> and an initials avatar with inline hex and px (and a 10px radius off the 4/6/8/12/16 scale) instead of <aha-button> and <aha-avatar> bound to --aha-* tokens. Fix: use aha-button (size prop) and aha-avatar, and take spacing, colour and radius from --aha-* tokens. Overall: NEEDS FIX.",
+      "assertions": ["Overall verdict is NEEDS FIX", "C4 is marked FAIL", "Cites the hand-rolled button and avatar", "Cites the inline hex/px values"],
+      "expected": { "overall": "NEEDS_FIX", "criteria": { "C4": "FAIL" } },
+      "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
+    },
+    {
+      "id": 5,
+      "prompt": "Review how this app shell switches the active nav item (Shell.js).",
+      "files": [{ "path": "fixtures/fail-c5-rebuilt-nav/Shell.js" }],
+      "label": "bad-example",
+      "notes": "Targets C5 — the nav is rebuilt with innerHTML on every click and the transition uses a bare duration literal.",
+      "expected_output": "C5 FAILs: selecting a nav item re-renders the whole list with innerHTML, so the active-state transition never fires (dead transition), and the transition uses a bare `.15s ease` instead of --aha-motion-* / --aha-ease-*. Fix: render the items once and toggle aria-current / a class on the persistent node, with `transition: background var(--aha-motion-fast) var(--aha-ease-out)`. Overall: NEEDS FIX.",
+      "assertions": ["Overall verdict is NEEDS FIX", "C5 is marked FAIL", "Cites the innerHTML rebuild on selection", "Cites the bare duration literal"],
+      "expected": { "overall": "NEEDS_FIX", "criteria": { "C5": "FAIL" } },
+      "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this dashboard app shell (Shell.html): nav rail, top bar and content region.",
+      "files": [{ "path": "fixtures/pass-dashboard-shell/Shell.html" }],
+      "label": "good-control",
+      "notes": "Good control — real logo, real QR with an explicit fallback, one primary per region, DS components + tokens, active state toggled on persistent nodes via motion tokens.",
+      "expected_output": "All 5 criteria PASS. C1: the shipped AhaSlides logo is in the brand slot. C2: the QR renders a real asset with an explicit 'Join code unavailable' fallback, no permanent loader. C3: one primary action (New presentation) and a page title via the breadcrumb. C4: aha-button, aha-icon, aha-avatar, aha-badge and aha-breadcrumb fill the slots; spacing, radius and colour come from --aha-* tokens. C5: the active item toggles aria-current on a persistent link with a --aha-motion-fast / --aha-ease-out transition. Overall: OK TO SHIP.",
+      "assertions": ["Overall verdict is OK TO SHIP", "C1 through C5 are all marked PASS", "No criterion is marked FAIL"],
+      "expected": { "overall": "OK_TO_SHIP", "criteria": { "C1": "PASS", "C2": "PASS", "C3": "PASS", "C4": "PASS", "C5": "PASS" } },
+      "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
+    }
+  ]
+}

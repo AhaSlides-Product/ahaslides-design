@@ -1,0 +1,169 @@
+{
+  "surface": "shared-components",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.shared-components",
+  "portedFrom": {
+    "plugin": "aha-design",
+    "version": "1.80.0",
+    "commit": "b514997",
+    "judge": "aha-design-shared-components-judge",
+    "path": "plugins/aha-design/skills/aha-design-shared-components-judge/evals/evals.json"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this quiz progress indicator. The diff renders `<div className=\"progress\"><div style={{ width: `${pct}%` }} /></div>` and, for the screen-reader announcement, `<div aria-live=\"assertive\">{announcement}</div>`. Both are hand-built rather than pulled from the registry.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — hand-rolled progress bar and live region instead of canonical Progressbar/LiveRegion.",
+      "expected_output": "C1 (Reaches for the canonical registry primitive, not a hand-rolled one) FAILs: the progress bar is a bespoke `<div className=\"progress\">` instead of the a11y `Progressbar` wrapper, and the announcement is a hand-rolled `<div aria-live>` instead of the a11y `LiveRegion` — even a correct reimplementation fails here because it drops the primitives' encoded contracts. Fix: replace the bar with `<Progressbar value={n} min={0} max={total} label={...} />` and the announcement with `<LiveRegion message={announcement} />`. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Evidence names the bespoke progress bar and hand-rolled aria-live div",
+        "Fix says replace with Progressbar and LiveRegion"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-shared-components-judge",
+        "id": 1,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this AntD form email field. It renders `<Input status=\"error\" />` followed by `<span className=\"err\">{msg}</span>` for the message. The input has no `aria-invalid` and no `aria-describedby`, and the error is not the a11y `FieldError` component.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2 — wrong/hand-rolled field-error component in an AntD form and missing aria wiring.",
+      "expected_output": "C2 (Correct field-error component chosen and wired) FAILs: this AntD-form field uses a hand-rolled `<span className=\"err\">` instead of the a11y `FieldError` component, and the input is missing `aria-invalid` plus an `aria-describedby` pointing at the error's `id`. Fix: render `<FieldError id=\"email-err\" message={msg} />` and set `aria-invalid={!!msg}` + `aria-describedby=\"email-err\"` on the Input. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C2 is marked FAIL",
+        "Evidence notes hand-rolled span and missing aria-invalid/aria-describedby",
+        "Fix says use a11y FieldError with aria-invalid and aria-describedby wired to its id"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-shared-components-judge",
+        "id": 2,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this responsive table. It swaps a table for a card list on mobile via `const isMobile = useMediaQuery('(max-width: 600px)');`, and its toolbar styling uses `@media (max-width: 768px) { .toolbar { gap: 8px; } }`.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3 — ad-hoc breakpoint for a shape switch + wrong media-query value (768px not 767.98px).",
+      "expected_output": "C3 (Responsive shape switches use useIsMobile(); pure styling uses the media query) FAILs: the table->card-list shape switch is gated on an ad-hoc `useMediaQuery('(max-width: 600px)')` instead of `useIsMobile()`, and the pure-styling media query uses `768px` instead of the canonical `767.98px` (which avoids the sub-pixel gap at fractional DPR). Fix: gate the shape switch on `useIsMobile()` and change the media query to `@media (max-width: 767.98px)`. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C3 is marked FAIL",
+        "Evidence cites the ad-hoc useMediaQuery breakpoint and the 768px media query",
+        "Fix says use useIsMobile() and @media (max-width: 767.98px)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-shared-components-judge",
+        "id": 3,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this live region and skeleton. The announcement renders `{msg && <div aria-live=\"assertive\" role=\"alert\">{msg}</div>}` (unmounts when empty, has role=alert, no aria-atomic) and the loading placeholder is `<div className=\"skeleton\" />` with no role or aria-busy.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4 — live region unmounts empty/has role=alert/no aria-atomic; skeleton missing role=status+aria-busy.",
+      "expected_output": "C4 (Accessibility house rules honoured) FAILs: the live region unmounts when `msg` is empty (screen readers lose track), carries a `role=\"alert\"` (double-announce with aria-live), and is missing `aria-atomic=\"true\"`; the skeleton is missing `role=\"status\"` and `aria-busy`. Fix: keep `LiveRegion` mounted always with `aria-live=\"assertive\"` + `aria-atomic=\"true\"` and no `role=\"alert\"`, and give the skeleton `role=\"status\"` + `aria-busy`. Overall verdict: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C4 is marked FAIL",
+        "Evidence notes the live region unmounts empty, has role=alert, and lacks aria-atomic",
+        "Fix says keep it mounted, assertive+atomic, no role=alert, and add role=status+aria-busy to the skeleton"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "judge": "aha-design-shared-components-judge",
+        "id": 4,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Self-check this respondent quiz screen. Announcements use `<LiveRegion message={announcement} />` (always mounted); progress uses `<Progressbar value={n} min={0} max={total} label={t('quiz.progress')} />`; the inline field error uses `<FieldErrorDisplay id=\"q3-err\" messageKey={error} />` with the input carrying `aria-invalid={!!error}` and `aria-describedby=\"q3-err\"`; the mobile layout swap is gated on `useIsMobile()` while toolbar styling uses `@media (max-width: 767.98px)`; the loading placeholder is a layout-mirroring skeleton with `role=\"status\"` + `aria-busy`; and all visible text is wrapped in AntD `Typography`.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control (respondent context) — all primitives reused, correct FieldErrorDisplay, canonical breakpoint, a11y contracts intact.",
+      "expected_output": "All 4 criteria PASS. C1: LiveRegion, Progressbar, FieldErrorDisplay, and a layout-mirroring skeleton are all canonical registry primitives, nothing hand-rolled. C2: FieldErrorDisplay is the correct choice for a respondent renderer, with aria-invalid + aria-describedby wired to its id. C3: shape switch on useIsMobile(), styling at the canonical 767.98px. C4: LiveRegion stays mounted (assertive+atomic, no role=alert), Progressbar carries role/aria-value*/aria-label, skeleton has role=status+aria-busy, text in Typography. Overall verdict: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All of C1 through C4 are marked PASS",
+        "C2 confirms FieldErrorDisplay is correct for a respondent renderer with aria wiring",
+        "C4 confirms LiveRegion stays mounted, assertive+atomic, no role=alert"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-shared-components-judge",
+        "id": 5,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Self-check this AntD settings form. Validation errors use a11y `<FieldError id=\"email-err\" message={msg} />` (returns null when empty) with the Input carrying `aria-invalid={!!msg}` and `aria-describedby=\"email-err\"`; the empty results view uses the AntD `Empty` pattern (strong title + secondary body, actions in a `Space`, secondary then `type=\"primary\"`); a full-page load failure returns `<ErrorPage code={code} onRetry={retry} />`; the sidebar->drawer shape switch is gated on `useIsMobile()`; and all copy is AntD `Typography`.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Good control (AntD-form context) — a11y FieldError chosen correctly, Empty + ErrorPage reused, useIsMobile shape switch.",
+      "expected_output": "All 4 criteria PASS. C1: a11y FieldError, the AntD Empty pattern, and ErrorPage are canonical registry primitives, nothing hand-rolled. C2: a11y FieldError is the correct choice for an AntD form, with aria-invalid + aria-describedby pointing at its id. C3: the sidebar->drawer shape switch uses useIsMobile(). C4: text wrapped in Typography and the primitives' a11y contracts hold. Overall verdict: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "All of C1 through C4 are marked PASS",
+        "C2 confirms a11y FieldError is correct for an AntD form with aria wiring",
+        "C1 confirms ErrorPage and the AntD Empty pattern are reused, not hand-rolled"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "judge": "aha-design-shared-components-judge",
+        "id": 6,
+        "remap": "identity — judge criterion ids equal the DS criterion ids"
+      }
+    }
+  ]
+}
