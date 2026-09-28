@@ -1,0 +1,19 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-field-error';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// EmailField.vue
+<script setup>
+import { ref, computed } from 'vue';
+const email = ref('');
+const touched = ref(false);
+const error = computed(() => touched.value && !/.+@.+\..+/.test(email.value)
+  ? 'Enter an email address, like name@example.com' : '');
+</script>
+
+<template>
+  <label for="email">Email</label>
+  <input id="email" v-model="email" @blur="touched = true"
+    :aria-invalid="error ? 'true' : undefined" aria-describedby="email-error" />
+  <aha-field-error id="email-error" :message="error" />
+</template>

@@ -33,6 +33,7 @@
     { "name": "prefix-icon / prefix", "type": "string", "default": "—", "desc": "Leading affix — an icon by name (from the DS library) or plain text" },
     { "name": "suffix-icon / suffix", "type": "string", "default": "—", "desc": "Trailing affix — an icon by name or plain text (e.g. a domain)" },
     { "name": "clearable", "type": "boolean", "default": "false", "desc": "Shows a ✕ when non-empty that wipes the value and emits `clear`" },
+    { "name": "aria-describedby", "type": "string (id list)", "default": "—", "desc": "Ids of the elements that describe the field (e.g. an <aha-field-error>); forwarded to the inner input, re-resolved on focus" },
     { "name": "input", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on each keystroke; read e.detail.value" },
     { "name": "clear", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event when the ✕ clears the field" }
   ],

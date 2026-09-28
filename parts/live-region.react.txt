@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-live-region';   // registers <aha-live-region>
+import { useRef } from 'react';
+
+// Mount once near the app root and keep it mounted, even while empty.
+export function SaveButton({ onSave }) {
+  const announcer = useRef(null);
+  const save = async () => {
+    await onSave();
+    announcer.current?.announce('Slide saved');   // re-announces identical text
+  };
+  return (
+    <>
+      <aha-live-region ref={announcer} />
+      <button type="button" onClick={save}>Save slide</button>
+    </>
+  );
+}
+
+// Declarative: announce whenever `resultCount` changes (polite, and visible as a status line)
+<aha-live-region visible politeness="polite" message={`${resultCount} results`} />

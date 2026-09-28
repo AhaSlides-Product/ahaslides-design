@@ -67,6 +67,21 @@
         { "id": "C5", "title": "Active/selected nav state animates on a persistent node",
           "test": "The active nav item and any selected state toggle an attribute/class on a persistent node via motion tokens (--aha-motion-* / --aha-ease-*), never a bare duration literal and never by rebuilding the subtree." }
       ]
+    },
+    "shared-components": {
+      "surface": "shared primitives",
+      "origin": "seeded",
+      "skillRef": { "build": "aha-design:aha-design-shared-components", "judge": "aha-design:aha-design-shared-components-judge" },
+      "criteria": [
+        { "id": "C1", "title": "Reaches for the canonical DS primitive, not a hand-rolled one",
+          "test": "Every registry need is met by its DS primitive — field error → <aha-field-error>; announcement → <aha-live-region>; announced progress → <aha-progressbar>; mobile shape switch → useIsMobile() / <aha-viewport-switch>; full-page error → <aha-error-page>; empty state → <aha-empty>; loading → layout-mirroring <aha-skeleton>. A fresh reimplementation — even a correct one — FAILS." },
+        { "id": "C2", "title": "Correct field-error variant, wired to its input",
+          "test": "Forms use the default <aha-field-error> (a11y FieldError); respondent element renderers use variant=\"respondent\" (FieldErrorDisplay: role=alert, aria-live=assertive). Either way the input sets aria-invalid and its aria-describedby points at the error's id (a DS <aha-input> forwards both). FAIL on the wrong variant or missing wiring." },
+        { "id": "C3", "title": "Shape switches use useIsMobile(); styling uses @media (max-width: 767.98px)",
+          "test": "A render that changes shape below 768px is gated on useIsMobile() / <aha-viewport-switch>; pure styling uses @media (max-width: 767.98px) directly. FAIL on an ad-hoc breakpoint, the hook driving pure styling, or a 768px / 767px media query." },
+        { "id": "C4", "title": "Accessibility house rules honoured",
+          "test": "The live region stays mounted when empty, is assertive + atomic and has no role=alert; an announced progress bar carries role=progressbar + aria-valuenow/min/max + aria-label; skeleton containers carry role=status + aria-busy; visible text uses DS / Typography text, not raw span/p; no state is conveyed by colour alone." }
+      ]
     }
   }
 }

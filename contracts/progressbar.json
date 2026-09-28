@@ -1,0 +1,166 @@
+{
+  "name": "Progressbar",
+  "slug": "progressbar",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-progressbar",
+  "summary": "The accessible progress bar — role=progressbar with your real value/min/max and a required label, drawn by the DS Progress.",
+  "lead": "ONE custom element — <aha-progressbar> — the a11y wrapper around the DS <aha-progress>. The HOST is the single role=\"progressbar\" in the accessibility tree and carries the consumer's real range: aria-valuenow / aria-valuemin / aria-valuemax straight from value / min / max (3 of 10 announces as 3 of 10, not 30%), aria-label from `label`, and an optional aria-valuetext. The visual is the shipped <aha-progress>, driven with the derived percent and hidden from assistive tech so the bar is announced once; status / size / type / steps / show-info pass through. A value change only updates the persistent inner bar, so its fill animates on the DS motion tokens.",
+  "codeNote": "Reach for <aha-progressbar> whenever the bar must be announced (quiz progress, upload, a step count). Plain <aha-progress> stays for purely decorative bars that sit next to their own text.",
+  "tokensUsed": [
+    "color-primary",
+    "gray-30",
+    "radius-pill",
+    "motion-slow",
+    "ease-out",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "A11y",
+      "value": "host role=progressbar · aria-valuenow/min/max = value/min/max · aria-label = label · aria-valuetext = value-text"
+    },
+    {
+      "label": "Visual",
+      "value": "the DS <aha-progress> (aria-hidden) at percent = (value − min) / (max − min)"
+    },
+    {
+      "label": "Track",
+      "value": "line height 8 (small 6) · radius pill · #F1F1F1"
+    },
+    {
+      "label": "Fill",
+      "value": "primary #6A1EBB · status recolours (success/warning/exception)"
+    },
+    {
+      "label": "Motion",
+      "value": "fill animates on --aha-motion-slow / --aha-ease-out (persistent node)"
+    }
+  ],
+  "props": [
+    {
+      "name": "value",
+      "type": "number",
+      "default": "min",
+      "desc": "Current value; clamped to [min, max]"
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "default": "0",
+      "desc": "Range start (aria-valuemin)"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": "100",
+      "desc": "Range end (aria-valuemax)"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "Required accessible name (aria-label), e.g. \"Quiz progress\""
+    },
+    {
+      "name": "value-text",
+      "type": "string",
+      "default": "—",
+      "desc": "Optional spoken value, e.g. \"Question 3 of 10\" (aria-valuetext)"
+    },
+    {
+      "name": "status · size · type · steps · show-info",
+      "type": "as <aha-progress>",
+      "default": "—",
+      "desc": "Passed through to the visual bar"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Progressbar",
+        "when": "progress a screen-reader user needs to hear — quiz position, upload, onboarding steps"
+      },
+      {
+        "what": "Progress",
+        "when": "a purely decorative bar next to its own visible numbers"
+      },
+      {
+        "what": "Spin",
+        "when": "an indeterminate wait with nothing to measure"
+      }
+    ],
+    "note": "Never a bespoke <div style=\"width:%\"> bar — it has no role, no value and no name. Always give a label; add value-text when the raw number is not what a person would say. Replaces the aha-design plugin's aha-design-shared-components registry entry (SHARED-04).",
+    "dsv3": "Visual is the DS V3 Progress family (see Progress); this contract adds only the accessibility layer."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-progressbar",
+    "registers": "aha-progressbar",
+    "exportsNamed": [
+      "AhaProgressbar",
+      "defineAhaProgressbar"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "progressbar.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "progressbar.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "progressbar.vue.txt"
+    }
+  ],
+  "preview": "progressbar.preview.html",
+  "selfCheck": [
+    {
+      "label": "host role=progressbar with value/min/max + aria-label",
+      "verdict": "PASS"
+    },
+    {
+      "label": "inner <aha-progress> aria-hidden (announced once)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "percent derived from the range (3 of 10 → 30%)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "fill primary #6A1EBB · track 8px",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a 3-of-10 quiz bar: the host's aria range must be the REAL range, and the inner DS bar must draw 30%.",
+    "ready": "!!(function(){var el=document.querySelector('aha-progressbar[data-probe]');var p=el&&el.shadowRoot&&el.shadowRoot.querySelector('aha-progress');return p&&p.shadowRoot&&p.shadowRoot.querySelector('.fill');})()",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-progressbar[data-probe]');var p=el.shadowRoot.querySelector('aha-progress');var f=p.shadowRoot.querySelector('.fill');var t=p.shadowRoot.querySelector('.track');return{role:el.getAttribute('role'),ariaNow:el.getAttribute('aria-valuenow'),ariaMin:el.getAttribute('aria-valuemin'),ariaMax:el.getAttribute('aria-valuemax'),ariaLabel:el.getAttribute('aria-label'),ariaValueText:el.getAttribute('aria-valuetext'),innerHidden:p.getAttribute('aria-hidden'),innerPercent:p.getAttribute('percent'),fillBg:getComputedStyle(f).backgroundColor,trackHeight:getComputedStyle(t).height};})()",
+    "expect": {
+      "role": "progressbar",
+      "ariaNow": "3",
+      "ariaMin": "0",
+      "ariaMax": "10",
+      "ariaLabel": "Quiz progress",
+      "ariaValueText": "Question 3 of 10",
+      "innerHidden": "true",
+      "innerPercent": "30",
+      "fillBg": "rgb(106, 30, 187)",
+      "trackHeight": "8px"
+    }
+  }
+}

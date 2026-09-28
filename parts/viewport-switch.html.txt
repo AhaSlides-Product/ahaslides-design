@@ -1,0 +1,18 @@
+<!-- Paste-and-run: save as .html and open in a browser, then narrow the window below 768px.
+     Exactly one slot renders: slot="mobile" below 768px, slot="desktop" from 768px up.
+     For SHAPE switches only — pure styling belongs in @media (max-width: 767.98px). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-viewport-switch.js';   // registers <aha-viewport-switch>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-list.js';
+
+  document.querySelector('aha-viewport-switch')
+    .addEventListener('viewport-change', (event) => console.log('mobile?', event.detail.mobile));
+</script>
+
+<aha-viewport-switch>
+  <aha-list slot="mobile" items='[{"title":"Team retro","description":"24 responses"},{"title":"Weekly quiz","description":"18 responses"}]'></aha-list>
+  <div slot="desktop">
+    <!-- your DataTable (composite) goes here -->
+  </div>
+</aha-viewport-switch>
