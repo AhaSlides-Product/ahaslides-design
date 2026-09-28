@@ -32,7 +32,7 @@
         {
           "id": "C4",
           "title": "Human — blameless, jargon-free, no raw codes in the headline",
-          "test": "**Rule.** Don't blame the user; keep raw error codes / stack / HTTP status out of the headline (a code belongs in secondary detail); use plain language; lead with the user's goal. ✅ **GOOD:** \"That file type isn't supported — try a PNG or JPG.\" / \"We couldn't open your presentation.\" ❌ **BAD:** \"You entered an invalid file.\" · \"Null reference in render pipeline\" · \"Error 500\" **Common failure mode"
+          "test": "**Rule.** Don't blame the user; keep raw error codes / stack / HTTP status out of the headline (a code belongs in secondary detail); use plain language; lead with the user's goal."
         },
         {
           "id": "C5",
@@ -483,6 +483,618 @@
           "id": "C3",
           "title": "Non-white colour comes from a token, never a raw hex",
           "test": "A legitimately non-white surface takes its value from a DS token (--aha-bg-* / --aha-color-*), never a hardcoded #hex, rgb() or hsl() literal — a disallowed non-white surface is already a C1 fail and is not re-flagged here."
+        }
+      ]
+    },
+    "paywall": {
+      "surface": "paywall",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-paywall",
+        "judge": "aha-design:aha-design-paywall-judge"
+      },
+      "targets": [
+        {
+          "source": "contracts/paywall.json",
+          "use": "the shared <aha-paywall>: popover anatomy, props, copy, analytics events and upgrade handler (C1–C7)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "The gated affordance uses the shared Paywall component",
+          "test": "**Rule.** Every pro-gated affordance wraps in `<Paywall>` (or uses `<PaywallCrownBadge>` as the anchor when the feature has no natural anchor). No hand-rolled upgrade modal, tooltip, or popover for monetisation — a bespoke upsell drifts from the presenter app's `UpgradePopover` and breaks the single-source-of-truth contract (PAYWALL-01)."
+        },
+        {
+          "id": "C2",
+          "title": "Popover anatomy is exactly correct",
+          "test": "**Rule.** The popover is, top to bottom: **crown badge** (the purple-circle custom `CrownBadge`, 16×16 SVG — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the line **\"Unlock with the _\\<Plan\\> plan_.\"** (plan name bold); then a **single** full-width (`block`) primary **Upgrade** CTA. No secondary \"View plans\" button, no dismiss link, no…"
+        },
+        {
+          "id": "C3",
+          "title": "Props contract is honoured",
+          "test": "**Rule.** `featureKey` is a stable `snake_case` token (e.g. `custom_survey_url`) reused across analytics and DOM hooks; `featureLabel` and `body` are present; `requiredPlan` is **one of `essential` | `pro`** (defaults to `pro`) — a real tier, not an invented plan name or a display string like \"Pro plan\" (PAYWALL-05, -07)."
+        },
+        {
+          "id": "C4",
+          "title": "Copy rules are followed",
+          "test": "**Rule.** **Feature label** is a short noun phrase (the locked feature's name), not a sentence. **Body** is exactly one sentence describing the *benefit* of unlocking (not \"This is a Pro feature.\"), ending in a period."
+        },
+        {
+          "id": "C5",
+          "title": "The analytics contract is wired",
+          "test": "**Rule.** `PAYWALL_SHOWN` fires when the popover opens and `PAYWALL_UPGRADE_CLICKED` fires when the CTA is clicked — each with props `{ feature: featureKey, plan: requiredPlan }`, and the click event fires **before** navigation or `onUpgrade` runs. Never gate a feature without both events; they are the funnel's denominator and conversion (PAYWALL-06)."
+        },
+        {
+          "id": "C6",
+          "title": "Upgrade URL / handler behaviour is correct",
+          "test": "**Rule.** The default CTA opens `UPGRADE_URL` (`https://ahaslides.com/pricing`) in a new tab with `noopener,noreferrer`, then closes the popover. When `onUpgrade` is provided it runs **instead** (analytics still fires first) and the popover still closes."
+        },
+        {
+          "id": "C7",
+          "title": "Crown-badge-only anchor used where the feature has no anchor",
+          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>`, which carries `role=\"img\"` and an `aria-label` (default \"Upgrade required\")."
+        }
+      ]
+    },
+    "status-badges": {
+      "surface": "status",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-status-badges",
+        "judge": "aha-design:aha-design-status-badges-judge"
+      },
+      "targets": [
+        {
+          "source": "guidelines/status-badges.json",
+          "use": "the status-pill pattern: dot + localised label, role=status, --{status} modifier colours"
+        },
+        {
+          "source": "contracts/status-badge.json",
+          "use": "the DS status badge markup and status variants (C1, C2, C5)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "The pill is a dot + a localised text label",
+          "test": "**Rule.** A status pill is a single inline element containing a **dot** (`aha-status-pill__dot`) carrying the state colour **and** the visible **text label**. The dot is decorative; the text is the source of truth."
+        },
+        {
+          "id": "C2",
+          "title": "Markup uses the aha-status-pill / aha-status-pill--{status} convention",
+          "test": "**Rule.** The base class is `aha-status-pill` plus a **per-state modifier** `aha-status-pill--{status}`, and the dot is `aha-status-pill__dot`. The state name comes from the status enum."
+        },
+        {
+          "id": "C3",
+          "title": "The role=status + aria-label accessibility contract is present",
+          "test": "**Rule.** The element carries `role=\"status\"` **and** an `aria-label` equal to the visible label, so the state is announced to assistive tech and **not conveyed by colour alone**. The text label is always present — the dot colour is never the sole carrier of meaning."
+        },
+        {
+          "id": "C4",
+          "title": "The label is sourced from i18n, never hardcoded",
+          "test": "**Rule.** The visible label is always a translation lookup — ``t(`survey_status.${status}`)`` or the equivalent namespace for the object — never a hardcoded visible string. Adding a state means adding a translation key (and a `--{status}` modifier), not typing the word."
+        },
+        {
+          "id": "C5",
+          "title": "Colour comes from the --{status} modifier class, no inline hex",
+          "test": "**Rule.** The **modifier class** — not an inline style or prop — drives the pill and dot colour, and it resolves to **semantic tokens**. Every state's colour lives in one stylesheet on tokens; the visible label is never coloured by a hardcoded hex."
+        }
+      ]
+    },
+    "settings": {
+      "surface": "settings",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-settings",
+        "judge": "aha-design:aha-design-settings-judge"
+      },
+      "targets": [
+        {
+          "source": "guidelines/settings.json",
+          "use": "the settings pattern: naming, control choice, grouping by spacing, dependent and gated settings, danger zone, surface choice"
+        },
+        {
+          "source": "contracts/settings-list.json",
+          "use": "the shared settings list, rows and groups (C4, C5, C9)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Setting names are noun phrases",
+          "test": "Every setting name is a short noun phrase with no leading verb (\"Enable\", \"Allow\", \"Turn on\", \"Show\", \"Toggle\") and no trailing-sentence description. Group headers are noun phrases in sentence case with no colon or trailing punctuation."
+        },
+        {
+          "id": "C2",
+          "title": "Correct control — toggle vs checkbox, never mixed",
+          "test": "A toggle for an immediate, independent binary; a checkbox for grouped/save-together options or consent (first person). Toggles and checkboxes are **not mixed within one group**."
+        },
+        {
+          "id": "C3",
+          "title": "Help text is the exception; explanation lives in a `?` tooltip",
+          "test": "Always-visible help text appears **only** for a must-see consequence the user can't easily undo — one short sentence (≤90 chars), sentence case, ends with a period, states the consequence not the feature. All other elaboration is a `?` tooltip (≤140 chars, opens on hover **and** keyboard focus **and** tap, no links/buttons/ lists), or omitted."
+        },
+        {
+          "id": "C4",
+          "title": "Grouping & separation come from spacing — no dividers, no cards",
+          "test": "Hierarchy and separation use `--aha-size*` spacing tokens (the monotonic 4/8/16/32/48 scale), **not** divider/rule lines and **not** raw px. Plain settings and groups are **never** wrapped in a card or **any container with its own background/tinted fill or border** — a lone toggle/setting row sits directly on the panel surface, not on a grey/tinted rounded pill."
+        },
+        {
+          "id": "C5",
+          "title": "Dependent sub-settings — hidden when parent off, nested when shown",
+          "test": "A sub-setting that only applies when its parent is on is **hidden** when the parent is off (not shown disabled — unless the disabled state communicates an upgrade path). When shown, it reads as **nested under** its parent: indented (`sizeLG`) with a tighter gap above (`sizeXS`) **and de-emphasized** (lighter label weight/colour), and it is never bracketed by its own separators on both sides or…"
+        },
+        {
+          "id": "C6",
+          "title": "Plan-gated settings are visible but locked",
+          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked with a crown badge that replaces its normal tooltip and opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, or the badge opens a custom popover."
+        },
+        {
+          "id": "C7",
+          "title": "Dangerous settings — last, spacing-separated, danger Button, confirmed",
+          "test": "Irreversible/destructive settings sit **last** (bottom of section or a Danger zone at panel bottom), set apart by the largest spacing gap (`sizeXXL`) — **not** a divider. The CTA is an AntD `danger` Button (`colorError`, no hardcoded hex); red is on the button only, never the label/toggle."
+        },
+        {
+          "id": "C8",
+          "title": "Correct surface — panel vs page vs modal vs drawer",
+          "test": "Per-object/immediate-effect settings live in the inline editor **panel**; workspace/ account-scope in a **page**; one-time action config in a **modal**; medium-complexity supplements in a **drawer**. **FAIL** if a setting sits in the wrong surface for its scope (e.g."
+        },
+        {
+          "id": "C9",
+          "title": "Every object renders at its real height",
+          "test": "No settings object holds space while rendering nothing visible: an empty section, an empty list wrapper inflating a parent's flex `gap`, or a plugin settings iframe reporting a non-zero height with an empty body / falling back to `height:100%`. An always-rendered wrapper around a conditional list renders only when the list is non-empty; a plugin settings iframe reports its height via…"
+        },
+        {
+          "id": "C10",
+          "title": "Slide-type option list matches the \"Items\" component",
+          "test": "*(Slide-type config only.)* The option list uses the reference row anatomy — drag handle (only when order matters) + text input + optional image button + **on-hover** delete — with a full-width **\"+ Add\"** button beneath and a `?`-tooltipped noun-phrase section label above. The text input shows a neutral placeholder when empty, a character counter **only on focus**, wraps to multiple lines, and…"
+        },
+        {
+          "id": "C11",
+          "title": "Image support handled by the right component (per-option vs standalone field)",
+          "test": "*(Slide-type config only.)* There are **two** image controls in the library, and the choice depends on whether the image is one cell of an option row or the field itself — using the wrong one (or hand-rolling either) is a FAIL."
+        },
+        {
+          "id": "C12",
+          "title": "Slide-type config follows the reference ordering",
+          "test": "*(Slide-type config only.)* The panel is ordered **Question** (title + alignment + optional image + \"Add description\") → **option list** → **participation constraints** (placed right after the list) → **Time-limit toggle** revealing its duration select (dependent sub-setting) → **collapsed Advanced** section for low-frequency toggles. The standard sections (timing, show/hide results) are…"
+        },
+        {
+          "id": "C13",
+          "title": "List wrapper matches the list shape (questions → QuestionList, item-groups → NumberedItem)",
+          "test": "*(Slide-type config only.)* A repeatable settings list has **three** library wrappers, and the choice is fixed by the **shape of each item** — using the wrong one, or hand-rolling the accordion / number chip a shipped component already ships, is a FAIL (the list-shape sibling of C11's per-option-vs-standalone image choice): - **A flat set of answer choices for ONE question → `OptionRow`**…"
+        },
+        {
+          "id": "C14",
+          "title": "Settings surface text is localised to the viewer's own app locale",
+          "test": "*(Any settings surface that is localised at all — not gated to slide-type config; mark `N/A` only for a surface with no localisation.)* Settings/config text renders in the language of the **person viewing the settings surface**, not an unrelated content language. For a **slide-type plugin iframe** embedded in the AhaSlides presenter app, the right-panel SETTINGS/config text follows the…"
+        },
+        {
+          "id": "C15",
+          "title": "No content-reset / restore-defaults control in a slide-type config panel",
+          "test": "*(Slide-type right-panel config only — mark `N/A` for any other settings surface.)* A slide type's right-panel config **must not** carry a \"Reset / Restore-defaults / Clear-all\" control that re-seeds or wipes the **content the panel itself authors** — the dilemmas, items, buckets, lots or options the presenter typed. This is distinct from C7: C7 legitimises a genuine account/workspace…"
+        }
+      ]
+    },
+    "feedback": {
+      "surface": "feedback",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-feedback",
+        "judge": "aha-design:aha-design-feedback-judge"
+      },
+      "targets": [
+        {
+          "source": "guidelines/feedback.json",
+          "use": "the feedback pattern: toast vs inline vs banner, correct/incorrect states, CSAT"
+        },
+        {
+          "source": "contracts/toast.json",
+          "use": "the DS toast (C1)"
+        },
+        {
+          "source": "contracts/alert.json",
+          "use": "the DS V3 <aha-alert> inline banner (C4)"
+        },
+        {
+          "source": "contracts/csat.json",
+          "use": "the shared CSAT widget (C3)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Toasts are transient bottom-right pills — auto-dismiss, role=status, portalled",
+          "test": "**Rule.** A toast is a **transient, non-actionable confirmation** (\"Thanks for your feedback\", \"Copied\"). It is a small `position: fixed` pill at the **viewport bottom-right** that rises from below (never shifting surrounding layout), **auto-dismisses after ~3s** with the timer **cleared on unmount**, carries **`role=\"status\"`** (announced without stealing focus), and — because a `fixed` toast…"
+        },
+        {
+          "id": "C2",
+          "title": "Inline correct/incorrect uses the a11y + semantic-token contract",
+          "test": "**Rule.** Result feedback shown in place after an answer carries **`role=\"status\"` with `aria-live=\"polite\"`** (informational, not urgent), and colours its container from **semantic tokens** — border `var(--aha-colorSuccess)` / `var(--aha-colorError)` and background `var(--aha-colorSuccessBg)` / `var(--aha-colorErrorBg)`, **never a hardcoded hex**. It leads with a strong correct/incorrect label…"
+        },
+        {
+          "id": "C3",
+          "title": "CSAT uses the shared widget, a required source, and best-effort tracking",
+          "test": "**Rule.** A satisfaction prompt uses the shared **`Csat`** widget — a binary thumbs rating with an optional follow-up on thumbs-down; **never** a bespoke rating control. It passes a **required `source`** token from the closed **`CsatSource`** union (one per placement) so Mixpanel gets stable, typo-proof segmentation; adding a placement means adding a union member."
+        },
+        {
+          "id": "C4",
+          "title": "Inline banners use the DS V3 Alert, not a bare AntD Alert",
+          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its own DS `bg-surface` / `border` / `icon` token **and a distinct glyph** (colour is never the only…"
+        },
+        {
+          "id": "C5",
+          "title": "When NOT to use a toast is respected",
+          "test": "**Rule.** A toast that auto-dismisses must **never** be the only place a required message lives. Route by situation: | Situation | Belongs in | |---|---| | Error the user must act on | inline **Alert** banner in context (C4) or an overlay Alert | | Field validation error | `FieldErrorDisplay` / a11y `FieldError` (shared-components) | | Destructive confirmation | a modal (`aha-design-overlays`) |…"
+        }
+      ]
+    },
+    "overlays": {
+      "surface": "overlay",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-overlays",
+        "judge": "aha-design:aha-design-overlays-judge"
+      },
+      "targets": [
+        {
+          "source": "guidelines/overlays.json",
+          "use": "the overlay pattern: surface choice, dismiss safety, state reset, async confirm, inline errors"
+        },
+        {
+          "source": "contracts/modal.json",
+          "use": "the DS Modal (C1, C3, C5, C7)"
+        },
+        {
+          "source": "contracts/drawer.json",
+          "use": "the DS Drawer — right placement, responsive width (C4)"
+        },
+        {
+          "source": "contracts/popover.json",
+          "use": "the DS Popover (C1)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "The right surface is chosen — modal vs drawer vs popover",
+          "test": "**Rule.** The surface fits the job: a **modal** for a focused, blocking decision or short flow (confirmations, destructive actions, one-time config); a **drawer** for a detail view or medium-complexity panel that supplements the page (a record's report, distribution settings); a **popover** for a small, anchored, contextual snippet (quick info, a compact input, an upsell) — never for a…"
+        },
+        {
+          "id": "C2",
+          "title": "Dismiss behaviour is safety-critical",
+          "test": "**Rule.** **Destructive / data-loss overlays MUST NOT dismiss on outside/mask click** — set `mask={{ closable: false }}` so a stray backdrop click can't trigger destruction, leaving `keyboard` (Esc) and the explicit **X** button as the only dismiss paths. Non-destructive overlays may allow mask-close."
+        },
+        {
+          "id": "C3",
+          "title": "State resets between opens",
+          "test": "**Rule.** The overlay sets `destroyOnHidden` (Modal) / `destroyOnClose` (Drawer) so transient state — form input, error text, busy flag — resets between opens. If the instance can stay mounted, local error and busy state are also cleared explicitly on open rather than relying on unmount alone."
+        },
+        {
+          "id": "C4",
+          "title": "Drawers use placement=right and responsive width",
+          "test": "**Rule.** Drawers default to `placement=\"right\"` with **responsive width** `width={isMobile ? '100%' : <fixed>}` (e.g. `720`) driven by `useIsMobile()` — full-bleed on mobile, fixed panel on desktop."
+        },
+        {
+          "id": "C5",
+          "title": "Async confirm follows the busy-guard / await / stay-open pattern",
+          "test": "**Rule.** When `onConfirm` returns a promise, the overlay: (1) guards re-entry (`if (busy) return`), sets `busy`, clears prior error; (2) `await`s the action; (3) on rejection **stays open** and surfaces the error inline (see C6), then clears `busy`; (4) on success the caller closes the overlay. Never close a destructive overlay before its action resolves, and never fire-and-forget."
+        },
+        {
+          "id": "C6",
+          "title": "Errors surface inline, never a nested modal",
+          "test": "**Rule.** Failures are surfaced **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert type=\"error\"` — the banner component owned by [[aha-design-feedback]], **not** a bare AntD `<Alert>` with default styling). This judge owns *placement* (error goes inline, overlay stays open); feedback owns the Alert's *styling*."
+        },
+        {
+          "id": "C7",
+          "title": "Destructive confirm uses a danger-styled button",
+          "test": "**Rule.** A destructive confirmation uses `okButtonProps={{ danger: true, loading: busy }}` — the **danger styling lives on the action button**, never on the title or body. For confirmations the title is a **question** (\"Delete this survey permanently?\"), and cancel is disabled while busy (`cancelButtonProps={{ disabled: busy }}`)."
+        }
+      ]
+    },
+    "canvas": {
+      "surface": "canvas",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-canvas",
+        "judge": "aha-design:aha-design-canvas-judge"
+      },
+      "targets": [
+        {
+          "source": "guidelines/canvas.json",
+          "use": "the presenter-canvas pattern: framed vs full-canvas, declared actions, deck ink and fonts"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the colour and type tokens every hard-coded colour/font check binds to (C1, C2)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "No hard-coded colours or fonts",
+          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.baseColour`, `xprops.slide.textColour`, `xprops.slide.backgroundImage` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+        },
+        {
+          "id": "C2",
+          "title": "Semantic state colours applied to the indicator, NOT the chart",
+          "test": "**Two different colour jobs on a canvas — keep them separated:**"
+        },
+        {
+          "id": "C3",
+          "title": "Action buttons declared, NOT rendered inside the canvas",
+          "test": "**Rule.** Previous / Next / Summarise / Reset and any other slide-specific actions are **declared** via the plugin manifest's `actions` array and **painted by the host** in the presenter control bar (`PresenterControlBarNew.vue`, region `ncb-center` portal, rendered through `NcbPluginActions.vue`). The canvas iframe never contains the action buttons themselves."
+        },
+        {
+          "id": "C4",
+          "title": "Action shape correct, with sensible variant hierarchy",
+          "test": "**Rule.** Slide plugins do NOT pick a button size — the host renders every declared action via the `<aha-antd-button>` design-system wrapper at whatever size the host configures. The plugin's job is to declare the right **data**."
+        },
+        {
+          "id": "C5",
+          "title": "Legible against the REAL background — WCAG AA contrast, readable size, AND real text",
+          "test": "Three failure axes, one goal: the slide is read from a distance, so meaningful text and shapes must **contrast enough**, be **big enough**, AND **read as normal running text** (not a decorative treatment) to be understood from the worst seat. Any one axis failing → C5 FAIL."
+        },
+        {
+          "id": "C6",
+          "title": "Non-colour cue paired with every colour-bearing signal",
+          "test": "**Rule.** If colour carries meaning (right/wrong, winner/loser, warning/normal, correct/incorrect), it MUST be paired with at least one of: - An **icon** (✓, ✗, crown, alert) — **preferred**: compact, language-neutral - A **label** (\"Correct\", \"Incorrect\", \"Winner\") — heavier, brings an i18n surface - A **shape** (border style, pattern, outline) - **Position** (winner = top of list)"
+        },
+        {
+          "id": "C7",
+          "title": "Framed vs full-canvas chosen intentionally in the manifest",
+          "test": "**Rule.** The plugin's manifest declares `setting.enableFullScreen` explicitly: - **Framed** (`setting.enableFullScreen: false`): host renders the question title / description / question image at the top of the stage; the canvas iframe only renders the answer/interaction area. - **Full-canvas** (`setting.enableFullScreen: true`): host hides its chrome; the canvas iframe renders its own title and…"
+        },
+        {
+          "id": "C8",
+          "title": "Plugin initialises its locale from `presentation.language` xprop",
+          "test": "**Rule.** Every user-visible string passes through i18n. The plugin runs in its own iframe with **its own i18n instance** — it does NOT inherit the host's locale state."
+        },
+        {
+          "id": "C9",
+          "title": "Visual restraint — no AI-generated design tells",
+          "test": "Five specific choices make a canvas read as machine-generated — or plain broken — rather than designed. **Any one → FAIL.**"
+        },
+        {
+          "id": "C10",
+          "title": "Keyboard-shortcut affordances",
+          "test": "**Scope.** This criterion is about controls the **canvas renders itself** — a bespoke overlay the host control bar (NCB, §C3) doesn't paint: an animated game's play / pause, a reveal toggle, a music-mute button, a settings popover. Host-painted NCB actions get their shortcut chips, focus order, and sound from the host and are out of scope here."
+        },
+        {
+          "id": "C11",
+          "title": "Deck-ink fallback reads on the surface it lands on",
+          "test": "**Scope.** Ink written as `xprops.slide.textColour ?? <fallback>` (or `textColour || …`). The default deck leaves `slide.textColour` **unset** — the host paints body text itself and forwards nothing — so the fallback is the **real paint path on the most common deck**, not an edge case."
+        },
+        {
+          "id": "C12",
+          "title": "Full-canvas slide renders the host title itself",
+          "test": "**Scope.** Fires only when the manifest declares `setting.enableFullScreen: true` (full-canvas). A **framed** slide (`enableFullScreen: false`) PASSes vacuously — the host draws the title bar, so the canvas must not."
+        },
+        {
+          "id": "C13",
+          "title": "On-canvas text clears a legible size floor",
+          "test": "**Rule.** Every meaningful on-canvas text — the title / question, answer text, data values, status lines, option labels — uses a **fixed-px type-scale role at or above the 16px caption floor**, the same scale C5 defines (no new number is introduced here): | role | class | px @720 | |---|---|---| | caption (floor) | `text-base` | 16 | | body (default) | `text-lg` | 18 | | subhead | `text-2xl` |…"
+        },
+        {
+          "id": "C14",
+          "title": "Deck font is LOADED into the iframe, not just referenced",
+          "test": "**Scope.** Fires whenever the canvas renders text in the deck font — it binds `xprops.presentation.fontFamily` (directly, or via a `deckFont` computed) to an element's `font-family`. A canvas that renders no text, or renders only in the bundled default face, PASSes vacuously."
+        },
+        {
+          "id": "C15",
+          "title": "Canvas content is padded, not clipped by an under-padded container",
+          "test": "**Rule.** Meaningful content — a title, a progress / \"rung\" badge (`RUNG 1 OF 4`, `Q1 of 5`), a status line, the first row of a list — must sit inside adequate container padding and render **fully visible**. Nothing important is sliced by an under-padded container, an `overflow`-bounded box, or a flex column that squeezes or overflows its top item."
+        },
+        {
+          "id": "C16",
+          "title": "A per-round advance stepper uses the default (secondary) variant, never the primary accent",
+          "test": "**Rule.** A slide action the presenter clicks to advance **one step at a time through many rounds** — This or That's *Next pair*, a per-question *Next*, a dilemma ladder's *Next dilemma / rung* — is workhorse NAVIGATION, not a climactic CTA. It MUST take the **default / secondary** variant (the solid white-background button), never the filled **primary** accent — and that holds in **both**…"
+        }
+      ]
+    },
+    "audience": {
+      "surface": "audience",
+      "origin": "seeded",
+      "seededFrom": {
+        "plugin": "aha-design",
+        "version": "1.80.0",
+        "importedOn": "2026-09-28"
+      },
+      "skillRef": {
+        "build": "aha-design:aha-design-audience",
+        "judge": "aha-design:aha-design-audience-judge"
+      },
+      "targets": [
+        {
+          "source": "guidelines/audience.json",
+          "use": "the audience-screen pattern: mobile-first column, self-rendered states, deck-tracking controls, text economy"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the colour and type tokens every hard-coded colour/font check binds to (C1, C2)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "No hard-coded colours or fonts",
+          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.textColour` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+        },
+        {
+          "id": "C2",
+          "title": "Semantic state colours bundled, applied to the indicator",
+          "test": "**Rule.** Meaning-bearing state colours (correct/incorrect, success/error, submission feedback, validation) must come from the plugin's own **bundled** design-system tokens. They do NOT come from: - The deck's palette (`xprops.presentationColorPalette[n]`) — a palette may not contain a usable red/green, so state would silently shift per deck."
+        },
+        {
+          "id": "C3",
+          "title": "Mobile-first single column + height reported via onHeightChange",
+          "test": "**Rule.** The audience layout must be: - **Single column.** No side-by-side panels assuming desktop width. - **Fluid up to host's max-width** (host enforces ~710–840px in framed mode); no fixed device-width assumptions."
+        },
+        {
+          "id": "C4",
+          "title": "Plugin self-renders submitted / waiting / correct-incorrect; host utilities used where they fit",
+          "test": "**Rule.** For built-in slide types the host overlays a \"Waiting…\" screen after submit. **Plugins do not get that** — the iframe stays mounted and the plugin must render the post-submission UX itself: - **Just submitted** — ✓ confirmation rendered inside the iframe - **Waiting for the next slide** — same surface, calm hold state - **Quiz correct/incorrect** — state colour on indicator (icon), bar…"
+        },
+        {
+          "id": "C5",
+          "title": "WCAG AA contrast + touch targets + mobile readability",
+          "test": "**Rule.** Three thresholds on the audience surface: **Contrast** — every meaningful text and shape meets WCAG AA against the **plugin-chosen background**: - 4.5:1 floor for text (3:1 for large text ≥18pt / 14pt bold) - 3:1 floor for meaningful non-text shapes (bar fills, status dots, dividers)"
+        },
+        {
+          "id": "C6",
+          "title": "Non-colour cue paired with every colour-bearing signal",
+          "test": "**Rule.** If colour carries meaning (right/wrong, correct/incorrect, submission state, leader/winner), it MUST be paired with at least one non-colour cue. **Prefer icon** as the cue — compact, language-neutral."
+        },
+        {
+          "id": "C7",
+          "title": "Framed vs full-canvas declared explicitly in the manifest",
+          "test": "**Rule.** The plugin manifest declares `setting.enableFullScreen` explicitly: - **Framed** (`setting.enableFullScreen: false`) — host renders question image, title, description, audio button, countdown progress *above* the iframe. The audience iframe owns the answer area only."
+        },
+        {
+          "id": "C8",
+          "title": "Plugin i18n initialised from xprops.presentation.language",
+          "test": "**Rule.** The audience iframe has **its own i18n instance** (separate document, separate bundle). It does NOT inherit the host's locale state."
+        },
+        {
+          "id": "C9",
+          "title": "Submit button matches the standard spec",
+          "test": "**Rule.** Every built-in audience slide type uses one consistent submit-button look + behaviour (the host design system's `aha-antd-button` in the \"primary-alt\" variant). That component doesn't cross the iframe boundary, so plugin authors build their own — but the in-iframe button MUST match the shared spec (visual + behaviour + wiring), or audience experience drifts per slide type."
+        },
+        {
+          "id": "C10",
+          "title": "Visual restraint — no AI-generated design tells",
+          "test": "Three specific choices make the audience UI read as machine-generated. **Any one → FAIL.**"
+        },
+        {
+          "id": "C11",
+          "title": "Transform / animation stays inside the reported box",
+          "test": "**Rule.** `onHeightChange` reports the plugin's **resting** box, and the host shrink-wraps the iframe to that height, painting nothing outside it. Any transform that lifts content past the reported edges — a swipe tilt, a drag ghost, a hover pop, a settle bounce (`rotate`, `translateY(-n)`, `scale(>1)`) — gets **clipped by the iframe**."
+        },
+        {
+          "id": "C12",
+          "title": "Swipe / drag gesture stays smooth (60 fps)",
+          "test": "**Rule.** A card the audience drags or flings re-renders every frame while it moves. Two things reliably make that laggy on a real phone, and both are FAILs: 1."
+        },
+        {
+          "id": "C13",
+          "title": "Text economy — no redundant text; instructions are unboxed body text",
+          "test": "**Rule.** Every word on the audience surface must add information the controls don't, and instructions stay quiet. Two facets: 1."
+        },
+        {
+          "id": "C14",
+          "title": "Host-owned transient notices not re-rendered in the iframe",
+          "test": "**Rule.** The host owns two round-end announcements; the plugin must not duplicate either inside the iframe (framed mode)."
+        },
+        {
+          "id": "C15",
+          "title": "Shared components used, not rebuilt",
+          "test": "**Rule.** Where the repo ships an audience component library, the surface is built FROM it. A control that duplicates a library component's job FAILs — and it FAILs even when it renders identically today, because the library is where the cross-cutting guarantees live in one place: ink that tracks the deck, the frosted surface that survives a photographic deck, the touch-target floor, the…"
+        },
+        {
+          "id": "C16",
+          "title": "Deck font is LOADED into the iframe, not just referenced",
+          "test": "**Scope.** Fires whenever the audience surface renders text in the deck font — it binds `xprops.presentation.fontFamily` (directly, or via a `deckFont` computed, or a global `font-family: inherit` that ultimately resolves to it) to its text. A surface that renders only in the bundled default face PASSes vacuously."
+        },
+        {
+          "id": "C17",
+          "title": "Selection controls and the \"your pick\" indicator track the deck",
+          "test": "**Rule.** The controls that carry choice and selection — a Radio, a Checkbox, and the ring/edge that marks the row a participant picked — must read from the deck, not from a fixed brand colour. Two facets, both reported (AHAM-701): 1."
+        },
+        {
+          "id": "C18",
+          "title": "A filled slider / progress track carries a deck-ink edge",
+          "test": "**Rule.** A slider's FILLED (accent) portion, and a progress fill, must carry the SAME deck-ink hairline the empty rail already has, so a coloured fill does not sink into a same-hue deck (AHAM-701 issue 4). The edge is the deck ink at the shared control-border alpha (~20%), reached through `currentColor` so it tracks the deck — the same edge the unfilled rail uses, extended onto the fill."
+        },
+        {
+          "id": "C19",
+          "title": "Body copy and option labels use the audience default body size",
+          "test": "**Rule.** Primary body text and answer-option labels render at the audience DEFAULT body size (16px) (AHAM-701 issue 2). `text-sm` (14px) is legitimate ONLY on secondary metadata — a vote-count chip, a percentage, a helper caption under the primary label — never on the option label or main body copy itself."
+        },
+        {
+          "id": "C20",
+          "title": "A horizontal slider's rail sits flush with its end labels",
+          "test": "**Rule.** A horizontal audience slider's rail runs edge-to-edge inside its container, aligned flush under its min/max end labels — no leftover Ant component margin (e.g. a default `margin: 10px 6px`-ish inset) shifting the rail inward so it no longer lines up with the captions it belongs to (AHAM-701 issue 3)."
+        },
+        {
+          "id": "C21",
+          "title": "Distinct labelled sections are separated by ≥24px",
+          "test": "**Rule.** An audience screen that stacks two or more DISTINCT labelled sections — a section being a heading/label plus the control group it introduces, e.g. `Choose a lot` + the answer options, then `Set your bid` + the slider — puts at least **24px** of vertical space between one section and the next (AHAM-701 issue)."
+        },
+        {
+          "id": "C22",
+          "title": "A repeated row holds its DECLARED range, in one shape, with no fixed void",
+          "test": "**Rule.** A row that repeats — an item plus its control — is designed for the whole range of content it is *allowed* to hold, not for the content it happened to be posed with. Three things follow, and each one is a way the same design fails."
+        },
+        {
+          "id": "C23",
+          "title": "Participant identity shown only when the slide opts into the host join flow",
+          "test": "**Rule.** The audience iframe never knows the participant's own name, emoji or team unless the slide type opts into the host's join/identity flow. The host populates `audienceName` / `audienceEmoji` (and team) ONLY when the manifest declares `setting.enableAudienceJoinPresentation: true` — that flag is what makes the host run the QR/join step and hand the identity down."
+        },
+        {
+          "id": "C24",
+          "title": "A form field sits on a chosen legible surface with deck-tracking ink",
+          "test": "**Rule.** An audience `<input>` / `<textarea>` / `<select>` is a *bounded field* the participant has to find and read their own typing in — it needs an explicitly chosen surface and ink, not the defaults it inherits. C5 says the plugin picks its own background *in general*; this criterion makes that testable for FORM FIELDS specifically, because the two ways a field goes wrong are both invisible…"
+        },
+        {
+          "id": "C25",
+          "title": "A Select / dropdown popup opens below, themes its panel, and stays in the iframe box",
+          "test": "**Rule.** A native `<select>` or a custom popup menu (an Ant `Select`, a combobox) has a second surface — the open PANEL — that the closed control's styling does not cover. Three things must hold, and each is a separate way the same control fails: **a."
+        },
+        {
+          "id": "C26",
+          "title": "Exactly one instruction line per audience screen — a second, restating line FAILs",
+          "test": "**Rule.** An audience screen carries at most ONE instruction line telling the participant what to do. A second line — a separate instruction elsewhere on the screen, or an inner prompt / placeholder / hint beside the control — that RESTATES the same task is redundant: it says nothing the first line didn't, and on the shrink-wrapped mobile surface two instructions compete for the eye and push the…"
+        },
+        {
+          "id": "C27",
+          "title": "A full SubmittedCard is only for a swipe-card interaction; every other slide locks its answer in place",
+          "test": "**Rule.** The separate, full-surface `SubmittedCard` component — the one that REPLACES the whole answer surface with a standalone \"you're in\" card — is only appropriate for a **swipe-card interaction**: a slide where the participant's answer IS a card they swipe or tap (true-or-false's swipe/tap-a-card, this-or-that, and the like). There the card is the mechanic, so swapping to a submitted card…"
+        },
+        {
+          "id": "C28",
+          "title": "An audience text field's LABEL tracks the deck ink at the 16px body size",
+          "test": "**Rule.** The label ABOVE an audience `<input>` / `<textarea>` (\"Your answer\", \"Your name\", …) is read against the DECK, not against the field's own chosen surface — so it obeys the same two rules the deck body copy does, and the two defaults it inherits from Ant's `Form.Item` label both break it: **a. The label tracks the deck ink.** The label colour is `xprops.slide.textColour`, NOT a fixed…"
+        },
+        {
+          "id": "C29",
+          "title": "A field's character counter sits INSIDE it, reveals on focus, counts DOWN, in muted field ink",
+          "test": "**Rule.** A character counter on an audience `<input>` / `<textarea>` mirrors the shipped settings `CountedTextarea` / `CountedInput` pattern — four things, and each has a specific wrong default that this criterion catches: **a. Inside the field, not below it.** The counter is positioned INSIDE the field box — bottom-right for a `<textarea>`, right-aligned for a single-line `<input>` — not on a…"
+        },
+        {
+          "id": "C30",
+          "title": "An ACTIVE audience submit button is passed the deck accent, not left on the component's purple fallback",
+          "test": "**Rule.** This repo's submit CTA is the shared library component (`SubmitButton` / `AudienceSubmitButton` from `@/iframe/audience`), whose fill DEFAULTS to the fixed brand purple and only tracks the deck when it is passed `:accent=\"presentationColorPalette[0]\"`. So an ACTIVE (answerable) submit button MUST bind that accent."
         }
       ]
     }

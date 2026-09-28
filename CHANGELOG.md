@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.63.0 — 2026-09-28
+### Added
+- **Seven more anti-slop surfaces in the DS-owned store: `paywall`, `status-badges`, `settings`, `feedback`, `overlays`, `canvas` and `audience`.** Each was seeded from its aha-design judge (plugin v1.80.0) with `sync-skills.mjs import` — 85 binary criteria in all — so `anti-slop.md` / `anti-slop.agent.json` now carry sixteen surfaces and every guideline is wired (the "Not yet wired" list is gone). Feedback C4 now points at the DS `<aha-alert>` contract instead of the plugin's `references/alert.md`. (#123)
+- **Each new surface declares its live DS `targets`.** The six pattern surfaces target their `guidelines/<name>.json` plus the contracts or tokens their criteria judge (e.g. `feedback` → toast, alert, CSAT; `overlays` → modal, drawer, popover); `paywall`, which has no guideline, targets `contracts/paywall.json`. Each wired pattern page, `.md` and `.agent.json` now links back to its anti-slop judge. (#123)
+### Changed
+- **The anti-slop gate also checks** that criterion ids are unique within a surface, a target is listed once, and a seeded surface records its own `seededFrom` + judge `skillRef`. Build-assertion refs (`SETTINGS-01`, `§2`, …) now warn once per guideline rather than once per rule. (#123)
+### Fixed
+- **`sync-skills.mjs import` seeds cleaner criterion text.** It reads only the paragraph under each criterion header (following a lead-in that ends in ":"), and cuts long text at a word boundary with "…" rather than mid-word. `ux-writing` C4 loses the stray example text an earlier import had cut mid-word. (#123)
+
 ## 0.62.0 — 2026-09-28
 ### Added
 - **`DataTable` — a real, importable data-grid component (`@ahaslides-product/design/aha-data-table`).** Until now the DS shipped only `tableTheme`, so every app rebuilt the DataTable itself. `createDataTable({ React, antd })` binds the shared component to your own React + antd (zero runtime deps, works from a bundler or a CDN page) and brings the whole DS V3 table: white header that stays white when sorted, dividers only, radius 8, 16px cells, gray-30 hover, single-arrow sort (↓ → ↑ → none), checklist and min/max filter popovers with Reset / Apply, drag reorder (Alt+←/→ from the keyboard), right-click freeze (one column, pinned left), column resize, rows-per-page and an Edit columns checklist — icons from the DS library by name. Also exports `dataTableTheme` (the Vue path until the Vue twin lands) and `dataTableLabels` (i18n). New **Data table** docs page under Components · Data Display, linked from Table's *When to use*. `table-theme` and the Table page are unchanged. (#126)
