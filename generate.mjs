@@ -1814,6 +1814,18 @@ const ANTISLOP_LOOP = [
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
 
+// A surface target is a DS source path; consumers fetch its published live feed, never a snapshot.
+function antiSlopTargetUrl(source) {
+  if (source === 'tokens.canonical.json') return `${SITE}/design.md`;
+  if (source === 'contracts') return `${SITE}/llms.txt`;
+  if (source === 'icons/registry.json') return `${SITE}/icons.agent.json`;
+  let m = source.match(/^contracts\/([a-z0-9-]+)\.json$/);
+  if (m) return `${SITE}/${m[1]}.agent.json`;
+  m = source.match(/^guidelines\/([a-z0-9-]+)\.json$/);
+  if (m) return `${SITE}/guidelines/${m[1]}/${m[1]}.agent.json`;
+  throw new Error(`anti-slop target "${source}" has no published feed — map it in antiSlopTargetUrl`);
+}
+
 function renderAntiSlop(store, guidelines) {
   const bySlug = Object.fromEntries((guidelines || []).map(p => [p.slug, p]));
   const surfaces = store ? Object.entries(store.surfaces) : [];
@@ -1822,13 +1834,17 @@ function renderAntiSlop(store, guidelines) {
   for (const [key, s] of surfaces) {
     const p = bySlug[key];
     md += `## Surface: ${key}${p ? ` (guidelines/${key}/${key}.md)` : ''}\n`;
-    md += `${p ? p.summary : ''}\n\n`;
+    md += p ? `${p.summary}\n\n` : '\n';
     if (p && p.rules?.length) {
       md += `Rules:\n${p.rules.map(r => `- ${r.rule}${r.ref?.length ? ` [${r.ref.join(', ')}]` : ''}`).join('\n')}\n\n`;
     }
+    const targets = (s.targets || []).map(t => ({ ...t, url: antiSlopTargetUrl(t.source) }));
+    if (targets.length) {
+      md += `Judge against the live DS (never a frozen snapshot):\n${targets.map(t => `- ${t.url} — ${t.use}`).join('\n')}\n\n`;
+    }
     md += `Judge (binary — PASS/FAIL each):\n${(s.criteria || []).map(c => `- ${c.id}. ${c.title} — ${c.test}`).join('\n')}\n\n`;
     agent.surfaces[key] = {
-      surface: s.surface, origin: s.origin, skillRef: s.skillRef || (p ? p.skillRef : null),
+      surface: s.surface, origin: s.origin, skillRef: s.skillRef || (p ? p.skillRef : null), targets,
       rules: p ? (p.rules || []) : [], criteria: s.criteria || [], selfCheck: p ? (p.selfCheck || []) : [],
     };
   }
