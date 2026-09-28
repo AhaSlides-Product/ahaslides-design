@@ -1,0 +1,26 @@
+<!-- Vue 3 · ant-design-vue v4. The DataTable behaviour layer (single-arrow sort, filter popovers,
+     reorder, freeze, resize, edit columns) ships for React first; a Vue twin is the follow-up.
+     Until it lands, Vue gets the SAME DS V3 look from the shared dataTableTheme — never restyle
+     <a-table> per call site. -->
+<script setup>
+import { dataTableTheme } from '@ahaslides-product/design/aha-data-table';
+
+const columns = [
+  { key: 'name',      title: 'Name',      dataIndex: 'name',  sorter: (a, b) => a.name.localeCompare(b.name), sortDirections: ['descend', 'ascend'] },
+  { key: 'team',      title: 'Team',      dataIndex: 'team' },
+  { key: 'responses', title: 'Responses', dataIndex: 'responses' },
+  { key: 'score',     title: 'Score',     dataIndex: 'score', sorter: (a, b) => a.score - b.score, sortDirections: ['descend', 'ascend'] },
+];
+</script>
+
+<template>
+  <a-config-provider :theme="dataTableTheme">
+    <a-table
+      row-key="key"
+      :columns="columns"
+      :data-source="rows"
+      :scroll="{ x: 'max-content' }"
+      :pagination="{ pageSize: 10, showSizeChanger: true }"
+    />
+  </a-config-provider>
+</template>

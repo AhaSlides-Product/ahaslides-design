@@ -1,0 +1,257 @@
+{
+  "name": "Data table",
+  "slug": "data-table",
+  "group": "Data",
+  "tier": "composite-antd",
+  "badge": "composite — shared React component",
+  "summary": "The shared DataTable component — import it, pass data + columns, and every grid gets the DS V3 look and behaviour.",
+  "lead": "The real component behind the Table pattern: one React component over antd v6 that owns the DS V3 table look (via dataTableTheme) AND its behaviour — single-arrow sort, checklist and min/max filter popovers, drag reorder, right-click freeze, column resize, rows-per-page and edit columns. It has zero runtime dependencies: createDataTable({ React, antd }) binds it to your app's own React + antd, so it shares your theme context and works the same from a bundler or a CDN page. Call sites pass data + columns only — never a raw <Table>, never per-table styling.",
+  "tokensUsed": [
+    "colorPrimary",
+    "borderRadius",
+    "colorBorderSecondary",
+    "colorText",
+    "Table.headerBg",
+    "Table.headerColor",
+    "Table.borderColor",
+    "Table.rowHoverBg",
+    "Table.cellPaddingBlock",
+    "Table.cellPaddingInline",
+    "Table.headerSortActiveBg",
+    "Table.bodySortBg"
+  ],
+  "spec": [
+    {
+      "label": "Container",
+      "value": "white surface, 1px #E3E3E3 border, radius 8 — wraps the grid"
+    },
+    {
+      "label": "Header",
+      "value": "white #fff + secondary-grey #8A8A8A labels; stays white on the sorted column"
+    },
+    {
+      "label": "Body",
+      "value": "horizontal dividers #E3E3E3 only, no zebra, no sorted-column tint"
+    },
+    {
+      "label": "Cell padding",
+      "value": "16 (literal) on all four sides — never collapsed to 0"
+    },
+    {
+      "label": "Row hover",
+      "value": "gray-30 #F1F1F1"
+    },
+    {
+      "label": "Sort",
+      "value": "single arrow (system-arrow-down / system-arrow-up); cycle ↓ descending → ↑ ascending → none"
+    },
+    {
+      "label": "Filter",
+      "value": "funnel trigger: grey → purple-10 hover → purple-15 open → filled brand when applied; checklist (search + list) or min/max range, Reset + Apply footer"
+    },
+    {
+      "label": "Reorder",
+      "value": "drag a header (grab handle on hover) → purple drop-line; Alt+←/→ on a focused header"
+    },
+    {
+      "label": "Freeze",
+      "value": "right-click (or the context-menu key on a focused header) → Freeze; one column at a time, jumps leftmost, pins with a shadow on scroll, no longer reorderable; Defreeze keeps it first"
+    },
+    {
+      "label": "Resize",
+      "value": "drag a header's right edge (min 80) or focus the separator and use ←/→"
+    },
+    {
+      "label": "Toolbar",
+      "value": "optional 18px SemiBold title left + actions right (Edit columns, Export…); wraps on a phone"
+    },
+    {
+      "label": "Pagination",
+      "value": "brand-outlined active page + \"N / page\" size changer (10 per page by default)"
+    },
+    {
+      "label": "Icons",
+      "value": "DS <aha-icon> by name — arrow, funnel, magnifying glass, drag, push-pin, question, sliders"
+    }
+  ],
+  "props": [
+    {
+      "name": "columns",
+      "type": "DataTableColumn[]",
+      "default": "[]",
+      "desc": "antd columns + key (required for reorder/freeze), help (header (?) tooltip), filter { type:'checklist', options } | { type:'range' }, hideable:false (locks it in Edit columns)"
+    },
+    {
+      "name": "dataSource",
+      "type": "object[]",
+      "default": "[]",
+      "desc": "row data"
+    },
+    {
+      "name": "rowKey",
+      "type": "string | fn",
+      "default": "—",
+      "desc": "unique row id"
+    },
+    {
+      "name": "toolbarTitle",
+      "type": "ReactNode",
+      "default": "—",
+      "desc": "toolbar title (left); omit title + actions to drop the toolbar"
+    },
+    {
+      "name": "toolbarActions",
+      "type": "ReactNode",
+      "default": "—",
+      "desc": "toolbar actions (right) — house antd <Button>s, e.g. Export"
+    },
+    {
+      "name": "reorderable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "drag headers (or Alt+←/→) to reorder"
+    },
+    {
+      "name": "freezable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "right-click a header to freeze / defreeze one column"
+    },
+    {
+      "name": "resizable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "drag a header's right edge to resize"
+    },
+    {
+      "name": "columnsEditable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "adds an Edit columns checklist to the toolbar (add / remove columns)"
+    },
+    {
+      "name": "pagination",
+      "type": "object | false",
+      "default": "{ pageSize:10, showSizeChanger:true }",
+      "desc": "merged over the default; false hides it"
+    },
+    {
+      "name": "labels",
+      "type": "Partial<typeof dataTableLabels>",
+      "default": "English",
+      "desc": "UI copy override (i18n) — Reset, Apply, Freeze column, …"
+    },
+    {
+      "name": "…",
+      "type": "TableProps",
+      "default": "—",
+      "desc": "every other antd Table prop passes through (loading, onChange, rowSelection, scroll…)"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "DataTable",
+        "when": "any rows×columns grid — results, leaderboard, participant / admin list"
+      },
+      {
+        "what": "never a raw <Table>",
+        "when": "a bare antd Table restyled per call site is the drift this replaces — extend DataTable here instead"
+      },
+      {
+        "what": "List / Card",
+        "when": "a non-columnar list or card stack — not a data grid"
+      }
+    ],
+    "note": "Create it once per app — export const DataTable = createDataTable({ React, antd }) — and import that everywhere. Call sites pass data + columns and choose the behaviours (reorderable / freezable / resizable / columnsEditable); they never pass styling. Missing a behaviour? Add it to lib/aha-data-table.js so every table gets it. A status pill inside a cell is Status badge, not custom colour."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "admin"
+  ],
+  "reuse": {
+    "entry": "./aha-data-table",
+    "exportsNamed": [
+      "dataTableTheme",
+      "createDataTable",
+      "dataTableLabels"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "data-table.html.txt",
+      "runnable": "paste-and-run",
+      "note": "A CDN-React page: React + antd load from esm.sh and are handed to the SAME createDataTable React apps import. No build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "data-table.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "data-table.vue.txt",
+      "note": "The behaviour layer is React-first; Vue binds the same dataTableTheme for the DS V3 look until the Vue twin ships."
+    }
+  ],
+  "codeNote": "createDataTable takes your React + antd instead of importing them, so the DS package stays dependency-free and the table always renders inside your app's own React tree and antd theme context.",
+  "preview": "data-table.preview.html",
+  "selfCheck": [
+    {
+      "label": "shared DataTable, not raw <Table>",
+      "verdict": "PASS"
+    },
+    {
+      "label": "white header + grey labels (also when sorted)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "dividers-only, no zebra",
+      "verdict": "PASS"
+    },
+    {
+      "label": "radius 8 · 16px padding",
+      "verdict": "PASS"
+    },
+    {
+      "label": "single-arrow sort (no dual caret)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "checklist + range filters, Reset / Apply",
+      "verdict": "PASS"
+    },
+    {
+      "label": "reorder · freeze · resize · edit columns",
+      "verdict": "PASS"
+    },
+    {
+      "label": "DS icons by name (no emoji / icon packs)",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the doc page's rendered UI (getComputedStyle via headless CDP): the preview mounts the SHIPPED lib/aha-data-table.js, so this measures the real component. The first table is the basic grid; the sorted header/cell come from the Sorting case (Score sorted descending by default).",
+    "ready": "!!(document.querySelector('#react-root .ant-table-thead th') && document.querySelector('#react-root th.ant-table-column-sort') && document.querySelector('#react-root .aha-data-table__sort aha-icon'))",
+    "measure": "(function(){var q=function(sel){return document.querySelector('#react-root '+sel);};var g=function(sel,p){var el=q(sel);return el?getComputedStyle(el)[p]:null;};var td='.ant-table-tbody .ant-table-cell';var arrow=q('.aha-data-table__sort aha-icon');return{headerBg:g('.ant-table-thead th','backgroundColor'),headerColor:g('.ant-table-thead th','color'),tdPadTop:g(td,'paddingTop'),tdPadLeft:g(td,'paddingLeft'),tdBorder:g(td,'borderBottomColor'),tdBorderW:g(td,'borderBottomWidth'),containerBorderW:g('.ant-table','borderTopWidth'),containerBorder:g('.ant-table','borderTopColor'),containerRadius:g('.ant-table','borderTopLeftRadius'),sortedHeaderBg:g('th.ant-table-column-sort','backgroundColor'),sortedCellBg:g('td.ant-table-column-sort','backgroundColor'),sortArrow:arrow?arrow.getAttribute('name'):null,dualCaret:String(document.querySelectorAll('#react-root .ant-table-column-sorter-up').length)};})()",
+    "expect": {
+      "headerBg": "rgb(255, 255, 255)",
+      "headerColor": "rgb(138, 138, 138)",
+      "tdPadTop": "16px",
+      "tdPadLeft": "16px",
+      "tdBorder": "rgb(227, 227, 227)",
+      "tdBorderW": "1px",
+      "containerBorderW": "1px",
+      "containerBorder": "rgb(227, 227, 227)",
+      "containerRadius": "8px",
+      "sortedHeaderBg": "rgb(255, 255, 255)",
+      "sortedCellBg": "rgb(255, 255, 255)",
+      "sortArrow": "system-arrow-down",
+      "dualCaret": "0"
+    }
+  }
+}

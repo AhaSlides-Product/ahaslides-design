@@ -1,0 +1,33 @@
+// shared/DataTable.js — bind the DS DataTable to YOUR React + antd, once.
+import React from 'react';
+import { ConfigProvider, Table, Button, Input, InputNumber, Checkbox, Dropdown, Popover, Tooltip } from 'antd';   // antd v6
+import { createDataTable } from '@ahaslides-product/design/aha-data-table';
+
+export const DataTable = createDataTable({
+  React,
+  antd: { ConfigProvider, Table, Button, Input, InputNumber, Checkbox, Dropdown, Popover, Tooltip },
+});
+
+// ResultsScreen.jsx — call sites pass data + columns only. Never a raw <Table>, never per-table styling.
+import { Button } from 'antd';
+import { DataTable } from './shared/DataTable';
+
+const columns = [
+  { key: 'name',      title: 'Name',      dataIndex: 'name',  sorter: (a, b) => a.name.localeCompare(b.name), help: 'Participant name', hideable: false },
+  { key: 'team',      title: 'Team',      dataIndex: 'team',  filter: { type: 'checklist', options: teams } },
+  { key: 'responses', title: 'Responses', dataIndex: 'responses', sorter: (a, b) => a.responses - b.responses, filter: { type: 'range' } },
+  { key: 'score',     title: 'Score',     dataIndex: 'score', sorter: (a, b) => a.score - b.score },
+];
+
+<DataTable
+  rowKey="key"
+  columns={columns}
+  dataSource={rows}
+  toolbarTitle="Leaderboard"
+  toolbarActions={<Button icon={<aha-icon name="system-download-simple" size="16" />}>Export</Button>}
+  reorderable
+  freezable
+  resizable
+  columnsEditable
+  pagination={{ pageSize: 10 }}
+/>

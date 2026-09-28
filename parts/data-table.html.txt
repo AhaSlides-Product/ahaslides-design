@@ -1,0 +1,32 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step, no bundler.
+     DataTable is a COMPOSITE (React + antd), so its HTML form is a CDN-React page: React + antd
+     load from esm.sh and are handed to the SHARED DataTable — the same module React apps import.
+     No JSX (that needs a compiler) — React.createElement via the `h` alias. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<div id="root"></div>
+<script type="module">
+  import React from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import * as antd from 'https://esm.sh/antd@6?bundle-deps&deps=react@18,react-dom@18';
+  import { createDataTable } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-data-table.js';
+
+  const h = React.createElement;
+  const DataTable = createDataTable({ React, antd });
+
+  const columns = [
+    { key: 'name',      title: 'Name',      dataIndex: 'name',  sorter: (a, b) => a.name.localeCompare(b.name) },
+    { key: 'team',      title: 'Team',      dataIndex: 'team',  filter: { type: 'checklist', options: ['Growth', 'Product'] } },
+    { key: 'responses', title: 'Responses', dataIndex: 'responses' },
+    { key: 'score',     title: 'Score',     dataIndex: 'score', sorter: (a, b) => a.score - b.score, filter: { type: 'range' } },
+  ];
+  const rows = [
+    { key: '1', name: 'Alex Rivera', team: 'Growth',  responses: 128, score: 94 },
+    { key: '2', name: 'Priya Nair',  team: 'Product', responses: 112, score: 88 },
+    { key: '3', name: 'Sam Okafor',  team: 'Growth',  responses: 97,  score: 81 },
+  ];
+
+  createRoot(document.getElementById('root')).render(
+    h(DataTable, { rowKey: 'key', columns, dataSource: rows, toolbarTitle: 'Leaderboard',
+      reorderable: true, freezable: true, resizable: true, columnsEditable: true, pagination: { pageSize: 5 } })
+  );
+</script>

@@ -1,4 +1,8 @@
-import { DataTable, Button } from '@aha/ui-react';   // wraps antd v6 <Table> + components.Table theme
+import React from 'react';
+import * as antd from 'antd';   // antd v6
+import { createDataTable } from '@ahaslides-product/design/aha-data-table';   // the shared DataTable (see Data table)
+
+const DataTable = createDataTable({ React, antd });   // once per app — export it from your shared layer
 
 const columns = [
   { key: 'name',      title: 'Name',      dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
@@ -15,4 +19,4 @@ const columns = [
   freezable
   pagination={{ pageSize: 5, showSizeChanger: true }}
 />
-// Never a raw <Table> — DataTable applies the DS V3 look (white header, single-arrow sort, Phosphor icons).
+// Never a raw <Table> — DataTable applies the DS V3 look (white header, single-arrow sort, DS icons).

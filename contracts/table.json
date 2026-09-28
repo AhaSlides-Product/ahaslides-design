@@ -26,7 +26,7 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "DataTable", "when": "any rows×columns grid — results, leaderboard, admin list" },
+      { "what": "DataTable", "when": "any rows×columns grid — import it from @ahaslides-product/design/aha-data-table (see Data table)" },
       { "what": "never a raw <Table>", "when": "a bare antd Table restyled per call site is the drift this replaces" }
     ],
     "note": "White header (not antd grey #fafafa), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
