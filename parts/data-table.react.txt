@@ -29,5 +29,5 @@ const columns = [
   freezable
   resizable
   columnsEditable
-  pagination={{ pageSize: 10 }}
+  pagination={{ defaultPageSize: 10 }}
 />

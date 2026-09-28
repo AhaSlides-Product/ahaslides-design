@@ -60,7 +60,7 @@ function App() {
         { ...base[3], filter: { type: 'range' } },
       ] })),
     h(Case, { title: 'Config rows per page', hint: 'brand-outlined page + "N / page"' },
-      h(DataTable, { rowKey: 'key', dataSource: rows, columns: base, pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20] } })),
+      h(DataTable, { rowKey: 'key', dataSource: rows, columns: base, pagination: { defaultPageSize: 5, pageSizeOptions: [5, 10, 20] } })),
     h(Case, { title: 'Reorder · freeze · resize', hint: 'drag a header · right-click a header → Freeze · drag a header’s right edge' },
       h(DataTable, { rowKey: 'key', dataSource: rows, pagination: false, reorderable: true, freezable: true, resizable: true, columns: [
         { ...base[0], width: 180 }, { ...base[1], width: 160 }, { ...base[2], width: 160 }, { ...base[3], width: 160 },

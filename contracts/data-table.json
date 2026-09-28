@@ -132,8 +132,8 @@
     {
       "name": "pagination",
       "type": "object | false",
-      "default": "{ pageSize:10, showSizeChanger:true }",
-      "desc": "merged over the default; false hides it"
+      "default": "{ showSizeChanger:true } (10 per page)",
+      "desc": "merged over the default; set the starting size with defaultPageSize (pageSize is controlled and freezes the size changer); false hides it"
     },
     {
       "name": "labels",

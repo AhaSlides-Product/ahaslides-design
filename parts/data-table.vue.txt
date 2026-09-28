@@ -20,7 +20,7 @@ const columns = [
       :columns="columns"
       :data-source="rows"
       :scroll="{ x: 'max-content' }"
-      :pagination="{ pageSize: 10, showSizeChanger: true }"
+      :pagination="{ showSizeChanger: true }"
     />
   </a-config-provider>
 </template>
