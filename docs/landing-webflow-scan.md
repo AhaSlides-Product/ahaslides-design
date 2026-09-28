@@ -1,5 +1,28 @@
 # Landing scan — what the live AhaSlides marketing site actually uses
 
+> **Status (0.68.0): the Landing tab is gone.** This audit is kept as the Webflow-to-update record;
+> it is not a docs-site page. The two marketing-only sections, **Hero** and **Section container**,
+> now live under **Patterns → Marketing sections** (source: `marketing/<slug>.json`). The landing
+> Button, Link, Fonts, Spacing and Grid blocks were removed as duplicates of Components/Foundations;
+> they remain in git history at `v0.67.0` under `landing/`.
+>
+> Values those blocks carried that are **not** in the product system yet (kept here so none is lost):
+>
+> - **Pink promotional button** — `.aha-btn--pink{background:var(--aha-pink-60);color:var(--aha-white)}`,
+>   hover `var(--aha-pink-50)`. The product `<aha-button>` has no pink variant; adding one is a product
+>   API decision, so it was not folded in.
+> - **Inline prose link** — `.aha-link`: `--aha-color-primary`, semibold, a `1px` `--aha-purple-30`
+>   bottom border that turns `--aha-color-primary-hover` on hover; and `.aha-link--quiet`
+>   (`--aha-text-secondary` + `--aha-border` underline, primary on hover). The product Button's
+>   `link` / `text-link` variants cover the action link, not an underlined link inside running copy.
+> - **Two-face headline rule** — Nunito (`--aha-font-display`) for Display and H1 only; H2 and below
+>   on the body face. The tokens are on Foundations → Typography; the rule itself was only stated on
+>   the landing Fonts page.
+>
+> Button sizes (sm 28 / md 36 / lg 40) were identical to the product Button, Spacing used only the
+> shared `--aha-space-*` scale, and the marketing Grid's auto-fit columns are covered by the product
+> Grid (`columns`, `min`, `gap`, `responsive`), so nothing else needed folding.
+
 > Scanned 2026-09-14, re-scanned 2026-09-15 (round 3, Buttons + Fonts; round 4, Section container
 > + the Text link component — see those sections for each deep pass) from the live Webflow-authored
 > homepage (current A/B variant
@@ -75,7 +98,7 @@ No delta — the marketing rhythm is expressible entirely in DS space tokens.
 `--_spacing---section-p-*` custom properties and the `@media (max-width:991px)` override directly,
 plus every `bg-purple`/`x-compact-section`/`x-section` band on the page for the soft-tint pattern.
 
-| Property | Live Webflow (`--_spacing---section-*`, root + `≤991px`) | DS token / `landing/section-container.json` | Verdict |
+| Property | Live Webflow (`--_spacing---section-*`, root + `≤991px`) | DS token / `marketing/section-container.json` | Verdict |
 |---|---|---|---|
 | Content max-width | `--_spacing---max-width:1280px` (unchanged at every breakpoint seen) | `--aha-breakpoint-desktop` `1280px` | **exact match** |
 | Section padding-x (desktop, `>991px`) | `--_spacing---section-p-x:2rem` = `32px` | `.aha-section` padding-x clamps `16px`&rarr;`32px` (`--aha-space-16`&rarr;`--aha-space-32`), capping at `32px` from ~`800px` viewport up | **match at the cap** |
@@ -83,14 +106,14 @@ plus every `bg-purple`/`x-compact-section`/`x-section` band on the page for the 
 | Section padding-y (every breakpoint) | `--_spacing---section-p-y:4rem` = `64px`, **flat** — Webflow never reduces it on mobile | `.aha-section` padding-y clamps `48px`&rarr;`96px` (`--aha-space-48`&rarr;`--aha-space-96`) | **deliberate DS-wins delta** — Webflow ships one fixed value at every width; the DS landing register instead scales the band fluidly (per this repo's house responsiveness rule: bind to a fluid range, never a fixed pixel), giving less vertical padding on a phone and more on very large screens. Not logged as *Webflow-to-update*: it is a responsiveness improvement, not a correction of a wrong Webflow value. |
 | Soft band background | `.x-compact-section.bg-purple{background-color:var(--_color---bg--purple-soft)}` = `#f9f5ff` | `.aha-section--soft{background:var(--aha-purple-10)}` = `#F9F5FF` | **exact match** (already logged under Colour, above) |
 | Dark band | not present on the current live homepage variant — no section on the page uses a dark/inverse background | `.aha-section--dark{background:var(--aha-bg-dark);color:var(--aha-icon-inverse)}` | **no live counterpart to check** — kept as a DS-provided variant (a high-contrast closing band is a reasonable marketing pattern even where this particular page doesn't use one yet); not a delta since there is no live value to disagree with |
-| Section title font (h2 in the block's markup) | n/a — the live page's own headings all render in the body face, `"Plus Jakarta Sans"` (see Type, above; item 15 in Webflow-to-update) | was `--aha-font-display` (Nunito) | **DS-internal bug, fixed this round** — the locked round-3 Fonts decision reserves `--aha-font-display` for Display/H1 only; H2/H3 stay on the body face (`landing/fonts.json` `.aha-type__h2` carries no family override). `section-container.json` predates that decision (written in round 5 of PRO38-14, before the round-3 Fonts deep pass) and still forced its `<h2>` title onto the display face. Removed the override so the title inherits `--aha-font-product` from `.aha-section`, matching `fonts.json`'s own H2 treatment. |
+| Section title font (h2 in the block's markup) | n/a — the live page's own headings all render in the body face, `"Plus Jakarta Sans"` (see Type, above; item 15 in Webflow-to-update) | was `--aha-font-display` (Nunito) | **DS-internal bug, fixed this round** — the locked round-3 Fonts decision reserves `--aha-font-display` for Display/H1 only; H2/H3 stay on the body face (the former `landing/fonts.json` (removed in 0.68.0) `.aha-type__h2` carries no family override). `section-container.json` predates that decision (written in round 5 of PRO38-14, before the round-3 Fonts deep pass) and still forced its `<h2>` title onto the display face. Removed the override so the title inherits `--aha-font-product` from `.aha-section`, matching `fonts.json`'s own H2 treatment. |
 | Section title line-height | n/a (see Type, above: heading-large `129%` &asymp; DS `--aha-line-height-heading` `1.3`) | was `--aha-line-height-tight` (`1.2`, the H1/Display line-height) | **DS-internal bug, fixed this round** — same drift as the font-family: the title is an H2, so it should carry `--aha-line-height-heading` (`1.3`, what `fonts.json`'s `.aha-type__h2` uses), not the tighter H1/Display value. Corrected. |
 | Section eyebrow/lead type | eyebrow: size-sm/semibold/uppercase/primary-colour; lead: size-l/body line-height/secondary colour | unchanged, already token-bound and matching the `hero.json` eyebrow/lead treatment | **match** — no change |
 
 **Verdict: the block already matched the live geometry (max-width, padding cap, soft-band colour) with
 no drift; the two genuine findings were internal** — a stale font-family/line-height pair left over from
 before the round-3 Fonts decision locked H2 onto the body face, and a one-token-off mobile padding-x
-floor. Both fixed in `landing/section-container.json` this round; no new *Webflow-to-update* items — the
+floor. Both fixed in `marketing/section-container.json` this round; no new *Webflow-to-update* items — the
 live site's own geometry already agrees with the DS token values wherever a live counterpart exists.
 
 ### Buttons — re-scanned 2026-09-15 (round 3): the real buttons on the page are `.btn.is-pink`
@@ -99,7 +122,7 @@ pricing"), layered over a `.btn` base. `.button`/`.button-pink` are separate, un
 `.button-pink` is unused on this page (sitewide leftover CSS); `.button.topbar-btn` is the small
 promo-bar "Join" pill — a nav micro-utility outside the marketing CTA register, not reconciled here.
 
-| Property | Live Webflow (`.btn.is-pink` / `.btn.is-secondary`) | DS token / landing/button.json | Verdict |
+| Property | Live Webflow (`.btn.is-pink` / `.btn.is-secondary`) | DS token / the former `landing/button.json` (removed in 0.68.0) | Verdict |
 |---|---|---|---|
 | Primary bg | `#6a1ebb` | `--aha-button-primary-bg` `#6A1EBB` | match |
 | Primary hover bg | `#8644d4` | `--aha-button-primary-bg-hover` (purple-50) `#8644D4` | match |
@@ -130,7 +153,7 @@ this Webflow's "tertiary" — the third button-family CTA style, `.text-link-wra
 `.text-link-label-child` / `.text-link-icon-child`, 5 live instances on the scanned page). This is
 a separate component from `.btn.is-pink` / `.btn.is-secondary` (Buttons, above) and from the plain
 body-copy `a` (Links, below). Per the locked doctrine (DS wins) it is reflected in
-`landing/button.json` as the DS **ghost tertiary** variant `aha-btn--tertiary` — the same shape as
+the former `landing/button.json` (removed in 0.68.0) as the DS **ghost tertiary** variant `aha-btn--tertiary` — the same shape as
 the product Button's `variant=tertiary` (transparent → soft purple hover fill `#F9F5FF` / active
 `#F0E4FF`), keeping the live Text link's purple label and purple-50 hover *colour* (both already on
 the DS scale). The Webflow Text link's own hover behaviour (colour only, no fill) and hard-border

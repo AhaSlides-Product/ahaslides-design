@@ -14,7 +14,6 @@ const SEARCH_TYPE_ICONS = {
   component: 'system-squares-four',
   guideline: 'system-book-simple',
   foundation: 'system-palette',
-  landing: 'system-layout',
   audience: 'system-users-three',
   feed: 'system-code',
   page: 'system-file',
@@ -30,7 +29,7 @@ export const SEARCH_GLYPHS = [...new Set([
 
 const GROUPS = [
   ['component', 'Components'], ['guideline', 'Guidelines'], ['foundation', 'Foundations'],
-  ['token', 'Tokens'], ['icon', 'Icons'], ['landing', 'Landing'], ['audience', 'Audience Library'],
+  ['token', 'Tokens'], ['icon', 'Icons'], ['audience', 'Audience Library'],
   ['section', 'Sections'], ['page', 'Pages'], ['feed', 'Agent feeds'],
 ];
 const AREAS = {
@@ -39,7 +38,6 @@ const AREAS = {
   components: { type: 'component', label: 'Components' },
   patterns: { type: 'component', label: 'Patterns' },
   settings: { type: 'component', label: 'Settings' },
-  landing: { type: 'landing', label: 'Landing' },
   audience: { type: 'audience', label: 'Audience Library' },
   guidelines: { type: 'guideline', label: 'Guidelines' },
   feeds: { type: 'feed', label: 'Agent feeds' },
@@ -79,7 +77,7 @@ const stripNonContent = (html) => splitProtected(html).filter((_, index) => inde
 
 /* A heading is a docs heading (anchor + index it) when it carries no class, or one of the docs
    classes — never a class from a live preview (aha-section__title, aha-type__h2, …). */
-const DOC_HEADING = /<(h2|h3)((?:\s+(?:class="(?:lg-cat|grp-h|tok-h3|pat-h3)"|style="[^"]*"|id="[^"]*"))*)\s*>([\s\S]*?)<\/\1>/g;
+const DOC_HEADING = /<(h2|h3)((?:\s+(?:class="(?:grp-h|tok-h3|pat-h3)"|style="[^"]*"|id="[^"]*"))*)\s*>([\s\S]*?)<\/\1>/g;
 
 /** Give every docs heading in a page's main HTML a stable id so search results can deep-link to it.
  *  Script/pre/style blocks are left untouched; existing ids are kept. */
@@ -270,7 +268,7 @@ export const SEARCH_JS = `
       live=host.querySelector('.ds-search-live'), toggle=host.querySelector('.ds-search-toggle'),
       closeBtn=host.querySelector('.ds-search-close');
   var CAPS={icon:8,token:6,section:6,audience:6,component:6}, DEFAULT_CAP=5;
-  var TYPE_BONUS={component:40,guideline:30,foundation:25,landing:20,audience:15,page:15,feed:10,token:5,icon:0,section:-5};
+  var TYPE_BONUS={component:40,guideline:30,foundation:25,audience:15,page:15,feed:10,token:5,icon:0,section:-5};
   var SUGGEST=['button','primary','arrow','modal','spacing'];
   var index=null, loading=null, active=-1, options=[];
 
