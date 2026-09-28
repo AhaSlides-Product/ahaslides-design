@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.61.0 — 2026-09-28
 ### Added
-- **UX writing rule UXW-8: no em dash or en dash in product copy.** Added to `guidelines/ux-writing.json` (rule + ref), the `ux-writing` composition guide (`parts/ux-writing.guide.md`), and the DS-owned anti-slop store as criterion `C8`, re-seeded from the `aha-design-ux-writing-judge` skill (plugin v1.81.0) via `sync-skills.mjs`. Pairs with `aha-claude-plugins` PR #191, which adds the rule to the skill itself. Fixed the one existing example in `guidelines/ux-writing.json` and `parts/ux-writing.guide.md` that used an em dash as punctuation, so the page's own copy follows its new rule (#PR)
+- **UX writing rule UXW-8: no em dash or en dash in product copy.** Added to `guidelines/ux-writing.json` (rule + ref), the `ux-writing` composition guide (`parts/ux-writing.guide.md`), and the DS-owned anti-slop store as criterion `C8`, re-seeded from the `aha-design-ux-writing-judge` skill (plugin v1.81.0) via `sync-skills.mjs`. Pairs with `aha-claude-plugins` PR #191, which adds the rule to the skill itself. Fixed the one existing example in `guidelines/ux-writing.json` and `parts/ux-writing.guide.md` that used an em dash as punctuation, so the page's own copy follows its new rule (#128)
 
 ## 0.60.0 — 2026-09-28
 ### Added
