@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.68.3 — 2026-09-29
 ### Fixed
-- **Agents now discover the Settings pattern.** `llms.txt` gains a generated **Patterns** section above Components (one line per `guidelines/*.json`, with a when-to-read trigger) and lists `guidelines.llms.txt` in Feeds; the Settings entry says it applies to any options UI in any container and points at its `#ctrl-<slug>` control table. Settings-family component entries and `<slug>.agent.json` (`feeds.pattern`) link back to the Settings hub. The Settings guideline no longer refers to the removed `aha-design-settings` skills. (#PR)
+- **Agents now discover the Settings pattern.** `llms.txt` gains a generated **Patterns** section above Components (one line per `guidelines/*.json`, with a when-to-read trigger) and lists `guidelines.llms.txt` in Feeds; the Settings entry says it applies to any options UI in any container and points at its `#ctrl-<slug>` control table. Settings-family component entries and `<slug>.agent.json` (`feeds.pattern`) link back to the Settings hub. The Settings guideline no longer refers to the removed `aha-design-settings` skills. (#134)
 
 ## 0.68.2 — 2026-09-29
 ### Fixed
