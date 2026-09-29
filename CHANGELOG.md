@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.68.2 — 2026-09-29
+### Fixed
+- **Table row hover is one colour: gray-30 `#F1F1F1`.** `lib/table-theme.js` still set `rowHoverBg` to the brand-tint `#F9F5FF` while `contracts/table.json` and `<aha-data-table>` already used `#F1F1F1`; the theme now matches. The header filter-trigger hover is unchanged. (#133)
+
 ## 0.68.1 — 2026-09-28
 ### Fixed
 - **Docs site shell is responsive at 360 / 768 / 1440.** The 268px sidebar forced horizontal page scroll on every component/guideline page below ~630px; it's now an off-canvas panel below 900px, opened via a new header toggle (closes on a nav click, the backdrop, or Escape). Two remaining generator-output overflow sources are fixed too: the playground's variant segmented control now wraps instead of forcing width, and the API prop table now scrolls in its own container (the documented "wide table scrolls" exception) instead of pushing the page wide. The header's top-nav tabs no longer need an internal scroll at 1440px (the site's own hidden-metadata breakpoint moved from 1279 to 1489). (#132)
