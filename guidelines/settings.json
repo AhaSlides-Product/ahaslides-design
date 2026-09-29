@@ -6,11 +6,12 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to organise a settings surface — group ordering, help-text vs tooltip, sub-settings, plan-gating, and the danger zone — built from existing components.",
-  "lead": "Settings is the most-repeated surface in the product, so it drifts fastest without shared rules. This pattern ships NO new component: it reuses Checkbox, Button, Icon and the --aha-size* spacing scale, and documents the CONVENTIONS that make every settings panel read as one product. The narrative 'why' lives in the aha-design-settings skill; this artifact carries only what the repo can enforce.",
+  "whenToRead": "ANY UI where a user configures options, whatever the container — settings page, editor panel, modal, drawer (e.g. a course or presentation settings modal). Its hub control table maps each setting type (toggle, image, number, choice…) to its DS control (#ctrl-<slug>); read it BEFORE picking components.",
+  "lead": "Settings is the most-repeated surface in the product, so it drifts fastest without shared rules. This pattern ships NO new component: it reuses Checkbox, Button, Icon and the --aha-size* spacing scale, and documents the CONVENTIONS that make every settings panel read as one product. The rationale and rules live in this Settings hub and the settings anti-slop feed; this artifact carries what the repo can enforce.",
   "skillRef": {
-    "build": "aha-design:aha-design-settings",
-    "judge": "aha-design:aha-design-settings-judge",
-    "note": "The skill is the source of truth for rationale, worked BAD/GOOD examples, and the full 52 SETTINGS-xx assertions. This pattern distils the enforceable subset and links each rule back by ref."
+    "build": "DS Settings hub — settings/index.html",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: settings)",
+    "note": "The Settings hub (settings/index.html) is the source of truth for the control table and rules; the anti-slop feed carries the binary judge criteria for the settings surface."
   },
   "surfaces": [
     "editor",
