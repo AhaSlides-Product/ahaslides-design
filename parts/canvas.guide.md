@@ -99,6 +99,8 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
 
 ### Two colour jobs — keep them separate
 
+Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, Stacked, Donut, Word cloud, Mind map): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
+
 | Job | Layer | Colour source |
 | --- | --- | --- |
 | **Job 1 — chart / visualization** | bar fills, ring segments, plot dots, area shading | the accent palette (`presentationColorPalette` + lighter sibling). Charts **never** carry state meaning. |

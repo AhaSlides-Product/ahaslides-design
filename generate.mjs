@@ -147,6 +147,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
+    { name: 'Chart',        slug: 'chart' },
     { name: 'Empty',        slug: 'empty' },
     { name: 'Image',        slug: 'image' },
     { name: 'Carousel',     slug: 'carousel' },
@@ -270,6 +271,15 @@ function tokenVars(t) {
   /* brand slots + alpha ramps */
   L.push(Object.keys(c.brand).map(k => `--aha-brand-${k}:${c.brand[k]};`).join(' '));
   L.push(Object.keys(c.alpha).map(k => `--aha-${kebab(k)}:${c.alpha[k]};`).join(' '));
+  /* data-visualisation layer (<aha-chart>) — series + tints are the brand chart palette; a deck chart swaps
+     series for the deck palette and re-derives the ink mixes from the deck text colour inside the element. */
+  const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
+  const v = c.viz, vz = t.viz;
+  L.push(`--aha-viz-ink:${v.ink}; --aha-viz-ink-inverse:${v.inkInverse}; --aha-viz-neutral:${v.neutral}; ` +
+    Object.keys(v.series).map(k => `--aha-viz-series-${k}:${v.series[k]};`).join(' ') + ' ' +
+    Object.keys(v.tint).map(k => `--aha-viz-tint-${k}:${v.tint[k]};`).join(' '));
+  L.push(drop(vz).filter(([, value]) => typeof value === 'number').map(([k, value]) => `--aha-viz-${kebab(k)}:${value}px;`).join(' ') + ' ' +
+    drop(vz.mix).map(([k, value]) => `--aha-viz-mix-${kebab(k)}:${value}%;`).join(' '));
   /* type + shape */
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-secondary:${f.secondary}; --aha-font-mono:${f.mono};`);
   L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px; --aha-radius-pill:${r.pill}px;`);
@@ -279,7 +289,6 @@ function tokenVars(t) {
      letterSpacing scales exposed as CSS vars so framework-free surfaces (the marketing sections) and future
      components can bind dimensions to tokens instead of hardcoding px. Values are DERIVED from
      tokens.canonical.json — no new numbers authored here. */
-  const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
   L.push(drop(t.size).map(([k, v]) => `--aha-size-${kebab(k)}:${v}px;`).join(' '));
   L.push(t.space.map((v) => `--aha-space-${v}:${v}px;`).join(' '));
   L.push(drop(t.weight).map(([k, v]) => `--aha-weight-${k}:${v};`).join(' '));
@@ -291,6 +300,9 @@ function tokenVars(t) {
   /* motion — Ant Design v6 durations + standard eases (aha-design-antd §Motion); authored here, not in tokens.canonical.json (that file is Brian-owned and has no motion layer).
      No overshoot/bounce ease (ease-out-back etc.): real objects decelerate smoothly — the craft floor + AntD's own tooltip/zoom motion both avoid it, and the standards gate now flags it. Use the exponential eases below. */
   L.push(`--aha-motion-fast:.1s; --aha-motion-mid:.2s; --aha-motion-slow:.3s; --aha-ease-in-out:cubic-bezier(0.645,0.045,0.355,1); --aha-ease-out:cubic-bezier(0.215,0.61,0.355,1); --aha-ease-in-out-circ:cubic-bezier(0.78,0.14,0.15,0.86);`);
+  /* chart motion (<aha-chart>): marks grow in, re-size on live updates and re-rank on sort — slower than UI state
+     changes because the eye has to follow data moving. Timings from the PRO38-69 mockup. */
+  L.push(`--aha-motion-viz-enter:.6s; --aha-motion-viz-update:.4s; --aha-motion-viz-reorder:.35s; --aha-motion-viz-stagger:40ms; --aha-ease-viz:cubic-bezier(0.2,0.7,0.4,1);`);
   return `:root{\n  ${L.join('\n  ')}\n}`;
 }
 
@@ -1597,6 +1609,8 @@ function renderDesignMd(t, cs) {
   const icon   = [['icon-default',c.iconDefault],['icon-strong',c.iconStrong],['icon-muted',c.iconMuted],['icon-disabled',c.iconDisabled],['icon-inverse',c.iconInverse],['icon-active',c.iconActive]];
   const btn    = [['btn-primary-bg',b.primaryBg],['btn-primary-bg-hover',b.primaryBgHover],['btn-primary-bg-press',b.primaryBgPress],['btn-primary-fg',b.primaryFg],['btn-secondary-bg',b.secondaryBg],['btn-secondary-bg-hover',b.secondaryBgHover],['btn-secondary-border',b.secondaryBorder],['btn-secondary-border-press',b.secondaryBorderPress],['btn-tertiary-bg-hover',b.tertiaryBgHover],['btn-disabled-bg',b.disabledBg],['btn-disabled-fg',b.disabledFg],['btn-danger-bg',b.dangerBg],['btn-danger-bg-hover',b.dangerBgHover],['btn-danger-ring',b.dangerRing],['btn-encourage-bg',b.encourageBg],['btn-encourage-bg-hover',b.encourageBgHover],['btn-encourage-bg-press',b.encourageBgPress]];
   const brand  = Object.keys(c.brand).map(k => [`brand-${k}`, c.brand[k]]);
+  const viz    = [['viz-ink', c.viz.ink], ['viz-ink-inverse', c.viz.inkInverse], ['viz-neutral', c.viz.neutral],
+    ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, c.viz.series[k]]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, c.viz.tint[k]])];
   const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
@@ -1632,6 +1646,10 @@ ${tbl(btn)}
 
 ### Brand slots (categorical, Aha 1–13)
 ${tbl(brand)}
+
+### Data visualisation (\`<aha-chart>\` brand palette)
+Series colours for charts on Report and other app screens. On the presenting/audience canvas a chart takes the deck palette instead (\`palette="deck"\`).
+${tbl(viz)}
 
 ## Typography
 Font **Plus Jakarta Sans** (self-hosted), weights **400 / 600** only. Base body **14** at line-height ratio **1.5**.
@@ -1690,7 +1708,8 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Background', [['bgLayout',c.bgLayout],['bgAccent',c.bgAccent],['bgInformative',c.bgInformative],['bgPositive',c.bgPositive],['bgNegative',c.bgNegative],['bgWarning',c.bgWarning],['bgDark',c.bgDark]])}
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
-  ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}`,
+  ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}
+  ${swGroup('Data visualisation (chart series)', Object.keys(c.viz.series).map(k=>['vizSeries'+k, c.viz.series[k]]).concat([['vizInk', c.viz.ink], ['vizNeutral', c.viz.neutral]]))}`,
     },
     typography: {
       title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',

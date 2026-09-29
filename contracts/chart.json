@@ -1,0 +1,345 @@
+{
+  "name": "Chart",
+  "slug": "chart",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-chart",
+  "summary": "The AhaSlides chart library — one framework-free <aha-chart> for Bar, Column, Stacked, Donut, Word cloud and Mind map results, in the brand palette on app screens or the deck palette on the presenting canvas.",
+  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used. Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background and never carries state colours. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy (\"Waiting for responses\", \"Other\", screen-reader summaries) follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
+  "codeNote": "Set `data` as a property for live results (re-setting it animates the change); the `data` attribute takes the same JSON for static pages. Result charts on app screens use this, not @ant-design/plots.",
+  "tokensUsed": [
+    "viz-ink",
+    "viz-ink-inverse",
+    "viz-neutral",
+    "viz-series-1",
+    "viz-series-2",
+    "viz-series-3",
+    "viz-series-4",
+    "viz-series-5",
+    "viz-series-6",
+    "viz-tint-1",
+    "viz-bar-thickness",
+    "viz-bar-gap",
+    "viz-column-width",
+    "viz-column-gap",
+    "viz-plot-height",
+    "viz-font-value",
+    "viz-font-label",
+    "viz-mix-secondary",
+    "viz-mix-tertiary",
+    "viz-mix-track",
+    "viz-mix-dim",
+    "motion-viz-enter",
+    "motion-viz-update",
+    "motion-viz-reorder",
+    "motion-viz-stagger",
+    "ease-viz",
+    "radius-default",
+    "radius-xs",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Types",
+      "value": "bar · column · stacked · donut · wordcloud · mindmap (Radial, Radar, Tree map, Quadrant, Bell curve: next release)"
+    },
+    {
+      "label": "Palette",
+      "value": "brand = --aha-viz-series-1…6 (#714CF5 #E96144 #189D96 #A95166 #D49900 #4491C4) · deck = consumer colours + ink · transparent background · Other = --aha-viz-neutral #A8A29B"
+    },
+    {
+      "label": "Ink",
+      "value": "#313131; secondary 76% / tertiary 54% / track 7% / hover 8% mixes of the ink (re-derived from the deck ink on the canvas)"
+    },
+    {
+      "label": "Bar",
+      "value": "track 38 · gap 14 · radius 8 · value 20/600 + share 16 tertiary"
+    },
+    {
+      "label": "Column",
+      "value": "plot 260 · column ≤96 wide · gap 28 (8 under 480) · label clamps to 2 lines"
+    },
+    {
+      "label": "Donut",
+      "value": "ring 38% of the radius · callouts with leader lines; a legend when narrower than ~470px"
+    },
+    {
+      "label": "Empty",
+      "value": "0 responses → grey placeholder marks + \"Waiting for responses\""
+    },
+    {
+      "label": "Overflow",
+      "value": "past max-items the smallest options fold into \"Other\" · long labels truncate, full text in the tooltip · a wide mind map goes one-sided, then scrolls inside itself"
+    },
+    {
+      "label": "Motion",
+      "value": "enter 600ms + 40ms stagger · update 400ms · re-rank 350ms · --aha-ease-viz · none under prefers-reduced-motion"
+    },
+    {
+      "label": "A11y",
+      "value": "host role=figure + aria-label · text summary · hidden data table (mind map: nested list) · polite <aha-live-region> on data updates"
+    }
+  ],
+  "props": [
+    {
+      "name": "type",
+      "type": "'bar' | 'column' | 'stacked' | 'donut' | 'wordcloud' | 'mindmap'",
+      "default": "bar",
+      "desc": "Chart type"
+    },
+    {
+      "name": "data",
+      "type": "property or JSON attribute",
+      "default": "—",
+      "desc": "bar/column/donut/wordcloud: [{label, value}] · stacked: {series: [..], rows: [{label, values: [..]}]} · mindmap: {label, children: [..]}"
+    },
+    {
+      "name": "palette",
+      "type": "'brand' | 'deck'",
+      "default": "brand",
+      "desc": "brand on app screens (Report…); deck on the presenting/audience canvas"
+    },
+    {
+      "name": "colors",
+      "type": "string (comma-separated) or string[] property",
+      "default": "—",
+      "desc": "The deck's presentationColorPalette (palette=deck)"
+    },
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "--aha-viz-ink",
+      "desc": "The deck text colour (palette=deck)"
+    },
+    {
+      "name": "number-format",
+      "type": "'count' | 'percent' | 'both'",
+      "default": "both",
+      "desc": "What each value shows"
+    },
+    {
+      "name": "sort",
+      "type": "'none' | 'desc' | 'asc'",
+      "default": "none",
+      "desc": "Order; desc also shows rank numbers on a bar chart. Other always stays last"
+    },
+    {
+      "name": "highlight-top",
+      "type": "number",
+      "default": "0",
+      "desc": "Dim everything below the top N"
+    },
+    {
+      "name": "log-scale",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Log lengths for bar/column when values span orders of magnitude"
+    },
+    {
+      "name": "legend",
+      "type": "'on' | 'off'",
+      "default": "auto",
+      "desc": "Auto: on for stacked, and for a donut too narrow for callouts"
+    },
+    {
+      "name": "tooltip",
+      "type": "'on' | 'off'",
+      "default": "on",
+      "desc": "Hover tooltip with the full label and value"
+    },
+    {
+      "name": "max-items",
+      "type": "number",
+      "default": "bar 10 · column 8 · donut 6 · stacked 6 series · wordcloud 60",
+      "desc": "Cap before the rest fold into Other (word cloud drops the tail)"
+    },
+    {
+      "name": "responses",
+      "type": "number",
+      "default": "sum of values",
+      "desc": "Respondent count for the summary and the donut centre"
+    },
+    {
+      "name": "locale",
+      "type": "BCP 47 tag",
+      "default": "<html lang> or en",
+      "desc": "Built-in copy (en, vi) + Intl number format"
+    },
+    {
+      "name": "strings",
+      "type": "object property",
+      "default": "chartStrings.en",
+      "desc": "Override any built-in string with the Presenter app's translation"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "the type name",
+      "desc": "Accessible name + data-table caption"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Chart (palette=deck)",
+        "when": "results on the presenting or audience canvas of a slide type — Poll, Pick Answer, Ranking, Split the point, Word cloud, Brainstorm/Mind map"
+      },
+      {
+        "what": "Chart (palette=brand)",
+        "when": "the same results anywhere else in the Presenter app — Report, dashboards, summaries"
+      },
+      {
+        "what": "Statistic",
+        "when": "a single headline number, not a distribution"
+      },
+      {
+        "what": "@ant-design/plots",
+        "when": "a chart type <aha-chart> does not ship yet (line/area/time series)"
+      }
+    ],
+    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Charts never carry state colours — mark a correct answer with a ✓ icon next to the label, not a green bar. The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element.",
+    "dsv3": "New in the DS (PRO38-69) — the visual source is the \"AhaSlides Chart Slides\" mockup; a signed-off exception to the @ant-design/plots rule for result charts."
+  },
+  "surfaces": [
+    "dashboard",
+    "audience",
+    "editor"
+  ],
+  "reuse": {
+    "entry": "./aha-chart",
+    "registers": "aha-chart",
+    "exportsNamed": [
+      "AhaChart",
+      "defineAhaChart",
+      "chartStrings",
+      "readableInkOn"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "chart.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "chart.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "chart.vue.txt"
+    }
+  ],
+  "preview": "chart.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "number-format",
+        "label": "Numbers",
+        "default": null,
+        "options": [
+          {
+            "label": "Count + %",
+            "value": null
+          },
+          {
+            "label": "Count",
+            "value": "count"
+          },
+          {
+            "label": "%",
+            "value": "percent"
+          }
+        ]
+      },
+      {
+        "prop": "type",
+        "label": "Type",
+        "default": "bar",
+        "options": [
+          {
+            "label": "Bar",
+            "value": "bar"
+          },
+          {
+            "label": "Column",
+            "value": "column"
+          },
+          {
+            "label": "Donut",
+            "value": "donut"
+          },
+          {
+            "label": "Word cloud",
+            "value": "wordcloud"
+          }
+        ]
+      },
+      {
+        "prop": "highlight-top",
+        "label": "Highlight",
+        "default": null,
+        "options": [
+          {
+            "label": "All",
+            "value": null
+          },
+          {
+            "label": "Top 3",
+            "value": "3"
+          }
+        ]
+      }
+    ]
+  },
+  "selfCheck": [
+    {
+      "label": "brand series from --aha-viz-series-*; deck series from colors",
+      "verdict": "PASS"
+    },
+    {
+      "label": "transparent background, no state colours",
+      "verdict": "PASS"
+    },
+    {
+      "label": "0 responses → placeholder marks + Waiting for responses",
+      "verdict": "PASS"
+    },
+    {
+      "label": "Other bucket past max-items; long labels truncate + tooltip",
+      "verdict": "PASS"
+    },
+    {
+      "label": "summary + hidden table + polite live region",
+      "verdict": "PASS"
+    },
+    {
+      "label": "motion on --aha-motion-viz-*, off under reduced motion",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is the ranked brand-palette bar chart: first fill is --aha-viz-series-1, the track and value sizes are the mockup's, the host is a labelled figure and the hidden table carries one row per option.",
+    "ready": "!!(function(){var el=document.querySelector('aha-chart[data-probe]');var r=el&&el.shadowRoot;return r&&r.querySelector('.bar-fill')&&r.querySelector('tbody tr');})()",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-chart[data-probe]');var r=el.shadowRoot;var fill=r.querySelector('.bar-fill');var track=r.querySelector('.bar-track');var main=r.querySelector('.value-main');var root=r.querySelector('.root');return{role:el.getAttribute('role'),ariaLabel:el.getAttribute('aria-label'),fillBg:getComputedStyle(fill).backgroundColor,trackHeight:getComputedStyle(track).height,trackRadius:getComputedStyle(track).borderTopLeftRadius,valueSize:getComputedStyle(main).fontSize,valueWeight:getComputedStyle(main).fontWeight,chartBg:getComputedStyle(root).backgroundColor,tableRows:String(r.querySelectorAll('tbody tr').length),firstRank:r.querySelector('.bar-rank').textContent,vizHidden:r.querySelector('.viz').getAttribute('aria-hidden')};})()",
+    "expect": {
+      "role": "figure",
+      "ariaLabel": "Q4 priorities",
+      "fillBg": "rgb(113, 76, 245)",
+      "trackHeight": "38px",
+      "trackRadius": "8px",
+      "valueSize": "20px",
+      "valueWeight": "600",
+      "chartBg": "rgba(0, 0, 0, 0)",
+      "tableRows": "5",
+      "firstRank": "1",
+      "vizHidden": "true"
+    }
+  }
+}

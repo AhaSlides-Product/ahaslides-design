@@ -1,0 +1,30 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     ONE <aha-chart> draws Bar, Column, Stacked, Donut, Word cloud and Mind map results.
+     palette="brand" (default) on app screens like Report; palette="deck" + colors + ink on the presenting canvas. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-chart.js';   // registers <aha-chart>
+
+  // Live results: set .data again whenever votes arrive — bars grow and re-rank, and a polite
+  // screen-reader announcement summarises the change.
+  const chart = document.getElementById('results');
+  chart.data = [
+    { label: 'Better onboarding', value: 258 },
+    { label: 'Google Slides integration', value: 219 },
+    { label: 'Advanced reports', value: 164 },
+  ];
+</script>
+
+<div style="display:flex; flex-direction:column; gap:40px; max-width:880px">
+  <!-- Report / any app screen: brand palette -->
+  <aha-chart id="results" type="bar" sort="desc" label="Q4 priorities"></aha-chart>
+
+  <!-- Presenting canvas: the deck's palette and text colour; the chart stays transparent -->
+  <div style="background:#1A1A2E; padding:24px">
+    <aha-chart type="donut" palette="deck" colors="#FFD166,#06D6A0,#EF476F,#118AB2" ink="#FFFFFF" label="Benefits budget"
+      data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13}]'></aha-chart>
+  </div>
+
+  <aha-chart type="column" number-format="percent" highlight-top="1" label="Capital of Australia"
+    data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
+</div>

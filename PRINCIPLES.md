@@ -36,7 +36,7 @@ Every new task starts the same way:
 
 These come from the `aha-design` skills — follow the owning skill, then self-check with its judge.
 
-- **Library:** Ant Design v6 only (no MUI/Chakra/Radix/Headless/Mantine); charts via `@ant-design/plots`.
+- **Library:** Ant Design v6 only (no MUI/Chakra/Radix/Headless/Mantine); charts via `@ant-design/plots` — **except result/data charts, which use the DS `<aha-chart>`** (Bar, Column, Stacked, Donut, Word cloud, Mind map; framework-free SVG/HTML with `palette="brand"` for app screens such as Report and `palette="deck"` on the presenting/audience canvas). Reach for `@ant-design/plots` only for a chart type `<aha-chart>` does not ship yet.
 - **No hardcoded hex/px in components** — bind to theme tokens (`theme.useToken()` / `--aha-*`); radius only from the 4 / 6 / 8 / 12 / 16 scale.
 - **Motion is a token, and it must actually fire** — every interactive state (hover/focus/checked/open/close) animates via the shared motion tokens (`--aha-motion-*` durations + `--aha-ease-*` curves, AntD's motion); no state may snap, no duration may be a bare literal, and the transition must live on a **persistent node** (toggle an attribute/class — never rebuild the subtree on the state change, or the transition is dead even with correct CSS). Enforced by the standards gate, like colour and radius.
 - **Tables:** the shared DataTable, never a raw AntD `<Table>`.

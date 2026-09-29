@@ -1,0 +1,32 @@
+<div class="pad">
+  <div class="lbl">Bar · brand palette (Report and other app screens) · ranked</div>
+  <aha-chart data-probe type="bar" sort="desc" label="Q4 priorities"
+    data='[{"label":"Better onboarding","value":258},{"label":"Google Slides integration","value":219},{"label":"Advanced reports","value":164},{"label":"Offline mode","value":114},{"label":"More languages","value":68}]'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Column · 0 responses → placeholder marks</div>
+  <aha-chart type="column" label="Capital of Australia"
+    data='[{"label":"Sydney","value":0},{"label":"Canberra","value":0},{"label":"Melbourne","value":0},{"label":"Perth","value":0}]'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Donut · deck palette on a dark deck (presenting canvas)</div>
+  <div style="background:#1A1A2E; padding:24px; border-radius:8px">
+    <aha-chart type="donut" palette="deck" colors="#FFD166,#06D6A0,#EF476F,#118AB2,#F78C6B" ink="#FFFFFF" label="Benefits budget"
+      data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13},{"label":"Gym","value":8}]'></aha-chart>
+  </div>
+
+  <div class="lbl" style="margin-top:32px">Stacked · legend on by default</div>
+  <aha-chart type="stacked" label="What matters most when choosing a job"
+    data='{"series":["Salary","Colleagues","Learning","Flexibility"],"rows":[{"label":"Engineering","values":[26,12,30,22]},{"label":"Sales","values":[42,18,14,14]}]}'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Word cloud</div>
+  <aha-chart type="wordcloud" label="One word for your team"
+    data='[{"label":"Teamwork","value":40},{"label":"Energetic","value":36},{"label":"Creative","value":31},{"label":"Fun","value":30},{"label":"Hard-working","value":27},{"label":"Young","value":24},{"label":"Professional","value":22},{"label":"Dedicated","value":18},{"label":"Flexible","value":16},{"label":"Curious","value":9},{"label":"Kind","value":5},{"label":"Coffee","value":5}]'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Mind map</div>
+  <aha-chart type="mindmap" label="Livelier meetings"
+    data='{"label":"Livelier meetings","children":[{"label":"Format","children":[{"label":"Opening game"},{"label":"Small groups"}]},{"label":"Facilitator","children":[{"label":"Keep the pace"}]},{"label":"Duration","children":[{"label":"30 minutes max"}]}]}'></aha-chart>
+</div>
+
+<!-- Imports the REAL shipped element — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-chart.js';
+</script>
