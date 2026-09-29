@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.69.0 — 2026-09-29
 ### Added
-- **`<aha-chart>` — the AhaSlides chart library.** One framework-free element draws Bar, Column, Stacked, Donut, Word cloud and Mind map results with the look of the "AhaSlides Chart Slides" mockup. `palette="brand"` (default) for Report and other app screens; `palette="deck"` + `colors` + `ink` on the presenting/audience canvas (deck palette, transparent background, ink derived from fill contrast). Options: `number-format`, `sort`, `highlight-top`, `log-scale`, `legend`, `tooltip`, `max-items` (an "Other" bucket past the cap), `responses`. Empty results draw placeholder marks with "Waiting for responses"; long labels truncate with the full text in the tooltip. Ships a text summary, a hidden data table and a polite live-region announcement on updates; built-in copy follows `locale` (en, vi) and takes the Presenter app's translations through `strings`. (#PRNUM)
-- **`--aha-viz-*` data-visualisation tokens** (series, tints, ink, neutral, bar/column geometry, ink mixes) and **`--aha-motion-viz-*` / `--aha-ease-viz`** chart motion tokens, with values from the mockup so a token owner can refine them without touching the element. (#PRNUM)
+- **`<aha-chart>` — the AhaSlides chart library.** One framework-free element draws Bar, Column, Stacked, Donut, Word cloud and Mind map results with the look of the "AhaSlides Chart Slides" mockup. `palette="brand"` (default) for Report and other app screens; `palette="deck"` + `colors` + `ink` on the presenting/audience canvas (deck palette, transparent background, ink derived from fill contrast). Options: `number-format`, `sort`, `highlight-top`, `log-scale`, `legend`, `tooltip`, `max-items` (an "Other" bucket past the cap), `responses`. Empty results draw placeholder marks with "Waiting for responses"; long labels truncate with the full text in the tooltip. Ships a text summary, a hidden data table and a polite live-region announcement on updates; built-in copy follows `locale` (en, vi) and takes the Presenter app's translations through `strings`. (#135)
+- **`--aha-viz-*` data-visualisation tokens** (series, tints, ink, neutral, bar/column geometry, ink mixes) and **`--aha-motion-viz-*` / `--aha-ease-viz`** chart motion tokens, with values from the mockup so a token owner can refine them without touching the element. (#135)
 ### Changed
-- AGENTS.md / PRINCIPLES.md: result charts use `<aha-chart>`; `@ant-design/plots` stays for chart types it doesn't ship yet. (#PRNUM)
+- AGENTS.md / PRINCIPLES.md: result charts use `<aha-chart>`; `@ant-design/plots` stays for chart types it doesn't ship yet. (#135)
 
 ## 0.68.3 — 2026-09-29
 ### Fixed

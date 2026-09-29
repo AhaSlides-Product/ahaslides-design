@@ -20,7 +20,7 @@
   <aha-chart id="results" type="bar" sort="desc" label="Q4 priorities"></aha-chart>
 
   <!-- Presenting canvas: the deck's palette and text colour; the chart stays transparent -->
-  <div style="background:#1A1A2E; padding:24px">
+  <div style="background:var(--aha-bg-dark, #1A1A2E); padding:24px">
     <aha-chart type="donut" palette="deck" colors="#FFD166,#06D6A0,#EF476F,#118AB2" ink="#FFFFFF" label="Benefits budget"
       data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13}]'></aha-chart>
   </div>
