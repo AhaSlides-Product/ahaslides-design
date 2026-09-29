@@ -70,7 +70,7 @@
     },
     {
       "label": "Overflow",
-      "value": "past max-items the smallest options fold into \"Other\" · long labels truncate, full text in the tooltip · a wide mind map goes one-sided, then scrolls inside itself"
+      "value": "past max-items the smallest options fold into \"Other\" (stacked: the trailing series) · percentages use largest-remainder rounding so they total 100% · long labels truncate, full text in the tooltip · a wide mind map goes one-sided, then scrolls inside itself"
     },
     {
       "label": "Motion",

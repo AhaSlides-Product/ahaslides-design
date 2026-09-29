@@ -271,8 +271,7 @@ function tokenVars(t) {
   /* brand slots + alpha ramps */
   L.push(Object.keys(c.brand).map(k => `--aha-brand-${k}:${c.brand[k]};`).join(' '));
   L.push(Object.keys(c.alpha).map(k => `--aha-${kebab(k)}:${c.alpha[k]};`).join(' '));
-  /* data-visualisation layer (<aha-chart>) — series + tints are the brand chart palette; a deck chart swaps
-     series for the deck palette and re-derives the ink mixes from the deck text colour inside the element. */
+  /* a deck chart swaps series for the deck palette and re-derives the ink mixes from the deck text colour inside the element */
   const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
   const v = c.viz, vz = t.viz;
   L.push(`--aha-viz-ink:${v.ink}; --aha-viz-ink-inverse:${v.inkInverse}; --aha-viz-neutral:${v.neutral}; ` +
@@ -300,8 +299,7 @@ function tokenVars(t) {
   /* motion — Ant Design v6 durations + standard eases (aha-design-antd §Motion); authored here, not in tokens.canonical.json (that file is Brian-owned and has no motion layer).
      No overshoot/bounce ease (ease-out-back etc.): real objects decelerate smoothly — the craft floor + AntD's own tooltip/zoom motion both avoid it, and the standards gate now flags it. Use the exponential eases below. */
   L.push(`--aha-motion-fast:.1s; --aha-motion-mid:.2s; --aha-motion-slow:.3s; --aha-ease-in-out:cubic-bezier(0.645,0.045,0.355,1); --aha-ease-out:cubic-bezier(0.215,0.61,0.355,1); --aha-ease-in-out-circ:cubic-bezier(0.78,0.14,0.15,0.86);`);
-  /* chart motion (<aha-chart>): marks grow in, re-size on live updates and re-rank on sort — slower than UI state
-     changes because the eye has to follow data moving. Timings from the PRO38-69 mockup. */
+  /* chart motion: slower than UI state changes because the eye has to follow data moving. */
   L.push(`--aha-motion-viz-enter:.6s; --aha-motion-viz-update:.4s; --aha-motion-viz-reorder:.35s; --aha-motion-viz-stagger:40ms; --aha-ease-viz:cubic-bezier(0.2,0.7,0.4,1);`);
   return `:root{\n  ${L.join('\n  ')}\n}`;
 }

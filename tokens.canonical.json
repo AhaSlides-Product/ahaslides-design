@@ -77,7 +77,7 @@
     "$source": "Chart geometry + ink mixes for <aha-chart>, from the PRO38-69 mockup. mix.* are the percentages of the chart ink mixed into transparent for secondary text, gridlines, tracks, strokes and hover; a deck chart re-derives them from the deck's text colour.",
     "barThickness": 38, "barGap": 14, "columnWidth": 96, "columnGap": 28, "plotHeight": 260, "legendSwatch": 14,
     "fontValue": 20, "fontLabel": 16, "fontLead": 18, "fontTitle": 24,
-    "mix": { "secondary": 76, "tertiary": 54, "axis": 26, "grid": 12, "track": 7, "stroke": 10, "strokeChip": 20, "hover": 8, "dim": 38 }
+    "mix": { "secondary": 76, "tertiary": 54, "grid": 12, "track": 7, "stroke": 10, "strokeChip": 20, "hover": 8, "dim": 38 }
   },
   "openItems": [
     "encourage-button greens (#2CB268/#168C4D/#12733F) exist in export semantic.css but in NO palette scale — add green primitives + alias, or drop the 'encourage' variant. DS-owner call.",
