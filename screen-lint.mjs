@@ -64,7 +64,7 @@ function iconNamesIn(line) {
 /* ---- args ---- */
 const argv = process.argv.slice(2);
 const selfTest = argv.includes('--self-test');
-const measure = argv.includes('--measure');   // opt-in: also RENDER each screen at 360/768/1200 and fail on horizontal overflow (needs headless Chrome)
+const measure = argv.includes('--measure');   // opt-in: also RENDER each screen at 360/768/1440 and fail on horizontal overflow (needs headless Chrome)
 let surface = (argv.find(a => a.startsWith('--surface=')) || '').split('=')[1] || '';
 const files = argv.filter(a => !a.startsWith('--'));
 
@@ -77,13 +77,13 @@ const files = argv.filter(a => !a.startsWith('--'));
 const MEASURE_VIEWPORTS = [
   { label: '360', width: 360, height: 640 },
   { label: '768', width: 768, height: 1024 },
-  { label: '1200', width: 1200, height: 900 },
+  { label: '1440', width: 1440, height: 900 },
 ];
 async function runMeasure(fileList) {
   const { measureAtViewports } = await import('./cdp.mjs');
   const expr = `(function(){var de=document.documentElement;return {ow:Math.round(de.scrollWidth),cw:de.clientWidth};})()`;
   let hardCount = 0;
-  console.log(`\n=== SCREEN-LINT · measured responsive pass (360/768/1200) ===\n`);
+  console.log(`\n=== SCREEN-LINT · measured responsive pass (360/768/1440) ===\n`);
   for (const f of fileList) {
     try {
       const r = await measureAtViewports('file://' + f, expr, { viewports: MEASURE_VIEWPORTS, readyExpr: "document.readyState==='complete'", timeout: 45000 });
