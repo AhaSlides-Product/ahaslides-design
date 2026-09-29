@@ -961,15 +961,33 @@ ${spec}
 ${use}
 `;
 }
+function patternHubUrl(p) { return p.hub ? `${SITE}/${p.hub}/index.html` : `${SITE}/guidelines/${p.slug}/index.html`; }
+function patternIndexLines() {
+  if (!GUIDELINES.length) return [];
+  return [
+    '## Patterns — read the matching one BEFORE picking components',
+    '',
+    'A pattern says how components compose for a use case. If your UI matches one, read it first; then pick components.',
+    '',
+    ...GUIDELINES.map(p => `- [${p.name}](${patternHubUrl(p)}) — ${p.whenToRead || p.summary}`),
+    '',
+  ];
+}
+function settingsHubPointer(c) {
+  const guide = GUIDELINES.find(p => p.slug === 'settings');
+  return guide && SETTINGS_SLUGS.has(c.slug) ? `${patternHubUrl(guide)}#ctrl-${c.slug}` : null;
+}
 function renderLlms(c) {
   const props = (c.props||[]).map(p => `- ${p.name}: ${p.type}, default ${p.default}. ${p.desc}`).join('\n');
   const use = c.opinion ? 'Use when: ' + (c.opinion.whenToUse||[]).map(x=>`${x.what} (${x.when})`).join('; ') + '.\n' : '';
   const surf = (c.surfaces&&c.surfaces.length) ? `Surfaces: ${c.surfaces.join(', ')}.\n` : '';
   const htmlLead = hasHtml(c) ? `Default to the HTML snippet — ${htmlKind(c)}.\n` : '';
+  const hub = settingsHubPointer(c);
+  const hubLine = hub ? `Part of the Settings pattern — read it first: ${hub}\n` : '';
   return `## ${c.name}
 ${c.summary}
 Tier: ${c.tier}. Frameworks: ${frameworksLine(c)}.
-${htmlLead}${surf}Props:
+${hubLine}${htmlLead}${surf}Props:
 ${props}
 Tokens: ${(c.tokensUsed||[]).join(', ')}.
 ${use}`;
@@ -1010,6 +1028,7 @@ function renderAgent(c) {
       agentJson: `${SITE}/${c.slug}.agent.json`,
       llms: `${SITE}/${c.slug}.llms.txt`,
       index: `${SITE}/llms.txt`,
+      ...(settingsHubPointer(c) ? { pattern: settingsHubPointer(c) } : {}),
     },
     recommendedSnippet: hasHtml(c) ? 'html' : (c.snippets[0]?.key || 'react'),
     vibeCode: hasHtml(c)
@@ -2112,8 +2131,10 @@ const indexLines = [
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
+  `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '',
+  ...patternIndexLines(),
   '## Components',
   '',
 ];
@@ -2128,7 +2149,7 @@ for (const c of contracts) {
   writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
   writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
-  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier} — ${c.summary}`);
+  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
   fullDocs.push(md);
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
