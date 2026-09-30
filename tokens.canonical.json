@@ -42,25 +42,25 @@
     },
     "brand": { "1": "#6A1EBB", "2": "#FF4081", "3": "#1A1A2E", "4": "#20E8B5", "5": "#434373", "6": "#FF9068", "7": "#93F5DA", "8": "#FFBACA", "9": "#D3B4FF", "10": "#BFD2FF", "11": "#D9E2FF", "12": "#FDF6FA", "13": "#F4F8FF" },
     "viz": {
-      "$source": "Data-visualisation palette for <aha-chart>. Every value is an alias of an existing AhaSlides DS colour token ({color.…}); generate.mjs emits var(--aha-…) references in tokens.css and resolves them to hex in tokens.js. Series run brand purple first, then six distinguishable hues at a step that holds at least 3:1 against white where the ramp allows (purple 60, coral 70, teal 70, pink 70, yellow 80, softIndigo 80); neutral (Other, non-correct Pick Answer) is gray 70, also above 3:1; tints are the light steps of the same ramps, used behind ink text (tree-map chips, badges). A deck-palette chart (presenting/audience) replaces series with the deck's presentationColorPalette.",
+      "$source": "Data-visualisation palette for <aha-chart>. Every value aliases ({color.…}) a SEMANTIC colour token from the Colour foundations page; generate.mjs emits var(--aha-…) in tokens.css and resolves hex in tokens.js. The DS has no dedicated categorical chart set, so the series use the page's Brand slots (Aha 1–13), brand purple first: brand-1 purple, brand-2 pink, brand-4 mint, brand-6 coral, brand-5 indigo, brand-10 periwinkle. Tints are the lightest semantic surface of each hue (bgAccent, brand-12, bgPositive, bgWarningSubtle, brand-11, bgInformative), used behind ink text. Ink is textDefault, the inverse is textInverse, and neutral (Other, non-correct Pick Answer) is iconMuted. Secondary/tertiary text, axis, grid, track, hover and mark outlines use textSecondary, textTertiary, borderStrong, border, borderSecondary, bgHover and inkA10 inside the element. Brand slots 4, 6 and 10 are light and fall below 3:1 against white; every mark also carries its value as text and a tooltip, so identity never relies on the fill alone. A deck-palette chart replaces the series with the deck's presentationColorPalette.",
       "ink": "{color.textDefault}",
       "inkInverse": "{color.textInverse}",
-      "neutral": "{color.primitives.gray.70}",
+      "neutral": "{color.iconMuted}",
       "series": {
-        "1": "{color.primitives.purple.60}",
-        "2": "{color.primitives.coral.70}",
-        "3": "{color.primitives.teal.70}",
-        "4": "{color.primitives.pink.70}",
-        "5": "{color.primitives.yellow.80}",
-        "6": "{color.primitives.softIndigo.80}"
+        "1": "{color.brand.1}",
+        "2": "{color.brand.2}",
+        "3": "{color.brand.4}",
+        "4": "{color.brand.6}",
+        "5": "{color.brand.5}",
+        "6": "{color.brand.10}"
       },
       "tint": {
-        "1": "{color.primitives.purple.15}",
-        "2": "{color.primitives.coral.20}",
-        "3": "{color.primitives.teal.20}",
-        "4": "{color.primitives.pink.20}",
-        "5": "{color.primitives.yellow.20}",
-        "6": "{color.primitives.softIndigo.30}"
+        "1": "{color.bgAccent}",
+        "2": "{color.brand.12}",
+        "3": "{color.bgPositive}",
+        "4": "{color.bgWarningSubtle}",
+        "5": "{color.brand.11}",
+        "6": "{color.bgInformative}"
       }
     },
     "alpha": { "inkA10": "rgba(26,26,46,.1)", "inkA30": "rgba(26,26,46,.3)", "inkA50": "rgba(26,26,46,.5)", "inkA70": "rgba(26,26,46,.7)", "inkA90": "rgba(26,26,46,.9)", "whiteA0": "rgba(255,255,255,0)", "whiteA50": "rgba(255,255,255,.5)", "whiteA70": "rgba(255,255,255,.7)", "whiteA90": "rgba(255,255,255,.9)" },
@@ -90,10 +90,9 @@
   "layout": { "contentMaxWidth": 1440,
     "$note": "Default max-width for centred app content: the page/screen container caps here and centres with auto side margins (max-width:var(--aha-content-max-width); margin-inline:auto). 1440 is the DS V3 desktop content ceiling — one step above the 1280 desktop breakpoint. Consume via --aha-content-max-width." },
   "viz": {
-    "$source": "Chart geometry + ink mixes for <aha-chart>, from the PRO38-69 mockup. mix.* are the percentages of the chart ink mixed into transparent for secondary text, axis lines, gridlines, tracks, strokes, hover and pressed states; a deck chart re-derives them from the deck's text colour.",
-    "barThickness": 38, "barGap": 14, "columnWidth": 96, "columnGap": 28, "plotHeight": 260,
-    "stubLength": 12, "markMinLength": 24, "columnMinHeight": 16, "legendSwatch": 14,
-    "fontValue": 20, "fontLabel": 16, "fontLead": 18, "fontTitle": 24,
+    "$source": "Chart geometry + deck ink mixes for <aha-chart>. Geometry aliases the spacing scale ({space.N}) where a step exists; barThickness 38 and plotHeight 260 have no step and stay literal. Type sizes come from the type scale (--aha-size-*), not viz tokens. mix.* apply only to deck-palette charts, where the greys must be derived from the deck's own text colour; brand charts use the semantic text/border/bg tokens.",
+    "barThickness": 38, "barGap": "{space.14}", "columnWidth": "{space.96}", "columnGap": "{space.28}", "plotHeight": 260,
+    "stubLength": "{space.12}", "markMinLength": "{space.24}", "columnMinHeight": "{space.16}", "legendSwatch": "{space.14}",
     "mix": { "secondary": 76, "tertiary": 54, "axis": 26, "grid": 12, "track": 7, "stroke": 10, "strokeChip": 20, "hover": 8, "active": 16, "dim": 38 }
   },
   "openItems": [

@@ -69,11 +69,14 @@ const TOKEN_ALIASES = new Map();
 function aliasCssVar(path) {
   const kebab = (text) => text.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase());
   const parts = path.split('.');
-  if (parts[0] !== 'color') throw new Error(`alias outside color: ${path}`);
+  if (parts[0] === 'space') return `--aha-space-${parts[1]}`;
+  if (parts[0] !== 'color') throw new Error(`no CSS var for alias ${path}`);
   if (parts[1] === 'primitives') return `--aha-${kebab(parts[2])}${parts[3] !== undefined ? '-' + parts[3] : ''}`;
   if (parts[1] === 'brand') return `--aha-brand-${parts[2]}`;
-  if (parts[1].startsWith('text')) return `--aha-text-${kebab(parts[1].slice(4)).replace(/^-/, '')}`;
-  if (parts[1] === 'success' || parts[1] === 'warning' || parts[1] === 'error' || parts[1] === 'info' || parts[1] === 'primary') return `--aha-color-${parts[1]}`;
+  if (parts[1] === 'alpha') return `--aha-${kebab(parts[2])}`;
+  if (['success', 'warning', 'error', 'info', 'primary'].includes(parts[1])) return `--aha-color-${parts[1]}`;
+  const role = /^(text|bg|icon|border)(.*)$/.exec(parts[1]);
+  if (role) return `--aha-${role[1]}${role[2] ? '-' + kebab(role[2]).replace(/^-/, '') : ''}`;
   throw new Error(`no CSS var for alias ${path}`);
 }
 (function resolveAliases(node, trail) {
@@ -83,8 +86,12 @@ function aliasCssVar(path) {
     if (value && typeof value === 'object') { resolveAliases(value, path); continue; }
     const match = typeof value === 'string' && /^\{([^}]+)\}$/.exec(value);
     if (!match) continue;
-    const target = match[1].split('.').reduce((at, step) => (at == null ? at : at[step]), TOK);
-    if (typeof target !== 'string' || !/^#/.test(target)) throw new Error(`${path.join('.')}: alias ${value} does not resolve to a colour`);
+    const refParts = match[1].split('.');
+    const target = refParts[0] === 'space'
+      ? (TOK.space.includes(Number(refParts[1])) ? Number(refParts[1]) : undefined)
+      : refParts.reduce((at, step) => (at == null ? at : at[step]), TOK);
+    const valid = refParts[0] === 'space' ? typeof target === 'number' : typeof target === 'string' && /^(#|rgba?\()/.test(target);
+    if (!valid) throw new Error(`${path.join('.')}: alias ${value} does not resolve to a token value`);
     TOKEN_ALIASES.set(path.join('.'), { ref: match[1], cssVar: aliasCssVar(match[1]) });
     node[key] = target;
   }
@@ -307,7 +314,7 @@ function tokenVars(t) {
   L.push(`--aha-viz-ink:${cssValue('color.viz.ink', v.ink)}; --aha-viz-ink-inverse:${cssValue('color.viz.inkInverse', v.inkInverse)}; --aha-viz-neutral:${cssValue('color.viz.neutral', v.neutral)}; ` +
     Object.keys(v.series).map(k => `--aha-viz-series-${k}:${cssValue(`color.viz.series.${k}`, v.series[k])};`).join(' ') + ' ' +
     Object.keys(v.tint).map(k => `--aha-viz-tint-${k}:${cssValue(`color.viz.tint.${k}`, v.tint[k])};`).join(' '));
-  L.push(drop(vz).filter(([, value]) => typeof value === 'number').map(([k, value]) => `--aha-viz-${kebab(k)}:${value}px;`).join(' ') + ' ' +
+  L.push(drop(vz).filter(([, value]) => typeof value === 'number').map(([k, value]) => `--aha-viz-${kebab(k)}:${cssValue(`viz.${k}`, `${value}px`)};`).join(' ') + ' ' +
     drop(vz.mix).map(([k, value]) => `--aha-viz-mix-${kebab(k)}:${value}%;`).join(' '));
   /* type + shape */
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-secondary:${f.secondary}; --aha-font-mono:${f.mono};`);

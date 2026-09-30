@@ -33,10 +33,6 @@
     "viz-mark-min-length",
     "viz-column-min-height",
     "viz-legend-swatch",
-    "viz-font-value",
-    "viz-font-label",
-    "viz-font-lead",
-    "viz-font-title",
     "viz-mix-secondary",
     "viz-mix-tertiary",
     "viz-mix-axis",
@@ -57,7 +53,43 @@
     "motion-mid",
     "radius-default",
     "radius-xs",
-    "font-product"
+    "font-product",
+    "text-default",
+    "text-secondary",
+    "text-tertiary",
+    "text-inverse",
+    "border",
+    "border-strong",
+    "border-secondary",
+    "bg-hover",
+    "bg-dark",
+    "ink-a10",
+    "white-a50",
+    "size-l",
+    "size-h6",
+    "size-xl",
+    "size-h4",
+    "weight-regular",
+    "weight-semibold",
+    "line-height-tight",
+    "line-height-heading",
+    "line-height-body",
+    "radius-pill",
+    "space-2",
+    "space-4",
+    "space-6",
+    "space-8",
+    "space-10",
+    "space-12",
+    "space-14",
+    "space-16",
+    "space-20",
+    "space-24",
+    "space-28",
+    "space-40",
+    "space-44",
+    "space-64",
+    "space-100"
   ],
   "spec": [
     {
@@ -66,15 +98,15 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6, aliases of DS colour tokens: purple-60 · coral-70 · teal-70 · pink-70 · yellow-80 · soft-indigo-80, with tints purple-15 · coral-20 · teal-20 · pink-20 · yellow-20 · soft-indigo-30 · deck = consumer colours + ink · transparent background · Other = --aha-viz-neutral → gray-70 · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6 → the Colour page's Brand slots (the DS has no categorical chart set): brand-1 purple · brand-2 pink · brand-4 mint · brand-6 coral · brand-5 indigo · brand-10 periwinkle; tints → bg-accent · brand-12 · bg-positive · bg-warning-subtle · brand-11 · bg-informative · Other / non-correct → icon-muted · correct → color-success · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
-      "value": "--aha-viz-ink → --aha-text-default; secondary 76% / tertiary 54% / axis 26% / grid 12% / track 7% / hover 8% / pressed 16% mixes of the ink (re-derived from the deck ink on the canvas)"
+      "value": "ink → text-default · secondary → text-secondary · tertiary → text-tertiary · axis → border-strong · grid → border · track → border-secondary · hover → bg-hover · pressed → border · mark outline → ink-a10 · tooltip → bg-dark + text-inverse · on a deck the same roles are re-derived from the deck ink (76 / 54 / 26 / 12 / 7 / 10 / 8 / 16 % mixes)"
     },
     {
       "label": "Bar",
-      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-default (track, fill and empty stub) · value 20/600 + share 16 tertiary · image thumbnail 64 · labels clamp to 3 lines · page-size pages with a ‹ › pager"
+      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-default (track, fill and empty stub) · value --aha-size-xl / semibold + share --aha-size-l tertiary · image thumbnail 64 · labels clamp to 3 lines · page-size pages with a ‹ › pager"
     },
     {
       "label": "Column",

@@ -20,13 +20,13 @@
   document.getElementById('cloud').addEventListener('wordcloud-hide', (event) => console.log('hidden', event.detail));
 </script>
 
-<div style="display:flex; flex-direction:column; gap:40px; max-width:880px">
+<div style="display:flex; flex-direction:column; gap:var(--aha-space-40); max-width:880px">
   <!-- Report / any app screen: brand palette -->
   <aha-chart id="results" type="bar" sort="desc" label="Q4 priorities"></aha-chart>
 
   <!-- Presenting canvas: the deck's palette and text colour; the chart stays transparent -->
-  <div style="background:var(--aha-bg-dark, #1A1A2E); padding:24px">
-    <aha-chart type="donut" palette="deck" colors="#FFD166,#06D6A0,#EF476F,#118AB2" ink="#FFFFFF" label="Benefits budget"
+  <div style="background:var(--aha-bg-dark); padding:var(--aha-space-24)">
+    <aha-chart type="donut" palette="deck" colors="var(--aha-brand-4),var(--aha-brand-2),var(--aha-brand-6),var(--aha-brand-9)" ink="var(--aha-text-inverse)" label="Benefits budget"
       data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13}]'></aha-chart>
   </div>
 
