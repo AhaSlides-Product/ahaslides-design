@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.68.4 — 2026-09-30
+### Added
+- **UX writing rule UXW-9 for tooltips.** One idea, one plain-text sentence of about 80 to 120 English characters (translations run 30 to 40% longer), no restating the label, no rich content, and never the only home for essential information. The Tooltip contract and the Settings `?` tooltip guidance point to it. (#PR)
+
 ## 0.68.3 — 2026-09-29
 ### Fixed
 - **Agents now discover the Settings pattern.** `llms.txt` gains a generated **Patterns** section above Components (one line per `guidelines/*.json`, with a when-to-read trigger) and lists `guidelines.llms.txt` in Feeds; the Settings entry says it applies to any options UI in any container and points at its `#ctrl-<slug>` control table. Settings-family component entries and `<slug>.agent.json` (`feeds.pattern`) link back to the Settings hub. The Settings guideline no longer refers to the removed `aha-design-settings` skills. (#134)
