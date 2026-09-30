@@ -131,7 +131,7 @@ A tooltip is a hint, not a help article. It is hover or focus only, so it is una
 - Obeys the other rules: sentence case (UXW-1), no dash as punctuation (UXW-8).
 - ❌ "This doesn't control the quiz lobby music, which plays by default. Use the volume control while
   presenting to mute it, or replace it under Background music." (two ideas, 156 characters)
-- ✅ "Plays on answers and results. Lobby music is set under Background music." (one idea, 72 characters)
+- ✅ "Covers quiz sound effects only, not the lobby music." (one idea, 52 characters)
 
 ### Worked example
 

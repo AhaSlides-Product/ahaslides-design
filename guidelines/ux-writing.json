@@ -172,7 +172,7 @@
     },
     {
       "id": "tooltip-short-one-idea",
-      "rule": "A tooltip carries ONE idea in plain text: lead with what the control does or why it matters, in one sentence of about 80 to 120 characters in English (translations run 30 to 40% longer, so leave headroom). Don't restate the visible label. No headers, bullets, multiple paragraphs, or HTML-rich content: that belongs in help text, a popover, or docs. A tooltip is never the only home for essential or consequential information (it is unavailable on touch). Sentence case and no dash punctuation still apply. \"Plays on answers and results. Lobby music is set under Background music.\" not \"This doesn't control the quiz lobby music, which plays by default. Use the volume control while presenting to mute it, or replace it under Background music.\"",
+      "rule": "A tooltip carries ONE idea in plain text: lead with what the control does or why it matters, in one sentence of about 80 to 120 characters in English (translations run 30 to 40% longer, so leave headroom). Don't restate the visible label. No headers, bullets, multiple paragraphs, or HTML-rich content: that belongs in help text, a popover, or docs. A tooltip is never the only home for essential or consequential information (it is unavailable on touch). Sentence case and no dash punctuation still apply. \"Covers quiz sound effects only, not the lobby music.\" not \"This doesn't control the quiz lobby music, which plays by default. Use the volume control while presenting to mute it, or replace it under Background music.\"",
       "ref": [
         "UXW-9"
       ]
