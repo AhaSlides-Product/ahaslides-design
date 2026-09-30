@@ -106,7 +106,7 @@
     },
     {
       "label": "Bar",
-      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-default (track, fill and empty stub) · value --aha-size-xl / semibold + share --aha-size-l tertiary · image thumbnail 64 · labels clamp to 3 lines · page-size pages with a ‹ › pager"
+      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-default (track, fill and empty stub) · value --aha-size-xl / semibold + share --aha-size-l tertiary · image thumbnail = bar + label gap (--aha-space-8) + one label line, bottom-aligned so the bar sits on the image edge; image-only options drop the label row · labels clamp to 3 lines · page-size pages with a ‹ › pager"
     },
     {
       "label": "Column",
@@ -156,7 +156,7 @@
       "name": "data",
       "type": "property or JSON attribute",
       "default": "—",
-      "desc": "bar/column: [{label, value, image?, correct?}] · donut/radial/treemap: [{label, value}] · wordcloud: [{label, value}] or [strings] · stacked: {series, rows:[{label, values}]} · bell: {scale, anchors, series:[{label, counts}]} · radar: {dimensions, scale, subjects:[{label, scores, responses}], people} · quadrant: {x, y, zones, groups, points:[{label, x, y, group}]} · mindmap: {label, children}"
+      "desc": "bar/column: [{label?, value, image?, correct?}] (label may be omitted when image is set; screen readers and tooltips then say \"Option N\") · donut/radial/treemap: [{label, value}] · wordcloud: [{label, value}] or [strings] · stacked: {series, rows:[{label, values}]} · bell: {scale, anchors, series:[{label, counts}]} · radar: {dimensions, scale, subjects:[{label, scores, responses}], people} · quadrant: {x, y, zones, groups, points:[{label, x, y, group}]} · mindmap: {label, children}"
     },
     {
       "name": "options",
