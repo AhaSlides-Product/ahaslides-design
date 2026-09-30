@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.68.5 — 2026-09-30
+### Fixed
+- **Tooltip bubble no longer collapses to one word per line.** A `help` (`?`) tooltip's bubble was sized against its 16px trigger, so a full-sentence hint (the eLearning SCORM "Tracking" tooltip) rendered about 70px wide. The bubble is now `max-content` wide up to the unchanged 200px cap, so short hints stay on one line and long ones fill the cap; all 12 placements and slotted triggers position as before. The Tooltip conformance gate now asserts a full-sentence help bubble is at least 150px wide. (#136)
+
 ## 0.68.4 — 2026-09-30
 ### Added
 - **UX writing rule UXW-9 for tooltips.** One idea, one plain-text sentence of about 80 to 120 English characters (translations run 30 to 40% longer), no restating the label, no rich content, and never the only home for essential information. The Tooltip contract and the Settings `?` tooltip guidance point to it. (#136)
