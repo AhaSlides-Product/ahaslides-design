@@ -29,6 +29,7 @@
     "viz-column-width",
     "viz-column-gap",
     "viz-plot-height",
+    "viz-stub-length",
     "viz-legend-swatch",
     "viz-font-value",
     "viz-font-label",
@@ -95,7 +96,7 @@
     },
     {
       "label": "Empty",
-      "value": "0 responses → every bar/column/stacked row keeps its track and shows a short coloured stub at its start (8px) · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
+      "value": "0 responses → every bar/column/stacked row keeps its track and shows a series-coloured stub at its start: --aha-viz-stub-length 24px long, --aha-radius-default 8px on all four corners (a column under an image detaches from it with a 6px gap) · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
     },
     {
       "label": "Overflow",
