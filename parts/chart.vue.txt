@@ -1,0 +1,18 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-chart';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// ResultsChart.vue — .prop binds data as a property, so live updates animate
+<script setup>
+// type: bar | column | stacked | donut | radial | treemap | quadrant | bell | radar | wordcloud | mindmap
+const props = defineProps({ type: String, results: [Array, Object], options: Object, onCanvas: Boolean, deckPalette: Array, deckTextColour: String, locale: String });
+</script>
+
+<template>
+  <aha-chart :type="props.type" :locale="props.locale" label="Poll results"
+    :palette="props.onCanvas ? 'deck' : 'brand'"
+    :colors="props.onCanvas ? props.deckPalette.join(',') : null"
+    :ink="props.onCanvas ? props.deckTextColour : null"
+    :options.prop="props.options"
+    :data.prop="props.results" />
+</template>

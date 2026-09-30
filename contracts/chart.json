@@ -1,0 +1,473 @@
+{
+  "name": "Chart",
+  "slug": "chart",
+  "group": "Data Display",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-chart",
+  "summary": "The AhaSlides chart library — one framework-free <aha-chart> for all 11 result charts (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map), in the brand palette on app screens or the deck palette on the presenting canvas.",
+  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used: bar, column, stacked, donut (and pie), radial, treemap, quadrant, bell (rating distribution), radar, wordcloud and mindmap. Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background. Every variant of the reference mockup is an attribute or an `options` key: Poll, Pick Answer (`correct`) and Ranking (`sort=\"desc\"`), images on bar/column options, count / % / both, pagination (`page-size`), donut vs pie and callout / legend labels, the word-cloud shapes, image masks, rotation, colour modes and duplicate merging, the radar forms, grids, scales and eight entrance effects, the bell-curve statistics, and an editable mind map. With 0 responses every bar and column shows a short coloured stub at its starting point — no placeholder bars, no waiting text. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion; `replay()` re-runs the entrance), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
+  "codeNote": "Set `data` (and `options`) as properties for live results — re-setting them animates the change; the `data` / `options` attributes take the same JSON for static pages. Interactive charts emit `wordcloud-hide` (a presenter hid words) and `mindmap-change` (an idea was added or renamed; detail.tree is the new tree). Result charts on app screens use this, not @ant-design/plots.",
+  "tokensUsed": [
+    "viz-ink",
+    "viz-ink-inverse",
+    "viz-neutral",
+    "viz-series-1",
+    "viz-series-2",
+    "viz-series-3",
+    "viz-series-4",
+    "viz-series-5",
+    "viz-series-6",
+    "viz-tint-1",
+    "viz-tint-2",
+    "viz-tint-3",
+    "viz-tint-4",
+    "viz-tint-5",
+    "viz-tint-6",
+    "viz-bar-thickness",
+    "viz-bar-gap",
+    "viz-column-width",
+    "viz-column-gap",
+    "viz-plot-height",
+    "viz-stub-length",
+    "viz-mark-min-length",
+    "viz-column-min-height",
+    "viz-legend-swatch",
+    "viz-mix-secondary",
+    "viz-mix-tertiary",
+    "viz-mix-axis",
+    "viz-mix-grid",
+    "viz-mix-track",
+    "viz-mix-stroke",
+    "viz-mix-stroke-chip",
+    "viz-mix-hover",
+    "viz-mix-active",
+    "viz-mix-dim",
+    "color-success",
+    "motion-viz-enter",
+    "motion-viz-update",
+    "motion-viz-reorder",
+    "motion-viz-stagger",
+    "ease-viz",
+    "motion-fast",
+    "motion-mid",
+    "radius-default",
+    "radius-xs",
+    "font-product",
+    "text-default",
+    "text-secondary",
+    "text-tertiary",
+    "text-inverse",
+    "border",
+    "border-strong",
+    "border-secondary",
+    "bg-hover",
+    "bg-dark",
+    "ink-a10",
+    "white-a50",
+    "size-l",
+    "size-h6",
+    "size-xl",
+    "size-h4",
+    "weight-regular",
+    "weight-semibold",
+    "line-height-tight",
+    "line-height-heading",
+    "line-height-body",
+    "radius-pill",
+    "space-2",
+    "space-4",
+    "space-6",
+    "space-8",
+    "space-10",
+    "space-12",
+    "space-14",
+    "space-16",
+    "space-20",
+    "space-24",
+    "space-28",
+    "space-40",
+    "space-44",
+    "space-64",
+    "space-100",
+    "viz-value-width",
+    "blur-md"
+  ],
+  "spec": [
+    {
+      "label": "Types",
+      "value": "bar · column · stacked · donut (variant donut | pie) · radial · treemap · quadrant · bell · radar · wordcloud · mindmap"
+    },
+    {
+      "label": "Palette",
+      "value": "brand = --aha-viz-series-1…6 → the Colour page's Brand slots (the DS has no categorical chart set): brand-1 purple · brand-2 pink · brand-4 mint · brand-6 coral · brand-5 indigo · brand-10 periwinkle; tints → bg-accent · brand-12 · bg-positive · bg-warning-subtle · brand-11 · bg-informative · Other / non-correct → icon-muted · correct → color-success · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
+    },
+    {
+      "label": "Ink",
+      "value": "ink → text-default · secondary → text-secondary · tertiary → text-tertiary · axis → border-strong · grid → border · track → border-secondary · hover → bg-hover · pressed → border · mark outline → ink-a10 · tooltip → bg-dark + text-inverse · on a deck the same roles are re-derived from the deck ink (76 / 54 / 26 / 12 / 7 / 10 / 8 / 16 % mixes)"
+    },
+    {
+      "label": "Bar",
+      "value": "track 38 (32 past 6 options) · gap --aha-viz-bar-gap (space-24) between options · label-to-bar --aha-space-8 · radius --aha-radius-default (track, fill and empty stub) · value --aha-size-xl / semibold + share --aha-size-l tertiary · image thumbnail = bar + label gap (--aha-space-8) + one label line, bottom-aligned so the bar sits on the image edge; image-only options drop the label row · labels one line with an ellipsis (full text in the tooltip and data table) · value readout in a fixed --aha-viz-value-width (space-100) column so every track ends at the same x · page-size pages with a ‹ › pager"
+    },
+    {
+      "label": "Column",
+      "value": "plot 260 (+100 with images) · column ≤96 wide · gap 28 (20 past 6, 8 under 480) · label clamps to 5 lines · turns into bars when a label can't fit its slot in 4 lines · min height --aha-viz-column-min-height 16"
+    },
+    {
+      "label": "Pick Answer",
+      "value": "correct = index (or data item correct:true): ✓ + bold label; correct-style=fill (default, as the mockup) paints the correct mark --aha-color-success and the rest neutral; correct-style=indicator keeps palette colours (canvas.guide Job 1 / Job 2)"
+    },
+    {
+      "label": "Donut · radial · tree map",
+      "value": "6 slices max (the rest fold into \"Other (n)\") · donut ring 38% · leader-line callouts up to 5 slices from 480px wide, else a legend · radial 270° rings on a nice scale · squarified tree map with tint chips"
+    },
+    {
+      "label": "Bell · radar · quadrant",
+      "value": "bell: monotone curve per statement (≤6), average badge, optional grid / % axis / mean line · radar: 5 | 10 | 100 scales, filled / outline / radial bars, polygon / circle grid, 8 entrance effects, subject toggles, data table · quadrant: 2×2 zones, ≤3 colour groups, collision-aware labels"
+    },
+    {
+      "label": "Word cloud · mind map",
+      "value": "word cloud: rect / ellipse / cloud / speech bubble / heart / bulb / custom image mask, rotation, palette / top-3 / ink colour, √ / linear / log sizing, duplicate merging (case, punctuation, accents), click-to-hide with undo · mind map: balanced two-sided layout (one-sided, then an outline when narrow), 5 levels, 6 branches, +N paging, collapse, optional add / rename"
+    },
+    {
+      "label": "Empty",
+      "value": "0 responses → every bar/column/stacked row keeps its track (a stacked row shows one half-length stub per series side by side, rounded only at the left end) and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
+    },
+    {
+      "label": "Overflow",
+      "value": "percentages use largest-remainder rounding so they total 100% · bar labels truncate to one line, other long labels clamp; the full text is always in the tooltip · a column with long labels becomes bars · a wide mind map pages its ideas"
+    },
+    {
+      "label": "Motion",
+      "value": "enter 600ms + 40ms stagger · update 400ms · re-rank 350ms · values count up with their marks · --aha-ease-viz · none under prefers-reduced-motion"
+    },
+    {
+      "label": "A11y",
+      "value": "host role=figure + aria-label · text summary · hidden data table (mind map: nested list) · polite <aha-live-region> on data updates · interactive parts (pager, legend toggles, words, mind-map nodes, quadrant points, radar axes) are real buttons with labels"
+    }
+  ],
+  "props": [
+    {
+      "name": "type",
+      "type": "'bar' | 'column' | 'stacked' | 'donut' | 'radial' | 'treemap' | 'quadrant' | 'bell' | 'radar' | 'wordcloud' | 'mindmap'",
+      "default": "bar",
+      "desc": "Chart type"
+    },
+    {
+      "name": "data",
+      "type": "property or JSON attribute",
+      "default": "—",
+      "desc": "bar/column: [{label?, value, image?, correct?}] (label may be omitted when image is set; screen readers and tooltips then say \"Option N\") · donut/radial/treemap: [{label, value}] · wordcloud: [{label, value}] or [strings] · stacked: {series, rows:[{label, values}]} · bell: {scale, anchors, series:[{label, counts}]} · radar: {dimensions, scale, subjects:[{label, scores, responses}], people} · quadrant: {x, y, zones, groups, points:[{label, x, y, group}]} · mindmap: {label, children}"
+    },
+    {
+      "name": "options",
+      "type": "object property or JSON attribute",
+      "default": "chartOptionDefaults[type]",
+      "desc": "Type-specific settings — donut {variant, labels, maxSize} · radial/quadrant {maxSize} · treemap {height} · bell {height, show*} · radar {height, form, grid, rings, scoreStyle, reveal, pace, show*, hollowCentre} · wordcloud {height, shape, maskSrc, rotation, colour, fontScale, removable, showTooltip, showCounts, group, foldDiacritics, maxWords} · mindmap {pageSize, maxDepth, maxBranches, editable}"
+    },
+    {
+      "name": "palette",
+      "type": "'brand' | 'deck'",
+      "default": "brand",
+      "desc": "brand on app screens (Report…); deck on the presenting/audience canvas"
+    },
+    {
+      "name": "colors",
+      "type": "string (comma-separated) or string[] property",
+      "default": "—",
+      "desc": "The deck's presentationColorPalette (palette=deck)"
+    },
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "--aha-viz-ink",
+      "desc": "The deck text colour (palette=deck)"
+    },
+    {
+      "name": "number-format",
+      "type": "'count' | 'percent' | 'both'",
+      "default": "both",
+      "desc": "What each value shows"
+    },
+    {
+      "name": "sort",
+      "type": "'none' | 'desc' | 'asc'",
+      "default": "none",
+      "desc": "Order; desc also shows rank numbers on a bar chart (the Ranking variant). Other always stays last"
+    },
+    {
+      "name": "highlight-top",
+      "type": "number",
+      "default": "0",
+      "desc": "Dim everything below the top N"
+    },
+    {
+      "name": "correct",
+      "type": "index list",
+      "default": "—",
+      "desc": "Pick Answer: the correct option(s), e.g. \"1\" (or correct:true on a data item)"
+    },
+    {
+      "name": "correct-style",
+      "type": "'fill' | 'indicator'",
+      "default": "fill",
+      "desc": "fill paints the correct mark success-green and the rest neutral (the mockup); indicator keeps palette colours and marks the answer with ✓ only"
+    },
+    {
+      "name": "page-size",
+      "type": "number",
+      "default": "all",
+      "desc": "Bar: options per page, with a ‹ › pager (ranks carry across pages)"
+    },
+    {
+      "name": "log-scale",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Log lengths for bar/column when values span orders of magnitude"
+    },
+    {
+      "name": "legend",
+      "type": "'on' | 'off'",
+      "default": "auto",
+      "desc": "Auto: on for stacked, tree map, quadrant groups, multi-subject radar, and a donut without callouts"
+    },
+    {
+      "name": "tooltip",
+      "type": "'on' | 'off'",
+      "default": "on",
+      "desc": "Hover tooltip with the full label and value"
+    },
+    {
+      "name": "max-items",
+      "type": "number",
+      "default": "bar/column: all · donut/radial/treemap/stacked series: 6",
+      "desc": "Cap before the smallest fold into \"Other (n)\""
+    },
+    {
+      "name": "responses",
+      "type": "number",
+      "default": "sum of values",
+      "desc": "Respondent count for the summary and the donut centre"
+    },
+    {
+      "name": "locale",
+      "type": "BCP 47 tag",
+      "default": "<html lang> or en",
+      "desc": "Built-in copy (en, vi) + Intl number format"
+    },
+    {
+      "name": "strings",
+      "type": "object property",
+      "default": "chartStrings.en",
+      "desc": "Override any built-in string with the Presenter app's translation"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "the type name",
+      "desc": "Accessible name + data-table caption"
+    },
+    {
+      "name": "replay()",
+      "type": "method",
+      "default": "—",
+      "desc": "Re-runs the entrance animation with the current data"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Chart (palette=deck)",
+        "when": "results on the presenting or audience canvas of a slide type — Poll, Pick Answer, Ranking, Rating scale, Split the points, 2×2 matrix, Word cloud, Brainstorm/Mind map"
+      },
+      {
+        "what": "Chart (palette=brand)",
+        "when": "the same results anywhere else in the Presenter app — Report, dashboards, summaries"
+      },
+      {
+        "what": "Statistic",
+        "when": "a single headline number, not a distribution"
+      },
+      {
+        "what": "@ant-design/plots",
+        "when": "a chart type <aha-chart> does not ship (line/area/time series)"
+      }
+    ],
+    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-color-success, the rest neutral, plus a ✓ on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element.",
+    "dsv3": "New in the DS (PRO38-69) — the visual source is the \"AhaSlides Chart Slides\" mockup; a signed-off exception to the @ant-design/plots rule for result charts."
+  },
+  "surfaces": [
+    "dashboard",
+    "audience",
+    "editor"
+  ],
+  "reuse": {
+    "entry": "./aha-chart",
+    "registers": "aha-chart",
+    "exportsNamed": [
+      "AhaChart",
+      "defineAhaChart",
+      "chartStrings",
+      "readableInkOn"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "chart.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "chart.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "chart.vue.txt"
+    }
+  ],
+  "preview": "chart.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "number-format",
+        "label": "Numbers",
+        "default": null,
+        "options": [
+          {
+            "label": "Count + %",
+            "value": null
+          },
+          {
+            "label": "Count",
+            "value": "count"
+          },
+          {
+            "label": "%",
+            "value": "percent"
+          }
+        ]
+      },
+      {
+        "prop": "type",
+        "label": "Type",
+        "default": "bar",
+        "options": [
+          {
+            "label": "Bar",
+            "value": "bar"
+          },
+          {
+            "label": "Column",
+            "value": "column"
+          },
+          {
+            "label": "Stacked",
+            "value": "stacked"
+          },
+          {
+            "label": "Donut",
+            "value": "donut"
+          },
+          {
+            "label": "Radial",
+            "value": "radial"
+          },
+          {
+            "label": "Tree map",
+            "value": "treemap"
+          },
+          {
+            "label": "Quadrant",
+            "value": "quadrant"
+          },
+          {
+            "label": "Bell curve",
+            "value": "bell"
+          },
+          {
+            "label": "Radar",
+            "value": "radar"
+          },
+          {
+            "label": "Word cloud",
+            "value": "wordcloud"
+          },
+          {
+            "label": "Mind map",
+            "value": "mindmap"
+          }
+        ]
+      },
+      {
+        "prop": "highlight-top",
+        "label": "Highlight",
+        "default": null,
+        "options": [
+          {
+            "label": "All",
+            "value": null
+          },
+          {
+            "label": "Top 3",
+            "value": "3"
+          }
+        ]
+      }
+    ]
+  },
+  "selfCheck": [
+    {
+      "label": "brand series from --aha-viz-series-*; deck series from colors",
+      "verdict": "PASS"
+    },
+    {
+      "label": "transparent background; Pick Answer state via ✓ (+ success fill unless correct-style=indicator)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "0 responses → coloured stub at each bar/column start, no placeholder marks or waiting text",
+      "verdict": "PASS"
+    },
+    {
+      "label": "all 11 types and every mockup variant (images, modes, pagination, shapes, forms, effects)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "Other bucket past the cap; long labels clamp + tooltip; columns fall back to bars",
+      "verdict": "PASS"
+    },
+    {
+      "label": "summary + hidden table + polite live region; interactive parts are labelled buttons",
+      "verdict": "PASS"
+    },
+    {
+      "label": "motion on --aha-motion-viz-*, off under reduced motion",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is the ranked brand-palette bar chart: first fill is --aha-viz-series-1, the track and value sizes are the mockup's, the host is a labelled figure and the hidden table carries one row per option.",
+    "ready": "!!(function(){var el=document.querySelector('aha-chart[data-probe]');var r=el&&el.shadowRoot;return r&&r.querySelector('.bar-fill')&&r.querySelector('tbody tr');})()",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-chart[data-probe]');var r=el.shadowRoot;var fill=r.querySelector('.bar-fill');var track=r.querySelector('.bar-track');var main=r.querySelector('.value-main');var root=r.querySelector('.root');return{role:el.getAttribute('role'),ariaLabel:el.getAttribute('aria-label'),fillBg:getComputedStyle(fill).backgroundColor,trackHeight:getComputedStyle(track).height,trackRadius:getComputedStyle(track).borderTopLeftRadius,valueSize:getComputedStyle(main).fontSize,valueWeight:getComputedStyle(main).fontWeight,chartBg:getComputedStyle(root).backgroundColor,tableRows:String(r.querySelectorAll('tbody tr').length),firstRank:r.querySelector('.bar-rank').textContent,plotHidden:r.querySelector('.plot').getAttribute('aria-hidden')};})()",
+    "expect": {
+      "role": "figure",
+      "ariaLabel": "Q4 priorities",
+      "fillBg": "rgb(106, 30, 187)",
+      "trackHeight": "38px",
+      "trackRadius": "8px",
+      "valueSize": "20px",
+      "valueWeight": "600",
+      "chartBg": "rgba(0, 0, 0, 0)",
+      "tableRows": "5",
+      "firstRank": "1",
+      "plotHidden": "true"
+    }
+  }
+}

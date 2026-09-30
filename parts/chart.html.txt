@@ -1,0 +1,39 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     ONE <aha-chart> draws Bar, Column, Stacked, Donut, Radial, Tree map, 2×2 matrix, Bell curve, Radar,
+     Word cloud and Mind map results. Type-specific settings go in .options (see chartOptionDefaults).
+     palette="brand" (default) on app screens like Report; palette="deck" + colors + ink on the presenting canvas. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-chart.js';   // registers <aha-chart>
+
+  // Live results: set .data again whenever votes arrive — bars grow and re-rank, and a polite
+  // screen-reader announcement summarises the change.
+  const chart = document.getElementById('results');
+  chart.data = [
+    { label: 'Better onboarding', value: 258 },
+    { label: 'Google Slides integration', value: 219 },
+    { label: 'Advanced reports', value: 164 },
+  ];
+
+  // Type-specific settings: a partial object, merged over chartOptionDefaults[type].
+  document.getElementById('cloud').options = { shape: 'cloud', rotation: 'mixed', removable: true };
+  document.getElementById('cloud').addEventListener('wordcloud-hide', (event) => console.log('hidden', event.detail));
+</script>
+
+<div style="display:flex; flex-direction:column; gap:var(--aha-space-40); max-width:880px">
+  <!-- Report / any app screen: brand palette -->
+  <aha-chart id="results" type="bar" sort="desc" label="Q4 priorities"></aha-chart>
+
+  <!-- Presenting canvas: the deck's palette and text colour; the chart stays transparent -->
+  <div style="background:var(--aha-bg-dark); padding:var(--aha-space-24)">
+    <aha-chart type="donut" palette="deck" colors="var(--aha-brand-4),var(--aha-brand-2),var(--aha-brand-6),var(--aha-brand-9)" ink="var(--aha-text-inverse)" label="Benefits budget"
+      data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13}]'></aha-chart>
+  </div>
+
+  <!-- Pick Answer: correct marks the right option (✓ + success fill; correct-style="indicator" keeps palette fills) -->
+  <aha-chart type="column" number-format="percent" correct="1" label="Capital of Australia"
+    data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
+
+  <aha-chart id="cloud" type="wordcloud" label="One word for your team"
+    data='["Together","Creative","Energetic","Together","Fun","Creative","Together","Kind"]'></aha-chart>
+</div>

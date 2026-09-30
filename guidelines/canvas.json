@@ -47,6 +47,12 @@
       "status": "available"
     },
     {
+      "ref": "chart",
+      "as": "component",
+      "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style follows the mockup's green correct bar)",
+      "status": "available"
+    },
+    {
       "ref": "--aha-colorSuccess",
       "as": "token",
       "use": "the ✓ / correct-answer / validation-passed mark — the semantic function token (#16C49A) bundled into the plugin build, never a lookalike brand accent",
