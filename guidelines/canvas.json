@@ -49,7 +49,7 @@
     {
       "ref": "chart",
       "as": "component",
-      "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine",
+      "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style follows the mockup's green correct bar)",
       "status": "available"
     },
     {

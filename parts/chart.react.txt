@@ -2,9 +2,11 @@ import '@ahaslides-product/design/aha-chart';   // registers <aha-chart>
 import { useEffect, useRef } from 'react';
 
 // Data is a JS property: set it through a ref so live updates re-use the drawn marks (they animate).
-function ResultsChart({ type = 'bar', results, onCanvas, deckPalette, deckTextColour, locale, strings }) {
+// type: bar | column | stacked | donut | radial | treemap | quadrant | bell | radar | wordcloud | mindmap
+function ResultsChart({ type = 'bar', results, options, onCanvas, deckPalette, deckTextColour, locale, strings }) {
   const ref = useRef(null);
   useEffect(() => { ref.current.data = results; }, [results]);
+  useEffect(() => { if (options) ref.current.options = options; }, [options]);   // merged over chartOptionDefaults[type]
   useEffect(() => { if (strings) ref.current.strings = strings; }, [strings]);   // the Presenter app's translations
 
   return (
@@ -18,3 +20,4 @@ function ResultsChart({ type = 'bar', results, onCanvas, deckPalette, deckTextCo
 
 // Report screen:     <ResultsChart results={rows} locale={user.language} />
 // Presenting canvas: <ResultsChart results={rows} onCanvas deckPalette={theme.presentationColorPalette} deckTextColour={slide.textColour} />
+// Word cloud:        <ResultsChart type="wordcloud" results={words} options={{ shape: 'cloud', removable: true }} />

@@ -3,7 +3,11 @@
   <aha-chart data-probe type="bar" sort="desc" label="Q4 priorities"
     data='[{"label":"Better onboarding","value":258},{"label":"Google Slides integration","value":219},{"label":"Advanced reports","value":164},{"label":"Offline mode","value":114},{"label":"More languages","value":68}]'></aha-chart>
 
-  <div class="lbl" style="margin-top:32px">Column · 0 responses → placeholder marks</div>
+  <div class="lbl" style="margin-top:32px">Column · Pick Answer · correct option</div>
+  <aha-chart type="column" correct="1" label="Capital of Australia"
+    data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Column · 0 responses → a short coloured stub at each column's start</div>
   <aha-chart type="column" label="Capital of Australia"
     data='[{"label":"Sydney","value":0},{"label":"Canberra","value":0},{"label":"Melbourne","value":0},{"label":"Perth","value":0}]'></aha-chart>
 
@@ -16,6 +20,26 @@
   <div class="lbl" style="margin-top:32px">Stacked · legend on by default</div>
   <aha-chart type="stacked" label="What matters most when choosing a job"
     data='{"series":["Salary","Colleagues","Learning","Flexibility"],"rows":[{"label":"Engineering","values":[26,12,30,22]},{"label":"Sales","values":[42,18,14,14]}]}'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Radial · 270° rings</div>
+  <aha-chart type="radial" label="Marketing channels"
+    data='[{"label":"Social media","value":22},{"label":"SEO","value":18},{"label":"Events","value":14},{"label":"Email","value":10},{"label":"Influencers","value":9}]'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Tree map</div>
+  <aha-chart type="treemap" label="Next features"
+    data='[{"label":"AI slides","value":16},{"label":"Teams","value":12},{"label":"Templates","value":10},{"label":"Analytics","value":9},{"label":"Offline","value":8}]'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">2×2 matrix (quadrant)</div>
+  <aha-chart type="quadrant" label="Impact against effort"
+    data='{"x":{"title":"Effort","low":"Low","high":"High","min":1,"max":5},"y":{"title":"Impact","low":"Low","high":"High","min":1,"max":5},"zones":["Do now","Big projects","Quick chores","Consider dropping"],"groups":["Product","Marketing"],"points":[{"label":"Dark mode","x":1.6,"y":2.4,"group":0},{"label":"AI question writer","x":4.2,"y":4.5,"group":0},{"label":"Monthly webinar","x":3.4,"y":3.8,"group":1},{"label":"Case studies","x":2.4,"y":3.6,"group":1}]}'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Bell curve · Likert distribution</div>
+  <aha-chart type="bell" label="Meeting feedback"
+    data='{"scale":[1,2,3,4,5],"anchors":["Strongly disagree","Strongly agree"],"series":[{"label":"Clear goals","counts":[1,2,6,18,9]},{"label":"Reasonable length","counts":[4,9,12,8,3]}]}'></aha-chart>
+
+  <div class="lbl" style="margin-top:32px">Radar · two subjects</div>
+  <aha-chart type="radar" label="Current version against the beta"
+    data='{"dimensions":["Ease of use","Speed","Interface","Features","Stability","Value"],"scale":5,"people":44,"subjects":[{"label":"Current version","scores":[3.4,3.1,3.3,3.8,4.2,3.5],"responses":[44,44,44,44,44,44]},{"label":"Beta","scores":[4.3,4,4.4,3.8,3.3,3.9],"responses":[44,44,44,44,44,44]}]}'></aha-chart>
 
   <div class="lbl" style="margin-top:32px">Word cloud</div>
   <aha-chart type="wordcloud" label="One word for your team"

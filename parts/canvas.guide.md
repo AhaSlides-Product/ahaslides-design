@@ -99,7 +99,9 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
 
 ### Two colour jobs — keep them separate
 
-Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, Stacked, Donut, Word cloud, Mind map): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
+Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, Stacked, Donut, Radial, Tree map, 2×2 matrix, Bell curve, Radar, Word cloud, Mind map): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
+
+> **Open decision — Pick Answer.** The "AhaSlides Chart Slides" mockup paints the correct bar `--aha-color-success` and the rest neutral, which contradicts the Job 1 rule below. `<aha-chart correct="…">` follows the mockup by default (`correct-style="fill"`); set `correct-style="indicator"` to follow this guide (✓ + bold label, palette fills) until design settles it.
 
 | Job | Layer | Colour source |
 | --- | --- | --- |

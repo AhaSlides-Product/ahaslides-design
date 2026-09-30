@@ -1,5 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
-     ONE <aha-chart> draws Bar, Column, Stacked, Donut, Word cloud and Mind map results.
+     ONE <aha-chart> draws Bar, Column, Stacked, Donut, Radial, Tree map, 2×2 matrix, Bell curve, Radar,
+     Word cloud and Mind map results. Type-specific settings go in .options (see chartOptionDefaults).
      palette="brand" (default) on app screens like Report; palette="deck" + colors + ink on the presenting canvas. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
@@ -13,6 +14,10 @@
     { label: 'Google Slides integration', value: 219 },
     { label: 'Advanced reports', value: 164 },
   ];
+
+  // Type-specific settings: a partial object, merged over chartOptionDefaults[type].
+  document.getElementById('cloud').options = { shape: 'cloud', rotation: 'mixed', removable: true };
+  document.getElementById('cloud').addEventListener('wordcloud-hide', (event) => console.log('hidden', event.detail));
 </script>
 
 <div style="display:flex; flex-direction:column; gap:40px; max-width:880px">
@@ -25,6 +30,10 @@
       data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13}]'></aha-chart>
   </div>
 
-  <aha-chart type="column" number-format="percent" highlight-top="1" label="Capital of Australia"
+  <!-- Pick Answer: correct marks the right option (✓ + success fill; correct-style="indicator" keeps palette fills) -->
+  <aha-chart type="column" number-format="percent" correct="1" label="Capital of Australia"
     data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
+
+  <aha-chart id="cloud" type="wordcloud" label="One word for your team"
+    data='["Together","Creative","Energetic","Together","Fun","Creative","Together","Kind"]'></aha-chart>
 </div>
