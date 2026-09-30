@@ -65,15 +65,15 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6 (#714CF5 #E96144 #189D96 #A95166 #D49900 #4491C4) + tints · deck = consumer colours + ink · transparent background · Other = --aha-viz-neutral #A8A29B · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6, aliases of DS colour tokens: purple-60 · coral-70 · teal-70 · pink-70 · yellow-80 · soft-indigo-80, with tints purple-15 · coral-20 · teal-20 · pink-20 · yellow-20 · soft-indigo-30 · deck = consumer colours + ink · transparent background · Other = --aha-viz-neutral → gray-70 · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
-      "value": "#313131; secondary 76% / tertiary 54% / axis 26% / grid 12% / track 7% / hover 8% / pressed 16% mixes of the ink (re-derived from the deck ink on the canvas)"
+      "value": "--aha-viz-ink → --aha-text-default; secondary 76% / tertiary 54% / axis 26% / grid 12% / track 7% / hover 8% / pressed 16% mixes of the ink (re-derived from the deck ink on the canvas)"
     },
     {
       "label": "Bar",
-      "value": "track 38 (32 past 6 options) · gap 14 · radius 8 · value 20/600 + share 16 tertiary · image thumbnail 64 · labels clamp to 3 lines · page-size pages with a ‹ › pager"
+      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-xs (track, fill and empty stub) · value 20/600 + share 16 tertiary · image thumbnail 64 · labels clamp to 3 lines · page-size pages with a ‹ › pager"
     },
     {
       "label": "Column",
@@ -97,7 +97,7 @@
     },
     {
       "label": "Empty",
-      "value": "0 responses → every bar/column/stacked row keeps its track and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub half the column wide and --aha-viz-mark-min-length 24px tall (under an image it detaches with a 6px gap), all with --aha-radius-xs 4px on every corner · the shortest non-zero bar/column is --aha-viz-mark-min-length so its 8px corners never clamp into a pill · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
+      "value": "0 responses → every bar/column/stacked row keeps its track and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub half the column wide and --aha-viz-mark-min-length 24px tall (under an image it spans the column and joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-xs · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
     },
     {
       "label": "Overflow",
@@ -424,9 +424,9 @@
     "expect": {
       "role": "figure",
       "ariaLabel": "Q4 priorities",
-      "fillBg": "rgb(113, 76, 245)",
+      "fillBg": "rgb(106, 30, 187)",
       "trackHeight": "38px",
-      "trackRadius": "8px",
+      "trackRadius": "4px",
       "valueSize": "20px",
       "valueWeight": "600",
       "chartBg": "rgba(0, 0, 0, 0)",

@@ -62,6 +62,36 @@ const SITE = (process.env.AHA_SITE_URL || 'https://ahaslides-product.github.io/a
 /* ===== R1 canonical tokens → the --aha-* var layer (single source) ===== */
 const TOK = JSON.parse(read(join(root, 'tokens.canonical.json')));
 
+/* Token aliases: a value written "{color.primitives.purple.60}" points at another token. TOK keeps the
+   resolved hex (tokens.js, swatches, contrast checks); TOKEN_ALIASES maps the aliased path to the
+   referenced token so tokens.css can emit var(--aha-…) and the docs can name the source. */
+const TOKEN_ALIASES = new Map();
+function aliasCssVar(path) {
+  const kebab = (text) => text.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase());
+  const parts = path.split('.');
+  if (parts[0] !== 'color') throw new Error(`alias outside color: ${path}`);
+  if (parts[1] === 'primitives') return `--aha-${kebab(parts[2])}${parts[3] !== undefined ? '-' + parts[3] : ''}`;
+  if (parts[1] === 'brand') return `--aha-brand-${parts[2]}`;
+  if (parts[1].startsWith('text')) return `--aha-text-${kebab(parts[1].slice(4)).replace(/^-/, '')}`;
+  if (parts[1] === 'success' || parts[1] === 'warning' || parts[1] === 'error' || parts[1] === 'info' || parts[1] === 'primary') return `--aha-color-${parts[1]}`;
+  throw new Error(`no CSS var for alias ${path}`);
+}
+(function resolveAliases(node, trail) {
+  for (const [key, value] of Object.entries(node)) {
+    if (key.startsWith('$')) continue;
+    const path = [...trail, key];
+    if (value && typeof value === 'object') { resolveAliases(value, path); continue; }
+    const match = typeof value === 'string' && /^\{([^}]+)\}$/.exec(value);
+    if (!match) continue;
+    const target = match[1].split('.').reduce((at, step) => (at == null ? at : at[step]), TOK);
+    if (typeof target !== 'string' || !/^#/.test(target)) throw new Error(`${path.join('.')}: alias ${value} does not resolve to a colour`);
+    TOKEN_ALIASES.set(path.join('.'), { ref: match[1], cssVar: aliasCssVar(match[1]) });
+    node[key] = target;
+  }
+})(TOK, []);
+const aliasOf = (path) => TOKEN_ALIASES.get(path);
+const cssValue = (path, value) => (aliasOf(path) ? `var(${aliasOf(path).cssVar})` : value);
+
 /* ===== icon registry (built by build-icons.mjs from the SVGs imported from Figma DS V3).
    ONE source → the <aha-icon> runtime, the searchable gallery, and the agent feeds. ===== */
 const ICONS = existsSync(join(root, 'icons', 'registry.json'))
@@ -274,9 +304,9 @@ function tokenVars(t) {
   /* a deck chart swaps series for the deck palette and re-derives the ink mixes from the deck text colour inside the element */
   const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
   const v = c.viz, vz = t.viz;
-  L.push(`--aha-viz-ink:${v.ink}; --aha-viz-ink-inverse:${v.inkInverse}; --aha-viz-neutral:${v.neutral}; ` +
-    Object.keys(v.series).map(k => `--aha-viz-series-${k}:${v.series[k]};`).join(' ') + ' ' +
-    Object.keys(v.tint).map(k => `--aha-viz-tint-${k}:${v.tint[k]};`).join(' '));
+  L.push(`--aha-viz-ink:${cssValue('color.viz.ink', v.ink)}; --aha-viz-ink-inverse:${cssValue('color.viz.inkInverse', v.inkInverse)}; --aha-viz-neutral:${cssValue('color.viz.neutral', v.neutral)}; ` +
+    Object.keys(v.series).map(k => `--aha-viz-series-${k}:${cssValue(`color.viz.series.${k}`, v.series[k])};`).join(' ') + ' ' +
+    Object.keys(v.tint).map(k => `--aha-viz-tint-${k}:${cssValue(`color.viz.tint.${k}`, v.tint[k])};`).join(' '));
   L.push(drop(vz).filter(([, value]) => typeof value === 'number').map(([k, value]) => `--aha-viz-${kebab(k)}:${value}px;`).join(' ') + ' ' +
     drop(vz.mix).map(([k, value]) => `--aha-viz-mix-${kebab(k)}:${value}%;`).join(' '));
   /* type + shape */
@@ -1607,8 +1637,9 @@ function renderDesignMd(t, cs) {
   const icon   = [['icon-default',c.iconDefault],['icon-strong',c.iconStrong],['icon-muted',c.iconMuted],['icon-disabled',c.iconDisabled],['icon-inverse',c.iconInverse],['icon-active',c.iconActive]];
   const btn    = [['btn-primary-bg',b.primaryBg],['btn-primary-bg-hover',b.primaryBgHover],['btn-primary-bg-press',b.primaryBgPress],['btn-primary-fg',b.primaryFg],['btn-secondary-bg',b.secondaryBg],['btn-secondary-bg-hover',b.secondaryBgHover],['btn-secondary-border',b.secondaryBorder],['btn-secondary-border-press',b.secondaryBorderPress],['btn-tertiary-bg-hover',b.tertiaryBgHover],['btn-disabled-bg',b.disabledBg],['btn-disabled-fg',b.disabledFg],['btn-danger-bg',b.dangerBg],['btn-danger-bg-hover',b.dangerBgHover],['btn-danger-ring',b.dangerRing],['btn-encourage-bg',b.encourageBg],['btn-encourage-bg-hover',b.encourageBgHover],['btn-encourage-bg-press',b.encourageBgPress]];
   const brand  = Object.keys(c.brand).map(k => [`brand-${k}`, c.brand[k]]);
-  const viz    = [['viz-ink', c.viz.ink], ['viz-ink-inverse', c.viz.inkInverse], ['viz-neutral', c.viz.neutral],
-    ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, c.viz.series[k]]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, c.viz.tint[k]])];
+  const vizValue = (path, hex) => (aliasOf(path) ? `var(${aliasOf(path).cssVar}) = ${hex}` : hex);
+  const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
+    ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
   const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
@@ -1707,7 +1738,8 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
   ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}
-  ${swGroup('Data visualisation (chart series)', Object.keys(c.viz.series).map(k=>['vizSeries'+k, c.viz.series[k]]).concat([['vizInk', c.viz.ink], ['vizNeutral', c.viz.neutral]]))}`,
+  ${swGroup('Data visualisation (chart series · aliases of the colour tokens above)', [...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, `color.viz.series.${k}`]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, `color.viz.tint.${k}`]), ['viz-ink', 'color.viz.ink'], ['viz-neutral', 'color.viz.neutral']]
+    .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}`,
     },
     typography: {
       title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
@@ -2076,7 +2108,9 @@ mkdirSync(join(root, 'lib'), { recursive: true });
 writeFileSync(join(root, 'lib', 'tokens.css'), '/* @ahaslides-product/design/tokens.css — generated from tokens.canonical.json. */\n' + tokenVars(TOK) + '\n');
 writeFileSync(join(root, 'lib', 'tokens.js'),
   '// @ahaslides-product/design/tokens — the canonical design tokens (generated from tokens.canonical.json).\n' +
-  'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\nexport default tokens;\n');
+  'export const tokens = ' + JSON.stringify(TOK, null, 2) + ';\n' +
+  '// Tokens defined as aliases of another token: path → the referenced token path and its CSS var.\n' +
+  'export const tokenAliases = ' + JSON.stringify(Object.fromEntries(TOKEN_ALIASES), null, 2) + ';\nexport default tokens;\n');
 
 /* All-in-one entry — @ahaslides-product/design/all (JS-only). ONE import registers every shared
    <aha-*> element (incl. <aha-icon>/<aha-illustration>); the consumer still loads the token layer

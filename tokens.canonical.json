@@ -42,10 +42,26 @@
     },
     "brand": { "1": "#6A1EBB", "2": "#FF4081", "3": "#1A1A2E", "4": "#20E8B5", "5": "#434373", "6": "#FF9068", "7": "#93F5DA", "8": "#FFBACA", "9": "#D3B4FF", "10": "#BFD2FF", "11": "#D9E2FF", "12": "#FDF6FA", "13": "#F4F8FF" },
     "viz": {
-      "$source": "Data-visualisation palette for <aha-chart>, lifted verbatim from the requester's 'AhaSlides Chart Slides' mockup (PRO38-69). The 'brand' chart palette used on Report and other app screens; a deck-palette chart (presenting/audience) replaces series with the deck's presentationColorPalette. Placeholder values pending a token owner: re-point values here, never in the component.",
-      "ink": "#313131", "inkInverse": "#FFFFFF", "neutral": "#A8A29B",
-      "series": { "1": "#714CF5", "2": "#E96144", "3": "#189D96", "4": "#A95166", "5": "#D49900", "6": "#4491C4" },
-      "tint": { "1": "#EAE4FE", "2": "#FCE7E1", "3": "#DCF0EE", "4": "#F6E5E9", "5": "#F8EDD3", "6": "#E2EEF6" }
+      "$source": "Data-visualisation palette for <aha-chart>. Every value is an alias of an existing AhaSlides DS colour token ({color.…}); generate.mjs emits var(--aha-…) references in tokens.css and resolves them to hex in tokens.js. Series run brand purple first, then six distinguishable hues at a step that holds at least 3:1 against white where the ramp allows (purple 60, coral 70, teal 70, pink 70, yellow 80, softIndigo 80); neutral (Other, non-correct Pick Answer) is gray 70, also above 3:1; tints are the light steps of the same ramps, used behind ink text (tree-map chips, badges). A deck-palette chart (presenting/audience) replaces series with the deck's presentationColorPalette.",
+      "ink": "{color.textDefault}",
+      "inkInverse": "{color.textInverse}",
+      "neutral": "{color.primitives.gray.70}",
+      "series": {
+        "1": "{color.primitives.purple.60}",
+        "2": "{color.primitives.coral.70}",
+        "3": "{color.primitives.teal.70}",
+        "4": "{color.primitives.pink.70}",
+        "5": "{color.primitives.yellow.80}",
+        "6": "{color.primitives.softIndigo.80}"
+      },
+      "tint": {
+        "1": "{color.primitives.purple.15}",
+        "2": "{color.primitives.coral.20}",
+        "3": "{color.primitives.teal.20}",
+        "4": "{color.primitives.pink.20}",
+        "5": "{color.primitives.yellow.20}",
+        "6": "{color.primitives.softIndigo.30}"
+      }
     },
     "alpha": { "inkA10": "rgba(26,26,46,.1)", "inkA30": "rgba(26,26,46,.3)", "inkA50": "rgba(26,26,46,.5)", "inkA70": "rgba(26,26,46,.7)", "inkA90": "rgba(26,26,46,.9)", "whiteA0": "rgba(255,255,255,0)", "whiteA50": "rgba(255,255,255,.5)", "whiteA70": "rgba(255,255,255,.7)", "whiteA90": "rgba(255,255,255,.9)" },
     "$note": "Solid warm-gray text (export) chosen over the skill's black-alpha-of-indigo — alpha text is the dark-surface-invisible trap aha-design-antd itself warns about."
