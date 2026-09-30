@@ -1,0 +1,92 @@
+{
+  "surface": "charts",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.charts",
+  "portedFrom": null,
+  "authoredNote": "The aha-design plugin has no charts judge, so this set is DS-authored from the surface's criteria and contracts/chart.json.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this Report screen. The poll results are drawn as a hand-written `<svg>` with one `<rect>` per option, heights computed in JS, and value labels as `<text>`. The rest of the screen uses DS components and tokens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1.",
+      "expected_output": "C1 FAILs: the poll result is a hand-rolled SVG bar chart instead of `<aha-chart type=\"bar\">`, a chart type the DS ships. Fix: render `<aha-chart>` with the option counts. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin charts judge dataset exists"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this Report screen. Ranking results render through `import { Bar } from 'react-chartjs-2'` (Chart.js). The rest of the screen uses DS components and tokens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1.",
+      "expected_output": "C1 FAILs: a third-party chart library draws a Bar chart that `<aha-chart>` ships. Fix: replace it with `<aha-chart>`. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin charts judge dataset exists"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this Report screen. Poll results render as `<aha-chart type=\"column\" palette=\"brand\" ...>`, and a funnel chart (a type `<aha-chart>` does not ship) renders through `@ant-design/plots` `Funnel`. Everything else uses DS components and tokens.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control — correct use.",
+      "expected_output": "C1 PASSes: the shipped chart type uses `<aha-chart>` and the only other chart is `@ant-design/plots` for a type the DS does not ship. C2 PASSes: brand palette on an app screen. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin charts judge dataset exists"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this presenter canvas slide. Word-cloud results render as `<aha-chart type=\"wordcloud\">` with no palette attribute, so it takes the default brand palette, while the deck theme defines its own series colours and ink. Everything else follows the canvas rules.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2.",
+      "expected_output": "C2 FAILs: a canvas chart must use `palette=\"deck\"` with the deck's `colors` and `ink`; the default brand palette ignores the deck theme. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin charts judge dataset exists"
+      }
+    }
+  ]
+}

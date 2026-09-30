@@ -1053,6 +1053,29 @@
           "test": "**Rule.** This repo's submit CTA is the shared library component (`SubmitButton` / `AudienceSubmitButton` from `@/iframe/audience`), whose fill DEFAULTS to the fixed brand purple and only tracks the deck when it is passed `:accent=\"presentationColorPalette[0]\"`. So an ACTIVE (answerable) submit button MUST bind that accent."
         }
       ]
+    },
+    "charts": {
+      "surface": "charts",
+      "origin": "authored",
+      "skillRef": null,
+      "targets": [
+        {
+          "source": "contracts/chart.json",
+          "use": "the <aha-chart> chart types, the palette attribute (brand | deck) and the chart types it does not ship"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "A result/data chart is <aha-chart>, not a hand-rolled or third-party chart",
+          "test": "Every result or data chart on an app screen, Report, canvas or audience view is rendered with the DS `<aha-chart>` element for a chart type its live contract ships. A hand-rolled SVG/canvas/CSS-bar chart, or a third-party chart library (Chart.js, Recharts, ECharts, D3-drawn, Highcharts, ApexCharts, Victory, Nivo), fails. The one exception is `@ant-design/plots` for a chart type `<aha-chart>` does not ship."
+        },
+        {
+          "id": "C2",
+          "title": "<aha-chart> uses the palette for its surface",
+          "test": "App screens such as Report use `palette=\"brand\"` (the default); the presenting or audience canvas uses `palette=\"deck\"` with the deck's `colors` and `ink`. A canvas chart left on the brand palette, or an app-screen chart painted with hand-picked series colours, fails."
+        }
+      ]
     }
   }
 }
