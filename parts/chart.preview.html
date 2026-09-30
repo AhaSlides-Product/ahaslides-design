@@ -288,4 +288,21 @@
 <!-- Imports the REAL shipped element — no inlined copy, so the preview can never drift from lib/. -->
 <script type="module">
   import '../lib/aha-chart.js';
+
+  // The playground's Type tabs only change the attribute; types that take structured data get a matching sample.
+  const probe = document.querySelector('aha-chart[data-probe]');
+  const listData = probe.getAttribute('data');
+  const structuredData = {
+    stacked: { series: ['Salary', 'Colleagues', 'Learning', 'Flexibility'], rows: [{ label: 'Engineering', values: [26, 12, 30, 22] }, { label: 'Sales', values: [42, 18, 14, 14] }, { label: 'Operations', values: [22, 17, 14, 13] }] },
+    quadrant: { x: { title: 'Effort', low: 'Low', high: 'High', min: 1, max: 5 }, y: { title: 'Impact', low: 'Low', high: 'High', min: 1, max: 5 },
+      zones: ['Do now', 'Big projects', 'Quick chores', 'Consider dropping'], groups: ['Product', 'Marketing'],
+      points: [{ label: 'Better onboarding', x: 2.1, y: 4.4, group: 0 }, { label: 'Google Slides integration', x: 4.2, y: 4.1, group: 0 }, { label: 'Advanced reports', x: 3.6, y: 2.9, group: 0 }, { label: 'Offline mode', x: 4.4, y: 1.8, group: 1 }, { label: 'More languages', x: 1.7, y: 2.2, group: 1 }] },
+    bell: { scale: [1, 2, 3, 4, 5], anchors: ['Strongly disagree', 'Strongly agree'], series: [{ label: 'Clear goals', counts: [1, 2, 6, 18, 9] }, { label: 'Reasonable length', counts: [4, 9, 12, 8, 3] }] },
+    radar: { dimensions: ['Content', 'Speaker', 'Interaction', 'Materials', 'Length'], scale: 5, people: 36, subjects: [{ label: '', scores: [4.2, 4.6, 3.4, 3.9, 2.8], responses: [36, 36, 36, 36, 36] }] },
+    mindmap: { label: 'Q4 priorities', children: [{ label: 'Product', children: [{ label: 'Better onboarding' }, { label: 'Offline mode' }] }, { label: 'Integrations', children: [{ label: 'Google Slides' }] }, { label: 'Insights', children: [{ label: 'Advanced reports' }] }] },
+  };
+  new MutationObserver(() => {
+    const type = probe.getAttribute('type');
+    probe.setAttribute('data', structuredData[type] ? JSON.stringify(structuredData[type]) : listData);
+  }).observe(probe, { attributes: true, attributeFilter: ['type'] });
 </script>
