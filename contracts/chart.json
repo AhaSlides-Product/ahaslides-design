@@ -132,7 +132,7 @@
     },
     {
       "label": "Empty",
-      "value": "0 responses → every bar/column/stacked row keeps its track (a stacked row shows one stub per series side by side, rounded only at the outer ends) and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
+      "value": "0 responses → every bar/column/stacked row keeps its track (a stacked row shows one half-length stub per series side by side, rounded only at the left end) and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
     },
     {
       "label": "Overflow",
