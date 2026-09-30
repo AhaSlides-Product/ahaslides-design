@@ -124,7 +124,7 @@
     },
     {
       "label": "Bell · radar · quadrant",
-      "value": "bell: monotone curve per statement (≤6), average badge, optional grid / % axis / bars / ±1 SD / mean line · radar: 5 | 10 | 100 scales, filled / outline / radial bars, polygon / circle grid, 8 entrance effects, subject toggles, data table · quadrant: 2×2 zones, ≤3 colour groups, collision-aware labels"
+      "value": "bell: monotone curve per statement (≤6), average badge, optional grid / % axis / mean line · radar: 5 | 10 | 100 scales, filled / outline / radial bars, polygon / circle grid, 8 entrance effects, subject toggles, data table · quadrant: 2×2 zones, ≤3 colour groups, collision-aware labels"
     },
     {
       "label": "Word cloud · mind map",
