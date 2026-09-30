@@ -337,6 +337,7 @@ function tokenVars(t) {
      No overshoot/bounce ease (ease-out-back etc.): real objects decelerate smoothly — the craft floor + AntD's own tooltip/zoom motion both avoid it, and the standards gate now flags it. Use the exponential eases below. */
   L.push(`--aha-motion-fast:.1s; --aha-motion-mid:.2s; --aha-motion-slow:.3s; --aha-ease-in-out:cubic-bezier(0.645,0.045,0.355,1); --aha-ease-out:cubic-bezier(0.215,0.61,0.355,1); --aha-ease-in-out-circ:cubic-bezier(0.78,0.14,0.15,0.86);`);
   /* chart motion: slower than UI state changes because the eye has to follow data moving. */
+  L.push(Object.entries(t.effect.blur).filter(([k]) => !k.startsWith('$')).map(([k, value]) => `--aha-blur-${k}:${value}px;`).join(' '));
   L.push(`--aha-motion-viz-enter:.6s; --aha-motion-viz-update:.4s; --aha-motion-viz-reorder:.35s; --aha-motion-viz-stagger:40ms; --aha-ease-viz:cubic-bezier(0.2,0.7,0.4,1);`);
   return `:root{\n  ${L.join('\n  ')}\n}`;
 }

@@ -89,7 +89,9 @@
     "space-40",
     "space-44",
     "space-64",
-    "space-100"
+    "space-100",
+    "viz-value-width",
+    "blur-md"
   ],
   "spec": [
     {
@@ -106,7 +108,7 @@
     },
     {
       "label": "Bar",
-      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-default (track, fill and empty stub) · value --aha-size-xl / semibold + share --aha-size-l tertiary · image thumbnail = bar + label gap (--aha-space-8) + one label line, bottom-aligned so the bar sits on the image edge; image-only options drop the label row · labels clamp to 3 lines · page-size pages with a ‹ › pager"
+      "value": "track 38 (32 past 6 options) · gap --aha-viz-bar-gap (space-24) between options · label-to-bar --aha-space-8 · radius --aha-radius-default (track, fill and empty stub) · value --aha-size-xl / semibold + share --aha-size-l tertiary · image thumbnail = bar + label gap (--aha-space-8) + one label line, bottom-aligned so the bar sits on the image edge; image-only options drop the label row · labels one line with an ellipsis (full text in the tooltip and data table) · value readout in a fixed --aha-viz-value-width (space-100) column so every track ends at the same x · page-size pages with a ‹ › pager"
     },
     {
       "label": "Column",
@@ -130,11 +132,11 @@
     },
     {
       "label": "Empty",
-      "value": "0 responses → every bar/column/stacked row keeps its track and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
+      "value": "0 responses → every bar/column/stacked row keeps its track (a stacked row shows one stub per series side by side, rounded only at the outer ends) and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
     },
     {
       "label": "Overflow",
-      "value": "percentages use largest-remainder rounding so they total 100% · long labels clamp, full text in the tooltip · a column with long labels becomes bars · a wide mind map pages its ideas"
+      "value": "percentages use largest-remainder rounding so they total 100% · bar labels truncate to one line, other long labels clamp; the full text is always in the tooltip · a column with long labels becomes bars · a wide mind map pages its ideas"
     },
     {
       "label": "Motion",
