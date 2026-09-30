@@ -150,7 +150,6 @@ function lintFile(path, text, surf) {
       for (const m of stripVars(raw).matchAll(/overflow-x\s*:\s*(scroll|auto)/gi))
         warn.push([`${L}`, 'overflow-x-scroll', `overflow-x: ${m[1]} — a horizontal scroll usually hides a non-reflowing layout; prefer wrapping/stacking on small screens (a wide data table is the legitimate exception)`]);
 
-    // third-party chart library — result/data charts are <aha-chart>; @ant-design/plots is the only allowed lib
     if (!ok('chart')) {
       const lib = raw.match(/(?:from\s+|import\s*\(?\s*|require\(\s*)['"](chart\.js(?:\/[^'"]*)?|react-chartjs-2|recharts|echarts(?:-for-react)?|d3(?:-[a-z-]+)?|highcharts(?:-react-official)?|apexcharts|react-apexcharts|victory|@nivo\/[a-z-]+|vue-chartjs)['"]/i);
       if (lib)
