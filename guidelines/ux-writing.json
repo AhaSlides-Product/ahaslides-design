@@ -9,7 +9,7 @@
   "skillRef": {
     "build": "aha-design:aha-design-ux-writing",
     "judge": "aha-design:aha-design-ux-writing-judge",
-    "note": "The skill is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-8 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, tooltips, onboarding, and confirmation copy are stubbed there and land here as they're written."
+    "note": "The skill is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-9 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, onboarding, and confirmation copy are stubbed there and land here as they're written."
   },
   "surfaces": [
     "editor",
@@ -169,6 +169,13 @@
       "ref": [
         "UXW-8"
       ]
+    },
+    {
+      "id": "tooltip-short-one-idea",
+      "rule": "A tooltip carries ONE idea in plain text: lead with what the control does or why it matters, in one sentence of about 80 to 120 characters in English (translations run 30 to 40% longer, so leave headroom). Don't restate the visible label. No headers, bullets, multiple paragraphs, or HTML-rich content: that belongs in help text, a popover, or docs. A tooltip is never the only home for essential or consequential information (it is unavailable on touch). Sentence case and no dash punctuation still apply. \"Covers quiz sound effects only, not the lobby music.\" not \"This doesn't control the quiz lobby music, which plays by default. Use the volume control while presenting to mute it, or replace it under Background music.\"",
+      "ref": [
+        "UXW-9"
+      ]
     }
   ],
   "reuse": null,
@@ -188,6 +195,10 @@
     },
     {
       "label": "empty states distinct from failures; severity matches impact",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "tooltips carry one short plain-text idea and never hold essential information alone",
       "verdict": "N/A — per-surface"
     }
   ],

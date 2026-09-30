@@ -116,6 +116,23 @@ Product copy never uses an em dash (—) or en dash (–) as punctuation.
   Try a PNG or JPG."
 - ❌ "Delete this slide — this can't be undone." → ✅ "Delete this slide? This can't be undone."
 
+### Tooltips: one short idea, never the only home · UXW-9
+
+A tooltip is a hint, not a help article. It is hover or focus only, so it is unavailable on touch.
+
+- **One idea per tooltip.** Lead with what the control does, or why it matters, in plain words.
+- **One sentence, about 80 to 120 characters in English.** Translations run 30 to 40% longer, so
+  leave headroom. Over the cap means the idea is too big: cut it, or move it to help text, a
+  popover, or docs.
+- **Don't restate the visible label.** "Sound effects" needs no tooltip that says "Turn sound effects on or off".
+- **Plain text only.** No headers, bullets, multiple paragraphs, or HTML-rich content.
+- **Never the only home for essential information.** Anything the user must know before acting, or
+  a consequence that is hard to undo, lives in visible help text or the flow (see UXW-3).
+- Obeys the other rules: sentence case (UXW-1), no dash as punctuation (UXW-8).
+- ❌ "This doesn't control the quiz lobby music, which plays by default. Use the volume control while
+  presenting to mute it, or replace it under Background music." (two ideas, 156 characters)
+- ✅ "Covers quiz sound effects only, not the lobby music." (one idea, 52 characters)
+
 ### Worked example
 
 > ❌ ⚠️ **Some items could not be loaded.**  →  ✅ ⓘ **Some presentations didn't load.** Check your connection and **try again**.  → [ Try again ]
@@ -141,7 +158,6 @@ are, apply the universal principles above; each lands here with its own rule + r
   "Presentation creation"); primary vs secondary phrasing.
 - **Terminology & glossary** — one word per concept across the product (presentation vs deck vs
   slideshow); the canonical AhaSlides term list.
-- **Tooltips & helper text** — when to add, length, imperative vs descriptive.
 - **Onboarding & first-run copy** — empty-first-run states, coach marks, checklists.
 - **Confirmation & consent copy** — the words in destructive/consequential dialogs.
 
