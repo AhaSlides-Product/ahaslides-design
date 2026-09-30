@@ -31,6 +31,7 @@
     "viz-plot-height",
     "viz-stub-length",
     "viz-mark-min-length",
+    "viz-column-min-height",
     "viz-legend-swatch",
     "viz-font-value",
     "viz-font-label",
@@ -73,11 +74,11 @@
     },
     {
       "label": "Bar",
-      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-xs (track, fill and empty stub) · value 20/600 + share 16 tertiary · image thumbnail 64 · labels clamp to 3 lines · page-size pages with a ‹ › pager"
+      "value": "track 38 (32 past 6 options) · gap 14 · radius --aha-radius-default (track, fill and empty stub) · value 20/600 + share 16 tertiary · image thumbnail 64 · labels clamp to 3 lines · page-size pages with a ‹ › pager"
     },
     {
       "label": "Column",
-      "value": "plot 260 (+100 with images) · column ≤96 wide · gap 28 (20 past 6, 8 under 480) · label clamps to 5 lines · turns into bars when a label can't fit its slot in 4 lines"
+      "value": "plot 260 (+100 with images) · column ≤96 wide · gap 28 (20 past 6, 8 under 480) · label clamps to 5 lines · turns into bars when a label can't fit its slot in 4 lines · min height --aha-viz-column-min-height 16"
     },
     {
       "label": "Pick Answer",
@@ -97,7 +98,7 @@
     },
     {
       "label": "Empty",
-      "value": "0 responses → every bar/column/stacked row keeps its track and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub half the column wide and --aha-viz-mark-min-length 24px tall (under an image it spans the column and joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-xs · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
+      "value": "0 responses → every bar/column/stacked row keeps its track and shows a series-coloured stub at its start: a bar stub --aha-viz-stub-length 12px long, a column stub the full column width and --aha-viz-column-min-height 16px tall (under an image it joins the image card, which rounds only the outer corners), all marks, stubs and image cards rounded with --aha-radius-default · donut / tree map keep the track · radar breathes its entrance effect until the first response · no waiting text"
     },
     {
       "label": "Overflow",
@@ -426,7 +427,7 @@
       "ariaLabel": "Q4 priorities",
       "fillBg": "rgb(106, 30, 187)",
       "trackHeight": "38px",
-      "trackRadius": "4px",
+      "trackRadius": "8px",
       "valueSize": "20px",
       "valueWeight": "600",
       "chartBg": "rgba(0, 0, 0, 0)",
