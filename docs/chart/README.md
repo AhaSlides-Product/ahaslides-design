@@ -1,6 +1,6 @@
 # `<aha-chart>` — the AhaSlides chart library
 
-One framework-free web component that draws eleven kinds of result chart: bar, column, stacked bar, donut and pie, radial, tree map, 2×2 quadrant, bell curve, radar, word cloud and mind map.
+One framework-free web component that draws eleven kinds of result chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud and mind map.
 
 - No build step, no framework, no dependencies. One `<script type="module">` and one HTML tag.
 - Works in plain HTML, React, Vue, Svelte, Angular or anything else that can render a custom element.
@@ -106,8 +106,8 @@ Pick the type from the shape of the data. Types that fold extras into "Other (n)
 | `donut` / pie | Part-to-whole of one question with few categories (up to 6; `variant: 'pie'` for no centre hole) | Poll, Split the points | Many slices or close values (bar) |
 | `radial` | A few shares or percentages shown compactly as rings (up to 6) | Split the points | Many items or exact comparison (bar) |
 | `treemap` | Part-to-whole across many categories of very different size (up to 6 tiles) | Poll, Split the points | Precise comparison of close values (bar) |
-| `quadrant` | Items scored on two axes, such as effort against impact (four zones, up to three colour groups) | 2×2 matrix | One-dimensional scores (bar) |
-| `bell` | Distribution of rating-scale answers per statement (up to 6) with an average | Rating scale | Categorical options (bar) |
+| `quadrant` | Items scored on two axes, such as effort against impact (four labelled quadrants, up to three colour groups) | — | One-dimensional scores (bar) |
+| `bell` | How answers are distributed on an ordered or numeric scale (spread, skew, split, not just the average), one curve per statement (up to 6) | Any question where you want the distribution of answers, e.g. Rating scale | Categorical options (bar) |
 | `radar` | Several criteria on the same scale (5, 10 or 100), comparing the profile of one or a few subjects | Rating scale | Criteria on unrelated scales (bar) |
 | `wordcloud` | Frequency of short free-text answers (up to 120 words, duplicates merged) | Word cloud | Exact counts (bar) |
 | `mindmap` | Grouped or hierarchical ideas (default 5 levels, 6 branches) | Brainstorm, Mind map | Quantities (bar, donut) |

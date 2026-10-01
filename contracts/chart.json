@@ -279,7 +279,7 @@
     "whenToUse": [
       {
         "what": "Chart (palette=deck)",
-        "when": "results on the presenting or audience canvas of a slide type — Poll, Pick Answer, Ranking, Rating scale, Split the points, 2×2 matrix, Word cloud, Brainstorm/Mind map"
+        "when": "results on the presenting or audience canvas of a slide type — Poll, Pick Answer, Ranking, Rating scale, Split the points, Quadrant, Word cloud, Brainstorm/Mind map"
       },
       {
         "what": "Chart (palette=brand)",
@@ -311,11 +311,11 @@
       },
       {
         "what": "Chart type: quadrant",
-        "when": "type=\"quadrant\" — items scored on two axes, such as effort against impact, shown as a 2×2 matrix with four zone labels (up to three colour groups). Serves the 2×2 matrix slide. Not for one-dimensional scores (use bar)."
+        "when": "type=\"quadrant\" — items scored on two axes, such as effort against impact, placed in four labelled quadrants (up to three colour groups). Not for one-dimensional scores (use bar)."
       },
       {
         "what": "Chart type: bell",
-        "when": "type=\"bell\" — distribution of rating-scale answers, one counts array per scale step, one curve per statement (up to 6) with an average. Serves Rating scale. Not for categorical options (use bar)."
+        "when": "type=\"bell\" — how answers are distributed on an ordered or numeric scale: one counts array per scale step, one curve per statement (up to 6) with an average, so the spread, skew or split shows, not just the mean. Use it whenever someone wants to see the distribution of answers, e.g. Rating scale results. Not for unordered categorical options (use bar)."
       },
       {
         "what": "Chart type: radar",
