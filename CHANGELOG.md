@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.72.0 — 2026-10-01
+## 0.71.0 — 2026-10-01
 ### Added
 - **Public README for the chart library** (`docs/chart/README.md`, linked from the root README). A standalone guide for outside developers: copy-paste quick start from a pinned jsDelivr tag (no registry, no build step), ES module import, all 11 chart types with their data shapes, attributes, `options` and `chartOptionDefaults`, palettes, locale and `strings`, events, accessibility, empty state and browser support. (#140)
 
