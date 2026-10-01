@@ -7,17 +7,17 @@ function AhaCsat({ prompt, source, onRate, onFeedback }) {
   useEffect(() => {
     const el = ref.current;
     const rate = (e) => onRate?.(e.detail);         // { rating: 'up' | 'down', source }
-    const feedback = (e) => onFeedback?.(e.detail);  // { rating: 'down', source, feedback }
+    const feedback = (e) => onFeedback?.(e.detail);  // { rating: 'up' | 'down' | null, source, feedback }
     el.addEventListener('rate', rate);
     el.addEventListener('feedback', feedback);
     return () => { el.removeEventListener('rate', rate); el.removeEventListener('feedback', feedback); };
   }, [onRate, onFeedback]);
-  return <aha-csat ref={ref} prompt={prompt} source={source} />;
+  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button />;
 }
 
 // usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover
 <AhaCsat
-  prompt="How's your experience?"
+  prompt="How did this import go?"
   source="editor_help"
   onRate={(d) => track('CSAT_RATED', d)}
   onFeedback={(d) => track('CSAT_FEEDBACK_SUBMITTED', d)}

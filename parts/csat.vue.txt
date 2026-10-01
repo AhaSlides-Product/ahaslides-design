@@ -8,12 +8,12 @@ function onRate(e) {
   track('CSAT_RATED', e.detail);   // { rating: 'up' | 'down', source }
 }
 function onFeedback(e) {
-  track('CSAT_FEEDBACK_SUBMITTED', e.detail);   // { rating: 'down', source, feedback }
+  track('CSAT_FEEDBACK_SUBMITTED', e.detail);   // { rating: 'up' | 'down' | null, source, feedback }
 }
 </script>
 
 <template>
   <!-- The borderless single row (the only layout). Thumbs-up rates instantly; thumbs-down opens the
        free-text feedback popover, which emits `feedback` on submit. -->
-  <aha-csat prompt="How's your experience?" source="editor_help" @rate="onRate" @feedback="onFeedback" />
+  <aha-csat prompt="How did this import go?" source="editor_help" feedback-button @rate="onRate" @feedback="onFeedback" />
 </template>
