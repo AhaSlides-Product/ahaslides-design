@@ -207,6 +207,7 @@
     "standards": "node standards.mjs",
     "qa": "node qa.mjs",
     "lint:screen": "node screen-lint.mjs",
+    "drift": "node version-drift.mjs",
     "evals:anti-slop": "node anti-slop/evals-harness.mjs",
     "build": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
     "check": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node screen-lint.mjs --self-test && node qa.mjs"
