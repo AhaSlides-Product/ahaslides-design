@@ -256,7 +256,7 @@
     },
     {
       "id": "plan-gated",
-      "rule": "A plan-gated setting stays visible but locked (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by aha-design-paywall), not a bespoke one.",
+      "rule": "A plan-gated setting stays visible but locked (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by the `paywall` guide), not a bespoke one.",
       "ref": [
         "SETTINGS-08"
       ]

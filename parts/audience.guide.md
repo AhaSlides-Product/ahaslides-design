@@ -1,10 +1,10 @@
 # Audience iframe — composition guide
 
-> Distilled from `aha-design-audience`. The skill holds the full rationale, worked
+> Distilled from the retired `aha-design-audience` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, the `AHAM-xxx` bug references, and the `C1..C22` judge criteria plus
 > the pre-ship checklist; this guide is the shippable construction checklist. When the two
-> ever disagree, the skill wins and this file is regenerated. Evals (the binary PASS/FAIL
-> verdict) stay in the skill and its sister judge `aha-design-audience-judge`.
+> ever disagree, this guide wins. Evals (the binary PASS/FAIL
+> verdict) stay in the skill and the DS anti-slop judge (`audience` surface).
 
 The audience iframe is what a participant sees in their own browser after joining via
 `app.ahaslides.com/join/<code>` — the phone-side counterpart to the presenter canvas. It
@@ -328,6 +328,6 @@ Owned by the host; don't render them and don't assume they're broken if you can'
 ---
 
 *Full detail, screenshots, worked BAD/GOOD examples and the `AHAM-xxx` bug context live in the
-`aha-design-audience` skill. Self-check any built audience surface with
-`aha-design-audience-judge` — it emits a binary PASS/FAIL across the same contracts (C1..C22)
+the DS `audience` guide. Self-check any built audience surface with
+the DS anti-slop judge (`audience` surface) — it emits a binary PASS/FAIL across the same contracts (C1..C22)
 with a `Where / Evidence / Fix` block per failure — and fix every FAIL before shipping.*

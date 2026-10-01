@@ -1,9 +1,9 @@
 # UX writing — composition guide
 
-> Distilled from `aha-design-ux-writing`. The skill holds the full rationale, the worked
+> Distilled from the retired `aha-design-ux-writing` plugin skill, which the DS now owns. This guide holds the full rationale, the worked
 > before/after library (`references/patterns.md`), and all `UXW-x` assertions; this guide is
 > the shippable checklist. The DS now OWNS this build ruleset — the judge and evals stay in the
-> skill. When the two ever disagree, the skill wins and this file is regenerated.
+> skill. When the two ever disagree, this guide wins.
 
 UX writing is the most cross-cutting surface in the product: the same words and casing appear on a
 button, a menu item, a tooltip, an empty state, and an error message, across the editor, dashboard,
@@ -41,7 +41,7 @@ helper text, dialog titles, empty states, and message copy.
 
 **The one exception — a typography role, not a violation.** The styled **all-caps** eyebrow /
 overline / chip label (the `capitalized` role) is intentionally uppercased and is owned by
-`aha-design-typography`. It is a deliberate style, not a casing mistake — don't "fix" it to sentence
+the `typography` guide. It is a deliberate style, not a casing mistake — don't "fix" it to sentence
 case, and don't cite it to justify Title Case elsewhere.
 
 ## Errors, empty states & feedback microcopy
@@ -99,7 +99,7 @@ support). The recovery lives **in the message**, not only in a toast that vanish
 ### Put the message where it survives — right home & shape · UXW-7
 
 - **(a) Survives.** Recovery-required copy must not live only in an auto-dismissing toast; it
-  belongs in an inline Alert or on the page. (Surface mechanics owned by `aha-design-feedback`; this
+  belongs in an inline Alert or on the page. (Surface mechanics owned by the `feedback` guide; this
   is about not stranding the *words*.)
 - **(b) Shape (only when there's a title + body).** Title carries the outcome; body the next step —
   not inverted. A shapeless single-string message is fine here — its vagueness is a UXW-2 problem,
@@ -163,7 +163,7 @@ are, apply the universal principles above; each lands here with its own rule + r
 
 ---
 
-*Full detail, the before/after library, and the stubbed areas live in the `aha-design-ux-writing`
-skill. Self-check any copy with `aha-design-ux-writing-judge` and fix every FAIL before shipping.
-Stay in your lane: the surface LOOK is `aha-design-feedback` / `aha-design-shared-components`, the
-type SCALE is `aha-design-typography`, and the brand VOICE is `aha-branding:aha-branding-tone-voice`.*
+*Full detail, the before/after library, and the stubbed areas live in the `ux-writing` guide.
+ Self-check any copy with the DS anti-slop judge (`ux-writing` surface) and fix every FAIL before shipping.
+Stay in your lane: the surface LOOK is the `feedback` guide / the `shared-components` guide, the
+type SCALE is the `typography` guide, and the brand VOICE is `aha-branding:aha-branding-tone-voice`.*

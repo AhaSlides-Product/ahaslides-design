@@ -5,11 +5,11 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to build a modal, drawer, or popover — surface choice, safety-critical dismiss behaviour, state reset, drawer placement/width, the async-confirm pattern, inline error surfacing, and danger-styled confirms — built from existing components.",
-  "lead": "Overlays are where a stray backdrop click can destroy data, so they need shared safety rules or every confirm/delete/detail surface drifts. This pattern ships NO new component: it documents how to compose an AntD Modal/Drawer/Popover with the shared Button, the AhaAlert banner, and useIsMobile() so dismiss behaviour, state reset, and error handling stay consistent and safe. The narrative 'why', worked examples, and full assertion set live in the aha-design-overlays skill; this artifact carries only what the repo can enforce, traced back by ref.",
+  "lead": "Overlays are where a stray backdrop click can destroy data, so they need shared safety rules or every confirm/delete/detail surface drifts. This pattern ships NO new component: it documents how to compose an AntD Modal/Drawer/Popover with the shared Button, the AhaAlert banner, and useIsMobile() so dismiss behaviour, state reset, and error handling stay consistent and safe. The narrative 'why', worked examples, and full assertion set live in the DS `overlays` guide; this artifact carries only what the repo can enforce, traced back by ref.",
   "skillRef": {
-    "build": "aha-design:aha-design-overlays",
-    "judge": "aha-design:aha-design-overlays-judge",
-    "note": "The skill is the source of truth for rationale, the DeleteSurveyConfirmModal/RespondentReportDrawer references, and the full OVERLAY-01..08 assertions. This pattern distils the enforceable subset and links each rule back by ref; the judge closes the build→judge→fix loop."
+    "build": "DS guideline — guidelines/overlays.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: overlays)",
+    "note": "This guide is the source of truth for rationale, the DeleteSurveyConfirmModal/RespondentReportDrawer references, and the full OVERLAY-01..08 assertions. This pattern distils the enforceable subset and links each rule back by ref; the judge closes the build→judge→fix loop."
   },
   "surfaces": [
     "editor",
@@ -73,11 +73,11 @@
     {
       "ref": "alert",
       "as": "component",
-      "use": "the inline in-overlay error banner (AhaAlert / DS V3 Alert, owned by aha-design-feedback) — never a bare AntD Alert",
+      "use": "the inline in-overlay error banner (AhaAlert / DS V3 Alert, owned by the `feedback` guide) — never a bare AntD Alert",
       "status": "missing"
     }
   ],
-  "componentBacklog": "composedOf marks 4 components this pattern needs that the DS does not yet ship (modal, drawer, popover, alert). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap (the Alert overlaps aha-design-feedback's banner).",
+  "componentBacklog": "composedOf marks 4 components this pattern needs that the DS does not yet ship (modal, drawer, popover, alert). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap (the Alert overlaps the `feedback` guide's banner).",
   "rules": [
     {
       "id": "surface-choice",
@@ -144,14 +144,14 @@
     },
     {
       "id": "errors-inline",
-      "rule": "Surface failures inside the overlay with an inline DS V3 Alert (AhaAlert type=\"error\", styling owned by aha-design-feedback) — never a bare AntD Alert, never a nested modal stacked on top, never a downgrade to a transient toast. The overlay stays open on failure so the user can retry without re-opening.",
+      "rule": "Surface failures inside the overlay with an inline DS V3 Alert (AhaAlert type=\"error\", styling owned by the `feedback` guide) — never a bare AntD Alert, never a nested modal stacked on top, never a downgrade to a transient toast. The overlay stays open on failure so the user can retry without re-opening.",
       "ref": [
         "OVERLAY-08"
       ]
     }
   ],
   "reuse": null,
-  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical overlay references live in the product (DeleteSurveyConfirmModal.tsx for the destructive modal, RespondentReportDrawer.tsx for the detail drawer); the AhaAlert banner is owned by aha-design-feedback and useIsMobile() by aha-design-shared-components. If a shared overlay wrapper graduates into this DS, add a reuse block and it is gated like a composite.",
+  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical overlay references live in the product (DeleteSurveyConfirmModal.tsx for the destructive modal, RespondentReportDrawer.tsx for the detail drawer); the AhaAlert banner is owned by the `feedback` guide and useIsMobile() by the `shared-components` guide. If a shared overlay wrapper graduates into this DS, add a reuse block and it is gated like a composite.",
   "selfCheck": [
     {
       "label": "surface fits the job (modal blocking / drawer panel / popover snippet)",

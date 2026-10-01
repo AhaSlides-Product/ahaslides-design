@@ -5,11 +5,11 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How a slide type LOOKS on the canvas — the 16:9 stage, theme/colour/fonts from xprops, semantic state colours, WCAG readability from across the room, framed-vs-full-canvas, the presenter control bar, in-canvas keyboard affordances, and i18n — built from existing components.",
-  "lead": "The canvas is the visual surface a slide type renders into — one iframe shared by the editor preview and the live presenting/casting screen. It drifts fastest because each slide is its own cross-origin bundle that can't see the host theme. This pattern ships NO new component: it documents the CONVENTIONS that make every slide read on light, dark, and image themes, stay legible from the back of a hall, and reuse the host control bar and the component library rather than hand-rolling. The narrative 'why', the worked BAD/GOOD examples, and the full §1–§9 rationale live in the aha-design-canvas skill; this artifact carries only what the repo can enforce.",
+  "lead": "The canvas is the visual surface a slide type renders into — one iframe shared by the editor preview and the live presenting/casting screen. It drifts fastest because each slide is its own cross-origin bundle that can't see the host theme. This pattern ships NO new component: it documents the CONVENTIONS that make every slide read on light, dark, and image themes, stay legible from the back of a hall, and reuse the host control bar and the component library rather than hand-rolling. The narrative 'why', the worked BAD/GOOD examples, and the full §1–§9 rationale live in the DS `canvas` guide; this artifact carries only what the repo can enforce.",
   "skillRef": {
-    "build": "aha-design:aha-design-canvas",
-    "judge": "aha-design:aha-design-canvas-judge",
-    "note": "The skill is the source of truth for rationale, worked BAD/GOOD examples, the §1–§9 sections, the pre-ship checklist (§8), and the canonical good-fill-in-the-blanks fixture. This pattern distils the enforceable subset; each rule links back by ref to the judge criteria (C1..C16) and/or the skill section it comes from. The judge (aha-design-canvas-judge) emits a binary PASS/FAIL across the same contracts."
+    "build": "DS guideline — guidelines/canvas.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: canvas)",
+    "note": "This guide is the source of truth for rationale, worked BAD/GOOD examples, the §1–§9 sections, the pre-ship checklist (§8), and the canonical good-fill-in-the-blanks fixture. This pattern distils the enforceable subset; each rule links back by ref to the judge criteria (C1..C16) and/or the skill section it comes from. The judge the DS anti-slop judge (`canvas` surface) emits a binary PASS/FAIL across the same contracts."
   },
   "surfaces": [
     "editor",
@@ -362,7 +362,7 @@
       ]
     },
     {
-      "rule": "Hand the right-panel settings form off to aha-design-settings — the canvas pattern covers only the visual surface, not the settings form.",
+      "rule": "Hand the right-panel settings form off to the `settings` guide — the canvas pattern covers only the visual surface, not the settings form.",
       "ref": [
         "§4",
         "§8"
@@ -370,7 +370,7 @@
     }
   ],
   "reuse": null,
-  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. A slide type's canvas is a cross-origin iframe app (AhaSlides renders each slide plugin in its own iframe, reading host state via Zoid xprops on window.xprops), so the real composition lives in the slide-type-creator / slide plugin codebase, not here. The canonical correct pattern is the shared fixture aha-design-canvas-judge/evals/fixtures/good-fill-in-the-blanks/ (the judge's good-control) — diff a new canvas against it. If a shared canvas helper (useDeckFont, a focus-trap, a kbd-chip) graduates into this DS, add a reuse block and it is gated like a composite.",
+  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. A slide type's canvas is a cross-origin iframe app (AhaSlides renders each slide plugin in its own iframe, reading host state via Zoid xprops on window.xprops), so the real composition lives in the slide-type-creator / slide plugin codebase, not here. The canonical correct pattern is the shared fixture anti-slop/evals/canvas/fixtures/good-fill-in-the-blanks/ (the judge's good-control) — diff a new canvas against it. If a shared canvas helper (useDeckFont, a focus-trap, a kbd-chip) graduates into this DS, add a reuse block and it is gated like a composite.",
   "selfCheck": [
     {
       "label": "looks right on light, dark, and image-background themes; WCAG AA floor against the real composited background",
@@ -393,7 +393,7 @@
       "verdict": "N/A — per-slide"
     },
     {
-      "label": "plugin i18n locale initialised from xprops.presentation.language; right panel handed off to aha-design-settings",
+      "label": "plugin i18n locale initialised from xprops.presentation.language; right panel handed off to the `settings` guide",
       "verdict": "N/A — per-slide"
     }
   ],

@@ -1,6 +1,6 @@
 # Shared components — composition guide
 
-> Seeded from the `aha-design-shared-components` plugin skill (aha-design v1.80.0). Every primitive
+> Seeded from the DS `shared-components` guide (aha-design v1.80.0). Every primitive
 > that skill registered now ships **here** as a DS export, so this page is the registry: for each
 > need, the component to reuse and the contract it already keeps. The binary judge criteria live in
 > `anti-slop/criteria.json` → `surfaces.shared-components` (C1–C4).

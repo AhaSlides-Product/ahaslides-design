@@ -7,8 +7,8 @@
  "summary": "The registry of house a11y and responsive primitives an agent must reach for instead of rolling its own — field errors, live-region announcements, the accessible progress bar, the useIsMobile() shape switch, the full-page error, empty states and loading skeletons.",
  "lead": "A fresh-but-correct reimplementation of an error node, a live region or a progress bar still fragments the system: it drops the ARIA wiring, the canonical breakpoint and the house copy the primitive already encodes. This pattern is the lookup table — for each need, the DS primitive to reuse and the contract it keeps — and binds each rule to a binary criterion (anti-slop/criteria.json → surfaces.shared-components) a consumer self-judges.",
  "skillRef": {
-  "build": "aha-design:aha-design-shared-components",
-  "judge": "aha-design:aha-design-shared-components-judge",
+  "build": "DS guideline — guidelines/shared-components.json",
+  "judge": "DS anti-slop feed — anti-slop.md (surface: shared-components)",
   "note": "Seeded from the aha-design plugin v1.80.0 (aha-design-shared-components + its -judge). The DS now SHIPS every primitive that skill registered — <aha-field-error>, <aha-live-region>, <aha-progressbar>, useIsMobile() / <aha-viewport-switch>, <aha-error-page> — so the registry resolves to real DS exports instead of plugin-only React components. The judge criteria C1..C4 live in anti-slop/criteria.json."
  },
  "surfaces": [
@@ -116,7 +116,7 @@
    "status": "available"
   }
  ],
- "componentBacklog": "None — every primitive the aha-design-shared-components registry names now ships here.",
+ "componentBacklog": "None — every primitive the `shared-components` guide registry names now ships here.",
  "rules": [
   {
    "id": "reach-for-the-primitive",

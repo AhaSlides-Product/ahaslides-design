@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.70.0 — 2026-10-01
+### Added
+- **`--aha-tooltip-max-width` (280px) — new layout token** (`layout.tooltipMaxWidth`). The tooltip bubble now wraps at 280px instead of 200px, closer to the Presenter app's 336px; the tooltip conformance check asserts the rendered cap. (#138)
+- **Standards gate: new tokens need owner sign-off.** Any leaf token added to `tokens.canonical.json` fails the gate until its path is listed in `tokens.acknowledged.json`, so agent-proposed tokens get a visible one-line review. (#138)
+- **Standards gate: raw spacing px.** A component whose source gains a `padding`/`margin`/`gap` literal above 1px fails the gate; existing cases are grandfathered per file in `standards.baseline.json` (ratchet down with `node standards.mjs --update-baseline`; justify one line with `ds-lint-allow: spacing`). (#138)
+- **`version-drift.mjs` (`npm run drift`).** Lists the repos consuming `@ahaslides-product/design`, the version each pins and the latest published, with a `--line` mode for one report line. (#138)
+### Changed
+- Guideline pages no longer point at the retired `aha-design-*` plugin skills (the plugin now ships one `aha-design` skill); they reference the DS guide and anti-slop feed, and the gate rejects the old references. (#138)
+
 ## 0.69.1 — 2026-09-30
 ### Added
 - **Anti-slop `charts` surface.** The judge now fails a result/data chart that is not `<aha-chart>` (C1: hand-rolled SVG/canvas or a third-party chart library; `@ant-design/plots` stays allowed for a chart type `<aha-chart>` does not ship) and a chart on the wrong palette (C2: `brand` on app screens, `deck` on the canvas), with a DS-authored eval set. `screen-lint.mjs` also hard-fails an import of Chart.js, Recharts, ECharts, D3, Highcharts, ApexCharts, Victory or Nivo (opt out per line with `ds-lint-allow: chart`). (#137)

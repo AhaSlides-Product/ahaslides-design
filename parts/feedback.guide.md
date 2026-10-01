@@ -1,9 +1,9 @@
 # Feedback — composition guide
 
 > The design system now OWNS this build ruleset — it is the single source of truth for how
-> AhaSlides feedback surfaces are constructed, and the `aha-design-feedback` plugin skill is
+> AhaSlides feedback surfaces are constructed, and the DS `feedback` guide is
 > generated FROM this artifact. The judge criteria and evals stay in the skill
-> (`aha-design-feedback-judge`); when the two ever disagree on construction, this file wins.
+> (the DS anti-slop judge, `feedback` surface); when the two ever disagree on construction, this file wins.
 
 "Feedback" means any non-blocking signal that an action happened or how it turned out: transient
 confirmations (toasts), inline banners (the DS V3 Alert), in-context result feedback
@@ -79,7 +79,7 @@ For result feedback shown in place after an answer:
 | --- | --- |
 | Error the user must act on | Inline **Alert** banner in context (or an overlay Alert) |
 | Field validation error | `FieldErrorDisplay` / a11y `FieldError` (shared-components) |
-| Destructive confirmation | A modal (`aha-design-overlays`) |
+| Destructive confirmation | A modal (the `overlays` guide) |
 | Full-page failure (not found, expired) | `ErrorPage` (shared-components) |
 
 A toast that auto-dismisses must never be the only place a required message lives.
@@ -87,5 +87,5 @@ A toast that auto-dismisses must never be the only place a required message live
 ---
 
 *Full detail, the complete `references/alert.md` spec (tokens, size metrics, Figma node IDs), and
-all `FEEDBACK-xx` assertions live in the `aha-design-feedback` skill. Self-check any built surface
-with `aha-design-feedback-judge` and fix every FAIL before shipping.*
+all `FEEDBACK-xx` assertions live in the DS `feedback` guide. Self-check any built surface
+with the DS anti-slop judge (`feedback` surface) and fix every FAIL before shipping.*
