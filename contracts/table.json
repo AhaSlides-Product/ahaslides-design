@@ -14,7 +14,7 @@
     { "label": "Radius", "value": "8" },
     { "label": "Cell padding", "value": "16 (literal)" },
     { "label": "Row hover", "value": "gray-30 #F1F1F1" },
-    { "label": "Expandable rows (React)", "value": "detail panel (a nested sub-table or free content under the row) or tree rows (children share the parent's columns) — via useExpandableRows from table-expandable; the open parent keeps the plain surface (bold text, primary chevron) and its panel / children take the gray-20 surface, so the expanded content is obvious; every state is on the Data table page" },
+    { "label": "Expandable rows (React)", "value": "detail panel (a nested sub-table or free content under the row) or tree rows (children share the parent's columns) — via useExpandableRows from table-expandable; the open parent keeps the plain surface (bold text, primary chevron) and its panel / children take the gray-20 surface, so the expanded content is obvious; panel sub-tables are styled by the panel (white card, one compact density) and grouped with DetailSection; every state is on the Data table page" },
     { "label": "Expand chevron", "value": "leading 24px button inline in the first column, system-caret-right rotating 0→90° on --aha-motion-mid; aligned spacer on rows that cannot expand; aria-expanded + aria-controls; Enter/Space; whole-row click toggles too (never twice); optional header toggle expands / collapses all" },
     { "label": "Customisations (DS V3)", "value": "sorting (single arrow) · filtering (checklist/range) · reorder · resize · rows-per-page · freeze · add/remove columns" }
   ],
@@ -25,7 +25,7 @@
     { "name": "pagination", "type": "object | false", "default": "—", "desc": "brand-outlined page + N/page size changer" },
     { "name": "reorderable", "type": "boolean", "default": "false", "desc": "drag headers to reorder" },
     { "name": "freezable", "type": "boolean", "default": "false", "desc": "right-click header to freeze one column" },
-    { "name": "useExpandableRows(options)", "type": "hook", "default": "—", "desc": "from createExpandableRows({ React }) in table-expandable: returns { tableProps, decorateColumns } to spread on the Table. Options: renderDetail (detail panel; omit for tree rows), rowExpandable, expandAllToggle, expandedRowKeys / defaultExpandedRowKeys / onExpandedRowsChange (keyed by row key, so sort / filter / pagination keep it), onExpand (lazy fetch), loadingKeys (spinner slot), getRowLabel, labels" }
+    { "name": "useExpandableRows(options)", "type": "hook", "default": "—", "desc": "from createExpandableRows({ React }) in table-expandable: returns { tableProps, decorateColumns } to spread on the Table; createExpandableRows also returns DetailSection({ title, children }), the titled block to return from renderDetail. Options: renderDetail (detail panel; omit for tree rows), rowExpandable, expandAllToggle, expandedRowKeys / defaultExpandedRowKeys / onExpandedRowsChange (keyed by row key, so sort / filter / pagination keep it), onExpand (lazy fetch), loadingKeys (spinner slot), getRowLabel, labels" }
   ],
   "opinion": {
     "whenToUse": [

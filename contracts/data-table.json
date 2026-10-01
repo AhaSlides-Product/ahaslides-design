@@ -63,7 +63,7 @@
     },
     {
       "label": "Expandable rows",
-      "value": "one visual language for detail panel, tree rows, DataTable and plain Table: the chevron sits inline in the first column (24px + 8 gap, spacer on rows that cannot expand, so text always aligns); open parent row: keeps the plain surface, 600 weight and a primary chevron (no purple fill, no accent bar); its panel / child rows carry the gray-20 #F7F7F7 surface, which is what groups the expanded content (text on it 14:1+); detail panel = 16 padding with the nested sub-table as a white card (1px border-strong, radius 8); tree children indent 24"
+      "value": "one visual language for detail panel, tree rows, DataTable and plain Table: the chevron sits inline in the first column (24px + 8 gap, spacer on rows that cannot expand, so text always aligns); open parent row: keeps the plain surface, 600 weight and a primary chevron (no purple fill, no accent bar); its panel / child rows carry the gray-20 #F7F7F7 surface, which is what groups the expanded content (text on it 14:1+); detail panel = 16 padding (48 on the left, so panel content starts on the parent's text column), its blocks stacked 16 apart; every antd Table inside it is a white card (1px border-strong, radius 8) at one compact density (8 / 16 cells) whatever size it is given; a table with no expandable row gets no chevron column at all; tree children indent 24"
     },
     {
       "label": "Expand chevron",
@@ -76,6 +76,14 @@
     {
       "label": "Expanded state",
       "value": "keyed by row key — survives sort, filter and pagination; several rows open at once; controlled (expandedRowKeys) or uncontrolled (defaultExpandedRowKeys)"
+    },
+    {
+      "label": "Detail sections",
+      "value": "DataTable.DetailSection (or DetailSection from createExpandableRows) = one titled block of a panel: 14px SemiBold title, 8 above its content; return one or several from renderDetail — e.g. a Questions sub-table above a Pages sub-table — and give the sub-tables no margin, padding or size of their own"
+    },
+    {
+      "label": "Cell alignment",
+      "value": "the chevron cell never inflates the row: the 24px chevron sits in a 22px line, so its text shares a baseline with every other cell (header and body) and decorated rows are as tall as plain ones; an ellipsis first column still ellipsises after the chevron"
     },
     {
       "label": "Loading slot",
@@ -159,7 +167,7 @@
       "name": "expandableRows",
       "type": "{ renderDetail?, rowExpandable?, expandAllToggle?, expandedRowKeys?, defaultExpandedRowKeys?, onExpandedRowsChange?, onExpand?, loadingKeys?, getRowLabel?, expandRowByClick?, childrenColumnName?, indentSize? }",
       "default": "—",
-      "desc": "turns on expandable rows. With renderDetail(record) each row opens a detail panel (free content or a nested sub-table); without it, rows carrying children open into tree rows. Do not pass antd's own expandable — it is replaced"
+      "desc": "turns on expandable rows. With renderDetail(record) each row opens a detail panel — return free content or one or several DataTable.DetailSection blocks, each holding a sub-table (DataTable or plain Table, no margin / size needed); without it, rows carrying children open into tree rows. Do not pass antd's own expandable — it is replaced"
     },
     {
       "name": "labels",
