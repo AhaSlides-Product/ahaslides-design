@@ -22,12 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.72.1 — 2026-10-01
+## 0.73.1 — 2026-10-01
 ### Changed
 - **Charts is now its own top-level tab** next to Settings and Audience Library, built the same way (one page, shell sidebar replaced by the shared "On this page" anchor). It holds the chart examples, playground, "Choosing a chart" guide, API, install and spec, and moves out of the Components list and overview. The old `chart/index.html` URL redirects to `charts/index.html`; `chart.agent.json`, `chart.md`, `chart.llms.txt` and the llms.txt entry are unchanged. Docs search finds the page under Charts. (#142)
 - **`<aha-chart>` now says which chart type to use.** `contracts/chart.json` `opinion.whenToUse` gains one row per type (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell, radar, wordcloud, mindmap): the data shape it fits, the slide type it serves, its real limits (six-category fold into "Other (n)", column to bar fallback, 120 words, six bell statements) and what to use instead. The chart docs page gains a matching "Choosing a chart" table, and the generated feeds carry both. (#142)
 - **Bell curve and Quadrant wording.** The bell use case now covers any distribution of answers on an ordered scale, not only Rating scale; the 2×2 matrix is called Quadrant across the docs page, the README and the contract, and the chart's accessible names read "Answer distribution" / "Phân bố câu trả lời" and "Biểu đồ góc phần tư". (#142)
 - **Charts page: no Type row in the playground.** The Numbers and Highlight controls stay; each chart type is reached from its own section and the "On this page" nav. (#142)
+
+## 0.73.0 — 2026-10-01
+### Changed
+- **CSAT matches the import-completion design (PRO38-77).** `<aha-csat>`: the prompt is 12px in #616161; the thumbs are 28×24 borderless buttons with 16px #4A4A4A icons (ghost fill and primary icon on hover) instead of bare 16px #8A8A8A icons, with Good / Not good tooltips; the feedback popover gains a small round X (closes only, keeps the rating), its Send button is secondary, reads "Send" and stays disabled until text is typed, the field clears after sending, and the "What could be better?" heading is gone unless `feedback-prompt` is set (**breaking** for anyone relying on the default heading). (#143)
+### Added
+- `<aha-csat feedback-button>` shows a Feedback chat icon beside the thumbs (tooltip Feedback) that opens the same popover with the `feedback-button-placeholder` (default "Share your thoughts") without rating. New `like-label`, `dislike-label` and `feedback-label` attributes localise the tooltips. (#143)
+- The `feedback` event now carries the current rating (`'up'`, `'down'` or `null` when unrated) instead of always `'down'`, since the Feedback button can send without a thumbs-down. Esc and the X return focus to the control that opened the popover. (#143)
 
 ## 0.72.0 — 2026-10-01
 ### Added
