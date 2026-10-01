@@ -7,9 +7,9 @@
   "summary": "Surface backgrounds are white by default. A non-white background is allowed only for a sanctioned reason — a semantic feedback tint, the app-shell layout grey, an interactive state fill, or colour the human explicitly asked for — and always from an --aha-bg-* token. No gradients on any background or fill, except the AI affordance's border.",
   "lead": "White-first is the house default for every product-UI surface: cards, panels, page and section wrappers, modal and drawer bodies, table and list rows, tab panels. 'White by default' is not 'never any colour' — a handful of non-white backgrounds are functional and correct, and this pattern names them and the token each one binds to. What it rules out is decorative or brand colour on a surface with no functional reason to be non-white, any gradient fill, and raw colour literals. This pattern ships NO new component; the slide-type canvas / presenting stage is out of scope (it is theme-coloured by design — see the canvas guideline).",
   "skillRef": {
-    "build": "aha-design:aha-design-antd",
-    "judge": "aha-design:aha-design-background-judge",
-    "note": "The rule was born as the 'Backgrounds are white by default' section of aha-design-antd; its binary judge is aha-design-background-judge. The DS owns the enforceable criteria in anti-slop/criteria.json (surfaces.background, C1..C3). The plugin's colour names (--aha-colorSuccessBg, colorBgLayout, …) map to the live DS --aha-bg-* tokens used here."
+    "build": "DS guideline — guidelines/background.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: background)",
+    "note": "The rule was born as the 'Backgrounds are white by default' section of the `background` guide; its binary judge is the DS anti-slop judge (`background` surface). The DS owns the enforceable criteria in anti-slop/criteria.json (surfaces.background, C1..C3). The plugin's colour names (--aha-colorSuccessBg, colorBgLayout, …) map to the live DS --aha-bg-* tokens used here."
   },
   "surfaces": ["dashboard", "editor", "settings", "presenter", "audience"],
   "surfaceChoice": [

@@ -1,9 +1,9 @@
 # Status badges — composition guide
 
 > The design system now OWNS this build ruleset — it is the single source of truth,
-> and the `aha-design-status-badges` plugin skill is generated FROM this pattern. The
+> and the DS `status-badges` guide is generated FROM this pattern. The
 > skill keeps the rationale, worked BAD/GOOD examples, and the judge verdicts / evals
-> (`aha-design-status-badges-judge`); this guide is the shippable checklist. When the
+> (the DS anti-slop judge, `status-badges` surface); this guide is the shippable checklist. When the
 > two ever disagree, this pattern wins and the skill is regenerated.
 
 A status pill communicates the **lifecycle state of a domain object** — a survey,
@@ -13,9 +13,9 @@ canonical form is the `StatusBadge` component and the `aha-status-pill` class fa
 the **markup, class, i18n and accessibility conventions** that keep every state
 indicator reading as one product.
 
-**Companion skills.** Use `aha-design-icons` for any glyph rendered beside a status,
+**Companion guides.** Use the `icons` guide for any glyph rendered beside a status,
 the `aha-branding:*` colour skill for the semantic colour each state maps to, and
-`aha-design-paywall` for the crown badge (that is upsell, not status).
+the `paywall` guide for the crown badge (that is upsell, not status).
 
 ## When to use a status pill
 
@@ -87,6 +87,6 @@ A status pill is a single inline element containing exactly two parts, in order:
 
 ---
 
-*Full rationale, screenshots, and worked examples live in the `aha-design-status-badges`
-skill. Self-check any built pill with `aha-design-status-badges-judge` and fix every FAIL
+*Full rationale, screenshots, and worked examples live in the DS `status-badges` guide.
+Self-check any built pill with the DS anti-slop judge (`status-badges` surface) and fix every FAIL
 before shipping.*

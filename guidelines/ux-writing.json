@@ -5,11 +5,11 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "The WORDS in every product surface — sentence-case casing, one canonical label, and specific / actionable / blameless error-empty-feedback microcopy — applied to the labels and copy the existing components render.",
-  "lead": "UX writing is cross-cutting: every button label, slide-type name, heading, tooltip, empty state, and error message across the editor, dashboard, settings, and audience UIs is governed by the same casing and microcopy rules. This pattern ships NO new component — it documents WHAT the copy says and HOW it's cased, leaning on the existing Button label, Icon, and the --aha-color* feedback tokens. The narrative 'why', the worked before/after library, and the brand voice live in the aha-design-ux-writing skill and aha-branding; this artifact carries only the enforceable wording rules and links each back by ref.",
+  "lead": "UX writing is cross-cutting: every button label, slide-type name, heading, tooltip, empty state, and error message across the editor, dashboard, settings, and audience UIs is governed by the same casing and microcopy rules. This pattern ships NO new component — it documents WHAT the copy says and HOW it's cased, leaning on the existing Button label, Icon, and the --aha-color* feedback tokens. The narrative 'why', the worked before/after library, and the brand voice live in the DS `ux-writing` guide and aha-branding; this artifact carries only the enforceable wording rules and links each back by ref.",
   "skillRef": {
-    "build": "aha-design:aha-design-ux-writing",
-    "judge": "aha-design:aha-design-ux-writing-judge",
-    "note": "The skill is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-9 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, onboarding, and confirmation copy are stubbed there and land here as they're written."
+    "build": "DS guideline — guidelines/ux-writing.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: ux-writing)",
+    "note": "This guide is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-9 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, onboarding, and confirmation copy are stubbed there and land here as they're written."
   },
   "surfaces": [
     "editor",
@@ -107,7 +107,7 @@
     },
     {
       "id": "caps-label-exception",
-      "rule": "The styled all-caps eyebrow / overline / chip label (the 'capitalized' typography role, owned by aha-design-typography) is intentionally uppercased — it is a deliberate style, not a casing mistake. Don't 'fix' it to sentence case, and don't cite it to justify Title Case elsewhere.",
+      "rule": "The styled all-caps eyebrow / overline / chip label (the 'capitalized' typography role, owned by the `typography` guide) is intentionally uppercased — it is a deliberate style, not a casing mistake. Don't 'fix' it to sentence case, and don't cite it to justify Title Case elsewhere.",
       "ref": [
         "UXW-1"
       ]
@@ -179,7 +179,7 @@
     }
   ],
   "reuse": null,
-  "reuseNote": "Doc-only pattern — ships no composition wrapper or primitive from this repo. It governs the WORDS inside components that already exist or are backlogged; it owns no code surface of its own. The feedback/empty/error COMPONENTS that host this copy (Alert, toast, ErrorPage, Empty) are owned by aha-design-feedback and aha-design-shared-components; the type SCALE and the all-caps label role by aha-design-typography; the brand VOICE by aha-branding. If a copy-linting helper ever graduates into this DS, add a reuse block and it is gated like a composite.",
+  "reuseNote": "Doc-only pattern — ships no composition wrapper or primitive from this repo. It governs the WORDS inside components that already exist or are backlogged; it owns no code surface of its own. The feedback/empty/error COMPONENTS that host this copy (Alert, toast, ErrorPage, Empty) are owned by the `feedback` guide and the `shared-components` guide; the type SCALE and the all-caps label role by the `typography` guide; the brand VOICE by aha-branding. If a copy-linting helper ever graduates into this DS, add a reuse block and it is gated like a composite.",
   "selfCheck": [
     {
       "label": "sentence case everywhere; one canonical form per label",

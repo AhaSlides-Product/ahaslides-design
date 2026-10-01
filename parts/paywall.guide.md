@@ -1,9 +1,9 @@
 # Paywall — composition guide
 
 > This is the authoritative build ruleset for plan-gated / upsell UI, now OWNED by the
-> design system as the single source of truth — the `aha-design-paywall` plugin skill is
+> design system as the single source of truth — the DS `paywall` guide is
 > generated FROM this file. The skill still holds the narrative rationale, the worked
-> BAD/GOOD examples, and the PASS/FAIL judge evals (`aha-design-paywall-judge`); when the
+> BAD/GOOD examples, and the PASS/FAIL judge evals (the DS anti-slop judge, `paywall` surface); when the
 > two ever disagree, this artifact wins and the skill is regenerated.
 
 Every pro-gated affordance routes through ONE shared `Paywall` popover
@@ -99,6 +99,6 @@ When a feature has no natural clickable anchor (e.g. a field label), use
 
 ---
 
-*Full detail, worked examples and the rationale live in the `aha-design-paywall` skill;
-popover/placement mechanics are owned by `aha-design-overlays`. Self-check any built surface
-with `aha-design-paywall-judge` and fix every FAIL before shipping.*
+*Full detail, worked examples and the rationale live in the DS `paywall` guide;
+popover/placement mechanics are owned by the `overlays` guide. Self-check any built surface
+with the DS anti-slop judge (`paywall` surface) and fix every FAIL before shipping.*

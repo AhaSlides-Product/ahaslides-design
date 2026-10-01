@@ -1,10 +1,10 @@
 # Canvas — composition guide
 
-> Distilled from `aha-design-canvas`. The skill holds the full rationale, worked
+> Distilled from the retired `aha-design-canvas` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, the §1–§9 sections, and the canonical `good-fill-in-the-blanks`
 > fixture; the design system now OWNS this build ruleset (this guide is its single
 > source of truth). The judge, its criteria (C1..C16), and the eval harness stay in the
-> skill. When the two ever disagree, the skill wins and this file is regenerated.
+> skill. When the two ever disagree, this guide wins.
 
 The canvas is the **visual surface** of a slide type — what the audience and presenter
 see. A slide type is an embedded iframe app that renders into one canvas in two states —
@@ -14,7 +14,7 @@ once.** This pattern adds no new control; it reuses the shared Icon, the compone
 Button, and the semantic `--aha-color*` tokens, and defines the **conventions** that keep
 every slide reading as one product on every theme.
 
-Out of scope: the right-panel settings form (→ `aha-design-settings`), and the technical
+Out of scope: the right-panel settings form (→ the `settings` guide), and the technical
 wiring behind the visuals (how height is reported, how actions are delivered, how `setting`
 flags are declared).
 
@@ -296,13 +296,13 @@ for percentages and counts, not `.toFixed()` with an assumed `.`-as-decimal sepa
 
 ## Right panel
 
-The right-panel settings form is **out of scope** — hand it off to `aha-design-settings`.
+The right-panel settings form is **out of scope** — hand it off to the `settings` guide.
 
 ---
 
 *Full detail, worked BAD/GOOD examples, and the canonical `good-fill-in-the-blanks` fixture
-live in the `aha-design-canvas` skill. Self-check any built canvas with
-`aha-design-canvas-judge` — it emits a binary PASS/FAIL across the same contracts
+live in the DS `canvas` guide. Self-check any built canvas with
+the DS anti-slop judge (`canvas` surface) — it emits a binary PASS/FAIL across the same contracts
 (theme tokens, semantic state colours, NCB control bar, WCAG, non-colour cues,
 framed-vs-full-canvas, the full-canvas host title, the on-canvas size floor, i18n,
 keyboard-shortcut affordances) — and fix every FAIL before declaring the work `OK TO SHIP`.*

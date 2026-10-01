@@ -764,6 +764,13 @@ const repoChecks = [];
   rchk('every token in tokens.canonical.json is acknowledged', unacknowledged.length === 0,
     `new token(s) need owner sign-off — add to tokens.acknowledged.json: ${unacknowledged.slice(0, 8).join(', ')}${unacknowledged.length > 8 ? ` (+${unacknowledged.length - 8} more)` : ''}`);
 }
+{
+  const retiredSkillRefs = [];
+  for (const dir of ['guidelines', 'parts']) for (const f of existsSync(join(root, dir)) ? readdirSync(join(root, dir)) : [])
+    if (/\.(json|md)$/.test(f) && /aha-design:aha-design-|`aha-design-[a-z-]+`\s+skill/.test(read(join(root, dir, f)))) retiredSkillRefs.push(`${dir}/${f}`);
+  repoChecks.push(['guideline pages do not point at retired aha-design-* skills', retiredSkillRefs.length === 0,
+    `the plugin ships one skill (aha-design); point at the DS guide / anti-slop feed instead: ${retiredSkillRefs.join(', ')}`]);
+}
 if (UPDATE_BASELINE) writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Per-file count of raw padding/margin/gap px declarations (> 1px) in component source, grandfathered. standards.mjs fails when a file exceeds its count; lower it with --update-baseline.', spacingPx: spacingPxBaselineNext }, null, 1) + '\n');
 for (const note of spacingPxLowered) console.log(`ratchet: ${note}`);
 

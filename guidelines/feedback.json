@@ -5,11 +5,11 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to build transient and post-action feedback — toasts, the DS V3 Alert inline banner, inline correct/incorrect result panels, and the CSAT thumbs widget — from existing components, plus when NOT to use a toast.",
-  "lead": "Feedback is scattered across every product surface, so it drifts fast without one ruleset. This pattern ships NO new component: it documents the CONVENTIONS that make every toast, alert banner, result panel, and satisfaction prompt read as one product — placement, portalling, role/aria semantics, DS surface/border/icon tokens, and the channel-choice table. The narrative 'why' lives in the aha-design-feedback skill; this artifact carries only what the repo can enforce.",
+  "lead": "Feedback is scattered across every product surface, so it drifts fast without one ruleset. This pattern ships NO new component: it documents the CONVENTIONS that make every toast, alert banner, result panel, and satisfaction prompt read as one product — placement, portalling, role/aria semantics, DS surface/border/icon tokens, and the channel-choice table. The narrative 'why' lives in the DS `feedback` guide; this artifact carries only what the repo can enforce.",
   "skillRef": {
-    "build": "aha-design:aha-design-feedback",
-    "judge": "aha-design:aha-design-feedback-judge",
-    "note": "The skill is the source of truth for rationale, the Alert references/alert.md spec (tokens, glyphs, size metrics, Figma node IDs), and the full FEEDBACK-xx assertions. The DS now OWNS this build ruleset; the plugin skill is generated FROM this. This pattern carries the enforceable rules and links each back by ref; judge/evals stay in the skill."
+    "build": "DS guideline — guidelines/feedback.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: feedback)",
+    "note": "This guide is the source of truth for rationale, the Alert references/alert.md spec (tokens, glyphs, size metrics, Figma node IDs), and the full FEEDBACK-xx assertions. The DS now OWNS this build ruleset; the plugin skill is generated FROM this. This pattern carries the enforceable rules and links each back by ref; judge/evals stay in the skill."
   },
   "surfaces": [
     "editor",
@@ -213,7 +213,7 @@
     },
     {
       "id": "not-a-toast",
-      "rule": "Do NOT put these in a toast: an actionable error (inline Alert in context or an overlay Alert), a field validation error (FieldErrorDisplay / a11y FieldError, shared-components), a destructive confirmation (a modal, aha-design-overlays), or a full-page failure (ErrorPage, shared-components). A toast that auto-dismisses must never be the only place a required message lives.",
+      "rule": "Do NOT put these in a toast: an actionable error (inline Alert in context or an overlay Alert), a field validation error (FieldErrorDisplay / a11y FieldError, shared-components), a destructive confirmation (a modal, the `overlays` guide), or a full-page failure (ErrorPage, shared-components). A toast that auto-dismisses must never be the only place a required message lives.",
       "ref": [
         "FEEDBACK-07"
       ]
