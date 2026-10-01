@@ -184,7 +184,6 @@ const COMPONENTS_CATALOG = [
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
-    { name: 'Chart',        slug: 'chart' },
     { name: 'Empty',        slug: 'empty' },
     { name: 'Image',        slug: 'image' },
     { name: 'Carousel',     slug: 'carousel' },
@@ -261,6 +260,7 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
+  { key: 'charts',      label: 'Charts' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'feeds',       label: 'Agent feeds' },
 ];
@@ -936,7 +936,41 @@ function playgroundBar(c) {
   return `<div class="aha-pg" data-pg>${rows}</div>`;
 }
 
+const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
+
+/* Charts — its OWN top-level area, one self-contained page (charts/index.html), built like the Settings
+   hub and Audience Library: noSidebar shell + the shared sticky antd Anchor. The page body is the
+   chart contract's own doc content, so nothing is duplicated. */
+function renderChartsPage(c) {
+  const sections = [
+    { id: 'examples', title: 'Examples', html: `<h2 id="examples">Examples</h2>
+  <div class="demo">
+    ${playgroundBar(c)}
+    <div class="demo-stage">${part(c.preview)}</div>
+    ${codeWidget(c)}
+  </div>` },
+    { id: 'choosing-a-chart', title: 'Choosing a chart', html: `<h2 id="choosing-a-chart">Choosing a chart</h2>${c.opinion ? opinionBlock(c.opinion) + surfaceBlock(c.surfaces) : ''}` },
+    { id: 'api', title: 'API', html: `<h2 id="api">API</h2>\n  ${propsTable(c.props)}` },
+    { id: 'install', title: 'Install and use', html: `<h2 id="install">Install and use</h2>${componentConsume(c)}` },
+    { id: 'spec', title: 'Spec', html: `<h2 id="spec">Spec</h2>\n  <div class="spec-line">${specList(c.spec)}</div>` },
+  ];
+  const anchorItems = sections.map(x => ({ key: x.id, href: '#' + x.id, title: x.title }));
+  const fallbackGroups = [{ cat: 'Charts', links: sections.map(x => ({ id: x.id, title: x.title })) }];
+  const main = `
+  <p class="crumbs">Charts</p>
+  <h1>${esc(c.name)}</h1>
+  <p class="subtitle">${esc(c.summary)}</p>
+  <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
+  <div class="hub-layout">
+    ${hubAnchorAside(fallbackGroups)}
+    <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
+  </div>
+  ${hubAnchorScript(anchorItems)}`;
+  return docShell({ base: '../', active: 'charts', section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2{scroll-margin-top:84px}', noSidebar: true });
+}
+
 function renderHtml(c) {
+  if (c.docPage) return renderChartsPage(c);
   const preview = part(c.preview);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
@@ -1071,7 +1105,7 @@ function renderAgent(c) {
     summary: c.summary,
     install,
     feeds: {
-      doc: `${SITE}/${c.slug}/index.html`,
+      doc: `${SITE}/${docPagePath(c)}`,
       md: `${SITE}/${c.slug}/${c.slug}.md`,
       agentJson: `${SITE}/${c.slug}.agent.json`,
       llms: `${SITE}/${c.slug}.llms.txt`,
@@ -1916,7 +1950,8 @@ function renderAntiSlop(store, guidelines) {
 
 /* ===== overview / landing page ===== */
 function renderIndex(cs) {
-  const cards = cs.map(c => `<a class="card" href="${c.slug}/index.html">
+  cs = cs.filter(c => !c.docPage);
+  const cards = cs.map(c => `<a class="card" href="${docPagePath(c)}">
       <div class="ct">${esc(c.name)} <span class="badge ${c.tier==='leaf-lit'?'leaf':'composite'}">${c.tier==='leaf-lit'?'leaf':'composite'}</span></div>
       <div class="cs">${esc(c.summary)}</div>
       <div class="cf">${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt</div></a>`).join('');
@@ -2078,7 +2113,7 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   ? JSON.parse(read(join(root, 'anti-slop', 'criteria.json')))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
-const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug));
+const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage);
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
@@ -2088,6 +2123,7 @@ NAV_LANDING = {
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
+  charts: 'charts/index.html',
   feeds: 'feeds/llms-txt.html',
 };
 if (GUIDELINES.length) {
@@ -2200,7 +2236,11 @@ const indexLines = [
 const fullDocs = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
-  writeFileSync(join(d, 'index.html'), renderHtml(c));
+  if (c.docPage) {
+    mkdirSync(join(OUT, dirname(c.docPage)), { recursive: true });
+    writeFileSync(join(OUT, c.docPage), renderHtml(c));
+    writeFileSync(join(d, 'index.html'), redirectStub('../' + c.docPage));
+  } else writeFileSync(join(d, 'index.html'), renderHtml(c));
   if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);

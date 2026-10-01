@@ -2,6 +2,8 @@
 
 One framework-free web component that draws eleven kinds of result chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud and mind map.
 
+Live examples, the playground and the "Choosing a chart" guide are on the hosted **[Charts tab](https://ahaslides-product.github.io/ahaslides-design/charts/index.html)**.
+
 - No build step, no framework, no dependencies. One `<script type="module">` and one HTML tag.
 - Works in plain HTML, React, Vue, Svelte, Angular or anything else that can render a custom element.
 - Accessible by default: every chart has a text summary, a hidden data table and polite live announcements.
