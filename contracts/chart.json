@@ -399,57 +399,6 @@
         ]
       },
       {
-        "prop": "type",
-        "label": "Type",
-        "default": "bar",
-        "options": [
-          {
-            "label": "Bar",
-            "value": "bar"
-          },
-          {
-            "label": "Column",
-            "value": "column"
-          },
-          {
-            "label": "Stacked",
-            "value": "stacked"
-          },
-          {
-            "label": "Donut",
-            "value": "donut"
-          },
-          {
-            "label": "Radial",
-            "value": "radial"
-          },
-          {
-            "label": "Tree map",
-            "value": "treemap"
-          },
-          {
-            "label": "Quadrant",
-            "value": "quadrant"
-          },
-          {
-            "label": "Bell curve",
-            "value": "bell"
-          },
-          {
-            "label": "Radar",
-            "value": "radar"
-          },
-          {
-            "label": "Word cloud",
-            "value": "wordcloud"
-          },
-          {
-            "label": "Mind map",
-            "value": "mindmap"
-          }
-        ]
-      },
-      {
         "prop": "highlight-top",
         "label": "Highlight",
         "default": null,
