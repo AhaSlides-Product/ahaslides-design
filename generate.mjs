@@ -942,11 +942,13 @@ const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
    hub and Audience Library: noSidebar shell + the shared sticky antd Anchor. The page body is the
    chart contract's own doc content, so nothing is duplicated. */
 function renderChartsPage(c) {
+  const preview = part(c.preview);
+  const chartTypes = [...preview.matchAll(/<h3 class="chart-type-title" id="([^"]+)">([^<]+)<\/h3>/g)].map(([, id, title]) => ({ id, title }));
   const sections = [
-    { id: 'examples', title: 'Examples', html: `<h2 id="examples">Examples</h2>
+    { id: 'examples', title: 'Chart types', children: chartTypes, html: `<h2 id="examples">Chart types</h2>
   <div class="demo">
     ${playgroundBar(c)}
-    <div class="demo-stage">${part(c.preview)}</div>
+    <div class="demo-stage">${preview}</div>
     ${codeWidget(c)}
   </div>` },
     { id: 'choosing-a-chart', title: 'Choosing a chart', html: `<h2 id="choosing-a-chart">Choosing a chart</h2>${c.opinion ? opinionBlock(c.opinion) + surfaceBlock(c.surfaces) : ''}` },
@@ -954,8 +956,12 @@ function renderChartsPage(c) {
     { id: 'install', title: 'Install and use', html: `<h2 id="install">Install and use</h2>${componentConsume(c)}` },
     { id: 'spec', title: 'Spec', html: `<h2 id="spec">Spec</h2>\n  <div class="spec-line">${specList(c.spec)}</div>` },
   ];
-  const anchorItems = sections.map(x => ({ key: x.id, href: '#' + x.id, title: x.title }));
-  const fallbackGroups = [{ cat: 'Charts', links: sections.map(x => ({ id: x.id, title: x.title })) }];
+  const anchorItems = sections.map(x => ({ key: x.id, href: '#' + x.id, title: x.title,
+    ...(x.children ? { children: x.children.map(t => ({ key: t.id, href: '#' + t.id, title: t.title })) } : {}) }));
+  const fallbackGroups = [
+    { cat: 'Chart types', links: chartTypes },
+    { cat: null, links: sections.filter(x => !x.children).map(x => ({ id: x.id, title: x.title })) },
+  ];
   const main = `
   <p class="crumbs">Charts</p>
   <h1>${esc(c.name)}</h1>
@@ -966,7 +972,7 @@ function renderChartsPage(c) {
     <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
   </div>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'charts', section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2{scroll-margin-top:84px}', noSidebar: true });
+  return docShell({ base: '../', active: 'charts', section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
 }
 
 function renderHtml(c) {
