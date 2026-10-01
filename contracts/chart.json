@@ -1,12 +1,13 @@
 {
   "name": "Chart",
   "slug": "chart",
+  "docPage": "charts/index.html",
   "group": "Data Display",
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-chart",
   "summary": "The AhaSlides chart library — one framework-free <aha-chart> for all 11 result charts (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map), in the brand palette on app screens or the deck palette on the presenting canvas.",
-  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used: bar, column, stacked, donut (and pie), radial, treemap, quadrant, bell (rating distribution), radar, wordcloud and mindmap. Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background. Every variant of the reference mockup is an attribute or an `options` key: Poll, Pick Answer (`correct`) and Ranking (`sort=\"desc\"`), images on bar/column options, count / % / both, pagination (`page-size`), donut vs pie and callout / legend labels, the word-cloud shapes, image masks, rotation, colour modes and duplicate merging, the radar forms, grids, scales and eight entrance effects, the bell-curve statistics, and an editable mind map. With 0 responses every bar and column shows a short coloured stub at its starting point — no placeholder bars, no waiting text. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion; `replay()` re-runs the entrance), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
+  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used: bar, column, stacked, donut (and pie), radial, treemap, quadrant, bell (answer distribution), radar, wordcloud and mindmap. Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background. Every variant of the reference mockup is an attribute or an `options` key: Poll, Pick Answer (`correct`) and Ranking (`sort=\"desc\"`), images on bar/column options, count / % / both, pagination (`page-size`), donut vs pie and callout / legend labels, the word-cloud shapes, image masks, rotation, colour modes and duplicate merging, the radar forms, grids, scales and eight entrance effects, the bell-curve statistics, and an editable mind map. With 0 responses every bar and column shows a short coloured stub at its starting point — no placeholder bars, no waiting text. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion; `replay()` re-runs the entrance), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
   "codeNote": "Set `data` (and `options`) as properties for live results — re-setting them animates the change; the `data` / `options` attributes take the same JSON for static pages. Interactive charts emit `wordcloud-hide` (a presenter hid words) and `mindmap-change` (an idea was added or renamed; detail.tree is the new tree). Result charts on app screens use this, not @ant-design/plots.",
   "tokensUsed": [
     "viz-ink",
@@ -279,11 +280,55 @@
     "whenToUse": [
       {
         "what": "Chart (palette=deck)",
-        "when": "results on the presenting or audience canvas of a slide type — Poll, Pick Answer, Ranking, Rating scale, Split the points, 2×2 matrix, Word cloud, Brainstorm/Mind map"
+        "when": "results on the presenting or audience canvas of a slide type — Poll, Pick Answer, Ranking, Rating scale, Split the points, Quadrant, Word cloud, Brainstorm/Mind map"
       },
       {
         "what": "Chart (palette=brand)",
         "when": "the same results anywhere else in the Presenter app — Report, dashboards, summaries"
+      },
+      {
+        "what": "Chart type: bar",
+        "when": "type=\"bar\" — compare counts across categorical options: long labels, many options (no cap unless max-items is set; extras fold into \"Other (n)\"), ranking (sort=\"desc\" adds rank numbers), image options, Pick Answer with several options. Serves Poll and Ranking. Not for part-to-whole of one question (use donut) or a time series (use @ant-design/plots)."
+      },
+      {
+        "what": "Chart type: column",
+        "when": "type=\"column\" — the same comparison for a few short options (Poll, Pick Answer correct reveal). It turns into bars on its own when the labels do not fit the width, so choose bar directly for long labels or many options. Not for part-to-whole (use donut)."
+      },
+      {
+        "what": "Chart type: stacked",
+        "when": "type=\"stacked\" — composition of several groups or statements side by side, each row split by the same series (up to 6 series, the rest fold into \"Other (n)\"). Use when you compare how groups divide, not for one question (use donut)."
+      },
+      {
+        "what": "Chart type: donut / pie",
+        "when": "type=\"donut\" (options.variant=\"pie\" for a solid pie with no centre hole) — part-to-whole of ONE question with few categories (up to 6 slices, the rest fold into \"Other (n)\"; up to 5 get leader-line callouts when the chart is at least 480px wide, otherwise a legend). Not for many slices or values close together (use bar)."
+      },
+      {
+        "what": "Chart type: radial",
+        "when": "type=\"radial\" — a few shares or percentages shown compactly as concentric rings (up to 6, the rest fold into \"Other (n)\"). Not for many items or exact comparison (use bar)."
+      },
+      {
+        "what": "Chart type: treemap",
+        "when": "type=\"treemap\" — part-to-whole across many categories of very different size (up to 6 tiles, the rest fold into \"Other (n)\"). Not for precise comparison of close values (use bar)."
+      },
+      {
+        "what": "Chart type: quadrant",
+        "when": "type=\"quadrant\" — items scored on two axes, such as effort against impact, placed in four labelled quadrants (up to three colour groups). Not for one-dimensional scores (use bar)."
+      },
+      {
+        "what": "Chart type: bell",
+        "when": "type=\"bell\" — how answers are distributed on an ordered or numeric scale: one counts array per scale step, one curve per statement (up to 6) with an average, so the spread, skew or split shows, not just the mean. Use it whenever someone wants to see the distribution of answers, e.g. Rating scale results. Not for unordered categorical options (use bar)."
+      },
+      {
+        "what": "Chart type: radar",
+        "when": "type=\"radar\" — several criteria scored on the same scale (5, 10 or 100), comparing the profile of one or a few subjects. Not for criteria on unrelated scales or a single score (use bar)."
+      },
+      {
+        "what": "Chart type: wordcloud",
+        "when": "type=\"wordcloud\" — frequency of short free-text answers (one string per response, or counted words; up to 120 words shown, duplicates merged). Serves Word cloud. Not for exact counts (use bar)."
+      },
+      {
+        "what": "Chart type: mindmap",
+        "when": "type=\"mindmap\" — grouped or hierarchical ideas as a tree of labels (default up to 5 levels and 6 branches). Serves Brainstorm and Mind map. Not for quantities (use bar or donut)."
       },
       {
         "what": "Statistic",
@@ -294,7 +339,7 @@
         "when": "a chart type <aha-chart> does not ship (line/area/time series)"
       }
     ],
-    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-color-success, the rest neutral, plus a ✓ on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element.",
+    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-color-success, the rest neutral, plus a ✓ on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element. Start from the chart type's default snippet (`typeDefaults`, one per type) and only ADD attributes or options — never strip or override its data shape: the default is the minimal markup that already has the full intended behaviour (entrance animation, live-update motion, tooltip, legend, empty state, text summary, hidden data table and live-region announcement) with no opt-in attribute. A few things are opt-in only and must be set explicitly: ranking (sort=\"desc\"), Pick Answer (correct), pagination (page-size), highlight-top, log-scale, bell grid / % axis / mean line / step labels, radar data table / scale ticks / hollow centre, word cloud counts / diacritic folding / shapes / rotation / masks, and an editable mind map.",
     "dsv3": "New in the DS (PRO38-69) — the visual source is the \"AhaSlides Chart Slides\" mockup; a signed-off exception to the @ant-design/plots rule for result charts."
   },
   "surfaces": [
@@ -350,57 +395,6 @@
           {
             "label": "%",
             "value": "percent"
-          }
-        ]
-      },
-      {
-        "prop": "type",
-        "label": "Type",
-        "default": "bar",
-        "options": [
-          {
-            "label": "Bar",
-            "value": "bar"
-          },
-          {
-            "label": "Column",
-            "value": "column"
-          },
-          {
-            "label": "Stacked",
-            "value": "stacked"
-          },
-          {
-            "label": "Donut",
-            "value": "donut"
-          },
-          {
-            "label": "Radial",
-            "value": "radial"
-          },
-          {
-            "label": "Tree map",
-            "value": "treemap"
-          },
-          {
-            "label": "Quadrant",
-            "value": "quadrant"
-          },
-          {
-            "label": "Bell curve",
-            "value": "bell"
-          },
-          {
-            "label": "Radar",
-            "value": "radar"
-          },
-          {
-            "label": "Word cloud",
-            "value": "wordcloud"
-          },
-          {
-            "label": "Mind map",
-            "value": "mindmap"
           }
         ]
       },
@@ -469,5 +463,62 @@
       "firstRank": "1",
       "plotHidden": "true"
     }
-  }
+  },
+  "typeDefaults": [
+    {
+      "type": "bar",
+      "title": "Bar",
+      "file": "chart.default.bar.html.txt"
+    },
+    {
+      "type": "column",
+      "title": "Column",
+      "file": "chart.default.column.html.txt"
+    },
+    {
+      "type": "stacked",
+      "title": "Stacked",
+      "file": "chart.default.stacked.html.txt"
+    },
+    {
+      "type": "donut",
+      "title": "Donut and pie",
+      "file": "chart.default.donut.html.txt"
+    },
+    {
+      "type": "radial",
+      "title": "Radial",
+      "file": "chart.default.radial.html.txt"
+    },
+    {
+      "type": "treemap",
+      "title": "Tree map",
+      "file": "chart.default.treemap.html.txt"
+    },
+    {
+      "type": "quadrant",
+      "title": "Quadrant",
+      "file": "chart.default.quadrant.html.txt"
+    },
+    {
+      "type": "bell",
+      "title": "Bell curve",
+      "file": "chart.default.bell.html.txt"
+    },
+    {
+      "type": "radar",
+      "title": "Radar",
+      "file": "chart.default.radar.html.txt"
+    },
+    {
+      "type": "wordcloud",
+      "title": "Word cloud",
+      "file": "chart.default.wordcloud.html.txt"
+    },
+    {
+      "type": "mindmap",
+      "title": "Mind map",
+      "file": "chart.default.mindmap.html.txt"
+    }
+  ]
 }

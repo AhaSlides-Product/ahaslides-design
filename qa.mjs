@@ -36,8 +36,9 @@ function screenshotBytes(file, tag) {
 /* Measure the rendered UI against a contract.conformance block.
    Composites point at a hidden dual-tier harness (_conformance.html) since the doc page shows
    a single UI; leaf measures the doc page directly. */
+const docPageOf = (slug) => (contracts[slug] && contracts[slug].docPage) || join(slug, 'index.html');
 async function runConformance(slug, conf, harness) {
-  const file = 'file://' + join(DIST, slug, harness ? '_conformance.html' : 'index.html');
+  const file = 'file://' + (harness ? join(DIST, slug, '_conformance.html') : join(DIST, docPageOf(slug)));
   // Normalise a colour to a canonical rgba() tuple so equivalent forms compare equal. Chrome
   // serialises color-mix() as `color(srgb …)`, not rgba(), so a raw string compare falsely fails an
   // rgba/hex `expect` — the drift that passed the local static gate and only surfaced in CI qa.
@@ -131,13 +132,13 @@ const contracts = {};
 for (const f of readdirSync(CDIR).filter(f => f.endsWith('.json'))) { const j = JSON.parse(readFileSync(join(CDIR, f), 'utf8')); contracts[j.slug] = j; }
 
 /* ---- per component ---- */
-const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component)
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience', 'charts']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];
   const ct = contracts[slug];
   const isLeaf = ct && /leaf/.test(ct.tier || '');
-  const html = read(join(DIST, slug, 'index.html'));
+  const html = read(join(DIST, docPageOf(slug)));
   const md = read(join(DIST, slug, `${slug}.md`));
   let aj = null; try { aj = JSON.parse(read(join(DIST, slug, `${slug}.agent.json`))); } catch {}
 
@@ -151,14 +152,14 @@ for (const slug of slugs) {
   chk(c, 'page: code widget (tabs + copy)', /class="tab /.test(html) && /class="copy"/.test(html));
   chk(c, 'page: no hardcoded google fonts / Inter', !/googleapis|\bInter\b/.test(html));
 
-  const bytes = screenshotBytes(join(DIST, slug, 'index.html'), slug);
+  const bytes = screenshotBytes(join(DIST, docPageOf(slug)), slug);
   chk(c, `page renders (screenshot ${(bytes/1024|0)}KB > 30KB)`, bytes > 30000);
 
   /* the visible doc demo must actually mount (harness conformance below measures a
      separate file, so this guards against a blank demo on the page the user reads) */
   if (ct && ct.conformancePart && ct.conformance && ct.conformance.docReady) {
     try {
-      const ok = await evaluateInPage('file://' + join(DIST, slug, 'index.html'), ct.conformance.docReady, { readyExpr: ct.conformance.docReady, timeout: 45000 });
+      const ok = await evaluateInPage('file://' + join(DIST, docPageOf(slug)), ct.conformance.docReady, { readyExpr: ct.conformance.docReady, timeout: 45000 });
       chk(c, 'doc page demo mounts (single UI renders)', !!ok);
     } catch (e) { chk(c, 'doc page demo mounts (single UI renders)', false, e.message); }
   }

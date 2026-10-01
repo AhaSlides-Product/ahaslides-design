@@ -1,0 +1,2 @@
+<aha-chart type="donut" label="Benefits budget"
+  data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13},{"label":"Gym","value":8}]'></aha-chart>

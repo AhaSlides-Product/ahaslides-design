@@ -1,0 +1,2 @@
+<aha-chart type="column" label="Capital of Australia"
+  data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>

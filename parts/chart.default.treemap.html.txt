@@ -1,0 +1,2 @@
+<aha-chart type="treemap" label="Feature requests"
+  data='[{"label":"AI slides","value":16},{"label":"Teams","value":12},{"label":"Templates","value":10},{"label":"Analytics","value":9},{"label":"Offline","value":8}]'></aha-chart>

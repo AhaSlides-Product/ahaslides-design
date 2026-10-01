@@ -1,0 +1,2 @@
+<aha-chart type="radial" label="Channel mix"
+  data='[{"label":"Social media","value":22},{"label":"SEO","value":18},{"label":"Events","value":14},{"label":"Email","value":10},{"label":"Influencers","value":9}]'></aha-chart>

@@ -1,0 +1,2 @@
+<aha-chart type="radar" label="Version comparison"
+  data='{"dimensions":["Ease of use","Speed","Interface","Features","Stability","Value"],"scale":5,"people":44,"subjects":[{"label":"Current version","scores":[3.4,3.1,3.3,3.8,4.2,3.5],"responses":[44,44,44,44,44,44]},{"label":"Beta","scores":[4.3,4,4.4,3.8,3.3,3.9],"responses":[44,44,44,44,44,44]}]}'></aha-chart>

@@ -39,6 +39,7 @@ const AREAS = {
   patterns: { type: 'component', label: 'Patterns' },
   settings: { type: 'component', label: 'Settings' },
   audience: { type: 'audience', label: 'Audience Library' },
+  charts: { type: 'component', label: 'Charts' },
   guidelines: { type: 'guideline', label: 'Guidelines' },
   feeds: { type: 'feed', label: 'Agent feeds' },
 };
@@ -118,7 +119,7 @@ export function buildSearchIndex({ outDir, contracts, icons, tokenCss, version }
     const title = textOf((main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/) || [])[1]) || url;
     const subtitle = textOf((main.match(/<p class="subtitle">([\s\S]*?)<\/p>/) || [])[1]);
     const slug = url.endsWith('/index.html') ? url.split('/').slice(-2)[0] : '';
-    const c = bySlug.get(slug);
+    const c = bySlug.get(slug) || contracts.find(x => x.docPage === url);
     const keywords = c ? [
       c.element && `<${c.element}>`, c.group, c.badge,
       ...(c.props || []).map(p => p.name),
