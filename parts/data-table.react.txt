@@ -31,3 +31,18 @@ const columns = [
   columnsEditable
   pagination={{ defaultPageSize: 10 }}
 />
+
+// Expandable rows — pass expandableRows; the chevron, panel and a11y come from the DS.
+<DataTable
+  rowKey="key"
+  columns={pageColumns}
+  dataSource={pages}
+  expandableRows={{
+    renderDetail: (record) => <Table rowKey="key" size="small" pagination={false} columns={answerColumns} dataSource={record.answers} />,
+    expandAllToggle: true,
+    getRowLabel: (record) => record.page,
+    rowExpandable: (record) => record.answers.length > 0,
+    // onExpand: (expanded, record) => fetch…   loadingKeys: ['p2']  → spinner slot while it loads
+  }}
+/>
+// Tree rows: omit renderDetail and give rows a `children` array — they share the parent's columns.

@@ -17,3 +17,25 @@ const columns = [
   />
 </ConfigProvider>
 // One shared tableTheme → the DS V3 look; never restyle a bare <Table> per call site.
+
+// Expandable rows — a detail panel (or tree rows) with the DS chevron, never a hand-rolled expandIcon.
+import React from 'react';
+import { createExpandableRows } from '@ahaslides-product/design/table-expandable';
+
+const { useExpandableRows } = createExpandableRows({ React });   // once, at module scope
+
+function ReportTable({ rows, columns }) {
+  const { tableProps, decorateColumns } = useExpandableRows({
+    dataSource: rows,
+    rowKey: 'key',
+    expandAllToggle: true,
+    renderDetail: (record) => <Table rowKey="key" size="small" pagination={false} columns={answerColumns} dataSource={record.answers} />,
+    // omit renderDetail for tree rows (children share the parent's columns)
+    // onExpand={(expanded, record) => fetch…} + loadingKeys={[…]} for a lazily loaded panel
+  });
+  return (
+    <ConfigProvider theme={tableTheme}>
+      <Table rowKey="key" dataSource={rows} columns={decorateColumns(columns)} {...tableProps} />
+    </ConfigProvider>
+  );
+}

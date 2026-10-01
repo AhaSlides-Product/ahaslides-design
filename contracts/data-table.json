@@ -62,6 +62,26 @@
       "value": "drag a header's right edge (min 80) or focus the separator and use ←/→"
     },
     {
+      "label": "Expandable rows",
+      "value": "detail panel: chevron column + a panel under the row (inset gray-20 surface, 16 padding, nested sub-table with no second border); tree rows: children share the parent's columns, chevron inline in the first column with a 24 indent; spacer keeps non-expandable rows aligned"
+    },
+    {
+      "label": "Expand chevron",
+      "value": "24px button, system-caret-right rotating 0→90° on --aha-motion-mid + --aha-ease-in-out; hover purple-10; visible focus ring; aria-expanded + aria-controls (the panel id, or the child row ids for a tree); Enter / Space; row click toggles too without double-toggling the chevron or firing from links / buttons / inputs"
+    },
+    {
+      "label": "Expand all / collapse all",
+      "value": "optional header toggle (expandAllToggle) in the chevron column header (first column for a tree); aria-expanded reflects whether every expandable row is open"
+    },
+    {
+      "label": "Expanded state",
+      "value": "keyed by row key — survives sort, filter and pagination; several rows open at once; controlled (expandedRowKeys) or uncontrolled (defaultExpandedRowKeys)"
+    },
+    {
+      "label": "Loading slot",
+      "value": "loadingKeys shows an <aha-spin> + status text in the panel (aria-busy) while a lazily fetched detail loads; fetch from onExpand"
+    },
+    {
       "label": "Toolbar",
       "value": "optional 18px SemiBold title left + actions right (Edit columns, Export…); wraps on a phone"
     },
@@ -136,6 +156,12 @@
       "desc": "merged over the default; set the starting size with defaultPageSize (pageSize is controlled and freezes the size changer); false hides it"
     },
     {
+      "name": "expandableRows",
+      "type": "{ renderDetail?, rowExpandable?, expandAllToggle?, expandedRowKeys?, defaultExpandedRowKeys?, onExpandedRowsChange?, onExpand?, loadingKeys?, getRowLabel?, expandRowByClick?, childrenColumnName?, indentSize? }",
+      "default": "—",
+      "desc": "turns on expandable rows. With renderDetail(record) each row opens a detail panel (free content or a nested sub-table); without it, rows carrying children open into tree rows. Do not pass antd's own expandable — it is replaced"
+    },
+    {
       "name": "labels",
       "type": "Partial<typeof dataTableLabels>",
       "default": "English",
@@ -153,6 +179,10 @@
       {
         "what": "DataTable",
         "when": "any rows×columns grid — results, leaderboard, participant / admin list"
+      },
+      {
+        "what": "expandableRows",
+        "when": "a row hides a detail panel / sub-table, or rows nest children (Report by-page, per-learner answers) — never a hand-rolled expandIcon caret"
       },
       {
         "what": "never a raw <Table>",
@@ -198,7 +228,7 @@
       "note": "The behaviour layer is React-first; Vue binds the same dataTableTheme for the DS V3 look until the Vue twin ships."
     }
   ],
-  "codeNote": "createDataTable takes your React + antd instead of importing them, so the DS package stays dependency-free and the table always renders inside your app's own React tree and antd theme context.",
+  "codeNote": "createDataTable takes your React + antd instead of importing them, so the DS package stays dependency-free and the table always renders inside your app's own React tree and antd theme context. The expandable-rows behaviour lives in lib/table-expandable.js (createExpandableRows) and is shared with a plain tableTheme Table, so both render the same chevron, panel and a11y contract.",
   "preview": "data-table.preview.html",
   "selfCheck": [
     {
@@ -227,6 +257,10 @@
     },
     {
       "label": "reorder · freeze · resize · edit columns",
+      "verdict": "PASS"
+    },
+    {
+      "label": "expandable rows: chevron button, aria-expanded / aria-controls, row-key state",
       "verdict": "PASS"
     },
     {
