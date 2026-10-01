@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.71.0 — 2026-10-01
+## 0.72.0 — 2026-10-01
 ### Added
 - **Expandable rows for Table and DataTable (React).** New `@ahaslides-product/design/table-expandable` (`createExpandableRows({ React })` → `useExpandableRows`) gives a plain `tableTheme` Table and the shared DataTable one collapse / expand behaviour, replacing every hand-rolled antd `expandIcon` caret. Two shapes: a **detail panel** (`renderDetail(record)` — free content or a nested sub-table under the row) and **tree rows** (rows with `children` share the parent's columns). A leading 24px chevron button (`system-caret-right`, rotating 0 to 90 degrees on the motion tokens) with `aria-expanded` + `aria-controls`, Enter / Space and a visible focus ring; an aligned spacer on rows that cannot expand; whole-row click toggles too without double-toggling and without firing from links, buttons or inputs. Several rows can be open at once, an optional header toggle (`expandAllToggle`) expands / collapses all, and the expanded state is keyed by row key so it survives sort, filter and pagination (controlled or uncontrolled). The chevron sits inline in the first column in every mode, so detail panel and tree rows, DataTable and plain Table share one layout, indentation and motion. The open state is unmistakable: the open parent row gets a purple-15 surface, bold text, a 3px primary accent bar and a primary chevron, and its panel or child rows share a gray-20 surface with the same primary accent bar, the nested sub-table sitting in a white bordered card. Plus a loading slot (`loadingKeys` + `onExpand` for lazy fetches). DataTable takes it as the `expandableRows` prop; the Data table docs page shows detail panel, loading, tree and plain-Table cases. (#139)
+
+## 0.71.0 — 2026-10-01
+### Added
+- **Public README for the chart library** (`docs/chart/README.md`, linked from the root README). A standalone guide for outside developers: copy-paste quick start from a pinned jsDelivr tag (no registry, no build step), ES module import, all 11 chart types with their data shapes, attributes, `options` and `chartOptionDefaults`, palettes, locale and `strings`, events, accessibility, empty state and browser support. (#140)
 
 ## 0.70.0 — 2026-10-01
 ### Added
