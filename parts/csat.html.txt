@@ -8,9 +8,8 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-csat.js';   // registers <aha-csat> (+ <aha-icon>, <aha-popover>, <aha-counted-textarea>, <aha-button>)
 </script>
 
-<!-- The borderless single row (the only layout): prompt + thumbs + the optional Feedback button on one line, no chrome. Omit `thanks` so the thumbs stay on screen after a rating; show the thank-you toast from the events.
-     Thumbs-up rates instantly; thumbs-down opens the free-text feedback popover.
-     `thanks` opts into the confirmation line, shown after the up rating / feedback submit. -->
+<!-- The borderless single row (the only layout): prompt + thumbs + the optional Feedback button on one line, no chrome.
+     Thumbs-up rates instantly; thumbs-down opens the free-text feedback popover. -->
 <aha-csat prompt="How did this import go?" source="docs_footer" feedback-button></aha-csat>
 
 <script>
