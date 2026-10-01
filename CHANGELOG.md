@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.72.1 — 2026-10-01
 ### Changed
-- **`<aha-chart>` now says which chart type to use.** `contracts/chart.json` `opinion.whenToUse` gains one row per type (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell, radar, wordcloud, mindmap): the data shape it fits, the slide type it serves, its real limits (six-category fold into "Other (n)", column to bar fallback, 120 words, six bell statements) and what to use instead. The chart docs page gains a matching "Choosing a chart" table, and the generated feeds carry both. (#PR)
+- **`<aha-chart>` now says which chart type to use.** `contracts/chart.json` `opinion.whenToUse` gains one row per type (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell, radar, wordcloud, mindmap): the data shape it fits, the slide type it serves, its real limits (six-category fold into "Other (n)", column to bar fallback, 120 words, six bell statements) and what to use instead. The chart docs page gains a matching "Choosing a chart" table, and the generated feeds carry both. (#142)
 
 ## 0.72.0 — 2026-10-01
 ### Added
