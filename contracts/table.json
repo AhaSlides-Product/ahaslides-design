@@ -14,8 +14,8 @@
     { "label": "Radius", "value": "8" },
     { "label": "Cell padding", "value": "16 (literal)" },
     { "label": "Row hover", "value": "gray-30 #F1F1F1" },
-    { "label": "Expandable rows (React)", "value": "detail panel (a nested sub-table or free content under the row) or tree rows (children share the parent's columns) — via useExpandableRows from table-expandable; every state is on the Data table page" },
-    { "label": "Expand chevron", "value": "leading 24px button, system-caret-right rotating 0→90° on --aha-motion-mid; aligned spacer on rows that cannot expand; aria-expanded + aria-controls; Enter/Space; whole-row click toggles too (never twice); optional header toggle expands / collapses all" },
+    { "label": "Expandable rows (React)", "value": "detail panel (a nested sub-table or free content under the row) or tree rows (children share the parent's columns) — via useExpandableRows from table-expandable; an open row is a purple-15 surface with a 3px primary accent bar and its panel / children a gray-20 surface with the same primary bar, so the open group is obvious; every state is on the Data table page" },
+    { "label": "Expand chevron", "value": "leading 24px button inline in the first column, system-caret-right rotating 0→90° on --aha-motion-mid; aligned spacer on rows that cannot expand; aria-expanded + aria-controls; Enter/Space; whole-row click toggles too (never twice); optional header toggle expands / collapses all" },
     { "label": "Customisations (DS V3)", "value": "sorting (single arrow) · filtering (checklist/range) · reorder · resize · rows-per-page · freeze · add/remove columns" }
   ],
   "props": [

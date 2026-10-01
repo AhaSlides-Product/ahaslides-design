@@ -63,7 +63,7 @@
     },
     {
       "label": "Expandable rows",
-      "value": "detail panel: chevron column + a panel under the row (inset gray-20 surface, 16 padding, nested sub-table with no second border); tree rows: children share the parent's columns, chevron inline in the first column with a 24 indent; spacer keeps non-expandable rows aligned"
+      "value": "one visual language for detail panel, tree rows, DataTable and plain Table: the chevron sits inline in the first column (24px + 8 gap, spacer on rows that cannot expand, so text always aligns); open parent row: purple-15 #F0E4FF surface, 600 weight, 3px primary accent bar on the left edge, primary chevron; its panel / child rows: gray-20 #F7F7F7 surface, with the 3px primary accent bar running down the whole group so parent + content read as one (primary on #F0E4FF is 6.9:1, the bar on white 8.3:1, text on both surfaces 14:1+); detail panel = 16 padding with the nested sub-table as a white card (1px border-strong, radius 8); tree children indent 24"
     },
     {
       "label": "Expand chevron",
@@ -71,7 +71,7 @@
     },
     {
       "label": "Expand all / collapse all",
-      "value": "optional header toggle (expandAllToggle) in the chevron column header (first column for a tree); aria-expanded reflects whether every expandable row is open"
+      "value": "optional header toggle (expandAllToggle) in the first column header, above the row chevrons (aligned spacer when absent); aria-expanded reflects whether every expandable row is open"
     },
     {
       "label": "Expanded state",
