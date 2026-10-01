@@ -8,7 +8,7 @@ function onRate(e) {
   track('CSAT_RATED', e.detail);   // { rating: 'up' | 'down', source }
 }
 function onFeedback(e) {
-  track('CSAT_FEEDBACK_SUBMITTED', e.detail);   // { rating: 'down', source, feedback }
+  track('CSAT_FEEDBACK_SUBMITTED', e.detail);   // { rating: 'up' | 'down' | null, source, feedback }
 }
 </script>
 

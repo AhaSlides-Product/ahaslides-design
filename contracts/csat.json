@@ -18,7 +18,7 @@
     { "label": "Thumbs-down", "value": "registers value='down' + emits `rate`, then opens a feedback popover (shared <aha-popover>, role=dialog · Esc/outside-click close) anchored to the thumbs group — a small round 20px X (closes only, never submits, keeps the down rating), an <aha-counted-textarea> and a secondary Send button that stays disabled until text is typed; the heading is optional (`feedback-prompt`, none by default)" },
     { "label": "Feedback button", "value": "opt-in `feedback-button` — a chat icon beside the thumbs (tooltip Feedback) that opens the same popover with the placeholder `feedback-button-placeholder` (default “Share your thoughts”) without changing the rating; submitting clears the field so feedback can be sent again" },
     { "label": "Thank-you", "value": "opt-in `thanks` — check + success #16C49A line fades in (motion tokens): instantly on up, after feedback submit on down" },
-    { "label": "Events", "value": "`rate` → { rating: 'up' | 'down', source } · `feedback` → { rating: 'down', source, feedback }" }
+    { "label": "Events", "value": "`rate` → { rating: 'up' | 'down', source } · `feedback` → { rating: 'up' | 'down' | null, source, feedback } (null when unrated — the Feedback button needs no rating)" }
   ],
   "props": [
     { "name": "prompt", "type": "string", "default": "—", "desc": "Optional question shown before the thumbs" },

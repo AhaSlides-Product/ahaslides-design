@@ -27,6 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **CSAT matches the import-completion design (PRO38-77).** `<aha-csat>`: the prompt is 12px in #616161; the thumbs are 28×24 borderless buttons with 16px #4A4A4A icons (ghost fill and primary icon on hover) instead of bare 16px #8A8A8A icons, with Good / Not good tooltips; the feedback popover gains a small round X (closes only, keeps the rating), its Send button is secondary, reads "Send" and stays disabled until text is typed, the field clears after sending, and the "What could be better?" heading is gone unless `feedback-prompt` is set (**breaking** for anyone relying on the default heading). (#143)
 ### Added
 - `<aha-csat feedback-button>` shows a Feedback chat icon beside the thumbs (tooltip Feedback) that opens the same popover with the `feedback-button-placeholder` (default "Share your thoughts") without rating. New `like-label`, `dislike-label` and `feedback-label` attributes localise the tooltips. (#143)
+- The `feedback` event now carries the current rating (`'up'`, `'down'` or `null` when unrated) instead of always `'down'`, since the Feedback button can send without a thumbs-down. Esc and the X return focus to the control that opened the popover. (#143)
 
 ## 0.72.0 — 2026-10-01
 ### Added
