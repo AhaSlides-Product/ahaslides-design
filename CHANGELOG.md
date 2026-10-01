@@ -22,9 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.70.0 — 2026-10-01
+## 0.71.0 — 2026-10-01
 ### Added
 - **Expandable rows for Table and DataTable (React).** New `@ahaslides-product/design/table-expandable` (`createExpandableRows({ React })` → `useExpandableRows`) gives a plain `tableTheme` Table and the shared DataTable one collapse / expand behaviour, replacing every hand-rolled antd `expandIcon` caret. Two shapes: a **detail panel** (`renderDetail(record)` — free content or a nested sub-table under the row) and **tree rows** (rows with `children` share the parent's columns). A leading 24px chevron button (`system-caret-right`, rotating 0 to 90 degrees on the motion tokens) with `aria-expanded` + `aria-controls`, Enter / Space and a visible focus ring; an aligned spacer on rows that cannot expand; whole-row click toggles too without double-toggling and without firing from links, buttons or inputs. Several rows can be open at once, an optional header toggle (`expandAllToggle`) expands / collapses all, and the expanded state is keyed by row key so it survives sort, filter and pagination (controlled or uncontrolled). The panel is an inset surface with the nested sub-table's own border removed, plus a loading slot (`loadingKeys` + `onExpand` for lazy fetches). DataTable takes it as the `expandableRows` prop; the Data table docs page shows detail panel, loading, tree and plain-Table cases. (#PR)
+
+## 0.70.0 — 2026-10-01
+### Added
+- **`--aha-tooltip-max-width` (280px) — new layout token** (`layout.tooltipMaxWidth`). The tooltip bubble now wraps at 280px instead of 200px, closer to the Presenter app's 336px; the tooltip conformance check asserts the rendered cap. (#138)
+- **Standards gate: new tokens need owner sign-off.** Any leaf token added to `tokens.canonical.json` fails the gate until its path is listed in `tokens.acknowledged.json`, so agent-proposed tokens get a visible one-line review. (#138)
+- **Standards gate: raw spacing px.** A component whose source gains a `padding`/`margin`/`gap` literal above 1px fails the gate; existing cases are grandfathered per file in `standards.baseline.json` (ratchet down with `node standards.mjs --update-baseline`; justify one line with `ds-lint-allow: spacing`). (#138)
+- **`version-drift.mjs` (`npm run drift`).** Lists the repos consuming `@ahaslides-product/design`, the version each pins and the latest published, with a `--line` mode for one report line. (#138)
+### Changed
+- Guideline pages no longer point at the retired `aha-design-*` plugin skills (the plugin now ships one `aha-design` skill); they reference the DS guide and anti-slop feed, and the gate rejects the old references. (#138)
 
 ## 0.69.1 — 2026-09-30
 ### Added

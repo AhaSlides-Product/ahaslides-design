@@ -1,6 +1,6 @@
 # Overlays — composition guide
 
-> Distilled from `aha-design-overlays`. The DS now **owns this build ruleset** — it is
+> Distilled from the `overlays` guide. The DS now **owns this build ruleset** — it is
 > the single source of truth for how an overlay is constructed, and the plugin skill is
 > generated from it. The rationale, worked examples, and the judge/evals stay in the
 > skill; this guide is the shippable checklist. When the two ever disagree, regenerate
@@ -58,12 +58,12 @@ Never close a destructive overlay before its action resolves, and **never fire-a
 
 ## Errors stay inline
 
-- Surface failures **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert type="error"` — the banner component and its styling are owned by `aha-design-feedback`; do **not** drop in a bare AntD `<Alert>`). This pattern owns *where* the error goes (inline, in the overlay); feedback owns *what it looks like*.
+- Surface failures **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert type="error"` — the banner component and its styling are owned by the `feedback` guide; do **not** drop in a bare AntD `<Alert>`). This pattern owns *where* the error goes (inline, in the overlay); feedback owns *what it looks like*.
 - **Never** stack a second modal on top, and **never** downgrade the error to a transient toast.
 - The overlay **remains open on failure** so the user can retry without re-opening.
 
 ---
 
 *Full detail, the `DeleteSurveyConfirmModal` / `RespondentReportDrawer` references, and the
-`OVERLAY-01..08` assertions live in the `aha-design-overlays` skill. Self-check any built
-overlay with `aha-design-overlays-judge` and fix every FAIL before shipping.*
+`OVERLAY-01..08` assertions live in the DS `overlays` guide. Self-check any built
+overlay with the DS anti-slop judge (`overlays` surface) and fix every FAIL before shipping.*

@@ -5,11 +5,11 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to build the audience-facing iframe of a slide-type plugin — mobile-first single-column layout, theme-from-xprops, self-rendered submit/waiting/correct-incorrect states, the standard submit-button spec, and host-utility integration — composed from existing components.",
-  "lead": "The audience iframe is the phone-side counterpart to the presenter canvas: a separate entry, loaded at its own route, rendered mobile-first in its own cross-origin document. It ships NO new component — it reuses Button, Checkbox and Icon, paints with the deck palette / textColour / fontFamily the host forwards via window.xprops, and bundles semantic state colours from the design-system package because no --aha-* vars cross the iframe boundary. The narrative 'why', the worked BAD/GOOD examples and the C1..C22 judge criteria live in the aha-design-audience skill; this artifact carries only the enforceable construction rules.",
+  "lead": "The audience iframe is the phone-side counterpart to the presenter canvas: a separate entry, loaded at its own route, rendered mobile-first in its own cross-origin document. It ships NO new component — it reuses Button, Checkbox and Icon, paints with the deck palette / textColour / fontFamily the host forwards via window.xprops, and bundles semantic state colours from the design-system package because no --aha-* vars cross the iframe boundary. The narrative 'why', the worked BAD/GOOD examples and the C1..C22 judge criteria live in the DS `audience` guide; this artifact carries only the enforceable construction rules.",
   "skillRef": {
-    "build": "aha-design:aha-design-audience",
-    "judge": "aha-design:aha-design-audience-judge",
-    "note": "The skill is the source of truth for rationale, worked BAD/GOOD examples, the AHAM-xxx bug references, and the full C1..C22 judge criteria plus the pre-ship checklist. This pattern distils the enforceable construction subset and links each rule back by ref (the judge's C-criteria, or a section label where the skill states a rule the judge doesn't separately enumerate)."
+    "build": "DS guideline — guidelines/audience.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: audience)",
+    "note": "This guide is the source of truth for rationale, worked BAD/GOOD examples, the AHAM-xxx bug references, and the full C1..C22 judge criteria plus the pre-ship checklist. This pattern distils the enforceable construction subset and links each rule back by ref (the judge's C-criteria, or a section label where the skill states a rule the judge doesn't separately enumerate)."
   },
   "surfaces": [
     "audience"
@@ -42,7 +42,7 @@
     {
       "ref": "icon",
       "as": "component",
-      "use": "the non-colour state cue paired with every colour signal — ✓ on submit, ✗ incorrect, lock icon on closed, leader trophy (glyph choice / size / stroke per aha-design-icons)",
+      "use": "the non-colour state cue paired with every colour signal — ✓ on submit, ✗ incorrect, lock icon on closed, leader trophy (glyph choice / size / stroke per the `icons` guide)",
       "status": "available"
     },
     {

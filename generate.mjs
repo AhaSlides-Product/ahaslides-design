@@ -320,7 +320,7 @@ function tokenVars(t) {
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-secondary:${f.secondary}; --aha-font-mono:${f.mono};`);
   L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px; --aha-radius-pill:${r.pill}px;`);
   /* layout — default max-width for centred app content (page/screen container) */
-  L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px;`);
+  L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px; --aha-tooltip-max-width:${t.layout.tooltipMaxWidth}px;`);
   /* type scale + spacing + weight + line-height + tracking — the canonical size/space/weight/lineHeight/
      letterSpacing scales exposed as CSS vars so framework-free surfaces (the marketing sections) and future
      components can bind dimensions to tokens instead of hardcoding px. Values are DERIVED from

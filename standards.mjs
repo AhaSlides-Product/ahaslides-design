@@ -23,7 +23,7 @@
  * and this proves your component registers and is genuinely reusable — or it fails, loudly, per rule.
  * (Render truth — does it LOOK right — is qa.mjs. Run both via `npm run check`.)
  */
-import { readdirSync, readFileSync, existsSync } from 'node:fs';
+import { readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
@@ -46,6 +46,10 @@ const EXPORTS = PKG.exports || {};
    These primitives make the house non-negotiables (palette, the 4/6/8/12/16 radius scale, real
    --aha-* tokens) something the gate ENFORCES — not something the author has to remember. */
 const TOKENS = JSON.parse(read(join(root, 'tokens.canonical.json')) || '{}');
+const BASELINE_PATH = join(root, 'standards.baseline.json');
+const BASELINE_SPACING_PX = (existsSync(BASELINE_PATH) ? JSON.parse(readFileSync(BASELINE_PATH, 'utf8')).spacingPx : null) || {};
+const UPDATE_BASELINE = process.argv.includes('--update-baseline');
+const ACKNOWLEDGE_TOKENS = process.argv.includes('--acknowledge-tokens');
 const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; pill = 999
 const NEUTRALS = new Set(['#FFFFFF', '#000000']);          // universal; 'transparent' handled in inPalette
 const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
@@ -345,6 +349,8 @@ for (const ct of contracts) {
    A genuinely-decorative exception (a sub-scale tick radius, a white checkmark stroke) carries an
    auditable, greppable escape hatch on its own line: `ds-lint-allow: hex,radius (why)`. */
 const libFindings = [];
+const spacingPxBaselineNext = {};
+const spacingPxLowered = [];
 for (const ct of contracts) {
   const r = ct.reuse; if (!r || !r.entry) continue;
   const mapped = EXPORTS[r.entry]; if (!mapped || !/\.js$/.test(mapped)) continue;
@@ -359,9 +365,10 @@ for (const ct of contracts) {
   const a11yFindings = [];      // [kind, msg] tuples — hard fail unless grandfathered (A11Y_DEBT); kinds: role | leak | observed | toggle
   const responsiveFindings = []; // [kind, msg] tuples — hard fail unless grandfathered (RESPONSIVE_DEBT); kinds: minwidth
   const fontFindings = [];       // [kind, msg] tuples — hard fail unless grandfathered (FONT_DEBT); kind: inherit
+  let spacingPxCount = 0;
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
-    const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
+    const allowHex = /hex/.test(allow), allowSpacing = /spacing/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
     const allowSvg = /svg/.test(allow);
     const allowResponsive = /responsive/.test(allow);
     // a fixed min-width ≥ the 360px floor can't shrink to fit a phone — it forces a horizontal scroll (element + theme)
@@ -372,6 +379,9 @@ for (const ct of contracts) {
     if (mode === 'element') {
       const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
       if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
+      if (!allowSpacing)
+        for (const m of bare.matchAll(/(?<![a-z-])(?:padding|margin|gap|row-gap|column-gap)(?:-(?:top|right|bottom|left|inline|block)(?:-(?:start|end))?)?\s*:\s*([^;}`"']+)/gi))
+          if ((m[1].match(/-?\d*\.?\d+px/g) || []).some(px => Math.abs(parseFloat(px)) > 1)) spacingPxCount++;
       if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
       // a transition's timing must come from a motion token — a bare literal (.12s/150ms) is the drift (.1/.12/.15) we're killing
       if (!allowMotion && /transition/i.test(line))
@@ -390,6 +400,13 @@ for (const ct of contracts) {
       for (const h of line.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) if (!inPalette(h)) hits.push(`L${i + 1}: off-palette ${h} — a theme must map to a canonical token value`);
     }
   });
+  if (mode === 'element') {
+    const file = mapped.replace(/^\.\//, '');
+    const allowed = BASELINE_SPACING_PX[file] || 0;
+    if (UPDATE_BASELINE) spacingPxBaselineNext[file] = spacingPxCount;
+    if (spacingPxCount > allowed) hits.push(`${spacingPxCount - allowed} new raw spacing px declaration(s) (padding/margin/gap > 1px; ${spacingPxCount} found, ${allowed} baselined) — bind to var(--aha-space-N, Npx), or justify a line with ds-lint-allow: spacing (why)`);
+    else if (spacingPxCount < allowed) spacingPxLowered.push(`${file}: ${spacingPxCount} < baseline ${allowed} — run node standards.mjs --update-baseline to ratchet it down`);
+  }
   // per-file motion smells (element only)
   if (mode === 'element') {
     const body = code.join('\n');
@@ -728,6 +745,35 @@ const repoChecks = [];
     }
   }
 }
+
+/* ===== TOKEN ACKNOWLEDGEMENT — every leaf token path in tokens.canonical.json must be listed in
+   tokens.acknowledged.json. A NEW token (e.g. an agent-proposed effect.blur.md) fails the gate until its
+   path is added there, so the token owner's sign-off is a visible one-line diff in the PR instead of
+   passing silently. Removing a token needs no acknowledgement. */
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const leafPaths = (node, prefix = '') => Array.isArray(node)
+    ? node.map(v => `${prefix}.${v}`)
+    : (node && typeof node === 'object')
+      ? Object.entries(node).filter(([k]) => !k.startsWith('$')).flatMap(([k, v]) => leafPaths(v, prefix ? `${prefix}.${k}` : k))
+      : [prefix];
+  const ackPath = join(root, 'tokens.acknowledged.json');
+  const current = leafPaths(TOKENS).sort();
+  if (ACKNOWLEDGE_TOKENS) writeFileSync(ackPath, JSON.stringify({ $about: 'Token paths the design-system owner has signed off. A new path in tokens.canonical.json fails standards.mjs until it is added here in the same PR.', tokens: current }, null, 1) + '\n');
+  const acknowledged = new Set(existsSync(ackPath) ? JSON.parse(readFileSync(ackPath, 'utf8')).tokens : []);
+  const unacknowledged = current.filter(t => !acknowledged.has(t));
+  rchk('every token in tokens.canonical.json is acknowledged', unacknowledged.length === 0,
+    `new token(s) need owner sign-off — add to tokens.acknowledged.json (node standards.mjs --acknowledge-tokens): ${unacknowledged.slice(0, 8).join(', ')}${unacknowledged.length > 8 ? ` (+${unacknowledged.length - 8} more)` : ''}`);
+}
+{
+  const retiredSkillRefs = [];
+  for (const dir of ['guidelines', 'parts']) for (const f of existsSync(join(root, dir)) ? readdirSync(join(root, dir)) : [])
+    if (/\.(json|md)$/.test(f) && /aha-design:aha-design-|`aha-design-[a-z-]+`\s+skill/.test(read(join(root, dir, f)))) retiredSkillRefs.push(`${dir}/${f}`);
+  repoChecks.push(['guideline pages do not point at retired aha-design-* skills', retiredSkillRefs.length === 0,
+    `the plugin ships one skill (aha-design); point at the DS guide / anti-slop feed instead: ${retiredSkillRefs.join(', ')}`]);
+}
+if (UPDATE_BASELINE) writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Per-file count of raw padding/margin/gap px declarations (> 1px) in component source, grandfathered. standards.mjs fails when a file exceeds its count; lower it with --update-baseline.', spacingPx: spacingPxBaselineNext }, null, 1) + '\n');
+for (const note of spacingPxLowered) console.log(`ratchet: ${note}`);
 
 /* ---- report ---- */
 let pass = 0, fail = 0, warnCount = 0;

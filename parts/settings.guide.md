@@ -1,8 +1,8 @@
 # Settings — composition guide
 
-> Distilled from `aha-design-settings`. The skill holds the full rationale, worked
+> Distilled from the retired `aha-design-settings` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, and all 52 `SETTINGS-xx` assertions; this guide is the shippable
-> checklist. When the two ever disagree, the skill wins and this file is regenerated.
+> checklist. When the two ever disagree, this guide wins.
 
 Settings panels are the most-repeated surface in the product. They reuse existing
 components — Checkbox, Button, Icon, the spacing scale — so this pattern adds no new
@@ -65,8 +65,8 @@ A setting that only applies when a parent is on is **hidden when the parent is o
 
 ## Plan-gated and dangerous settings
 
-- **Plan-gated:** stays **visible but locked** (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by `aha-design-paywall`).
-- **Danger zone:** dangerous/irreversible settings sit **last**, set apart by the largest gap (48). CTA is the **danger Button** (`colorError`, no hardcoded hex); red never on the label. Any irreversible action **requires a confirmation modal** (per `aha-design-overlays`) — never a bare toggle flip.
+- **Plan-gated:** stays **visible but locked** (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by the `paywall` guide).
+- **Danger zone:** dangerous/irreversible settings sit **last**, set apart by the largest gap (48). CTA is the **danger Button** (`colorError`, no hardcoded hex); red never on the label. Any irreversible action **requires a confirmation modal** (per the `overlays` guide) — never a bare toggle flip.
 
 ## No empty height
 
@@ -109,5 +109,5 @@ above.
 ---
 
 *Full detail, screenshots, and the slide-type config specifics (§10) live in the
-`aha-design-settings` skill. Self-check any built surface with `aha-design-settings-judge`
+the DS `settings` guide. Self-check any built surface with the DS anti-slop judge (`settings` surface)
 and fix every FAIL before shipping.*
