@@ -286,6 +286,50 @@
         "when": "the same results anywhere else in the Presenter app — Report, dashboards, summaries"
       },
       {
+        "what": "Chart type: bar",
+        "when": "type=\"bar\" — compare counts across categorical options: long labels, many options (no cap unless max-items is set; extras fold into \"Other (n)\"), ranking (sort=\"desc\" adds rank numbers), image options, Pick Answer with several options. Serves Poll and Ranking. Not for part-to-whole of one question (use donut) or a time series (use @ant-design/plots)."
+      },
+      {
+        "what": "Chart type: column",
+        "when": "type=\"column\" — the same comparison for a few short options (Poll, Pick Answer correct reveal). It turns into bars on its own when the labels do not fit the width, so choose bar directly for long labels or many options. Not for part-to-whole (use donut)."
+      },
+      {
+        "what": "Chart type: stacked",
+        "when": "type=\"stacked\" — composition of several groups or statements side by side, each row split by the same series (up to 6 series, the rest fold into \"Other (n)\"). Use when you compare how groups divide, not for one question (use donut)."
+      },
+      {
+        "what": "Chart type: donut / pie",
+        "when": "type=\"donut\" (options.variant=\"pie\" for a solid pie with no centre hole) — part-to-whole of ONE question with few categories (up to 6 slices, the rest fold into \"Other (n)\"; up to 5 get leader-line callouts, otherwise a legend). Not for many slices or values close together (use bar)."
+      },
+      {
+        "what": "Chart type: radial",
+        "when": "type=\"radial\" — a few shares or percentages shown compactly as concentric rings (up to 6, the rest fold into \"Other (n)\"). Not for many items or exact comparison (use bar)."
+      },
+      {
+        "what": "Chart type: treemap",
+        "when": "type=\"treemap\" — part-to-whole across many categories of very different size (up to 6 tiles, the rest fold into \"Other (n)\"). Not for precise comparison of close values (use bar)."
+      },
+      {
+        "what": "Chart type: quadrant",
+        "when": "type=\"quadrant\" — items scored on two axes, such as effort against impact, shown as a 2×2 matrix with four zone labels (up to three colour groups). Serves the 2×2 matrix slide. Not for one-dimensional scores (use bar)."
+      },
+      {
+        "what": "Chart type: bell",
+        "when": "type=\"bell\" — distribution of rating-scale answers, one counts array per scale step, one curve per statement (up to 6) with an average. Serves Rating scale. Not for categorical options (use bar)."
+      },
+      {
+        "what": "Chart type: radar",
+        "when": "type=\"radar\" — several criteria scored on the same scale (5, 10 or 100), comparing the profile of one or a few subjects. Not for criteria on unrelated scales or a single score (use bar)."
+      },
+      {
+        "what": "Chart type: wordcloud",
+        "when": "type=\"wordcloud\" — frequency of short free-text answers (one string per response, or counted words; up to 120 words shown, duplicates merged). Serves Word cloud. Not for exact counts (use bar)."
+      },
+      {
+        "what": "Chart type: mindmap",
+        "when": "type=\"mindmap\" — grouped or hierarchical ideas as a tree of labels (default up to 5 levels and 6 branches). Serves Brainstorm and Mind map. Not for quantities (use bar or donut)."
+      },
+      {
         "what": "Statistic",
         "when": "a single headline number, not a distribution"
       },
