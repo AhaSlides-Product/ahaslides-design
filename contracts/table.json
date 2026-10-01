@@ -14,6 +14,8 @@
     { "label": "Radius", "value": "8" },
     { "label": "Cell padding", "value": "16 (literal)" },
     { "label": "Row hover", "value": "gray-30 #F1F1F1" },
+    { "label": "Expandable rows (React)", "value": "detail panel (a nested sub-table or free content under the row) or tree rows (children share the parent's columns) — via useExpandableRows from table-expandable; the open parent keeps the plain surface (bold text, primary chevron) and its panel / children take the gray-20 surface, so the expanded content is obvious; every state is on the Data table page" },
+    { "label": "Expand chevron", "value": "leading 24px button inline in the first column, system-caret-right rotating 0→90° on --aha-motion-mid; aligned spacer on rows that cannot expand; aria-expanded + aria-controls; Enter/Space; whole-row click toggles too (never twice); optional header toggle expands / collapses all" },
     { "label": "Customisations (DS V3)", "value": "sorting (single arrow) · filtering (checklist/range) · reorder · resize · rows-per-page · freeze · add/remove columns" }
   ],
   "props": [
@@ -22,12 +24,14 @@
     { "name": "rowKey", "type": "string | fn", "default": "—", "desc": "unique row id" },
     { "name": "pagination", "type": "object | false", "default": "—", "desc": "brand-outlined page + N/page size changer" },
     { "name": "reorderable", "type": "boolean", "default": "false", "desc": "drag headers to reorder" },
-    { "name": "freezable", "type": "boolean", "default": "false", "desc": "right-click header to freeze one column" }
+    { "name": "freezable", "type": "boolean", "default": "false", "desc": "right-click header to freeze one column" },
+    { "name": "useExpandableRows(options)", "type": "hook", "default": "—", "desc": "from createExpandableRows({ React }) in table-expandable: returns { tableProps, decorateColumns } to spread on the Table. Options: renderDetail (detail panel; omit for tree rows), rowExpandable, expandAllToggle, expandedRowKeys / defaultExpandedRowKeys / onExpandedRowsChange (keyed by row key, so sort / filter / pagination keep it), onExpand (lazy fetch), loadingKeys (spinner slot), getRowLabel, labels" }
   ],
   "opinion": {
     "whenToUse": [
       { "what": "Table + tableTheme in ConfigProvider", "when": "a plain rows×columns grid — results, leaderboard, admin list" },
       { "what": "Data table", "when": "the grid needs DS V3 behaviour — single-arrow sort, checklist / range filters, reorder, freeze, resize, edit columns — import DataTable from @ahaslides-product/design/aha-data-table" },
+      { "what": "Expandable rows", "when": "a row hides a detail panel or sub-table, or rows nest children — spread useExpandableRows tableProps on the Table instead of hand-rolling an antd expandIcon caret" },
       { "what": "never a per-call-site restyle", "when": "a bare antd Table restyled at each call site is the drift this replaces" }
     ],
     "note": "White header (not antd grey #fafafa), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
@@ -39,7 +43,7 @@
     { "key": "react", "label": "React", "file": "table.react.txt" },
     { "key": "vue", "label": "Vue 3", "file": "table.vue.txt" }
   ],
-  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same tableTheme, passed to each tier's own ConfigProvider around the real antd v6 / ant-design-vue v4 Table; residual drift is caught by visual regression.",
+  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same tableTheme, passed to each tier's own ConfigProvider around the real antd v6 / ant-design-vue v4 Table; residual drift is caught by visual regression. Expandable rows come from one shared hook (lib/table-expandable.js) so the plain Table and the DataTable behave identically; Vue gets the same look from tableTheme until the Vue twin ships.",
   "preview": "table.preview.html",
   "conformancePart": "table.conformance.html",
   "selfCheck": [
@@ -48,6 +52,7 @@
     { "label": "dividers-only, no zebra", "verdict": "PASS" },
     { "label": "radius 8 · 16px padding", "verdict": "PASS" },
     { "label": "pagination + size changer", "verdict": "PASS" },
+    { "label": "expandable rows via the shared hook, not a hand-rolled expandIcon", "verdict": "PASS" },
     { "label": "single-arrow sort / filter / freeze / Phosphor", "verdict": "N/A" }
   ],
   "conformance": {

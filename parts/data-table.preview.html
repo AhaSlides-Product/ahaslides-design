@@ -10,10 +10,14 @@
 <script type="module">
 import '../lib/icons.js';
 import { createDataTable } from '../lib/aha-data-table.js';
+import { createExpandableRows } from '../lib/table-expandable.js';
+import { tableTheme } from '../lib/table-theme.js';
 
 const React = window.React, antd = window.antd, h = React.createElement;
 const DataTable = createDataTable({ React, antd });
-const { Button, Space } = antd;
+const { Button, Space, Table, ConfigProvider } = antd;
+const { useExpandableRows } = createExpandableRows({ React });
+const { useState } = React;
 
 const rows = [
   { key: '1', name: 'Mai Tran',   team: 'Product', responses: 25, score: 1040, accuracy: '92%', time: '9s' },
@@ -38,6 +42,61 @@ function Case({ title, hint, children }) {
   return h('div', { className: 'aha-case', style: { marginBottom: 'var(--aha-space-8)' } },
     h('div', { className: 'lbl', style: { marginBottom: 'var(--aha-space-10)' } }, title + (hint ? ' · ' + hint : '')),
     children);
+}
+
+const pageRows = [
+  { key: 'p1', page: 'Welcome', views: 25, completion: '100%', answers: [
+    { key: 'p1a', learner: 'Mai Tran', answer: 'Opened', time: '9s' },
+    { key: 'p1b', learner: 'Sara Kim', answer: 'Opened', time: '11s' } ] },
+  { key: 'p2', page: 'Quick poll', views: 24, completion: '96%', answers: [
+    { key: 'p2a', learner: 'John Lee', answer: 'Option B', time: '12s' },
+    { key: 'p2b', learner: 'Ana Silva', answer: 'Option A', time: '12s' },
+    { key: 'p2c', learner: 'Tom Fox', answer: 'Option B', time: '15s' } ] },
+  { key: 'p3', page: 'Summary', views: 19, completion: '76%', answers: [] },
+];
+const pageColumns = [
+  { key: 'page', title: 'Page', dataIndex: 'page' },
+  { key: 'views', title: 'Views', dataIndex: 'views' },
+  { key: 'completion', title: 'Completion', dataIndex: 'completion' },
+];
+const answerColumns = [
+  { key: 'learner', title: 'Learner', dataIndex: 'learner' },
+  { key: 'answer', title: 'Answer', dataIndex: 'answer' },
+  { key: 'time', title: 'Time', dataIndex: 'time' },
+];
+const subTable = (record) => h(Table, { rowKey: 'key', size: 'small', pagination: false, columns: answerColumns, dataSource: record.answers });
+const teamRows = [
+  { key: 't1', name: 'Product', responses: 62, score: 2610, children: [
+    { key: 't1a', name: 'Mai Tran', responses: 25, score: 1040 },
+    { key: 't1b', name: 'Ana Silva', responses: 21, score: 880 },
+    { key: 't1c', name: 'Lena Park', responses: 16, score: 690 } ] },
+  { key: 't2', name: 'Growth', responses: 61, score: 2500, children: [
+    { key: 't2a', name: 'Sara Kim', responses: 24, score: 980 },
+    { key: 't2b', name: 'John Lee', responses: 22, score: 910 } ] },
+  { key: 't3', name: 'Sales', responses: 0, score: 0 },
+];
+
+function LazyDetailTable() {
+  const [loadingKeys, setLoadingKeys] = useState([]);
+  const [loaded, setLoaded] = useState({});
+  const load = (expanded, record) => {
+    if (!expanded || loaded[record.key]) return;
+    setLoadingKeys((keys) => [...keys, record.key]);
+    setTimeout(() => {
+      setLoaded((previous) => ({ ...previous, [record.key]: true }));
+      setLoadingKeys((keys) => keys.filter((key) => key !== record.key));
+    }, 1200);
+  };
+  return h(DataTable, { rowKey: 'key', dataSource: pageRows, columns: pageColumns, pagination: false,
+    expandableRows: { renderDetail: subTable, loadingKeys, onExpand: load, getRowLabel: (record) => record.page } });
+}
+
+function PlainTableExpandable() {
+  const { tableProps, decorateColumns } = useExpandableRows({
+    dataSource: pageRows, rowKey: 'key', renderDetail: subTable, expandAllToggle: true, getRowLabel: (record) => record.page,
+  });
+  return h(ConfigProvider, { theme: tableTheme },
+    h(Table, { rowKey: 'key', dataSource: pageRows, columns: decorateColumns(pageColumns), pagination: false, ...tableProps }));
 }
 
 function App() {
@@ -69,7 +128,18 @@ function App() {
       ] })),
     h(Case, { title: 'Add / remove columns', hint: 'Edit columns → checklist' },
       h(DataTable, { rowKey: 'key', dataSource: rows.slice(0, 5), pagination: false, columnsEditable: true, toolbarTitle: 'Leaderboard',
-        columns: [{ ...base[0], hideable: false }, base[1], base[2], base[3]] })));
+        columns: [{ ...base[0], hideable: false }, base[1], base[2], base[3]] })),
+    h(Case, { title: 'Expandable rows · detail panel', hint: 'chevron or row click opens a nested sub-table; header toggle expands all; the first row starts open' },
+      h(DataTable, { rowKey: 'key', dataSource: pageRows, columns: pageColumns, pagination: false,
+        expandableRows: { renderDetail: subTable, expandAllToggle: true, defaultExpandedRowKeys: ['p1'], getRowLabel: (record) => record.page,
+          rowExpandable: (record) => record.answers.length > 0 } })),
+    h(Case, { title: 'Expandable rows · loading slot', hint: 'detail fetched on first open — spinner until it lands' },
+      h(LazyDetailTable)),
+    h(Case, { title: 'Expandable rows · tree', hint: 'children share the parent’s columns' },
+      h(DataTable, { rowKey: 'key', dataSource: teamRows, pagination: false, expandableRows: { expandAllToggle: true, defaultExpandedRowKeys: ['t1'], getRowLabel: (record) => record.name },
+        columns: [{ ...base[0], title: 'Team / learner' }, base[2], base[3]] })),
+    h(Case, { title: 'Expandable rows · plain Table', hint: 'the same hook on a bare antd Table under tableTheme' },
+      h(PlainTableExpandable)));
 }
 
 window.ReactDOM.createRoot(document.getElementById('react-root')).render(h(App));

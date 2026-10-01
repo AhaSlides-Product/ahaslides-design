@@ -27,6 +27,8 @@
 
   createRoot(document.getElementById('root')).render(
     h(DataTable, { rowKey: 'key', columns, dataSource: rows, toolbarTitle: 'Leaderboard',
-      reorderable: true, freezable: true, resizable: true, columnsEditable: true, pagination: { defaultPageSize: 5 } })
+      reorderable: true, freezable: true, resizable: true, columnsEditable: true, pagination: { defaultPageSize: 5 },
+      expandableRows: { expandAllToggle: true, getRowLabel: (record) => record.name,
+        renderDetail: (record) => h('p', null, record.name + ' answered ' + record.responses + ' questions.') } })
   );
 </script>
