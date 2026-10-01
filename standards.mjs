@@ -47,8 +47,9 @@ const EXPORTS = PKG.exports || {};
    --aha-* tokens) something the gate ENFORCES — not something the author has to remember. */
 const TOKENS = JSON.parse(read(join(root, 'tokens.canonical.json')) || '{}');
 const BASELINE_PATH = join(root, 'standards.baseline.json');
-const BASELINE = existsSync(BASELINE_PATH) ? JSON.parse(readFileSync(BASELINE_PATH, 'utf8')) : { spacingPx: {} };
+const BASELINE_SPACING_PX = (existsSync(BASELINE_PATH) ? JSON.parse(readFileSync(BASELINE_PATH, 'utf8')).spacingPx : null) || {};
 const UPDATE_BASELINE = process.argv.includes('--update-baseline');
+const ACKNOWLEDGE_TOKENS = process.argv.includes('--acknowledge-tokens');
 const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; pill = 999
 const NEUTRALS = new Set(['#FFFFFF', '#000000']);          // universal; 'transparent' handled in inPalette
 const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
@@ -367,7 +368,7 @@ for (const ct of contracts) {
   let spacingPxCount = 0;
   code.forEach((line, i) => {
     const allow = (lines[i].match(/ds-lint-allow:\s*([a-z, ]+)/i) || [, ''])[1];
-    const allowHex = /hex/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
+    const allowHex = /hex/.test(allow), allowSpacing = /spacing/.test(allow), allowRadius = /radius/.test(allow), allowMotion = /motion/.test(allow);
     const allowSvg = /svg/.test(allow);
     const allowResponsive = /responsive/.test(allow);
     // a fixed min-width ≥ the 360px floor can't shrink to fit a phone — it forces a horizontal scroll (element + theme)
@@ -378,7 +379,7 @@ for (const ct of contracts) {
     if (mode === 'element') {
       const bare = line.replace(/var\(\s*--aha-[a-z0-9-]+\s*(,[^)]*)?\)/gi, 'TOK');   // fallbacks are fine; the token is the real value
       if (!allowHex) for (const h of bare.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) hits.push(`L${i + 1}: bare hex ${h} — bind to a token: var(--aha-…, ${h})`);
-      if (!/ds-lint-allow:\s*[a-z, ]*spacing/i.test(lines[i]))
+      if (!allowSpacing)
         for (const m of bare.matchAll(/(?<![a-z-])(?:padding|margin|gap|row-gap|column-gap)(?:-(?:top|right|bottom|left|inline|block)(?:-(?:start|end))?)?\s*:\s*([^;}`"']+)/gi))
           if ((m[1].match(/-?\d*\.?\d+px/g) || []).some(px => Math.abs(parseFloat(px)) > 1)) spacingPxCount++;
       if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
@@ -401,7 +402,7 @@ for (const ct of contracts) {
   });
   if (mode === 'element') {
     const file = mapped.replace(/^\.\//, '');
-    const allowed = BASELINE.spacingPx[file] || 0;
+    const allowed = BASELINE_SPACING_PX[file] || 0;
     if (UPDATE_BASELINE) spacingPxBaselineNext[file] = spacingPxCount;
     if (spacingPxCount > allowed) hits.push(`${spacingPxCount - allowed} new raw spacing px declaration(s) (padding/margin/gap > 1px; ${spacingPxCount} found, ${allowed} baselined) — bind to var(--aha-space-N, Npx), or justify a line with ds-lint-allow: spacing (why)`);
     else if (spacingPxCount < allowed) spacingPxLowered.push(`${file}: ${spacingPxCount} < baseline ${allowed} — run node standards.mjs --update-baseline to ratchet it down`);
@@ -758,11 +759,11 @@ const repoChecks = [];
       : [prefix];
   const ackPath = join(root, 'tokens.acknowledged.json');
   const current = leafPaths(TOKENS).sort();
-  if (UPDATE_BASELINE) writeFileSync(ackPath, JSON.stringify({ $about: 'Token paths the design-system owner has signed off. A new path in tokens.canonical.json fails standards.mjs until it is added here in the same PR.', tokens: current }, null, 1) + '\n');
+  if (ACKNOWLEDGE_TOKENS) writeFileSync(ackPath, JSON.stringify({ $about: 'Token paths the design-system owner has signed off. A new path in tokens.canonical.json fails standards.mjs until it is added here in the same PR.', tokens: current }, null, 1) + '\n');
   const acknowledged = new Set(existsSync(ackPath) ? JSON.parse(readFileSync(ackPath, 'utf8')).tokens : []);
   const unacknowledged = current.filter(t => !acknowledged.has(t));
   rchk('every token in tokens.canonical.json is acknowledged', unacknowledged.length === 0,
-    `new token(s) need owner sign-off — add to tokens.acknowledged.json: ${unacknowledged.slice(0, 8).join(', ')}${unacknowledged.length > 8 ? ` (+${unacknowledged.length - 8} more)` : ''}`);
+    `new token(s) need owner sign-off — add to tokens.acknowledged.json (node standards.mjs --acknowledge-tokens): ${unacknowledged.slice(0, 8).join(', ')}${unacknowledged.length > 8 ? ` (+${unacknowledged.length - 8} more)` : ''}`);
 }
 {
   const retiredSkillRefs = [];
