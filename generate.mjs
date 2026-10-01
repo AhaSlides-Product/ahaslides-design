@@ -761,6 +761,35 @@ function codeWidget(c) {
       ${panes}
     </div></div>`;
 }
+const dedent = (text) => {
+  const lines = text.split('\n');
+  const indent = Math.min(...lines.slice(1).filter(l => l.trim()).map(l => l.match(/^ */)[0].length), Infinity);
+  return [lines[0], ...lines.slice(1).map(l => l.slice(Number.isFinite(indent) ? indent : 0))].join('\n');
+};
+const chartCaseMarkup = (caseHtml) => {
+  const element = caseHtml.match(/<aha-chart[\s\S]*?<\/aha-chart>/);
+  if (!element) return '';
+  const copyable = element[0].replace(/\s+data-probe(?=[\s>])/, '').replace(/"image":"data:[^"]*"/g, '"image":"https://example.com/option.png"');
+  return dedent(copyable);
+};
+
+// One "Show code" per chart type on the Charts page: the type's default snippet, plus the markup of
+// whichever case the switcher is showing (the preview script keeps the "case" pane in step).
+function chartTypeCodeWidget(def, cases) {
+  const widget = codeWidget({ snippets: [{ key: 'default', label: 'Default', file: def.file }, { key: 'case', label: 'Selected case', file: def.file }] });
+  const cased = widget.replace(/(<pre class="code case[^>]*>)[\s\S]*?(<\/pre>)/, `$1${esc(cases[0] || part(def.file))}$2`);
+  return cased.replace('<div class="code-tabs" data-open="false">', `<div class="code-tabs chart-type-code" data-open="false" data-cases="${esc(JSON.stringify(cases))}">`);
+}
+function chartSectionsWithCode(c) {
+  const defaults = new Map((c.typeDefaults || []).map(d => [d.title, d]));
+  return part(c.preview).replace(/<section class="chart-type"[\s\S]*?<\/section>/g, (section) => {
+    const title = (section.match(/<h3 class="chart-type-title"[^>]*>([^<]+)</) || [])[1];
+    const def = defaults.get(title);
+    if (!def) return section;
+    const cases = [...section.matchAll(/<div class="chart-case"[^>]*>([\s\S]*?)(?=<div class="chart-case"|<\/section>)/g)].map(m => chartCaseMarkup(m[1]));
+    return section.replace(/<\/section>$/, `${chartTypeCodeWidget(def, cases)}\n  </section>`);
+  });
+}
 // Static docs grid helper (like ant.design's own API/token tables) — NOT an AntD data-grid
 // call site, so the shared-DataTable rule doesn't apply. The tag name is composed so the
 // call-site guard (which greps for the literal opening tag) stays quiet on these docs tables.
@@ -942,18 +971,17 @@ const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
    hub and Audience Library: noSidebar shell + the shared sticky antd Anchor. The page body is the
    chart contract's own doc content, so nothing is duplicated. */
 function renderChartsPage(c) {
-  const preview = part(c.preview);
+  const preview = chartSectionsWithCode(c);
   const chartTypes = [...preview.matchAll(/<h3 class="chart-type-title" id="([^"]+)">([^<]+)<\/h3>/g)].map(([, id, title]) => ({ id, title }));
   const sections = [
     { id: 'examples', title: 'Chart types', children: chartTypes, html: `<h2 id="examples">Chart types</h2>
   <div class="demo">
     ${playgroundBar(c)}
     <div class="demo-stage">${preview}</div>
-    ${codeWidget(c)}
   </div>` },
     { id: 'choosing-a-chart', title: 'Choosing a chart', html: `<h2 id="choosing-a-chart">Choosing a chart</h2>${c.opinion ? opinionBlock(c.opinion) + surfaceBlock(c.surfaces) : ''}` },
     { id: 'api', title: 'API', html: `<h2 id="api">API</h2>\n  ${propsTable(c.props)}` },
-    { id: 'install', title: 'Install and use', html: `<h2 id="install">Install and use</h2>${componentConsume(c)}` },
+    { id: 'install', title: 'Install and use', html: `<h2 id="install">Install and use</h2>${componentConsume(c)}<div class="demo">${codeWidget(c)}</div>` },
     { id: 'spec', title: 'Spec', html: `<h2 id="spec">Spec</h2>\n  <div class="spec-line">${specList(c.spec)}</div>` },
   ];
   const anchorItems = sections.map(x => ({ key: x.id, href: '#' + x.id, title: x.title,
@@ -1027,6 +1055,12 @@ const htmlKind = (c) => leafHtml(c)
   ? `<${c.element}> is a standard custom element that renders on open — React/Vue are thin adapters over the same element`
   : `a CDN-React runnable page (React + antd loaded from a CDN, no build step) — React/Vue wire the same real vendor component to the shared theme via ConfigProvider in your bundler`;
 
+const typeDefaultsMd = (c) => (c.typeDefaults || []).length
+  ? '\n## Default snippet per type\nStart from the type\'s default and only add attributes — never strip behaviour. Each is the element markup alone; load the element once with the HTML snippet\'s import.\n' +
+    c.typeDefaults.map(d => `\n### ${d.title}\n\`\`\`html\n${part(d.file).trim()}\n\`\`\``).join('\n')
+  : '';
+const typeDefaultsMap = (c) => Object.fromEntries((c.typeDefaults || []).map(d => [d.type, part(d.file).trim()]));
+
 function renderMd(c) {
   const props = (c.props||[]).map(p => `| \`${p.name}\` | ${p.type} | \`${p.default}\` | ${p.desc} |`).join('\n');
   const spec = (c.spec||[]).map(s => `- ${s.label}: ${s.value}`).join('\n');
@@ -1046,7 +1080,7 @@ ${props}
 
 ## Visual standard (measured)
 ${spec}
-${use}
+${use}${typeDefaultsMd(c)}
 `;
 }
 function patternHubUrl(p) { return p.hub ? `${SITE}/${p.hub}/index.html` : `${SITE}/guidelines/${p.slug}/index.html`; }
@@ -1078,7 +1112,8 @@ Tier: ${c.tier}. Frameworks: ${frameworksLine(c)}.
 ${hubLine}${htmlLead}${surf}Props:
 ${props}
 Tokens: ${(c.tokensUsed||[]).join(', ')}.
-${use}`;
+${use}${typeDefaultsMd(c)}
+`;
 }
 function renderAgent(c) {
   // Snippets insertion order follows c.snippets — HTML is authored first on leaf contracts,
@@ -1125,6 +1160,7 @@ function renderAgent(c) {
     frameworks,
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
     opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
+    ...((c.typeDefaults || []).length ? { typeDefaults: typeDefaultsMap(c) } : {}),
   }, null, 2) + '\n';
 }
 

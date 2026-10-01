@@ -116,6 +116,12 @@ Pick the type from the shape of the data. Types that fold extras into "Other (n)
 
 A single headline number is a `Statistic`, and a time series, line or area chart is `@ant-design/plots` (`<aha-chart>` does not draw them).
 
+## Default snippet per type
+
+Every chart type has one default snippet: the minimal `<aha-chart type="…">` markup and data shape that already renders the full intended look and behaviour (entrance animation, live-update motion, tooltip, auto legend, empty state, text summary, hidden data table, live-region announcement) with no opt-in attribute. Start from it and only add attributes or `options`; never strip behaviour from it. The 11 snippets are in `contracts/chart.json` (`typeDefaults`) and each type's "Show code" on the Charts page.
+
+Opt-in only (off until you set it): ranking (`sort="desc"`), Pick Answer (`correct`), `page-size`, `highlight-top`, `log-scale`, bell `showGrid` / `showYAxis` / `showMeanLine` / `showStepLabels`, radar `showTable` / `showScaleTicks` / `hollowCentre`, word cloud `showCounts` / `foldDiacritics` / `shape` / `rotation` / `maskSrc`, and an editable mind map (`editable`).
+
 ## Chart types and their data
 
 Set `type` to one of the values below. The default is `bar`. An unknown value falls back to `bar`.

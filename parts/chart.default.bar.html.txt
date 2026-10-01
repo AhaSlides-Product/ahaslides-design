@@ -1,0 +1,2 @@
+<aha-chart type="bar" label="Q4 priorities"
+  data='[{"label":"Better onboarding","value":258},{"label":"Google Slides integration","value":219},{"label":"Advanced reports","value":164},{"label":"Offline mode","value":114},{"label":"More languages","value":68}]'></aha-chart>

@@ -339,7 +339,7 @@
         "when": "a chart type <aha-chart> does not ship (line/area/time series)"
       }
     ],
-    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-color-success, the rest neutral, plus a ✓ on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element.",
+    "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-color-success, the rest neutral, plus a ✓ on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element. Start from the chart type's default snippet (`typeDefaults`, one per type) and only ADD attributes or options — never strip or override its data shape: the default is the minimal markup that already has the full intended behaviour (entrance animation, live-update motion, tooltip, legend, empty state, text summary, hidden data table and live-region announcement) with no opt-in attribute. A few things are opt-in only and must be set explicitly: ranking (sort=\"desc\"), Pick Answer (correct), pagination (page-size), highlight-top, log-scale, bell grid / % axis / mean line / step labels, radar data table / scale ticks / hollow centre, word cloud counts / diacritic folding / shapes / rotation / masks, and an editable mind map.",
     "dsv3": "New in the DS (PRO38-69) — the visual source is the \"AhaSlides Chart Slides\" mockup; a signed-off exception to the @ant-design/plots rule for result charts."
   },
   "surfaces": [
@@ -463,5 +463,62 @@
       "firstRank": "1",
       "plotHidden": "true"
     }
-  }
+  },
+  "typeDefaults": [
+    {
+      "type": "bar",
+      "title": "Bar",
+      "file": "chart.default.bar.html.txt"
+    },
+    {
+      "type": "column",
+      "title": "Column",
+      "file": "chart.default.column.html.txt"
+    },
+    {
+      "type": "stacked",
+      "title": "Stacked",
+      "file": "chart.default.stacked.html.txt"
+    },
+    {
+      "type": "donut",
+      "title": "Donut and pie",
+      "file": "chart.default.donut.html.txt"
+    },
+    {
+      "type": "radial",
+      "title": "Radial",
+      "file": "chart.default.radial.html.txt"
+    },
+    {
+      "type": "treemap",
+      "title": "Tree map",
+      "file": "chart.default.treemap.html.txt"
+    },
+    {
+      "type": "quadrant",
+      "title": "Quadrant",
+      "file": "chart.default.quadrant.html.txt"
+    },
+    {
+      "type": "bell",
+      "title": "Bell curve",
+      "file": "chart.default.bell.html.txt"
+    },
+    {
+      "type": "radar",
+      "title": "Radar",
+      "file": "chart.default.radar.html.txt"
+    },
+    {
+      "type": "wordcloud",
+      "title": "Word cloud",
+      "file": "chart.default.wordcloud.html.txt"
+    },
+    {
+      "type": "mindmap",
+      "title": "Mind map",
+      "file": "chart.default.mindmap.html.txt"
+    }
+  ]
 }

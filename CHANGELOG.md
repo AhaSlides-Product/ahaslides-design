@@ -22,12 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.73.1 — 2026-10-01
+## 0.74.0 — 2026-10-01
 ### Changed
 - **Charts is now its own top-level tab** next to Settings and Audience Library, built the same way (one page, shell sidebar replaced by the shared "On this page" anchor). It holds the chart examples, playground, "Choosing a chart" guide, API, install and spec, and moves out of the Components list and overview. The old `chart/index.html` URL redirects to `charts/index.html`; `chart.agent.json`, `chart.md`, `chart.llms.txt` and the llms.txt entry are unchanged. Docs search finds the page under Charts. (#142)
 - **`<aha-chart>` now says which chart type to use.** `contracts/chart.json` `opinion.whenToUse` gains one row per type (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell, radar, wordcloud, mindmap): the data shape it fits, the slide type it serves, its real limits (six-category fold into "Other (n)", column to bar fallback, 120 words, six bell statements) and what to use instead. The chart docs page gains a matching "Choosing a chart" table, and the generated feeds carry both. (#142)
 - **Bell curve and Quadrant wording.** The bell use case now covers any distribution of answers on an ordered scale, not only Rating scale; the 2×2 matrix is called Quadrant across the docs page, the README and the contract, and the chart's accessible names read "Answer distribution" / "Phân bố câu trả lời" and "Biểu đồ góc phần tư". (#142)
 - **Charts page: no Type row in the playground.** The Numbers and Highlight controls stay; each chart type is reached from its own section and the "On this page" nav. (#142)
+- **Every chart type has a default snippet and its own Show code.** `contracts/chart.json` gains `typeDefaults` (11 minimal `<aha-chart>` snippets, one per type, in `parts/chart.default.<type>.html.txt`) that flow into `chart.agent.json` (`typeDefaults`), `chart.md` and the llms feeds; the contract note tells agents to start from the type's default and only add attributes. Each chart-type section on the Charts page now has a Show code widget (Default plus the selected case, following the switcher); the page-level widget moved to Install and use. Opt-in-only behaviours are listed in `docs/chart/README.md`. (#142)
 
 ## 0.73.0 — 2026-10-01
 ### Changed

@@ -447,14 +447,26 @@
       cases.forEach((panel, panelIndex) => { panel.hidden = panelIndex !== index; });
       if (focus) options[index].focus();
     };
+    const widget = section.querySelector('.chart-type-code');
+    const caseCode = widget ? JSON.parse(widget.dataset.cases) : [];
+    const syncCode = (index, userPicked) => {
+      if (!widget) return;
+      const tab = widget.querySelector('.tab[data-f="case"]');
+      tab.textContent = 'Case · ' + options[index].textContent;
+      widget.querySelector('pre.case').textContent = caseCode[index] || '';
+      if (userPicked && !widget.querySelector('.code-panel').hidden) tab.click();
+    };
     options.forEach((option, index) => {
-      option.addEventListener('click', () => select(index, false));
+      option.addEventListener('click', () => { select(index, false); syncCode(index, true); });
       option.addEventListener('keydown', (event) => {
         const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
         if (!step) return;
         event.preventDefault();
-        select((index + step + options.length) % options.length, true);
+        const next = (index + step + options.length) % options.length;
+        select(next, true);
+        syncCode(next, true);
       });
     });
+    syncCode(0);
   });
 </script>
