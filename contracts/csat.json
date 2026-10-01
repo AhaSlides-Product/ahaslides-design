@@ -10,12 +10,13 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for the `rate` and `feedback` events; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-secondary", "text-default", "icon-muted", "color-primary", "color-success"],
   "spec": [
-    { "label": "Layout", "value": "borderless single row (21px high): 14px #4A4A4A prompt + 16px thumb icons, no chrome — the only layout (legacy `inline` is a no-op)" },
-    { "label": "Rest", "value": "icon #8A8A8A" },
-    { "label": "Hover", "value": "scale 1.12 · icon primary #6A1EBB (motion tokens)" },
+    { "label": "Layout", "value": "borderless single row (24px high): 12px #616161 prompt, 4px gap, then 28×24 borderless thumb buttons with 16px #4A4A4A icons and no gap between them — the only layout (legacy `inline` is a no-op)" },
+    { "label": "Rest", "value": "icon #4A4A4A" },
+    { "label": "Hover", "value": "ghost fill #F9F5FF · icon primary #6A1EBB (motion tokens) · tooltip Good / Not good / Feedback" },
     { "label": "Selected", "value": "icon primary #6A1EBB · aria-pressed synced" },
     { "label": "Thumbs-up", "value": "rates instantly — reflects value='up', emits `rate`" },
-    { "label": "Thumbs-down", "value": "registers value='down' + emits `rate`, then opens a feedback popover (shared <aha-popover>, role=dialog · Esc/outside-click close) anchored to the down thumb — a prompt, an <aha-counted-textarea> and a primary Send button; dismissing keeps the down rating" },
+    { "label": "Thumbs-down", "value": "registers value='down' + emits `rate`, then opens a feedback popover (shared <aha-popover>, role=dialog · Esc/outside-click close) anchored to the thumbs group — a small round 20px X (closes only, never submits, keeps the down rating), an <aha-counted-textarea> and a secondary Send button that stays disabled until text is typed; the heading is optional (`feedback-prompt`, none by default)" },
+    { "label": "Feedback button", "value": "opt-in `feedback-button` — a chat icon beside the thumbs (tooltip Feedback) that opens the same popover with the placeholder `feedback-button-placeholder` (default “Share your thoughts”) without changing the rating; submitting clears the field so feedback can be sent again" },
     { "label": "Thank-you", "value": "opt-in `thanks` — check + success #16C49A line fades in (motion tokens): instantly on up, after feedback submit on down" },
     { "label": "Events", "value": "`rate` → { rating: 'up' | 'down', source } · `feedback` → { rating: 'down', source, feedback }" }
   ],
@@ -24,7 +25,12 @@
     { "name": "source", "type": "string", "default": "—", "desc": "Stable placement token for analytics — passed in the rate and feedback events" },
     { "name": "value", "type": "up | down", "default": "—", "desc": "The current rating (also reflects a click); syncs the selected thumb's aria-pressed" },
     { "name": "thanks", "type": "string", "default": "—", "desc": "Opt-in thank-you line — shown (role=status) after rating (on down, after feedback submit); fades in on a persistent node" },
-    { "name": "feedback-prompt", "type": "string", "default": "What could be better?", "desc": "Heading shown at the top of the thumbs-down feedback popover" },
+    { "name": "feedback-prompt", "type": "string", "default": "—", "desc": "Optional heading in the feedback popover, beside the X — none by default" },
+    { "name": "feedback-button", "type": "boolean", "default": "—", "desc": "Show the Feedback chat-icon button after the thumbs; it opens the feedback popover without rating" },
+    { "name": "feedback-button-placeholder", "type": "string", "default": "Share your thoughts", "desc": "Placeholder when the popover is opened from the Feedback button" },
+    { "name": "like-label", "type": "string", "default": "Good", "desc": "Tooltip on the thumbs-up" },
+    { "name": "dislike-label", "type": "string", "default": "Not good", "desc": "Tooltip on the thumbs-down" },
+    { "name": "feedback-label", "type": "string", "default": "Feedback", "desc": "Tooltip on the Feedback button" },
     { "name": "feedback-placeholder", "type": "string", "default": "Tell us more (optional)", "desc": "Placeholder for the free-text field in the feedback popover" }
   ],
   "opinion": {
@@ -33,7 +39,7 @@
       { "what": "Result", "when": "a full-block outcome after an operation" },
       { "what": "a Form", "when": "you need structured, multi-field feedback with validation" }
     ],
-    "note": "Use the shared control — never build a bespoke rating. Always pass a stable `source` per placement so segmentation stays typo-proof. Keep it to the binary thumbs; free-text is asked for ONLY after a thumbs-down (the built-in feedback popover), and never block rendering on tracking.",
+    "note": "Use the shared control — never build a bespoke rating. Always pass a stable `source` per placement so segmentation stays typo-proof. Keep it to the binary thumbs (plus the optional Feedback button); show the “Thank you for your feedback!” toast from the `rate` (up) and `feedback` events with the shared toast hook, and omit `thanks` when the thumbs should stay on screen; free-text is asked for ONLY after a thumbs-down (the built-in feedback popover), and never block rendering on tracking.",
     "dsv3": "COVERED — this is the reusable component form of the feedback pattern's CSAT rule (parts/feedback.guide.md): a binary thumbs widget with a required source token, and the 'ask for free-text only after a thumbs-down' follow-up realised by reusing <aha-popover> + <aha-counted-textarea> + <aha-button>. The dedicated `feedback` event maps to the pattern's distinct CSAT_FEEDBACK_SUBMITTED analytics event (separate from CSAT_RATED). Colours + motion map to the token layer. A deliberate, documented AhaSlides surface."
   },
   "surfaces": ["editor", "dashboard", "audience"],
@@ -54,20 +60,20 @@
     ]
   },
   "selfCheck": [
-    { "label": "borderless single row · 14px #4A4A4A prompt · 16px thumbs · no chrome (the only layout)", "verdict": "PASS" },
-    { "label": "hover scales + recolours to primary (motion tokens)", "verdict": "PASS" },
+    { "label": "borderless single row · 12px #616161 prompt · 28×24 thumb buttons with 16px #4A4A4A icons · no chrome (the only layout)", "verdict": "PASS" },
+    { "label": "hover fills ghost + recolours to primary (motion tokens) · Good / Not good / Feedback tooltips", "verdict": "PASS" },
     { "label": "selected primary #6A1EBB · aria-pressed synced", "verdict": "PASS" },
     { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>)", "verdict": "PASS" },
     { "label": "down thumb carries aria-haspopup=dialog · aria-expanded mirrors the popover", "verdict": "PASS" },
-    { "label": "feedback popover reuses <aha-counted-textarea> + primary <aha-button>; submit emits `feedback`", "verdict": "PASS" },
+    { "label": "feedback popover: X closes only · <aha-counted-textarea> · secondary Send disabled until text; submit emits `feedback` and clears the field", "verdict": "PASS" },
     { "label": "thank-you line fades in (opt-in) — instantly on up, after submit on down", "verdict": "PASS" },
     { "label": "emits rate with source", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The [data-probe] probe is pre-rated (value='up') so the borderless single-row layout — the muted #4A4A4A 400-weight prompt, the borderless 16px thumb icon-button, the selected primary colour and the aria-pressed a11y contract — is measurable; it also pins the thumbs-down feedback flow: the down thumb carries aria-haspopup='dialog' and the shared <aha-popover> is present in the shadow root.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The [data-probe] probe is pre-rated (value='up') so the borderless single-row layout — the muted #616161 400-weight 12px prompt, the borderless 28×24 thumb button, the selected primary colour and the aria-pressed a11y contract — is measurable; it also pins the thumbs-down feedback flow: the down thumb carries aria-haspopup='dialog' and the shared <aha-popover> is present in the shadow root.",
     "ready": "!!(document.querySelector('aha-csat[data-probe]') && document.querySelector('aha-csat[data-probe]').shadowRoot && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('.up aha-icon') && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('aha-popover'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var d=r&&r.querySelector('.down');var b=r&&r.querySelector('.btn');var ic=u&&u.querySelector('aha-icon');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;return{promptColor:sp?sp.color:null,promptWeight:sp?sp.fontWeight:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null,iconSize:ic?ic.getAttribute('size'):null,upPressed:u?u.getAttribute('aria-pressed'):null,downPressed:d?d.getAttribute('aria-pressed'):null,downHaspopup:d?d.getAttribute('aria-haspopup'):null,hasPopover:!!r.querySelector('aha-popover')};})()",
-    "expect": { "promptColor": "rgb(74, 74, 74)", "promptWeight": "400", "upColor": "rgb(106, 30, 187)", "btnWidth": "16px", "btnHeight": "16px", "iconSize": "16", "upPressed": "true", "downPressed": "false", "downHaspopup": "dialog", "hasPopover": true }
+    "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var d=r&&r.querySelector('.down');var b=r&&r.querySelector('.btn');var ic=u&&u.querySelector('aha-icon');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;return{promptColor:sp?sp.color:null,promptWeight:sp?sp.fontWeight:null,promptSize:sp?sp.fontSize:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null,iconSize:ic?ic.getAttribute('size'):null,upPressed:u?u.getAttribute('aria-pressed'):null,downPressed:d?d.getAttribute('aria-pressed'):null,downHaspopup:d?d.getAttribute('aria-haspopup'):null,hasPopover:!!r.querySelector('aha-popover')};})()",
+    "expect": { "promptColor": "rgb(97, 97, 97)", "promptWeight": "400", "promptSize": "12px", "upColor": "rgb(106, 30, 187)", "btnWidth": "28px", "btnHeight": "24px", "iconSize": "16", "upPressed": "true", "downPressed": "false", "downHaspopup": "dialog", "hasPopover": true }
   }
 }
