@@ -773,12 +773,83 @@ const chartCaseMarkup = (caseHtml) => {
   return dedent(copyable);
 };
 
+const CHART_TYPE_EVENTS = {
+  wordcloud: { name: 'wordcloud-hide', handler: 'onHide', detail: 'hidden', note: 'fires when a word is hidden or restored; detail.hidden lists the hidden words' },
+  mindmap: { name: 'mindmap-change', handler: 'onChange', detail: 'tree', note: 'fires on every edit once options.editable is true; detail.tree is the whole map' },
+};
+function parseChartElement(html) {
+  const open = html.match(/<aha-chart\b([\s\S]*?)>\s*<\/aha-chart>/);
+  const attrs = [];
+  for (const m of (open ? open[1] : '').matchAll(/([\w-]+)=(?:"([^"]*)"|'([^']*)')/g)) attrs.push([m[1], m[2] ?? m[3]]);
+  const dataAttr = attrs.find(([name]) => name === 'data');
+  const data = dataAttr
+    ? JSON.stringify(JSON.parse(dataAttr[1]), null, 2).replace(/\{[^{}[\]]*\}/g, (flat) => flat.replace(/\s*\n\s*/g, ' '))
+    : 'null';
+  return { data, plain: attrs.filter(([name]) => name !== 'data') };
+}
+const pascal = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+const indentLines = (text, spaces) => text.split('\n').map((line, i) => (i ? ' '.repeat(spaces) + line : line)).join('\n');
+const chartTypeFrameworkSnippets = (type, html) => {
+  const { data, plain } = parseChartElement(html);
+  const component = `${pascal(type)}Chart`;
+  const event = CHART_TYPE_EVENTS[type];
+  const staticAttrs = plain.map(([name, value]) => `${name}="${value}"`).join(' ');
+  const reactEvent = event ? `
+  useEffect(() => {
+    const chart = ref.current;
+    const ${event.handler} = (event) => console.log(event.detail.${event.detail});   // ${event.note}
+    chart.addEventListener('${event.name}', ${event.handler});
+    return () => chart.removeEventListener('${event.name}', ${event.handler});
+  }, []);
+` : '';
+  const react = `import '@ahaslides-product/design/aha-chart';   // registers <aha-chart>
+import { useEffect, useRef } from 'react';
+
+const data = ${indentLines(data, 0)};
+
+// React 18 passes objects to custom elements as strings, so data is set as a property through a ref
+// (a JSON string in the data attribute also works). Events are listened to on the ref too.
+export function ${component}() {
+  const ref = useRef(null);
+  useEffect(() => { ref.current.data = data; }, []);
+${reactEvent}
+  return <aha-chart ref={ref} ${staticAttrs} />;
+}
+`.replace(/\n\n\n/g, '\n\n');
+  const vueEvent = event ? ` @${event.name}="${event.handler}"` : '';
+  const vueHandler = event ? `
+const ${event.handler} = (event) => console.log(event.detail.${event.detail});   // ${event.note}
+` : '';
+  const vue = `// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-chart';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// ${component}.vue — .prop binds data as a property, so live updates animate
+<script setup>
+const data = ${indentLines(data, 0)};
+${vueHandler}</script>
+
+<template>
+  <aha-chart ${staticAttrs} :data.prop="data"${vueEvent} />
+</template>
+`;
+  return { react, vue };
+};
+
 // One "Show code" per chart type on the Charts page: the type's default snippet, plus the markup of
 // whichever case the switcher is showing (the preview script keeps the "case" pane in step).
 function chartTypeCodeWidget(def, cases) {
-  const widget = codeWidget({ snippets: [{ key: 'default', label: 'Default', file: def.file }, { key: 'case', label: 'Selected case', file: def.file }] });
-  const cased = widget.replace(/(<pre class="code case[^>]*>)[\s\S]*?(<\/pre>)/, `$1${esc(cases[0] || part(def.file))}$2`);
-  return cased.replace('<div class="code-tabs" data-open="false">', `<div class="code-tabs chart-type-code" data-open="false" data-cases="${esc(JSON.stringify(cases))}">`);
+  const html = part(def.file).trim();
+  const { react, vue } = chartTypeFrameworkSnippets(def.type, html);
+  const tabs = [['html', 'HTML', html], ['react', 'React', react], ['vue', 'Vue 3', vue], ['case', 'Selected case', cases[0] || html]];
+  const tabButtons = tabs.map(([key, label], i) => `<button class="tab ${i === 0 ? 'active' : ''}" type="button" data-f="${key}">${esc(label)}</button>`).join('');
+  const panes = tabs.map(([key, , code], i) => `<pre class="code ${key} ${i === 0 ? 'active' : ''}">${esc(code)}</pre>`).join('\n');
+  return `<div class="code-tabs chart-type-code" data-open="false" data-cases="${esc(JSON.stringify(cases))}">
+    <div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div>
+    <div class="code-panel" hidden>
+      <div class="code-head"><div class="tabs">${tabButtons}</div><button class="copy" type="button">Copy</button></div>
+      ${panes}
+    </div></div>`;
 }
 function chartSectionsWithCode(c) {
   const defaults = new Map((c.typeDefaults || []).map(d => [d.title, d]));
@@ -981,7 +1052,7 @@ function renderChartsPage(c) {
   </div>` },
     { id: 'choosing-a-chart', title: 'Choosing a chart', html: `<h2 id="choosing-a-chart">Choosing a chart</h2>${c.opinion ? opinionBlock(c.opinion) + surfaceBlock(c.surfaces) : ''}` },
     { id: 'api', title: 'API', html: `<h2 id="api">API</h2>\n  ${propsTable(c.props)}` },
-    { id: 'install', title: 'Install and use', html: `<h2 id="install">Install and use</h2>${componentConsume(c)}<div class="demo">${codeWidget(c)}</div>` },
+    { id: 'install', title: 'Install and use', html: `<h2 id="install">Install and use</h2>${componentConsume(c, { heading: false })}<div class="demo">${codeWidget(c)}</div>` },
     { id: 'spec', title: 'Spec', html: `<h2 id="spec">Spec</h2>\n  <div class="spec-line">${specList(c.spec)}</div>` },
   ];
   const anchorItems = sections.map(x => ({ key: x.id, href: '#' + x.id, title: x.title,
@@ -1056,10 +1127,17 @@ const htmlKind = (c) => leafHtml(c)
   : `a CDN-React runnable page (React + antd loaded from a CDN, no build step) — React/Vue wire the same real vendor component to the shared theme via ConfigProvider in your bundler`;
 
 const typeDefaultsMd = (c) => (c.typeDefaults || []).length
-  ? '\n## Default snippet per type\nStart from the type\'s default and only add attributes — never strip behaviour. Each is the element markup alone; load the element once with the HTML snippet\'s import.\n' +
-    c.typeDefaults.map(d => `\n### ${d.title}\n\`\`\`html\n${part(d.file).trim()}\n\`\`\``).join('\n')
+  ? '\n## Default snippet per type\nStart from the type\'s default and only add attributes — never strip behaviour. The HTML is the element markup alone (load the element once with the HTML snippet\'s import); the React and Vue 3 forms set data as a property and wire the events.\n' +
+    c.typeDefaults.map(d => {
+      const html = part(d.file).trim();
+      const { react, vue } = chartTypeFrameworkSnippets(d.type, html);
+      return `\n### ${d.title}\n\`\`\`html\n${html}\n\`\`\`\n\n\`\`\`jsx\n${react.trim()}\n\`\`\`\n\n\`\`\`vue\n${vue.trim()}\n\`\`\``;
+    }).join('\n')
   : '';
-const typeDefaultsMap = (c) => Object.fromEntries((c.typeDefaults || []).map(d => [d.type, part(d.file).trim()]));
+const typeDefaultsMap = (c) => Object.fromEntries((c.typeDefaults || []).map(d => {
+  const html = part(d.file).trim();
+  return [d.type, { html, ...chartTypeFrameworkSnippets(d.type, html) }];
+}));
 
 function renderMd(c) {
   const props = (c.props||[]).map(p => `| \`${p.name}\` | ${p.type} | \`${p.default}\` | ${p.desc} |`).join('\n');
@@ -1911,7 +1989,7 @@ function consumeBlock() {
 }
 
 // Compact per-component install + feed pointer, shown on each component's doc page.
-function componentConsume(c) {
+function componentConsume(c, { heading = true } = {}) {
   const entry = c.reuse && c.reuse.entry ? c.reuse.entry.replace(/^\.\//, '') : null;
   const npmrc = `# .npmrc — once: point the ${SCOPE} scope at GitHub Packages
 ${NPMRC}
@@ -1928,8 +2006,7 @@ npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
 // composite — consumes antd (React) / ant-design-vue (Vue); see the snippets below`;
   return `
-  <h2>Install</h2>
-  <pre class="cg-code">${install}</pre>
+  ${heading ? '<h2>Install</h2>\n  ' : ''}<pre class="cg-code">${install}</pre>
   <p class="gen install-note">Agent feed for this component (absolute, fetchable anywhere): <a href="${SITE}/${c.slug}.agent.json"><code>${c.slug}.agent.json</code></a> · <a href="${SITE}/${c.slug}/${c.slug}.md"><code>${c.slug}.md</code></a> · <a href="${SITE}/${c.slug}.llms.txt"><code>${c.slug}.llms.txt</code></a></p>`;
 }
 
