@@ -34,7 +34,7 @@
       { "what": "Option row", "when": "a flat list of single values — not wrapped in a numbered card" },
       { "what": "Plain variant", "when": "a single-field repeatable item that does not warrant a grey card" }
     ],
-    "note": "This is the ONE exception to \"never a container around settings\" (SETTINGS-15): it wraps a repeatable composite item, not plain settings. A composite item must keep the contained grey card — dropping the fill (plain, or a hand-rolled header over a fill-less body) is a build mistake (SETTINGS-43). The chip is muted grey, never a purple badge, and is never restyled or replaced (no custom badge in the chip slot, no :deep override): the settings number never mirrors the canvas marker.",
+    "note": "This is the ONE exception to \"never a container around settings\" (SETTINGS-15): it wraps a repeatable composite item, not plain settings. A composite item must keep the contained grey card — dropping the fill (plain, or a hand-rolled header over a fill-less body) is a build mistake (SETTINGS-43). The chip is muted grey, never a purple badge, and is never restyled or replaced (no custom badge standing in for it, no ::part(chip) override): the settings number never mirrors the canvas marker.",
     "dsv3": "COVERED — the settings-lab NumberedItem control mapped into the DS. The grey card, muted chip and tertiary hover delete are the settings-specific composite-item wrapper (SETTINGS-43), reusing DS V3 secondary-fill + tertiary-button tokens."
   },
   "surfaces": ["editor", "settings"],
