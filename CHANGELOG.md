@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.74.1 — 2026-10-02
 ### Changed
-- Settings guidance, judge criterion C13 and evals now forbid restyling or replacing the NumberedItem number chip (#PRNUM)
+- Settings guidance, judge criterion C13 and evals now forbid restyling or replacing the NumberedItem number chip (#144)
 
 ## 0.74.0 — 2026-10-01
 ### Changed
