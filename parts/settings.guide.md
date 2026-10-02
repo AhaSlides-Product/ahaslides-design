@@ -59,6 +59,10 @@ Hierarchy comes from the gap size, on the `--aha-size*` scale — monotonic so w
 - **Group shape:** 2–6 settings; header is a 1–3 word noun phrase, sentence case, no colon; **only the header carries weight — semibold (600)** (the `SectionHeader` weight), member/single-control labels regular (400).
 - **Order:** most-used first; a dependent sub-setting directly under its parent; dangerous last.
 
+## NumberedItem chip is never restyled
+
+The number chip on `NumberedItem` is stock: muted grey, fixed size. Never pass a custom badge into its `chip` slot and never override `.aha-ni-chip` with `:deep` / `::part(chip)`. The settings number is a plain ordinal and never mirrors the canvas marker (for example a navy pin badge with a white ring). Anything extra goes in the label, badge or action slots.
+
 ## Sub-settings
 
 A setting that only applies when a parent is on is **hidden when the parent is off** — not shown disabled. When visible it reads as *nested*: indented (`sizeLG`), tighter gap above (`sizeXS`), and de-emphasised label — never a top-level peer, never bracketed by its own separators.

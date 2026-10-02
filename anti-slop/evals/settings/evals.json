@@ -1643,6 +1643,53 @@
         "authored": "ahaslides-design",
         "why": "no plugin case made this DS criterion fire"
       }
+    },
+    {
+      "id": 71,
+      "prompt": "Review this slide-type settings panel. Image answer rows (Pin on Image) use NumberedItem, but the number chip is replaced with the canvas marker so the number looks the same as on the slide:\n\n```vue\n<!-- slide/pin-on-image/Settings.vue -->\n<NumberedItem v-for=\"(a, i) in config.answers\" :key=\"a.id\" :n=\"i + 1\" label=\"Answer\" @delete=\"remove(a.id)\">\n  <template #chip>\n    <AnswerBadge :n=\"i + 1\" :size=\"28\" />  <!-- navy #1A1A2E, 2px white ring, drop shadow -->\n  </template>\n  <OptionRow v-model=\"a.text\" />\n</NumberedItem>\n```",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C13 chip override (AHAM-1725). Bad-example: canvas AnswerBadge passed into the NumberedItem chip slot.",
+      "expected_output": "FAILs C13. The NumberedItem number chip is replaced with a custom 28px navy badge with a white ring and shadow so it mirrors the canvas marker. The chip is stock (22px muted grey, grey digit) and is never restyled or replaced; the settings number never mirrors the canvas marker. Fix: delete the #chip slot content and keep the stock chip; use label / badge / action slots only. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C13 is marked FAIL",
+        "Flags the custom badge in the NumberedItem chip slot",
+        "Fix restores the stock chip"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "AHAM-1725: no case covered restyling/replacing the NumberedItem chip"
+      }
+    },
+    {
+      "id": 72,
+      "prompt": "Review the same Pin on Image settings panel after the fix:\n\n```vue\n<!-- slide/pin-on-image/Settings.vue -->\n<NumberedItem v-for=\"(a, i) in config.answers\" :key=\"a.id\" :n=\"i + 1\" label=\"Answer\" @delete=\"remove(a.id)\">\n  <OptionRow v-model=\"a.text\" />\n</NumberedItem>\n```\nThe stock chip (22px grey, grey digit) is untouched; the canvas marker stays on the canvas only.",
+      "files": [],
+      "label": "good-control",
+      "notes": "C13 chip good-control (AHAM-1725), paired with id 71. Stock chip, no slot override.",
+      "expected_output": "PASSES C13. NumberedItem is used with its stock chip; only the default body slot is filled. The number is a plain ordinal and does not mirror the canvas marker. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C13 is not marked FAIL",
+        "Does not invent a fail on the stock chip"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C13": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "AHAM-1725: no case covered restyling/replacing the NumberedItem chip"
+      }
     }
   ]
 }

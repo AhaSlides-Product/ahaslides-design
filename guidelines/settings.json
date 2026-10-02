@@ -247,6 +247,14 @@
       ]
     },
     {
+      "id": "numbered-item-chip-stock",
+      "rule": "Never restyle or replace the NumberedItem number chip. It stays the stock muted-grey chip (22px, grey fill, grey digit): no custom badge in the chip slot, no :deep / ::part(chip) override of its size, colour, ring or shadow. The number in a settings row is a plain ordinal; it never mirrors the canvas marker (e.g. a navy pin badge). Need a status or marker beside it? Use the label / badge / action slots.",
+      "ref": [
+        "SETTINGS-15",
+        "SETTINGS-43"
+      ]
+    },
+    {
       "id": "sub-settings",
       "rule": "A dependent sub-setting is HIDDEN (not disabled) when its parent is off. When shown it reads as nested — indented and de-emphasised — never as a top-level peer and never bracketed by its own separators.",
       "ref": [

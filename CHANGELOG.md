@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.74.1 — 2026-10-02
+### Changed
+- Settings guidance, judge criterion C13 and evals now forbid restyling or replacing the NumberedItem number chip (#PRNUM)
+
 ## 0.74.0 — 2026-10-01
 ### Changed
 - **Charts is now its own top-level tab** next to Settings and Audience Library, built the same way (one page, shell sidebar replaced by the shared "On this page" anchor). It holds the chart examples, playground, "Choosing a chart" guide, API, install and spec, and moves out of the Components list and overview. The old `chart/index.html` URL redirects to `charts/index.html`; `chart.agent.json`, `chart.md`, `chart.llms.txt` and the llms.txt entry are unchanged. Docs search finds the page under Charts. (#142)

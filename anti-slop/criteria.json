@@ -634,7 +634,7 @@
         {
           "id": "C13",
           "title": "List wrapper matches the list shape (questions → QuestionList, item-groups → NumberedItem)",
-          "test": "*(Slide-type config only.)* A repeatable settings list has **three** library wrappers, and the choice is fixed by the **shape of each item** — using the wrong one, or hand-rolling the accordion / number chip a shipped component already ships, is a FAIL (the list-shape sibling of C11's per-option-vs-standalone image choice): - **A flat set of answer choices for ONE question → `OptionRow`**…"
+          "test": "*(Slide-type config only.)* A repeatable settings list has **three** library wrappers, and the choice is fixed by the **shape of each item** — using the wrong one, or hand-rolling the accordion / number chip a shipped component already ships, is a FAIL (the list-shape sibling of C11's per-option-vs-standalone image choice): - **A flat set of answer choices for ONE question → `OptionRow`** Also a FAIL: restyling or replacing the `NumberedItem` number chip — passing a custom badge (e.g. the canvas marker) into its `chip` slot, or `:deep` / `::part(chip)` overrides of `.aha-ni-chip` size, colour or ring. The chip is stock (muted grey, fixed size); the settings number never mirrors the canvas marker. Use only the label / badge / action slots."
         },
         {
           "id": "C14",
