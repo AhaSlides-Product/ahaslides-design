@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.79.1 — 2026-10-05
+### Fixed
+- **`@ahaslides-product/design/screen-lint` now resolves to `lintHtml`.** A duplicate `./screen-lint` key in `exports` (pointing at the CLI file) shadowed the new entry in 0.79.0; the CLI file stays importable as `./screen-lint.mjs`. A test now imports the documented path through the package name. (#149)
+- **`ds-lint-allow` names exact rules.** Naming `raw-hex` no longer also silences `canvas-hardcoded-colour`; only the short group names (`hex`, `responsive`) cover more than one rule. (#149)
+
 ## 0.79.0 — 2026-10-05
 ### Added
 - **`lintHtml(source, { surface, path? })`** — `screen-lint` as a pure importable function (`@ahaslides-product/design/screen-lint`): no fs, no process, no console, runs in Node and Cloudflare workerd, icon names bundled (`lib/icon-names.js`). Returns `{ findings: [{ rule, line, message, severity }] }`. The CLI is built on it and keeps its output and exit codes. (#148)

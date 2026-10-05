@@ -94,3 +94,22 @@ test('the core module touches no node built-ins', async () => {
   const source = await readFile(new URL('../lib/screen-lint.js', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /node:|process\.|console\./);
 });
+
+test('naming one rule id does not silence its group sibling', () => {
+  const source = '<div style="min-width: 480px; overflow-x: auto"></div> <!-- ds-lint-allow: min-width-trap (fixed rail) -->';
+  assert.deepEqual(rulesOf(source), ['overflow-x-scroll']);
+});
+
+test('a short group name still covers every rule in the group', () => {
+  const source = '<div style="min-width: 480px; overflow-x: auto"></div> <!-- ds-lint-allow: responsive (data table) -->';
+  assert.deepEqual(rulesOf(source), []);
+});
+
+test('the documented import path resolves through the package exports map', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  const { lintHtml: viaPackage } = await import(new URL('../' + pkg.exports['./screen-lint'], import.meta.url));
+  assert.equal(viaPackage, lintHtml);
+  const { lintHtml: viaName } = await import('@ahaslides-product/design/screen-lint');
+  assert.equal(viaName, lintHtml);
+});
