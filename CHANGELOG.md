@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.81.0 — 2026-10-05
+### Added
+- **`<aha-progress-toast>` (Feedback).** A bottom-right card for one long-running task (slide import, export, upload): file icon, name, DS Progressbar, caption + Cancel action, and `progress` / `success` / `cancelled` / `offline` / `error` states with a ✕ on terminal states. `icon`, `action` and `footer` slots take a branded file icon, a Cancel control and a cancel confirmation, retry buttons or an `<aha-csat>` rating. Pure view: the consumer owns the task, copy and auto-dismiss. Reuses Progressbar, Button, Csat and Icon; first consumer is the presenter Import notification. (#PR)
+
 ## 0.80.1 — 2026-10-05
 ### Fixed
 - **The agent plugin no longer ships Python bytecode.** `agent/hooks/__pycache__/*.pyc` committed in 0.80.0 is removed, and `__pycache__/` and `*.pyc` are now ignored; `npm test` fails if bytecode is tracked under `agent/` again. (#151)

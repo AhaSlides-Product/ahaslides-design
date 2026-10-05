@@ -1,0 +1,45 @@
+<div class="pad">
+  <div class="lbl">Running — uploading · converting · almost done (cancel link only while there is something to cancel)</div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
+    <aha-progress-toast data-probe heading="Quarterly review.pdf" value="42" caption="42%">
+      <button slot="action">Cancel</button>
+    </aha-progress-toast>
+    <aha-progress-toast heading="Quarterly review.pdf" value="58" caption="23/40 slides">
+      <button slot="action">Cancel</button>
+    </aha-progress-toast>
+    <aha-progress-toast heading="Quarterly review.pdf" value="92" caption="Almost done…"></aha-progress-toast>
+  </div>
+  <div class="lbl">Cancel confirmation — footer slot; the task keeps running underneath</div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
+    <aha-progress-toast heading="Quarterly review.pdf" value="58">
+      <div slot="footer">
+        <div style="font-size:12px; line-height:1.5; color:var(--aha-text-secondary,#4A4A4A); margin-bottom:9px">Cancel import? The 23 slides already created will be kept in your deck.</div>
+        <div style="display:flex; gap:8px"><aha-button variant="primary" size="sm" block>Keep waiting</aha-button><aha-button variant="secondary" size="sm" block>Cancel import</aha-button></div>
+      </div>
+    </aha-progress-toast>
+  </div>
+  <div class="lbl">Success · success with rating (aha-csat in the footer) · cancelled</div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
+    <aha-progress-toast state="success" heading="Quarterly review.pdf"></aha-progress-toast>
+    <aha-progress-toast state="success" heading="Quarterly review.pdf">
+      <aha-csat slot="footer" prompt="How did this import go?" feedback-button source="progress_toast_preview"></aha-csat>
+    </aha-progress-toast>
+    <aha-progress-toast state="cancelled" heading="Import cancelled" description="23/40 slides were imported before you stopped."></aha-progress-toast>
+  </div>
+  <div class="lbl">Connection lost (bar muted, Keep waiting) · error (red hairline, Try again)</div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 96px">
+    <aha-progress-toast state="offline" heading="Connection lost" description="23/40 slides imported so far." value="58">
+      <div slot="footer" style="display:flex; gap:8px"><aha-button variant="primary" size="sm" block>Keep waiting</aha-button><aha-button variant="secondary" size="sm" block>Cancel import</aha-button></div>
+    </aha-progress-toast>
+    <aha-progress-toast state="error" heading="Import failed" description="Something went wrong while importing Quarterly review.pdf.">
+      <div slot="footer" style="display:flex; gap:8px"><aha-button variant="primary" size="sm" block>Try again</aha-button></div>
+    </aha-progress-toast>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped elements — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-csat.js';
+  import '../lib/aha-progress-toast.js';
+</script>
