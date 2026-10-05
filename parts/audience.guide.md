@@ -303,6 +303,14 @@ clearly as primary vs side option. Never paint two visually equal buttons.
   (`audience-<slidetype>-submit-button`, `audience-<slidetype>-option-3`).
 - **Label via `t(...)`** — never hard-coded "Submit" / "Send" / "Vote".
 
+## Stage steppers and pickers — DS elements
+
+On the Developer Platform a stage indicator is `<aha-stepper steps="…" current="…">` and a
+type-to-pick field is `<aha-autocomplete size="large">` (16px text, 48px tall), both from
+`lib/all.js`. Never hand-roll the stepper dots or a `<div role="listbox">` under an `<input>`, and
+never fill the current stage with the accent — the stepper marks it with ink, leaving the accent
+on submit (C35). Mood glyphs are `system-smiley` / `system-sad-face` / `system-angry-face`.
+
 ## Host utilities — use them, don't reinvent
 
 - **Toast** (`showToast*`) for any transient confirmation or lightweight error — if you need a

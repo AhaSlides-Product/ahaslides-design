@@ -1,0 +1,14 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-stepper';   // registers <aha-stepper>
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// Component.vue
+<script setup>
+import { ref } from 'vue';
+const stage = ref(0);
+const steps = ['Ideas', 'Group', 'Vote', 'Discuss'];
+</script>
+
+<template>
+  <aha-stepper :steps.prop="steps" :current="stage" @change="stage = $event.detail.index"></aha-stepper>
+</template>

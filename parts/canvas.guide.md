@@ -270,6 +270,24 @@ room with **`size="xl"`** (52px — the web-component twin of React `<XLButtonSc
 The host control bar (next section) applies only to **built** plugins that declare manifest
 actions.
 
+## Stage steppers, pickers and mood glyphs — DS elements, not hand-rolled
+
+`lib/all.js` ships the two controls slide types used to hand-roll:
+
+```html
+<aha-stepper size="lg" steps="Ideas|Group|Vote|Discuss" current="1"
+  style="color: var(--deck-ink)"></aha-stepper>
+<aha-autocomplete placeholder="Owner"></aha-autocomplete>   <!-- set .options to the names -->
+```
+
+- **Stage indicator → `<aha-stepper>`** (`size="lg"` on the canvas). It marks the current stage
+  with ink (outline + semibold), never the accent, so the accent stays on the one button that
+  advances the flow. Set `color` on the element to the deck ink; every state derives from it (C23).
+- **Type-to-pick field → `<aha-autocomplete>`** (owner, name, tag), never an `<input>` plus a
+  hand-filtered `<ul>` (C23).
+- **Mood glyphs** match the word: `system-smiley`, `system-sad-face`, `system-angry-face` — never
+  thumbs-down or fire as a stand-in (icons C7).
+
 ## The presenter control bar (NCB) — built plugins
 
 Slide-specific actions (Idea board's **Previous** / **Next: vote** / **Summarise**) render

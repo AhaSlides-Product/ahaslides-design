@@ -52,6 +52,18 @@
       "status": "available"
     },
     {
+      "ref": "stepper",
+      "as": "component",
+      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), never hand-rolled .step pills and never the primary accent",
+      "status": "available"
+    },
+    {
+      "ref": "autocomplete-field",
+      "as": "component",
+      "use": "a type-to-pick field (owner, name, tag) — <aha-autocomplete>, never a hand-rolled <input> + <ul> combobox",
+      "status": "available"
+    },
+    {
       "ref": "chart",
       "as": "component",
       "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style follows the mockup's green correct bar)",
@@ -438,6 +450,13 @@
         "§3",
         "C22"
       ]
+    },
+    {
+      "rule": "A stage indicator is <aha-stepper> and a type-to-pick field is <aha-autocomplete> (both in lib/all.js); a sentiment glyph is the matching face (system-smiley / system-sad-face / system-angry-face). Never hand-roll stepper pills or a combobox, and never mark the current stage with the primary accent — the stepper marks it with ink so the accent stays on the one action that advances the flow.",
+      "ref": [
+        "C16",
+        "C23"
+      ]
     }
   ],
   "reuse": null,
@@ -473,5 +492,5 @@
     }
   ],
   "guide": "canvas.guide.md",
-  "whenToRead": "ANY presenter canvas of a slide type (the stage the room reads). Holds the one-accent rule (palette[0] → --aha-color-primary on :root), in-canvas presenter controls as <aha-button size=\"xl\"> (never ::part overrides), no slide-wide scrim on a framed photo deck, one dark ink #1A1A1A, 1px hairline borders with 12px card radius, and motion tokens on persistent nodes."
+  "whenToRead": "ANY presenter canvas of a slide type (the stage the room reads). Holds the one-accent rule (palette[0] → --aha-color-primary on :root), in-canvas presenter controls as <aha-button size=\"xl\"> (never ::part overrides), no slide-wide scrim on a framed photo deck, one dark ink #1A1A1A, 1px hairline borders with 12px card radius, and motion tokens on persistent nodes. Stage indicators are <aha-stepper> and type-to-pick fields <aha-autocomplete>, never hand-rolled."
 }

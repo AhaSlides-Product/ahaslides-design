@@ -2059,6 +2059,50 @@
         "authored": "ahaslides-design",
         "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
       }
+    },
+    {
+      "id": 83,
+      "prompt": "Review this Developer Platform audience screen. It loads lib/all.js, but the owner dropdown is a hand-built `<div role=\"listbox\">` under an `<input>`, and the stage stepper is three `<span class=\"dot\">`s where the current dot is filled with `--aha-color-primary`. Is this OK?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C35 bad — Team Retro D13 phone.",
+      "expected_output": "C35 FAILs: the owner combobox and stepper are hand-rolled although <aha-autocomplete> and <aha-stepper> ship in lib/all.js, and the current stage takes the accent. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C35 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C35": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
+    },
+    {
+      "id": 84,
+      "prompt": "Review this Developer Platform audience screen. It loads lib/all.js; the owner field is `<aha-autocomplete size=\"large\" placeholder=\"Owner\">` fed the participant names, the stage indicator is `<aha-stepper steps=\"Ideas|Group|Vote\" current=\"0\">`, and the submit is `<aha-button variant=\"primary\" block>`. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C35 good control.",
+      "expected_output": "C35 PASSes: both controls are the DS elements and the current stage is in ink, leaving the accent on submit. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C35 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C35": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
     }
   ]
 }

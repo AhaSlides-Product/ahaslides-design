@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.78.0 — 2026-10-05
+### Added
+- **`<aha-stepper>`** — framework-free stepper (`stepper` page): numbered markers, a check on finished stages, the current stage marked with ink (outline + semibold, `aria-current="step"`), never the primary accent. `size="lg"` for a slide canvas, `navigable` for clickable stages, colours follow `currentColor` so it tracks the deck ink. (#PR)
+- **`<aha-autocomplete>`** — framework-free autocomplete (`autocomplete-field` page) on the `<aha-select>` chrome: ARIA 1.2 combobox with a list popup, filter-as-you-type with the match in bold, Arrow / Alt+Arrow / Enter / Escape keyboard model, free text allowed, `input` and `change` events. (#PR)
+- **Icons `system-sad-face` and `system-angry-face`** — on the 16px grid in the `system-smiley` style, for mood labels such as Sad and Mad. (#PR)
+- **Guide: "Using the design system in Vue 2"** (`guidelines/vue2`) — new UI in the presenter, audience and admin apps uses `<aha-*>`, never the `stpancras-storybook-app` kit; existing screens stay unless a task asks to migrate. Covers loading `all.js` + `tokens.css` once pinned to a tag, `Vue.config.ignoredElements`, `.prop` bindings and `CustomEvent` detail, with a worked example. (#PR)
+- **Judge criteria + eval cases**: canvas C23 and audience C35 (stage indicators and type-to-pick fields are `<aha-stepper>` / `<aha-autocomplete>`, current stage in ink), icons C7 (a glyph matches its word); the canvas and audience guidelines and guides now name both elements. (#PR)
+
 ## 0.77.0 — 2026-10-05
 ### Added
 - **`<aha-button size="xl">`** — 52px tall, 28px padding, 12px radius, 16px label (the web-component twin of React `<XLButtonScope>`), for presenter controls drawn inside a slide canvas and read from across the room. Size only through the attribute; never `::part(button)` height, padding or font-size. (#146)

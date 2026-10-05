@@ -64,6 +64,18 @@
       "status": "available"
     },
     {
+      "ref": "stepper",
+      "as": "component",
+      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), never hand-rolled .step pills and never the primary accent",
+      "status": "available"
+    },
+    {
+      "ref": "autocomplete-field",
+      "as": "component",
+      "use": "a type-to-pick field (owner, name, tag) — <aha-autocomplete>, never a hand-rolled <input> + <ul> combobox",
+      "status": "available"
+    },
+    {
       "ref": "--aha-color-primary",
       "as": "token",
       "use": "the deck accent — presentationColorPalette[0] set on :root with the --aha-button-primary-* hover / press / text tokens, identical to the canvas; selected chips, checked controls and the submit button all read it",
@@ -607,6 +619,14 @@
         "C34",
         "§4"
       ]
+    },
+    {
+      "id": "ds-stepper-combobox",
+      "rule": "A stage indicator is <aha-stepper> and a type-to-pick field is <aha-autocomplete> (both in lib/all.js); a sentiment glyph is the matching face (system-smiley / system-sad-face / system-angry-face). Never hand-roll stepper pills or a combobox, and never mark the current stage with the primary accent — the stepper marks it with ink so the accent stays on the one action that advances the flow.",
+      "ref": [
+        "C15",
+        "C35"
+      ]
     }
   ],
   "reuse": null,
@@ -638,5 +658,5 @@
     }
   ],
   "guide": "audience.guide.md",
-  "whenToRead": "ANY audience (phone) view of a slide type. Holds the 16px primary-copy rule (--aha-size-sm is 12px, so 16px maps to --aha-size-l), the one-accent rule shared with the canvas, <aha-*> elements from all.js on the Developer Platform instead of ported CSS, one dark ink #1A1A1A, 1px / 1.5px borders with 12px cards, and motion tokens on persistent nodes."
+  "whenToRead": "ANY audience (phone) view of a slide type. Holds the 16px primary-copy rule (--aha-size-sm is 12px, so 16px maps to --aha-size-l), the one-accent rule shared with the canvas, <aha-*> elements from all.js on the Developer Platform instead of ported CSS, one dark ink #1A1A1A, 1px / 1.5px borders with 12px cards, and motion tokens on persistent nodes. Stage indicators are <aha-stepper> and type-to-pick fields <aha-autocomplete>, never hand-rolled."
 }

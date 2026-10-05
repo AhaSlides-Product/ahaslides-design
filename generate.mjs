@@ -149,6 +149,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Menu',       slug: 'menu' },
     { name: 'Pagination', slug: 'pagination' },
     { name: 'Steps',      slug: 'steps' },
+    { name: 'Stepper',    slug: 'stepper' },
   ] },
   { cat: 'Data Entry', items: [
     { name: 'Checkbox',     slug: 'checkbox' },
@@ -160,6 +161,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Select',       slug: 'select' },
     { name: 'Select field', slug: 'select-field' },
     { name: 'Autocomplete', slug: 'autocomplete' },
+    { name: 'Autocomplete field', slug: 'autocomplete-field' },
     { name: 'Date picker',  slug: 'datepicker' },
     { name: 'Time picker',  slug: 'time-picker' },
     { name: 'Slider',       slug: 'slider' },
