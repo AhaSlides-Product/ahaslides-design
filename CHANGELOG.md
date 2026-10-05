@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.82.1 — 2026-10-05
+### Fixed
+- **`<aha-background-task>` Cancel is now a real button.** The documented action was a `<span role="button">` that only responded to clicks; every snippet (HTML, React, Vue, preview) now uses `<button slot="action" type="button">`, so it takes keyboard focus and Enter/Space. The element resets the native button chrome, so it still renders as a link. (#PR)
+- The ten `--aha-toast-*` custom properties, which no token source defined, are gone; the values the presenter's Import notification ships are written directly in the element with audited `ds-lint-allow` markers. Hover now uses `--aha-color-secondary`. The `prefers-reduced-motion` guard is restored: no card entrance, stripe animation or bar transitions. (#PR)
+
 ## 0.82.0 — 2026-10-05
 ### Changed
 - **`<aha-progress-toast>` renamed `<aha-background-task>` and moved from Components to Patterns.** It is the pattern for any long-running process (import, export, upload, duplicate), with the presenter's Import as the reference implementation, not a general component, and it differs from Toast (a one-line confirmation). Element, entry (`@ahaslides-product/design/aha-background-task`), contract and docs page are now `background-task`; the page lives under Patterns · AhaSlides surfaces. The class is `AhaBackgroundTask` / `defineAhaBackgroundTask`; the API is unchanged. The `--aha-toast-*` CSS custom properties are unchanged. (#153)

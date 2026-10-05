@@ -32,5 +32,5 @@
 </script>
 
 <aha-background-task heading="Quarterly review.pptx" value="0" caption="0%" dismiss-label="Dismiss">
-  <span slot="action" role="button" tabindex="0">Cancel</span>
+  <button slot="action" type="button">Cancel</button>
 </aha-background-task>
