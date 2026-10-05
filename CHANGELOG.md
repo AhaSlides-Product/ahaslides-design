@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.82.0 — 2026-10-05
 ### Changed
-- **`<aha-progress-toast>` renamed `<aha-import-progress>` and moved from Components to Patterns.** It is the presenter's import-progress pattern for one background task, not a general component, and it differs from Toast (a one-line confirmation). Element, entry (`@ahaslides-product/design/aha-import-progress`), contract and docs page are now `import-progress`; the page lives under Patterns · AhaSlides surfaces. The class is `AhaImportProgress` / `defineAhaImportProgress`. The `--aha-toast-*` CSS custom properties are unchanged. (#)
+- **`<aha-progress-toast>` renamed `<aha-import-progress>` and moved from Components to Patterns.** It is the presenter's import-progress pattern for one background task, not a general component, and it differs from Toast (a one-line confirmation). Element, entry (`@ahaslides-product/design/aha-import-progress`), contract and docs page are now `import-progress`; the page lives under Patterns · AhaSlides surfaces. The class is `AhaImportProgress` / `defineAhaImportProgress`. The `--aha-toast-*` CSS custom properties are unchanged. (#153)
 ### Deprecated
 - `<aha-progress-toast>` (0.81.0) stays registered as an alias of the same element and its entry still resolves; migrate to `<aha-import-progress>`. The old `progress-toast/` docs page is removed.
 
