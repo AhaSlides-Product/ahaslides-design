@@ -1,0 +1,33 @@
+<div class="pad">
+  <div class="lbl">Stepper · framework-free leaf · the playground drives this one element (Current · Size · Navigable)</div>
+  <div class="demo-stage">
+    <aha-stepper data-probe steps="Ideas|Group|Vote|Discuss" current="1" aria-label="Retro stages"></aha-stepper>
+  </div>
+
+  <div class="lbl">States · first stage · middle · all finished but the last</div>
+  <div style="display:grid; gap:16px">
+    <aha-stepper steps="Ideas|Group|Vote|Discuss" current="0"></aha-stepper>
+    <aha-stepper steps="Ideas|Group|Vote|Discuss" current="2"></aha-stepper>
+    <aha-stepper steps="Ideas|Group|Vote|Discuss" current="3"></aha-stepper>
+  </div>
+
+  <div class="lbl">Large (canvas) · current stage in ink, the accent stays on Next</div>
+  <div class="row" style="align-items:center; gap:24px; flex-wrap:wrap">
+    <aha-stepper size="lg" steps="Ideas|Group|Vote|Discuss" current="1" style="flex:1 1 320px"></aha-stepper>
+    <aha-button size="xl" variant="primary">Next</aha-button>
+  </div>
+
+  <div class="lbl">On a dark deck · color set to the deck ink</div>
+  <div style="background:var(--aha-gray-100,#1A1A1A); padding:24px; border-radius:var(--aha-radius-lg,12px)">
+    <aha-stepper size="lg" steps="Ideas|Group|Vote|Discuss" current="2" style="color:var(--aha-white,#FFFFFF)"></aha-stepper>
+  </div>
+
+  <div class="lbl">Navigable · each stage is a button and emits change</div>
+  <aha-stepper navigable steps="Details|Questions|Review" current="1"></aha-stepper>
+</div>
+
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-stepper.js';
+  import '../lib/aha-button.js';
+</script>

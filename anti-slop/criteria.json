@@ -205,6 +205,11 @@
           "id": "C6",
           "title": "presenter-app render mode matches the intended fill/outline state",
           "test": "In presenter-app the render mode matches the intended look: an outline-intended system-* glyph uses maintain-color (the default fill: currentColor would blob it), a filled/active glyph or *-fill / *-solid asset stays filled, colour flows through the surrounding element (there is no color prop), and a baked-in stroke hex is fixed at the asset, not with a prop."
+        },
+        {
+          "id": "C7",
+          "title": "A glyph matches the word it stands for",
+          "test": "An icon beside a label must depict that label. Mood / sentiment labels use the face set — `system-smiley` (happy / glad), `system-sad-face` (sad), `system-angry-face` (mad / angry). FAIL when a stand-in with a different meaning is used because the right glyph seemed missing (e.g. `system-thumbs-down` for \"Sad\", `system-fire` for \"Mad\"). If the registry truly lacks the glyph, add it to the DS rather than borrowing one."
         }
       ]
     },
@@ -906,6 +911,11 @@
           "id": "C22",
           "title": "Interactive states animate with motion tokens on persistent nodes",
           "test": "Every hover, selected, expanded or revealed state transitions with `--aha-motion-*` durations and `--aha-ease-*` curves (no bare `.2s` literals), declared on nodes that persist across updates. FAIL when interactive states snap (no transition at all), or when the view is rebuilt with `innerHTML =` / `replaceChildren()` on each state change so the transition can never fire."
+        },
+        {
+          "id": "C23",
+          "title": "Stage steppers and comboboxes are the DS elements, current stage in ink",
+          "test": "*(Fires when the canvas shows a stage / round indicator or a type-to-pick field. N/A otherwise.)* A stage indicator is `<aha-stepper>` (size=\"lg\" on the canvas, `color` set to the deck ink) and a type-to-pick field is `<aha-autocomplete>`, both from `lib/all.js`. FAIL on hand-rolled stepper pills (`.step` spans / `<li>`s styled per slide) or a hand-built `<input>` + `<ul>` suggestion list, and FAIL when the current stage is filled or outlined with the primary accent (`--aha-color-primary`, palette[0]) — the accent belongs to the one action that advances the flow; the current stage is marked with ink."
         }
       ]
     },
@@ -1101,6 +1111,11 @@
           "id": "C34",
           "title": "Interactive states animate with motion tokens on persistent nodes",
           "test": "Hover, selected, pressed and expanded states transition with `--aha-motion-*` durations and `--aha-ease-*` curves on nodes that persist. FAIL when states snap with no transition, use a bare duration literal, or when the screen is rebuilt with `innerHTML =` on each change so the transition never fires."
+        },
+        {
+          "id": "C35",
+          "title": "Stage steppers and comboboxes are the DS elements, current stage in ink",
+          "test": "*(Fires when the audience screen shows a stage indicator or a type-to-pick field. N/A otherwise.)* On the Developer Platform a stage indicator is `<aha-stepper>` and a type-to-pick field (owner, name) is `<aha-autocomplete size=\"large\">`, both from `lib/all.js`. FAIL on a hand-rolled stepper or a hand-built `<input>` + suggestion list / custom `<div role=\"listbox\">`, and FAIL when the current stage is painted with the primary accent instead of ink."
         }
       ]
     },

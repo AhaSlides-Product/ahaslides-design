@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-autocomplete> suggests from a list while still allowing free text. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-autocomplete.js';
+</script>
+
+<aha-autocomplete id="owner" placeholder="Owner" empty-text="No matches"
+  options='[{"label":"Anna Tran","value":"u1"},{"label":"Ben Cole","value":"u2"},{"label":"Chi Nguyen","value":"u3"}]'></aha-autocomplete>
+
+<script>
+  const owner = document.getElementById('owner');
+  owner.addEventListener('change', (event) => console.log('picked', event.detail.value, event.detail.label));
+  owner.addEventListener('input', (event) => console.log('typed', event.detail.value));
+</script>

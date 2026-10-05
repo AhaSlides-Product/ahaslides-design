@@ -1815,6 +1815,51 @@
         "authored": "ahaslides-design",
         "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
       }
+    },
+    {
+      "id": 66,
+      "prompt": "Review this Developer Platform presenter canvas. The stage indicator is `<div class=\"steps\">` with four `<span class=\"step\">` pills styled in the slide's own CSS; the current pill gets `background: var(--aha-color-primary); color: #fff`. The owner picker is an `<input>` plus a `<ul class=\"suggestions\">` filtered on keyup. Next is `<aha-button variant=\"primary\" size=\"xl\">`. Is this OK?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C23 bad — Team Retro D13 + D15.",
+      "expected_output": "C23 FAILs: the stepper and owner combobox are hand-rolled although the DS ships <aha-stepper> and <aha-autocomplete> in lib/all.js, and the current pill uses the primary accent, competing with Next. Use <aha-stepper size=\"lg\"> (current stage in ink) and <aha-autocomplete>. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C23 is marked FAIL",
+        "Names <aha-stepper> and <aha-autocomplete> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C23": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
+    },
+    {
+      "id": 67,
+      "prompt": "Review this Developer Platform presenter canvas. It loads lib/all.js. The stage indicator is `<aha-stepper size=\"lg\" steps=\"Ideas|Group|Vote|Discuss\" current=\"1\" style=\"color: var(--deck-ink)\">`, the owner picker is `<aha-autocomplete placeholder=\"Owner\">` fed the participant names, and the only accent on screen is the Next `<aha-button variant=\"primary\" size=\"xl\">`. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C23 good control.",
+      "expected_output": "C23 PASSes: the stage indicator and owner picker are the DS elements, the current stage is marked in deck ink and the accent stays on Next. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C23 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C23": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
     }
   ]
 }

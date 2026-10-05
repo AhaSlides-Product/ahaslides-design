@@ -29,6 +29,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "Steps", "when": "a linear sequence of stages where the user should see where they are and what's left" },
+      { "what": "Stepper (leaf <aha-stepper>)", "when": "a framework-free stage indicator — a build-less slide canvas or audience phone, or any page without React / Vue; marks the current stage with ink" },
       { "what": "Tabs", "when": "peer views the user switches between freely — no order, no progress" },
       { "what": "Progress", "when": "a single continuous completion metric, not discrete named stages" }
     ],

@@ -31,6 +31,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "AutoComplete", "when": "free text where suggestions help but the user may type their own value" },
+      { "what": "Autocomplete field (leaf <aha-autocomplete>)", "when": "the same free-text-with-suggestions field without React / Vue — a build-less slide type or a shadow-DOM surface" },
       { "what": "Select", "when": "the value MUST come from a known set — don't allow free text" },
       { "what": "Input", "when": "free text with no suggestions to offer" }
     ],

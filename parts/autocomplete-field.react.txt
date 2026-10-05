@@ -1,0 +1,23 @@
+import '@ahaslides-product/design/aha-autocomplete';   // registers <aha-autocomplete>
+import '@ahaslides-product/design/icons';
+import { useRef, useEffect } from 'react';
+
+// React 18 sets `options` as a property through a ref; React 19 can render <aha-autocomplete> directly.
+function AhaAutocomplete({ options, value, placeholder, size, status, disabled, onInput, onPick }) {
+  const ref = useRef();
+  useEffect(() => {
+    const element = ref.current;
+    element.options = options || [];
+    if (value != null) element.value = value;
+    element.disabled = !!disabled;
+    const handleInput = (event) => onInput?.(event.detail.value);
+    const handlePick = (event) => onPick?.(event.detail);
+    element.addEventListener('input', handleInput);
+    element.addEventListener('change', handlePick);
+    return () => { element.removeEventListener('input', handleInput); element.removeEventListener('change', handlePick); };
+  });
+  return <aha-autocomplete ref={ref} placeholder={placeholder} size={size} status={status} />;
+}
+
+// usage
+<AhaAutocomplete placeholder="Owner" options={people} onPick={({ value }) => setOwner(value)} />

@@ -1,0 +1,18 @@
+import '@ahaslides-product/design/aha-stepper';   // registers <aha-stepper>
+import { useRef, useEffect } from 'react';
+
+// React 18 sets `steps` as a property through a ref; React 19 can render <aha-stepper> directly.
+function AhaStepper({ steps, current, size, navigable, onChange }) {
+  const ref = useRef();
+  useEffect(() => {
+    const element = ref.current;
+    element.steps = steps;
+    const handleChange = (event) => onChange?.(event.detail.index);
+    element.addEventListener('change', handleChange);
+    return () => element.removeEventListener('change', handleChange);
+  });
+  return <aha-stepper ref={ref} current={current} size={size} navigable={navigable ? '' : undefined} />;
+}
+
+// usage
+<AhaStepper steps={['Ideas', 'Group', 'Vote', 'Discuss']} current={stage} />

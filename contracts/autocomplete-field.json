@@ -1,0 +1,258 @@
+{
+  "name": "Autocomplete field",
+  "slug": "autocomplete-field",
+  "group": "Data Entry",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-autocomplete",
+  "summary": "Type to get suggestions from a known list while still allowing free text — a framework-free combobox that embeds anywhere, slide canvas and audience phone included.",
+  "lead": "ONE custom element — <aha-autocomplete> — the LEAF counterpart to the composite Autocomplete (antd). It reuses the <aha-select> chrome (sizes 32 / 40 / 48, radius 8, border-input, brand focus border + ring, error / warning status, the same themed listbox popup with flip-above), so a build-less slide type gets a real owner / name picker instead of a hand-rolled <input> + <ul>. It follows the ARIA 1.2 combobox pattern with a list popup: the <input> is role=\"combobox\" with aria-autocomplete=\"list\", aria-expanded, aria-controls and aria-activedescendant; the matching part of each suggestion is bold. The popup is a persistent node, so its fade / slide transition fires on open and close.",
+  "tokensUsed": [
+    "color-primary",
+    "border-input",
+    "border-focus",
+    "border-error",
+    "border-warning",
+    "bg-container",
+    "bg-container-disabled",
+    "border-disabled",
+    "bg-elevated",
+    "border-secondary",
+    "bg-accent",
+    "text-default",
+    "text-tertiary",
+    "text-placeholder",
+    "text-disabled",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Control",
+      "value": "height 40 · radius 8 · 1px #D3D7E1 (border-input) border · leading system-magnifying-glass"
+    },
+    {
+      "label": "Size",
+      "value": "small 32 · default 40 · large 48 (16px text — the audience phone size)"
+    },
+    {
+      "label": "Focus",
+      "value": "brand #6A1EBB border + solid 2px #D3B4FF (border-focus) ring"
+    },
+    {
+      "label": "Status",
+      "value": "error #F5222D (+ aria-invalid) · warning #FF7747 border"
+    },
+    {
+      "label": "Popup",
+      "value": "themed role=listbox, full field width, radius 8, elevation shadow, brand-tint active row, bold match; flips above near the viewport edge"
+    },
+    {
+      "label": "Empty",
+      "value": "\"No matches\" row (empty-text) — never an empty popup"
+    }
+  ],
+  "props": [
+    {
+      "name": "options",
+      "type": "string[] | { label, value }[]",
+      "default": "[]",
+      "desc": "The suggestions — a JSON attribute or an `.options` property"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "—",
+      "desc": "The typed text, or the picked option's value (the field shows its label)"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "—",
+      "desc": "Hint shown when empty; also the accessible name unless aria-label is set"
+    },
+    {
+      "name": "size",
+      "type": "small | default | large",
+      "default": "default",
+      "desc": "Control height 32 / 40 / 48"
+    },
+    {
+      "name": "status",
+      "type": "error | warning",
+      "default": "—",
+      "desc": "Validation border colour; error also sets aria-invalid"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Non-interactive, muted control"
+    },
+    {
+      "name": "empty-text",
+      "type": "string",
+      "default": "No matches",
+      "desc": "Row shown when nothing matches — pass the translated text"
+    },
+    {
+      "name": "input",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Composed event on every keystroke — the native input event also bubbles out, so read detail from the CustomEvent"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value, label}>",
+      "default": "—",
+      "desc": "Composed event when a suggestion is picked"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Autocomplete field (this leaf)",
+        "when": "free text where suggestions from a known list help — an owner, a name, a tag — on any surface, including build-less slide canvases and audience phones"
+      },
+      {
+        "what": "Select field",
+        "when": "the value MUST come from a short known set — no free text"
+      },
+      {
+        "what": "Autocomplete (composite)",
+        "when": "a React / Vue app that needs grouped options, async loading or custom option rendering"
+      }
+    ],
+    "note": "Filter on the query (the element does a case-insensitive contains match). If the value must come from the list, use <aha-select> instead. Translate placeholder and empty-text.",
+    "dsv3": "NEW leaf — the framework-free twin of the DS V3 AutoComplete, built on the Select field chrome so the two read as one family."
+  },
+  "a11y": {
+    "role": "ARIA 1.2 combobox: <input role=\"combobox\" aria-autocomplete=\"list\" aria-expanded aria-controls aria-activedescendant> + role=\"listbox\" of role=\"option\"",
+    "keyboard": "typing filters and opens; ArrowDown / ArrowUp open and move the active option; Alt+ArrowDown opens without moving; Enter picks; Escape closes, or clears when already closed; Tab closes; Home / End stay with the text caret",
+    "note": "DOM focus never leaves the input — the active option is announced through aria-activedescendant, so typing and arrowing work together."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "settings",
+    "presenter",
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-autocomplete",
+    "registers": "aha-autocomplete",
+    "exportsNamed": [
+      "AhaAutocomplete",
+      "defineAhaAutocomplete"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "autocomplete-field.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "autocomplete-field.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "autocomplete-field.vue.txt"
+    }
+  ],
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React < 19 sets `options` as a property through a ref; Vue binds `:options.prop`.",
+  "preview": "autocomplete-field.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "size",
+        "label": "Size",
+        "default": "default",
+        "options": [
+          {
+            "label": "Small",
+            "value": "small"
+          },
+          {
+            "label": "Default",
+            "value": "__remove__"
+          },
+          {
+            "label": "Large",
+            "value": "large"
+          }
+        ]
+      },
+      {
+        "prop": "status",
+        "label": "Status",
+        "default": "none",
+        "options": [
+          {
+            "label": "None",
+            "value": "__remove__"
+          },
+          {
+            "label": "Error",
+            "value": "error"
+          },
+          {
+            "label": "Warning",
+            "value": "warning"
+          }
+        ]
+      },
+      {
+        "prop": "disabled",
+        "label": "Disabled",
+        "default": "off",
+        "options": [
+          {
+            "label": "Off",
+            "value": "__remove__"
+          },
+          {
+            "label": "On",
+            "value": ""
+          }
+        ]
+      }
+    ]
+  },
+  "selfCheck": [
+    {
+      "label": "control 40 · radius 8 · #D3D7E1 border (Select field chrome)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "ARIA 1.2 combobox keyboard model",
+      "verdict": "PASS"
+    },
+    {
+      "label": "persistent popup node — fade / slide transition fires",
+      "verdict": "PASS"
+    },
+    {
+      "label": "glyph via <aha-icon name=\"system-magnifying-glass\">",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The probe is an empty <aha-autocomplete> with a placeholder.",
+    "ready": "!!(document.querySelector('aha-autocomplete[data-probe]') && document.querySelector('aha-autocomplete[data-probe]').shadowRoot && document.querySelector('aha-autocomplete[data-probe]').shadowRoot.querySelector('.listbox'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-autocomplete[data-probe]').shadowRoot;var w=getComputedStyle(r.querySelector('.wrap'));var f=r.querySelector('.field');var l=getComputedStyle(r.querySelector('.listbox'));return{radius:w.borderTopLeftRadius,border:w.borderTopColor,borderWidth:w.borderTopWidth,height:w.height,listboxRadius:l.borderTopLeftRadius,role:f.getAttribute('role')};})()",
+    "expect": {
+      "radius": "8px",
+      "border": "rgb(211, 215, 225)",
+      "borderWidth": "1px",
+      "height": "40px",
+      "listboxRadius": "8px",
+      "role": "combobox"
+    }
+  }
+}
