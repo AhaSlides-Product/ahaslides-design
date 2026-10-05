@@ -809,13 +809,13 @@
         },
         {
           "id": "C3",
-          "title": "Action buttons declared, NOT rendered inside the canvas",
-          "test": "**Rule.** Previous / Next / Summarise / Reset and any other slide-specific actions are **declared** via the plugin manifest's `actions` array and **painted by the host** in the presenter control bar (`PresenterControlBarNew.vue`, region `ncb-center` portal, rendered through `NcbPluginActions.vue`). The canvas iframe never contains the action buttons themselves."
+          "title": "Action buttons in the right place: declared for the host bar on a built plugin, in-canvas on the Developer Platform",
+          "test": "**Rule.** On a **built** slide plugin, Previous / Next / Summarise / Reset and any other slide-specific actions are **declared** via the plugin manifest's `actions` array and **painted by the host** in the presenter control bar (`PresenterControlBarNew.vue`, region `ncb-center` portal, rendered through `NcbPluginActions.vue`); that canvas iframe never contains the action buttons themselves. A **build-less Developer Platform** slide type (presenter.html / audience.html / settings.html loading `lib/all.js`) has no manifest actions: its presenter controls render **inside** the canvas as DS `<aha-button>` elements (sized by C17) — that placement PASSes here, and a raw `<button>` there FAILs."
         },
         {
           "id": "C4",
           "title": "Action shape correct, with sensible variant hierarchy",
-          "test": "**Rule.** Slide plugins do NOT pick a button size — the host renders every declared action via the `<aha-antd-button>` design-system wrapper at whatever size the host configures. The plugin's job is to declare the right **data**."
+          "test": "**Rule.** A built slide plugin does NOT pick a button size — the host renders every declared action via the `<aha-antd-button>` design-system wrapper at whatever size the host configures; the plugin's job is to declare the right **data** (label, variant hierarchy with ≤1 primary, boolean disabled/loading). On the Developer Platform the same variant hierarchy applies to the in-canvas `<aha-button>` row."
         },
         {
           "id": "C5",
@@ -876,6 +876,36 @@
           "id": "C16",
           "title": "A per-round advance stepper uses the default (secondary) variant, never the primary accent",
           "test": "**Rule.** A slide action the presenter clicks to advance **one step at a time through many rounds** — This or That's *Next pair*, a per-question *Next*, a dilemma ladder's *Next dilemma / rung* — is workhorse NAVIGATION, not a climactic CTA. It MUST take the **default / secondary** variant (the solid white-background button), never the filled **primary** accent — and that holds in **both**…"
+        },
+        {
+          "id": "C17",
+          "title": "An in-canvas presenter control is <aha-button> sized by attribute (size=\"xl\"), never resized through ::part",
+          "test": "*(Fires when the canvas renders its own presenter controls — the Developer Platform's in-canvas row or a built plugin's fallback. N/A otherwise.)* Each control is a DS `<aha-button>` whose size comes from the `size` attribute — `size=\"xl\"` (52px) for controls the room reads from a distance. Any `::part(button)` rule (or inline style) that sets height, padding, font-size or radius FAILs, as does recolouring through `::part` or a per-slide accent variable instead of `--aha-color-primary`."
+        },
+        {
+          "id": "C18",
+          "title": "A framed slide over a photo keeps the deck showing — no slide-wide scrim",
+          "test": "*(Fires on a framed slide — `enableFullScreen: false` — rendered with `slide.backgroundImage` set. N/A otherwise.)* The root and the whole answer area stay transparent. A scrim, panel or backdrop painted behind the entire board (e.g. an `#app.scrim` class added whenever a background image is set) FAILs. Only bounded surfaces may be opaque: cards, chips, or a small caption bar behind a single line of text that needs contrast."
+        },
+        {
+          "id": "C19",
+          "title": "One accent per deck — palette[0] on --aha-color-primary, same on every surface",
+          "test": "The deck accent is `presentationColorPalette[0]` published as `--aha-color-primary` on `:root` (with the `--aha-button-primary-*` hover / press / text tokens), so canvas, audience and every `<aha-button>` show the same colour. FAIL when a surface recomputes the accent (mixes it toward the ink until a contrast target, darkens it in steps, uses a 'towardInk' variant for selection), when two surfaces show different 'primary' colours, or when a semantic colour (success teal, error red) is used as a data / series / column colour. Picking only the LABEL ink by contrast is correct."
+        },
+        {
+          "id": "C20",
+          "title": "Borders are hairlines and radius follows the DS scale",
+          "test": "A bounded white card has a 1px neutral border (`--aha-border` #E3E3E3) and 12px radius (`--aha-radius-lg`); a chip 1.5px neutral; a deck-owned surface a 1px `currentColor` ~10% hairline; dashed empty states 1px; option tiles, inputs and buttons 8px. FAIL on 2px (or heavier) outlines on cards, tiles, chips or inputs, on borders at heavy ink (e.g. 14–55% textColour at 2px), or on a rectangular container above 12px radius."
+        },
+        {
+          "id": "C21",
+          "title": "One fixed dark ink: #1A1A1A",
+          "test": "Wherever the slide uses a fixed dark ink (labels on a light fill, the dark half of a contrast pick, a fallback ink), it is `--aha-text-default` #1A1A1A. FAIL on `#1A1A2E` / `--aha-brand-3` / `--aha-indigo-100` used as text ink, or on a second near-black (`#000`, `#111`) used alongside it."
+        },
+        {
+          "id": "C22",
+          "title": "Interactive states animate with motion tokens on persistent nodes",
+          "test": "Every hover, selected, expanded or revealed state transitions with `--aha-motion-*` durations and `--aha-ease-*` curves (no bare `.2s` literals), declared on nodes that persist across updates. FAIL when interactive states snap (no transition at all), or when the view is rebuilt with `innerHTML =` / `replaceChildren()` on each state change so the transition can never fire."
         }
       ]
     },
@@ -995,7 +1025,7 @@
         {
           "id": "C19",
           "title": "Body copy and option labels use the audience default body size",
-          "test": "**Rule.** Primary body text and answer-option labels render at the audience DEFAULT body size (16px) (AHAM-701 issue 2). `text-sm` (14px) is legitimate ONLY on secondary metadata — a vote-count chip, a percentage, a helper caption under the primary label — never on the option label or main body copy itself."
+          "test": "**Rule.** Primary body text, answer-option labels, chip labels and tags render at the audience DEFAULT body size, 16px (`--aha-size-l`) (AHAM-701 issue 2). 14px (`--aha-size-default`) is legitimate ONLY on secondary metadata — a vote-count chip, a percentage, a character counter — never on the option label or main body copy. **Token trap:** `--aha-size-sm` is **12px**, not the 14px 'text-sm', so primary copy bound to `--aha-size-sm` FAILs even though the name reads 'small text'."
         },
         {
           "id": "C20",
@@ -1051,6 +1081,26 @@
           "id": "C30",
           "title": "An ACTIVE audience submit button is passed the deck accent, not left on the component's purple fallback",
           "test": "**Rule.** This repo's submit CTA is the shared library component (`SubmitButton` / `AudienceSubmitButton` from `@/iframe/audience`), whose fill DEFAULTS to the fixed brand purple and only tracks the deck when it is passed `:accent=\"presentationColorPalette[0]\"`. So an ACTIVE (answerable) submit button MUST bind that accent."
+        },
+        {
+          "id": "C31",
+          "title": "One accent per deck — the same --aha-color-primary as the canvas",
+          "test": "The selected chip, checked control and submit fill use `presentationColorPalette[0]` published as `--aha-color-primary` on `:root` — the same value the presenter canvas uses. FAIL when the audience recomputes the accent (a 'towardInk' selection colour beside a raw submit colour), when two controls on one screen show different 'primary' colours, or when a semantic colour (success teal, error red) is used as a data or column colour. Picking only the label ink by contrast is correct."
+        },
+        {
+          "id": "C32",
+          "title": "Borders are hairlines and radius follows the DS scale",
+          "test": "A bounded white card has a 1px `--aha-border` (#E3E3E3) border and 12px radius; a chip a 1.5px neutral border; option tiles, inputs and the submit button 8px. FAIL on 2px (or heavier) outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
+        },
+        {
+          "id": "C33",
+          "title": "One fixed dark ink: #1A1A1A",
+          "test": "Any fixed dark ink — a label on a light accent, a fallback ink — is `--aha-text-default` #1A1A1A. FAIL on `#1A1A2E` / `--aha-brand-3` / `--aha-indigo-100` as text ink, or `#000` as the dark label on the accent."
+        },
+        {
+          "id": "C34",
+          "title": "Interactive states animate with motion tokens on persistent nodes",
+          "test": "Hover, selected, pressed and expanded states transition with `--aha-motion-*` durations and `--aha-ease-*` curves on nodes that persist. FAIL when states snap with no transition, use a bare duration literal, or when the screen is rebuilt with `innerHTML =` on each change so the transition never fires."
         }
       ]
     },

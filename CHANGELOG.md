@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.77.0 — 2026-10-05
+### Added
+- **`<aha-button size="xl">`** — 52px tall, 28px padding, 12px radius, 16px label (the web-component twin of React `<XLButtonScope>`), for presenter controls drawn inside a slide canvas and read from across the room. Size only through the attribute; never `::part(button)` height, padding or font-size. (#146)
+- **Slide-canvas and audience rules that used to live only in the retired `aha-design-*` skills**, now in `guidelines/canvas.json`, `guidelines/audience.json`, the two guides and `llms.txt`: one accent per deck (`presentationColorPalette[0]` on `--aha-color-primary` at `:root`, same on canvas, audience and buttons; only label ink by contrast; semantic colours never as data colours); no slide-wide scrim on a framed photo deck; 1px neutral card hairline and 1.5px chip border; one dark ink `#1A1A1A`; motion tokens on persistent nodes. (#146)
+- **Judge criteria + eval cases** for those rules: canvas C17–C22 and audience C31–C34 in `anti-slop/criteria.json`, with bad and good cases in both eval sets. (#146)
+### Changed
+- **Presenter controls on the Developer Platform render in-canvas.** Canvas C3/C4 and the guide now scope the host control bar to built plugins that declare manifest actions; build-less slide types render an in-canvas `<aha-button size="xl">` row. (#146)
+- **Radius cap reconciled with the DS card.** Cards and panels are 12px (`--aha-radius-lg`), tiles, inputs and buttons 8px, nothing rectangular above 12px; the old "everything ≤ 8px" cap is gone from both guides. (#146)
+- **Audience type scale no longer contradicts itself.** Primary copy, option and chip labels are 16px (`--aha-size-l`); 14px (`--aha-size-default`) is secondary metadata only; the guide and C19 now state that `--aha-size-sm` is 12px. (#146)
+
 ## 0.75.0 — 2026-10-05
 ### Added
 - **Detail sections for expandable panels.** `DataTable.DetailSection` (and `DetailSection` from `createExpandableRows`) is one titled block of a detail panel; return one or several from `renderDetail` (e.g. a Questions sub-table above a Pages sub-table) and the panel stacks them 16 apart. The panel now owns sub-table styling too: every antd Table inside it is a white bordered card at one compact density (8 / 16 cells) whatever `size` it is given, so sub-tables need no margin, padding or `size` of their own. A new "report detail" case on the Data table page reproduces the eLearning Course report screen. (#141)
