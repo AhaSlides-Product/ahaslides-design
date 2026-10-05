@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.80.0 — 2026-10-05
 ### Added
-- **The DS ships its own Claude Code plugin.** This repo is now a plugin marketplace: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design`. The plugin (`agent/`) carries the `aha-design` skill and its hooks (prompt mandate, design guard incl. the Vue 2 new-file rule and storybook-kit block, end-of-turn judge, anti-slop floor), versioned with each release. Hooks read criteria from the installed package, else the plugin's own copy of `anti-slop/criteria.json` from the same release; no network. It replaces `aha-design` in `aha-claude-plugins` after a short overlap; enable one of the two. Setup is in the README, "Agent plugin". (#PR)
-- `standards.mjs` fails when `agent/.claude-plugin/plugin.json`'s version differs from `package.json` or the plugin's criteria copy differs from the store; `npm test` runs the hook suites. (#PR)
+- **The DS ships its own Claude Code plugin.** This repo is now a plugin marketplace: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design`. The plugin (`agent/`) carries the `aha-design` skill and its hooks (prompt mandate, design guard incl. the Vue 2 new-file rule and storybook-kit block, end-of-turn judge, anti-slop floor), versioned with each release. Hooks read criteria from the installed package, else the plugin's own copy of `anti-slop/criteria.json` from the same release; no network. It replaces `aha-design` in `aha-claude-plugins` after a short overlap; enable one of the two. Setup is in the README, "Agent plugin". (#150)
+- `standards.mjs` fails when `agent/.claude-plugin/plugin.json`'s version differs from `package.json` or the plugin's criteria copy differs from the store; `npm test` runs the hook suites. (#150)
 ### Fixed
-- **`tokens.css` and element registrations survive tree-shaking.** `sideEffects` now covers every CSS file (`*.css`), `lib/all.js` and `lib/aha-loader.js`, so a webpack / vue-cli build no longer drops `import '@ahaslides-product/design/tokens.css'`. `standards.mjs` fails when an exported CSS file or a custom-element registration is missing from `sideEffects`. (#PR)
+- **`tokens.css` and element registrations survive tree-shaking.** `sideEffects` now covers every CSS file (`*.css`), `lib/all.js` and `lib/aha-loader.js`, so a webpack / vue-cli build no longer drops `import '@ahaslides-product/design/tokens.css'`. `standards.mjs` fails when an exported CSS file or a custom-element registration is missing from `sideEffects`. (#150)
 
 ## 0.79.1 — 2026-10-05
 ### Fixed
