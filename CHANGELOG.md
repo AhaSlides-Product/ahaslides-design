@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.81.0 — 2026-10-05
 ### Added
-- **`<aha-progress-toast>` (Feedback).** A bottom-right card for one long-running task (slide import, export, upload): file icon, name, DS Progressbar, caption + Cancel action, and `progress` / `success` / `cancelled` / `offline` / `error` states with a ✕ on terminal states. `icon`, `action` and `footer` slots take a branded file icon, a Cancel control and a cancel confirmation, retry buttons or an `<aha-csat>` rating. Pure view: the consumer owns the task, copy and auto-dismiss. Reuses Progressbar, Button, Csat and Icon; first consumer is the presenter Import notification. (#PR)
+- **`<aha-progress-toast>` (Feedback).** A bottom-right card for one long-running task (slide import, export, upload): file icon, name, DS Progressbar, caption + Cancel action, and `progress` / `success` / `cancelled` / `offline` / `error` states with a ✕ on terminal states. `icon`, `action` and `footer` slots take a branded file icon, a Cancel control and a cancel confirmation, retry buttons or an `<aha-csat>` rating. Pure view: the consumer owns the task, copy and auto-dismiss. Reuses Progressbar, Button, Csat and Icon; first consumer is the presenter Import notification. (#152)
 
 ## 0.80.1 — 2026-10-05
 ### Fixed
