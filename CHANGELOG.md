@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.75.0 — 2026-10-05
+### Added
+- **Detail sections for expandable panels.** `DataTable.DetailSection` (and `DetailSection` from `createExpandableRows`) is one titled block of a detail panel; return one or several from `renderDetail` (e.g. a Questions sub-table above a Pages sub-table) and the panel stacks them 16 apart. The panel now owns sub-table styling too: every antd Table inside it is a white bordered card at one compact density (8 / 16 cells) whatever `size` it is given, so sub-tables need no margin, padding or `size` of their own. A new "report detail" case on the Data table page reproduces the eLearning Course report screen. (#141)
+### Fixed
+- **Expandable rows no longer misalign their own cells.** The 24px chevron / spacer sat on the text baseline, lifting the first-column text 2–3px above every other cell (header and body) and making decorated rows taller than plain ones (46px against 39px in a small table); the chevron now fits the 22px line, so every cell shares one baseline and one row height in detail, tree, DataTable and plain-Table modes. (#141)
+- **No empty chevron column.** A table where no row can expand (e.g. a nested Questions table before anyone answers) no longer reserves a spacer column in its header and rows. (#141)
+- **Expandable styles no longer leak into nested tables.** Row, tree-child and panel rules now target only the rows the hook owns, so a plain antd Table inside a panel keeps its own rows. (#141)
+- **A wide sub-table can no longer stretch the parent table**, and an `ellipsis` first column still truncates after the chevron. DataTable stops forcing `scroll.x: 'max-content'` when a column uses `ellipsis` (and nothing is freezable or resizable), so ellipsis columns truncate instead of scrolling — callers no longer need `scroll={{ x: undefined }}`. (#141)
+- **Sticky headers work in DataTable.** The rounded container clips with `overflow: clip` instead of `overflow: hidden`, which had made it a scroll container and broken `sticky`. (#141)
+
 ## 0.74.1 — 2026-10-05
 ### Changed
 - `AGENTS.md` now points agents at the full `<aha-chart>` configuration docs (`docs/chart/README.md`, `contracts/chart.json`, Charts tab) (#145).
