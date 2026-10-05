@@ -144,3 +144,7 @@ vite.config.ts.timestamp-*
 
 # agent plugin runtime state (hook firing log, judge seen-cache)
 agent/.impeccable/
+
+# Python bytecode (agent plugin hooks)
+__pycache__/
+*.pyc

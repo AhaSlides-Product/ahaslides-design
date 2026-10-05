@@ -1,7 +1,7 @@
 {
   "name": "ahaslides-design",
   "description": "The AhaSlides design system's own agent entry point, shipped and versioned with each ahaslides-design release. One skill, aha-design, reads the DS (the installed @ahaslides-product/design package or its hosted feeds: llms.txt, the anti-slop feed, guidelines) and runs the build -> judge -> fix loop against the DS anti-slop criteria for each surface. Hooks make it fire: a prompt mandate on every task, a write-time guard that names the DS surface a change touches (and blocks the old storybook kit in new Vue 2 files), an end-of-turn judge trigger and an anti-slop floor. Hooks read criteria from the installed package, else the copy shipped in this plugin from the same release. Covers every AhaSlides tool people operate; marketing / brand surfaces are aha-marketing-skills.",
-  "version": "0.80.0",
+  "version": "0.80.1",
   "author": {
     "name": "AhaSlides"
   },
