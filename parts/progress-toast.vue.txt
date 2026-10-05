@@ -10,8 +10,8 @@ const emit = defineEmits(['cancel', 'dismiss']);
 </script>
 
 <template>
-  <aha-progress-toast floating :state="state" :heading="fileName" :value="percent" :caption="`${percent}%`"
+  <aha-progress-toast :state="state" :heading="fileName" :value="percent" :caption="`${percent}%`"
     @dismiss="emit('dismiss')">
-    <button v-if="state === 'progress'" slot="action" @click="emit('cancel')">Cancel</button>
+    <span v-if="state === 'progress'" slot="action" role="button" tabindex="0" @click="emit('cancel')">Cancel</span>
   </aha-progress-toast>
 </template>

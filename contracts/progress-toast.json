@@ -5,54 +5,44 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-progress-toast",
-  "summary": "A bottom-right card that tracks one long-running task (import, export, upload) from start to finish — icon, name, bar, caption and its terminal states.",
-  "lead": "ONE custom element — <aha-progress-toast> — a pure view of a single background task. It shows a leading file/task icon, the task name, a determinate bar (the DS <aha-progressbar>, announced once as a progressbar) and a caption row with an optional action such as Cancel. It updates in place through five states — progress, success, cancelled, offline, error — by toggling attributes on persistent nodes, so the bar fill animates instead of being recreated. The ✕ appears on terminal states only. A `footer` slot carries what the task needs next: an inline cancel confirmation, retry buttons, or an <aha-csat> rating. The consumer owns the task, the copy and any auto-dismiss (a successful card is typically dismissed ~2s after state=\"success\", unless a rating is shown).",
-  "codeNote": "Reach for <aha-progress-toast> for ONE long-running task that outlives the screen action that started it. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). The first consumer is the presenter's slide Import notification.",
+  "summary": "The presenter's import-progress notification: a fixed bottom-right card that tracks one background task from start to finish — file icon, name, bar, caption and its terminal states.",
+  "lead": "ONE custom element — <aha-progress-toast> — mirrors the presenter's ImportProgressNotification. It shows a leading file-type icon, the file name, a 5px progress bar and a caption row with an optional Cancel link. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation, the connection-lost buttons or the completion rating. The consumer owns the task, the copy and the timers (the presenter dismisses a successful card 2s after completion unless the rating is shown).",
+  "codeNote": "Reach for <aha-progress-toast> for the slide Import notification. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (12.5px heading, #1F1330 ink, #6B6478 secondary, 5px bar, #D9D4E2 paused fill, #FF4081 Cancel hover, #D5493F error, #F2B8B5 hairline) are kept as built in the presenter, not rounded to DS values.",
   "tokensUsed": [
-    "bg-elevated",
-    "radius-lg",
-    "text-default",
-    "text-secondary",
-    "text-negative",
     "icon-default",
     "color-primary",
-    "red-20",
-    "motion-slow",
-    "motion-mid",
-    "ease-out",
-    "ease-in-out",
     "font-product"
   ],
   "spec": [
     {
       "label": "Card",
-      "value": "white · 320 wide (max 100vw − 32) · radius 12 · padding 14/16/16 · Elevate/Overlays shadow"
+      "value": "fixed right 24 · bottom 88 · z-index 1100 · white · 320 wide (max 100vw − 32) · radius 12 · padding 14/16/16 · Elevate/Overlays shadow · fades in over .3s"
     },
     {
       "label": "Top row",
-      "value": "24px icon · heading 13px bold, ellipsis · check-circle 16 on success · ✕ tertiary icon button on terminal states"
+      "value": "24px icon · heading 12.5px bold #1F1330, ellipsis · check-circle 16 on success · ✕ tertiary icon button on success / canceled / error"
     },
     {
       "label": "Bar",
-      "value": "DS <aha-progressbar> small (6px), primary fill; hidden on success/cancelled/error, muted on offline"
+      "value": "5px track (rgba(106,30,187,.12)), primary fill, width eases 1.7s cubic-bezier(.2,.65,.3,1), moving white stripes while running; fill #D9D4E2 and still on offline; hidden on success / canceled / error"
     },
     {
       "label": "Caption row",
-      "value": "12px secondary caption left · slot=action right (e.g. Cancel)"
+      "value": "12px #6B6478 caption left · slot=action right: 12px bold #6B6478, #FF4081 on hover"
+    },
+    {
+      "label": "Description",
+      "value": "12px #6B6478 under the heading, 2px gap (canceled / offline / error)"
     },
     {
       "label": "Error",
-      "value": "heading in negative text + red-20 1px hairline over the shadow"
-    },
-    {
-      "label": "Placement",
-      "value": "inline by default · `floating` pins it bottom-right (24px inset, z-index 1100)"
+      "value": "heading #D5493F + 1px #F2B8B5 hairline over the shadow"
     }
   ],
   "props": [
     {
       "name": "state",
-      "type": "progress | success | cancelled | offline | error",
+      "type": "progress | success | canceled | offline | error",
       "default": "progress",
       "desc": "Which of the five states the card shows"
     },
@@ -60,31 +50,25 @@
       "name": "heading",
       "type": "string",
       "default": "—",
-      "desc": "Task name (file name), or a status headline such as \"Import cancelled\" / \"Connection lost\" / \"Import failed\""
+      "desc": "File name, or the headline \"Import canceled\" / \"Connection lost\" / \"Import failed\""
     },
     {
       "name": "description",
       "type": "string",
       "default": "—",
-      "desc": "One supporting line under the heading"
+      "desc": "Line under the heading: \"{n}/{total} slides are now in your deck\", \"Waiting to reconnect…\", \"Something went wrong. Please try again.\""
     },
     {
       "name": "value",
       "type": "number",
       "default": "0",
-      "desc": "Bar percent 0–100"
+      "desc": "Bar width 0–100"
     },
     {
       "name": "caption",
       "type": "string",
       "default": "—",
-      "desc": "Bottom-left text beside the bar, e.g. \"42%\" or \"12/40 slides\""
-    },
-    {
-      "name": "floating",
-      "type": "boolean",
-      "default": "false",
-      "desc": "Pin the card bottom-right of the viewport"
+      "desc": "Bottom-left text: \"42%\", \"Importing slides…\", \"Almost done…\" or \"{count}/{total} slides imported\""
     },
     {
       "name": "dismiss-label",
@@ -96,19 +80,19 @@
       "name": "slot=icon",
       "type": "slot",
       "default": "system-file glyph",
-      "desc": "24px leading icon, e.g. a branded file-type icon"
+      "desc": "24px leading file-type icon"
     },
     {
       "name": "slot=action",
       "type": "slot",
       "default": "—",
-      "desc": "Bottom-right control while running, e.g. a Cancel link-button"
+      "desc": "Bottom-right Cancel link"
     },
     {
       "name": "slot=footer",
       "type": "slot",
       "default": "—",
-      "desc": "Block under the body: cancel confirmation, retry buttons, or <aha-csat>"
+      "desc": "Cancel confirmation, connection-lost buttons or the completion rating"
     },
     {
       "name": "dismiss",
@@ -121,7 +105,7 @@
     "whenToUse": [
       {
         "what": "Progress toast",
-        "when": "one long-running background task the user can keep working beside — slide import, export, bulk upload"
+        "when": "the slide Import notification — one background task the user keeps working beside"
       },
       {
         "what": "Toast",
@@ -136,8 +120,8 @@
         "when": "the user must wait for or answer the task before continuing"
       }
     ],
-    "note": "One card per task, updated in place — never stack a new card per state. The card has no timers: auto-dismiss success (about 2s) in the consumer, and leave cancelled / offline / error on screen until the user acts. Offline offers Keep waiting + Cancel in the footer; error offers Try again. After success, ask for a rating by slotting an <aha-csat> into the footer instead of auto-dismissing. Write copy in the British spelling the DS uses: \"Import cancelled\".",
-    "dsv3": "New composite of shipped DS parts: Progressbar (bar), Button (✕, actions), Csat (rating footer), Icon (glyphs). Shadow is the DS Elevate/Overlays effect style. No dedicated Figma component — built from the presenter Import notification (AHA2-171 / AHA2-400)."
+    "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card about 2s after completion (unless the rating is shown) and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary); offline offers \"Try again\" and \"Cancel import\". Copy is verbatim from the presenter, including \"Import canceled\".",
+    "dsv3": "Mirrors the presenter's ImportProgressNotification.vue, ImportCompletionCSAT.vue and FileTypeIcon.vue (stpancras-presenter-app PR #5833). Shadow is the DS Elevate/Overlays effect style. Rating is the DS <aha-csat>. No dedicated Figma component."
   },
   "surfaces": [
     "editor",
@@ -177,7 +161,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "bar is the DS Progressbar (announced once)",
+      "label": "bar is 5px, as built in the presenter",
       "verdict": "PASS"
     },
     {
@@ -185,23 +169,22 @@
       "verdict": "PASS"
     },
     {
-      "label": "✕ on terminal states only, labelled via dismiss-label",
+      "label": "✕ on success / canceled / error, labelled via dismiss-label",
       "verdict": "PASS"
     }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a running card at 42%: the card must be a white 320px radius-12 surface with a 13px ink heading, and the bar must carry the real percent.",
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a running card at 42%: a white 320px radius-12 surface, 12.5px heading in #1F1330, and a 5px bar.",
     "ready": "!!(function(){var el=document.querySelector('aha-progress-toast[data-probe]');return el&&el.shadowRoot&&el.shadowRoot.querySelector('.card');})()",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-progress-toast[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.card');var h=r.querySelector('.heading');var b=r.querySelector('.bar');var x=r.querySelector('.close');return{bg:getComputedStyle(c).backgroundColor,radius:getComputedStyle(c).borderTopLeftRadius,width:getComputedStyle(c).width,padTop:getComputedStyle(c).paddingTop,headingColor:getComputedStyle(h).color,headingSize:getComputedStyle(h).fontSize,barNow:b.getAttribute('aria-valuenow'),closeHidden:String(x.hidden)};})()",
+    "measure": "(function(){var el=document.querySelector('aha-progress-toast[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.card');var h=r.querySelector('.heading');var b=r.querySelector('.track');var x=r.querySelector('.close');return{bg:getComputedStyle(c).backgroundColor,radius:getComputedStyle(c).borderTopLeftRadius,width:getComputedStyle(c).width,padTop:getComputedStyle(c).paddingTop,headingSize:getComputedStyle(h).fontSize,barHeight:getComputedStyle(b).height,closeHidden:String(x.hidden)};})()",
     "expect": {
       "bg": "rgb(255, 255, 255)",
       "radius": "12px",
       "width": "320px",
       "padTop": "14px",
-      "headingColor": "rgb(26, 26, 26)",
-      "headingSize": "13px",
-      "barNow": "42",
+      "headingSize": "12.5px",
+      "barHeight": "5px",
       "closeHidden": "true"
     }
   }

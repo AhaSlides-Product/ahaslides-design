@@ -1,10 +1,10 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
-     <aha-progress-toast> is a pure view of ONE long-running task: you own the task, the copy and any
+     <aha-progress-toast> mirrors the presenter's Import notification: you own the task, the copy and the
      auto-dismiss. Update the same element in place through its states — never add a card per state. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';                // <aha-icon> glyphs
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-progress-toast.js';   // registers <aha-progress-toast> (+ <aha-progressbar>, <aha-button>)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-progress-toast.js';   // registers <aha-progress-toast> (+ <aha-button>)
 
   const toast = document.querySelector('aha-progress-toast');
   let percent = 0;
@@ -15,7 +15,7 @@
     if (percent >= 100) {
       clearInterval(timer);
       toast.setAttribute('state', 'success');
-      toast.setAttribute('caption', '');
+      toast.setAttribute('caption', '40/40 slides imported');
       toast.querySelector('[slot="action"]')?.remove();
       setTimeout(() => toast.remove(), 2000);
     }
@@ -23,13 +23,14 @@
   toast.addEventListener('dismiss', () => toast.remove());
   toast.querySelector('[slot="action"]').addEventListener('click', () => {
     clearInterval(timer);
-    toast.setAttribute('state', 'cancelled');
-    toast.setAttribute('heading', 'Import cancelled');
-    toast.setAttribute('description', percent + '% was imported before you stopped.');
+    toast.setAttribute('state', 'canceled');
+    toast.setAttribute('heading', 'Import canceled');
+    toast.setAttribute('description', 'No slides were imported');
+    toast.setAttribute('caption', '');
     toast.querySelector('[slot="action"]').remove();
   });
 </script>
 
-<aha-progress-toast floating heading="Quarterly review.pdf" value="0" caption="0%" dismiss-label="Dismiss">
-  <button slot="action">Cancel</button>
+<aha-progress-toast heading="Quarterly review.pptx" value="0" caption="0%" dismiss-label="Dismiss">
+  <span slot="action" role="button" tabindex="0">Cancel</span>
 </aha-progress-toast>
