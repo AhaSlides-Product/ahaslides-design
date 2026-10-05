@@ -30,7 +30,7 @@
     {
       "ref": "button",
       "as": "component",
-      "use": "the standard submit button spec — full-width, ~44–48px tall, deck-palette fill, readable ink, disabled/submitting/locked/post-submit states (you rebuild it in-iframe; the real aha-antd-button primary-alt does not cross the boundary)",
+      "use": "the standard submit button — on the Developer Platform <aha-button variant=\"primary\" block> from lib/all.js (the iframe loads it), coloured by --aha-color-primary = the deck accent; a built plugin without the package rebuilds the same spec (full-width, ~44–48px, deck-accent fill, contrast-picked ink, disabled/submitting/locked/post-submit states)",
       "status": "available"
     },
     {
@@ -40,9 +40,45 @@
       "status": "available"
     },
     {
+      "ref": "counted-textarea",
+      "as": "component",
+      "use": "open-ended / idea text with a character counter — <aha-counted-textarea> from lib/all.js on the Developer Platform, never a ported copy",
+      "status": "available"
+    },
+    {
+      "ref": "input",
+      "as": "component",
+      "use": "single-line answers and names — <aha-input> from lib/all.js on the Developer Platform",
+      "status": "available"
+    },
+    {
+      "ref": "tag",
+      "as": "component",
+      "use": "idea tags and chips — <aha-tag> from lib/all.js; 1.5px neutral border, 16px label",
+      "status": "available"
+    },
+    {
       "ref": "icon",
       "as": "component",
       "use": "the non-colour state cue paired with every colour signal — ✓ on submit, ✗ incorrect, lock icon on closed, leader trophy (glyph choice / size / stroke per the `icons` guide)",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-color-primary",
+      "as": "token",
+      "use": "the deck accent — presentationColorPalette[0] set on :root with the --aha-button-primary-* hover / press / text tokens, identical to the canvas; selected chips, checked controls and the submit button all read it",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-text-default",
+      "as": "token",
+      "use": "the one fixed dark ink (#1A1A1A) — never #1A1A2E and never a second near-black such as #000 for a dark label",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-size-l",
+      "as": "token",
+      "use": "16px — primary copy and option labels. --aha-size-sm is 12px (help / caption only) and --aha-size-default is 14px (secondary metadata), so 'text-sm 14px' maps to --aha-size-default, never --aha-size-sm",
       "status": "available"
     },
     {
@@ -155,7 +191,7 @@
     },
     {
       "id": "native-type-scale",
-      "rule": "Match the built-in type scale exactly: body/option/button label 14px, help/caption/secondary 12px, question/header 22px bold (host-painted in framed mode), form input 16px (dodges iOS auto-zoom), body line-height 1.5. Spacing on a multiple-of-8 rhythm (8/16/24).",
+      "rule": "Match the built-in type scale exactly: primary body copy, option labels and the submit-button label 16px (--aha-size-l); secondary metadata (vote-count chip, percentage, counter) 14px (--aha-size-default); help/caption 12px (--aha-size-sm — the token named 'sm' is 12px, not the 14px 'text-sm', so never use it for copy a participant must read); question/header 22px (host-painted in framed mode); form input 16px (dodges iOS auto-zoom); body line-height 1.5. Spacing on a multiple-of-8 rhythm (8/16/24).",
       "ref": [
         "C19",
         "§1"
@@ -242,9 +278,10 @@
     },
     {
       "id": "controls-track-deck",
-      "rule": "A checked Radio/Checkbox takes the deck ACCENT (presentationColorPalette[0] via a custom property like --aha-control-accent), never Ant's fixed colorPrimary purple. The selected-answer ring/edge takes the deck's textColour (not a near-black or a deepened accent) so it stays visible on any deck; the accent still marks the pick on the control and in label weight.",
+      "rule": "A checked Radio/Checkbox, a selected chip and the submit fill take the deck ACCENT — presentationColorPalette[0] published as --aha-color-primary on :root (the same value the canvas uses; a local alias such as --aha-control-accent must be set from that same value) — never Ant's fixed colorPrimary purple and never a 'toward-ink' variant of it. The selected-answer ring/edge takes the deck's textColour so it stays visible on any deck; the accent still marks the pick on the control and in label weight.",
       "ref": [
         "C17",
+        "C31",
         "§2"
       ]
     },
@@ -290,9 +327,10 @@
     },
     {
       "id": "radius-cap-8",
-      "rule": "Rectangular content containers (option tiles, cards, panels, swipe card, submit button) cap at ≤8px radius — rounded-xl/2xl/3xl (12/16/24) read toy-like, and the cap applies to the OUTER wrapper too. Intentionally circular elements (pills, chips, badges, avatars, dots, progress tracks) stay fully rounded.",
+      "rule": "Rectangular content containers stay on the DS radius scale: cards and panels 12px (--aha-radius-lg, as the DS card measures), option tiles, inputs, the swipe card's inner tiles and the submit button 8px, and nothing above 12px — rounded-2xl/3xl (16/24) read toy-like, and the cap applies to the OUTER wrapper too. Intentionally circular elements (pills, chips, badges, avatars, dots, progress tracks) stay fully rounded.",
       "ref": [
         "C6",
+        "C32",
         "§2a"
       ]
     },
@@ -320,7 +358,7 @@
     },
     {
       "id": "primary-copy-16px",
-      "rule": "Primary body copy and option labels stay at the audience default 16px, never text-sm. text-sm (14px) is legitimate ONLY on secondary metadata beside a label (vote-count chip, percentage, helper caption) — never on the option label or question restatement.",
+      "rule": "Primary body copy and option labels stay at the audience default 16px (--aha-size-l), never text-sm. 14px (--aha-size-default) is legitimate ONLY on secondary metadata beside a label (vote-count chip, percentage, character counter) — never on the option label, a chip label, a tag or the question restatement. The token --aha-size-sm is 12px, so a builder who maps 'text-sm' to --aha-size-sm lands two pixels smaller still: map by pixel value, not by name.",
       "ref": [
         "C19",
         "§2b"
@@ -360,9 +398,10 @@
     },
     {
       "id": "submit-button-spec",
-      "rule": "Rebuild the standard submit button in-iframe (the aha-antd-button primary-alt doesn't cross the boundary): full-width block, ~44–48px tall, soft rounded corners (≤8px), background from xprops.presentationColorPalette[0] (never a hard-coded brand colour, never a bare type=\"primary\" fixed purple), readable ink chosen by fill luminance (white on dark shade, dark ink on light — never hard-coded white), semi-bold, a ~10%-textColour edge hairline, positioned at the end of the answer area with ~16px below.",
+      "rule": "Use the standard submit button: on the Developer Platform it is <aha-button variant=\"primary\" block> from lib/all.js (already loaded in the iframe — never a hand-ported copy of its CSS); a built plugin without the package rebuilds the same spec. Full-width block, ~44–48px tall, 8px corners, fill from the deck accent via --aha-color-primary (never a hard-coded brand colour, never a bare type=\"primary\" fixed purple), readable ink chosen by fill luminance (white or #1A1A1A), semi-bold, positioned at the end of the answer area with ~16px below.",
       "ref": [
         "C15",
+        "C9",
         "§5"
       ]
     },
@@ -528,6 +567,46 @@
       "ref": [
         "§9"
       ]
+    },
+    {
+      "id": "consume-ds-elements",
+      "rule": "On the Developer Platform the audience iframe loads lib/all.js, so every control the DS ships (<aha-button>, <aha-counted-textarea>, <aha-input>, <aha-checkbox>, <aha-radio>, <aha-tag>) is consumed as the element — never 'ported 1:1' by copying its CSS, which freezes the copy at the version of the day it was built. Keep a control custom only where the DS has no element yet, and build it on DS tokens.",
+      "ref": [
+        "C15",
+        "§5"
+      ]
+    },
+    {
+      "id": "one-accent-per-deck",
+      "rule": "One accent per deck: presentationColorPalette[0] maps onto --aha-color-primary on the iframe's :root (with --aha-button-primary-bg-hover / -bg-press / -text), exactly as on the canvas, so the presenter and the participant see the same colour. Only the label ink is picked by contrast. Never reuse a semantic colour (success teal, error red) as a data or series colour.",
+      "ref": [
+        "C31",
+        "§2"
+      ]
+    },
+    {
+      "id": "border-weight",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a chip takes 1.5px neutral; a deck-owned surface takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "ref": [
+        "C32",
+        "§2a"
+      ]
+    },
+    {
+      "id": "one-dark-ink",
+      "rule": "One fixed dark ink on every surface: --aha-text-default #1A1A1A. Never #1A1A2E (--aha-brand-3 / --aha-indigo-100) and never #000 for a dark label on the accent.",
+      "ref": [
+        "C33",
+        "§2"
+      ]
+    },
+    {
+      "id": "motion-persistent-nodes",
+      "rule": "Every interactive state (hover, selected, pressed, expanded) animates with --aha-motion-* durations and --aha-ease-* curves on a PERSISTENT node — patch the DOM (toggle a class or attribute) instead of rebuilding with innerHTML on each update, which kills the transition. Respect prefers-reduced-motion; motion never carries meaning alone.",
+      "ref": [
+        "C34",
+        "§4"
+      ]
     }
   ],
   "reuse": null,
@@ -552,7 +631,12 @@
     {
       "label": "enableFullScreen declared; i18n from xprops.presentation.language; no static time text",
       "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "primary copy 16px (--aha-size-l, not --aha-size-sm); one accent via --aha-color-primary; <aha-*> elements from all.js, no ported CSS; ink #1A1A1A; 1px / 1.5px borders, 12px cards; motion tokens on persistent nodes",
+      "verdict": "N/A — per-surface"
     }
   ],
-  "guide": "audience.guide.md"
+  "guide": "audience.guide.md",
+  "whenToRead": "ANY audience (phone) view of a slide type. Holds the 16px primary-copy rule (--aha-size-sm is 12px, so 16px maps to --aha-size-l), the one-accent rule shared with the canvas, <aha-*> elements from all.js on the Developer Platform instead of ported CSS, one dark ink #1A1A1A, 1px / 1.5px borders with 12px cards, and motion tokens on persistent nodes."
 }

@@ -1,7 +1,7 @@
 # Audience iframe — composition guide
 
 > Distilled from the retired `aha-design-audience` plugin skill, which the DS now owns. This guide holds the full rationale, worked
-> BAD/GOOD examples, the `AHAM-xxx` bug references, and the `C1..C22` judge criteria plus
+> BAD/GOOD examples, the `AHAM-xxx` bug references, and the `C1..C34` judge criteria plus
 > the pre-ship checklist; this guide is the shippable construction checklist. When the two
 > ever disagree, this guide wins. Evals (the binary PASS/FAIL
 > verdict) stay in the skill and the DS anti-slop judge (`audience` surface).
@@ -13,6 +13,13 @@ ships no new component: it reuses Button, Checkbox and Icon, paints with the dec
 state colours from the design-system package because no `--aha-*` vars cross the iframe
 boundary. This pattern carries the **conventions** that keep every slide type's audience
 view reading as one product.
+
+**On the Developer Platform** (build-less slide types: `presenter.html` / `audience.html` /
+`settings.html`) the audience iframe loads `lib/all.js`, so the DS elements **are** available
+in it: consume `<aha-button>`, `<aha-counted-textarea>`, `<aha-input>`, `<aha-checkbox>`,
+`<aha-radio>` and `<aha-tag>` as elements. Never "port 1:1" a component by copying its CSS —
+the copy freezes at the version of the day it was built while the page loads a newer DS.
+Keep a control custom only where the DS has no element yet, and build it on DS tokens.
 
 ## Pick the surface first
 
@@ -80,13 +87,18 @@ hands you** so they look native to AhaSlides.
 
 | Role | Value |
 | --- | --- |
-| Body / option / button label | `14px` |
-| Help text / captions / secondary | `12px` |
+| Body / option / chip / button label | `16px` — `--aha-size-l` |
+| Secondary metadata (vote count, percentage, counter) | `14px` — `--aha-size-default` |
+| Help text / captions | `12px` — `--aha-size-sm` |
 | Question / header | `22px` bold (host-painted in framed mode) |
 | Form input (`<input>` / `<textarea>`) | `16px` — the one exception, dodges iOS auto-zoom-on-focus |
 | Body line-height | `1.5` |
 
 Spacing follows a multiple-of-8 rhythm (8 / 16 / 24).
+
+**Token trap:** `--aha-size-sm` is **12px**, not the 14px that Tailwind calls `text-sm`. Map by
+pixel value, not by name: primary copy is `--aha-size-l` (16px), and a "text-sm 14px" note means
+`--aha-size-default`. Primary copy bound to `--aha-size-sm` is the classic miss (C19).
 
 ## Transforms and bounded scrolling stay inside the reported box
 
@@ -155,9 +167,14 @@ The same two-jobs split as the canvas, with less theme forwarded.
 
 **Selection controls track the deck** (AHAM-701):
 
-- A checked **Radio / Checkbox** takes the deck ACCENT (`presentationColorPalette[0]`, via a
-  custom property like `--aha-control-accent`), never Ant's fixed `colorPrimary` purple. A
-  purple disc on a green deck is the FAIL.
+- **One accent per deck.** `presentationColorPalette[0]` is published as `--aha-color-primary`
+  on the iframe's `:root` (with `--aha-button-primary-bg-hover` / `-bg-press` / `-text`) — the
+  same value and the same code as the presenter canvas (see the `canvas` guide). A checked
+  **Radio / Checkbox**, a selected chip and the submit fill all read it, never Ant's fixed
+  `colorPrimary` purple and never a 'toward-ink' selection variant. A local alias such as
+  `--aha-control-accent` must be set from that same value. Only the label ink is picked by
+  contrast (white or `#1A1A1A`, never `#000`), and a semantic colour is never a data colour (C31).
+  A purple disc on a green deck is the FAIL.
 - The **selected-answer ring / edge** takes the deck's **`textColour`** (not a near-black or
   a deepened accent) so it stays visible on a dark deck; the accent still marks the pick on
   the control and in label weight — the ring's only job is to stay visible.
@@ -184,12 +201,19 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
 - **No pastel wash under same-hue ink.** Don't pair a pastel/tinted background with icon +
   text in the *same* hue. Bind ink to `textColour` (which tracks and contrasts), or pair a
   tint with genuinely high-contrast ink and clear hierarchy — not one hue at two brightnesses.
-- **Corner radius ≤ 8px** on rectangular content containers (option tiles, cards, panels, the
-  swipe card, the submit button) — including the OUTER wrapper, not just the tiles inside. 12 /
-  16 / 24px read toy-like. Intentionally circular elements (pills, chips, badges, avatars, dots,
+- **Corner radius on the DS scale.** Cards and panels **12px** (`--aha-radius-lg`, the DS card);
+  option tiles, inputs and the submit button **8px**; nothing rectangular above 12px — including
+  the OUTER wrapper, not just the tiles inside. 16 / 24px read toy-like. Intentionally circular elements (pills, chips, badges, avatars, dots,
   progress tracks) stay fully rounded.
 - **No extra-bold weight.** Text uses weight **400 or 600 only** (the standard submit button is
   600). No 700 / 800 / 900.
+
+**Borders are hairlines** (C32): a bounded white card **1px `--aha-border`** (#E3E3E3); a chip
+**1.5px** neutral; a deck-owned surface a 1px `color-mix(in srgb, currentColor 10%, transparent)`.
+Never a 2px outline at heavy ink (55% `textColour` on a chip is the miss).
+
+**One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never `#1A1A2E`
+(`--aha-brand-3` / `--aha-indigo-100`), never `#000` for the dark label on the accent.
 
 ## Text economy — say it once, in plain body text
 
@@ -202,9 +226,10 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
   never a full-width pill, tinted card, shadowed chip or button-shaped box, and never semibold
   or muted-grey. Use **ONE shared instruction component** across every slide so the line never
   drifts in size / weight / colour between slides.
-- **Primary copy stays at 16px, never `text-sm`.** `text-sm` (14px) is legitimate ONLY on
-  secondary metadata beside a label — a vote-count chip, a percentage, a helper caption — never
-  on the answer-option label or the question restatement.
+- **Primary copy stays at 16px (`--aha-size-l`), never `text-sm`.** 14px (`--aha-size-default`)
+  is legitimate ONLY on secondary metadata beside a label — a vote-count chip, a percentage, a
+  counter — never on the answer-option label, a chip label or the question restatement. And
+  never `--aha-size-sm` for any of them: that token is 12px.
 
 ## Plugin self-renders submitted / waiting / correct-incorrect
 
@@ -225,17 +250,24 @@ For plugins the host shows **no** generic "Waiting…" screen — your iframe st
 Transitions must be **smooth** — re-report height via `onHeightChange` when a state change
 legitimately changes content height, but avoid layout jumps >16px between adjacent states.
 
-## The standard submit button — match the spec, don't import the component
+**Every interactive state animates** (C34): hover, selected, pressed and expanded transition with
+`--aha-motion-*` durations and `--aha-ease-*` curves on a **persistent** node. Keep the option
+nodes and toggle a class; rebuilding the list with `innerHTML =` on every tap gives each node a
+fresh start, so the transition never fires. Honour `prefers-reduced-motion`.
+
+## The standard submit button — one spec
 
 Every built-in audience slide type uses ONE submit-button look (the host's `aha-antd-button`
-in the **primary-alt** variant). That component does **not** cross the iframe boundary, so you
-rebuild your own to match the spec:
+in the **primary-alt** variant). On the **Developer Platform** use the DS element the iframe
+already loads — `<aha-button variant="primary" block>`, coloured by `--aha-color-primary` set to
+the deck accent. A **built** plugin without the DS package cannot import the host component, so
+it rebuilds the same spec:
 
 **Visual spec**
 
 - **Full-width** block, fills the answer area.
 - **Height** ~44–48px (the touch-target range).
-- **Soft rounded corners** ≤ 8px (`rounded-lg`) — no sharp 0px, no pill unless that's the deck style.
+- **Soft rounded corners** 8px (`--aha-radius-default`) — no sharp 0px, no pill unless that's the deck style.
 - **Background** = the deck's first palette colour `xprops.presentationColorPalette[0]` (or a
   `presentationLighterColorPalette` shade). **Never hard-code a brand colour, never leave a bare
   `type="primary"` on the fixed purple** (AHAM-701).

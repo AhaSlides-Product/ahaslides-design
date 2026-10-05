@@ -42,7 +42,7 @@ These come from the `aha-design` skills — follow the owning skill, then self-c
 - **Tables:** the shared DataTable, never a raw AntD `<Table>`.
 - **Icons:** the shared Icon component — **call a glyph by name** from the registry, never inline an `<svg>` or pull Lucide/Heroicons/FontAwesome/@ant-design/icons.
 - **Backgrounds** white by default; no gradients on backgrounds/fills (AI-affordance border-only exception).
-- **Buttons:** size via the `size` prop or `<XLButtonScope>`; never inline height/padding/radius/fontSize.
+- **Buttons:** size via the `size` prop (`sm` / `md` / `lg` / `xl` on `<aha-button>`; `xl` 52px is for in-canvas presenter controls) or React `<XLButtonScope>`; never inline height/padding/radius/fontSize, never `::part(button)` sizing.
 - **Typography:** Plus Jakarta Sans, weights 400/600 (Display 700), fixed DS V3 scale.
 
 ## The bar for "done" — enforced by two gates
