@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.79.0 — 2026-10-05
+### Added
+- **`lintHtml(source, { surface, path? })`** — `screen-lint` as a pure importable function (`@ahaslides-product/design/screen-lint`): no fs, no process, no console, runs in Node and Cloudflare workerd, icon names bundled (`lib/icon-names.js`). Returns `{ findings: [{ rule, line, message, severity }] }`. The CLI is built on it and keeps its output and exit codes. (#148)
+- **Unit tests** for `lintHtml` (`tests/screen-lint.test.mjs`, `npm run test`), run in CI and `npm run check`. (#148)
+### Changed
+- **`ds-lint-allow` is now per rule with a reason**: `ds-lint-allow: <rule-id>[,<rule-id>] (<reason>)` silences only the named rules on that line. A bare `ds-lint-allow` no longer suppresses anything and is reported as a `ds-lint-allow-bare` warning (never a hard fail), so existing screens can migrate. (#148)
+
 ## 0.78.0 — 2026-10-05
 ### Added
 - **`<aha-stepper>`** — framework-free stepper (`stepper` page): numbered markers, a check on finished stages, the current stage marked with ink (outline + semibold, `aria-current="step"`), never the primary accent. `size="lg"` for a slide canvas, `navigable` for clickable stages, colours follow `currentColor` so it tracks the deck ink. (#147)

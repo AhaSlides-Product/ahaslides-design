@@ -35,6 +35,8 @@ jobs:
         run: node build-icons.mjs && node generate.mjs
       - name: Component standards gate (reusable or it fails)
         run: node standards.mjs
+      - name: Unit tests
+        run: node --test tests/*.test.mjs
       - name: Render truth (real UI matches each contract)
         env:
           CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}

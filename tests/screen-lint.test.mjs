@@ -1,0 +1,96 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { lintHtml } from '../lib/screen-lint.js';
+
+const rulesOf = (source, surface = 'product') => lintHtml(source, { surface }).findings.map(f => f.rule);
+
+const productHits = {
+  'gradient-fill': '<div style="background: linear-gradient(red, blue)"></div>',
+  'radius-off-scale': '<div style="border-radius: 10px"></div>',
+  'min-width-trap': '<div style="min-width: 480px"></div>',
+  'overflow-x-scroll': '<div style="overflow-x: auto"></div>',
+  'chart-lib-import': "import { Chart } from 'chart.js';",
+  'unknown-icon': '<aha-icon name="not-a-real-icon"></aha-icon>',
+  'icon-only-no-name': '<aha-button icon-only></aha-button>',
+  'raw-hex': '<div style="color: #ff0000"></div>',
+  'off-scale-weight': '<div style="font-weight: 700"></div>',
+  'box-in-box': '<div class="card" style="border: 1px solid"><div class="card" style="border: 1px solid"></div></div>',
+  'multi-primary': '<aha-button variant="primary"></aha-button>\n<aha-button variant="primary"></aha-button>',
+};
+const canvasHits = {
+  'canvas-hardcoded-colour': '<div style="color: #fff"></div>',
+  'canvas-viewport-font': '<div style="font-size: 4vw"></div>',
+  'canvas-tiny-font': '<div style="font-size: 12px"></div>',
+  'canvas-hardcoded-font': '<div style="font-family: Arial"></div>',
+};
+
+for (const [rule, source] of Object.entries(productHits))
+  test(`product surface reports ${rule}`, () => assert.ok(rulesOf(source).includes(rule)));
+for (const [rule, source] of Object.entries(canvasHits))
+  test(`canvas surface reports ${rule}`, () => assert.ok(rulesOf(source, 'canvas').includes(rule)));
+
+test('a clean screen has no findings', () => {
+  const clean = '<aha-button variant="primary">Save</aha-button>\n<div style="color: var(--aha-color-text); border-radius: 8px; font-weight: 600"></div>';
+  assert.deepEqual(lintHtml(clean, { surface: 'product' }).findings, []);
+});
+
+test('findings carry rule, 1-based line, message and severity', () => {
+  const [finding] = lintHtml('<p>ok</p>\n<div style="color: #abc"></div>', { surface: 'product' }).findings;
+  assert.equal(finding.rule, 'raw-hex');
+  assert.equal(finding.line, 2);
+  assert.equal(finding.severity, 'hard');
+  assert.match(finding.message, /#abc/);
+});
+
+test('overflow-x is a warning, not a hard finding', () => {
+  const [finding] = lintHtml(productHits['overflow-x-scroll'], { surface: 'product' }).findings;
+  assert.equal(finding.severity, 'warn');
+});
+
+test('the named rule is suppressed with a reason', () => {
+  const source = '<div style="color: #abc"></div> <!-- ds-lint-allow: hex (brand logo) -->';
+  assert.deepEqual(rulesOf(source), []);
+});
+
+test('several rules can be named on one marker', () => {
+  const source = '<div style="color: #abc; border-radius: 10px"></div> <!-- ds-lint-allow: raw-hex,radius (legacy badge) -->';
+  assert.deepEqual(rulesOf(source), []);
+});
+
+test('the wrong rule does not suppress', () => {
+  const source = '<div style="color: #abc"></div> <!-- ds-lint-allow: radius (not this one) -->';
+  assert.deepEqual(rulesOf(source), ['raw-hex']);
+});
+
+test('the marker only covers its own line', () => {
+  const source = '<!-- ds-lint-allow: hex (above) -->\n<div style="color: #abc"></div>';
+  assert.deepEqual(rulesOf(source), ['raw-hex']);
+});
+
+test('a bare marker suppresses nothing and warns', () => {
+  const source = '<div style="color: #abc"></div> <!-- ds-lint-allow -->';
+  const { findings } = lintHtml(source, { surface: 'product' });
+  assert.deepEqual(findings.map(f => f.rule).sort(), ['ds-lint-allow-bare', 'raw-hex']);
+  assert.equal(findings.find(f => f.rule === 'ds-lint-allow-bare').severity, 'warn');
+});
+
+test('a marker with rules but no reason is treated as bare', () => {
+  const source = '<div style="color: #abc"></div> <!-- ds-lint-allow: hex -->';
+  assert.deepEqual(rulesOf(source).sort(), ['ds-lint-allow-bare', 'raw-hex']);
+});
+
+test('iconNames overrides the bundled icon list', () => {
+  const source = '<aha-icon name="custom-glyph"></aha-icon>';
+  assert.equal(lintHtml(source, { surface: 'product', iconNames: ['custom-glyph'] }).findings.length, 0);
+  assert.equal(lintHtml(source, { surface: 'product' }).findings[0].rule, 'unknown-icon');
+});
+
+test('an unknown surface throws', () => {
+  assert.throws(() => lintHtml('', { surface: 'nope' }), /surface/);
+});
+
+test('the core module touches no node built-ins', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const source = await readFile(new URL('../lib/screen-lint.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /node:|process\.|console\./);
+});
