@@ -7,7 +7,7 @@ The AhaSlides design system **for agents** — one source of truth, everything e
 Initiative: PRO38-1. This repo is the permanent home for the design-system-for-agents
 (replaces the in-monorepo spike PR #118).
 
-> **Just want the charts?** The `<aha-chart>` library works from a plain HTML page via a public CDN, with no registry access and no build step: see **[docs/chart/README.md](docs/chart/README.md)**.
+> **Just want the charts?** The `<aha-chart>` library works from a plain HTML page via a public CDN, with no registry access and no build step: see **[docs/chart/README.md](docs/chart/README.md)**, or browse every chart live on the **[Charts tab](https://ahaslides-product.github.io/ahaslides-design/charts/index.html)**.
 
 ## The idea
 

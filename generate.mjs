@@ -184,7 +184,6 @@ const COMPONENTS_CATALOG = [
     { name: 'Collapse',     slug: 'collapse' },
     { name: 'Descriptions', slug: 'descriptions' },
     { name: 'Statistic',    slug: 'statistic' },
-    { name: 'Chart',        slug: 'chart' },
     { name: 'Empty',        slug: 'empty' },
     { name: 'Image',        slug: 'image' },
     { name: 'Carousel',     slug: 'carousel' },
@@ -261,6 +260,7 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
+  { key: 'charts',      label: 'Charts' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'feeds',       label: 'Agent feeds' },
 ];
@@ -761,6 +761,106 @@ function codeWidget(c) {
       ${panes}
     </div></div>`;
 }
+const dedent = (text) => {
+  const lines = text.split('\n');
+  const indent = Math.min(...lines.slice(1).filter(l => l.trim()).map(l => l.match(/^ */)[0].length), Infinity);
+  return [lines[0], ...lines.slice(1).map(l => l.slice(Number.isFinite(indent) ? indent : 0))].join('\n');
+};
+const chartCaseMarkup = (caseHtml) => {
+  const element = caseHtml.match(/<aha-chart[\s\S]*?<\/aha-chart>/);
+  if (!element) return '';
+  const copyable = element[0].replace(/\s+data-probe(?=[\s>])/, '').replace(/"image":"data:[^"]*"/g, '"image":"https://example.com/option.png"');
+  return dedent(copyable);
+};
+
+const CHART_TYPE_EVENTS = {
+  wordcloud: { name: 'wordcloud-hide', handler: 'onHide', detail: 'hidden', note: 'fires when a word is hidden or restored; detail.hidden lists the hidden words' },
+  mindmap: { name: 'mindmap-change', handler: 'onChange', detail: 'tree', note: 'fires on every edit once options.editable is true; detail.tree is the whole map' },
+};
+function parseChartElement(html) {
+  const open = html.match(/<aha-chart\b([\s\S]*?)>\s*<\/aha-chart>/);
+  const attrs = [];
+  for (const m of (open ? open[1] : '').matchAll(/([\w-]+)=(?:"([^"]*)"|'([^']*)')/g)) attrs.push([m[1], m[2] ?? m[3]]);
+  const dataAttr = attrs.find(([name]) => name === 'data');
+  const data = dataAttr
+    ? JSON.stringify(JSON.parse(dataAttr[1]), null, 2).replace(/\{[^{}[\]]*\}/g, (flat) => flat.replace(/\s*\n\s*/g, ' '))
+    : 'null';
+  return { data, plain: attrs.filter(([name]) => name !== 'data') };
+}
+const pascal = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+const indentLines = (text, spaces) => text.split('\n').map((line, i) => (i ? ' '.repeat(spaces) + line : line)).join('\n');
+const chartTypeFrameworkSnippets = (type, html) => {
+  const { data, plain } = parseChartElement(html);
+  const component = `${pascal(type)}Chart`;
+  const event = CHART_TYPE_EVENTS[type];
+  const staticAttrs = plain.map(([name, value]) => `${name}="${value}"`).join(' ');
+  const reactEvent = event ? `
+  useEffect(() => {
+    const chart = ref.current;
+    const ${event.handler} = (event) => console.log(event.detail.${event.detail});   // ${event.note}
+    chart.addEventListener('${event.name}', ${event.handler});
+    return () => chart.removeEventListener('${event.name}', ${event.handler});
+  }, []);
+` : '';
+  const react = `import '@ahaslides-product/design/aha-chart';   // registers <aha-chart>
+import { useEffect, useRef } from 'react';
+
+const data = ${indentLines(data, 0)};
+
+// React 18 passes objects to custom elements as strings, so data is set as a property through a ref
+// (a JSON string in the data attribute also works). Events are listened to on the ref too.
+export function ${component}() {
+  const ref = useRef(null);
+  useEffect(() => { ref.current.data = data; }, []);
+${reactEvent}
+  return <aha-chart ref={ref} ${staticAttrs} />;
+}
+`.replace(/\n\n\n/g, '\n\n');
+  const vueEvent = event ? ` @${event.name}="${event.handler}"` : '';
+  const vueHandler = event ? `
+const ${event.handler} = (event) => console.log(event.detail.${event.detail});   // ${event.note}
+` : '';
+  const vue = `// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-chart';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// ${component}.vue — .prop binds data as a property, so live updates animate
+<script setup>
+const data = ${indentLines(data, 0)};
+${vueHandler}</script>
+
+<template>
+  <aha-chart ${staticAttrs} :data.prop="data"${vueEvent} />
+</template>
+`;
+  return { react, vue };
+};
+
+// One "Show code" per chart type on the Charts page: the type's default snippet, plus the markup of
+// whichever case the switcher is showing (the preview script keeps the "case" pane in step).
+function chartTypeCodeWidget(def, cases) {
+  const html = part(def.file).trim();
+  const { react, vue } = chartTypeFrameworkSnippets(def.type, html);
+  const tabs = [['html', 'HTML', html], ['react', 'React', react], ['vue', 'Vue 3', vue], ['case', 'Selected case', cases[0] || html]];
+  const tabButtons = tabs.map(([key, label], i) => `<button class="tab ${i === 0 ? 'active' : ''}" type="button" data-f="${key}">${esc(label)}</button>`).join('');
+  const panes = tabs.map(([key, , code], i) => `<pre class="code ${key} ${i === 0 ? 'active' : ''}">${esc(code)}</pre>`).join('\n');
+  return `<div class="code-tabs chart-type-code" data-open="false" data-cases="${esc(JSON.stringify(cases))}">
+    <div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div>
+    <div class="code-panel" hidden>
+      <div class="code-head"><div class="tabs">${tabButtons}</div><button class="copy" type="button">Copy</button></div>
+      ${panes}
+    </div></div>`;
+}
+function chartSectionsWithCode(c) {
+  const defaults = new Map((c.typeDefaults || []).map(d => [d.title, d]));
+  return part(c.preview).replace(/<section class="chart-type"[\s\S]*?<\/section>/g, (section) => {
+    const title = (section.match(/<h3 class="chart-type-title"[^>]*>([^<]+)</) || [])[1];
+    const def = defaults.get(title);
+    if (!def) return section;
+    const cases = [...section.matchAll(/<div class="chart-case"[^>]*>([\s\S]*?)(?=<div class="chart-case"|<\/section>)/g)].map(m => chartCaseMarkup(m[1]));
+    return section.replace(/<\/section>$/, `${chartTypeCodeWidget(def, cases)}\n  </section>`);
+  });
+}
 // Static docs grid helper (like ant.design's own API/token tables) — NOT an AntD data-grid
 // call site, so the shared-DataTable rule doesn't apply. The tag name is composed so the
 // call-site guard (which greps for the literal opening tag) stays quiet on these docs tables.
@@ -936,7 +1036,46 @@ function playgroundBar(c) {
   return `<div class="aha-pg" data-pg>${rows}</div>`;
 }
 
+const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
+
+/* Charts — its OWN top-level area, one self-contained page (charts/index.html), built like the Settings
+   hub and Audience Library: noSidebar shell + the shared sticky antd Anchor. The page body is the
+   chart contract's own doc content, so nothing is duplicated. */
+function renderChartsPage(c) {
+  const preview = chartSectionsWithCode(c);
+  const chartTypes = [...preview.matchAll(/<h3 class="chart-type-title" id="([^"]+)">([^<]+)<\/h3>/g)].map(([, id, title]) => ({ id, title }));
+  const sections = [
+    { id: 'examples', title: 'Chart types', children: chartTypes, html: `<h2 id="examples">Chart types</h2>
+  <div class="demo">
+    ${playgroundBar(c)}
+    <div class="demo-stage">${preview}</div>
+  </div>` },
+    { id: 'choosing-a-chart', title: 'Choosing a chart', html: `<h2 id="choosing-a-chart">Choosing a chart</h2>${c.opinion ? opinionBlock(c.opinion) + surfaceBlock(c.surfaces) : ''}` },
+    { id: 'api', title: 'API', html: `<h2 id="api">API</h2>\n  ${propsTable(c.props)}` },
+    { id: 'install', title: 'Install and use', html: `<h2 id="install">Install and use</h2>${componentConsume(c, { heading: false })}<div class="demo">${codeWidget(c)}</div>` },
+    { id: 'spec', title: 'Spec', html: `<h2 id="spec">Spec</h2>\n  <div class="spec-line">${specList(c.spec)}</div>` },
+  ];
+  const anchorItems = sections.map(x => ({ key: x.id, href: '#' + x.id, title: x.title,
+    ...(x.children ? { children: x.children.map(t => ({ key: t.id, href: '#' + t.id, title: t.title })) } : {}) }));
+  const fallbackGroups = [
+    { cat: 'Chart types', links: chartTypes },
+    { cat: null, links: sections.filter(x => !x.children).map(x => ({ id: x.id, title: x.title })) },
+  ];
+  const main = `
+  <p class="crumbs">Charts</p>
+  <h1>${esc(c.name)}</h1>
+  <p class="subtitle">${esc(c.summary)}</p>
+  <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
+  <div class="hub-layout">
+    ${hubAnchorAside(fallbackGroups)}
+    <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
+  </div>
+  ${hubAnchorScript(anchorItems)}`;
+  return docShell({ base: '../', active: 'charts', section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
+}
+
 function renderHtml(c) {
+  if (c.docPage) return renderChartsPage(c);
   const preview = part(c.preview);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
@@ -987,6 +1126,19 @@ const htmlKind = (c) => leafHtml(c)
   ? `<${c.element}> is a standard custom element that renders on open — React/Vue are thin adapters over the same element`
   : `a CDN-React runnable page (React + antd loaded from a CDN, no build step) — React/Vue wire the same real vendor component to the shared theme via ConfigProvider in your bundler`;
 
+const typeDefaultsMd = (c) => (c.typeDefaults || []).length
+  ? '\n## Default snippet per type\nStart from the type\'s default and only add attributes — never strip behaviour. The HTML is the element markup alone (load the element once with the HTML snippet\'s import); the React and Vue 3 forms set data as a property and wire the events.\n' +
+    c.typeDefaults.map(d => {
+      const html = part(d.file).trim();
+      const { react, vue } = chartTypeFrameworkSnippets(d.type, html);
+      return `\n### ${d.title}\n\`\`\`html\n${html}\n\`\`\`\n\n\`\`\`jsx\n${react.trim()}\n\`\`\`\n\n\`\`\`vue\n${vue.trim()}\n\`\`\``;
+    }).join('\n')
+  : '';
+const typeDefaultsMap = (c) => Object.fromEntries((c.typeDefaults || []).map(d => {
+  const html = part(d.file).trim();
+  return [d.type, { html, ...chartTypeFrameworkSnippets(d.type, html) }];
+}));
+
 function renderMd(c) {
   const props = (c.props||[]).map(p => `| \`${p.name}\` | ${p.type} | \`${p.default}\` | ${p.desc} |`).join('\n');
   const spec = (c.spec||[]).map(s => `- ${s.label}: ${s.value}`).join('\n');
@@ -1006,7 +1158,7 @@ ${props}
 
 ## Visual standard (measured)
 ${spec}
-${use}
+${use}${typeDefaultsMd(c)}
 `;
 }
 function patternHubUrl(p) { return p.hub ? `${SITE}/${p.hub}/index.html` : `${SITE}/guidelines/${p.slug}/index.html`; }
@@ -1038,7 +1190,8 @@ Tier: ${c.tier}. Frameworks: ${frameworksLine(c)}.
 ${hubLine}${htmlLead}${surf}Props:
 ${props}
 Tokens: ${(c.tokensUsed||[]).join(', ')}.
-${use}`;
+${use}${typeDefaultsMd(c)}
+`;
 }
 function renderAgent(c) {
   // Snippets insertion order follows c.snippets — HTML is authored first on leaf contracts,
@@ -1071,7 +1224,7 @@ function renderAgent(c) {
     summary: c.summary,
     install,
     feeds: {
-      doc: `${SITE}/${c.slug}/index.html`,
+      doc: `${SITE}/${docPagePath(c)}`,
       md: `${SITE}/${c.slug}/${c.slug}.md`,
       agentJson: `${SITE}/${c.slug}.agent.json`,
       llms: `${SITE}/${c.slug}.llms.txt`,
@@ -1085,6 +1238,7 @@ function renderAgent(c) {
     frameworks,
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
     opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
+    ...((c.typeDefaults || []).length ? { typeDefaults: typeDefaultsMap(c) } : {}),
   }, null, 2) + '\n';
 }
 
@@ -1835,7 +1989,7 @@ function consumeBlock() {
 }
 
 // Compact per-component install + feed pointer, shown on each component's doc page.
-function componentConsume(c) {
+function componentConsume(c, { heading = true } = {}) {
   const entry = c.reuse && c.reuse.entry ? c.reuse.entry.replace(/^\.\//, '') : null;
   const npmrc = `# .npmrc — once: point the ${SCOPE} scope at GitHub Packages
 ${NPMRC}
@@ -1852,8 +2006,7 @@ npm i ${PKGNAME}
 import '${PKGNAME}/tokens.css';   // once, at the app root
 // composite — consumes antd (React) / ant-design-vue (Vue); see the snippets below`;
   return `
-  <h2>Install</h2>
-  <pre class="cg-code">${install}</pre>
+  ${heading ? '<h2>Install</h2>\n  ' : ''}<pre class="cg-code">${install}</pre>
   <p class="gen install-note">Agent feed for this component (absolute, fetchable anywhere): <a href="${SITE}/${c.slug}.agent.json"><code>${c.slug}.agent.json</code></a> · <a href="${SITE}/${c.slug}/${c.slug}.md"><code>${c.slug}.md</code></a> · <a href="${SITE}/${c.slug}.llms.txt"><code>${c.slug}.llms.txt</code></a></p>`;
 }
 
@@ -1916,7 +2069,8 @@ function renderAntiSlop(store, guidelines) {
 
 /* ===== overview / landing page ===== */
 function renderIndex(cs) {
-  const cards = cs.map(c => `<a class="card" href="${c.slug}/index.html">
+  cs = cs.filter(c => !c.docPage);
+  const cards = cs.map(c => `<a class="card" href="${docPagePath(c)}">
       <div class="ct">${esc(c.name)} <span class="badge ${c.tier==='leaf-lit'?'leaf':'composite'}">${c.tier==='leaf-lit'?'leaf':'composite'}</span></div>
       <div class="cs">${esc(c.summary)}</div>
       <div class="cf">${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt</div></a>`).join('');
@@ -2078,7 +2232,7 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   ? JSON.parse(read(join(root, 'anti-slop', 'criteria.json')))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
-const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug));
+const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage);
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
@@ -2088,6 +2242,7 @@ NAV_LANDING = {
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
+  charts: 'charts/index.html',
   feeds: 'feeds/llms-txt.html',
 };
 if (GUIDELINES.length) {
@@ -2200,7 +2355,11 @@ const indexLines = [
 const fullDocs = [];
 for (const c of contracts) {
   const d = join(OUT, c.slug); mkdirSync(d, { recursive: true });
-  writeFileSync(join(d, 'index.html'), renderHtml(c));
+  if (c.docPage) {
+    mkdirSync(join(OUT, dirname(c.docPage)), { recursive: true });
+    writeFileSync(join(OUT, c.docPage), renderHtml(c));
+    writeFileSync(join(d, 'index.html'), redirectStub('../' + c.docPage));
+  } else writeFileSync(join(d, 'index.html'), renderHtml(c));
   if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);

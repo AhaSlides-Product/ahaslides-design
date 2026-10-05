@@ -1,6 +1,8 @@
 # `<aha-chart>` — the AhaSlides chart library
 
-One framework-free web component that draws eleven kinds of result chart: bar, column, stacked bar, donut and pie, radial, tree map, 2×2 quadrant, bell curve, radar, word cloud and mind map.
+One framework-free web component that draws eleven kinds of result chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud and mind map.
+
+Live examples, the playground and the "Choosing a chart" guide are on the hosted **[Charts tab](https://ahaslides-product.github.io/ahaslides-design/charts/index.html)**.
 
 - No build step, no framework, no dependencies. One `<script type="module">` and one HTML tag.
 - Works in plain HTML, React, Vue, Svelte, Angular or anything else that can render a custom element.
@@ -93,6 +95,32 @@ Two ways, which take the same shapes:
 ```
 
 Charts that take a lot of settings use the `options` property (or a JSON `options` attribute). Whatever you pass is merged over the defaults for that type.
+
+## Choosing a chart
+
+Pick the type from the shape of the data. Types that fold extras into "Other (n)" keep six categories by default; `max-items` changes that.
+
+| Type | Use it for | Serves | Not for |
+|---|---|---|---|
+| `bar` | Counts across categorical options: long labels, many options, ranking (`sort="desc"`), image options | Poll, Ranking, Pick Answer | Part-to-whole of one question (donut); time series (`@ant-design/plots`) |
+| `column` | The same comparison with a few short options; turns into bars when the labels do not fit | Poll, Pick Answer correct reveal | Long labels or many options (bar); part-to-whole (donut) |
+| `stacked` | Composition of several groups or statements side by side, each row split by the same series (up to 6) | Grouped results | A single question (donut) |
+| `donut` / pie | Part-to-whole of one question with few categories (up to 6; `variant: 'pie'` for no centre hole) | Poll, Split the points | Many slices or close values (bar) |
+| `radial` | A few shares or percentages shown compactly as rings (up to 6) | Split the points | Many items or exact comparison (bar) |
+| `treemap` | Part-to-whole across many categories of very different size (up to 6 tiles) | Poll, Split the points | Precise comparison of close values (bar) |
+| `quadrant` | Items scored on two axes, such as effort against impact (four labelled quadrants, up to three colour groups) | — | One-dimensional scores (bar) |
+| `bell` | How answers are distributed on an ordered or numeric scale (spread, skew, split, not just the average), one curve per statement (up to 6) | Any question where you want the distribution of answers, e.g. Rating scale | Categorical options (bar) |
+| `radar` | Several criteria on the same scale (5, 10 or 100), comparing the profile of one or a few subjects | Rating scale | Criteria on unrelated scales (bar) |
+| `wordcloud` | Frequency of short free-text answers (up to 120 words, duplicates merged) | Word cloud | Exact counts (bar) |
+| `mindmap` | Grouped or hierarchical ideas (default 5 levels, 6 branches) | Brainstorm, Mind map | Quantities (bar, donut) |
+
+A single headline number is a `Statistic`, and a time series, line or area chart is `@ant-design/plots` (`<aha-chart>` does not draw them).
+
+## Default snippet per type
+
+Every chart type has one default snippet: the minimal `<aha-chart type="…">` markup and data shape that already renders the full intended look and behaviour (entrance animation, live-update motion, tooltip, auto legend, empty state, text summary, hidden data table, live-region announcement) with no opt-in attribute. Start from it and only add attributes or `options`; never strip behaviour from it. The 11 snippets are in `contracts/chart.json` (`typeDefaults`) and each type's "Show code" on the Charts page.
+
+Opt-in only (off until you set it): ranking (`sort="desc"`), Pick Answer (`correct`), `page-size`, `highlight-top`, `log-scale`, bell `showGrid` / `showYAxis` / `showMeanLine` / `showStepLabels`, radar `showTable` / `showScaleTicks` / `hollowCentre`, word cloud `showCounts` / `foldDiacritics` / `shape` / `rotation` / `maskSrc`, and an editable mind map (`editable`).
 
 ## Chart types and their data
 

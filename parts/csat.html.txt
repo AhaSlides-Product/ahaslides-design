@@ -8,10 +8,9 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-csat.js';   // registers <aha-csat> (+ <aha-icon>, <aha-popover>, <aha-counted-textarea>, <aha-button>)
 </script>
 
-<!-- The borderless single row (the only layout): prompt + 16px thumbs on one line, no chrome.
-     Thumbs-up rates instantly; thumbs-down opens the free-text feedback popover.
-     `thanks` opts into the confirmation line, shown after the up rating / feedback submit. -->
-<aha-csat prompt="How's your experience?" source="docs_footer" thanks="Thanks for the feedback!"></aha-csat>
+<!-- The borderless single row (the only layout): prompt + thumbs + the optional Feedback button on one line, no chrome.
+     Thumbs-up rates instantly; thumbs-down opens the free-text feedback popover. -->
+<aha-csat prompt="How did this import go?" source="docs_footer" feedback-button></aha-csat>
 
 <script>
   const csat = document.querySelector('aha-csat');
@@ -19,6 +18,6 @@
     console.log('CSAT', e.detail.rating, 'from', e.detail.source);   // { rating: 'up' | 'down', source }
   });
   csat.addEventListener('feedback', (e) => {
-    console.log('CSAT feedback', e.detail.feedback, 'from', e.detail.source);   // { rating: 'down', source, feedback }
+    console.log('CSAT feedback', e.detail.feedback, 'from', e.detail.source);   // { rating: 'up' | 'down' | null, source, feedback }
   });
 </script>

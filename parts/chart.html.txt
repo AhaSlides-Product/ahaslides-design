@@ -1,5 +1,5 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
-     ONE <aha-chart> draws Bar, Column, Stacked, Donut, Radial, Tree map, 2×2 matrix, Bell curve, Radar,
+     ONE <aha-chart> draws Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar,
      Word cloud and Mind map results. Type-specific settings go in .options (see chartOptionDefaults).
      palette="brand" (default) on app screens like Report; palette="deck" + colors + ink on the presenting canvas. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">

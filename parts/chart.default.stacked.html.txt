@@ -1,0 +1,2 @@
+<aha-chart type="stacked" label="What matters most"
+  data='{"series":["Salary","Colleagues","Learning","Flexibility"],"rows":[{"label":"Engineering","values":[26,12,30,22]},{"label":"Sales","values":[42,18,14,14]},{"label":"Operations","values":[22,17,14,13]}]}'></aha-chart>

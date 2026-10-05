@@ -1,0 +1,2 @@
+<aha-chart type="bell" label="Meeting feedback"
+  data='{"scale":[1,2,3,4,5],"anchors":["Strongly disagree","Strongly agree"],"series":[{"label":"Clear goals","counts":[1,2,6,18,9]},{"label":"Reasonable length","counts":[4,9,12,8,3]}]}'></aha-chart>

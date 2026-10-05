@@ -16,7 +16,7 @@
   "lib/aha-color-picker.js": 3,
   "lib/aha-counted-input.js": 4,
   "lib/aha-counted-textarea.js": 5,
-  "lib/aha-csat.js": 4,
+  "lib/aha-csat.js": 2,
   "lib/aha-descriptions.js": 8,
   "lib/aha-divider.js": 3,
   "lib/aha-dropdown.js": 12,
