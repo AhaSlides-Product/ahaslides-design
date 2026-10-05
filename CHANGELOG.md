@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.80.1 — 2026-10-05
 ### Fixed
-- **The agent plugin no longer ships Python bytecode.** `agent/hooks/__pycache__/*.pyc` committed in 0.80.0 is removed, and `__pycache__/` and `*.pyc` are now ignored; `npm test` fails if bytecode is tracked under `agent/` again. (#PR)
+- **The agent plugin no longer ships Python bytecode.** `agent/hooks/__pycache__/*.pyc` committed in 0.80.0 is removed, and `__pycache__/` and `*.pyc` are now ignored; `npm test` fails if bytecode is tracked under `agent/` again. (#151)
 
 ## 0.80.0 — 2026-10-05
 ### Added
