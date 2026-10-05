@@ -15,9 +15,12 @@
     "text-secondary",
     "text-negative",
     "icon-default",
+    "color-primary",
     "red-20",
     "motion-slow",
+    "motion-mid",
     "ease-out",
+    "ease-in-out",
     "font-product"
   ],
   "spec": [
