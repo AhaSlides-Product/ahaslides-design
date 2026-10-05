@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.82.1 — 2026-10-05
 ### Fixed
 - **`<aha-background-task>` Cancel is now a real button.** The documented action was a `<span role="button">` that only responded to clicks; every snippet (HTML, React, Vue, preview) now uses `<button slot="action" type="button">`, so it takes keyboard focus and Enter/Space. The element resets the native button chrome, so it still renders as a link. (#154)
-- The ten `--aha-toast-*` custom properties, which no token source defined, are gone; the values the presenter's Import notification ships are written directly in the element with audited `ds-lint-allow` markers. Hover now uses `--aha-color-secondary`. The `prefers-reduced-motion` guard is restored: no card entrance, stripe animation or bar transitions. (#154)
+- The ten `--aha-toast-*` custom properties, which no token source defined, are gone; the values the presenter's Import notification ships are written directly in the element with audited `ds-lint-allow` markers. Hover now uses `--aha-pink-60` (#FF4081, the built value). The `prefers-reduced-motion` guard is restored: no card entrance, stripe animation or bar transitions. (#154)
 
 ## 0.82.0 — 2026-10-05
 ### Changed
