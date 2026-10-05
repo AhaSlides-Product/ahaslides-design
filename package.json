@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.81.0",
+  "version": "0.82.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -86,6 +86,7 @@
     "./lib/aha-chart.js",
     "./lib/aha-progressbar.js",
     "./lib/aha-progress-toast.js",
+    "./lib/aha-import-progress.js",
     "./lib/aha-viewport-switch.js",
     "./lib/aha-error-page.js",
     "./lib/aha-stepper.js",
@@ -186,6 +187,7 @@
     "./aha-chart": "./lib/aha-chart.js",
     "./aha-progressbar": "./lib/aha-progressbar.js",
     "./aha-progress-toast": "./lib/aha-progress-toast.js",
+    "./aha-import-progress": "./lib/aha-import-progress.js",
     "./aha-viewport-switch": "./lib/aha-viewport-switch.js",
     "./aha-error-page": "./lib/aha-error-page.js",
     "./aha-stepper": "./lib/aha-stepper.js",

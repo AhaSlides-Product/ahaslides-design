@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.82.0 — 2026-10-05
+### Changed
+- **`<aha-progress-toast>` renamed `<aha-import-progress>` and moved from Components to Patterns.** It is the presenter's import-progress pattern for one background task, not a general component, and it differs from Toast (a one-line confirmation). Element, entry (`@ahaslides-product/design/aha-import-progress`), contract and docs page are now `import-progress`; the page lives under Patterns · AhaSlides surfaces. The class is `AhaImportProgress` / `defineAhaImportProgress`. The `--aha-toast-*` CSS custom properties are unchanged. (#153)
+### Deprecated
+- `<aha-progress-toast>` (0.81.0) stays registered as an alias of the same element and its entry still resolves; migrate to `<aha-import-progress>`. The old `progress-toast/` docs page is removed.
+
 ## 0.81.0 — 2026-10-05
 ### Added
 - **`<aha-progress-toast>` (Feedback).** The presenter's Import notification as a shared primitive, matched 1:1 to `ImportProgressNotification.vue`: fixed bottom-right card (right 24, bottom 88), file icon, name, 5px bar with moving stripes, caption + Cancel link, and `progress` / `success` / `canceled` / `offline` / `error` states with a ✕ on success, canceled and error. `icon`, `action` and `footer` slots take the file-type icon, the Cancel link and the cancel confirmation, connection-lost buttons or the `<aha-csat>` completion rating. Values with no DS token are kept as built. Pure view: the consumer owns the task, copy and auto-dismiss. (#152)

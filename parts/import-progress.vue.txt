@@ -1,5 +1,5 @@
 // main.ts — register the elements + mark aha-* as custom elements
-import '@ahaslides-product/design/aha-progress-toast';
+import '@ahaslides-product/design/aha-import-progress';
 import '@ahaslides-product/design/icons';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
@@ -10,8 +10,8 @@ const emit = defineEmits(['cancel', 'dismiss']);
 </script>
 
 <template>
-  <aha-progress-toast :state="state" :heading="fileName" :value="percent" :caption="`${percent}%`"
+  <aha-import-progress :state="state" :heading="fileName" :value="percent" :caption="`${percent}%`"
     @dismiss="emit('dismiss')">
     <span v-if="state === 'progress'" slot="action" role="button" tabindex="0" @click="emit('cancel')">Cancel</span>
-  </aha-progress-toast>
+  </aha-import-progress>
 </template>
