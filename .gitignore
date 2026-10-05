@@ -141,3 +141,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# agent plugin runtime state (hook firing log, judge seen-cache)
+agent/.impeccable/

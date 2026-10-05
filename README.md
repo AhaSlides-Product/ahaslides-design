@@ -116,6 +116,41 @@ Each `agent.json` carries the exact `install` / `import` lines — including the
 is fully self-serve. The docs pages also embed the install block and `<link rel="alternate">`
 + `<meta name="aha:*">` discovery tags (`aha:package`, `aha:registry`, `aha:install`) in `<head>`.
 
+### Agent plugin — Claude Code
+
+The DS ships its own Claude Code plugin from `agent/`, released with every version of this repo
+(its `version` always equals `package.json`). It carries the `aha-design` skill (build → judge →
+fix against the DS) and the hooks that make it fire: a prompt mandate, a write-time design guard
+(it also blocks the old storybook kit in new Vue 2 files), an end-of-turn judge trigger and an
+anti-slop floor. Hooks read criteria from the installed package, else the plugin's own copy of
+`anti-slop/criteria.json` from the same release, so skill, hooks and rules are always one version.
+
+Install once per machine:
+
+```
+/plugin marketplace add AhaSlides-Product/ahaslides-design
+/plugin install ahaslides-design@ahaslides-design
+```
+
+Or commit it to a project's `.claude/settings.json`, so everyone working there gets it:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "ahaslides-design": {
+      "source": { "source": "github", "repo": "AhaSlides-Product/ahaslides-design" }
+    }
+  },
+  "enabledPlugins": {
+    "ahaslides-design@ahaslides-design": true
+  }
+}
+```
+
+The skill is then `ahaslides-design:aha-design`. It replaces the `aha-design` plugin in
+`aha-claude-plugins`; enable one of the two, not both, or every hook fires twice. Change a rule
+in `anti-slop/` or `guidelines/`, never in `agent/` (see `agent/CONTRIBUTING.md`).
+
 ### Lint a screen from code — `lintHtml`
 
 `screen-lint.mjs` is also an importable, pure function (no fs, no process, no console), so it runs

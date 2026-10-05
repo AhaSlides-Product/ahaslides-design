@@ -33,6 +33,8 @@ jobs:
       # No dependencies — the pipeline is pure Node scripts + the repo's own sources.
       - name: Build (icon registry + lib entry points + dist)
         run: node build-icons.mjs && node generate.mjs
+      - name: Agent plugin criteria copy is committed (npm run generate rewrites it)
+        run: git diff --exit-code -- agent/anti-slop/criteria.json
       - name: Component standards gate (reusable or it fails)
         run: node standards.mjs
       - name: Unit tests

@@ -2350,6 +2350,11 @@ const indexLines = [
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
+  '> Claude Code agents: install the DS agent plugin (skill aha-design + hooks, versioned with each release):',
+  '>   /plugin marketplace add AhaSlides-Product/ahaslides-design',
+  '>   /plugin install ahaslides-design@ahaslides-design',
+  '>   (settings.json: enabledPlugins + extraKnownMarketplaces — see the repo README, "Agent plugin")',
+  '>',
   '> Lint a screen from code (pure, no fs/process; Node and Cloudflare workerd):',
   `>   import { lintHtml } from '@ahaslides-product/design/screen-lint';`,
   `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
@@ -2431,6 +2436,10 @@ if (ANTISLOP) {
   writeFileSync(join(OUT, 'anti-slop.md'), md);
   writeFileSync(join(OUT, 'anti-slop.agent.json'), agentJson);
   console.log(`  ✓ anti-slop: anti-slop.md · anti-slop.agent.json (${Object.keys(ANTISLOP.surfaces).length} surface(s))`);
+  // A marketplace install copies only agent/, so the plugin's hooks carry their own release's criteria.
+  mkdirSync(join(root, 'agent', 'anti-slop'), { recursive: true });
+  writeFileSync(join(root, 'agent', 'anti-slop', 'criteria.json'), read(join(root, 'anti-slop', 'criteria.json')));
+  console.log('  ✓ agent plugin: agent/anti-slop/criteria.json');
 }
 
 // Feed pages LAST — they embed the actual generated files (now all on disk) in a code wrapper.

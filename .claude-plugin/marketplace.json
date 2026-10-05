@@ -1,0 +1,16 @@
+{
+  "name": "ahaslides-design",
+  "owner": {
+    "name": "AhaSlides"
+  },
+  "metadata": {
+    "description": "The AhaSlides design system's agent plugin, released with the design system itself."
+  },
+  "plugins": [
+    {
+      "name": "ahaslides-design",
+      "source": "./agent",
+      "description": "Design-system skill (aha-design) and hooks for building and judging AhaSlides product UI, versioned with each ahaslides-design release."
+    }
+  ]
+}
