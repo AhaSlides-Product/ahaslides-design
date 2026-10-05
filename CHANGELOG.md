@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.74.1 — 2026-10-05
 ### Changed
-- `AGENTS.md` now points agents at the full `<aha-chart>` configuration docs (`docs/chart/README.md`, `contracts/chart.json`, Charts tab) (#PRNUM).
+- `AGENTS.md` now points agents at the full `<aha-chart>` configuration docs (`docs/chart/README.md`, `contracts/chart.json`, Charts tab) (#145).
 
 ## 0.74.0 — 2026-10-01
 ### Changed
