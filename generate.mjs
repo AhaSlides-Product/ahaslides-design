@@ -199,6 +199,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Drawer',       slug: 'drawer' },
     { name: 'Popconfirm',   slug: 'popconfirm' },
     { name: 'Progress',     slug: 'progress' },
+    { name: 'Progress toast', slug: 'progress-toast' },
     { name: 'Result',       slug: 'result' },
     { name: 'Skeleton',     slug: 'skeleton' },
     { name: 'Spin',         slug: 'spin' },

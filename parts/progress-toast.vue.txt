@@ -1,0 +1,17 @@
+// main.ts — register the elements + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-progress-toast';
+import '@ahaslides-product/design/icons';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// ImportToast.vue
+<script setup>
+defineProps({ fileName: String, percent: Number, state: { type: String, default: 'progress' } });
+const emit = defineEmits(['cancel', 'dismiss']);
+</script>
+
+<template>
+  <aha-progress-toast :state="state" :heading="fileName" :value="percent" :caption="`${percent}%`"
+    @dismiss="emit('dismiss')">
+    <span v-if="state === 'progress'" slot="action" role="button" tabindex="0" @click="emit('cancel')">Cancel</span>
+  </aha-progress-toast>
+</template>
