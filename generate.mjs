@@ -214,7 +214,7 @@ const PATTERNS_CATALOG = [
     { name: 'CSAT',           slug: 'csat' },
     { name: 'Screen heading', slug: 'screen-heading' },
     { name: 'Loader',         slug: 'aha-loader' },
-    { name: 'Import progress', slug: 'import-progress' },
+    { name: 'Background task', slug: 'background-task' },
   ] },
 ];
 const PATTERN_SLUGS = new Set(PATTERNS_CATALOG.flatMap(g => g.items.map(i => i.slug)));

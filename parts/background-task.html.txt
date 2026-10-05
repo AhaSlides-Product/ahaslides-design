@@ -1,12 +1,12 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
-     <aha-import-progress> mirrors the presenter's Import notification: you own the task, the copy and the
+     <aha-background-task> is the pattern for any long-running process; this example follows the presenter's Import notification: you own the task, the copy and the
      auto-dismiss. Update the same element in place through its states — never add a card per state. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';                // <aha-icon> glyphs
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-import-progress.js';   // registers <aha-import-progress> (+ <aha-button>)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-background-task.js';   // registers <aha-background-task> (+ <aha-button>)
 
-  const card = document.querySelector('aha-import-progress');
+  const card = document.querySelector('aha-background-task');
   let percent = 0;
   const timer = setInterval(() => {
     percent += 10;
@@ -31,6 +31,6 @@
   });
 </script>
 
-<aha-import-progress heading="Quarterly review.pptx" value="0" caption="0%" dismiss-label="Dismiss">
+<aha-background-task heading="Quarterly review.pptx" value="0" caption="0%" dismiss-label="Dismiss">
   <span slot="action" role="button" tabindex="0">Cancel</span>
-</aha-import-progress>
+</aha-background-task>
