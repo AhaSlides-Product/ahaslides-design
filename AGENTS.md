@@ -43,7 +43,11 @@ Pre-1.0 bump rule: a new component/prop/token/export → **MINOR** (`0.x.0`); a 
 
 A red gate means the work isn't done. **Fix it — don't work around it.** To add a component, copy an existing one of your tier: **Icon** / **Checkbox** (leaf), **Table** (composite), then follow `CONTRIBUTING.md`.
 
-## House non-negotiables (detail in the `aha-design` skills)
+## Claude Code: the DS agent plugin
+
+This repo is also a Claude Code plugin marketplace. `agent/` is the `ahaslides-design` plugin (skill `aha-design` + hooks), released with every version: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design` (settings.json snippet in `README.md`, "Agent plugin"). Changing it: every release bumps `package.json` and `agent/.claude-plugin/plugin.json` to the same version, keep rules in `anti-slop/` and `guidelines/` (the skill points at them), and run `npm run generate` so `agent/anti-slop/criteria.json` stays the store's copy. `standards.mjs` gates all three; the hook suites run in `npm test`.
+
+## House non-negotiables (detail in the `aha-design` skill)
 
 - Ant Design v6 only (no MUI/Chakra/Radix/Mantine); charts via `@ant-design/plots` — **except result/data charts, which use the DS `<aha-chart>`** (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map; framework-free SVG/HTML with `palette="brand"` for app screens such as Report and `palette="deck"` on the presenting/audience canvas). Reach for `@ant-design/plots` only for a chart type `<aha-chart>` does not ship yet. Full config (every `type`, `options` key, entrance and update animation, `palette`, `locale`, events) is in `docs/chart/README.md`, `contracts/chart.json` and the hosted Charts tab.
 - No hardcoded hex/px in components — bind to tokens (`--aha-*`); radius only from 4 / 6 / 8 / 12 / 16.

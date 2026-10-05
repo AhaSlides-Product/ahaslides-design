@@ -1,0 +1,44 @@
+{
+  "description": "ahaslides-design plugin hooks — the agent entry point shipped with the AhaSlides design system (@ahaslides-product/design), which owns every rule and judge criterion. UserPromptSubmit (prompt-mandate.sh) fires on every prompt: always the 'AhaSlides UI => the DS is mandatory, load the aha-design skill' mandate, plus the DS anti-slop surfaces when the hook detects a UI signal. PreToolUse (design-guard.sh) names the DS surface a write touches (block a raw table or a forbidden icon set, nudge the rest) with that surface's criteria. Stop: slop-guard.sh runs impeccable's craft-floor detector over touched frontend files; design-judge-stop.sh asks for the DS judge on the uncommitted UI files changed this turn (set AHA_DESIGN_JUDGE_DISABLE=1 to skip). Criteria come from anti-slop/criteria.json in the installed package, else the plugin's own copy from the same release (see ds_criteria.py). In a legacy Vue 2 project (nearest package.json declares vue 2.x) the hooks apply to new files only (untracked or added in the working diff), built with the DS <aha-*> web components and never the storybook kit; they stay silent on edits to existing files, which are changed only when the task asks. All fail-open. Every hook records one heartbeat line per run to .impeccable/firing-log.jsonl, including which criteria source it used, so a silent hook is detectable — read it with hooks/firing_status.py.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/prompt-mandate.sh\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/design-guard.sh\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/slop-guard.sh\"",
+            "timeout": 30,
+            "statusMessage": "aha-design anti-slop floor"
+          },
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/design-judge-stop.sh\"",
+            "timeout": 15,
+            "statusMessage": "aha-design DS judge trigger"
+          }
+        ]
+      }
+    ]
+  }
+}

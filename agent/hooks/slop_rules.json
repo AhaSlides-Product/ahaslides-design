@@ -1,0 +1,6 @@
+[
+  {"surface": "background", "signature": "gradient-text|ai-color-palette|cream-palette|low-contrast|gray-on-color|dark-glow|radial-halo|radial-spotlight-glow|gpt-thin-border-wide-shadow|repeating-stripes-gradient|codex-grid-background"},
+  {"surface": "typography", "signature": "overused-font|flat-type-hierarchy|italic-serif-display|oversized-h1|extreme-negative-tracking|kicker-above-heading|hero-eyebrow-chip|numbered-section-labels|all-caps-body|justified-text"},
+  {"surface": "component-standard", "signature": "nested-cards|edge-flush-cards|border-accent-on-rounded|side-tab|cramped-padding"},
+  {"surface": "status-badges", "signature": "pulsing-dot"}
+]
