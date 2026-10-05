@@ -116,13 +116,34 @@ Each `agent.json` carries the exact `install` / `import` lines — including the
 is fully self-serve. The docs pages also embed the install block and `<link rel="alternate">`
 + `<meta name="aha:*">` discovery tags (`aha:package`, `aha:registry`, `aha:install`) in `<head>`.
 
+### Lint a screen from code — `lintHtml`
+
+`screen-lint.mjs` is also an importable, pure function (no fs, no process, no console), so it runs
+in Node and Cloudflare workerd. The icon names it needs are bundled.
+
+```js
+import { lintHtml } from '@ahaslides-product/design/screen-lint';
+
+const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas'
+// findings: [{ rule, line, message, severity: 'hard' | 'warn' }]
+```
+
+`path` (optional) is echoed back; `iconNames` (optional) overrides the bundled icon list. Any
+`hard` finding fails the CLI (`node screen-lint.mjs --surface=… <files>`), which is built on the same function.
+
+**Opt-out** — per line, per rule, with a reason:
+`<!-- ds-lint-allow: hex,radius (brand logo, no token) -->`. Only the named rules are silenced on that
+line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
+suppresses nothing and is reported as a `ds-lint-allow-bare` warning.
+
 ## Commands
 
 ```bash
 npm run generate     # build-icons + contracts + tokens → dist/ and lib/
 npm run standards    # THE component gate: every component registers + is genuinely importable
 npm run qa           # render + feed assertions on dist/ (headless, hang-proof)
-npm run check        # generate + standards (gate) + qa (render)
+npm run test         # unit tests (screen-lint lintHtml)
+npm run check        # generate + standards (gate) + unit tests + qa (render)
 ```
 
 ## Adding a component
