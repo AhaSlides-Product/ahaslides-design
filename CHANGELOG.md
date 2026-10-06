@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.93.0 — 2026-10-06
+### Added
+- Background task takes the refined export design, generalised to any process: the heading is the file name with its extension ("Quarterly review.pdf"), a `link` slot that ends the description for an inline action ("Download didn't start? Retry"), and `no-percentage` for a process with no real percentage (the bar eases towards 90%, `value` ignored). New `<aha-background-task-stack>` is the fixed bottom-right column (320 wide, 8px gap) for several processes, newest on top, one card each. (#169)
+### Changed
+- Background task: the leading icon is centred on heading and description together; the finished card's rating sits 12px under the description, spanning the card under a divider. The error recovery button is secondary ("Try again") in the examples. Once the bar is gone (success, cancelled, error) a `caption` moves up to the description line, so "40/40 slides imported" sits where "Download didn't start?" does. Existing attributes and events are unchanged.
+
 ## 0.90.0 — 2026-10-06
 ### Added
 - Foundations → Logo library page (`foundations/logo.html`) with two tabs: **AhaSlides** (the logo, The Splash, and their white and black variants) and **Brands** (19 third-party logos scanned from what the presenter app renders: Google Slides, PowerPoint, Teams, Zoom, Excel, Google Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium). Each brand is the current full-colour SVG fetched from thesvg.org; `logo/manifest.json` records source URL, fetch date and where the presenter app shows it. Search, copy-name and download; tiles work with Enter and Space, and a repeat click while "copied!" is showing no longer replaces the tile name. Logos sit on uniform square tiles and are chunked into labelled sections (Sign-in, Integrations, Import, export and cloud, Payments, Community and social; Logo and The Splash) from each manifest entry's `section`; search hides empty sections. SVGs ship in `logo/` and are served at `/logo/`. Listed in `llms.txt`. (#164)
