@@ -22,14 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.86.0 — 2026-10-06
+### Fixed
+- **`<aha-popover flip>` no longer opens off-screen.** Builds on the 0.85.0 vertical flip. With `flip` it now measures on open and flips to the roomier side (top/bottom, left/right) when the requested side does not fit, clamps 8px inside the viewport edges, and re-measures on resize, scroll and panel resize while open. It is positioned with `position: fixed`, so an `overflow: hidden/auto` ancestor (side panel, scroll container) no longer clips it; the arrow follows the flip and the trigger. A `transform`/`filter`/`contain: paint` ancestor still clips (and is compensated for offset). The host reports a flipped side as `flipped` plus `data-flipped` (the side).
+- **`<aha-csat>`'s feedback popover is always fully visible** — thumbs-down and the Feedback button both open above the thumbs when the CSAT sits at the bottom of the screen, via the popover fix above. The X close button is verified a rounded square (6px radius) at rest, hover, focus and press. (#159)
+
 ## 0.85.0 — 2026-10-06
 ### Changed
 - **`<aha-csat>` now mimics the presenter's inline CSAT (`InlineCSATV2`).** Once rated, only the chosen thumb remains; clicking it again un-rates (both thumbs return, `value` is removed, `rate` fires with `rating: null`). The selected thumb uses the antd tertiary active look (fill #F0E4FF, icon #6A1EBB) and hover icons are purple-50. The feedback popover focuses its textarea on open, defaults to "How can we improve? Let us know!", and after Send does not re-open on thumbs-down until the rating changes again. Default tooltips are now "Useful" / "Not useful". (#155)
 - **The feedback popover's X hover is a rounded square** (6px radius, like the info-box dismiss), no longer a circle.
-### Fixed
-- **`<aha-popover>` no longer opens off-screen.** It now measures on open and flips to the roomier side (top/bottom, left/right) when the requested side does not fit, clamps 8px inside the viewport edges, and re-measures on resize, scroll and panel resize while open. It is positioned with `position: fixed`, so an `overflow: hidden/auto` ancestor (side panel, scroll container) no longer clips it; the arrow follows the flip and the trigger. A `transform`/`filter`/`contain: paint` ancestor still clips (and is compensated for offset). The host reports a flipped side as `data-flipped`.
-- **`<aha-csat>`'s feedback popover is always fully visible** — thumbs-down and the Feedback button both open above the thumbs when the CSAT sits at the bottom of the screen, via the popover fix above. The X close button stays a rounded square (6px radius) at rest, hover, focus and press. Supersedes #155. (#159)
+- **The CSAT docs preview shows only the Feedback-button example.** The unrated / rated / thank-you row and the separate thumbs-down popover demo are gone; the State bar drives the one remaining example.
 ### Added
+- **`<aha-popover>` gains an opt-in `flip` attribute, and `<aha-csat>` uses it.** When the preferred side has no room (viewport or nearest scrolling ancestor), the panel opens on the opposite side, arrow included, so the CSAT feedback text box (from the thumbs-down or the Feedback button) is never cut off at the bottom of the screen. Evaluated on every open; default behaviour is unchanged for other popovers.
 - **The opt-in `feedback-button` now sits right beside the thumbs and stays visible after rating**, opening the popover without rating. `feedback-button-placeholder` falls back to `feedback-placeholder`.
 
 ## 0.84.0 — 2026-10-06
