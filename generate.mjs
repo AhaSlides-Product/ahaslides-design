@@ -2205,6 +2205,7 @@ const LOGO_GALLERY_JS = `
     panels.forEach(function(p){
       var cells=[].slice.call(p.querySelectorAll('.lg')),n=0;
       cells.forEach(function(c){var ok=!t||c.dataset.name.indexOf(t)>-1||c.dataset.label.indexOf(t)>-1;c.hidden=!ok;if(ok)n++;});
+      [].slice.call(p.querySelectorAll('.lg-sec')).forEach(function(s){s.hidden=!s.querySelector('.lg:not([hidden])');});
       p.dataset.shown=n;p.dataset.total=cells.length;
     });
     var p=active();count.textContent=p.dataset.shown+' of '+p.dataset.total;
@@ -2238,7 +2239,11 @@ const LOGO_GALLERY_JS = `
 `;
 function renderLogoPage() {
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy the file name"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.category==='AhaSlides' && l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download>${esc(l.file)} &darr;</a></div>`;
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy the file name"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.category==='AhaSlides' && l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file)}</span><span class="lg-arrow">&darr;</span></a></div>`;
+  const sections = list => {
+    const names = [...new Set(list.map(l => l.section))];
+    return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
+  };
   const main = `
   <p class="crumbs">Foundations · logo library</p>
   <h1>Logo library</h1>
@@ -2254,8 +2259,8 @@ function renderLogoPage() {
       <input id="logo-search" type="search" placeholder="Search logos by name…" aria-label="Search logos" autocomplete="off" spellcheck="false" />
       <span id="logo-count" class="gal-count" aria-live="polite"></span>
     </div>
-    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="logo-grid">${LOGO_AHA.map(cell).join('')}</div>
-    <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="logo-grid" hidden>${LOGO_BRANDS.map(cell).join('')}</div>
+    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div>
+    <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
   </div>
 
   <h3 class="tok-h3">AhaSlides logo rules</h3>
@@ -2278,7 +2283,9 @@ function renderLogoPage() {
   #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
   .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
-  .logo-grid[hidden]{display:none}
+  .lg-panel[hidden],.lg-sec[hidden]{display:none}
+  .lg-sec-h{margin:20px 0 10px}
+  .lg-sec:first-child .lg-sec-h{margin-top:4px}
   .lg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 10px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;font-family:var(--aha-font-product)}
   .lg[hidden]{display:none}
   .lg:hover{border-color:var(--aha-purple-30);box-shadow:0 3px 10px rgba(106,30,187,.08)}
@@ -2287,7 +2294,9 @@ function renderLogoPage() {
   .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
   .lg-stage img.lg-lockup{width:max(100%,0px);max-width:156px;height:60px}
   .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
-  .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;word-break:break-all;text-align:center}
+  .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;max-width:100%;display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+  .lg-file{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .lg-arrow{flex:none}
   .lg-dl:hover{color:var(--aha-text-link)}
   .lg.copied{border-color:var(--aha-color-success)}
   .lg.copied .lgn{color:var(--aha-color-success)}
