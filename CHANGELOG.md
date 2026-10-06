@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.84.0 — 2026-10-06
 ### Added
-- **`<aha-chart>` says "No responses yet" when there is no data.** All 11 types show one short text in the chart's own ink (legible on a dark deck): centred in the plot for donut, pie, tree map and word cloud, a line below the chart for the rest. The donut centre count is hidden meanwhile. It is not announced twice (the summary already says it) and goes away on the first response. Vietnamese copy included; tracks, stubs and the radar entrance are unchanged. The Chart docs gain 0-response cases for tree map and word cloud. (#158)
+- **Donut, pie and tree map say "No responses yet" when there is no data.** One short text, centred in the plot, in the chart's own ink (legible on a dark deck). The donut centre count is hidden meanwhile, so only one text shows. It is not announced twice (the summary already says it) and goes away on the first response. Vietnamese copy included. Every other chart type is unchanged. The Chart docs gain a 0-response case for tree map. (#158)
 
 ## 0.82.1 — 2026-10-06
 ### Fixed
