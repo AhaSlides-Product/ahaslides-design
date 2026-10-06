@@ -424,8 +424,8 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 @media (prefers-reduced-motion:reduce){.doc-main.pjax-in{animation:none}.pjax-bar{transition:opacity var(--aha-motion-fast) linear}}
 
 /* ---- detail page ---- */
-.highlights{margin:0 0 14px;padding:0;list-style:none;max-width:72ch;display:grid;gap:6px}
-.highlights li{position:relative;padding-left:18px;color:var(--aha-text-secondary);font-size:16px;line-height:25px}
+.highlights{margin:0 0 14px;padding:0;list-style:none;max-width:72ch;display:grid;gap:4px}
+.highlights li{position:relative;margin:0;padding-left:18px;color:var(--aha-text-secondary);font-size:16px;line-height:25px}
 .highlights li::before{content:"";position:absolute;left:3px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--aha-color-primary)}
 .highlights li code{font-size:.9em}
 .doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
@@ -1107,7 +1107,6 @@ function renderHtml(c) {
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
   const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
-  const crumbArea = isSettings ? 'Settings' : isPattern ? 'Patterns' : 'Components';
   const main = `
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
