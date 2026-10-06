@@ -24,12 +24,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.87.0 — 2026-10-06
 ### Added
-- `<aha-background-task>`: `rating-prompt` / `rating-source` attributes; the success state now always shows the DS `<aha-csat>` by default (a `footer` slot still overrides it). (#PR)
+- `<aha-background-task>`: `rating-prompt` / `rating-source` attributes; the success state now always shows the DS `<aha-csat>` by default (a `footer` slot still overrides it). (#160)
 ### Changed
-- Cancel is the DS tertiary `<aha-button size="sm">`, not a text link; the cancel-confirmation and connection-lost buttons are small and sit inside the card. (#PR)
-- Error state follows the DS feedback rules: `--aha-color-error` x-circle glyph, neutral title, no red border; docs add a Try again action. (#PR)
+- Cancel is the DS tertiary `<aha-button size="sm">`, not a text link; the cancel-confirmation and connection-lost buttons are small and sit inside the card. (#160)
+- Error state follows the DS feedback rules: `--aha-color-error` x-circle glyph, neutral title, no red border; docs add a Try again action. (#160)
 ### Fixed
-- Cancelled / terminal cards no longer carry a dead gap under the heading; footer spacing on DS space tokens. (#PR)
+- Cancelled / terminal cards no longer carry a dead gap under the heading; footer spacing on DS space tokens. (#160)
 
 ## 0.86.0 — 2026-10-06
 ### Fixed
