@@ -26,6 +26,7 @@
     { "name": "title", "type": "string", "default": "—", "desc": "Bold header rendered above the body (hidden when empty)" },
     { "name": "content", "type": "string", "default": "—", "desc": "Text body alternative to slotted content (used when nothing is slotted)" },
     { "name": "arrow", "type": "boolean", "default": "false", "desc": "Show the pointer arrow at the panel edge" },
+    { "name": "flip", "type": "boolean", "default": "false", "desc": "Opt-in collision handling: each time it opens, a top/bottom panel with too little room on its side (viewport or nearest scrolling/clipping ancestor) opens on the opposite side instead, arrow included; it then scrolls with its trigger" },
     { "name": "[slot=trigger]", "type": "slotted element", "default": "—", "desc": "The element that toggles the panel" },
     { "name": "open / close", "type": "CustomEvent", "default": "—", "desc": "Composed events on show / hide" }
   ],

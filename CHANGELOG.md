@@ -28,6 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **The feedback popover's X hover is a rounded square** (6px radius, like the info-box dismiss), no longer a circle.
 - **The CSAT docs preview shows only the Feedback-button example.** The unrated / rated / thank-you row and the separate thumbs-down popover demo are gone; the State bar drives the one remaining example.
 ### Added
+- **`<aha-popover>` gains an opt-in `flip` attribute, and `<aha-csat>` uses it.** When the preferred side has no room (viewport or nearest scrolling ancestor), the panel opens on the opposite side, arrow included, so the CSAT feedback text box (from the thumbs-down or the Feedback button) is never cut off at the bottom of the screen. Evaluated on every open; default behaviour is unchanged for other popovers.
 - **The opt-in `feedback-button` now sits right beside the thumbs and stays visible after rating**, opening the popover without rating. `feedback-button-placeholder` falls back to `feedback-placeholder`.
 
 ## 0.84.0 — 2026-10-06
