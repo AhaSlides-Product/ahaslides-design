@@ -166,7 +166,7 @@
       "name": "Stripe",
       "category": "Brands",
       "file": "stripe.svg",
-      "sourceUrl": "https://thesvg.org/icons/stripe/default.svg",
+      "sourceUrl": "https://thesvg.org/icons/stripe-badge/default.svg",
       "sourcePage": "https://thesvg.org/icon/stripe",
       "fetched": "2026-10-06",
       "usedIn": "components-v2/my-plan/BulkCheckoutSuccess.vue:48"

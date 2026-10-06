@@ -2238,7 +2238,7 @@ const LOGO_GALLERY_JS = `
 `;
 function renderLogoPage() {
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy the file name"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download>${esc(l.file)} &darr;</a></div>`;
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy the file name"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.category==='AhaSlides' && l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download>${esc(l.file)} &darr;</a></div>`;
   const main = `
   <p class="crumbs">Foundations · logo library</p>
   <h1>Logo library</h1>
@@ -2277,14 +2277,15 @@ function renderLogoPage() {
   #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
   #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
-  .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px;margin-bottom:24px}
+  .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
   .logo-grid[hidden]{display:none}
   .lg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 10px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;font-family:var(--aha-font-product)}
   .lg[hidden]{display:none}
   .lg:hover{border-color:var(--aha-purple-30);box-shadow:0 3px 10px rgba(106,30,187,.08)}
-  .lg-stage{display:flex;align-items:center;justify-content:center;width:100%;height:96px;border-radius:6px;background:var(--aha-gray-10,#FAFAFA)}
+  .lg-stage{display:flex;align-items:center;justify-content:center;width:100%;height:104px;border-radius:6px;background:var(--aha-gray-10,#FAFAFA)}
   .lg-stage.lg-dark{background:var(--aha-color-primary)}
-  .lg-stage img{max-width:80%;height:56px;width:auto}
+  .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
+  .lg-stage img.lg-lockup{width:max(100%,0px);max-width:156px;height:60px}
   .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
   .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;word-break:break-all;text-align:center}
   .lg-dl:hover{color:var(--aha-text-link)}
