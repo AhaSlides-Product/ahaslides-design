@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.83.0 — 2026-10-06
 ### Changed
-- **`<aha-csat>` now mimics the presenter's inline CSAT (`InlineCSATV2`).** Once rated, only the chosen thumb remains; clicking it again un-rates (both thumbs return, `value` is removed, `rate` fires with `rating: null`). The selected thumb uses the antd tertiary active look (fill #F0E4FF, icon #6A1EBB) and hover icons are purple-50. The feedback popover focuses its textarea on open, defaults to "How can we improve? Let us know!", and after Send does not re-open on thumbs-down until the rating changes again. Default tooltips are now "Useful" / "Not useful". (#PR)
+- **`<aha-csat>` now mimics the presenter's inline CSAT (`InlineCSATV2`).** Once rated, only the chosen thumb remains; clicking it again un-rates (both thumbs return, `value` is removed, `rate` fires with `rating: null`). The selected thumb uses the antd tertiary active look (fill #F0E4FF, icon #6A1EBB) and hover icons are purple-50. The feedback popover focuses its textarea on open, defaults to "How can we improve? Let us know!", and after Send does not re-open on thumbs-down until the rating changes again. Default tooltips are now "Useful" / "Not useful". (#155)
 ### Added
 - **The opt-in `feedback-button` now sits right beside the thumbs and stays visible after rating**, opening the popover without rating. `feedback-button-placeholder` falls back to `feedback-placeholder`.
 
