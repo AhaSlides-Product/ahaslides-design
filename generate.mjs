@@ -926,6 +926,7 @@ function sidebarNav(base, active, section) {
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
+      `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -2202,6 +2203,119 @@ function renderIconGallery() {
   .ic.copied .icn{color:var(--aha-color-success)}`;
   return docShell({ base: '../', active: '__icons__', section: 'foundations', main, extraCss });
 }
+/* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
+const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
+const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
+const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
+const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white']);
+const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
+const LOGO_GALLERY_JS = `
+(function(){
+  var root=document.getElementById('logo-gallery'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count');
+  var tabs=[].slice.call(root.querySelectorAll('[role=tab]')),panels=[].slice.call(root.querySelectorAll('[role=tabpanel]'));
+  function active(){return panels.filter(function(p){return !p.hidden})[0];}
+  function apply(){
+    var t=q.value.trim().toLowerCase();
+    panels.forEach(function(p){
+      var cells=[].slice.call(p.querySelectorAll('.lg')),n=0;
+      cells.forEach(function(c){var ok=!t||c.dataset.name.indexOf(t)>-1||c.dataset.label.indexOf(t)>-1;c.hidden=!ok;if(ok)n++;});
+      [].slice.call(p.querySelectorAll('.lg-sec')).forEach(function(s){s.hidden=!s.querySelector('.lg:not([hidden])');});
+      p.dataset.shown=n;p.dataset.total=cells.length;
+    });
+    var p=active();count.textContent=p.dataset.shown+' of '+p.dataset.total;
+  }
+  function select(tab){
+    tabs.forEach(function(x){var on=x===tab;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
+    apply();
+  }
+  tabs.forEach(function(tab,i){
+    tab.addEventListener('click',function(){select(tab);});
+    tab.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d)return;
+      var next=tabs[(i+d+tabs.length)%tabs.length];select(next);next.focus();e.preventDefault();
+    });
+  });
+  q.addEventListener('input',apply);
+  root.addEventListener('click',function(e){
+    var c=e.target.closest('.lg'); if(!c||e.target.closest('a'))return;
+    if(c.classList.contains('copied'))return;
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(c.dataset.name);
+    var l=c.querySelector('.lgn'),was=l.textContent; c.classList.add('copied'); l.textContent='copied!';
+    setTimeout(function(){c.classList.remove('copied');l.textContent=was;},900);
+  });
+  root.addEventListener('keydown',function(e){
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    var c=e.target.closest('.lg'); if(!c||e.target!==c)return;
+    e.preventDefault();c.click();
+  });
+  apply();
+})();
+`;
+function renderLogoPage() {
+  const cell = l =>
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file)}</span><span class="lg-arrow">&darr;</span></a></div>`;
+  const sections = list => {
+    const names = [...new Set(list.map(l => l.section))];
+    return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
+  };
+  const main = `
+  <h1>Logo library</h1>
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official full-colour SVG from theSVG; never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
+
+  <div id="logo-gallery">
+    <div class="gal-bar">
+      <div class="logo-tabs" role="tablist" aria-label="Logo groups">
+        <button class="logo-tab" id="tab-aha" role="tab" type="button" aria-selected="true" aria-controls="panel-aha">AhaSlides <b>${LOGO_AHA.length}</b></button>
+        <button class="logo-tab" id="tab-brands" role="tab" type="button" aria-selected="false" aria-controls="panel-brands" tabindex="-1">Brands <b>${LOGO_BRANDS.length}</b></button>
+      </div>
+      <input id="logo-search" type="search" placeholder="Search logos by name…" aria-label="Search logos" autocomplete="off" spellcheck="false" />
+      <span id="logo-count" class="gal-count" aria-live="polite"></span>
+    </div>
+    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div>
+    <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
+  </div>
+
+  <h3 class="tok-h3">AhaSlides logo rules</h3>
+  <p class="body">The logo is The Splash plus the wordmark. Use the full-colour file on white, the white file on Radical Pink, Radical Purple or Deep Space Blue, and the black file for one-colour use on light surfaces. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <h3 class="tok-h3">Don&rsquo;t</h3>
+  <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+  <h3 class="tok-h3">Third-party marks</h3>
+  <p class="body">Brand logos belong to their owners and stay unaltered. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page and record the source in <code>logo/manifest.json</code>.</p>
+
+  <script>${LOGO_GALLERY_JS}</script>`;
+  const extraCss = `
+  .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0 0;z-index:5;border-bottom:1px solid var(--aha-split)}
+  .logo-tabs{display:flex;gap:4px;margin-bottom:-1px}
+  .logo-tab{font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-bottom:2px solid transparent;padding:8px 14px 10px;cursor:pointer}
+  .logo-tab b{opacity:.6;font-weight:600;margin-left:4px}
+  .logo-tab[aria-selected="true"]{color:#5715A0;border-bottom-color:var(--aha-color-primary)}
+  .logo-tab:hover{color:#5715A0}
+  .logo-tab:focus-visible,.lg:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
+  #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
+  #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
+  .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
+  .lg-panel[hidden],.lg-sec[hidden]{display:none}
+  .lg-sec-h{margin:20px 0 10px}
+  .lg-sec:first-child .lg-sec-h{margin-top:4px}
+  .lg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 10px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;font-family:var(--aha-font-product)}
+  .lg[hidden]{display:none}
+  .lg:hover{border-color:var(--aha-purple-30);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .lg-stage{display:flex;align-items:center;justify-content:center;width:100%;height:104px;border-radius:6px;background:var(--aha-gray-10,#FAFAFA)}
+  .lg-stage.lg-dark{background:var(--aha-color-primary)}
+  .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
+  .lg-stage img.lg-lockup{width:100%;max-width:156px;height:60px}
+  .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
+  .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;max-width:100%;display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+  .lg-file{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .lg-arrow{flex:none}
+  .lg-dl:hover{color:var(--aha-text-link)}
+  .lg.copied{border-color:var(--aha-color-success)}
+  .lg.copied .lgn{color:var(--aha-color-success)}
+  .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}`;
+  return docShell({ base: '../', active: '__logo__', section: 'foundations', main, extraCss });
+}
 function renderIconsLlms() {
   const byFam = {};
   for (const [k, v] of Object.entries(ICONS.icons)) (byFam[v.family] || (byFam[v.family] = [])).push(k);
@@ -2322,6 +2436,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    Without this the woff2 404s on GitHub Pages and every page — including the shadow-DOM
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
+cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
@@ -2329,6 +2444,7 @@ writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
+writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
 
 /* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
@@ -2363,6 +2479,7 @@ const indexLines = [
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
+  `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',

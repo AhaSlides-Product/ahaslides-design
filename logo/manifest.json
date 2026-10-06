@@ -1,0 +1,280 @@
+{
+  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; every Brands file is the current default SVG fetched from thesvg.org on the recorded date. usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl.",
+  "logos": [
+    {
+      "id": "ahaslides-logo",
+      "name": "AhaSlides logo",
+      "category": "AhaSlides",
+      "file": "ahaslides-logo.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/Ahaslides-Logo.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9",
+      "section": "Logo"
+    },
+    {
+      "id": "ahaslides-logo-white",
+      "name": "AhaSlides logo, white",
+      "category": "AhaSlides",
+      "file": "ahaslides-logo-white.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/Ahaslides-Logo-White.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9",
+      "section": "Logo"
+    },
+    {
+      "id": "ahaslides-logo-black",
+      "name": "AhaSlides logo, black",
+      "category": "AhaSlides",
+      "file": "ahaslides-logo-black.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/Ahaslides-Logo-Black.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9",
+      "section": "Logo"
+    },
+    {
+      "id": "thesplash",
+      "name": "The Splash",
+      "category": "AhaSlides",
+      "file": "thesplash.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/thesplash.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9",
+      "section": "The Splash"
+    },
+    {
+      "id": "thesplash-white",
+      "name": "The Splash, white",
+      "category": "AhaSlides",
+      "file": "thesplash-white.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/thesplash-white.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9",
+      "section": "The Splash"
+    },
+    {
+      "id": "thesplash-black",
+      "name": "The Splash, black",
+      "category": "AhaSlides",
+      "file": "thesplash-black.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/thesplash-black.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9",
+      "section": "The Splash"
+    },
+    {
+      "id": "google",
+      "name": "Google",
+      "category": "Brands",
+      "file": "google.svg",
+      "sourceUrl": "https://thesvg.org/icons/google/default.svg",
+      "sourcePage": "https://thesvg.org/icon/google",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/auth/LoginV3.vue:42 (Log in with Google)",
+      "section": "Sign-in"
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "category": "Brands",
+      "file": "microsoft.svg",
+      "sourceUrl": "https://thesvg.org/icons/microsoft/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/auth/LoginV3.vue:51 (Log in with Microsoft)",
+      "section": "Sign-in"
+    },
+    {
+      "id": "google-slides",
+      "name": "Google Slides",
+      "category": "Brands",
+      "file": "google-slides.svg",
+      "sourceUrl": "https://thesvg.org/icons/google-slides-2026/default.svg",
+      "sourcePage": "https://thesvg.org/icon/google-slides-2026",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:31; constant/integrations-center.constant.js:6",
+      "section": "Integrations"
+    },
+    {
+      "id": "microsoft-powerpoint",
+      "name": "Microsoft PowerPoint",
+      "category": "Brands",
+      "file": "microsoft-powerpoint.svg",
+      "sourceUrl": "https://thesvg.org/icons/microsoft-powerpoint/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-powerpoint",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:30",
+      "section": "Integrations"
+    },
+    {
+      "id": "microsoft-teams",
+      "name": "Microsoft Teams",
+      "category": "Brands",
+      "file": "microsoft-teams.svg",
+      "sourceUrl": "https://thesvg.org/icons/microsoft-teams/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-teams",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:32",
+      "section": "Integrations"
+    },
+    {
+      "id": "zoom",
+      "name": "Zoom",
+      "category": "Brands",
+      "file": "zoom.svg",
+      "sourceUrl": "https://thesvg.org/icons/zoom-2025/default.svg",
+      "sourcePage": "https://thesvg.org/icon/zoom-2025",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:33",
+      "section": "Integrations"
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "category": "Brands",
+      "file": "chatgpt.svg",
+      "sourceUrl": "https://thesvg.org/icons/openai-chatgpt/default.svg",
+      "sourcePage": "https://thesvg.org/icon/openai-chatgpt",
+      "fetched": "2026-10-06",
+      "usedIn": "constant/integrations-center-alt.constant.js:10",
+      "section": "Integrations"
+    },
+    {
+      "id": "microsoft-excel",
+      "name": "Microsoft Excel",
+      "category": "Brands",
+      "file": "microsoft-excel.svg",
+      "sourceUrl": "https://thesvg.org/icons/microsoft-excel/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-excel",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/presentation-report/ExportSection.vue:17",
+      "section": "Import, export and cloud"
+    },
+    {
+      "id": "google-drive",
+      "name": "Google Drive",
+      "category": "Brands",
+      "file": "google-drive.svg",
+      "sourceUrl": "https://thesvg.org/icons/google-drive-2026/default.svg",
+      "sourcePage": "https://thesvg.org/icon/google-drive-2026",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/my-presentations/main-table/PresentationKebabShareItem.vue:150",
+      "section": "Import, export and cloud"
+    },
+    {
+      "id": "microsoft-onedrive",
+      "name": "Microsoft OneDrive",
+      "category": "Brands",
+      "file": "microsoft-onedrive.svg",
+      "sourceUrl": "https://thesvg.org/icons/microsoft-onedrive/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-onedrive",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/ai-chatbot/modals/ImportCloudSyncOptions.vue:119",
+      "section": "Import, export and cloud"
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "category": "Brands",
+      "file": "paypal.svg",
+      "sourceUrl": "https://thesvg.org/icons/paypal/default.svg",
+      "sourcePage": "https://thesvg.org/icon/paypal",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/my-plan/UpgradePlan.vue:426",
+      "section": "Payments"
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "category": "Brands",
+      "file": "stripe.svg",
+      "sourceUrl": "https://thesvg.org/icons/stripe-badge/default.svg",
+      "sourcePage": "https://thesvg.org/icon/stripe",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/my-plan/BulkCheckoutSuccess.vue:48",
+      "section": "Payments"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "category": "Brands",
+      "file": "youtube.svg",
+      "sourceUrl": "https://thesvg.org/icons/youtube/default.svg",
+      "sourcePage": "https://thesvg.org/icon/youtube",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:101",
+      "section": "Community and social"
+    },
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "category": "Brands",
+      "file": "facebook.svg",
+      "sourceUrl": "https://thesvg.org/icons/facebook/default.svg",
+      "sourcePage": "https://thesvg.org/icon/facebook",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/referral/ReferralTeacherBody.vue:21; components-v2/community/UserCommunity.vue:33",
+      "section": "Community and social"
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "category": "Brands",
+      "file": "instagram.svg",
+      "sourceUrl": "https://thesvg.org/icons/instagram/default.svg",
+      "sourcePage": "https://thesvg.org/icon/instagram",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:91",
+      "section": "Community and social"
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "category": "Brands",
+      "file": "linkedin.svg",
+      "sourceUrl": "https://thesvg.org/icons/linkedin/default.svg",
+      "sourcePage": "https://thesvg.org/icon/linkedin",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:111",
+      "section": "Community and social"
+    },
+    {
+      "id": "x",
+      "name": "X (Twitter)",
+      "category": "Brands",
+      "file": "x.svg",
+      "sourceUrl": "https://thesvg.org/icons/x/default.svg",
+      "sourcePage": "https://thesvg.org/icon/x",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/year-wrap-up/SocialSharing.vue:33 (shown as the Twitter bird); components-v2/referral/ReferralTeacherBody.vue:24",
+      "section": "Community and social"
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "category": "Brands",
+      "file": "reddit.svg",
+      "sourceUrl": "https://thesvg.org/icons/reddit/default.svg",
+      "sourcePage": "https://thesvg.org/icon/reddit",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:44",
+      "section": "Community and social"
+    },
+    {
+      "id": "medium",
+      "name": "Medium",
+      "category": "Brands",
+      "file": "medium.svg",
+      "sourceUrl": "https://thesvg.org/icons/medium/default.svg",
+      "sourcePage": "https://thesvg.org/icon/medium",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:121",
+      "section": "Community and social"
+    }
+  ]
+}
