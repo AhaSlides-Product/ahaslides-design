@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Popover top layer</title>
+<link rel="stylesheet" href="../variables.css">
+<style>
+  body{ margin:0; font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); background:var(--aha-bg-layout,#F5F5F5); min-height:1400px }
+  button{ font:inherit; padding:4px 10px }
+  .clip{ position:absolute; top:120px; left:320px; width:220px; height:48px; overflow:hidden; transform:translateX(0); contain:paint; background:#FFFFFF; border:1px dashed #BDBDBD }
+  .cover{ position:absolute; top:150px; left:300px; width:300px; height:200px; z-index:9999; background:rgba(255,0,0,.15) }
+  .right-panel{ position:fixed; top:420px; right:0; width:120px; height:60px; overflow:hidden; transform:translateX(0); background:#FFFFFF; border-left:1px solid #BDBDBD; display:flex; justify-content:flex-end }
+  .left-panel{ position:fixed; top:560px; left:0; width:120px; height:60px; overflow:hidden; transform:translateX(0); background:#FFFFFF; border-right:1px solid #BDBDBD }
+  .scroller{ position:absolute; top:700px; left:320px; width:240px; height:80px; overflow:auto; background:#FFFFFF }
+  .scroller .tall{ height:400px; padding-top:20px }
+  .plain{ position:absolute; top:900px; left:40px }
+  .csat-host{ position:absolute; top:1000px; left:320px; width:200px; height:40px; overflow:hidden; transform:translateX(0); contain:paint; background:#FFFFFF }
+</style>
+</head>
+<body>
+  <div class="clip" id="clip">
+    <aha-popover id="clipped" flip placement="bottom" arrow title="Escapes the clip" content="Rendered in the top layer, so the clipping box and the covering layer cannot hide it.">
+      <button slot="trigger" id="clipped-trigger">Open</button>
+    </aha-popover>
+  </div>
+  <div class="cover" id="cover"></div>
+
+  <div class="right-panel">
+    <aha-popover id="right" flip placement="bottom-start" title="Right edge" content="Clamped 8px inside the right viewport edge.">
+      <button slot="trigger">Right</button>
+    </aha-popover>
+  </div>
+
+  <div class="left-panel">
+    <aha-popover id="left" flip placement="bottom-end" title="Left edge" content="Clamped 8px inside the left viewport edge.">
+      <button slot="trigger">Left</button>
+    </aha-popover>
+  </div>
+
+  <div class="scroller" id="scroller">
+    <div class="tall">
+      <aha-popover id="scrolled" flip placement="bottom" title="Follows scroll" content="Re-measured on scroll and resize.">
+        <button slot="trigger">Scroll</button>
+      </aha-popover>
+    </div>
+  </div>
+
+  <div class="plain">
+    <aha-popover id="plain" placement="bottom" title="No flip" content="Without flip the panel stays absolutely positioned.">
+      <button slot="trigger">Plain</button>
+    </aha-popover>
+  </div>
+
+  <div class="csat-host">
+    <aha-csat id="csat" source="test.popover-top-layer" prompt="Was this helpful?"></aha-csat>
+  </div>
+
+  <script type="module">
+    if (new URLSearchParams(location.search).has('nopopover')) delete HTMLElement.prototype.showPopover;
+    await import('../lib/aha-popover.js');
+    await import('../lib/aha-csat.js');
+    window.popoverFixtureReady = true;
+  </script>
+</body>
+</html>
