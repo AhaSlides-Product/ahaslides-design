@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A swipeable set of slides — onboarding, a feature tour, a gallery — rendered through the shared Carousel.",
+  "highlights": ["Swipeable set of slides", "For onboarding, feature tours and galleries", "Rendered through the shared Carousel"],
   "lead": "Carousel carries slide transitions, autoplay and dot/arrow controls, and keeps antd's built-in motion — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared carouselTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "Carousel.dotWidth", "Carousel.dotHeight", "Carousel.dotActiveWidth", "Carousel.dotGap"],
   "spec": [

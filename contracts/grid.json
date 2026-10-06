@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-grid",
   "summary": "A CSS-grid container — a fixed column count or a responsive auto-fit, with the DS gutter scale, track justify/align, and a responsive collapse.",
+  "highlights": ["CSS-grid container", "Fixed column count or responsive auto-fit", "DS gutter scale, track alignment, responsive collapse"],
   "lead": "ONE custom element — <aha-grid> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. It mirrors the AntD Row/Col vocabulary over a CSS grid: give it a fixed `columns` count (equal tracks) or a `min` track width for a responsive auto-fit; `gap` takes the named steps small/middle/large (8/16/24) as ONE value or `\"h v\"` for a separate horizontal/vertical gutter; `justify`/`align` position the tracks; and `responsive` lets a fixed-column grid reflow to fewer columns as the container narrows — no media queries. Layout only — it never paints a background. No interactive state → no motion. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default"],

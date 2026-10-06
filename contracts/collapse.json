@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-collapse",
   "summary": "A single expandable panel that hides secondary content until asked.",
+  "highlights": ["Single expandable panel", "Hides secondary content until asked"],
   "lead": "ONE custom element — <aha-collapse> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the `open` attribute IS the state, and clicking the header toggles it while CSS animates the body height + caret on a persistent node — the transition always fires. The DS V3 Collapse is a family (a Collapse container + Collapse-Item), so one panel carries the whole matrix as attributes: `accordion` (one panel open at a time across siblings), bordered (default) vs `ghost` (borderless), `size` (default · small), `icon-position` (start · end), a `disabled` panel, and a slot=\"extra\" header accessory. slot=\"header\" is the summary, the default slot the body; the caret is an <aha-icon> from the DS library. Emits a composed `toggle` event.",
   "codeNote": "The open/close animation lives on a persistent node (the header toggles the `open` attribute; :host([open]) drives the CSS), so it never dies to a subtree rebuild — the Switch-click trap. `open` + `disabled` are observed, so setting them as controlled props keeps both the visuals AND the header's aria-expanded/aria-disabled in sync for a screen reader. `accordion` coordinates siblings: opening a panel closes its sibling accordion panels under the same parent. Defined once in @ahaslides-product/design.",
   "tokensUsed": [

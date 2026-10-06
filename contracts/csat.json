@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-csat",
   "summary": "The shared thumbs up/down satisfaction prompt — the one CSAT control, not a bespoke rating.",
+  "highlights": ["Shared thumbs up and down satisfaction prompt", "The one CSAT control, not a bespoke rating"],
   "lead": "ONE custom element — <aha-csat> — the reusable form of the feedback pattern's CSAT rule. A binary thumbs-up/down prompt with a required `source` for typo-proof analytics segmentation; it emits a composed `rate` event, and once rated only the chosen thumb remains (clicking it again un-rates), and a thumbs-down opens a free-text feedback popover that emits a composed `feedback` event on submit. Shadow-DOM CSS, themed only by --aha-* tokens; the thumbs are the shared <aha-icon> BY NAME, the follow-up reuses the shared <aha-popover> + <aha-counted-textarea> + <aha-button>, and the selected/hover states animate on PERSISTENT button nodes (class toggle, no rebuild). Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for the `rate` and `feedback` events; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-secondary", "text-default", "icon-muted", "color-primary", "color-success"],

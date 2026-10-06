@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A labelled, validated set of fields — sign-in, settings, create dialogs — rendered through the shared Form.",
+  "highlights": ["Labelled, validated set of fields", "For sign-in, settings and create dialogs", "Rendered through the shared Form"],
   "lead": "Form carries layout, validation, and every control it hosts — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared formTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "colorError", "Form.labelColor"],
   "spec": [

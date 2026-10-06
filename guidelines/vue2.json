@@ -5,6 +5,7 @@
   "group": "Patterns",
   "badge": "guide — consuming the DS",
   "summary": "New UI in the legacy Vue 2 apps (presenter, audience, admin) uses the DS <aha-*> web components, never the old stpancras-storybook-app kit: load lib/all.js + tokens.css once pinned to a tag, set Vue.config.ignoredElements = [/^aha-/], bind arrays with .prop and read CustomEvent detail. Existing screens stay as they are unless a task asks to migrate them.",
+  "highlights": ["New UI in the legacy Vue 2 apps uses DS <aha-*> web components", "Never the old stpancras-storybook-app kit", "Load lib/all.js and tokens.css once, pinned to a tag; existing screens stay as they are"],
   "lead": "Vue 2 renders custom elements natively, so the same <aha-*> elements React and Vue 3 use work in the legacy apps with no adapter. This guide covers the four things that differ: loading, telling Vue the tags are custom elements, binding props, and listening to events — plus the scope rule for new versus existing screens.",
   "skillRef": {
     "build": "DS guideline — guidelines/vue2.json",

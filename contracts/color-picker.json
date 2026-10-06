@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-color-picker",
   "summary": "Pick a colour from a selectable palette of presets.",
+  "highlights": ["Pick a colour from a selectable palette of presets"],
   "lead": "ONE custom element — <aha-color-picker> — defined once, imported unchanged by React and Vue. A trigger swatch opens a persistent panel of preset colours (the brand ramp by default); open/close toggles the `open` attribute so the panel animates. The palette is SELECTABLE — the swatch matching `value` is ringed in color-primary and carries a check glyph, and every swatch is a toggle button with `aria-pressed` synced to selection. Three `size`s scale the trigger + swatches; `disabled` greys and inerts the whole control. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "bg-container-disabled", "bg-elevated", "border", "border-hover", "border-disabled", "text-default", "text-inverse", "text-disabled", "color-primary", "radius-sm", "radius-xs", "radius-default", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],

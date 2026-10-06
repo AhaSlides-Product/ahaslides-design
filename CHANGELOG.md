@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.89.0 — 2026-10-06
+### Added
+- Contracts, guidelines and marketing sections gain a `highlights` field (1–4 short bullets), rendered under the docs page title; `standards.mjs` requires it on contracts and guidelines (marketing sections are not gated). `summary` is unchanged, so the agent feeds (llms.txt, `*.md`, `*.agent.json`) read exactly as before. (#165)
+
+### Changed
+- Docs pages drop the small breadcrumb label above the H1 and show the passage under the title as a short bullet list (`highlights`) instead of one long paragraph. Applies to every component, pattern, guideline, marketing, foundations, feed, icon, settings and index page. (#165)
+
 ## 0.87.3 — 2026-10-06
 ### Fixed
 - `<aha-background-task>`: the ✕ now sits on the leading icon's row (top-aligned, 2px optical offset for its 28px box) instead of drifting to the vertical centre of wrapped descriptions. (#163)

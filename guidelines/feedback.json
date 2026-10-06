@@ -5,6 +5,7 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to build transient and post-action feedback — toasts, the DS V3 Alert inline banner, inline correct/incorrect result panels, and the CSAT thumbs widget — from existing components, plus when NOT to use a toast.",
+  "highlights": ["How to build transient and post-action feedback", "Toasts, DS V3 Alert banner, inline correct and incorrect panels, CSAT thumbs", "Plus when not to use a toast"],
   "lead": "Feedback is scattered across every product surface, so it drifts fast without one ruleset. This pattern ships NO new component: it documents the CONVENTIONS that make every toast, alert banner, result panel, and satisfaction prompt read as one product — placement, portalling, role/aria semantics, DS surface/border/icon tokens, and the channel-choice table. The narrative 'why' lives in the DS `feedback` guide; this artifact carries only what the repo can enforce.",
   "skillRef": {
     "build": "DS guideline — guidelines/feedback.json",

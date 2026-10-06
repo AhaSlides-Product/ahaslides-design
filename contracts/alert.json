@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-alert",
   "summary": "An inline, contextual feedback banner — info, success, warning, error, or branding — in regular/small sizes, with an optional full-width banner mode and a trailing action.",
+  "highlights": ["Inline, contextual feedback banner", "Info, success, warning, error or branding tone", "Regular or small, with optional banner mode and trailing action"],
   "lead": "ONE custom element — <aha-alert> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `type` attribute (info · success · warning · error · branding), the status glyph is summoned BY NAME from the shared icon library. `size` compacts it (regular · small), `banner` makes it a full-width, square-cornered page notice, `hide-icon` drops the glyph, a slot=\"action\" carries a trailing button/link, and `closable` adds a dismiss control that animates the banner out on a persistent node and emits a composed `close`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the composed `close` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "text-positive", "border-success", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "bg-accent", "border-focus", "color-primary", "text-default", "icon-muted", "radius-default"],

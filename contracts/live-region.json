@@ -6,6 +6,7 @@
   "badge": "shared web component",
   "element": "aha-live-region",
   "summary": "The screen-reader announcement region — aria-live assertive + atomic, always mounted (even empty), never role=alert.",
+  "highlights": ["Screen-reader announcement region", "aria-live assertive and atomic, always mounted", "Never role=alert"],
   "lead": "ONE custom element — <aha-live-region> — defined once, imported unchanged by React and Vue. Mount it once and KEEP it mounted: a live region that appears together with its text is often not announced, because assistive tech was not yet watching it. It is aria-live=\"assertive\" + aria-atomic=\"true\" by default (politeness=\"polite\" for non-urgent updates) and deliberately carries NO role=\"alert\", which would announce the text twice. Drive it with the `message` attribute, or call announce(text) — it clears, then writes on the next tick, so the same message announced twice is heard twice. Visually hidden unless `visible` is set.",
   "codeNote": "Same element in every framework. Keep ONE instance mounted near the app root and announce through it; do not render a fresh region per message.",
   "tokensUsed": [

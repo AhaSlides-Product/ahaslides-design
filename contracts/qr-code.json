@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A scannable QR code — a join link, a deck URL, a Wi-Fi handoff — rendered through the shared QRCode.",
+  "highlights": ["Scannable QR code", "For join links, deck URLs and Wi-Fi handoff", "Rendered through the shared QRCode"],
   "lead": "QR encoding and canvas rendering are real work best left to Ant's QRCode, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both framed once by the shared qrCodeTheme. Two implementations, one DS V3 look — ink modules on white in a 1px radius-8 frame. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "colorBorderSecondary"],
   "spec": [

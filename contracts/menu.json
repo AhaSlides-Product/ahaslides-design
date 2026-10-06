@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-menu",
   "summary": "A list of selectable options — a side nav, a settings list, an overflow menu — with icons, groups, submenus and danger actions.",
+  "highlights": ["List of selectable options", "For side navs, settings lists and overflow menus", "Icons, groups, submenus and danger actions"],
   "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Feed it an `items` tree and a `value` (the selected key). The DS V3 Menu is a family, not a flat list: rows carry leading icons, a group title splits sections, a divider rules them off, a submenu expands inline, an item can be disabled or a red danger action. Three `mode`s: `vertical` (compact popover list, default), `inline` (indented sidebar tree), `horizontal` (top nav bar). The selected row is brand-tinted; hover, selection, submenu expand and the caret all animate via the shared motion tokens on PERSISTENT nodes — a class toggles, the subtree is never rebuilt on a state change. Emits a composed `select`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "text-default", "text-tertiary", "text-disabled", "color-primary", "color-error", "border-focus", "split", "radius-default"],

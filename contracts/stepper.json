@@ -6,6 +6,7 @@
   "badge": "shared web component",
   "element": "aha-stepper",
   "summary": "Show where a short linear flow is — finished, current and upcoming stages — as one framework-free element that also works on a slide canvas and an audience phone.",
+  "highlights": ["Shows where a short linear flow stands", "Finished, current and upcoming stages", "One framework-free element for slide canvas and audience phone"],
   "lead": "ONE custom element — <aha-stepper> — defined once, imported unchanged by HTML, React and Vue. It is the LEAF counterpart to the composite Steps (antd): no React needed, so a build-less slide type (presenter.html / audience.html loading lib/all.js) gets the same stepper instead of hand-rolling pills. The current stage is marked with INK — a solid ink outline on the marker plus a semibold label — never the primary accent, so on a canvas the accent stays on the one button that advances the flow. Every colour derives from currentColor, so setting `color` on the element (the deck ink on a canvas) re-inks the whole stepper on light, dark and photo decks. A `current` change toggles attributes on persistent nodes, so the marker, label and connector transitions fire.",
   "tokensUsed": [
     "text-default",
