@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.88.0 — 2026-10-06
+### Added
+- Foundations → Logo library page (`foundations/logo.html`): the AhaSlides logo set plus the third-party brand logos the product shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Google Drive, OneDrive, PayPal), in an icon-page layout with search, group filters and downloads. SVGs ship in `logo/` (also published in the package) and are served at `/logo/`; `logo/manifest.json` records each file's source repo and path. Listed in `llms.txt`. (#164)
+
 ## 0.87.2 — 2026-10-06
 ### Fixed
 - `<aha-background-task>` HTML example no longer auto-removes a finished card after 2s, and the JSDoc usage shows Cancel as a tertiary `<aha-button>` instead of a span. (#162)

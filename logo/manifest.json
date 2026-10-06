@@ -1,0 +1,145 @@
+{
+  "$comment": "Source of truth for logo/. Refresh by re-copying each sourcePath from sourceRepo's default branch and updating sourceLastChanged/sourceCommit.",
+  "logos": [
+    {
+      "id": "ahaslides-logo",
+      "name": "AhaSlides logo",
+      "category": "AhaSlides",
+      "file": "ahaslides-logo.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/Ahaslides-Logo.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9"
+    },
+    {
+      "id": "ahaslides-logo-white",
+      "name": "AhaSlides logo, white",
+      "category": "AhaSlides",
+      "file": "ahaslides-logo-white.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/Ahaslides-Logo-White.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9"
+    },
+    {
+      "id": "ahaslides-logo-black",
+      "name": "AhaSlides logo, black",
+      "category": "AhaSlides",
+      "file": "ahaslides-logo-black.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/Ahaslides-Logo-Black.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9"
+    },
+    {
+      "id": "thesplash",
+      "name": "The Splash",
+      "category": "AhaSlides",
+      "file": "thesplash.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/thesplash.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9"
+    },
+    {
+      "id": "thesplash-white",
+      "name": "The Splash, white",
+      "category": "AhaSlides",
+      "file": "thesplash-white.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/thesplash-white.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9"
+    },
+    {
+      "id": "thesplash-black",
+      "name": "The Splash, black",
+      "category": "AhaSlides",
+      "file": "thesplash-black.svg",
+      "sourceRepo": "aha-claude-plugins",
+      "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-colors/assets/thesplash-black.svg",
+      "sourceLastChanged": "2026-08-26",
+      "sourceCommit": "89ccad9"
+    },
+    {
+      "id": "google-slides",
+      "name": "Google Slides",
+      "category": "Presentation tools",
+      "file": "google-slides.svg",
+      "sourceRepo": "stpancras-presenter-app",
+      "sourcePath": "src/assets/images/integrations/google-slides.svg",
+      "sourceLastChanged": "2026-06-19",
+      "sourceCommit": "03a5ccaeef"
+    },
+    {
+      "id": "microsoft-powerpoint",
+      "name": "Microsoft PowerPoint",
+      "category": "Presentation tools",
+      "file": "microsoft-powerpoint.svg",
+      "sourceRepo": "stpancras-presenter-app",
+      "sourcePath": "src/assets/images/integrations/powerpoint.svg",
+      "sourceLastChanged": "2026-06-19",
+      "sourceCommit": "03a5ccaeef"
+    },
+    {
+      "id": "microsoft-teams",
+      "name": "Microsoft Teams",
+      "category": "Meetings",
+      "file": "microsoft-teams.svg",
+      "sourceRepo": "stpancras-storybook-app",
+      "sourcePath": "src/assets/icons/Teams.svg",
+      "sourceLastChanged": "2025-04-21",
+      "sourceCommit": "797a4627"
+    },
+    {
+      "id": "zoom",
+      "name": "Zoom",
+      "category": "Meetings",
+      "file": "zoom.svg",
+      "sourceRepo": "stpancras-storybook-app",
+      "sourcePath": "src/assets/icons/zoom.svg",
+      "sourceLastChanged": "2025-04-21",
+      "sourceCommit": "797a4627"
+    },
+    {
+      "id": "microsoft-excel",
+      "name": "Microsoft Excel",
+      "category": "Files and storage",
+      "file": "microsoft-excel.svg",
+      "sourceRepo": "stpancras-presenter-app",
+      "sourcePath": "src/assets/images/icon/excel-icon.svg",
+      "sourceLastChanged": "2024-06-25",
+      "sourceCommit": "59cb7c2f1a"
+    },
+    {
+      "id": "google-drive",
+      "name": "Google Drive",
+      "category": "Files and storage",
+      "file": "google-drive.svg",
+      "sourceRepo": "stpancras-presenter-app",
+      "sourcePath": "src/assets/images/icon/gg-drive-icon.svg",
+      "sourceLastChanged": "2024-09-13",
+      "sourceCommit": "83893a6349"
+    },
+    {
+      "id": "microsoft-onedrive",
+      "name": "Microsoft OneDrive",
+      "category": "Files and storage",
+      "file": "microsoft-onedrive.svg",
+      "sourceRepo": "stpancras-presenter-app",
+      "sourcePath": "src/assets/images/icon/onedrive-icon.svg",
+      "sourceLastChanged": "2026-06-19",
+      "sourceCommit": "03a5ccaeef"
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "category": "Payments",
+      "file": "paypal.svg",
+      "sourceRepo": "stpancras-presenter-app",
+      "sourcePath": "src/assets/images/logos/paypal-logo.svg",
+      "sourceLastChanged": "2021-10-14",
+      "sourceCommit": "72ba86afba"
+    }
+  ]
+}

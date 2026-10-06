@@ -923,6 +923,7 @@ function sidebarNav(base, active, section) {
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
+      `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -2188,6 +2189,78 @@ function renderIconGallery() {
   .ic.copied .icn{color:var(--aha-color-success)}`;
   return docShell({ base: '../', active: '__icons__', section: 'foundations', main, extraCss });
 }
+/* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
+const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
+const LOGO_CATEGORIES = ['AhaSlides', ...new Set(LOGO_MANIFEST.map(l => l.category).filter(c => c !== 'AhaSlides'))];
+const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white']);
+const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
+const LOGO_GALLERY_JS = `
+(function(){
+  var grid=document.getElementById('logo-grid'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count'),fam='all';
+  var cells=[].slice.call(grid.querySelectorAll('.lg'));
+  var fams=[].slice.call(document.querySelectorAll('.fam-chip'));
+  function apply(){var t=q.value.trim().toLowerCase(),n=0;cells.forEach(function(c){var ok=(fam==='all'||c.dataset.fam===fam)&&(!t||c.dataset.name.indexOf(t)>-1||c.dataset.label.indexOf(t)>-1);c.hidden=!ok;if(ok)n++;});count.textContent=n+' of '+cells.length;}
+  q.addEventListener('input',apply);
+  fams.forEach(function(b){b.addEventListener('click',function(){fams.forEach(function(x){x.classList.remove('on')});b.classList.add('on');fam=b.dataset.fam;apply();});});
+  grid.addEventListener('click',function(e){
+    var c=e.target.closest('.lg'); if(!c||e.target.closest('a'))return;
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(c.dataset.name);
+    var l=c.querySelector('.lgn'),was=l.textContent; c.classList.add('copied'); l.textContent='copied!';
+    setTimeout(function(){c.classList.remove('copied');l.textContent=was;},900);
+  });
+  apply();
+})();
+`;
+function renderLogoPage() {
+  const cells = LOGO_MANIFEST.map(l =>
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" data-fam="${esc(l.category)}" role="button" tabindex="0" title="${esc(l.name)} — click to copy the file name"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download>${esc(l.file)} &darr;</a></div>`).join('');
+  const chips = ['all', ...LOGO_CATEGORIES].map((f, i) =>
+    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${LOGO_MANIFEST.filter(x => x.category === f).length}</b>`}</button>`).join('');
+  const main = `
+  <p class="crumbs">Foundations · logo library</p>
+  <h1>Logo library</h1>
+  <p class="subtitle">The AhaSlides logo and the third-party brand logos the product shows — <b>${LOGO_MANIFEST.length}</b> files in ${LOGO_CATEGORIES.length} groups, copied from the product apps. Use these files; never redraw a brand mark or stand in a letter tile. Click a tile to copy its name, or use the download link.</p>
+  <p class="gen">◆ generated from logo/manifest.json (each logo records its source repo and path) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
+
+  <div class="gal-bar">
+    <input id="logo-search" type="search" placeholder="Search ${LOGO_MANIFEST.length} logos by name…" autocomplete="off" spellcheck="false" />
+    <div class="fam-chips">${chips}</div>
+    <span id="logo-count" class="gal-count"></span>
+  </div>
+  <div id="logo-grid" class="logo-grid">${cells}</div>
+
+  <h3 class="tok-h3">AhaSlides logo rules</h3>
+  <p class="body">The logo is The Splash plus the wordmark. Use the full-colour file on white, the white file on Radical Pink, Radical Purple or Deep Space Blue, and the black file for one-colour use on light surfaces. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <h3 class="tok-h3">Don&rsquo;t</h3>
+  <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+  <h3 class="tok-h3">Third-party marks</h3>
+  <p class="body">Third-party logos belong to their owners and stay unaltered. Slack, Webex and Canva are not yet in the library because no app ships a full-colour file for them.</p>
+
+  <script>${LOGO_GALLERY_JS}</script>`;
+  const extraCss = `
+  .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0;z-index:5;border-bottom:1px solid var(--aha-split)}
+  #logo-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
+  #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  .fam-chips{display:flex;gap:6px;flex-wrap:wrap}
+  .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer}
+  .fam-chip b{opacity:.6;font-weight:600}
+  .fam-chip.on{background:var(--aha-purple-10);border-color:var(--aha-purple-30);color:#5715A0}
+  .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
+  .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px;margin-bottom:24px}
+  .lg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 10px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;font-family:var(--aha-font-product)}
+  .lg[hidden]{display:none}
+  .lg:hover{border-color:var(--aha-purple-30);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .lg-stage{display:flex;align-items:center;justify-content:center;width:100%;height:96px;border-radius:6px;background:var(--aha-gray-10,#FAFAFA)}
+  .lg-stage.lg-dark{background:var(--aha-color-primary)}
+  .lg-stage img{max-width:80%;height:56px;width:auto}
+  .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
+  .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;word-break:break-all;text-align:center}
+  .lg-dl:hover{color:var(--aha-text-link)}
+  .lg.copied{border-color:var(--aha-color-success)}
+  .lg.copied .lgn{color:var(--aha-color-success)}
+  .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}`;
+  return docShell({ base: '../', active: '__logo__', section: 'foundations', main, extraCss });
+}
 function renderIconsLlms() {
   const byFam = {};
   for (const [k, v] of Object.entries(ICONS.icons)) (byFam[v.family] || (byFam[v.family] = [])).push(k);
@@ -2308,6 +2381,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    Without this the woff2 404s on GitHub Pages and every page — including the shadow-DOM
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
+cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
@@ -2315,6 +2389,7 @@ writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
+writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
 
 /* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
@@ -2349,6 +2424,7 @@ const indexLines = [
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
+  `>   ${SITE}/foundations/logo.html  logo library — the real AhaSlides logo and the brand logos the product shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Drive, OneDrive, PayPal); files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
