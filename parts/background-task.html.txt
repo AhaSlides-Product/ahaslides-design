@@ -17,7 +17,6 @@
       card.setAttribute('state', 'success');
       card.setAttribute('caption', '40/40 slides imported');
       card.querySelector('[slot="action"]')?.remove();
-      setTimeout(() => card.remove(), 2000);
     }
   }, 600);
   card.addEventListener('dismiss', () => card.remove());
