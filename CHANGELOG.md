@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.91.0 — 2026-10-06
+### Added
+- Logo library → Brands: **Microsoft Word** and **PDF** (Adobe file-type mark) in the "Import, export and cloud" section, ordered Excel, Word, PDF, Google Drive, OneDrive. Both are the current default SVG from thesvg.org (`microsoft-word`, `pdf`); the Brands tab and its highlight now count 21 brands. `llms.txt` lists them. (#PR)
+
 ## 0.90.0 — 2026-10-06
 ### Added
 - Foundations → Logo library page (`foundations/logo.html`) with two tabs: **AhaSlides** (the logo, The Splash, and their white and black variants) and **Brands** (19 third-party logos scanned from what the presenter app renders: Google Slides, PowerPoint, Teams, Zoom, Excel, Google Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium). Each brand is the current full-colour SVG fetched from thesvg.org; `logo/manifest.json` records source URL, fetch date and where the presenter app shows it. Search, copy-name and download; tiles work with Enter and Space, and a repeat click while "copied!" is showing no longer replaces the tile name. Logos sit on uniform square tiles and are chunked into labelled sections (Sign-in, Integrations, Import, export and cloud, Payments, Community and social; Logo and The Splash) from each manifest entry's `section`; search hides empty sections. SVGs ship in `logo/` and are served at `/logo/`. Listed in `llms.txt`. (#164)
