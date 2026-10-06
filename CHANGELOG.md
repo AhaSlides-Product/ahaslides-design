@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.89.0 — 2026-10-06
 ### Added
-- Contracts, guidelines and marketing sections gain an optional-by-schema `highlights` field (1–4 short bullets); `standards.mjs` now requires it. `summary` is unchanged, so the agent feeds (llms.txt, `*.md`, `*.agent.json`) read exactly as before. (#165)
+- Contracts, guidelines and marketing sections gain a `highlights` field (1–4 short bullets), rendered under the docs page title; `standards.mjs` requires it on contracts and guidelines (marketing sections are not gated). `summary` is unchanged, so the agent feeds (llms.txt, `*.md`, `*.agent.json`) read exactly as before. (#165)
 
 ### Changed
 - Docs pages drop the small breadcrumb label above the H1 and show the passage under the title as a short bullet list (`highlights`) instead of one long paragraph. Applies to every component, pattern, guideline, marketing, foundations, feed, icon, settings and index page. (#165)
