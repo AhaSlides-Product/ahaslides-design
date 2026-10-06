@@ -12,6 +12,6 @@ const emit = defineEmits(['cancel', 'dismiss']);
 <template>
   <aha-background-task :state="state" :heading="fileName" :value="percent" :caption="`${percent}%`"
     @dismiss="emit('dismiss')">
-    <span v-if="state === 'progress'" slot="action" role="button" tabindex="0" @click="emit('cancel')">Cancel</span>
+    <aha-button v-if="state === 'progress'" slot="action" variant="tertiary" size="sm" @click="emit('cancel')">Cancel</aha-button>
   </aha-background-task>
 </template>
