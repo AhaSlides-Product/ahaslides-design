@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.82.2 — 2026-10-06
+### Fixed
+- **Docs examples sit flush with the page, without a frame.** The bordered, rounded box and the side padding around each component's examples are gone, so group titles and previews align with the "Examples" heading. Card shadows are no longer clipped, the playground control bar is a rounded grey band of its own, and the "Show code" toolbar keeps its dashed divider. (#PR)
+
 ## 0.82.1 — 2026-10-06
 ### Fixed
 - **Docs preview group titles are readable and separated.** The `.lbl` headings above each group of examples were 11px grey uppercase and ran into one another. They are now sentence-case body-size semibold in secondary text colour, and every group after the first gets a top divider and spacing. `<aha-background-task>` preview titles are short ("In progress", "Cancel confirmation", "Finished", "Connection lost and error") instead of positional dot lists. (#156)
