@@ -22,11 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.94.0 — 2026-10-06
+### Changed
+- Background task: a file task's leading `slot="icon"` is now the file's brand logo from the Logo library (`logo/microsoft-powerpoint.svg`, `microsoft-excel.svg`, `pdf.svg`) as a 24px `<img>`, not an `<aha-icon>` glyph; the examples, snippets and contract say so. The default and error glyphs are unchanged. Needs #166 (PDF logo) merged first. (#PRNUM)
+
 ## 0.93.0 — 2026-10-06
 ### Added
 - Background task takes the refined export design, generalised to any process: the heading is the file name with its extension ("Quarterly review.pdf"), a `link` slot that ends the description for an inline action ("Download didn't start? Retry"), and `no-percentage` for a process with no real percentage (the bar eases towards 90%, `value` ignored). New `<aha-background-task-stack>` is the fixed bottom-right column (320 wide, 8px gap) for several processes, newest on top, one card each. (#169)
 ### Changed
 - Background task: the leading icon is centred on heading and description together; the finished card's rating sits 12px under the description, spanning the card under a divider. The error recovery button is secondary ("Try again") in the examples. Once the bar is gone (success, cancelled, error) a `caption` moves up to the description line, so "40/40 slides imported" sits where "Download didn't start?" does. Existing attributes and events are unchanged.
+
+## 0.91.0 — 2026-10-06
+### Added
+- Logo library → Brands: **Microsoft Word** and **PDF** (Adobe file-type mark) in the "Import, export and cloud" section, ordered Excel, Word, PDF, Google Drive, OneDrive. Both are the current default SVG from thesvg.org (`microsoft-word`, `pdf`); the Brands tab and its highlight now count 21 brands. `llms.txt` lists them. (#166)
 
 ## 0.90.0 — 2026-10-06
 ### Added
