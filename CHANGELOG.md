@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.82.1 — 2026-10-06
 ### Fixed
-- **Docs preview group titles are readable and separated.** The `.lbl` headings above each group of examples were 11px grey uppercase and ran into one another. They are now sentence-case body-size semibold in secondary text colour, and every group after the first gets a top divider and spacing. `<aha-background-task>` preview titles are short ("In progress", "Cancel confirmation", "Finished", "Connection lost and error") instead of positional dot lists. (#PRNUM)
+- **Docs preview group titles are readable and separated.** The `.lbl` headings above each group of examples were 11px grey uppercase and ran into one another. They are now sentence-case body-size semibold in secondary text colour, and every group after the first gets a top divider and spacing. `<aha-background-task>` preview titles are short ("In progress", "Cancel confirmation", "Finished", "Connection lost and error") instead of positional dot lists. (#156)
 
 ## 0.82.0 — 2026-10-05
 ### Changed
