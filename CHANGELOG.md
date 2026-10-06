@@ -22,12 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.83.0 — 2026-10-06
+## 0.85.0 — 2026-10-06
 ### Changed
 - **`<aha-csat>` now mimics the presenter's inline CSAT (`InlineCSATV2`).** Once rated, only the chosen thumb remains; clicking it again un-rates (both thumbs return, `value` is removed, `rate` fires with `rating: null`). The selected thumb uses the antd tertiary active look (fill #F0E4FF, icon #6A1EBB) and hover icons are purple-50. The feedback popover focuses its textarea on open, defaults to "How can we improve? Let us know!", and after Send does not re-open on thumbs-down until the rating changes again. Default tooltips are now "Useful" / "Not useful". (#155)
 - **The feedback popover's X hover is a rounded square** (6px radius, like the info-box dismiss), no longer a circle.
+- **The CSAT docs preview shows only the Feedback-button example.** The unrated / rated / thank-you row and the separate thumbs-down popover demo are gone; the State bar drives the one remaining example.
 ### Added
 - **The opt-in `feedback-button` now sits right beside the thumbs and stays visible after rating**, opening the popover without rating. `feedback-button-placeholder` falls back to `feedback-placeholder`.
+
+## 0.84.0 — 2026-10-06
+### Added
+- **Donut, pie and tree map say "No responses yet" when there is no data.** One short text, centred in the plot, in the chart's own ink (legible on a dark deck). The donut centre count is hidden meanwhile, so only one text shows. It is not announced twice (the summary already says it) and goes away on the first response. Vietnamese copy included. Every other chart type is unchanged. The Chart docs gain a 0-response case for tree map. (#158)
 
 ## 0.82.1 — 2026-10-06
 ### Fixed
