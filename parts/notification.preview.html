@@ -80,7 +80,7 @@ function Demo() {
     fire('info', { placement: 'topRight', duration: 0 }, 'probe');
     // a title that wraps to three lines: the ✕ stays on the first line
     fire('warning', { placement: 'topRight', duration: 0, title: window.__dismissibleTitle(React.createElement,
-      'Storage almost full — older uploads in this workspace will be archived unless you free up space',
+      'Storage almost full: older uploads in this workspace will be archived unless you free up space',
       () => api.destroy('wrap')) }, 'wrap');
   }, []);
 
