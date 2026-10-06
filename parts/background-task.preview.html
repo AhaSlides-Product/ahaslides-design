@@ -22,11 +22,11 @@
     <aha-background-task state="success" heading="Quarterly review.pdf" rating-prompt="How did this import go?" rating-source="import_completion_csat"></aha-background-task>
     <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck"></aha-background-task>
   </div>
-  <div class="lbl">Process and file name, with an inline link and the rating (export)</div>
+  <div class="lbl">File name, with an inline link and the rating (export)</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task process="PDF" heading="Quarterly review" value="42" caption="42%"><aha-icon slot="icon" name="system-file" size="24" decorative></aha-icon></aha-background-task>
-    <aha-background-task process="Excel" heading="Quarterly review" no-percentage caption="Generating report…"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon></aha-background-task>
-    <aha-background-task state="success" process="PDF" heading="Quarterly review" description="Download didn’t start?" rating-source="export_pdf"><aha-icon slot="icon" name="system-file" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Retry</a></aha-background-task>
+    <aha-background-task heading="Quarterly review.pdf" value="42" caption="42%"><aha-icon slot="icon" name="system-file" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task heading="Quarterly review.xlsx" no-percentage caption="Generating report…"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.pdf" description="Download didn’t start?" rating-source="export_pdf"><aha-icon slot="icon" name="system-file" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Retry</a></aha-background-task>
     <aha-background-task state="error" heading="Export failed" description="Couldn’t create your PDF.">
       <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="secondary" size="sm">Try again</aha-button></div>
     </aha-background-task>
@@ -34,9 +34,9 @@
   <div class="lbl">Stack: several processes, newest on top, one card each</div>
   <div style="padding:8px 0 24px; min-height:400px">
     <aha-background-task-stack style="position:static">
-      <aha-background-task state="success" process="Excel" heading="Quarterly review" description="Download didn’t start?" rating-source="export_xlsx"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Retry</a></aha-background-task>
-      <aha-background-task process="Images" heading="Quarterly review" value="77" caption="77%"><aha-icon slot="icon" name="system-images" size="24" decorative></aha-icon></aha-background-task>
-      <aha-background-task process="PDF" heading="Quarterly review" value="12" caption="12%"><aha-icon slot="icon" name="system-file" size="24" decorative></aha-icon></aha-background-task>
+      <aha-background-task state="success" heading="Quarterly review.xlsx" description="Download didn’t start?" rating-source="export_xlsx"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Retry</a></aha-background-task>
+      <aha-background-task heading="Quarterly review.zip" value="77" caption="77%"><aha-icon slot="icon" name="system-images" size="24" decorative></aha-icon></aha-background-task>
+      <aha-background-task heading="Quarterly review.pdf" value="12" caption="12%"><aha-icon slot="icon" name="system-file" size="24" decorative></aha-icon></aha-background-task>
     </aha-background-task-stack>
   </div>
   <div class="lbl">Connection lost and error</div>
