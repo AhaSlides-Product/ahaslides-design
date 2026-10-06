@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - `<aha-background-task>`: the ✕ now sits on the leading icon's row (top-aligned, 2px optical offset for its 28px box) instead of drifting to the vertical centre of wrapped descriptions. (#163)
 
+## 0.87.2 — 2026-10-06
+### Fixed
+- `<aha-background-task>` HTML example no longer auto-removes a finished card after 2s, and the JSDoc usage shows Cancel as a tertiary `<aha-button>` instead of a span. (#162)
+
 ## 0.87.1 — 2026-10-06
 ### Fixed
 - `<aha-background-task>` contract, JSDoc and HTML example no longer describe the removed Cancel link, red error styling or 2s auto-dismiss. (#161)
