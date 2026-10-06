@@ -199,7 +199,6 @@ const COMPONENTS_CATALOG = [
     { name: 'Drawer',       slug: 'drawer' },
     { name: 'Popconfirm',   slug: 'popconfirm' },
     { name: 'Progress',     slug: 'progress' },
-    { name: 'Progress toast', slug: 'progress-toast' },
     { name: 'Result',       slug: 'result' },
     { name: 'Skeleton',     slug: 'skeleton' },
     { name: 'Spin',         slug: 'spin' },
@@ -215,6 +214,7 @@ const PATTERNS_CATALOG = [
     { name: 'CSAT',           slug: 'csat' },
     { name: 'Screen heading', slug: 'screen-heading' },
     { name: 'Loader',         slug: 'aha-loader' },
+    { name: 'Background task', slug: 'background-task' },
   ] },
 ];
 const PATTERN_SLUGS = new Set(PATTERNS_CATALOG.flatMap(g => g.items.map(i => i.slug)));

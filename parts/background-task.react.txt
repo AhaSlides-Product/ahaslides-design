@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import '@ahaslides-product/design/aha-progress-toast';   // registers <aha-progress-toast> (+ <aha-button>)
+import '@ahaslides-product/design/aha-background-task';   // registers <aha-background-task> (+ <aha-button>)
 import '@ahaslides-product/design/icons';                // <aha-icon> glyphs
 
 // Attributes + slots only — React 18/19 render the element directly; `dismiss` is a DOM event.
@@ -12,8 +12,8 @@ function ImportToast({ fileName, percent, state, onCancel, onDismiss }) {
   }, [onDismiss]);
 
   return (
-    <aha-progress-toast ref={ref} state={state} heading={fileName} value={percent} caption={`${percent}%`}>
+    <aha-background-task ref={ref} state={state} heading={fileName} value={percent} caption={`${percent}%`}>
       {state === 'progress' && <span slot="action" role="button" tabIndex={0} onClick={onCancel}>Cancel</span>}
-    </aha-progress-toast>
+    </aha-background-task>
   );
 }
