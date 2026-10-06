@@ -358,7 +358,7 @@ Always set `label` to something meaningful, for example the question being answe
 
 ## Empty state
 
-With no responses (`data` empty or all zeros) the chart does not show placeholder bars or "waiting" text. Every bar, column and stacked row keeps its track and shows a short coloured stub at its start; donut and tree map keep their track; the radar breathes its entrance effect until the first response arrives.
+With no responses (`data` empty or all zeros) the chart does not show placeholder bars. Every bar, column and stacked row keeps its track and shows a short coloured stub at its start; donut, pie and tree map keep their track and show the text "No responses yet" centred in the plot; the radar breathes its entrance effect until the first response arrives.
 
 ## Browser support
 

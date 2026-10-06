@@ -260,6 +260,7 @@
     <div class="aha-pg-seg chart-case-switch" role="radiogroup" aria-label="Tree map cases">
       <button type="button" class="aha-pg-opt active" role="radio" aria-checked="true" tabindex="0">Default</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Many options</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">0 responses</button>
     </div>
     <div class="chart-case">
       <div class="lbl">Tree map</div>
@@ -272,6 +273,11 @@
         data='[{"label":"AI slides","value":16},{"label":"Teams","value":12},{"label":"Templates","value":10},{"label":"Analytics","value":9},{"label":"Offline","value":8},{"label":"Themes","value":7},{"label":"Integrations","value":7},{"label":"Quiz modes","value":6},{"label":"Mobile app","value":5},{"label":"Exports","value":5},{"label":"Branding","value":4}]'></aha-chart>
 
   
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">0 responses</div>
+      <aha-chart type="treemap" label="Tree map"
+        data='[{"label":"AI slides","value":0},{"label":"Teams","value":0},{"label":"Templates","value":0},{"label":"Analytics","value":0},{"label":"Offline","value":0}]'></aha-chart>
     </div>
   </section>
 
