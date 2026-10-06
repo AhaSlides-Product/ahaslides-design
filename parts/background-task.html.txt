@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-background-task> is the pattern for any long-running process; this example follows the presenter's Import notification: you own the task, the copy and the
-     auto-dismiss. Update the same element in place through its states — never add a card per state. -->
+     dismissal. Update the same element in place through its states — never add a card per state. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';                // <aha-icon> glyphs
