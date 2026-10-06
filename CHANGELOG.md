@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.94.0 — 2026-10-06
 ### Changed
-- Background task: a file task's leading `slot="icon"` is now the file's brand logo from the Logo library (`logo/microsoft-powerpoint.svg`, `microsoft-excel.svg`, `pdf.svg`) as a 24px `<img>`, not an `<aha-icon>` glyph; the examples, snippets and contract say so. The default and error glyphs are unchanged. Needs #166 (PDF logo) merged first. (#PRNUM)
+- Background task: a file task's leading `slot="icon"` is now the file's brand logo from the Logo library (`logo/microsoft-powerpoint.svg`, `microsoft-excel.svg`, `pdf.svg`) as a 24px `<img>`, not an `<aha-icon>` glyph; the examples, snippets and contract say so. The default and error glyphs are unchanged. Needs #166 (PDF logo) merged first. (#170)
 
 ## 0.93.0 — 2026-10-06
 ### Added
