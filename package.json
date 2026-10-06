@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.90.0",
+  "version": "0.91.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -24,6 +24,7 @@
     "./lib/icons.js",
     "./lib/aha-checkbox.js",
     "./lib/aha-button.js",
+    "./lib/aha-close-button.js",
     "./lib/aha-paywall.js",
     "./lib/aha-input.js",
     "./lib/aha-tag.js",
@@ -104,6 +105,7 @@
     "./illustrations-registry": "./lib/illustrations-registry.js",
     "./aha-checkbox": "./lib/aha-checkbox.js",
     "./aha-button": "./lib/aha-button.js",
+    "./aha-close-button": "./lib/aha-close-button.js",
     "./aha-paywall": "./lib/aha-paywall.js",
     "./aha-input": "./lib/aha-input.js",
     "./aha-tag": "./lib/aha-tag.js",

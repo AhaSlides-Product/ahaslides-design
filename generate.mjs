@@ -134,6 +134,7 @@ const AHA_ICON_JS = `(function(){
 const COMPONENTS_CATALOG = [
   { cat: 'General', items: [
     { name: 'Button',       slug: 'button' },
+    { name: 'Close button', slug: 'close-button' },
     { name: 'Icon',         slug: 'icon' },
     { name: 'Illustration', slug: 'illustration' },
   ] },
@@ -151,7 +152,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Steps',      slug: 'steps' },
     { name: 'Stepper',    slug: 'stepper' },
   ] },
-  { cat: 'Data Entry', items: [
+  { cat: 'Data entry', items: [
     { name: 'Checkbox',     slug: 'checkbox' },
     { name: 'Radio',        slug: 'radio' },
     { name: 'Switch',       slug: 'switch' },
@@ -170,7 +171,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Upload',       slug: 'uploader' },
     { name: 'Form',         slug: 'form' },
   ] },
-  { cat: 'Data Display', items: [
+  { cat: 'Data display', items: [
     { name: 'Avatar',       slug: 'avatar' },
     { name: 'User info',    slug: 'user-info' },
     { name: 'Badge',        slug: 'badge' },
@@ -401,7 +402,7 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 .nav-top:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-top.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
 .nav-group{margin:16px 0 8px}
-.nav-cat{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--aha-text-tertiary);font-weight:600;padding:6px 12px}
+.nav-cat{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);padding:6px 12px}
 .nav-item{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:7px 12px;border-radius:8px;line-height:20px;margin:1px 0}
 a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-item.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
@@ -449,13 +450,13 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 /* ---- demo card (stage + code-toggle footer, AntD-style) ---- */
 .demo{margin:0 0 12px;background:#fff}
 .demo-stage{padding:0}
-.demo-toolbar{display:flex;justify-content:flex-end;padding:9px 0;border-top:1px dashed var(--aha-split)}
+.demo-toolbar{display:flex;justify-content:flex-end;padding:9px 0}
 .demo .code-panel{margin-top:0;border-radius:8px}
 
 /* ---- interactive playground (the "smart widget": explore variants, don't stack them) ---- */
 .aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;margin-bottom:12px;border-radius:8px;background:var(--aha-gray-20)}
 .aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.aha-pg-label{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-tertiary);min-width:62px}
+.aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
 .aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
 .aha-pg-opt:hover:not(.active){color:#5715A0}
@@ -468,7 +469,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .stack{display:flex;flex-direction:column;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr}
-.grid2>div{padding:22px 20px}.grid2>div:first-child{border-right:1px solid var(--aha-split)}
+.grid2>div{padding:22px 20px}
 .note{background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
 .pad{padding:12px 0}
 code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:#5715A0}
@@ -476,7 +477,7 @@ code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);pa
 table.api{width:100%;min-width:420px;border-collapse:collapse;font-size:13px;border:1px solid var(--aha-split);border-radius:8px;overflow:hidden}
 table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--aha-split);vertical-align:top}
 table.api tr:last-child td{border-bottom:none}
-table.api th{color:var(--aha-text-tertiary);font-weight:600;font-size:11px;letter-spacing:.3px;text-transform:uppercase;background:var(--aha-gray-20)}
+table.api th{color:var(--aha-text-secondary);font-weight:var(--aha-weight-semibold);font-size:13px;background:var(--aha-gray-20)}
 ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:#D3F5EC;color:#0E7C63;margin:2px 4px 2px 0}
 .pill.na{background:var(--aha-gray-20);color:var(--aha-text-tertiary)}
@@ -1514,9 +1515,9 @@ function renderGuidelineHtml(p) {
   <h2>Based on</h2>
   <p class="body">The rationale, worked examples, and the full assertion set live in the design skill — this pattern distils the enforceable subset and links each rule back to it.</p>
   <div class="skillrefs">
-    ${skill.build ? `<span class="skillref"><b>build</b> <code>${esc(skill.build)}</code></span>` : ''}
-    ${skill.judge ? `<span class="skillref"><b>judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
-    ${antiSlop ? `<span class="skillref"><b>anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
+    ${skill.build ? `<span class="skillref"><b>Build</b> <code>${esc(skill.build)}</code></span>` : ''}
+    ${skill.judge ? `<span class="skillref"><b>Judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
+    ${antiSlop ? `<span class="skillref"><b>Anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
   </div>
 
   ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}
@@ -1538,7 +1539,7 @@ function renderGuidelineHtml(p) {
   .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
   .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
   .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
-  .skillref b{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);margin-right:6px}
+  .skillref b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default);margin-right:6px}
   .pill.warn{background:#FFF0EB;color:#B24A20}
   .note.warn{background:#FFF5F0;border-color:#FFCBB0;color:#8A3B18}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
@@ -1648,16 +1649,15 @@ const HUB_ANCHOR_CSS = `
   .hub-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
   .hub-body{min-width:0}
   .hub-anchor{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow:auto;padding-right:4px}
-  .hub-anchor-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600;margin:0 0 10px;padding-left:2px}
+  .hub-anchor-h{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 10px;padding-left:2px}
   .hub-anchor .ant-anchor-link-title{font-size:13px;color:var(--aha-text-secondary)}
   .hub-anchor .ant-anchor-link-title-active{color:var(--aha-color-primary);font-weight:600}
-  /* A top-level link that CONTAINS nested links is a group header (Settings' Composition/Controls) —
-     render it as a small-caps label. A flat list of leaf links (the Audience page) has no parents, so
-     every item stays the normal 13px link — not uppercased like a header. */
-  .hub-anchor .ant-anchor>.ant-anchor-link:has(.ant-anchor-link)>.ant-anchor-link-title{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary)}
+  /* A top-level link that CONTAINS nested links is a group header (Settings' Composition/Controls);
+     a flat list of leaf links (the Audience page) has no parents, so every item stays a plain link. */
+  .hub-anchor .ant-anchor>.ant-anchor-link:has(.ant-anchor-link)>.ant-anchor-link-title{font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary)}
   .sa-fallback{display:flex;flex-direction:column}
   .sa-fb-group{margin-bottom:14px}
-  .sa-fb-cat{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary);margin:0 0 6px}
+  .sa-fb-cat{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 6px}
   .sa-fallback a{display:block;font-size:13px;color:var(--aha-text-secondary);text-decoration:none;padding:3px 0 3px 12px;border-left:2px solid var(--aha-split)}
   .sa-fallback a:hover{color:var(--aha-color-primary);border-left-color:var(--aha-color-primary)}
   @media (max-width:900px){
@@ -1745,7 +1745,7 @@ function renderSettingsHub() {
 
   const main = `
   <span id="top"></span>
-  <h1>Settings <span class="badge pattern">one page · one URL · everything inline</span></h1>
+  <h1>Settings <span class="badge pattern">pattern</span></h1>
   ${headline(['Every settings component on one self-contained page, one URL', 'Composition pieces and every control, inline', 'Switching components scrolls the page (antd Anchor) and never changes the URL', 'An agent reads this page and has it all'])}
   <p class="gen">◆ generated from guidelines/settings.json + the settings-list &amp; control contracts — do not edit by hand</p>
 
@@ -1766,7 +1766,7 @@ function renderSettingsHub() {
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
 ${HUB_ANCHOR_CSS}
   .hub-body>h2{scroll-margin-top:84px}
-  .grp-h{margin:36px 0 4px;text-transform:uppercase;letter-spacing:.4px;font-size:13px;color:var(--aha-text-tertiary);border-bottom:1px solid var(--aha-split);padding-bottom:8px;scroll-margin-top:84px}
+  .grp-h{margin:36px 0 4px;border-bottom:1px solid var(--aha-split);padding-bottom:8px;scroll-margin-top:84px}
   .ctrl{padding:16px 0;border-top:1px solid var(--aha-split);scroll-margin-top:84px}
   .ctrl h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:16px;margin:0 0 6px}
   .ctrl h4{font-size:13px;margin:16px 0 6px;color:var(--aha-text-secondary)}
@@ -1959,7 +1959,7 @@ function renderTokenPage(pageSlug) {
   ${gen}
   ${pg.body}`;
   const extraCss = `
-  .tok-h3{font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);margin:18px 0 8px;font-weight:600}
+  .tok-h3{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:18px 0 8px}
   .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-bottom:8px}
   .sw{border:1px solid var(--aha-split);border-radius:10px;overflow:hidden}
   .sw .chip{height:54px}

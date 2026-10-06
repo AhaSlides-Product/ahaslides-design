@@ -1,7 +1,7 @@
 {
   "name": "Tag",
   "slug": "tag",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-tag",

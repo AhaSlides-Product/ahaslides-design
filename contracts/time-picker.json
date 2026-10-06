@@ -1,7 +1,7 @@
 {
   "name": "TimePicker",
   "slug": "time-picker",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Pick a time of day from scrolling hour/minute/second columns — schedules, reminders, durations — rendered through the shared TimePicker.",

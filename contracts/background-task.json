@@ -16,6 +16,10 @@
   ],
   "spec": [
     {
+      "label": "Dismiss",
+      "value": "the shared <aha-close-button> (tertiary, small, 16px system-x) on success / canceled / error, centred on the leading icon, 8px from the edge"
+    },
+    {
       "label": "Card",
       "value": "fixed right 24 · bottom 88 · z-index 1100 · white · 320 wide (max 100vw − 32) · radius 12 · padding 14/16/16 · Elevate/Overlays shadow · fades in over .3s"
     },

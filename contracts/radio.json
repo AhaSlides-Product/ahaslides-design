@@ -1,7 +1,7 @@
 {
   "name": "Radio",
   "slug": "radio",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-radio",

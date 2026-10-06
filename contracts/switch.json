@@ -1,7 +1,7 @@
 {
   "name": "Switch",
   "slug": "switch",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-switch",

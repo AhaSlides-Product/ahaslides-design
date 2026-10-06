@@ -1,7 +1,7 @@
 {
   "name": "Textarea",
   "slug": "textarea",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Enter multi-line free text — descriptions, messages, notes — with autosize and char count, rendered through the shared Textarea.",

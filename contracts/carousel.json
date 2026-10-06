@@ -1,7 +1,7 @@
 {
   "name": "Carousel",
   "slug": "carousel",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A swipeable set of slides — onboarding, a feature tour, a gallery — rendered through the shared Carousel.",

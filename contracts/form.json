@@ -1,7 +1,7 @@
 {
   "name": "Form",
   "slug": "form",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A labelled, validated set of fields — sign-in, settings, create dialogs — rendered through the shared Form.",

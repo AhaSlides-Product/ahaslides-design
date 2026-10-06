@@ -1,7 +1,7 @@
 {
   "name": "Data table",
   "slug": "data-table",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "composite-antd",
   "badge": "composite — shared React component",
   "summary": "The shared DataTable component — import it, pass data + columns, and every grid gets the DS V3 look and behaviour.",

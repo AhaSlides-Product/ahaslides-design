@@ -16,7 +16,7 @@
     { "label": "Success", "value": "#D8FAEF fill · #20E8B5 border · #16C49A glyph (system-check-circle)" },
     { "label": "Warning", "value": "#FFE5D6 fill · #FF7747 border/glyph (system-warning-circle)" },
     { "label": "Error", "value": "#FFE3E9 fill · #FF4081 border/glyph — Radical Pink, NOT red (system-x-circle)" },
-    { "label": "Dismiss", "value": "optional ✕ (system-x); fades out on a persistent node, emits `dismiss`" },
+    { "label": "Dismiss", "value": "optional the shared <aha-close-button> (tertiary, small, 16px system-x) ✕ on the first line, 8px from the edge; fades out on a persistent node, emits `dismiss`" },
     { "label": "Text", "value": "Plus Jakarta 14/21 #1A1A1A" }
   ],
   "props": [

@@ -1,0 +1,20 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-close-button> is the one dismiss ✕ for Alert, Info box, Background task, Toast and
+     Notification. Those components already render it; reach for it directly only when you build
+     a new dismissible surface. Modal and Drawer keep the ✕ in their header. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-close-button.js';   // registers <aha-close-button> (+ <aha-button>, <aha-icon>)
+</script>
+
+<!-- A flex row: the ✕ lines up with the FIRST line of text and stays put when the text wraps.
+     Tell it the first line's height and the container's end padding; it lands 8px from the edge. -->
+<div id="card" style="display:flex; gap:8px; align-items:flex-start; max-width:320px; padding:12px 16px;
+  border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); font:14px/21px var(--aha-font-product)">
+  <span>Your audience can still join with the old code until the session ends.</span>
+  <aha-close-button label="Dismiss" style="--aha-close-line-height:21px; --aha-close-container-padding:16px"></aha-close-button>
+</div>
+
+<script>
+  document.querySelector('aha-close-button').addEventListener('click', () => document.getElementById('card').remove());
+</script>

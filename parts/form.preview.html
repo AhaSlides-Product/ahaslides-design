@@ -54,7 +54,7 @@ function Demo() {
   return (
     <div style={{ maxWidth: layout === 'inline' ? 720 : 360 }}>
       {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
-      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8 }}>
         <Seg label="Layout" value={layout} onChange={setLayout}
           options={[{ label: 'Vertical', value: 'vertical' }, { label: 'Horizontal', value: 'horizontal' }, { label: 'Inline', value: 'inline' }]} />
         <Seg label="Size" value={size} onChange={setSize}

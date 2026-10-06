@@ -4,12 +4,13 @@
      SAME shared `toastTheme` the React/Vue wrappers use, so it renders the DS V3 look (white
      pill, radius 8, ink text). Keeps antd's built-in enter/leave motion.
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <div id="root"></div>
 <script type="module">
   import React from 'https://esm.sh/react@18';
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
   import { ConfigProvider, message, Button, Space } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
-  import { toastTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/toast-theme.js';
+  import { toastTheme, dismissibleToast } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/toast-theme.js';
 
   const h = React.createElement;
 
@@ -23,7 +24,10 @@
         h(Button, { onClick: () => api.info('Link copied to clipboard') }, 'Copy link'),
         h(Button, { onClick: () => api.warning('You are near the slide limit') }, 'Warn'),
         h(Button, { danger: true, onClick: () => api.error('Upload failed') }, 'Fail'),
-        h(Button, { onClick: () => api.loading('Saving your changes…') }, 'Save (async)')
+        h(Button, { onClick: () => api.loading('Saving your changes…') }, 'Save (async)'),
+        // a sticky toast (duration 0) needs a way out: the shared ✕, never antd's own close
+        h(Button, { onClick: () => api.open({ key: 'offline', type: 'warning', duration: 0,
+          content: dismissibleToast(h, 'You are offline', () => api.destroy('offline')) }) }, 'Sticky')
       )
     );
   }

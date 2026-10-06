@@ -1,7 +1,7 @@
 {
   "name": "Color picker",
   "slug": "color-picker",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-color-picker",

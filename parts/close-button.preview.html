@@ -1,0 +1,26 @@
+<div class="pad">
+  <div class="lbl">On its own</div>
+  <div class="row">
+    <aha-close-button data-probe></aha-close-button>
+    <aha-close-button label="Dismiss"></aha-close-button>
+  </div>
+  <div class="lbl">Every dismissible surface</div>
+  <div style="display:flex; flex-direction:column; gap:12px; max-width:420px">
+    <aha-alert type="info" closable>Your audience can still join with the old code until the session ends, so share the new link before the next round starts.</aha-alert>
+    <aha-info-box variant="warning" dismissible>Turning this off clears every saved response on this slide, including the ones already shown on screen.</aha-info-box>
+  </div>
+  <div style="padding:16px 0 8px">
+    <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck. The other 17 were skipped because they use fonts we cannot embed."></aha-background-task>
+  </div>
+</div>
+
+<style>aha-background-task{ position:static }</style>
+<!-- Imports the REAL shipped elements — no inlined copy, so the preview can never drift from lib/. -->
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-close-button.js';
+  import '../lib/aha-alert.js';
+  import '../lib/aha-info-box.js';
+  import '../lib/aha-csat.js';
+  import '../lib/aha-background-task.js';
+</script>

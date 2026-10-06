@@ -1,7 +1,7 @@
 {
   "name": "InputNumber",
   "slug": "input-number",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Enter a number with steppers, min/max and precision — quantities, limits, durations — rendered through the shared InputNumber.",

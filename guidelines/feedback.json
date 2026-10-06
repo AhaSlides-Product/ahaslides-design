@@ -43,6 +43,12 @@
   ],
   "composedOf": [
     {
+      "ref": "close-button",
+      "as": "component",
+      "use": "the one dismiss ✕ (tertiary button, small, 16px system-x, on the first line of text) for alert, info box, background task, toast and notification",
+      "status": "available"
+    },
+    {
       "ref": "icon",
       "as": "component",
       "use": "the DS system status glyph per Alert type (check-circle / x-circle / info-circle / warning-triangle / lightbulb), the × close glyph, the thumbs glyphs — functional icons only, stroke 1.5",
@@ -164,6 +170,13 @@
       ]
     },
     {
+      "id": "one-dismiss-button",
+      "rule": "Every dismiss ✕ on an Alert, Info box, Background task, Toast or Notification is the shared <aha-close-button>: the tertiary button at small size (28 × 28) with the 16px system-x icon, 8px from the container's end edge, lined up with the first line of text and the leading icon so it stays put when the text wraps. Alert `closable`, Info box `dismissible` and Background task render it already; a sticky Toast takes it through dismissibleToast, and a Notification through dismissibleTitle with `closable: false`. Never hand-roll a ✕ and never show antd's own message or notification close. Modal and Drawer keep the ✕ in their header.",
+      "ref": [
+        "FEEDBACK-12"
+      ]
+    },
+    {
       "id": "inline-result-semantics",
       "rule": "Inline post-action (correct/incorrect) feedback uses role=\"status\" with aria-live=\"polite\" (informational, not urgent).",
       "ref": [
@@ -223,6 +236,10 @@
   "reuse": null,
   "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical feedback components (the Csat widget at components/csat/Csat.tsx, InlineFeedback at features/respondent/shared/InlineFeedback.tsx, the AhaAlert wrapper per references/alert.md, and the bespoke toast pill) live in the product app. If a wrapper graduates into this DS, add a reuse block and it is gated like a composite.",
   "selfCheck": [
+    {
+      "label": "every dismiss ✕ is <aha-close-button>: tertiary small, on the first line, 8px from the edge",
+      "verdict": "N/A — per-surface"
+    },
     {
       "label": "toast is bottom-right, ~3s auto-dismiss, role=status, portalled to body",
       "verdict": "N/A — per-surface"

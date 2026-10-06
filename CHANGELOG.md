@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.91.0 — 2026-10-06
+### Added
+- `<aha-close-button>` (`@ahaslides-product/design/aha-close-button`): the one dismiss ✕ for Alert, Info box, Background task, Toast and Notification. It is the tertiary button at small size (28 × 28) with the 16px `system-x` icon, sits 8px from the container's edge, and lines up with the first line of text and the leading icon, so it stays put when the text wraps. Modal and Drawer keep the ✕ in their header. Feedback guideline rule `one-dismiss-button`. (#PR)
+- `dismissibleToast` (toast-theme) and `dismissibleTitle` (notification-theme) put the shared ✕ into antd's message and notification; pass `closable: false` on a notification so antd's own close is not drawn. (#PR)
+### Changed
+- Alert `closable`, Info box `dismissible` and Background task now render `<aha-close-button>`: the Alert and Info box ✕ grows from a bare 16px or 20px glyph to the 28px tertiary button and turns brand on hover. Alert builds its shadow DOM once and updates it in place. (#PR)
+- Docs: navigation and reading labels (sidebar groups, playground rows, API table headers, "On this page", settings and token group headings) are sentence case at 14px semibold instead of 11px grey capitals; only chips and badges stay in capitals. Component groups read "Data entry" and "Data display". (#PR)
+- Docs: the 148 example titles that listed variants with dots ("Sizes · small 24 · default 32…") are now short group titles ("Sizes"). (#PR)
+
 ## 0.90.0 — 2026-10-06
 ### Added
 - Foundations → Logo library page (`foundations/logo.html`) with two tabs: **AhaSlides** (the logo, The Splash, and their white and black variants) and **Brands** (19 third-party logos scanned from what the presenter app renders: Google Slides, PowerPoint, Teams, Zoom, Excel, Google Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium). Each brand is the current full-colour SVG fetched from thesvg.org; `logo/manifest.json` records source URL, fetch date and where the presenter app shows it. Search, copy-name and download; tiles work with Enter and Space, and a repeat click while "copied!" is showing no longer replaces the tile name. Logos sit on uniform square tiles and are chunked into labelled sections (Sign-in, Integrations, Import, export and cloud, Payments, Community and social; Logo and The Splash) from each manifest entry's `section`; search hides empty sections. SVGs ship in `logo/` and are served at `/logo/`. Listed in `llms.txt`. (#164)
