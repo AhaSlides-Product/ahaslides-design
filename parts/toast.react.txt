@@ -15,7 +15,7 @@ function Toasts() {
         <Button onClick={() => api.warning('You are near the slide limit')}>Warn</Button>
         <Button danger onClick={() => api.error('Upload failed')}>Fail</Button>
         <Button onClick={() => api.loading('Saving your changes…')}>Save (async)</Button>
-        {/* a sticky toast (duration 0) needs a way out: the shared ✕, never antd's own close */}
+        {/* a sticky toast (duration 0) needs a way out: the shared ✕ */}
         <Button onClick={() => api.open({ key: 'offline', type: 'warning', duration: 0,
           content: dismissibleToast(createElement, 'You are offline', () => api.destroy('offline')) })}>Sticky</Button>
       </Space>

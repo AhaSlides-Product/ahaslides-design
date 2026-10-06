@@ -25,6 +25,7 @@
     "./lib/aha-checkbox.js",
     "./lib/aha-button.js",
     "./lib/aha-close-button.js",
+    "./lib/close-button-row.js",
     "./lib/aha-paywall.js",
     "./lib/aha-input.js",
     "./lib/aha-tag.js",

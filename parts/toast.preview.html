@@ -65,7 +65,7 @@ function Demo() {
   const [api, ctx] = message.useMessage();
   const [type, setType] = useState('success');
   // sticky toast on mount so qa can measure the real rendered notice (default: success)
-  // it is sticky, so it carries the shared ✕ (dismissibleToast) — never antd's own message close
+  // it is sticky, so it carries the shared ✕ (dismissibleToast) 
   const sticky = () => api.open({ key: 'sticky', type: 'success', duration: 0,
     content: window.__dismissibleToast(React.createElement, CONTENT.success, () => api.destroy('sticky')) });
   useEffect(() => { sticky(); }, []);
