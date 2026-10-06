@@ -15,7 +15,7 @@
 <script>
   const csat = document.querySelector('aha-csat');
   csat.addEventListener('rate', (e) => {
-    console.log('CSAT', e.detail.rating, 'from', e.detail.source);   // { rating: 'up' | 'down', source }
+    console.log('CSAT', e.detail.rating, 'from', e.detail.source);   // { rating: 'up' | 'down' | null, source }
   });
   csat.addEventListener('feedback', (e) => {
     console.log('CSAT feedback', e.detail.feedback, 'from', e.detail.source);   // { rating: 'up' | 'down' | null, source, feedback }

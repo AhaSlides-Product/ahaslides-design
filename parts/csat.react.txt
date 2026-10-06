@@ -6,7 +6,7 @@ function AhaCsat({ prompt, source, onRate, onFeedback }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
-    const rate = (e) => onRate?.(e.detail);         // { rating: 'up' | 'down', source }
+    const rate = (e) => onRate?.(e.detail);         // { rating: 'up' | 'down' | null, source }
     const feedback = (e) => onFeedback?.(e.detail);  // { rating: 'up' | 'down' | null, source, feedback }
     el.addEventListener('rate', rate);
     el.addEventListener('feedback', feedback);
