@@ -26,11 +26,11 @@
     },
     {
       "label": "Heading row",
-      "value": "heading (the file name with its extension, e.g. Quarterly review.pdf) · check-circle 16 on success; leading icon centred on heading + description when a description shows"
+      "value": "heading (the file name with its extension, e.g. Quarterly review.pdf) · check-circle 12 on success; leading icon centred on heading + description when a description shows"
     },
     {
       "label": "Top row",
-      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 12.5px bold #1F1330, ellipsis · check-circle 16 on success · ✕ tertiary icon button on success / canceled / error"
+      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 12.5px bold #1F1330, ellipsis · check-circle 12 on success · ✕ tertiary icon button on success / canceled / error"
     },
     {
       "label": "Bar",
