@@ -2,46 +2,37 @@
 <div class="pad">
   <div class="lbl">In progress</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task data-probe heading="Quarterly review.pptx" value="42" caption="42%"><span slot="action" role="button" tabindex="0">Cancel</span></aha-background-task>
-    <aha-background-task heading="Quarterly review.pptx" value="25" caption="Importing slides…"><span slot="action" role="button" tabindex="0">Cancel</span></aha-background-task>
+    <aha-background-task data-probe heading="Quarterly review.pptx" value="42" caption="42%"><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
+    <aha-background-task heading="Quarterly review.pptx" value="25" caption="Importing slides…"><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
     <aha-background-task heading="Quarterly review.pptx" value="92" caption="Almost done…"></aha-background-task>
-    <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><span slot="action" role="button" tabindex="0">Cancel</span></aha-background-task>
+    <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
   </div>
   <div class="lbl">Cancel confirmation</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
     <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported">
-      <div slot="footer" style="display:block; margin-top:11px; padding-top:11px">
-        <span style="font-size:12px; line-height:1.5; color:#6B6478; display:block; margin-bottom:9px">Cancel import? The 23 slides already created will be kept in your deck.</span>
-        <div style="display:flex; gap:8px"><aha-button variant="primary" block>Keep waiting</aha-button><aha-button variant="secondary" block>Cancel import</aha-button></div>
+      <div slot="footer">
+        <span style="font-size:12px; line-height:1.5; color:var(--aha-text-secondary); display:block; margin-bottom:var(--aha-space-12)">Cancel import? The 23 slides already created will be kept in your deck.</span>
+        <div style="display:flex; justify-content:flex-end; gap:var(--aha-space-8)"><aha-button variant="secondary" size="sm">Cancel import</aha-button><aha-button variant="primary" size="sm">Keep waiting</aha-button></div>
       </div>
     </aha-background-task>
   </div>
-  <div class="lbl">Finished</div>
+  <div class="lbl">Finished (the rating is always part of it)</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task state="success" heading="Quarterly review.pptx" caption="40/40 slides imported"></aha-background-task>
-    <aha-background-task state="success" heading="Quarterly review.pptx">
-      <div slot="footer" style="margin-top:16px; padding-top:16px; border-top:1px solid #E6E1EF">
-        <p style="margin:0 0 6px; font-size:12px; line-height:1.5; color:#616161">Done! Now you can click any block to edit.</p><p style="margin:0 0 6px; font-size:12px; line-height:1.5; color:#616161">How did this import go?</p>
-        <aha-csat like-label="Good" dislike-label="Not good" feedback-button feedback-button-placeholder="Share your thoughts" feedback-placeholder="What went wrong with this import? (optional)" source="import_completion_csat"></aha-csat>
-      </div>
-    </aha-background-task>
-    <aha-background-task state="success" heading="Quarterly review.pdf">
-      <div slot="footer" style="margin-top:16px; padding-top:16px; border-top:1px solid #E6E1EF">
-        <p style="margin:0 0 6px; font-size:12px; line-height:1.5; color:#616161">How did this import go?</p>
-        <aha-csat like-label="Good" dislike-label="Not good" feedback-button feedback-button-placeholder="Share your thoughts" feedback-placeholder="What went wrong with this import? (optional)" source="import_completion_csat"></aha-csat>
-      </div>
-    </aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.pptx" caption="40/40 slides imported" rating-prompt="How did this import go?" rating-source="import_completion_csat"></aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.pdf" rating-prompt="How did this import go?" rating-source="import_completion_csat"></aha-background-task>
     <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck"></aha-background-task>
   </div>
   <div class="lbl">Connection lost and error</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px; padding-bottom:96px">
     <aha-background-task state="offline" heading="Connection lost" description="Waiting to reconnect…" value="58">
-      <div slot="footer" style="display:block; margin-top:11px; padding-top:11px">
-        <span style="font-size:12px; line-height:1.5; color:#6B6478; display:block; margin-bottom:9px">23/40 slides imported so far</span>
-        <div style="display:flex; gap:8px"><aha-button variant="primary" block>Try again</aha-button><aha-button variant="secondary" block>Cancel import</aha-button></div>
+      <div slot="footer">
+        <span style="font-size:12px; line-height:1.5; color:var(--aha-text-secondary); display:block; margin-bottom:var(--aha-space-12)">23/40 slides imported so far</span>
+        <div style="display:flex; justify-content:flex-end; gap:var(--aha-space-8)"><aha-button variant="secondary" size="sm">Cancel import</aha-button><aha-button variant="primary" size="sm">Try again</aha-button></div>
       </div>
     </aha-background-task>
-    <aha-background-task state="error" heading="Import failed" description="Something went wrong. Please try again."></aha-background-task>
+    <aha-background-task state="error" heading="Import failed" description="Something went wrong. Please try again.">
+      <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="primary" size="sm">Try again</aha-button></div>
+    </aha-background-task>
   </div>
 </div>
 

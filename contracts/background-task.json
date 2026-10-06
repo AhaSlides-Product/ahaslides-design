@@ -6,7 +6,7 @@
   "badge": "shared web component",
   "element": "aha-background-task",
   "summary": "The pattern for any long-running process on AhaSlides — import, export, upload, duplicate: a fixed bottom-right card that tracks one background task from start to finish — icon, subject, bar, caption and its terminal states.",
-  "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), a 5px progress bar and a caption row with an optional Cancel link. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation, the connection-lost buttons or the completion rating. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card 2s after completion unless the rating is shown).",
+  "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), a 5px progress bar and a caption row with an optional Cancel link. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed).",
   "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (12.5px heading, #1F1330 ink, #6B6478 secondary, 5px bar, #D9D4E2 paused fill, #FF4081 Cancel hover, #D5493F error, #F2B8B5 hairline) are kept as built in the presenter's Import, not rounded to DS values. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
   "tokensUsed": [
     "icon-default",
@@ -28,7 +28,7 @@
     },
     {
       "label": "Caption row",
-      "value": "12px #6B6478 caption left · slot=action right: 12px bold #6B6478, #FF4081 on hover"
+      "value": "12px #6B6478 caption left · slot=action right: tertiary small <aha-button>, right edge optically aligned"
     },
     {
       "label": "Description",
@@ -36,7 +36,7 @@
     },
     {
       "label": "Error",
-      "value": "heading #D5493F + 1px #F2B8B5 hairline over the shadow"
+      "value": "24px --aha-color-error x-circle glyph replaces the task icon; neutral heading, no border; recovery action in the footer (Try again)"
     }
   ],
   "props": [
@@ -50,7 +50,7 @@
       "name": "heading",
       "type": "string",
       "default": "—",
-      "desc": "The task's subject (file, deck or export name), or a status headline such as \"Import canceled\" / \"Connection lost\" / \"Export failed\""
+      "desc": "The task's subject (file, deck or export name), or a status headline such as \"Import cancelled\" / \"Connection lost\" / \"Export failed\""
     },
     {
       "name": "description",
@@ -71,6 +71,18 @@
       "desc": "Bottom-left text, e.g. \"42%\", \"Importing slides…\", \"Almost done…\" or \"{count}/{total} slides exported\""
     },
     {
+      "name": "rating-prompt",
+      "type": "string",
+      "default": "How did this go?",
+      "desc": "Question of the CSAT every finished (success) card shows"
+    },
+    {
+      "name": "rating-source",
+      "type": "string",
+      "default": "background_task_completion",
+      "desc": "Analytics source of that <aha-csat>"
+    },
+    {
       "name": "dismiss-label",
       "type": "string",
       "default": "Dismiss",
@@ -86,13 +98,13 @@
       "name": "slot=action",
       "type": "slot",
       "default": "—",
-      "desc": "Bottom-right action link, e.g. Cancel"
+      "desc": "Bottom-right tertiary <aha-button size=\"sm\">, e.g. Cancel"
     },
     {
       "name": "slot=footer",
       "type": "slot",
       "default": "—",
-      "desc": "Cancel confirmation, connection-lost buttons or a completion rating"
+      "desc": "Cancel confirmation or connection-lost buttons; overrides the default completion rating on success"
     },
     {
       "name": "dismiss",
@@ -120,7 +132,7 @@
         "when": "the user must wait for or answer the task before continuing"
       }
     ],
-    "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card about 2s after completion (unless the rating is shown) and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import canceled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs.",
+    "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card about 2s after completion (unless the rating is shown) and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs.",
     "dsv3": "Reference implementation mirrors the presenter's ImportProgressNotification.vue, ImportCompletionCSAT.vue and FileTypeIcon.vue (stpancras-presenter-app PR #5833). Shadow is the DS Elevate/Overlays effect style. Rating is the DS <aha-csat>. No dedicated Figma component."
   },
   "surfaces": [
@@ -170,6 +182,10 @@
     },
     {
       "label": "✕ on success / canceled / error, labelled via dismiss-label",
+      "verdict": "PASS"
+    },
+    {
+      "label": "success always carries the CSAT; Cancel is a tertiary button; error uses the DS error glyph, no red border or title",
       "verdict": "PASS"
     }
   ],

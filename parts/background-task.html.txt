@@ -24,7 +24,7 @@
   card.querySelector('[slot="action"]').addEventListener('click', () => {
     clearInterval(timer);
     card.setAttribute('state', 'canceled');
-    card.setAttribute('heading', 'Import canceled');
+    card.setAttribute('heading', 'Import cancelled');
     card.setAttribute('description', 'No slides were imported');
     card.setAttribute('caption', '');
     card.querySelector('[slot="action"]').remove();
@@ -32,5 +32,5 @@
 </script>
 
 <aha-background-task heading="Quarterly review.pptx" value="0" caption="0%" dismiss-label="Dismiss">
-  <span slot="action" role="button" tabindex="0">Cancel</span>
+  <aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button>
 </aha-background-task>

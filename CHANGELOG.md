@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.87.0 — 2026-10-06
+### Added
+- `<aha-background-task>`: `rating-prompt` / `rating-source` attributes; the success state now always shows the DS `<aha-csat>` by default (a `footer` slot still overrides it). (#PR)
+### Changed
+- Cancel is the DS tertiary `<aha-button size="sm">`, not a text link; the cancel-confirmation and connection-lost buttons are small and sit inside the card. (#PR)
+- Error state follows the DS feedback rules: `--aha-color-error` x-circle glyph, neutral title, no red border; docs add a Try again action. (#PR)
+### Fixed
+- Cancelled / terminal cards no longer carry a dead gap under the heading; footer spacing on DS space tokens. (#PR)
+
 ## 0.86.0 — 2026-10-06
 ### Fixed
 - **`<aha-popover flip>` no longer opens off-screen.** Builds on the 0.85.0 vertical flip. With `flip` it now measures on open and flips to the roomier side (top/bottom, left/right) when the requested side does not fit, clamps 8px inside the viewport edges, and re-measures on resize, scroll and panel resize while open. It is positioned with `position: fixed`, so an `overflow: hidden/auto` ancestor (side panel, scroll container) no longer clips it; the arrow follows the flip and the trigger. A `transform`/`filter`/`contain: paint` ancestor still clips (and is compensated for offset). The host reports a flipped side as `flipped` plus `data-flipped` (the side).
