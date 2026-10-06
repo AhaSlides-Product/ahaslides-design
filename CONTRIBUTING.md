@@ -10,7 +10,7 @@ A component is **done** only when both are green.
 ## The recipe (what the gate checks, in order)
 
 ### 1. Contract — `contracts/<slug>.json`
-Required fields: `name, slug, group, tier, summary, props (≥1), spec (≥1), snippets (html lead + react + vue), opinion, surfaces (≥1), preview, conformance`.
+Required fields: `name, slug, group, tier, summary, highlights (1–4 short bullets shown under the page title; `summary` stays the prose for the agent feeds), props (≥1), spec (≥1), snippets (html lead + react + vue), opinion, surfaces (≥1), preview, conformance`.
 Every `snippets` array MUST **lead with an `html` entry** (see §3) — HTML first, then React, then Vue. No exceptions: a leaf's HTML uses its custom element; a composite's HTML is a CDN-React runnable page.
 Plus the reuse declaration — **this is the reusability contract**:
 
@@ -81,7 +81,7 @@ When a component needs a glyph, look it up in the [icon gallery](https://ahaslid
 A **pattern** is the other artifact type. It ships **no new primitive** — it documents how to *compose existing components* for a use case (settings, paywall, overlays), distils the enforceable essence of an `aha-design` skill, and links back to that skill for the "why". The narrative stays single-sourced in the skill; the repo carries only what it can enforce. `standards.mjs` gates patterns too — copy `patterns/settings.json` as the template.
 
 ### 1. Contract — `patterns/<slug>.json`
-Required fields: `name, slug, kind: "pattern", summary, skillRef, surfaces, composedOf, rules`.
+Required fields: `name, slug, kind: "pattern", summary, highlights (1–4 short bullets shown under the page title), skillRef, surfaces, composedOf, rules`.
 
 - **`skillRef`** — `{ "build": "aha-design:aha-design-<x>", "judge": "…-judge" }`. The design skill this pattern distils; the gate requires `skillRef.build`.
 - **`composedOf`** — the reuse graph: each entry `{ ref, as, use, status }`.

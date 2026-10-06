@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-checkbox",
   "summary": "Let a user turn one or more independent options on or off.",
+  "highlights": ["Turns one or more independent options on or off"],
   "lead": "ONE custom element — <aha-checkbox> — defined once, imported unchanged by React and Vue. CSS lives in the component's shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Zero drift — the same element, not two look-alikes.",
   "tokensUsed": ["color-primary", "border", "bg-container", "bg-container-disabled", "border-disabled", "text-default", "text-disabled", "text-inverse", "purple-30", "font-product"],
   "spec": [

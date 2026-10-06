@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Show progress through a sequence of ordered stages — wizards, onboarding, checkouts — rendered through the shared Steps.",
+  "highlights": ["Progress through ordered stages", "For wizards, onboarding and checkouts", "Rendered through the shared Steps"],
   "lead": "Steps carries a progress state machine, horizontal/vertical layouts and clickable navigation — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared stepsTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "colorText", "Steps.colorPrimary", "Steps.iconSize", "Steps.iconFontSize", "Steps.titleLineHeight"],
   "spec": [

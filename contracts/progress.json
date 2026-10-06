@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-progress",
   "summary": "A determinate progress indicator — completion, upload, a quiz timer — as a line, segmented steps, or a circle.",
+  "highlights": ["Determinate progress indicator", "For completion, upload and quiz timers", "Line, segmented steps or circle"],
   "lead": "ONE custom element — <aha-progress> — defined once, imported unchanged by React and Vue. The DS V3 Progress is a family, not one bar: `type` picks the shape (`line` horizontal bar · `circle` SVG ring), `steps` splits a line into discrete segments, `size` is default or `small` (the Mini variants), and `status` recolours the fill (active/success/warning/exception). `percent` drives a PERSISTENT fill node — the line's width or the ring's stroke-dashoffset — so it animates on the shared motion tokens; the shape is never rebuilt on a percent/status change. Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift — the same element, not look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "color-success", "color-warning", "color-error", "gray-30", "radius-pill", "text-secondary", "text-positive", "text-negative"],

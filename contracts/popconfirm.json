@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A lightweight inline confirmation popover anchored to the trigger — confirm/cancel a low-risk action.",
+  "highlights": ["Lightweight inline confirmation popover", "Anchored to the trigger", "Confirm or cancel a low-risk action"],
   "lead": "Popconfirm carries a positioned popover, a focus trap and two action buttons — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared popconfirmTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Popover.borderRadiusLG", "Button.borderRadius"],
   "spec": [

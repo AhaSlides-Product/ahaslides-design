@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-sub-setting-group",
   "summary": "The dependent (child) settings wrapper — indents a cluster of sub-settings under one parent toggle with a tight gap, spacing only (no border, no card).",
+  "highlights": ["Dependent (child) settings wrapper", "Indents sub-settings under one parent toggle with a tight gap", "Spacing only: no border, no card"],
   "lead": "ONE custom element — <aha-sub-setting-group> — for the settings-panel case where turning one setting on reveals a cluster of dependent sub-settings. It gives them the nesting treatment with SPACING only: 8px above (tighter than the 16 between siblings, so the child reads as \"belongs to\" its parent) and a 24px indent — NO left border, NO card. The host owns visibility: the author adds `hidden` when the parent is off (`:host([hidden]){display:none}`); the component just does the nesting. The nested content is subtly de-emphasised via a context flag — the indent + tight gap are the primary signal. role=\"group\". Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default"],

@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-rate",
   "summary": "Capture or display a score as a row of stars.",
+  "highlights": ["Capture or display a score", "Row of stars"],
   "lead": "ONE custom element — <aha-rate> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; selection and hover-preview toggle a class on persistent star nodes so the fill animates. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["yellow-50", "gray-40", "color-primary", "radius-xs", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],

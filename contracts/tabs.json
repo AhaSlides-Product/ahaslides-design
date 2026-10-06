@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-tabs",
   "summary": "Switch between sibling content panels from a tab bar — line, primary or card, in two sizes, with per-tab icons.",
+  "highlights": ["Switch between sibling content panels", "Line, primary or card style in two sizes", "Per-tab icons"],
   "lead": "ONE custom element — <aha-tabs> — defined once, imported unchanged by React and Vue. The DS V3 Tabs is a family, not one look: `type` picks line (the default underline bar), primary (a Bold 700 emphasised underline) or card (a filled bg-accent segment), and `size` is default or small. Each tab can carry a leading icon (by name, via <aha-icon>) and be disabled — roving arrow-key nav skips it. Feed it slotted panels (each child's label in data-tab, optional data-icon / data-disabled) or an `items` JSON array for a label-only bar. Switching toggles a class on persistent tab nodes so the active colour, underline and pill animate. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "text-secondary", "text-default", "text-disabled", "color-primary", "bg-accent", "bg-hover", "border-focus", "radius-xs", "radius-sm", "font-product", "motion-mid", "ease-in-out"],

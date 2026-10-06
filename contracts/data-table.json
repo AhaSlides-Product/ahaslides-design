@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — shared React component",
   "summary": "The shared DataTable component — import it, pass data + columns, and every grid gets the DS V3 look and behaviour.",
+  "highlights": ["Shared DataTable: pass data and columns", "Every grid gets the DS V3 look and behaviour"],
   "lead": "The real component behind the Table pattern: one React component over antd v6 that owns the DS V3 table look (via dataTableTheme) AND its behaviour — single-arrow sort, checklist and min/max filter popovers, drag reorder, right-click freeze, column resize, rows-per-page and edit columns. It has zero runtime dependencies: createDataTable({ React, antd }) binds it to your app's own React + antd, so it shares your theme context and works the same from a bundler or a CDN page. Call sites pass data + columns only — never a raw <Table>, never per-table styling.",
   "tokensUsed": [
     "colorPrimary",

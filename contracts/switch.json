@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-switch",
   "summary": "A single setting that takes effect immediately — on or off.",
+  "highlights": ["Single setting that takes effect immediately", "On or off"],
   "lead": "ONE custom element — <aha-switch> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the track fills brand when checked and the knob slides. Emits a composed `change` CustomEvent<{checked}>. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-20", "gray-50", "color-primary", "white", "text-tertiary", "radius-pill", "motion-slow"],

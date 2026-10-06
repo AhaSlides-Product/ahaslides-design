@@ -5,6 +5,7 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to build a status/state pill on a domain object — dot + localised label, the aha-status-pill class convention, the role=status + aria-label contract, i18n labels, and colour driven by the modifier class — from existing components.",
+  "highlights": ["How to build a status pill on a domain object", "Dot plus localised label, aha-status-pill class, role=status and aria-label", "Colour driven by the modifier class"],
   "lead": "A status pill communicates the lifecycle state of a domain object (a survey, presentation, or collector) in one glanceable, screen-reader-announced token. This pattern ships NO new component: it documents the markup, class convention, i18n and accessibility rules that keep every state indicator reading as one product, binding colour to semantic tokens via a modifier class rather than inline hex. The narrative 'why' lives in the DS `status-badges` guide; this artifact carries only what the repo can enforce.",
   "skillRef": {
     "build": "DS guideline — guidelines/status-badges.json",

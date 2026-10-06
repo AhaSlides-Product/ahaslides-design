@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-flex",
   "summary": "A flexbox container with the DS spacing scale baked into `gap` — direction, align, justify, wrap.",
+  "highlights": ["Flexbox container with the DS spacing scale baked into gap", "Direction, align, justify and wrap"],
   "lead": "ONE custom element — <aha-flex> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `gap` takes the named steps small/middle/large (8/16/24) or a raw pixel number, and direction/align/justify/wrap map straight to flexbox. Layout only — it never paints a background. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default"],

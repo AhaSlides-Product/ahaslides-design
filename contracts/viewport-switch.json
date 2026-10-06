@@ -6,6 +6,7 @@
   "badge": "shared web component + hook",
   "element": "aha-viewport-switch",
   "summary": "The ONE mobile breakpoint (max-width 767.98px) for renders that change shape — the useIsMobile() React hook, a framework-agnostic store, and <aha-viewport-switch> for HTML.",
+  "highlights": ["The one mobile breakpoint: max-width 767.98px", "useIsMobile() React hook and a framework-agnostic store", "<aha-viewport-switch> for HTML"],
   "lead": "Mobile in AhaSlides is `(max-width: 767.98px)` — .98 so there is no sub-pixel gap against a 768px rule at fractional device-pixel ratios. Three ways to consume the same decision: React calls useIsMobile() from @ahaslides-product/design/use-is-mobile (react is an optional peer); any framework subscribes through @ahaslides-product/design/viewport (isMobileViewport / subscribeMobileViewport / MOBILE_MEDIA_QUERY); plain HTML wraps both shapes in <aha-viewport-switch> and marks them slot=\"mobile\" / slot=\"desktop\" — exactly one shows, the host reflects a `mobile` attribute, and `viewport-change` fires when the breakpoint is crossed. This is for SHAPE switches only (table → card list, sidebar → drawer); pure styling stays in `@media (max-width: 767.98px)`.",
   "codeNote": "useIsMobile() never gates styling — padding, gaps and font sizes belong in the media query. Server renders see desktop (false) and settle on the client.",
   "tokensUsed": [

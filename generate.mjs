@@ -424,7 +424,10 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 @media (prefers-reduced-motion:reduce){.doc-main.pjax-in{animation:none}.pjax-bar{transition:opacity var(--aha-motion-fast) linear}}
 
 /* ---- detail page ---- */
-.crumbs{font-size:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--aha-text-tertiary);margin:0 0 8px}
+.highlights{margin:0 0 14px;padding:0;list-style:none;max-width:72ch;display:grid;gap:6px}
+.highlights li{position:relative;padding-left:18px;color:var(--aha-text-secondary);font-size:16px;line-height:25px}
+.highlights li::before{content:"";position:absolute;left:3px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--aha-color-primary)}
+.highlights li code{font-size:.9em}
 .doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
@@ -1006,12 +1009,33 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 </body></html>`;
 }
 
+function headline(highlights, fallbackHtml) {
+  return highlights?.length
+    ? `<ul class="highlights">${highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>`
+    : `<p class="subtitle">${fallbackHtml}</p>`;
+}
+
+const FEED_HIGHLIGHTS = {
+  'design.md': ['Visual language and token spec in one file', 'The feed AI design and code tools read'],
+  'llms.txt': ['Index feed with one entry per component', 'An agent’s entry point to the system'],
+  'llms-full.txt': ['Every component doc concatenated', 'The full-context feed'],
+  'CHANGELOG.md': ['Version history, one entry per merge', 'The top version matches the package'],
+  'variables.css': ['The --aha-* token layer as CSS custom properties', 'Generated from tokens.canonical.json'],
+  'icons.llms.txt': ['Every icon name, grouped by family', 'Read it to call <aha-icon name="…"> instead of writing an SVG'],
+  'icons.agent.json': ['Full icon catalogue: names, family, recolorable', 'Plus the <aha-icon> usage contract'],
+  'guidelines.llms.txt': ['One entry per composition pattern', 'What it reuses, rule count and component backlog'],
+  'guidelines.agent.json': ['Every pattern with its composedOf reuse graph', 'Rules, each tied to a skill assertion', 'Whether the pattern ships code'],
+  'marketing.llms.txt': ['One entry per marketing section', 'Paste-and-run and token-bound, for the marketing sites'],
+  'marketing.agent.json': ['Every marketing section with its summary', 'Paste-and-run html and css, and how to consume it'],
+  'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
+  'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
+};
+
 // Agent-feed page: the raw file content shown in a code wrapper (with copy), inside the shell.
 function renderFeedPage(f, content) {
   const main = `
-  <p class="crumbs">Agent feeds · raw</p>
   <h1>${esc(f.name)} <span class="badge raw">raw feed</span></h1>
-  <p class="subtitle">${esc(f.desc)}</p>
+  ${headline(FEED_HIGHLIGHTS[f.file], esc(f.desc))}
   <p class="gen">◆ generated — the exact file served to agents at <code>/${esc(f.file)}</code> · do not edit by hand</p>
   <div class="code-panel feed">
     <div class="code-head"><div class="tabs"><span class="tab active">${esc(f.file)}</span></div><button class="copy" type="button">Copy</button></div>
@@ -1066,9 +1090,8 @@ function renderChartsPage(c) {
     { cat: null, links: sections.filter(x => !x.children).map(x => ({ id: x.id, title: x.title })) },
   ];
   const main = `
-  <p class="crumbs">Charts</p>
   <h1>${esc(c.name)}</h1>
-  <p class="subtitle">${esc(c.summary)}</p>
+  ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   <div class="hub-layout">
     ${hubAnchorAside(fallbackGroups)}
@@ -1086,9 +1109,8 @@ function renderHtml(c) {
   const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
   const crumbArea = isSettings ? 'Settings' : isPattern ? 'Patterns' : 'Components';
   const main = `
-  <p class="crumbs">${crumbArea} · ${esc(c.group)}</p>
   <h1>${esc(c.name)}</h1>
-  <p class="subtitle">${esc(c.summary)}</p>
+  ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
@@ -1385,7 +1407,6 @@ function renderAudienceLibrary() {
   const fallbackGroups = [{ cat: 'Audience components', links: navSecs.map(s => ({ id: s.name, title: s.name })) }];
   const cards = AUDIENCE.sections.map(renderAudienceCard).join('\n');
   const main = `<div class="audience-lib">
-    <p class="crumbs">Audience Library</p>
     <header class="al-head">
       <h1>${esc(AUDIENCE.title)}</h1>
       <p class="rule">${audMd(AUDIENCE.rule)}</p>
@@ -1407,9 +1428,8 @@ function renderAudienceLibrary() {
 
 function renderMarketingHtml(b) {
   const main = `
-  <p class="crumbs">Patterns · ${MARKETING_CAT}</p>
   <h1>${esc(b.name)}</h1>
-  <p class="subtitle">${esc(b.summary)}</p>
+  ${headline(b.highlights, esc(b.summary))}
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Preview</h2>
@@ -1483,9 +1503,8 @@ function renderGuidelineHtml(p) {
   const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const guide = p.guide ? part(p.guide) : '';
   const main = `
-  <p class="crumbs">Patterns · composition guide</p>
   <h1>${esc(p.name)} <span class="badge pattern">pattern</span></h1>
-  <p class="subtitle">${esc(p.summary)}</p>
+  ${headline(p.highlights, esc(p.summary))}
   <p class="gen">◆ generated from guidelines/${p.slug}.json${p.guide ? ` + parts/${esc(p.guide)}` : ''} — do not edit by hand</p>
 
   ${p.hub ? `<p class="hub-back">See the standalone <a href="../../${esc(p.hub)}/index.html">Settings page</a> — the whole settings surface (this pattern, the settings-list component, and every control) inline on one page.</p>` : ''}
@@ -1726,9 +1745,8 @@ function renderSettingsHub() {
 
   const main = `
   <span id="top"></span>
-  <p class="crumbs">Settings</p>
   <h1>Settings <span class="badge pattern">one page · one URL · everything inline</span></h1>
-  <p class="subtitle">Every settings component on a single self-contained page under one URL — the composition pieces and every control, inline. Switching between components scrolls within this page (antd <code>Anchor</code>); it never loads another page or changes the URL. An agent reads only this page and has it all.</p>
+  ${headline(['Every settings component on one self-contained page, one URL', 'Composition pieces and every control, inline', 'Switching components scrolls the page (antd Anchor) and never changes the URL', 'An agent reads this page and has it all'])}
   <p class="gen">◆ generated from guidelines/settings.json + the settings-list &amp; control contracts — do not edit by hand</p>
 
   ${guide && guide.lead ? `<div class="note" style="margin:0 0 16px">${mdInline(guide.lead)}</div>` : ''}
@@ -1889,7 +1907,7 @@ function renderTokenPage(pageSlug) {
   const gen = `<p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>`;
   const BODY = {
     colour: {
-      title: 'Colour', lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
+      title: 'Colour', highlights: ["Primitive ramps plus semantic tokens that alias into them", "Never hardcode a ramp value", "Bind to a semantic --aha-* token"], lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
       body: `
   <h2>Primitive ramps</h2>
   <p class="body">The raw colour scales (10&rarr;100). Semantic tokens below alias into these — never hardcode a ramp value in a component.</p>
@@ -1908,25 +1926,25 @@ function renderTokenPage(pageSlug) {
     .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}`,
     },
     typography: {
-      title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
+      title: 'Typography', highlights: ["Product face Plus Jakarta Sans, self-hosted", "Weights 400 and 600 only", "No Inter"], lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
       body: `
   <p class="body">Line-height ratios: tight 1.2 · heading 1.3 · body 1.5. Letter-spacing: headlines 0 · body 0.2px · subtext 0.3px.</p>
   ${docTable('<th>Role</th><th>Size</th>', typeRows)}`,
     },
     spacing: {
-      title: 'Spacing', lead: 'A single 4-based spacing scale — hierarchy and separation come from these tokens, never ad-hoc px.',
+      title: 'Spacing', highlights: ["One 4-based spacing scale", "Hierarchy and separation come from these tokens", "Never ad-hoc px"], lead: 'A single 4-based spacing scale — hierarchy and separation come from these tokens, never ad-hoc px.',
       body: `
   <div class="scale-row" style="align-items:flex-end">${spaceBars}</div>
   <p class="body">4-based scale (px): ${TOK.space.join(' · ')}.</p>`,
     },
     radius: {
-      title: 'Radius', lead: 'The corner-radius scale. Anything off <code>4 · 6 · 8 · 12 · 16</code> is drift.',
+      title: 'Radius', highlights: ["The corner-radius scale: 4, 6, 8, 12, 16", "Anything off the scale is drift"], lead: 'The corner-radius scale. Anything off <code>4 · 6 · 8 · 12 · 16</code> is drift.',
       body: `
   <div class="scale-row">${radChips}</div>
   <p class="body">Pill <code>${r.pill}px</code> for capsules; <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
     },
     sizing: {
-      title: 'Sizing', lead: 'Control heights — the root field height and the Button size ramp — plus the app-content max-width.',
+      title: 'Sizing', highlights: ["Control heights: root field height and the Button size ramp", "Plus the app-content max-width"], lead: 'Control heights — the root field height and the Button size ramp — plus the app-content max-width.',
       body: `
   ${docTable('<th>Control</th><th>Height</th>', chRows)}
   <p class="body">Fields share the root height; Button steps sm / md / lg / xl. Set size via the <code>size</code> prop — never inline a height.</p>
@@ -1936,9 +1954,8 @@ function renderTokenPage(pageSlug) {
   };
   const pg = BODY[pageSlug];
   const main = `
-  <p class="crumbs">Foundations · design tokens</p>
   <h1>${esc(pg.title)}</h1>
-  <p class="subtitle">${pg.lead}</p>
+  ${headline(pg.highlights, pg.lead)}
   ${gen}
   ${pg.body}`;
   const extraCss = `
@@ -2080,9 +2097,8 @@ function renderIndex(cs) {
       <div class="cf">${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt</div></a>`).join('');
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
   const main = `
-  <p class="crumbs">AhaSlides Design System · for agents</p>
   <h1>Components</h1>
-  <p class="subtitle">One token source + one contract per component &rarr; this site, the <code>llms.txt</code> feeds, <code>design.md</code>, and per-component <code>agent.json</code> — all generated together, so they can't drift.</p>
+  ${headline(['One token source and one contract per component', 'Generates this site, the llms.txt feeds, design.md and each agent.json together', 'Generated together, so they cannot drift'])}
   <p class="gen">◆ generated by generate.mjs — ${cs.length} live of ${planned} planned components</p>
 
   ${consumeBlock()}
@@ -2156,9 +2172,8 @@ function renderIconGallery() {
   const chips = ['all', ...ICONS.families].map((f, i) =>
     `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
   const main = `
-  <p class="crumbs">Foundations · icon library</p>
   <h1>Icon library</h1>
-  <p class="subtitle">The complete set imported from Figma Design System V3 — <b>${ICONS.count}</b> glyphs across ${ICONS.families.length} families. Call any of them by name with <code>&lt;aha-icon name="…"&gt;</code>; never inline an SVG. Click a glyph to copy its name.</p>
+  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name'])}
   <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
 
   <div class="gal-bar">

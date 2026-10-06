@@ -5,6 +5,7 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How a slide type LOOKS on the canvas — the 16:9 stage, theme/colour/fonts from xprops, semantic state colours, WCAG readability from across the room, framed-vs-full-canvas, presenter controls (host control bar, or in-canvas <aha-button size=\"xl\"> on the Developer Platform), one accent per deck, borders, motion, in-canvas keyboard affordances, and i18n — built from existing components.",
+  "highlights": ["How a slide type looks on the 16:9 canvas", "Theme, colour and fonts from xprops; semantic state colours; WCAG readability from across the room", "Presenter controls, one accent per deck, borders, motion, keyboard affordances, i18n"],
   "lead": "The canvas is the visual surface a slide type renders into — one iframe shared by the editor preview and the live presenting/casting screen. It drifts fastest because each slide is its own cross-origin bundle that can't see the host theme. This pattern ships NO new component: it documents the CONVENTIONS that make every slide read on light, dark, and image themes, stay legible from the back of a hall, and reuse the host control bar and the component library rather than hand-rolling. The narrative 'why', the worked BAD/GOOD examples, and the full §1–§9 rationale live in the DS `canvas` guide; this artifact carries only what the repo can enforce.",
   "skillRef": {
     "build": "DS guideline — guidelines/canvas.json",
