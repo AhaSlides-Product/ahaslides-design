@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.87.2 — 2026-10-06
 ### Fixed
-- `<aha-background-task>` HTML example no longer auto-removes a finished card after 2s, and the JSDoc usage shows Cancel as a tertiary `<aha-button>` instead of a span. (#PRN)
+- `<aha-background-task>` HTML example no longer auto-removes a finished card after 2s, and the JSDoc usage shows Cancel as a tertiary `<aha-button>` instead of a span. (#162)
 
 ## 0.87.1 — 2026-10-06
 ### Fixed
