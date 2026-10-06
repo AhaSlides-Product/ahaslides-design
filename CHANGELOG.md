@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.87.3 — 2026-10-06
 ### Fixed
-- `<aha-background-task>`: the ✕ now sits on the leading icon's row (top-aligned, 2px optical offset for its 28px box) instead of drifting to the vertical centre of wrapped descriptions. (#PRNUM)
+- `<aha-background-task>`: the ✕ now sits on the leading icon's row (top-aligned, 2px optical offset for its 28px box) instead of drifting to the vertical centre of wrapped descriptions. (#163)
 
 ## 0.87.1 — 2026-10-06
 ### Fixed
