@@ -26,11 +26,11 @@
     },
     {
       "label": "Heading row",
-      "value": "heading (the file name with its extension, e.g. Quarterly review.pdf) · check-circle 16 on success; leading icon centred on heading + description when a description shows"
+      "value": "heading (the file name with its extension, e.g. Quarterly review.pdf) · check-circle 12 on success; leading icon centred on heading + description when a description shows"
     },
     {
       "label": "Top row",
-      "value": "24px icon · heading 12.5px bold #1F1330, ellipsis · check-circle 16 on success · ✕ tertiary icon button on success / canceled / error"
+      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 12.5px bold #1F1330, ellipsis · check-circle 12 on success · ✕ tertiary icon button on success / canceled / error"
     },
     {
       "label": "Bar",
@@ -116,7 +116,7 @@
       "name": "slot=icon",
       "type": "slot",
       "default": "system-file glyph",
-      "desc": "24px leading task icon (a file-type icon, an export or upload glyph)"
+      "desc": "24px leading task icon. A file task passes its brand logo from the Logo library as <img src=\".../logo/<file>.svg\" width=\"24\" height=\"24\" alt=\"\"> (.pptx microsoft-powerpoint, .xlsx microsoft-excel, .pdf pdf); never redrawn, inlined or recoloured. Other tasks (an export or upload) pass a glyph"
     },
     {
       "name": "slot=link",
