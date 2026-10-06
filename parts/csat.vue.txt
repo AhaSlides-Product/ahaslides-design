@@ -5,7 +5,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 // Component.vue — the custom element's `rate` and `feedback` events bind natively with @rate / @feedback
 <script setup>
 function onRate(e) {
-  track('CSAT_RATED', e.detail);   // { rating: 'up' | 'down', source }
+  track('CSAT_RATED', e.detail);   // { rating: 'up' | 'down' | null, source }
 }
 function onFeedback(e) {
   track('CSAT_FEEDBACK_SUBMITTED', e.detail);   // { rating: 'up' | 'down' | null, source, feedback }

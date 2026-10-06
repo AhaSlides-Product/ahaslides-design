@@ -6,32 +6,33 @@
   "badge": "shared Lit web component",
   "element": "aha-csat",
   "summary": "The shared thumbs up/down satisfaction prompt — the one CSAT control, not a bespoke rating.",
-  "lead": "ONE custom element — <aha-csat> — the reusable form of the feedback pattern's CSAT rule. A binary thumbs-up/down prompt with a required `source` for typo-proof analytics segmentation; it emits a composed `rate` event, and a thumbs-down opens a free-text feedback popover that emits a composed `feedback` event on submit. Shadow-DOM CSS, themed only by --aha-* tokens; the thumbs are the shared <aha-icon> BY NAME, the follow-up reuses the shared <aha-popover> + <aha-counted-textarea> + <aha-button>, and the selected/hover states animate on PERSISTENT button nodes (class toggle, no rebuild). Zero drift.",
+  "lead": "ONE custom element — <aha-csat> — the reusable form of the feedback pattern's CSAT rule. A binary thumbs-up/down prompt with a required `source` for typo-proof analytics segmentation; it emits a composed `rate` event, and once rated only the chosen thumb remains (clicking it again un-rates), and a thumbs-down opens a free-text feedback popover that emits a composed `feedback` event on submit. Shadow-DOM CSS, themed only by --aha-* tokens; the thumbs are the shared <aha-icon> BY NAME, the follow-up reuses the shared <aha-popover> + <aha-counted-textarea> + <aha-button>, and the selected/hover states animate on PERSISTENT button nodes (class toggle, no rebuild). Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for the `rate` and `feedback` events; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-secondary", "text-default", "icon-muted", "color-primary", "color-success"],
   "spec": [
     { "label": "Layout", "value": "borderless single row (24px high): 12px #616161 prompt, 4px gap, then 28×24 borderless thumb buttons with 16px #4A4A4A icons and no gap between them — the only layout (legacy `inline` is a no-op)" },
     { "label": "Rest", "value": "icon #4A4A4A" },
-    { "label": "Hover", "value": "ghost fill #F9F5FF · icon primary #6A1EBB (motion tokens) · tooltip Good / Not good / Feedback" },
-    { "label": "Selected", "value": "icon primary #6A1EBB · aria-pressed synced" },
-    { "label": "Thumbs-up", "value": "rates instantly — reflects value='up', emits `rate`" },
-    { "label": "Thumbs-down", "value": "registers value='down' + emits `rate`, then opens a feedback popover (shared <aha-popover>, role=dialog · Esc/outside-click close) anchored to the thumbs group — a small round 20px X (closes only, never submits, keeps the down rating), an <aha-counted-textarea> and a secondary Send button that stays disabled until text is typed; the heading is optional (`feedback-prompt`, none by default)" },
-    { "label": "Feedback button", "value": "opt-in `feedback-button` — a chat icon beside the thumbs (tooltip Feedback) that opens the same popover with the placeholder `feedback-button-placeholder` (default “Share your thoughts”) without changing the rating; submitting clears the field so feedback can be sent again" },
+    { "label": "Hover", "value": "ghost fill #F9F5FF · icon #8644D4 purple-50 (motion tokens) · tooltip Useful / Not useful / Feedback" },
+    { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #F0E4FF (purple-15) · icon #6A1EBB (purple-60) · aria-pressed synced; hover keeps the selected look" },
+    { "label": "Collapse", "value": "once rated only the chosen thumb remains (the other is hidden); clicking the chosen thumb again un-rates — both thumbs return, `value` is removed and `rate` fires with rating null" },
+    { "label": "Thumbs-up", "value": "rates instantly — reflects value='up', hides the thumbs-down, emits `rate`" },
+    { "label": "Thumbs-down", "value": "registers value='down' + emits `rate`, hides the thumbs-up, then opens a feedback popover (shared <aha-popover>, role=dialog · Esc/outside-click close) anchored to the thumbs group (opens above instead when there is no room below, e.g. the CSAT sits at the bottom of the screen — same for the Feedback button) — a 20px X whose hover is a rounded square (6px radius) (closes only, never submits, keeps the down rating), an <aha-counted-textarea> (focused on open) and a secondary Send button that stays disabled until text is typed; after Send it closes and does not re-open on thumbs-down until the rating changes again; the heading is optional (`feedback-prompt`, none by default)" },
+    { "label": "Feedback button", "value": "opt-in `feedback-button` — a chat icon immediately right of the thumbs (tooltip Feedback), visible whether or not rated, that opens the same popover without changing the rating; submitting clears the field so feedback can be sent again" },
     { "label": "Thank-you", "value": "opt-in `thanks` — check + success #16C49A line fades in (motion tokens): instantly on up, after feedback submit on down; never for feedback sent while unrated" },
-    { "label": "Events", "value": "`rate` → { rating: 'up' | 'down', source } · `feedback` → { rating: 'up' | 'down' | null, source, feedback } (null when unrated — the Feedback button needs no rating)" }
+    { "label": "Events", "value": "`rate` → { rating: 'up' | 'down' | null, source } (null when un-rated) · `feedback` → { rating: 'up' | 'down' | null, source, feedback } (null when unrated — the Feedback button needs no rating)" }
   ],
   "props": [
     { "name": "prompt", "type": "string", "default": "—", "desc": "Optional question shown before the thumbs" },
     { "name": "source", "type": "string", "default": "—", "desc": "Stable placement token for analytics — passed in the rate and feedback events" },
-    { "name": "value", "type": "up | down", "default": "—", "desc": "The current rating (also reflects a click); syncs the selected thumb's aria-pressed" },
+    { "name": "value", "type": "up | down", "default": "—", "desc": "The current rating (also reflects a click, removed on un-rate); the other thumb is hidden while set, and the selected thumb's aria-pressed syncs" },
     { "name": "thanks", "type": "string", "default": "—", "desc": "Opt-in thank-you line — shown (role=status) after rating (on down, after feedback submit); fades in on a persistent node" },
     { "name": "feedback-prompt", "type": "string", "default": "—", "desc": "Optional heading in the feedback popover, beside the X — none by default" },
     { "name": "feedback-button", "type": "boolean", "default": "—", "desc": "Show the Feedback chat-icon button after the thumbs; it opens the feedback popover without rating" },
-    { "name": "feedback-button-placeholder", "type": "string", "default": "Share your thoughts", "desc": "Placeholder when the popover is opened from the Feedback button" },
-    { "name": "like-label", "type": "string", "default": "Good", "desc": "Tooltip on the thumbs-up" },
-    { "name": "dislike-label", "type": "string", "default": "Not good", "desc": "Tooltip on the thumbs-down" },
+    { "name": "feedback-button-placeholder", "type": "string", "default": "How can we improve? Let us know!", "desc": "Placeholder when the popover is opened from the Feedback button (falls back to feedback-placeholder)" },
+    { "name": "like-label", "type": "string", "default": "Useful", "desc": "Tooltip on the thumbs-up" },
+    { "name": "dislike-label", "type": "string", "default": "Not useful", "desc": "Tooltip on the thumbs-down" },
     { "name": "feedback-label", "type": "string", "default": "Feedback", "desc": "Tooltip on the Feedback button" },
-    { "name": "feedback-placeholder", "type": "string", "default": "Tell us more (optional)", "desc": "Placeholder for the free-text field in the feedback popover" }
+    { "name": "feedback-placeholder", "type": "string", "default": "How can we improve? Let us know!", "desc": "Placeholder for the free-text field in the feedback popover" }
   ],
   "opinion": {
     "whenToUse": [
@@ -39,7 +40,7 @@
       { "what": "Result", "when": "a full-block outcome after an operation" },
       { "what": "a Form", "when": "you need structured, multi-field feedback with validation" }
     ],
-    "note": "Use the shared control — never build a bespoke rating. Always pass a stable `source` per placement so segmentation stays typo-proof. Keep it to the binary thumbs (plus the optional Feedback button); show the “Thank you for your feedback!” toast from the `rate` (up) and `feedback` events with the shared toast hook, and omit `thanks` when the thumbs should stay on screen; free-text is asked for ONLY after a thumbs-down (the built-in feedback popover), and never block rendering on tracking.",
+    "note": "Use the shared control — never build a bespoke rating. Always pass a stable `source` per placement so segmentation stays typo-proof. Keep it to the binary thumbs (plus the optional Feedback button); show the “Thank you for your feedback!” toast from the `feedback` event with the shared toast hook, and omit `thanks` when the thumbs should stay on screen; free-text is asked for ONLY after a thumbs-down (the built-in feedback popover), and never block rendering on tracking.",
     "dsv3": "COVERED — this is the reusable component form of the feedback pattern's CSAT rule (parts/feedback.guide.md): a binary thumbs widget with a required source token, and the 'ask for free-text only after a thumbs-down' follow-up realised by reusing <aha-popover> + <aha-counted-textarea> + <aha-button>. The dedicated `feedback` event maps to the pattern's distinct CSAT_FEEDBACK_SUBMITTED analytics event (separate from CSAT_RATED). Colours + motion map to the token layer. A deliberate, documented AhaSlides surface."
   },
   "surfaces": ["editor", "dashboard", "audience"],
@@ -61,13 +62,13 @@
   },
   "selfCheck": [
     { "label": "borderless single row · 12px #616161 prompt · 28×24 thumb buttons with 16px #4A4A4A icons · no chrome (the only layout)", "verdict": "PASS" },
-    { "label": "hover fills ghost + recolours to primary (motion tokens) · Good / Not good / Feedback tooltips", "verdict": "PASS" },
-    { "label": "selected primary #6A1EBB · aria-pressed synced", "verdict": "PASS" },
-    { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>)", "verdict": "PASS" },
+    { "label": "hover fills ghost + recolours purple-50 (motion tokens) · Useful / Not useful / Feedback tooltips", "verdict": "PASS" },
+    { "label": "selected = antd tertiary active (fill #F0E4FF · icon #6A1EBB) · aria-pressed synced · the other thumb collapses; re-click un-rates", "verdict": "PASS" },
+    { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>, textarea focused; not re-opened after Send until re-rated)", "verdict": "PASS" },
     { "label": "down thumb carries aria-haspopup=dialog · aria-expanded mirrors the popover", "verdict": "PASS" },
     { "label": "feedback popover: X closes only · <aha-counted-textarea> · secondary Send disabled until text; submit emits `feedback` and clears the field", "verdict": "PASS" },
     { "label": "thank-you line fades in (opt-in) — instantly on up, after submit on down", "verdict": "PASS" },
-    { "label": "emits rate with source", "verdict": "PASS" }
+    { "label": "emits rate with source (rating null on un-rate)", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The [data-probe] probe is pre-rated (value='up') so the borderless single-row layout — the muted #616161 400-weight 12px prompt, the borderless 28×24 thumb button, the selected primary colour and the aria-pressed a11y contract — is measurable; it also pins the thumbs-down feedback flow: the down thumb carries aria-haspopup='dialog' and the shared <aha-popover> is present in the shadow root.",
