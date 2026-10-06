@@ -173,7 +173,7 @@
       "id": "one-dismiss-button",
       "rule": "Every dismiss ✕ on an Alert, Info box, Background task, Toast or Notification is the shared <aha-close-button>: the tertiary button at small size (28 × 28) with the 16px system-x icon, 8px from the container's end edge, lined up with the first line of text and the leading icon so it stays put when the text wraps. Alert `closable`, Info box `dismissible` and Background task render it already; a sticky Toast takes it through dismissibleToast, and a Notification through dismissibleTitle with `closable: false`. Never hand-roll a ✕ and never show antd's own message or notification close. Modal and Drawer keep the ✕ in their header.",
       "ref": [
-        "FEEDBACK-01"
+        "C6"
       ]
     },
     {

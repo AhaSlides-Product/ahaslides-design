@@ -18,12 +18,12 @@
   ],
   "props": [
     { "name": "dismissibleTitle(h, title, onClose, label?)", "type": "function", "default": "—", "desc": "Title with the shared ✕; pass closable: false so antd's own close is not drawn" },
-    { "name": "message", "type": "string", "default": "—", "desc": "The bold title line" },
+    { "name": "title (Vue: message)", "type": "string", "default": "—", "desc": "The bold title line" },
     { "name": "description", "type": "string", "default": "—", "desc": "The supporting body text" },
     { "name": "type", "type": "success | info | warning | error", "default": "—", "desc": "Status glyph + tone" },
     { "name": "placement", "type": "topLeft | topRight | bottomLeft | bottomRight", "default": "topRight", "desc": "Which corner it stacks in" },
     { "name": "duration", "type": "number", "default": "4.5", "desc": "Seconds on screen; 0 keeps it until dismissed" },
-    { "name": "btn", "type": "ReactNode", "default": "—", "desc": "One optional action (e.g. Undo) rendered in the card" }
+    { "name": "actions (Vue: btn)", "type": "ReactNode", "default": "—", "desc": "One optional action (e.g. Undo) rendered in the card" }
   ],
   "opinion": {
     "whenToUse": [
