@@ -15,7 +15,8 @@
     if (percent >= 100) {
       clearInterval(timer);
       card.setAttribute('state', 'success');
-      card.setAttribute('caption', '40/40 slides imported');
+      card.removeAttribute('caption');
+      card.setAttribute('description', '40/40 slides imported');
       card.querySelector('[slot="action"]')?.remove();
     }
   }, 600);
