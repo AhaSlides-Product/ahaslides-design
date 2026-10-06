@@ -20,7 +20,7 @@
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
     <aha-background-task state="success" heading="Quarterly review.pptx" description="40/40 slides imported" rating-prompt="How did this import go?" rating-source="import_completion_csat"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""></aha-background-task>
     <aha-background-task state="success" heading="Quarterly review.pdf" rating-prompt="How did this import go?" rating-source="import_completion_csat"><img slot="icon" src="../logo/pdf.svg" width="24" height="24" alt=""></aha-background-task>
-    <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck"></aha-background-task>
+    <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""></aha-background-task>
   </div>
   <div class="lbl">File name, with an inline link and the rating (export)</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
@@ -42,6 +42,7 @@
   <div class="lbl">Connection lost and error</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px; padding-bottom:96px">
     <aha-background-task state="offline" heading="Connection lost" description="Waiting to reconnect…" value="58">
+      <img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt="">
       <div slot="footer">
         <span style="color:var(--aha-toast-ink-soft,#6B6478); display:block; margin-bottom:var(--aha-space-12)">23/40 slides imported so far</span>
         <div style="display:flex; justify-content:flex-end; gap:var(--aha-space-8)"><aha-button variant="secondary" size="sm">Cancel import</aha-button><aha-button variant="primary" size="sm">Try again</aha-button></div>
