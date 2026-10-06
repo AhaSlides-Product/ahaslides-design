@@ -46,7 +46,7 @@
     },
     {
       "label": "Error",
-      "value": "24px --aha-color-error x-circle glyph replaces the task icon; neutral heading, no border; recovery action in the footer (Try again)"
+      "value": "keeps the same 24px leading task icon as every other state; neutral heading, no border; failure is carried by the heading text and the recovery action in the footer (Try again)"
     },
     {
       "label": "Stack",
@@ -162,7 +162,7 @@
         "when": "the user must wait for or answer the task before continuing"
       }
     ],
-    "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card only after the rating is answered or the ✕ is pressed and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs. Failed: the DS error glyph replaces the leading icon, the heading stays neutral (no red border), one reason line and a secondary \"Try again\" button in the footer that reruns the same process in the same card. Finished: the rating spans the card under a divider, and the card stays until it is rated or dismissed.",
+    "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card only after the rating is answered or the ✕ is pressed and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs. Failed: the leading task icon stays, the heading stays neutral (no red border), one short reason line (\"Something went wrong.\") and a secondary \"Try again\" button in the footer that reruns the same process in the same card. Finished: the rating spans the card under a divider, and the card stays until it is rated or dismissed.",
     "dsv3": "Reference implementation mirrors the presenter's ImportProgressNotification.vue, ImportCompletionCSAT.vue and FileTypeIcon.vue (stpancras-presenter-app PR #5833). Shadow is the DS Elevate/Overlays effect style. Rating is the DS <aha-csat>. No dedicated Figma component."
   },
   "surfaces": [
@@ -217,7 +217,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "success always carries the CSAT; Cancel is a tertiary button; error uses the DS error glyph, no red border or title",
+      "label": "success always carries the CSAT; Cancel is a tertiary button; error keeps the task icon, no red border or title",
       "verdict": "PASS"
     },
     {
