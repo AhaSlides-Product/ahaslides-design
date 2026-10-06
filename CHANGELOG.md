@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.91.0 — 2026-10-06
 ### Added
-- Logo library → Brands: **Microsoft Word** and **PDF** (Adobe file-type mark) in the "Import, export and cloud" section, ordered Excel, Word, PDF, Google Drive, OneDrive. Both are the current default SVG from thesvg.org (`microsoft-word`, `pdf`); the Brands tab and its highlight now count 21 brands. `llms.txt` lists them. (#PR)
+- Logo library → Brands: **Microsoft Word** and **PDF** (Adobe file-type mark) in the "Import, export and cloud" section, ordered Excel, Word, PDF, Google Drive, OneDrive. Both are the current default SVG from thesvg.org (`microsoft-word`, `pdf`); the Brands tab and its highlight now count 21 brands. `llms.txt` lists them. (#166)
 
 ## 0.90.0 — 2026-10-06
 ### Added
