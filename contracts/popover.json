@@ -6,7 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-popover",
   "summary": "Anchor a floating card of rich content — a title, a body, and an optional arrow — to a trigger.",
-  "lead": "ONE custom element — <aha-popover> — defined once, imported unchanged by React and Vue. Richer than a Tooltip: it carries a bold `title` over a body (slotted, or via the `content` attr) and holds interactive content. Twelve `placement`s — the 4 cardinal (top · bottom · left · right) plus the 8 edge-aligned (…-start / …-end, aligned to the trigger's start/end edge) — three `trigger`s (click · hover · focus) and a toggleable `arrow`. Interaction toggles the `open` attribute on a persistent panel (never rebuilt), so opacity and lift animate. Zero drift.",
+  "lead": "ONE custom element — <aha-popover> — defined once, imported unchanged by React and Vue. Richer than a Tooltip: it carries a bold `title` over a body (slotted, or via the `content` attr) and holds interactive content. Twelve `placement`s — the 4 cardinal (top · bottom · left · right) plus the 8 edge-aligned (…-start / …-end, aligned to the trigger's start/end edge) — three `trigger`s (click · hover · focus) and a toggleable `arrow`. Interaction toggles the `open` attribute on a persistent panel (never rebuilt), so opacity and lift animate. With the opt-in `flip` the open panel is positioned from measured rects: it flips to the roomier side when the requested side does not fit, stays inside the viewport edges, and is not clipped by an `overflow: hidden/auto` ancestor. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-elevated", "text-default", "text-secondary", "border", "radius-default", "font-product", "motion-mid", "ease-out"],
   "spec": [
@@ -26,7 +26,7 @@
     { "name": "title", "type": "string", "default": "—", "desc": "Bold header rendered above the body (hidden when empty)" },
     { "name": "content", "type": "string", "default": "—", "desc": "Text body alternative to slotted content (used when nothing is slotted)" },
     { "name": "arrow", "type": "boolean", "default": "false", "desc": "Show the pointer arrow at the panel edge" },
-    { "name": "flip", "type": "boolean", "default": "false", "desc": "Opt-in collision handling: each time it opens, a top/bottom panel with too little room on its side (viewport or nearest scrolling/clipping ancestor) opens on the opposite side instead, arrow included; it then scrolls with its trigger" },
+    { "name": "flip", "type": "boolean", "default": "false", "desc": "Opt-in collision handling: while open the panel is placed with position:fixed from measured rects. It opens on the roomier side when its own side lacks room (reported on the host as `flipped` and `data-flipped`=side, arrow included), is clamped 8px inside the viewport, re-measures on resize, scroll and panel resize, and is not clipped by an overflow:hidden/auto ancestor (a transform/filter/contain:paint ancestor still clips)" },
     { "name": "[slot=trigger]", "type": "slotted element", "default": "—", "desc": "The element that toggles the panel" },
     { "name": "open / close", "type": "CustomEvent", "default": "—", "desc": "Composed events on show / hide" }
   ],
