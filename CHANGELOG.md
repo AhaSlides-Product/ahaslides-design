@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.94.1 — 2026-10-06
 ### Fixed
-- Background task: the failed state keeps the task's leading `slot="icon"` (the file's Logo-library logo, or the default file glyph) instead of swapping it for the red x-circle; the dead status glyph markup and CSS are removed. The heading stays neutral, so failure is carried by the heading text and the Try again button. The failed description is just "Something went wrong." in every example. (#PRNUM)
+- Background task: the failed state keeps the task's leading `slot="icon"` (the file's Logo-library logo, or the default file glyph) instead of swapping it for the red x-circle; the dead status glyph markup and CSS are removed. The heading stays neutral, so failure is carried by the heading text and the Try again button. The failed description is just "Something went wrong." in every example. (#171)
 
 ## 0.94.0 — 2026-10-06
 ### Changed
