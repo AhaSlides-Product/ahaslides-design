@@ -31,6 +31,8 @@ const ADIR = join(root, 'audience');     // audience component library — the m
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
+const HEADER_SPLASH = read(join(root, 'logo', 'thesplash.svg')).trim()
+  .replace(/<svg\s+width="\d+"\s+height="\d+"/, '<svg class="logo" aria-hidden="true"');
 // Single source for the paste-and-run CDN ref. Snippets author `@__REF__`; we inject it here so
 // the pin lives in ONE place. Default `master` = live-on-merge (pages.yml redeploys docs on merge,
 // and jsDelivr /gh/@master serves the current element/theme code) — no stale-tag freeze. Override
@@ -994,7 +996,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <link rel="alternate" type="text/markdown" title="CHANGELOG.md — version history" href="${SITE}/CHANGELOG.md"/>
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style></head><body>
 <header class="doc-header">
-  <a class="brand" href="${base}index.html"><svg class="logo" viewBox="0 0 802 788" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M170.733 275.998C278.798 265.243 378.859 323.322 335.099 444.05C314.506 506.19 275.855 581.827 243.31 638.991C215.75 687.389 176.897 762.933 120.57 779.886C47.4014 801.893 13.3568 737.231 38.653 673.946C50.1622 645.147 76.3125 617.797 98.9558 596.777C156.207 543.64 209.364 500.767 267.058 447.815C322.558 396.876 304.327 320.548 218.229 348.597C177.136 361.996 147.118 395.204 100.29 386.241C77.245 381.831 59.1047 363.439 62.4007 338.917C68.3362 294.758 133.204 278.683 170.733 275.998Z" fill="#FF4081"/><path d="M450.382 386.525C486.54 382.591 528.879 404.694 561.903 419.06C613.821 441.642 719.681 495.692 751.619 545.435C773.16 578.987 758.736 620.992 723.868 629.865C680.288 637.375 652.573 611.747 625.142 583.886C583.067 541.158 542.425 487.894 502.946 446.124C459.708 404.54 411.899 421.557 428.008 479.843C437.434 513.92 476.519 553.502 451.17 590.608C432.96 617.264 400.896 603.783 387.05 579.1C355.646 523.118 368.986 393.785 450.369 386.525H450.382Z" fill="#6A1EBB"/><path d="M395.401 274.91C359.243 278.844 311.02 252.439 277.995 238.073C226.078 215.492 127.572 164.107 98.4196 118.689C76.8782 85.137 82.5894 39.0804 126.17 31.5704C169.75 24.0603 197.412 51.5244 223.829 78.3561C263.853 119.008 305.44 175.986 347.904 218.444C381.523 254.744 436.591 242.313 420.482 184.027C411.056 149.95 369.615 104.535 398.068 68.6762C418.857 42.4809 447.41 59.2659 459.706 83.1959C490.656 143.426 480.25 265.499 395.414 274.91L395.401 274.91Z" fill="#6A1EBB"/><path d="M513.867 313.624C513.866 313.622 513.869 313.62 513.87 313.622C537.558 338.301 582.265 297.03 606.997 294.547C624.974 292.744 647.013 299.901 646.488 321.974C646.488 358.004 581.094 363.359 554.43 360.693C502.932 355.544 465.718 321.759 484.522 264.702C500.282 216.871 551.389 106.373 589.653 75.139C630.502 41.788 679.136 67.0343 663.298 119.505C651.501 158.567 571.718 215.383 539.267 245.611C522.147 261.559 494.137 291.042 513.863 313.626C513.865 313.628 513.868 313.626 513.867 313.624Z" fill="#FF4081"/></svg><span>AhaSlides Design</span></a>
+  <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
   ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="18" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
@@ -2467,6 +2469,8 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
+  '>',
+  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile.`,
   '>',
   '> ⚑ Before you build: this is the OFFICIAL AhaSlides anti-slop tool. Read anti-slop.md and',
   `>   run the binary judge for your surface — build → self-judge (PASS/FAIL each) → fix → repeat.`,
