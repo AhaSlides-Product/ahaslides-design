@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.87.1 — 2026-10-06
 ### Fixed
-- `<aha-background-task>` contract, JSDoc and HTML example no longer describe the removed Cancel link, red error styling or 2s auto-dismiss. (#NNN)
+- `<aha-background-task>` contract, JSDoc and HTML example no longer describe the removed Cancel link, red error styling or 2s auto-dismiss. (#161)
 
 ## 0.87.0 — 2026-10-06
 ### Added
