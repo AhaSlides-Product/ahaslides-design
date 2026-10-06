@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.95.0 — 2026-10-06
 ### Fixed
-- Popover with `flip` (and so the `<aha-csat>` feedback popover) now opens in the browser top layer through the native Popover API (`popover="manual"`), so an `overflow`, `transform`, `filter` or `contain: paint` ancestor can no longer crop it and a sidebar or toast with a higher `z-index` can no longer cover it. Placement, flip, the 8px viewport clamp, the arrow, Esc and outside-click close, focus return and `aria-expanded` are unchanged; the panel still fades in and out. Browsers without the Popover API keep the previous fixed positioning. Popovers without `flip` are untouched. (#PRNUM)
+- Popover with `flip` (and so the `<aha-csat>` feedback popover) now opens in the browser top layer through the native Popover API (`popover="manual"`), so an `overflow`, `transform`, `filter` or `contain: paint` ancestor can no longer crop it and a sidebar or toast with a higher `z-index` can no longer cover it. Placement, flip, the 8px viewport clamp, the arrow, Esc and outside-click close, focus return and `aria-expanded` are unchanged; the panel still fades in and out. Browsers without the Popover API keep the previous fixed positioning. Popovers without `flip` are untouched. (#172)
 
 ## 0.94.0 — 2026-10-06
 ### Changed
