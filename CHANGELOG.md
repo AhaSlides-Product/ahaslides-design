@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.88.0 — 2026-10-06
 ### Added
-- Foundations → Logo library page (`foundations/logo.html`): the AhaSlides logo set plus the third-party brand logos the product shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Google Drive, OneDrive, PayPal), in an icon-page layout with search, group filters and downloads. SVGs ship in `logo/` (also published in the package) and are served at `/logo/`; `logo/manifest.json` records each file's source repo and path. Listed in `llms.txt`. (#164)
+- Foundations → Logo library page (`foundations/logo.html`) with two tabs: **AhaSlides** (the logo, The Splash, and their white and black variants) and **Brands** (19 third-party logos scanned from what the presenter app renders: Google Slides, PowerPoint, Teams, Zoom, Excel, Google Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium). Each brand is the current full-colour SVG fetched from thesvg.org; `logo/manifest.json` records source URL, fetch date and where the presenter app shows it. Search, copy-name and download; tiles work with Enter and Space, and a repeat click while \"copied!\" is showing no longer replaces the tile name. SVGs ship in `logo/` and are served at `/logo/`. Listed in `llms.txt`. (#164)
 
 ## 0.87.2 — 2026-10-06
 ### Fixed

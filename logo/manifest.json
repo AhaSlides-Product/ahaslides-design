@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for logo/. Refresh by re-copying each sourcePath from sourceRepo's default branch and updating sourceLastChanged/sourceCommit.",
+  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; every Brands file is the current default SVG fetched from thesvg.org on the recorded date. usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl.",
   "logos": [
     {
       "id": "ahaslides-logo",
@@ -64,82 +64,192 @@
     {
       "id": "google-slides",
       "name": "Google Slides",
-      "category": "Presentation tools",
+      "category": "Brands",
       "file": "google-slides.svg",
-      "sourceRepo": "stpancras-presenter-app",
-      "sourcePath": "src/assets/images/integrations/google-slides.svg",
-      "sourceLastChanged": "2026-06-19",
-      "sourceCommit": "03a5ccaeef"
+      "sourceUrl": "https://thesvg.org/icons/google-slides-2026/default.svg",
+      "sourcePage": "https://thesvg.org/icon/google-slides-2026",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:31; constant/integrations-center.constant.js:6"
     },
     {
       "id": "microsoft-powerpoint",
       "name": "Microsoft PowerPoint",
-      "category": "Presentation tools",
+      "category": "Brands",
       "file": "microsoft-powerpoint.svg",
-      "sourceRepo": "stpancras-presenter-app",
-      "sourcePath": "src/assets/images/integrations/powerpoint.svg",
-      "sourceLastChanged": "2026-06-19",
-      "sourceCommit": "03a5ccaeef"
+      "sourceUrl": "https://thesvg.org/icons/microsoft-powerpoint/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-powerpoint",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:30"
     },
     {
       "id": "microsoft-teams",
       "name": "Microsoft Teams",
-      "category": "Meetings",
+      "category": "Brands",
       "file": "microsoft-teams.svg",
-      "sourceRepo": "stpancras-storybook-app",
-      "sourcePath": "src/assets/icons/Teams.svg",
-      "sourceLastChanged": "2025-04-21",
-      "sourceCommit": "797a4627"
+      "sourceUrl": "https://thesvg.org/icons/microsoft-teams/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-teams",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:32"
     },
     {
       "id": "zoom",
       "name": "Zoom",
-      "category": "Meetings",
+      "category": "Brands",
       "file": "zoom.svg",
-      "sourceRepo": "stpancras-storybook-app",
-      "sourcePath": "src/assets/icons/zoom.svg",
-      "sourceLastChanged": "2025-04-21",
-      "sourceCommit": "797a4627"
+      "sourceUrl": "https://thesvg.org/icons/zoom-2025/default.svg",
+      "sourcePage": "https://thesvg.org/icon/zoom-2025",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/common/sidebar/SidebarMarketplaceIntegrations.vue:33"
     },
     {
       "id": "microsoft-excel",
       "name": "Microsoft Excel",
-      "category": "Files and storage",
+      "category": "Brands",
       "file": "microsoft-excel.svg",
-      "sourceRepo": "stpancras-presenter-app",
-      "sourcePath": "src/assets/images/icon/excel-icon.svg",
-      "sourceLastChanged": "2024-06-25",
-      "sourceCommit": "59cb7c2f1a"
+      "sourceUrl": "https://thesvg.org/icons/microsoft-excel/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-excel",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/presentation-report/ExportSection.vue:17"
     },
     {
       "id": "google-drive",
       "name": "Google Drive",
-      "category": "Files and storage",
+      "category": "Brands",
       "file": "google-drive.svg",
-      "sourceRepo": "stpancras-presenter-app",
-      "sourcePath": "src/assets/images/icon/gg-drive-icon.svg",
-      "sourceLastChanged": "2024-09-13",
-      "sourceCommit": "83893a6349"
+      "sourceUrl": "https://thesvg.org/icons/google-drive-2026/default.svg",
+      "sourcePage": "https://thesvg.org/icon/google-drive-2026",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/my-presentations/main-table/PresentationKebabShareItem.vue:150"
     },
     {
       "id": "microsoft-onedrive",
       "name": "Microsoft OneDrive",
-      "category": "Files and storage",
+      "category": "Brands",
       "file": "microsoft-onedrive.svg",
-      "sourceRepo": "stpancras-presenter-app",
-      "sourcePath": "src/assets/images/icon/onedrive-icon.svg",
-      "sourceLastChanged": "2026-06-19",
-      "sourceCommit": "03a5ccaeef"
+      "sourceUrl": "https://thesvg.org/icons/microsoft-onedrive/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft-onedrive",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/ai-chatbot/modals/ImportCloudSyncOptions.vue:119"
+    },
+    {
+      "id": "google",
+      "name": "Google",
+      "category": "Brands",
+      "file": "google.svg",
+      "sourceUrl": "https://thesvg.org/icons/google/default.svg",
+      "sourcePage": "https://thesvg.org/icon/google",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/auth/LoginV3.vue:42 (Log in with Google)"
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "category": "Brands",
+      "file": "microsoft.svg",
+      "sourceUrl": "https://thesvg.org/icons/microsoft/default.svg",
+      "sourcePage": "https://thesvg.org/icon/microsoft",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/auth/LoginV3.vue:51 (Log in with Microsoft)"
     },
     {
       "id": "paypal",
       "name": "PayPal",
-      "category": "Payments",
+      "category": "Brands",
       "file": "paypal.svg",
-      "sourceRepo": "stpancras-presenter-app",
-      "sourcePath": "src/assets/images/logos/paypal-logo.svg",
-      "sourceLastChanged": "2021-10-14",
-      "sourceCommit": "72ba86afba"
+      "sourceUrl": "https://thesvg.org/icons/paypal/default.svg",
+      "sourcePage": "https://thesvg.org/icon/paypal",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/my-plan/UpgradePlan.vue:426"
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "category": "Brands",
+      "file": "stripe.svg",
+      "sourceUrl": "https://thesvg.org/icons/stripe/default.svg",
+      "sourcePage": "https://thesvg.org/icon/stripe",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/my-plan/BulkCheckoutSuccess.vue:48"
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "category": "Brands",
+      "file": "chatgpt.svg",
+      "sourceUrl": "https://thesvg.org/icons/openai-chatgpt/default.svg",
+      "sourcePage": "https://thesvg.org/icon/openai-chatgpt",
+      "fetched": "2026-10-06",
+      "usedIn": "constant/integrations-center-alt.constant.js:10"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "category": "Brands",
+      "file": "youtube.svg",
+      "sourceUrl": "https://thesvg.org/icons/youtube/default.svg",
+      "sourcePage": "https://thesvg.org/icon/youtube",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:101"
+    },
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "category": "Brands",
+      "file": "facebook.svg",
+      "sourceUrl": "https://thesvg.org/icons/facebook/default.svg",
+      "sourcePage": "https://thesvg.org/icon/facebook",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/referral/ReferralTeacherBody.vue:21; components-v2/community/UserCommunity.vue:33"
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "category": "Brands",
+      "file": "instagram.svg",
+      "sourceUrl": "https://thesvg.org/icons/instagram/default.svg",
+      "sourcePage": "https://thesvg.org/icon/instagram",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:91"
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "category": "Brands",
+      "file": "linkedin.svg",
+      "sourceUrl": "https://thesvg.org/icons/linkedin/default.svg",
+      "sourcePage": "https://thesvg.org/icon/linkedin",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:111"
+    },
+    {
+      "id": "x",
+      "name": "X (Twitter)",
+      "category": "Brands",
+      "file": "x.svg",
+      "sourceUrl": "https://thesvg.org/icons/x/default.svg",
+      "sourcePage": "https://thesvg.org/icon/x",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/year-wrap-up/SocialSharing.vue:33 (shown as the Twitter bird); components-v2/referral/ReferralTeacherBody.vue:24"
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "category": "Brands",
+      "file": "reddit.svg",
+      "sourceUrl": "https://thesvg.org/icons/reddit/default.svg",
+      "sourcePage": "https://thesvg.org/icon/reddit",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:44"
+    },
+    {
+      "id": "medium",
+      "name": "Medium",
+      "category": "Brands",
+      "file": "medium.svg",
+      "sourceUrl": "https://thesvg.org/icons/medium/default.svg",
+      "sourcePage": "https://thesvg.org/icon/medium",
+      "fetched": "2026-10-06",
+      "usedIn": "components-v2/community/UserCommunity.vue:121"
     }
   ]
 }
