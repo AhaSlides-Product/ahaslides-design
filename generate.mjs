@@ -460,7 +460,8 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 
 /* ---- utilities used by preview parts ---- */
 .tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
-.lbl{font-size:11px;letter-spacing:.3px;text-transform:uppercase;color:var(--aha-text-tertiary);margin:0 0 8px}
+.lbl{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 var(--aha-space-8)}
+.lbl~.lbl{margin-top:var(--aha-space-24);padding-top:var(--aha-space-20);border-top:1px solid var(--aha-border)}
 .row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .stack{display:flex;flex-direction:column;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr}

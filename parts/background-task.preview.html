@@ -1,13 +1,13 @@
 <style>aha-background-task{ position:static }</style>
 <div class="pad">
-  <div class="lbl">Uploading (percent + Cancel) · Importing slides… (Cancel) · Almost done… (no Cancel) · captioning count</div>
+  <div class="lbl">In progress</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
     <aha-background-task data-probe heading="Quarterly review.pptx" value="42" caption="42%"><span slot="action" role="button" tabindex="0">Cancel</span></aha-background-task>
     <aha-background-task heading="Quarterly review.pptx" value="25" caption="Importing slides…"><span slot="action" role="button" tabindex="0">Cancel</span></aha-background-task>
     <aha-background-task heading="Quarterly review.pptx" value="92" caption="Almost done…"></aha-background-task>
     <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><span slot="action" role="button" tabindex="0">Cancel</span></aha-background-task>
   </div>
-  <div class="lbl">Cancel confirmation (footer) — the import keeps running underneath</div>
+  <div class="lbl">Cancel confirmation</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
     <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported">
       <div slot="footer" style="display:block; margin-top:11px; padding-top:11px">
@@ -16,7 +16,7 @@
       </div>
     </aha-background-task>
   </div>
-  <div class="lbl">Complete · complete with rating (PowerPoint) · complete with rating (other file) · canceled</div>
+  <div class="lbl">Finished</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
     <aha-background-task state="success" heading="Quarterly review.pptx" caption="40/40 slides imported"></aha-background-task>
     <aha-background-task state="success" heading="Quarterly review.pptx">
@@ -31,9 +31,9 @@
         <aha-csat like-label="Good" dislike-label="Not good" feedback-button feedback-button-placeholder="Share your thoughts" feedback-placeholder="What went wrong with this import? (optional)" source="import_completion_csat"></aha-csat>
       </div>
     </aha-background-task>
-    <aha-background-task state="canceled" heading="Import canceled" description="23/40 slides are now in your deck"></aha-background-task>
+    <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck"></aha-background-task>
   </div>
-  <div class="lbl">Connection lost (grey still bar, count line, Try again / Cancel import) · error</div>
+  <div class="lbl">Connection lost and error</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px; padding-bottom:96px">
     <aha-background-task state="offline" heading="Connection lost" description="Waiting to reconnect…" value="58">
       <div slot="footer" style="display:block; margin-top:11px; padding-top:11px">
