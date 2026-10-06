@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.94.1 — 2026-10-06
+### Fixed
+- Background task: the failed state keeps the task's leading `slot="icon"` (the file's Logo-library logo, or the default file glyph) instead of swapping it for the red x-circle; the dead status glyph markup and CSS are removed. The heading stays neutral, so failure is carried by the heading text and the Try again button. The failed description is short and names the object ("Couldn’t import your file."), with no "Please try again.". (#171)
+
 ## 0.94.0 — 2026-10-06
 ### Changed
 - Background task: a file task's leading `slot="icon"` is now the file's brand logo from the Logo library (`logo/microsoft-powerpoint.svg`, `microsoft-excel.svg`, `pdf.svg`) as a 24px `<img>`, not an `<aha-icon>` glyph; the examples, snippets and contract say so. Cancelled and connection-lost cards keep the logo of the file they were importing; only the error state swaps to the x-circle glyph. The success check-circle drops from 16 to 12. Needs #166 (PDF logo) merged first. (#170)
