@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-tag",
   "summary": "A small label chip for a category, keyword, or state — filled or bordered, with an icon, a dismiss ×, or a checkable toggle.",
+  "highlights": ["Small label chip for a category, keyword or state", "Filled or bordered", "Icon, dismiss button or checkable toggle"],
   "lead": "ONE custom element — <aha-tag> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Tag is a family: a semantic `color` preset (neutral · primary · success · processing · warning · error), a filled (default) or `bordered` outlined shape, an optional leading `icon` (by name from the DS icon library), a `closable` × that animates out then removes + emits a composed `close`, and a `checkable` toggle flavour carrying a selected state (aria-pressed) that emits `change`. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the `close`/`change` events; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-30", "text-secondary", "bg-container", "border", "purple-10", "purple-60", "text-inverse", "bg-positive", "text-positive", "border-success", "bg-informative", "text-link", "border-info", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "border-focus", "radius-xs"],

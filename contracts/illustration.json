@@ -6,6 +6,7 @@
   "badge": "shared element + registry",
   "element": "aha-illustration",
   "summary": "One spot-art set, called by name — 20 multi-colour illustrations imported from Figma, rendered by the shared <aha-illustration>, never inline SVG.",
+  "highlights": ["One spot-art set, called by name", "20 multi-colour illustrations imported from Figma", "Rendered by <aha-illustration>, never inline SVG"],
   "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every multi-colour spot illustration from a single registry built from Figma (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration keeps its OWN palette; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
   "tokensUsed": ["color-error"],
   "spec": [

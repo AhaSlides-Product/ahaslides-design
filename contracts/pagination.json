@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-pagination",
   "summary": "A page selector for a paged list or table — prev / numbered pages with ellipsis / next; two sizes, a simple mode, and a whole-control disabled state.",
+  "highlights": ["Page selector for a paged list or table", "Previous, numbered pages with ellipsis, next", "Two sizes, simple mode, disabled state"],
   "lead": "ONE custom element — <aha-pagination> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; give it `total`+`page-size` (or a direct `pages` count) and `current` and it computes a page WINDOW with ellipses for long ranges — prev / numbered pages / next. It ships two `size`s (default 32px, `small` 24px), a `simple` mode that collapses the numbers to prev · n / total · next, and a whole-control `disabled` state. The current page is brand-filled; prev/next disable at the ends; hover animates via the shared motion tokens on persistent nodes; arrows use the DS caret glyph via <aha-icon>. Emits a composed `change` event.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `change`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "border-disabled", "bg-container", "text-default", "text-inverse", "text-disabled", "text-tertiary", "color-primary", "border-focus", "radius-default"],

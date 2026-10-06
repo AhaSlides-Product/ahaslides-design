@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A richer, stacking message with a title + description — rendered through antd's notification API.",
+  "highlights": ["Richer, stacking message with title and description", "Rendered through the antd notification API"],
   "lead": "Notification is antd's imperative `notification` API — a card with a title, description and optional actions that stacks in a corner — and keeps antd's built-in motion, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared notificationTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Notification.width"],
   "spec": [

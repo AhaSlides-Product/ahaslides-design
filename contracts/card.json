@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-card",
   "summary": "A surface that groups related content — cover, title, body and footer actions — in default/small size, bordered or flat, with a hover lift and a loading skeleton.",
+  "highlights": ["Surface that groups related content", "Cover, title, body and footer actions", "Default or small, bordered or flat, hover lift, loading skeleton"],
   "lead": "ONE custom element — <aha-card> — defined once, imported unchanged by React and Vue. The DS V3 Card is a family, not a single box: slot=\"cover\" adds a full-bleed image, `card-title` renders the header with slot=\"extra\" for a right-aligned action, the default slot is the body, slot=\"actions\" is a ruled-off footer row. `size` (default · small) tunes the padding, `bordered=\"false\"` drops the outline, `hoverable` lifts the card on hover, and `loading` swaps the body for a shimmer skeleton. Shadow-DOM CSS themed only by --aha-* tokens — zero drift, the same element in every framework.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "border", "border-hover", "split", "radius-lg", "radius-sm", "text-default", "text-secondary", "ink-a10", "bg-hover", "font-product", "motion-mid", "motion-slow", "ease-out"],

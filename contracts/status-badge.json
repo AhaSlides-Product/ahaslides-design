@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-status-badge",
   "summary": "A glanceable lifecycle pill for a domain object — draft, published, closed, archived, active, inactive.",
+  "highlights": ["Glanceable lifecycle pill for a domain object", "Draft, published, closed, archived, active, inactive"],
   "lead": "ONE custom element — <aha-status-badge> — the reusable form of the status-badges pattern. A coloured dot plus a text label (state is never conveyed by colour alone), `status` drives the colour via CSS on a persistent node, and the label is your slotted text. Six lifecycle states: draft · published · closed · archived · active · inactive. Shadow-DOM CSS, themed only by --aha-* tokens; carries role=\"status\" with an aria-label mirrored from the slotted label for screen readers. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-20", "gray-25", "gray-60", "gray-70", "text-secondary", "text-tertiary", "text-positive", "text-warning", "bg-positive", "bg-warning", "color-success", "color-warning", "radius-pill"],

@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-add-item-button",
   "summary": "The full-width \"+ Add\" affordance that sits under a settings list (OptionRow / QuestionList) — a dashed, tertiary add row that appends a new item.",
+  "highlights": ["Full-width “+ Add” row under a settings list", "Dashed, tertiary styling", "Appends a new item to OptionRow or QuestionList"],
   "lead": "ONE custom element — <aha-add-item-button> — defined once, imported unchanged by React and Vue. It is the subtle full-width add row beneath an editable list: a leading system-plus glyph + a label inside a dashed 1px border, radius 8, transparent/white fill, secondary-grey text. On hover the border + text tint toward brand and a faint accent fill fades in — animated on the persistent <button> node via the shared motion tokens (the subtree is never rebuilt on a state change, so the transition fires). Click emits a composed `add` event so the host can append an item; when the list hits its max count the host sets `disabled` → muted, no hover, aria-disabled. The `+` is decorative; the label carries the accessible name. Shadow-DOM CSS, themed only by --aha-* tokens.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-disabled", "color-primary", "bg-container", "bg-accent", "text-secondary", "text-disabled", "focus-ring-soft"],

@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-descriptions",
   "summary": "A read-only label/value grid summarising one entity's fields — N columns, bordered or plain, horizontal or vertical, with per-item span.",
+  "highlights": ["Read-only label and value grid for one entity", "N columns, bordered or plain, horizontal or vertical", "Per-item span"],
   "lead": "ONE custom element — <aha-descriptions> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. Feed it an `items` tree ([{label, value, span?}]) or light-DOM children (each child's `label` attr + content = one item). The DS V3 / antd Descriptions is a family, not a fixed two-column list: it flows N `column`s per row (an item may `span` several), lays out `horizontal` (label : value) or `vertical` (label over value), renders `bordered` (a ruled table with a tinted label column) or plain (row dividers only), and scales padding by `size` (default · small · large). `desc-title` renders an optional header. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "bg-container-secondary", "border", "split", "radius-default", "text-default", "text-secondary", "font-product"],

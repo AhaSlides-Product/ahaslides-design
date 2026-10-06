@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-result",
   "summary": "A full-block outcome state — success, error, info, warning, 404, 403 or 500 — with an icon, title and actions.",
+  "highlights": ["Full-block outcome state", "Success, error, info, warning, 404, 403 or 500", "Icon, title and actions"],
   "lead": "ONE custom element — <aha-result> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `status` picks the DS glyph and colour (success · error · info · warning · 404 · 403 · 500), `result-title` / `subtitle` carry the message, an `icon` attribute overrides the glyph with any DS icon name, and a `slot=\"extra\"` holds follow-up buttons. The status glyph is the shared <aha-icon> BY NAME — never an inline <svg>. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "color-success", "color-error", "color-warning", "color-info", "text-default", "text-tertiary"],

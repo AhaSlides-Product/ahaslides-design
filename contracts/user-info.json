@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-user-info",
   "summary": "A person/identity row — an avatar next to a name, with an optional email underneath.",
+  "highlights": ["Person or identity row", "Avatar beside a name", "Optional email underneath"],
   "lead": "ONE custom element — <aha-user-info> — the identity row that pairs a person's picture with their name (and, optionally, their email). It REUSES the shared <aha-avatar> for the picture/initials; it never re-implements one. Two layouts fall out of the data: email present → a 40px avatar + name (14/600) over email (12/400); email omitted (or size=\"compact\") → a 24px avatar + name only on one line. Shadow-DOM CSS, themed only by --aha-* tokens. The name renders as real text; the avatar is decorative (aria-hidden) so the name carries the accessible identity. A purely static display marker, so it declares no motion. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design, reusing the shared aha-avatar.",
   "tokensUsed": ["text-default", "text-tertiary", "font-product"],

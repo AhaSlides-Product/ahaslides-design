@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-setting-group",
   "summary": "The settings GROUP container — an optional semibold header (with a \"?\" help and an action slot) over a column of rows — that bakes in the panel spacing scale so gaps come out right automatically.",
+  "highlights": ["Settings group container", "Optional semibold header with “?” help and action slot", "Panel spacing scale baked in"],
   "lead": "ONE custom element — <aha-setting-group> — that encodes the settings-panel SPACING scale so you never hand-place a gap. Rows inside a group sit 16px apart (the between-settings step); stacked groups sit 32px apart automatically (`:host(:not(:first-child))` — no wiring); a danger-zone group (`tone=\"danger\"`) drops 48px (overriding the 32). An optional `label` renders a semibold (600) header with an optional `?` help trigger — the composed DS <aha-tooltip help>, never a hand-placed icon — and an `action` slot pushed to the right. NO divider line, NO card/tinted box — spacing only, white background. role=\"group\" + aria-label so AT announces it. Header + rows are persistent nodes. Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default", "text-tertiary", "bg-container"],

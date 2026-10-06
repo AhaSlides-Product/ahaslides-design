@@ -195,6 +195,7 @@ for (const ct of contracts) {
   // 1) contract completeness
   const missing = REQUIRED.filter(k => ct[k] == null || (Array.isArray(ct[k]) && !ct[k].length));
   chk('contract complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
+  chk('docs page highlights (1–4 short bullets)', Array.isArray(ct.highlights) && ct.highlights.length >= 1 && ct.highlights.length <= 4 && ct.highlights.every(h => typeof h === 'string' && h.trim()), 'add highlights: 1–4 short bullet strings (rendered under the page title)');
   // Decision: every component supports all three — HTML / React / Vue — and HTML LEADS (it's the
   // default doc tab + agent-feed snippet). Enforce both, not just "≥2 snippets".
   const snippetKeys = (ct.snippets || []).map(s => s.key);
@@ -567,6 +568,7 @@ for (const p of guidelines) {
   // 1) completeness + kind + the skill it distils
   const missing = GUIDELINE_REQUIRED.filter(k => p[k] == null || (Array.isArray(p[k]) && !p[k].length));
   chk('guideline complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
+  chk('docs page highlights (1–4 short bullets)', Array.isArray(p.highlights) && p.highlights.length >= 1 && p.highlights.length <= 4 && p.highlights.every(h => typeof h === 'string' && h.trim()), 'add highlights: 1–4 short bullet strings (rendered under the page title)');
   chk('kind is "guideline"', p.kind === 'guideline');
   chk('links a build skill (skillRef.build)', p.skillRef && typeof p.skillRef.build === 'string', 'add skillRef.build — the design skill it distils');
 

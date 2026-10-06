@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A brief, auto-dismissing confirmation of an action — rendered through antd's message API.",
+  "highlights": ["Brief, auto-dismissing confirmation of an action", "Rendered through the antd message API"],
   "lead": "Toast is antd's imperative `message` API — a transient confirmation that appears, then fades — and keeps antd's built-in motion, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared toastTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Message.contentBg"],
   "spec": [
