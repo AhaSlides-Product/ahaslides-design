@@ -444,13 +444,13 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .code-panel.feed pre{max-height:70vh}
 
 /* ---- demo card (stage + code-toggle footer, AntD-style) ---- */
-.demo{border:1px solid var(--aha-split);border-radius:12px;overflow:hidden;margin:0 0 12px;background:#fff}
+.demo{margin:0 0 12px;background:#fff}
 .demo-stage{padding:0}
-.demo-toolbar{display:flex;justify-content:flex-end;padding:9px 14px;border-top:1px dashed var(--aha-split)}
-.demo .code-panel{margin-top:0;border-radius:0}
+.demo-toolbar{display:flex;justify-content:flex-end;padding:9px 0;border-top:1px dashed var(--aha-split)}
+.demo .code-panel{margin-top:0;border-radius:8px}
 
 /* ---- interactive playground (the "smart widget": explore variants, don't stack them) ---- */
-.aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;border-bottom:1px dashed var(--aha-split);background:var(--aha-gray-20)}
+.aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;margin-bottom:12px;border-radius:8px;background:var(--aha-gray-20)}
 .aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .aha-pg-label{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-tertiary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
@@ -467,7 +467,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .grid2{display:grid;grid-template-columns:1fr 1fr}
 .grid2>div{padding:22px 20px}.grid2>div:first-child{border-right:1px solid var(--aha-split)}
 .note{background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
-.pad{padding:22px 20px}
+.pad{padding:12px 0}
 code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:#5715A0}
 .api-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px}
 table.api{width:100%;min-width:420px;border-collapse:collapse;font-size:13px;border:1px solid var(--aha-split);border-radius:8px;overflow:hidden}

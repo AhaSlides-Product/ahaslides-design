@@ -31,6 +31,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - Cancelled / terminal cards no longer carry a dead gap under the heading; footer spacing on DS space tokens. (#160)
 
+## 0.86.1 — 2026-10-06
+### Fixed
+- **Docs examples sit flush with the page, without a frame.** The bordered, rounded box and the side padding around each component's examples are gone, so group titles and previews align with the "Examples" heading. Card shadows are no longer clipped, the playground control bar is a rounded grey band of its own, and the "Show code" toolbar keeps its dashed divider. (#157)
+
 ## 0.86.0 — 2026-10-06
 ### Fixed
 - **`<aha-popover flip>` no longer opens off-screen.** Builds on the 0.85.0 vertical flip. With `flip` it now measures on open and flips to the roomier side (top/bottom, left/right) when the requested side does not fit, clamps 8px inside the viewport edges, and re-measures on resize, scroll and panel resize while open. It is positioned with `position: fixed`, so an `overflow: hidden/auto` ancestor (side panel, scroll container) no longer clips it; the arrow follows the flip and the trigger. A `transform`/`filter`/`contain: paint` ancestor still clips (and is compensated for offset). The host reports a flipped side as `flipped` plus `data-flipped` (the side).
