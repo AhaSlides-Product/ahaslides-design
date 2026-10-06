@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.83.0 — 2026-10-06
+### Changed
+- **`<aha-csat>` now mimics the presenter's inline CSAT (`InlineCSATV2`).** Once rated, only the chosen thumb remains; clicking it again un-rates (both thumbs return, `value` is removed, `rate` fires with `rating: null`). The selected thumb uses the antd tertiary active look (fill #F0E4FF, icon #6A1EBB) and hover icons are purple-50. The feedback popover focuses its textarea on open, defaults to "How can we improve? Let us know!", and after Send does not re-open on thumbs-down until the rating changes again. Default tooltips are now "Useful" / "Not useful". (#PR)
+### Added
+- **The opt-in `feedback-button` now sits right beside the thumbs and stays visible after rating**, opening the popover without rating. `feedback-button-placeholder` falls back to `feedback-placeholder`.
+
 ## 0.82.0 — 2026-10-05
 ### Changed
 - **`<aha-progress-toast>` renamed `<aha-background-task>` and moved from Components to Patterns.** It is the pattern for any long-running process (import, export, upload, duplicate), with the presenter's Import as the reference implementation, not a general component, and it differs from Toast (a one-line confirmation). Element, entry (`@ahaslides-product/design/aha-background-task`), contract and docs page are now `background-task`; the page lives under Patterns · AhaSlides surfaces. The class is `AhaBackgroundTask` / `defineAhaBackgroundTask`; the API is unchanged. The `--aha-toast-*` CSS custom properties are unchanged. (#153)
