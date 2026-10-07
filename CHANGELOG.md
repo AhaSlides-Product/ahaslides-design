@@ -28,6 +28,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Every other ✕ takes the same spec: CSAT follow-up and Uploader remove now render `<aha-close-button>`; Input clear is the 14px `system-x` (was `system-x-circle`) in a 20 × 20 hit area; Image preview close is now the white 20 × 20 radius-6 square in the image's top-right corner (no more 32px disc), Tag remove takes the muted colour and hover; the Uploader row ✕ is centred on its row. The rule now says a ✕ is never circular. `closeButtonRow` no longer needs `containerPadding` (#178)
 - Guidance: close-button contract, `one-dismiss-button` rule, anti-slop feedback C6 and its eval cases describe the new spec; the Button docs' icon-only example is a gear, not a ✕ (#178)
 
+## 0.99.1 — 2026-10-07
+### Fixed
+- CSAT: a long rating question (e.g. a French translation) wraps onto a second line with the thumbs kept beside it, instead of running past the edge of its container. The background-task examples show the French case. (#179)
+
 ## 0.99.0 — 2026-10-07
 ### Changed
 - CSAT: the thumbs' default tooltips are now Good / Not good (were Useful / Not useful), and each thumb's accessible name follows its tooltip, including a custom `like-label` / `dislike-label`. (#177)
