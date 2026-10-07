@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.106.2 — 2026-10-07
 ### Fixed
-- CSAT: the thumbs and Feedback buttons sit 4px apart, so a selected or hovered background no longer touches its neighbour (#PR)
+- CSAT: the thumbs and Feedback buttons sit 4px apart, so a selected or hovered background no longer touches its neighbour (#195)
 
 ## 0.106.1 — 2026-10-07
 ### Fixed
