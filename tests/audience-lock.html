@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audience submission lock</title>
+</head>
+<body>
+  <aha-scale-slider id="host-disabled-slider" lock-key="empty" disabled></aha-scale-slider>
+  <aha-audience-submit id="host-locked-submit" lock-key="empty" locked>Submit</aha-audience-submit>
+  <aha-audience-field id="host-disabled-field" label="Name" lock-key="empty"><aha-counted-input id="host-disabled-input" disabled></aha-counted-input></aha-audience-field>
+
+  <aha-answer-list id="list" lock-key="shared" options='[{"id":"a","label":"A"},{"id":"b","label":"B"}]'></aha-answer-list>
+  <aha-scale-slider id="lockable-slider" lock-key="shared"></aha-scale-slider>
+  <aha-audience-submit id="submit" lock-key="shared">Submit</aha-audience-submit>
+
+  <aha-scale-slider id="unset-slider" min="0" max="10" unset></aha-scale-slider>
+  <script type="module">
+    try { sessionStorage.clear(); } catch {}
+    await import('../lib/all.js');
+    window.audienceLockFixtureReady = true;
+  </script>
+</body>
+</html>
