@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tooltip reveal</title>
+</head>
+<body>
+  <aha-tooltip id="tip" text="Copy link"><button id="trigger">Share</button></aha-tooltip>
+  <aha-tooltip id="focus-tip" trigger="focus" text="Focus only"><button id="focus-trigger">Focus</button></aha-tooltip>
+  <aha-tooltip id="help-tip" help text="Help hint"></aha-tooltip>
+  <script type="module">
+    await import('../lib/aha-tooltip.js');
+    window.tooltipFixtureReady = true;
+  </script>
+</body>
+</html>
