@@ -74,7 +74,7 @@
         "when": "a quantity along a bar, such as 3 of 7 lessons done"
       }
     ],
-    "note": "Pair it with the item title or a visible label where the state matters; the glyph shape differs per state, so colour is never the only signal. Not-started uses the check-circle glyph in grey: the registry has no plain circle glyph, so a hollow circle needs a DS icon first."
+    "note": "Pair it with the item title or a visible label where the state matters; in-progress has its own glyph, but not-started and completed share the check-circle and differ by colour, so the accessible name and nearby text carry the state. Not-started uses the check-circle glyph in grey: the registry has no plain circle glyph, so a hollow circle needs a DS icon first."
   },
   "surfaces": [
     "editor",

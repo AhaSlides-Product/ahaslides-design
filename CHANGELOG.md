@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.103.1 — 2026-10-07
+### Fixed
+- Status icon: the usage note no longer says every state has its own glyph; not-started and completed share `system-check-circle` and differ by colour, so the accessible name carries the state (#PR)
+
 ## 0.103.0 — 2026-10-07
 ### Added
 - Icon: `system-circle-dashed`, the Phosphor CircleDashed (regular) glyph on the 16px stroke grid like the other system glyphs, for an in-progress state (#189)
