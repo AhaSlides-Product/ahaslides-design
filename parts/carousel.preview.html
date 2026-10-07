@@ -74,7 +74,7 @@ function Demo() {
   return (
     <div style={{ maxWidth: 620 }}>
       {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
-      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8 }}>
         <Seg label="Dot position" value={dotPosition} onChange={setDotPosition}
           options={[{ label: 'Bottom', value: 'bottom' }, { label: 'Top', value: 'top' },
                     { label: 'Left', value: 'left' }, { label: 'Right', value: 'right' }]} />

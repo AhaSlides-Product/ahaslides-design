@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.98.0 — 2026-10-06
+### Added
+- `<aha-close-button>` (`@ahaslides-product/design/aha-close-button`): the one dismiss ✕ for Alert, Info box, Background task, Toast, Notification, Modal and Drawer. It is the tertiary button at small size (28 × 28) with the 16px `system-x` icon, sits 8px from the container's edge, and lines up with the first line of text and the leading icon, so it stays put when the text wraps. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Feedback guideline rule `one-dismiss-button`, judged by the new feedback anti-slop criterion C6. (#168)
+- `dismissibleToast` (toast-theme) and `dismissibleTitle` (notification-theme) put the shared ✕ into antd's message and notification; `dismissibleModalTitle` (modal-theme) and `dismissibleDrawerTitle` (drawer-theme) put it into Modal and Drawer, which move from antd's own ✕ to the same 28 × 28 tertiary button, 8px from the edge. Pass `closable: false` (`closable={false}` on Modal and Drawer) so antd's own close is not drawn. (#168)
+### Changed
+- Alert `closable`, Info box `dismissible` and Background task now render `<aha-close-button>`: the Alert and Info box ✕ grows from a bare 16px or 20px glyph to the 28px tertiary button and turns brand on hover. Alert builds its shadow DOM once and updates it in place. `::part(close)` (Alert) and `::part(dismiss)` (Info box, Background task) now target the `<aha-close-button>` host, not a native button, so restyle overrides written against the old glyph button need checking. (#168)
+- Docs: navigation and reading labels (sidebar groups, playground rows, API table headers, "On this page", settings and token group headings) are sentence case at 14px semibold instead of 11px grey capitals; only chips and badges stay in capitals. Component groups read "Data entry" and "Data display". (#168)
+- Docs: the 148 example titles that listed variants with dots ("Sizes · small 24 · default 32…") are now short group titles ("Sizes"). (#168)
+
 ## 0.97.0 — 2026-10-06
 ### Changed
 - Every logo use now points to the Foundations Logo library: one rule in AGENTS.md, PRINCIPLES.md, llms.txt, the `aha-design` skill and the app-shell anti-slop criterion C1 (#167)

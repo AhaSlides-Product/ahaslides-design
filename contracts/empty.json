@@ -1,7 +1,7 @@
 {
   "name": "Empty",
   "slug": "empty",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-empty",

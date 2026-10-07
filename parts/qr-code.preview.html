@@ -61,7 +61,7 @@ function Demo() {
   return (
     <div style={{ maxWidth: 520 }}>
       {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
-      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8 }}>
         <Seg label="Size" value={size} onChange={setSize}
           options={[{ label: '120', value: 120 }, { label: '160', value: 160 }, { label: '200', value: 200 }]} />
         <Seg label="Error level" value={errorLevel} onChange={setErrorLevel}

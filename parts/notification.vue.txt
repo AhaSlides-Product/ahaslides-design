@@ -1,16 +1,19 @@
 <script setup>
 import { h } from 'vue';
 import { ConfigProvider, notification, Button } from 'ant-design-vue';   // ant-design-vue v4
-import { notificationTheme } from '@ahaslides-product/design/notification-theme';
+import { notificationTheme, dismissibleTitle } from '@ahaslides-product/design/notification-theme';
 
 // v4 DS rule: use the hook so the card consumes the ConfigProvider theme.
 // The static notification.open() is FORBIDDEN — it renders outside the theme.
 const [notificationApi, contextHolder] = notification.useNotification();
 
 // type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
-const notify = (type, placement) =>
+// the ✕ is the shared <aha-close-button> in the title; closable: false turns antd's own close off
+const notify = (type, placement, key = `export-${Date.now()}`) =>
   notificationApi[type]({
-    message: 'Export ready',
+    key,
+    closable: false,
+    message: () => dismissibleTitle(h, 'Export ready', () => notificationApi.destroy(key)),
     description: 'Your CSV of responses is ready to download.',
     placement,               // which corner it stacks in (default topRight)
     duration: 4.5,           // seconds on screen; 0 keeps it until dismissed

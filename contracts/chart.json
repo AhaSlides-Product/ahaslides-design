@@ -2,7 +2,7 @@
   "name": "Chart",
   "slug": "chart",
   "docPage": "charts/index.html",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-chart",

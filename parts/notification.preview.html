@@ -18,6 +18,10 @@
 <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
 <script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
 <script>window.__antdR = window.antd;</script>
+<script type="module">
+  import { dismissibleTitle } from '../lib/notification-theme.js';   // registers <aha-close-button> — the shipped ✕
+  window.__dismissibleTitle = dismissibleTitle;
+</script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
@@ -65,16 +69,25 @@ function Demo() {
   const [type, setType] = useState('info');
   const [placement, setPlacement] = useState('topRight');
 
-  const fire = (t, extra) => api[t]({ ...COPY[t], placement, ...extra });
+  // The ✕ is the shared <aha-close-button> in the title (dismissibleTitle); antd's own close is off.
+  const fire = (t, extra, key = 'n' + Date.now()) => api[t]({
+    key, closable: false, placement, description: COPY[t].description,
+    title: window.__dismissibleTitle(React.createElement, COPY[t].message, () => api.destroy(key)), ...extra });
 
   // Conformance default: one sticky (duration 0) card on mount so qa.mjs can measure the real
   // themed antd card. info · topRight matches the default axes.
-  useEffect(() => { api.info({ ...COPY.info, placement: 'topRight', duration: 0 }); }, []);
+  useEffect(() => {
+    fire('info', { placement: 'topRight', duration: 0 }, 'probe');
+    // a title that wraps to three lines: the ✕ stays on the first line
+    fire('warning', { placement: 'topRight', duration: 0, title: window.__dismissibleTitle(React.createElement,
+      'Storage almost full: older uploads in this workspace will be archived unless you free up space',
+      () => api.destroy('wrap')) }, 'wrap');
+  }, []);
 
   return (
     <div className="aha-demo">
       {ctx}
-      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8 }}>
         <Seg label="Type" value={type} onChange={setType}
           options={[
             { label: 'Success', value: 'success' },
@@ -93,7 +106,7 @@ function Demo() {
       <Space wrap>
         <Button type="primary" onClick={() => fire(type)}>Show notification</Button>
         <Button onClick={() => fire(type, {
-          btn: <Button type="primary" size="small" onClick={() => api.destroy()}>Undo</Button>,
+          actions: <Button type="primary" size="small" onClick={() => api.destroy()}>Undo</Button>,
         })}>With action</Button>
         <Button onClick={() => fire(type, { duration: 0 })}>Sticky (duration 0)</Button>
       </Space>

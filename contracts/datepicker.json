@@ -1,7 +1,7 @@
 {
   "name": "DatePicker",
   "slug": "datepicker",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Pick a date or a date range from a calendar — schedules, deadlines, filters — rendered through the shared DatePicker.",

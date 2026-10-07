@@ -1,7 +1,7 @@
 {
   "name": "Table",
   "slug": "table",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A data grid — results, leaderboard, participant/admin list — rendered as the real antd Table themed by the shared tableTheme.",

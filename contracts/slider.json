@@ -1,7 +1,7 @@
 {
   "name": "Slider",
   "slug": "slider",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Drag to set a value across a known range — volume, opacity, thresholds, ranges — rendered through the shared Slider.",

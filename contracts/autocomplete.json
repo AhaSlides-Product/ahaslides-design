@@ -1,7 +1,7 @@
 {
   "name": "AutoComplete",
   "slug": "autocomplete",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Free-text input with suggestions as you type — search boxes, tag entry, known-but-open fields — rendered through the shared AutoComplete.",

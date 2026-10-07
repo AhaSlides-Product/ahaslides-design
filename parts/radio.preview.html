@@ -1,19 +1,19 @@
 <div class="pad">
-  <div class="lbl">Group · one name = one mutually-exclusive set (the probe is the checked option)</div>
+  <div class="lbl">Radio group</div>
   <div class="stack" role="radiogroup" aria-label="Activity mode">
     <aha-radio data-probe name="mode" value="poll" checked>Poll</aha-radio>
     <aha-radio name="mode" value="quiz">Quiz</aha-radio>
     <aha-radio name="mode" value="wordcloud">Word cloud</aha-radio>
   </div>
 
-  <div class="lbl">Button variant · segmented connected pills</div>
+  <div class="lbl">Button style</div>
   <div class="row" role="radiogroup" aria-label="View" style="gap:0">
     <aha-radio name="view" value="grid" variant="button" checked>Grid</aha-radio>
     <aha-radio name="view" value="list" variant="button">List</aha-radio>
     <aha-radio name="view" value="board" variant="button">Board</aha-radio>
   </div>
 
-  <div class="lbl">Card variant · the whole bordered card is the target (checked = brand border + bg-accent fill)</div>
+  <div class="lbl">Card style</div>
   <div class="stack" role="radiogroup" aria-label="Plan" style="max-width:360px">
     <aha-radio data-card-probe name="plan" value="pro" variant="card" checked
       description="Best for teams — unlimited slides and live results.">Pro</aha-radio>
@@ -22,7 +22,7 @@
     <aha-radio name="plan" value="free" variant="card">Free</aha-radio>
   </div>
 
-  <div class="lbl">Small size · disabled states</div>
+  <div class="lbl">Small and disabled</div>
   <div class="row">
     <aha-radio name="sz" value="a" size="small" checked>Small on</aha-radio>
     <aha-radio name="sz" value="b" size="small">Small off</aha-radio>

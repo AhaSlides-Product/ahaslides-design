@@ -12,9 +12,11 @@
     { "label": "Surface", "value": "white elevated pill · radius 8 · ink #1A1A1A text" },
     { "label": "Position", "value": "top-centre, floating" },
     { "label": "Duration", "value": "3s default (0 = sticky)" },
-    { "label": "Status", "value": "success / info / warning / error / loading" }
+    { "label": "Status", "value": "success / info / warning / error / loading" },
+    { "label": "Dismiss", "value": "a sticky toast (duration 0) carries the shared <aha-close-button> (tertiary, small, 16px system-x) via dismissibleToast, on the first line, 8px from the edge; never antd's own close" }
   ],
   "props": [
+    { "name": "dismissibleToast(h, content, onClose, label?)", "type": "function", "default": "—", "desc": "Toast content with the shared ✕; h is React's createElement or Vue's h" },
     { "name": "type", "type": "success | info | warning | error | loading", "default": "info", "desc": "Status glyph + tone" },
     { "name": "content", "type": "string", "default": "—", "desc": "The message text" },
     { "name": "duration", "type": "number", "default": "3", "desc": "Seconds on screen; 0 keeps it until dismissed" },
@@ -30,7 +32,7 @@
     "dsv3": "COVERED — antd v6 message API, themed by the shared toastTheme (white pill · radius 8 · ink #1A1A1A text · top-centre). Matrix: type × { success, info, warning, error, loading } — each rendered via the message.useMessage() hook + contextHolder inside <ConfigProvider> (the DS forbids the static message.success(), which bypasses the theme). duration (3s default, 0 = sticky) is the second axis. Verified via Figma search_design_system against the DS V3 message set (Component/MD-Message text style — 'toast, alert, message')."
   },
   "surfaces": ["editor", "dashboard", "settings"],
-  "reuse": { "entry": "./toast-theme", "exportsNamed": ["toastTheme"] },
+  "reuse": { "entry": "./toast-theme", "exportsNamed": ["toastTheme", "dismissibleToast"] },
   "snippets": [
     { "key": "html", "label": "HTML", "file": "toast.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared toastTheme. No build step." },
     { "key": "react", "label": "React", "file": "toast.react.txt" },

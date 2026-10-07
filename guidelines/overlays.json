@@ -44,7 +44,7 @@
     {
       "ref": "icon",
       "as": "component",
-      "use": "the X close glyph and footer action glyphs — functional icons only, via the shared Icon",
+      "use": "footer action glyphs — functional icons only, via the shared Icon; the Modal and Drawer dismiss ✕ is the shared <aha-close-button> through dismissibleModalTitle / dismissibleDrawerTitle with closable={false}",
       "status": "available"
     },
     {

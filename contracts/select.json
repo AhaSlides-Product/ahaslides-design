@@ -1,7 +1,7 @@
 {
   "name": "Select",
   "slug": "select",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Pick one value (or several) from a known set — with type-to-search — rendered through the shared Select.",

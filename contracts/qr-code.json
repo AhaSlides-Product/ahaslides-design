@@ -1,7 +1,7 @@
 {
   "name": "QR code",
   "slug": "qr-code",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A scannable QR code — a join link, a deck URL, a Wi-Fi handoff — rendered through the shared QRCode.",
