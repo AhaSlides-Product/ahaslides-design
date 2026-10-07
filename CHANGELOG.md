@@ -29,13 +29,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default (#1A1A1A, was #1F1330), description and caption in text-secondary (#4A4A4A, was #6B6478), radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
 
+## 0.100.5 — 2026-10-07
+### Fixed
+- Background task: the inline `link` (e.g. Retry) now looks like the Button text-link variant, in the DS link colour, regular weight and no underline, lighter on hover. It was bold and underlined. (#182)
+
 ## 0.100.4 — 2026-10-07
 ### Fixed
 - Tooltip: the hint no longer sticks after a mouse click or a touch tap. It shows on mouse hover or keyboard focus only, so clicking a trigger hides it, CSAT's thumb no longer brings the hint back when the feedback popover closes, and a tap on touch no longer leaves it open. `trigger="focus"` still shows on any focus and `trigger="click"` is unchanged. (#183)
-
-## 0.100.3 — 2026-10-07
-### Fixed
-- Background task: the inline `link` (e.g. Retry) now looks like the Button text-link variant, in the DS link colour, regular weight and no underline, lighter on hover. It was bold and underlined. (#182)
 
 ## 0.100.1 — 2026-10-07
 ### Fixed
