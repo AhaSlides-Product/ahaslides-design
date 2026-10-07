@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.97.0 — 2026-10-06
+### Changed
+- Every logo use now points to the Foundations Logo library: one rule in AGENTS.md, PRINCIPLES.md, llms.txt, the `aha-design` skill and the app-shell anti-slop criterion C1 (#167)
+- The docs header Splash is read from `logo/thesplash.svg` at build time, so it cannot drift from the library (#167)
+
 ## 0.96.0 — 2026-10-06
 ### Added
 - Logo library → Brands: **Microsoft Word** and **PDF** (Adobe file-type mark) in the "Import, export and cloud" section, ordered Excel, Word, PDF, Google Drive, OneDrive. Both are the current default SVG from thesvg.org (`microsoft-word`, `pdf`); the Brands tab and its highlight now count 21 brands. `llms.txt` lists them. (#166)

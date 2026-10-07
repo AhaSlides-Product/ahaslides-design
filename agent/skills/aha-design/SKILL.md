@@ -90,7 +90,11 @@ Read the list from the DS each time — surfaces get added.
 3. Build from DS components (`llms.txt` → `<slug>.agent.json` for the API) and bind every
    colour, radius and spacing to DS tokens. If the DS lacks a component you need, say so — do not
    hand-roll a look-alike.
-4. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
+4. Every logo (the AhaSlides logo / The Splash, or a third-party brand such as Google, Zoom or
+   Microsoft) comes from the Logo library: `https://ahaslides-product.github.io/ahaslides-design/foundations/logo.html`, files at
+   `https://ahaslides-product.github.io/ahaslides-design/logo/<file>`. Never redraw one, inline a
+   hand-made SVG, recolour it, or substitute an icon or letter tile.
+5. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
    radar, word cloud, mind map) is `<aha-chart>` from the DS: read
    `https://ahaslides-product.github.io/ahaslides-design/chart.agent.json` first, use
    `palette="brand"` on app screens and `palette="deck"` on the presenting / audience canvas. Never
