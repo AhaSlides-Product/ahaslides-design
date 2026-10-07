@@ -24,16 +24,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.111.0 — 2026-10-07
 ### Changed
-- **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#PR)
-- **Breaking (visual):** status carries no colour. `--aha-color-success | warning | error | info`, the `--aha-text-positive | negative | warning` and `--aha-border-success | warning | error | info` tokens are black, the status backgrounds (`--aha-bg-positive | negative | warning | warning-subtle | informative`) are white, and danger and positive buttons are black fills; every status keeps its icon and wording (#PR)
-- **Breaking (visual):** brand charts use four colours in order: Vivid Pink, black, Vivid Pink at 30% (`#F8B7D2`), light grey `#A8A8A8` (`--aha-viz-series-1…4`; 5 and 6 repeat the first two); tints are Vivid Pink at 5% or grey. Deck-palette charts are unchanged (#PR)
-- Links are black and turn Vivid Pink on hover (`--aha-text-link`). Text on Vivid Pink at 5% is black: selected menu, dropdown, tabs, tag, badge, avatar, CSAT, uploader, table filter and number-step hovers no longer put pink text on the pale pink tint (#PR)
-- The primary button gains a soft pink shadow on hover (`--aha-button-elevate-primary-hover`). Overlay and ink alphas (`--aha-bg-overlay`, `--aha-ink-a*`) are black instead of indigo (#PR)
-- Badge tones, plans and ranks drop coral, yellow, green and purple for Vivid Pink, pale pink, black and grey; rate stars are Vivid Pink (#PR)
-- Section container (marketing): the soft band is pale pink and the dark band is replaced by `aha-section--primary`, a Vivid Pink band with solid white text. `aha-section--dark` still works and now renders the same Vivid Pink band (#PR)
-- Purple stays in the token set (`--aha-purple-*`, `--aha-brand-1`) for the logo only; no DS component uses it any more (#PR)
+- **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#197)
+- **Breaking (visual):** status carries no colour. `--aha-color-success | warning | error | info`, the `--aha-text-positive | negative | warning` and `--aha-border-success | warning | error | info` tokens are black, the status backgrounds (`--aha-bg-positive | negative | warning | warning-subtle | informative`) are white, and danger and positive buttons are black fills; every status keeps its icon and wording (#197)
+- **Breaking (visual):** brand charts use four colours in order: Vivid Pink, black, Vivid Pink at 30% (`#F8B7D2`), light grey `#A8A8A8` (`--aha-viz-series-1…4`; 5 and 6 repeat the first two); tints are Vivid Pink at 5% or grey. Deck-palette charts are unchanged (#197)
+- Links are black and turn Vivid Pink on hover (`--aha-text-link`). Text on Vivid Pink at 5% is black: selected menu, dropdown, tabs, tag, badge, avatar, CSAT, uploader, table filter and number-step hovers no longer put pink text on the pale pink tint (#197)
+- The primary button gains a soft pink shadow on hover (`--aha-button-elevate-primary-hover`). Overlay and ink alphas (`--aha-bg-overlay`, `--aha-ink-a*`) are black instead of indigo (#197)
+- Badge tones, plans and ranks drop coral, yellow, green and purple for Vivid Pink, pale pink, black and grey; rate stars are Vivid Pink (#197)
+- Section container (marketing): the soft band is pale pink and the dark band is replaced by `aha-section--primary`, a Vivid Pink band with solid white text. `aha-section--dark` still works and now renders the same Vivid Pink band (#197)
+- Purple stays in the token set (`--aha-purple-*`, `--aha-brand-1`) for the logo only; no DS component uses it any more (#197)
 ### Added
-- `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#PR)
+- `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#197)
 
 ## 0.109.0 — 2026-10-07
 ### Changed
