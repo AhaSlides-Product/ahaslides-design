@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.99.1 — 2026-10-07
 ### Fixed
-- CSAT: a long rating question (e.g. a French translation) wraps onto a second line with the thumbs kept beside it, instead of running past the edge of its container. The background-task examples show the French case. (#PRNUM)
+- CSAT: a long rating question (e.g. a French translation) wraps onto a second line with the thumbs kept beside it, instead of running past the edge of its container. The background-task examples show the French case. (#179)
 
 ## 0.99.0 — 2026-10-07
 ### Changed
