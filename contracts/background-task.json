@@ -13,7 +13,7 @@
     "Stack element: bottom-right, newest on top"
   ],
   "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), a 5px progress bar and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed). A process label (\"PDF\", \"Import\") can sit before the heading, split from it by a thin divider; the description line can end in an inline link (\"Download didn't start? Retry\") and the leading icon is centred on heading and description together. A process with no real percentage sets `no-percentage`: the bar eases towards 90% on its own while the caption says what is happening. Several processes share the <aha-background-task-stack> column: one card per process, updated in place, newest on top.",
-  "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (12.5px heading, #1F1330 ink, #6B6478 secondary, 5px bar, #D9D4E2 paused fill) are kept as built in the presenter's Import, not rounded to DS values. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
+  "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (12.5px heading, #1F1330 ink, #6B6478 secondary, 5px bar, #B5B5B5 paused fill on a #F1F1F1 track) are kept as built in the presenter's Import, not rounded to DS values. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
   "tokensUsed": [
     "icon-default",
     "color-primary",
@@ -38,7 +38,7 @@
     },
     {
       "label": "Bar",
-      "value": "5px track (rgba(106,30,187,.12)), primary fill, width eases 1.7s cubic-bezier(.2,.65,.3,1), moving white stripes while running; fill #D9D4E2 and still on offline; hidden on success / canceled / error"
+      "value": "5px track (rgba(106,30,187,.12)), primary fill, width eases 1.7s cubic-bezier(.2,.65,.3,1), moving white stripes while running; on offline the track is gray-30 #F1F1F1 and the fill gray-60 #B5B5B5, still, no stripes; hidden on success / canceled / error"
     },
     {
       "label": "Caption row",
