@@ -1554,7 +1554,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C5 — dependent sub-setting shown disabled and flat.",
-      "expected_output": "C5 FAILs: a sub-setting that only applies when its parent is on must be hidden while the parent is off (disabled is reserved for an upgrade path), and when shown it must read as nested — indented (sizeLG), a tighter gap above (sizeXS) and a lighter label. Fix: render 'Maximum answers per person' only when 'Allow multiple answers' is on, indented and de-emphasised. Overall NEEDS FIX.",
+      "expected_output": "C5 FAILs: a sub-setting that only applies when its parent is on must be hidden while the parent is off (disabled is reserved for an upgrade path), and when shown it must read as nested — indented 24px (sizeLG), 16px below the parent and a regular 400 secondary-text label. Fix: render 'Maximum answers per person' only when 'Allow multiple answers' is on, indented and de-emphasised. Overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C5 is marked FAIL",

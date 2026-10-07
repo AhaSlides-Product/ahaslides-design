@@ -7,7 +7,7 @@ import '@ahaslides-product/design/aha-switch';
 import '@ahaslides-product/design/aha-input';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue — <aha-setting-group> bakes in the spacing scale (rows 16 · groups 32 · danger 48).
+// Component.vue — <aha-setting-group> bakes in the spacing scale (rows 24 · groups 32 · danger 48).
 // Guidance goes in `help` (the "?" tooltip); dependent settings nest in <aha-sub-setting-group>,
 // hidden when the parent is off.
 <script setup>

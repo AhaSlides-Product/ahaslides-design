@@ -6,9 +6,9 @@ import '@ahaslides-product/design/aha-switch';
 import '@ahaslides-product/design/aha-input';
 import { useState } from 'react';
 
-// <aha-setting-group> bakes in the spacing scale: rows 16px apart, groups 32px apart automatically,
+// <aha-setting-group> bakes in the spacing scale: rows 24px apart, groups 32px apart automatically,
 // tone="danger" 48px down — no dividers, no cards. Put guidance in `help` (the "?" tooltip), an
-// action in the `action` slot, and dependent settings in a nested <aha-sub-setting-group> that you
+// plain-text count in the `action` slot (never a control), and dependent settings in a nested <aha-sub-setting-group> that you
 // hide when the parent is off.
 function DeckSettings() {
   const [timerOn, setTimerOn] = useState(true);
