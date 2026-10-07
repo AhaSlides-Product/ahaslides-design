@@ -9,7 +9,7 @@
   "highlights": [
     "Multiple-choice answers on the audience phone",
     "Single or multiple selection, counts and the quiz reveal",
-    "Deck ink, frosted surface, 56px rows",
+    "Deck ink, frosted surface, 44px rows",
     "Locks and restores the pick after an iframe remount"
   ],
   "lead": "ONE custom element — <aha-answer-list> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
@@ -28,7 +28,7 @@
   "spec": [
     {
       "label": "Row",
-      "value": "min-height 56, radius 8, padding 12/16, gap 12; frosted surface (ink's opposite at 80% over a 20px blur), 1px ink hairline at 20%"
+      "value": "min-height 44, radius 8, padding 8/16, gap 12; frosted surface (ink's opposite at 80% over a 20px blur), 1px ink hairline at 20%"
     },
     {
       "label": "Gap",
@@ -36,19 +36,19 @@
     },
     {
       "label": "Label",
-      "value": "16px, 400; 600 on my pick"
+      "value": "16px, 600"
     },
     {
       "label": "Pick",
-      "value": "radio or checkbox in the deck accent (deepened until a white mark reads at 3:1); my row ringed 2px in the deck ink"
+      "value": "radio or checkbox in the deck accent (deepened until a white mark reads at 3:1); my row ringed 1.5px in the deck ink"
     },
     {
       "label": "Reveal",
-      "value": "a tick (success) or cross (error) on every row; only my pick ringed, in the verdict colour"
+      "value": "a tick (success) or cross (error) on every row; the correct row ringed in success, my wrong pick ringed and tinted in error, the other rows mute to 55%"
     },
     {
       "label": "Locked",
-      "value": "the rows I did not pick mute to 45% content opacity; my pick stays at full strength"
+      "value": "the rows I did not pick mute to 55% content opacity; my pick stays at full strength"
     }
   ],
   "props": [
@@ -193,9 +193,9 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
     "ready": "!!(document.querySelector('aha-answer-list[data-probe]')&&document.querySelector('aha-answer-list[data-probe]').shadowRoot&&document.querySelector('aha-answer-list[data-probe]').shadowRoot.querySelector('aha-answer-option')&&document.querySelector('aha-answer-list[data-probe]').shadowRoot.querySelector('aha-answer-option').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-answer-list[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('aha-answer-option').shadowRoot.querySelector('.row');var c=cs(row);var lab=cs(row&&row.querySelector('.label'));var picked=r.querySelectorAll('aha-answer-option')[1].shadowRoot.querySelector('.control');return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,labelSize:lab.fontSize,gap:cs(q('.list')).rowGap,pickedControl:cs(picked).backgroundColor};})()",
+    "measure": "(function(){var el=document.querySelector('aha-answer-list[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('aha-answer-option').shadowRoot.querySelector('.row');var c=cs(row);var lab=cs(row&&row.querySelector('.label'));var picked=r.querySelectorAll('aha-answer-option')[1].shadowRoot.querySelector('.control');return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,labelSize:lab.fontSize,gap:cs(q('.list')).rowGap,pickedControl:cs(picked).borderTopColor};})()",
     "expect": {
-      "rowHeight": "56px",
+      "rowHeight": "44px",
       "rowRadius": "8px",
       "ink": "rgb(26, 26, 26)",
       "labelSize": "16px",

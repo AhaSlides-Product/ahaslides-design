@@ -21,15 +21,15 @@
   "spec": [
     {
       "label": "Glyph",
-      "value": "32px DS icon, opacity breathing on a long cycle; still under reduced motion"
+      "value": "32px DS icon in the muted ink, opacity breathing on a long cycle; still under reduced motion"
     },
     {
       "label": "Headline",
-      "value": "18px semibold, deck ink"
+      "value": "16px semibold, deck ink"
     },
     {
       "label": "Sub-line",
-      "value": "16px, the deck ink at 75%"
+      "value": "12px, the muted ink (ink at 65%)"
     }
   ],
   "props": [
@@ -108,11 +108,11 @@
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-waiting-for-host[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var h=cs(q('.headline'));var s=cs(q('.subline'));return{headlineSize:h.fontSize,headlineWeight:h.fontWeight,ink:h.color,sublineSize:s.fontSize,padding:cs(q('.screen')).paddingTop};})()",
     "expect": {
-      "headlineSize": "18px",
+      "headlineSize": "16px",
       "headlineWeight": "600",
       "ink": "rgb(26, 26, 26)",
-      "sublineSize": "16px",
-      "padding": "24px"
+      "sublineSize": "12px",
+      "padding": "20px"
     }
   }
 }

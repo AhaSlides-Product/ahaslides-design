@@ -25,15 +25,15 @@
   "spec": [
     {
       "label": "Card",
-      "value": "radius 12, padding 24, gap 16, frosted surface, 1px ink hairline"
+      "value": "radius 12, padding 20/16, gap 6, the frosted surface washed 5% with the ink, 1px ink hairline"
     },
     {
       "label": "Pip",
-      "value": "64px circle on a 10% ink wash, 32px glyph; or a 96px image, radius 8"
+      "value": "a 24px glyph in the DS success colour (system-check-circle by default); or a 96px image, radius 8"
     },
     {
       "label": "Text",
-      "value": "16px semibold heading; 16px subtitle in the ink at 75%"
+      "value": "16px semibold heading; 12px subtitle in the muted ink"
     }
   ],
   "props": [
@@ -59,7 +59,7 @@
       "name": "icon",
       "type": "icon name",
       "default": "system-hourglass-high",
-      "desc": "The pip glyph, from the DS icon library"
+      "desc": "The glyph, from the DS icon library; system-check-circle by default"
     },
     {
       "name": "image",
@@ -116,13 +116,13 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
     "ready": "!!(document.querySelector('aha-submitted-card[data-probe]')&&document.querySelector('aha-submitted-card[data-probe]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-submitted-card[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var c=cs(q('.card'));var h=cs(q('.heading'));return{radius:c.borderTopLeftRadius,padding:c.paddingTop,ink:h.color,headingSize:h.fontSize,pip:cs(q('.pip')).width};})()",
+    "measure": "(function(){var el=document.querySelector('aha-submitted-card[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var c=cs(q('.card'));var h=cs(q('.heading'));return{radius:c.borderTopLeftRadius,padding:c.paddingTop,ink:h.color,headingSize:h.fontSize,pip:cs(q('.pip aha-icon')).width};})()",
     "expect": {
       "radius": "12px",
-      "padding": "24px",
+      "padding": "20px",
       "ink": "rgb(26, 26, 26)",
       "headingSize": "16px",
-      "pip": "64px"
+      "pip": "24px"
     }
   }
 }

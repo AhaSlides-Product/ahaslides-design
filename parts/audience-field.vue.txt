@@ -5,6 +5,6 @@ import '@ahaslides-product/design/aha-counted-input';
 
 <template>
   <aha-audience-field label="Your nickname">
-    <aha-counted-input size="lg" maxlength="30" />
+    <aha-counted-input size="touch" maxlength="30" />
   </aha-audience-field>
 </template>

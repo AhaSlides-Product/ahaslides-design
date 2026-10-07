@@ -25,11 +25,11 @@
   "spec": [
     {
       "label": "Empty (area)",
-      "value": "min-height 120, 2px dashed ink edge, radius 8, frosted surface; system-image-square 24, 16px prompt, 14px format hint"
+      "value": "min-height 120, 2px dashed ink edge, radius 12, transparent; system-image-square 32 in the muted ink, 16px semibold prompt, 12px muted format hint"
     },
     {
       "label": "Attached",
-      "value": "the picture fitted (contain) in a 203px box, then Change and Delete as 48px secondary buttons"
+      "value": "the picture fitted (contain) in a 203px box, then Change and Delete as 48px outlined deck-ink buttons"
     },
     {
       "label": "Failed",
@@ -143,7 +143,7 @@
     "measure": "(function(){var el=document.querySelector('aha-audience-image-upload[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var d=cs(q('.drop'));return{minHeight:d.minHeight,radius:d.borderTopLeftRadius,edgeStyle:d.borderTopStyle,ink:d.color,promptSize:cs(q('.prompt')).fontSize};})()",
     "expect": {
       "minHeight": "120px",
-      "radius": "8px",
+      "radius": "12px",
       "edgeStyle": "dashed",
       "ink": "rgb(26, 26, 26)",
       "promptSize": "16px"

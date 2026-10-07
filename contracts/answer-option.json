@@ -27,15 +27,15 @@
   "spec": [
     {
       "label": "Row",
-      "value": "min-height 56, radius 8, frosted surface, 1px ink hairline at 20%; hover lightens the surface to 60%"
+      "value": "min-height 44, padding 8/16, radius 8, frosted surface, 1px ink hairline at 20%; hover lightens the surface to 60%"
     },
     {
       "label": "Control",
-      "value": "20px radio or checkbox; checked in the deck accent with a white mark"
+      "value": "20px radio (2px neutral ring) or checkbox (6px corners); a picked radio rings in the deck accent around a 10px accent dot, a picked checkbox fills with the accent and a white tick"
     },
     {
       "label": "States",
-      "value": "open · locked (others mute to 45%) · revealed (tick or cross on every row)"
+      "value": "open · locked (others mute to 55%) · revealed (tick or cross on every row; the correct row ringed in success, my wrong pick ringed and tinted in error, the rest mute to 55%)"
     },
     {
       "label": "Helper",
@@ -152,9 +152,9 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
     "ready": "!!(document.querySelector('aha-answer-option[data-probe]')&&document.querySelector('aha-answer-option[data-probe]').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-answer-option[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('.row');var c=cs(row);var lab=cs(row&&row.querySelector('.label'));return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,labelSize:lab.fontSize,labelWeight:lab.fontWeight,control:cs(q('.control')).backgroundColor};})()",
+    "measure": "(function(){var el=document.querySelector('aha-answer-option[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('.row');var c=cs(row);var lab=cs(row&&row.querySelector('.label'));return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,labelSize:lab.fontSize,labelWeight:lab.fontWeight,control:cs(q('.control')).borderTopColor};})()",
     "expect": {
-      "rowHeight": "56px",
+      "rowHeight": "44px",
       "rowRadius": "8px",
       "ink": "rgb(26, 26, 26)",
       "labelSize": "16px",

@@ -29,15 +29,15 @@
   "spec": [
     {
       "label": "Row",
-      "value": "the answer row's surface: min-height 56, radius 8, frosted, 1px ink hairline"
+      "value": "the answer row's surface: min-height 44, padding 8/16, radius 8, frosted, 1px ink hairline; 16px semibold label; an option image as a 28px thumbnail (radius 6)"
     },
     {
       "label": "Badge",
-      "value": "28px circle in the deck accent, white 14px semibold numeral, renumbers live"
+      "value": "24px circle in the deck accent, white 12px semibold numeral, renumbers live"
     },
     {
       "label": "Move",
-      "value": "24px up / down buttons (system-caret-up / -down), disabled at the ends; system-drag grip for the pointer"
+      "value": "24px up / down buttons with 12px carets (system-caret-up / -down) in the muted ink, disabled at the ends; system-drag grip for the pointer"
     },
     {
       "label": "Drag",
@@ -79,7 +79,7 @@
       "name": "group-label",
       "type": "string",
       "default": "Order the options",
-      "desc": "The list's accessible name: pass the translated question"
+      "desc": "The list's accessible name and a muted 12px caption above the rows: pass the translated question"
     },
     {
       "name": "disabled",
@@ -144,7 +144,7 @@
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-rank-list[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('.row');var c=cs(row);return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,badge:cs(q('.badge')).backgroundColor,labelSize:cs(q('.label')).fontSize,gap:cs(q('.list')).rowGap};})()",
     "expect": {
-      "rowHeight": "56px",
+      "rowHeight": "44px",
       "rowRadius": "8px",
       "ink": "rgb(26, 26, 26)",
       "badge": "rgb(106, 30, 187)",

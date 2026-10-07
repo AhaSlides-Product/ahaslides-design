@@ -22,7 +22,7 @@
   "spec": [
     {
       "label": "Card",
-      "value": "radius 12, padding 16, frosted surface, 1px ink hairline, 0 2px 12px shadow in the ink at 18%"
+      "value": "radius 12, padding 24, centred 16px semibold body, the frosted surface washed 5% with the ink, 1px ink hairline; a 0 2px 12px shadow in the ink at 18% only while dragged"
     },
     {
       "label": "Gesture",
@@ -55,10 +55,16 @@
       "desc": "Turns the gesture off (a card in a swipe deck that must not move)"
     },
     {
+      "name": "hint",
+      "type": "string",
+      "default": "—",
+      "desc": "A muted 12px line above the body between left and right arrows (e.g. the translated \"swipe\"); omitted when unset"
+    },
+    {
       "name": "flat",
       "type": "boolean",
       "default": "false",
-      "desc": "Drops the cast shadow, keeps the edge"
+      "desc": "Never casts the drag shadow; keeps the edge"
     },
     {
       "name": "aria-label",
@@ -124,7 +130,7 @@
     "measure": "(function(){var el=document.querySelector('aha-swipe-card[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var c=cs(q('.card'));return{radius:c.borderTopLeftRadius,padding:c.paddingTop,ink:c.color,edge:c.borderTopWidth,role:q('.card').getAttribute('role')};})()",
     "expect": {
       "radius": "12px",
-      "padding": "16px",
+      "padding": "24px",
       "ink": "rgb(26, 26, 26)",
       "edge": "1px",
       "role": "group"

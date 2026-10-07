@@ -43,13 +43,13 @@
     {
       "ref": "counted-textarea",
       "as": "component",
-      "use": "open-ended / idea text with a character counter — <aha-counted-textarea> from lib/all.js on the Developer Platform, never a ported copy",
+      "use": "open-ended / idea text with a character counter — <aha-counted-textarea size=\"touch\"> from lib/all.js on the Developer Platform, never a ported copy",
       "status": "available"
     },
     {
       "ref": "input",
       "as": "component",
-      "use": "single-line answers and names — <aha-counted-input size=\"lg\"> (48px; type=\"number\" for a number) inside <aha-audience-field> from lib/all.js on the Developer Platform",
+      "use": "single-line answers and names — <aha-counted-input size=\"touch\"> (56px, 16px text; type=\"number\" for a number) inside <aha-audience-field> from lib/all.js on the Developer Platform",
       "status": "available"
     },
     {
@@ -139,7 +139,7 @@
     {
       "ref": "audience-field",
       "as": "component",
-      "use": "the deck-ink label above a DS field — <aha-audience-field> around <aha-counted-textarea> (16px, dodges the iOS auto-zoom-on-focus), <aha-counted-input> or <aha-select>",
+      "use": "the deck-ink label above a DS field — <aha-audience-field> around <aha-counted-textarea size=\"touch\"> (16px, dodges the iOS auto-zoom-on-focus), <aha-counted-input> or <aha-select>",
       "status": "available"
     },
     {
@@ -643,7 +643,7 @@
     },
     {
       "id": "consume-ds-elements",
-      "rule": "On the Developer Platform the audience iframe loads lib/all.js, so every control the DS ships is consumed as the element: the audience set (<aha-answer-list>, <aha-rank-list>, <aha-scale-slider>, <aha-audience-chip>, <aha-audience-field> around <aha-counted-input> / <aha-counted-textarea> / <aha-select>, <aha-audience-image-upload>, <aha-audience-submit>, <aha-countdown>, <aha-instruction-line>, <aha-waiting-for-host>, <aha-submitted-card>, <aha-identity-strip>, <aha-swipe-card>; the Audience Library page maps each upstream component to its element) plus the shared ones (<aha-button>, <aha-stepper>, <aha-autocomplete>) — never 'ported 1:1' by copying its CSS, which freezes the copy at the version of the day it was built. Keep a control custom only where the DS has no element yet, and build it on DS tokens.",
+      "rule": "On the Developer Platform the audience iframe loads lib/all.js, so every control the DS ships is consumed as the element: the audience set (<aha-answer-list>, <aha-rank-list>, <aha-scale-slider>, <aha-audience-chip>, <aha-audience-field> around <aha-counted-input> / <aha-counted-textarea size=\"touch\"> / <aha-select>, <aha-audience-image-upload>, <aha-audience-submit>, <aha-countdown>, <aha-instruction-line>, <aha-waiting-for-host>, <aha-submitted-card>, <aha-identity-strip>, <aha-swipe-card>; the Audience Library page maps each upstream component to its element) plus the shared ones (<aha-button>, <aha-stepper>, <aha-autocomplete>) — never 'ported 1:1' by copying its CSS, which freezes the copy at the version of the day it was built. Keep a control custom only where the DS has no element yet, and build it on DS tokens.",
       "ref": [
         "C15",
         "§5"

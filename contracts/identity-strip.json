@@ -20,11 +20,11 @@
   "spec": [
     {
       "label": "Identity",
-      "value": "16px deck ink; the name semibold"
+      "value": "\"{emoji} Submitting as {name}\", start-aligned, 14px deck ink; the name semibold"
     },
     {
       "label": "Eyebrow",
-      "value": "12px semibold uppercase, 0.06em tracking, the ink at 60%"
+      "value": "12px semibold uppercase, 0.06em tracking, the muted ink"
     }
   ],
   "props": [
@@ -115,11 +115,11 @@
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-identity-strip[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var i=cs(q('.identity'));var e=cs(q('.eyebrow'));return{size:i.fontSize,ink:i.color,eyebrowSize:e.fontSize,nameWeight:cs(q('strong')).fontWeight,lineHeight:i.lineHeight};})()",
     "expect": {
-      "size": "16px",
+      "size": "14px",
       "ink": "rgb(26, 26, 26)",
       "eyebrowSize": "12px",
       "nameWeight": "600",
-      "lineHeight": "24px"
+      "lineHeight": "22px"
     }
   }
 }

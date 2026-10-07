@@ -22,11 +22,11 @@
   "spec": [
     {
       "label": "Chip",
-      "value": "min-height 44, padding 0 16, radius 12, 16px semibold label in the deck ink, frosted surface, 1px ink hairline"
+      "value": "min-height 44, padding 0 16, pill radius, 16px semibold label in the deck ink, frosted surface, 1.5px ink hairline"
     },
     {
       "label": "Chosen",
-      "value": "2px deck-accent edge plus a 14% accent tint under the label (the label keeps the deck ink)"
+      "value": "a solid deck-accent pill; the label takes the contrast-picked accent ink"
     }
   ],
   "props": [
@@ -122,7 +122,7 @@
     "measure": "(function(){var el=document.querySelector('aha-audience-chip[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var b=cs(q('button'));var s=document.querySelector('aha-audience-chip[selected]').shadowRoot.querySelector('button');return{height:b.height,radius:b.borderTopLeftRadius,ink:b.color,size:b.fontSize,chosenEdge:cs(s).borderTopColor};})()",
     "expect": {
       "height": "44px",
-      "radius": "12px",
+      "radius": "999px",
       "ink": "rgb(26, 26, 26)",
       "size": "16px",
       "chosenEdge": "rgb(106, 30, 187)"

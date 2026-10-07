@@ -1431,8 +1431,9 @@ function renderAudienceLibrary() {
   <script type="module">
     import '../lib/all.js';
     import { applyDeck } from '../lib/audience-deck.js';
-    for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#20E8B5'] });
-    for (const timer of document.querySelectorAll('.audience-lib .demo-countdown')) timer.setAttribute('ends-at', String(Date.now() + 18000));
+    for (const deck of document.querySelectorAll('.audience-lib .deck.light')) applyDeck(deck, { textColour: '#1A1A1A', presentationColorPalette: ['#FF4081'] });
+    for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FAFAFA', presentationColorPalette: ['#FF4081'] });
+    for (const timer of document.querySelectorAll('.audience-lib .demo-countdown')) timer.setAttribute('ends-at', String(Date.now() + 37000));
     for (const upload of document.querySelectorAll('.audience-lib .demo-upload')) upload.uploadImage = () => new Promise((resolve) => setTimeout(() => resolve({ url: '../logo/thesplash.svg', path: 'demo' }), 600));
     for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
   </script>

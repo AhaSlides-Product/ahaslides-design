@@ -26,19 +26,19 @@
   "spec": [
     {
       "label": "Readout",
-      "value": "16px above the rail: \"value: label\", the label semibold"
+      "value": "16px semibold, riding above the thumb: \"value: label\""
     },
     {
       "label": "Rail",
-      "value": "8px, ink at 10% with the 1px ink hairline; the filled part keeps the same hairline"
+      "value": "6px, ink at 10% with the 1px ink hairline; the filled part keeps the same hairline"
     },
     {
       "label": "Handle",
-      "value": "24px white disc with a 4px accent ring, 44px tall hit area"
+      "value": "24px white disc with a 3px accent ring, 44px tall hit area"
     },
     {
       "label": "Ends",
-      "value": "14px low label left, high label right, each wrapping in its own half"
+      "value": "12px muted captions: low label left, high label right, each wrapping in its own half"
     }
   ],
   "props": [
@@ -156,7 +156,7 @@
       "readoutSize": "16px",
       "ink": "rgb(26, 26, 26)",
       "fill": "rgb(106, 30, 187)",
-      "railHeight": "8px",
+      "railHeight": "6px",
       "hitHeight": "44px"
     }
   }

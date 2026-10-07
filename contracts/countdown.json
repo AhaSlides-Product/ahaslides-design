@@ -5,9 +5,9 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-countdown",
-  "summary": "A draining bar with the mm:ss clock beside it, synced to the host's absolute end time so every phone reaches zero together. For a full-canvas audience slide only.",
+  "summary": "A draining bar with the m:ss clock beside it, synced to the host's absolute end time so every phone reaches zero together. For a full-canvas audience slide only.",
   "highlights": [
-    "Draining bar plus mm:ss clock",
+    "Draining bar plus m:ss clock",
     "Synced to an absolute end instant",
     "Freezes in place when the host stops it",
     "Full-canvas slides only"
@@ -24,7 +24,7 @@
   "spec": [
     {
       "label": "Track",
-      "value": "8px pill, ink at 10% over the frosted blur, 1px ink hairline"
+      "value": "8px pill, ink at 15% over the frosted blur, 1px ink hairline"
     },
     {
       "label": "Fill",
@@ -32,7 +32,7 @@
     },
     {
       "label": "Clock",
-      "value": "14px semibold tabular mm:ss, ticks once a second from the wall clock"
+      "value": "14px semibold tabular m:ss, ticks once a second from the wall clock"
     }
   ],
   "props": [
@@ -82,7 +82,7 @@
       "name": "label",
       "type": "string",
       "default": "Time remaining",
-      "desc": "The timer's accessible name (translated); read as \"label: mm:ss\""
+      "desc": "The timer's accessible name (translated); read as \"label: m:ss\""
     }
   ],
   "opinion": {

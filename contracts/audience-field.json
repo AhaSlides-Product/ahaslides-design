@@ -20,11 +20,11 @@
   "spec": [
     {
       "label": "Label",
-      "value": "16px, 400, deck ink, 8px above the field"
+      "value": "16px, 600, deck ink, 16px above the field"
     },
     {
       "label": "Field",
-      "value": "the DS field unchanged: opaque white fill, fixed #1A1A1A ink (deck-independent, so a dark deck is never white-on-white); 48px at size lg"
+      "value": "the DS field unchanged: opaque white fill, fixed #1A1A1A ink (deck-independent, so a dark deck is never white-on-white); 56px with 16px text at size touch"
     },
     {
       "label": "Lock",
@@ -60,7 +60,7 @@
       "name": "(slot)",
       "type": "element",
       "default": "—",
-      "desc": "One DS field: <aha-counted-input size=\"lg\">, <aha-counted-input type=\"number\" maxlength=\"none\" size=\"lg\">, <aha-counted-textarea> or <aha-select size=\"lg\">"
+      "desc": "One DS field: <aha-counted-input size=\"touch\">, <aha-counted-input type=\"number\" maxlength=\"none\" size=\"touch\">, <aha-counted-textarea size=\"touch\"> or <aha-select size=\"touch\">"
     }
   ],
   "opinion": {
@@ -119,8 +119,8 @@
     "expect": {
       "labelSize": "16px",
       "labelInk": "rgb(26, 26, 26)",
-      "gap": "8px",
-      "fieldHeight": "48px",
+      "gap": "16px",
+      "fieldHeight": "56px",
       "named": "Your nickname"
     }
   }
