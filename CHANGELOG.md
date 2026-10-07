@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.101.1 — 2026-10-07
+### Fixed
+- CSAT: the question uses the DS secondary text colour (#4A4A4A, was #616161), so it matches the grey text of the card around it. Its sizes, gaps and line heights are DS tokens, and the keyboard focus ring is the DS lilac focus ring (was dark purple).
+- Background task: "Try again" is a primary button on every failed or offline card (Export failed and Import failed were secondary). (#PRNUM)
+
 ## 0.101.0 — 2026-10-07
 ### Added
 - Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
