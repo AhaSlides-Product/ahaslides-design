@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.106.1 — 2026-10-07
 ### Fixed
-- CSAT: the thumbs and Feedback buttons are 28×28, the DS small icon button size (were 28×24), so the row is 28px high (#PR)
+- CSAT: the thumbs and Feedback buttons are 28×28, the DS small icon button size (were 28×24), so the row is 28px high (#193)
 
 ## 0.103.1 — 2026-10-07
 ### Fixed
