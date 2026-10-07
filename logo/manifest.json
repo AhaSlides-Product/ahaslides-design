@@ -171,9 +171,9 @@
       "name": "PDF",
       "category": "Brands",
       "file": "pdf.svg",
-      "sourceUrl": "https://thesvg.org/icons/pdf/default.svg",
-      "sourcePage": "https://thesvg.org/icon/pdf",
-      "fetched": "2026-10-06",
+      "sourceUrl": "https://www.figma.com/design/MwjvUjVI0HnfwD9EwPXRAy/Design-System-V3?node-id=53054-14916",
+      "sourcePage": "https://www.figma.com/design/MwjvUjVI0HnfwD9EwPXRAy/Design-System-V3?node-id=53054-14916",
+      "fetched": "2026-10-07",
       "usedIn": "components-v2/ai-chatbot/modals/UploadModalV2.vue:43,92 (pdfIcon in the Import slides intro); components-v2/presentation-editor/KickstartScreen.vue:76",
       "section": "Import, export and cloud"
     },
