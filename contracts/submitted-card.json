@@ -1,0 +1,128 @@
+{
+  "name": "Submitted card",
+  "slug": "submitted-card",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-submitted-card",
+  "summary": "The calm \"submitted, waiting for the reveal\" card: the frosted deck surface with the ink hairline, a round pip (or the picked option's image), a heading and a muted subtitle.",
+  "highlights": [
+    "Post-submit waiting state",
+    "Frosted card that reads on any deck",
+    "Glyph pip or the picked image"
+  ],
+  "lead": "ONE custom element — <aha-submitted-card> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "radius-lg",
+    "radius-pill",
+    "radius-default",
+    "space-4",
+    "space-16",
+    "space-24"
+  ],
+  "spec": [
+    {
+      "label": "Card",
+      "value": "radius 12, padding 24, gap 16, frosted surface, 1px ink hairline"
+    },
+    {
+      "label": "Pip",
+      "value": "64px circle on a 10% ink wash, 32px glyph; or a 96px image, radius 8"
+    },
+    {
+      "label": "Text",
+      "value": "16px semibold heading; 16px subtitle in the ink at 75%"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "heading / subtitle",
+      "type": "string",
+      "default": "—",
+      "desc": "\"Submitted: Dogs\" / \"Wait for the presenter to reveal the answer\" (translated)"
+    },
+    {
+      "name": "icon",
+      "type": "icon name",
+      "default": "system-hourglass-high",
+      "desc": "The pip glyph, from the DS icon library"
+    },
+    {
+      "name": "image",
+      "type": "url",
+      "default": "—",
+      "desc": "The picked option's image, shown in place of the pip"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Submitted card",
+        "when": "after the participant has locked in, until the presenter reveals"
+      },
+      {
+        "what": "Waiting for host",
+        "when": "before the question, or between questions"
+      }
+    ],
+    "note": "The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-submitted-card",
+    "registers": "aha-submitted-card",
+    "exportsNamed": [
+      "AhaSubmittedCard",
+      "defineAhaSubmittedCard"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "submitted-card.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "submitted-card.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "submitted-card.vue.txt"
+    }
+  ],
+  "preview": "submitted-card.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-submitted-card[data-probe]')&&document.querySelector('aha-submitted-card[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-submitted-card[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var c=cs(q('.card'));var h=cs(q('.heading'));return{radius:c.borderTopLeftRadius,padding:c.paddingTop,ink:h.color,headingSize:h.fontSize,pip:cs(q('.pip')).width};})()",
+    "expect": {
+      "radius": "12px",
+      "padding": "24px",
+      "ink": "rgb(26, 26, 26)",
+      "headingSize": "16px",
+      "pip": "64px"
+    }
+  }
+}

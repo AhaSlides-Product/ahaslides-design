@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-rank-list';
+import { useEffect, useRef } from 'react';
+
+export function Ranking({ options, onOrder }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const list = ref.current;
+    const handle = (event) => onOrder(event.detail.value);
+    list.addEventListener('change', handle);
+    return () => list.removeEventListener('change', handle);
+  }, [onOrder]);
+  return <aha-rank-list ref={ref} group-label="Order by size" options={JSON.stringify(options)} />;
+}

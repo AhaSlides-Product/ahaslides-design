@@ -1,0 +1,106 @@
+{
+  "name": "Instruction line",
+  "slug": "instruction-line",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-instruction-line",
+  "summary": "The one quiet instruction line on an audience phone: default body copy (16px, regular, deck ink), centred and unboxed, the same on every slide.",
+  "highlights": [
+    "One shared micro-instruction",
+    "16px regular, deck ink, centred",
+    "Unboxed: no pill, card or tint"
+  ],
+  "lead": "ONE custom element — <aha-instruction-line> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default"
+  ],
+  "spec": [
+    {
+      "label": "Text",
+      "value": "16px / 24px, weight 400, centred, deck ink"
+    },
+    {
+      "label": "Box",
+      "value": "none: no pill, card, border, shadow or tint"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "(slot)",
+      "type": "text",
+      "default": "—",
+      "desc": "The instruction (translated); announced politely when it changes"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Instruction line",
+        "when": "a short hint such as \"Swipe a card, or tap a side\""
+      },
+      {
+        "what": "Nothing",
+        "when": "the controls already say it: delete a label that repeats them"
+      }
+    ],
+    "note": "Never semibold, muted grey, or in a tinted box: that is how every slide ended up styling it differently. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-instruction-line",
+    "registers": "aha-instruction-line",
+    "exportsNamed": [
+      "AhaInstructionLine",
+      "defineAhaInstructionLine"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "instruction-line.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "instruction-line.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "instruction-line.vue.txt"
+    }
+  ],
+  "preview": "instruction-line.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-instruction-line[data-probe]')&&document.querySelector('aha-instruction-line[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-instruction-line[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var p=cs(q('p'));return{size:p.fontSize,weight:p.fontWeight,ink:p.color,align:p.textAlign,lineHeight:p.lineHeight};})()",
+    "expect": {
+      "size": "16px",
+      "weight": "400",
+      "ink": "rgb(26, 26, 26)",
+      "align": "center",
+      "lineHeight": "24px"
+    }
+  }
+}

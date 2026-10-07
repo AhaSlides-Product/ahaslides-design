@@ -1,0 +1,3 @@
+import '@ahaslides-product/design/aha-instruction-line';
+
+export const Hint = ({ children }) => <aha-instruction-line>{children}</aha-instruction-line>;

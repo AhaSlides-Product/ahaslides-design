@@ -1,0 +1,27 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.
+     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent
+     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audience-submit.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-answer-list.js';   // registers <aha-audience-submit>
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#6A1EBB'] });
+  const submit = document.querySelector('aha-audience-submit');
+  submit.addEventListener('submit-answer', async () => {
+    const answer = document.querySelector('aha-answer-list').value;
+    try {
+      await window.xprops?.submit?.(answer);   // the host call in a real slide
+      submit.lock(answer);                     // locks every element sharing lock-key, across remounts
+    } catch {
+      submit.unlock();                         // let the participant try again
+    }
+  });
+</script>
+
+<aha-answer-list group-label="Which drink?" lock-key="slide-42"
+  options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea"}]'></aha-answer-list>
+<aha-audience-submit lock-key="slide-42">Submit</aha-audience-submit>
+
+<!-- the host stopped submissions -->
+<aha-audience-submit closed closed-label="Submissions closed">Submit</aha-audience-submit>

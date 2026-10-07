@@ -1,0 +1,9 @@
+<script setup>
+import '@ahaslides-product/design/aha-rank-list';
+defineProps({ options: Array });
+const emit = defineEmits(['order']);
+</script>
+
+<template>
+  <aha-rank-list group-label="Order by size" :options="JSON.stringify(options)" @change="emit('order', $event.detail.value)" />
+</template>

@@ -1,0 +1,9 @@
+<script setup>
+import '@ahaslides-product/design/aha-swipe-card';
+defineProps({ text: String });
+const emit = defineEmits(['answer']);
+</script>
+
+<template>
+  <aha-swipe-card aria-label="Statement" @swipe="emit('answer', $event.detail.direction)"><p>{{ text }}</p></aha-swipe-card>
+</template>

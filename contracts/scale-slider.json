@@ -1,0 +1,163 @@
+{
+  "name": "Scale slider",
+  "slug": "scale-slider",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-scale-slider",
+  "summary": "A rating scale on the audience phone: slider, end labels and a live readout using the product's own label rules, coloured by the statement's deck palette position.",
+  "highlights": [
+    "Rating scale with end labels and a readout",
+    "Accent by the statement's palette position",
+    "Unset state and commit-on-drag",
+    "Native range input: keyboard and slider role built in"
+  ],
+  "lead": "ONE custom element — <aha-scale-slider> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "white",
+    "color-primary",
+    "radius-pill",
+    "radius-default",
+    "space-8",
+    "space-12"
+  ],
+  "spec": [
+    {
+      "label": "Readout",
+      "value": "16px above the rail: \"value: label\", the label semibold"
+    },
+    {
+      "label": "Rail",
+      "value": "8px, ink at 10% with the 1px ink hairline; the filled part keeps the same hairline"
+    },
+    {
+      "label": "Handle",
+      "value": "24px white disc with a 4px accent ring, 44px tall hit area"
+    },
+    {
+      "label": "Ends",
+      "value": "14px low label left, high label right, each wrapping in its own half"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "value / min / max / step",
+      "type": "number",
+      "default": "min / 1 / 5 / 1",
+      "desc": "The scale. `value` is also a property"
+    },
+    {
+      "name": "low-label / high-label",
+      "type": "string",
+      "default": "—",
+      "desc": "What the two ends are called (translated)"
+    },
+    {
+      "name": "step-labels",
+      "type": "JSON string[]",
+      "default": "[]",
+      "desc": "Names for the positions between the ends; ignored past 10 steps"
+    },
+    {
+      "name": "unset / unset-hint",
+      "type": "boolean / string",
+      "default": "false / —",
+      "desc": "No value chosen yet: a live handle, but no number and no fill; the hint shows under the handle"
+    },
+    {
+      "name": "commit-on-drag",
+      "type": "boolean",
+      "default": "false",
+      "desc": "A bare tap only previews; change fires on release after a real drag, or on a key"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Locks the scale"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Fires when a value is committed"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Scale slider",
+        "when": "a rating on a numeric scale tied to a statement"
+      },
+      {
+        "what": "Answer list",
+        "when": "a handful of named choices rather than a scale"
+      }
+    ],
+    "note": "Pass `accent` from presentationColorPalette by the statement's position, so each row keeps the colour the canvas gives it. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-scale-slider",
+    "registers": "aha-scale-slider",
+    "exportsNamed": [
+      "AhaScaleSlider",
+      "defineAhaScaleSlider"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "scale-slider.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "scale-slider.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "scale-slider.vue.txt"
+    }
+  ],
+  "preview": "scale-slider.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-scale-slider[data-probe]')&&document.querySelector('aha-scale-slider[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-scale-slider[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var o=cs(q('.readout'));return{readoutSize:o.fontSize,ink:o.color,fill:cs(q('.fill')).backgroundColor,railHeight:cs(q('.rail')).height,hitHeight:cs(q('input')).height};})()",
+    "expect": {
+      "readoutSize": "16px",
+      "ink": "rgb(26, 26, 26)",
+      "fill": "rgb(106, 30, 187)",
+      "railHeight": "8px",
+      "hitHeight": "44px"
+    }
+  }
+}

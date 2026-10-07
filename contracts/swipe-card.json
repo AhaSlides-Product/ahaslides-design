@@ -1,0 +1,133 @@
+{
+  "name": "Swipe card",
+  "slug": "swipe-card",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-swipe-card",
+  "summary": "A card the participant throws left or right to answer: the frosted deck surface, a distance or flick threshold with spring-back, and arrow keys for the keyboard.",
+  "highlights": [
+    "Swipe-to-answer card",
+    "Distance or flick commits; spring-back below",
+    "Arrow keys answer without a pointer",
+    "Frosted surface that reads on any deck"
+  ],
+  "lead": "ONE custom element — <aha-swipe-card> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "radius-lg",
+    "space-16"
+  ],
+  "spec": [
+    {
+      "label": "Card",
+      "value": "radius 12, padding 16, frosted surface, 1px ink hairline, 0 2px 12px shadow in the ink at 18%"
+    },
+    {
+      "label": "Gesture",
+      "value": "commits past 72px or on a flick; tilt capped at 8 degrees; blur dropped while moving; a second finger cancels"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "(slot)",
+      "type": "content",
+      "default": "—",
+      "desc": "The card's content: a statement, a photo, a pair"
+    },
+    {
+      "name": "static",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Turns the gesture off (a card in a swipe deck that must not move)"
+    },
+    {
+      "name": "flat",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Drops the cast shadow, keeps the edge"
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "—",
+      "desc": "Names the card when its content is not text"
+    },
+    {
+      "name": "swipe",
+      "type": "CustomEvent<{direction}>",
+      "default": "—",
+      "desc": "\"left\" or \"right\", from a throw or an arrow key"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Swipe card",
+        "when": "one thing at a time, thrown to answer (this-or-that, would-you-rather, sorting)"
+      },
+      {
+        "what": "Submitted card",
+        "when": "a static panel: a swipe card is not a generic box"
+      }
+    ],
+    "note": "Never wrap the whole audience screen in a card: the screen is transparent over the deck. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-swipe-card",
+    "registers": "aha-swipe-card",
+    "exportsNamed": [
+      "AhaSwipeCard",
+      "defineAhaSwipeCard"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "swipe-card.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "swipe-card.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "swipe-card.vue.txt"
+    }
+  ],
+  "preview": "swipe-card.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-swipe-card[data-probe]')&&document.querySelector('aha-swipe-card[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-swipe-card[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var c=cs(q('.card'));return{radius:c.borderTopLeftRadius,padding:c.paddingTop,ink:c.color,edge:c.borderTopWidth,role:q('.card').getAttribute('role')};})()",
+    "expect": {
+      "radius": "12px",
+      "padding": "16px",
+      "ink": "rgb(26, 26, 26)",
+      "edge": "1px",
+      "role": "group"
+    }
+  }
+}

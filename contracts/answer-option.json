@@ -1,0 +1,165 @@
+{
+  "name": "Answer option",
+  "slug": "answer-option",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-answer-option",
+  "summary": "One tappable answer row, for the rare answer screen that is not a plain list. It takes the raw quiz flags and resolves them with answerOptionState(), exported from the same module.",
+  "highlights": [
+    "One answer row for a layout that is not a list",
+    "Driven by the raw quiz flags via answerOptionState()",
+    "Open, locked and revealed looks"
+  ],
+  "lead": "ONE custom element — <aha-answer-option> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "white",
+    "color-primary",
+    "color-success",
+    "color-error",
+    "radius-default",
+    "radius-pill",
+    "space-12",
+    "space-16"
+  ],
+  "spec": [
+    {
+      "label": "Row",
+      "value": "min-height 56, radius 8, frosted surface, 1px ink hairline at 20%; hover lightens the surface to 60%"
+    },
+    {
+      "label": "Control",
+      "value": "20px radio or checkbox; checked in the deck accent with a white mark"
+    },
+    {
+      "label": "States",
+      "value": "open · locked (others mute to 45%) · revealed (tick or cross on every row)"
+    },
+    {
+      "label": "Helper",
+      "value": "answerOptionState({quizStatus, answered, revealed, awaitingReveal, selected, correct}) → {visible, interactive, dimmed, tone, verdict, mine}"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "(slot)",
+      "type": "text",
+      "default": "—",
+      "desc": "The option label"
+    },
+    {
+      "name": "image",
+      "type": "url",
+      "default": "—",
+      "desc": "A picture shown in full (contain): a thumbnail before the label, or a full tile with no label"
+    },
+    {
+      "name": "selected / correct",
+      "type": "boolean",
+      "default": "false",
+      "desc": "This is (one of) my picks; this option is a correct answer"
+    },
+    {
+      "name": "quiz-status / answered / revealed / awaiting-reveal",
+      "type": "number / boolean",
+      "default": "—",
+      "desc": "The host's quiz flags, resolved by answerOptionState()"
+    },
+    {
+      "name": "selection-mode",
+      "type": "single | multiple",
+      "default": "single",
+      "desc": "Radio or checkbox control; arrow keys move between sibling rows (and pick, in single mode)"
+    },
+    {
+      "name": "count / total / count-mode",
+      "type": "number / number / off | percent | people",
+      "default": "0 / — / off",
+      "desc": "The chip on the right; a share is clamped at 100%"
+    },
+    {
+      "name": "correct-label / incorrect-label",
+      "type": "string",
+      "default": "Correct / Incorrect",
+      "desc": "Translated names for the verdict icon"
+    },
+    {
+      "name": "pick",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "Fires when tapped (or Enter / Space) while the row is open"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Answer option",
+        "when": "rows split across columns, interleaved with other content or on a board"
+      },
+      {
+        "what": "Answer list",
+        "when": "an ordinary list: it repeats this row and owns the gap, selection and counts"
+      }
+    ],
+    "note": "Lobby, Rule and Countdown render no options at all: the row hides itself before quiz-status 4. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-answer-option",
+    "registers": "aha-answer-option",
+    "exportsNamed": [
+      "AhaAnswerOption",
+      "defineAhaAnswerOption"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "answer-option.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "answer-option.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "answer-option.vue.txt"
+    }
+  ],
+  "preview": "answer-option.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-answer-option[data-probe]')&&document.querySelector('aha-answer-option[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-answer-option[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('.row');var c=cs(row);var lab=cs(row&&row.querySelector('.label'));return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,labelSize:lab.fontSize,labelWeight:lab.fontWeight,control:cs(q('.control')).backgroundColor};})()",
+    "expect": {
+      "rowHeight": "56px",
+      "rowRadius": "8px",
+      "ink": "rgb(26, 26, 26)",
+      "labelSize": "16px",
+      "labelWeight": "600",
+      "control": "rgb(106, 30, 187)"
+    }
+  }
+}

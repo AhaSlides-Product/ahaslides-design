@@ -1,0 +1,152 @@
+{
+  "name": "Audience image upload",
+  "slug": "audience-image-upload",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audience-image-upload",
+  "summary": "The audience \"attach a photo\" control. The host picks, crops and hosts the file through xprops.uploadImage; this control guards the call and shows the result. A slide never uploads a file itself.",
+  "highlights": [
+    "Host-delegated upload (xprops.uploadImage)",
+    "Guards a missing host, double taps and failures",
+    "Dashed card or compact button form"
+  ],
+  "lead": "ONE custom element — <aha-audience-image-upload> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "color-error",
+    "radius-default",
+    "space-4",
+    "space-8",
+    "space-12",
+    "space-24"
+  ],
+  "spec": [
+    {
+      "label": "Empty (area)",
+      "value": "min-height 120, 2px dashed ink edge, radius 8, frosted surface; system-image-square 24, 16px prompt, 14px format hint"
+    },
+    {
+      "label": "Attached",
+      "value": "the picture fitted (contain) in a 203px box, then Change and Delete as 48px secondary buttons"
+    },
+    {
+      "label": "Failed",
+      "value": "a 16px semibold error line (role=alert) in the DS error colour"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "uploadImage",
+      "type": "property: () => Promise<{url, path?}>",
+      "default": "—",
+      "desc": "The host's uploader, xprops.uploadImage. Without it the control is disabled"
+    },
+    {
+      "name": "value",
+      "type": "property: {url, path} | null",
+      "default": "null",
+      "desc": "The attached image; persist `path` if it must outlive the session (the url is signed and expires)"
+    },
+    {
+      "name": "src",
+      "type": "url",
+      "default": "—",
+      "desc": "An image already attached"
+    },
+    {
+      "name": "variant",
+      "type": "area | button",
+      "default": "area",
+      "desc": "area = the dashed card (the image is the field); button = compact, for a row with other content"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Locks the control while the form is busy or submitted"
+    },
+    {
+      "name": "add-label / hint / change-label / remove-label / uploading-label / failed-label / preview-label",
+      "type": "string",
+      "default": "English",
+      "desc": "Every string, translated by the caller"
+    },
+    {
+      "name": "change / error",
+      "type": "CustomEvent<{value}> / <{error}>",
+      "default": "—",
+      "desc": "An image attached or removed; the host call failed (also shown on screen)"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audience image upload",
+        "when": "the slide has image submission on and the participant attaches a photo"
+      },
+      {
+        "what": "Image dropzone",
+        "when": "the presenter's settings panel, never the audience phone"
+      }
+    ],
+    "note": "No <input type=\"file\">, FileReader or FormData in a slide: the host owns picking and hosting. Gate the control on the slide's image-submission setting. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font. Delete is a neutral secondary button until the DS ships an outlined danger tier (DSN-927)."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-audience-image-upload",
+    "registers": "aha-audience-image-upload",
+    "exportsNamed": [
+      "AhaAudienceImageUpload",
+      "defineAhaAudienceImageUpload"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audience-image-upload.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audience-image-upload.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audience-image-upload.vue.txt"
+    }
+  ],
+  "preview": "audience-image-upload.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-audience-image-upload[data-probe]')&&document.querySelector('aha-audience-image-upload[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-audience-image-upload[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var d=cs(q('.drop'));return{minHeight:d.minHeight,radius:d.borderTopLeftRadius,edgeStyle:d.borderTopStyle,ink:d.color,promptSize:cs(q('.prompt')).fontSize};})()",
+    "expect": {
+      "minHeight": "120px",
+      "radius": "8px",
+      "edgeStyle": "dashed",
+      "ink": "rgb(26, 26, 26)",
+      "promptSize": "16px"
+    }
+  }
+}

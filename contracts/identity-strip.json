@@ -1,0 +1,125 @@
+{
+  "name": "Identity strip",
+  "slug": "identity-strip",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-identity-strip",
+  "summary": "The \"Submitting as {emoji} {name}\" header, for a slide that genuinely needs one, with the one anonymous rule every slide shares.",
+  "highlights": [
+    "\"Submitting as\" header when a slide needs one",
+    "One anonymous rule: no name, no emoji",
+    "Unboxed, deck ink"
+  ],
+  "lead": "ONE custom element — <aha-identity-strip> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "space-4"
+  ],
+  "spec": [
+    {
+      "label": "Identity",
+      "value": "16px deck ink; the name semibold"
+    },
+    {
+      "label": "Eyebrow",
+      "value": "12px semibold uppercase, 0.06em tracking, the ink at 60%"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "name / emoji",
+      "type": "string",
+      "default": "—",
+      "desc": "The participant's name and host emoji; no name means anonymous and hides the emoji"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Submitting as",
+      "desc": "The lead-in (translated)"
+    },
+    {
+      "name": "anonymous-name",
+      "type": "string",
+      "default": "Guest",
+      "desc": "Shown in place of an absent name (translated)"
+    },
+    {
+      "name": "eyebrow",
+      "type": "string",
+      "default": "—",
+      "desc": "Optional status line above, such as \"Round 2\""
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Identity strip",
+        "when": "a round that must show who is answering (a team game)"
+      },
+      {
+        "what": "Nothing",
+        "when": "every other slide: the audience app already shows who the participant joined as"
+      }
+    ],
+    "note": "Prefer a name the participant typed over the raw host login where one exists. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-identity-strip",
+    "registers": "aha-identity-strip",
+    "exportsNamed": [
+      "AhaIdentityStrip",
+      "defineAhaIdentityStrip"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "identity-strip.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "identity-strip.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "identity-strip.vue.txt"
+    }
+  ],
+  "preview": "identity-strip.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-identity-strip[data-probe]')&&document.querySelector('aha-identity-strip[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-identity-strip[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var i=cs(q('.identity'));var e=cs(q('.eyebrow'));return{size:i.fontSize,ink:i.color,eyebrowSize:e.fontSize,nameWeight:cs(q('strong')).fontWeight,lineHeight:i.lineHeight};})()",
+    "expect": {
+      "size": "16px",
+      "ink": "rgb(26, 26, 26)",
+      "eyebrowSize": "12px",
+      "nameWeight": "600",
+      "lineHeight": "24px"
+    }
+  }
+}

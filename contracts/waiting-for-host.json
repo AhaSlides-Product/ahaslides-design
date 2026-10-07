@@ -1,0 +1,118 @@
+{
+  "name": "Waiting for host",
+  "slug": "waiting-for-host",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-waiting-for-host",
+  "summary": "The centred \"waiting for the presenter\" screen for the lobby and passive phases: a gently breathing hourglass, a headline and a muted sub-line, all in the deck ink.",
+  "highlights": [
+    "Lobby / passive-phase screen",
+    "Deck ink, unboxed, calm",
+    "Copy and translation stay with the caller"
+  ],
+  "lead": "ONE custom element — <aha-waiting-for-host> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "space-12",
+    "space-24"
+  ],
+  "spec": [
+    {
+      "label": "Glyph",
+      "value": "32px DS icon, opacity breathing on a long cycle; still under reduced motion"
+    },
+    {
+      "label": "Headline",
+      "value": "18px semibold, deck ink"
+    },
+    {
+      "label": "Sub-line",
+      "value": "16px, the deck ink at 75%"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "headline / subline",
+      "type": "string",
+      "default": "—",
+      "desc": "The two lines (translated); or the `headline` / `subline` slots"
+    },
+    {
+      "name": "icon",
+      "type": "icon name",
+      "default": "system-hourglass-high",
+      "desc": "The glyph, by name from the DS icon library"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Waiting for host",
+        "when": "the participant is waiting for the presenter to start or move on"
+      },
+      {
+        "what": "Submitted card",
+        "when": "the participant has answered and waits for the reveal"
+      }
+    ],
+    "note": "It draws the screen only: whether to show it (quiz status, presentation not started) is the slide's decision. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-waiting-for-host",
+    "registers": "aha-waiting-for-host",
+    "exportsNamed": [
+      "AhaWaitingForHost",
+      "defineAhaWaitingForHost"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "waiting-for-host.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "waiting-for-host.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "waiting-for-host.vue.txt"
+    }
+  ],
+  "preview": "waiting-for-host.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-waiting-for-host[data-probe]')&&document.querySelector('aha-waiting-for-host[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-waiting-for-host[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var h=cs(q('.headline'));var s=cs(q('.subline'));return{headlineSize:h.fontSize,headlineWeight:h.fontWeight,ink:h.color,sublineSize:s.fontSize,padding:cs(q('.screen')).paddingTop};})()",
+    "expect": {
+      "headlineSize": "18px",
+      "headlineWeight": "600",
+      "ink": "rgb(26, 26, 26)",
+      "sublineSize": "16px",
+      "padding": "24px"
+    }
+  }
+}

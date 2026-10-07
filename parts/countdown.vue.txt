@@ -1,0 +1,8 @@
+<script setup>
+import '@ahaslides-product/design/aha-countdown';
+defineProps({ endsAt: Number, totalMs: Number, stopped: Boolean });
+</script>
+
+<template>
+  <aha-countdown :ends-at="endsAt" :total-ms="totalMs" :stopped="stopped || null" urgent-below-ms="5000" />
+</template>
