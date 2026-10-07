@@ -13,7 +13,7 @@
   "spec": [
     { "label": "Layout", "value": "borderless single row (24px high): 12px #616161 prompt, 4px gap, then 28×24 borderless thumb buttons with 16px #4A4A4A icons and no gap between them — the only layout (legacy `inline` is a no-op)" },
     { "label": "Rest", "value": "icon #4A4A4A" },
-    { "label": "Hover", "value": "ghost fill #F9F5FF · icon #8644D4 purple-50 (motion tokens) · tooltip Useful / Not useful / Feedback" },
+    { "label": "Hover", "value": "ghost fill #F9F5FF · icon #8644D4 purple-50 (motion tokens) · tooltip Good / Not good / Feedback" },
     { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #F0E4FF (purple-15) · icon #6A1EBB (purple-60) · aria-pressed synced; hover keeps the selected look" },
     { "label": "Collapse", "value": "once rated only the chosen thumb remains (the other is hidden); clicking the chosen thumb again un-rates — both thumbs return, `value` is removed and `rate` fires with rating null" },
     { "label": "Thumbs-up", "value": "rates instantly — reflects value='up', hides the thumbs-down, emits `rate`" },
@@ -30,8 +30,8 @@
     { "name": "feedback-prompt", "type": "string", "default": "—", "desc": "Optional heading in the feedback popover, beside the X — none by default" },
     { "name": "feedback-button", "type": "boolean", "default": "—", "desc": "Show the Feedback chat-icon button after the thumbs; it opens the feedback popover without rating" },
     { "name": "feedback-button-placeholder", "type": "string", "default": "How can we improve? Let us know!", "desc": "Placeholder when the popover is opened from the Feedback button (falls back to feedback-placeholder)" },
-    { "name": "like-label", "type": "string", "default": "Useful", "desc": "Tooltip on the thumbs-up" },
-    { "name": "dislike-label", "type": "string", "default": "Not useful", "desc": "Tooltip on the thumbs-down" },
+    { "name": "like-label", "type": "string", "default": "Good", "desc": "Tooltip and accessible name of the thumbs-up" },
+    { "name": "dislike-label", "type": "string", "default": "Not good", "desc": "Tooltip and accessible name of the thumbs-down" },
     { "name": "feedback-label", "type": "string", "default": "Feedback", "desc": "Tooltip on the Feedback button" },
     { "name": "feedback-placeholder", "type": "string", "default": "How can we improve? Let us know!", "desc": "Placeholder for the free-text field in the feedback popover" }
   ],
@@ -63,7 +63,7 @@
   },
   "selfCheck": [
     { "label": "borderless single row · 12px #616161 prompt · 28×24 thumb buttons with 16px #4A4A4A icons · no chrome (the only layout)", "verdict": "PASS" },
-    { "label": "hover fills ghost + recolours purple-50 (motion tokens) · Useful / Not useful / Feedback tooltips", "verdict": "PASS" },
+    { "label": "hover fills ghost + recolours purple-50 (motion tokens) · Good / Not good / Feedback tooltips", "verdict": "PASS" },
     { "label": "selected = antd tertiary active (fill #F0E4FF · icon #6A1EBB) · aria-pressed synced · the other thumb collapses; re-click un-rates", "verdict": "PASS" },
     { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>, textarea focused; not re-opened after Send until re-rated)", "verdict": "PASS" },
     { "label": "down thumb carries aria-haspopup=dialog · aria-expanded mirrors the popover", "verdict": "PASS" },

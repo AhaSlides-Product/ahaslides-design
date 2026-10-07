@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.99.0 — 2026-10-07
+### Changed
+- CSAT: the thumbs' default tooltips are now Good / Not good (were Useful / Not useful), and each thumb's accessible name follows its tooltip, including a custom `like-label` / `dislike-label`. (#PRNUM)
+
 ## 0.98.5 — 2026-10-07
 ### Changed
 - Logo library: the PDF icon is now the Design System V3 Figma export (red document with white Acrobat glyph) instead of the thesvg.org one (#176)
