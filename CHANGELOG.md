@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.98.5 — 2026-10-07
 ### Changed
-- Logo library: the PDF icon is now the Design System V3 Figma export (red document with white Acrobat glyph) instead of the thesvg.org one (#PR)
+- Logo library: the PDF icon is now the Design System V3 Figma export (red document with white Acrobat glyph) instead of the thesvg.org one (#176)
 
 ## 0.98.4 — 2026-10-07
 ### Changed
