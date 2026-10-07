@@ -1039,7 +1039,7 @@
         {
           "id": "C18",
           "title": "A filled slider / progress track carries a deck-ink edge",
-          "test": "**Rule.** A slider's FILLED (accent) portion, and a progress fill, must carry the SAME deck-ink hairline the empty rail already has, so a coloured fill does not sink into a same-hue deck (AHAM-701 issue 4). The edge is the deck ink at the shared control-border alpha (~20%), reached through `currentColor` so it tracks the deck — the same edge the unfilled rail uses, extended onto the fill."
+          "test": "**Rule.** A slider's FILLED (accent) portion, and a progress fill, must carry the SAME deck-ink hairline the empty rail already has, so a coloured fill does not sink into a same-hue deck (AHAM-701 issue 4). The edge is the deck ink at the shared audience border alpha (10%, one value for every audience border and track), reached through `currentColor` so it tracks the deck — the same edge the unfilled rail uses, extended onto the fill."
         },
         {
           "id": "C19",

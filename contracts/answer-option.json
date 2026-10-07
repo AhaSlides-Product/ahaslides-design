@@ -27,7 +27,7 @@
   "spec": [
     {
       "label": "Row",
-      "value": "min-height 44, padding 8/16, radius 8, frosted surface, 1px ink hairline at 20%; hover lightens the surface to 60%"
+      "value": "min-height 44, padding 8/16, radius 8, frosted surface, 1px ink hairline at 10%; hover lightens the surface to 60%"
     },
     {
       "label": "Control",

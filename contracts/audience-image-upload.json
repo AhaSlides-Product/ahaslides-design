@@ -25,7 +25,7 @@
   "spec": [
     {
       "label": "Empty (area)",
-      "value": "min-height 120, 2px dashed ink edge, radius 12, transparent; system-image-square 32 in the muted ink, 16px semibold prompt, 12px muted format hint"
+      "value": "min-height 120, 1px dashed ink edge, radius 12, transparent; system-image-square 32 in the muted ink, 16px semibold prompt, 12px muted format hint"
     },
     {
       "label": "Attached",

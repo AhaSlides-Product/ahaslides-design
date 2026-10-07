@@ -28,7 +28,7 @@
   "spec": [
     {
       "label": "Row",
-      "value": "min-height 44, radius 8, padding 8/16, gap 12; frosted surface (ink's opposite at 80% over a 20px blur), 1px ink hairline at 20%"
+      "value": "min-height 44, radius 8, padding 8/16, gap 12; frosted surface (ink's opposite at 80% over a 20px blur), 1px ink hairline at 10%"
     },
     {
       "label": "Gap",
