@@ -5,9 +5,9 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-tooltip",
-  "summary": "A short, transient hint shown on hover or focus of its trigger.",
-  "highlights": ["Short, transient hint", "Shown on hover or focus of its trigger"],
-  "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared dark-navy bubble (with an arrow) on hover/focus. Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
+  "summary": "A short, transient hint shown on mouse hover or keyboard focus of its trigger (not on click or tap).",
+  "highlights": ["Short, transient hint", "Shown on mouse hover or keyboard focus of its trigger (not on click or tap)"],
+  "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared dark-navy bubble (with an arrow) on mouse hover or keyboard focus (not on click/tap). Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "text-tertiary", "motion-fast", "radius-pill", "tooltip-max-width"],
   "spec": [
@@ -15,7 +15,7 @@
     { "label": "Text", "value": "Plus Jakarta 12/18" },
     { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
     { "label": "Placement", "value": "top (default) · bottom · left · right centred, PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
-    { "label": "Trigger", "value": "hover + focus (default) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
+    { "label": "Trigger", "value": "mouse hover or keyboard focus (default; not on click/tap) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
     { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#6A1EBB) on hover/focus, focus ring 2px #6A1EBB — the settings-label help glyph; focusable, so it shows on focus, not hover-only. Bakes `help` defaults: no author placement → bottom-start; no author arrow → arrow off (both still overridable)" },
     { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the active trigger (slotted, or the built-in help button), shows on focus, no leaked listeners" }
   ],
@@ -34,7 +34,7 @@
       { "what": "help text", "when": "a must-see consequence that is hard to undo — put it inline, not in a tooltip" },
       { "what": "Popover", "when": "richer content or interactive controls — a tooltip is text only" }
     ],
-    "note": "Never hide essential information in a tooltip — it is unavailable on touch and to keyboard users who don't focus the trigger. Keep it to one short plain-text sentence (see UXW-9 in the UX writing guideline); the trigger must be focusable.",
+    "note": "Never hide essential information in a tooltip — it is unavailable on touch (a tap does not show it) and to keyboard users who don't focus the trigger. Keep it to one short plain-text sentence (see UXW-9 in the UX writing guideline); the trigger must be focusable.",
     "dsv3": "COVERED — enumerated from the DS V3 / AntD Tooltip matrix: `placement` now ships the FULL 12-placement set — the 4 cardinal sides (top/bottom/left/right, centred) PLUS the 8 edge-aligned ones (top-start, top-end, bottom-start, bottom-end, left-start, left-end, right-start, right-end — same side, aligned to the trigger's start/end edge with the arrow offset near that edge, AntD naming) — a `title` (our `text`), a `color` (default dark vs a brand fill), an `arrow` on/off, and `trigger` (hover/focus/click). All ship on the element. The measured DS V3 `tooltip|card` cell is a distinct rich 260px info CARD (white text, 16px padding, an icon) — a popover, not this simple text hint — and remains a separate future component. This `aha-tooltip` is the dark-navy hint bubble the settings skill's `?` help tooltip points to; spec derived from that convention + tokens (bg-dark, color-primary, text-inverse, radius-sm, 12/18). Motion is the shared .2s ease-out pop on a PERSISTENT node (class/attr toggle, never a subtree rebuild — the historic MOTION_DEBT trap is clean)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
