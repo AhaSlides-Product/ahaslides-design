@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.106.2 — 2026-10-07
+### Fixed
+- CSAT: the thumbs and Feedback buttons sit 4px apart, so a selected or hovered background no longer touches its neighbour (#PR)
+
 ## 0.106.1 — 2026-10-07
 ### Fixed
 - CSAT: the thumbs and Feedback buttons are 28×28, the DS small icon button size (were 28×24), so the row is 28px high (#193)
