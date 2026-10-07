@@ -1,0 +1,6 @@
+[
+  { "repo": "AhaSlides-Product/aha-report",              "base": "staging", "package_dir": ".",        "lockfile_dir": ".", "package_manager": "npm",  "lockfile": "package-lock.json" },
+  { "repo": "AhaSlides-Product/aha-management-app",      "base": "staging", "package_dir": "frontend", "lockfile_dir": "frontend", "package_manager": "pnpm", "lockfile": "frontend/pnpm-lock.yaml" },
+  { "repo": "AhaSlides-Product/aha-elearning",           "base": "staging", "package_dir": "frontend", "lockfile_dir": ".", "package_manager": "pnpm", "lockfile": "pnpm-lock.yaml" },
+  { "repo": "AhaSlides-Product/stpancras-presenter-app", "base": "staging", "package_dir": ".",        "lockfile_dir": ".", "package_manager": "yarn", "lockfile": "yarn.lock" }
+]
