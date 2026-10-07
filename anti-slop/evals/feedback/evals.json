@@ -162,11 +162,11 @@
     },
     {
       "id": 7,
-      "prompt": "Review this feedback surface. A persistent warning banner is `<aha-alert type=\"warning\" heading=\"Storage almost full\">Older uploads will be archived unless you free up space in this workspace.</aha-alert>` with a dismiss control added next to it as `<button class=\"banner-x\" style=\"position:absolute; top:50%; right:12px; transform:translateY(-50%); font-size:20px\">×</button>`. An export notification is opened with `notificationApi.info({ message: 'Export ready', description: 'Your CSV is ready.' })`, so antd draws its own close.",
+      "prompt": "Review this feedback surface. A persistent warning banner is `<aha-alert type=\"warning\" heading=\"Storage almost full\">Older uploads will be archived unless you free up space in this workspace.</aha-alert>` with a dismiss control added next to it as `<button class=\"banner-x\" style=\"position:absolute; top:50%; right:12px; transform:translateY(-50%); font-size:20px\">×</button>`. An export notification is opened with `notificationApi.info({ message: 'Export ready', description: 'Your CSV is ready.' })`, so antd draws its own close. A settings modal turns antd's close off and puts `<aha-button variant=\"tertiary\" size=\"sm\" icon-only aria-label=\"Close\"><aha-icon name=\"system-x\" size=\"16\"></aha-icon></aha-button>` in its title row.",
       "files": [],
       "label": "bad-example",
-      "notes": "Hand-rolled ✕ centred on the card, plus antd's own notification close",
-      "expected_output": "C6 FAILS: the banner ✕ is a hand-rolled button vertically centred on the whole card (it drifts when the text wraps) instead of the shared <aha-close-button>, and the notification shows antd's own close instead of dismissibleTitle with closable: false.",
+      "notes": "Hand-rolled ✕ centred on the card, antd's own notification close, and a 28 × 28 tertiary button standing in for the shared ✕",
+      "expected_output": "C6 FAILS: the banner ✕ is a hand-rolled button vertically centred on the whole card (it drifts when the text wraps) instead of the shared <aha-close-button>, and the notification shows antd's own close instead of dismissibleTitle with closable: false; the modal's ✕ is a 28 × 28 tertiary aha-button with a 16px glyph instead of the shared 20 × 20 <aha-close-button> (14px system-x, #8A8A8A) through dismissibleModalTitle.",
       "expected": {
         "overall": "NEEDS_FIX",
         "criteria": {
@@ -176,11 +176,11 @@
     },
     {
       "id": 8,
-      "prompt": "Review this feedback surface. A dismissible banner is `<aha-alert type=\"info\" closable>Your audience can still join with the old code until the session ends, so share the new link before the next round starts.</aha-alert>`, which renders the shared `<aha-close-button>` on the first line. An export notification is opened with `notificationApi.info({ key, closable: false, message: () => dismissibleTitle(h, 'Export ready', () => notificationApi.destroy(key)), description: 'Your CSV is ready.' })`.",
+      "prompt": "Review this feedback surface. A dismissible banner is `<aha-alert type=\"info\" closable>Your audience can still join with the old code until the session ends, so share the new link before the next round starts.</aha-alert>`, which renders the shared `<aha-close-button>` (a 20 × 20 hit area with the 14px muted `system-x`, top-pinned to the first line). An export notification is opened with `notificationApi.info({ key, closable: false, message: () => dismissibleTitle(h, 'Export ready', () => notificationApi.destroy(key)), description: 'Your CSV is ready.' })`. A drawer passes `closable={false}` and `title={dismissibleDrawerTitle(createElement, 'Slide settings', close)}`.",
       "files": [],
       "label": "good-control",
-      "notes": "Shared ✕ on both surfaces; guards against C6 over-firing",
-      "expected_output": "C6 PASSES: the Alert uses its built-in shared close button and the notification turns antd's close off and puts the shared ✕ in the title.",
+      "notes": "Shared ✕ on all three surfaces; guards against C6 over-firing",
+      "expected_output": "C6 PASSES: the Alert uses its built-in shared close button and the notification turns antd's close off and puts the shared ✕ in the title, and the drawer carries it through dismissibleDrawerTitle.",
       "expected": {
         "overall": "OK_TO_SHIP",
         "criteria": {

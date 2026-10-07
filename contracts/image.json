@@ -14,7 +14,7 @@
     { "label": "Frame", "value": "radius 8px (radius attr xs 4·sm 6·default 8·lg 12·xl 16·pill) · bg #F7F7F7 · overflow hidden · role=button, keyboard-focusable" },
     { "label": "Image", "value": "object-fit cover · scale 1.06 on hover, motion-slow ease-out" },
     { "label": "Mask", "value": "overlay rgba(26,26,46,.7) · #FFFFFF 13/SemiBold · fade motion-mid" },
-    { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button / backdrop dismiss; focus moves in and is restored on close. preview=\"false\" → plain picture, no mask/click/dialog" },
+    { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button (14px system-x, #8A8A8A → #1A1A1A on bg-hover, on a white 32px disc) / backdrop dismiss; focus moves in and is restored on close. preview=\"false\" → plain picture, no mask/click/dialog" },
     { "label": "Placeholder", "value": "shimmer skeleton (icon-muted on bg-secondary) shown while loading; fades on the image load, persistent node" },
     { "label": "Fallback", "value": "broken/empty src → system-image-square glyph + label, text-tertiary on bg-secondary, role=img" },
     { "label": "Sizing", "value": "width/height attributes drive the frame" }

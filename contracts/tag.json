@@ -17,7 +17,7 @@
     { "label": "Primary", "value": "bg #F9F5FF, label #6A1EBB" },
     { "label": "Success / Processing / Warning / Error", "value": "tinted bg + matching text token" },
     { "label": "Bordered", "value": "white surface + a coloured 1px hairline (the outlined DS V3 flavour)" },
-    { "label": "Closable", "value": "system-x ✕; animates out (scale + fade, motion-mid) then removes + emits close" },
+    { "label": "Closable", "value": "12px system-x ✕ in #8A8A8A, #1A1A1A on bg-hover over 100ms (the shared ✕ colours at chip size); animates out (scale + fade, motion-mid) then removes + emits close" },
     { "label": "Checkable", "value": "outlined toggle; checked → brand fill #6A1EBB / white label; aria-pressed synced" }
   ],
   "props": [

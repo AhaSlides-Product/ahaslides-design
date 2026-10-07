@@ -45,7 +45,7 @@
     {
       "ref": "close-button",
       "as": "component",
-      "use": "the one dismiss ✕ (tertiary button, small, 16px system-x, on the first line of text) for alert, info box, background task, toast and notification",
+      "use": "the one dismiss ✕ (20 × 20, radius 6, 14px system-x, #8A8A8A → #1A1A1A on bg-hover, top-pinned to the first line of text) for alert, info box, background task, toast, notification, modal and drawer",
       "status": "available"
     },
     {
@@ -171,7 +171,7 @@
     },
     {
       "id": "one-dismiss-button",
-      "rule": "Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared <aha-close-button>: the tertiary button at small size (28 × 28) with the 16px system-x icon, 8px from the container's end edge, lined up with the first line of text and the leading icon so it stays put when the text wraps. Alert `closable`, Info box `dismissible` and Background task render it already; a sticky Toast takes it through dismissibleToast, and a Notification through dismissibleTitle with `closable: false`; Modal and Drawer through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Never hand-roll a ✕ and never show antd's own message or notification close. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`.",
+      "rule": "Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared <aha-close-button>: a 20 × 20 hit area (radius 6) with the 14px system-x glyph in #8A8A8A (--aha-icon-muted) that turns #1A1A1A on --aha-bg-hover over 100ms. It is top-pinned to the first line of text, its centre 2.5px above that line's centre, so it stays put when the text wraps, and sits 2px into the container's end padding (in the Info box: 15px from the right, 11px from the top). Alert `closable`, Info box `dismissible` and Background task render it already; a sticky Toast takes it through dismissibleToast, a Notification through dismissibleTitle with `closable: false`, and Modal and Drawer through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Every other ✕ in the design system (CSAT follow-up, Uploader remove, Input clear, Image preview close, Tag remove) follows the same glyph, colour and hover. Never hand-roll a ✕, never use a tertiary or 28 × 28 button for it, and never show antd's own message or notification close.",
       "ref": [
         "C6"
       ]
@@ -237,7 +237,7 @@
   "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical feedback components (the Csat widget at components/csat/Csat.tsx, InlineFeedback at features/respondent/shared/InlineFeedback.tsx, the AhaAlert wrapper per references/alert.md, and the bespoke toast pill) live in the product app. If a wrapper graduates into this DS, add a reuse block and it is gated like a composite.",
   "selfCheck": [
     {
-      "label": "every dismiss ✕ is <aha-close-button>: tertiary small, on the first line, 8px from the edge",
+      "label": "every dismiss ✕ is <aha-close-button>: 20 × 20, 14px system-x, #8A8A8A, top-pinned to the first line",
       "verdict": "N/A — per-surface"
     },
     {

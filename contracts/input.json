@@ -20,7 +20,7 @@
     { "label": "Warning", "value": "#FF7747 border + warning-tinted ring" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Readonly", "value": "#F7F7F7 fill, still selectable" },
-    { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable ✕; password reveal (eye)" },
+    { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable ✕ (the shared ✕ spec: 14px system-x in a 20 × 20 hit area, #8A8A8A → #1A1A1A on bg-hover); password reveal (eye)" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" }
   ],
   "props": [

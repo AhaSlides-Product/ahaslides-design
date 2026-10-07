@@ -1,4 +1,4 @@
-import '@ahaslides-product/design/aha-close-button';   // registers <aha-close-button> (+ <aha-button>, <aha-icon>)
+import '@ahaslides-product/design/aha-close-button';   // registers <aha-close-button> (+ <aha-icon>)
 
 // React 18/19 render the element directly; a press is a normal click.
 // Alert, Info box and Background task already render it; Toast and Notification take it through
@@ -11,7 +11,7 @@ export function Notice({ children, onDismiss }) {
       <aha-close-button
         label="Dismiss"
         onClick={onDismiss}
-        style={{ '--aha-close-line-height': '21px', '--aha-close-container-padding': '16px' }}
+        style={{ '--aha-close-line-height': '21px' }}
       />
     </div>
   );

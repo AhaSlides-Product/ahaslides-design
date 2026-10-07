@@ -67,7 +67,7 @@
     { "label": "selected = antd tertiary active (fill #F0E4FF · icon #6A1EBB) · aria-pressed synced · the other thumb collapses; re-click un-rates", "verdict": "PASS" },
     { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>, textarea focused; not re-opened after Send until re-rated)", "verdict": "PASS" },
     { "label": "down thumb carries aria-haspopup=dialog · aria-expanded mirrors the popover", "verdict": "PASS" },
-    { "label": "feedback popover: X closes only · <aha-counted-textarea> · secondary Send disabled until text; submit emits `feedback` and clears the field", "verdict": "PASS" },
+    { "label": "feedback popover: the shared ✕ (<aha-close-button>) closes only · <aha-counted-textarea> · secondary Send disabled until text; submit emits `feedback` and clears the field", "verdict": "PASS" },
     { "label": "thank-you line fades in (opt-in) — instantly on up, after submit on down", "verdict": "PASS" },
     { "label": "emits rate with source (rating null on un-rate)", "verdict": "PASS" }
   ],
