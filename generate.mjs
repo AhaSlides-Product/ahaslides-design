@@ -2262,7 +2262,7 @@ function renderLogoPage() {
   };
   const main = `
   <h1>Logo library</h1>
-  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official full-colour SVG from theSVG; never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official full-colour SVG, from theSVG or the Design System V3 Figma file; never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
   <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
 
   <div id="logo-gallery">
