@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.101.2 — 2026-10-07
+### Fixed
+- Popover: a closed panel is now `display:none` (the exit fade still plays, via a discrete `display` transition), so it no longer leaves an invisible box that scrolling ancestors count as overflow. It removes the empty space under CSAT's feedback button inside a scroll container (about 180px in the presenter editor's Content panel); open, `flip`, top layer and the fade are unchanged (#186)
+
 ## 0.100.4 — 2026-10-07
 ### Fixed
 - Tooltip: the hint no longer sticks after a mouse click or a touch tap. It shows on mouse hover or keyboard focus only, so clicking a trigger hides it, CSAT's thumb no longer brings the hint back when the feedback popover closes, and a tap on touch no longer leaves it open. `trigger="focus"` still shows on any focus and `trigger="click"` is unchanged. (#183)
