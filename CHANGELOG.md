@@ -24,18 +24,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.113.0 — 2026-10-08
 ### Added
-- `<aha-tag size="large">`: the 36px checkable filter chip (14px regular text, 12px padding, 8px radius) (#PR)
-- `<aha-tag color="branding">`: the pink "New" label, `--aha-pink-20` fill with `--aha-pink-60` text (#PR)
-- `<aha-rate size="sm">` draws 16px stars with a 2px gap, and `<aha-rate readonly precision="exact">` fills the last star by the exact fraction, so 4.8 shows 80% of the fifth star (#PR)
-- `<aha-empty image="none">`: a text-only empty state with no illustration (#PR)
-- Icon `system-funnel-2`: a real funnel (16px, stroke `currentColor`); `system-funnel` is unchanged (#PR)
+- `<aha-tag size="large">`: the 36px checkable filter chip (14px regular text, 12px padding, 8px radius) (#198)
+- `<aha-tag color="branding">`: the pink "New" label, `--aha-pink-20` fill with `--aha-pink-60` text (#198)
+- `<aha-rate size="sm">` draws 16px stars with a 2px gap, and `<aha-rate readonly precision="exact">` fills the last star by the exact fraction, so 4.8 shows 80% of the fifth star (#198)
+- `<aha-empty image="none">`: a text-only empty state with no illustration (#198)
+- Icon `system-funnel-2`: a real funnel (16px, stroke `currentColor`); `system-funnel` is unchanged (#198)
 ### Changed
-- `<aha-tag>` default label is now 24px high with 6px side padding and a 4px gap (was 22px, 8px, 6px) (#PR)
-- `<aha-input clearable>`: the clear control is a tertiary icon-only `<aha-button>` with a 16px `system-x-circle` (it was a bare 14px `system-x`); it is now a keyboard tab stop (#PR)
-- `<aha-collapse ghost>`: the header has no side padding, so its label lines up with the body (`icon-position="end"` already moves the caret after the label) (#PR)
-- `<aha-empty>` caption uses the default body type (`--aha-size-default`, `--aha-line-height-body`) in every image mode; `image="simple"` was 13/20 (#PR)
+- `<aha-tag>` default label is now 24px high with 6px side padding and a 4px gap (was 22px, 8px, 6px) (#198)
+- `<aha-input clearable>`: the clear control is a tertiary icon-only `<aha-button>` with a 16px `system-x-circle` (it was a bare 14px `system-x`); it is now a keyboard tab stop (#198)
+- `<aha-collapse ghost>`: the header has no side padding, so its label lines up with the body (`icon-position="end"` already moves the caret after the label) (#198)
+- `<aha-empty>` caption uses the default body type (`--aha-size-default`, `--aha-line-height-body`) in every image mode; `image="simple"` was 13/20 (#198)
 ### Fixed
-- `<aha-rate>`: a value of exactly x.5 (for example 4.5) now fills half a star; it showed the star empty (#PR)
+- `<aha-rate>`: a value of exactly x.5 (for example 4.5) now fills half a star; it showed the star empty (#198)
 
 ## 0.111.0 — 2026-10-07
 ### Changed
