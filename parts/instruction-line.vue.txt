@@ -1,0 +1,7 @@
+<script setup>
+import '@ahaslides-product/design/aha-instruction-line';
+</script>
+
+<template>
+  <aha-instruction-line>Swipe a card, or tap a side</aha-instruction-line>
+</template>

@@ -1,0 +1,206 @@
+{
+  "name": "Answer list",
+  "slug": "answer-list",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-answer-list",
+  "summary": "The multiple-choice answer block on the audience phone: tappable rows on the frosted deck surface, single or multiple selection, the fixed 8px gap, live counts and the quiz reveal.",
+  "highlights": [
+    "Multiple-choice answers on the audience phone",
+    "Single or multiple selection, counts and the quiz reveal",
+    "Deck ink, frosted surface, 44px rows",
+    "Locks and restores the pick after an iframe remount"
+  ],
+  "lead": "ONE custom element — <aha-answer-list> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "white",
+    "color-primary",
+    "color-success",
+    "color-error",
+    "radius-default",
+    "space-8",
+    "space-12",
+    "space-16"
+  ],
+  "spec": [
+    {
+      "label": "Row",
+      "value": "min-height 44, radius 8, padding 8/16, gap 12; frosted surface (ink's opposite at 80% over a 20px blur), 1px ink hairline at 10%"
+    },
+    {
+      "label": "Gap",
+      "value": "8px between rows, fixed"
+    },
+    {
+      "label": "Label",
+      "value": "16px, 600"
+    },
+    {
+      "label": "Pick",
+      "value": "radio or checkbox in the deck accent (deepened until a white mark reads at 3:1); my row ringed 1px in the deck ink"
+    },
+    {
+      "label": "Reveal",
+      "value": "a tick (success) or cross (error) on every row; the correct row ringed in success, my wrong pick ringed and tinted in error, the other rows mute to 55%"
+    },
+    {
+      "label": "Locked",
+      "value": "the rows I did not pick mute to 55% content opacity; my pick stays at full strength"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "options",
+      "type": "JSON [{id, label, correct?, image?}]",
+      "default": "[]",
+      "desc": "The answers. Also settable as the `options` property"
+    },
+    {
+      "name": "value",
+      "type": "id | JSON id[]",
+      "default": "—",
+      "desc": "The pick; an array of ids with selection-mode=\"multiple\". Also the `value` property"
+    },
+    {
+      "name": "selection-mode",
+      "type": "single | multiple",
+      "default": "single",
+      "desc": "Radio rows or checkbox rows"
+    },
+    {
+      "name": "quiz-status",
+      "type": "number",
+      "default": "—",
+      "desc": "The host quiz phase (4 = Question, 5 = Result). Omit on a host with no quiz lifecycle"
+    },
+    {
+      "name": "answered / revealed / awaiting-reveal",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The host's quiz flags: this phone answered; results are shown; the round ended with the verdict withheld"
+    },
+    {
+      "name": "counts",
+      "type": "JSON {id: number}",
+      "default": "{}",
+      "desc": "Per-option responder counts. Also the `counts` property"
+    },
+    {
+      "name": "total",
+      "type": "number",
+      "default": "—",
+      "desc": "Responder total, needed for count-mode=\"percent\""
+    },
+    {
+      "name": "count-mode",
+      "type": "off | percent | people",
+      "default": "off",
+      "desc": "What the chip on each row shows; its box is kept when off, so revealing never relayouts"
+    },
+    {
+      "name": "columns",
+      "type": "stack | grid",
+      "default": "stack",
+      "desc": "grid lays image-heavy rows out in columns measured from the list's own width"
+    },
+    {
+      "name": "group-label",
+      "type": "string",
+      "default": "Answer options",
+      "desc": "The radiogroup's accessible name: pass the translated question"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Fires on every pick"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Answer list",
+        "when": "a fixed set of predefined answers the participant picks one or several of: nearly every quiz and poll"
+      },
+      {
+        "what": "Answer option",
+        "when": "only rows that are not a plain list (split across columns, laid out on a board)"
+      },
+      {
+        "what": "Audience chip",
+        "when": "short toggles where several fit on a line"
+      },
+      {
+        "what": "Not for",
+        "when": "anything composed or positioned rather than picked: free text, a scale, an order, an image"
+      }
+    ],
+    "note": "Replaces a hand-built tappable answer row, which re-opens the submission lock, the deck ink, the frosted surface and the accent. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-answer-list",
+    "registers": "aha-answer-list",
+    "exportsNamed": [
+      "AhaAnswerList",
+      "defineAhaAnswerList"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "answer-list.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "answer-list.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "answer-list.vue.txt"
+    }
+  ],
+  "preview": "answer-list.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-answer-list[data-probe]')&&document.querySelector('aha-answer-list[data-probe]').shadowRoot&&document.querySelector('aha-answer-list[data-probe]').shadowRoot.querySelector('aha-answer-option')&&document.querySelector('aha-answer-list[data-probe]').shadowRoot.querySelector('aha-answer-option').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-answer-list[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('aha-answer-option').shadowRoot.querySelector('.row');var c=cs(row);var lab=cs(row&&row.querySelector('.label'));var picked=r.querySelectorAll('aha-answer-option')[1].shadowRoot.querySelector('.control');return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,labelSize:lab.fontSize,gap:cs(q('.list')).rowGap,pickedControl:cs(picked).borderTopColor};})()",
+    "expect": {
+      "rowHeight": "44px",
+      "rowRadius": "8px",
+      "ink": "rgb(26, 26, 26)",
+      "labelSize": "16px",
+      "gap": "8px",
+      "pickedControl": "rgb(231, 14, 104)"
+    }
+  }
+}

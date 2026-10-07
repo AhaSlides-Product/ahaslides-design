@@ -115,8 +115,8 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, St
 
 | Token | Where it goes |
 | --- | --- |
-| `colorSuccess` (#16C49A) | ✓ icon, correct-answer badge, validation-passed border |
-| `colorError` (#F5222D) | ✗ icon, incorrect-answer badge, destructive-action chip |
+| `colorSuccess` (#000000, colour rules) | ✓ icon, correct-answer badge, validation-passed border |
+| `colorError` (#000000, colour rules) | ✗ icon, incorrect-answer badge, destructive-action chip |
 | `colorWarning` | caution icon, "are you sure?" prompt |
 | `colorInfo` | informational badge |
 

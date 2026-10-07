@@ -19,8 +19,8 @@
     { "label": "Motion", "value": "panel fade + lift; swatch hover scale; check fade (ease-out)" }
   ],
   "props": [
-    { "name": "value", "type": "string", "default": "#6A1EBB", "desc": "Selected colour (hex) — its swatch is ringed + checked" },
-    { "name": "swatches", "type": "string", "default": "brand ramp (12)", "desc": "Pipe-separated hex presets, e.g. \"#6A1EBB|#FF4081\"" },
+    { "name": "value", "type": "string", "default": "#E70E68", "desc": "Selected colour (hex) — its swatch is ringed + checked" },
+    { "name": "swatches", "type": "string", "default": "brand ramp (12)", "desc": "Pipe-separated hex presets, e.g. \"#E70E68|#FF4081\"" },
     { "name": "size", "type": "'small' | 'default' | 'large'", "default": "default", "desc": "Scales trigger + swatch dimensions" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Greys + inerts the whole control" },
     { "name": "open", "type": "boolean", "default": "false", "desc": "Panel open state; reflected attribute" },
@@ -66,10 +66,10 @@
     { "label": "change emits composed value", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds the default value #6A1EBB at default size, so the selected swatch (.on) is the #6A1EBB chip — its ring is color-primary and its measured 28px width proves the default size cell.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds the default value #E70E68 at default size, so the selected swatch (.on) is the #E70E68 chip — its ring is color-primary and its measured 28px width proves the default size cell.",
     "ready": "!!(document.querySelector('aha-color-picker[data-probe]') && document.querySelector('aha-color-picker[data-probe]').shadowRoot && document.querySelector('aha-color-picker[data-probe]').shadowRoot.querySelector('.swatch.on'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-color-picker[data-probe]');var sr=el.shadowRoot;var cur=sr.querySelector('.current');var trg=sr.querySelector('.trigger');var on=sr.querySelector('.swatch.on');var os=getComputedStyle(on);return{currentBg:getComputedStyle(cur).backgroundColor,currentRadius:getComputedStyle(cur).borderTopLeftRadius,triggerBorder:getComputedStyle(trg).borderTopColor,triggerRadius:getComputedStyle(trg).borderTopLeftRadius,selectedRing:os.outlineColor,selectedPressed:on.getAttribute('aria-pressed'),swatchWidth:os.width};})()",
-    "expect": { "currentBg": "rgb(106, 30, 187)", "currentRadius": "4px", "triggerBorder": "rgb(227, 227, 227)", "triggerRadius": "6px", "selectedRing": "rgb(231, 14, 104)", "selectedPressed": "true", "swatchWidth": "28px" }
+    "expect": { "currentBg": "rgb(231, 14, 104)", "currentRadius": "4px", "triggerBorder": "rgb(227, 227, 227)", "triggerRadius": "6px", "selectedRing": "rgb(231, 14, 104)", "selectedPressed": "true", "swatchWidth": "28px" }
   }
 }

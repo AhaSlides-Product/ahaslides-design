@@ -1,0 +1,9 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-image-upload';
+defineProps({ uploadImage: Function });
+const emit = defineEmits(['image']);
+</script>
+
+<template>
+  <aha-audience-image-upload :uploadImage.prop="uploadImage" @change="emit('image', $event.detail.value)" />
+</template>

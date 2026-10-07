@@ -1,0 +1,17 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.
+     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent
+     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audience-chip.js';   // registers <aha-audience-chip>
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
+  document.querySelectorAll('aha-audience-chip').forEach((chip) =>
+    chip.addEventListener('change', (event) => console.log(chip.textContent, event.detail.selected)));
+</script>
+
+<div style="display:flex; flex-wrap:wrap; gap:8px">
+  <aha-audience-chip>Remote</aha-audience-chip>
+  <aha-audience-chip selected>Hybrid</aha-audience-chip>
+  <aha-audience-chip>Office</aha-audience-chip>
+</div>

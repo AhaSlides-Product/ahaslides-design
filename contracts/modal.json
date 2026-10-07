@@ -12,7 +12,7 @@
     { "label": "Content", "value": "white surface · radius 8" },
     { "label": "Title", "value": "ink #1A1A1A · 18 · SemiBold" },
     { "label": "Footer", "value": "brand primary confirm + secondary cancel" },
-    { "label": "Overlay", "value": "always-on mask (ink rgba(26,26,46,.7)) · portals to body · locks page scroll · click mask / Esc / ✕ to close (destructive: mask not closable)" },
+    { "label": "Overlay", "value": "always-on mask (ink rgba(0,0,0,.4)) · portals to body · locks page scroll · click mask / Esc / ✕ to close (destructive: mask not closable)" },
     { "label": "Motion", "value": "antd's built-in zoom enter/leave (kept)" },
     { "label": "Types", "value": "Confirmation (status icon + copy) · Action (task surface)" },
     { "label": "Confirmation", "value": "contexts: default · confirm · warning · info · danger (status icon left of title)" },

@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.
+     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent
+     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-answer-list.js';   // registers <aha-answer-list>
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
+  const list = document.querySelector('aha-answer-list');
+  list.addEventListener('change', (event) => console.log('picked', event.detail.value));
+</script>
+
+<aha-answer-list group-label="Which drink do you prefer?" lock-key="slide-42"
+  options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea"},{"id":"c","label":"Juice"}]'></aha-answer-list>
+
+<!-- multiple selection, revealed, with the live share on each row -->
+<aha-answer-list selection-mode="multiple" revealed count-mode="percent" total="40"
+  value='["a","b"]' counts='{"a":22,"b":13,"c":5}'
+  options='[{"id":"a","label":"Coffee"},{"id":"b","label":"Tea","correct":true},{"id":"c","label":"Juice"}]'></aha-answer-list>

@@ -1,0 +1,160 @@
+{
+  "name": "Audience submit",
+  "slug": "audience-submit",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audience-submit",
+  "summary": "The one primary action on the audience phone: a touch-size aha-button in the deck accent, in the deck font, with the busy, submitted and submissions-closed states and the submission lock that survives an iframe remount.",
+  "highlights": [
+    "aha-button size=\"touch\" in the deck accent",
+    "Busy on tap, then lock(value) or unlock()",
+    "Submitted and closed states with a lock glyph",
+    "Lock survives an iframe remount (lock-key)"
+  ],
+  "lead": "ONE custom element — <aha-audience-submit> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "button-primary-bg",
+    "button-primary-text",
+    "radius-default",
+    "space-8"
+  ],
+  "spec": [
+    {
+      "label": "Button",
+      "value": "<aha-button variant=\"primary\" size=\"touch\" block>: 48px, radius 8, 16px semibold, full width"
+    },
+    {
+      "label": "Fill",
+      "value": "the deck accent via --aha-button-primary-* (applyDeck); label the readable #1A1A1A or white for it"
+    },
+    {
+      "label": "Font",
+      "value": "the deck font (font-family inherited into the button)"
+    },
+    {
+      "label": "Locked / closed",
+      "value": "system-lock glyph + caption, DS disabled grey, same size"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "(slot)",
+      "type": "text",
+      "default": "—",
+      "desc": "The label (translated)"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Nothing to submit yet: the DS neutral grey"
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Set on tap; cleared by lock() or unlock()"
+    },
+    {
+      "name": "closed / closed-label",
+      "type": "boolean / string",
+      "default": "false / Submissions closed",
+      "desc": "The host stopped submissions: lock glyph and caption in place, no reflow"
+    },
+    {
+      "name": "locked / locked-label",
+      "type": "boolean / string",
+      "default": "false / Answer submitted",
+      "desc": "This participant has submitted"
+    },
+    {
+      "name": "lock(value) / unlock()",
+      "type": "methods",
+      "default": "—",
+      "desc": "Lock after the host accepted the answer (writes the submission lock under lock-key); release after a refusal"
+    },
+    {
+      "name": "submit-answer",
+      "type": "CustomEvent (cancelable)",
+      "default": "—",
+      "desc": "Fires on tap while open; the button is busy until lock() or unlock()"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audience submit",
+        "when": "the one primary action per audience screen"
+      },
+      {
+        "what": "aha-button secondary / tertiary",
+        "when": "skip, change, back: a second primary means neither is the submit"
+      }
+    ],
+    "note": "Announce the submission with the host toast (xprops.showToastSuccess), then move to the submitted or waiting state; never an in-iframe banner. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-audience-submit",
+    "registers": "aha-audience-submit",
+    "exportsNamed": [
+      "AhaAudienceSubmit",
+      "defineAhaAudienceSubmit"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audience-submit.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audience-submit.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audience-submit.vue.txt"
+    }
+  ],
+  "preview": "audience-submit.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-audience-submit[data-probe]')&&document.querySelector('aha-audience-submit[data-probe]').shadowRoot&&document.querySelector('aha-audience-submit[data-probe]').shadowRoot.querySelector('aha-button').shadowRoot&&document.querySelector('aha-audience-submit[data-probe]').shadowRoot.querySelector('aha-button').shadowRoot.querySelector('button'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-audience-submit[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var b=cs(q('aha-button').shadowRoot.querySelector('button'));return{height:b.height,radius:b.borderTopLeftRadius,fill:b.backgroundColor,size:b.fontSize,weight:b.fontWeight};})()",
+    "expect": {
+      "height": "48px",
+      "radius": "8px",
+      "fill": "rgb(231, 14, 104)",
+      "size": "16px",
+      "weight": "600"
+    }
+  }
+}

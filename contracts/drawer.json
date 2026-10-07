@@ -12,7 +12,7 @@
     { "label": "Panel", "value": "white surface, slides from the right (or any edge)" },
     { "label": "Title", "value": "ink #1A1A1A · SemiBold" },
     { "label": "Body", "value": "24 padding · ink text" },
-    { "label": "Mask", "value": "ink overlay rgba(26,26,46,.7)" },
+    { "label": "Mask", "value": "ink overlay rgba(0,0,0,.4)" },
     { "label": "Motion", "value": "antd's built-in slide enter/leave (kept)" }
   ],
   "props": [

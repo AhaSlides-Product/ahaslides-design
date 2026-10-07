@@ -85,6 +85,12 @@
       "desc": "Validation border colour"
     },
     {
+      "name": "aria-label",
+      "type": "string",
+      "default": "—",
+      "desc": "The accessible name, forwarded to the trigger; required when no visible label names the select"
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "default": "false",

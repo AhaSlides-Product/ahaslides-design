@@ -21,12 +21,12 @@
       "primaryBg": "#E70E68", "primaryBgHover": "#DB005B", "primaryBgPress": "#DB005B", "primaryFg": "#FFFFFF",
       "secondaryBg": "#FFFFFF", "secondaryBgHover": "#FEF3F7", "secondaryBorder": "#E3E3E3", "secondaryBorderHover": "#E70E68", "secondaryBorderPress": "#D4D4D4",
       "tertiaryBgHover": "#FEF3F7", "tertiaryBgActive": "#FEF3F7", "disabledBg": "#E3E3E3", "disabledFg": "#B5B5B5",
-      "dangerBg": "#000000", "dangerBgHover": "#000000", "dangerBgPress": "#000000", "dangerRing": "rgba(0,0,0,.2)",
-      "positiveBg": "#000000", "positiveBgHover": "#000000", "positiveBgPress": "#000000", "positiveFg": "#FFFFFF",
+      "dangerBg": "#000000", "dangerBgHover": "#1A1A1A", "dangerBgPress": "#303030", "dangerRing": "rgba(0,0,0,.2)",
+      "positiveBg": "#000000", "positiveBgHover": "#1A1A1A", "positiveBgPress": "#303030", "positiveFg": "#FFFFFF",
       "focusRing": "rgba(231,14,104,.3)", "focusRingSuccess": "rgba(0,0,0,.2)",
       "elevatePrimary": "0 2px 0 0 rgba(0,0,0,.04)", "elevatePrimaryHover": "0 4px 12px rgba(231,14,104,.32)", "elevateSecondary": "0 2px 0 0 rgba(0,0,0,.016)",
       "encourageBg": "#E70E68", "encourageBgHover": "#DB005B", "encourageBgPress": "#DB005B",
-      "$note": "Colour rules 2026-10-07: primary Vivid Pink with a solid white label, Darker Pink on hover and press; secondary and tertiary hover Vivid Pink at 5% with a Vivid Pink border; danger and positive are black fills (status carries no colour); encourage follows primary. Per-tone soft box-shadow focus ring (spread 2)."
+      "$note": "Colour rules 2026-10-07: primary Vivid Pink with a solid white label, Darker Pink on hover and press; secondary and tertiary hover Vivid Pink at 5% with a Vivid Pink border; danger and positive are black fills that lift to grey-100 on hover and grey-95 on press (status carries no colour); primary press is Darker Pink like hover but drops the hover shadow, since the guideline defines no press shade; encourage follows primary. Per-tone soft box-shadow focus ring (spread 2)."
     },
     "primitives": {
       "white": "#FFFFFF", "black": "#000000",

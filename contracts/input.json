@@ -26,6 +26,7 @@
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
+    { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name, forwarded to the inner field (a placeholder is not a label); <aha-audience-field> sets it from its label" },
     { "name": "type", "type": "text | number | email | password | search", "default": "text", "desc": "Native input type; password adds a reveal (eye) toggle" },
     { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 32 · large 40 (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases)" },
     { "name": "status", "type": "default | error | warning", "default": "default", "desc": "Border + ring recolour; error also sets aria-invalid (legacy `invalid` boolean = status error)" },
