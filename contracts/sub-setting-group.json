@@ -19,7 +19,7 @@
   ],
   "props": [
     { "name": "hidden", "type": "boolean", "default": "false", "desc": "Author-controlled: collapse the sub-settings when the parent setting is off (the component does not derive this itself)" },
-    { "name": "(default slot)", "type": "slot", "default": "—", "desc": "The dependent sub-settings; they stack 24px apart, indented 24px under the parent; their labels are regular 400 secondary text" }
+    { "name": "(default slot)", "type": "slot", "default": "—", "desc": "The dependent sub-settings; they stack 24px apart, indented 24px under the parent; their labels are regular 400 secondary text. Place the group directly inside an aha-setting-group: the 16px gap below the parent relies on that 24px row gap" }
   ],
   "opinion": {
     "whenToUse": [

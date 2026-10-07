@@ -963,12 +963,12 @@
       "files": [],
       "label": "bad-example",
       "notes": "Lone setting titled with the bold SectionHeader instead of SettingRow — the AHAM-473 rule. Should FAIL C4 / SETTINGS-48; the sibling SettingRow is correct.",
-      "expected_output": "FAILS C4 (and SETTINGS-48). 'Race duration' is one control with one label — a lone setting, not a group — so it must be a regular-weight SettingRow, not a bold SectionHeader. Using SectionHeader here renders a group-level bold label with no group beneath it, and it reads inconsistently beside the regular-weight 'Race sound' row. Fix: make 'Race duration' a SettingRow too (`<SettingRow label=\"Race duration\" help=\"…\"><NumberWithUnit …/></SettingRow>`); reserve SectionHeader for a real group header over 2+ settings or a master-toggle row. Everything else passes; overall NEEDS FIX.",
+      "expected_output": "FAILS C4 (and SETTINGS-48). 'Race duration' is one control with one label — a lone setting, not a group — so it must be a regular-weight SettingRow, not a bold SectionHeader. Using SectionHeader here renders a group-level bold label with no group beneath it, and it reads inconsistently beside the regular-weight 'Race sound' row. Fix: make 'Race duration' a SettingRow too (`<SettingRow label=\"Race duration\" help=\"…\"><NumberWithUnit …/></SettingRow>`); reserve SectionHeader for a real group header over 2+ settings, and it never carries a control. Everything else passes; overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C4 is marked FAIL (SETTINGS-48)",
         "Flags SectionHeader used to title a lone setting (should be a regular-weight SettingRow)",
-        "Notes SectionHeader is reserved for a real group header over 2+ settings / a master-toggle",
+        "Notes SectionHeader is reserved for a real group header over 2+ settings and never carries a control",
         "Does NOT FAIL the 'Race sound' SettingRow"
       ],
       "expected": {
