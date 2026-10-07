@@ -22,11 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.99.0 — 2026-10-07
+## 0.100.0 — 2026-10-07
 ### Changed
 - Close button: `<aha-close-button>` is back to the old Info box ✕ — a native 20 × 20 button (radius 6) with the 14px `system-x` in #8A8A8A, #1A1A1A on `--aha-bg-hover` over 100ms, top-pinned with its centre 2.5px above the first line's centre and 2px into the end padding (Info box: 15px from the right, 11px from the top). It no longer wraps a tertiary `<aha-button>`: `::part(button)` is now the native button and shrinks from 28 × 28 to 20 × 20. Alert, Info box, Background task, Toast, Notification, Modal and Drawer follow (#178)
 - Every other ✕ takes the same spec: CSAT follow-up and Uploader remove now render `<aha-close-button>`; Input clear is the 14px `system-x` (was `system-x-circle`) in a 20 × 20 hit area; Image preview close is now the white 20 × 20 radius-6 square in the image's top-right corner (no more 32px disc), Tag remove takes the muted colour and hover; the Uploader row ✕ is centred on its row. The rule now says a ✕ is never circular. `closeButtonRow` no longer needs `containerPadding` (#178)
 - Guidance: close-button contract, `one-dismiss-button` rule, anti-slop feedback C6 and its eval cases describe the new spec; the Button docs' icon-only example is a gear, not a ✕ (#178)
+
+## 0.99.0 — 2026-10-07
+### Changed
+- CSAT: the thumbs' default tooltips are now Good / Not good (were Useful / Not useful), and each thumb's accessible name follows its tooltip, including a custom `like-label` / `dislike-label`. (#177)
 
 ## 0.98.5 — 2026-10-07
 ### Changed

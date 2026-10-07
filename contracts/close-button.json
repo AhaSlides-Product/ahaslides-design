@@ -92,7 +92,7 @@
       "name": "::part(button)",
       "type": "CSS part",
       "default": "—",
-      "desc": "The inner native button (20 × 20; was a 28 × 28 aha-button before 0.99.0)"
+      "desc": "The inner native button (20 × 20; was a 28 × 28 aha-button before 0.100.0)"
     },
     {
       "name": "click",
