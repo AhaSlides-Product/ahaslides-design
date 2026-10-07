@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.109.0 — 2026-10-07
+### Changed
+- Section container: the section sequence rule replaces "soft and dark variants alternate". Coloured bands (soft or primary) never sit next to each other, a full white section always sits between them, at most two primary-colour bands per page, and the first band (hero) is white; the demo now shows a white section between the soft and dark bands (#PRN)
+
 ## 0.106.2 — 2026-10-07
 ### Fixed
 - CSAT: the thumbs and Feedback buttons sit 4px apart, so a selected or hovered background no longer touches its neighbour (#195)
