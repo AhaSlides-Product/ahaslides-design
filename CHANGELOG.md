@@ -27,6 +27,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Every docs page's HTML tab (and `llms.txt`, the agent feeds and the "No build step?" block) now imports from the release tag that built it, `cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v<version>/lib/…`, instead of `@master`. A snippet pasted into a no-build page (a Developer Platform slide type, a vibe-coded deck) therefore never changes under that page; take a newer release by changing the tag. `AHA_CDN_REF=master` still previews unreleased element code locally (#191)
 - The Audience Library's code tabs take the same pinned ref (they hard-coded `@master`), and the Pages deploy now waits, for up to 15 minutes, until `publish.yml` has created the `v<version>` tag its snippets point at, so a freshly deployed page never links a tag that does not exist yet (#191)
 
+## 0.103.1 — 2026-10-07
+### Fixed
+- Status icon: the usage note no longer says every state has its own glyph; not-started and completed share `system-check-circle` and differ by colour, so the accessible name carries the state (#190)
+
 ## 0.103.0 — 2026-10-07
 ### Added
 - Icon: `system-circle-dashed`, the Phosphor CircleDashed (regular) glyph on the 16px stroke grid like the other system glyphs, for an in-progress state (#189)
