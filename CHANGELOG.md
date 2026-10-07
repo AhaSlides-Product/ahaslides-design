@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.105.0 — 2026-10-07
 ### Changed
-- Every docs page's HTML tab (and `llms.txt`, the agent feeds and the "No build step?" block) now imports from the release tag that built it, `cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v<version>/lib/…`, instead of `@master`. A snippet pasted into a no-build page (a Developer Platform slide type, a vibe-coded deck) therefore never changes under that page; take a newer release by changing the tag. `AHA_CDN_REF=master` still previews unreleased element code locally (#PR)
+- Every docs page's HTML tab (and `llms.txt`, the agent feeds and the "No build step?" block) now imports from the release tag that built it, `cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v<version>/lib/…`, instead of `@master`. A snippet pasted into a no-build page (a Developer Platform slide type, a vibe-coded deck) therefore never changes under that page; take a newer release by changing the tag. `AHA_CDN_REF=master` still previews unreleased element code locally (#191)
 
 ## 0.103.0 — 2026-10-07
 ### Added
