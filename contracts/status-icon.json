@@ -14,7 +14,7 @@
     ]
   },
   "summary": "A progress glyph for anything that can be started and finished (a lesson, a task, a step) \u2014 not started, in progress, completed \u2014 with state colour from DS tokens.",
-  "lead": "ONE custom element \u2014 <aha-status-icon> \u2014 the reusable form of a progress status glyph. It composes <aha-icon> (system-check-circle, system-circle-dashed) with state colour from --aha-* tokens, so the glyph differs per state and colour is never the only signal. Carries role=\"img\" with an accessible name that defaults to the state; pass a translated `label` in the product. Shadow-DOM CSS, themed only by tokens.",
+  "lead": "ONE custom element \u2014 <aha-status-icon> \u2014 the reusable form of a progress status glyph. It composes <aha-icon> (system-check-circle, system-circle-dashed) with state colour from --aha-* tokens, so in-progress has its own glyph; not-started and completed share system-check-circle and differ by colour, with the accessible name carrying the state. Carries role=\"img\" with an accessible name that defaults to the state; pass a translated `label` in the product. Shadow-DOM CSS, themed only by tokens.",
   "codeNote": "Same element, same shadow-DOM CSS \u2192 identical render across frameworks.",
   "tokensUsed": [
     "gray-60",
@@ -115,7 +115,7 @@
   },
   "selfCheck": [
     {
-      "label": "glyph differs per state (colour never alone)",
+      "label": "in-progress has its own glyph; not-started and completed are told apart by colour and accessible name",
       "verdict": "PASS"
     },
     {

@@ -17,9 +17,10 @@
   "bugs": {
     "url": "https://github.com/AhaSlides-Product/ahaslides-design/issues"
   },
-  "sideEffects": ["./lib/aha-status-icon.js", 
+  "sideEffects": [
     "*.css",
     "./lib/all.js",
+    "./lib/aha-status-icon.js",
     "./lib/aha-loader.js",
     "./lib/icons.js",
     "./lib/aha-checkbox.js",
