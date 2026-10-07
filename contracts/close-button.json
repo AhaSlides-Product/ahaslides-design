@@ -13,8 +13,8 @@
       "defineAhaCloseButton"
     ]
   },
-  "summary": "The one dismiss ✕ for Alert, Info box, Background task, Toast and Notification: the tertiary button at small size, lined up with the first line of text.",
-  "lead": "ONE custom element — <aha-close-button> — the shared dismiss control. It renders the DS tertiary <aha-button> at small size (28 × 28, icon-only) with the 16px system-x icon, so size, hover (brand tint + brand colour) and focus ring are the button's own. As a flex item it sits at the end of the row, aligned to the top and offset by half the difference between its height and the first line's height, so it is centred on the first line of text and the leading icon and does not move when the text wraps. The container passes the first line's height (--aha-close-line-height) and its own end padding (--aha-close-container-padding); the button then lands 8px from the container edge everywhere. Alert (closable), Info box (dismissible) and Background task render it already; Toast and Notification take it through dismissibleToast / dismissibleTitle. Modal and Drawer keep the ✕ in their header.",
+  "summary": "The one dismiss ✕ for Alert, Info box, Background task, Toast, Notification, Modal and Drawer: the tertiary button at small size, lined up with the first line of text.",
+  "lead": "ONE custom element — <aha-close-button> — the shared dismiss control. It renders the DS tertiary <aha-button> at small size (28 × 28, icon-only) with the 16px system-x icon, so size, hover (brand tint + brand colour) and focus ring are the button's own. As a flex item it sits at the end of the row, aligned to the top and offset by half the difference between its height and the first line's height, so it is centred on the first line of text and the leading icon and does not move when the text wraps. The container passes the first line's height (--aha-close-line-height) and its own end padding (--aha-close-container-padding); the button then lands 8px from the container edge everywhere. Alert (closable), Info box (dismissible) and Background task render it already; Toast and Notification take it through dismissibleToast / dismissibleTitle. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. A press is a normal bubbling click, so React and Vue bind it directly.",
   "tokensUsed": [
     "space-8",
@@ -47,7 +47,7 @@
     },
     {
       "label": "Used by",
-      "value": "Alert · Info box · Background task · Toast · Notification. Not Modal or Drawer (header ✕)"
+      "value": "Alert · Info box · Background task · Toast · Notification · Modal · Drawer"
     }
   ],
   "props": [
@@ -83,11 +83,11 @@
         "when": "the dismiss ✕ on an alert, info box, background task, toast or notification, or a new dismissible surface like them"
       },
       {
-        "what": "Modal / Drawer header ✕",
-        "when": "closing an overlay; it lives in the overlay header, not here"
+        "what": "Modal / Drawer ✕",
+        "when": "closing an overlay; it is this element, carried in the title by dismissibleModalTitle / dismissibleDrawerTitle with antd's own close off"
       }
     ],
-    "note": "One rule: every dismiss ✕ outside Modal and Drawer is this element. Never hand-roll a ✕ button, never use antd's own notification or message close, and never resize it: it lines up with the first line of text, not the middle of the box."
+    "note": "One rule: every dismiss ✕ is this element, Modal and Drawer included. Never hand-roll a ✕ button, never use antd's own notification or message close, and never resize it: it lines up with the first line of text, not the middle of the box."
   },
   "surfaces": [
     "editor",

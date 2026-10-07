@@ -17,6 +17,10 @@
 <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
 <script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
 <script>window.__antdR = window.antd;</script>
+<script type="module">
+  import { dismissibleDrawerTitle } from '../lib/drawer-theme.js';   // registers <aha-close-button> — the shipped ✕
+  window.__dismissibleDrawerTitle = dismissibleDrawerTitle;
+</script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
@@ -87,7 +91,8 @@ function Demo() {
         </Button>
         <Drawer
           open={open}
-          title="Slide settings"
+          closable={false}
+          title={window.__dismissibleDrawerTitle(React.createElement, 'Slide settings', () => setOpen(false))}
           placement={placement}
           {...dim(placement, size)}
           onClose={() => setOpen(false)}
@@ -104,7 +109,8 @@ function Demo() {
       <div className="aha-stage" style={{ height: 300 }}>
         <Drawer
           open
-          title="Slide settings"
+          closable={false}
+          title={window.__dismissibleDrawerTitle(React.createElement, 'Slide settings', () => {})}
           placement="right"
           width={320}
           getContainer={false}

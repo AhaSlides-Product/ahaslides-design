@@ -6,8 +6,13 @@
   "badge": "shared web component",
   "element": "aha-background-task",
   "summary": "The pattern for any long-running process on AhaSlides — import, export, upload, duplicate: a fixed bottom-right card that tracks one background task from start to finish — icon, subject, bar, caption and its terminal states.",
-  "highlights": ["Pattern for any long-running process: import, export, upload, duplicate", "Fixed bottom-right card tracking one task from start to finish", "Icon, subject, bar, caption and terminal states"],
-  "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), a 5px progress bar and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed).",
+  "highlights": [
+    "Pattern for any long-running process: import, export, upload, duplicate",
+    "File name as the heading, inline link action and the rating",
+    "Bar eases towards 90% when there is no real percentage",
+    "Stack element: bottom-right, newest on top"
+  ],
+  "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), a 5px progress bar and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed). A process label (\"PDF\", \"Import\") can sit before the heading, split from it by a thin divider; the description line can end in an inline link (\"Download didn't start? Retry\") and the leading icon is centred on heading and description together. A process with no real percentage sets `no-percentage`: the bar eases towards 90% on its own while the caption says what is happening. Several processes share the <aha-background-task-stack> column: one card per process, updated in place, newest on top.",
   "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (12.5px heading, #1F1330 ink, #6B6478 secondary, 5px bar, #D9D4E2 paused fill) are kept as built in the presenter's Import, not rounded to DS values. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
   "tokensUsed": [
     "icon-default",
@@ -24,8 +29,12 @@
       "value": "fixed right 24 · bottom 88 · z-index 1100 · white · 320 wide (max 100vw − 32) · radius 12 · padding 14/16/16 · Elevate/Overlays shadow · fades in over .3s"
     },
     {
+      "label": "Heading row",
+      "value": "heading (the file name with its extension, e.g. Quarterly review.pdf) · check-circle 12 on success; leading icon centred on heading + description when a description shows"
+    },
+    {
       "label": "Top row",
-      "value": "24px icon · heading 12.5px bold #1F1330, ellipsis · check-circle 16 on success · ✕ tertiary icon button on success / canceled / error"
+      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 12.5px bold #1F1330, ellipsis · check-circle 12 on success · ✕ tertiary icon button on success / canceled / error"
     },
     {
       "label": "Bar",
@@ -41,7 +50,15 @@
     },
     {
       "label": "Error",
-      "value": "24px --aha-color-error x-circle glyph replaces the task icon; neutral heading, no border; recovery action in the footer (Try again)"
+      "value": "keeps the same 24px leading task icon as every other state; neutral heading, no border; failure is carried by the heading text and the recovery action in the footer (Try again)"
+    },
+    {
+      "label": "Stack",
+      "value": "<aha-background-task-stack>: fixed right 24 · bottom 88 · 320 wide · 8px gap · column; prepend the newest card, one card per process"
+    },
+    {
+      "label": "No percentage",
+      "value": "bar starts at 4% and eases towards 90% (15% of the remaining distance every 700ms), never reaches 100%; the consumer's caption carries the meaning"
     }
   ],
   "props": [
@@ -61,13 +78,19 @@
       "name": "description",
       "type": "string",
       "default": "—",
-      "desc": "Line under the heading, e.g. \"{n}/{total} slides are now in your deck\", \"Waiting to reconnect…\", \"Something went wrong. Please try again.\""
+      "desc": "Line under the heading, e.g. \"Download didn't start?\" (success), \"{n}/{total} slides are now in your deck\", \"Waiting to reconnect…\", \"Couldn't create your PDF.\" (error)"
     },
     {
       "name": "value",
       "type": "number",
       "default": "0",
       "desc": "Bar width 0–100"
+    },
+    {
+      "name": "no-percentage",
+      "type": "boolean",
+      "default": "false",
+      "desc": "For a process with no real percentage: the bar eases towards 90% on its own and `value` is ignored. Pair with a text caption, never a made-up number"
     },
     {
       "name": "caption",
@@ -97,7 +120,13 @@
       "name": "slot=icon",
       "type": "slot",
       "default": "system-file glyph",
-      "desc": "24px leading task icon (a file-type icon, an export or upload glyph)"
+      "desc": "24px leading task icon. A file task passes its brand logo from the Logo library as <img src=\".../logo/<file>.svg\" width=\"24\" height=\"24\" alt=\"\"> (.pptx microsoft-powerpoint, .xlsx microsoft-excel, .pdf pdf); never redrawn, inlined or recoloured. Other tasks (an export or upload) pass a glyph"
+    },
+    {
+      "name": "slot=link",
+      "type": "slot",
+      "default": "—",
+      "desc": "Inline text action that ends the description, e.g. <a href=\"#\" role=\"button\">Retry</a>; styled as a DS link"
     },
     {
       "name": "slot=action",
@@ -137,7 +166,7 @@
         "when": "the user must wait for or answer the task before continuing"
       }
     ],
-    "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card only after the rating is answered or the ✕ is pressed and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs.",
+    "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card only after the rating is answered or the ✕ is pressed and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs. Failed: the leading task icon stays, the heading stays neutral (no red border), one short reason line that names the object (\"Couldn’t import your file.\") and a secondary \"Try again\" button in the footer that reruns the same process in the same card. Finished: the rating spans the card under a divider, and the card stays until it is rated or dismissed.",
     "dsv3": "Reference implementation mirrors the presenter's ImportProgressNotification.vue, ImportCompletionCSAT.vue and FileTypeIcon.vue (stpancras-presenter-app PR #5833). Shadow is the DS Elevate/Overlays effect style. Rating is the DS <aha-csat>. No dedicated Figma component."
   },
   "surfaces": [
@@ -149,7 +178,9 @@
     "registers": "aha-background-task",
     "exportsNamed": [
       "AhaBackgroundTask",
-      "defineAhaBackgroundTask"
+      "AhaBackgroundTaskStack",
+      "defineAhaBackgroundTask",
+      "defineAhaBackgroundTaskStack"
     ]
   },
   "snippets": [
@@ -190,7 +221,11 @@
       "verdict": "PASS"
     },
     {
-      "label": "success always carries the CSAT; Cancel is a tertiary button; error uses the DS error glyph, no red border or title",
+      "label": "success always carries the CSAT; Cancel is a tertiary button; error keeps the task icon, no red border or title",
+      "verdict": "PASS"
+    },
+    {
+      "label": "stack is one column, 8px gap, newest on top; no-percentage never passes 90%",
       "verdict": "PASS"
     }
   ],

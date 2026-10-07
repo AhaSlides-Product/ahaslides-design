@@ -26,6 +26,10 @@
 <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
 <script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
 <script>window.__antdR = window.antd;</script>
+<script type="module">
+  import { dismissibleModalTitle } from '../lib/modal-theme.js';   // registers <aha-close-button> — the shipped ✕
+  window.__dismissibleModalTitle = dismissibleModalTitle;
+</script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
@@ -171,7 +175,8 @@ function Demo() {
       <Modal
         open={open}
         onCancel={close}
-        title={title}
+        closable={false}
+        title={window.__dismissibleModalTitle(React.createElement, title, close)}
         width={modalWidth(sizeKey)}
         styles={{ ...modalStyles(sizeKey), ...dividerStyles }}
         footer={<Footer danger={context === 'danger'} onCancel={close} />}

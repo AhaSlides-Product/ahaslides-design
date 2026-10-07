@@ -1,7 +1,7 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-close-button> is the one dismiss ✕ for Alert, Info box, Background task, Toast and
      Notification. Those components already render it; reach for it directly only when you build
-     a new dismissible surface. Modal and Drawer keep the ✕ in their header. -->
+     a new dismissible surface. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-close-button.js';   // registers <aha-close-button> (+ <aha-button>, <aha-icon>)

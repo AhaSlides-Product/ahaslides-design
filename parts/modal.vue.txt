@@ -1,7 +1,7 @@
 <script setup>
 import { ref, h } from 'vue';
 import { ConfigProvider, Modal, Button } from 'ant-design-vue';   // ant-design-vue v4
-import { modalTheme, modalStyles, modalWidth } from '@ahaslides-product/design/modal-theme';
+import { modalTheme, modalStyles, modalWidth, dismissibleModalTitle } from '@ahaslides-product/design/modal-theme';
 import '@ahaslides-product/design/icons';   // registers <aha-icon> for the Learn-more glyph
 
 // External = an absolute URL whose host isn't ahaslides.com — only then show the ↗ glyph + a new tab.
@@ -41,7 +41,8 @@ const footer = (danger, close) => h('div',
     <!-- Confirmation modal — always `simple`; the danger context tints Apply. -->
     <a-modal
       v-model:open="confirm"
-      title="Delete this team?"
+      :closable="false"
+      :title="dismissibleModalTitle(h, 'Delete this team?', () => (confirm = false))"
       :width="modalWidth('simple')"
       :styles="modalStyles('simple')"
       centered
@@ -53,7 +54,8 @@ const footer = (danger, close) => h('div',
     <!-- Action modal — a longer task; `complexity` (720px · 80vh), body scrolls when tall. -->
     <a-modal
       v-model:open="action"
-      title="Share course"
+      :closable="false"
+      :title="dismissibleModalTitle(h, 'Share course', () => (action = false))"
       :width="modalWidth('complexity')"
       :styles="modalStyles('complexity')"
       centered

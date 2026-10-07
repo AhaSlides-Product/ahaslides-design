@@ -22,14 +22,41 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.91.0 — 2026-10-06
+## 0.98.0 — 2026-10-06
 ### Added
-- `<aha-close-button>` (`@ahaslides-product/design/aha-close-button`): the one dismiss ✕ for Alert, Info box, Background task, Toast and Notification. It is the tertiary button at small size (28 × 28) with the 16px `system-x` icon, sits 8px from the container's edge, and lines up with the first line of text and the leading icon, so it stays put when the text wraps. Modal and Drawer keep the ✕ in their header. Feedback guideline rule `one-dismiss-button`, judged by the new feedback anti-slop criterion C6. (#168)
-- `dismissibleToast` (toast-theme) and `dismissibleTitle` (notification-theme) put the shared ✕ into antd's message and notification; pass `closable: false` on a notification so antd's own close is not drawn. (#168)
+- `<aha-close-button>` (`@ahaslides-product/design/aha-close-button`): the one dismiss ✕ for Alert, Info box, Background task, Toast, Notification, Modal and Drawer. It is the tertiary button at small size (28 × 28) with the 16px `system-x` icon, sits 8px from the container's edge, and lines up with the first line of text and the leading icon, so it stays put when the text wraps. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Feedback guideline rule `one-dismiss-button`, judged by the new feedback anti-slop criterion C6. (#168)
+- `dismissibleToast` (toast-theme) and `dismissibleTitle` (notification-theme) put the shared ✕ into antd's message and notification; `dismissibleModalTitle` (modal-theme) and `dismissibleDrawerTitle` (drawer-theme) put it into Modal and Drawer, which move from antd's own ✕ to the same 28 × 28 tertiary button, 8px from the edge. Pass `closable: false` (`closable={false}` on Modal and Drawer) so antd's own close is not drawn. (#168)
 ### Changed
 - Alert `closable`, Info box `dismissible` and Background task now render `<aha-close-button>`: the Alert and Info box ✕ grows from a bare 16px or 20px glyph to the 28px tertiary button and turns brand on hover. Alert builds its shadow DOM once and updates it in place. `::part(close)` (Alert) and `::part(dismiss)` (Info box, Background task) now target the `<aha-close-button>` host, not a native button, so restyle overrides written against the old glyph button need checking. (#168)
 - Docs: navigation and reading labels (sidebar groups, playground rows, API table headers, "On this page", settings and token group headings) are sentence case at 14px semibold instead of 11px grey capitals; only chips and badges stay in capitals. Component groups read "Data entry" and "Data display". (#168)
 - Docs: the 148 example titles that listed variants with dots ("Sizes · small 24 · default 32…") are now short group titles ("Sizes"). (#168)
+
+## 0.97.0 — 2026-10-06
+### Changed
+- Every logo use now points to the Foundations Logo library: one rule in AGENTS.md, PRINCIPLES.md, llms.txt, the `aha-design` skill and the app-shell anti-slop criterion C1 (#167)
+- The docs header Splash is read from `logo/thesplash.svg` at build time, so it cannot drift from the library (#167)
+
+## 0.96.0 — 2026-10-06
+### Added
+- Logo library → Brands: **Microsoft Word** and **PDF** (Adobe file-type mark) in the "Import, export and cloud" section, ordered Excel, Word, PDF, Google Drive, OneDrive. Both are the current default SVG from thesvg.org (`microsoft-word`, `pdf`); the Brands tab and its highlight now count 21 brands. `llms.txt` lists them. (#166)
+
+## 0.95.0 — 2026-10-06
+### Fixed
+- Popover with `flip` (and so the `<aha-csat>` feedback popover) now opens in the browser top layer through the native Popover API (`popover="manual"`), so an `overflow`, `transform`, `filter` or `contain: paint` ancestor can no longer crop it and a sidebar or toast with a higher `z-index` can no longer cover it. Placement, flip, the 8px viewport clamp, the arrow, Esc and outside-click close, focus return and `aria-expanded` are unchanged; the panel still fades in and out. Browsers without the Popover API keep the previous fixed positioning. Popovers without `flip` are untouched. (#172)
+
+## 0.94.1 — 2026-10-06
+### Fixed
+- Background task: the failed state keeps the task's leading `slot="icon"` (the file's Logo-library logo, or the default file glyph) instead of swapping it for the red x-circle; the dead status glyph markup and CSS are removed. The heading stays neutral, so failure is carried by the heading text and the Try again button. The failed description is short and names the object ("Couldn’t import your file."), with no "Please try again.". (#171)
+
+## 0.94.0 — 2026-10-06
+### Changed
+- Background task: a file task's leading `slot="icon"` is now the file's brand logo from the Logo library (`logo/microsoft-powerpoint.svg`, `microsoft-excel.svg`, `pdf.svg`) as a 24px `<img>`, not an `<aha-icon>` glyph; the examples, snippets and contract say so. Cancelled and connection-lost cards keep the logo of the file they were importing; only the error state swaps to the x-circle glyph. The success check-circle drops from 16 to 12. Needs #166 (PDF logo) merged first. (#170)
+
+## 0.93.0 — 2026-10-06
+### Added
+- Background task takes the refined export design, generalised to any process: the heading is the file name with its extension ("Quarterly review.pdf"), a `link` slot that ends the description for an inline action ("Download didn't start? Retry"), and `no-percentage` for a process with no real percentage (the bar eases towards 90%, `value` ignored). New `<aha-background-task-stack>` is the fixed bottom-right column (320 wide, 8px gap) for several processes, newest on top, one card each. (#169)
+### Changed
+- Background task: the leading icon is centred on heading and description together; the finished card's rating sits 12px under the description, spanning the card under a divider. The error recovery button is secondary ("Try again") in the examples. Once the bar is gone (success, cancelled, error) a `caption` moves up to the description line, so "40/40 slides imported" sits where "Download didn't start?" does. Existing attributes and events are unchanged.
 
 ## 0.90.0 — 2026-10-06
 ### Added

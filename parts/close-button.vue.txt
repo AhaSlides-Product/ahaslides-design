@@ -3,7 +3,8 @@ import '@ahaslides-product/design/aha-close-button';   // registers <aha-close-b
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Notice.vue — Alert, Info box and Background task already render it; Toast and Notification take it
-// through dismissibleToast / dismissibleTitle. Use it directly only for a new dismissible surface.
+// through dismissibleToast / dismissibleTitle, Modal and Drawer through dismissibleModalTitle /
+// dismissibleDrawerTitle. Use it directly only for a new dismissible surface.
 <script setup>
 const emit = defineEmits(['dismiss']);
 </script>

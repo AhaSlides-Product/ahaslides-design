@@ -2,7 +2,8 @@ import '@ahaslides-product/design/aha-close-button';   // registers <aha-close-b
 
 // React 18/19 render the element directly; a press is a normal click.
 // Alert, Info box and Background task already render it; Toast and Notification take it through
-// dismissibleToast / dismissibleTitle. Use it directly only for a new dismissible surface.
+// dismissibleToast / dismissibleTitle, Modal and Drawer through dismissibleModalTitle /
+// dismissibleDrawerTitle. Use it directly only for a new dismissible surface.
 export function Notice({ children, onDismiss }) {
   return (
     <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '12px 16px' }}>

@@ -64,7 +64,7 @@
         {
           "id": "C1",
           "title": "Real brand identity, never a placeholder",
-          "test": "The brand mark + wordmark are the real AhaSlides assets (aha-icon brand glyph / shipped logo), never a coloured letter tile or initials square standing in for a logo."
+          "test": "The brand mark + wordmark, and any third-party brand logo, are taken from the Logo library (ahaslides-product.github.io/ahaslides-design/foundations/logo.html, files at /logo/<file>), never redrawn, hand-inlined, recoloured, or replaced by a coloured letter tile or initials square."
         },
         {
           "id": "C2",
@@ -716,7 +716,7 @@
         {
           "id": "C6",
           "title": "One shared dismiss ✕ on banners, toasts and notifications",
-          "test": "**Rule.** Every dismiss ✕ on an Alert, Info box, Background task, Toast or Notification is the shared `<aha-close-button>` (`contracts/close-button.json`): the tertiary button at small size (28 × 28) with the 16px `system-x` icon, 8px from the container's end edge, lined up with the first line of text and the leading icon so it stays put when the text wraps. A sticky Toast takes it through `dismissibleToast`, a Notification through `dismissibleTitle` with `closable: false`. **FAIL** when any of these surfaces hand-rolls a ✕ (a bare `<button>×</button>`, an inline SVG, a raw icon with its own size or hover), shows antd's own message or notification close, or centres the ✕ on the whole card so it drifts down when the text wraps. Modal and Drawer keep the ✕ in their header and are out of scope. **N/A** when the material has no dismissible feedback surface."
+          "test": "**Rule.** Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared `<aha-close-button>` (`contracts/close-button.json`): the tertiary button at small size (28 × 28) with the 16px `system-x` icon, 8px from the container's end edge, lined up with the first line of text and the leading icon so it stays put when the text wraps. A sticky Toast takes it through `dismissibleToast`, a Notification through `dismissibleTitle` with `closable: false`. **FAIL** when any of these surfaces hand-rolls a ✕ (a bare `<button>×</button>`, an inline SVG, a raw icon with its own size or hover), shows antd's own message or notification close, or centres the ✕ on the whole card so it drifts down when the text wraps. Modal and Drawer carry it in the title through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. **N/A** when the material has no dismissible feedback surface."
         }
       ]
     },
