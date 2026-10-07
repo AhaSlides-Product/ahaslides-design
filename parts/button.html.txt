@@ -17,7 +17,7 @@
 
 <!-- Size + variant are attributes; never inline height/padding/radius/fontSize. -->
 <aha-button variant="primary" size="lg" block>Get started</aha-button>
-<aha-button icon-only variant="tertiary" aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+<aha-button icon-only variant="tertiary" aria-label="Settings"><aha-icon name="system-gear" size="16" decorative></aha-icon></aha-button>
 
 <!-- xl (52px) is for presenter controls drawn inside a slide canvas and read from across the room.
      Recolour through --aha-color-primary on :root, never ::part(button). -->
