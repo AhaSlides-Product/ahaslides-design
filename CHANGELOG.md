@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.98.2 — 2026-10-07
 ### Fixed
-- `standards.mjs` now fails a pull request whose `package.json` version is not strictly greater than the base branch's (read from `origin/<base>`, failing closed if it cannot be read); the existing check already requires the top CHANGELOG entry to equal `package.json`. Stops stale-base PRs from claiming an already-released version. (#PR)
+- `standards.mjs` now fails a pull request whose `package.json` version is not strictly greater than the base branch's (read from `origin/<base>`, failing closed if it cannot be read); the existing check already requires the top CHANGELOG entry to equal `package.json`. Stops stale-base PRs from claiming an already-released version. (#173)
 
 ## 0.98.1 — 2026-10-02
 ### Changed
