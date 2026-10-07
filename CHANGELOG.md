@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.106.1 — 2026-10-07
+### Fixed
+- CSAT: the thumbs and Feedback buttons are 28×28, the DS small icon button size (were 28×24), so the row is 28px high (#193)
+
 ## 0.103.1 — 2026-10-07
 ### Fixed
 - Status icon: the usage note no longer says every state has its own glyph; not-started and completed share `system-check-circle` and differ by colour, so the accessible name carries the state (#190)
