@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.98.3 — 2026-10-07
+### Fixed
+- `<aha-background-task>` offline (frozen) bar is now neutral grey (track #F1F1F1, fill #B5B5B5) instead of lavender (#174)
+- Cancelled-card previews now carry the PowerPoint logo like every other card, and no longer claim an invented failure reason (#174)
+
 ## 0.98.1 — 2026-10-02
 ### Changed
 - Settings guidance, judge criterion C13 and evals now forbid restyling or replacing the NumberedItem number chip (#144)
