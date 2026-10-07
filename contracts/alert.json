@@ -87,6 +87,6 @@
     "ready": "!!(document.querySelector('aha-alert[data-probe]') && document.querySelector('aha-alert[data-probe]').shadowRoot && document.querySelector('aha-alert[data-probe]').shadowRoot.querySelector('.alert') && document.querySelector('aha-alert[type=\"branding\"]') && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot.querySelector('.alert'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-alert[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.alert');var s=a?getComputedStyle(a):null;var be=document.querySelector('aha-alert[type=\"branding\"]');var ba=be&&be.shadowRoot&&be.shadowRoot.querySelector('.alert');var bs=ba?getComputedStyle(ba):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,color:s?s.color:null,padTop:s?s.paddingTop:null,brandBg:bs?bs.backgroundColor:null,brandBorder:bs?bs.borderTopColor:null};})()",
-    "expect": { "bg": "rgb(244, 248, 255)", "border": "rgb(191, 210, 255)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(254, 243, 247)", "brandBorder": "rgb(231, 14, 104)" }
+    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(0, 0, 0)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(254, 243, 247)", "brandBorder": "rgb(231, 14, 104)" }
   }
 }

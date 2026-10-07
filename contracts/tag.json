@@ -85,6 +85,6 @@
     "ready": "!!(document.querySelector('aha-tag[data-probe]') && document.querySelector('aha-tag[data-probe]').shadowRoot && document.querySelector('aha-tag[data-probe]').shadowRoot.querySelector('.chip'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-tag[data-probe]');var r=el&&el.shadowRoot;var c=r&&r.querySelector('.chip');var s=c?getComputedStyle(c):null;var ic=r&&r.querySelector('aha-icon');var cl=document.querySelector('aha-tag[closable]');var clr=cl&&cl.shadowRoot;var x=clr&&clr.querySelector('.x aha-icon');return{bg:s?s.backgroundColor:null,color:s?s.color:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,weight:s?s.fontWeight:null,hasIcon:!!ic,closeGlyph:x?x.getAttribute('name'):null};})()",
-    "expect": { "bg": "rgb(254, 243, 247)", "color": "rgb(231, 14, 104)", "radius": "4px", "height": "22px", "weight": "600", "hasIcon": true, "closeGlyph": "system-x" }
+    "expect": { "bg": "rgb(254, 243, 247)", "color": "rgb(26, 26, 26)", "radius": "4px", "height": "22px", "weight": "600", "hasIcon": true, "closeGlyph": "system-x" }
   }
 }

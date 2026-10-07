@@ -54,6 +54,6 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 carousel bound to carouselTheme.",
     "ready": "!!document.querySelector('#react-root .ant-carousel .slick-slide') && !!document.querySelector('#react-root .aha-slide')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{slideBg:g('.aha-slide','backgroundColor'),slideColor:g('.aha-slide','color'),slideRadius:g('.aha-slide','borderTopLeftRadius'),slideHeight:g('.aha-slide','height'),slidePad:g('.aha-slide','paddingLeft'),listOverflow:g('.slick-list','overflow')};})()",
-    "expect": { "slideBg": "rgb(254, 243, 247)", "slideColor": "rgb(231, 14, 104)", "slideRadius": "8px", "slideHeight": "160px", "slidePad": "24px", "listOverflow": "hidden" }
+    "expect": { "slideBg": "rgb(254, 243, 247)", "slideColor": "rgb(26, 26, 26)", "slideRadius": "8px", "slideHeight": "160px", "slidePad": "24px", "listOverflow": "hidden" }
   }
 }

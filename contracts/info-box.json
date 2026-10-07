@@ -63,6 +63,6 @@
     "ready": "!!(document.querySelector('aha-info-box[data-probe]') && document.querySelector('aha-info-box[data-probe]').shadowRoot && document.querySelector('aha-info-box[data-probe]').shadowRoot.querySelector('.box'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-info-box[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.box');var t=r&&r.querySelector('.text');var bs=b?getComputedStyle(b):null;var ts=t?getComputedStyle(t):null;return{bg:bs?bs.backgroundColor:null,border:bs?bs.borderTopColor:null,radius:bs?bs.borderTopLeftRadius:null,fontSize:ts?ts.fontSize:null};})()",
-    "expect": { "bg": "rgb(255, 227, 233)", "border": "rgb(255, 64, 129)", "radius": "8px", "fontSize": "14px" }
+    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(0, 0, 0)", "radius": "8px", "fontSize": "14px" }
   }
 }

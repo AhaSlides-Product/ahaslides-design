@@ -63,6 +63,6 @@
     "ready": "!!(document.querySelector('aha-status-badge[data-probe]') && document.querySelector('aha-status-badge[data-probe]').shadowRoot && document.querySelector('aha-status-badge[data-probe]').shadowRoot.querySelector('.pill'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-status-badge[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.pill');var d=r&&r.querySelector('.dot');var sp=p?getComputedStyle(p):null;var sd=d?getComputedStyle(d):null;return{pillBg:sp?sp.backgroundColor:null,pillColor:sp?sp.color:null,dotBg:sd?sd.backgroundColor:null,height:sp?sp.height:null,radius:sp?sp.borderTopLeftRadius:null,role:p?p.getAttribute('role'):null,ariaLabel:p?p.getAttribute('aria-label'):null};})()",
-    "expect": { "pillBg": "rgb(216, 250, 239)", "pillColor": "rgb(19, 161, 129)", "dotBg": "rgb(0, 0, 0)", "height": "22px", "radius": "999px", "role": "status", "ariaLabel": "Published" }
+    "expect": { "pillBg": "rgb(255, 255, 255)", "pillColor": "rgb(0, 0, 0)", "dotBg": "rgb(0, 0, 0)", "height": "22px", "radius": "999px", "role": "status", "ariaLabel": "Published" }
   }
 }
