@@ -50,6 +50,8 @@ git commit -m "chore(deps): bump $package_name to $new_version"
 git push --force origin "$bump_branch"
 
 title="chore(deps): bump $package_name $old_version → $new_version"
+entries_file=$(mktemp)
+node "$design_dir/.github/scripts/changelog-between.mjs" "$design_dir/CHANGELOG.md" "$old_version" "$new_version" > "$entries_file"
 body_file=$(mktemp)
 {
   echo "Automatic design system bump, opened by the \`ahaslides-design\` publish workflow."
@@ -61,7 +63,7 @@ body_file=$(mktemp)
   echo "<details><summary>Changelog entries $old_version → $new_version</summary>"
   echo
   # PR bodies are capped at 65536 characters.
-  node "$design_dir/.github/scripts/changelog-between.mjs" "$design_dir/CHANGELOG.md" "$old_version" "$new_version" | head -c 55000
+  head -c 55000 "$entries_file"
   echo
   echo "</details>"
 } > "$body_file"
