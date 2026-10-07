@@ -47,7 +47,8 @@ const PKGNAME = PKG.name;   // @ahaslides-product/design — the package to inst
 // which publish.yml creates on merge), so a copied snippet never changes under the page that pasted
 // it. Override with AHA_CDN_REF (e.g. `master`) for a local preview of unreleased element code.
 const CDN_REF = process.env.AHA_CDN_REF || `v${PKG.version}`;
-const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)).replaceAll('@__REF__', `@${CDN_REF}`) : '');
+const withCdnRef = (text) => String(text ?? '').replaceAll('@__REF__', `@${CDN_REF}`);
+const part = (name) => (name && existsSync(join(PDIR, name)) ? withCdnRef(read(join(PDIR, name))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
    one-time scoped-registry + auth setup before `npm i`. These lines are printed into
@@ -1377,7 +1378,7 @@ function audienceCodeTabs(snips) {
   if (!snips) return '';
   const order = [['html', 'HTML'], ['react', 'React'], ['vue', 'Vue 3']];
   const tabs = order.map(([k, l], i) => `<button class="tab ${i === 0 ? 'active' : ''}" type="button" data-f="${k}">${esc(l)}</button>`).join('');
-  const panes = order.map(([k], i) => `<pre class="code ${k} ${i === 0 ? 'active' : ''}">${esc(snips[k] || '')}</pre>`).join('');
+  const panes = order.map(([k], i) => `<pre class="code ${k} ${i === 0 ? 'active' : ''}">${esc(withCdnRef(snips[k]))}</pre>`).join('');
   return `<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs">${tabs}</div><button class="copy" type="button">Copy</button></div>${panes}</div></div>`;
 }
 function renderAudienceCard(sec) {
