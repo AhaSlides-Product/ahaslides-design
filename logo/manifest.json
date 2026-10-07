@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; every Brands file is the current default SVG fetched from thesvg.org on the recorded date. usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl.",
+  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; each Brands file is the current SVG from its sourceUrl (thesvg.org, or a Design System V3 Figma export) on the recorded date. usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl.",
   "logos": [
     {
       "id": "ahaslides-logo",
