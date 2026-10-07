@@ -2,7 +2,7 @@
 
 The AhaSlides design system **for agents** — one source of truth, everything else generated.
 
-> **Agents start here →** fetch **`https://ahaslides-product.github.io/ahaslides-design/llms.txt`** (public, no auth). That one URL lists the composition **Patterns** (read the matching one before picking components — a settings UI → Settings) and indexes every component, linking each `<slug>.agent.json`. Two hosts, two jobs: **GitHub Pages** (`ahaslides-product.github.io/ahaslides-design/…`) serves everything you *read* (docs + feeds, at the site root — no `dist/` prefix); **jsDelivr** (`.../gh/ahaslides-product/ahaslides-design@master/lib/<element>.js`) serves only the element source you *import at runtime*. `dist/` is a gitignored local build folder — never a fetch path.
+> **Agents start here →** fetch **`https://ahaslides-product.github.io/ahaslides-design/llms.txt`** (public, no auth). That one URL lists the composition **Patterns** (read the matching one before picking components — a settings UI → Settings) and indexes every component, linking each `<slug>.agent.json`. Two hosts, two jobs: **GitHub Pages** (`ahaslides-product.github.io/ahaslides-design/…`) serves everything you *read* (docs + feeds, at the site root — no `dist/` prefix); **jsDelivr** (`.../gh/ahaslides-product/ahaslides-design@v<version>/lib/<element>.js`, pinned to a release tag) serves only the element source you *import at runtime*. `dist/` is a gitignored local build folder — never a fetch path.
 
 Initiative: PRO38-1. This repo is the permanent home for the design-system-for-agents
 (replaces the in-monorepo spike PR #118).
@@ -84,13 +84,17 @@ open in a browser:
 
 ```html
 <!-- token layer (once) + every element in one tag -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css">
-<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.105.0/lib/tokens.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.105.0/lib/all.js"></script>
 
 <aha-button variant="primary">Save changes</aha-button>
 <aha-input placeholder="Your name"></aha-input>
 <aha-icon name="system-bell" size="16"></aha-icon>
 ```
+
+Pin the tag (`@v0.105.0` here; take the newest from the [tags page](https://github.com/ahaslides-product/ahaslides-design/tags)),
+never `@master`: a pinned page never changes under you. Every doc page's HTML tab is already pinned to
+the release that built it.
 
 It's **additive** — bundled apps should keep importing per-element (above) so unused elements
 tree-shake out; `all.js` intentionally pulls the whole set.

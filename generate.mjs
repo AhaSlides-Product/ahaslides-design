@@ -33,12 +33,6 @@ const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
 const HEADER_SPLASH = read(join(root, 'logo', 'thesplash.svg')).trim()
   .replace(/<svg\s+width="\d+"\s+height="\d+"/, '<svg class="logo" aria-hidden="true"');
-// Single source for the paste-and-run CDN ref. Snippets author `@__REF__`; we inject it here so
-// the pin lives in ONE place. Default `master` = live-on-merge (pages.yml redeploys docs on merge,
-// and jsDelivr /gh/@master serves the current element/theme code) — no stale-tag freeze. Override
-// with AHA_CDN_REF (e.g. a release tag) if an immutable pin is ever wanted.
-const CDN_REF = process.env.AHA_CDN_REF || 'master';
-const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)).replaceAll('@__REF__', `@${CDN_REF}`) : '');
 const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
@@ -48,6 +42,12 @@ const esc = (s) => String(s ?? '')
 
 const PKG = JSON.parse(read(join(root, 'package.json')));
 const PKGNAME = PKG.name;   // @ahaslides-product/design — the package to install
+// Single source for the paste-and-run CDN ref. Snippets author `@__REF__`; we inject it here so
+// the pin lives in ONE place. Default: the release tag this build ships (`v<package.json version>`,
+// which publish.yml creates on merge), so a copied snippet never changes under the page that pasted
+// it. Override with AHA_CDN_REF (e.g. `master`) for a local preview of unreleased element code.
+const CDN_REF = process.env.AHA_CDN_REF || `v${PKG.version}`;
+const part = (name) => (name && existsSync(join(PDIR, name)) ? read(join(PDIR, name)).replaceAll('@__REF__', `@${CDN_REF}`) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
    one-time scoped-registry + auth setup before `npm i`. These lines are printed into
@@ -1997,8 +1997,8 @@ function consumeBlock() {
       <div class="cg"><div class="cg-h">2 · Token layer — once, at the app root</div><pre class="cg-code">import '${esc(PKGNAME)}/tokens.css';</pre></div>
       <div class="cg"><div class="cg-h">3 · A component — import its subpath, use the element</div><pre class="cg-code">import '${esc(PKGNAME)}/aha-button';   // registers &lt;aha-button&gt;
 &lt;aha-button variant="primary"&gt;Save&lt;/aha-button&gt;</pre></div>
-      <div class="cg"><div class="cg-h">No build step? — one tag registers every element (CDN / no-build pages)</div><pre class="cg-code">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/tokens.css"&gt;
-&lt;script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"&gt;&lt;/script&gt;
+      <div class="cg"><div class="cg-h">No build step? — one tag registers every element (CDN / no-build pages)</div><pre class="cg-code">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
+&lt;script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"&gt;&lt;/script&gt;
 &lt;aha-button variant="primary"&gt;Save&lt;/aha-button&gt;   // bundled apps: prefer per-element imports (tree-shaking)</pre></div>
     </div>
     <h3>For agents — read this, then connect automatically</h3>
@@ -2468,7 +2468,7 @@ const indexLines = [
   `> Import the token layer once at the app root:  import '${PKGNAME}/tokens.css'`,
   `> Then import a component by subpath, e.g.  import '${PKGNAME}/aha-button'`,
   `> No build step? One tag registers every element — CDN / no-build pages:`,
-  `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"></script>`,
+  `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
   '>',
   `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile.`,
