@@ -1,0 +1,14 @@
+import '@ahaslides-product/design/aha-audience-image-upload';
+import { useEffect, useRef } from 'react';
+
+export function PhotoAnswer({ uploadImage, onImage }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const upload = ref.current;
+    upload.uploadImage = uploadImage;
+    const handle = (event) => onImage(event.detail.value);
+    upload.addEventListener('change', handle);
+    return () => upload.removeEventListener('change', handle);
+  }, [uploadImage, onImage]);
+  return <aha-audience-image-upload ref={ref} />;
+}

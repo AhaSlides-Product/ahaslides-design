@@ -1,0 +1,11 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-submit';
+const props = defineProps({ answer: [String, Array], submit: Function });
+async function send(event) {
+  try { await props.submit(props.answer); event.target.lock(props.answer); } catch { event.target.unlock(); }
+}
+</script>
+
+<template>
+  <aha-audience-submit lock-key="slide-42" @submit-answer="send">Submit</aha-audience-submit>
+</template>

@@ -23,6 +23,9 @@
      Recolour through --aha-color-primary on :root, never ::part(button). -->
 <aha-button variant="primary" size="xl">Reveal results</aha-button>
 
+<!-- touch (48px, 8px corners) is the audience phone's one primary action; the audience page wraps it as <aha-audience-submit>. -->
+<aha-button variant="primary" size="touch" block>Submit</aha-button>
+
 <!-- Low-emphasis label buttons: text / text-link are borderless. primary-alt is a second primary slot. -->
 <aha-button variant="text">Skip</aha-button>
 <aha-button variant="text-link">Learn more</aha-button>

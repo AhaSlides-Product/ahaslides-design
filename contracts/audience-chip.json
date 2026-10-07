@@ -1,0 +1,131 @@
+{
+  "name": "Audience chip",
+  "slug": "audience-chip",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audience-chip",
+  "summary": "One short tappable choice on the audience phone, several to a line: frosted deck surface, 44px touch floor, the deck font in its button, chosen in the deck accent.",
+  "highlights": [
+    "Short tappable choice, several per line",
+    "44px touch floor",
+    "Chosen state in the deck accent, aria-pressed"
+  ],
+  "lead": "ONE custom element — <aha-audience-chip> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "color-primary",
+    "radius-lg",
+    "space-16"
+  ],
+  "spec": [
+    {
+      "label": "Chip",
+      "value": "min-height 44, padding 0 16, pill radius, 16px semibold label in the deck ink, frosted surface, 1px ink hairline"
+    },
+    {
+      "label": "Chosen",
+      "value": "a solid deck-accent pill; the label takes the contrast-picked accent ink"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "(slot)",
+      "type": "text",
+      "default": "—",
+      "desc": "The label"
+    },
+    {
+      "name": "selected",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Chosen; a tap toggles it"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Not tappable, at 45% opacity"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{selected}>",
+      "default": "—",
+      "desc": "Fires on every toggle"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audience chip",
+        "when": "short labels where several fit on a line and the participant scans the set; the mobile answer to a dropdown"
+      },
+      {
+        "what": "Answer list",
+        "when": "one decision with a radio or checkbox per row"
+      },
+      {
+        "what": "Tag",
+        "when": "app screens, never the audience phone: <aha-tag> is 22px on a fixed grey"
+      }
+    ],
+    "note": "The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-audience-chip",
+    "registers": "aha-audience-chip",
+    "exportsNamed": [
+      "AhaAudienceChip",
+      "defineAhaAudienceChip"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audience-chip.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audience-chip.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audience-chip.vue.txt"
+    }
+  ],
+  "preview": "audience-chip.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-audience-chip[data-probe]')&&document.querySelector('aha-audience-chip[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-audience-chip[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var b=cs(q('button'));var s=document.querySelector('aha-audience-chip[selected]').shadowRoot.querySelector('button');return{height:b.height,radius:b.borderTopLeftRadius,ink:b.color,size:b.fontSize,chosenEdge:cs(s).borderTopColor};})()",
+    "expect": {
+      "height": "44px",
+      "radius": "999px",
+      "ink": "rgb(26, 26, 26)",
+      "size": "16px",
+      "chosenEdge": "rgb(106, 30, 187)"
+    }
+  }
+}

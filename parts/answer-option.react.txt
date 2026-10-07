@@ -1,0 +1,12 @@
+import '@ahaslides-product/design/aha-answer-option';
+import { useEffect, useRef } from 'react';
+
+export function BoardOption({ label, selected, onPick }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const row = ref.current;
+    row.addEventListener('pick', onPick);
+    return () => row.removeEventListener('pick', onPick);
+  }, [onPick]);
+  return <aha-answer-option ref={ref} selected={selected ? '' : undefined}>{label}</aha-answer-option>;
+}
