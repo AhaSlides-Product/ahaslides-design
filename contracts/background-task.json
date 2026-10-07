@@ -12,11 +12,26 @@
     "Bar eases towards 90% when there is no real percentage",
     "Stack element: bottom-right, newest on top"
   ],
-  "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), a 5px progress bar and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed). A process label (\"PDF\", \"Import\") can sit before the heading, split from it by a thin divider; the description line can end in an inline link (\"Download didn't start? Retry\") and the leading icon is centred on heading and description together. A process with no real percentage sets `no-percentage`: the bar eases towards 90% on its own while the caption says what is happening. Several processes share the <aha-background-task-stack> column: one card per process, updated in place, newest on top.",
-  "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (14px heading, #1F1330 ink, #6B6478 secondary, 5px bar, #B5B5B5 paused fill on a #F1F1F1 track) are kept as built in the presenter's Import, not rounded to DS values. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
+  "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), the DS Progress bar in its running state (moving stripes) and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar animates on the DS motion tokens instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed). A process label (\"PDF\", \"Import\") can sit before the heading, split from it by a thin divider; the description line can end in an inline link (\"Download didn't start? Retry\") and the leading icon is centred on heading and description together. A process with no real percentage sets `no-percentage`: the bar eases towards 90% on its own while the caption says what is happening. Several processes share the <aha-background-task-stack> column: one card per process, updated in place, newest on top.",
+  "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Every value binds to a DS token: text-default heading, text-secondary description and caption, radius-lg, the shadow-floating elevation, the space scale, and the type, line-height and motion tokens. The bar is <aha-progress size=\"small\" status=\"active\">, not a hand-made track. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
   "tokensUsed": [
+    "bg-elevated",
+    "text-default",
+    "text-secondary",
+    "text-link",
     "icon-default",
-    "color-primary",
+    "border-secondary",
+    "gray-60",
+    "radius-lg",
+    "shadow-floating",
+    "layer-floating",
+    "floating-inset-bottom",
+    "space-24",
+    "size-default",
+    "size-sm",
+    "line-height-body",
+    "motion-slow",
+    "ease-out",
     "font-product"
   ],
   "spec": [
@@ -26,7 +41,7 @@
     },
     {
       "label": "Card",
-      "value": "fixed right 24 · bottom 88 · z-index 1100 · white · 320 wide (max 100vw − 32) · radius 12 · padding 14/16/16 · Elevate/Overlays shadow · fades in over .3s"
+      "value": "fixed right --aha-space-24 (24) · bottom --aha-floating-inset-bottom (88) · z-index --aha-layer-floating (1100) · white · 320 wide (max 100vw − 32) · radius-lg (12) · padding 14/16/16 · --aha-shadow-floating (the Notification elevation) · fades in over --aha-motion-slow"
     },
     {
       "label": "Heading row",
@@ -34,19 +49,19 @@
     },
     {
       "label": "Top row",
-      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 14px bold #1F1330, ellipsis · check-circle 12 on success · shared ✕ (aha-close-button) on success / canceled / error"
+      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 14px (--aha-size-default) semibold --aha-text-default, ellipsis · check-circle 12 on success · shared ✕ (aha-close-button) on success / canceled / error"
     },
     {
       "label": "Bar",
-      "value": "5px track (rgba(106,30,187,.12)), primary fill, width eases 1.7s cubic-bezier(.2,.65,.3,1), moving white stripes while running; on offline the track is gray-30 #F1F1F1 and the fill gray-60 #B5B5B5, still, no stripes; hidden on success / canceled / error"
+      "value": "the DS <aha-progress size=\"small\" status=\"active\">: 6px gray-30 track, primary fill animating on --aha-motion-slow / --aha-ease-out, white stripes moving over the fill (still under prefers-reduced-motion); offline drops the running status and greys the fill to gray-60, still, no stripes; hidden on success / canceled / error"
     },
     {
       "label": "Caption row",
-      "value": "12px #6B6478 caption left · slot=action right: tertiary small <aha-button>, right edge optically aligned"
+      "value": "12px (--aha-size-sm) --aha-text-secondary caption left, 8px below the bar · slot=action right: tertiary small <aha-button>, right edge optically aligned"
     },
     {
       "label": "Description",
-      "value": "12px #6B6478 under the heading, 2px gap (canceled / offline / error)"
+      "value": "12px (--aha-size-sm) --aha-text-secondary under the heading, 2px gap (canceled / offline / error)"
     },
     {
       "label": "Error",
@@ -54,7 +69,7 @@
     },
     {
       "label": "Stack",
-      "value": "<aha-background-task-stack>: fixed right 24 · bottom 88 · 320 wide · 8px gap · column; prepend the newest card, one card per process"
+      "value": "<aha-background-task-stack>: same position and layer as the card (right 24 · bottom 88 · --aha-layer-floating) · 320 wide · 8px gap · column; prepend the newest card, one card per process"
     },
     {
       "label": "No percentage",
@@ -167,7 +182,7 @@
       }
     ],
     "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card only after the rating is answered or the ✕ is pressed and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs. Failed: the leading task icon stays, the heading stays neutral (no red border), one short reason line that names the object (\"Couldn’t import your file.\") and a secondary \"Try again\" button in the footer that reruns the same process in the same card. Finished: the rating spans the card under a divider, and the card stays until it is rated or dismissed.",
-    "dsv3": "Reference implementation mirrors the presenter's ImportProgressNotification.vue, ImportCompletionCSAT.vue and FileTypeIcon.vue (stpancras-presenter-app PR #5833). Shadow is the DS Elevate/Overlays effect style. Rating is the DS <aha-csat>. No dedicated Figma component."
+    "dsv3": "Reference implementation mirrors the presenter's ImportProgressNotification.vue, ImportCompletionCSAT.vue and FileTypeIcon.vue (stpancras-presenter-app PR #5833). Shadow is the DS Elevate/Overlays effect style (--aha-shadow-floating). The bar is the DS Progress running state. Rating is the DS <aha-csat>. No dedicated Figma component."
   },
   "surfaces": [
     "editor",
@@ -209,7 +224,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "bar is 5px, as built in the presenter",
+      "label": "bar is the DS <aha-progress> (small, running stripes; grey and still on offline)",
       "verdict": "PASS"
     },
     {
@@ -230,17 +245,19 @@
     }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a running card at 42%: a white 320px radius-12 surface, 14px heading in #1F1330, and a 5px bar.",
-    "ready": "!!(function(){var el=document.querySelector('aha-background-task[data-probe]');return el&&el.shadowRoot&&el.shadowRoot.querySelector('.card');})()",
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a running card at 42%: a white 320px radius-12 surface, 14px heading in text-default #1A1A1A, and the DS small Progress bar (6px) in its running state.",
+    "ready": "!!(function(){var el=document.querySelector('aha-background-task[data-probe]');var p=el&&el.shadowRoot&&el.shadowRoot.querySelector('.bar');return p&&p.shadowRoot&&p.shadowRoot.querySelector('.track');})()",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-background-task[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.card');var h=r.querySelector('.heading');var b=r.querySelector('.track');var x=r.querySelector('.close');return{bg:getComputedStyle(c).backgroundColor,radius:getComputedStyle(c).borderTopLeftRadius,width:getComputedStyle(c).width,padTop:getComputedStyle(c).paddingTop,headingSize:getComputedStyle(h).fontSize,barHeight:getComputedStyle(b).height,closeHidden:String(x.hidden)};})()",
+    "measure": "(function(){var el=document.querySelector('aha-background-task[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.card');var h=r.querySelector('.heading');var p=r.querySelector('.bar');var t=p.shadowRoot&&p.shadowRoot.querySelector('.track');var x=r.querySelector('.close');return{bg:getComputedStyle(c).backgroundColor,radius:getComputedStyle(c).borderTopLeftRadius,width:getComputedStyle(c).width,padTop:getComputedStyle(c).paddingTop,headingSize:getComputedStyle(h).fontSize,headingColor:getComputedStyle(h).color,barHeight:t?getComputedStyle(t).height:null,barStatus:p.getAttribute('status'),closeHidden:String(x.hidden)};})()",
     "expect": {
       "bg": "rgb(255, 255, 255)",
       "radius": "12px",
       "width": "320px",
       "padTop": "14px",
       "headingSize": "14px",
-      "barHeight": "5px",
+      "headingColor": "rgb(26, 26, 26)",
+      "barHeight": "6px",
+      "barStatus": "active",
       "closeHidden": "true"
     }
   }

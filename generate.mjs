@@ -326,7 +326,8 @@ function tokenVars(t) {
   L.push(`--aha-font-product:${f.product}; --aha-font-display:${f.display}; --aha-font-secondary:${f.secondary}; --aha-font-mono:${f.mono};`);
   L.push(`--aha-radius-xs:${r.xs}px; --aha-radius-sm:${r.sm}px; --aha-radius-default:${r.default}px; --aha-radius-lg:${r.lg}px; --aha-radius-xl:${r.xl}px; --aha-radius-marketing:${r.marketing}px; --aha-radius-pill:${r.pill}px;`);
   /* layout — default max-width for centred app content (page/screen container) */
-  L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px; --aha-tooltip-max-width:${t.layout.tooltipMaxWidth}px;`);
+  L.push(`--aha-content-max-width:${t.layout.contentMaxWidth}px; --aha-tooltip-max-width:${t.layout.tooltipMaxWidth}px; --aha-floating-inset-bottom:${t.layout.floatingInsetBottom}px;`);
+  L.push(drop(t.layer).map(([k, value]) => `--aha-layer-${kebab(k)}:${value};`).join(' '));
   /* type scale + spacing + weight + line-height + tracking — the canonical size/space/weight/lineHeight/
      letterSpacing scales exposed as CSS vars so framework-free surfaces (the marketing sections) and future
      components can bind dimensions to tokens instead of hardcoding px. Values are DERIVED from
@@ -342,8 +343,11 @@ function tokenVars(t) {
   /* motion — Ant Design v6 durations + standard eases (aha-design-antd §Motion); authored here, not in tokens.canonical.json (that file is Brian-owned and has no motion layer).
      No overshoot/bounce ease (ease-out-back etc.): real objects decelerate smoothly — the craft floor + AntD's own tooltip/zoom motion both avoid it, and the standards gate now flags it. Use the exponential eases below. */
   L.push(`--aha-motion-fast:.1s; --aha-motion-mid:.2s; --aha-motion-slow:.3s; --aha-ease-in-out:cubic-bezier(0.645,0.045,0.355,1); --aha-ease-out:cubic-bezier(0.215,0.61,0.355,1); --aha-ease-in-out-circ:cubic-bezier(0.78,0.14,0.15,0.86);`);
+  /* one cycle of a looping indicator, e.g. the running Progress stripes; a loop needs a slower beat than a state change. */
+  L.push(`--aha-motion-loop:.9s;`);
   /* chart motion: slower than UI state changes because the eye has to follow data moving. */
   L.push(Object.entries(t.effect.blur).filter(([k]) => !k.startsWith('$')).map(([k, value]) => `--aha-blur-${k}:${value}px;`).join(' '));
+  L.push(drop(t.effect.shadow).map(([k, value]) => `--aha-shadow-${kebab(k)}:${value};`).join(' '));
   L.push(`--aha-motion-viz-enter:.6s; --aha-motion-viz-update:.4s; --aha-motion-viz-reorder:.35s; --aha-motion-viz-stagger:40ms; --aha-ease-viz:cubic-bezier(0.2,0.7,0.4,1);`);
   return `:root{\n  ${L.join('\n  ')}\n}`;
 }
