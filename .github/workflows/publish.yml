@@ -14,7 +14,8 @@ name: publish
 #
 # Publishing needs no extra secret: GitHub Packages publish uses the built-in GITHUB_TOKEN
 # (`packages: write`). `contents: write` is needed to push the version tag. The consumer bump
-# PRs (bump-consumers job) need DS_BUMP_TOKEN. Consumers install with a scoped .npmrc pointing at https://npm.pkg.github.com + a token with read:packages
+# PRs (bump-consumers job) need DS_BUMP_TOKEN. Consumers install with a scoped .npmrc pointing
+# at https://npm.pkg.github.com + a token with read:packages
 # (see the docs site "Get started" block / any agent.json).
 
 on:

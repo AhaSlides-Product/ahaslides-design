@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.102.2 — 2026-10-07
 ### Changed
-- Every release now opens or refreshes one bump PR per consumer app (aha-report, aha-management-app, aha-elearning, stpancras-presenter-app) on a fixed `ds/auto-bump` branch against `staging`: exact version pin, lockfile regenerated with the app's own package manager, and the CHANGELOG entries since the app's current version in the PR body. Never auto-merged; each app's team merges. The list lives in `.github/ds-consumers.json`. Needs the `DS_BUMP_TOKEN` org/repo secret; without it the job warns and the release still succeeds (#PRNUM)
+- Every release now opens or refreshes one bump PR per consumer app (aha-report, aha-management-app, aha-elearning, stpancras-presenter-app) on a fixed `ds/auto-bump` branch against `staging`: exact version pin, lockfile regenerated with the app's own package manager, and the CHANGELOG entries since the app's current version in the PR body. Never auto-merged; each app's team merges. The list lives in `.github/ds-consumers.json`. Needs the `DS_BUMP_TOKEN` org/repo secret; without it the job warns and the release still succeeds (#188)
 
 ## 0.102.1 — 2026-10-07
 ### Fixed
