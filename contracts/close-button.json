@@ -31,6 +31,10 @@
       "value": "native <button type=\"button\"> · 20 × 20 · radius 6 (radius-sm)"
     },
     {
+      "label": "Shape",
+      "value": "square, radius 6 — never a circular ✕ (no disc, no system-x-circle as a control); over a photo it takes a white fill"
+    },
+    {
       "label": "Icon",
       "value": "system-x · 14px, by name"
     },
@@ -108,7 +112,7 @@
         "when": "closing an overlay; it is this element, carried in the title by dismissibleModalTitle / dismissibleDrawerTitle with antd's own close off"
       }
     ],
-    "note": "One rule: every ✕ in the design system is this element or follows its spec (14px system-x, 20 × 20, radius 6, #8A8A8A → #1A1A1A on --aha-bg-hover, 100ms), Modal and Drawer included. Never hand-roll a ✕ button, never use antd's own notification or message close, and never resize it: it sits on the first line of text, in the corner, not in the middle of the box."
+    "note": "One rule: every ✕ in the design system is this element or follows its spec (14px system-x, 20 × 20, radius 6, #8A8A8A → #1A1A1A on --aha-bg-hover, 100ms), Modal and Drawer included. Never hand-roll a ✕ button, never use antd's own notification or message close, never make it a circle (no disc, no 50% or pill radius, no system-x-circle as a control), and never resize it: it sits on the first line of text, in the corner, not in the middle of the box."
   },
   "surfaces": [
     "editor",
@@ -154,6 +158,10 @@
   "selfCheck": [
     {
       "label": "native button · 20 × 20 · radius 6 · 14px system-x",
+      "verdict": "PASS"
+    },
+    {
+      "label": "never a circular ✕ (no disc, no system-x-circle as a control)",
       "verdict": "PASS"
     },
     {
