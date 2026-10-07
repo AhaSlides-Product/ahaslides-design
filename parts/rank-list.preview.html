@@ -1,0 +1,17 @@
+<div class="pad">
+  <div class="lbl">Light deck</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
+    <aha-rank-list data-probe group-label="Order by size" options='[{"id":"j","label":"Jupiter"},{"id":"e","label":"Earth"},{"id":"m","label":"Mars"}]'></aha-rank-list>
+  </div>
+  <div class="lbl">Dark deck — applyDeck() with a white ink and a mint accent</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-rank-list group-label="Order by size" options='[{"id":"j","label":"Jupiter"},{"id":"e","label":"Earth"},{"id":"m","label":"Mars"}]'></aha-rank-list>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-rank-list.js';   // registers <aha-rank-list>
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#20E8B5'] });
+</script>

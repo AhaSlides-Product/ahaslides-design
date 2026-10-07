@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-swipe-card';
+import { useEffect, useRef } from 'react';
+
+export function Statement({ text, onAnswer }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const card = ref.current;
+    const handle = (event) => onAnswer(event.detail.direction);
+    card.addEventListener('swipe', handle);
+    return () => card.removeEventListener('swipe', handle);
+  }, [onAnswer]);
+  return <aha-swipe-card ref={ref} aria-label="Statement"><p>{text}</p></aha-swipe-card>;
+}

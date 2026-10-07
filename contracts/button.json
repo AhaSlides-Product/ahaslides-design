@@ -12,7 +12,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue consumes the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["button-primary-bg", "button-primary-bg-hover", "button-primary-bg-press", "button-primary-text", "button-default-bg", "button-default-border", "button-danger-bg", "button-ghost-bg-hover", "button-positive-bg", "button-disabled-bg", "button-disabled-text", "button-focus-ring", "text-default", "text-link", "radius-xs", "radius-default", "focus"],
   "spec": [
-    { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) — heights; fontSize 14 (sm/md) / 16 (lg/xl)" },
+    { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) · touch 48 (r8, padding 24) — heights; fontSize 14 (sm/md) / 16 (lg/xl/touch)" },
     { "label": "Primary", "value": "bg #6A1EBB, label #FDFDFD, hover #8644D4, active #5715A0" },
     { "label": "Secondary", "value": "white bg, #1A1A1A label, 1px #E3E3E3 border; hover brand-tint #F9F5FF + #A96FF0 border" },
     { "label": "Tertiary / Link", "value": "transparent; tertiary hover #F9F5FF, active #F0E4FF; link #6A1EBB weight 400" },
@@ -21,14 +21,14 @@
     { "label": "Primary-alt", "value": "same fill as primary #6A1EBB (a second primary slot for a two-primary layout)" },
     { "label": "Text / Text-link", "value": "white bg, no border, weight 400; text = secondary-grey label, hover grey fill; text-link = #6A1EBB label, hover #A96FF0" },
     { "label": "Disabled", "value": "bg #E3E3E3, label #B5B5B5" },
-    { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl); icon 16px, inline-flex, 8px gap" },
+    { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl/touch); icon 16px, inline-flex, 8px gap" },
     { "label": "Focus", "value": "soft box-shadow ring, spread 2 — #D3B4FF@30% (default) · danger #FF2850@20% · positive #20E8B5@30%" },
     { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" },
     { "label": "Icon-only", "value": "square (width = height per size: 28/36/40/52), glyph centred, no label; needs aria-label" }
   ],
   "props": [
     { "name": "variant", "type": "primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link", "default": "secondary", "desc": "tone × emphasis; one primary per view. success is a synonym of positive; primary-alt of primary; text / text-link are borderless label buttons" },
-    { "name": "size", "type": "sm | md | lg | xl", "default": "lg", "desc": "28 / 36 / 40 / 52px height — lg (40) is the default; xl (52) is for presenter controls rendered inside a slide canvas and read from room distance (the web-component twin of React <XLButtonScope>)" },
+    { "name": "size", "type": "sm | md | lg | xl | touch", "default": "lg", "desc": "28 / 36 / 40 / 52 / 48px height — lg (40) is the default; xl (52) is for presenter controls rendered inside a slide canvas and read from room distance (the web-component twin of React <XLButtonScope>); touch (48, 8px corners, 16px label) is the audience phone's primary action and clears the 44px touch floor" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "non-interactive; grey fill" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "shows a spinner, blocks clicks" },
     { "name": "block", "type": "boolean", "default": "false", "desc": "full-width" },
@@ -73,7 +73,7 @@
         { "label": "sm", "value": "sm" },
         { "label": "md", "value": "md" },
         { "label": "lg (default)", "value": "lg" },
-        { "label": "xl", "value": "xl" }
+        { "label": "xl", "value": "xl" }, { "label": "touch", "value": "touch" }
       ] },
       { "prop": "disabled", "label": "State", "default": null, "options": [
         { "label": "Rest", "value": null },

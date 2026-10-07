@@ -1,0 +1,15 @@
+import '@ahaslides-product/design/aha-audience-submit';
+import { useEffect, useRef } from 'react';
+
+export function SubmitAnswer({ answer, submit, closed }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const button = ref.current;
+    const handle = async () => {
+      try { await submit(answer); button.lock(answer); } catch { button.unlock(); }
+    };
+    button.addEventListener('submit-answer', handle);
+    return () => button.removeEventListener('submit-answer', handle);
+  }, [answer, submit]);
+  return <aha-audience-submit ref={ref} lock-key="slide-42" closed={closed ? '' : undefined}>Submit</aha-audience-submit>;
+}

@@ -1,0 +1,155 @@
+{
+  "name": "Rank list",
+  "slug": "rank-list",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-rank-list",
+  "summary": "Put the options in order on the audience phone: frosted rows with a live ordinal badge, move-up and move-down buttons for the keyboard, and a pointer drag.",
+  "highlights": [
+    "Ordering / ranking input for the audience phone",
+    "Live ordinal badge in the deck accent",
+    "Keyboard move buttons plus a pointer drag",
+    "Every move announced to a screen reader"
+  ],
+  "lead": "ONE custom element — <aha-rank-list> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "white",
+    "color-primary",
+    "radius-default",
+    "radius-pill",
+    "radius-xs",
+    "space-4",
+    "space-8",
+    "space-12",
+    "space-16"
+  ],
+  "spec": [
+    {
+      "label": "Row",
+      "value": "the answer row's surface: min-height 44, padding 8/16, radius 8, frosted, 1px ink hairline; 16px semibold label; an option image as a 28px thumbnail (radius 6)"
+    },
+    {
+      "label": "Badge",
+      "value": "24px circle in the deck accent, white 12px semibold numeral, renumbers live"
+    },
+    {
+      "label": "Move",
+      "value": "24px up / down buttons with 12px carets (system-caret-up / -down) in the muted ink, disabled at the ends; system-drag grip for the pointer"
+    },
+    {
+      "label": "Drag",
+      "value": "the row follows the finger; siblings slide out of its way (FLIP, motion tokens); no motion under reduced motion"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "options",
+      "type": "JSON [{id, label, image?}]",
+      "default": "[]",
+      "desc": "The options to order. Also the `options` property"
+    },
+    {
+      "name": "value",
+      "type": "JSON id[]",
+      "default": "options order",
+      "desc": "The ordered ids. Also the `value` property"
+    },
+    {
+      "name": "group-label",
+      "type": "string",
+      "default": "Order the options",
+      "desc": "The list's accessible name and a muted 12px caption above the rows: pass the translated question"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Locks the list"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{value}>",
+      "default": "—",
+      "desc": "Fires on every move with the new order"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Rank list",
+        "when": "the participant puts a short list in order (ranking, sequencing)"
+      },
+      {
+        "what": "Answer list",
+        "when": "the participant picks rather than orders"
+      }
+    ],
+    "note": "The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-rank-list",
+    "registers": "aha-rank-list",
+    "exportsNamed": [
+      "AhaRankList",
+      "defineAhaRankList"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "rank-list.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "rank-list.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "rank-list.vue.txt"
+    }
+  ],
+  "preview": "rank-list.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-rank-list[data-probe]')&&document.querySelector('aha-rank-list[data-probe]').shadowRoot&&document.querySelector('aha-rank-list[data-probe]').shadowRoot.querySelector('.row'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-rank-list[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('.row');var c=cs(row);return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,badge:cs(q('.badge')).backgroundColor,labelSize:cs(q('.label')).fontSize,gap:cs(q('.list')).rowGap};})()",
+    "expect": {
+      "rowHeight": "44px",
+      "rowRadius": "8px",
+      "ink": "rgb(26, 26, 26)",
+      "badge": "rgb(106, 30, 187)",
+      "labelSize": "16px",
+      "gap": "8px"
+    }
+  }
+}

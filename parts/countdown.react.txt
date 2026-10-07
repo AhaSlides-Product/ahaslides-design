@@ -1,0 +1,5 @@
+import '@ahaslides-product/design/aha-countdown';
+
+export function QuestionTimer({ endsAt, totalMs, stopped }) {
+  return <aha-countdown ends-at={endsAt} total-ms={totalMs} stopped={stopped ? '' : undefined} urgent-below-ms="5000" />;
+}

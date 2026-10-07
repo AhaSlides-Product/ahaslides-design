@@ -22,10 +22,27 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.108.0 — 2026-10-07
+## 0.111.0 — 2026-10-07
 ### Changed
 - Every docs page's HTML tab (and `llms.txt`, the agent feeds and the "No build step?" block) now imports from the release tag that built it, `cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v<version>/lib/…`, instead of `@master`. A snippet pasted into a no-build page (a Developer Platform slide type, a vibe-coded deck) therefore never changes under that page; take a newer release by changing the tag. `AHA_CDN_REF=master` still previews unreleased element code locally (#191)
 - The Audience Library's code tabs take the same pinned ref (they hard-coded `@master`), and the Pages deploy now waits, for up to 15 minutes, until `publish.yml` has created the `v<version>` tag its snippets point at, so a freshly deployed page never links a tag that does not exist yet (#191)
+
+## 0.110.0 — 2026-10-07
+### Added
+- Audience library as framework-free elements for build-less slide types (Developer Platform iframes), each loaded by URL from `lib/all.js` with `tokens.css`: `<aha-answer-list>`, `<aha-answer-option>`, `<aha-rank-list>`, `<aha-audience-field>`, `<aha-countdown>`, `<aha-scale-slider>`, `<aha-audience-chip>`, `<aha-audience-image-upload>`, `<aha-audience-submit>`, `<aha-instruction-line>`, `<aha-waiting-for-host>`, `<aha-submitted-card>`, `<aha-identity-strip>` and `<aha-swipe-card>` (#194)
+- `audience-deck` module: `applyDeck(root, xprops.slide)` gives every audience element the deck ink, accent and primary-button fill; `submissionLock(key)` backs the `lock-key` attribute, so a submitted answer stays locked across an iframe remount (#194)
+- `<aha-button size="touch">`: the 48px audience-phone primary action (#194)
+- `<aha-counted-input type="number">`, and `aria-label` forwarding on `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` (#194)
+- `size="touch"` on `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>`: the 56px audience phone field with 16px text (#194)
+- `--aha-deck-ink-muted` (the deck ink at 65%) for secondary audience copy, and a `hint` line on `<aha-swipe-card>` (#194)
+### Changed
+- One audience border rule on both decks: every audience border is 1px at the deck ink 10% (`--aha-deck-edge`, no 20% slider edge, no 1.5px chip, no 2px drop zone; the drop zone stays dashed), and the scale-slider rail and countdown track share one ink-10% fill (`--_track`, the countdown was 15%); the audience guideline and its criteria state the same rule and drop the slider-fill-hairline 20% split (#194)
+- Audience Library page: every section names the element to use, its demos are the real elements on a light and a dark deck with the same content as before, and its HTML tab runs as pasted (#194)
+- The audience elements match the Audience page's demos: 44px answer and rank rows, a 1px ink ring on my pick, the correct row ringed on reveal, solid accent chips, a check-circle submitted card, a centred swipe card, the slider value above the thumb, an m:ss clock (#194)
+
+## 0.109.0 — 2026-10-07
+### Changed
+- Section container: the section sequence rule replaces "soft and dark variants alternate". Coloured bands (soft or primary) never sit next to each other, a full white section always sits between them, at most two primary-colour bands per page, and the first band (hero) is white; the demo now shows a white section between the soft and dark bands (#196)
 
 ## 0.106.2 — 2026-10-07
 ### Fixed

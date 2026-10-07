@@ -1,0 +1,145 @@
+{
+  "name": "Countdown",
+  "slug": "countdown",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-countdown",
+  "summary": "A draining bar with the m:ss clock beside it, synced to the host's absolute end time so every phone reaches zero together. For a full-canvas audience slide only.",
+  "highlights": [
+    "Draining bar plus m:ss clock",
+    "Synced to an absolute end instant",
+    "Freezes in place when the host stops it",
+    "Full-canvas slides only"
+  ],
+  "lead": "ONE custom element — <aha-countdown> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "color-primary",
+    "color-error",
+    "radius-pill",
+    "space-12"
+  ],
+  "spec": [
+    {
+      "label": "Track",
+      "value": "8px pill, ink at 10% over the frosted blur, 1px ink hairline"
+    },
+    {
+      "label": "Fill",
+      "value": "deck accent; drains left as one linear CSS animation, never a per-frame redraw; a late joiner starts part-way"
+    },
+    {
+      "label": "Clock",
+      "value": "14px semibold tabular m:ss, ticks once a second from the wall clock"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "ends-at",
+      "type": "epoch ms",
+      "default": "—",
+      "desc": "The host's absolute end instant, shared by every phone"
+    },
+    {
+      "name": "total-ms",
+      "type": "ms",
+      "default": "—",
+      "desc": "How long the question was given: the bar's denominator"
+    },
+    {
+      "name": "stopped",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The host closed submissions early: bar and clock freeze where they are"
+    },
+    {
+      "name": "clock-only / hide-clock",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Drop the bar (a tight header) or drop the digits"
+    },
+    {
+      "name": "urgent-below-ms",
+      "type": "ms",
+      "default": "—",
+      "desc": "Below this, bar and digits take the DS error colour"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Time remaining",
+      "desc": "The timer's accessible name (translated); read as \"label: m:ss\""
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Countdown",
+        "when": "a FULL-CANVAS audience slide that needs its own visible timer"
+      },
+      {
+        "what": "Nothing",
+        "when": "a framed slide: the host already paints the countdown above the iframe; use the host time limit as logic only"
+      }
+    ],
+    "note": "Never write a static time (\"30 seconds\") anywhere in the copy. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-countdown",
+    "registers": "aha-countdown",
+    "exportsNamed": [
+      "AhaCountdown",
+      "defineAhaCountdown"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "countdown.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "countdown.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "countdown.vue.txt"
+    }
+  ],
+  "preview": "countdown.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-countdown[data-probe]')&&document.querySelector('aha-countdown[data-probe]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-countdown[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var t=cs(q('.track'));var k=cs(q('.clock'));return{trackHeight:t.height,fill:cs(q('.fill')).backgroundColor,clockSize:k.fontSize,clockInk:k.color,clockWeight:k.fontWeight};})()",
+    "expect": {
+      "trackHeight": "8px",
+      "fill": "rgb(106, 30, 187)",
+      "clockSize": "14px",
+      "clockInk": "rgb(26, 26, 26)",
+      "clockWeight": "600"
+    }
+  }
+}

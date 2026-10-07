@@ -1366,8 +1366,8 @@ const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || 
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
    the DS top-nav + scoped sidebar like every other area. Content is data
    (audience/library.json); the collapsible HTML/React/Vue code panels reuse the shell's
-   own .code-tabs CSS + ahaBindWidgets JS. Honest imports: audience components are
-   marketplace Vue components at @/iframe/audience, not DS web components. */
+   own .code-tabs CSS + ahaBindWidgets JS. Each section names the DS <aha-*> element that
+   replaces the upstream Vue component, and its demos ARE that element (lib/), not a mock-up. */
 const AUDIENCE_KIND_ACCENT = {
   Answers: 'var(--aha-brand-2)', Input: 'var(--aha-color-primary)', Feedback: 'var(--aha-brand-4)',
   Action: 'var(--aha-brand-6)', Layout: 'var(--aha-soft-indigo-60)', '': 'var(--aha-indigo-60)',
@@ -1386,9 +1386,10 @@ function renderAudienceCard(sec) {
   const badge = sec.kind ? `<span class="badge" style="background:${accent}">${esc(sec.kind)}</span>` : '';
   const replaces = sec.replaces ? `<p class="replaces">${audMd(sec.replaces)}</p>` : '';
   const note = sec.note ? `<p class="note">${audMd(sec.note)}</p>` : '';
+  const element = sec.element ? `<p class="element">Use <code class="ic">${esc(sec.element)}</code></p>` : '';
   return `<section id="${esc(sec.name)}" class="card">
   <header class="card-h">
-    <div class="card-title"><h2>${esc(sec.name)}</h2>${badge}</div>
+    <div class="card-title"><h2>${esc(sec.name)}</h2>${badge}</div>${element}
     <p class="what">${audMd(sec.what)}</p>
     <dl class="callout">
       <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
@@ -1427,6 +1428,15 @@ function renderAudienceLibrary() {
        PJAX re-executes these on navigation (runScripts holds external-script order). -->
   <script src="../icons/registry.js"></script>
   <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyDeck } from '../lib/audience-deck.js';
+    for (const deck of document.querySelectorAll('.audience-lib .deck.light')) applyDeck(deck, { textColour: '#1A1A1A', presentationColorPalette: ['#FF4081'] });
+    for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FAFAFA', presentationColorPalette: ['#FF4081'] });
+    for (const timer of document.querySelectorAll('.audience-lib .demo-countdown')) timer.setAttribute('ends-at', String(Date.now() + 37000));
+    for (const upload of document.querySelectorAll('.audience-lib .demo-upload')) upload.uploadImage = () => new Promise((resolve) => setTimeout(() => resolve({ url: '../logo/thesplash.svg', path: 'demo' }), 600));
+    for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
+  </script>
   ${hubAnchorScript(anchorItems)}`;
   return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }

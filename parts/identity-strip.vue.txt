@@ -1,0 +1,8 @@
+<script setup>
+import '@ahaslides-product/design/aha-identity-strip';
+defineProps({ name: String, emoji: String });
+</script>
+
+<template>
+  <aha-identity-strip :name="name" :emoji="emoji" eyebrow="Round 2" />
+</template>

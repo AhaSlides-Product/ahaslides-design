@@ -84,15 +84,15 @@ open in a browser:
 
 ```html
 <!-- token layer (once) + every element in one tag -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.108.0/lib/tokens.css">
-<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.108.0/lib/all.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.111.0/lib/tokens.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.111.0/lib/all.js"></script>
 
 <aha-button variant="primary">Save changes</aha-button>
 <aha-input placeholder="Your name"></aha-input>
 <aha-icon name="system-bell" size="16"></aha-icon>
 ```
 
-Pin the tag (`@v0.108.0` here; take the newest from the [tags page](https://github.com/ahaslides-product/ahaslides-design/tags)),
+Pin the tag (`@v0.111.0` here; take the newest from the [tags page](https://github.com/ahaslides-product/ahaslides-design/tags)),
 never `@master`: a pinned page never changes under you. Every doc page's HTML tab is already pinned to
 the release that built it.
 
