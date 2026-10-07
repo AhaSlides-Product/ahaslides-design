@@ -7,18 +7,18 @@
   "element": "aha-empty",
   "summary": "The placeholder for a surface that has no data yet.",
   "highlights": ["Placeholder for a surface with no data yet"],
-  "lead": "ONE custom element — <aha-empty> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Empty is a small family: an `image` (a 64×41 line-art illustration by default, or a smaller `simple` graphic for tight surfaces, or a custom picture via slot=\"image\"), a caption from the `description` attribute or the default slot (description=\"\" hides it), and an optional action (slot=\"action\"). A static marker — no interactive state, so no motion. Zero drift — the same element.",
+  "lead": "ONE custom element — <aha-empty> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Empty is a small family: an `image` (a 64×41 line-art illustration by default, or a smaller `simple` graphic for tight surfaces, `none` for a text-only empty state, or a custom picture via slot=\"image\"), a caption from the `description` attribute or the default slot (description=\"\" hides it), and an optional action (slot=\"action\"). A static marker — no interactive state, so no motion. Zero drift — the same element.",
   "codeNote": "The built-in illustration is the component's own line-art graphic, drawn with currentColor from a token-bound host colour — not a catalogue glyph; slot=\"image\" can supersede it with any picture (e.g. an <aha-icon>). Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-tertiary", "text-disabled", "font-product"],
   "spec": [
     { "label": "Layout", "value": "centred column · gap 10 · padding 32/16 (simple: gap 8 · 20/16)" },
     { "label": "Illustration", "value": "default 64×41 · simple 48×30 line art · #B5B5B5 (text-disabled)" },
-    { "label": "Caption", "value": "14/22 (simple 13/20) #8A8A8A (text-tertiary) · hidden when description=\"\"" },
+    { "label": "Caption", "value": "default body type (--aha-size-default 14, --aha-line-height-body 1.5) in every image mode · #8A8A8A (text-tertiary) · hidden when description=\"\"" },
     { "label": "Custom image", "value": "slot=\"image\" · supersedes the built-in art" },
     { "label": "Action", "value": "slot=\"action\" · hidden when empty" }
   ],
   "props": [
-    { "name": "image", "type": "'default' | 'simple'", "default": "default", "desc": "Built-in illustration: 64×41 line art, or a smaller 48×30 low-key graphic for tight surfaces" },
+    { "name": "image", "type": "'default' | 'simple' | 'none'", "default": "default", "desc": "Built-in illustration: 64×41 line art, or a smaller 48×30 low-key graphic for tight surfaces; none hides the illustration (text-only)" },
     { "name": "description", "type": "string", "default": "—", "desc": "The caption; falls back to the default slot when absent, and renders nothing when set to \"\"" },
     { "name": "(default slot)", "type": "slot", "default": "No data", "desc": "The caption (alternative to the `description` attribute)" },
     { "name": "image", "type": "slot", "default": "—", "desc": "A custom picture (e.g. an <aha-icon>) that supersedes the built-in illustration" },
@@ -45,7 +45,8 @@
     "controls": [
       { "prop": "image", "label": "Image", "default": "default", "options": [
         { "label": "Default", "value": "default" },
-        { "label": "Simple", "value": "simple" }
+        { "label": "Simple", "value": "simple" },
+        { "label": "None (text only)", "value": "none" }
       ] },
       { "prop": "description", "label": "Description", "default": "on", "options": [
         { "label": "On", "value": "No responses yet" },

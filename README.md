@@ -57,7 +57,7 @@ npm i @ahaslides-product/design
 
 ```js
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer — once, at the app root
-import '@ahaslides-product/design/icons';               // registers <aha-icon> (267 glyphs, call by name)
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (268 glyphs, call by name)
 import { ICON_NAMES } from '@ahaslides-product/design/icons';   // discover valid names
 import '@ahaslides-product/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
 import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared Table theme
@@ -84,15 +84,15 @@ open in a browser:
 
 ```html
 <!-- token layer (once) + every element in one tag -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.111.0/lib/tokens.css">
-<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.111.0/lib/all.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.113.0/lib/tokens.css">
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.113.0/lib/all.js"></script>
 
 <aha-button variant="primary">Save changes</aha-button>
 <aha-input placeholder="Your name"></aha-input>
 <aha-icon name="system-bell" size="16"></aha-icon>
 ```
 
-Pin the tag (`@v0.111.0` here; take the newest from the [tags page](https://github.com/ahaslides-product/ahaslides-design/tags)),
+Pin the tag (`@v0.113.0` here; take the newest from the [tags page](https://github.com/ahaslides-product/ahaslides-design/tags)),
 never `@master`: a pinned page never changes under you. Every doc page's HTML tab is already pinned to
 the release that built it.
 
@@ -201,7 +201,7 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 
 ## Status
 
-Proven end-to-end and QA-green: **Icon** (267 glyphs imported from Figma DS V3, call-by-name via
+Proven end-to-end and QA-green: **Icon** (268 glyphs imported from Figma DS V3, call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 
