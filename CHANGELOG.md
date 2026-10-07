@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.98.4 — 2026-10-07
+### Changed
+- `<aha-background-task>` file name (heading) is now 14px with a 1.5 line-height, the DS body size, instead of 12.5px; the leading icon and ✕ stay aligned (#129)
+
 ## 0.98.3 — 2026-10-07
 ### Fixed
 - `<aha-background-task>` offline (frozen) bar is now neutral grey (track #F1F1F1, fill #B5B5B5) instead of lavender (#174)
