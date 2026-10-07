@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.99.2 — 2026-10-07
 ### Fixed
-- Background task: the `link` slot ("Retry") now flows inline with the description and wraps with it like a word, instead of sitting as a separate column beside a wrapped line (seen in French). It stays underlined in the DS link colour at rest. The examples cover French, German, Vietnamese and Russian. (#PRNUM)
+- Background task: the `link` slot ("Retry") now flows inline with the description and wraps with it like a word, instead of sitting as a separate column beside a wrapped line (seen in French). It stays underlined in the DS link colour at rest. The examples cover French, German, Vietnamese and Russian. (#180)
 
 ## 0.99.1 — 2026-10-07
 ### Fixed
