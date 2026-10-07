@@ -32,6 +32,13 @@
       <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="secondary" size="sm">Try again</aha-button></div>
     </aha-background-task>
   </div>
+  <div class="lbl">Long translations: the inline link wraps with the description (French, German, Vietnamese, Russian)</div>
+  <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
+    <aha-background-task state="success" heading="Quarterly review.xlsx" description="Le téléchargement n'a pas démarré ?" rating-prompt="Comment ça s'est passé ?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Réessayer</a></aha-background-task>
+    <aha-background-task state="success" heading="Quarterlyreview_Vertriebsbericht.xlsx" description="Der Download wurde nicht gestartet?" rating-prompt="Wie ist der Export verlaufen?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Erneut versuchen</a></aha-background-task>
+    <aha-background-task state="success" heading="Bản trình bày mới của tôi.xlsx" description="Quá trình tải xuống chưa bắt đầu?" rating-prompt="Quá trình xuất diễn ra như thế nào?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Thử lại ngay</a></aha-background-task>
+    <aha-background-task state="success" heading="Квартальный отчёт.xlsx" description="Загрузка не началась автоматически?" rating-prompt="Как прошёл экспорт презентации?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Повторить попытку</a></aha-background-task>
+  </div>
   <div class="lbl">Stack: several processes, newest on top, one card each</div>
   <div style="padding:8px 0 24px; min-height:400px">
     <aha-background-task-stack style="position:static">

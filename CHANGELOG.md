@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.100.1 — 2026-10-07
+### Fixed
+- Background task: the `link` slot ("Retry") now flows inline with the description and wraps with it like a word, instead of sitting as a separate column beside a wrapped line (seen in French). It stays underlined in the DS link colour at rest. The examples cover French, German, Vietnamese and Russian. (#180)
+
 ## 0.100.0 — 2026-10-07
 ### Changed
 - Close button: `<aha-close-button>` is back to the old Info box ✕ — a native 20 × 20 button (radius 6) with the 14px `system-x` in #8A8A8A, #1A1A1A on `--aha-bg-hover` over 100ms, top-pinned with its centre 2.5px above the first line's centre and 2px into the end padding (Info box: 15px from the right, 11px from the top). It no longer wraps a tertiary `<aha-button>`: `::part(button)` is now the native button and shrinks from 28 × 28 to 20 × 20. Alert, Info box, Background task, Toast, Notification, Modal and Drawer follow (#178)
