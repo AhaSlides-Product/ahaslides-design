@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.100.4 — 2026-10-07
 ### Fixed
-- Tooltip: the hint no longer sticks after a mouse click or a touch tap. It shows on mouse hover or keyboard focus only, so clicking a trigger hides it, CSAT's thumb no longer brings the hint back when the feedback popover closes, and a tap on touch no longer leaves it open. `trigger="focus"` still shows on any focus and `trigger="click"` is unchanged. (#PRNUM)
+- Tooltip: the hint no longer sticks after a mouse click or a touch tap. It shows on mouse hover or keyboard focus only, so clicking a trigger hides it, CSAT's thumb no longer brings the hint back when the feedback popover closes, and a tap on touch no longer leaves it open. `trigger="focus"` still shows on any focus and `trigger="click"` is unchanged. (#183)
 
 ## 0.100.1 — 2026-10-07
 ### Fixed
