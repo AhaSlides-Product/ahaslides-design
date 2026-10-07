@@ -733,6 +733,21 @@ const repoChecks = [];
             `${PKG.version} < ${latest}: you branched off a STALE base and would revert merged work — rebase onto master and bump above ${latest} (git fetch origin master --tags first)`);
         }
       } catch { /* no git / no tags (fresh or shallow CI) — skip rather than false-fail */ }
+      const baseRef = process.env.GITHUB_BASE_REF || process.env.VERSION_BASE_REF;
+      if (baseRef) {
+        let baseVersion = null;
+        try {
+          execFileSync('git', ['fetch', '--quiet', '--depth=1', 'origin', baseRef], { cwd: root, stdio: 'ignore' });
+          baseVersion = JSON.parse(execFileSync('git', ['show', 'FETCH_HEAD:package.json'], { cwd: root, encoding: 'utf8' })).version;
+        } catch { /* reported by the check below */ }
+        const parts = (version) => version.split('.').map(Number);
+        const isGreater = (a, b) => { const [A, B] = [parts(a), parts(b)]; return (A[0] - B[0] || A[1] - B[1] || A[2] - B[2]) > 0; };
+        rchk(`version ${PKG.version} is strictly greater than ${baseRef}'s ${baseVersion ?? '(unreadable)'}`,
+          baseVersion !== null && isGreater(PKG.version, baseVersion),
+          baseVersion === null
+            ? `could not read package.json from origin/${baseRef} — the version gate fails closed`
+            : `merge origin/${baseRef}, then bump package.json, agent/.claude-plugin/plugin.json and the top CHANGELOG entry above ${baseVersion}`);
+      }
       // the block from this heading up to the next "## " must carry at least one "- " bullet
       const block = changelog.slice(changelog.indexOf(m[0]) + m[0].length).split(/\n##\s/)[0];
       rchk('top entry lists ≥1 change bullet', /^\s*-\s+\S/m.test(block),
