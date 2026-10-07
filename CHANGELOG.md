@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.109.0 — 2026-10-07
 ### Changed
-- Section container: the section sequence rule replaces "soft and dark variants alternate". Coloured bands (soft or primary) never sit next to each other, a full white section always sits between them, at most two primary-colour bands per page, and the first band (hero) is white; the demo now shows a white section between the soft and dark bands (#PRN)
+- Section container: the section sequence rule replaces "soft and dark variants alternate". Coloured bands (soft or primary) never sit next to each other, a full white section always sits between them, at most two primary-colour bands per page, and the first band (hero) is white; the demo now shows a white section between the soft and dark bands (#196)
 
 ## 0.106.2 — 2026-10-07
 ### Fixed
