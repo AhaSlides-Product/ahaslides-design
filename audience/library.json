@@ -162,7 +162,7 @@
    "kind": "Input",
    "what": "A compact selectable chip: 44px tall, the frosted deck surface, the deck font, `aria-pressed`.",
    "useWhen": "The participant toggles items in a set, and the choices are short enough to sit inline — tags, categories, a filter row.",
-   "notFor": "The primary answer to a question: that is `<aha-answer-list>`, with the 44px rows and the reveal states. Never `<aha-tag>` on the audience phone: it is 22px on a fixed grey.",
+   "notFor": "The primary answer to a question: that is `<aha-answer-list>`, with the 44px rows and the reveal states. Never `<aha-tag>` on the audience phone: it is 24px on a fixed grey.",
    "replaces": "Replaces a checkable tag: one that fills a fixed brand colour when checked and a fixed grey when not tracks neither deck.",
    "note": null,
    "demoLight": "<div style=\"display:flex;flex-wrap:wrap;gap:8px\"><aha-audience-chip selected>Cà phê</aha-audience-chip><aha-audience-chip>Trà sữa</aha-audience-chip><aha-audience-chip selected>Nước ép</aha-audience-chip><aha-audience-chip>Sinh tố</aha-audience-chip><aha-audience-chip>Đá xay</aha-audience-chip></div>",

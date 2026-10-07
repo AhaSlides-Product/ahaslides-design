@@ -79,7 +79,7 @@
       },
       {
         "what": "Tag",
-        "when": "app screens, never the audience phone: <aha-tag> is 22px on a fixed grey"
+        "when": "app screens, never the audience phone: <aha-tag> is 24px on a fixed grey"
       }
     ],
     "note": "The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
