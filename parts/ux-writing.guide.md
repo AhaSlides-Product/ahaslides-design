@@ -118,7 +118,7 @@ Product copy never uses an em dash (—) or en dash (–) as punctuation.
 
 ### Tooltips: one short idea, never the only home · UXW-9
 
-A tooltip is a hint, not a help article. It is hover or focus only, so it is unavailable on touch.
+A tooltip is a hint, not a help article. It shows on mouse hover or keyboard focus only (not on click or tap), so it is unavailable on touch.
 
 - **One idea per tooltip.** Lead with what the control does, or why it matters, in plain words.
 - **One sentence, about 80 to 120 characters in English.** Translations run 30 to 40% longer, so
