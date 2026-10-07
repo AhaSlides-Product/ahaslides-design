@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.104.0 — 2026-10-07
+## 0.107.0 — 2026-10-07
 ### Added
 - Audience library as framework-free elements for build-less slide types (Developer Platform iframes), each loaded by URL from `lib/all.js` with `tokens.css`: `<aha-answer-list>`, `<aha-answer-option>`, `<aha-rank-list>`, `<aha-audience-field>`, `<aha-countdown>`, `<aha-scale-slider>`, `<aha-audience-chip>`, `<aha-audience-image-upload>`, `<aha-audience-submit>`, `<aha-instruction-line>`, `<aha-waiting-for-host>`, `<aha-submitted-card>`, `<aha-identity-strip>` and `<aha-swipe-card>` (#194)
 - `audience-deck` module: `applyDeck(root, xprops.slide)` gives every audience element the deck ink, accent and primary-button fill; `submissionLock(key)` backs the `lock-key` attribute, so a submitted answer stays locked across an iframe remount (#194)
@@ -30,6 +30,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-counted-input type="number">`, and `aria-label` forwarding on `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` (#194)
 ### Changed
 - Audience Library page: every section names the element to use, its demos are the real elements on a light and a dark deck, and its HTML tab runs as pasted (#194)
+
+## 0.106.1 — 2026-10-07
+### Fixed
+- CSAT: the thumbs and Feedback buttons are 28×28, the DS small icon button size (were 28×24), so the row is 28px high (#193)
 
 ## 0.103.1 — 2026-10-07
 ### Fixed
