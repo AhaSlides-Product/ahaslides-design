@@ -1,0 +1,198 @@
+{
+  "name": "Status icon",
+  "slug": "status-icon",
+  "group": "General",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-status-icon",
+  "reuse": {
+    "entry": "./aha-status-icon",
+    "registers": "aha-status-icon",
+    "exportsNamed": [
+      "AhaStatusIcon",
+      "defineAhaStatusIcon"
+    ]
+  },
+  "summary": "A progress glyph for anything that can be started and finished (a lesson, a task, a step) \u2014 not started, in progress, completed \u2014 with state colour from DS tokens.",
+  "lead": "ONE custom element \u2014 <aha-status-icon> \u2014 the reusable form of a progress status glyph. It composes <aha-icon> (system-check-circle, system-circle-dashed) with state colour from --aha-* tokens, so in-progress has its own glyph; not-started and completed share system-check-circle and differ by colour, with the accessible name carrying the state. Carries role=\"img\" with an accessible name that defaults to the state; pass a translated `label` in the product. Shadow-DOM CSS, themed only by tokens.",
+  "codeNote": "Same element, same shadow-DOM CSS \u2192 identical render across frameworks.",
+  "tokensUsed": [
+    "gray-60",
+    "color-primary",
+    "color-success"
+  ],
+  "spec": [
+    {
+      "label": "Not started",
+      "value": "system-check-circle \u00b7 gray-60 #B5B5B5"
+    },
+    {
+      "label": "In progress",
+      "value": "system-circle-dashed \u00b7 primary #6A1EBB"
+    },
+    {
+      "label": "Completed",
+      "value": "system-check-circle \u00b7 success #16C49A"
+    },
+    {
+      "label": "Sizes",
+      "value": "12 \u00b7 16 (default) \u00b7 24 \u00b7 32"
+    }
+  ],
+  "props": [
+    {
+      "name": "status",
+      "type": "not-started | in-progress | completed",
+      "default": "not-started",
+      "desc": "The progress state \u2014 picks the glyph and its colour"
+    },
+    {
+      "name": "size",
+      "type": "12 | 16 | 24 | 32",
+      "default": "16",
+      "desc": "Glyph size in px; any other value falls back to 16"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "the state name (English)",
+      "desc": "Accessible name; pass a translated string in the product"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Status icon",
+        "when": "showing how far one item (lesson, task, step) has progressed, in a list, rail or header"
+      },
+      {
+        "what": "Status badge",
+        "when": "a lifecycle pill with a text label for a domain object (draft, published, closed)"
+      },
+      {
+        "what": "Progress",
+        "when": "a quantity along a bar, such as 3 of 7 lessons done"
+      }
+    ],
+    "note": "Pair it with the item title or a visible label where the state matters; the glyph shape differs per state, so colour is never the only signal. Not-started uses the check-circle glyph in grey: the registry has no plain circle glyph, so a hollow circle needs a DS icon first."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "status-icon.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form \u2014 a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "status-icon.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "status-icon.vue.txt"
+    }
+  ],
+  "preview": "status-icon.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-status-icon[data-probe]') && document.querySelector('aha-status-icon[data-probe]').shadowRoot && document.querySelector('aha-status-icon[data-probe]').shadowRoot.querySelector('aha-icon'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-status-icon[data-probe]');var i=el&&el.shadowRoot&&el.shadowRoot.querySelector('aha-icon');if(!i)return{};var s=getComputedStyle(el);var r=i.getBoundingClientRect();return{fg:s.color,width:r.width+'px',height:r.height+'px',glyph:i.getAttribute('name'),label:i.getAttribute('label')};})()",
+    "expect": {
+      "fg": "rgb(181, 181, 181)",
+      "width": "16px",
+      "height": "16px",
+      "glyph": "system-check-circle",
+      "label": "Not started"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "in-progress has its own glyph; not-started and completed are told apart by colour and accessible name",
+      "verdict": "PASS"
+    },
+    {
+      "label": "colours from DS tokens (gray-60 \u00b7 primary \u00b7 success)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "on-grid sizes 12/16/24/32",
+      "verdict": "PASS"
+    },
+    {
+      "label": "accessible name defaults to the state",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "Three progress states: not started, in progress, completed",
+    "Glyph by name via aha-icon, colour from tokens, on-grid sizes 12/16/24/32"
+  ],
+  "composedOf": [
+    {
+      "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-check-circle",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-circle-dashed",
+      "status": "shipped"
+    }
+  ],
+  "playground": {
+    "controls": [
+      {
+        "prop": "status",
+        "label": "Status",
+        "default": "in-progress",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not-started"
+          },
+          {
+            "label": "In progress",
+            "value": "in-progress"
+          },
+          {
+            "label": "Completed",
+            "value": "completed"
+          }
+        ]
+      },
+      {
+        "prop": "size",
+        "label": "Size",
+        "default": "16",
+        "options": [
+          {
+            "label": "12",
+            "value": "12"
+          },
+          {
+            "label": "16",
+            "value": "16"
+          },
+          {
+            "label": "24",
+            "value": "24"
+          },
+          {
+            "label": "32",
+            "value": "32"
+          }
+        ]
+      }
+    ]
+  }
+}
