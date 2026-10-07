@@ -6,6 +6,7 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to organise a settings surface — group ordering, help-text vs tooltip, sub-settings, plan-gating, and the danger zone — built from existing components.",
+  "highlights": ["How to organise a settings surface", "Group ordering, help text versus tooltip, sub-settings", "Plan-gating and the danger zone"],
   "whenToRead": "ANY UI where a user configures options, whatever the container — settings page, editor panel, modal, drawer (e.g. a course or presentation settings modal). Its hub control table maps each setting type (toggle, image, number, choice…) to its DS control (#ctrl-<slug>); read it BEFORE picking components.",
   "lead": "Settings is the most-repeated surface in the product, so it drifts fastest without shared rules. This pattern ships NO new component: it reuses Checkbox, Button, Icon and the --aha-size* spacing scale, and documents the CONVENTIONS that make every settings panel read as one product. The rationale and rules live in this Settings hub and the settings anti-slop feed; this artifact carries what the repo can enforce.",
   "skillRef": {

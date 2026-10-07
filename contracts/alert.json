@@ -6,9 +6,10 @@
   "badge": "shared Lit web component",
   "element": "aha-alert",
   "summary": "An inline, contextual feedback banner — info, success, warning, error, or branding — in regular/small sizes, with an optional full-width banner mode and a trailing action.",
+  "highlights": ["Inline, contextual feedback banner", "Info, success, warning, error or branding tone", "Regular or small, with optional banner mode and trailing action"],
   "lead": "ONE custom element — <aha-alert> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `type` attribute (info · success · warning · error · branding), the status glyph is summoned BY NAME from the shared icon library. `size` compacts it (regular · small), `banner` makes it a full-width, square-cornered page notice, `hide-icon` drops the glyph, a slot=\"action\" carries a trailing button/link, and `closable` adds a dismiss control that animates the banner out on a persistent node and emits a composed `close`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the composed `close` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "text-positive", "border-success", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "bg-accent", "border-focus", "color-primary", "text-default", "icon-muted", "radius-default"],
+  "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "text-positive", "border-success", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "bg-accent", "border-focus", "color-primary", "text-default", "radius-default"],
   "spec": [
     { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · 1px tonal border" },
     { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
@@ -20,14 +21,15 @@
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
     { "label": "Banner", "value": "full-width, square (radius 0), border on the bottom edge only" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
-    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle)" }
+    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle)" },
+    { "label": "Close", "value": "closable → the shared <aha-close-button> (tertiary, small, 16px system-x), centred on the first line, 8px from the edge" }
   ],
   "props": [
     { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface/border tokens" },
     { "name": "heading", "type": "string", "default": "—", "desc": "Optional bold title above the message" },
     { "name": "size", "type": "regular | small", "default": "regular", "desc": "Compact padding + type scale" },
     { "name": "banner", "type": "boolean", "default": "false", "desc": "Full-width, square-cornered edge-to-edge page notice" },
-    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows a dismiss control (✕ chrome)" },
+    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows the shared <aha-close-button> ✕ on the first line" },
     { "name": "hide-icon", "type": "boolean", "default": "false", "desc": "Suppresses the leading status icon (the showIcon toggle)" },
     { "name": "slot=\"action\"", "type": "slot", "default": "—", "desc": "Trailing action — a button or link" },
     { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the banner is dismissed" }

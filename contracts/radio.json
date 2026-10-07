@@ -1,11 +1,12 @@
 {
   "name": "Radio",
   "slug": "radio",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-radio",
   "summary": "Pick exactly one option from a small mutually-exclusive set, all shown at once.",
+  "highlights": ["Pick exactly one option", "Small mutually exclusive set, all shown at once"],
   "lead": "ONE custom element — <aha-radio> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so both frameworks render byte-identical pixels. Radios sharing a `name` are mutually exclusive; selecting one clears its siblings and emits a composed `change`. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "border-strong", "border-hover", "bg-container", "bg-container-disabled", "border-disabled", "bg-accent", "text-default", "text-secondary", "text-disabled", "font-product", "radius-default"],

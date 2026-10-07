@@ -4,7 +4,8 @@
   "kind": "guideline",
   "group": "Patterns",
   "badge": "pattern — composition guide",
-  "summary": "How a slide type LOOKS on the canvas — the 16:9 stage, theme/colour/fonts from xprops, semantic state colours, WCAG readability from across the room, framed-vs-full-canvas, the presenter control bar, in-canvas keyboard affordances, and i18n — built from existing components.",
+  "summary": "How a slide type LOOKS on the canvas — the 16:9 stage, theme/colour/fonts from xprops, semantic state colours, WCAG readability from across the room, framed-vs-full-canvas, presenter controls (host control bar, or in-canvas <aha-button size=\"xl\"> on the Developer Platform), one accent per deck, borders, motion, in-canvas keyboard affordances, and i18n — built from existing components.",
+  "highlights": ["How a slide type looks on the 16:9 canvas", "Theme, colour and fonts from xprops; semantic state colours; WCAG readability from across the room", "Presenter controls, one accent per deck, borders, motion, keyboard affordances, i18n"],
   "lead": "The canvas is the visual surface a slide type renders into — one iframe shared by the editor preview and the live presenting/casting screen. It drifts fastest because each slide is its own cross-origin bundle that can't see the host theme. This pattern ships NO new component: it documents the CONVENTIONS that make every slide read on light, dark, and image themes, stay legible from the back of a hall, and reuse the host control bar and the component library rather than hand-rolling. The narrative 'why', the worked BAD/GOOD examples, and the full §1–§9 rationale live in the DS `canvas` guide; this artifact carries only what the repo can enforce.",
   "skillRef": {
     "build": "DS guideline — guidelines/canvas.json",
@@ -28,16 +29,21 @@
       "example": "This or That, a custom game board"
     },
     {
-      "surface": "Presenter control bar (NCB, outside the iframe)",
-      "useFor": "slide-specific actions (Next / Summarise / Previous) — declared in the plugin manifest, painted by the host as <aha-antd-button>, never rendered inside the canvas",
+      "surface": "Presenter control bar (NCB, outside the iframe) — built slide plugins",
+      "useFor": "slide-specific actions (Next / Summarise / Previous) on a built slide plugin that declares them in its manifest — painted by the host as <aha-antd-button>, never rendered inside the canvas",
       "example": "Idea board's Previous / Next: vote / Summarise"
+    },
+    {
+      "surface": "In-canvas presenter controls — Developer Platform (build-less HTML slide types)",
+      "useFor": "slide-specific actions on a build-less slide type (presenter.html / audience.html / settings.html loading lib/all.js): the controls render INSIDE the canvas as <aha-button size=\"xl\">, sized by the attribute and coloured through --aha-color-primary",
+      "example": "Team Retro's Previous / Next stage / Reveal row"
     }
   ],
   "composedOf": [
     {
       "ref": "button",
       "as": "component",
-      "use": "any in-canvas control fallback when the plugin-action feature flag is off — reproduce the host's white secondary <aha-antd-button> with your own library Button, never a raw <button>",
+      "use": "in-canvas presenter controls — <aha-button size=\"xl\"> (52px, read from room distance) on the Developer Platform, or the in-canvas fallback of a built plugin when the plugin-action flag is off; never a raw <button> and never resized through ::part(button)",
       "status": "available"
     },
     {
@@ -47,9 +53,45 @@
       "status": "available"
     },
     {
+      "ref": "stepper",
+      "as": "component",
+      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), never hand-rolled .step pills and never the primary accent",
+      "status": "available"
+    },
+    {
+      "ref": "autocomplete-field",
+      "as": "component",
+      "use": "a type-to-pick field (owner, name, tag) — <aha-autocomplete>, never a hand-rolled <input> + <ul> combobox",
+      "status": "available"
+    },
+    {
       "ref": "chart",
       "as": "component",
       "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style follows the mockup's green correct bar)",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-color-primary",
+      "as": "token",
+      "use": "the deck accent: set it from presentationColorPalette[0] on :root (with the --aha-button-primary-* hover / press / text tokens) so the canvas, the audience view and every <aha-button> show the same colour",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-text-default",
+      "as": "token",
+      "use": "the one fixed dark ink (#1A1A1A) wherever the slide needs a dark label — never #1A1A2E (--aha-brand-3 / --aha-indigo-100)",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-border",
+      "as": "token",
+      "use": "the 1px neutral hairline (#E3E3E3) on a bounded white card; chips 1.5px",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-motion-mid",
+      "as": "token",
+      "use": "hover / selected / expanded transitions, paired with --aha-ease-out or --aha-ease-in-out, on persistent nodes",
       "status": "available"
     },
     {
@@ -79,7 +121,7 @@
     {
       "ref": "--aha-borderRadius",
       "as": "token",
-      "use": "the 8px radius cap on rectangular content containers (cards, answer boxes, option tiles, panels) — rounded-lg, never rounded-2xl/3xl",
+      "use": "the radius scale on rectangular content containers — cards and panels 12px (--aha-radius-lg, the DS card), option tiles, inputs and buttons 8px; never above 12px",
       "status": "available"
     },
     {
@@ -137,7 +179,7 @@
       ]
     },
     {
-      "rule": "Use the accent palette for chart/accent marks so the slide feels native to the deck — but NEVER pair two palette entries as fill-and-text; the palette has no guaranteed fill/foreground contrast. When text sits on a coloured fill, derive the ink FROM the fill (isLightColour(fill) ? dark : light) or fill with the item's own accent and contrast against that.",
+      "rule": "Use the accent palette for chart/accent marks so the slide feels native to the deck — but NEVER pair two palette entries as fill-and-text; the palette has no guaranteed fill/foreground contrast. When text sits on a coloured fill, pick only its label ink by contrast against that fill (readable white or #1A1A1A); never recompute the fill itself.",
       "ref": [
         "§2",
         "C1",
@@ -182,11 +224,12 @@
       ]
     },
     {
-      "rule": "Avoid the four 'AI-generated' tells: no pastel/tinted wash under same-hue icon+text (monotone, low-contrast); corner radius ≤ 8px on rectangular content containers (pills/chips/badges/avatars/dots/bar tracks stay fully rounded); display-text weight 400 or 600 only (no 700/800/900); no decorative brand watermark or meaningless chrome — every on-canvas element must carry a real datum.",
+      "rule": "Avoid the four 'AI-generated' tells: no pastel/tinted wash under same-hue icon+text (monotone, low-contrast); rectangular content containers stay on the DS radius scale — cards and panels 12px (--aha-radius-lg, as the DS card measures), option tiles, inputs and buttons 8px, nothing above 12px (pills/chips/badges/avatars/dots/bar tracks stay fully rounded); display-text weight 400 or 600 only (no 700/800/900); no decorative brand watermark or meaningless chrome — every on-canvas element must carry a real datum.",
       "ref": [
         "§2b",
         "C7",
-        "C8"
+        "C8",
+        "C20"
       ]
     },
     {
@@ -197,11 +240,12 @@
       ]
     },
     {
-      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage); add a scrim behind text on busy photos. Go higher when you can.",
+      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage). On a busy photo, protect the text with a scrim BOUNDED to that text (a chip or caption bar behind the line), never a slide-wide panel on a framed slide. Go higher when you can.",
       "ref": [
         "§3",
         "C10",
-        "C11"
+        "C11",
+        "C18"
       ]
     },
     {
@@ -248,10 +292,11 @@
       ]
     },
     {
-      "rule": "Borders are ornament — never derive them directly from textColour. Use a subtle theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); fix a marginal contrast check at the bar or scrim, not with a darker border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
+      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); a dashed empty state is 1px. Fix a marginal contrast check at the bar or a bounded scrim, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
       "ref": [
         "§3",
-        "C10"
+        "C10",
+        "C20"
       ]
     },
     {
@@ -291,10 +336,19 @@
       ]
     },
     {
-      "rule": "Slide-specific actions (Next / Summarise / Previous) are DECLARED in the plugin manifest and painted by the host in the presenter control bar (NCB) as <aha-antd-button> — never rendered inside the canvas. You don't pick the button component, size, or styling; declare the action data, the host does the rest. This is for consistency (theming, shortcut chips, sound), not audience visibility.",
+      "rule": "On a BUILT slide plugin (manifest actions, host control bar available), slide-specific actions (Next / Summarise / Previous) are DECLARED in the plugin manifest and painted by the host in the presenter control bar (NCB) as <aha-antd-button> — never rendered inside the canvas. You don't pick the button component, size, or styling; declare the action data, the host does the rest. This is for consistency (theming, shortcut chips, sound), not audience visibility. A build-less Developer Platform slide type has no manifest actions — see the in-canvas controls rule.",
       "ref": [
         "§5",
         "C3"
+      ]
+    },
+    {
+      "rule": "On the Developer Platform (build-less HTML slide types — presenter.html / audience.html / settings.html loading lib/all.js) presenter controls render INSIDE the canvas: a row of <aha-button size=\"xl\"> (52px, the web-component twin of React <XLButtonScope>) so the room can read them. Size only through the size attribute — never ::part(button) height / padding / font-size overrides or inline sizing; colour only through --aha-color-primary (one primary per row, per-round steppers secondary). The host-control-bar rule applies only to built plugins that declare manifest actions.",
+      "ref": [
+        "§5",
+        "C3",
+        "C4",
+        "C17"
       ]
     },
     {
@@ -367,6 +421,43 @@
         "§4",
         "§8"
       ]
+    },
+    {
+      "rule": "One accent per deck: map presentationColorPalette[0] onto --aha-color-primary on the iframe's :root (document.documentElement), together with --aha-button-primary-bg-hover / -bg-press (a mix of the accent toward the ink) and --aha-button-primary-text — the --aha-button-* layer resolves at :root, so a value set on a descendant never reaches the buttons. The canvas, the audience view and every button then show the SAME accent; only the label ink is picked by contrast. Never re-derive, darken in steps, or 'toward-ink' the accent per surface, and never reuse a semantic colour (success teal, error red) as a data or series colour.",
+      "ref": [
+        "§2",
+        "C1",
+        "C19"
+      ]
+    },
+    {
+      "rule": "A FRAMED slide over a photo background (slide.backgroundImage set) keeps the deck showing: no slide-wide scrim, panel or backdrop behind the whole answer area. Only bounded surfaces — cards, chips, a caption bar behind one line of text — may be opaque.",
+      "ref": [
+        "§4",
+        "C3",
+        "C18"
+      ]
+    },
+    {
+      "rule": "One fixed dark ink on every surface: --aha-text-default #1A1A1A (the canonical body colour). Never #1A1A2E (--aha-brand-3 / --aha-indigo-100) as text ink, and never a second near-black (#000, #111) beside it.",
+      "ref": [
+        "§2",
+        "C21"
+      ]
+    },
+    {
+      "rule": "Every interactive state on the canvas (hover, selected, expanded, revealed) animates with --aha-motion-* durations and --aha-ease-* curves on a PERSISTENT node — patch the DOM (toggle a class or attribute, update text) instead of rebuilding with innerHTML on each update, which kills the transition. Respect prefers-reduced-motion.",
+      "ref": [
+        "§3",
+        "C22"
+      ]
+    },
+    {
+      "rule": "A stage indicator is <aha-stepper> and a type-to-pick field is <aha-autocomplete> (both in lib/all.js); a sentiment glyph is the matching face (system-smiley / system-sad-face / system-angry-face). Never hand-roll stepper pills or a combobox, and never mark the current stage with the primary accent — the stepper marks it with ink so the accent stays on the one action that advances the flow.",
+      "ref": [
+        "C16",
+        "C23"
+      ]
     }
   ],
   "reuse": null,
@@ -389,13 +480,18 @@
       "verdict": "N/A — per-slide"
     },
     {
-      "label": "actions declared in the manifest (boolean disabled/loading, ≤1 primary, solid white secondaries); in-canvas controls from the library with keyboard affordances",
+      "label": "presenter controls: manifest actions on a built plugin (boolean disabled/loading, ≤1 primary, solid white secondaries); on the Developer Platform an in-canvas <aha-button size=\"xl\"> row, no ::part sizing",
       "verdict": "N/A — per-slide"
     },
     {
       "label": "plugin i18n locale initialised from xprops.presentation.language; right panel handed off to the `settings` guide",
       "verdict": "N/A — per-slide"
+    },
+    {
+      "label": "one accent (palette[0] → --aha-color-primary on :root), one dark ink #1A1A1A, 1px hairline borders with 12px cards, no slide-wide scrim on a framed photo deck, motion tokens on persistent nodes",
+      "verdict": "N/A — per-slide"
     }
   ],
-  "guide": "canvas.guide.md"
+  "guide": "canvas.guide.md",
+  "whenToRead": "ANY presenter canvas of a slide type (the stage the room reads). Holds the one-accent rule (palette[0] → --aha-color-primary on :root), in-canvas presenter controls as <aha-button size=\"xl\"> (never ::part overrides), no slide-wide scrim on a framed photo deck, one dark ink #1A1A1A, 1px hairline borders with 12px card radius, and motion tokens on persistent nodes. Stage indicators are <aha-stepper> and type-to-pick fields <aha-autocomplete>, never hand-rolled."
 }

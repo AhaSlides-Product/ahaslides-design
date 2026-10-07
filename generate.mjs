@@ -31,6 +31,8 @@ const ADIR = join(root, 'audience');     // audience component library — the m
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
+const HEADER_SPLASH = read(join(root, 'logo', 'thesplash.svg')).trim()
+  .replace(/<svg\s+width="\d+"\s+height="\d+"/, '<svg class="logo" aria-hidden="true"');
 // Single source for the paste-and-run CDN ref. Snippets author `@__REF__`; we inject it here so
 // the pin lives in ONE place. Default `master` = live-on-merge (pages.yml redeploys docs on merge,
 // and jsDelivr /gh/@master serves the current element/theme code) — no stale-tag freeze. Override
@@ -134,6 +136,7 @@ const AHA_ICON_JS = `(function(){
 const COMPONENTS_CATALOG = [
   { cat: 'General', items: [
     { name: 'Button',       slug: 'button' },
+    { name: 'Close button', slug: 'close-button' },
     { name: 'Icon',         slug: 'icon' },
     { name: 'Illustration', slug: 'illustration' },
   ] },
@@ -149,8 +152,9 @@ const COMPONENTS_CATALOG = [
     { name: 'Menu',       slug: 'menu' },
     { name: 'Pagination', slug: 'pagination' },
     { name: 'Steps',      slug: 'steps' },
+    { name: 'Stepper',    slug: 'stepper' },
   ] },
-  { cat: 'Data Entry', items: [
+  { cat: 'Data entry', items: [
     { name: 'Checkbox',     slug: 'checkbox' },
     { name: 'Radio',        slug: 'radio' },
     { name: 'Switch',       slug: 'switch' },
@@ -160,6 +164,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Select',       slug: 'select' },
     { name: 'Select field', slug: 'select-field' },
     { name: 'Autocomplete', slug: 'autocomplete' },
+    { name: 'Autocomplete field', slug: 'autocomplete-field' },
     { name: 'Date picker',  slug: 'datepicker' },
     { name: 'Time picker',  slug: 'time-picker' },
     { name: 'Slider',       slug: 'slider' },
@@ -168,7 +173,7 @@ const COMPONENTS_CATALOG = [
     { name: 'Upload',       slug: 'uploader' },
     { name: 'Form',         slug: 'form' },
   ] },
-  { cat: 'Data Display', items: [
+  { cat: 'Data display', items: [
     { name: 'Avatar',       slug: 'avatar' },
     { name: 'User info',    slug: 'user-info' },
     { name: 'Badge',        slug: 'badge' },
@@ -212,6 +217,7 @@ const PATTERNS_CATALOG = [
     { name: 'CSAT',           slug: 'csat' },
     { name: 'Screen heading', slug: 'screen-heading' },
     { name: 'Loader',         slug: 'aha-loader' },
+    { name: 'Background task', slug: 'background-task' },
   ] },
 ];
 const PATTERN_SLUGS = new Set(PATTERNS_CATALOG.flatMap(g => g.items.map(i => i.slug)));
@@ -398,7 +404,7 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 .nav-top:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-top.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
 .nav-group{margin:16px 0 8px}
-.nav-cat{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--aha-text-tertiary);font-weight:600;padding:6px 12px}
+.nav-cat{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);padding:6px 12px}
 .nav-item{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:7px 12px;border-radius:8px;line-height:20px;margin:1px 0}
 a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
 .nav-item.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
@@ -421,7 +427,10 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 @media (prefers-reduced-motion:reduce){.doc-main.pjax-in{animation:none}.pjax-bar{transition:opacity var(--aha-motion-fast) linear}}
 
 /* ---- detail page ---- */
-.crumbs{font-size:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--aha-text-tertiary);margin:0 0 8px}
+.highlights{margin:0 0 14px;padding:0;list-style:none;max-width:72ch;display:grid;gap:4px}
+.highlights li{position:relative;margin:0;padding-left:18px;color:var(--aha-text-secondary);font-size:16px;line-height:25px}
+.highlights li::before{content:"";position:absolute;left:3px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--aha-color-primary)}
+.highlights li code{font-size:.9em}
 .doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
@@ -441,15 +450,15 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .code-panel.feed pre{max-height:70vh}
 
 /* ---- demo card (stage + code-toggle footer, AntD-style) ---- */
-.demo{border:1px solid var(--aha-split);border-radius:12px;overflow:hidden;margin:0 0 12px;background:#fff}
+.demo{margin:0 0 12px;background:#fff}
 .demo-stage{padding:0}
-.demo-toolbar{display:flex;justify-content:flex-end;padding:9px 14px;border-top:1px dashed var(--aha-split)}
-.demo .code-panel{margin-top:0;border-radius:0}
+.demo-toolbar{display:flex;justify-content:flex-end;padding:9px 0}
+.demo .code-panel{margin-top:0;border-radius:8px}
 
 /* ---- interactive playground (the "smart widget": explore variants, don't stack them) ---- */
-.aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;border-bottom:1px dashed var(--aha-split);background:var(--aha-gray-20)}
+.aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;margin-bottom:12px;border-radius:8px;background:var(--aha-gray-20)}
 .aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.aha-pg-label{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-tertiary);min-width:62px}
+.aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
 .aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
 .aha-pg-opt:hover:not(.active){color:#5715A0}
@@ -457,19 +466,20 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 
 /* ---- utilities used by preview parts ---- */
 .tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
-.lbl{font-size:11px;letter-spacing:.3px;text-transform:uppercase;color:var(--aha-text-tertiary);margin:0 0 8px}
+.lbl{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 var(--aha-space-8)}
+.lbl~.lbl{margin-top:var(--aha-space-24);padding-top:var(--aha-space-20);border-top:1px solid var(--aha-border)}
 .row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .stack{display:flex;flex-direction:column;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr}
-.grid2>div{padding:22px 20px}.grid2>div:first-child{border-right:1px solid var(--aha-split)}
+.grid2>div{padding:22px 20px}
 .note{background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
-.pad{padding:22px 20px}
+.pad{padding:12px 0}
 code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:#5715A0}
 .api-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px}
 table.api{width:100%;min-width:420px;border-collapse:collapse;font-size:13px;border:1px solid var(--aha-split);border-radius:8px;overflow:hidden}
 table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--aha-split);vertical-align:top}
 table.api tr:last-child td{border-bottom:none}
-table.api th{color:var(--aha-text-tertiary);font-weight:600;font-size:11px;letter-spacing:.3px;text-transform:uppercase;background:var(--aha-gray-20)}
+table.api th{color:var(--aha-text-secondary);font-weight:var(--aha-weight-semibold);font-size:13px;background:var(--aha-gray-20)}
 ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:#D3F5EC;color:#0E7C63;margin:2px 4px 2px 0}
 .pill.na{background:var(--aha-gray-20);color:var(--aha-text-tertiary)}
@@ -919,6 +929,7 @@ function sidebarNav(base, active, section) {
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
+      `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -986,7 +997,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <link rel="alternate" type="text/markdown" title="CHANGELOG.md — version history" href="${SITE}/CHANGELOG.md"/>
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style></head><body>
 <header class="doc-header">
-  <a class="brand" href="${base}index.html"><svg class="logo" viewBox="0 0 802 788" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M170.733 275.998C278.798 265.243 378.859 323.322 335.099 444.05C314.506 506.19 275.855 581.827 243.31 638.991C215.75 687.389 176.897 762.933 120.57 779.886C47.4014 801.893 13.3568 737.231 38.653 673.946C50.1622 645.147 76.3125 617.797 98.9558 596.777C156.207 543.64 209.364 500.767 267.058 447.815C322.558 396.876 304.327 320.548 218.229 348.597C177.136 361.996 147.118 395.204 100.29 386.241C77.245 381.831 59.1047 363.439 62.4007 338.917C68.3362 294.758 133.204 278.683 170.733 275.998Z" fill="#FF4081"/><path d="M450.382 386.525C486.54 382.591 528.879 404.694 561.903 419.06C613.821 441.642 719.681 495.692 751.619 545.435C773.16 578.987 758.736 620.992 723.868 629.865C680.288 637.375 652.573 611.747 625.142 583.886C583.067 541.158 542.425 487.894 502.946 446.124C459.708 404.54 411.899 421.557 428.008 479.843C437.434 513.92 476.519 553.502 451.17 590.608C432.96 617.264 400.896 603.783 387.05 579.1C355.646 523.118 368.986 393.785 450.369 386.525H450.382Z" fill="#6A1EBB"/><path d="M395.401 274.91C359.243 278.844 311.02 252.439 277.995 238.073C226.078 215.492 127.572 164.107 98.4196 118.689C76.8782 85.137 82.5894 39.0804 126.17 31.5704C169.75 24.0603 197.412 51.5244 223.829 78.3561C263.853 119.008 305.44 175.986 347.904 218.444C381.523 254.744 436.591 242.313 420.482 184.027C411.056 149.95 369.615 104.535 398.068 68.6762C418.857 42.4809 447.41 59.2659 459.706 83.1959C490.656 143.426 480.25 265.499 395.414 274.91L395.401 274.91Z" fill="#6A1EBB"/><path d="M513.867 313.624C513.866 313.622 513.869 313.62 513.87 313.622C537.558 338.301 582.265 297.03 606.997 294.547C624.974 292.744 647.013 299.901 646.488 321.974C646.488 358.004 581.094 363.359 554.43 360.693C502.932 355.544 465.718 321.759 484.522 264.702C500.282 216.871 551.389 106.373 589.653 75.139C630.502 41.788 679.136 67.0343 663.298 119.505C651.501 158.567 571.718 215.383 539.267 245.611C522.147 261.559 494.137 291.042 513.863 313.626C513.865 313.628 513.868 313.626 513.867 313.624Z" fill="#FF4081"/></svg><span>AhaSlides Design</span></a>
+  <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
   ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="18" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
@@ -1002,12 +1013,33 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 </body></html>`;
 }
 
+function headline(highlights, fallbackHtml) {
+  return highlights?.length
+    ? `<ul class="highlights">${highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>`
+    : `<p class="subtitle">${fallbackHtml}</p>`;
+}
+
+const FEED_HIGHLIGHTS = {
+  'design.md': ['Visual language and token spec in one file', 'The feed AI design and code tools read'],
+  'llms.txt': ['Index feed with one entry per component', 'An agent’s entry point to the system'],
+  'llms-full.txt': ['Every component doc concatenated', 'The full-context feed'],
+  'CHANGELOG.md': ['Version history, one entry per merge', 'The top version matches the package'],
+  'variables.css': ['The --aha-* token layer as CSS custom properties', 'Generated from tokens.canonical.json'],
+  'icons.llms.txt': ['Every icon name, grouped by family', 'Read it to call <aha-icon name="…"> instead of writing an SVG'],
+  'icons.agent.json': ['Full icon catalogue: names, family, recolorable', 'Plus the <aha-icon> usage contract'],
+  'guidelines.llms.txt': ['One entry per composition pattern', 'What it reuses, rule count and component backlog'],
+  'guidelines.agent.json': ['Every pattern with its composedOf reuse graph', 'Rules, each tied to a skill assertion', 'Whether the pattern ships code'],
+  'marketing.llms.txt': ['One entry per marketing section', 'Paste-and-run and token-bound, for the marketing sites'],
+  'marketing.agent.json': ['Every marketing section with its summary', 'Paste-and-run html and css, and how to consume it'],
+  'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
+  'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
+};
+
 // Agent-feed page: the raw file content shown in a code wrapper (with copy), inside the shell.
 function renderFeedPage(f, content) {
   const main = `
-  <p class="crumbs">Agent feeds · raw</p>
   <h1>${esc(f.name)} <span class="badge raw">raw feed</span></h1>
-  <p class="subtitle">${esc(f.desc)}</p>
+  ${headline(FEED_HIGHLIGHTS[f.file], esc(f.desc))}
   <p class="gen">◆ generated — the exact file served to agents at <code>/${esc(f.file)}</code> · do not edit by hand</p>
   <div class="code-panel feed">
     <div class="code-head"><div class="tabs"><span class="tab active">${esc(f.file)}</span></div><button class="copy" type="button">Copy</button></div>
@@ -1062,9 +1094,8 @@ function renderChartsPage(c) {
     { cat: null, links: sections.filter(x => !x.children).map(x => ({ id: x.id, title: x.title })) },
   ];
   const main = `
-  <p class="crumbs">Charts</p>
   <h1>${esc(c.name)}</h1>
-  <p class="subtitle">${esc(c.summary)}</p>
+  ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   <div class="hub-layout">
     ${hubAnchorAside(fallbackGroups)}
@@ -1080,11 +1111,9 @@ function renderHtml(c) {
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
   const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
-  const crumbArea = isSettings ? 'Settings' : isPattern ? 'Patterns' : 'Components';
   const main = `
-  <p class="crumbs">${crumbArea} · ${esc(c.group)}</p>
   <h1>${esc(c.name)}</h1>
-  <p class="subtitle">${esc(c.summary)}</p>
+  ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
@@ -1381,7 +1410,6 @@ function renderAudienceLibrary() {
   const fallbackGroups = [{ cat: 'Audience components', links: navSecs.map(s => ({ id: s.name, title: s.name })) }];
   const cards = AUDIENCE.sections.map(renderAudienceCard).join('\n');
   const main = `<div class="audience-lib">
-    <p class="crumbs">Audience Library</p>
     <header class="al-head">
       <h1>${esc(AUDIENCE.title)}</h1>
       <p class="rule">${audMd(AUDIENCE.rule)}</p>
@@ -1403,9 +1431,8 @@ function renderAudienceLibrary() {
 
 function renderMarketingHtml(b) {
   const main = `
-  <p class="crumbs">Patterns · ${MARKETING_CAT}</p>
   <h1>${esc(b.name)}</h1>
-  <p class="subtitle">${esc(b.summary)}</p>
+  ${headline(b.highlights, esc(b.summary))}
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Preview</h2>
@@ -1479,9 +1506,8 @@ function renderGuidelineHtml(p) {
   const antiSlop = ANTISLOP?.surfaces?.[p.slug];
   const guide = p.guide ? part(p.guide) : '';
   const main = `
-  <p class="crumbs">Patterns · composition guide</p>
   <h1>${esc(p.name)} <span class="badge pattern">pattern</span></h1>
-  <p class="subtitle">${esc(p.summary)}</p>
+  ${headline(p.highlights, esc(p.summary))}
   <p class="gen">◆ generated from guidelines/${p.slug}.json${p.guide ? ` + parts/${esc(p.guide)}` : ''} — do not edit by hand</p>
 
   ${p.hub ? `<p class="hub-back">See the standalone <a href="../../${esc(p.hub)}/index.html">Settings page</a> — the whole settings surface (this pattern, the settings-list component, and every control) inline on one page.</p>` : ''}
@@ -1491,9 +1517,9 @@ function renderGuidelineHtml(p) {
   <h2>Based on</h2>
   <p class="body">The rationale, worked examples, and the full assertion set live in the design skill — this pattern distils the enforceable subset and links each rule back to it.</p>
   <div class="skillrefs">
-    ${skill.build ? `<span class="skillref"><b>build</b> <code>${esc(skill.build)}</code></span>` : ''}
-    ${skill.judge ? `<span class="skillref"><b>judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
-    ${antiSlop ? `<span class="skillref"><b>anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
+    ${skill.build ? `<span class="skillref"><b>Build</b> <code>${esc(skill.build)}</code></span>` : ''}
+    ${skill.judge ? `<span class="skillref"><b>Judge</b> <code>${esc(skill.judge)}</code></span>` : ''}
+    ${antiSlop ? `<span class="skillref"><b>Anti-slop</b> <a href="../../feeds/anti-slop-md.html">${antiSlop.criteria.length} binary criteria · surface <code>${esc(p.slug)}</code></a></span>` : ''}
   </div>
 
   ${p.surfaceChoice ? `<h2>Choose the surface</h2>${surfaceChoiceTable(p.surfaceChoice)}` : ''}
@@ -1515,7 +1541,7 @@ function renderGuidelineHtml(p) {
   .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
   .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
   .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
-  .skillref b{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);margin-right:6px}
+  .skillref b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default);margin-right:6px}
   .pill.warn{background:#FFF0EB;color:#B24A20}
   .note.warn{background:#FFF5F0;border-color:#FFCBB0;color:#8A3B18}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
@@ -1625,16 +1651,15 @@ const HUB_ANCHOR_CSS = `
   .hub-layout{display:grid;grid-template-columns:236px minmax(0,1fr);gap:32px;align-items:start;margin-top:26px}
   .hub-body{min-width:0}
   .hub-anchor{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow:auto;padding-right:4px}
-  .hub-anchor-h{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);font-weight:600;margin:0 0 10px;padding-left:2px}
+  .hub-anchor-h{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 10px;padding-left:2px}
   .hub-anchor .ant-anchor-link-title{font-size:13px;color:var(--aha-text-secondary)}
   .hub-anchor .ant-anchor-link-title-active{color:var(--aha-color-primary);font-weight:600}
-  /* A top-level link that CONTAINS nested links is a group header (Settings' Composition/Controls) —
-     render it as a small-caps label. A flat list of leaf links (the Audience page) has no parents, so
-     every item stays the normal 13px link — not uppercased like a header. */
-  .hub-anchor .ant-anchor>.ant-anchor-link:has(.ant-anchor-link)>.ant-anchor-link-title{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary)}
+  /* A top-level link that CONTAINS nested links is a group header (Settings' Composition/Controls);
+     a flat list of leaf links (the Audience page) has no parents, so every item stays a plain link. */
+  .hub-anchor .ant-anchor>.ant-anchor-link:has(.ant-anchor-link)>.ant-anchor-link-title{font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary)}
   .sa-fallback{display:flex;flex-direction:column}
   .sa-fb-group{margin-bottom:14px}
-  .sa-fb-cat{text-transform:uppercase;letter-spacing:.4px;font-size:11px;font-weight:600;color:var(--aha-text-tertiary);margin:0 0 6px}
+  .sa-fb-cat{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 6px}
   .sa-fallback a{display:block;font-size:13px;color:var(--aha-text-secondary);text-decoration:none;padding:3px 0 3px 12px;border-left:2px solid var(--aha-split)}
   .sa-fallback a:hover{color:var(--aha-color-primary);border-left-color:var(--aha-color-primary)}
   @media (max-width:900px){
@@ -1722,9 +1747,8 @@ function renderSettingsHub() {
 
   const main = `
   <span id="top"></span>
-  <p class="crumbs">Settings</p>
-  <h1>Settings <span class="badge pattern">one page · one URL · everything inline</span></h1>
-  <p class="subtitle">Every settings component on a single self-contained page under one URL — the composition pieces and every control, inline. Switching between components scrolls within this page (antd <code>Anchor</code>); it never loads another page or changes the URL. An agent reads only this page and has it all.</p>
+  <h1>Settings <span class="badge pattern">pattern</span></h1>
+  ${headline(['Every settings component on one self-contained page, one URL', 'Composition pieces and every control, inline', 'Switching components scrolls the page (antd Anchor) and never changes the URL', 'An agent reads this page and has it all'])}
   <p class="gen">◆ generated from guidelines/settings.json + the settings-list &amp; control contracts — do not edit by hand</p>
 
   ${guide && guide.lead ? `<div class="note" style="margin:0 0 16px">${mdInline(guide.lead)}</div>` : ''}
@@ -1744,7 +1768,7 @@ function renderSettingsHub() {
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
 ${HUB_ANCHOR_CSS}
   .hub-body>h2{scroll-margin-top:84px}
-  .grp-h{margin:36px 0 4px;text-transform:uppercase;letter-spacing:.4px;font-size:13px;color:var(--aha-text-tertiary);border-bottom:1px solid var(--aha-split);padding-bottom:8px;scroll-margin-top:84px}
+  .grp-h{margin:36px 0 4px;border-bottom:1px solid var(--aha-split);padding-bottom:8px;scroll-margin-top:84px}
   .ctrl{padding:16px 0;border-top:1px solid var(--aha-split);scroll-margin-top:84px}
   .ctrl h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:16px;margin:0 0 6px}
   .ctrl h4{font-size:13px;margin:16px 0 6px;color:var(--aha-text-secondary)}
@@ -1885,7 +1909,7 @@ function renderTokenPage(pageSlug) {
   const gen = `<p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>`;
   const BODY = {
     colour: {
-      title: 'Colour', lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
+      title: 'Colour', highlights: ["Primitive ramps plus semantic tokens that alias into them", "Never hardcode a ramp value", "Bind to a semantic --aha-* token"], lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
       body: `
   <h2>Primitive ramps</h2>
   <p class="body">The raw colour scales (10&rarr;100). Semantic tokens below alias into these — never hardcode a ramp value in a component.</p>
@@ -1904,25 +1928,25 @@ function renderTokenPage(pageSlug) {
     .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}`,
     },
     typography: {
-      title: 'Typography', lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
+      title: 'Typography', highlights: ["Product face Plus Jakarta Sans, self-hosted", "Weights 400 and 600 only", "No Inter"], lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
       body: `
   <p class="body">Line-height ratios: tight 1.2 · heading 1.3 · body 1.5. Letter-spacing: headlines 0 · body 0.2px · subtext 0.3px.</p>
   ${docTable('<th>Role</th><th>Size</th>', typeRows)}`,
     },
     spacing: {
-      title: 'Spacing', lead: 'A single 4-based spacing scale — hierarchy and separation come from these tokens, never ad-hoc px.',
+      title: 'Spacing', highlights: ["One 4-based spacing scale", "Hierarchy and separation come from these tokens", "Never ad-hoc px"], lead: 'A single 4-based spacing scale — hierarchy and separation come from these tokens, never ad-hoc px.',
       body: `
   <div class="scale-row" style="align-items:flex-end">${spaceBars}</div>
   <p class="body">4-based scale (px): ${TOK.space.join(' · ')}.</p>`,
     },
     radius: {
-      title: 'Radius', lead: 'The corner-radius scale. Anything off <code>4 · 6 · 8 · 12 · 16</code> is drift.',
+      title: 'Radius', highlights: ["The corner-radius scale: 4, 6, 8, 12, 16", "Anything off the scale is drift"], lead: 'The corner-radius scale. Anything off <code>4 · 6 · 8 · 12 · 16</code> is drift.',
       body: `
   <div class="scale-row">${radChips}</div>
   <p class="body">Pill <code>${r.pill}px</code> for capsules; <code>${r.marketing}px</code> reserved for marketing surfaces. Anything off the 4·6·8·12·16 scale is drift.</p>`,
     },
     sizing: {
-      title: 'Sizing', lead: 'Control heights — the root field height and the Button size ramp — plus the app-content max-width.',
+      title: 'Sizing', highlights: ["Control heights: root field height and the Button size ramp", "Plus the app-content max-width"], lead: 'Control heights — the root field height and the Button size ramp — plus the app-content max-width.',
       body: `
   ${docTable('<th>Control</th><th>Height</th>', chRows)}
   <p class="body">Fields share the root height; Button steps sm / md / lg / xl. Set size via the <code>size</code> prop — never inline a height.</p>
@@ -1932,13 +1956,12 @@ function renderTokenPage(pageSlug) {
   };
   const pg = BODY[pageSlug];
   const main = `
-  <p class="crumbs">Foundations · design tokens</p>
   <h1>${esc(pg.title)}</h1>
-  <p class="subtitle">${pg.lead}</p>
+  ${headline(pg.highlights, pg.lead)}
   ${gen}
   ${pg.body}`;
   const extraCss = `
-  .tok-h3{font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);margin:18px 0 8px;font-weight:600}
+  .tok-h3{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:18px 0 8px}
   .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-bottom:8px}
   .sw{border:1px solid var(--aha-split);border-radius:10px;overflow:hidden}
   .sw .chip{height:54px}
@@ -2076,9 +2099,8 @@ function renderIndex(cs) {
       <div class="cf">${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt</div></a>`).join('');
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
   const main = `
-  <p class="crumbs">AhaSlides Design System · for agents</p>
   <h1>Components</h1>
-  <p class="subtitle">One token source + one contract per component &rarr; this site, the <code>llms.txt</code> feeds, <code>design.md</code>, and per-component <code>agent.json</code> — all generated together, so they can't drift.</p>
+  ${headline(['One token source and one contract per component', 'Generates this site, the llms.txt feeds, design.md and each agent.json together', 'Generated together, so they cannot drift'])}
   <p class="gen">◆ generated by generate.mjs — ${cs.length} live of ${planned} planned components</p>
 
   ${consumeBlock()}
@@ -2152,9 +2174,8 @@ function renderIconGallery() {
   const chips = ['all', ...ICONS.families].map((f, i) =>
     `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
   const main = `
-  <p class="crumbs">Foundations · icon library</p>
   <h1>Icon library</h1>
-  <p class="subtitle">The complete set imported from Figma Design System V3 — <b>${ICONS.count}</b> glyphs across ${ICONS.families.length} families. Call any of them by name with <code>&lt;aha-icon name="…"&gt;</code>; never inline an SVG. Click a glyph to copy its name.</p>
+  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name'])}
   <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
 
   <div class="gal-bar">
@@ -2183,6 +2204,119 @@ function renderIconGallery() {
   .ic.copied{border-color:var(--aha-color-success);color:var(--aha-color-success)}
   .ic.copied .icn{color:var(--aha-color-success)}`;
   return docShell({ base: '../', active: '__icons__', section: 'foundations', main, extraCss });
+}
+/* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
+const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
+const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
+const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
+const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white']);
+const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
+const LOGO_GALLERY_JS = `
+(function(){
+  var root=document.getElementById('logo-gallery'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count');
+  var tabs=[].slice.call(root.querySelectorAll('[role=tab]')),panels=[].slice.call(root.querySelectorAll('[role=tabpanel]'));
+  function active(){return panels.filter(function(p){return !p.hidden})[0];}
+  function apply(){
+    var t=q.value.trim().toLowerCase();
+    panels.forEach(function(p){
+      var cells=[].slice.call(p.querySelectorAll('.lg')),n=0;
+      cells.forEach(function(c){var ok=!t||c.dataset.name.indexOf(t)>-1||c.dataset.label.indexOf(t)>-1;c.hidden=!ok;if(ok)n++;});
+      [].slice.call(p.querySelectorAll('.lg-sec')).forEach(function(s){s.hidden=!s.querySelector('.lg:not([hidden])');});
+      p.dataset.shown=n;p.dataset.total=cells.length;
+    });
+    var p=active();count.textContent=p.dataset.shown+' of '+p.dataset.total;
+  }
+  function select(tab){
+    tabs.forEach(function(x){var on=x===tab;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
+    apply();
+  }
+  tabs.forEach(function(tab,i){
+    tab.addEventListener('click',function(){select(tab);});
+    tab.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d)return;
+      var next=tabs[(i+d+tabs.length)%tabs.length];select(next);next.focus();e.preventDefault();
+    });
+  });
+  q.addEventListener('input',apply);
+  root.addEventListener('click',function(e){
+    var c=e.target.closest('.lg'); if(!c||e.target.closest('a'))return;
+    if(c.classList.contains('copied'))return;
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(c.dataset.name);
+    var l=c.querySelector('.lgn'),was=l.textContent; c.classList.add('copied'); l.textContent='copied!';
+    setTimeout(function(){c.classList.remove('copied');l.textContent=was;},900);
+  });
+  root.addEventListener('keydown',function(e){
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    var c=e.target.closest('.lg'); if(!c||e.target!==c)return;
+    e.preventDefault();c.click();
+  });
+  apply();
+})();
+`;
+function renderLogoPage() {
+  const cell = l =>
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file)}</span><span class="lg-arrow">&darr;</span></a></div>`;
+  const sections = list => {
+    const names = [...new Set(list.map(l => l.section))];
+    return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
+  };
+  const main = `
+  <h1>Logo library</h1>
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official full-colour SVG from theSVG; never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
+
+  <div id="logo-gallery">
+    <div class="gal-bar">
+      <div class="logo-tabs" role="tablist" aria-label="Logo groups">
+        <button class="logo-tab" id="tab-aha" role="tab" type="button" aria-selected="true" aria-controls="panel-aha">AhaSlides <b>${LOGO_AHA.length}</b></button>
+        <button class="logo-tab" id="tab-brands" role="tab" type="button" aria-selected="false" aria-controls="panel-brands" tabindex="-1">Brands <b>${LOGO_BRANDS.length}</b></button>
+      </div>
+      <input id="logo-search" type="search" placeholder="Search logos by name…" aria-label="Search logos" autocomplete="off" spellcheck="false" />
+      <span id="logo-count" class="gal-count" aria-live="polite"></span>
+    </div>
+    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div>
+    <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
+  </div>
+
+  <h3 class="tok-h3">AhaSlides logo rules</h3>
+  <p class="body">The logo is The Splash plus the wordmark. Use the full-colour file on white, the white file on Radical Pink, Radical Purple or Deep Space Blue, and the black file for one-colour use on light surfaces. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <h3 class="tok-h3">Don&rsquo;t</h3>
+  <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+  <h3 class="tok-h3">Third-party marks</h3>
+  <p class="body">Brand logos belong to their owners and stay unaltered. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page and record the source in <code>logo/manifest.json</code>.</p>
+
+  <script>${LOGO_GALLERY_JS}</script>`;
+  const extraCss = `
+  .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0 0;z-index:5;border-bottom:1px solid var(--aha-split)}
+  .logo-tabs{display:flex;gap:4px;margin-bottom:-1px}
+  .logo-tab{font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-bottom:2px solid transparent;padding:8px 14px 10px;cursor:pointer}
+  .logo-tab b{opacity:.6;font-weight:600;margin-left:4px}
+  .logo-tab[aria-selected="true"]{color:#5715A0;border-bottom-color:var(--aha-color-primary)}
+  .logo-tab:hover{color:#5715A0}
+  .logo-tab:focus-visible,.lg:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
+  #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
+  #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
+  .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
+  .lg-panel[hidden],.lg-sec[hidden]{display:none}
+  .lg-sec-h{margin:20px 0 10px}
+  .lg-sec:first-child .lg-sec-h{margin-top:4px}
+  .lg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 10px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;font-family:var(--aha-font-product)}
+  .lg[hidden]{display:none}
+  .lg:hover{border-color:var(--aha-purple-30);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .lg-stage{display:flex;align-items:center;justify-content:center;width:100%;height:104px;border-radius:6px;background:var(--aha-gray-10,#FAFAFA)}
+  .lg-stage.lg-dark{background:var(--aha-color-primary)}
+  .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
+  .lg-stage img.lg-lockup{width:100%;max-width:156px;height:60px}
+  .lg .lgn{font-size:13px;line-height:1.3;color:var(--aha-text-default);text-align:center}
+  .lg-dl{font-size:11px;color:var(--aha-text-tertiary);text-decoration:none;max-width:100%;display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+  .lg-file{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .lg-arrow{flex:none}
+  .lg-dl:hover{color:var(--aha-text-link)}
+  .lg.copied{border-color:var(--aha-color-success)}
+  .lg.copied .lgn{color:var(--aha-color-success)}
+  .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}`;
+  return docShell({ base: '../', active: '__logo__', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
   const byFam = {};
@@ -2304,6 +2438,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    Without this the woff2 404s on GitHub Pages and every page — including the shadow-DOM
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
+cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
@@ -2311,6 +2446,7 @@ writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
+writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
 
 /* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
@@ -2334,6 +2470,8 @@ const indexLines = [
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@master/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
   '>',
+  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile.`,
+  '>',
   '> ⚑ Before you build: this is the OFFICIAL AhaSlides anti-slop tool. Read anti-slop.md and',
   `>   run the binary judge for your surface — build → self-judge (PASS/FAIL each) → fix → repeat.`,
   `>   ${SITE}/anti-slop.md         the anti-slop loop + per-surface rules (read FIRST)`,
@@ -2345,8 +2483,19 @@ const indexLines = [
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
+  `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
+  '>',
+  '> Claude Code agents: install the DS agent plugin (skill aha-design + hooks, versioned with each release):',
+  '>   /plugin marketplace add AhaSlides-Product/ahaslides-design',
+  '>   /plugin install ahaslides-design@ahaslides-design',
+  '>   (settings.json: enabledPlugins + extraKnownMarketplaces — see the repo README, "Agent plugin")',
+  '>',
+  '> Lint a screen from code (pure, no fs/process; Node and Cloudflare workerd):',
+  `>   import { lintHtml } from '@ahaslides-product/design/screen-lint';`,
+  `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
+  '>   Opt out per line, per rule: ds-lint-allow: <rule-id>[,<rule-id>] (<reason>) — a bare ds-lint-allow suppresses nothing and warns.',
   '',
   ...patternIndexLines(),
   '## Components',
@@ -2424,6 +2573,10 @@ if (ANTISLOP) {
   writeFileSync(join(OUT, 'anti-slop.md'), md);
   writeFileSync(join(OUT, 'anti-slop.agent.json'), agentJson);
   console.log(`  ✓ anti-slop: anti-slop.md · anti-slop.agent.json (${Object.keys(ANTISLOP.surfaces).length} surface(s))`);
+  // A marketplace install copies only agent/, so the plugin's hooks carry their own release's criteria.
+  mkdirSync(join(root, 'agent', 'anti-slop'), { recursive: true });
+  writeFileSync(join(root, 'agent', 'anti-slop', 'criteria.json'), read(join(root, 'anti-slop', 'criteria.json')));
+  console.log('  ✓ agent plugin: agent/anti-slop/criteria.json');
 }
 
 // Feed pages LAST — they embed the actual generated files (now all on disk) in a code wrapper.

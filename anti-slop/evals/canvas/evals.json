@@ -533,11 +533,11 @@
       "files": [],
       "label": "bad-example",
       "notes": "Rule 3 (AHAM-507) — over-rounded content containers (>8px). Maps to new C9.",
-      "expected_output": "C9 (Visual restraint) FAILs on the corner-radius axis. Content containers (answer boxes, score card) use rounded-3xl / 20px, well above the design-system cap of 8px (rounded-lg, the borderRadius default) — over-rounded reads toy-like and 'AI'. Fix: use rounded-lg (≤8px) on rectangular containers. Intentionally circular elements — pills, badges, avatars, progress bars — may stay fully rounded; the cap is for boxes. Overall: NEEDS FIX",
+      "expected_output": "C9 (Visual restraint) FAILs on the corner-radius axis. Content containers (answer boxes, score card) use rounded-3xl / 20px, well above the design-system cap (12px for cards, 8px for tiles; the borderRadius default) — over-rounded reads toy-like and 'AI'. Fix: use rounded-lg (≤8px) on rectangular containers. Intentionally circular elements — pills, badges, avatars, progress bars — may stay fully rounded; the cap is for boxes. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C9 is marked FAIL",
-        "Flags rounded-3xl / 20px on boxes as over the 8px cap",
+        "Flags rounded-3xl / 20px on boxes as over the radius cap (12px cards, 8px tiles)",
         "Fix uses rounded-lg (≤8px) on rectangular containers"
       ],
       "expected": {
@@ -1598,6 +1598,267 @@
         "judge": "aha-design-canvas-judge",
         "id": 56,
         "remap": "identity — judge criterion ids equal the DS criterion ids (plugin expected block)"
+      }
+    },
+    {
+      "id": 57,
+      "prompt": "Review this Developer Platform presenter.html (build-less slide type, loads lib/all.js). The controls row renders `<aha-button variant=\"secondary\" size=\"lg\">Previous</aha-button><aha-button variant=\"primary\" size=\"lg\">Next stage</aha-button>` and the stylesheet adds `.controls aha-button::part(button){height:48px;padding:0 20px;font-size:18px}` so the buttons read from the back of the room. Are the presenter controls correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C17 bad — Team Retro D6: in-canvas aha-button forced to 48px via ::part.",
+      "expected_output": "C17 FAILs. The in-canvas controls are DS <aha-button> elements (good, and C3 accepts in-canvas placement on the Developer Platform), but they are resized through ::part(button) with height, padding and font-size. Size comes from the attribute only: use size=\"xl\" (52px) for room-distance controls and delete the ::part rule. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C17 is marked FAIL",
+        "Names the ::part(button) height/padding/font-size override",
+        "Fix is size=\"xl\" on the element, not a per-slide override"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C17": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 58,
+      "prompt": "Review this Developer Platform presenter.html (build-less slide type, loads lib/all.js). There is no manifest actions array; the bottom of the canvas renders `<div class=\"controls\"><aha-button variant=\"secondary\" size=\"xl\">Previous</aha-button><aha-button variant=\"primary\" size=\"xl\">Reveal</aha-button></div>`. The page sets `--aha-color-primary` (and the --aha-button-primary-* hover, press and text tokens) on document.documentElement from presentationColorPalette[0]; there is no ::part rule anywhere. Are the presenter controls correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C17/C3 good control — guards over-firing C3 on the Developer Platform's in-canvas row.",
+      "expected_output": "C3, C4, C17 and C19 PASS. On the Developer Platform presenter controls belong inside the canvas; they are DS <aha-button> elements sized by size=\"xl\", one primary, and coloured through --aha-color-primary set on :root from the deck accent. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C17 is marked PASS",
+        "C3 is marked PASS",
+        "Does not demand manifest actions / the host control bar for a build-less Developer Platform slide"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C3": "PASS",
+          "C4": "PASS",
+          "C17": "PASS",
+          "C19": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 59,
+      "prompt": "Review this framed slide (manifest `enableFullScreen: false`) on a deck with a photo background. presenter.js adds `#app.scrim` whenever `slide.backgroundImage` is set, and the CSS is `#app.scrim{background:var(--deck-base);}` — one solid panel behind the whole answer board. The cards on the board are already white. Is the background handling correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C18 bad — Team Retro D7.",
+      "expected_output": "C18 FAILs. A framed slide must keep the deck showing; the scrim paints one opaque panel behind the entire answer area whenever a photo is set. Drop the board-wide panel; the white cards are already bounded surfaces, and any free-floating line of text that lacks contrast gets a small bounded scrim chip. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C18 is marked FAIL",
+        "Identifies the slide-wide scrim on a framed photo deck",
+        "Allows bounded surfaces (cards, a chip behind one line) to stay opaque"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C18": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 60,
+      "prompt": "Review this framed slide (manifest `enableFullScreen: false`) on a photo deck. The root stays transparent, so the photo shows through. Each idea card is a white bounded card, and the one free-floating hint line sits in a small chip `background: rgba(0,0,0,.55); border-radius: 8px; padding: 4px 8px` sized to the text. Is the background handling correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C18 good control.",
+      "expected_output": "C18 PASSes. Nothing paints across the whole board; the opaque fills are bounded to the cards and to the one hint line. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C18 is marked PASS",
+        "Accepts a bounded scrim chip behind a single line"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C18": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 61,
+      "prompt": "Review this presenter canvas. presenter.js computes `accent = mixTowardInk(palette[0])` until it clears 3:1 on the stage, then darkens it in 8% steps for the label; the ranking bars use a third variant, and the column colours fall back to `[22,196,154]` (the success teal) when the palette is short. The audience view uses palette[0] raw for its submit button. Is the accent handling correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C19 bad — Team Retro D3.",
+      "expected_output": "C19 FAILs. The accent is recomputed three ways, so 'primary' is a different colour on the stage, the bars and the phone; and the success teal is reused as a data colour. Publish palette[0] once as --aha-color-primary on :root (with the --aha-button-primary-* tokens), pick only the label ink by contrast, and keep series colours from the palette. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C19 is marked FAIL",
+        "Flags the per-surface recomputed accent",
+        "Flags the success teal used as a column colour"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 62,
+      "prompt": "Review this canvas's idea cards: `.card{background:#fff;border:2px solid color-mix(in srgb, currentColor 14%, transparent);border-radius:8px}` and the stage tiles `.step{border:2px solid ...}`. Are the card borders and radius right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C20 bad — Team Retro D10.",
+      "expected_output": "C20 FAILs. A bounded white card takes a 1px neutral hairline (--aha-border #E3E3E3) and 12px radius (--aha-radius-lg, the DS card); 2px outlines read heavy. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C20 is marked FAIL",
+        "Fix is 1px --aha-border and 12px radius on cards"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C20": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 63,
+      "prompt": "Review this canvas. The presenter's dark ink is `--ink: var(--aha-indigo-100)` (#1A1A2E) and the dark label on the accent is `rgb(26,26,46)`. Is the ink right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C21 bad — Team Retro D11.",
+      "expected_output": "C21 FAILs. The fixed dark ink is --aha-text-default #1A1A1A everywhere; #1A1A2E (indigo-100 / brand-3) is not a text ink. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C21 is marked FAIL",
+        "Fix is --aha-text-default #1A1A1A"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C21": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 64,
+      "prompt": "Review this canvas. Cards have `transition: border-color var(--aha-motion-mid) var(--aha-ease-out)` for the selected state, but every vote calls `render()`, which does `board.innerHTML = groups.map(cardHtml).join('')`. Does the selected-state motion work?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C22 bad — Team Retro D9.",
+      "expected_output": "C22 FAILs. The transition is declared, but the board is rebuilt with innerHTML on each update, so each card is a new node with no 'from' value and the state snaps. Patch the existing nodes (toggle a class) instead. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C22 is marked FAIL",
+        "Identifies the innerHTML rebuild as what kills the transition"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C22": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 65,
+      "prompt": "Review this canvas. Card nodes are created once and kept; a vote toggles `card.classList.toggle('is-selected')` and updates the count's textContent. CSS: `.card{border:1px solid var(--aha-border);border-radius:var(--aha-radius-lg);transition:border-color var(--aha-motion-mid) var(--aha-ease-out), box-shadow var(--aha-motion-mid) var(--aha-ease-out)}`, with a prefers-reduced-motion override. Labels on the accent use `var(--aha-text-default)` or white by contrast. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C20–C22 good control.",
+      "expected_output": "C20, C21 and C22 PASS: 1px hairline and 12px card radius, #1A1A1A as the one dark ink, token-driven transitions on persistent nodes. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C22 is marked PASS",
+        "C20 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C20": "PASS",
+          "C21": "PASS",
+          "C22": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 66,
+      "prompt": "Review this Developer Platform presenter canvas. The stage indicator is `<div class=\"steps\">` with four `<span class=\"step\">` pills styled in the slide's own CSS; the current pill gets `background: var(--aha-color-primary); color: #fff`. The owner picker is an `<input>` plus a `<ul class=\"suggestions\">` filtered on keyup. Next is `<aha-button variant=\"primary\" size=\"xl\">`. Is this OK?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C23 bad — Team Retro D13 + D15.",
+      "expected_output": "C23 FAILs: the stepper and owner combobox are hand-rolled although the DS ships <aha-stepper> and <aha-autocomplete> in lib/all.js, and the current pill uses the primary accent, competing with Next. Use <aha-stepper size=\"lg\"> (current stage in ink) and <aha-autocomplete>. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C23 is marked FAIL",
+        "Names <aha-stepper> and <aha-autocomplete> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C23": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
+    },
+    {
+      "id": 67,
+      "prompt": "Review this Developer Platform presenter canvas. It loads lib/all.js. The stage indicator is `<aha-stepper size=\"lg\" steps=\"Ideas|Group|Vote|Discuss\" current=\"1\" style=\"color: var(--deck-ink)\">`, the owner picker is `<aha-autocomplete placeholder=\"Owner\">` fed the participant names, and the only accent on screen is the Next `<aha-button variant=\"primary\" size=\"xl\">`. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C23 good control.",
+      "expected_output": "C23 PASSes: the stage indicator and owner picker are the DS elements, the current stage is marked in deck ink and the accent stays on Next. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C23 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C23": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
       }
     }
   ]

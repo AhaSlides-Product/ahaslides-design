@@ -3,7 +3,7 @@
 > Distilled from the retired `aha-design-canvas` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, the §1–§9 sections, and the canonical `good-fill-in-the-blanks`
 > fixture; the design system now OWNS this build ruleset (this guide is its single
-> source of truth). The judge, its criteria (C1..C16), and the eval harness stay in the
+> source of truth). The judge, its criteria (C1..C22), and the eval harness stay in the
 > skill. When the two ever disagree, this guide wins.
 
 The canvas is the **visual surface** of a slide type — what the audience and presenter
@@ -28,7 +28,8 @@ not "we chose".
 | --- | --- |
 | **Framed** (`enableFullScreen: false`) | A "question + answer area" slide that should look like every built-in type. The host renders the **title**, **description**, and **question image**; your iframe fills the rest. |
 | **Full-canvas** (`enableFullScreen: true`) | A bespoke layout that owns the whole stage. The host hides its chrome (`xprops.fullCanvas = true`); **you** render the title/header yourself. |
-| **Presenter control bar** (NCB, outside the iframe) | Slide-specific actions (Next / Summarise / Previous). **Declared** in the manifest, painted by the host — never rendered in-canvas. |
+| **Presenter control bar** (NCB, outside the iframe) — built plugins | Slide-specific actions (Next / Summarise / Previous) on a built plugin. **Declared** in the manifest, painted by the host — never rendered in-canvas. |
+| **In-canvas controls** — Developer Platform | A build-less slide type (`presenter.html` / `audience.html` / `settings.html` loading `lib/all.js`) has no manifest actions: its controls render **inside** the canvas as `<aha-button size="xl">`. |
 
 - **Never `enableFullScreen: true` + `enableQuestionTitle: true` together.** Full-canvas
   hides the host title bar, so the `enableQuestionTitle` value renders **nowhere** and
@@ -39,6 +40,10 @@ not "we chose".
   draws it) nor paint a slide-wide background/backdrop/scrim; let the deck theme show
   through. The only opaque fill it may paint is a surface **bounded to its content** (a
   card, a chip, a caption bar).
+- **A framed slide on a photo deck still keeps the deck showing.** When `slide.backgroundImage`
+  is set, do not add a scrim, panel or backdrop behind the whole answer board. Cards are
+  already bounded; a free-floating line of text that lacks contrast gets a small scrim
+  **chip** sized to that line (C18).
 - **A full-canvas slide MUST render `slideProps.title`** (`slideProps.value?.title ?? ''`)
   — the host hides its title bar, so rendering only per-item prompts/labels silently drops
   the presenter's title.
@@ -147,8 +152,9 @@ cards already state.
   `<accent>`-coloured text reads monotone, low-contrast, "AI". Let the surface be
   deck-owned (transparent, ink from `slide.textColour`) or pair a tint with genuinely
   high-contrast ink — not one hue at two brightnesses.
-- **Corner radius tops out at 8px.** Rectangular content containers (cards, answer boxes,
-  option tiles, panels, buttons) use **≤ 8px** (`rounded-lg`); `rounded-2xl`/`3xl`/`20px`
+- **Corner radius follows the DS scale.** Cards and panels are **12px** (`--aha-radius-lg`,
+  what the DS card measures); option tiles, answer boxes, inputs and buttons **8px**
+  (`--aha-radius-default`); nothing rectangular goes above 12px — `rounded-2xl`/`3xl`/`20px`
   reads toy-like. Intentionally circular elements (pills, chips, badges, avatars, dots,
   progress tracks/fills) stay fully rounded (`999px`).
 - **No extra-bold weight.** Display text is **400 or 600 only**; 700/800/900 reads heavy and
@@ -164,7 +170,8 @@ seat** — the same bar applies to the small editor preview.
 
 - **Contrast:** WCAG AA floor — **4.5:1 for text, 3:1 for large text and meaningful
   shapes** — checked against the **real composited background** (`baseColour` blended with
-  `backgroundImage`). Add a scrim behind text on busy photos. Go higher when you can.
+  `backgroundImage`). On a busy photo, put a scrim **bounded to the text** (a chip or caption
+  bar), never a slide-wide panel on a framed slide. Go higher when you can.
   - **A slide-painted surface re-anchors the check** against that composited surface. Two
     traps: a **translucent tint** is not a contrast guarantee (only an opaque surface is);
     and any **fixed-colour mark** on it (a semantic `✓`/`✗` token, a palette accent, a
@@ -202,14 +209,86 @@ seat** — the same bar applies to the small editor preview.
   change a row's spatial accuracy — reserve a fixed-width decoration slot on **every** row
   (empty when undecorated) or render it as a positioned overlay, or the decorated row's track
   is narrower and the chart lies.
-- **Borders are ornament — never derive them directly from `textColour`.** Use a subtle
-  theme-aware hairline `color-mix(in srgb, currentColor 10%, transparent)`. Fix a marginal
+- **Borders are ornament — never derive them directly from `textColour`, and never 2px.**
+  A bounded white card: **1px `--aha-border`** (#E3E3E3). A chip: **1.5px** neutral. A
+  deck-owned (transparent) surface: a 1px theme-aware hairline
+  `color-mix(in srgb, currentColor 10%, transparent)`. Dashed empty states: 1px (C20). Fix a marginal
   contrast check at the bar or the scrim, not with a darker border. Pick the palette shade
   (saturated on light themes, the lighter sibling on dark themes) that actually clears the
   floor on the current background.
-- **Motion:** don't depend on fast or subtle motion to convey meaning.
+- **Motion:** don't depend on fast or subtle motion to convey meaning — but every
+  interactive state (hover, selected, expanded, revealed) **does** animate, with
+  `--aha-motion-*` durations and `--aha-ease-*` curves on a **persistent** node. Patch the
+  DOM (toggle a class, update `textContent`); rebuilding with `innerHTML =` on each update
+  gives every node a fresh start and the transition never fires (C22).
 
-## The presenter control bar (NCB)
+### One accent per deck, one dark ink
+
+The deck accent is `presentationColorPalette[0]`, published **once** as `--aha-color-primary`
+on the iframe's `:root`. Canvas, audience view and every `<aha-button>` then show the same
+colour; only the **label ink** is picked by contrast (white or `#1A1A1A`). Never mix the
+accent toward the ink, darken it in steps, or keep a separate 'selected' variant per surface,
+and never reuse a semantic colour (the success teal, the error red) as a data or column
+colour (C19).
+
+```js
+// Set on :root — the --aha-button-* layer resolves there, so a value set on a descendant
+// never reaches the buttons. Hover / press follow the accent instead of the brand purple.
+const root = document.documentElement.style;
+const accent = xprops.presentationColorPalette[0];
+const ink = readableInkOn(accent);            // '#FFFFFF' or '#1A1A1A'
+root.setProperty('--aha-color-primary', accent);
+root.setProperty('--aha-button-primary-bg-hover', `color-mix(in srgb, ${accent} 88%, ${ink})`);
+root.setProperty('--aha-button-primary-bg-press', `color-mix(in srgb, ${accent} 76%, ${ink})`);
+root.setProperty('--aha-button-primary-text', ink);
+```
+
+The one fixed dark ink is `--aha-text-default` **#1A1A1A** on every surface. `#1A1A2E`
+(`--aha-brand-3`, `--aha-indigo-100`) is a brand swatch, not a text colour (C21).
+
+## Presenter controls on the Developer Platform — in-canvas, `size="xl"`
+
+A build-less Developer Platform slide type (`presenter.html` / `audience.html` /
+`settings.html`, loading `lib/all.js`) declares no manifest actions, so its presenter
+controls render **inside** the canvas. Build them from `<aha-button>` and size them for the
+room with **`size="xl"`** (52px — the web-component twin of React `<XLButtonScope>`):
+
+```html
+<div class="controls">
+  <aha-button variant="secondary" size="xl">Previous</aha-button>
+  <aha-button variant="primary" size="xl">Reveal</aha-button>
+</div>
+```
+
+- **Size through the attribute only.** Never `aha-button::part(button){height:…;padding:…;font-size:…}`
+  or inline sizing — a hand-forced 48px drifts from every other slide (C17).
+- **Colour through `--aha-color-primary`** on `:root` (above), never a `::part` recolour or a
+  per-slide `--accent`.
+- The variant hierarchy is the same as the host bar's: at most one `primary`, per-round
+  steppers `secondary`. Keyboard chips follow the in-canvas affordance rules below.
+
+The host control bar (next section) applies only to **built** plugins that declare manifest
+actions.
+
+## Stage steppers, pickers and mood glyphs — DS elements, not hand-rolled
+
+`lib/all.js` ships the two controls slide types used to hand-roll:
+
+```html
+<aha-stepper size="lg" steps="Ideas|Group|Vote|Discuss" current="1"
+  style="color: var(--deck-ink)"></aha-stepper>
+<aha-autocomplete placeholder="Owner"></aha-autocomplete>   <!-- set .options to the names -->
+```
+
+- **Stage indicator → `<aha-stepper>`** (`size="lg"` on the canvas). It marks the current stage
+  with ink (outline + semibold), never the accent, so the accent stays on the one button that
+  advances the flow. Set `color` on the element to the deck ink; every state derives from it (C23).
+- **Type-to-pick field → `<aha-autocomplete>`** (owner, name, tag), never an `<input>` plus a
+  hand-filtered `<ul>` (C23).
+- **Mood glyphs** match the word: `system-smiley`, `system-sad-face`, `system-angry-face` — never
+  thumbs-down or fire as a stand-in (icons C7).
+
+## The presenter control bar (NCB) — built plugins
 
 Slide-specific actions (Idea board's **Previous** / **Next: vote** / **Summarise**) render
 in the presenter control bar (`PresenterControlBarNew.vue`, centre region `ncb-center`, via

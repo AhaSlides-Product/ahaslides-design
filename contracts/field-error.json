@@ -6,6 +6,7 @@
   "badge": "shared web component",
   "element": "aha-field-error",
   "summary": "The accessible field / validation error every input points aria-describedby at — the a11y FieldError (forms) and FieldErrorDisplay (respondent renderers) in one element.",
+  "highlights": ["Accessible validation error every input points aria-describedby at", "Covers FieldError (forms) and FieldErrorDisplay (respondent renderers)", "One element for both"],
   "lead": "ONE custom element — <aha-field-error> — defined once, imported unchanged by React and Vue. It is the only error node a field should describe itself with: a stable id (minted if you give none) for aria-describedby, danger text bound to --aha-text-negative, and NOTHING rendered while `message` is empty. `variant=\"respondent\"` is the FieldErrorDisplay contract for respondent element renderers — role=\"alert\" + aria-live=\"assertive\", so the error is announced the moment it appears. The message is mirrored into the host's light DOM so aria-describedby and the alert read it directly. The input still owns its half of the wiring: aria-invalid + aria-describedby=\"<error id>\".",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. Pass the TRANSLATED string as `message`; the DS does not own i18n keys. The input owns its half of the wiring: aria-invalid + aria-describedby=\"<error id>\". A DS <aha-input> does both for you — status=\"error\" sets aria-invalid and it forwards its aria-describedby to the inner field.",
   "tokensUsed": [

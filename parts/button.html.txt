@@ -19,6 +19,10 @@
 <aha-button variant="primary" size="lg" block>Get started</aha-button>
 <aha-button icon-only variant="tertiary" aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
 
+<!-- xl (52px) is for presenter controls drawn inside a slide canvas and read from across the room.
+     Recolour through --aha-color-primary on :root, never ::part(button). -->
+<aha-button variant="primary" size="xl">Reveal results</aha-button>
+
 <!-- Low-emphasis label buttons: text / text-link are borderless. primary-alt is a second primary slot. -->
 <aha-button variant="text">Skip</aha-button>
 <aha-button variant="text-link">Learn more</aha-button>

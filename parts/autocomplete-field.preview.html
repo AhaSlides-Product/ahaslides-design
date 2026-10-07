@@ -1,0 +1,28 @@
+<div class="pad">
+  <div class="lbl">Try it with the controls</div>
+  <div class="demo-stage">
+    <aha-autocomplete data-probe placeholder="Owner"
+      options='[{"label":"Anna Tran","value":"u1"},{"label":"Ben Cole","value":"u2"},{"label":"Chi Nguyen","value":"u3"},{"label":"Dana Vu","value":"u4"}]'></aha-autocomplete>
+  </div>
+
+  <div class="lbl">Sizes</div>
+  <div class="row" style="align-items:center; gap:12px; flex-wrap:wrap">
+    <aha-autocomplete size="small" placeholder="Owner" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
+    <aha-autocomplete placeholder="Owner" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
+    <aha-autocomplete size="large" placeholder="Owner" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
+  </div>
+
+  <div class="lbl">States</div>
+  <div class="row" style="align-items:center; gap:12px; flex-wrap:wrap">
+    <aha-autocomplete value="u2" options='[{"label":"Anna Tran","value":"u1"},{"label":"Ben Cole","value":"u2"}]'></aha-autocomplete>
+    <aha-autocomplete value="Someone new" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
+    <aha-autocomplete status="error" placeholder="Required" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
+    <aha-autocomplete status="warning" value="Ben Cole" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
+    <aha-autocomplete disabled value="Anna Tran" options='["Anna Tran","Ben Cole"]'></aha-autocomplete>
+  </div>
+</div>
+
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-autocomplete.js';
+</script>

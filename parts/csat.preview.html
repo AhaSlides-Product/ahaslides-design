@@ -1,20 +1,7 @@
 <div class="pad">
-  <div class="lbl">Binary satisfaction · borderless single row — unrated · rated up · rated down · thank-you</div>
-  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0 48px">
-    <aha-csat prompt="How's your experience?" source="preview_unrated"></aha-csat>
-    <aha-csat data-probe prompt="How's your experience?" value="up" source="preview_rated_up"></aha-csat>
-    <aha-csat prompt="How's your experience?" value="down" source="preview_rated_down"></aha-csat>
-    <aha-csat prompt="How's your experience?" value="up" thanks="Thanks for the feedback!" source="preview_thanks"></aha-csat>
-  </div>
-  <div class="lbl">Thumbs-down → feedback popover — click the down thumb to open the free-text follow-up</div>
+  <div class="lbl">With the Feedback button</div>
   <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0 96px">
-    <aha-csat prompt="Was this helpful?" thanks="Thanks — we'll use this!"
-      feedback-prompt="What went wrong?" feedback-placeholder="Tell us what we could improve"
-      source="preview_dislike_flow"></aha-csat>
-  </div>
-  <div class="lbl">With the Feedback button — thumbs · Feedback chat icon; the popover has a small X, no heading, Send disabled until text</div>
-  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0 96px">
-    <aha-csat prompt="How did this import go?" feedback-button source="preview_feedback_button"></aha-csat>
+    <aha-csat data-probe prompt="How did this import go?" value="up" feedback-button source="preview_feedback_button"></aha-csat>
   </div>
 </div>
 

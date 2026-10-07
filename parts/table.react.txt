@@ -22,14 +22,18 @@ const columns = [
 import React from 'react';
 import { createExpandableRows } from '@ahaslides-product/design/table-expandable';
 
-const { useExpandableRows } = createExpandableRows({ React });   // once, at module scope
+const { useExpandableRows, DetailSection } = createExpandableRows({ React });   // once, at module scope
 
 function ReportTable({ rows, columns }) {
   const { tableProps, decorateColumns } = useExpandableRows({
     dataSource: rows,
     rowKey: 'key',
     expandAllToggle: true,
-    renderDetail: (record) => <Table rowKey="key" size="small" pagination={false} columns={answerColumns} dataSource={record.answers} />,
+    renderDetail: (record) => (
+      <DetailSection title="Answers">
+        <Table rowKey="key" pagination={false} columns={answerColumns} dataSource={record.answers} />
+      </DetailSection>
+    ),
     // omit renderDetail for tree rows (children share the parent's columns)
     // onExpand={(expanded, record) => fetch…} + loadingKeys={[…]} for a lazily loaded panel
   });

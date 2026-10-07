@@ -38,7 +38,15 @@ const columns = [
   columns={pageColumns}
   dataSource={pages}
   expandableRows={{
-    renderDetail: (record) => <Table rowKey="key" size="small" pagination={false} columns={answerColumns} dataSource={record.answers} />,
+    // One DetailSection per block; the panel owns spacing and sub-table styling — no margin, padding or size here.
+    renderDetail: (record) => [
+      <DataTable.DetailSection key="questions" title="Questions">
+        <DataTable rowKey="id" pagination={false} columns={questionColumns} dataSource={record.questions} />
+      </DataTable.DetailSection>,
+      <DataTable.DetailSection key="answers" title="Answers">
+        <Table rowKey="key" pagination={false} columns={answerColumns} dataSource={record.answers} />
+      </DataTable.DetailSection>,
+    ],
     expandAllToggle: true,
     getRowLabel: (record) => record.page,
     rowExpandable: (record) => record.answers.length > 0,

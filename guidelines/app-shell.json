@@ -5,6 +5,7 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How an AhaSlides product SCREEN is assembled from DS components — the left nav rail (real brand mark + nav items + one primary CTA), the top bar (context left, actions/avatar right), the content region, and where relevant a canvas/stage — spaced by --aha-* tokens, with a real brand identity and no dead placeholders. Closes the composition gap that turns a component-correct screen into generic-admin-template slop.",
+  "highlights": ["How a product screen is assembled from DS components", "Left nav rail, top bar, content region and optional canvas, spaced by --aha-* tokens", "Real brand identity, no dead placeholders", "Closes the gap between component-correct and generic admin template"],
   "lead": "The DS ships no shell/nav/rail leaf, so a consumer hand-rolls the screen scaffold — and hand-rolled scaffold is where slop enters: a placeholder letter-tile logo, a 'Loading…' block shipped as final, evenly-spaced equal-weight cards. This pattern ships NO new component; it documents how to compose the shell from existing DS components and binds each rule to a binary criterion the consumer self-judges.",
   "skillRef": {
     "build": "ahaslides-design:app-shell",
@@ -23,7 +24,7 @@
   ],
   "componentBacklog": "No missing components — the shell composes entirely from shipped DS leaves plus tokens. The gap this pattern closes is COMPOSITION knowledge, not a missing primitive.",
   "rules": [
-    { "rule": "Use the real AhaSlides brand mark + wordmark at the top of the nav rail — the shipped logo / an <aha-icon> brand glyph — never a coloured letter-tile or initials square standing in for a logo.", "ref": ["C1"] },
+    { "rule": "Use the real AhaSlides brand mark + wordmark at the top of the nav rail — the file from the Logo library (ahaslides-product.github.io/ahaslides-design/foundations/logo.html, logo/ahaslides-logo*.svg), never redrawn — never a coloured letter-tile or initials square standing in for a logo.", "ref": ["C1"] },
     { "rule": "Never ship a placeholder as a final state: a QR/thumbnail/region renders a real asset or an explicit, styled empty state — never a permanent 'Loading QR…' label, spinner, or grey box.", "ref": ["C2"] },
     { "rule": "Give each region one primary action and a scannable type hierarchy from the scale; do not render uniform grey-on-white equal-weight cards with evenly-spaced everything (the admin-template tell).", "ref": ["C3"] },
     { "rule": "Fill every shell slot with a DS component (aha-button, aha-icon, aha-avatar, aha-badge, DataTable) and take all spacing/radius/colour from --aha-* tokens — never a hand-rolled <button>/<div> with inline hex/px, never a raw <table>.", "ref": ["C4"] },

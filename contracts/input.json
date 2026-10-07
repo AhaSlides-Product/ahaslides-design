@@ -1,11 +1,12 @@
 {
   "name": "Input",
   "slug": "input",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-input",
   "summary": "A single-line text field — names, search, numbers, short free text — with sizes, error/warning status, affixes, a clear ✕ and a password reveal.",
+  "highlights": ["Single-line text field", "Sizes, error and warning status, affixes", "Clear button and password reveal"],
   "lead": "ONE custom element — <aha-input> — defined once, imported unchanged by React and Vue. The DS V3 Input is a family, not a bare box: three sizes (small · default · large), three statuses (default · error · warning — border + ring recolour), disabled + readonly, and affixes — a leading `prefix-icon`/`prefix` and trailing `suffix-icon`/`suffix` (icon by name or text), a `clearable` ✕ that wipes the value, and a password reveal toggle. The focus ring lives on a persistent wrapper node and animates via the shared motion tokens — a class toggles, the subtree is never rebuilt on a state change. Shadow-DOM CSS, themed only by --aha-* tokens; it emits composed `input` / `change` / `clear` events. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-tertiary", "text-disabled", "radius-default", "radius-sm", "focus-ring-soft", "border-error", "color-error", "border-warning", "color-warning", "border-disabled"],

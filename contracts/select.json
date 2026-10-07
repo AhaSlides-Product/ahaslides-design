@@ -1,10 +1,11 @@
 {
   "name": "Select",
   "slug": "select",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Pick one value (or several) from a known set — with type-to-search — rendered through the shared Select.",
+  "highlights": ["Pick one value or several from a known set", "Type-to-search", "Rendered through the shared Select"],
   "lead": "Select carries a popup, a virtualised list, search and tagging — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared selectTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Select.optionSelectedBg", "Select.optionActiveBg"],
   "spec": [

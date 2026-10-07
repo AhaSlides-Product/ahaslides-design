@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, createElement } from 'react';
 import { ConfigProvider, Modal, Button } from 'antd';   // antd v6
-import { modalTheme, modalStyles, modalWidth } from '@ahaslides-product/design/modal-theme';
+import { modalTheme, modalStyles, modalWidth, dismissibleModalTitle } from '@ahaslides-product/design/modal-theme';
 import '@ahaslides-product/design/icons';   // registers <aha-icon> for the Learn-more glyph
 
 // External = an absolute URL whose host isn't ahaslides.com — only then does a link show the
@@ -42,7 +42,8 @@ function ModalDemo() {
       {/* Confirmation modal — always `simple`; the danger context tints Apply. */}
       <Modal
         open={confirm}
-        title="Delete this team?"
+        closable={false}   /* the shared ✕ rides in the title */
+        title={dismissibleModalTitle(createElement, 'Delete this team?', () => setConfirm(false))}
         width={modalWidth('simple')}
         styles={modalStyles('simple')}
         centered
@@ -55,7 +56,8 @@ function ModalDemo() {
       {/* Action modal — a longer task; `complexity` (720px · 80vh), body scrolls when tall. */}
       <Modal
         open={action}
-        title="Share course"
+        closable={false}
+        title={dismissibleModalTitle(createElement, 'Share course', () => setAction(false))}
         width={modalWidth('complexity')}
         styles={modalStyles('complexity')}
         centered

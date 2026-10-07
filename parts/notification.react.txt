@@ -1,5 +1,6 @@
+import { createElement } from 'react';
 import { ConfigProvider, notification, Button } from 'antd';   // antd v6
-import { notificationTheme } from '@ahaslides-product/design/notification-theme';
+import { notificationTheme, dismissibleTitle } from '@ahaslides-product/design/notification-theme';
 
 function Notifications() {
   // v6 DS rule: use the hook so the card consumes the ConfigProvider theme.
@@ -7,13 +8,16 @@ function Notifications() {
   const [api, contextHolder] = notification.useNotification();
 
   // type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
-  const notify = (type, placement) =>
+  // the ✕ is the shared <aha-close-button> in the title; closable: false turns antd's own close off
+  const notify = (type, placement, key = `export-${Date.now()}`) =>
     api[type]({
-      message: 'Export ready',
+      key,
+      closable: false,
+      title: dismissibleTitle(createElement, 'Export ready', () => api.destroy(key)),
       description: 'Your CSV of responses is ready to download.',
       placement,                 // which corner it stacks in (default topRight)
       duration: 4.5,             // seconds on screen; 0 keeps it until dismissed
-      btn: <Button type="primary" size="small" onClick={() => api.destroy()}>Undo</Button>, // optional action
+      actions: <Button type="primary" size="small" onClick={() => api.destroy()}>Undo</Button>, // optional action
     });
 
   return (

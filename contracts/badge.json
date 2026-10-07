@@ -1,11 +1,12 @@
 {
   "name": "Badge",
   "slug": "badge",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-badge",
   "summary": "A small count or status marker — notification counts, unread dots, a standalone status label.",
+  "highlights": ["Small count or status marker", "Notification counts, unread dots, standalone labels"],
   "lead": "ONE custom element — <aha-badge> — defined once, imported unchanged by React and Vue. The DS V3 Badge is a family: `count` renders a number pill on the top-right of a wrapped child (capped by `overflowCount` as N+, kept at 0 with `showZero`); `dot` renders a bare marker; `status` + `text` renders a standalone semantic dot + label (success/processing/error/default/warning), with `processing` pulsing; `color` overrides the colour. Shadow-DOM CSS themed only by --aha-* tokens; the pill scales in on a persistent node. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-error", "color-success", "color-warning", "color-primary", "text-tertiary", "text-inverse", "text-default", "bg-container", "radius-pill", "radius-xs", "bg-accent", "bg-positive", "bg-negative", "text-positive", "text-negative", "coral-10", "coral-60", "coral-70", "coral-80", "coral-20", "pink-10", "pink-70", "purple-15", "purple-55", "gray-30", "gray-20", "yellow-30", "yellow-90", "bg-dark", "text-secondary", "border-focus", "motion-mid", "ease-in-out"],

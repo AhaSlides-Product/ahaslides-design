@@ -369,7 +369,7 @@
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C10 is marked FAIL",
-        "Flags rounded-3xl / 20px on tiles and the submit button as over the 8px cap",
+        "Flags rounded-3xl / 20px on tiles and the submit button as over the cap (8px tiles and buttons, 12px cards)",
         "Fix uses ≤8px on rectangular containers"
       ],
       "expected": {
@@ -767,7 +767,7 @@
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C10 is marked FAIL",
-        "Flags the swipe card's rounded-3xl (24px) as over the 8px cap on a rectangular container",
+        "Flags the swipe card's rounded-3xl (24px) as over the 12px cap on a rectangular container",
         "Does NOT flag the rounded-full VS pip or the circular confirmation badge (intentionally circular, exempt)",
         "Fix caps the card at ≤8px (rounded-lg) while leaving the circular pips fully rounded"
       ],
@@ -1918,6 +1918,190 @@
         "judge": "aha-design-audience-judge",
         "id": 76,
         "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
+      }
+    },
+    {
+      "id": 77,
+      "prompt": "Review this audience composer. Column-picker chip labels, idea tags and the subline use `font-size: var(--aha-size-sm)`, described in the code as 'text-sm'. Only the character counter is meant to be small. Are the text sizes right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C19 token-trap bad — Team Retro D4.",
+      "expected_output": "C19 FAILs. --aha-size-sm is 12px, not 14px; chip labels, tags and the subline are primary copy and belong at 16px (--aha-size-l). Only the counter may drop to 14px (--aha-size-default). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C19 is marked FAIL",
+        "States that --aha-size-sm is 12px",
+        "Fix maps primary copy to --aha-size-l (16px)"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 78,
+      "prompt": "Review this audience view. The submit button fill is `presentationColorPalette[0]` raw, but selected chips use `--sel-bg: towardInk(palette[0], .3)`, and the dark label on the accent is `#000`. Is the accent handling correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C31 bad — Team Retro D3 (phone).",
+      "expected_output": "C31 FAILs. The participant sees two different 'primary' colours on one screen. Publish palette[0] once as --aha-color-primary on :root (the same value the canvas uses) and let chips, controls and submit read it; only the label ink is chosen by contrast. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C31 is marked FAIL",
+        "Flags the recomputed selection colour"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C31": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 79,
+      "prompt": "Review this audience view's chips: `.chip{border:2px solid color-mix(in srgb, currentColor 55%, transparent);border-radius:999px}`. Is the chip border right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C32 bad — Team Retro D10/D14.",
+      "expected_output": "C32 FAILs. A chip takes a 1.5px neutral border; a 2px outline at 55% ink is far heavier than the DS chip. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C32 is marked FAIL",
+        "Fix is a 1.5px neutral chip border"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C32": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 80,
+      "prompt": "Review this audience view. Body ink falls back to `#1A1A2E` (var(--aha-brand-3)) when textColour is unset. Is the ink right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C33 bad — Team Retro D11.",
+      "expected_output": "C33 FAILs. The fixed dark ink is --aha-text-default #1A1A1A; #1A1A2E is not a text ink. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C33 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C33": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 81,
+      "prompt": "Review this audience view. Options have no `transition` at all and `render()` rebuilds the list with `list.innerHTML = ...` on every tap, so selecting an option snaps. Is the interaction motion right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C34 bad — Team Retro D9.",
+      "expected_output": "C34 FAILs. Interactive states snap; add --aha-motion-* / --aha-ease-* transitions and keep the option nodes, toggling a class instead of rebuilding with innerHTML. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C34 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C34": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 82,
+      "prompt": "Review this Developer Platform audience.html (loads lib/all.js). It sets `--aha-color-primary` and the --aha-button-primary-* tokens on :root from presentationColorPalette[0]; option labels are 16px (`--aha-size-l`), the vote count 14px; the submit is `<aha-button variant=\"primary\" block>`; cards use `border:1px solid var(--aha-border);border-radius:var(--aha-radius-lg)`; the dark ink is `var(--aha-text-default)`; options are persistent nodes toggling `.is-selected` with `transition: background var(--aha-motion-mid) var(--aha-ease-out)`. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C31–C34 good control.",
+      "expected_output": "C19, C31, C32, C33 and C34 PASS. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C19": "PASS",
+          "C31": "PASS",
+          "C32": "PASS",
+          "C33": "PASS",
+          "C34": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit (PRO48-299): a rule that lived only in the retired aha-design-* skills, now judged by the DS"
+      }
+    },
+    {
+      "id": 83,
+      "prompt": "Review this Developer Platform audience screen. It loads lib/all.js, but the owner dropdown is a hand-built `<div role=\"listbox\">` under an `<input>`, and the stage stepper is three `<span class=\"dot\">`s where the current dot is filled with `--aha-color-primary`. Is this OK?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C35 bad — Team Retro D13 phone.",
+      "expected_output": "C35 FAILs: the owner combobox and stepper are hand-rolled although <aha-autocomplete> and <aha-stepper> ship in lib/all.js, and the current stage takes the accent. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C35 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C35": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
+    },
+    {
+      "id": 84,
+      "prompt": "Review this Developer Platform audience screen. It loads lib/all.js; the owner field is `<aha-autocomplete size=\"large\" placeholder=\"Owner\">` fed the participant names, the stage indicator is `<aha-stepper steps=\"Ideas|Group|Vote\" current=\"0\">`, and the submit is `<aha-button variant=\"primary\" block>`. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C35 good control.",
+      "expected_output": "C35 PASSes: both controls are the DS elements and the current stage is in ink, leaving the accent on submit. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C35 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C35": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
       }
     }
   ]

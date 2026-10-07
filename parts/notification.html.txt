@@ -6,25 +6,29 @@
      DS rule: use the useNotification() hook + contextHolder — the static notification.open() is
      FORBIDDEN (it renders outside the ConfigProvider theme).
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <div id="root"></div>
 <script type="module">
   import React from 'https://esm.sh/react@18';
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
   import { ConfigProvider, notification, Button } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
-  import { notificationTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/notification-theme.js';
+  import { notificationTheme, dismissibleTitle } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/notification-theme.js';
 
   const h = React.createElement;
 
   function App() {
     const [api, ctx] = notification.useNotification();
     // type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
-    const notify = (type, placement) =>
+    // the ✕ is the shared <aha-close-button> in the title; closable: false turns antd's own close off
+    const notify = (type, placement, key = `export-${Date.now()}`) =>
       api[type]({
-        message: 'Export ready',
+        key,
+        closable: false,
+        title: dismissibleTitle(h, 'Export ready', () => api.destroy(key)),
         description: 'Your CSV is ready to download.',
         placement,             // which corner it stacks in (default topRight)
         duration: 4.5,         // seconds on screen; 0 keeps it until dismissed
-        btn: h(Button, { type: 'primary', size: 'small', onClick: () => api.destroy() }, 'Undo'), // optional action
+        actions: h(Button, { type: 'primary', size: 'small', onClick: () => api.destroy() }, 'Undo'), // optional action
       });
     return h(ConfigProvider, { theme: notificationTheme },
       ctx,

@@ -1,5 +1,5 @@
 <div class="pad">
-  <div class="lbl">Segmented · leading icons · a disabled option · size medium (default)</div>
+  <div class="lbl">Icons and a disabled option</div>
   <aha-segmented data-probe value="week"
     options='[
       {"value":"day","label":"Day","icon":"system-calendar-dot"},
@@ -9,10 +9,10 @@
     ]'>
   </aha-segmented>
 
-  <div class="lbl">Interactive · click to switch</div>
+  <div class="lbl">Click to switch</div>
   <div class="row"><aha-segmented id="demo" options="Day|Week|Month" value="Week"></aha-segmented> <span id="out" class="note">Week</span></div>
 
-  <div class="lbl">Icon-only (aria-label) · block · whole-control disabled</div>
+  <div class="lbl">Icon only, block, disabled</div>
   <div class="row" style="gap:16px;flex-wrap:wrap;align-items:stretch">
     <aha-segmented options='[{"value":"list","icon":"system-list","ariaLabel":"List view"},{"value":"grid","icon":"system-squares-four","ariaLabel":"Grid view"},{"value":"table","icon":"system-rows","ariaLabel":"Table view"}]' value="grid"></aha-segmented>
     <aha-segmented options="On|Off" value="On" disabled></aha-segmented>

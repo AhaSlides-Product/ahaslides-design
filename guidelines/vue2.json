@@ -1,0 +1,32 @@
+{
+  "name": "Using the design system in Vue 2",
+  "slug": "vue2",
+  "kind": "guideline",
+  "group": "Patterns",
+  "badge": "guide — consuming the DS",
+  "summary": "New UI in the legacy Vue 2 apps (presenter, audience, admin) uses the DS <aha-*> web components, never the old stpancras-storybook-app kit: load lib/all.js + tokens.css once pinned to a tag, set Vue.config.ignoredElements = [/^aha-/], bind arrays with .prop and read CustomEvent detail. Existing screens stay as they are unless a task asks to migrate them.",
+  "highlights": ["New UI in the legacy Vue 2 apps uses DS <aha-*> web components", "Never the old stpancras-storybook-app kit", "Load lib/all.js and tokens.css once, pinned to a tag; existing screens stay as they are"],
+  "lead": "Vue 2 renders custom elements natively, so the same <aha-*> elements React and Vue 3 use work in the legacy apps with no adapter. This guide covers the four things that differ: loading, telling Vue the tags are custom elements, binding props, and listening to events — plus the scope rule for new versus existing screens.",
+  "skillRef": {
+    "build": "DS guideline — guidelines/vue2.json",
+    "note": "Consumer guide for Vue 2 apps. The aha-design plugin links here instead of restating it."
+  },
+  "surfaces": ["presenter", "audience", "admin"],
+  "composedOf": [
+    { "ref": "button", "as": "component", "use": "actions — <aha-button variant size>, @click", "status": "available" },
+    { "ref": "input", "as": "component", "use": "text fields — <aha-input>, @input / @change with $event.detail.value", "status": "available" },
+    { "ref": "stepper", "as": "component", "use": "stage indicators — <aha-stepper :steps.prop :current>", "status": "available" }
+  ],
+  "rules": [
+    { "rule": "New UI in a Vue 2 app (new screen, panel, dialog or control) uses the DS <aha-*> elements — never a stpancras-storybook-app component.", "ref": ["VUE2-1"] },
+    { "rule": "Existing screens built on the kit stay as they are; migrate one to <aha-*> only when the task asks for it.", "ref": ["VUE2-2"] },
+    { "rule": "Load lib/all.js and tokens.css once for the whole app, pinned to a release tag — never @master and never per component.", "ref": ["VUE2-3"] },
+    { "rule": "Set Vue.config.ignoredElements = [/^aha-/] before new Vue(...).", "ref": ["VUE2-4"] },
+    { "rule": "Bind strings, numbers and booleans as attributes; bind arrays and objects as DOM properties with the .prop modifier; read event data from the CustomEvent's detail and ignore native events that bubble out of an input.", "ref": ["VUE2-5"] },
+    { "rule": "Size and style an <aha-*> only through its attributes and --aha-* tokens — never ::part sizing or recolouring.", "ref": ["VUE2-6"] }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only guide — the elements it uses are the ordinary DS exports in lib/all.js.",
+  "guide": "vue2.guide.md",
+  "whenToRead": "ANY new UI in a Vue 2 app (presenter, audience, admin, Nuxt 2): load <aha-*> via lib/all.js pinned to a tag, Vue.config.ignoredElements = [/^aha-/], .prop for arrays, $event.detail for events. New design uses <aha-*>, never stpancras-storybook-app; existing screens stay unless asked."
+}

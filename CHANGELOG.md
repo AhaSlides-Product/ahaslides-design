@@ -22,9 +22,168 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.74.1 — 2026-10-02
+## 0.98.1 — 2026-10-02
 ### Changed
 - Settings guidance, judge criterion C13 and evals now forbid restyling or replacing the NumberedItem number chip (#144)
+
+## 0.98.0 — 2026-10-06
+### Added
+- `<aha-close-button>` (`@ahaslides-product/design/aha-close-button`): the one dismiss ✕ for Alert, Info box, Background task, Toast, Notification, Modal and Drawer. It is the tertiary button at small size (28 × 28) with the 16px `system-x` icon, sits 8px from the container's edge, and lines up with the first line of text and the leading icon, so it stays put when the text wraps. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Feedback guideline rule `one-dismiss-button`, judged by the new feedback anti-slop criterion C6. (#168)
+- `dismissibleToast` (toast-theme) and `dismissibleTitle` (notification-theme) put the shared ✕ into antd's message and notification; `dismissibleModalTitle` (modal-theme) and `dismissibleDrawerTitle` (drawer-theme) put it into Modal and Drawer, which move from antd's own ✕ to the same 28 × 28 tertiary button, 8px from the edge. Pass `closable: false` (`closable={false}` on Modal and Drawer) so antd's own close is not drawn. (#168)
+### Changed
+- Alert `closable`, Info box `dismissible` and Background task now render `<aha-close-button>`: the Alert and Info box ✕ grows from a bare 16px or 20px glyph to the 28px tertiary button and turns brand on hover. Alert builds its shadow DOM once and updates it in place. `::part(close)` (Alert) and `::part(dismiss)` (Info box, Background task) now target the `<aha-close-button>` host, not a native button, so restyle overrides written against the old glyph button need checking. (#168)
+- Docs: navigation and reading labels (sidebar groups, playground rows, API table headers, "On this page", settings and token group headings) are sentence case at 14px semibold instead of 11px grey capitals; only chips and badges stay in capitals. Component groups read "Data entry" and "Data display". (#168)
+- Docs: the 148 example titles that listed variants with dots ("Sizes · small 24 · default 32…") are now short group titles ("Sizes"). (#168)
+
+## 0.97.0 — 2026-10-06
+### Changed
+- Every logo use now points to the Foundations Logo library: one rule in AGENTS.md, PRINCIPLES.md, llms.txt, the `aha-design` skill and the app-shell anti-slop criterion C1 (#167)
+- The docs header Splash is read from `logo/thesplash.svg` at build time, so it cannot drift from the library (#167)
+
+## 0.96.0 — 2026-10-06
+### Added
+- Logo library → Brands: **Microsoft Word** and **PDF** (Adobe file-type mark) in the "Import, export and cloud" section, ordered Excel, Word, PDF, Google Drive, OneDrive. Both are the current default SVG from thesvg.org (`microsoft-word`, `pdf`); the Brands tab and its highlight now count 21 brands. `llms.txt` lists them. (#166)
+
+## 0.95.0 — 2026-10-06
+### Fixed
+- Popover with `flip` (and so the `<aha-csat>` feedback popover) now opens in the browser top layer through the native Popover API (`popover="manual"`), so an `overflow`, `transform`, `filter` or `contain: paint` ancestor can no longer crop it and a sidebar or toast with a higher `z-index` can no longer cover it. Placement, flip, the 8px viewport clamp, the arrow, Esc and outside-click close, focus return and `aria-expanded` are unchanged; the panel still fades in and out. Browsers without the Popover API keep the previous fixed positioning. Popovers without `flip` are untouched. (#172)
+
+## 0.94.1 — 2026-10-06
+### Fixed
+- Background task: the failed state keeps the task's leading `slot="icon"` (the file's Logo-library logo, or the default file glyph) instead of swapping it for the red x-circle; the dead status glyph markup and CSS are removed. The heading stays neutral, so failure is carried by the heading text and the Try again button. The failed description is short and names the object ("Couldn’t import your file."), with no "Please try again.". (#171)
+
+## 0.94.0 — 2026-10-06
+### Changed
+- Background task: a file task's leading `slot="icon"` is now the file's brand logo from the Logo library (`logo/microsoft-powerpoint.svg`, `microsoft-excel.svg`, `pdf.svg`) as a 24px `<img>`, not an `<aha-icon>` glyph; the examples, snippets and contract say so. Cancelled and connection-lost cards keep the logo of the file they were importing; only the error state swaps to the x-circle glyph. The success check-circle drops from 16 to 12. Needs #166 (PDF logo) merged first. (#170)
+
+## 0.93.0 — 2026-10-06
+### Added
+- Background task takes the refined export design, generalised to any process: the heading is the file name with its extension ("Quarterly review.pdf"), a `link` slot that ends the description for an inline action ("Download didn't start? Retry"), and `no-percentage` for a process with no real percentage (the bar eases towards 90%, `value` ignored). New `<aha-background-task-stack>` is the fixed bottom-right column (320 wide, 8px gap) for several processes, newest on top, one card each. (#169)
+### Changed
+- Background task: the leading icon is centred on heading and description together; the finished card's rating sits 12px under the description, spanning the card under a divider. The error recovery button is secondary ("Try again") in the examples. Once the bar is gone (success, cancelled, error) a `caption` moves up to the description line, so "40/40 slides imported" sits where "Download didn't start?" does. Existing attributes and events are unchanged.
+
+## 0.90.0 — 2026-10-06
+### Added
+- Foundations → Logo library page (`foundations/logo.html`) with two tabs: **AhaSlides** (the logo, The Splash, and their white and black variants) and **Brands** (19 third-party logos scanned from what the presenter app renders: Google Slides, PowerPoint, Teams, Zoom, Excel, Google Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium). Each brand is the current full-colour SVG fetched from thesvg.org; `logo/manifest.json` records source URL, fetch date and where the presenter app shows it. Search, copy-name and download; tiles work with Enter and Space, and a repeat click while "copied!" is showing no longer replaces the tile name. Logos sit on uniform square tiles and are chunked into labelled sections (Sign-in, Integrations, Import, export and cloud, Payments, Community and social; Logo and The Splash) from each manifest entry's `section`; search hides empty sections. SVGs ship in `logo/` and are served at `/logo/`. Listed in `llms.txt`. (#164)
+
+## 0.89.0 — 2026-10-06
+### Added
+- Contracts, guidelines and marketing sections gain a `highlights` field (1–4 short bullets), rendered under the docs page title; `standards.mjs` requires it on contracts and guidelines (marketing sections are not gated). `summary` is unchanged, so the agent feeds (llms.txt, `*.md`, `*.agent.json`) read exactly as before. (#165)
+
+### Changed
+- Docs pages drop the small breadcrumb label above the H1 and show the passage under the title as a short bullet list (`highlights`) instead of one long paragraph. Applies to every component, pattern, guideline, marketing, foundations, feed, icon, settings and index page. (#165)
+
+## 0.87.3 — 2026-10-06
+### Fixed
+- `<aha-background-task>`: the ✕ now sits on the leading icon's row (top-aligned, 2px optical offset for its 28px box) instead of drifting to the vertical centre of wrapped descriptions. (#163)
+
+## 0.87.2 — 2026-10-06
+### Fixed
+- `<aha-background-task>` HTML example no longer auto-removes a finished card after 2s, and the JSDoc usage shows Cancel as a tertiary `<aha-button>` instead of a span. (#162)
+
+## 0.87.1 — 2026-10-06
+### Fixed
+- `<aha-background-task>` contract, JSDoc and HTML example no longer describe the removed Cancel link, red error styling or 2s auto-dismiss. (#161)
+
+## 0.87.0 — 2026-10-06
+### Added
+- `<aha-background-task>`: `rating-prompt` / `rating-source` attributes; the success state now always shows the DS `<aha-csat>` by default (a `footer` slot still overrides it). (#160)
+### Changed
+- Cancel is the DS tertiary `<aha-button size="sm">`, not a text link; the cancel-confirmation and connection-lost buttons are small and sit inside the card. (#160)
+- Error state follows the DS feedback rules: `--aha-color-error` x-circle glyph, neutral title, no red border; docs add a Try again action. (#160)
+### Fixed
+- Cancelled / terminal cards no longer carry a dead gap under the heading; footer spacing on DS space tokens. (#160)
+
+## 0.86.1 — 2026-10-06
+### Fixed
+- **Docs examples sit flush with the page, without a frame.** The bordered, rounded box and the side padding around each component's examples are gone, so group titles and previews align with the "Examples" heading. Card shadows are no longer clipped, the playground control bar is a rounded grey band of its own, and the "Show code" toolbar keeps its dashed divider. (#157)
+
+## 0.86.0 — 2026-10-06
+### Fixed
+- **`<aha-popover flip>` no longer opens off-screen.** Builds on the 0.85.0 vertical flip. With `flip` it now measures on open and flips to the roomier side (top/bottom, left/right) when the requested side does not fit, clamps 8px inside the viewport edges, and re-measures on resize, scroll and panel resize while open. It is positioned with `position: fixed`, so an `overflow: hidden/auto` ancestor (side panel, scroll container) no longer clips it; the arrow follows the flip and the trigger. A `transform`/`filter`/`contain: paint` ancestor still clips (and is compensated for offset). The host reports a flipped side as `flipped` plus `data-flipped` (the side).
+- **`<aha-csat>`'s feedback popover is always fully visible** — thumbs-down and the Feedback button both open above the thumbs when the CSAT sits at the bottom of the screen, via the popover fix above. The X close button is verified a rounded square (6px radius) at rest, hover, focus and press. (#159)
+
+## 0.85.0 — 2026-10-06
+### Changed
+- **`<aha-csat>` now mimics the presenter's inline CSAT (`InlineCSATV2`).** Once rated, only the chosen thumb remains; clicking it again un-rates (both thumbs return, `value` is removed, `rate` fires with `rating: null`). The selected thumb uses the antd tertiary active look (fill #F0E4FF, icon #6A1EBB) and hover icons are purple-50. The feedback popover focuses its textarea on open, defaults to "How can we improve? Let us know!", and after Send does not re-open on thumbs-down until the rating changes again. Default tooltips are now "Useful" / "Not useful". (#155)
+- **The feedback popover's X hover is a rounded square** (6px radius, like the info-box dismiss), no longer a circle.
+- **The CSAT docs preview shows only the Feedback-button example.** The unrated / rated / thank-you row and the separate thumbs-down popover demo are gone; the State bar drives the one remaining example.
+### Added
+- **`<aha-popover>` gains an opt-in `flip` attribute, and `<aha-csat>` uses it.** When the preferred side has no room (viewport or nearest scrolling ancestor), the panel opens on the opposite side, arrow included, so the CSAT feedback text box (from the thumbs-down or the Feedback button) is never cut off at the bottom of the screen. Evaluated on every open; default behaviour is unchanged for other popovers.
+- **The opt-in `feedback-button` now sits right beside the thumbs and stays visible after rating**, opening the popover without rating. `feedback-button-placeholder` falls back to `feedback-placeholder`.
+
+## 0.84.0 — 2026-10-06
+### Added
+- **Donut, pie and tree map say "No responses yet" when there is no data.** One short text, centred in the plot, in the chart's own ink (legible on a dark deck). The donut centre count is hidden meanwhile, so only one text shows. It is not announced twice (the summary already says it) and goes away on the first response. Vietnamese copy included. Every other chart type is unchanged. The Chart docs gain a 0-response case for tree map. (#158)
+
+## 0.82.1 — 2026-10-06
+### Fixed
+- **Docs preview group titles are readable and separated.** The `.lbl` headings above each group of examples were 11px grey uppercase and ran into one another. They are now sentence-case body-size semibold in secondary text colour, and every group after the first gets a top divider and spacing. `<aha-background-task>` preview titles are short ("In progress", "Cancel confirmation", "Finished", "Connection lost and error") instead of positional dot lists. (#156)
+
+## 0.82.0 — 2026-10-05
+### Changed
+- **`<aha-progress-toast>` renamed `<aha-background-task>` and moved from Components to Patterns.** It is the pattern for any long-running process (import, export, upload, duplicate), with the presenter's Import as the reference implementation, not a general component, and it differs from Toast (a one-line confirmation). Element, entry (`@ahaslides-product/design/aha-background-task`), contract and docs page are now `background-task`; the page lives under Patterns · AhaSlides surfaces. The class is `AhaBackgroundTask` / `defineAhaBackgroundTask`; the API is unchanged. The `--aha-toast-*` CSS custom properties are unchanged. (#153)
+### Deprecated
+- `<aha-progress-toast>` (0.81.0) stays registered as an alias of the same element and its entry still resolves; migrate to `<aha-background-task>`. The old `progress-toast/` docs page is removed.
+
+## 0.81.0 — 2026-10-05
+### Added
+- **`<aha-progress-toast>` (Feedback).** The presenter's Import notification as a shared primitive, matched 1:1 to `ImportProgressNotification.vue`: fixed bottom-right card (right 24, bottom 88), file icon, name, 5px bar with moving stripes, caption + Cancel link, and `progress` / `success` / `canceled` / `offline` / `error` states with a ✕ on success, canceled and error. `icon`, `action` and `footer` slots take the file-type icon, the Cancel link and the cancel confirmation, connection-lost buttons or the `<aha-csat>` completion rating. Values with no DS token are kept as built. Pure view: the consumer owns the task, copy and auto-dismiss. (#152)
+
+## 0.80.1 — 2026-10-05
+### Fixed
+- **The agent plugin no longer ships Python bytecode.** `agent/hooks/__pycache__/*.pyc` committed in 0.80.0 is removed, and `__pycache__/` and `*.pyc` are now ignored; `npm test` fails if bytecode is tracked under `agent/` again. (#151)
+
+## 0.80.0 — 2026-10-05
+### Added
+- **The DS ships its own Claude Code plugin.** This repo is now a plugin marketplace: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design`. The plugin (`agent/`) carries the `aha-design` skill and its hooks (prompt mandate, design guard incl. the Vue 2 new-file rule and storybook-kit block, end-of-turn judge, anti-slop floor), versioned with each release. Hooks read criteria from the installed package, else the plugin's own copy of `anti-slop/criteria.json` from the same release; no network. It replaces `aha-design` in `aha-claude-plugins` after a short overlap; enable one of the two. Setup is in the README, "Agent plugin". (#150)
+- `standards.mjs` fails when `agent/.claude-plugin/plugin.json`'s version differs from `package.json` or the plugin's criteria copy differs from the store; `npm test` runs the hook suites. (#150)
+### Fixed
+- **`tokens.css` and element registrations survive tree-shaking.** `sideEffects` now covers every CSS file (`*.css`), `lib/all.js` and `lib/aha-loader.js`, so a webpack / vue-cli build no longer drops `import '@ahaslides-product/design/tokens.css'`. `standards.mjs` fails when an exported CSS file or a custom-element registration is missing from `sideEffects`. (#150)
+
+## 0.79.1 — 2026-10-05
+### Fixed
+- **`@ahaslides-product/design/screen-lint` now resolves to `lintHtml`.** A duplicate `./screen-lint` key in `exports` (pointing at the CLI file) shadowed the new entry in 0.79.0; the CLI file stays importable as `./screen-lint.mjs`. A test now imports the documented path through the package name. (#149)
+- **`ds-lint-allow` names exact rules.** Naming `raw-hex` no longer also silences `canvas-hardcoded-colour`; only the short group names (`hex`, `responsive`) cover more than one rule. (#149)
+
+## 0.79.0 — 2026-10-05
+### Added
+- **`lintHtml(source, { surface, path? })`** — `screen-lint` as a pure importable function (`@ahaslides-product/design/screen-lint`): no fs, no process, no console, runs in Node and Cloudflare workerd, icon names bundled (`lib/icon-names.js`). Returns `{ findings: [{ rule, line, message, severity }] }`. The CLI is built on it and keeps its output and exit codes. (#148)
+- **Unit tests** for `lintHtml` (`tests/screen-lint.test.mjs`, `npm run test`), run in CI and `npm run check`. (#148)
+### Changed
+- **`ds-lint-allow` is now per rule with a reason**: `ds-lint-allow: <rule-id>[,<rule-id>] (<reason>)` silences only the named rules on that line. A bare `ds-lint-allow` no longer suppresses anything and is reported as a `ds-lint-allow-bare` warning (never a hard fail), so existing screens can migrate. (#148)
+
+## 0.78.0 — 2026-10-05
+### Added
+- **`<aha-stepper>`** — framework-free stepper (`stepper` page): numbered markers, a check on finished stages, the current stage marked with ink (outline + semibold, `aria-current="step"`), never the primary accent. `size="lg"` for a slide canvas, `navigable` for clickable stages, colours follow `currentColor` so it tracks the deck ink. (#147)
+- **`<aha-autocomplete>`** — framework-free autocomplete (`autocomplete-field` page) on the `<aha-select>` chrome: ARIA 1.2 combobox with a list popup, filter-as-you-type with the match in bold, Arrow / Alt+Arrow / Enter / Escape keyboard model, free text allowed, `input` and `change` events. (#147)
+- **Icons `system-sad-face` and `system-angry-face`** — on the 16px grid in the `system-smiley` style, for mood labels such as Sad and Mad. (#147)
+- **Guide: "Using the design system in Vue 2"** (`guidelines/vue2`) — new UI in the presenter, audience and admin apps uses `<aha-*>`, never the `stpancras-storybook-app` kit; existing screens stay unless a task asks to migrate. Covers loading `all.js` + `tokens.css` once pinned to a tag, `Vue.config.ignoredElements`, `.prop` bindings and `CustomEvent` detail, with a worked example. (#147)
+- **Judge criteria + eval cases**: canvas C23 and audience C35 (stage indicators and type-to-pick fields are `<aha-stepper>` / `<aha-autocomplete>`, current stage in ink), icons C7 (a glyph matches its word); the canvas and audience guidelines and guides now name both elements. (#147)
+
+## 0.77.0 — 2026-10-05
+### Added
+- **`<aha-button size="xl">`** — 52px tall, 28px padding, 12px radius, 16px label (the web-component twin of React `<XLButtonScope>`), for presenter controls drawn inside a slide canvas and read from across the room. Size only through the attribute; never `::part(button)` height, padding or font-size. (#146)
+- **Slide-canvas and audience rules that used to live only in the retired `aha-design-*` skills**, now in `guidelines/canvas.json`, `guidelines/audience.json`, the two guides and `llms.txt`: one accent per deck (`presentationColorPalette[0]` on `--aha-color-primary` at `:root`, same on canvas, audience and buttons; only label ink by contrast; semantic colours never as data colours); no slide-wide scrim on a framed photo deck; 1px neutral card hairline and 1.5px chip border; one dark ink `#1A1A1A`; motion tokens on persistent nodes. (#146)
+- **Judge criteria + eval cases** for those rules: canvas C17–C22 and audience C31–C34 in `anti-slop/criteria.json`, with bad and good cases in both eval sets. (#146)
+### Changed
+- **Presenter controls on the Developer Platform render in-canvas.** Canvas C3/C4 and the guide now scope the host control bar to built plugins that declare manifest actions; build-less slide types render an in-canvas `<aha-button size="xl">` row. (#146)
+- **Radius cap reconciled with the DS card.** Cards and panels are 12px (`--aha-radius-lg`), tiles, inputs and buttons 8px, nothing rectangular above 12px; the old "everything ≤ 8px" cap is gone from both guides. (#146)
+- **Audience type scale no longer contradicts itself.** Primary copy, option and chip labels are 16px (`--aha-size-l`); 14px (`--aha-size-default`) is secondary metadata only; the guide and C19 now state that `--aha-size-sm` is 12px. (#146)
+
+## 0.75.0 — 2026-10-05
+### Added
+- **Detail sections for expandable panels.** `DataTable.DetailSection` (and `DetailSection` from `createExpandableRows`) is one titled block of a detail panel; return one or several from `renderDetail` (e.g. a Questions sub-table above a Pages sub-table) and the panel stacks them 16 apart. The panel now owns sub-table styling too: every antd Table inside it is a white bordered card at one compact density (8 / 16 cells) whatever `size` it is given, so sub-tables need no margin, padding or `size` of their own. A new "report detail" case on the Data table page reproduces the eLearning Course report screen. (#141)
+### Fixed
+- **Expandable rows no longer misalign their own cells.** The 24px chevron / spacer sat on the text baseline, lifting the first-column text 2–3px above every other cell (header and body) and making decorated rows taller than plain ones (46px against 39px in a small table); the chevron now fits the 22px line, so every cell shares one baseline and one row height in detail, tree, DataTable and plain-Table modes. (#141)
+- **No empty chevron column.** A table where no row can expand (e.g. a nested Questions table before anyone answers) no longer reserves a spacer column in its header and rows. (#141)
+- **Expandable styles no longer leak into nested tables.** Row, tree-child and panel rules now target only the rows the hook owns, so a plain antd Table inside a panel keeps its own rows. (#141)
+- **A wide sub-table can no longer stretch the parent table**, and an `ellipsis` first column still truncates after the chevron. DataTable stops forcing `scroll.x: 'max-content'` when a column uses `ellipsis` (and nothing is freezable or resizable), so ellipsis columns truncate instead of scrolling — callers no longer need `scroll={{ x: undefined }}`. (#141)
+- **Sticky headers work in DataTable.** The rounded container clips with `overflow: clip` instead of `overflow: hidden`, which had made it a scroll container and broken `sticky`. (#141)
+
+## 0.74.1 — 2026-10-05
+### Changed
+- `AGENTS.md` now points agents at the full `<aha-chart>` configuration docs (`docs/chart/README.md`, `contracts/chart.json`, Charts tab) (#145).
 
 ## 0.74.0 — 2026-10-01
 ### Changed

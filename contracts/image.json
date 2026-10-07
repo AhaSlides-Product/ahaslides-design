@@ -1,11 +1,12 @@
 {
   "name": "Image",
   "slug": "image",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-image",
   "summary": "A framed image with rounded corners, a hover preview mask, a loading placeholder and a broken-src fallback.",
+  "highlights": ["Framed image with rounded corners", "Hover preview mask and loading placeholder", "Broken-src fallback"],
   "lead": "ONE custom element — <aha-image> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `src`/`alt` set the picture, `width`/`height` the frame, `radius` the corner. On hover the image scales while a mask fades in — both animate on a persistent node via the shared motion tokens — and a click opens a zoom preview. Turn the zoom off with `preview=\"false\"` (a plain framed picture); show a shimmer skeleton with `placeholder`; a broken/empty `src` swaps to a `fallback` glyph + label. Zero drift — the same element.",
   "codeNote": "The hover scale + mask fade live on a persistent node (only the :hover pseudo-class changes, never a subtree rebuild), so the transition always fires. Clicking (or Enter/Space on) the frame opens a modal preview overlay — a persistent node faded/scaled in on the shared tokens, never rebuilt on open. The load/error lifecycle toggles data-state on the persistent frame (loading→loaded→error) so the placeholder fades and the fallback reveals without a rebuild. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container-secondary", "bg-container", "bg-container-disabled", "bg-hover", "radius-xs", "radius-sm", "radius-default", "radius-lg", "radius-xl", "radius-pill", "text-inverse", "text-tertiary", "icon-muted", "icon-strong", "bg-overlay", "color-primary", "font-product"],

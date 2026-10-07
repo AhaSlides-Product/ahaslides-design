@@ -1,4 +1,4 @@
-import '@ahaslides-product/design/aha-alert';   // registers <aha-alert> (+ <aha-icon>)
+import '@ahaslides-product/design/aha-alert';   // registers <aha-alert> (+ <aha-icon>, <aha-close-button>)
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `close` event; React 19 can bind onClose directly.

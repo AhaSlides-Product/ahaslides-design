@@ -1,10 +1,11 @@
 {
   "name": "AutoComplete",
   "slug": "autocomplete",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Free-text input with suggestions as you type — search boxes, tag entry, known-but-open fields — rendered through the shared AutoComplete.",
+  "highlights": ["Free-text input with suggestions as you type", "For search boxes, tag entry and open-ended fields", "Rendered through the shared AutoComplete"],
   "lead": "AutoComplete carries a popup, live filtering and free-text-with-suggestions — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue). It renders on Ant's Select internals, so both wrappers theme once through the shared autocompleteTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Select.optionSelectedBg", "Select.optionActiveBg"],
   "spec": [
@@ -31,6 +32,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "AutoComplete", "when": "free text where suggestions help but the user may type their own value" },
+      { "what": "Autocomplete field (leaf <aha-autocomplete>)", "when": "the same free-text-with-suggestions field without React / Vue — a build-less slide type or a shadow-DOM surface" },
       { "what": "Select", "when": "the value MUST come from a known set — don't allow free text" },
       { "what": "Input", "when": "free text with no suggestions to offer" }
     ],

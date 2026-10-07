@@ -1,0 +1,20 @@
+import { useEffect, useRef } from 'react';
+import '@ahaslides-product/design/aha-background-task';   // registers <aha-background-task> (+ <aha-button>, <aha-close-button>)
+import '@ahaslides-product/design/icons';                // <aha-icon> glyphs
+
+// Attributes + slots only — React 18/19 render the element directly; `dismiss` is a DOM event.
+function ImportToast({ fileName, percent, state, onCancel, onDismiss }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const node = ref.current;
+    node.addEventListener('dismiss', onDismiss);
+    return () => node.removeEventListener('dismiss', onDismiss);
+  }, [onDismiss]);
+
+  return (
+    <aha-background-task ref={ref} state={state} heading={fileName} value={percent} caption={`${percent}%`}>
+      <img slot="icon" src="https://ahaslides-product.github.io/ahaslides-design/logo/microsoft-powerpoint.svg" width="24" height="24" alt="" />
+      {state === 'progress' && <aha-button slot="action" variant="tertiary" size="sm" onClick={onCancel}>Cancel</aha-button>}
+    </aha-background-task>
+  );
+}

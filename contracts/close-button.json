@@ -1,0 +1,156 @@
+{
+  "name": "Close button",
+  "slug": "close-button",
+  "group": "General",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-close-button",
+  "reuse": {
+    "entry": "./aha-close-button",
+    "registers": "aha-close-button",
+    "exportsNamed": [
+      "AhaCloseButton",
+      "defineAhaCloseButton"
+    ]
+  },
+  "summary": "The one dismiss ✕ for Alert, Info box, Background task, Toast, Notification, Modal and Drawer: the tertiary button at small size, lined up with the first line of text.",
+  "lead": "ONE custom element — <aha-close-button> — the shared dismiss control. It renders the DS tertiary <aha-button> at small size (28 × 28, icon-only) with the 16px system-x icon, so size, hover (brand tint + brand colour) and focus ring are the button's own. As a flex item it sits at the end of the row, aligned to the top and offset by half the difference between its height and the first line's height, so it is centred on the first line of text and the leading icon and does not move when the text wraps. The container passes the first line's height (--aha-close-line-height) and its own end padding (--aha-close-container-padding); the button then lands 8px from the container edge everywhere. Alert (closable), Info box (dismissible) and Background task render it already; Toast and Notification take it through dismissibleToast / dismissibleTitle. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. A press is a normal bubbling click, so React and Vue bind it directly.",
+  "tokensUsed": [
+    "space-8",
+    "space-28",
+    "button-ghost-bg-hover",
+    "color-primary",
+    "text-default",
+    "radius-xs"
+  ],
+  "spec": [
+    {
+      "label": "Button",
+      "value": "<aha-button variant=\"tertiary\" size=\"sm\" icon-only> · 28 × 28 · radius 4"
+    },
+    {
+      "label": "Icon",
+      "value": "system-x · 16px, by name"
+    },
+    {
+      "label": "Hover",
+      "value": "brand tint fill (button-ghost-bg-hover) + brand colour, the tertiary button's own"
+    },
+    {
+      "label": "Position",
+      "value": "end of the row, aligned to the first line of text and the leading icon; stays put when text wraps"
+    },
+    {
+      "label": "Edge",
+      "value": "8px from the container's end edge (--aha-close-inset)"
+    },
+    {
+      "label": "Used by",
+      "value": "Alert · Info box · Background task · Toast · Notification · Modal · Drawer"
+    }
+  ],
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Close",
+      "desc": "Accessible name; pass the translated string"
+    },
+    {
+      "name": "--aha-close-line-height",
+      "type": "CSS length",
+      "default": "28px",
+      "desc": "Height of the first line of text the ✕ is centred on"
+    },
+    {
+      "name": "--aha-close-container-padding",
+      "type": "CSS length",
+      "default": "8px",
+      "desc": "The container's end padding, so the ✕ lands 8px from its edge"
+    },
+    {
+      "name": "click",
+      "type": "event",
+      "default": "—",
+      "desc": "Native click; the container dismisses itself"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Close button",
+        "when": "the dismiss ✕ on an alert, info box, background task, toast or notification, or a new dismissible surface like them"
+      },
+      {
+        "what": "Modal / Drawer ✕",
+        "when": "closing an overlay; it is this element, carried in the title by dismissibleModalTitle / dismissibleDrawerTitle with antd's own close off"
+      }
+    ],
+    "note": "One rule: every dismiss ✕ is this element, Modal and Drawer included. Never hand-roll a ✕ button, never use antd's own notification or message close, and never resize it: it lines up with the first line of text, not the middle of the box."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "settings",
+    "audience"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "close-button.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "close-button.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "close-button.vue.txt"
+    }
+  ],
+  "preview": "close-button.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probe is the standalone close button.",
+    "ready": "!!(function(){var el=document.querySelector('aha-close-button[data-probe]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('aha-button');return b&&b.shadowRoot&&b.shadowRoot.querySelector('button');})()",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-close-button[data-probe]');var ab=el&&el.shadowRoot&&el.shadowRoot.querySelector('aha-button');var b=ab&&ab.shadowRoot&&ab.shadowRoot.querySelector('button');var i=ab&&ab.querySelector('aha-icon');if(!b)return{};var s=getComputedStyle(b);return{width:s.width,height:s.height,radius:s.borderTopLeftRadius,bg:s.backgroundColor,variant:ab.getAttribute('variant'),icon:i&&i.getAttribute('name'),iconSize:i&&i.getAttribute('size')};})()",
+    "expect": {
+      "width": "28px",
+      "height": "28px",
+      "radius": "4px",
+      "bg": "rgba(0, 0, 0, 0)",
+      "variant": "tertiary",
+      "icon": "system-x",
+      "iconSize": "16"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "tertiary button · small · 28 × 28 · 16px system-x",
+      "verdict": "PASS"
+    },
+    {
+      "label": "centred on the first line; stays put when text wraps",
+      "verdict": "PASS"
+    },
+    {
+      "label": "8px from the container edge everywhere",
+      "verdict": "PASS"
+    },
+    {
+      "label": "shadow DOM built once; label updates in place",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "One dismiss ✕ for every dismissible feedback surface",
+    "Tertiary button, small size, 16px close icon",
+    "Lines up with the first line of text, so it stays put when text wraps"
+  ]
+}

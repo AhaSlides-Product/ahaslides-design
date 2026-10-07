@@ -1,10 +1,11 @@
 {
   "name": "DatePicker",
   "slug": "datepicker",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "Pick a date or a date range from a calendar — schedules, deadlines, filters — rendered through the shared DatePicker.",
+  "highlights": ["Pick a date or date range from a calendar", "For schedules, deadlines and filters", "Rendered through the shared DatePicker"],
   "lead": "DatePicker carries a calendar panel, ranges, presets and locale handling — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared datepickerTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "DatePicker.cellActiveWithRangeBg", "DatePicker.cellHoverBg"],
   "spec": [

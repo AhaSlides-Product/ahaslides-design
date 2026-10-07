@@ -1,11 +1,12 @@
 {
   "name": "Segmented",
   "slug": "segmented",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-segmented",
   "summary": "Switch between a few mutually-exclusive options inline — labels, leading icons, or icon-only, in three sizes.",
+  "highlights": ["Switch between a few mutually exclusive options inline", "Labels, leading icons or icon-only", "Three sizes"],
   "lead": "ONE custom element — <aha-segmented> — defined once, imported unchanged by React and Vue. The DS V3 Segmented is a family, not a flat pill row: each item is a label, a leading icon + label, or an icon-only glyph (an aria-label is then required); an option can be disabled, or the whole control disabled. Three `size`s (small · medium · large) drive the height/padding/font/radius; `block` stretches it full-width with flex-equal options. Shadow-DOM CSS, themed only by --aha-* tokens; selection slides a persistent thumb (transform on a node that is never rebuilt), so it animates. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["gray-20", "gray-100", "bg-container", "text-secondary", "text-default", "text-disabled", "color-primary", "radius-xs", "radius-sm", "radius-default", "radius-lg", "font-product", "motion-mid", "ease-in-out", "ease-in-out-circ"],

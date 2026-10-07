@@ -6,6 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-space",
   "summary": "An even, DS-scale gap between a small inline set of items — buttons, tags, inline controls.",
+  "highlights": ["Even, DS-scale gap between a small inline set of items", "Buttons, tags and inline controls"],
   "lead": "ONE custom element — <aha-space> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `size` takes the named steps small/middle/large (8/16/24) or a raw pixel number, `direction=\"vertical\"` stacks the items instead, `align` sets cross-axis alignment, `wrap` lets a row flow onto multiple lines, and `split` rules a thin divider between adjacent items. Layout only — it never paints a background. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default", "split"],

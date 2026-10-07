@@ -5,6 +5,7 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "The WORDS in every product surface — sentence-case casing, one canonical label, and specific / actionable / blameless error-empty-feedback microcopy — applied to the labels and copy the existing components render.",
+  "highlights": ["The words on every product surface", "Sentence case, one canonical label", "Specific, actionable, blameless error, empty and feedback copy"],
   "lead": "UX writing is cross-cutting: every button label, slide-type name, heading, tooltip, empty state, and error message across the editor, dashboard, settings, and audience UIs is governed by the same casing and microcopy rules. This pattern ships NO new component — it documents WHAT the copy says and HOW it's cased, leaning on the existing Button label, Icon, and the --aha-color* feedback tokens. The narrative 'why', the worked before/after library, and the brand voice live in the DS `ux-writing` guide and aha-branding; this artifact carries only the enforceable wording rules and links each back by ref.",
   "skillRef": {
     "build": "DS guideline — guidelines/ux-writing.json",

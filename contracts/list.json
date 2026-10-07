@@ -1,11 +1,12 @@
 {
   "name": "List",
   "slug": "list",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-list",
   "summary": "A vertical list of uniform rows — avatar + title/description meta and trailing actions, with size, bordered and split options.",
+  "highlights": ["Vertical list of uniform rows", "Avatar, title and description meta, trailing actions", "Size, bordered and split options"],
   "lead": "ONE custom element — <aha-list> — defined once, imported unchanged by React and Vue. Feed it structured rows via `items` (each { title, description?, avatar?, actions? } lays out a leading avatar, a title + description meta block, and a trailing actions cluster), or drop light-DOM children for plain free-form rows. Config: `size` (small · default · large row padding), `bordered` (outer container border), `split` (row dividers, on by default), `list-title` (header), `footer`, and a `loading` skeleton. Rows highlight on hover when interactive; the last row drops its divider. Zero drift — the same element, not two look-alikes. Emits a composed `action`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper that listens for `action`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-container", "border", "split", "radius-lg", "radius-sm", "radius-xs", "radius-pill", "text-default", "text-secondary", "text-tertiary", "bg-hover", "bg-accent", "color-primary", "color-error", "border-focus", "font-product"],

@@ -1,10 +1,15 @@
 <script setup>
+import { h } from 'vue';
 import { ConfigProvider, message, Button, Space } from 'ant-design-vue';   // ant-design-vue v4
-import { toastTheme } from '@ahaslides-product/design/toast-theme';
+import { toastTheme, dismissibleToast } from '@ahaslides-product/design/toast-theme';
 
 // v4: use the hook so every toast consumes the ConfigProvider theme.
 // The static message.success() is FORBIDDEN — it renders outside the provider and drops the theme.
 const [messageApi, contextHolder] = message.useMessage();
+
+// a sticky toast (duration 0) needs a way out: the shared ✕
+const showSticky = () => messageApi.open({ key: 'offline', type: 'warning', duration: 0,
+  content: () => dismissibleToast(h, 'You are offline', () => messageApi.destroy('offline')) });
 </script>
 
 <template>
@@ -16,6 +21,7 @@ const [messageApi, contextHolder] = message.useMessage();
       <a-button @click="messageApi.warning('You are near the slide limit')">Warn</a-button>
       <a-button danger @click="messageApi.error('Upload failed')">Fail</a-button>
       <a-button @click="messageApi.loading('Saving your changes…')">Save (async)</a-button>
+      <a-button @click="showSticky">Sticky</a-button>
     </a-space>
   </a-config-provider>
 </template>

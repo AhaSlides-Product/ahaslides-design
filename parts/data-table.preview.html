@@ -15,7 +15,7 @@ import { tableTheme } from '../lib/table-theme.js';
 
 const React = window.React, antd = window.antd, h = React.createElement;
 const DataTable = createDataTable({ React, antd });
-const { Button, Space, Table, ConfigProvider } = antd;
+const { Button, Space, Table, ConfigProvider, Typography } = antd;
 const { useExpandableRows } = createExpandableRows({ React });
 const { useState } = React;
 
@@ -76,6 +76,38 @@ const teamRows = [
   { key: 't3', name: 'Sales', responses: 0, score: 0 },
 ];
 
+const quiet = (text) => h(Typography.Text, { type: 'secondary' }, text);
+const ordinal = (position, title) => h('span', null, quiet(position + '. '), title);
+const reportPages = ['Why Active Listening Matters', 'Hearing vs. Listening', 'Listening Techniques in Practice', 'Blockers vs. Good Listening Habits', 'Key Takeaways']
+  .map((title, index, all) => ({ key: 'rp' + index, index, title, reached: 24 - index * 3, score: index === 2 ? '83%' : null, dropOff: index === all.length - 1 ? null : 3 }));
+const reportQuestions = [
+  { key: 'rq1', prompt: 'What is the key difference between hearing and listening, according to this lesson?', answered: 21, correct: '86%', tries: '1.2' },
+  { key: 'rq2', prompt: 'Match each listening technique to the example that demonstrates it.', answered: 18, correct: '72%', tries: '1.6' },
+  { key: 'rq3', prompt: 'A customer says: "This is the third time I\'ve come back about this." What\'s the best first reply?', answered: 0, correct: null, tries: null },
+];
+const reportLessons = ['Foundations of Customer Service', 'Active Listening for Customer Service', 'Handling Complaints: The LEARN Model']
+  .map((title, index) => ({ key: 'rl' + index, index, title, pages: 5, completion: [62, 41, 0][index], score: ['78%', '79%', null][index] }));
+const orDash = (value) => (value == null ? quiet('—') : value);
+const questionColumns = [
+  { key: 'prompt', title: 'Question', dataIndex: 'prompt', ellipsis: true },
+  { key: 'answered', title: 'Answered', dataIndex: 'answered', width: 110, align: 'right' },
+  { key: 'correct', title: 'Correct', dataIndex: 'correct', width: 110, align: 'right', render: orDash },
+  { key: 'tries', title: 'Avg tries', dataIndex: 'tries', width: 110, align: 'right', render: orDash },
+];
+const reportPageColumns = [
+  { key: 'title', title: 'Page', dataIndex: 'title', render: (_, page) => ordinal(page.index + 1, page.title) },
+  { key: 'reached', title: 'Reached', dataIndex: 'reached', width: 110, align: 'right' },
+  { key: 'score', title: 'Score', dataIndex: 'score', width: 110, align: 'right', render: orDash },
+  { key: 'dropOff', title: 'Drop-off', dataIndex: 'dropOff', width: 110, align: 'right', render: orDash },
+];
+const lessonDetail = () => [
+  h(DataTable.DetailSection, { key: 'questions', title: 'Questions' },
+    h(DataTable, { rowKey: 'key', pagination: false, columns: questionColumns, dataSource: reportQuestions,
+      expandableRows: { renderDetail: () => quiet('Learner answers'), rowExpandable: (question) => question.answered > 0, getRowLabel: (question) => question.prompt } })),
+  h(DataTable.DetailSection, { key: 'pages', title: 'Pages' },
+    h(Table, { rowKey: 'key', pagination: false, columns: reportPageColumns, dataSource: reportPages })),
+];
+
 function LazyDetailTable() {
   const [loadingKeys, setLoadingKeys] = useState([]);
   const [loaded, setLoaded] = useState({});
@@ -133,6 +165,15 @@ function App() {
       h(DataTable, { rowKey: 'key', dataSource: pageRows, columns: pageColumns, pagination: false,
         expandableRows: { renderDetail: subTable, expandAllToggle: true, defaultExpandedRowKeys: ['p1'], getRowLabel: (record) => record.page,
           rowExpandable: (record) => record.answers.length > 0 } })),
+    h(Case, { title: 'Expandable rows · report detail', hint: 'a panel of titled DetailSections, each holding a sub-table (a DataTable with its own chevrons above a plain Table); numbers right-aligned, quiet dashes for no data' },
+      h(DataTable, { rowKey: 'key', dataSource: reportLessons, pagination: false,
+        expandableRows: { renderDetail: lessonDetail, defaultExpandedRowKeys: ['rl1'], getRowLabel: (lesson) => lesson.title },
+        columns: [
+          { key: 'title', title: 'Lesson', dataIndex: 'title', ellipsis: true, render: (_, lesson) => ordinal(lesson.index + 1, lesson.title) },
+          { key: 'pages', title: 'Pages', dataIndex: 'pages', width: 100, align: 'right', render: (pages) => pages + ' pages' },
+          { key: 'completion', title: 'Completion', dataIndex: 'completion', width: 120, align: 'right', render: (percent) => percent + '%' },
+          { key: 'score', title: 'KC score', dataIndex: 'score', width: 120, align: 'right', render: orDash },
+        ] })),
     h(Case, { title: 'Expandable rows · loading slot', hint: 'detail fetched on first open — spinner until it lands' },
       h(LazyDetailTable)),
     h(Case, { title: 'Expandable rows · tree', hint: 'children share the parent’s columns' },

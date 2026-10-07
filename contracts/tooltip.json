@@ -1,11 +1,12 @@
 {
   "name": "Tooltip",
   "slug": "tooltip",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-tooltip",
   "summary": "A short, transient hint shown on hover or focus of its trigger.",
+  "highlights": ["Short, transient hint", "Shown on hover or focus of its trigger"],
   "lead": "ONE custom element — <aha-tooltip text=\"…\"> — wraps a trigger and shows the shared dark-navy bubble (with an arrow) on hover/focus. Defined once, imported unchanged by React and Vue; shadow-DOM CSS, themed only by --aha-* tokens. This is the single shared tooltip the settings pattern's ? help glyph references. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "text-tertiary", "motion-fast", "radius-pill", "tooltip-max-width"],

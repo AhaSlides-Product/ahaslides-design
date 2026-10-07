@@ -5,6 +5,7 @@
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to build a modal, drawer, or popover — surface choice, safety-critical dismiss behaviour, state reset, drawer placement/width, the async-confirm pattern, inline error surfacing, and danger-styled confirms — built from existing components.",
+  "highlights": ["How to build a modal, drawer or popover", "Surface choice, safety-critical dismiss, state reset, drawer placement and width", "Async confirm, inline errors, danger-styled confirms"],
   "lead": "Overlays are where a stray backdrop click can destroy data, so they need shared safety rules or every confirm/delete/detail surface drifts. This pattern ships NO new component: it documents how to compose an AntD Modal/Drawer/Popover with the shared Button, the AhaAlert banner, and useIsMobile() so dismiss behaviour, state reset, and error handling stay consistent and safe. The narrative 'why', worked examples, and full assertion set live in the DS `overlays` guide; this artifact carries only what the repo can enforce, traced back by ref.",
   "skillRef": {
     "build": "DS guideline — guidelines/overlays.json",
@@ -43,7 +44,7 @@
     {
       "ref": "icon",
       "as": "component",
-      "use": "the X close glyph and footer action glyphs — functional icons only, via the shared Icon",
+      "use": "footer action glyphs — functional icons only, via the shared Icon; the Modal and Drawer dismiss ✕ is the shared <aha-close-button> through dismissibleModalTitle / dismissibleDrawerTitle with closable={false}",
       "status": "available"
     },
     {

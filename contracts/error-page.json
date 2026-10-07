@@ -6,6 +6,7 @@
   "badge": "shared web component",
   "element": "aha-error-page",
   "summary": "The full-page error — an error code (404 · 403 · 500 · offline · generic) mapped to a DS Result with British-English copy, an optional action, role=alert and a telemetry event.",
+  "highlights": ["Full-page error mapped from a code: 404, 403, 500, offline, generic", "DS Result with British English copy and an optional action", "role=alert and a telemetry event"],
   "lead": "ONE custom element — <aha-error-page> — composed from the shipped <aha-result> and <aha-button>. `code` picks the state and its default copy, each of which names what failed, says why and gives a next step; the retryable codes (500 · offline · generic) carry a primary \"Try again\" action. heading / body / action-label override the defaults with your translated strings, and action-label=\"\" drops the button. The host is role=\"alert\" so the failure is announced, fires `error-page-view` { code } once per code for telemetry, and `action` { code } when the button is pressed. Fills the viewport by default; `contained` fits it to a parent box.",
   "codeNote": "Map your router / fetch failures to a code and render this — never a bespoke \"Something went wrong\" div. Listen for error-page-view to report the error, and action to retry or navigate.",
   "tokensUsed": [

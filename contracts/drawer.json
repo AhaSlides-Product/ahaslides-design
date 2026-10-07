@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A side panel that slides in for a longer edit or detail view — rendered through the shared Drawer.",
+  "highlights": ["Side panel that slides in", "For longer edits and detail views", "Rendered through the shared Drawer"],
   "lead": "Drawer carries a mask, focus-trapping, scroll-locking and a slide-in from an edge — too much to rebuild as a web component — so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared drawerTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Drawer.colorBgElevated"],
   "spec": [
@@ -23,7 +24,7 @@
     { "name": "size", "type": "default | large", "default": "default", "desc": "antd preset size (378/736 l·r); the DS default is 378" },
     { "name": "footer", "type": "ReactNode", "default": "—", "desc": "Pinned actions row (keep the primary action here)" },
     { "name": "mask", "type": "boolean", "default": "true", "desc": "Dim + scroll-lock the page behind the panel" },
-    { "name": "closable", "type": "boolean", "default": "true", "desc": "Show the header close (X)" },
+    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared <aha-close-button> rides in the title (dismissibleDrawerTitle) instead of antd's own close" },
     { "name": "onClose", "type": "() => void", "default": "—", "desc": "Dismiss handler" }
   ],
   "opinion": {

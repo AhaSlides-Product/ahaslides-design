@@ -1,11 +1,12 @@
 {
   "name": "Statistic",
   "slug": "statistic",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-statistic",
   "summary": "A single headline number with a caption, prefix/suffix (text or icon), precision, trend colour and a loading skeleton.",
+  "highlights": ["Single headline number with a caption", "Prefix and suffix as text or icon, precision, trend colour", "Loading skeleton"],
   "lead": "ONE custom element — <aha-statistic> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; `label` captions the figure, `value` is the number (`precision` formats it to N decimals with thousands separators), `prefix`/`suffix` frame it as text and `prefix-icon`/`suffix-icon` frame it with a DS icon by name, and `trend` tints the figure success-green or error-red with a matching arrow glyph so the up/down signal is never colour-only. `loading` swaps in a shimmer skeleton. Icons are summoned by name from the DS library via <aha-icon> — never an inline glyph. Zero drift — the same element.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default", "text-secondary", "text-tertiary", "color-success", "color-error", "bg-container-secondary", "split", "radius-xs", "font-product"],

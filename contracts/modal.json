@@ -5,6 +5,7 @@
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
   "summary": "A focused, blocking dialog in two types — a Confirmation (yes/no decision) and an Action (a task surface) — rendered through the shared Modal.",
+  "highlights": ["Focused, blocking dialog", "Confirmation for yes or no decisions, Action for task surfaces", "Rendered through the shared Modal"],
   "lead": "Modal carries focus-trapping, a mask, scroll-locking and enter/leave motion — too much to rebuild as a web component — so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared modalTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "Modal.contentBg", "Modal.headerBg", "Modal.titleColor", "Modal.titleFontSize"],
   "spec": [
@@ -28,7 +29,7 @@
     { "name": "styles", "type": "object", "default": "modalStyles('simple')", "desc": "Height cap + body scroll for the size — modalStyles(size)" },
     { "name": "footer", "type": "ReactNode", "default": "—", "desc": "DS footer: Learn-more link (left, a --aha-text-link anchor — external-link glyph only when it leaves AhaSlides) + Cancel + Apply (right)" },
     { "name": "centered", "type": "boolean", "default": "false", "desc": "Vertically centre the dialog in the viewport" },
-    { "name": "closable", "type": "boolean", "default": "true", "desc": "Show the top-right close (X)" },
+    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared <aha-close-button> rides in the title (dismissibleModalTitle) instead of antd's own close" },
     { "name": "mask", "type": "boolean", "default": "true", "desc": "Render the dimming overlay behind the dialog" }
   ],
   "opinion": {

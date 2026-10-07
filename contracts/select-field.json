@@ -1,11 +1,12 @@
 {
   "name": "Select field",
   "slug": "select-field",
-  "group": "Data Entry",
+  "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-select",
   "summary": "Pick one value from a short, known set — a lightweight native-select-backed field that embeds anywhere.",
+  "highlights": ["Pick one value from a short, known set", "Lightweight native-select-backed field", "Embeds anywhere"],
   "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a popup + virtualised list, it is a styled control backed by a NATIVE <select>, so it inherits the OS keyboard model, focus and a11y for free — no custom listbox, no roving to hand-roll. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach. The open dropdown is a fully THEMED role=\"listbox\" popup (DS surface, radius 8, elevation shadow, brand-tinted hover + a check on the selected option) — not the browser's native <select> list; it's an accessible combobox (Arrow/Home/End, typeahead, Enter/Escape, outside-click).",
   "tokensUsed": [
     "color-primary",

@@ -195,6 +195,7 @@ for (const ct of contracts) {
   // 1) contract completeness
   const missing = REQUIRED.filter(k => ct[k] == null || (Array.isArray(ct[k]) && !ct[k].length));
   chk('contract complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
+  chk('docs page highlights (1–4 short bullets)', Array.isArray(ct.highlights) && ct.highlights.length >= 1 && ct.highlights.length <= 4 && ct.highlights.every(h => typeof h === 'string' && h.trim()), 'add highlights: 1–4 short bullet strings (rendered under the page title)');
   // Decision: every component supports all three — HTML / React / Vue — and HTML LEADS (it's the
   // default doc tab + agent-feed snippet). Enforce both, not just "≥2 snippets".
   const snippetKeys = (ct.snippets || []).map(s => s.key);
@@ -567,6 +568,7 @@ for (const p of guidelines) {
   // 1) completeness + kind + the skill it distils
   const missing = GUIDELINE_REQUIRED.filter(k => p[k] == null || (Array.isArray(p[k]) && !p[k].length));
   chk('guideline complete (all required fields)', missing.length === 0, `missing: ${missing.join(', ')}`);
+  chk('docs page highlights (1–4 short bullets)', Array.isArray(p.highlights) && p.highlights.length >= 1 && p.highlights.length <= 4 && p.highlights.every(h => typeof h === 'string' && h.trim()), 'add highlights: 1–4 short bullet strings (rendered under the page title)');
   chk('kind is "guideline"', p.kind === 'guideline');
   chk('links a build skill (skillRef.build)', p.skillRef && typeof p.skillRef.build === 'string', 'add skillRef.build — the design skill it distils');
 
@@ -771,6 +773,50 @@ const repoChecks = [];
     if (/\.(json|md)$/.test(f) && /aha-design:aha-design-|`aha-design-[a-z-]+`\s+skill/.test(read(join(root, dir, f)))) retiredSkillRefs.push(`${dir}/${f}`);
   repoChecks.push(['guideline pages do not point at retired aha-design-* skills', retiredSkillRefs.length === 0,
     `the plugin ships one skill (aha-design); point at the DS guide / anti-slop feed instead: ${retiredSkillRefs.join(', ')}`]);
+}
+/* ===== sideEffects — a bundler (webpack / vue-cli) drops an import whose module is not listed as a side
+   effect, so `import '@ahaslides-product/design/tokens.css'` or a custom-element registration import
+   would silently vanish from a consumer build. A pattern without a slash matches the basename, as in webpack. */
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const patterns = (PKG.sideEffects || []).map(p => {
+    const source = p.replace(/^\.\//, '').replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*\*/g, '\u0000').replace(/\*/g, '[^/]*').replace(/\u0000/g, '.*');
+    return p.includes('/') ? new RegExp(`^${source}$`) : new RegExp(`(^|/)${source}$`);
+  });
+  const isSideEffect = (path) => patterns.some(re => re.test(path.replace(/^\.\//, '')));
+  const exportTargets = (node) => typeof node === 'string' ? [node] : node && typeof node === 'object' ? Object.values(node).flatMap(exportTargets) : [];
+  const cssExports = [...new Set(exportTargets(PKG.exports).filter(t => t.endsWith('.css')))];
+  const uncoveredCss = cssExports.filter(t => !isSideEffect(t));
+  rchk('every exported .css file is listed in package.json sideEffects', uncoveredCss.length === 0,
+    `a bundler tree-shakes these CSS imports away — add them (or "*.css") to sideEffects: ${uncoveredCss.join(', ')}`);
+  const registrations = readdirSync(join(root, 'lib')).filter(f => f.endsWith('.js'))
+    .filter(f => f === 'all.js' || /customElements\.define\(/.test(read(join(root, 'lib', f))))
+    .map(f => `./lib/${f}`).filter(f => !isSideEffect(f));
+  rchk('every custom-element registration entry point is listed in package.json sideEffects', registrations.length === 0,
+    `importing these only for their registration would be tree-shaken away — add them to sideEffects: ${registrations.join(', ')}`);
+}
+/* ===== agent plugin — the DS ships its own Claude Code plugin from agent/, listed by the repo-root
+   marketplace. The plugin version is the package version, so every release bumps both, and its
+   criteria copy is the store's, so the skill, hooks and rules ship as one version. */
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const readJson = (path) => { try { return JSON.parse(read(join(root, path))); } catch { return null; } };
+  const marketplace = readJson('.claude-plugin/marketplace.json');
+  const listed = marketplace?.plugins?.find(p => p.name === 'ahaslides-design');
+  rchk('marketplace lists the ahaslides-design plugin from ./agent', marketplace?.name === 'ahaslides-design' && listed?.source === './agent',
+    '.claude-plugin/marketplace.json must be named "ahaslides-design" and list plugin "ahaslides-design" with source "./agent"');
+  rchk('marketplace entry carries no version of its own', listed && !('version' in listed),
+    'the version lives in agent/.claude-plugin/plugin.json only — drop it from the marketplace entry');
+  const plugin = readJson('agent/.claude-plugin/plugin.json');
+  rchk(`agent plugin version ${plugin?.version} matches package.json ${PKG.version}`, plugin?.name === 'ahaslides-design' && plugin?.version === PKG.version,
+    `bump agent/.claude-plugin/plugin.json "version" to ${PKG.version} — the plugin releases with the package`);
+  rchk('agent plugin ships the aha-design skill and its hooks',
+    existsSync(join(root, 'agent', 'skills', 'aha-design', 'SKILL.md')) && existsSync(join(root, 'agent', 'hooks', 'hooks.json')),
+    'agent/skills/aha-design/SKILL.md and agent/hooks/hooks.json must exist');
+  const bundled = join(root, 'agent', 'anti-slop', 'criteria.json');
+  rchk('agent plugin criteria copy equals anti-slop/criteria.json',
+    existsSync(bundled) && read(bundled) === read(join(root, 'anti-slop', 'criteria.json')),
+    'run npm run generate — it rewrites agent/anti-slop/criteria.json from the store; commit the result');
 }
 if (UPDATE_BASELINE) writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Per-file count of raw padding/margin/gap px declarations (> 1px) in component source, grandfathered. standards.mjs fails when a file exceeds its count; lower it with --update-baseline.', spacingPx: spacingPxBaselineNext }, null, 1) + '\n');
 for (const note of spacingPxLowered) console.log(`ratchet: ${note}`);

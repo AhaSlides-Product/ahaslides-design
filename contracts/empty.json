@@ -1,11 +1,12 @@
 {
   "name": "Empty",
   "slug": "empty",
-  "group": "Data Display",
+  "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-empty",
   "summary": "The placeholder for a surface that has no data yet.",
+  "highlights": ["Placeholder for a surface with no data yet"],
   "lead": "ONE custom element — <aha-empty> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Empty is a small family: an `image` (a 64×41 line-art illustration by default, or a smaller `simple` graphic for tight surfaces, or a custom picture via slot=\"image\"), a caption from the `description` attribute or the default slot (description=\"\" hides it), and an optional action (slot=\"action\"). A static marker — no interactive state, so no motion. Zero drift — the same element.",
   "codeNote": "The built-in illustration is the component's own line-art graphic, drawn with currentColor from a token-bound host colour — not a catalogue glyph; slot=\"image\" can supersede it with any picture (e.g. an <aha-icon>). Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-tertiary", "text-disabled", "font-product"],

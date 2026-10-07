@@ -1,0 +1,244 @@
+{
+  "name": "Stepper",
+  "slug": "stepper",
+  "group": "Navigation",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-stepper",
+  "summary": "Show where a short linear flow is — finished, current and upcoming stages — as one framework-free element that also works on a slide canvas and an audience phone.",
+  "highlights": ["Shows where a short linear flow stands", "Finished, current and upcoming stages", "One framework-free element for slide canvas and audience phone"],
+  "lead": "ONE custom element — <aha-stepper> — defined once, imported unchanged by HTML, React and Vue. It is the LEAF counterpart to the composite Steps (antd): no React needed, so a build-less slide type (presenter.html / audience.html loading lib/all.js) gets the same stepper instead of hand-rolling pills. The current stage is marked with INK — a solid ink outline on the marker plus a semibold label — never the primary accent, so on a canvas the accent stays on the one button that advances the flow. Every colour derives from currentColor, so setting `color` on the element (the deck ink on a canvas) re-inks the whole stepper on light, dark and photo decks. A `current` change toggles attributes on persistent nodes, so the marker, label and connector transitions fire.",
+  "tokensUsed": [
+    "text-default",
+    "border-focus",
+    "weight-semibold",
+    "weight-regular",
+    "radius-sm",
+    "font-product",
+    "space-8",
+    "space-4",
+    "space-12"
+  ],
+  "spec": [
+    {
+      "label": "Marker",
+      "value": "24px circle (lg 32px), 1.5px border, step number; finished swaps the number for system-check"
+    },
+    {
+      "label": "Current",
+      "value": "ink outline (currentColor) + 8% ink tint + semibold label · aria-current=\"step\" · never the primary accent"
+    },
+    {
+      "label": "Finished",
+      "value": "60% ink border + check, 80% ink label, 60% ink connector"
+    },
+    {
+      "label": "Upcoming",
+      "value": "35% ink border, 62% ink number and label, 20% ink connector"
+    },
+    {
+      "label": "Label",
+      "value": "14px (lg 18px, the canvas body size); under 480px of width only the current stage's label stays visible (the rest stay screen-reader text)"
+    },
+    {
+      "label": "Connector",
+      "value": "1px hairline, flexes between steps"
+    },
+    {
+      "label": "Ink",
+      "value": "currentColor, default --aha-text-default #1A1A1A; set color on the element to follow the deck ink"
+    }
+  ],
+  "props": [
+    {
+      "name": "steps",
+      "type": "string (\"A|B|C\") | { label }[]",
+      "default": "[]",
+      "desc": "The ordered stages — a pipe list, a JSON attribute, or a `.steps` property"
+    },
+    {
+      "name": "current",
+      "type": "number",
+      "default": "0",
+      "desc": "Zero-based index of the current stage; earlier stages show as finished"
+    },
+    {
+      "name": "size",
+      "type": "md | lg",
+      "default": "md",
+      "desc": "lg = 32px marker + 18px label, for a slide canvas read from across the room"
+    },
+    {
+      "name": "navigable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Each stage becomes a button; a click sets `current` and emits `change`"
+    },
+    {
+      "name": "completed-label",
+      "type": "string",
+      "default": "Completed",
+      "desc": "Screen-reader suffix for finished stages — pass the translated word"
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "Progress",
+      "desc": "Accessible name of the list — pass a translated name"
+    },
+    {
+      "name": "change",
+      "type": "CustomEvent<{index}>",
+      "default": "—",
+      "desc": "Composed event when a navigable stage is clicked"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Stepper (this leaf)",
+        "when": "a short linear flow (2–6 stages) on any surface, including a slide canvas or audience phone with no React — e.g. a retro's Ideas → Group → Vote → Discuss"
+      },
+      {
+        "what": "Steps (composite)",
+        "when": "a React / Vue app wizard that needs vertical layout, descriptions, dot style or per-step error status"
+      },
+      {
+        "what": "Tabs / Segmented",
+        "when": "peer views the user switches between freely — no order, no progress"
+      }
+    ],
+    "note": "Keep labels to one or two words. The stepper shows progress; it is not the control that advances it — pair it with one primary <aha-button> (Next), which keeps the accent. Never recolour the current stage with the accent or a semantic colour, and never restyle it through ::part.",
+    "dsv3": "NEW leaf — the framework-free twin of the DS V3 Steps set. Numbered 24/32px markers, check on finished, ink-marked current stage (canvas judge C16/C23: a stepper never takes the primary accent), 1px hairline connectors, motion tokens on persistent nodes."
+  },
+  "a11y": {
+    "role": "an ordered list (<ol>) with an accessible name; the current item carries aria-current=\"step\"; finished items add a visually hidden \"Completed\" suffix",
+    "keyboard": "static by default (nothing to focus). With `navigable`, each stage is a native <button> in tab order — Enter / Space activates; no roving role is declared",
+    "note": "Markers are aria-hidden; the label text is the accessible name of each stage, so the step number is not read twice."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "presenter",
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-stepper",
+    "registers": "aha-stepper",
+    "exportsNamed": [
+      "AhaStepper",
+      "defineAhaStepper"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "stepper.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "stepper.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "stepper.vue.txt"
+    }
+  ],
+  "codeNote": "Same element, same shadow-DOM CSS → identical render in every framework. React < 19 sets `steps` as a property through a ref; Vue binds `:steps.prop`.",
+  "preview": "stepper.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "current",
+        "label": "Current",
+        "default": "1",
+        "options": [
+          {
+            "label": "1",
+            "value": "0"
+          },
+          {
+            "label": "2",
+            "value": "1"
+          },
+          {
+            "label": "3",
+            "value": "2"
+          },
+          {
+            "label": "4",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "prop": "size",
+        "label": "Size",
+        "default": "md",
+        "options": [
+          {
+            "label": "Default",
+            "value": "__remove__"
+          },
+          {
+            "label": "Large (canvas)",
+            "value": "lg"
+          }
+        ]
+      },
+      {
+        "prop": "navigable",
+        "label": "Navigable",
+        "default": "off",
+        "options": [
+          {
+            "label": "Off",
+            "value": "__remove__"
+          },
+          {
+            "label": "On",
+            "value": ""
+          }
+        ]
+      }
+    ]
+  },
+  "selfCheck": [
+    {
+      "label": "current stage marked with ink outline + semibold, never the accent",
+      "verdict": "PASS"
+    },
+    {
+      "label": "finished stages show system-check via <aha-icon>",
+      "verdict": "PASS"
+    },
+    {
+      "label": "aria-current=\"step\" re-synced on every current change (observed)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "current change animates on persistent nodes",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The probe stepper sits on a white stage at current=1 with the default ink.",
+    "ready": "!!(document.querySelector('aha-stepper[data-probe]') && document.querySelector('aha-stepper[data-probe]').shadowRoot && document.querySelector('aha-stepper[data-probe]').shadowRoot.querySelector('.step[data-state=\"current\"] .marker'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-stepper[data-probe]').shadowRoot;var m=r.querySelector('.step[data-state=\"current\"] .marker');var l=r.querySelector('.step[data-state=\"current\"] .label');var sm=getComputedStyle(m),sl=getComputedStyle(l);return{markerW:sm.width,markerH:sm.height,markerBorder:sm.borderTopColor,labelColor:sl.color,labelWeight:sl.fontWeight,labelSize:sl.fontSize,ariaCurrent:r.querySelector('.step[aria-current=\"step\"]')?'step':null};})()",
+    "expect": {
+      "markerW": "24px",
+      "markerH": "24px",
+      "markerBorder": "rgb(26, 26, 26)",
+      "labelColor": "rgb(26, 26, 26)",
+      "labelWeight": "600",
+      "labelSize": "14px",
+      "ariaCurrent": "step"
+    }
+  }
+}

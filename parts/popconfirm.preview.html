@@ -52,7 +52,7 @@ function Demo() {
     <ConfigProvider theme={window.__pop}>
       <div style={{ maxWidth: 620 }}>
         {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
-        <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+        <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8 }}>
           <Seg label="Placement" value={placement} onChange={setPlacement}
             options={[
               { label: 'Top', value: 'top' }, { label: 'Bottom', value: 'bottom' },

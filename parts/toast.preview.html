@@ -14,6 +14,10 @@
 <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
 <script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
 <script>window.__antdR = window.antd;</script>
+<script type="module">
+  import { dismissibleToast } from '../lib/toast-theme.js';   // registers <aha-close-button> — the shipped ✕
+  window.__dismissibleToast = dismissibleToast;
+</script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script>
@@ -61,7 +65,10 @@ function Demo() {
   const [api, ctx] = message.useMessage();
   const [type, setType] = useState('success');
   // sticky toast on mount so qa can measure the real rendered notice (default: success)
-  useEffect(() => { api.open({ type: 'success', content: CONTENT.success, duration: 0 }); }, []);
+  // it is sticky, so it carries the shared ✕ (dismissibleToast) 
+  const sticky = () => api.open({ key: 'sticky', type: 'success', duration: 0,
+    content: window.__dismissibleToast(React.createElement, CONTENT.success, () => api.destroy('sticky')) });
+  useEffect(() => { sticky(); }, []);
   const show = () => (type === 'loading'
     ? api.loading(CONTENT.loading)
     : api[type](CONTENT[type]));
@@ -69,7 +76,7 @@ function Demo() {
     <div className="aha-demo">
       {ctx}
       {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
-      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8, border: '1px solid var(--aha-split)' }}>
+      <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8 }}>
         <Seg label="Type" value={type} onChange={setType}
           options={[
             { label: 'Success', value: 'success' },
@@ -79,8 +86,9 @@ function Demo() {
             { label: 'Loading', value: 'loading' },
           ]} />
       </div>
-      <div className="lbl">Fire a "{type}" toast — top-centre, auto-dismiss in 3s</div>
-      <Button type="primary" onClick={show}>Show toast</Button>
+      <div className="lbl">Fire a toast</div>
+      <Button type="primary" onClick={show} style={{ marginRight: 8 }}>Show toast</Button>
+      <Button onClick={sticky}>Sticky with close</Button>
     </div>
   );
 }

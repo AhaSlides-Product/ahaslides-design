@@ -185,6 +185,51 @@
         "authored": "ahaslides-design",
         "why": "no plugin case exercised this DS criterion"
       }
+    },
+    {
+      "id": 8,
+      "prompt": "Review these retro column headers: Glad uses `<aha-icon name=\"system-smiley\">`, Sad uses `<aha-icon name=\"system-thumbs-down\">`, Mad uses `<aha-icon name=\"system-fire\">`. All 16px, colour via token. Is this OK?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C7 bad — Team Retro D17.",
+      "expected_output": "C7 FAILs: thumbs-down and fire do not depict Sad and Mad. Use system-sad-face and system-angry-face beside system-smiley. Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Names system-sad-face and system-angry-face"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review these retro column headers: Glad `<aha-icon name=\"system-smiley\" size=\"16\">`, Sad `<aha-icon name=\"system-sad-face\" size=\"16\">`, Mad `<aha-icon name=\"system-angry-face\" size=\"16\">`, each aria-hidden beside its text label, colour from --aha-text-default. Is this correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C7 good control.",
+      "expected_output": "C7 PASSes: each glyph depicts its label, from the shared set at an on-grid size. Overall: OK TO SHIP",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C7 is marked PASS"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C7": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "Team Retro DS audit D13 / D15 / D17: the DS now ships <aha-stepper>, <aha-autocomplete> and the sad / angry face glyphs"
+      }
     }
   ]
 }
