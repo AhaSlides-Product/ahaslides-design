@@ -178,6 +178,7 @@ const COMPONENTS_CATALOG = [
     { name: 'User info',    slug: 'user-info' },
     { name: 'Badge',        slug: 'badge' },
     { name: 'Tag',          slug: 'tag' },
+    { name: 'Status icon',  slug: 'status-icon' },
     { name: 'Tooltip',      slug: 'tooltip' },
     { name: 'Popover',      slug: 'popover' },
     { name: 'Tabs',         slug: 'tabs' },
