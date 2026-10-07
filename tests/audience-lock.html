@@ -15,6 +15,8 @@
   <aha-audience-submit id="submit" lock-key="shared">Submit</aha-audience-submit>
 
   <aha-scale-slider id="unset-slider" min="0" max="10" unset></aha-scale-slider>
+  <aha-scale-slider id="tap-slider" min="1" max="5" unset></aha-scale-slider>
+  <aha-scale-slider id="drag-gated-slider" min="1" max="5" unset commit-on-drag></aha-scale-slider>
   <script type="module">
     try { sessionStorage.clear(); } catch {}
     await import('../lib/all.js');

@@ -37,10 +37,24 @@ const scenarios = String.raw`(async () => {
   await tick();
   out.unsetMinimumChanges = changes;
   out.unsetCleared = !slider.hasAttribute('unset');
+
+  const tap = async (target, landOn) => {
+    const changes = [];
+    target.addEventListener('change', (event) => changes.push(event.detail.value));
+    const input = target.shadowRoot.querySelector('input');
+    const at = { bubbles: true, composed: true, clientX: 10, clientY: 10, pointerId: 1 };
+    input.dispatchEvent(new PointerEvent('pointerdown', at));
+    if (landOn != null) { input.value = String(landOn); input.dispatchEvent(new Event('input', { bubbles: true })); }
+    input.dispatchEvent(new PointerEvent('pointerup', at));
+    await tick();
+    return { changes, unset: target.hasAttribute('unset') };
+  };
+  out.tapOnRestingThumb = await tap($('tap-slider'));
+  out.dragGatedTap = await tap($('drag-gated-slider'), 5);
   return out;
 })()`;
 
-test('the submission lock only adds a lock, never clears a host-set one, and an unset scale can pick its minimum', { skip }, async () => {
+test('the submission lock only adds a lock, never clears a host-set one, an unset scale can pick its minimum, and a commit-on-drag tap only previews', { skip }, async () => {
   const result = await evaluateInPage(fixture, scenarios, { readyExpr: '!!window.audienceLockFixtureReady', timeout: 45000 });
   assert.deepEqual(result, {
     hostDisabledSliderKept: true,
@@ -52,5 +66,7 @@ test('the submission lock only adds a lock, never clears a host-set one, and an 
     listReleasedWithoutKey: true,
     unsetMinimumChanges: [0],
     unsetCleared: true,
+    tapOnRestingThumb: { changes: [1], unset: false },
+    dragGatedTap: { changes: [], unset: true },
   });
 });
