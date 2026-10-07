@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.98.1 — 2026-10-02
+### Changed
+- Settings guidance, judge criterion C13 and evals now forbid restyling or replacing the NumberedItem number chip (#144)
+
 ## 0.98.0 — 2026-10-06
 ### Added
 - `<aha-close-button>` (`@ahaslides-product/design/aha-close-button`): the one dismiss ✕ for Alert, Info box, Background task, Toast, Notification, Modal and Drawer. It is the tertiary button at small size (28 × 28) with the 16px `system-x` icon, sits 8px from the container's edge, and lines up with the first line of text and the leading icon, so it stays put when the text wraps. Modal and Drawer take it through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Feedback guideline rule `one-dismiss-button`, judged by the new feedback anti-slop criterion C6. (#168)
