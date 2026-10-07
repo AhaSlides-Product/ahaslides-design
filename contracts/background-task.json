@@ -126,7 +126,7 @@
       "name": "slot=link",
       "type": "slot",
       "default": "—",
-      "desc": "Inline text action that ends the description, e.g. <a href=\"#\" role=\"button\">Retry</a>; styled as a DS link"
+      "desc": "Inline text action that ends the description, e.g. <a href=\"#\" role=\"button\">Retry</a>; flows inline with the description text and wraps with it like a word (never a separate column); underlined at rest in the DS link colour, with a visible focus ring. An outer style on the link overrides this, so don't recolour it"
     },
     {
       "name": "slot=action",

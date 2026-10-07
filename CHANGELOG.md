@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.99.2 — 2026-10-07
+### Fixed
+- Background task: the `link` slot ("Retry") now flows inline with the description and wraps with it like a word, instead of sitting as a separate column beside a wrapped line (seen in French). It stays underlined in the DS link colour at rest. The examples cover French, German, Vietnamese and Russian. (#PRNUM)
+
 ## 0.99.1 — 2026-10-07
 ### Fixed
 - CSAT: a long rating question (e.g. a French translation) wraps onto a second line with the thumbs kept beside it, instead of running past the edge of its container. The background-task examples show the French case. (#179)
