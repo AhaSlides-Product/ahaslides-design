@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.98.3 — 2026-10-07
 ### Fixed
-- `<aha-background-task>` offline (frozen) bar is now neutral grey (track #F1F1F1, fill #B5B5B5) instead of lavender (#PR)
-- Cancelled-card previews now carry the PowerPoint logo like every other card, and no longer claim an invented failure reason (#PR)
+- `<aha-background-task>` offline (frozen) bar is now neutral grey (track #F1F1F1, fill #B5B5B5) instead of lavender (#174)
+- Cancelled-card previews now carry the PowerPoint logo like every other card, and no longer claim an invented failure reason (#174)
 
 ## 0.98.1 — 2026-10-02
 ### Changed
