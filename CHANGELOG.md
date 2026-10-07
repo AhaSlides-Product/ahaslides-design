@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.102.0 — 2026-10-07
 ### Removed
-- **Breaking (pre-1.0):** CSAT: the `thanks` attribute (the in-place thank-you line, its `thanks` part and `data-done` flag) is gone; the product has no such case. Migrate by showing the shared toast "Thank you for your feedback!" from the `feedback` event. The no-op `inline` attribute is no longer mentioned in the docs (#PRNUM)
+- **Breaking (pre-1.0):** CSAT: the `thanks` attribute (the in-place thank-you line, its `thanks` part and `data-done` flag) is gone; the product has no such case. Migrate by showing the shared toast "Thank you for your feedback!" from the `feedback` event. The no-op `inline` attribute is no longer mentioned in the docs (#187)
 
 ## 0.100.4 — 2026-10-07
 ### Fixed
