@@ -88,9 +88,9 @@ const chk = (list, name, cond, note = '') => list.push([name, !!cond, cond ? '' 
 
 /* ---- global feeds ---- */
 const g = [];
-chk(g, 'variables.css has canonical tokens', /--aha-color-primary:#6A1EBB/i.test(read(join(DIST,'variables.css'))) && /--aha-radius-default:8px/.test(read(join(DIST,'variables.css'))));
+chk(g, 'variables.css has canonical tokens', /--aha-color-primary:#E70E68/i.test(read(join(DIST,'variables.css'))) && /--aha-radius-default:8px/.test(read(join(DIST,'variables.css'))));
 chk(g, 'variables.css clean (no Google Fonts / no Inter)', !/googleapis|\bInter\b/.test(read(join(DIST,'variables.css'))));
-chk(g, 'design.md carries brand + architecture', /#6A1EBB/.test(read(join(DIST,'design.md'))) && /Leaf primitives/.test(read(join(DIST,'design.md'))));
+chk(g, 'design.md carries brand + architecture', /#E70E68/.test(read(join(DIST,'design.md'))) && /Leaf primitives/.test(read(join(DIST,'design.md'))));
 { const dm = read(join(DIST,'design.md'));
   chk(g, 'design.md carries full palette (primitive ramps + semantic tables)',
     /primitive ramps/i.test(dm) && /--aha-btn-encourage-bg/.test(dm) && /--aha-brand-13/.test(dm) && /`100`/.test(dm)); }
@@ -98,7 +98,7 @@ chk(g, 'index.html present', read(join(DIST,'index.html')).length > 400);
 chk(g, 'llms.txt lists Checkbox + Table', /Checkbox/.test(read(join(DIST,'llms.txt'))) && /Table/.test(read(join(DIST,'llms.txt'))));
 chk(g, 'llms-full.txt non-empty', read(join(DIST,'llms-full.txt')).length > 400);
 { const cp = read(join(DIST,'foundations','colour.html'));
-  chk(g, 'foundations/colour.html styled in shell', /class="doc-nav"/.test(cp) && /--aha-color-primary:#6A1EBB/i.test(cp) && /Primitive ramps/i.test(cp)); }
+  chk(g, 'foundations/colour.html styled in shell', /class="doc-nav"/.test(cp) && /--aha-color-primary:#E70E68/i.test(cp) && /Primitive ramps/i.test(cp)); }
 { const fp = read(join(DIST,'feeds','llms-txt.html'));
   chk(g, 'feed pages: in-shell + raw content in code wrapper', /class="doc-nav"/.test(fp) && /class="code-panel feed"/.test(fp) && /Checkbox/.test(fp)); }
 results.push({ slug: '(global feeds)', checks: g });

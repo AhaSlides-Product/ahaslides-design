@@ -70,6 +70,6 @@
     "ready": "!!(document.querySelector('aha-color-picker[data-probe]') && document.querySelector('aha-color-picker[data-probe]').shadowRoot && document.querySelector('aha-color-picker[data-probe]').shadowRoot.querySelector('.swatch.on'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-color-picker[data-probe]');var sr=el.shadowRoot;var cur=sr.querySelector('.current');var trg=sr.querySelector('.trigger');var on=sr.querySelector('.swatch.on');var os=getComputedStyle(on);return{currentBg:getComputedStyle(cur).backgroundColor,currentRadius:getComputedStyle(cur).borderTopLeftRadius,triggerBorder:getComputedStyle(trg).borderTopColor,triggerRadius:getComputedStyle(trg).borderTopLeftRadius,selectedRing:os.outlineColor,selectedPressed:on.getAttribute('aria-pressed'),swatchWidth:os.width};})()",
-    "expect": { "currentBg": "rgb(106, 30, 187)", "currentRadius": "4px", "triggerBorder": "rgb(227, 227, 227)", "triggerRadius": "6px", "selectedRing": "rgb(106, 30, 187)", "selectedPressed": "true", "swatchWidth": "28px" }
+    "expect": { "currentBg": "rgb(106, 30, 187)", "currentRadius": "4px", "triggerBorder": "rgb(227, 227, 227)", "triggerRadius": "6px", "selectedRing": "rgb(231, 14, 104)", "selectedPressed": "true", "swatchWidth": "28px" }
   }
 }

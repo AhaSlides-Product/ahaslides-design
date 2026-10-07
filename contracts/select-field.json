@@ -34,7 +34,7 @@
     },
     {
       "label": "Focus",
-      "value": "brand #6A1EBB border + solid 2px #D3B4FF (border-focus) ring; hover #6A1EBB border"
+      "value": "brand #E70E68 border + solid 2px #E70E68 (border-focus) ring; hover #E70E68 border"
     },
     {
       "label": "Placeholder",
@@ -46,7 +46,7 @@
     },
     {
       "label": "Status",
-      "value": "error #F5222D · warning #FF7747 border"
+      "value": "error #000000 · warning #000000 border"
     },
     {
       "label": "Popup",
@@ -119,7 +119,7 @@
       }
     ],
     "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need search, tags, or a virtualised list.",
-    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #D3D7E1 (border-input), size axis small 32 / default 40 / large 48, brand #6A1EBB focus border + solid 2px #D3B4FF (border-focus) ring, #999999 placeholder, status error #F5222D / warning #FF7747. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, rest border border-input #D3D7E1, hover border color-primary #6A1EBB, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
+    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #D3D7E1 (border-input), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + solid 2px #E70E68 (border-focus) ring, #999999 placeholder, status error #000000 / warning #000000. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, rest border border-input #D3D7E1, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
   },
   "a11y": {
     "role": "the native <select> carries its own combobox/listbox semantics — no ARIA to bolt on",
@@ -232,7 +232,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "focus brand #6A1EBB border + solid #D3B4FF ring (persistent wrapper, animated)",
+      "label": "focus brand #E70E68 border + solid #E70E68 ring (persistent wrapper, animated)",
       "verdict": "PASS"
     },
     {

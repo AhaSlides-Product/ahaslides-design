@@ -35,7 +35,7 @@ single-source-of-truth contract. *(`PAYWALL-01`)*
 
 A paywall popover, top to bottom, is always:
 
-1. **Header** — the purple circular **custom CrownBadge** (16×16 SVG) followed by the
+1. **Header** — the Vivid Pink circular **custom CrownBadge** (16×16 SVG) followed by the
    **feature label**. Never the generic Phosphor Crown — it lacks the circular background.
 2. **Body** — a one-sentence value prop, then the line **"Unlock with the _\<Plan\> plan_."**
    (plan name bold).
@@ -88,7 +88,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 ## Visual
 
 - Dark indigo surface (`color="#242442"`), 300px wide, 16px padding, 12px radius.
-- The crown badge is the purple-circle custom SVG — do not substitute a glyph; it lacks the
+- The crown badge is the Vivid Pink circle custom SVG — do not substitute a glyph; it lacks the
   circular background.
 
 ## Crown-badge-only anchor

@@ -13,16 +13,16 @@
   "tokensUsed": ["button-primary-bg", "button-primary-bg-hover", "button-primary-bg-press", "button-primary-text", "button-default-bg", "button-default-border", "button-danger-bg", "button-ghost-bg-hover", "button-positive-bg", "button-disabled-bg", "button-disabled-text", "button-focus-ring", "text-default", "text-link", "radius-xs", "radius-default", "focus"],
   "spec": [
     { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) — heights; fontSize 14 (sm/md) / 16 (lg/xl)" },
-    { "label": "Primary", "value": "bg #6A1EBB, label #FDFDFD, hover #8644D4, active #5715A0" },
-    { "label": "Secondary", "value": "white bg, #1A1A1A label, 1px #E3E3E3 border; hover brand-tint #F9F5FF + #A96FF0 border" },
-    { "label": "Tertiary / Link", "value": "transparent; tertiary hover #F9F5FF, active #F0E4FF; link #6A1EBB weight 400" },
-    { "label": "Danger", "value": "bg #F5222D, white label, hover #FF4D4F, active #CF1322" },
-    { "label": "Positive / Success", "value": "bg #4EF1C5, dark label #1A1A1A, hover #93F5DA, active #20E8B5 (success = alias of positive)" },
-    { "label": "Primary-alt", "value": "same fill as primary #6A1EBB (a second primary slot for a two-primary layout)" },
-    { "label": "Text / Text-link", "value": "white bg, no border, weight 400; text = secondary-grey label, hover grey fill; text-link = #6A1EBB label, hover #A96FF0" },
+    { "label": "Primary", "value": "bg #E70E68, label #FDFDFD, hover #DB005B, active #DB005B" },
+    { "label": "Secondary", "value": "white bg, #1A1A1A label, 1px #E3E3E3 border; hover brand-tint #FEF3F7 + #E70E68 border" },
+    { "label": "Tertiary / Link", "value": "transparent; tertiary hover #FEF3F7, active #FEF3F7; link #E70E68 weight 400" },
+    { "label": "Danger", "value": "bg #000000, white label, hover #000000, active #000000" },
+    { "label": "Positive / Success", "value": "bg #000000, dark label #1A1A1A, hover #000000, active #000000 (success = alias of positive)" },
+    { "label": "Primary-alt", "value": "same fill as primary #E70E68 (a second primary slot for a two-primary layout)" },
+    { "label": "Text / Text-link", "value": "white bg, no border, weight 400; text = secondary-grey label, hover grey fill; text-link = #E70E68 label, hover #E70E68" },
     { "label": "Disabled", "value": "bg #E3E3E3, label #B5B5B5" },
     { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl); icon 16px, inline-flex, 8px gap" },
-    { "label": "Focus", "value": "soft box-shadow ring, spread 2 — #D3B4FF@30% (default) · danger #FF2850@20% · positive #20E8B5@30%" },
+    { "label": "Focus", "value": "soft box-shadow ring, spread 2 — #E70E68@30% (default) · danger #FF2850@20% · positive #000000@30%" },
     { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" },
     { "label": "Icon-only", "value": "square (width = height per size: 28/36/40/52), glyph centred, no label; needs aria-label" }
   ],
@@ -45,7 +45,7 @@
       { "what": "icon-only", "when": "a compact action where the glyph is self-explanatory (close, more, add) — always give an aria-label" },
       { "what": "xl", "when": "a presenter control drawn inside the slide canvas (Reveal, Next, Start) that the room reads from a distance — not for app screens, where lg is the ceiling" }
     ],
-    "note": "Size: LARGE (lg) is the default for most actions; step down to MEDIUM (md) or SMALL (sm) in denser/secondary regions to lower an action's information-hierarchy, not by whim. Size only via the size attribute (sm / md / lg / xl) — never inline height/padding/radius/fontSize, and never through ::part(button). Recolour only by setting --aha-color-primary (plus the --aha-button-primary-* hover, press and text tokens) on the document root. Primary fill is #6A1EBB; hover #8644D4 per DS V3.",
+    "note": "Size: LARGE (lg) is the default for most actions; step down to MEDIUM (md) or SMALL (sm) in denser/secondary regions to lower an action's information-hierarchy, not by whim. Size only via the size attribute (sm / md / lg / xl) — never inline height/padding/radius/fontSize, and never through ::part(button). Recolour only by setting --aha-color-primary (plus the --aha-button-primary-* hover, press and text tokens) on the document root. Primary fill is #E70E68; hover #DB005B per DS V3.",
     "dsv3": "<aha-button> binds to a NAMED button semantic-token layer (--aha-button-*): --aha-button-primary-bg/-bg-hover/-bg-press/-text, --aha-button-default-bg/-text/-border/-bg-hover/-border-hover/-border-press, --aha-button-ghost-bg-hover/-bg-press (tertiary), --aha-button-danger-bg/-bg-hover/-bg-press/-text/-ring, --aha-button-positive-bg/-bg-hover/-bg-press/-text, --aha-button-disabled-bg/-text, --aha-button-focus-ring/-focus-ring-success, --aha-button-elevate-primary/-secondary. Each is a pure indirection whose value references the core DS token (e.g. --aha-button-primary-bg: var(--aha-color-primary)), so button theming can move independently of the core palette with NO visual change — the rendered colours are byte-identical to the raw --aha-btn-* seeds."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
@@ -89,13 +89,13 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Values are the component-standard measured target for btn|primary|md.",
     "ready": "!!(document.querySelector('aha-button[variant=\"primary\"][size=\"md\"]') && document.querySelector('aha-button[variant=\"primary\"][size=\"md\"]').shadowRoot && document.querySelector('aha-button[variant=\"primary\"][size=\"md\"]').shadowRoot.querySelector('button'))",
     "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('button');return b?{s:getComputedStyle(b),aria:b.getAttribute('aria-label')}:null;};var p=q('aha-button[variant=\"primary\"][size=\"md\"]:not([icon-only]):not([disabled])');var s=q('aha-button[variant=\"secondary\"][size=\"md\"]:not([icon-only])');var io=q('aha-button[icon-only][variant=\"primary\"][size=\"md\"]');return {primaryBg:p?p.s.backgroundColor:null,primaryFg:p?p.s.color:null,height:p?p.s.height:null,radius:p?p.s.borderTopLeftRadius:null,weight:p?p.s.fontWeight:null,fontSize:p?p.s.fontSize:null,secondaryBg:s?s.s.backgroundColor:null,secondaryBorder:s?s.s.borderTopColor:null,iconOnlyW:io?io.s.width:null,iconOnlyH:io?io.s.height:null,iconOnlyAria:io?(io.aria?'set':'missing'):null};})()",
-    "expect": { "primaryBg": "rgb(106, 30, 187)", "primaryFg": "rgb(253, 253, 253)", "height": "36px", "radius": "8px", "weight": "600", "fontSize": "14px", "secondaryBg": "rgb(255, 255, 255)", "secondaryBorder": "rgb(227, 227, 227)", "iconOnlyW": "36px", "iconOnlyH": "36px", "iconOnlyAria": "set" }
+    "expect": { "primaryBg": "rgb(231, 14, 104)", "primaryFg": "rgb(253, 253, 253)", "height": "36px", "radius": "8px", "weight": "600", "fontSize": "14px", "secondaryBg": "rgb(255, 255, 255)", "secondaryBorder": "rgb(227, 227, 227)", "iconOnlyW": "36px", "iconOnlyH": "36px", "iconOnlyAria": "set" }
   },
   "selfCheck": [
-    { "label": "primary #6A1EBB + white label", "verdict": "PASS" },
+    { "label": "primary #E70E68 + white label", "verdict": "PASS" },
     { "label": "sizes 28/36/40/52 · radius 4/8/8/12 · lg default", "verdict": "PASS" },
     { "label": "label SemiBold 600 14/1.5", "verdict": "PASS" },
     { "label": "icon+label optically centred", "verdict": "PASS" },
-    { "label": "focus ring 2px #6A1EBB", "verdict": "PASS" }
+    { "label": "focus ring 2px #E70E68", "verdict": "PASS" }
   ]
 }

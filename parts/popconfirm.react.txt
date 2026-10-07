@@ -8,7 +8,7 @@ import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
     okText="Delete"
     cancelText="Cancel"
     placement="top"          // top | bottom | left | right — arrow tracks the trigger
-    okType="danger"          // "primary" (purple) by default; "danger" = red confirm
+    okType="danger"          // "primary" (Vivid Pink) by default; "danger" = black confirm
     onConfirm={remove}
   >
     <Button danger>Delete slide</Button>

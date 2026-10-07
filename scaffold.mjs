@@ -55,7 +55,7 @@ const STYLE = \`
     height:36px; padding:0 16px; gap:8px;
     font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:14px; font-weight:600;
     border:0; border-radius:var(--aha-radius-default,8px); cursor:pointer;
-    background:var(--aha-color-primary,#6A1EBB); color:var(--aha-text-inverse,#FFFFFF) }
+    background:var(--aha-color-primary,#E70E68); color:var(--aha-text-inverse,#FFFFFF) }
   :host([disabled]) .box{ cursor:not-allowed; opacity:.5 }
 \`;
 
@@ -104,7 +104,7 @@ const contract = {
   tokensUsed: ['color-primary', 'text-inverse', 'radius-default', 'font-product'],
   spec: [
     { label: 'Size', value: 'height 36 (r8), 16px inline padding, label 14/1.5' },
-    { label: 'Fill', value: 'brand #6A1EBB, inverse label #FFFFFF' },
+    { label: 'Fill', value: 'brand #E70E68, inverse label #FFFFFF' },
   ],
   props: [
     { name: 'disabled', type: 'boolean', default: 'false', desc: 'non-interactive; dimmed' },
@@ -125,10 +125,10 @@ const contract = {
     ready: `!!(document.querySelector('${el}') && document.querySelector('${el}').shadowRoot && document.querySelector('${el}').shadowRoot.querySelector('.box'))`,
     singleUI: true,
     measure: `(function(){var el=document.querySelector('${el}');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.box');if(!b)return{};var s=getComputedStyle(b);return{bg:s.backgroundColor,fg:s.color,height:s.height,radius:s.borderTopLeftRadius};})()`,
-    expect: { bg: 'rgb(106, 30, 187)', fg: 'rgb(255, 255, 255)', height: '36px', radius: '8px' },
+    expect: { bg: 'rgb(231, 14, 104)', fg: 'rgb(255, 255, 255)', height: '36px', radius: '8px' },
   },
   selfCheck: [
-    { label: 'brand fill #6A1EBB + inverse label', verdict: 'PASS' },
+    { label: 'brand fill #E70E68 + inverse label', verdict: 'PASS' },
     { label: 'radius 8 · height 36', verdict: 'PASS' },
   ],
 };
@@ -150,7 +150,7 @@ const STYLE = \`
     height:36px; padding:0 16px; gap:8px;
     font-family:var(--aha-font-product,"Plus Jakarta Sans",sans-serif); font-size:14px; font-weight:600;
     border:0; border-radius:var(--aha-radius-default,8px); cursor:pointer;
-    background:var(--aha-color-primary,#6A1EBB); color:var(--aha-text-inverse,#FFFFFF) }
+    background:var(--aha-color-primary,#E70E68); color:var(--aha-text-inverse,#FFFFFF) }
   :host([disabled]) .box{ cursor:not-allowed; opacity:.5 }
 \`;
 class ${Cls} extends HTMLElement {

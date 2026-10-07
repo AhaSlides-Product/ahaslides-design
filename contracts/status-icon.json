@@ -28,11 +28,11 @@
     },
     {
       "label": "In progress",
-      "value": "system-circle-dashed \u00b7 primary #6A1EBB"
+      "value": "system-circle-dashed \u00b7 primary #E70E68"
     },
     {
       "label": "Completed",
-      "value": "system-check-circle \u00b7 success #16C49A"
+      "value": "system-check-circle \u00b7 success #000000"
     },
     {
       "label": "Sizes",

@@ -13,11 +13,11 @@
   "spec": [
     { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · 1px tonal border" },
     { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
-    { "label": "Info", "value": "bg #F4F8FF, border #BFD2FF, icon #9BB3E9" },
-    { "label": "Success", "value": "bg #D8FAEF, border #16C49A, icon/text #13A181" },
-    { "label": "Warning", "value": "bg #FFF5F0, border #FF7747, icon/text #E65B29" },
-    { "label": "Error", "value": "bg #FFF1F0, border #F5222D, icon/text #F5222D" },
-    { "label": "Branding", "value": "bg-accent #F9F5FF, border-focus #D3B4FF, icon/text color-primary #6A1EBB" },
+    { "label": "Info", "value": "bg #FFFFFF, border #000000, icon #000000" },
+    { "label": "Success", "value": "bg #FFFFFF, border #000000, icon/text #000000" },
+    { "label": "Warning", "value": "bg #FFFFFF, border #000000, icon/text #000000" },
+    { "label": "Error", "value": "bg #FFFFFF, border #000000, icon/text #000000" },
+    { "label": "Branding", "value": "bg-accent #FEF3F7, border-focus #E70E68, icon/text color-primary #E70E68" },
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
     { "label": "Banner", "value": "full-width, square (radius 0), border on the bottom edge only" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
@@ -76,8 +76,8 @@
   },
   "selfCheck": [
     { "label": "radius 8 · 1px tonal border", "verdict": "PASS" },
-    { "label": "info bg #F4F8FF / border #BFD2FF", "verdict": "PASS" },
-    { "label": "branding bg #F9F5FF / border #D3B4FF / color-primary glyph", "verdict": "PASS" },
+    { "label": "info bg #FFFFFF / border #000000", "verdict": "PASS" },
+    { "label": "branding bg #FEF3F7 / border #E70E68 / color-primary glyph", "verdict": "PASS" },
     { "label": "small compacts padding; banner squares the corners", "verdict": "PASS" },
     { "label": "status glyph via <aha-icon> by name; trailing action slot", "verdict": "PASS" },
     { "label": "closable animates out on a persistent node + emits composed close", "verdict": "PASS" }
@@ -87,6 +87,6 @@
     "ready": "!!(document.querySelector('aha-alert[data-probe]') && document.querySelector('aha-alert[data-probe]').shadowRoot && document.querySelector('aha-alert[data-probe]').shadowRoot.querySelector('.alert') && document.querySelector('aha-alert[type=\"branding\"]') && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot.querySelector('.alert'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-alert[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.alert');var s=a?getComputedStyle(a):null;var be=document.querySelector('aha-alert[type=\"branding\"]');var ba=be&&be.shadowRoot&&be.shadowRoot.querySelector('.alert');var bs=ba?getComputedStyle(ba):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,color:s?s.color:null,padTop:s?s.paddingTop:null,brandBg:bs?bs.backgroundColor:null,brandBorder:bs?bs.borderTopColor:null};})()",
-    "expect": { "bg": "rgb(244, 248, 255)", "border": "rgb(191, 210, 255)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(249, 245, 255)", "brandBorder": "rgb(211, 180, 255)" }
+    "expect": { "bg": "rgb(244, 248, 255)", "border": "rgb(191, 210, 255)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(254, 243, 247)", "brandBorder": "rgb(231, 14, 104)" }
   }
 }

@@ -10,8 +10,8 @@
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "DatePicker.cellActiveWithRangeBg", "DatePicker.cellHoverBg"],
   "spec": [
     { "label": "Field", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
-    { "label": "Selected cell", "value": "brand #6A1EBB" },
-    { "label": "In-range", "value": "brand-tint #F9F5FF" },
+    { "label": "Selected cell", "value": "brand #E70E68" },
+    { "label": "In-range", "value": "brand-tint #FEF3F7" },
     { "label": "Hover cell", "value": "#F7F7F7 (gray-20)" },
     { "label": "Placeholder", "value": "#8A8A8A" }
   ],
@@ -48,7 +48,7 @@
   "preview": "datepicker.preview.html",
   "selfCheck": [
     { "label": "field 32 · radius 8 · #E3E3E3", "verdict": "PASS" },
-    { "label": "selected cell brand #6A1EBB", "verdict": "PASS" },
+    { "label": "selected cell brand #E70E68", "verdict": "PASS" },
     { "label": "in-range brand-tint", "verdict": "PASS" },
     { "label": "placeholder #8A8A8A", "verdict": "PASS" }
   ],

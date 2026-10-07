@@ -43,16 +43,16 @@
       <div class="lbl">Outline and filled</div>
       <div class="row" style="gap:26px">
         <div class="stack" style="align-items:center"><aha-icon name="system-bookmark-simple" size="24" label="Not saved"></aha-icon><small class="cap">outline</small></div>
-        <div class="stack" style="align-items:center;color:var(--aha-color-primary,#6A1EBB)"><aha-icon name="system-bookmark-simple-filled" size="24" label="Saved"></aha-icon><small class="cap">filled</small></div>
+        <div class="stack" style="align-items:center;color:var(--aha-color-primary,#E70E68)"><aha-icon name="system-bookmark-simple-filled" size="24" label="Saved"></aha-icon><small class="cap">filled</small></div>
       </div>
       <div class="note" style="margin-top:6px">Active/“on” state = the dedicated <code>-filled</code> asset — a solid glyph survives greyscale, so state never rides on colour alone.</div>
     </div>
     <div>
       <div class="lbl">Colour</div>
       <div class="row" style="gap:26px">
-        <aha-icon name="system-check-circle" size="24" style="color:var(--aha-color-success,#16C49A)" label="Success"></aha-icon>
-        <aha-icon name="system-warning-circle" size="24" style="color:var(--aha-color-error,#F5222D)" label="Error"></aha-icon>
-        <aha-icon name="system-gear" size="24" style="color:var(--aha-color-primary,#6A1EBB)" label="Primary"></aha-icon>
+        <aha-icon name="system-check-circle" size="24" style="color:var(--aha-color-success,#000000)" label="Success"></aha-icon>
+        <aha-icon name="system-warning-circle" size="24" style="color:var(--aha-color-error,#000000)" label="Error"></aha-icon>
+        <aha-icon name="system-gear" size="24" style="color:var(--aha-color-primary,#E70E68)" label="Primary"></aha-icon>
         <aha-icon name="system-magnifying-glass" size="24" style="color:var(--aha-icon-default,#4B4B4B)" label="Default"></aha-icon>
       </div>
     </div>
@@ -62,7 +62,7 @@
   <div class="row" style="gap:28px">
     <button class="demo-btn"><aha-icon name="system-plus" size="16" decorative></aha-icon><span>Add slide</span></button>
     <span class="inline-ico" style="color:var(--aha-text-secondary,#6B6B6B)"><aha-icon name="system-magnifying-glass" size="16" decorative></aha-icon> Search results</span>
-    <span class="inline-ico" style="color:var(--aha-color-error,#F5222D)"><aha-icon name="system-warning-circle" size="12" decorative></aha-icon> This field is required</span>
+    <span class="inline-ico" style="color:var(--aha-color-error,#000000)"><aha-icon name="system-warning-circle" size="12" decorative></aha-icon> This field is required</span>
     <button class="icon-btn" aria-label="More actions" title="More actions"><aha-icon name="system-dots-three-vertical" size="16" decorative></aha-icon></button>
   </div>
 
@@ -83,7 +83,7 @@
   <!-- conformance probes: a stroke glyph at 24 + 16, wrapped in a known colour, proves both
        promises — the requested size becomes the rendered box, and the stroke inherits currentColor.
        Kept distinct from the playground probe (which carries data-pg-target). -->
-  <div style="color:rgb(106,30,187);position:absolute;left:-9999px" aria-hidden="true">
+  <div style="color:rgb(231,14,104);position:absolute;left:-9999px" aria-hidden="true">
     <aha-icon name="system-bell" size="24" data-probe="24"></aha-icon>
     <aha-icon name="system-bell" size="16" data-probe="16"></aha-icon>
   </div>
@@ -96,9 +96,9 @@
 <style>
   .cap{font-size:11px;color:var(--aha-text-tertiary,#8A8A8A);font-family:Menlo,monospace;margin-top:8px}
   .inline-ico{display:inline-flex;align-items:center;gap:4px;font-size:14px}
-  .demo-btn{display:inline-flex;align-items:center;gap:4px;font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:#fff;background:var(--aha-color-primary,#6A1EBB);border:none;border-radius:8px;padding:8px 14px;cursor:pointer}
+  .demo-btn{display:inline-flex;align-items:center;gap:4px;font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:#fff;background:var(--aha-color-primary,#E70E68);border:none;border-radius:8px;padding:8px 14px;cursor:pointer}
   .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;color:var(--aha-icon-default,#4B4B4B);background:transparent;border:1px solid var(--aha-split,#E3E3E3);border-radius:8px;cursor:pointer}
-  .icon-btn:hover{background:var(--aha-purple-10,#F3EAFF);color:var(--aha-color-primary,#6A1EBB)}
+  .icon-btn:hover{background:var(--aha-bg-accent,#FEF3F7);color:var(--aha-text-default,#1A1A1A)}
 </style>
 <script type="module">
   // Expose the imported registry for the doc's count + the conformance `ready` gate (window.AHA_ICONS).

@@ -12,9 +12,9 @@
   "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "teal-50", "color-success", "bg-warning-subtle", "border-warning", "color-warning", "pink-20", "pink-60", "text-default", "icon-muted", "bg-hover", "radius-default", "radius-sm"],
   "spec": [
     { "label": "Box", "value": "padding 12 16 · radius 8 · 1px tinted border + tinted fill per tone" },
-    { "label": "Information", "value": "#F4F8FF fill · #BFD2FF border · #9BB3E9 glyph (system-info)" },
-    { "label": "Success", "value": "#D8FAEF fill · #20E8B5 border · #16C49A glyph (system-check-circle)" },
-    { "label": "Warning", "value": "#FFE5D6 fill · #FF7747 border/glyph (system-warning-circle)" },
+    { "label": "Information", "value": "#FFFFFF fill · #000000 border · #000000 glyph (system-info)" },
+    { "label": "Success", "value": "#FFFFFF fill · #000000 border · #000000 glyph (system-check-circle)" },
+    { "label": "Warning", "value": "#FFFFFF fill · #000000 border/glyph (system-warning-circle)" },
     { "label": "Error", "value": "#FFE3E9 fill · #FF4081 border/glyph — Radical Pink, NOT red (system-x-circle)" },
     { "label": "Dismiss", "value": "optional shared <aha-close-button> ✕ (20 × 20, 14px system-x, #8A8A8A) top-pinned to the first line: hit area 15px from the right edge and 11px from the top; fades out on a persistent node, emits `dismiss`" },
     { "label": "Text", "value": "Plus Jakarta 14/21 #1A1A1A" }

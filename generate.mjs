@@ -305,13 +305,13 @@ function tokenVars(t) {
   /* focus */
   L.push(`--aha-focus:${c.focus}; --aha-focus-ring:${c.focus}; --aha-focus-ring-soft:${c.focusRingSoft};`);
   /* buttons */
-  L.push(`--aha-btn-primary-bg:${b.primaryBg}; --aha-btn-primary-bg-hover:${b.primaryBgHover}; --aha-btn-primary-bg-press:${b.primaryBgPress}; --aha-btn-primary-fg:${b.primaryFg}; --aha-btn-secondary-bg:${b.secondaryBg}; --aha-btn-secondary-bg-hover:${b.secondaryBgHover}; --aha-btn-secondary-border:${b.secondaryBorder}; --aha-btn-secondary-border-hover:${b.secondaryBorderHover}; --aha-btn-secondary-border-press:${b.secondaryBorderPress}; --aha-btn-tertiary-bg-hover:${b.tertiaryBgHover}; --aha-btn-tertiary-bg-active:${b.tertiaryBgActive}; --aha-btn-disabled-bg:${b.disabledBg}; --aha-btn-disabled-fg:${b.disabledFg}; --aha-btn-danger-bg:${b.dangerBg}; --aha-btn-danger-bg-hover:${b.dangerBgHover}; --aha-btn-danger-bg-press:${b.dangerBgPress}; --aha-btn-danger-ring:${b.dangerRing}; --aha-btn-positive-bg:${b.positiveBg}; --aha-btn-positive-bg-hover:${b.positiveBgHover}; --aha-btn-positive-bg-press:${b.positiveBgPress}; --aha-btn-positive-fg:${b.positiveFg}; --aha-btn-focus-ring:${b.focusRing}; --aha-btn-focus-ring-success:${b.focusRingSuccess}; --aha-btn-elevate-primary:${b.elevatePrimary}; --aha-btn-elevate-secondary:${b.elevateSecondary}; --aha-btn-encourage-bg:${b.encourageBg}; --aha-btn-encourage-bg-hover:${b.encourageBgHover}; --aha-btn-encourage-bg-press:${b.encourageBgPress};`);
+  L.push(`--aha-btn-primary-bg:${b.primaryBg}; --aha-btn-primary-bg-hover:${b.primaryBgHover}; --aha-btn-primary-bg-press:${b.primaryBgPress}; --aha-btn-primary-fg:${b.primaryFg}; --aha-btn-secondary-bg:${b.secondaryBg}; --aha-btn-secondary-bg-hover:${b.secondaryBgHover}; --aha-btn-secondary-border:${b.secondaryBorder}; --aha-btn-secondary-border-hover:${b.secondaryBorderHover}; --aha-btn-secondary-border-press:${b.secondaryBorderPress}; --aha-btn-tertiary-bg-hover:${b.tertiaryBgHover}; --aha-btn-tertiary-bg-active:${b.tertiaryBgActive}; --aha-btn-disabled-bg:${b.disabledBg}; --aha-btn-disabled-fg:${b.disabledFg}; --aha-btn-danger-bg:${b.dangerBg}; --aha-btn-danger-bg-hover:${b.dangerBgHover}; --aha-btn-danger-bg-press:${b.dangerBgPress}; --aha-btn-danger-ring:${b.dangerRing}; --aha-btn-positive-bg:${b.positiveBg}; --aha-btn-positive-bg-hover:${b.positiveBgHover}; --aha-btn-positive-bg-press:${b.positiveBgPress}; --aha-btn-positive-fg:${b.positiveFg}; --aha-btn-focus-ring:${b.focusRing}; --aha-btn-focus-ring-success:${b.focusRingSuccess}; --aha-btn-elevate-primary:${b.elevatePrimary}; --aha-btn-elevate-primary-hover:${b.elevatePrimaryHover}; --aha-btn-elevate-secondary:${b.elevateSecondary}; --aha-btn-encourage-bg:${b.encourageBg}; --aha-btn-encourage-bg-hover:${b.encourageBgHover}; --aha-btn-encourage-bg-press:${b.encourageBgPress};`);
   /* NAMED BUTTON SEMANTIC LAYER (--aha-button-*) — the DS V3 button token layer <aha-button> binds to.
      Each name references a CORE token whose value is IDENTICAL to the raw --aha-btn-* seed (a pure
      indirection, no colour change), so button theming can move independently of the core palette:
      re-point one --aha-button-* var and only the button retints, without disturbing --aha-color-primary
      or the shared --aha-btn-* seeds. This is a DEFINITION layer (the value SOURCE — not hex-scanned). */
-  L.push(`--aha-button-primary-bg:var(--aha-color-primary); --aha-button-primary-bg-hover:var(--aha-purple-50); --aha-button-primary-bg-press:var(--aha-purple-80); --aha-button-primary-text:var(--aha-gray-10); --aha-button-default-bg:var(--aha-white); --aha-button-default-text:var(--aha-text-default); --aha-button-default-border:var(--aha-gray-40); --aha-button-default-bg-hover:var(--aha-purple-10); --aha-button-default-border-hover:var(--aha-purple-40); --aha-button-default-border-press:var(--aha-gray-50); --aha-button-ghost-bg-hover:var(--aha-purple-10); --aha-button-ghost-bg-press:var(--aha-purple-15); --aha-button-danger-bg:var(--aha-red-60); --aha-button-danger-bg-hover:var(--aha-red-50); --aha-button-danger-bg-press:var(--aha-red-70); --aha-button-danger-text:var(--aha-text-inverse); --aha-button-danger-ring:var(--aha-btn-danger-ring); --aha-button-positive-bg:var(--aha-teal-40); --aha-button-positive-bg-hover:var(--aha-teal-30); --aha-button-positive-bg-press:var(--aha-teal-50); --aha-button-positive-text:var(--aha-text-default); --aha-button-disabled-bg:var(--aha-gray-40); --aha-button-disabled-text:var(--aha-gray-60); --aha-button-focus-ring:var(--aha-focus-ring-soft); --aha-button-focus-ring-success:var(--aha-btn-focus-ring-success); --aha-button-elevate-primary:var(--aha-btn-elevate-primary); --aha-button-elevate-secondary:var(--aha-btn-elevate-secondary);`);
+  L.push(`--aha-button-primary-bg:var(--aha-color-primary); --aha-button-primary-bg-hover:var(--aha-color-primary-hover); --aha-button-primary-bg-press:var(--aha-color-primary-active); --aha-button-primary-text:var(--aha-btn-primary-fg); --aha-button-default-bg:var(--aha-white); --aha-button-default-text:var(--aha-text-default); --aha-button-default-border:var(--aha-gray-40); --aha-button-default-bg-hover:var(--aha-bg-accent); --aha-button-default-border-hover:var(--aha-color-primary); --aha-button-default-border-press:var(--aha-gray-50); --aha-button-ghost-bg-hover:var(--aha-btn-tertiary-bg-hover); --aha-button-ghost-bg-press:var(--aha-btn-tertiary-bg-active); --aha-button-danger-bg:var(--aha-btn-danger-bg); --aha-button-danger-bg-hover:var(--aha-btn-danger-bg-hover); --aha-button-danger-bg-press:var(--aha-btn-danger-bg-press); --aha-button-danger-text:var(--aha-text-inverse); --aha-button-danger-ring:var(--aha-btn-danger-ring); --aha-button-positive-bg:var(--aha-btn-positive-bg); --aha-button-positive-bg-hover:var(--aha-btn-positive-bg-hover); --aha-button-positive-bg-press:var(--aha-btn-positive-bg-press); --aha-button-positive-text:var(--aha-btn-positive-fg); --aha-button-disabled-bg:var(--aha-gray-40); --aha-button-disabled-text:var(--aha-gray-60); --aha-button-focus-ring:var(--aha-focus-ring-soft); --aha-button-focus-ring-success:var(--aha-btn-focus-ring-success); --aha-button-elevate-primary:var(--aha-btn-elevate-primary); --aha-button-elevate-primary-hover:var(--aha-btn-elevate-primary-hover); --aha-button-elevate-secondary:var(--aha-btn-elevate-secondary);`);
   /* brand slots + alpha ramps */
   L.push(Object.keys(c.brand).map(k => `--aha-brand-${k}:${c.brand[k]};`).join(' '));
   L.push(Object.keys(c.alpha).map(k => `--aha-${kebab(k)}:${c.alpha[k]};`).join(' '));
@@ -378,7 +378,7 @@ a{color:var(--aha-color-primary)}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
 a.ver{color:var(--aha-text-tertiary);text-decoration:none}
-a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
+a.ver:hover{color:var(--aha-text-default);background:var(--aha-bg-accent)}
 .doc-body{display:flex;align-items:flex-start}
 .doc-nav{position:sticky;top:64px;flex:0 0 268px;width:268px;height:calc(100vh - 64px);overflow-y:auto;padding:22px 14px 70px;border-right:1px solid var(--aha-split);background:#fff}
 .doc-main{flex:1 1 auto;min-width:0;padding:36px 52px 96px}
@@ -388,7 +388,7 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
    off-canvas panel (opened via .doc-nav-toggle in the header) instead of forcing the page
    to scroll sideways. Same breakpoint as .hub-layout's own narrow collapse, for consistency. ---- */
 .doc-nav-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:1px solid transparent;border-radius:var(--aha-radius-default,8px);background:transparent;color:var(--aha-text-secondary);cursor:pointer;flex:0 0 auto}
-.doc-nav-toggle:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
+.doc-nav-toggle:hover{background:var(--aha-bg-accent);color:var(--aha-text-default)}
 .doc-nav-backdrop{display:none;position:fixed;inset:64px 0 0 0;background:rgba(20,16,32,.35);z-index:34}
 @media (max-width:900px){
   .doc-nav-toggle{display:inline-flex}
@@ -402,13 +402,13 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 
 /* ---- nav ---- */
 .nav-top{display:block;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:8px 12px;border-radius:8px;margin-bottom:2px}
-.nav-top:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
-.nav-top.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
+.nav-top:hover{background:var(--aha-bg-accent);color:var(--aha-text-default)}
+.nav-top.active{background:var(--aha-bg-accent);color:var(--aha-text-default);font-weight:600}
 .nav-group{margin:16px 0 8px}
 .nav-cat{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);padding:6px 12px}
 .nav-item{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:7px 12px;border-radius:8px;line-height:20px;margin:1px 0}
-a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
-.nav-item.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
+a.nav-item:hover{background:var(--aha-bg-accent);color:var(--aha-text-default)}
+.nav-item.active{background:var(--aha-bg-accent);color:var(--aha-text-default);font-weight:600}
 .nav-item.soon{color:var(--aha-text-disabled);cursor:default}
 .nav-item.soon i{font-style:normal;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px}
 .nav-dot{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--aha-color-success)}
@@ -435,7 +435,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
-.hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:9px 13px;margin:0 0 18px}
+.hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-bg-accent);border:1px solid var(--aha-border);border-radius:8px;padding:9px 13px;margin:0 0 18px}
 .hub-back a{color:var(--aha-color-primary);font-weight:600}
 .doc-main h2{font-size:20px;line-height:28px;font-weight:600;margin:44px 0 14px;scroll-margin-top:80px}
 .doc-main h2:first-of-type{margin-top:34px}
@@ -443,7 +443,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .badge{display:inline-block;font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;border-radius:6px;padding:3px 9px}
 .badge.leaf{color:#0E7C63;background:#D3F5EC;border:1px solid #16C49A}
 .badge.composite{color:#B24A20;background:#FFF0EB;border:1px solid #FF7747}
-.badge.raw{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);font-family:Menlo,monospace;text-transform:none}
+.badge.raw{color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border);font-family:Menlo,monospace;text-transform:none}
 
 /* ---- agent-feed code page ---- */
 .code-panel.feed{border-radius:12px;margin:14px 0}
@@ -462,20 +462,20 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
 .aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
-.aha-pg-opt:hover:not(.active){color:#5715A0}
-.aha-pg-opt.active{color:#5715A0;background:var(--aha-purple-10)}
+.aha-pg-opt:hover:not(.active){color:var(--aha-text-default)}
+.aha-pg-opt.active{color:var(--aha-text-default);background:var(--aha-bg-accent)}
 
 /* ---- utilities used by preview parts ---- */
-.tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
+.tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
 .lbl{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 var(--aha-space-8)}
 .lbl~.lbl{margin-top:var(--aha-space-24);padding-top:var(--aha-space-20);border-top:1px solid var(--aha-border)}
 .row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .stack{display:flex;flex-direction:column;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr}
 .grid2>div{padding:22px 20px}
-.note{background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
+.note{background:var(--aha-bg-accent);border:1px solid var(--aha-border);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
 .pad{padding:12px 0}
-code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:#5715A0}
+code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:var(--aha-text-default)}
 .api-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px}
 table.api{width:100%;min-width:420px;border-collapse:collapse;font-size:13px;border:1px solid var(--aha-split);border-radius:8px;overflow:hidden}
 table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--aha-split);vertical-align:top}
@@ -489,14 +489,14 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 /* ---- component index cards (overview) ---- */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .card{display:block;padding:18px;border:1px solid var(--aha-split);border-radius:12px;text-decoration:none;color:inherit;background:#fff}
-.card:hover{border-color:var(--aha-purple-30);box-shadow:0 4px 12px rgba(106,30,187,.08)}
+.card:hover{border-color:var(--aha-border-hover);box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .ct{font-size:16px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .cs{color:var(--aha-text-secondary);font-size:14px;line-height:1.55}
 .cf{margin-top:10px;font-family:Menlo,monospace;font-size:11px;color:var(--aha-text-tertiary)}
 .feeds{font-size:13px;line-height:1.9}.feeds code{margin-right:2px}
 
 /* ---- code widget ---- */
-.show-code{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.show-code{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border);border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .show-code:hover{background:#F0E7FF}.show-code .chev{transition:transform .15s ease}
 .code-tabs[data-open="true"] .show-code .chev{transform:rotate(90deg)}
 .code-panel{background:#1A1A2E;overflow:hidden}
@@ -1539,7 +1539,7 @@ function renderGuidelineHtml(p) {
 
   ${guide ? `<h2>Guide</h2><div class="body pat-guide">${mdToHtml(guide)}</div>` : ''}`;
   const extraCss = `
-  .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
+  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border)}
   .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
   .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
   .skillref b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default);margin-right:6px}
@@ -1764,7 +1764,7 @@ function renderSettingsHub() {
 
   ${hubAnchorScript(anchorItems)}`;
   const extraCss = `
-  .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
+  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border)}
   .pill.warn{background:#FFF0EB;color:#B24A20}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
 ${HUB_ANCHOR_CSS}
@@ -1833,9 +1833,11 @@ function renderDesignMd(t, cs) {
 > Version ${PKG.version} · changelog (what changed per release): ${SITE}/CHANGELOG.md
 
 ## Brand
-Primary is violet purple \`${c.primary}\` on near-white neutrals; ink is warm gray \`${c.textDefault}\`.
-Backgrounds are **white by default**; no gradients on fills (AI-affordance border-only exception).
-Success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\`.
+Vivid Pink \`${c.primary}\` is the one primary colour (buttons, link hover, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
+Backgrounds are **white by default**; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states; no gradients on fills (AI-affordance border-only exception).
+Pink text sits on white only: on Vivid Pink at 5% or on grey, text is black; on Vivid Pink, text is solid white.
+Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are black, shown with an icon, clear wording and an outline or a black fill. Never red, amber, green or blue.
+Purple (\`--aha-purple-*\`, \`--aha-brand-1\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 
 ## Colour — primitive ramps
 Each hue is a 10→100 scale. Semantic tokens below alias into these; **never hardcode a ramp value in a component** — bind to a semantic \`--aha-*\` token.
@@ -1971,7 +1973,7 @@ function renderTokenPage(pageSlug) {
   .sw .hex{font-family:Menlo,monospace;font-size:11px;color:var(--aha-text-tertiary)}
   .scale-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:12px 0 8px}
   .scale-cell{text-align:center}
-  .radius-chip{width:66px;height:48px;background:var(--aha-purple-10);border:1.5px solid var(--aha-color-primary);margin-bottom:6px}
+  .radius-chip{width:66px;height:48px;background:var(--aha-bg-accent);border:1.5px solid var(--aha-color-primary);margin-bottom:6px}
   .space-bar{height:16px;background:var(--aha-color-primary);border-radius:2px;margin-bottom:5px}
   .ramps{display:flex;flex-direction:column;gap:10px;margin:8px 0}
   .ramp{display:flex;align-items:center;gap:12px}
@@ -2114,7 +2116,7 @@ function renderIndex(cs) {
   <div class="cards">${GUIDELINES.map(p => {
     const missing = (p.composedOf||[]).filter(x=>x.status==='missing').length;
     return `<a class="card" href="guidelines/${p.slug}/index.html">
-      <div class="ct">${esc(p.name)} <span class="badge pattern" style="color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)">pattern</span></div>
+      <div class="ct">${esc(p.name)} <span class="badge pattern" style="color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border)">pattern</span></div>
       <div class="cs">${esc(p.summary)}</div>
       <div class="cf">${(p.rules||[]).length} rules · reuses ${(p.composedOf||[]).length}${missing?` · ${missing} backlog`:''}</div></a>`;
   }).join('')}</div>` : ''}
@@ -2196,11 +2198,11 @@ function renderIconGallery() {
   .fam-chips{display:flex;gap:6px}
   .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
   .fam-chip b{opacity:.6;font-weight:600}
-  .fam-chip.on{background:var(--aha-purple-10);border-color:var(--aha-purple-30);color:#5715A0}
+  .fam-chip.on{background:var(--aha-bg-accent);border-color:var(--aha-border-hover);color:var(--aha-text-default)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
   .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
   .ic{display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 8px 10px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;color:var(--aha-icon-default,#4B4B4B);font-family:var(--aha-font-product)}
-  .ic:hover{border-color:var(--aha-purple-30);color:var(--aha-color-primary);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .ic:hover{border-color:var(--aha-border-hover);color:var(--aha-color-primary);box-shadow:0 3px 10px rgba(0,0,0,.08)}
   .ic .icn{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary);word-break:break-word;text-align:center}
   .ic.copied{border-color:var(--aha-color-success);color:var(--aha-color-success)}
   .ic.copied .icn{color:var(--aha-color-success)}`;
@@ -2280,7 +2282,7 @@ function renderLogoPage() {
   </div>
 
   <h3 class="tok-h3">AhaSlides logo rules</h3>
-  <p class="body">The logo is The Splash plus the wordmark. Use the full-colour file on white, the white file on Radical Pink, Radical Purple or Deep Space Blue, and the black file for one-colour use on light surfaces. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <p class="body">The logo is The Splash plus the wordmark. Two versions are allowed: the full-colour file on white and the white file on Vivid Pink. An all-pink logo on white is not allowed. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
   <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Third-party marks</h3>
@@ -2292,8 +2294,8 @@ function renderLogoPage() {
   .logo-tabs{display:flex;gap:4px;margin-bottom:-1px}
   .logo-tab{font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-bottom:2px solid transparent;padding:8px 14px 10px;cursor:pointer}
   .logo-tab b{opacity:.6;font-weight:600;margin-left:4px}
-  .logo-tab[aria-selected="true"]{color:#5715A0;border-bottom-color:var(--aha-color-primary)}
-  .logo-tab:hover{color:#5715A0}
+  .logo-tab[aria-selected="true"]{color:var(--aha-text-default);border-bottom-color:var(--aha-color-primary)}
+  .logo-tab:hover{color:var(--aha-text-default)}
   .logo-tab:focus-visible,.lg:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
   #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
   #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
@@ -2304,7 +2306,7 @@ function renderLogoPage() {
   .lg-sec:first-child .lg-sec-h{margin-top:4px}
   .lg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 10px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;font-family:var(--aha-font-product)}
   .lg[hidden]{display:none}
-  .lg:hover{border-color:var(--aha-purple-30);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .lg:hover{border-color:var(--aha-border-hover);box-shadow:0 3px 10px rgba(0,0,0,.08)}
   .lg-stage{display:flex;align-items:center;justify-content:center;width:100%;height:104px;border-radius:6px;background:var(--aha-gray-10,#FAFAFA)}
   .lg-stage.lg-dark{background:var(--aha-color-primary)}
   .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}

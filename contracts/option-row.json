@@ -63,11 +63,11 @@
     },
     {
       "label": "Hover",
-      "value": "hover → #6A1EBB row border on the one persistent border"
+      "value": "hover → #E70E68 row border on the one persistent border"
     },
     {
       "label": "Focus",
-      "value": "focus-within → #6A1EBB row border + solid 2px --aha-border-focus #D3B4FF ring (success-green ring when correct), on the one persistent border"
+      "value": "focus-within → #E70E68 row border + solid 2px --aha-border-focus #E70E68 ring (success-green ring when correct), on the one persistent border"
     }
   ],
   "props": [

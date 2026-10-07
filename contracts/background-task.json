@@ -38,7 +38,7 @@
     },
     {
       "label": "Bar",
-      "value": "5px track (rgba(106,30,187,.12)), primary fill, width eases 1.7s cubic-bezier(.2,.65,.3,1), moving white stripes while running; on offline the track is gray-30 #F1F1F1 and the fill gray-60 #B5B5B5, still, no stripes; hidden on success / canceled / error"
+      "value": "5px track (rgba(231,14,104,.12)), primary fill, width eases 1.7s cubic-bezier(.2,.65,.3,1), moving white stripes while running; on offline the track is gray-30 #F1F1F1 and the fill gray-60 #B5B5B5, still, no stripes; hidden on success / canceled / error"
     },
     {
       "label": "Caption row",

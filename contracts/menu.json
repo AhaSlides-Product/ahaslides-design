@@ -17,8 +17,8 @@
     { "label": "Divider", "value": "1px split #F1F1F1 rule, role=separator" },
     { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
-    { "label": "Selected", "value": "bg-accent #F9F5FF fill + color-primary #6A1EBB text" },
-    { "label": "Danger", "value": "color-error #F5222D text, error-tinted hover" },
+    { "label": "Selected", "value": "bg-accent #FEF3F7 fill + color-primary #E70E68 text" },
+    { "label": "Danger", "value": "color-error #000000 text, error-tinted hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed" }
   ],
   "props": [
@@ -71,6 +71,6 @@
     "ready": "!!(document.querySelector('aha-menu[data-probe]') && document.querySelector('aha-menu[data-probe]').shadowRoot && document.querySelector('aha-menu[data-probe]').shadowRoot.querySelector('.item.selected'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-menu[data-probe]');var r=el&&el.shadowRoot;var it=r&&r.querySelector('.item.selected');var s=it?getComputedStyle(it):null;var gt=r&&r.querySelector('.group-title');var gs=gt?getComputedStyle(gt):null;var sub=r&&r.querySelector('.sub');return{bg:s?s.backgroundColor:null,color:s?s.color:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,groupColor:gs?gs.color:null,hasSubmenu:!!sub};})()",
-    "expect": { "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)", "height": "36px", "radius": "8px", "groupColor": "rgb(138, 138, 138)", "hasSubmenu": true }
+    "expect": { "bg": "rgb(254, 243, 247)", "color": "rgb(231, 14, 104)", "height": "36px", "radius": "8px", "groupColor": "rgb(138, 138, 138)", "hasSubmenu": true }
   }
 }

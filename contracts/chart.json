@@ -102,7 +102,7 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6 → the Colour page's Brand slots (the DS has no categorical chart set): brand-1 purple · brand-2 pink · brand-4 mint · brand-6 coral · brand-5 indigo · brand-10 periwinkle; tints → bg-accent · brand-12 · bg-positive · bg-warning-subtle · brand-11 · bg-informative · Other / non-correct → icon-muted · correct → color-success · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → color-success · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
@@ -454,7 +454,7 @@
     "expect": {
       "role": "figure",
       "ariaLabel": "Q4 priorities",
-      "fillBg": "rgb(106, 30, 187)",
+      "fillBg": "rgb(231, 14, 104)",
       "trackHeight": "38px",
       "trackRadius": "8px",
       "valueSize": "20px",

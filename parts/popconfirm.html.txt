@@ -19,7 +19,7 @@
         description: 'This cannot be undone.',
         okText: 'Delete', cancelText: 'Cancel',
         placement: 'top',        // top | bottom | left | right
-        okType: 'danger',        // 'primary' (purple) default; 'danger' = red confirm
+        okType: 'danger',        // 'primary' (Vivid Pink) default; 'danger' = black confirm
         onConfirm: () => console.log('confirmed'),
       }, h(Button, { danger: true }, 'Delete slide'))
     )

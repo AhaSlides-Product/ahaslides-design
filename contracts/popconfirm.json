@@ -10,12 +10,12 @@
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Popover.borderRadiusLG", "Button.borderRadius"],
   "spec": [
     { "label": "Popover", "value": "white · radius 8 · elevated" },
-    { "label": "Confirm", "value": "primary Button #6A1EBB · white label" },
+    { "label": "Confirm", "value": "primary Button #E70E68 · white label" },
     { "label": "Cancel", "value": "default Button · 1px #E3E3E3 border · #1A1A1A label" },
     { "label": "Title", "value": "#1A1A1A, one short question" },
     { "label": "Anchor", "value": "pops from the trigger; not a full modal" },
     { "label": "Placement", "value": "top · bottom · left · right (arrow tracks the trigger)" },
-    { "label": "Danger", "value": "okType=\"danger\" → red confirm #F5222D for a heavier delete" }
+    { "label": "Danger", "value": "okType=\"danger\" → red confirm #000000 for a heavier delete" }
   ],
   "props": [
     { "name": "title", "type": "string", "default": "—", "desc": "The confirmation question" },
@@ -34,7 +34,7 @@
       { "what": "no confirm", "when": "the action is trivial and easily undone — prefer an undo toast" }
     ],
     "note": "Reserve Popconfirm for low-risk, reversible actions — anchor it to the trigger and keep the question to one line. A destructive or irreversible action (delete account, publish) needs a Modal (see the overlays pattern), never a popover.",
-    "dsv3": "COVERED — antd v6 Popconfirm themed by the shared popconfirmTheme; matrix: Placement (top · bottom · left · right) × Danger (off → primary confirm #6A1EBB / on → okType=\"danger\" red #F5222D), over a radius-8 white popover with a #E3E3E3-border cancel. Verified via Figma search_design_system on the DS V3 file (MwjvUjVI0HnfwD9EwPXRAy): DS V3 ships no measured Popconfirm cell (nearest is the 'Delete confirmation' Dialog), so this is a deliberate, documented token mapping onto antd's Popconfirm rather than a re-implementation."
+    "dsv3": "COVERED — antd v6 Popconfirm themed by the shared popconfirmTheme; matrix: Placement (top · bottom · left · right) × Danger (off → primary confirm #E70E68 / on → okType=\"danger\" red #000000), over a radius-8 white popover with a #E3E3E3-border cancel. Verified via Figma search_design_system on the DS V3 file (MwjvUjVI0HnfwD9EwPXRAy): DS V3 ships no measured Popconfirm cell (nearest is the 'Delete confirmation' Dialog), so this is a deliberate, documented token mapping onto antd's Popconfirm rather than a re-implementation."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./popconfirm-theme", "exportsNamed": ["popconfirmTheme"] },
@@ -47,7 +47,7 @@
   "preview": "popconfirm.preview.html",
   "selfCheck": [
     { "label": "popover white · radius 8", "verdict": "PASS" },
-    { "label": "confirm primary #6A1EBB · white label", "verdict": "PASS" },
+    { "label": "confirm primary #E70E68 · white label", "verdict": "PASS" },
     { "label": "cancel #E3E3E3 border · #1A1A1A label", "verdict": "PASS" },
     { "label": "anchored to the trigger", "verdict": "PASS" }
   ],
@@ -55,6 +55,6 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the Popconfirm is open, its popover portalled to <body>, so the real antd v6 popover surface + confirm/cancel buttons bound to popconfirmTheme are measurable at document level. Selectors match antd v6: the surface is .ant-popover-container; the action buttons are scoped to .ant-popconfirm-buttons so the danger TRIGGER button is not measured by mistake.",
     "ready": "!!(document.querySelector('.ant-popover-container') && document.querySelector('.ant-popconfirm-buttons .ant-btn-primary') && document.querySelector('.ant-popconfirm-buttons .ant-btn-default'))",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};return{popBg:g('.ant-popover-container','backgroundColor'),popRadius:g('.ant-popover-container','borderTopLeftRadius'),okBg:g('.ant-popconfirm-buttons .ant-btn-primary','backgroundColor'),okColor:g('.ant-popconfirm-buttons .ant-btn-primary','color'),cancelBorder:g('.ant-popconfirm-buttons .ant-btn-default','borderTopColor'),cancelColor:g('.ant-popconfirm-buttons .ant-btn-default','color')};})()",
-    "expect": { "popBg": "rgb(255, 255, 255)", "popRadius": "8px", "okBg": "rgb(106, 30, 187)", "okColor": "rgb(255, 255, 255)", "cancelBorder": "rgb(227, 227, 227)", "cancelColor": "rgb(26, 26, 26)" }
+    "expect": { "popBg": "rgb(255, 255, 255)", "popRadius": "8px", "okBg": "rgb(231, 14, 104)", "okColor": "rgb(255, 255, 255)", "cancelBorder": "rgb(227, 227, 227)", "cancelColor": "rgb(26, 26, 26)" }
   }
 }

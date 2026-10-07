@@ -11,8 +11,8 @@
   "spec": [
     { "label": "Controls", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
     { "label": "Label", "value": "#4A4A4A, above the field (vertical layout)" },
-    { "label": "Submit", "value": "primary Button #6A1EBB" },
-    { "label": "Error", "value": "#F5222D border + message below the field" },
+    { "label": "Submit", "value": "primary Button #E70E68" },
+    { "label": "Error", "value": "#000000 border + message below the field" },
     { "label": "Item gap", "value": "20px between items" },
     { "label": "Size", "value": "control height 24 (small) · 32 (default) · 40 (large)" },
     { "label": "Validation", "value": "error / warning / success — coloured border + help text" }
@@ -48,13 +48,13 @@
   "selfCheck": [
     { "label": "controls 32 · radius 8 · #E3E3E3", "verdict": "PASS" },
     { "label": "labels #4A4A4A above field", "verdict": "PASS" },
-    { "label": "primary submit #6A1EBB", "verdict": "PASS" },
-    { "label": "error #F5222D + message", "verdict": "PASS" }
+    { "label": "primary submit #E70E68", "verdict": "PASS" },
+    { "label": "error #000000 + message", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 input + primary button bound to formTheme.",
     "ready": "!!document.querySelector('#react-root .ant-input') && !!document.querySelector('#react-root .ant-btn-primary') && !!document.querySelector('#react-root .ant-form-item-label label')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{inputRadius:g('.ant-input','borderTopLeftRadius'),inputBorder:g('.ant-input','borderTopColor'),inputBorderWidth:g('.ant-input','borderTopWidth'),inputHeight:g('.ant-input','height'),primaryBg:g('.ant-btn-primary','backgroundColor'),labelColor:g('.ant-form-item-label label','color')};})()",
-    "expect": { "inputRadius": "8px", "inputBorder": "rgb(227, 227, 227)", "inputBorderWidth": "1px", "inputHeight": "32px", "primaryBg": "rgb(106, 30, 187)", "labelColor": "rgb(74, 74, 74)" }
+    "expect": { "inputRadius": "8px", "inputBorder": "rgb(227, 227, 227)", "inputBorderWidth": "1px", "inputHeight": "32px", "primaryBg": "rgb(231, 14, 104)", "labelColor": "rgb(74, 74, 74)" }
   }
 }

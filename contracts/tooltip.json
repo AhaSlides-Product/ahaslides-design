@@ -11,18 +11,18 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["bg-dark", "color-primary", "text-inverse", "radius-sm", "font-product", "motion-mid", "ease-out", "text-tertiary", "motion-fast", "radius-pill", "tooltip-max-width"],
   "spec": [
-    { "label": "Bubble", "value": "dark-navy #1A1A2E (or brand #6A1EBB), white text, radius 6, padding 6 10, max-width 280 (--aha-tooltip-max-width) then wraps" },
+    { "label": "Bubble", "value": "dark-navy #1A1A2E (or brand #E70E68), white text, radius 6, padding 6 10, max-width 280 (--aha-tooltip-max-width) then wraps" },
     { "label": "Text", "value": "Plus Jakarta 12/18" },
     { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
     { "label": "Placement", "value": "top (default) · bottom · left · right centred, PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "mouse hover or keyboard focus (default; not on click/tap) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
-    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#6A1EBB) on hover/focus, focus ring 2px #6A1EBB — the settings-label help glyph; focusable, so it shows on focus, not hover-only. Bakes `help` defaults: no author placement → bottom-start; no author arrow → arrow off (both still overridable)" },
+    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#E70E68) on hover/focus, focus ring 2px #E70E68 — the settings-label help glyph; focusable, so it shows on focus, not hover-only. Bakes `help` defaults: no author placement → bottom-start; no author arrow → arrow off (both still overridable)" },
     { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the active trigger (slotted, or the built-in help button), shows on focus, no leaked listeners" }
   ],
   "props": [
     { "name": "text", "type": "string", "default": "—", "desc": "The hint text shown in the bubble" },
     { "name": "placement", "type": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'", "default": "top", "desc": "Which side of the trigger the bubble + arrow sit on. The 4 cardinal values centre the bubble; the 8 edge-aligned values (…-start / …-end) align it to the trigger's start/end edge with the arrow offset near that edge (AntD naming)" },
-    { "name": "color", "type": "'dark' | 'brand'", "default": "dark", "desc": "Bubble fill: dark-navy #1A1A2E or brand color-primary #6A1EBB" },
+    { "name": "color", "type": "'dark' | 'brand'", "default": "dark", "desc": "Bubble fill: dark-navy #1A1A2E or brand color-primary #E70E68" },
     { "name": "arrow", "type": "boolean", "default": "true", "desc": "Show the caret pointing at the trigger; arrow=\"false\" hides it" },
     { "name": "trigger", "type": "'hover' | 'focus' | 'click'", "default": "hover", "desc": "How it opens: hover+focus · focus only · click to toggle" },
     { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise the trigger opens it" },
@@ -81,7 +81,7 @@
     { "label": "placement top/bottom/left/right + arrow toggle + brand fill", "verdict": "PASS" },
     { "label": "shows on focus (aria-describedby wired), role=tooltip", "verdict": "PASS" },
     { "label": "click trigger toggles + closes on Esc/click-away, no leaked listeners", "verdict": "PASS" },
-    { "label": "help renders <aha-icon> ? at 16px, muted --aha-text-tertiary, focus ring 2px #6A1EBB, focusable, aria-describedby wired", "verdict": "PASS" },
+    { "label": "help renders <aha-icon> ? at 16px, muted --aha-text-tertiary, focus ring 2px #E70E68, focusable, aria-describedby wired", "verdict": "PASS" },
     { "label": "help bakes defaults: no author placement → bottom-start, no author arrow → off (both overridable)", "verdict": "PASS" }
   ],
   "conformance": {
