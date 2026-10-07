@@ -22,7 +22,7 @@
   "spec": [
     {
       "label": "Chip",
-      "value": "min-height 44, padding 0 16, pill radius, 16px semibold label in the deck ink, frosted surface, 1.5px ink hairline"
+      "value": "min-height 44, padding 0 16, pill radius, 16px semibold label in the deck ink, frosted surface, 1px ink hairline"
     },
     {
       "label": "Chosen",

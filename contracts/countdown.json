@@ -24,7 +24,7 @@
   "spec": [
     {
       "label": "Track",
-      "value": "8px pill, ink at 15% over the frosted blur, 1px ink hairline"
+      "value": "8px pill, ink at 10% over the frosted blur, 1px ink hairline"
     },
     {
       "label": "Fill",

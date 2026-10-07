@@ -31,8 +31,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `size="touch"` on `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>`: the 56px audience phone field with 16px text (#194)
 - `--aha-deck-ink-muted` (the deck ink at 65%) for secondary audience copy, and a `hint` line on `<aha-swipe-card>` (#194)
 ### Changed
+- One audience border rule on both decks: every audience border is 1px at the deck ink 10% (`--aha-deck-edge`, no 20% slider edge, no 1.5px chip, no 2px drop zone; the drop zone stays dashed), and the scale-slider rail and countdown track share one ink-10% fill (`--_track`, the countdown was 15%); the audience guideline and its criteria state the same rule and drop the slider-fill-hairline 20% split (#194)
 - Audience Library page: every section names the element to use, its demos are the real elements on a light and a dark deck with the same content as before, and its HTML tab runs as pasted (#194)
-- The audience elements match the Audience page's demos: 44px answer and rank rows, a 1.5px ink ring on my pick, the correct row ringed on reveal, solid accent chips, a check-circle submitted card, a centred swipe card, the slider value above the thumb, an m:ss clock (#194)
+- The audience elements match the Audience page's demos: 44px answer and rank rows, a 1px ink ring on my pick, the correct row ringed on reveal, solid accent chips, a check-circle submitted card, a centred swipe card, the slider value above the thumb, an m:ss clock (#194)
 
 ## 0.109.0 — 2026-10-07
 ### Changed

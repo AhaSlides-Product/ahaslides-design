@@ -133,7 +133,7 @@
     {
       "ref": "scale-slider",
       "as": "component",
-      "use": "scale input — <aha-scale-slider>: rail flush with min/max labels, the filled portion carries the deck-ink hairline the rail has",
+      "use": "scale input — <aha-scale-slider>: rail flush with min/max labels, rail and filled portion both ink 10% with a 1px ink-10% hairline",
       "status": "available"
     },
     {
@@ -368,7 +368,7 @@
     },
     {
       "id": "slider-fill-hairline",
-      "rule": "Give a filled slider/progress track the same deck-ink hairline its empty rail has (color-mix(in srgb, currentColor 20%, transparent)) so a coloured fill doesn't sink into a same-hue deck — a hairline matching the rail, not a heavy ink ring around the control.",
+      "rule": "Fill a slider/progress track with the deck ink at 10% and give a filled part the same 1px hairline (color-mix(in srgb, currentColor 10%, transparent)) so a coloured fill doesn't sink into a same-hue deck — one value for every audience border and track, no heavier 20% edge.",
       "ref": [
         "C18",
         "§2"
@@ -659,7 +659,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a chip takes 1.5px neutral; a deck-owned surface takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a deck-owned surface (chip, field, track, dashed image drop zone) takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"
@@ -714,10 +714,10 @@
       "verdict": "N/A — per-surface"
     },
     {
-      "label": "primary copy 16px (--aha-size-l, not --aha-size-sm); one accent via --aha-color-primary; <aha-*> elements from all.js, no ported CSS; ink #1A1A1A; 1px / 1.5px borders, 12px cards; motion tokens on persistent nodes",
+      "label": "primary copy 16px (--aha-size-l, not --aha-size-sm); one accent via --aha-color-primary; <aha-*> elements from all.js, no ported CSS; ink #1A1A1A; 1px borders, 12px cards; motion tokens on persistent nodes",
       "verdict": "N/A — per-surface"
     }
   ],
   "guide": "audience.guide.md",
-  "whenToRead": "ANY audience (phone) view of a slide type. Holds the 16px primary-copy rule (--aha-size-sm is 12px, so 16px maps to --aha-size-l), the one-accent rule shared with the canvas, <aha-*> elements from all.js on the Developer Platform instead of ported CSS, one dark ink #1A1A1A, 1px / 1.5px borders with 12px cards, and motion tokens on persistent nodes. Stage indicators are <aha-stepper> and type-to-pick fields <aha-autocomplete>, never hand-rolled."
+  "whenToRead": "ANY audience (phone) view of a slide type. Holds the 16px primary-copy rule (--aha-size-sm is 12px, so 16px maps to --aha-size-l), the one-accent rule shared with the canvas, <aha-*> elements from all.js on the Developer Platform instead of ported CSS, one dark ink #1A1A1A, 1px borders with 12px cards, and motion tokens on persistent nodes. Stage indicators are <aha-stepper> and type-to-pick fields <aha-autocomplete>, never hand-rolled."
 }

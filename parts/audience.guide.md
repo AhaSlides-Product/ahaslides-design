@@ -185,9 +185,9 @@ The same two-jobs split as the canvas, with less theme forwarded.
 
 **Sliders:**
 
-- A filled slider / progress track carries the same deck-ink hairline its empty rail has
-  (`color-mix(in srgb, currentColor 20%, transparent)`) so a coloured fill doesn't sink into
-  a same-hue deck — a hairline matching the rail, not a heavy ink ring around the control.
+- A slider / progress track is filled with the deck ink at 10% (the same value as every audience
+  border) and a filled part carries that same 1px 10% hairline, so a coloured fill doesn't sink
+  into a same-hue deck — no heavier 20% edge for tracks.
 - A horizontal slider's rail sits **flush** with its min/max end labels — zero out Ant's
   default slider margin (~`margin: 10px 6px`) so the rail runs edge-to-edge under the captions.
 
@@ -208,8 +208,8 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
 - **No extra-bold weight.** Text uses weight **400 or 600 only** (the standard submit button is
   600). No 700 / 800 / 900.
 
-**Borders are hairlines** (C32): a bounded white card **1px `--aha-border`** (#E3E3E3); a chip
-**1.5px** neutral; a deck-owned surface a 1px `color-mix(in srgb, currentColor 10%, transparent)`.
+**Borders are hairlines** (C32): a bounded white card **1px `--aha-border`** (#E3E3E3); a deck-owned
+surface (chip, field, track, image drop zone, option) a **1px** `color-mix(in srgb, currentColor 10%, transparent)` on every deck, light or dark; the drop zone stays dashed, still 1px.
 Never a 2px outline at heavy ink (55% `textColour` on a chip is the miss).
 
 **One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never `#1A1A2E`
