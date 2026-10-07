@@ -12,9 +12,9 @@ name: publish
 #
 # Manual re-publish / backfill: run this workflow via workflow_dispatch (Actions tab) on master.
 #
-# No secret setup needed: GitHub Packages publish uses the built-in GITHUB_TOKEN
-# (`packages: write`). `contents: write` is needed to push the version tag. Consumers install
-# with a scoped .npmrc pointing at https://npm.pkg.github.com + a token with read:packages
+# Publishing needs no extra secret: GitHub Packages publish uses the built-in GITHUB_TOKEN
+# (`packages: write`). `contents: write` is needed to push the version tag. The consumer bump
+# PRs (bump-consumers job) need DS_BUMP_TOKEN. Consumers install with a scoped .npmrc pointing at https://npm.pkg.github.com + a token with read:packages
 # (see the docs site "Get started" block / any agent.json).
 
 on:
@@ -34,6 +34,10 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.decide.outputs.publish }}
+      version: ${{ steps.decide.outputs.version }}
+      consumers: ${{ steps.consumers.outputs.list }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,6 +73,10 @@ jobs:
             echo "publish=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Read the consumer app list
+        id: consumers
+        run: echo "list=$(jq -c . .github/ds-consumers.json)" >> "$GITHUB_OUTPUT"
+
       - name: Publish to GitHub Packages
         if: steps.decide.outputs.publish == 'true'
         run: npm publish
@@ -103,3 +111,77 @@ jobs:
           exit 1
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # After a real release, open or refresh ONE bump PR per consumer app (.github/ds-consumers.json).
+  # Never auto-merged: each app's team merges its own PR. GITHUB_TOKEN can neither push to other
+  # repos nor open PRs that trigger their CI, so this needs DS_BUMP_TOKEN: a classic PAT (or bot
+  # account PAT) with `repo` + `read:packages` that can write to every consumer repo.
+  bump-consumers:
+    needs: publish
+    if: needs.publish.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        consumer: ${{ fromJSON(needs.publish.outputs.consumers) }}
+    name: bump ${{ matrix.consumer.repo }}
+    env:
+      DS_BUMP_TOKEN: ${{ secrets.DS_BUMP_TOKEN }}
+    steps:
+      - name: Check for DS_BUMP_TOKEN
+        id: token
+        run: |
+          if [ -z "$DS_BUMP_TOKEN" ]; then
+            echo "::warning::DS_BUMP_TOKEN is not set, so no bump PR was opened for ${{ matrix.consumer.repo }}. An org admin must add it (classic PAT with repo + read:packages, write access to every consumer)."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check out the design system at the release tag
+        if: steps.token.outputs.present == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.publish.outputs.version }}
+          path: design
+
+      - name: Check out ${{ matrix.consumer.repo }}@${{ matrix.consumer.base }}
+        if: steps.token.outputs.present == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.consumer.repo }}
+          ref: ${{ matrix.consumer.base }}
+          token: ${{ secrets.DS_BUMP_TOKEN }}
+          path: consumer
+
+      - uses: actions/setup-node@v4
+        if: steps.token.outputs.present == 'true'
+        with:
+          node-version: 22
+
+      - name: Registry auth for @ahaslides-product
+        if: steps.token.outputs.present == 'true'
+        run: |
+          {
+            echo "@ahaslides-product:registry=https://npm.pkg.github.com/"
+            echo "//npm.pkg.github.com/:_authToken=${DS_BUMP_TOKEN}"
+          } > "$HOME/.npmrc"
+
+      - name: Enable pnpm
+        if: steps.token.outputs.present == 'true' && matrix.consumer.package_manager == 'pnpm'
+        run: corepack enable pnpm
+
+      - name: Bump, push ds/auto-bump, open or update the PR
+        if: steps.token.outputs.present == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.DS_BUMP_TOKEN }}
+          REPO: ${{ matrix.consumer.repo }}
+          BASE: ${{ matrix.consumer.base }}
+          PACKAGE_DIR: ${{ matrix.consumer.package_dir }}
+          LOCKFILE_DIR: ${{ matrix.consumer.lockfile_dir }}
+          PACKAGE_MANAGER: ${{ matrix.consumer.package_manager }}
+          LOCKFILE: ${{ matrix.consumer.lockfile }}
+        run: design/.github/scripts/bump-consumer.sh "$GITHUB_WORKSPACE/consumer" "$GITHUB_WORKSPACE/design" "${{ needs.publish.outputs.version }}"
