@@ -176,8 +176,9 @@ seat** — the same bar applies to the small editor preview.
     traps: a **translucent tint** is not a contrast guarantee (only an opaque surface is);
     and any **fixed-colour mark** on it (a semantic `✓`/`✗` token, a palette accent, a
     border) must clear the floor on **both** a light and a dark deck.
-  - **A light semantic token on a light surface still fails:** `colorSuccess #16C49A` on
-    white ≈ 2.23:1, below the 3:1 mark floor. Put it on a bounded fill (a `colorSuccess`
+  - **A light semantic token on a light surface still fails:** a deck theme's light
+    success colour (for example `#16C49A`; deck themes are presenter content, outside the brand
+    palette) on white ≈ 2.23:1, below the 3:1 mark floor. Put it on a bounded fill (a `colorSuccess`
     circle with a white ✓) or use it on a dark surface.
 - **Type scale — fixed logical px.** The stage transform scales everything as one unit, so a
   **fixed logical px** scales proportionally on every screen. Use the preset roles:
