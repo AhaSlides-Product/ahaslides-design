@@ -38,6 +38,8 @@ jobs:
       - name: Component standards gate (reusable or it fails)
         run: node standards.mjs
       - name: Unit tests
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: node --test tests/*.test.mjs
       - name: Render truth (real UI matches each contract)
         env:
