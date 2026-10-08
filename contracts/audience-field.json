@@ -120,7 +120,7 @@
     "expect": {
       "labelSize": "16px",
       "labelInk": "rgb(26, 26, 26)",
-      "gap": "16px",
+      "gap": "8px",
       "fieldHeight": "56px",
       "named": "Your nickname"
     }
