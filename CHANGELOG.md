@@ -35,6 +35,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#197)
 
+## 0.114.1 — 2026-10-08
+### Fixed
+- The Pages workflow caps the staging build at 15 minutes and the staging trigger at 5, so a hung staging branch cannot hold the production deploy queue (#200)
+
 ## 0.114.0 — 2026-10-08
 ### Added
 - A staging copy of the docs site at `/staging/`: every Pages deploy also builds the `staging` branch into `dist/staging/`, so a pending change can be reviewed on a real web link before it merges. Staging pages are `noindex`, their live demos run from the staging build's own `lib/`, and their HTML-tab snippets pin `@staging` on jsDelivr instead of a release tag. Production at `/` is unchanged (#199)
