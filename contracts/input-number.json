@@ -9,18 +9,20 @@
   "lead": "InputNumber carries steppers, keyboard step/precision and a formatter/parser — more than a zero-dep web component should own, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared inputNumberTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "InputNumber.activeBorderColor", "InputNumber.hoverBorderColor"],
   "spec": [
-    { "label": "Field", "value": "height 32 (md) · radius 8 · 1px #E3E3E3 border" },
-    { "label": "Sizes", "value": "small 24 · default 32 · large 40 · font 14" },
+    { "label": "Field", "value": "height 40 (md) · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Sizes", "value": "small 24 · default 40 · large 48 · font 14" },
     { "label": "Hover", "value": "#E70E68 (color-primary) border" },
     { "label": "Focus", "value": "brand #E70E68 border" },
     { "label": "Status", "value": "error #1A1A1A · warning border/glow" },
+    { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A" },
     { "label": "Steppers", "value": "up/down on hover; keyboard ↑ ↓; toggle via controls" },
     { "label": "Placeholder", "value": "#8A8A8A" }
   ],
   "props": [
     { "name": "value", "type": "number", "default": "—", "desc": "Controlled numeric value" },
-    { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Field height: small 24 · default 32 · large 40" },
+    { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Field height: small 24 · default 40 · large 48" },
     { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — coloured border/glow" },
+    { "name": "error message", "type": "<aha-field-error icon>", "default": "—", "desc": "Pair status=\"error\" with a sibling <aha-field-error icon message=\"…\"> below the control (12px glyph + --aha-size-sm text) and set aria-invalid=\"true\" + aria-describedby=\"<error id>\" on the control" },
     { "name": "min", "type": "number", "default": "-Infinity", "desc": "Lower bound" },
     { "name": "max", "type": "number", "default": "Infinity", "desc": "Upper bound" },
     { "name": "step", "type": "number", "default": "1", "desc": "Increment for steppers / arrow keys" },
@@ -40,7 +42,7 @@
       { "what": "Input type=number", "when": "a free number with no bounds or steppers — but prefer InputNumber for validity" }
     ],
     "note": "Set min/max to the real limits so the field constrains instead of validating after the fact. Pre-fill a sensible default rather than empty; use precision for currency/percentages.",
-    "dsv3": "COVERED — antd v6 InputNumber themed by the shared inputNumberTheme; matrix: size (small 24 · default 32 · large 40) × status (none · error · warning) × state (steppers on/off · disabled · read-only), plus min/max/step/precision, prefix and addonBefore/addonAfter. Verified via Figma search_design_system against the DS V3 InputNumber component_set (fileKey MwjvUjVI0HnfwD9EwPXRAy); size + status axes match the measured input contract (inp|sm/md/lg · rest/focus/error, 24/32/40 · font 14)."
+    "dsv3": "COVERED — antd v6 InputNumber themed by the shared inputNumberTheme; matrix: size (small 24 · default 40 · large 48) × status (none · error · warning) × state (steppers on/off · disabled · read-only), plus min/max/step/precision, prefix and addonBefore/addonAfter. Verified via Figma search_design_system against the DS V3 InputNumber component_set (fileKey MwjvUjVI0HnfwD9EwPXRAy); size + status axes match the measured input contract (inp|sm/md/lg · rest/focus/error, 24/32/40 · font 14)."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./input-number-theme", "exportsNamed": ["inputNumberTheme"] },
@@ -52,7 +54,7 @@
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (inputNumberTheme); residual drift is caught by visual regression.",
   "preview": "input-number.preview.html",
   "selfCheck": [
-    { "label": "field 32 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
+    { "label": "field 40 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
     { "label": "hover border color-primary", "verdict": "PASS" },
     { "label": "focus border brand", "verdict": "PASS" },
     { "label": "placeholder #8A8A8A", "verdict": "PASS" }
@@ -61,6 +63,6 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 InputNumber bound to inputNumberTheme.",
     "ready": "!!document.querySelector('#react-root .ant-input-number')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-input-number','borderTopLeftRadius'),radiusBR:g('.ant-input-number','borderBottomRightRadius'),border:g('.ant-input-number','borderTopColor'),borderWidth:g('.ant-input-number','borderTopWidth'),borderWidthB:g('.ant-input-number','borderBottomWidth'),height:g('.ant-input-number','height')};})()",
-    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "borderWidthB": "1px", "height": "32px" }
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "borderWidthB": "1px", "height": "40px" }
   }
 }
