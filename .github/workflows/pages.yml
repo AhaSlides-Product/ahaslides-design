@@ -15,7 +15,7 @@ name: pages
 
 on:
   push:
-    branches: [master]
+    branches: [master, staging]
   workflow_dispatch:
 
 permissions:
@@ -32,6 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -50,6 +53,22 @@ jobs:
         run: node build-icons.mjs && node generate.mjs
         env:
           AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design
+      # A push to `staging` also rebuilds master above, so / stays production and /staging/ shows the branch.
+      # Snippets pin @staging (the branch on jsDelivr) because no v<version> tag exists yet; live demos
+      # import the staging build's own lib/ copied beside the pages. Pages are marked noindex.
+      - name: Build staging site
+        run: |
+          if ! git ls-remote --exit-code --heads origin staging >/dev/null; then echo "no staging branch; skipping"; exit 0; fi
+          git worktree add ../staging-src origin/staging
+          cd ../staging-src
+          npm install --no-audit --no-fund
+          node build-icons.mjs && node generate.mjs
+          mkdir -p "$GITHUB_WORKSPACE/dist/staging"
+          cp -R dist/. "$GITHUB_WORKSPACE/dist/staging/"
+          find "$GITHUB_WORKSPACE/dist/staging" -name '*.html' -exec sed -i '0,/<head>/s//<head><meta name="robots" content="noindex,nofollow"\/>/' {} +
+        env:
+          AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design/staging
+          AHA_CDN_REF: staging
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
