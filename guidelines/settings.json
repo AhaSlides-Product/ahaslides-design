@@ -93,7 +93,7 @@
     {
       "ref": "tooltip",
       "as": "component",
-      "use": "the ? help tooltip (HelpTooltip) — shared dark-navy tooltip, arrow anchored to the ? icon",
+      "use": "the ? help tooltip (HelpTooltip) — shared black tooltip, arrow anchored to the ? icon",
       "status": "available"
     },
     {
@@ -210,7 +210,7 @@
     },
     {
       "id": "help-glyph",
-      "rule": "The help trigger is a question-mark (?) glyph from the shared Icon — never an info circle (ⓘ). Every ? in a panel is the same glyph, size, and tooltip placement; the tooltip is the shared dark-navy tooltip with its arrow anchored to the icon.",
+      "rule": "The help trigger is a question-mark (?) glyph from the shared Icon — never an info circle (ⓘ). Every ? in a panel is the same glyph, size, and tooltip placement; the tooltip is the shared black tooltip with its arrow anchored to the icon.",
       "ref": [
         "SETTINGS-26",
         "SETTINGS-30",
