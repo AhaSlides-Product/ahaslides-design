@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.113.1 — 2026-10-08
+## 0.114.1 — 2026-10-08
 ### Fixed
 - Background task: the inline `link` (e.g. Retry) now looks like the Button text-link variant, in the DS link colour, regular weight and no underline, lighter on hover. It was bold and underlined. (#182)
+
+## 0.114.0 — 2026-10-08
+### Added
+- A staging copy of the docs site at `/staging/`: every Pages deploy also builds the `staging` branch into `dist/staging/`, so a pending change can be reviewed on a real web link before it merges. Staging pages are `noindex`, their live demos run from the staging build's own `lib/`, and their HTML-tab snippets pin `@staging` on jsDelivr instead of a release tag. Production at `/` is unchanged (#199)
 
 ## 0.113.0 — 2026-10-08
 ### Added
