@@ -49,9 +49,9 @@ const PKGNAME = PKG.name;   // @ahaslides-product/design — the package to inst
 // it. Override with AHA_CDN_REF (e.g. `master`) for a local preview of unreleased element code.
 const CDN_REF = process.env.AHA_CDN_REF || `v${PKG.version}`;
 const withCdnRef = (text) => String(text ?? '').replaceAll('@__REF__', `@${CDN_REF}`);
-// Composite previews are classic scripts over CDN antd, so they cannot import the shared base theme;
-// the shell hands them the same function the package exports.
-const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=function(theme){return (${dsAntdTheme.toString()})(theme,${JSON.stringify(antdBaseTheme)});};</script>`;
+// Composite previews are classic scripts over CDN antd and cannot import the base theme; only escaped data is interpolated, so no value can close the script tag.
+const inlineScriptJson = (value) => JSON.stringify(value).replace(/[<>/\u2028\u2029]/g, (character) => '\\u' + character.charCodeAt(0).toString(16).padStart(4, '0'));
+const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return function(theme){theme=theme||{};var components=Object.assign({},base.components);Object.keys(theme.components||{}).forEach(function(name){components[name]=Object.assign({},base.components[name],theme.components[name]);});return Object.assign({},theme,{token:Object.assign({},base.token,theme.token),components:components});};})(${inlineScriptJson(antdBaseTheme)});</script>`;
 const part = (name) => (name && existsSync(join(PDIR, name)) ? withCdnRef(read(join(PDIR, name))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
