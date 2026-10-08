@@ -513,7 +513,7 @@
     },
     {
       "id": "secondary-actions",
-      "rule": "Secondary actions (Skip, Start voting) use a lower-contrast variant (surface + border, or a desaturated palette shade; in the DS secondary-deck, or tertiary-deck for the quietest), same height, same i18n discipline — the hierarchy must read clearly as primary vs side option. Never paint two visually equal buttons.",
+      "rule": "Secondary actions (Change answer, Start voting; Skip and back go quieter still) use a lower-contrast variant (surface + border, or a desaturated palette shade; in the DS secondary-deck, or tertiary-deck for the quietest), same height, same i18n discipline — the hierarchy must read clearly as primary vs side option. Never paint two visually equal buttons.",
       "ref": [
         "§5"
       ]
@@ -660,7 +660,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px color-mix(in srgb, currentColor 10%, transparent), except the 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%. Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px color-mix(in srgb, currentColor 10%, transparent), except the 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%; the dashed image drop area is the one 2px edge, dashed. No other 2px outline, and never one at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"

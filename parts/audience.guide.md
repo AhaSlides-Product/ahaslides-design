@@ -185,8 +185,8 @@ The same two-jobs split as the canvas, with less theme forwarded.
 
 **Sliders:**
 
-- A slider / progress track is filled with the deck ink at 10% (the same value as every audience
-  border and track) and a filled part carries that same 1px 10% hairline, so a coloured fill doesn't sink
+- A slider / progress track is filled with the deck ink at 10% (the same value as every track and
+  panel hairline) and a filled part carries that same 1px 10% hairline, so a coloured fill doesn't sink
   into a same-hue deck. Tracks and panel hairlines are the only 10% edges: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%.
 - A horizontal slider's rail **lines up** with its min/max end labels — zero out Ant's
   default slider margin (~`margin: 10px 6px`), then either run the rail flush under the captions or
@@ -211,8 +211,8 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
   600). No 700 / 800 / 900.
 
 **Borders are hairlines** (C32): a bounded white card **1px `--aha-border`** (#E3E3E3); a deck-owned
-surface (field, track, panel) a **1px** `color-mix(in srgb, currentColor 10%, transparent)` on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20% (the drop zone stays dashed, still 1px).
-Never a 2px outline at heavy ink (55% `textColour` on a chip is the miss).
+surface (field, track, panel) a **1px** `color-mix(in srgb, currentColor 10%, transparent)` on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20% (the dashed image drop area is the one 2px edge, dashed).
+No other 2px outline: never at heavy ink (55% `textColour` on a chip is the miss).
 
 **One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never `#1A1A2E`
 (`--aha-brand-3` / `--aha-indigo-100`), never `#000` for the dark label on the accent.

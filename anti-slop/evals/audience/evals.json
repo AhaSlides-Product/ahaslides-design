@@ -1973,7 +1973,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C32 bad — Team Retro D10/D14.",
-      "expected_output": "C32 FAILs. A chip takes a 1px border at the deck ink 10%; a 2px outline at 55% ink is far heavier than the DS chip. Overall: NEEDS FIX",
+      "expected_output": "C32 FAILs. A chip takes a 1px border at the deck ink 20%; a 2px outline at 55% ink is far heavier than the DS chip. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C32 is marked FAIL",
