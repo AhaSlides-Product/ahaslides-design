@@ -24,6 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.132.0 — 2026-10-08
 ### Changed
+- Input, Input number and Select: default height 40px, large 48px (small stays 24px); `<aha-input>` was 32 / 40, and `selectTheme` and `inputNumberTheme` set `controlHeight` 40 and `controlHeightLG` 48 (#197)
 - `<aha-pagination>` page and prev / next hover and press take the secondary button's treatment: `#FEF3F7` fill, `#E70E68` border, `#DB005B` label (press: `#DB005B` border) (#197)
 - Steps titles (`.ant-steps-item-title`) are SemiBold 600 (were 400); `steps-theme` adds the one rule when imported (#197)
 - `<aha-alert>` status glyph is 16px in both sizes (it was 18px in regular). `<aha-dropdown>` items: hover is `--aha-bg-hover` `#F7F7F7` (was grey 40 `#E3E3E3`), the leading icon is `--aha-icon-default` `#4A4A4A` (danger and disabled rows keep their text colour), the label is Regular 400 (was 600) (#197)
@@ -58,6 +59,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Button `secondary` and `tertiary`: on hover and active the label and icon are `--aha-text-link-hover` (#DB005B) on the existing pale pink fill (#FEF3F7), 4.66:1; on active the `secondary` border is `--aha-border-active` (#DB005B), `tertiary` has no border. New `--aha-button-default-text-hover` (aliases `--aha-text-link-hover`); `--aha-button-default-border-press` is `--aha-border-active`. The antd base theme matches (`defaultHoverColor`, `defaultActiveColor`, `defaultActiveBorderColor`). Dark and deck surfaces (Paywall, audience image upload) override the label token to keep their ink. Hover and active rules of every variant skip a disabled button, so a disabled label keeps the disabled ink. (#197)
 - Docs site: every Show code toggle is the DS `<aha-button variant="secondary" size="sm">`; notes, hub hints and badges sit on grey instead of pale pink, and links inside them are the default ink, underlined (#197)
 ### Added
+- Error message row: `error-message` on `<aha-input>`, `<aha-select>` and `<aha-counted-textarea>` shows a 12px error glyph and the message at `--aha-size-sm` below the field, linked by `aria-describedby` (with `aria-invalid` from `status="error"`). `<aha-field-error>` gains `icon` (the same row); antd Input number, Select and Textarea pair `status="error"` with a sibling `<aha-field-error icon>` (#197)
 - `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#197)
 - `--aha-logo-purple` (`#6A1EBB`), the one purple left, for the logo only (#197)
 - `standards.mjs` fails a colour token that is off the allowed list (Vivid Pink, Darker Pink, the two flat tints, white, black, neutral greys, and purple at `color.primitives.logoPurple` only) and fails the build when the Colour page shows any other colour (#197)
