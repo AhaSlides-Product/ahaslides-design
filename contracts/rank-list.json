@@ -24,20 +24,28 @@
     "space-4",
     "space-8",
     "space-12",
-    "space-16"
+    "space-16",
+    "space-20",
+    "space-24",
+    "space-28",
+    "space-32",
+    "space-44",
+    "space-56",
+    "size-default",
+    "weight-regular"
   ],
   "spec": [
     {
       "label": "Row",
-      "value": "the answer row's surface: min-height 44, padding 8/16, radius 8, frosted, 1px ink hairline; 16px semibold label; an option image as a 28px thumbnail (radius 6)"
+      "value": "the answer row's surface: min-height 56, padding 4/16, radius 8, frosted, 1px ink hairline; 16px label at weight 400; an option image as a 44px thumbnail (radius 8); a 16px margin above and below the list"
     },
     {
       "label": "Badge",
-      "value": "24px circle in the deck accent, white 12px semibold numeral, renumbers live"
+      "value": "28px circle in the deck accent, white 14px semibold numeral, renumbers live"
     },
     {
       "label": "Move",
-      "value": "24px up / down buttons with 12px carets (system-caret-up / -down) in the muted ink, disabled at the ends; system-drag grip for the pointer"
+      "value": "24px up / down buttons with 16px carets (system-caret-up / -down) in the deck ink, disabled at the ends, 4px from a 24 × 32 system-drag grip in the muted ink for the pointer"
     },
     {
       "label": "Drag",
@@ -144,7 +152,7 @@
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-rank-list[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('.row');var c=cs(row);return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,badge:cs(q('.badge')).backgroundColor,labelSize:cs(q('.label')).fontSize,gap:cs(q('.list')).rowGap};})()",
     "expect": {
-      "rowHeight": "44px",
+      "rowHeight": "56px",
       "rowRadius": "8px",
       "ink": "rgb(26, 26, 26)",
       "badge": "rgb(231, 14, 104)",
