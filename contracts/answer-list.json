@@ -42,7 +42,7 @@
     },
     {
       "label": "Pick",
-      "value": "20px radio or checkbox with a 1px border (ink at 20% unchecked, the deck accent checked); a picked radio holds a 12px accent dot; my row ringed 1px in the deck ink; the keyboard focus ring is the browser default"
+      "value": "20px radio or checkbox with a 1px border (ink at 20% unchecked, the deck accent checked); a picked radio holds a 12px accent dot; my row ringed 1px in the deck ink; the keyboard focus ring is a 2px outline in the row ink, offset 2px"
     },
     {
       "label": "Reveal",

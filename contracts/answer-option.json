@@ -29,7 +29,7 @@
   "spec": [
     {
       "label": "Row",
-      "value": "min-height 48, padding 8/16, radius 8, frosted surface, 1px ink hairline at 10%; hover lightens the surface to 60%; keyboard focus shows the browser default ring"
+      "value": "min-height 48, padding 8/16, radius 8, frosted surface, 1px ink hairline at 10%; hover lightens the surface to 60%; keyboard focus shows a 2px outline in the row ink, offset 2px"
     },
     {
       "label": "Control",
