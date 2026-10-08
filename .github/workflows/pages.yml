@@ -37,8 +37,37 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-  build:
+  # Unreviewed staging code runs only here: read-only token, no pages/id-token, no production files.
+  # Snippets pin @staging (the branch on jsDelivr) because no v<version> tag exists yet; live demos
+  # import the staging build's own lib/ copied beside the pages. Pages are marked noindex.
+  build-staging:
     if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: staging
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: node build-icons.mjs && node generate.mjs
+        env:
+          AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design/staging
+          AHA_CDN_REF: staging
+      - run: find dist -name '*.html' -exec sed -i '0,/<head>/s//<head><meta name="robots" content="noindex,nofollow"\/>/' {} +
+      - uses: actions/upload-artifact@v4
+        with:
+          name: staging-dist
+          path: dist
+
+  build:
+    needs: build-staging
+    if: ${{ !cancelled() && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,23 +93,12 @@ jobs:
         run: node build-icons.mjs && node generate.mjs
         env:
           AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design
-      # A push to `staging` also rebuilds master above, so / stays production and /staging/ shows the branch.
-      # Snippets pin @staging (the branch on jsDelivr) because no v<version> tag exists yet; live demos
-      # import the staging build's own lib/ copied beside the pages. Pages are marked noindex.
-      - name: Build staging site
+      - name: Add the staging build
         continue-on-error: true
-        run: |
-          if ! git ls-remote --exit-code --heads origin staging >/dev/null; then echo "no staging branch; skipping"; exit 0; fi
-          git worktree add ../staging-src origin/staging
-          cd ../staging-src
-          npm install --no-audit --no-fund
-          node build-icons.mjs && node generate.mjs
-          mkdir -p "$GITHUB_WORKSPACE/dist/staging"
-          cp -R dist/. "$GITHUB_WORKSPACE/dist/staging/"
-          find "$GITHUB_WORKSPACE/dist/staging" -name '*.html' -exec sed -i '0,/<head>/s//<head><meta name="robots" content="noindex,nofollow"\/>/' {} +
-        env:
-          AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design/staging
-          AHA_CDN_REF: staging
+        uses: actions/download-artifact@v4
+        with:
+          name: staging-dist
+          path: dist/staging
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
