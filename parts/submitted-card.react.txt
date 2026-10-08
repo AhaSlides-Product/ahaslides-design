@@ -1,0 +1,5 @@
+import '@ahaslides-product/design/aha-submitted-card';
+
+export const Submitted = ({ choice }) => (
+  <aha-submitted-card heading={`Submitted: ${choice}`} subtitle="Wait for the presenter to reveal the answer" />
+);

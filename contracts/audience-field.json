@@ -1,0 +1,127 @@
+{
+  "name": "Audience field",
+  "slug": "audience-field",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audience-field",
+  "summary": "A labelled text, number or dropdown field on the audience phone: the deck-ink label above, wrapped around the shared DS field (counted input, counted textarea, select), which it names for a screen reader.",
+  "highlights": [
+    "Label above a DS field, in the deck ink",
+    "Wraps aha-counted-input, aha-counted-textarea or aha-select",
+    "The label becomes the field's accessible name"
+  ],
+  "lead": "ONE custom element — <aha-audience-field> — for the audience phone of a slide type (a cross-origin iframe on the Developer Platform). Framework-free, loaded by URL from the version-pinned CDN with tokens.css, so a build-less page imports it instead of copying CSS. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
+  "tokensUsed": [
+    "text-default",
+    "space-8"
+  ],
+  "spec": [
+    {
+      "label": "Label",
+      "value": "16px, 600, deck ink, 16px above the field"
+    },
+    {
+      "label": "Field",
+      "value": "the DS field unchanged: opaque white fill, fixed #1A1A1A ink (deck-independent, so a dark deck is never white-on-white); 56px with 16px text at size touch"
+    },
+    {
+      "label": "Lock",
+      "value": "with lock-key, the control is disabled and the submitted value restored"
+    }
+  ],
+  "props": [
+    {
+      "name": "ink",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck ink (xprops.slide.textColour) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "The deck accent (presentationColorPalette[0]) for this element only; normally inherited from applyDeck()"
+    },
+    {
+      "name": "lock-key",
+      "type": "string",
+      "default": "—",
+      "desc": "The submission-lock key for this question: once a submission is locked under it, the element locks and restores the submitted value, including after an iframe remount"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "The field label (translated). Becomes the slotted control's aria-label unless it has its own"
+    },
+    {
+      "name": "(slot)",
+      "type": "element",
+      "default": "—",
+      "desc": "One DS field: <aha-counted-input size=\"touch\">, <aha-counted-input type=\"number\" maxlength=\"none\" size=\"touch\">, <aha-counted-textarea size=\"touch\"> or <aha-select size=\"touch\">"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Counted input",
+        "when": "a short line (a name, a word); type=\"number\" for a number"
+      },
+      {
+        "what": "Counted textarea",
+        "when": "an open answer over several lines"
+      },
+      {
+        "what": "Select",
+        "when": "a short fixed list where chips will not fit; prefer chips when every choice fits on screen"
+      }
+    ],
+    "note": "A placeholder is not a label: it vanishes as the participant types. Only a field that is the whole screen, directly under its question, may go bare, and then it still needs an aria-label. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-audience-field",
+    "registers": "aha-audience-field",
+    "exportsNamed": [
+      "AhaAudienceField",
+      "defineAhaAudienceField"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audience-field.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audience-field.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audience-field.vue.txt"
+    }
+  ],
+  "preview": "audience-field.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the light-deck example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-audience-field[data-probe]')&&document.querySelector('aha-audience-field[data-probe]').shadowRoot&&document.querySelector('aha-audience-field[data-probe] aha-counted-input'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-audience-field[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var l=cs(q('.label'));var f=el.querySelector('aha-counted-input');return{labelSize:l.fontSize,labelInk:l.color,gap:cs(el).rowGap,fieldHeight:Math.round(f.getBoundingClientRect().height)+'px',named:f.getAttribute('aria-label')};})()",
+    "expect": {
+      "labelSize": "16px",
+      "labelInk": "rgb(26, 26, 26)",
+      "gap": "16px",
+      "fieldHeight": "56px",
+      "named": "Your nickname"
+    }
+  }
+}

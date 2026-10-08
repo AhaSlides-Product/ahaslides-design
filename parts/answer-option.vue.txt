@@ -1,0 +1,9 @@
+<script setup>
+import '@ahaslides-product/design/aha-answer-option';
+defineProps({ label: String, selected: Boolean });
+const emit = defineEmits(['pick']);
+</script>
+
+<template>
+  <aha-answer-option :selected="selected || null" @pick="emit('pick')">{{ label }}</aha-answer-option>
+</template>

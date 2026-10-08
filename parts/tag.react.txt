@@ -3,7 +3,7 @@ import '@ahaslides-product/design/aha-tag'; // registers <aha-tag>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper for the composed `close` / `change` events; React 19 can bind directly.
-function AhaTag({ color, bordered, icon, closable, checkable, checked, onClose, onChange, children }) {
+function AhaTag({ color, size, bordered, icon, closable, checkable, checked, onClose, onChange, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -14,7 +14,7 @@ function AhaTag({ color, bordered, icon, closable, checkable, checked, onClose, 
     return () => { el.removeEventListener('close', c); el.removeEventListener('change', ch); };
   });
   return (
-    <aha-tag ref={ref} color={color} icon={icon}
+    <aha-tag ref={ref} color={color} size={size} icon={icon}
       {...(bordered ? { bordered: '' } : {})}
       {...(closable ? { closable: '' } : {})}
       {...(checkable ? { checkable: '' } : {})}
@@ -27,4 +27,6 @@ function AhaTag({ color, bordered, icon, closable, checkable, checked, onClose, 
 <AhaTag color="primary" icon="system-tag">Poll</AhaTag>
 <AhaTag color="success" bordered icon="system-check">Published</AhaTag>
 <AhaTag closable onClose={() => removeKeyword('Marketing')}>Marketing</AhaTag>
+<AhaTag color="branding">New</AhaTag>
+<AhaTag checkable size="large" onChange={(on) => setFilter(on)}>Filter chip</AhaTag>
 <AhaTag checkable checked onChange={(on) => setFilter(on)}>Quizzes only</AhaTag>

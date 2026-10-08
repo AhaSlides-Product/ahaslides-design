@@ -18,7 +18,7 @@
     { "label": "Placement", "value": "top · bottom · left · right (8px offset), PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "click (default) · hover · focus" },
     { "label": "Arrow", "value": "optional 8px pointer at the panel edge, matches the surface + border" },
-    { "label": "Motion", "value": "fade + 4px directional lift on open (ease-out, persistent node)" }
+    { "label": "Motion", "value": "fade + 4px directional lift on open (ease-out, persistent node); closed, the panel is display:none and adds no layout or scrollable overflow" }
   ],
   "props": [
     { "name": "open", "type": "boolean", "default": "false", "desc": "Controlled open state; reflected attribute" },
