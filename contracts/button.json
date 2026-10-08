@@ -28,7 +28,7 @@
     { "label": "Icon-only", "value": "square (width = height per size: 28/36/40/52), glyph centred, no label; needs aria-label" }
   ],
   "props": [
-    { "name": "variant", "type": "primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link | secondary-deck", "default": "secondary", "desc": "tone × emphasis; one primary per view. success is a synonym of positive; primary-alt of primary; text / text-link are borderless label buttons; secondary-deck is the white-filled button with its edge and label in the deck accent, the audience phone's secondary action" },
+    { "name": "variant", "type": "primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link | secondary-deck | tertiary-deck", "default": "secondary", "desc": "tone × emphasis; one primary per view. success is a synonym of positive; primary-alt of primary; text / text-link are borderless label buttons; secondary-deck is the white-filled button with its edge and label in the deck accent, the audience phone's secondary action; tertiary-deck is the borderless, transparent button with its label in the deck ink (ink 5% hover, 10% pressed), the audience phone's tertiary action" },
     { "name": "size", "type": "sm | md | lg | xl | touch", "default": "lg", "desc": "28 / 36 / 40 / 52 / 48px height — lg (40) is the default; xl (52) is for presenter controls rendered inside a slide canvas and read from room distance (the web-component twin of React <XLButtonScope>); touch (48, 8px corners, 16px label) is the audience phone's primary action and clears the 44px touch floor" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "non-interactive; grey fill" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "shows a spinner, blocks clicks" },
@@ -40,6 +40,7 @@
     "whenToUse": [
       { "what": "primary", "when": "the single most important action on a view (one per screen)" },
       { "what": "secondary", "when": "the default for most actions — neutral, white with a border" },
+      { "what": "secondary-deck / tertiary-deck", "when": "the audience phone, next to aha-audience-submit (the one primary): secondary-deck for a real side action (upload, change), tertiary-deck for a quiet one (skip, back, remove); both at size touch, as text, icon + text or icon only (icon-only needs aria-label)" },
       { "what": "tertiary / link", "when": "low-emphasis or inline navigation, no container weight" },
       { "what": "danger", "when": "a destructive action (delete, remove) — pair with a confirm" },
       { "what": "positive", "when": "a confirming/success action where a positive signal helps" },
@@ -69,7 +70,8 @@
         { "label": "Primary alt", "value": "primary-alt" },
         { "label": "Text", "value": "text" },
         { "label": "Text link", "value": "text-link" },
-        { "label": "Secondary deck", "value": "secondary-deck" }
+        { "label": "Secondary deck", "value": "secondary-deck" },
+        { "label": "Tertiary deck", "value": "tertiary-deck" }
       ] },
       { "prop": "size", "label": "Size", "default": "lg", "options": [
         { "label": "sm", "value": "sm" },

@@ -29,6 +29,12 @@
 <!-- secondary-deck: the audience phone's secondary action. White fill; edge and label take the deck accent (applyDeck sets it). -->
 <aha-button variant="secondary-deck" size="touch" block>Upload</aha-button>
 
+<!-- tertiary-deck: the audience phone's quiet action. No fill or edge; label in the deck ink (applyDeck sets it); ink 5% on hover, 10% pressed.
+     Three forms: text only, icon + text, and icon only (48 x 48, aria-label required). secondary-deck takes the same three. -->
+<aha-button variant="tertiary-deck" size="touch">Skip</aha-button>
+<aha-button variant="tertiary-deck" size="touch"><aha-icon slot="icon" name="system-trash" size="16" decorative></aha-icon>Remove</aha-button>
+<aha-button variant="tertiary-deck" size="touch" icon-only aria-label="Remove"><aha-icon name="system-trash" size="16" decorative></aha-icon></aha-button>
+
 <!-- Low-emphasis label buttons: text / text-link are borderless. primary-alt is a second primary slot. -->
 <aha-button variant="text">Skip</aha-button>
 <aha-button variant="text-link">Learn more</aha-button>
