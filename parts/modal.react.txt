@@ -39,7 +39,7 @@ function ModalDemo() {
       <Button onClick={() => setConfirm(true)}>Delete team…</Button>
       <Button type="primary" onClick={() => setAction(true)}>Share course…</Button>
 
-      {/* Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply the black danger button. */}
+      {/* Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply the dark danger button. */}
       <Modal
         open={confirm}
         closable={false}   /* the shared ✕ rides in the title */

@@ -67,6 +67,6 @@
     "ready": "!!(window.AHA_ILLUSTRATIONS && document.querySelector('aha-illustration[data-probe=\"128\"]') && document.querySelector('aha-illustration[data-probe=\"128\"]').shadowRoot && document.querySelector('aha-illustration[data-probe=\"128\"]').shadowRoot.querySelector('svg') && document.querySelector('aha-illustration[data-probe-err]') && document.querySelector('aha-illustration[data-probe-err]').shadowRoot && document.querySelector('aha-illustration[data-probe-err]').shadowRoot.querySelector('span'))",
     "singleUI": true,
     "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('svg');if(!s)return{};var cs=getComputedStyle(s);var p=null,paths=s.querySelectorAll('path');for(var i=0;i<paths.length;i++){var f=getComputedStyle(paths[i]).fill;if(f==='rgb(231, 14, 104)'){p=f;break;}}return{w:cs.width,h:cs.height,fill:p};};var a=q('aha-illustration[data-probe=\"128\"]');var b=q('aha-illustration[data-probe=\"64\"]');var errEl=document.querySelector('aha-illustration[data-probe-err]');var errSpan=errEl&&errEl.shadowRoot&&errEl.shadowRoot.querySelector('span');var err=errSpan?getComputedStyle(errSpan).borderTopColor:null;return{w128:a.w,h128:a.h,artKeepsOwnFill:a.fill==='rgb(231, 14, 104)',w64:b.w,errBorder:err};})()",
-    "expect": { "w128": "128px", "h128": "128px", "artKeepsOwnFill": true, "w64": "64px", "errBorder": "rgb(0, 0, 0)" }
+    "expect": { "w128": "128px", "h128": "128px", "artKeepsOwnFill": true, "w64": "64px", "errBorder": "rgb(26, 26, 26)" }
   }
 }

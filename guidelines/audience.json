@@ -319,7 +319,7 @@
     },
     {
       "id": "function-token-not-lookalike",
-      "rule": "Use the actual function token (colorSuccess, colorError, colorWarning, colorInfo — all black #000000 under the 7 October 2026 colour rules) for state marks, and let the icon (✓ / ✗ / !) and wording carry the meaning, never a colour alone and never a lookalike accent (a teal such as #20E8B5 as a tick is wrong and fails contrast at ~1.58:1). On a dark deck put the black glyph on a bounded light fill (white badge), or a white glyph on a black pill.",
+      "rule": "Use the actual function token (colorSuccess, colorError, colorWarning, colorInfo — all the default ink #1A1A1A under the 7 October 2026 colour rules) for state marks, and let the icon (✓ / ✗ / !) and wording carry the meaning, never a colour alone and never a lookalike accent (a teal such as #20E8B5 as a tick is wrong and fails contrast at ~1.58:1). On a dark deck put the dark glyph on a bounded light fill (white badge), or a white glyph on a black pill.",
       "ref": [
         "C10",
         "§2"

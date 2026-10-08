@@ -11,7 +11,7 @@
   "spec": [
     { "label": "Control", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
     { "label": "Sizes", "value": "small 24 · default 32 · large 40 (DS V3 Input set)" },
-    { "label": "Status", "value": "error #000000 · warning #000000 border" },
+    { "label": "Status", "value": "error #1A1A1A · warning #1A1A1A border" },
     { "label": "Focus", "value": "brand #E70E68 border" },
     { "label": "Active option", "value": "#F7F7F7 (gray-20) row" },
     { "label": "Selected option", "value": "brand-tint #FEF3F7 row" },

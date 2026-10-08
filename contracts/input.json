@@ -16,8 +16,8 @@
     { "label": "Rest border", "value": "1px #E3E3E3" },
     { "label": "Hover border", "value": "#E70E68 (color-primary)" },
     { "label": "Focus", "value": "#E70E68 border + 2px #E70E68@30% ring (on the persistent wrapper)" },
-    { "label": "Error", "value": "#000000 border + error-tinted ring; sets aria-invalid" },
-    { "label": "Warning", "value": "#000000 border + warning-tinted ring" },
+    { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
+    { "label": "Warning", "value": "#1A1A1A border + warning-tinted ring" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Readonly", "value": "#F7F7F7 fill, still selectable" },
     { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable circled ✕ (a tertiary icon-only <aha-button>: 16px system-x-circle, 28px target — 20px in the small input); password reveal (eye)" },
@@ -46,7 +46,7 @@
       { "what": "Select", "when": "one value from a known set — don't make the user type it" }
     ],
     "note": "Label the field with a noun phrase; use placeholder for an example, never as the label. Show the error status only after the user leaves the field, and pair it with a message that says how to fix it. Reach for a prefix icon to hint the field's job (a magnifier for search, an envelope for email), a suffix for a fixed unit or domain, clearable for search/filter fields, and password reveal for credentials.",
-    "dsv3": "COVERED — enumerated from the DS V3 Input component-set taxonomy: Input (Size · Status), Components/Input-Affix (prefix/suffix), Input-Addon/Label + Input-Addon/Icon (addons), Password (reveal toggle). Sizes match the measured DS V3 input cells (small/default/large = 24/32/40, radius 8, default 32 = controlHeight root). Error border is the measured error stroke bound to `border-error` (#000000 token; the measured cell reads #000000, reconciled to the DS error token). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker). Warning status + affixes/clear/reveal follow the same token layer; motion + focus ring on a persistent node."
+    "dsv3": "COVERED — enumerated from the DS V3 Input component-set taxonomy: Input (Size · Status), Components/Input-Affix (prefix/suffix), Input-Addon/Label + Input-Addon/Icon (addons), Password (reveal toggle). Sizes match the measured DS V3 input cells (small/default/large = 24/32/40, radius 8, default 32 = controlHeight root). Error border is the measured error stroke bound to `border-error` (#1A1A1A token; the measured cell reads #1A1A1A, reconciled to the DS error token). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker). Warning status + affixes/clear/reveal follow the same token layer; motion + focus ring on a persistent node."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-input", "registers": "aha-input", "exportsNamed": ["AhaInput", "defineAhaInput"] },
@@ -84,7 +84,7 @@
     { "label": "height 32 (default) · small 24 · large 40 · radius 8", "verdict": "PASS" },
     { "label": "rest border #E3E3E3", "verdict": "PASS" },
     { "label": "focus #E70E68 border + ring (persistent wrapper)", "verdict": "PASS" },
-    { "label": "error #000000 border + aria-invalid; warning #000000 border", "verdict": "PASS" },
+    { "label": "error #1A1A1A border + aria-invalid; warning #1A1A1A border", "verdict": "PASS" },
     { "label": "prefix/suffix affix, clearable ✕, password reveal render", "verdict": "PASS" },
     { "label": "placeholder #8A8A8A 14/21", "verdict": "PASS" }
   ],
@@ -93,6 +93,6 @@
     "ready": "!!(document.querySelector('aha-input[data-probe]') && document.querySelector('aha-input[data-probe]').shadowRoot && document.querySelector('aha-input[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-input[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,ariaInvalid:f?f.getAttribute('aria-invalid'):null};})()",
-    "expect": { "height": "32px", "radius": "8px", "border": "rgb(0, 0, 0)", "fontSize": "14px", "ariaInvalid": "true" }
+    "expect": { "height": "32px", "radius": "8px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "ariaInvalid": "true" }
   }
 }

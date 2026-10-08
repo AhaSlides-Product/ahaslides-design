@@ -97,13 +97,13 @@
     {
       "ref": "--aha-colorSuccess",
       "as": "token",
-      "use": "the ✓ / correct-answer / validation-passed mark — the semantic function token (black #000000 under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent",
+      "use": "the ✓ / correct-answer / validation-passed mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent",
       "status": "available"
     },
     {
       "ref": "--aha-colorError",
       "as": "token",
-      "use": "the ✗ / incorrect-answer / destructive-action mark — the semantic function token (black #000000 under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded",
+      "use": "the ✗ / incorrect-answer / destructive-action mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded",
       "status": "available"
     },
     {
@@ -250,7 +250,7 @@
       ]
     },
     {
-      "rule": "A slide-painted surface re-anchors the contrast check against that composited surface — but a translucent tint is NOT a contrast guarantee (only an opaque surface is), and any fixed-colour mark on it (a semantic ✓/✗ token, a palette-accent border) must clear the floor on BOTH a light and a dark deck. A black semantic token on a dark deck fails — put it on a bounded light fill, or invert it to a white glyph on a black pill.",
+      "rule": "A slide-painted surface re-anchors the contrast check against that composited surface — but a translucent tint is NOT a contrast guarantee (only an opaque surface is), and any fixed-colour mark on it (a semantic ✓/✗ token, a palette-accent border) must clear the floor on BOTH a light and a dark deck. A dark semantic token on a dark deck fails — put it on a bounded light fill, or invert it to a white glyph on a black pill.",
       "ref": [
         "§3",
         "C10",

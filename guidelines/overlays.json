@@ -131,7 +131,7 @@
     },
     {
       "id": "danger-confirm-button",
-      "rule": "A destructive confirm uses okButtonProps={{ danger: true, type: 'primary', loading: busy }} — the black danger styling lives on the action button, never the title or body — and Cancel, the safe choice, is the primary button (cancelButtonProps={{ type: 'primary', disabled: busy }}), disabled while busy. A Popconfirm gets both from destructiveConfirm in popconfirm-theme.",
+      "rule": "A destructive confirm uses okButtonProps={{ danger: true, type: 'primary', loading: busy }} — the dark danger styling lives on the action button, never the title or body — and Cancel, the safe choice, is the primary button (cancelButtonProps={{ type: 'primary', disabled: busy }}), disabled while busy. A Popconfirm gets both from destructiveConfirm in popconfirm-theme.",
       "ref": [
         "OVERLAY-06"
       ]

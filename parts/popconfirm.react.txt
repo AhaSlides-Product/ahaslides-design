@@ -11,7 +11,7 @@ import '@ahaslides-product/design/icons';             // registers <aha-icon>
     cancelText="Cancel"
     placement="top"          // top | bottom | left | right — arrow tracks the trigger
     icon={<aha-icon name="system-warning-circle" size="16" style={{ marginInlineEnd: 8 }} />}
-    {...destructiveConfirm}  // destructive: Cancel is the primary, Delete the black danger button
+    {...destructiveConfirm}  // destructive: Cancel is the primary, Delete the dark danger button
     onConfirm={remove}
   >
     <aha-button variant="secondary" size="md">Delete slide</aha-button>

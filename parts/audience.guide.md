@@ -148,9 +148,9 @@ The same two-jobs split as the canvas, with less theme forwarded.
 | `colorInfo` | informational note |
 
 - **Use the FUNCTION token, not a lookalike accent.** `colorSuccess`, `colorError`,
-  `colorWarning`, `colorInfo` are the semantic functions (all black #000000 under the colour rules; the glyph and wording carry the meaning). A bright accent
+  `colorWarning`, `colorInfo` are the semantic functions (all the default ink #1A1A1A under the colour rules; the glyph and wording carry the meaning). A bright accent
   that merely *looks* green/red (a teal such as `#20E8B5` as a tick) is wrong and fails contrast
-  (~1.58:1 on white). On a dark deck the black
+  (~1.58:1 on white). On a dark deck the dark
   status glyph fails, so put it on a **bounded light fill** or use a white glyph on a black pill.
 - **`textColour` is for text, not borders.** Bind body text to `xprops.slide.textColour`.
   Derive hairlines from `color-mix(in srgb, currentColor 10%, transparent)`, never from

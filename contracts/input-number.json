@@ -13,7 +13,7 @@
     { "label": "Sizes", "value": "small 24 · default 32 · large 40 · font 14" },
     { "label": "Hover", "value": "#E70E68 (color-primary) border" },
     { "label": "Focus", "value": "brand #E70E68 border" },
-    { "label": "Status", "value": "error #000000 · warning border/glow" },
+    { "label": "Status", "value": "error #1A1A1A · warning border/glow" },
     { "label": "Steppers", "value": "up/down on hover; keyboard ↑ ↓; toggle via controls" },
     { "label": "Placeholder", "value": "#8A8A8A" }
   ],

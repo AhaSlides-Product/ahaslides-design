@@ -43,7 +43,7 @@
       h(Button, { onClick: () => setConfirm(true) }, 'Delete team…'),
       h(Button, { type: 'primary', onClick: () => setAction(true) }, 'Share course…'),
 
-      // Confirmation modal — always `simple` (504px · 75vh); in the danger context Cancel is the primary and Apply the black danger button.
+      // Confirmation modal — always `simple` (504px · 75vh); in the danger context Cancel is the primary and Apply the dark danger button.
       h(Modal, {
         open: confirm, closable: false, title: dismissibleModalTitle(h, 'Delete this team?', () => setConfirm(false)),
         width: modalWidth('simple'), styles: modalStyles('simple'), centered: true,

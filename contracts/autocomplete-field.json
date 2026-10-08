@@ -41,7 +41,7 @@
     },
     {
       "label": "Status",
-      "value": "error #000000 (+ aria-invalid) · warning #000000 border"
+      "value": "error #1A1A1A (+ aria-invalid) · warning #1A1A1A border"
     },
     {
       "label": "Popup",

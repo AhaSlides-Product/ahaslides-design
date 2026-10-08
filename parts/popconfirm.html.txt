@@ -3,7 +3,7 @@
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It consumes
      the SAME shared `popconfirmTheme` the React/Vue wrappers use, so it renders the DS V3
      look (radius-8 popover, 28px action buttons). The confirm is destructive, so Cancel is the
-     primary button and Delete the black danger button. No JSX — React.createElement. -->
+     primary button and Delete the dark danger button. No JSX — React.createElement. -->
 <div id="root"></div>
 <script type="module">
   import React from 'https://esm.sh/react@18';
@@ -23,7 +23,7 @@
         okText: 'Delete', cancelText: 'Cancel',
         placement: 'top',        // top | bottom | left | right
         icon: h('aha-icon', { name: 'system-warning-circle', size: 16, style: { marginInlineEnd: 8 } }),
-        ...destructiveConfirm,   // destructive: Cancel is the primary, Delete the black danger button
+        ...destructiveConfirm,   // destructive: Cancel is the primary, Delete the dark danger button
         onConfirm: () => console.log('confirmed'),
       }, h('aha-button', { variant: 'secondary', size: 'md' }, 'Delete slide'))
     )

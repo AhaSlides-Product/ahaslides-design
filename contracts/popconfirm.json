@@ -30,7 +30,7 @@
   },
   {
    "label": "Destructive confirm",
-   "value": "destructiveConfirm: Cancel is the primary (#E70E68, white label) · Delete / Remove is the danger button (black #000000 fill, white label)"
+   "value": "destructiveConfirm: Cancel is the primary (#E70E68, white label) · Delete / Remove is the danger button (default-ink #1A1A1A fill, white label)"
   },
   {
    "label": "Plain confirm",
@@ -38,7 +38,7 @@
   },
   {
    "label": "Icon",
-   "value": "<aha-icon name=\"system-warning-circle\" size=\"16\"> in black, the same glyph the Modal confirmation uses; never a coloured status icon"
+   "value": "<aha-icon name=\"system-warning-circle\" size=\"16\"> in the default ink, the same glyph the Modal confirmation uses; never a coloured status icon"
   },
   {
    "label": "Title",
@@ -98,13 +98,13 @@
    "name": "...destructiveConfirm",
    "type": "{ okButtonProps, cancelButtonProps }",
    "default": "—",
-   "desc": "Spread on a destructive confirm (Delete, Remove): Cancel becomes the primary button and the confirm the black danger button. Leave it off for a plain confirm"
+   "desc": "Spread on a destructive confirm (Delete, Remove): Cancel becomes the primary button and the confirm the dark danger button. Leave it off for a plain confirm"
   },
   {
    "name": "icon",
    "type": "ReactNode",
    "default": "antd warning glyph",
-   "desc": "Pass <aha-icon name=\"system-warning-circle\" size=\"16\"> so the popover header carries the DS glyph in black"
+   "desc": "Pass <aha-icon name=\"system-warning-circle\" size=\"16\"> so the popover header carries the DS glyph in the default ink"
   }
  ],
  "opinion": {
@@ -123,7 +123,7 @@
    }
   ],
   "note": "Reserve Popconfirm for low-risk, reversible actions — anchor it to the trigger and keep the question to one line. A destructive or irreversible action (delete account, publish) needs a Modal (see the overlays pattern), never a popover.",
-  "dsv3": "COVERED — antd v6 Popconfirm themed by the shared popconfirmTheme; matrix: Placement (top · bottom · left · right) × Destructive (on → Cancel primary #E70E68 + black danger confirm #000000 via destructiveConfirm / off → primary confirm #E70E68 + #E3E3E3-border Cancel), over a radius-8 white popover with 28px DS-small action buttons. Verified via Figma search_design_system on the DS V3 file (MwjvUjVI0HnfwD9EwPXRAy): DS V3 ships no measured Popconfirm cell (nearest is the 'Delete confirmation' Dialog), so this is a deliberate, documented token mapping onto antd's Popconfirm rather than a re-implementation."
+  "dsv3": "COVERED — antd v6 Popconfirm themed by the shared popconfirmTheme; matrix: Placement (top · bottom · left · right) × Destructive (on → Cancel primary #E70E68 + dark danger confirm #1A1A1A via destructiveConfirm / off → primary confirm #E70E68 + #E3E3E3-border Cancel), over a radius-8 white popover with 28px DS-small action buttons. Verified via Figma search_design_system on the DS V3 file (MwjvUjVI0HnfwD9EwPXRAy): DS V3 ships no measured Popconfirm cell (nearest is the 'Delete confirmation' Dialog), so this is a deliberate, documented token mapping onto antd's Popconfirm rather than a re-implementation."
  },
  "surfaces": [
   "editor",
@@ -164,7 +164,7 @@
    "verdict": "PASS"
   },
   {
-   "label": "destructive confirm: Cancel primary #E70E68 · Delete black danger button",
+   "label": "destructive confirm: Cancel primary #E70E68 · Delete dark danger button",
    "verdict": "PASS"
   },
   {
@@ -172,7 +172,7 @@
    "verdict": "PASS"
   },
   {
-   "label": "header icon is the black DS glyph (aha-icon system-warning-circle)",
+   "label": "header icon is the default-ink DS glyph (aha-icon system-warning-circle)",
    "verdict": "PASS"
   },
   {
@@ -189,11 +189,11 @@
    "popRadius": "8px",
    "cancelBg": "rgb(231, 14, 104)",
    "cancelColor": "rgb(255, 255, 255)",
-   "okBg": "rgb(0, 0, 0)",
+   "okBg": "rgb(26, 26, 26)",
    "okColor": "rgb(255, 255, 255)",
    "buttonHeight": "28px",
    "buttonRadius": "4px",
-   "iconColor": "rgb(0, 0, 0)"
+   "iconColor": "rgb(26, 26, 26)"
   }
  }
 }

@@ -3,7 +3,7 @@
      qa.mjs measures: the real antd Popconfirm popover + its two action buttons bound to the
      shared theme. Interactive: the controls drive live React state (Placement / Destructive).
      The DEFAULT render (placement=top · Destructive ON · open) is what conformance measures: Cancel
-     is the Vivid Pink primary (#E70E68), Delete the black danger button, both 28px tall. -->
+     is the Vivid Pink primary (#E70E68), Delete the dark danger button, both 28px tall. -->
 <div id="react-root" class="pad"></div>
 
 <script type="module">import '../lib/icons.js'; import '../lib/aha-button.js';</script>
@@ -62,7 +62,7 @@ function Demo() {
             options={[{ label: 'On', value: 'on' }, { label: 'Off', value: 'off' }]} />
         </div>
         {/* Open Popconfirm — the popover portals to <body>; conformance reads it there.
-            Destructive ON → Cancel is the primary, Delete the black danger button. OFF → a plain
+            Destructive ON → Cancel is the primary, Delete the dark danger button. OFF → a plain
             confirm: Vivid Pink Publish beside an outlined Cancel. */}
         <div style={{ minHeight: 260, paddingTop: 120, paddingBottom: 120, display: 'flex', justifyContent: 'center' }}>
           <Popconfirm

@@ -19,7 +19,7 @@
   "spec": [
     {
       "label": "Text",
-      "value": "14/22 regular · #000000 (text-negative) · 4px above (space-4)"
+      "value": "14/22 regular · #1A1A1A (text-negative) · 4px above (space-4)"
     },
     {
       "label": "Empty",
@@ -120,7 +120,7 @@
   "preview": "field-error.preview.html",
   "selfCheck": [
     {
-      "label": "danger text #000000 · 14/22 · 4px gap",
+      "label": "danger text #1A1A1A · 14/22 · 4px gap",
       "verdict": "PASS"
     },
     {
@@ -142,7 +142,7 @@
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-field-error[data-probe]');var s=getComputedStyle(el);var field=document.querySelector('#fe-email').shadowRoot.querySelector('.field');var described=field.ariaDescribedByElements||[];var empty=document.querySelector('aha-field-error[data-empty]');var resp=document.querySelector('aha-field-error[variant=\"respondent\"]');return{color:s.color,fontSize:s.fontSize,lineHeight:s.lineHeight,marginTop:s.marginTop,describedBy:String(described[0]===el),inputInvalid:field.getAttribute('aria-invalid'),text:el.textContent,emptyDisplay:getComputedStyle(empty).display,respondentRole:resp.getAttribute('role'),respondentLive:resp.getAttribute('aria-live')};})()",
     "expect": {
-      "color": "rgb(0, 0, 0)",
+      "color": "rgb(26, 26, 26)",
       "fontSize": "14px",
       "lineHeight": "22px",
       "marginTop": "4px",

@@ -14,7 +14,7 @@
     { "label": "Contained", "value": "whole item in ONE #F7F7F7 grey card, radius 12, no border, padding 12" },
     { "label": "Chip", "value": "22px muted-grey pill (#E3E3E3 / #4A4A4A), semibold 12, tabular-nums — never radical-purple" },
     { "label": "Header", "value": "chip + \"<Label> N\" title (semibold 14) + hover delete" },
-    { "label": "Delete", "value": "tertiary text trash (system-trash), hover-only, space reserved; #000000 on hover" },
+    { "label": "Delete", "value": "tertiary text trash (system-trash), hover-only, space reserved; #1A1A1A on hover" },
     { "label": "deletable=false", "value": "the delete control is hidden entirely (non-removable item)" },
     { "label": "candelete=false", "value": "the delete is shown but disabled (minimum-count case)" },
     { "label": "Plain", "value": "no fill — for SINGLE-FIELD items only" }

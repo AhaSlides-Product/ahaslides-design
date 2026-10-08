@@ -17,7 +17,7 @@
     { "label": "Focus", "value": "#E70E68 border + solid 2px #E70E68 (border-focus) ring (on the persistent wrapper); hover #E70E68 border" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
-    { "label": "Error", "value": "#000000 border + error-tinted ring; sets aria-invalid" },
+    { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #999999" }
   ],
@@ -74,13 +74,13 @@
     { "label": "counter hidden at rest, revealed on focus (opacity), overlay inside the field", "verdict": "PASS" },
     { "label": "counter space reserved — revealing it does not shift the text", "verdict": "PASS" },
     { "label": "focus #E70E68 border + ring (persistent wrapper)", "verdict": "PASS" },
-    { "label": "error #000000 border + aria-invalid", "verdict": "PASS" }
+    { "label": "error #1A1A1A border + aria-invalid", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-counted-input[data-probe]') && document.querySelector('aha-counted-input[data-probe]').shadowRoot && document.querySelector('aha-counted-input[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-counted-input[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,counterColor:cs?cs.color:null};})()",
-    "expect": { "height": "40px", "radius": "8px", "border": "rgb(0, 0, 0)", "fontSize": "14px", "counterColor": "rgb(138, 138, 138)" }
+    "expect": { "height": "40px", "radius": "8px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "counterColor": "rgb(138, 138, 138)" }
   }
 }

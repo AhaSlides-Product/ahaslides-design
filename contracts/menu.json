@@ -18,7 +18,7 @@
     { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
     { "label": "Selected", "value": "bg-accent #FEF3F7 fill + color-primary #E70E68 text" },
-    { "label": "Danger", "value": "color-error #000000 text, error-tinted hover" },
+    { "label": "Danger", "value": "color-error #1A1A1A text, error-tinted hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed" }
   ],
   "props": [

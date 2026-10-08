@@ -16,7 +16,7 @@
     { "label": "Hover", "value": "#FEF3F7 fill + #DB005B glyph/border" },
     { "label": "Loading", "value": "#E70E68 spinner at the same 36×36 size, 1px #E3E3E3 border — no layout jump; role=status, aria-label \"Loading\", aria-busy" },
     { "label": "Filled", "value": "36×36 thumbnail (radius 4, cover) + hover pencil overlay (black @50%, white pencil), hover/focus #E70E68 border; click opens Change/Edit/Delete" },
-    { "label": "Menu", "value": "Change / Edit / Delete (Delete in #000000); each emits an intent" },
+    { "label": "Menu", "value": "Change / Edit / Delete (Delete in #1A1A1A); each emits an intent" },
     { "label": "Intents", "value": "add · change · edit · delete — host owns the modals, this owns none" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],

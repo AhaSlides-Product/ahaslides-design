@@ -38,7 +38,7 @@ const footer = (danger, close) => h('div',
     <a-button @click="confirm = true">Delete team…</a-button>
     <a-button type="primary" @click="action = true">Share course…</a-button>
 
-    <!-- Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply the black danger button. -->
+    <!-- Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply the dark danger button. -->
     <a-modal
       v-model:open="confirm"
       :closable="false"

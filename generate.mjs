@@ -80,7 +80,7 @@ function aliasCssVar(path) {
   if (parts[0] !== 'color') throw new Error(`no CSS var for alias ${path}`);
   if (parts[1] === 'primitives') return `--aha-${kebab(parts[2])}${parts[3] !== undefined ? '-' + parts[3] : ''}`;
   if (parts[1] === 'alpha') return `--aha-${kebab(parts[2])}`;
-  if (['success', 'warning', 'error', 'info', 'primary'].includes(parts[1])) return `--aha-color-${parts[1]}`;
+  if (/^(success|warning|error|info|primary)(Hover|Active)?$/.test(parts[1])) return `--aha-color-${kebab(parts[1])}`;
   const role = /^(text|bg|icon|border)(.*)$/.exec(parts[1]);
   if (role) return `--aha-${role[1]}${role[2] ? '-' + kebab(role[2]).replace(/^-/, '') : ''}`;
   throw new Error(`no CSS var for alias ${path}`);
@@ -295,19 +295,19 @@ function tokenVars(t) {
     L.push(Object.keys(P[hue]).map(s => `--aha-${kebab(hue)}-${s}:${P[hue][s]};`).join(' '));
   /* semantic — seed */
   L.push(`--aha-color-primary:${c.primary}; --aha-color-primary-hover:${c.primaryHover}; --aha-color-primary-active:${c.primaryActive};`);
-  L.push(`--aha-color-success:${c.success}; --aha-color-warning:${c.warning}; --aha-color-error:${c.error}; --aha-color-info:${c.info};`);
+  L.push(`--aha-color-success:${cssValue('color.success', c.success)}; --aha-color-warning:${cssValue('color.warning', c.warning)}; --aha-color-error:${cssValue('color.error', c.error)}; --aha-color-info:${cssValue('color.info', c.info)};`);
   /* text */
-  L.push(`--aha-text-default:${c.textDefault}; --aha-text-secondary:${c.textSecondary}; --aha-text-tertiary:${c.textTertiary}; --aha-text-placeholder:${c.textPlaceholder}; --aha-text-disabled:${c.textDisabled}; --aha-text-inverse:${c.textInverse}; --aha-text-link:${c.textLink}; --aha-text-link-hover:${c.textLinkHover}; --aha-text-primary-ink:${c.textPrimaryInk}; --aha-text-positive:${c.textPositive}; --aha-text-negative:${c.textNegative}; --aha-text-warning:${c.textWarning};`);
+  L.push(`--aha-text-default:${c.textDefault}; --aha-text-secondary:${c.textSecondary}; --aha-text-tertiary:${c.textTertiary}; --aha-text-placeholder:${c.textPlaceholder}; --aha-text-disabled:${c.textDisabled}; --aha-text-inverse:${c.textInverse}; --aha-text-link:${cssValue('color.textLink', c.textLink)}; --aha-text-link-hover:${cssValue('color.textLinkHover', c.textLinkHover)}; --aha-text-primary-ink:${c.textPrimaryInk}; --aha-text-positive:${cssValue('color.textPositive', c.textPositive)}; --aha-text-negative:${cssValue('color.textNegative', c.textNegative)}; --aha-text-warning:${cssValue('color.textWarning', c.textWarning)};`);
   /* surfaces */
   L.push(`--aha-bg-base:${c.bgBase}; --aha-bg-container:${c.bgContainer}; --aha-bg-container-secondary:${c.bgContainerSecondary}; --aha-bg-container-disabled:${c.bgContainerDisabled}; --aha-bg-elevated:${c.bgElevated}; --aha-bg-layout:${c.bgLayout}; --aha-bg-accent:${c.bgAccent}; --aha-bg-informative:${c.bgInformative}; --aha-bg-hover:${c.bgHover}; --aha-bg-positive:${c.bgPositive}; --aha-bg-negative:${c.bgNegative}; --aha-bg-warning:${c.bgWarning}; --aha-bg-warning-subtle:${c.bgWarningSubtle}; --aha-bg-overlay:${c.bgOverlay}; --aha-bg-dark:${c.bgDark}; --aha-bg-dark-raised:${c.bgDarkRaised};`);
   /* border */
-  L.push(`--aha-border:${c.border}; --aha-border-input:${c.borderInput}; --aha-border-secondary:${c.borderSecondary}; --aha-border-strong:${c.borderStrong}; --aha-border-disabled:${c.borderDisabled}; --aha-border-hover:${c.borderHover}; --aha-border-focus:${c.focus}; --aha-border-active:${c.borderActive}; --aha-border-error:${c.borderError}; --aha-border-success:${c.borderSuccess}; --aha-border-warning:${c.borderWarning}; --aha-border-info:${c.borderInfo}; --aha-split:${c.borderSecondary}; --aha-checkbox-border:${c.checkboxBorder};`);
+  L.push(`--aha-border:${c.border}; --aha-border-input:${c.borderInput}; --aha-border-secondary:${c.borderSecondary}; --aha-border-strong:${c.borderStrong}; --aha-border-disabled:${c.borderDisabled}; --aha-border-hover:${c.borderHover}; --aha-border-focus:${c.focus}; --aha-border-active:${c.borderActive}; --aha-border-error:${cssValue('color.borderError', c.borderError)}; --aha-border-success:${cssValue('color.borderSuccess', c.borderSuccess)}; --aha-border-warning:${cssValue('color.borderWarning', c.borderWarning)}; --aha-border-info:${cssValue('color.borderInfo', c.borderInfo)}; --aha-split:${c.borderSecondary}; --aha-checkbox-border:${c.checkboxBorder};`);
   /* icon */
   L.push(`--aha-icon-default:${c.iconDefault}; --aha-icon-strong:${c.iconStrong}; --aha-icon-muted:${c.iconMuted}; --aha-icon-disabled:${c.iconDisabled}; --aha-icon-inverse:${c.iconInverse}; --aha-icon-active:${c.iconActive};`);
   /* focus */
   L.push(`--aha-focus:${c.focus}; --aha-focus-ring:${c.focus}; --aha-focus-ring-soft:${c.focusRingSoft};`);
   /* buttons */
-  L.push(`--aha-btn-primary-bg:${b.primaryBg}; --aha-btn-primary-bg-hover:${b.primaryBgHover}; --aha-btn-primary-bg-press:${b.primaryBgPress}; --aha-btn-primary-fg:${b.primaryFg}; --aha-btn-secondary-bg:${b.secondaryBg}; --aha-btn-secondary-bg-hover:${b.secondaryBgHover}; --aha-btn-secondary-border:${b.secondaryBorder}; --aha-btn-secondary-border-hover:${b.secondaryBorderHover}; --aha-btn-secondary-border-press:${b.secondaryBorderPress}; --aha-btn-tertiary-bg-hover:${b.tertiaryBgHover}; --aha-btn-tertiary-bg-active:${b.tertiaryBgActive}; --aha-btn-disabled-bg:${b.disabledBg}; --aha-btn-disabled-fg:${b.disabledFg}; --aha-btn-danger-bg:${b.dangerBg}; --aha-btn-danger-bg-hover:${b.dangerBgHover}; --aha-btn-danger-bg-press:${b.dangerBgPress}; --aha-btn-danger-ring:${b.dangerRing}; --aha-btn-positive-bg:${b.positiveBg}; --aha-btn-positive-bg-hover:${b.positiveBgHover}; --aha-btn-positive-bg-press:${b.positiveBgPress}; --aha-btn-positive-fg:${b.positiveFg}; --aha-btn-focus-ring:${b.focusRing}; --aha-btn-focus-ring-success:${b.focusRingSuccess}; --aha-btn-elevate-primary:${b.elevatePrimary}; --aha-btn-elevate-primary-hover:${b.elevatePrimaryHover}; --aha-btn-elevate-secondary:${b.elevateSecondary}; --aha-btn-encourage-bg:${b.encourageBg}; --aha-btn-encourage-bg-hover:${b.encourageBgHover}; --aha-btn-encourage-bg-press:${b.encourageBgPress};`);
+  L.push(`--aha-btn-primary-bg:${b.primaryBg}; --aha-btn-primary-bg-hover:${b.primaryBgHover}; --aha-btn-primary-bg-press:${b.primaryBgPress}; --aha-btn-primary-fg:${b.primaryFg}; --aha-btn-secondary-bg:${b.secondaryBg}; --aha-btn-secondary-bg-hover:${b.secondaryBgHover}; --aha-btn-secondary-border:${b.secondaryBorder}; --aha-btn-secondary-border-hover:${b.secondaryBorderHover}; --aha-btn-secondary-border-press:${b.secondaryBorderPress}; --aha-btn-tertiary-bg-hover:${b.tertiaryBgHover}; --aha-btn-tertiary-bg-active:${b.tertiaryBgActive}; --aha-btn-disabled-bg:${b.disabledBg}; --aha-btn-disabled-fg:${b.disabledFg}; --aha-btn-danger-bg:${cssValue('color.button.dangerBg', b.dangerBg)}; --aha-btn-danger-bg-hover:${cssValue('color.button.dangerBgHover', b.dangerBgHover)}; --aha-btn-danger-bg-press:${cssValue('color.button.dangerBgPress', b.dangerBgPress)}; --aha-btn-danger-ring:${cssValue('color.button.dangerRing', b.dangerRing)}; --aha-btn-positive-bg:${b.positiveBg}; --aha-btn-positive-bg-hover:${b.positiveBgHover}; --aha-btn-positive-bg-press:${b.positiveBgPress}; --aha-btn-positive-fg:${b.positiveFg}; --aha-btn-focus-ring:${b.focusRing}; --aha-btn-focus-ring-success:${cssValue('color.button.focusRingSuccess', b.focusRingSuccess)}; --aha-btn-elevate-primary:${b.elevatePrimary}; --aha-btn-elevate-primary-hover:${b.elevatePrimaryHover}; --aha-btn-elevate-secondary:${b.elevateSecondary}; --aha-btn-encourage-bg:${b.encourageBg}; --aha-btn-encourage-bg-hover:${b.encourageBgHover}; --aha-btn-encourage-bg-press:${b.encourageBgPress};`);
   /* NAMED BUTTON SEMANTIC LAYER (--aha-button-*) — the DS V3 button token layer <aha-button> binds to.
      Each name references a CORE token whose value is IDENTICAL to the raw --aha-btn-* seed (a pure
      indirection, no colour change), so button theming can move independently of the core palette:
@@ -436,7 +436,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
 .hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);border-radius:8px;padding:9px 13px;margin:0 0 18px}
-.hub-back a{color:var(--aha-color-primary);font-weight:600}
+.hub-back a{color:var(--aha-text-default);font-weight:600;text-decoration:underline}
 .doc-main h2{font-size:20px;line-height:28px;font-weight:600;margin:44px 0 14px;scroll-margin-top:80px}
 .doc-main h2:first-of-type{margin-top:34px}
 .body{line-height:1.75;color:var(--aha-text-default);max-width:72ch}
@@ -474,7 +474,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .grid2{display:grid;grid-template-columns:1fr 1fr}
 .grid2>div{padding:22px 20px}
 .note{background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
-.note a,.hub-back a{color:var(--aha-text-link)}
+.note a{color:var(--aha-text-default);text-decoration:underline}
 .pad{padding:12px 0}
 code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:var(--aha-text-default)}
 .api-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px}
@@ -1563,7 +1563,7 @@ function renderGuidelineHtml(p) {
   .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
   .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
   .skillref b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default);margin-right:6px}
-  .pill.warn{background:var(--aha-black);color:var(--aha-white)}
+  .pill.warn{background:var(--aha-text-default);color:var(--aha-white)}
   .note.warn{background:var(--aha-bg-container);border-color:var(--aha-text-default);color:var(--aha-text-default)}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
   .pat-guide h2{font-size:17px;line-height:24px;margin:28px 0 10px}
@@ -1786,7 +1786,7 @@ function renderSettingsHub() {
   ${hubAnchorScript(anchorItems)}`;
   const extraCss = `
   .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border)}
-  .pill.warn{background:var(--aha-black);color:var(--aha-white)}
+  .pill.warn{background:var(--aha-text-default);color:var(--aha-white)}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
 ${HUB_ANCHOR_CSS}
   .hub-body>h2{scroll-margin-top:84px}
@@ -1855,10 +1855,10 @@ function renderDesignMd(t, cs) {
 > Version ${PKG.version} · changelog (what changed per release): ${SITE}/CHANGELOG.md
 
 ## Brand
-Vivid Pink \`${c.primary}\` is the one primary colour (buttons, link hover, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
+Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
 Backgrounds are **white by default**; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states; no gradients on fills (AI-affordance border-only exception).
-Pink text sits on white only: on Vivid Pink at 5% or on grey, text is black; on Vivid Pink, text is solid white.
-Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are black, shown with an icon, clear wording and an outline or a black fill. Never red, amber, green or blue.
+Pink text, links included, sits on white only (4.51:1): on Vivid Pink at 5% or on grey the same link takes the default ink \`${c.textDefault}\` and stays underlined, and on a dark surface it is white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest, Darker Pink \`${c.textLinkHover}\` on hover.
+Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. The DS's own illustrations, third-party logos and file-type icons are drawn in the allowed colours (\`node recolour-art.mjs\`); only the AhaSlides logo and The Splash keep their own colours.
 

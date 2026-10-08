@@ -12,7 +12,7 @@
     { "label": "Controls", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
     { "label": "Label", "value": "#4A4A4A, above the field (vertical layout)" },
     { "label": "Submit", "value": "primary Button #E70E68" },
-    { "label": "Error", "value": "#000000 border + message below the field" },
+    { "label": "Error", "value": "#1A1A1A border + message below the field" },
     { "label": "Item gap", "value": "20px between items" },
     { "label": "Size", "value": "control height 24 (small) · 32 (default) · 40 (large)" },
     { "label": "Validation", "value": "error / warning / success — coloured border + help text" }
@@ -49,7 +49,7 @@
     { "label": "controls 32 · radius 8 · #E3E3E3", "verdict": "PASS" },
     { "label": "labels #4A4A4A above field", "verdict": "PASS" },
     { "label": "primary submit #E70E68", "verdict": "PASS" },
-    { "label": "error #000000 + message", "verdict": "PASS" }
+    { "label": "error #1A1A1A + message", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 input + primary button bound to formTheme.",
