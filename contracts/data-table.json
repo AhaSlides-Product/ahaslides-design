@@ -48,11 +48,11 @@
     },
     {
       "label": "Filter",
-      "value": "funnel trigger: grey → purple-10 hover → purple-15 open → filled brand when applied; checklist (search + list) or min/max range, Reset + Apply footer"
+      "value": "funnel trigger: grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list) or min/max range, Reset + Apply footer"
     },
     {
       "label": "Reorder",
-      "value": "drag a header (grab handle on hover) → purple drop-line; Alt+←/→ on a focused header"
+      "value": "drag a header (grab handle on hover) → Vivid Pink drop-line; Alt+←/→ on a focused header"
     },
     {
       "label": "Freeze",

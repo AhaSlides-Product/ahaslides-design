@@ -12,7 +12,7 @@
   "tokensUsed": ["color-primary", "border-strong", "border-hover", "bg-container", "bg-container-disabled", "border-disabled", "bg-accent", "text-default", "text-secondary", "text-disabled", "font-product", "radius-default"],
   "spec": [
     { "label": "Ring", "value": "16×16 circle · 1px #D4D4D4 border (small: 14×14)" },
-    { "label": "Hover border", "value": "#E70E68 (purple-30)" },
+    { "label": "Hover border", "value": "#E70E68 (color-primary)" },
     { "label": "Checked", "value": "#E70E68 ring + 8px brand dot (scales in)" },
     { "label": "Disabled", "value": "#F1F1F1 fill · #EBEBEB border" },
     { "label": "Label", "value": "Plus Jakarta 14/21 (small: 13/20)" },
