@@ -283,7 +283,13 @@ export const builtPages = (dist = DIST) => readdirSync(dist, { withFileTypes: tr
  * baselined debt, `resolved` are baseline entries the page no longer shows (remove them with --update-baseline).
  */
 export async function checkPage(slug, { dist = DIST, baseline = readBaseline() } = {}) {
-  const { elements, findings } = await checkStates('file://' + join(dist, slug, 'index.html'));
+  /* A page that swaps its own content while it settles drops the probe's context; a fresh load measures it. */
+  let measured, lastError;
+  for (let attempt = 0; attempt < 3 && !measured; attempt++) {
+    try { measured = await checkStates('file://' + join(dist, slug, 'index.html')); } catch (error) { lastError = error; }
+  }
+  if (!measured) throw lastError;
+  const { elements, findings } = measured;
   const debt = new Set(baseline[slug] || []), seen = new Set(findings.map(debtKey));
   return { elements, findings, fresh: findings.filter(f => !debt.has(debtKey(f))), known: findings.filter(f => debt.has(debtKey(f))), resolved: [...debt].filter(key => !seen.has(key)) };
 }
