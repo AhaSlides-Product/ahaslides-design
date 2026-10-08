@@ -11,7 +11,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for the `rate` and `feedback` events; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-secondary", "text-default", "icon-muted", "color-primary"],
   "spec": [
-    { "label": "Layout", "value": "borderless single row (28px high): 12px #616161 prompt, 4px gap, then 28×28 borderless thumb buttons with 16px #4A4A4A icons, 4px apart (--aha-space-4) — the only layout" },
+    { "label": "Layout", "value": "borderless single row (28px high): 12px #616161 prompt, 4px gap, then 28×28 borderless thumb buttons with 16px #4A4A4A icons, 2px apart (--aha-space-2) — the only layout" },
     { "label": "Rest", "value": "icon #4A4A4A" },
     { "label": "Hover", "value": "ghost fill #F9F5FF · icon #8644D4 purple-50 (motion tokens) · tooltip Good / Not good / Feedback" },
     { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #F0E4FF (purple-15) · icon #6A1EBB (purple-60) · aria-pressed synced; hover keeps the selected look" },
