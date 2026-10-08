@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.122.0 — 2026-10-08
+## 0.130.1 — 2026-10-08
 ### Fixed
 - `standards.mjs` now fails a pull request whose `package.json` version is not strictly greater than the base branch's (read from `origin/<base>`, failing closed if it cannot be read); the existing check already requires the top CHANGELOG entry to equal `package.json`. Stops stale-base PRs from claiming an already-released version. (#173)
+
+## 0.129.0 — 2026-10-08
+### Changed
+- Colour rules guideline (`brand/visual-identity-colour-rules.html`) is now v9: illustrations use Vivid Pink tints plus Darker Pink, white, ink and grey; our own illustrations, customer and integration logos and file-type icons follow the rules; black is `#1A1A1A` (#207)
 
 ## 0.121.0 — 2026-10-08
 ### Changed
