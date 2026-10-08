@@ -30,6 +30,7 @@ jobs:
   trigger-from-staging:
     if: github.ref == 'refs/heads/staging'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       actions: write
     steps:
@@ -43,6 +44,7 @@ jobs:
   build-staging:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     continue-on-error: true
     permissions:
       contents: read
