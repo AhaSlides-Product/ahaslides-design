@@ -716,7 +716,7 @@
         {
           "id": "C4",
           "title": "Inline banners use the DS V3 Alert, not a bare AntD Alert",
-          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its own DS `bg-surface` / `border` / `icon` token **and a distinct glyph** (colour is never the only…"
+          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its DS `bg-surface` / `icon` token with no border **and a distinct glyph** (colour is never the only…"
         },
         {
           "id": "C5",
