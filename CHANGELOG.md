@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.121.0 — 2026-10-08
+### Changed
+- `<aha-csat>`: rating no longer collapses — both thumbs stay visible, the chosen one shows the active state (`aria-pressed` synced); clicking the other thumb switches the rating and fires `rate`, clicking the chosen thumb again un-rates (#206)
+- `<aha-csat>`: feedback textarea allows 2000 characters (was 200). Opened from the Feedback button it defaults to "Share your thoughts"; thumbs-down keeps "How can we improve? Let us know!" (#206)
+- `<aha-csat>`: the thumb and Feedback buttons sit 2px apart (was 4px) (#206)
+
 ## 0.119.1 — 2026-10-08
 ### Changed
 - `<aha-answer-list>` / `<aha-answer-option>` follow the audience lab where the review chose it: rows are 48px tall (was 44), the list has a 16px margin above and below, radio and checkbox borders are 1px (ink at 20% unchecked, the deck accent checked) instead of 2px grey, the checked radio dot is 12px (was 10), the label is weight 400 and 600 only on my pick (was 600 everywhere), and keyboard focus shows the browser default ring instead of the 2px ink outline (#205)
