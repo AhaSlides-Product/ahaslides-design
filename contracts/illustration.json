@@ -12,7 +12,7 @@
   "spec": [
     { "label": "Set", "value": "20 illustrations · empty · onboarding · plan · offer · state · team · misc" },
     { "label": "Source", "value": "Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW" },
-    { "label": "Colour", "value": "one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (#FEF3F7, #FDE7F0, #FACFE1, #F8B7D2, #F493BB, #F16EA4, #EC3E86, #E70E68 and Darker Pink #DB005B), with white, the default ink #1A1A1A for outlines and faces, and a neutral grey where the source was grey. Fixed colours (NOT currentColor). The tints are for illustrations only, never a token or a UI colour" },
+    { "label": "Colour", "value": "one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (#FEF3F7, #FDE7F0, #FACFE1, #F8B7D2, #F493BB, #F16EA4, #EC3E86, #E70E68 and Darker Pink #DB005B), with white, the default ink #1A1A1A for outlines and faces, and a neutral grey where the source was grey. Fixed colours (NOT currentColor). The 10, 20, 45, 60 and 80% tints are for illustrations only, never a token or a UI colour; the 5% and 30% tints and Darker Pink keep their interface roles" },
     { "label": "Size", "value": "one edge in px; the other follows the art's aspect ratio" },
     { "label": "Fallback", "value": "unknown name → a dashed error box (var(--aha-color-error))" }
   ],
