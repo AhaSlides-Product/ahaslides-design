@@ -1,8 +1,8 @@
 # Landing scan — what the live AhaSlides marketing site actually uses
 
-> **Status (0.122.0): this scan predates the colour rules of 7 October 2026.** It compares Webflow
+> **Status (0.130.0): this scan predates the colour rules of 7 October 2026.** It compares Webflow
 > with the purple DS V3 palette; the `--aha-purple-*`, `--aha-pink-*` and other hue-ramp tokens it names
-> were removed in 0.122.0, so every colour row needs a re-scan against Vivid Pink before it is acted on.
+> were removed in 0.130.0, so every colour row needs a re-scan against Vivid Pink before it is acted on.
 >
 > **Status (0.68.0): the Landing tab is gone.** This audit is kept as the Webflow-to-update record;
 > it is not a docs-site page. The two marketing-only sections, **Hero** and **Section container**,
