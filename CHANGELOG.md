@@ -70,6 +70,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `DataTable`: toolbar actions render inside the table's theme. They sat outside its `ConfigProvider`, so an antd `Button` there (Export) hovered in antd blue `#4096FF` (#197)
 - `<aha-button>` fades its label with the fill, border and shadow: `color` and `text-decoration-color` join the one transition (`--aha-motion-mid`, `--aha-ease-in-out`), so the label no longer snaps on hover or press. `<aha-image-action-button>` also fades its fill with its border and label. A unit test fails if a button state rule changes a property that is not in the transition list, or if the properties use different timings (#197)
 
+## 0.119.1 — 2026-10-08
+### Changed
+- `<aha-answer-list>` / `<aha-answer-option>` follow the audience lab where the review chose it: rows are 48px tall (was 44), the list has a 16px margin above and below, radio and checkbox borders are 1px (ink at 20% unchecked, the deck accent checked) instead of 2px grey, the checked radio dot is 12px (was 10), the label is weight 400 and 600 only on my pick (was 600 everywhere), and keyboard focus shows the browser default ring instead of the 2px ink outline (#205)
+- A wrong pick on a revealed row now carries a 2px error-colour ring (lab parity); the revealed-row muting, edge colours and dark-deck surface are unchanged
+- `<aha-rank-list>` follows the audience lab with the closest DS token: rows 56px tall with 4/16 padding, 16px margin above and below the list, ordinal badge 28px with a 14px numeral, label weight 400, option thumbnail 44px with an 8px radius, 4px gap in the controls cluster, 16px move carets in the deck ink, a 24 × 32 drag grip
+- `<aha-audience-field>` label is weight 400 with 8px between label and field (was 600 and 16px); `<aha-counted-input>` and `<aha-counted-textarea>` at `size="touch"` show the characters left instead of used/max, the counter line is 12px, the touch textarea counter has no white chip and its bottom gutter is 16px, and the textarea measures its lines from the real line height (3 rows are 114px, was 111). Other sizes are unchanged
+- Contract spec, conformance expectations and token lists for these components match the new values
+
 ## 0.119.0 — 2026-10-08
 ### Added
 - Per-surface CDN entries next to `lib/all.js`: `lib/audience.js` (26 elements, also exports `applyDeck`), `lib/settings.js` (63) and `lib/canvas.js` (7). One `<script type="module">` registers just the elements that surface uses, including shared controls such as `<aha-button>`; also exported as `@ahaslides-product/design/audience`, `/settings`, `/canvas`. `lib/all.js` is unchanged
