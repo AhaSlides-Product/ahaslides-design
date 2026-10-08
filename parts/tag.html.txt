@@ -21,6 +21,8 @@
 <script>
   // closable: fires `close`, then the tag animates out + removes itself
   document.getElementById('kw').addEventListener('close', () => console.log('removed'));
-  // checkable: fires `change` with { checked }
+  // checkable: fires `change` with { checked }; the tag flips its own `checked` attribute.
+  // Add `controlled` when your code owns the state: the click then only emits `change`
+  // and you set or remove `checked` yourself.
   document.getElementById('filter').addEventListener('change', (e) => console.log('checked', e.detail.checked));
 </script>

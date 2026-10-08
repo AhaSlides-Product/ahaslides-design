@@ -21,21 +21,23 @@
     "color-error",
     "radius-default",
     "radius-pill",
+    "space-2",
     "space-12",
-    "space-16"
+    "space-16",
+    "space-48"
   ],
   "spec": [
     {
       "label": "Row",
-      "value": "min-height 44, padding 8/16, radius 8, frosted surface, 1px ink hairline at 10%; hover lightens the surface to 60%"
+      "value": "min-height 48, padding 8/16, radius 8, frosted surface, 1px ink hairline at 10%; hover lightens the surface to 60%; keyboard focus shows the browser default ring"
     },
     {
       "label": "Control",
-      "value": "20px radio (2px neutral ring) or checkbox (6px corners); a picked radio rings in the deck accent around a 10px accent dot, a picked checkbox fills with the accent and a white tick"
+      "value": "20px radio or checkbox (6px corners) with a 1px border, ink at 20% unchecked; a picked radio rings 1px in the deck accent around a 12px accent dot, a picked checkbox fills with the accent and a white tick; the label is 400, 600 on my pick"
     },
     {
       "label": "States",
-      "value": "open · locked (others mute to 55%) · revealed (tick or cross on every row; the correct row ringed in success, my wrong pick ringed and tinted in error, the rest mute to 55%)"
+      "value": "open · locked (others mute to 55%) · revealed (tick or cross on every row; the correct row ringed in success, my wrong pick ringed (2px) and tinted in error, the rest mute to 55%)"
     },
     {
       "label": "Helper",
@@ -154,7 +156,7 @@
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-answer-option[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var row=q('.row');var c=cs(row);var lab=cs(row&&row.querySelector('.label'));return{rowHeight:c.height,rowRadius:c.borderTopLeftRadius,ink:c.color,labelSize:lab.fontSize,labelWeight:lab.fontWeight,control:cs(q('.control')).borderTopColor};})()",
     "expect": {
-      "rowHeight": "44px",
+      "rowHeight": "48px",
       "rowRadius": "8px",
       "ink": "rgb(26, 26, 26)",
       "labelSize": "16px",
