@@ -22,9 +22,47 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.114.2 — 2026-10-08
+## 0.123.0 — 2026-10-08
 ### Fixed
 - Logo library: the PDF icon now fills its frame like the other brand logos instead of rendering about a quarter smaller. The Figma export's 2px padding is cropped with the viewBox; the path data is unchanged. (#181)
+
+## 0.121.0 — 2026-10-08
+### Changed
+- `<aha-csat>`: rating no longer collapses — both thumbs stay visible, the chosen one shows the active state (`aria-pressed` synced); clicking the other thumb switches the rating and fires `rate`, clicking the chosen thumb again un-rates (#206)
+- `<aha-csat>`: feedback textarea allows 2000 characters (was 200). Opened from the Feedback button it defaults to "Share your thoughts"; thumbs-down keeps "How can we improve? Let us know!" (#206)
+- `<aha-csat>`: the thumb and Feedback buttons sit 2px apart (was 4px) (#206)
+
+## 0.119.1 — 2026-10-08
+### Changed
+- `<aha-answer-list>` / `<aha-answer-option>` follow the audience lab where the review chose it: rows are 48px tall (was 44), the list has a 16px margin above and below, radio and checkbox borders are 1px (ink at 20% unchecked, the deck accent checked) instead of 2px grey, the checked radio dot is 12px (was 10), the label is weight 400 and 600 only on my pick (was 600 everywhere), and keyboard focus shows the browser default ring instead of the 2px ink outline (#205)
+- A wrong pick on a revealed row now carries a 2px error-colour ring (lab parity); the revealed-row muting, edge colours and dark-deck surface are unchanged
+- `<aha-rank-list>` follows the audience lab with the closest DS token: rows 56px tall with 4/16 padding, 16px margin above and below the list, ordinal badge 28px with a 14px numeral, label weight 400, option thumbnail 44px with an 8px radius, 4px gap in the controls cluster, 16px move carets in the deck ink, a 24 × 32 drag grip
+- `<aha-audience-field>` label is weight 400 with 8px between label and field (was 600 and 16px); `<aha-counted-input>` and `<aha-counted-textarea>` at `size="touch"` show the characters left instead of used/max, the counter line is 12px, the touch textarea counter has no white chip and its bottom gutter is 16px, and the textarea measures its lines from the real line height (3 rows are 114px, was 111). Other sizes are unchanged
+- Contract spec, conformance expectations and token lists for these components match the new values
+
+## 0.119.0 — 2026-10-08
+### Added
+- Per-surface CDN entries next to `lib/all.js`: `lib/audience.js` (26 elements, also exports `applyDeck`), `lib/settings.js` (63) and `lib/canvas.js` (7). One `<script type="module">` registers just the elements that surface uses, including shared controls such as `<aha-button>`; also exported as `@ahaslides-product/design/audience`, `/settings`, `/canvas`. `lib/all.js` is unchanged
+- The entries are generated from `guidelines/<surface>.json` (`composedOf` plus a new `entryExtras` list), and `generate.mjs` fails when an element module belongs to no surface, so a new element is classified once
+- `tests/surface-entry.test.mjs`: every element is in a surface entry, and each entry loads without error in a no-build page (headless Chrome)
+### Changed
+- The Audience, Settings and guideline pages, `llms.txt`, the README and the audience library snippets show the per-surface CDN link pinned to the release tag (#204)
+
+## 0.118.0 — 2026-10-08
+### Added
+- Foundations → Brand colour rules (`foundations/brand-colour-rules.html`): the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts) served from the docs site at a permanent address, linked from the Foundations sidebar, cross-linked with the Colour token reference, and listed in `llms.txt`. Page content is published as written; tokens and components are unchanged and do not follow these rules yet (#203)
+
+## 0.117.0 — 2026-10-08
+### Added
+- `<aha-tag controlled>`: for a checkable tag whose host owns the state. A click only emits `change` ({ checked } is the requested state) and the host sets or removes `checked`, so a framework binding (Vue `:checked`) no longer double-toggles. Without `controlled` the tag still flips its own `checked` (#201)
+### Changed
+- `<aha-tag checkable size="large">` (the filter chip): rest is `--aha-gray-15` fill, `--aha-border-input` border and `--aha-text-default` label; checked is `--aha-purple-15` fill with `--aha-purple-70` border and label. Height stays 36px (#201)
+- `<aha-tag>` default height 24px to 20px (gap 4px and padding 0 6px unchanged) (#201)
+- `<aha-rate>`: the filled star is `--aha-pink-60` (was `--aha-yellow-50`) and uses the old kit's rounded star glyph; empty stars, half fill and `precision="exact"` are unchanged (#201)
+
+## 0.116.0 — 2026-10-08
+### Removed
+- Marketing pattern Section container (`marketing/section-container.json`) and its generated page, so Patterns → Marketing sections lists Hero only; layout rules (inner width, section spacing, breakpoints) belong to each consuming app (#202)
 
 ## 0.114.1 — 2026-10-08
 ### Fixed
