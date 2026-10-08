@@ -12,7 +12,7 @@
   "tokensUsed": ["gray-40", "color-primary", "radius-xs", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],
   "spec": [
     { "label": "Star", "value": "24×24, gap 4 · size=\"sm\" 16×16, gap 2" },
-    { "label": "Filled", "value": "color-primary #E70E68 (Vivid Pink)" },
+    { "label": "Filled", "value": "color-primary #E70E68 (Vivid Pink), the old kit's rounded 20-box star glyph" },
     { "label": "Empty", "value": "gray-40 #E3E3E3" },
     { "label": "Half", "value": "filled overlay clipped to 50% at any x.5 (allow-half); precision=\"exact\" clips to the exact fraction instead" },
     { "label": "Character", "value": "any DS icon by name via `icon` (outline, brand-tinted)" },
@@ -37,7 +37,7 @@
       { "what": "Slider", "when": "a continuous value across a wide range" }
     ],
     "note": "Keep the scale small (5 is the norm). Pair with a short label — 'Rate this session' — and show the chosen value nearby for confirmation.",
-    "dsv3": "COVERED — from the DS V3 `rate` component-set: count (default 5), value + hover preview, allow-half, disabled/read-only display, allow-clear, and a custom character (any DS icon by name). Filled star uses color-primary (#E70E68, Vivid Pink under the colour rules), the on-palette accent; empty uses gray-40 (#E3E3E3), the neutral border value. Half fill clips a persistent overlay glyph to 50%. Motion via the shared motion tokens on persistent nodes — no subtree rebuild on selection or hover."
+    "dsv3": "COVERED — from the DS V3 `rate` component-set: count (default 5), value + hover preview, allow-half, disabled/read-only display, allow-clear, and a custom character (any DS icon by name). Filled star uses color-primary (#E70E68, Vivid Pink under the colour rules); empty uses gray-40 (#E3E3E3), the neutral border value. Half fill clips a persistent overlay glyph to 50%. Motion via the shared motion tokens on persistent nodes — no subtree rebuild on selection or hover."
   },
   "surfaces": ["editor", "dashboard", "audience"],
   "reuse": { "entry": "./aha-rate", "registers": "aha-rate", "exportsNamed": ["AhaRate", "defineAhaRate"] },
@@ -78,7 +78,7 @@
     { "label": "change emits composed value", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=3 so filled + empty stars both exist; each star is an empty base glyph + a clipped filled overlay. Asserts the filled overlay resolves to color-primary (Vivid Pink), the empty base is gray-40, the star is 24×24, and the probe renders exactly 5 stars.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe holds value=3 so filled + empty stars both exist; each star is an empty base glyph + a clipped filled overlay. Asserts the filled overlay resolves to the pink (color-primary), the empty base is gray-40, the star is 24×24, and the probe renders exactly 5 stars.",
     "ready": "!!(document.querySelector('aha-rate[data-probe]') && document.querySelector('aha-rate[data-probe]').shadowRoot && document.querySelector('aha-rate[data-probe]').shadowRoot.querySelector('.star.on'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-rate[data-probe]');var sr=el.shadowRoot;var on=sr.querySelector('.star.on .fill svg path');var off=sr.querySelector('.star:not(.on) .base svg path');var any=sr.querySelector('.star .base svg');var so=on?getComputedStyle(on):null;var sf=off?getComputedStyle(off):null;var sa=any?getComputedStyle(any):null;return{filledFill:so?so.fill:null,emptyFill:sf?sf.fill:null,starW:sa?sa.width:null,starH:sa?sa.height:null,count:sr.querySelectorAll('.star').length};})()",

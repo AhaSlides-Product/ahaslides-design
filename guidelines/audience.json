@@ -55,7 +55,7 @@
     {
       "ref": "tag",
       "as": "component",
-      "use": "idea tags on the presenter side — <aha-tag> from lib/all.js; on the audience phone a tappable chip is <aha-audience-chip> (44px, deck surface), never the 24px tag",
+      "use": "idea tags on the presenter side — <aha-tag> from lib/all.js; on the audience phone a tappable chip is <aha-audience-chip> (44px, deck surface), never the 20px tag",
       "status": "available"
     },
     {

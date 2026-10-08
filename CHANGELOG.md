@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.115.0 — 2026-10-08
+## 0.119.0 — 2026-10-08
 ### Changed
 - **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#197)
 - **Breaking (visual):** status carries no colour. `--aha-color-success | warning | error | info`, the `--aha-text-positive | negative | warning` and `--aha-border-success | warning | error | info` tokens are black, the status backgrounds (`--aha-bg-positive | negative | warning | warning-subtle | informative`) are white, and danger and positive buttons are black fills that turn grey-100 on hover and grey-95 on press; every status keeps its icon and wording, and audience answer rows still tell correct from incorrect by the ✓ / ✗ glyph (#197)
@@ -30,7 +30,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Links are black, underlined at rest, and turn Vivid Pink on hover (`--aha-text-link`, Button `link` and `text-link`). Text on Vivid Pink at 5% is black: selected menu, select, radio button, card select, list avatar, dropdown, tabs, tag, badge, avatar, CSAT, uploader, table filter and number-step states no longer put pink text on the pale pink tint (#197)
 - The primary button gains a soft pink shadow on hover (`--aha-button-elevate-primary-hover`) and drops it on press. Overlay, ink alphas (`--aha-bg-overlay` is now black at 40%, `--aha-ink-a*`) and popover, tooltip and colour-picker shadows are black instead of indigo (#197)
 - Badge tones, plans and ranks drop coral, yellow, green and purple for Vivid Pink, pale pink, black and grey; rate stars are Vivid Pink (#197)
-- Section container (marketing): the soft band is pale pink and the dark band is replaced by `aha-section--primary`, a Vivid Pink band with solid white text. `aha-section--dark` still works and now renders the same Vivid Pink band (#197)
 - The colour picker's first preset and the audience snippets' sample deck accent are Vivid Pink (#197)
 - **Breaking (visual):** the dark surfaces are neutral. `--aha-bg-dark` is black `#000000` (tooltip, chart tooltip, docs code blocks; was indigo `#1A1A2E`) and `--aha-bg-dark-raised` is grey-100 `#1A1A1A` (paywall popover; was `#242442`). `--aha-border-input` is grey-50 `#D4D4D4` (was `#D3D7E1`) and `--aha-text-primary-ink` is grey-90 `#4A4A4A` (was `#3E3E5A`) (#197)
 - The Colour page, `design.md` and the feeds list only the allowed palette: white, black, Vivid Pink, the grey ramp and the logo purple. The docs site's own badges, pills, notes, code panels and search highlight use those colours too (#197)
@@ -41,6 +40,18 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Removed
 - **Breaking:** the DS V3 hue ramps are gone from `tokens.css`, `tokens.js`, `design.md` and every feed: `--aha-purple-*`, `--aha-pink-*`, `--aha-teal-*`, `--aha-coral-*`, `--aha-red-*`, `--aha-yellow-*`, `--aha-indigo-*`, `--aha-soft-indigo-*` and `--aha-lavender-*` (98 values). Use a semantic token; for the logo purple use `--aha-logo-purple` (was `--aha-purple-60`) (#197)
 - **Breaking:** the 13 brand slots `--aha-brand-1` to `--aha-brand-13` are gone. A deck-palette chart or a sample deck passes its own colours as values, since a deck theme is presenter content (#197)
+
+## 0.117.0 — 2026-10-08
+### Added
+- `<aha-tag controlled>`: for a checkable tag whose host owns the state. A click only emits `change` ({ checked } is the requested state) and the host sets or removes `checked`, so a framework binding (Vue `:checked`) no longer double-toggles. Without `controlled` the tag still flips its own `checked` (#201)
+### Changed
+- `<aha-tag checkable size="large">` (the filter chip): rest is `--aha-gray-15` fill, `--aha-border-input` border and `--aha-text-default` label; checked is `--aha-purple-15` fill with `--aha-purple-70` border and label. Height stays 36px (#201)
+- `<aha-tag>` default height 24px to 20px (gap 4px and padding 0 6px unchanged) (#201)
+- `<aha-rate>`: the filled star is `--aha-pink-60` (was `--aha-yellow-50`) and uses the old kit's rounded star glyph; empty stars, half fill and `precision="exact"` are unchanged (#201)
+
+## 0.116.0 — 2026-10-08
+### Removed
+- Marketing pattern Section container (`marketing/section-container.json`) and its generated page, so Patterns → Marketing sections lists Hero only; layout rules (inner width, section spacing, breakpoints) belong to each consuming app (#202)
 
 ## 0.114.1 — 2026-10-08
 ### Fixed
