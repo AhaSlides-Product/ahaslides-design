@@ -15,7 +15,7 @@
     { "label": "Sizes", "value": "small 32 · default 40 · large 48 — all radius 8" },
     { "label": "Rest border", "value": "1px #D3D7E1 (border-input)" },
     { "label": "Focus", "value": "#6A1EBB border + solid 2px #D3B4FF (border-focus) ring (on the persistent wrapper); hover #6A1EBB border" },
-    { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus" },
+    { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus; at size touch 12/12 and it counts the characters left (27 for 13 of 40) instead of used/max" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
