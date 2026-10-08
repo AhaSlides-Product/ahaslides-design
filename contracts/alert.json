@@ -25,7 +25,7 @@
     { "label": "Close", "value": "closable → the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A), top-pinned to the first line, 2px into the end padding" }
   ],
   "props": [
-    { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface/border tokens" },
+    { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface tokens" },
     { "name": "heading", "type": "string", "default": "—", "desc": "Optional bold title above the message" },
     { "name": "size", "type": "regular | small", "default": "regular", "desc": "Compact padding + type scale" },
     { "name": "banner", "type": "boolean", "default": "false", "desc": "Full-width, square-cornered edge-to-edge page notice" },
