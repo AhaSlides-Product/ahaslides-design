@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.122.0 — 2026-10-08
+## 0.130.0 — 2026-10-08
 ### Added
 - Icon: 36 file glyphs from Phosphor Icons Regular (MIT) — `system-file-pdf`, `system-file-c-sharp`, `system-file-zip` and the rest of the `file-*` set — on the DS 16px grid with the 1.5 stroke, matching `system-file-xls`. Registry is now 304 glyphs. Licence and name list in `icons/svg/system/PHOSPHOR-CREDITS.md` (#208)
+
+## 0.129.0 — 2026-10-08
+### Changed
+- Colour rules guideline (`brand/visual-identity-colour-rules.html`) is now v9: illustrations use Vivid Pink tints plus Darker Pink, white, ink and grey; our own illustrations, customer and integration logos and file-type icons follow the rules; black is `#1A1A1A` (#207)
 
 ## 0.121.0 — 2026-10-08
 ### Changed
