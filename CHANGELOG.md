@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.112.0 — 2026-10-07
+## 0.115.0 — 2026-10-08
 ### Changed
 - **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#197)
 - **Breaking (visual):** status carries no colour. `--aha-color-success | warning | error | info`, the `--aha-text-positive | negative | warning` and `--aha-border-success | warning | error | info` tokens are black, the status backgrounds (`--aha-bg-positive | negative | warning | warning-subtle | informative`) are white, and danger and positive buttons are black fills that turn grey-100 on hover and grey-95 on press; every status keeps its icon and wording, and audience answer rows still tell correct from incorrect by the ✓ / ✗ glyph (#197)
@@ -34,6 +34,20 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Purple stays in the token set (`--aha-purple-*`, `--aha-brand-1`) for the logo only; no DS component uses it any more. The colour picker's first preset and the audience snippets' sample deck accent are Vivid Pink (#197)
 ### Added
 - `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#197)
+## 0.113.0 — 2026-10-08
+### Added
+- `<aha-tag size="large">`: the 36px checkable filter chip (14px regular text, 12px padding, 8px radius) (#198)
+- `<aha-tag color="branding">`: the pink "New" label, `--aha-pink-20` fill with `--aha-pink-60` text (#198)
+- `<aha-rate size="sm">` draws 16px stars with a 2px gap, and `<aha-rate readonly precision="exact">` fills the last star by the exact fraction, so 4.8 shows 80% of the fifth star (#198)
+- `<aha-empty image="none">`: a text-only empty state with no illustration (#198)
+- Icon `system-funnel-2`: a real funnel (16px, stroke `currentColor`); `system-funnel` is unchanged (#198)
+### Changed
+- `<aha-tag>` default label is now 24px high with 6px side padding and a 4px gap (was 22px, 8px, 6px) (#198)
+- `<aha-input clearable>`: the clear control is a tertiary icon-only `<aha-button>` with a 16px `system-x-circle` (it was a bare 14px `system-x`); it is now a keyboard tab stop (#198)
+- `<aha-collapse ghost>`: the header has no side padding, so its label lines up with the body (`icon-position="end"` already moves the caret after the label) (#198)
+- `<aha-empty>` caption uses the default body type (`--aha-size-default`, `--aha-line-height-body`) in every image mode; `image="simple"` was 13/20 (#198)
+### Fixed
+- `<aha-rate>`: a value of exactly x.5 (for example 4.5) now fills half a star; it showed the star empty (#198)
 
 ## 0.111.0 — 2026-10-07
 ### Changed

@@ -11,10 +11,10 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["yellow-50", "gray-40", "color-primary", "radius-xs", "font-product", "motion-mid", "motion-fast", "ease-in-out", "ease-out"],
   "spec": [
-    { "label": "Star", "value": "24×24, gap 4" },
+    { "label": "Star", "value": "24×24, gap 4 · size=\"sm\" 16×16, gap 2" },
     { "label": "Filled", "value": "yellow-50 #FFE32C" },
     { "label": "Empty", "value": "gray-40 #E3E3E3" },
-    { "label": "Half", "value": "filled overlay clipped to 50% (allow-half)" },
+    { "label": "Half", "value": "filled overlay clipped to 50% at any x.5 (allow-half); precision=\"exact\" clips to the exact fraction instead" },
     { "label": "Character", "value": "any DS icon by name via `icon` (outline, brand-tinted)" },
     { "label": "Hover", "value": "scale 1.12, fill preview to cursor (half-precise)" }
   ],
@@ -24,6 +24,8 @@
     { "name": "allow-half", "type": "boolean", "default": "false", "desc": "Half-star selection — the left half of a star scores n−0.5" },
     { "name": "allow-clear", "type": "boolean", "default": "false", "desc": "Click the current value again to clear to 0" },
     { "name": "icon", "type": "string", "default": "—", "desc": "Custom character: a DS icon name (e.g. system-heart-straight) drawn instead of the star" },
+    { "name": "size", "type": "default | sm", "default": "default", "desc": "sm draws 16px stars with a 2px gap (default 24px, gap 4)" },
+    { "name": "precision", "type": "exact", "default": "—", "desc": "Display-only (needs readonly): fills the last star by the exact fraction, so 4.8 fills 80% of the fifth star instead of rounding to a half" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Display only — no interaction" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims and disables the control" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event; read e.detail.value" }
