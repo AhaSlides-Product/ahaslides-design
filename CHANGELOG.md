@@ -29,9 +29,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default (#1A1A1A, was #1F1330), description and caption in text-secondary (#4A4A4A, was #6B6478), radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
 
-## 0.114.1 — 2026-10-08
+## 0.114.2 — 2026-10-08
 ### Fixed
 - Background task: the inline `link` (e.g. Retry) now looks like the Button text-link variant, in the DS link colour, regular weight and no underline, lighter on hover. It was bold and underlined. (#182)
+
+## 0.114.1 — 2026-10-08
+### Fixed
+- The Pages workflow caps the staging build at 15 minutes and the staging trigger at 5, so a hung staging branch cannot hold the production deploy queue (#200)
 
 ## 0.114.0 — 2026-10-08
 ### Added
