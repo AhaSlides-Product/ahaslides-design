@@ -24,6 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.132.0 — 2026-10-08
 ### Changed
+- `<aha-pagination>` page and prev / next hover and press take the secondary button's treatment: `#FEF3F7` fill, `#E70E68` border, `#DB005B` label (press: `#DB005B` border) (#197)
+- Steps titles (`.ant-steps-item-title`) are SemiBold 600 (were 400); `steps-theme` adds the one rule when imported (#197)
 - `<aha-alert>` status glyph is 16px in both sizes (it was 18px in regular). `<aha-dropdown>` items: hover is `--aha-bg-hover` `#F7F7F7` (was grey 40 `#E3E3E3`), the leading icon is `--aha-icon-default` `#4A4A4A` (danger and disabled rows keep their text colour), the label is Regular 400 (was 600) (#197)
 - `<aha-alert>` info, success, warning and error sit on grey 25 (`--aha-gray-25`, `#F3F3F3`) with no border; branding keeps its pale pink surface, also with no border (#197)
 - **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#197)
@@ -68,6 +70,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Breaking:** the DS V3 hue ramps are gone from `tokens.css`, `tokens.js`, `design.md` and every feed: `--aha-purple-*`, `--aha-pink-*`, `--aha-teal-*`, `--aha-coral-*`, `--aha-red-*`, `--aha-yellow-*`, `--aha-indigo-*`, `--aha-soft-indigo-*` and `--aha-lavender-*` (98 values). Use a semantic token; for the logo purple use `--aha-logo-purple` (was `--aha-purple-60`) (#197)
 - **Breaking:** the 13 brand slots `--aha-brand-1` to `--aha-brand-13` are gone. A deck-palette chart or a sample deck passes its own colours as values, since a deck theme is presenter content (#197)
 ### Fixed
+- `<aha-dropdown>` keyboard: Tab from the open trigger now lands on the first enabled item (Tab / Shift+Tab and the arrows step through items, Tab past the last closes). Keydown checks read the retargeted shadow event target, so trigger and item were never recognised, and the panel's delayed `visibility` also blocked focus on open (#197)
 - A code snippet that names a Logo library file (`background-task` HTML, React and Vue) points at the build that printed it, so a staging page no longer shows a snippet that loads the released, still coloured PowerPoint mark (#197)
 - `DataTable` used on its own (outside a `tableTheme` provider) gives Export and the filter Reset / Apply buttons the DS secondary hover, a Vivid Pink border on Vivid Pink 5%, where antd's derived Darker Pink label showed (#197)
 - `state-check.baseline.json` lists one entry per element and state, and an entry the page no longer shows fails the gate until `node state-check.mjs --update-baseline` drops it, so known debt cannot quietly come back (#197)
