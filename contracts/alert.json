@@ -21,7 +21,7 @@
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
     { "label": "Banner", "value": "full-width, square (radius 0), no border (branding: bottom edge only)" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
-    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle)" },
+    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A" },
     { "label": "Close", "value": "closable → the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A), top-pinned to the first line, 2px into the end padding" }
   ],
   "props": [
