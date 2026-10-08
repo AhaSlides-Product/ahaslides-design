@@ -932,6 +932,7 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
+      `<a class="nav-item${active==='__brandcolour__'?' active':''}" href="${base}foundations/brand-colour-rules.html"><span>Brand colour rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -1922,6 +1923,7 @@ function renderTokenPage(pageSlug) {
     colour: {
       title: 'Colour', highlights: ["Primitive ramps plus semantic tokens that alias into them", "Never hardcode a ramp value", "Bind to a semantic --aha-* token"], lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
       body: `
+  <p class="body">These are the tokens the product uses today. The brand colour rules, which the tokens do not follow yet, are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
   <h2>Primitive ramps</h2>
   <p class="body">The raw colour scales (10&rarr;100). Semantic tokens below alias into these — never hardcode a ramp value in a component.</p>
   <div class="ramps">${primitives}</div>
@@ -2458,6 +2460,7 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
+cpSync(join(root, 'brand', 'visual-identity-colour-rules.html'), join(OUT, 'foundations', 'brand-colour-rules.html'));
 writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
 
 /* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
@@ -2494,6 +2497,7 @@ const indexLines = [
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
+  `>   ${SITE}/foundations/brand-colour-rules.html  brand colour rules — the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts); the token reference is foundations/colour.html`,
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
