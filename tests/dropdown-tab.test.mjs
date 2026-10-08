@@ -44,7 +44,9 @@ test('Tab from the open trigger enters the menu and steps through enabled items'
     const stillOpen = isOpen();
     key(first, 'Tab');
     key(last, 'Tab');
-    return { afterOpen, afterTab, skipsDisabled, backToFirst, backToTrigger, stillOpen, closedPastLast: !isOpen() };
+    const focusAfterClose = focused();
+    const noItemTabbable = [...root.querySelectorAll('.item')].every((b) => b.tabIndex === -1);
+    return { afterOpen, afterTab, skipsDisabled, backToFirst, backToTrigger, stillOpen, closedPastLast: !isOpen(), focusAfterClose, noItemTabbable };
   })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-dropdown")' });
-  assert.deepEqual(result, { afterOpen: 'a', afterTab: 'a', skipsDisabled: 'c', backToFirst: 'a', backToTrigger: 'trigger', stillOpen: true, closedPastLast: true });
+  assert.deepEqual(result, { afterOpen: 'a', afterTab: 'a', skipsDisabled: 'c', backToFirst: 'a', backToTrigger: 'trigger', stillOpen: true, closedPastLast: true, focusAfterClose: 'trigger', noItemTabbable: true });
 });
