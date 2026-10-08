@@ -6,6 +6,8 @@
 > Button, Link, Fonts, Spacing and Grid blocks were removed as duplicates of Components/Foundations;
 > they remain in git history at `v0.67.0` under `landing/`.
 >
+> Removed in 0.116.0: the Section container marketing pattern is gone; layout rules (inner width, section spacing, breakpoints) belong to each consuming app, not the design system.
+>
 > Values those blocks carried that are **not** in the product system yet (kept here so none is lost):
 >
 > - **Pink promotional button** — `.aha-btn--pink{background:var(--aha-pink-60);color:var(--aha-white)}`,
