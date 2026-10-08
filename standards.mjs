@@ -54,7 +54,7 @@ const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; p
 const NEUTRALS = new Set(['#FFFFFF', '#000000']);          // universal; 'transparent' handled in inPalette
 const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
 // every hex the canonical token set blesses — the palette an on-standard colour must land in
-const PALETTE = new Set(); JSON.stringify(TOKENS).replace(/#[0-9A-Fa-f]{3,8}/g, (h) => (PALETTE.add(normHex(h)), h));
+const PALETTE = new Set(); JSON.stringify(TOKENS, (key, value) => (key.startsWith('$') || key === 'openItems' ? undefined : value)).replace(/#[0-9A-Fa-f]{3,8}/g, (h) => (PALETTE.add(normHex(h)), h));
 // the generated custom properties an author may legitimately bind tokensUsed to (source file, always present)
 const CSSVARS = new Set([...read(join(root, 'lib', 'tokens.css')).matchAll(/--aha-[a-z0-9-]+/g)].map(m => m[0]));
 const rgbToHex = (s) => { const m = String(s).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i); return m ? normHex('#' + [1, 2, 3].map(i => (+m[i]).toString(16).padStart(2, '0')).join('')) : null; };
@@ -766,6 +766,29 @@ const repoChecks = [];
   const unacknowledged = current.filter(t => !acknowledged.has(t));
   rchk('every token in tokens.canonical.json is acknowledged', unacknowledged.length === 0,
     `new token(s) need owner sign-off — add to tokens.acknowledged.json (node standards.mjs --acknowledge-tokens): ${unacknowledged.slice(0, 8).join(', ')}${unacknowledged.length > 8 ? ` (+${unacknowledged.length - 8} more)` : ''}`);
+}
+/* ===== COLOUR ALLOW-LIST — the page check also covers the docs chrome around the swatches; inline <svg> is
+   skipped because logo and illustration art is exempt from the colour rules. */
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const VIVID_PINK = '#E70E68', LOGO_PURPLE = '#6A1EBB';
+  const ALLOWED_COLOURS = new Set([VIVID_PINK, '#DB005B', '#FEF3F7', '#F8B7D2']);
+  const isNeutral = (hex) => hex.slice(1, 3) === hex.slice(3, 5) && hex.slice(3, 5) === hex.slice(5, 7);
+  const coloursIn = (text) => [
+    ...[...String(text).matchAll(/(?<![&\w])#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])/g)].map(m => normHex(m[0]).slice(0, 7)),
+    ...[...String(text).matchAll(/rgba?\(\s*\d+[\s,]+\d+[\s,]+\d+/g)].map(m => rgbToHex(m[0].replace(/\s+/g, ',').replace(/,+/g, ', '))),
+  ];
+  const offList = (text, purpleAllowed) => [...new Set(coloursIn(text).filter(hex => !(isNeutral(hex) || ALLOWED_COLOURS.has(hex) || (purpleAllowed && hex === LOGO_PURPLE))))];
+  const tokenLeaves = (node, path = '') => (node && typeof node === 'object')
+    ? Object.entries(node).filter(([key]) => !key.startsWith('$')).flatMap(([key, value]) => tokenLeaves(value, path ? `${path}.${key}` : key))
+    : [[path, node]];
+  const offListTokens = tokenLeaves(TOKENS).flatMap(([path, value]) => offList(value, path === 'color.primitives.logoPurple').map(hex => `${path} ${hex}`));
+  rchk('every colour token is on the allowed colour list', offListTokens.length === 0,
+    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black, neutral greys, and ${LOGO_PURPLE} at color.primitives.logoPurple only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
+  const colourPagePath = join(DIST, 'foundations', 'colour.html');
+  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/href="#[^"]*"/g, ''), true) : null;
+  rchk('the built Colour page shows only allowed colours', offListOnPage && offListOnPage.length === 0,
+    offListOnPage ? `off the list on dist/foundations/colour.html: ${offListOnPage.slice(0, 12).join(', ')}` : 'dist/foundations/colour.html is missing — run node generate.mjs first');
 }
 {
   const retiredSkillRefs = [];

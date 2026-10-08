@@ -31,9 +31,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The primary button gains a soft pink shadow on hover (`--aha-button-elevate-primary-hover`) and drops it on press. Overlay, ink alphas (`--aha-bg-overlay` is now black at 40%, `--aha-ink-a*`) and popover, tooltip and colour-picker shadows are black instead of indigo (#197)
 - Badge tones, plans and ranks drop coral, yellow, green and purple for Vivid Pink, pale pink, black and grey; rate stars are Vivid Pink (#197)
 - Section container (marketing): the soft band is pale pink and the dark band is replaced by `aha-section--primary`, a Vivid Pink band with solid white text. `aha-section--dark` still works and now renders the same Vivid Pink band (#197)
-- Purple stays in the token set (`--aha-purple-*`, `--aha-brand-1`) for the logo only; no DS component uses it any more. The colour picker's first preset and the audience snippets' sample deck accent are Vivid Pink (#197)
+- The colour picker's first preset and the audience snippets' sample deck accent are Vivid Pink (#197)
+- **Breaking (visual):** the dark surfaces are neutral. `--aha-bg-dark` is black `#000000` (tooltip, chart tooltip, docs code blocks; was indigo `#1A1A2E`) and `--aha-bg-dark-raised` is grey-100 `#1A1A1A` (paywall popover; was `#242442`). `--aha-border-input` is grey-50 `#D4D4D4` (was `#D3D7E1`) and `--aha-text-primary-ink` is grey-90 `#4A4A4A` (was `#3E3E5A`) (#197)
+- The Colour page, `design.md` and the feeds list only the allowed palette: white, black, Vivid Pink, the grey ramp and the logo purple. The docs site's own badges, pills, notes, code panels and search highlight use those colours too (#197)
 ### Added
 - `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#197)
+- `--aha-logo-purple` (`#6A1EBB`), the one purple left, for the logo only (#197)
+- `standards.mjs` fails a colour token that is off the allowed list (Vivid Pink, Darker Pink, the two flat tints, white, black, neutral greys, and purple at `color.primitives.logoPurple` only) and fails the build when the Colour page shows any other colour (#197)
+### Removed
+- **Breaking:** the DS V3 hue ramps are gone from `tokens.css`, `tokens.js`, `design.md` and every feed: `--aha-purple-*`, `--aha-pink-*`, `--aha-teal-*`, `--aha-coral-*`, `--aha-red-*`, `--aha-yellow-*`, `--aha-indigo-*`, `--aha-soft-indigo-*` and `--aha-lavender-*` (96 values). Use a semantic token; for the logo purple use `--aha-logo-purple` (was `--aha-purple-60`) (#197)
+- **Breaking:** the 13 brand slots `--aha-brand-1` to `--aha-brand-13` are gone. A deck-palette chart or a sample deck passes its own colours as values, since a deck theme is presenter content (#197)
 
 ## 0.114.1 — 2026-10-08
 ### Fixed

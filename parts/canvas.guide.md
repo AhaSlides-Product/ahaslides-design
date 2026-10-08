@@ -123,8 +123,8 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, St
 - **Bundle the semantic tokens** into the plugin's build (import from the DS package, or
   plugin-local constants matching it) — AntD's `theme.useToken()` isn't available in this
   Vue stack, `--aha-*` vars don't cross the iframe, and xprops doesn't forward them.
-- **Use the FUNCTION token, not a lookalike brand accent.** A bright brand accent that
-  merely *looks* green (Bright Teal `#20E8B5` as a "correct" tick) is wrong — it drifts per
+- **Use the FUNCTION token, not a lookalike accent.** A bright accent that
+  merely *looks* green (a teal such as `#20E8B5` as a "correct" tick) is wrong — it drifts per
   brand and usually fails contrast (~1.58:1 on white).
 - **The #1 mistake: applying state colours to the chart.** Painting the "correct" bar
   green-success fights the deck's brand and conveys state *through* the chart. Move the green
@@ -244,8 +244,8 @@ root.setProperty('--aha-button-primary-bg-press', `color-mix(in srgb, ${accent} 
 root.setProperty('--aha-button-primary-text', ink);
 ```
 
-The one fixed dark ink is `--aha-text-default` **#1A1A1A** on every surface. `#1A1A2E`
-(`--aha-brand-3`, `--aha-indigo-100`) is a brand swatch, not a text colour (C21).
+The one fixed dark ink is `--aha-text-default` **#1A1A1A** on every surface. The retired
+indigo `#1A1A2E` is not a text colour (C21).
 
 ## Presenter controls on the Developer Platform — in-canvas, `size="xl"`
 

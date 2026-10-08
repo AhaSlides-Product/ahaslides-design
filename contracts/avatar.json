@@ -9,11 +9,11 @@
   "highlights": ["Represents a person or entity", "Photo, initials or icon", "Solo or stacked in a group"],
   "lead": "ONE custom element — <aha-avatar> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Avatar is a small matrix: THREE content modes (an image `src`, the initials of `name`, or an `<aha-icon>` glyph via `icon`), two `shape`s (circle · square), a named or numeric `size` (small 24 · default 40 · large 64), and a `color` ground tint. A sibling <aha-avatar-group> overlaps stacked children and collapses the overflow past `max` into a trailing +N chip. A purely static display marker, so it declares no motion. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitives are defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-accent", "purple-60", "bg-container", "radius-pill", "radius-default", "font-product"],
+  "tokensUsed": ["bg-accent", "text-default", "bg-container", "radius-pill", "radius-default", "font-product"],
   "spec": [
     { "label": "Size", "value": "small 24 · default 40 · large 64 (named), or any numeric px via `size`" },
     { "label": "Shape", "value": "circle (pill radius) · square (radius 8)" },
-    { "label": "Initials", "value": "bg-accent #FEF3F7, color-primary #E70E68, SemiBold 600" },
+    { "label": "Initials", "value": "bg-accent #FEF3F7, text-default #1A1A1A, SemiBold 600" },
     { "label": "Image", "value": "object-fit cover, clipped to shape" },
     { "label": "Icon", "value": "<aha-icon> glyph by name, ~half the avatar diameter, currentColor" },
     { "label": "Color", "value": "ground tint from an --aha-* token via `color` (default brand tint)" },
@@ -66,7 +66,7 @@
   "selfCheck": [
     { "label": "size 40 default; small 24 / large 64 named steps", "verdict": "PASS" },
     { "label": "circle = pill radius; square = radius 8", "verdict": "PASS" },
-    { "label": "initials bg-accent / color-primary", "verdict": "PASS" },
+    { "label": "initials bg-accent / text-default", "verdict": "PASS" },
     { "label": "src renders cover image; icon renders an <aha-icon> glyph by name", "verdict": "PASS" },
     { "label": "group overlaps children + collapses overflow into a +N chip past max", "verdict": "PASS" }
   ],

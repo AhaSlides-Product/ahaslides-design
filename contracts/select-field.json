@@ -26,7 +26,7 @@
   "spec": [
     {
       "label": "Control",
-      "value": "height 40 · radius 8 · 1px #D3D7E1 (border-input) border"
+      "value": "height 40 · radius 8 · 1px #D4D4D4 (border-input) border"
     },
     {
       "label": "Size",
@@ -125,7 +125,7 @@
       }
     ],
     "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need search, tags, or a virtualised list.",
-    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #D3D7E1 (border-input), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + solid 2px #E70E68 (border-focus) ring, #999999 placeholder, status error #000000 / warning #000000. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, rest border border-input #D3D7E1, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
+    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #D4D4D4 (border-input), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + solid 2px #E70E68 (border-focus) ring, #999999 placeholder, status error #000000 / warning #000000. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, rest border border-input #D4D4D4, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
   },
   "a11y": {
     "role": "the native <select> carries its own combobox/listbox semantics — no ARIA to bolt on",
@@ -226,7 +226,7 @@
   },
   "selfCheck": [
     {
-      "label": "control 40 · radius 8 · #D3D7E1 (border-input) border",
+      "label": "control 40 · radius 8 · #D4D4D4 (border-input) border",
       "verdict": "PASS"
     },
     {
@@ -257,7 +257,7 @@
     "measure": "(function(){var el=document.querySelector('aha-select[data-probe]');var r=el&&el.shadowRoot;var t=r&&r.querySelector('.trigger');var v=r&&r.querySelector('.value');var lb=r&&r.querySelector('.listbox');var st=t?getComputedStyle(t):null;var sv=v?getComputedStyle(v):null;var sl=lb?getComputedStyle(lb):null;return{radius:st?st.borderTopLeftRadius:null,border:st?st.borderTopColor:null,borderWidth:st?st.borderTopWidth:null,height:st?st.height:null,placeholder:sv?sv.color:null,listboxRadius:sl?sl.borderTopLeftRadius:null};})()",
     "expect": {
       "radius": "8px",
-      "border": "rgb(211, 215, 225)",
+      "border": "rgb(212, 212, 212)",
       "borderWidth": "1px",
       "height": "40px",
       "placeholder": "rgb(153, 153, 153)",

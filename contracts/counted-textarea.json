@@ -13,7 +13,7 @@
   "spec": [
     { "label": "Box", "value": "radius 6 · padding 6 12 · resize off" },
     { "label": "Autogrow", "value": "minrows (default 2) → maxrows (default 5); beyond maxrows scrolls internally, never grows unbounded" },
-    { "label": "Rest border", "value": "1px #D3D7E1 (border-input)" },
+    { "label": "Rest border", "value": "1px #D4D4D4 (border-input)" },
     { "label": "Focus", "value": "hover AND focus stay the LIGHTER #E70E68 (border-hover) border + solid 2px #E70E68 (border-focus) ring — textarea exception, not full primary" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay bottom-right; opacity 0 at rest → 1 on focus; 22px bottom gutter reserved" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },

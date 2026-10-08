@@ -65,7 +65,7 @@ const SITE = (process.env.AHA_SITE_URL || 'https://ahaslides-product.github.io/a
 /* ===== R1 canonical tokens → the --aha-* var layer (single source) ===== */
 const TOK = JSON.parse(read(join(root, 'tokens.canonical.json')));
 
-/* Token aliases: a value written "{color.primitives.purple.60}" points at another token. TOK keeps the
+/* Token aliases: a value written "{color.primitives.gray.65}" points at another token. TOK keeps the
    resolved hex (tokens.js, swatches, contrast checks); TOKEN_ALIASES maps the aliased path to the
    referenced token so tokens.css can emit var(--aha-…) and the docs can name the source. */
 const TOKEN_ALIASES = new Map();
@@ -75,7 +75,6 @@ function aliasCssVar(path) {
   if (parts[0] === 'space') return `--aha-space-${parts[1]}`;
   if (parts[0] !== 'color') throw new Error(`no CSS var for alias ${path}`);
   if (parts[1] === 'primitives') return `--aha-${kebab(parts[2])}${parts[3] !== undefined ? '-' + parts[3] : ''}`;
-  if (parts[1] === 'brand') return `--aha-brand-${parts[2]}`;
   if (parts[1] === 'alpha') return `--aha-${kebab(parts[2])}`;
   if (['success', 'warning', 'error', 'info', 'primary'].includes(parts[1])) return `--aha-color-${parts[1]}`;
   const role = /^(text|bg|icon|border)(.*)$/.exec(parts[1]);
@@ -119,7 +118,7 @@ const AHA_ICON_JS = `(function(){
     var label=el.getAttribute('label')||'', dec=el.hasAttribute('decorative')||!label;
     var a11y=dec?'aria-hidden="true"':'role="img" aria-label="'+label.replace(/"/g,'&quot;')+'"';
     if(!el.shadowRoot) el.attachShadow({mode:'open'});
-    if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #F5222D;border-radius:3px"></span>'; return; }
+    if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #000;border-radius:3px"></span>'; return; }
     el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>'
       +'<svg width="'+size+'" height="'+size+'" viewBox="'+ic.viewBox+'" fill="none" '+a11y+'>'+ic.body+'</svg>';
   }
@@ -282,16 +281,13 @@ const TOKEN_PAGES = [
   { slug: 'radius',     label: 'Radius' },
   { slug: 'sizing',     label: 'Sizing' },
 ];
-const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // softIndigo → soft-indigo, inkA10 → ink-a10
+const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // vividPink → vivid-pink, inkA10 → ink-a10
 function tokenVars(t) {
   const c = t.color, f = t.font, r = t.radius, P = c.primitives, b = c.button;
   const L = [];
-  /* primitives — the full 10→100 ramps, one CSS var per step */
-  L.push(`--aha-white:${P.white}; --aha-black:${P.black};`);
-  for (const hue of Object.keys(P)) {
-    if (hue === 'white' || hue === 'black') continue;
+  L.push(Object.keys(P).filter(name => typeof P[name] === 'string').map(name => `--aha-${kebab(name)}:${P[name]};`).join(' '));
+  for (const hue of Object.keys(P).filter(name => typeof P[name] !== 'string'))
     L.push(Object.keys(P[hue]).map(s => `--aha-${kebab(hue)}-${s}:${P[hue][s]};`).join(' '));
-  }
   /* semantic — seed */
   L.push(`--aha-color-primary:${c.primary}; --aha-color-primary-hover:${c.primaryHover}; --aha-color-primary-active:${c.primaryActive};`);
   L.push(`--aha-color-success:${c.success}; --aha-color-warning:${c.warning}; --aha-color-error:${c.error}; --aha-color-info:${c.info};`);
@@ -313,8 +309,6 @@ function tokenVars(t) {
      re-point one --aha-button-* var and only the button retints, without disturbing --aha-color-primary
      or the shared --aha-btn-* seeds. This is a DEFINITION layer (the value SOURCE — not hex-scanned). */
   L.push(`--aha-button-primary-bg:var(--aha-color-primary); --aha-button-primary-bg-hover:var(--aha-color-primary-hover); --aha-button-primary-bg-press:var(--aha-color-primary-active); --aha-button-primary-text:var(--aha-btn-primary-fg); --aha-button-default-bg:var(--aha-white); --aha-button-default-text:var(--aha-text-default); --aha-button-default-border:var(--aha-gray-40); --aha-button-default-bg-hover:var(--aha-bg-accent); --aha-button-default-border-hover:var(--aha-color-primary); --aha-button-default-border-press:var(--aha-gray-50); --aha-button-ghost-bg-hover:var(--aha-btn-tertiary-bg-hover); --aha-button-ghost-bg-press:var(--aha-btn-tertiary-bg-active); --aha-button-danger-bg:var(--aha-btn-danger-bg); --aha-button-danger-bg-hover:var(--aha-btn-danger-bg-hover); --aha-button-danger-bg-press:var(--aha-btn-danger-bg-press); --aha-button-danger-text:var(--aha-text-inverse); --aha-button-danger-ring:var(--aha-btn-danger-ring); --aha-button-positive-bg:var(--aha-btn-positive-bg); --aha-button-positive-bg-hover:var(--aha-btn-positive-bg-hover); --aha-button-positive-bg-press:var(--aha-btn-positive-bg-press); --aha-button-positive-text:var(--aha-btn-positive-fg); --aha-button-disabled-bg:var(--aha-gray-40); --aha-button-disabled-text:var(--aha-gray-60); --aha-button-focus-ring:var(--aha-focus-ring-soft); --aha-button-focus-ring-success:var(--aha-btn-focus-ring-success); --aha-button-elevate-primary:var(--aha-btn-elevate-primary); --aha-button-elevate-primary-hover:var(--aha-btn-elevate-primary-hover); --aha-button-elevate-secondary:var(--aha-btn-elevate-secondary);`);
-  /* brand slots + alpha ramps */
-  L.push(Object.keys(c.brand).map(k => `--aha-brand-${k}:${c.brand[k]};`).join(' '));
   L.push(Object.keys(c.alpha).map(k => `--aha-${kebab(k)}:${c.alpha[k]};`).join(' '));
   /* a deck chart swaps series for the deck palette and re-derives the ink mixes from the deck text colour inside the element */
   const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
@@ -390,11 +384,11 @@ a.ver:hover{color:var(--aha-text-default);background:var(--aha-bg-accent)}
    to scroll sideways. Same breakpoint as .hub-layout's own narrow collapse, for consistency. ---- */
 .doc-nav-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:1px solid transparent;border-radius:var(--aha-radius-default,8px);background:transparent;color:var(--aha-text-secondary);cursor:pointer;flex:0 0 auto}
 .doc-nav-toggle:hover{background:var(--aha-bg-accent);color:var(--aha-text-default)}
-.doc-nav-backdrop{display:none;position:fixed;inset:64px 0 0 0;background:rgba(20,16,32,.35);z-index:34}
+.doc-nav-backdrop{display:none;position:fixed;inset:64px 0 0 0;background:var(--aha-bg-overlay);z-index:34}
 @media (max-width:900px){
   .doc-nav-toggle{display:inline-flex}
   .doc-nav{position:fixed;top:64px;left:0;z-index:35;width:min(84vw,300px);height:calc(100vh - 64px);
-    transform:translateX(-100%);transition:transform var(--aha-motion-mid) var(--aha-ease-out);box-shadow:0 8px 24px rgba(20,16,32,.16)}
+    transform:translateX(-100%);transition:transform var(--aha-motion-mid) var(--aha-ease-out);box-shadow:0 8px 24px rgba(0,0,0,.16)}
   body.nav-open .doc-nav{transform:translateX(0)}
   body.nav-open .doc-nav-backdrop{display:block}
   .doc-main{padding:28px 20px 72px}
@@ -442,8 +436,8 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .doc-main h2:first-of-type{margin-top:34px}
 .body{line-height:1.75;color:var(--aha-text-default);max-width:72ch}
 .badge{display:inline-block;font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;border-radius:6px;padding:3px 9px}
-.badge.leaf{color:#0E7C63;background:#D3F5EC;border:1px solid #16C49A}
-.badge.composite{color:#B24A20;background:#FFF0EB;border:1px solid #FF7747}
+.badge.leaf{color:var(--aha-text-default);background:var(--aha-bg-container);border:1px solid var(--aha-text-default)}
+.badge.composite{color:var(--aha-text-inverse);background:var(--aha-black);border:1px solid var(--aha-black)}
 .badge.raw{color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border);font-family:Menlo,monospace;text-transform:none}
 
 /* ---- agent-feed code page ---- */
@@ -483,7 +477,7 @@ table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px so
 table.api tr:last-child td{border-bottom:none}
 table.api th{color:var(--aha-text-secondary);font-weight:var(--aha-weight-semibold);font-size:13px;background:var(--aha-gray-20)}
 ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
-.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:#D3F5EC;color:#0E7C63;margin:2px 4px 2px 0}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--aha-gray-20);color:var(--aha-text-default);margin:2px 4px 2px 0}
 .pill.na{background:var(--aha-gray-20);color:var(--aha-text-tertiary)}
 .spec-line{margin-bottom:12px;color:var(--aha-text-secondary);font-size:13px;line-height:1.7}
 
@@ -498,16 +492,16 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 
 /* ---- code widget ---- */
 .show-code{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border);border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.show-code:hover{background:#F0E7FF}.show-code .chev{transition:transform .15s ease}
+.show-code:hover{border-color:var(--aha-color-primary)}.show-code .chev{transition:transform .15s ease}
 .code-tabs[data-open="true"] .show-code .chev{transform:rotate(90deg)}
-.code-panel{background:#1A1A2E;overflow:hidden}
+.code-panel{background:var(--aha-bg-dark);overflow:hidden}
 .code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
 .tabs{display:flex;gap:4px}
-.tab{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:#8A83B0;background:transparent;border:none;border-radius:8px;padding:6px 16px;cursor:pointer}
-.tab.active{color:#fff;background:#2E2A48}.tab:hover:not(.active){color:#C7A3FF}
-.copy{font-family:var(--aha-font-product);font-size:12px;font-weight:600;color:#C7A3FF;background:transparent;border:1px solid rgba(199,163,255,.4);border-radius:8px;padding:5px 12px;cursor:pointer}
-.copy:hover{background:rgba(199,163,255,.12)}
-.code-panel pre{display:none;margin:0;background:transparent;color:#EAE6F5;padding:18px 20px;overflow:auto;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre}
+.tab{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-gray-65);background:transparent;border:none;border-radius:8px;padding:6px 16px;cursor:pointer}
+.tab.active{color:var(--aha-white);background:var(--aha-gray-95)}.tab:hover:not(.active){color:var(--aha-white)}
+.copy{font-family:var(--aha-font-product);font-size:12px;font-weight:600;color:var(--aha-white);background:transparent;border:1px solid var(--aha-white-a50);border-radius:8px;padding:5px 12px;cursor:pointer}
+.copy:hover{background:var(--aha-gray-95)}
+.code-panel pre{display:none;margin:0;background:transparent;color:var(--aha-gray-35);padding:18px 20px;overflow:auto;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre}
 .code-panel pre.active{display:block}
 
 /* ---- get started / consume + for-agents block ---- */
@@ -515,7 +509,7 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .consume-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}
 .cg{border:1px solid var(--aha-split);border-radius:12px;overflow:hidden;background:#fff}
 .cg-h{padding:9px 14px;font-size:12px;font-weight:600;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-bottom:1px solid var(--aha-split)}
-.cg-code{margin:0;padding:14px 16px;background:#1A1A2E;color:#EAE6F5;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.cg-code{margin:0;padding:14px 16px;background:var(--aha-bg-dark);color:var(--aha-gray-35);font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
 .agent-feeds{font-size:13.5px;line-height:1.75}
 .agent-feeds li{margin:7px 0}
 .agent-feeds code{font-size:12px}
@@ -1368,10 +1362,6 @@ const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || 
    (audience/library.json); the collapsible HTML/React/Vue code panels reuse the shell's
    own .code-tabs CSS + ahaBindWidgets JS. Each section names the DS <aha-*> element that
    replaces the upstream Vue component, and its demos ARE that element (lib/), not a mock-up. */
-const AUDIENCE_KIND_ACCENT = {
-  Answers: 'var(--aha-brand-2)', Input: 'var(--aha-color-primary)', Feedback: 'var(--aha-brand-4)',
-  Action: 'var(--aha-brand-6)', Layout: 'var(--aha-soft-indigo-60)', '': 'var(--aha-indigo-60)',
-};
 // Inline `code` spans in the reference copy; everything else is escaped.
 const audMd = (s) => String(s ?? '').split('`').map((seg, i) => i % 2 ? `<code class="ic">${esc(seg)}</code>` : esc(seg)).join('');
 function audienceCodeTabs(snips) {
@@ -1382,8 +1372,7 @@ function audienceCodeTabs(snips) {
   return `<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs">${tabs}</div><button class="copy" type="button">Copy</button></div>${panes}</div></div>`;
 }
 function renderAudienceCard(sec) {
-  const accent = AUDIENCE_KIND_ACCENT[sec.kind] ?? 'var(--aha-indigo-60)';
-  const badge = sec.kind ? `<span class="badge" style="background:${accent}">${esc(sec.kind)}</span>` : '';
+  const badge = sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : '';
   const replaces = sec.replaces ? `<p class="replaces">${audMd(sec.replaces)}</p>` : '';
   const note = sec.note ? `<p class="note">${audMd(sec.note)}</p>` : '';
   const element = sec.element ? `<p class="element">Use <code class="ic">${esc(sec.element)}</code></p>` : '';
@@ -1554,8 +1543,8 @@ function renderGuidelineHtml(p) {
   .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
   .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
   .skillref b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default);margin-right:6px}
-  .pill.warn{background:#FFF0EB;color:#B24A20}
-  .note.warn{background:#FFF5F0;border-color:#FFCBB0;color:#8A3B18}
+  .pill.warn{background:var(--aha-black);color:var(--aha-white)}
+  .note.warn{background:var(--aha-bg-container);border-color:var(--aha-text-default);color:var(--aha-text-default)}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
   .pat-guide h2{font-size:17px;line-height:24px;margin:28px 0 10px}
   .pat-h3{font-size:14px;font-weight:600;margin:16px 0 6px}
@@ -1776,7 +1765,7 @@ function renderSettingsHub() {
   ${hubAnchorScript(anchorItems)}`;
   const extraCss = `
   .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-accent);border:1px solid var(--aha-border)}
-  .pill.warn{background:#FFF0EB;color:#B24A20}
+  .pill.warn{background:var(--aha-black);color:var(--aha-white)}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
 ${HUB_ANCHOR_CSS}
   .hub-body>h2{scroll-margin-top:84px}
@@ -1825,8 +1814,10 @@ ${groupsMd}
 /* ===== G3 · design.md ===== */
 function renderDesignMd(t, cs) {
   const c = t.color, P = c.primitives, b = c.button;
-  const ramp = (hue) => `- **${hue}** — ` + Object.keys(P[hue]).map(s => `\`${s}\` ${P[hue][s]}`).join(' · ');
-  const primitiveLines = Object.keys(P).filter(h => h!=='white' && h!=='black').map(ramp).join('\n');
+  const primitiveLine = (name) => typeof P[name] === 'string'
+    ? `- **${name}** — \`--aha-${kebab(name)}\` ${P[name]}`
+    : `- **${name}** — ` + Object.keys(P[name]).map(step => `\`${step}\` ${P[name][step]}`).join(' · ');
+  const primitiveLines = Object.keys(P).map(primitiveLine).join('\n');
   const tbl = (rows) => '| Token | Value |\n| --- | --- |\n' + rows.map(([k,v]) => `| \`--aha-${k}\` | \`${v}\` |`).join('\n');
   const seed   = [['color-primary',c.primary],['color-primary-hover',c.primaryHover],['color-primary-active',c.primaryActive],['color-success',c.success],['color-warning',c.warning],['color-error',c.error],['color-info',c.info]];
   const text   = [['text-default',c.textDefault],['text-secondary',c.textSecondary],['text-tertiary',c.textTertiary],['text-disabled',c.textDisabled],['text-inverse',c.textInverse],['text-link',c.textLink],['text-link-hover',c.textLinkHover],['text-primary-ink',c.textPrimaryInk],['text-positive',c.textPositive],['text-negative',c.textNegative],['text-warning',c.textWarning]];
@@ -1834,7 +1825,6 @@ function renderDesignMd(t, cs) {
   const bg     = [['bg-base',c.bgBase],['bg-container',c.bgContainer],['bg-container-secondary',c.bgContainerSecondary],['bg-container-disabled',c.bgContainerDisabled],['bg-elevated',c.bgElevated],['bg-layout',c.bgLayout],['bg-accent',c.bgAccent],['bg-informative',c.bgInformative],['bg-hover',c.bgHover],['bg-positive',c.bgPositive],['bg-negative',c.bgNegative],['bg-warning',c.bgWarning],['bg-overlay',c.bgOverlay],['bg-dark',c.bgDark],['bg-dark-raised',c.bgDarkRaised]];
   const icon   = [['icon-default',c.iconDefault],['icon-strong',c.iconStrong],['icon-muted',c.iconMuted],['icon-disabled',c.iconDisabled],['icon-inverse',c.iconInverse],['icon-active',c.iconActive]];
   const btn    = [['btn-primary-bg',b.primaryBg],['btn-primary-bg-hover',b.primaryBgHover],['btn-primary-bg-press',b.primaryBgPress],['btn-primary-fg',b.primaryFg],['btn-secondary-bg',b.secondaryBg],['btn-secondary-bg-hover',b.secondaryBgHover],['btn-secondary-border',b.secondaryBorder],['btn-secondary-border-press',b.secondaryBorderPress],['btn-tertiary-bg-hover',b.tertiaryBgHover],['btn-disabled-bg',b.disabledBg],['btn-disabled-fg',b.disabledFg],['btn-danger-bg',b.dangerBg],['btn-danger-bg-hover',b.dangerBgHover],['btn-danger-ring',b.dangerRing],['btn-encourage-bg',b.encourageBg],['btn-encourage-bg-hover',b.encourageBgHover],['btn-encourage-bg-press',b.encourageBgPress]];
-  const brand  = Object.keys(c.brand).map(k => [`brand-${k}`, c.brand[k]]);
   const vizValue = (path, hex) => (aliasOf(path) ? `var(${aliasOf(path).cssVar}) = ${hex}` : hex);
   const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
     ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
@@ -1848,10 +1838,11 @@ Vivid Pink \`${c.primary}\` is the one primary colour (buttons, link hover, focu
 Backgrounds are **white by default**; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states; no gradients on fills (AI-affordance border-only exception).
 Pink text sits on white only: on Vivid Pink at 5% or on grey, text is black; on Vivid Pink, text is solid white.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are black, shown with an icon, clear wording and an outline or a black fill. Never red, amber, green or blue.
-Purple (\`--aha-purple-*\`, \`--aha-brand-1\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
+Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
+No other colour exists in the token set. Photos, illustrations, the logo files and customer or presenter content (deck themes, deck-palette charts) are exempt.
 
-## Colour — primitive ramps
-Each hue is a 10→100 scale. Semantic tokens below alias into these; **never hardcode a ramp value in a component** — bind to a semantic \`--aha-*\` token.
+## Colour — the palette
+White, black, Vivid Pink (\`5\` and \`30\` are the flat codes of Vivid Pink at 5% and at 30% on white; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
 ${primitiveLines}
 
 ## Colour — semantic tokens
@@ -1872,9 +1863,6 @@ ${tbl(icon)}
 
 ### Button
 ${tbl(btn)}
-
-### Brand slots (categorical, Aha 1–13)
-${tbl(brand)}
 
 ### Data visualisation (\`<aha-chart>\` brand palette)
 Series colours for charts on Report and other app screens. On the presenting/audience canvas a chart takes the deck palette instead (\`palette="deck"\`).
@@ -1910,7 +1898,8 @@ function renderTokenPage(pageSlug) {
   const ramp = (hue) => `<div class="ramp"><div class="ramp-name">${esc(hue)}</div><div class="ramp-cells">`
     + Object.keys(P[hue]).map(s => `<div class="ramp-cell" title="${P[hue][s]}"><div class="ramp-chip" style="background:${P[hue][s]}"></div><div class="ramp-k">${s}</div></div>`).join('')
     + `</div></div>`;
-  const primitives = Object.keys(P).filter(h => h!=='white' && h!=='black').map(ramp).join('');
+  const flatPrimitives = Object.keys(P).filter(name => typeof P[name] === 'string');
+  const primitives = Object.keys(P).filter(name => typeof P[name] !== 'string').map(ramp).join('');
   const typeRows = [['display1',s.display1],['display2',s.display2],['h1',s.h1],['h2',s.h2],['h3',s.h3],['h4',s.h4],['h5 / xl',s.xl],['h6',s.h6],['body (default)',s.default],['bodyLG (l)',s.l],['bodySM (sm)',s.sm]]
     .map(([role,px]) => `<tr><td style="font-size:${px}px;line-height:1.2">${esc(role)}</td><td><code>${px}px</code></td></tr>`).join('');
   const radScale = [['xs',r.xs],['sm',r.sm],['default',r.default],['lg',r.lg],['xl',r.xl]];
@@ -1923,10 +1912,11 @@ function renderTokenPage(pageSlug) {
   const gen = `<p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>`;
   const BODY = {
     colour: {
-      title: 'Colour', highlights: ["Primitive ramps plus semantic tokens that alias into them", "Never hardcode a ramp value", "Bind to a semantic --aha-* token"], lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
+      title: 'Colour', highlights: ["Vivid Pink, white, black and neutral greys are the whole palette", "Purple is the logo only", "Bind to a semantic --aha-* token, never a raw value"], lead: 'The whole palette is Vivid Pink, white, black and neutral greys, plus one purple for the logo. Semantic tokens alias into it. Never hardcode a value in a component — bind to a semantic <code>--aha-*</code> token.',
       body: `
-  <h2>Primitive ramps</h2>
-  <p class="body">The raw colour scales (10&rarr;100). Semantic tokens below alias into these — never hardcode a ramp value in a component.</p>
+  <h2>Palette</h2>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos, illustrations, the logo files and customer or presenter content are exempt from the palette.</p>
+  ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
 
   <h2>Semantic colour</h2>
@@ -1937,7 +1927,6 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Background', [['bgLayout',c.bgLayout],['bgAccent',c.bgAccent],['bgInformative',c.bgInformative],['bgPositive',c.bgPositive],['bgNegative',c.bgNegative],['bgWarning',c.bgWarning],['bgDark',c.bgDark]])}
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
-  ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}
   ${swGroup('Data visualisation (chart series · aliases of the colour tokens above)', [...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, `color.viz.series.${k}`]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, `color.viz.tint.${k}`]), ['viz-ink', 'color.viz.ink'], ['viz-neutral', 'color.viz.neutral']]
     .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}`,
     },
@@ -2205,7 +2194,7 @@ function renderIconGallery() {
   const extraCss = `
   .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0;z-index:5;border-bottom:1px solid var(--aha-split)}
   #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
-  #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .fam-chips{display:flex;gap:6px}
   .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
   .fam-chip b{opacity:.6;font-weight:600}
@@ -2309,7 +2298,7 @@ function renderLogoPage() {
   .logo-tab:hover{color:var(--aha-text-default)}
   .logo-tab:focus-visible,.lg:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
   #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
-  #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
   .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
   .lg-panel[hidden],.lg-sec[hidden]{display:none}

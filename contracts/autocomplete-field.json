@@ -29,7 +29,7 @@
   "spec": [
     {
       "label": "Control",
-      "value": "height 40 · radius 8 · 1px #D3D7E1 (border-input) border · leading system-magnifying-glass"
+      "value": "height 40 · radius 8 · 1px #D4D4D4 (border-input) border · leading system-magnifying-glass"
     },
     {
       "label": "Size",
@@ -226,7 +226,7 @@
   },
   "selfCheck": [
     {
-      "label": "control 40 · radius 8 · #D3D7E1 border (Select field chrome)",
+      "label": "control 40 · radius 8 · #D4D4D4 border (Select field chrome)",
       "verdict": "PASS"
     },
     {
@@ -249,7 +249,7 @@
     "measure": "(function(){var r=document.querySelector('aha-autocomplete[data-probe]').shadowRoot;var w=getComputedStyle(r.querySelector('.wrap'));var f=r.querySelector('.field');var l=getComputedStyle(r.querySelector('.listbox'));return{radius:w.borderTopLeftRadius,border:w.borderTopColor,borderWidth:w.borderTopWidth,height:w.height,listboxRadius:l.borderTopLeftRadius,role:f.getAttribute('role')};})()",
     "expect": {
       "radius": "8px",
-      "border": "rgb(211, 215, 225)",
+      "border": "rgb(212, 212, 212)",
       "borderWidth": "1px",
       "height": "40px",
       "listboxRadius": "8px",

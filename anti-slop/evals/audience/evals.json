@@ -1992,7 +1992,7 @@
     },
     {
       "id": 80,
-      "prompt": "Review this audience view. Body ink falls back to `#1A1A2E` (var(--aha-brand-3)) when textColour is unset. Is the ink right?",
+      "prompt": "Review this audience view. Body ink falls back to `#1A1A2E` when textColour is unset. Is the ink right?",
       "files": [],
       "label": "bad-example",
       "notes": "C33 bad — Team Retro D11.",

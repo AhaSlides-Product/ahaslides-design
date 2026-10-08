@@ -79,7 +79,7 @@
     {
       "ref": "--aha-text-default",
       "as": "token",
-      "use": "the one fixed dark ink (#1A1A1A) wherever the slide needs a dark label — never #1A1A2E (--aha-brand-3 / --aha-indigo-100)",
+      "use": "the one fixed dark ink (#1A1A1A) wherever the slide needs a dark label — never the retired indigo #1A1A2E",
       "status": "available"
     },
     {
@@ -97,7 +97,7 @@
     {
       "ref": "--aha-colorSuccess",
       "as": "token",
-      "use": "the ✓ / correct-answer / validation-passed mark — the semantic function token (black #000000 under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike brand accent",
+      "use": "the ✓ / correct-answer / validation-passed mark — the semantic function token (black #000000 under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent",
       "status": "available"
     },
     {
@@ -209,7 +209,7 @@
       ]
     },
     {
-      "rule": "Semantic state colours (colorSuccess/colorError/colorWarning/colorInfo) must be the design-system FUNCTION tokens bundled into the plugin's own build (imported from the DS package or plugin-local constants matching it) — not host CSS vars (they don't cross the iframe), not xprops, and not a lookalike brand accent that merely reads green/red.",
+      "rule": "Semantic state colours (colorSuccess/colorError/colorWarning/colorInfo) must be the design-system FUNCTION tokens bundled into the plugin's own build (imported from the DS package or plugin-local constants matching it) — not host CSS vars (they don't cross the iframe), not xprops, and not a lookalike accent that merely reads green/red.",
       "ref": [
         "§2a",
         "C2",
@@ -439,7 +439,7 @@
       ]
     },
     {
-      "rule": "One fixed dark ink on every surface: --aha-text-default #1A1A1A (the canonical body colour). Never #1A1A2E (--aha-brand-3 / --aha-indigo-100) as text ink, and never a second near-black (#000, #111) beside it.",
+      "rule": "One fixed dark ink on every surface: --aha-text-default #1A1A1A (the canonical body colour). Never the retired indigo #1A1A2E as text ink, and never a second near-black (#000, #111) beside it.",
       "ref": [
         "§2",
         "C21"

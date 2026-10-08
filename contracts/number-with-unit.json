@@ -19,7 +19,7 @@
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },
-    { "label": "Rest border", "value": "1px #D3D7E1 (border-input)" },
+    { "label": "Rest border", "value": "1px #D4D4D4 (border-input)" },
     { "label": "Error", "value": "#000000 border + ring + a 12/18 #000000 message line below; sets aria-invalid" },
     { "label": "Focus", "value": "#E70E68 border + solid 2px #E70E68 (border-focus) ring (persistent wrapper); hover #E70E68 border" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }

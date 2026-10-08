@@ -1747,11 +1747,11 @@
     },
     {
       "id": 63,
-      "prompt": "Review this canvas. The presenter's dark ink is `--ink: var(--aha-indigo-100)` (#1A1A2E) and the dark label on the accent is `rgb(26,26,46)`. Is the ink right?",
+      "prompt": "Review this canvas. The presenter's dark ink is `--ink: #1A1A2E` and the dark label on the accent is `rgb(26,26,46)`. Is the ink right?",
       "files": [],
       "label": "bad-example",
       "notes": "C21 bad — Team Retro D11.",
-      "expected_output": "C21 FAILs. The fixed dark ink is --aha-text-default #1A1A1A everywhere; #1A1A2E (indigo-100 / brand-3) is not a text ink. Overall: NEEDS FIX",
+      "expected_output": "C21 FAILs. The fixed dark ink is --aha-text-default #1A1A1A everywhere; #1A1A2E (the retired indigo) is not a text ink. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C21 is marked FAIL",

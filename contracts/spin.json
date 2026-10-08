@@ -9,7 +9,7 @@
   "highlights": ["Brand-coloured spinner", "For an indeterminate wait", "Page, panel or results loading"],
   "lead": "ONE custom element — <aha-spin> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; the ring is a pure-CSS rotation (no inline <svg>, no icon), so it never blocks on the registry. Two shapes from one element: standalone (just the ring + optional `tip`), or a WRAPPER — slot content and, while `spinning`, a dimmed + blurred scrim covers the child with a centred ring floating over it. `size` scales it (small/default/large). The scrim fade + child blur animate via the shared motion tokens on a PERSISTENT overlay node — `spinning` only flips a class, the subtree is never rebuilt. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["color-primary", "purple-20", "text-secondary"],
+  "tokensUsed": ["color-primary", "bg-accent", "text-secondary"],
   "spec": [
     { "label": "Ring", "value": "20×20 · 2px · track bg-accent, head primary #E70E68" },
     { "label": "Sizes", "value": "small 14 · default 20 · large 32" },

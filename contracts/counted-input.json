@@ -13,7 +13,7 @@
   "spec": [
     { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12" },
     { "label": "Sizes", "value": "small 32 · default 40 · large 48 — all radius 8" },
-    { "label": "Rest border", "value": "1px #D3D7E1 (border-input)" },
+    { "label": "Rest border", "value": "1px #D4D4D4 (border-input)" },
     { "label": "Focus", "value": "#E70E68 border + solid 2px #E70E68 (border-focus) ring (on the persistent wrapper); hover #E70E68 border" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },

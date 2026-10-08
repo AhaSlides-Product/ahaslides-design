@@ -8,7 +8,7 @@
   "summary": "Let a user turn one or more independent options on or off.",
   "highlights": ["Turns one or more independent options on or off"],
   "lead": "ONE custom element — <aha-checkbox> — defined once, imported unchanged by React and Vue. CSS lives in the component's shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Zero drift — the same element, not two look-alikes.",
-  "tokensUsed": ["color-primary", "border", "bg-container", "bg-container-disabled", "border-disabled", "text-default", "text-disabled", "text-inverse", "purple-30", "font-product"],
+  "tokensUsed": ["color-primary", "border", "bg-container", "bg-container-disabled", "border-disabled", "text-default", "text-disabled", "text-inverse", "border-hover", "font-product"],
   "spec": [
     { "label": "Box", "value": "16×16 r4" },
     { "label": "Rest border", "value": "#E3E3E3" },

@@ -914,7 +914,7 @@
         {
           "id": "C21",
           "title": "One fixed dark ink: #1A1A1A",
-          "test": "Wherever the slide uses a fixed dark ink (labels on a light fill, the dark half of a contrast pick, a fallback ink), it is `--aha-text-default` #1A1A1A. FAIL on `#1A1A2E` / `--aha-brand-3` / `--aha-indigo-100` used as text ink, or on a second near-black (`#000`, `#111`) used alongside it."
+          "test": "Wherever the slide uses a fixed dark ink (labels on a light fill, the dark half of a contrast pick, a fallback ink), it is `--aha-text-default` #1A1A1A. FAIL on the retired indigo `#1A1A2E` used as text ink, or on a second near-black (`#000`, `#111`) used alongside it."
         },
         {
           "id": "C22",
@@ -1114,7 +1114,7 @@
         {
           "id": "C33",
           "title": "One fixed dark ink: #1A1A1A",
-          "test": "Any fixed dark ink — a label on a light accent, a fallback ink — is `--aha-text-default` #1A1A1A. FAIL on `#1A1A2E` / `--aha-brand-3` / `--aha-indigo-100` as text ink, or `#000` as the dark label on the accent."
+          "test": "Any fixed dark ink — a label on a light accent, a fallback ink — is `--aha-text-default` #1A1A1A. FAIL on the retired indigo `#1A1A2E` as text ink, or `#000` as the dark label on the accent."
         },
         {
           "id": "C34",
