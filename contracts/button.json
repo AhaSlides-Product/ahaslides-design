@@ -15,7 +15,7 @@
     { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) · touch 48 (r8, padding 24) — heights; fontSize 14 (sm/md) / 16 (lg/xl/touch)" },
     { "label": "Primary", "value": "bg #E70E68, label #FFFFFF, hover #DB005B + soft pink shadow, active #DB005B without the hover shadow" },
     { "label": "Secondary", "value": "white bg, #1A1A1A label, 1px #E3E3E3 border; hover pale pink #FEF3F7 + #E70E68 border, label stays #1A1A1A" },
-    { "label": "Tertiary / Link", "value": "transparent; tertiary hover #FEF3F7, active #FEF3F7, label #1A1A1A; link #E70E68 weight 400, underlined at rest, hover #DB005B; on a surface other than white the label takes the default ink #1A1A1A (white on a dark surface), since pink fails 4.5:1 there" },
+    { "label": "Tertiary / Link", "value": "transparent; tertiary hover #FEF3F7, active #FEF3F7, label #1A1A1A; link #E70E68 weight 400, underlined at rest, hover #DB005B; the component cannot see its surface, so on a surface other than white the screen sets --aha-text-link and --aha-text-link-hover to the default ink #1A1A1A on that container (white on a dark surface), since pink fails 4.5:1 there" },
     { "label": "Danger", "value": "default-ink fill #1A1A1A, white label, hover #4A4A4A, active #616161 — a destructive action; never the primary button, the safe choice beside it is" },
     { "label": "Success", "value": "default-ink outline: white fill, 1px #1A1A1A border, #1A1A1A label, hover fill #F7F7F7, active fill #E3E3E3 — a done / confirmed state" },
     { "label": "Positive", "value": "Vivid Pink like primary: bg #E70E68, white label, hover #DB005B + soft pink shadow, active #DB005B — Upgrade and other encouraging actions" },
