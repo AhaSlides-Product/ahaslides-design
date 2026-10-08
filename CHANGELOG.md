@@ -24,6 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.132.0 — 2026-10-08
 ### Changed
+- Form, Autocomplete, Date picker, Time picker and Textarea themes follow the same field scale: default 40px, large 48px (they were 32 / 40), so an Input, a counted input and these controls sit level in a form; Button in `formTheme` stays 32px (#197)
 - Input, Input number and Select: default height 40px, large 48px (small stays 24px); `<aha-input>` was 32 / 40, and `selectTheme` and `inputNumberTheme` set `controlHeight` 40 and `controlHeightLG` 48 (#197)
 - `<aha-pagination>` page and prev / next hover and press take the secondary button's treatment: `#FEF3F7` fill, `#E70E68` border, `#DB005B` label (press: `#DB005B` border) (#197)
 - Steps titles (`.ant-steps-item-title`) are SemiBold 600 (were 400); `steps-theme` adds the one rule when imported (#197)
