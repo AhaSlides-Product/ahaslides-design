@@ -15,23 +15,66 @@ name: pages
 
 on:
   push:
-    branches: [master]
+    branches: [master, staging]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
+  # The github-pages environment only accepts master, so a push to `staging` re-runs this workflow on master.
+  trigger-from-staging:
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - run: gh workflow run pages.yml --ref master --repo "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  # Unreviewed staging code runs only here: read-only token, no pages/id-token, no production files.
+  # Snippets pin @staging (the branch on jsDelivr) because no v<version> tag exists yet; live demos
+  # import the staging build's own lib/ copied beside the pages. Pages are marked noindex.
+  build-staging:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: staging
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: node build-icons.mjs && node generate.mjs
+        env:
+          AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design/staging
+          AHA_CDN_REF: staging
+      - run: find dist -name '*.html' -exec sed -i '0,/<head>/s//<head><meta name="robots" content="noindex,nofollow"\/>/' {} +
+      - uses: actions/upload-artifact@v4
+        with:
+          name: staging-dist
+          path: dist
+
   build:
+    needs: build-staging
+    if: ${{ !cancelled() && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -50,13 +93,23 @@ jobs:
         run: node build-icons.mjs && node generate.mjs
         env:
           AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design
+      - name: Add the staging build
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: staging-dist
+          path: dist/staging
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
