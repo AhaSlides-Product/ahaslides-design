@@ -308,7 +308,7 @@ function tokenVars(t) {
   /* surfaces */
   L.push(`--aha-bg-base:${c.bgBase}; --aha-bg-container:${c.bgContainer}; --aha-bg-container-secondary:${c.bgContainerSecondary}; --aha-bg-container-disabled:${c.bgContainerDisabled}; --aha-bg-elevated:${c.bgElevated}; --aha-bg-layout:${c.bgLayout}; --aha-bg-accent:${c.bgAccent}; --aha-bg-informative:${c.bgInformative}; --aha-bg-hover:${c.bgHover}; --aha-bg-positive:${c.bgPositive}; --aha-bg-negative:${c.bgNegative}; --aha-bg-warning:${c.bgWarning}; --aha-bg-warning-subtle:${c.bgWarningSubtle}; --aha-bg-overlay:${c.bgOverlay}; --aha-bg-dark:${cssValue('color.bgDark', c.bgDark)}; --aha-bg-dark-raised:${cssValue('color.bgDarkRaised', c.bgDarkRaised)};`);
   /* border */
-  L.push(`--aha-border:${c.border}; --aha-border-input:${c.borderInput}; --aha-border-secondary:${c.borderSecondary}; --aha-border-strong:${c.borderStrong}; --aha-border-disabled:${c.borderDisabled}; --aha-border-hover:${c.borderHover}; --aha-border-focus:${c.focus}; --aha-border-active:${c.borderActive}; --aha-border-error:${cssValue('color.borderError', c.borderError)}; --aha-border-success:${cssValue('color.borderSuccess', c.borderSuccess)}; --aha-border-warning:${cssValue('color.borderWarning', c.borderWarning)}; --aha-border-info:${cssValue('color.borderInfo', c.borderInfo)}; --aha-split:${c.borderSecondary}; --aha-checkbox-border:${c.checkboxBorder};`);
+  L.push(`--aha-border-default:${c.borderDefault}; --aha-border:var(--aha-border-default); --aha-border-input:${c.borderInput}; --aha-border-secondary:${c.borderSecondary}; --aha-border-strong:${c.borderStrong}; --aha-border-disabled:${c.borderDisabled}; --aha-border-hover:${c.borderHover}; --aha-border-focus:${c.focus}; --aha-border-active:${c.borderActive}; --aha-border-error:${cssValue('color.borderError', c.borderError)}; --aha-border-success:${cssValue('color.borderSuccess', c.borderSuccess)}; --aha-border-warning:${cssValue('color.borderWarning', c.borderWarning)}; --aha-border-info:${cssValue('color.borderInfo', c.borderInfo)}; --aha-split:${c.borderSecondary}; --aha-checkbox-border:${c.checkboxBorder};`);
   /* icon */
   L.push(`--aha-icon-default:${c.iconDefault}; --aha-icon-strong:${c.iconStrong}; --aha-icon-muted:${c.iconMuted}; --aha-icon-disabled:${c.iconDisabled}; --aha-icon-inverse:${c.iconInverse}; --aha-icon-active:${c.iconActive};`);
   /* focus */
@@ -442,7 +442,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
-.hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);border-radius:8px;padding:9px 13px;margin:0 0 18px}
+.hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);border-radius:8px;padding:9px 13px;margin:0 0 18px}
 .hub-back{--aha-text-link-decoration:underline}
 .hub-back a{color:var(--aha-text-default);font-weight:600;text-decoration:underline}
 .doc-main h2{font-size:20px;line-height:28px;font-weight:600;margin:44px 0 14px;scroll-margin-top:80px}
@@ -451,7 +451,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .badge{display:inline-block;font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;border-radius:6px;padding:3px 9px}
 .badge.leaf{color:var(--aha-text-default);background:var(--aha-bg-container);border:1px solid var(--aha-text-default)}
 .badge.composite{color:var(--aha-text-inverse);background:var(--aha-black);border:1px solid var(--aha-black)}
-.badge.raw{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);font-family:Menlo,monospace;text-transform:none}
+.badge.raw{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);font-family:Menlo,monospace;text-transform:none}
 
 /* ---- agent-feed code page ---- */
 .code-panel.feed{border-radius:12px;margin:14px 0}
@@ -474,14 +474,14 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .aha-pg-opt.active{color:var(--aha-text-default);background:var(--aha-bg-accent)}
 
 /* ---- utilities used by preview parts ---- */
-.tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
+.tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
 .lbl{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 var(--aha-space-8)}
-.lbl~.lbl{margin-top:var(--aha-space-24);padding-top:var(--aha-space-20);border-top:1px solid var(--aha-border)}
+.lbl~.lbl{margin-top:var(--aha-space-24);padding-top:var(--aha-space-20);border-top:1px solid var(--aha-border-default)}
 .row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .stack{display:flex;flex-direction:column;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr}
 .grid2>div{padding:22px 20px}
-.note{background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
+.note{background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
 .note{--aha-text-link-decoration:underline}
 .note a{color:var(--aha-text-default);text-decoration:underline}
 .pad{padding:12px 0}
@@ -1568,7 +1568,7 @@ function renderGuidelineHtml(p) {
 
   ${guide ? `<h2>Guide</h2><div class="body pat-guide">${mdToHtml(guide)}</div>` : ''}`;
   const extraCss = `
-  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border)}
+  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default)}
   .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
   .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
   .skillref b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default);margin-right:6px}
@@ -1794,7 +1794,7 @@ function renderSettingsHub() {
 
   ${hubAnchorScript(anchorItems)}`;
   const extraCss = `
-  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border)}
+  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default)}
   .pill.warn{background:var(--aha-text-default);color:var(--aha-white)}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
 ${HUB_ANCHOR_CSS}
@@ -1851,7 +1851,7 @@ function renderDesignMd(t, cs) {
   const tbl = (rows) => '| Token | Value |\n| --- | --- |\n' + rows.map(([k,v]) => `| \`--aha-${k}\` | \`${v}\` |`).join('\n');
   const seed   = [['color-primary',c.primary],['color-primary-hover',c.primaryHover],['color-primary-active',c.primaryActive],['color-success',c.success],['color-warning',c.warning],['color-error',c.error],['color-info',c.info]];
   const text   = [['text-default',c.textDefault],['text-secondary',c.textSecondary],['text-tertiary',c.textTertiary],['text-disabled',c.textDisabled],['text-inverse',c.textInverse],['text-link',c.textLink],['text-link-hover',c.textLinkHover],['text-primary-ink',c.textPrimaryInk],['text-positive',c.textPositive],['text-negative',c.textNegative],['text-warning',c.textWarning]];
-  const border = [['border',c.border],['border-secondary',c.borderSecondary],['border-strong',c.borderStrong],['border-disabled',c.borderDisabled],['border-hover',c.borderHover],['border-active',c.borderActive],['border-error',c.borderError],['border-success',c.borderSuccess],['border-warning',c.borderWarning],['border-info',c.borderInfo],['checkbox-border',c.checkboxBorder]];
+  const border = [['border-default',c.borderDefault],['border-secondary',c.borderSecondary],['border-strong',c.borderStrong],['border-disabled',c.borderDisabled],['border-hover',c.borderHover],['border-active',c.borderActive],['border-error',c.borderError],['border-success',c.borderSuccess],['border-warning',c.borderWarning],['border-info',c.borderInfo],['checkbox-border',c.checkboxBorder]];
   const bg     = [['bg-base',c.bgBase],['bg-container',c.bgContainer],['bg-container-secondary',c.bgContainerSecondary],['bg-container-disabled',c.bgContainerDisabled],['bg-elevated',c.bgElevated],['bg-layout',c.bgLayout],['bg-accent',c.bgAccent],['bg-informative',c.bgInformative],['bg-hover',c.bgHover],['bg-positive',c.bgPositive],['bg-negative',c.bgNegative],['bg-warning',c.bgWarning],['bg-overlay',c.bgOverlay],['bg-dark',c.bgDark],['bg-dark-raised',c.bgDarkRaised]];
   const icon   = [['icon-default',c.iconDefault],['icon-strong',c.iconStrong],['icon-muted',c.iconMuted],['icon-disabled',c.iconDisabled],['icon-inverse',c.iconInverse],['icon-active',c.iconActive]];
   const btn    = [['btn-primary-bg',b.primaryBg],['btn-primary-bg-hover',b.primaryBgHover],['btn-primary-bg-press',b.primaryBgPress],['btn-primary-fg',b.primaryFg],['btn-secondary-bg',b.secondaryBg],['btn-secondary-bg-hover',b.secondaryBgHover],['btn-secondary-border',b.secondaryBorder],['btn-secondary-border-press',b.secondaryBorderPress],['btn-tertiary-bg-hover',b.tertiaryBgHover],['btn-disabled-bg',b.disabledBg],['btn-disabled-fg',b.disabledFg],['btn-danger-bg',b.dangerBg],['btn-danger-bg-hover',b.dangerBgHover],['btn-danger-ring',b.dangerRing],['btn-encourage-bg',b.encourageBg],['btn-encourage-bg-hover',b.encourageBgHover],['btn-encourage-bg-press',b.encourageBgPress]];
@@ -1956,7 +1956,7 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Brand', [['primary',c.primary],['primaryHover',c.primaryHover],['primaryActive',c.primaryActive],['focus',c.focus]])}
   ${swGroup('Status', [['success',c.success],['warning',c.warning],['error',c.error],['info',c.info]])}
   ${swGroup('Text', [['textDefault',c.textDefault],['textSecondary',c.textSecondary],['textTertiary',c.textTertiary],['textDisabled',c.textDisabled],['textLink',c.textLink],['textPositive',c.textPositive],['textNegative',c.textNegative],['textWarning',c.textWarning]])}
-  ${swGroup('Border', [['border',c.border],['borderSecondary',c.borderSecondary],['borderStrong',c.borderStrong],['borderHover',c.borderHover],['borderActive',c.borderActive],['checkboxBorder',c.checkboxBorder]])}
+  ${swGroup('Border', [['borderDefault',c.borderDefault],['borderSecondary',c.borderSecondary],['borderStrong',c.borderStrong],['borderHover',c.borderHover],['borderActive',c.borderActive],['checkboxBorder',c.checkboxBorder]])}
   ${swGroup('Background', [['bgLayout',c.bgLayout],['bgAccent',c.bgAccent],['bgInformative',c.bgInformative],['bgPositive',c.bgPositive],['bgNegative',c.bgNegative],['bgWarning',c.bgWarning],['bgDark',c.bgDark]])}
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
@@ -2154,7 +2154,7 @@ function renderIndex(cs) {
   <div class="cards">${GUIDELINES.map(p => {
     const missing = (p.composedOf||[]).filter(x=>x.status==='missing').length;
     return `<a class="card" href="guidelines/${p.slug}/index.html">
-      <div class="ct">${esc(p.name)} <span class="badge pattern" style="color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border)">pattern</span></div>
+      <div class="ct">${esc(p.name)} <span class="badge pattern" style="color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default)">pattern</span></div>
       <div class="cs">${esc(p.summary)}</div>
       <div class="cf">${(p.rules||[]).length} rules · reuses ${(p.composedOf||[]).length}${missing?` · ${missing} backlog`:''}</div></a>`;
   }).join('')}</div>` : ''}
@@ -2231,7 +2231,7 @@ function renderIconGallery() {
   <script>${GALLERY_JS}</script>`;
   const extraCss = `
   .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0;z-index:5;border-bottom:1px solid var(--aha-split)}
-  #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
+  #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
   #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .fam-chips{display:flex;gap:6px}
   .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
@@ -2335,7 +2335,7 @@ function renderLogoPage() {
   .logo-tab[aria-selected="true"]{color:var(--aha-text-default);border-bottom-color:var(--aha-color-primary)}
   .logo-tab:hover{color:var(--aha-text-default)}
   .logo-tab:focus-visible,.lg:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
-  #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
+  #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
   #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
   .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}

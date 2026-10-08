@@ -19,7 +19,7 @@
 >   API decision, so it was not folded in.
 > - **Inline prose link** — `.aha-link`: `--aha-color-primary`, semibold, a `1px` `--aha-purple-30`
 >   bottom border that turns `--aha-color-primary-hover` on hover; and `.aha-link--quiet`
->   (`--aha-text-secondary` + `--aha-border` underline, primary on hover). The product Button's
+>   (`--aha-text-secondary` + `--aha-border-default` underline, primary on hover). The product Button's
 >   `link` / `text-link` variants cover the action link, not an underlined link inside running copy.
 > - **Two-face headline rule** — Nunito (`--aha-font-display`) for Display and H1 only; H2 and below
 >   on the body face. The tokens are on Foundations → Typography; the rule itself was only stated on

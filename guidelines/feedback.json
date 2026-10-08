@@ -57,7 +57,7 @@
     {
       "ref": "--aha-colorSuccess",
       "as": "token",
-      "use": "inline correct-result border and Alert success border — never hardcode a hex",
+      "use": "inline correct-result border — never hardcode a hex",
       "status": "available"
     },
     {
@@ -69,7 +69,7 @@
     {
       "ref": "--aha-colorError",
       "as": "token",
-      "use": "inline incorrect-result border and Alert error border",
+      "use": "inline incorrect-result border",
       "status": "available"
     },
     {
@@ -128,7 +128,7 @@
     },
     {
       "id": "alert-is-ds-v3",
-      "rule": "Build the DS V3 AhaAlert wrapper per references/alert.md — DS surface/border/icon tokens per type plus size (regular: 12/16 padding, 8px radius, 14px text; small: 8px padding, 4px radius, 12px text). Never ship a bare AntD <Alert>: it cannot express the branding type, the regular/small sizes, the DS surface/border tokens, or the DS system glyphs.",
+      "rule": "Build the DS V3 AhaAlert wrapper per references/alert.md — DS surface tokens per type (border-default and icon-default on info, success, warning and error alike) plus size (regular: 12/16 padding, 8px radius, 14px text; small: 8px padding, 4px radius, 12px text). Never ship a bare AntD <Alert>: it cannot express the branding type, the regular/small sizes, the DS surface/border tokens, or the DS system glyphs.",
       "ref": [
         "FEEDBACK-08"
       ]

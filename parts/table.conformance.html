@@ -5,14 +5,14 @@
 /* Vue DataTable component stylesheet — closes the ant-design-vue v4 vendor gap (its UMD does
    not honor the components.Table theme tokens). Bound to --aha-* tokens, never raw hex. */
 /* DS V3 container border — 1px + radius 8 wrapping the grid, on both tiers */
-#react-root .ant-table, #vue-root .ant-table { border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); overflow:hidden; }
+#react-root .ant-table, #vue-root .ant-table { border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-default); overflow:hidden; }
 #vue-root .ant-table-thead > tr > th {
   background: var(--aha-bg-container);
   color: var(--aha-text-tertiary);
-  border-bottom: 1px solid var(--aha-border);
+  border-bottom: 1px solid var(--aha-border-default);
 }
 #vue-root .ant-table-thead > tr > th::before { display: none !important; }
-#vue-root .ant-table-tbody > tr > td { border-bottom: 1px solid var(--aha-border); }
+#vue-root .ant-table-tbody > tr > td { border-bottom: 1px solid var(--aha-border-default); }
 #vue-root .ant-table-tbody > tr:hover > td { background: var(--aha-gray-30); }   /* DS-V3 row hover = gray-30 #F1F1F1 */
 </style>
 <div style="display:flex;flex-direction:column;gap:26px;padding:20px">

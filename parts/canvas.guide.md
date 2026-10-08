@@ -211,7 +211,7 @@ seat** — the same bar applies to the small editor preview.
   (empty when undecorated) or render it as a positioned overlay, or the decorated row's track
   is narrower and the chart lies.
 - **Borders are ornament — never derive them directly from `textColour`, and never 2px.**
-  A bounded white card: **1px `--aha-border`** (#E3E3E3). A chip: **1.5px** neutral. A
+  A bounded white card: **1px `--aha-border-default`** (#E3E3E3). A chip: **1.5px** neutral. A
   deck-owned (transparent) surface: a 1px theme-aware hairline
   `color-mix(in srgb, currentColor 10%, transparent)`. Dashed empty states: 1px (C20). Fix a marginal
   contrast check at the bar or the scrim, not with a darker border. Pick the palette shade

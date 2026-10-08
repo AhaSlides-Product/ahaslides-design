@@ -83,7 +83,7 @@
       "status": "available"
     },
     {
-      "ref": "--aha-border",
+      "ref": "--aha-border-default",
       "as": "token",
       "use": "the 1px neutral hairline (#E3E3E3) on a bounded white card; chips 1.5px",
       "status": "available"
@@ -293,7 +293,7 @@
       ]
     },
     {
-      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); a dashed empty state is 1px. Fix a marginal contrast check at the bar or a bounded scrim, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
+      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); a dashed empty state is 1px. Fix a marginal contrast check at the bar or a bounded scrim, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
       "ref": [
         "§3",
         "C10",

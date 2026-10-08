@@ -919,7 +919,7 @@
         {
           "id": "C20",
           "title": "Borders are hairlines and radius follows the DS scale",
-          "test": "A bounded white card has a 1px neutral border (`--aha-border` #E3E3E3) and 12px radius (`--aha-radius-lg`); a deck-owned surface (chip, field, track) a 1px `currentColor` 10% hairline, no 20% exception; dashed empty states 1px; option tiles, inputs and buttons 8px. FAIL on 2px (or heavier) outlines on cards, tiles, chips or inputs, on borders at heavy ink (e.g. 14–55% textColour at 2px), or on a rectangular container above 12px radius."
+          "test": "A bounded white card has a 1px neutral border (`--aha-border-default` #E3E3E3) and 12px radius (`--aha-radius-lg`); a deck-owned surface (chip, field, track) a 1px `currentColor` 10% hairline, no 20% exception; dashed empty states 1px; option tiles, inputs and buttons 8px. FAIL on 2px (or heavier) outlines on cards, tiles, chips or inputs, on borders at heavy ink (e.g. 14–55% textColour at 2px), or on a rectangular container above 12px radius."
         },
         {
           "id": "C21",
@@ -1119,7 +1119,7 @@
         {
           "id": "C32",
           "title": "Borders are hairlines and radius follows the DS scale",
-          "test": "A bounded white card has a 1px `--aha-border` (#E3E3E3) border and 12px radius; a deck chip a 1px 10% ink border; option tiles, inputs and the submit button 8px. FAIL on 2px (or heavier) outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
+          "test": "A bounded white card has a 1px `--aha-border-default` (#E3E3E3) border and 12px radius; a deck chip a 1px 10% ink border; option tiles, inputs and the submit button 8px. FAIL on 2px (or heavier) outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
         },
         {
           "id": "C33",

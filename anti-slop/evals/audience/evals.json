@@ -2036,7 +2036,7 @@
     },
     {
       "id": 82,
-      "prompt": "Review this Developer Platform audience.html (loads lib/all.js). It sets `--aha-color-primary` and the --aha-button-primary-* tokens on :root from presentationColorPalette[0]; option labels are 16px (`--aha-size-l`), the vote count 14px; the submit is `<aha-button variant=\"primary\" block>`; cards use `border:1px solid var(--aha-border);border-radius:var(--aha-radius-lg)`; the dark ink is `var(--aha-text-default)`; options are persistent nodes toggling `.is-selected` with `transition: background var(--aha-motion-mid) var(--aha-ease-out)`. Is this correct?",
+      "prompt": "Review this Developer Platform audience.html (loads lib/all.js). It sets `--aha-color-primary` and the --aha-button-primary-* tokens on :root from presentationColorPalette[0]; option labels are 16px (`--aha-size-l`), the vote count 14px; the submit is `<aha-button variant=\"primary\" block>`; cards use `border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-lg)`; the dark ink is `var(--aha-text-default)`; options are persistent nodes toggling `.is-selected` with `transition: background var(--aha-motion-mid) var(--aha-ease-out)`. Is this correct?",
       "files": [],
       "label": "good-control",
       "notes": "C31–C34 good control.",

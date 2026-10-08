@@ -660,7 +660,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a deck-owned surface (chip, field, track, dashed image drop zone) takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (chip, field, track, dashed image drop zone) takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"

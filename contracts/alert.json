@@ -9,14 +9,14 @@
   "highlights": ["Inline, contextual feedback banner", "Info, success, warning, error or branding tone", "Regular or small, with optional banner mode and trailing action"],
   "lead": "ONE custom element — <aha-alert> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `type` attribute (info · success · warning · error · branding), the status glyph is summoned BY NAME from the shared icon library. `size` compacts it (regular · small), `banner` makes it a full-width, square-cornered page notice, `hide-icon` drops the glyph, a slot=\"action\" carries a trailing button/link, and `closable` adds a dismiss control that animates the banner out on a persistent node and emits a composed `close`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the composed `close` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "text-positive", "border-success", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "bg-accent", "border-focus", "color-primary", "text-default", "radius-default"],
+  "tokensUsed": ["bg-informative", "bg-positive", "bg-warning", "bg-negative", "border-default", "icon-default", "bg-accent", "border-focus", "color-primary", "text-default", "radius-default"],
   "spec": [
-    { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · 1px tonal border" },
+    { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · 1px border-default (branding: border-focus)" },
     { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
-    { "label": "Info", "value": "bg #FFFFFF, border #1A1A1A, icon #1A1A1A" },
-    { "label": "Success", "value": "bg #FFFFFF, border #1A1A1A, icon/text #1A1A1A" },
-    { "label": "Warning", "value": "bg #FFFFFF, border #1A1A1A, icon/text #1A1A1A" },
-    { "label": "Error", "value": "bg #FFFFFF, border #1A1A1A, icon/text #1A1A1A" },
+    { "label": "Info", "value": "bg #FFFFFF, border-default #E3E3E3, icon-default #4A4A4A" },
+    { "label": "Success", "value": "bg #FFFFFF, border-default #E3E3E3, icon-default #4A4A4A" },
+    { "label": "Warning", "value": "bg #FFFFFF, border-default #E3E3E3, icon-default #4A4A4A" },
+    { "label": "Error", "value": "bg #FFFFFF, border-default #E3E3E3, icon-default #4A4A4A" },
     { "label": "Branding", "value": "bg-accent #FEF3F7, border-focus #E70E68, icon/text color-primary #E70E68" },
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
     { "label": "Banner", "value": "full-width, square (radius 0), border on the bottom edge only" },
@@ -75,8 +75,8 @@
     ]
   },
   "selfCheck": [
-    { "label": "radius 8 · 1px tonal border", "verdict": "PASS" },
-    { "label": "info bg #FFFFFF / border #1A1A1A", "verdict": "PASS" },
+    { "label": "radius 8 · 1px border-default (branding: border-focus)", "verdict": "PASS" },
+    { "label": "info bg #FFFFFF / border-default #E3E3E3 / icon-default #4A4A4A", "verdict": "PASS" },
     { "label": "branding bg #FEF3F7 / border #E70E68 / color-primary glyph", "verdict": "PASS" },
     { "label": "small compacts padding; banner squares the corners", "verdict": "PASS" },
     { "label": "status glyph via <aha-icon> by name; trailing action slot", "verdict": "PASS" },
@@ -87,6 +87,6 @@
     "ready": "!!(document.querySelector('aha-alert[data-probe]') && document.querySelector('aha-alert[data-probe]').shadowRoot && document.querySelector('aha-alert[data-probe]').shadowRoot.querySelector('.alert') && document.querySelector('aha-alert[type=\"branding\"]') && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot.querySelector('.alert'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-alert[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.alert');var s=a?getComputedStyle(a):null;var be=document.querySelector('aha-alert[type=\"branding\"]');var ba=be&&be.shadowRoot&&be.shadowRoot.querySelector('.alert');var bs=ba?getComputedStyle(ba):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,color:s?s.color:null,padTop:s?s.paddingTop:null,brandBg:bs?bs.backgroundColor:null,brandBorder:bs?bs.borderTopColor:null};})()",
-    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(26, 26, 26)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(254, 243, 247)", "brandBorder": "rgb(231, 14, 104)" }
+    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(227, 227, 227)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(254, 243, 247)", "brandBorder": "rgb(231, 14, 104)" }
   }
 }
