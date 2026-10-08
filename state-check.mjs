@@ -199,10 +199,7 @@ function installProbe() {
            screen-reader-only label); ink that only vanishes in a state is the defect. */
         if (state === 'rest' && got < 1.03) { drawnInvisible.add(carrier); continue; }
         if (drawnInvisible.has(carrier) && got < 1.03) continue;
-        // Design decision: the secondary and tertiary Button label is Vivid Pink on its own pale pink hover/active fill (4.16:1).
-        const ownButtonFill = (state === 'hover' || state === 'active') && type !== 'icon' && hex(ink) === '#E70E68' && hex(behind) === '#FEF3F7'
-          && (() => { for (let n = carrier; n; n = flatParent(n)) { if (n.localName === 'aha-button') return ['secondary', 'tertiary'].includes(n.getAttribute('variant') || 'secondary'); if (n.classList && n.classList.contains('ant-btn')) return n.classList.contains('ant-btn-default') || n.classList.contains('ant-btn-text'); } return false; })();
-        if (got < (ownButtonFill ? 4.1 : need)) report('contrast', `${type} ${hex(painted)} on ${hex(behind)} is ${got.toFixed(2)}:1, needs ${need}:1`);
+        if (got < need) report('contrast', `${type} ${hex(painted)} on ${hex(behind)} is ${got.toFixed(2)}:1, needs ${need}:1`);
         if (!onList(ink)) report('colour', `${type} ink ${hex(ink)} is not on the allowed colour list`);
       }
 
