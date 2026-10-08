@@ -13,7 +13,7 @@
   "spec": [
     { "label": "Layout", "value": "borderless single row (28px high): 12px #616161 prompt, 4px gap, then 28×28 borderless thumb buttons with 16px #4A4A4A icons, 2px apart (--aha-space-2) — the only layout" },
     { "label": "Rest", "value": "icon #4A4A4A" },
-    { "label": "Hover", "value": "ghost fill #FEF3F7 · icon #DB005B primary-hover (motion tokens) · tooltip Good / Not good / Feedback" },
+    { "label": "Hover", "value": "ghost fill #FEF3F7 · icon #1A1A1A text-default (motion tokens) · tooltip Good / Not good / Feedback" },
     { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #FEF3F7 (bg-accent) · icon #1A1A1A (text-default) · aria-pressed synced; hover keeps the selected look" },
     { "label": "Rating toggle", "value": "once rated both thumbs stay visible and the chosen one shows the active state; clicking the other thumb switches the rating (`rate` fires with the new value); clicking the chosen thumb again un-rates — `value` is removed and `rate` fires with rating null" },
     { "label": "Thumbs-up", "value": "rates instantly — reflects value='up', keeps the thumbs-down visible, emits `rate`" },
@@ -61,8 +61,8 @@
   },
   "selfCheck": [
     { "label": "borderless single row · 12px #616161 prompt · 28×28 thumb buttons with 16px #4A4A4A icons · no chrome (the only layout)", "verdict": "PASS" },
-    { "label": "hover fills ghost + recolours primary-hover (motion tokens) · Good / Not good / Feedback tooltips", "verdict": "PASS" },
-    { "label": "selected = antd tertiary active (fill #FEF3F7 · icon #E70E68) · aria-pressed synced · the other thumb stays visible and switches the rating; re-click un-rates", "verdict": "PASS" },
+    { "label": "hover fills ghost + recolours the icon text-default (motion tokens) · Good / Not good / Feedback tooltips", "verdict": "PASS" },
+    { "label": "selected = antd tertiary active (fill #FEF3F7 · icon #1A1A1A) · aria-pressed synced · the other thumb stays visible and switches the rating; re-click un-rates", "verdict": "PASS" },
     { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>, textarea focused; not re-opened after Send until re-rated)", "verdict": "PASS" },
     { "label": "down thumb carries aria-haspopup=dialog · aria-expanded mirrors the popover", "verdict": "PASS" },
     { "label": "feedback popover: the shared ✕ (<aha-close-button>) closes only · <aha-counted-textarea> · secondary Send disabled until text; submit emits `feedback` and clears the field", "verdict": "PASS" },
