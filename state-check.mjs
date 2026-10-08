@@ -269,18 +269,17 @@ export async function checkStates(fileUrl, { timeout = 60000 } = {}) {
 
 export const formatFinding = (f) => `${f.state} · ${f.who}${f.label ? ` “${f.label}”` : ''}: ${f.detail}`;
 
-/* Known debt: findings that predate the gate, listed per page so they are visible and cannot grow.
-   A finding is matched by what is wrong, not by which state showed it or which label it carried. */
+/* Known debt: findings that predate the gate, one entry per element and state so a fixed one cannot hide a new one. */
 const BASELINE_PATH = join(root, 'state-check.baseline.json');
-const debtKey = (f) => `${f.kind} · ${f.who}: ${f.detail}`;
+const debtKey = (f) => `${f.kind} · ${formatFinding(f)}`;
 const readBaseline = () => (existsSync(BASELINE_PATH) ? JSON.parse(readFileSync(BASELINE_PATH, 'utf8')).debt : {});
 
 /** Every built page that has an index.html, by its dist folder name. */
 export const builtPages = (dist = DIST) => readdirSync(dist, { withFileTypes: true }).filter(d => d.isDirectory() && existsSync(join(dist, d.name, 'index.html'))).map(d => d.name);
 
 /**
- * checkPage(slug) → { elements, fresh, known, resolved }: `fresh` findings fail the gate, `known` ones are
- * baselined debt, `resolved` are baseline entries the page no longer shows (remove them with --update-baseline).
+ * checkPage(slug) → { elements, fresh, known, resolved }: `known` findings are baselined debt; `fresh` ones fail the
+ * gate, and so do `resolved` ones, baseline entries the page no longer shows (drop them with --update-baseline).
  */
 export async function checkPage(slug, { dist = DIST, baseline = readBaseline() } = {}) {
   /* A page that swaps its own content while it settles drops the probe's context; a fresh load measures it. */
@@ -319,7 +318,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       if (keys.length) debt[slug] = keys; else delete debt[slug];
     }
     const sorted = Object.fromEntries(Object.keys(debt).sort().map(slug => [slug, debt[slug]]));
-    writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Interactive-state findings that predate state-check.mjs, per built page. A finding listed here is reported as known debt and does not fail the gate; any other finding does. Fix one, then run node state-check.mjs --update-baseline to drop it. Never add an entry to make a new finding pass.', debt: sorted }, null, 1) + '\n');
+    writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Interactive-state findings that predate state-check.mjs, per built page. A finding listed here is reported as known debt and does not fail the gate; any other finding does. Fix one, then run node state-check.mjs --update-baseline to drop it; an entry the page no longer shows fails the gate until it is dropped. Never add an entry to make a new finding pass.', debt: sorted }, null, 1) + '\n');
   }
   const baseline = readBaseline();
   let failed = 0, known = 0;
@@ -328,10 +327,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     if (result.error) { failed++; console.log(`✗ ${slug}  [could not measure: ${result.error}]`); continue; }
     const debt = new Set(baseline[slug] || []);
     const fresh = result.findings.filter(f => !debt.has(debtKey(f)));
+    const seen = new Set(result.findings.map(debtKey)), resolved = [...debt].filter(key => !seen.has(key));
     known += result.findings.length - fresh.length;
-    if (fresh.length) failed++;
-    console.log(`${fresh.length ? '✗' : '✓'} ${slug}  (${result.elements} interactive element(s)${result.findings.length - fresh.length ? `, ${result.findings.length - fresh.length} known` : ''})`);
+    if (fresh.length || resolved.length) failed++;
+    console.log(`${fresh.length || resolved.length ? '✗' : '✓'} ${slug}  (${result.elements} interactive element(s)${result.findings.length - fresh.length ? `, ${result.findings.length - fresh.length} known` : ''})`);
     for (const f of fresh) console.log(`      ${f.kind.toUpperCase()}  ${formatFinding(f)}`);
+    for (const key of resolved) console.log(`      RESOLVED  ${key} — run node state-check.mjs --update-baseline`);
     if (process.argv.includes('--known')) for (const f of result.findings.filter(f => debt.has(debtKey(f)))) console.log(`      known  ${f.kind.toUpperCase()}  ${formatFinding(f)}`);
   }
   console.log(`\n${pages.length - failed} page(s) pass / ${failed} fail · ${known} known finding(s) in state-check.baseline.json\n`);

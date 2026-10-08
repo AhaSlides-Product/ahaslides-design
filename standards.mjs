@@ -821,7 +821,7 @@ const repoChecks = [];
     `use Vivid Pink, its tints, black, white or a grey (a demo placeholder too) — off the list: ${offListSources.slice(0, 10).join(', ')}${offListSources.length > 10 ? ` (+${offListSources.length - 10} more)` : ''}`);
 
   /* antd derives hover, press, focus and status shades from its seed colours; only the shared base pins them. */
-  const bareThemes = readdirSync(join(root, 'lib')).filter(f => f.endsWith('-theme.js') && f !== 'antd-base-theme.js' && !/dsAntdTheme\(/.test(read(join(root, 'lib', f)))).map(f => `lib/${f}`);
+  const bareThemes = readdirSync(join(root, 'lib')).filter(f => f.endsWith('.js') && f !== 'antd-base-theme.js').filter(f => { const source = read(join(root, 'lib', f)); return (f.endsWith('-theme.js') && !/dsAntdTheme\(/.test(source)) || /export const \w*Theme\w*\s*=\s*\{/.test(source); }).map(f => `lib/${f}`);
   const barePreviews = readdirSync(PDIR).filter(f => /\.(preview|conformance)\.html$/.test(f) && /<ConfigProvider theme=\{(?!window\.__ahaDsTheme\()/.test(read(join(PDIR, f)))).map(f => `parts/${f}`);
   rchk('every antd theme is built on the shared base (dsAntdTheme)', bareThemes.length + barePreviews.length === 0,
     `wrap the theme in dsAntdTheme(...) (lib) or window.__ahaDsTheme(...) (a CDN preview), or antd falls back to its own hover and status colours: ${[...bareThemes, ...barePreviews].join(', ')}`);

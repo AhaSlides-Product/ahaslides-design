@@ -142,8 +142,9 @@ const stateCheck = (list, slug) => {
   const name = 'interactive states: contrast, colour list and focus in rest / hover / focus / active';
   if (!result) return;
   if (result.error) return chk(list, name, false, result.error);
-  chk(list, `${name}${result.known.length ? ` (${result.known.length} known in state-check.baseline.json)` : ''}`, result.fresh.length === 0,
-    result.fresh.slice(0, 4).map(formatFinding).join(' | ') + (result.fresh.length > 4 ? ` | +${result.fresh.length - 4} more — node state-check.mjs ${slug}` : ''));
+  chk(list, `${name}${result.known.length ? ` (${result.known.length} known in state-check.baseline.json)` : ''}`, result.fresh.length === 0 && result.resolved.length === 0,
+    [result.fresh.slice(0, 4).map(formatFinding).join(' | ') + (result.fresh.length > 4 ? ` | +${result.fresh.length - 4} more — node state-check.mjs ${slug}` : ''),
+      result.resolved.length ? `${result.resolved.length} baseline entr${result.resolved.length === 1 ? 'y is' : 'ies are'} fixed: run node state-check.mjs --update-baseline (${result.resolved.slice(0, 2).join(' | ')})` : ''].filter(Boolean).join(' | '));
 };
 
 /* ---- per component ---- */

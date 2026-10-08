@@ -1,11 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { resolveChrome } from '../cdp.mjs';
-import { checkStates } from '../state-check.mjs';
+import { checkPage, checkStates } from '../state-check.mjs';
 
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 
@@ -39,4 +39,18 @@ test('state-check flags a hover that hides its label, an off-list hover colour a
   assert.ok(about('faint').some(f => f.kind === 'focus' && /needs 3:1/.test(f.detail)), 'a 30% ring is too faint');
   assert.ok(about('silent').some(f => f.kind === 'focus' && /draws no/.test(f.detail)), 'no focus indicator at all');
   assert.deepEqual(about('sound'), [], 'a compliant button has no finding');
+});
+
+test('a baseline entry covers one element in one state, and one the page no longer shows is reported as resolved', { skip }, async () => {
+  const dist = mkdtempSync(join(tmpdir(), 'state-check-dist-'));
+  mkdirSync(join(dist, 'demo'));
+  writeFileSync(join(dist, 'demo', 'index.html'), page);
+  const everything = await checkPage('demo', { dist, baseline: {} });
+  const blueHover = everything.fresh.find(f => f.who === 'button#blue' && f.kind === 'colour' && f.state === 'hover');
+  const baselined = `colour · hover · button#blue “Export”: ${blueHover.detail}`;
+  const stale = 'focus · focus · button#gone “Removed”: keyboard focus draws no outline, ring, border or fill change';
+  const { fresh, known, resolved } = await checkPage('demo', { dist, baseline: { demo: [baselined, stale] } });
+  assert.deepEqual(known, [blueHover]);
+  assert.equal(fresh.length, everything.fresh.length - 1, 'the other findings on the page stay fresh');
+  assert.deepEqual(resolved, [stale]);
 });

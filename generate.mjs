@@ -1844,7 +1844,7 @@ Backgrounds are **white by default**; Vivid Pink at 5% \`${c.bgAccent}\` is for 
 Pink text sits on white only: on Vivid Pink at 5% or on grey, text is black; on Vivid Pink, text is solid white.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are black, shown with an icon, clear wording and an outline or a black fill. Never red, amber, green or blue.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
-No other colour exists in the token set. Photos, illustrations, the logo files and customer or presenter content (deck themes, deck-palette charts) are exempt.
+No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. The DS's own illustrations, third-party logos and file-type icons are drawn in the allowed colours (\`node recolour-art.mjs\`); only the AhaSlides logo and The Splash keep their own colours.
 
 ## Colour — the palette
 White, black, Vivid Pink (\`5\` and \`30\` are the flat codes of Vivid Pink at 5% and at 30% on white; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
@@ -1921,7 +1921,7 @@ function renderTokenPage(pageSlug) {
       body: `
   <p class="body">These tokens follow the brand colour rules, which are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
   <h2>Palette</h2>
-  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos, illustrations, the logo files and customer or presenter content are exempt from the palette.</p>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos and customer or presenter content are exempt from the palette. The DS's own illustrations, third-party logos and file-type icons are drawn in the allowed colours (<code>node recolour-art.mjs</code>); only the AhaSlides logo and The Splash keep their own colours.</p>
   ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
 
