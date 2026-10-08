@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.116.0 — 2026-10-08
 ### Removed
-- Marketing pattern Section container (`marketing/section-container.json`) and its generated page, so Patterns → Marketing sections lists Hero only; layout rules (inner width, section spacing, breakpoints) belong to each consuming app (#PRNUM)
+- Marketing pattern Section container (`marketing/section-container.json`) and its generated page, so Patterns → Marketing sections lists Hero only; layout rules (inner width, section spacing, breakpoints) belong to each consuming app (#202)
 
 ## 0.114.1 — 2026-10-08
 ### Fixed
