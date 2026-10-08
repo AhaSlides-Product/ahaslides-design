@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-scale-slider';
+import { useEffect, useRef } from 'react';
+
+export function Rating({ accent, onRate }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const slider = ref.current;
+    const handle = (event) => onRate(event.detail.value);
+    slider.addEventListener('change', handle);
+    return () => slider.removeEventListener('change', handle);
+  }, [onRate]);
+  return <aha-scale-slider ref={ref} min="1" max="5" low-label="Never" high-label="Always" accent={accent} />;
+}

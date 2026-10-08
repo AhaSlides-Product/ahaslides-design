@@ -1,0 +1,14 @@
+import '@ahaslides-product/design/aha-answer-list';
+import { useEffect, useRef } from 'react';
+
+// React < 19: bind the custom event through a ref.
+export function Question({ options, onPick }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const list = ref.current;
+    const handle = (event) => onPick(event.detail.value);
+    list.addEventListener('change', handle);
+    return () => list.removeEventListener('change', handle);
+  }, [onPick]);
+  return <aha-answer-list ref={ref} group-label="Which drink?" lock-key="slide-42" options={JSON.stringify(options)} />;
+}

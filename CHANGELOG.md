@@ -22,9 +22,85 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.100.2 — 2026-10-07
+## 0.114.2 — 2026-10-08
 ### Fixed
 - Logo library: the PDF icon now fills its frame like the other brand logos instead of rendering about a quarter smaller. The Figma export's 2px padding is cropped with the viewBox; the path data is unchanged. (#181)
+
+## 0.114.1 — 2026-10-08
+### Fixed
+- The Pages workflow caps the staging build at 15 minutes and the staging trigger at 5, so a hung staging branch cannot hold the production deploy queue (#200)
+
+## 0.114.0 — 2026-10-08
+### Added
+- A staging copy of the docs site at `/staging/`: every Pages deploy also builds the `staging` branch into `dist/staging/`, so a pending change can be reviewed on a real web link before it merges. Staging pages are `noindex`, their live demos run from the staging build's own `lib/`, and their HTML-tab snippets pin `@staging` on jsDelivr instead of a release tag. Production at `/` is unchanged (#199)
+
+## 0.113.0 — 2026-10-08
+### Added
+- `<aha-tag size="large">`: the 36px checkable filter chip (14px regular text, 12px padding, 8px radius) (#198)
+- `<aha-tag color="branding">`: the pink "New" label, `--aha-pink-20` fill with `--aha-pink-60` text (#198)
+- `<aha-rate size="sm">` draws 16px stars with a 2px gap, and `<aha-rate readonly precision="exact">` fills the last star by the exact fraction, so 4.8 shows 80% of the fifth star (#198)
+- `<aha-empty image="none">`: a text-only empty state with no illustration (#198)
+- Icon `system-funnel-2`: a real funnel (16px, stroke `currentColor`); `system-funnel` is unchanged (#198)
+### Changed
+- `<aha-tag>` default label is now 24px high with 6px side padding and a 4px gap (was 22px, 8px, 6px) (#198)
+- `<aha-input clearable>`: the clear control is a tertiary icon-only `<aha-button>` with a 16px `system-x-circle` (it was a bare 14px `system-x`); it is now a keyboard tab stop (#198)
+- `<aha-collapse ghost>`: the header has no side padding, so its label lines up with the body (`icon-position="end"` already moves the caret after the label) (#198)
+- `<aha-empty>` caption uses the default body type (`--aha-size-default`, `--aha-line-height-body`) in every image mode; `image="simple"` was 13/20 (#198)
+### Fixed
+- `<aha-rate>`: a value of exactly x.5 (for example 4.5) now fills half a star; it showed the star empty (#198)
+
+## 0.111.0 — 2026-10-07
+### Changed
+- Every docs page's HTML tab (and `llms.txt`, the agent feeds and the "No build step?" block) now imports from the release tag that built it, `cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v<version>/lib/…`, instead of `@master`. A snippet pasted into a no-build page (a Developer Platform slide type, a vibe-coded deck) therefore never changes under that page; take a newer release by changing the tag. `AHA_CDN_REF=master` still previews unreleased element code locally (#191)
+- The Audience Library's code tabs take the same pinned ref (they hard-coded `@master`), and the Pages deploy now waits, for up to 15 minutes, until `publish.yml` has created the `v<version>` tag its snippets point at, so a freshly deployed page never links a tag that does not exist yet (#191)
+
+## 0.110.0 — 2026-10-07
+### Added
+- Audience library as framework-free elements for build-less slide types (Developer Platform iframes), each loaded by URL from `lib/all.js` with `tokens.css`: `<aha-answer-list>`, `<aha-answer-option>`, `<aha-rank-list>`, `<aha-audience-field>`, `<aha-countdown>`, `<aha-scale-slider>`, `<aha-audience-chip>`, `<aha-audience-image-upload>`, `<aha-audience-submit>`, `<aha-instruction-line>`, `<aha-waiting-for-host>`, `<aha-submitted-card>`, `<aha-identity-strip>` and `<aha-swipe-card>` (#194)
+- `audience-deck` module: `applyDeck(root, xprops.slide)` gives every audience element the deck ink, accent and primary-button fill; `submissionLock(key)` backs the `lock-key` attribute, so a submitted answer stays locked across an iframe remount (#194)
+- `<aha-button size="touch">`: the 48px audience-phone primary action (#194)
+- `<aha-counted-input type="number">`, and `aria-label` forwarding on `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` (#194)
+- `size="touch"` on `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>`: the 56px audience phone field with 16px text (#194)
+- `--aha-deck-ink-muted` (the deck ink at 65%) for secondary audience copy, and a `hint` line on `<aha-swipe-card>` (#194)
+### Changed
+- One audience border rule on both decks: every audience border is 1px at the deck ink 10% (`--aha-deck-edge`, no 20% slider edge, no 1.5px chip, no 2px drop zone; the drop zone stays dashed), and the scale-slider rail and countdown track share one ink-10% fill (`--_track`, the countdown was 15%); the audience guideline and its criteria state the same rule and drop the slider-fill-hairline 20% split (#194)
+- Audience Library page: every section names the element to use, its demos are the real elements on a light and a dark deck with the same content as before, and its HTML tab runs as pasted (#194)
+- The audience elements match the Audience page's demos: 44px answer and rank rows, a 1px ink ring on my pick, the correct row ringed on reveal, solid accent chips, a check-circle submitted card, a centred swipe card, the slider value above the thumb, an m:ss clock (#194)
+
+## 0.109.0 — 2026-10-07
+### Changed
+- Section container: the section sequence rule replaces "soft and dark variants alternate". Coloured bands (soft or primary) never sit next to each other, a full white section always sits between them, at most two primary-colour bands per page, and the first band (hero) is white; the demo now shows a white section between the soft and dark bands (#196)
+
+## 0.106.2 — 2026-10-07
+### Fixed
+- CSAT: the thumbs and Feedback buttons sit 4px apart, so a selected or hovered background no longer touches its neighbour (#195)
+
+## 0.106.1 — 2026-10-07
+### Fixed
+- CSAT: the thumbs and Feedback buttons are 28×28, the DS small icon button size (were 28×24), so the row is 28px high (#193)
+
+## 0.103.1 — 2026-10-07
+### Fixed
+- Status icon: the usage note no longer says every state has its own glyph; not-started and completed share `system-check-circle` and differ by colour, so the accessible name carries the state (#190)
+
+## 0.103.0 — 2026-10-07
+### Added
+- Icon: `system-circle-dashed`, the Phosphor CircleDashed (regular) glyph on the 16px stroke grid like the other system glyphs, for an in-progress state (#189)
+- Status icon: new `<aha-status-icon status="not-started | in-progress | completed" size="12 | 16 | 24 | 32">`, a progress glyph for a lesson, task or step built on `<aha-icon>` with token colours (grey, primary, success) and an accessible name (`label`) that defaults to the state (#189)
+## 0.102.2 — 2026-10-07
+### Changed
+- Every release now opens or refreshes one bump PR per consumer app (aha-report, aha-management-app, aha-elearning, stpancras-presenter-app) on a fixed `ds/auto-bump` branch against `staging`: exact version pin, lockfile regenerated with the app's own package manager, and the CHANGELOG entries since the app's current version in the PR body. Never auto-merged; each app's team merges. The list lives in `.github/ds-consumers.json`. Needs the `DS_BUMP_TOKEN` org/repo secret; without it the job warns and the release still succeeds (#188)
+
+## 0.102.1 — 2026-10-07
+### Fixed
+- Popover: a closed panel is now `display:none` (the exit fade still plays, via a discrete `display` transition), so it no longer leaves an invisible box that scrolling ancestors count as overflow. It removes the empty space under CSAT's feedback button inside a scroll container (about 180px in the presenter editor's Content panel); open, `flip`, top layer and the fade are unchanged (#186)
+## 0.102.0 — 2026-10-07
+### Removed
+- **Breaking (pre-1.0):** CSAT: the `thanks` attribute (the in-place thank-you line, its `thanks` part and `data-done` flag) is gone; the product has no such case. Migrate by showing the shared toast "Thank you for your feedback!" from the `feedback` event. The no-op `inline` attribute is no longer mentioned in the docs (#187)
+
+## 0.100.4 — 2026-10-07
+### Fixed
+- Tooltip: the hint no longer sticks after a mouse click or a touch tap. It shows on mouse hover or keyboard focus only, so clicking a trigger hides it, CSAT's thumb no longer brings the hint back when the feedback popover closes, and a tap on touch no longer leaves it open. `trigger="focus"` still shows on any focus and `trigger="click"` is unchanged. (#183)
 
 ## 0.100.1 — 2026-10-07
 ### Fixed

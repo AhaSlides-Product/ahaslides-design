@@ -9,7 +9,7 @@
 </script>
 
 <!-- description="…" is the caption (or use the default slot); description="" hides it.
-     image="default" (line art) | "simple" (smaller, for tight surfaces).
+     image="default" (line art) | "simple" (smaller, for tight surfaces) | "none" (text only).
      slot="image" swaps in a custom picture; slot="action" is an optional CTA. -->
 <aha-empty description="No responses yet — share the join link" style="width:280px">
   <aha-button slot="action" variant="primary">Copy link</aha-button>

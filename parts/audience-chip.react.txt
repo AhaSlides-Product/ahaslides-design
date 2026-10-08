@@ -1,0 +1,10 @@
+import '@ahaslides-product/design/aha-audience-chip';
+
+export function WorkStyle() {
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      <aha-audience-chip>Remote</aha-audience-chip>
+      <aha-audience-chip selected="">Hybrid</aha-audience-chip>
+    </div>
+  );
+}

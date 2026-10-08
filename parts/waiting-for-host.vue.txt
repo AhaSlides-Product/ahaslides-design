@@ -1,0 +1,7 @@
+<script setup>
+import '@ahaslides-product/design/aha-waiting-for-host';
+</script>
+
+<template>
+  <aha-waiting-for-host headline="Waiting for the host" subline="The question appears as soon as they start." />
+</template>

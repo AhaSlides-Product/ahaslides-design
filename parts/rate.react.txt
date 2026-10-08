@@ -2,7 +2,7 @@ import '@ahaslides-product/design/aha-rate';   // registers <aha-rate>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-rate> directly.
-function AhaRate({ value, count = 5, allowHalf, icon, readonly, disabled, onChange }) {
+function AhaRate({ value, count = 5, allowHalf, size, precision, icon, readonly, disabled, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -11,7 +11,7 @@ function AhaRate({ value, count = 5, allowHalf, icon, readonly, disabled, onChan
     el.addEventListener('change', h);
     return () => el.removeEventListener('change', h);
   });
-  return <aha-rate ref={ref} count={count} icon={icon || undefined}
+  return <aha-rate ref={ref} count={count} icon={icon || undefined} size={size} precision={precision}
     allow-half={allowHalf || undefined} readonly={readonly || undefined} disabled={disabled || undefined} />;
 }
 
