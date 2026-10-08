@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.118.0 — 2026-10-08
 ### Added
-- Foundations → Brand colour rules (`foundations/brand-colour-rules.html`): the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts) served from the docs site at a permanent address, linked from the Foundations sidebar, cross-linked with the Colour token reference, and listed in `llms.txt`. Page content is published as written; tokens and components are unchanged and do not follow these rules yet (#PR)
+- Foundations → Brand colour rules (`foundations/brand-colour-rules.html`): the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts) served from the docs site at a permanent address, linked from the Foundations sidebar, cross-linked with the Colour token reference, and listed in `llms.txt`. Page content is published as written; tokens and components are unchanged and do not follow these rules yet (#203)
 
 ## 0.117.0 — 2026-10-08
 ### Added
