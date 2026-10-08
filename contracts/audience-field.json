@@ -15,12 +15,13 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) binds events through a ref; Vue binds the custom element natively.",
   "tokensUsed": [
     "text-default",
-    "space-8"
+    "space-8",
+    "weight-regular"
   ],
   "spec": [
     {
       "label": "Label",
-      "value": "16px, 600, deck ink, 16px above the field"
+      "value": "16px, 400, deck ink, 8px above the field"
     },
     {
       "label": "Field",
@@ -119,7 +120,7 @@
     "expect": {
       "labelSize": "16px",
       "labelInk": "rgb(26, 26, 26)",
-      "gap": "16px",
+      "gap": "8px",
       "fieldHeight": "56px",
       "named": "Your nickname"
     }
