@@ -40,7 +40,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C2 — not every variant x size in the axes matrix is covered.",
-      "expected_output": "C2 (Every variant & size is covered) FAILs: the live DS button contract (button.agent.json) declares variant primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link and size sm | md | lg, but only 3 variants at 1 size are styled — the remaining variants (tertiary, link, success/positive, primary-alt, text, text-link) and the sm/lg sizes are unstyled or fall back to a wrong default. Fix: implement the remaining variants and sizes from the live contract, or explicitly scope the component to the variants it ships and say so. Overall verdict: NEEDS FIX.",
+      "expected_output": "C2 (Every variant & size is covered) FAILs: the live DS button contract (button.agent.json) declares variant primary | secondary | tertiary | link | danger | positive | primary-alt | text | text-link and size sm | md | lg, but only 3 variants at 1 size are styled — the remaining variants (tertiary, link, success/positive, primary-alt, text, text-link) and the sm/lg sizes are unstyled or fall back to a wrong default. Fix: implement the remaining variants and sizes from the live contract, or explicitly scope the component to the variants it ships and say so. Overall verdict: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C2 is marked FAIL",
@@ -243,7 +243,7 @@
     },
     {
       "id": 10,
-      "prompt": "Self-check this Button after a restyle. Every variant the live DS button contract declares (primary, secondary, tertiary, link, danger, success, positive, primary-alt, text, text-link) is styled at all three sizes (sm 28 / md 36 / lg 40); radii are correct per size (sm 4px, md 8px, lg 8px); every state rest/hover/focus/active/disabled exists on each interactive variant using the same properties the contract uses; the brand accent is bound as the brand role (danger/positive stay fixed); leading icons are sized to the button icon box and inherit currentColor; and screenshots of representative variants were compared with the DS doc-site render and match.",
+      "prompt": "Self-check this Button after a restyle. Every variant the live DS button contract declares (primary, secondary, tertiary, link, danger, positive, primary-alt, text, text-link) is styled at all three sizes (sm 28 / md 36 / lg 40); radii are correct per size (sm 4px, md 8px, lg 8px); every state rest/hover/focus/active/disabled exists on each interactive variant using the same properties the contract uses; the brand accent is bound as the brand role (danger/positive stay fixed); leading icons are sized to the button icon box and inherit currentColor; and screenshots of representative variants were compared with the DS doc-site render and match.",
       "files": [],
       "label": "good-control",
       "notes": "Good control — a fully-correct Button (full variant/size matrix, correct per-size radii) passing all 8 criteria.",
