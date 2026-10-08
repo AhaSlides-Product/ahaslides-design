@@ -14,7 +14,7 @@
     { "label": "Box", "value": "height 32 (default) · radius 8 · padding 0 12" },
     { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
     { "label": "Rest border", "value": "1px #E3E3E3" },
-    { "label": "Hover border", "value": "#E70E68 (purple-30)" },
+    { "label": "Hover border", "value": "#E70E68 (color-primary)" },
     { "label": "Focus", "value": "#E70E68 border + 2px #E70E68@30% ring (on the persistent wrapper)" },
     { "label": "Error", "value": "#000000 border + error-tinted ring; sets aria-invalid" },
     { "label": "Warning", "value": "#000000 border + warning-tinted ring" },

@@ -37,7 +37,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.113.0 — 2026-10-08
 ### Added
 - `<aha-tag size="large">`: the 36px checkable filter chip (14px regular text, 12px padding, 8px radius) (#198)
-- `<aha-tag color="branding">`: the pink "New" label, `--aha-pink-20` fill with `--aha-pink-60` text (#198)
+- `<aha-tag color="branding">`: the pink "New" label, pale pink fill with black text and a Vivid Pink border (#198)
 - `<aha-rate size="sm">` draws 16px stars with a 2px gap, and `<aha-rate readonly precision="exact">` fills the last star by the exact fraction, so 4.8 shows 80% of the fifth star (#198)
 - `<aha-empty image="none">`: a text-only empty state with no illustration (#198)
 - Icon `system-funnel-2`: a real funnel (16px, stroke `currentColor`); `system-funnel` is unchanged (#198)

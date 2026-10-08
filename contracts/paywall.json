@@ -13,7 +13,7 @@
     { "label": "Upgrade mark", "value": "16×16 purple circle (--aha-color-primary) + white crown — a focusable control with Default/Hover/Active states; the custom mark, not a Phosphor crown" },
     { "label": "Popover", "value": "dark indigo surface #242442 (--aha-bg-dark-raised), 300px wide, 16px padding, radius 12; animates opacity + lift on open via the motion tokens" },
     { "label": "Anatomy", "value": "header (crown + title) · body (one sentence + \"Unlock with the <Plan> plan.\") · footer (Upgrade + See all plans)" },
-    { "label": "Buttons", "value": "TWO shared <aha-button>s — Upgrade (variant=positive, green --aha-button-positive-bg) + See all plans (variant=secondary, re-themed for the dark surface); never hand-rolled" },
+    { "label": "Buttons", "value": "TWO shared <aha-button>s — Upgrade (variant=positive, Vivid Pink via the --aha-button-positive-* inputs, because the black positive fill vanishes on the dark popover) + See all plans (variant=secondary, re-themed for the dark surface); never hand-rolled" },
     { "label": "Analytics", "value": "paywall-shown on open · paywall-upgrade before Upgrade nav · paywall-plans before See-all-plans nav — all { feature, plan }" },
     { "label": "Behaviour", "value": "Upgrade opens ahaslides.com/pricing (new tab, noopener); See all plans opens plans-url; preventDefault either event to run your own flow. Esc / click-away close" }
   ],

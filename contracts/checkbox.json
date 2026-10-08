@@ -65,7 +65,7 @@
     { "label": "box 16×16 r4", "verdict": "PASS" },
     { "label": "checked #E70E68 + white tick", "verdict": "PASS" },
     { "label": "indeterminate shows the mixed bar, aria-checked=mixed", "verdict": "PASS" },
-    { "label": "hover border purple-30", "verdict": "PASS" },
+    { "label": "hover border color-primary", "verdict": "PASS" },
     { "label": "label 14/21 Plus Jakarta", "verdict": "PASS" },
     { "label": "role=checkbox on host; Space toggles", "verdict": "PASS" }
   ],

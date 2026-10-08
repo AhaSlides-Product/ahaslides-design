@@ -13,7 +13,7 @@
   "spec": [
     { "label": "Size", "value": "small 24 · default 40 · large 64 (named), or any numeric px via `size`" },
     { "label": "Shape", "value": "circle (pill radius) · square (radius 8)" },
-    { "label": "Initials", "value": "bg-accent #FEF3F7, purple-60 #E70E68, SemiBold 600" },
+    { "label": "Initials", "value": "bg-accent #FEF3F7, color-primary #E70E68, SemiBold 600" },
     { "label": "Image", "value": "object-fit cover, clipped to shape" },
     { "label": "Icon", "value": "<aha-icon> glyph by name, ~half the avatar diameter, currentColor" },
     { "label": "Color", "value": "ground tint from an --aha-* token via `color` (default brand tint)" },
@@ -66,7 +66,7 @@
   "selfCheck": [
     { "label": "size 40 default; small 24 / large 64 named steps", "verdict": "PASS" },
     { "label": "circle = pill radius; square = radius 8", "verdict": "PASS" },
-    { "label": "initials bg-accent / purple-60", "verdict": "PASS" },
+    { "label": "initials bg-accent / color-primary", "verdict": "PASS" },
     { "label": "src renders cover image; icon renders an <aha-icon> glyph by name", "verdict": "PASS" },
     { "label": "group overlaps children + collapses overflow into a +N chip past max", "verdict": "PASS" }
   ],
