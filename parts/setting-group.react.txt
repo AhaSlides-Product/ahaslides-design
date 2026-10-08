@@ -7,7 +7,7 @@ import '@ahaslides-product/design/aha-input';
 import { useState } from 'react';
 
 // <aha-setting-group> bakes in the spacing scale: rows 24px apart, groups 32px apart automatically,
-// tone="danger" 48px down — no dividers, no cards. Put guidance in `help` (the "?" tooltip), an
+// tone="danger" 48px down — no dividers, no cards. Put guidance in `help` (the "?" tooltip), a
 // plain-text count in the `action` slot (never a control), and dependent settings in a nested <aha-sub-setting-group> that you
 // hide when the parent is off.
 function DeckSettings() {

@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.127.0 — 2026-10-08
+## 0.130.0 — 2026-10-08
 ### Changed
 - Settings spacing: sibling settings sit 24px apart (was 16) in `aha-setting-group`, `aha-sub-setting-group` and `aha-settings-list`; a sub-setting group sits 16px below its parent (was 8) with the same 24px indent. Rule SETTINGS-13, criterion C5 and the sub-setting conformance probe follow (#192)
 - Settings labels: a setting label is regular 400 in primary text; a label inside a sub-setting group is regular 400 in secondary text, set through `--aha-setting-label-color` on `aha-settings-item`, `aha-setting-row` and `aha-mode-field`. Stale "semibold row label" text removed from contracts (#192)
@@ -31,6 +31,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Settings list: the standing consequence line is documented and demoed as an opt-in variant, not the default (#192)
 ### Added
 - Anti-slop criteria C16 (group title and header controls) and C17 (setting label weight and colour, sibling gap) on the settings surface (#192)
+
+## 0.129.0 — 2026-10-08
+### Changed
+- Colour rules guideline (`brand/visual-identity-colour-rules.html`) is now v9: illustrations use Vivid Pink tints plus Darker Pink, white, ink and grey; our own illustrations, customer and integration logos and file-type icons follow the rules; black is `#1A1A1A` (#207)
 
 ## 0.121.0 — 2026-10-08
 ### Changed
