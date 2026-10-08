@@ -1,0 +1,10 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-field';
+import '@ahaslides-product/design/aha-counted-input';
+</script>
+
+<template>
+  <aha-audience-field label="Your nickname">
+    <aha-counted-input size="touch" maxlength="30" />
+  </aha-audience-field>
+</template>

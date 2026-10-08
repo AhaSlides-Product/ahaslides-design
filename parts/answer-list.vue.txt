@@ -1,0 +1,10 @@
+<script setup>
+import '@ahaslides-product/design/aha-answer-list';
+defineProps({ options: Array });
+const emit = defineEmits(['pick']);
+</script>
+
+<template>
+  <aha-answer-list group-label="Which drink?" lock-key="slide-42" :options="JSON.stringify(options)"
+    @change="emit('pick', $event.detail.value)" />
+</template>

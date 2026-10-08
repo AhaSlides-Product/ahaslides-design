@@ -1,0 +1,10 @@
+import '@ahaslides-product/design/aha-status-icon';   // registers <aha-status-icon>
+import { t } from 'i18next';   // the accessible name comes from i18n
+
+// Attributes only — no events — so React 18/19 can render the element directly.
+function LessonStatus({ status }) {
+  return <aha-status-icon status={status} size="16" label={t(`lesson_status.${status}`)} />;
+}
+
+// usage
+<LessonStatus status="in-progress" />

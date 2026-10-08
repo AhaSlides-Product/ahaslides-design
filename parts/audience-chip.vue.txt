@@ -1,0 +1,8 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-chip';
+const emit = defineEmits(['toggle']);
+</script>
+
+<template>
+  <aha-audience-chip @change="emit('toggle', $event.detail.selected)">Remote</aha-audience-chip>
+</template>

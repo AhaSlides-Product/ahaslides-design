@@ -1,0 +1,12 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-status-icon> is the SAME shared custom element React and Vue consume. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-status-icon.js';   // registers <aha-status-icon> (+ <aha-icon>)
+</script>
+
+<div style="display:flex; gap:16px; align-items:center">
+  <aha-status-icon status="not-started"></aha-status-icon>
+  <aha-status-icon status="in-progress"></aha-status-icon>
+  <aha-status-icon status="completed"></aha-status-icon>
+</div>
