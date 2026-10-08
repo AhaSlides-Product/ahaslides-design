@@ -932,7 +932,7 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
-      `<a class="nav-item${active==='__brandcolour__'?' active':''}" href="${base}foundations/brand-colour-rules.html"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item" href="${base}foundations/brand-colour-rules.html"><span>Brand colour rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
