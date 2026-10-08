@@ -60,6 +60,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-button variant="primary">` and `variant="secondary"` show their focus ring. A later elevation `box-shadow` rule overrode it, so keyboard focus drew nothing (#197)
 - `DataTable`: toolbar actions render inside the table's theme. They sat outside its `ConfigProvider`, so an antd `Button` there (Export) hovered in antd blue `#4096FF` (#197)
 
+## 0.118.0 — 2026-10-08
+### Added
+- Foundations → Brand colour rules (`foundations/brand-colour-rules.html`): the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts) served from the docs site at a permanent address, linked from the Foundations sidebar, cross-linked with the Colour token reference, and listed in `llms.txt`. Page content is published as written; tokens and components are unchanged and do not follow these rules yet (#203)
+
 ## 0.117.0 — 2026-10-08
 ### Added
 - `<aha-tag controlled>`: for a checkable tag whose host owns the state. A click only emits `change` ({ checked } is the requested state) and the host sets or removes `checked`, so a framework binding (Vue `:checked`) no longer double-toggles. Without `controlled` the tag still flips its own `checked` (#201)
