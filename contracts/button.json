@@ -10,25 +10,24 @@
   "highlights": ["Triggers an action or navigation", "The primary interactive control"],
   "lead": "ONE custom element — <aha-button> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so every button reads identically across apps and even outside one. Variants and sizes are attributes; there is one rendered UI, not a per-framework look-alike.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue consumes the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["button-primary-bg", "button-primary-bg-hover", "button-primary-bg-press", "button-primary-text", "button-default-bg", "button-default-border", "button-danger-bg", "button-ghost-bg-hover", "button-positive-bg", "button-disabled-bg", "button-disabled-text", "button-focus-ring", "text-default", "text-link", "radius-xs", "radius-default", "focus"],
+  "tokensUsed": ["button-primary-bg", "button-primary-bg-hover", "button-primary-bg-press", "button-primary-text", "button-default-bg", "button-default-border", "button-ghost-bg-hover", "button-positive-bg", "button-disabled-bg", "button-disabled-text", "button-focus-ring", "text-default", "text-link", "radius-xs", "radius-default", "focus"],
   "spec": [
     { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) · touch 48 (r8, padding 24) — heights; fontSize 14 (sm/md) / 16 (lg/xl/touch)" },
     { "label": "Primary", "value": "bg #E70E68, label #FFFFFF, hover #DB005B + soft pink shadow, active #DB005B without the hover shadow" },
     { "label": "Secondary", "value": "white bg, #1A1A1A label, 1px #E3E3E3 border; hover pale pink #FEF3F7 fill, #E70E68 border and #DB005B label (--aha-text-link-hover, 4.66:1); active #FEF3F7 fill, #DB005B border (--aha-border-active), #DB005B label; disabled shows no hover or press change; focus ring unchanged" },
     { "label": "Tertiary / Link", "value": "transparent; tertiary rest label #1A1A1A, no border; hover and active #FEF3F7 fill with #DB005B label (--aha-text-link-hover, 4.66:1), no border so no border change; link #E70E68 weight 400, underlined at rest and on hover (the text-link variant is not: see Text / Text-link), hover #DB005B; the component cannot see its surface, so on a surface other than white the screen sets --aha-text-link and --aha-text-link-hover to the default ink #1A1A1A on that container (white on a dark surface), since pink fails 4.5:1 there" },
-    { "label": "Danger", "value": "default-ink fill #1A1A1A, white label, hover #4A4A4A, active #616161 — a destructive action; never the primary button, the safe choice beside it is" },
-    { "label": "Success", "value": "default-ink outline: white fill, 1px #1A1A1A border, #1A1A1A label, hover fill #F7F7F7, active fill #E3E3E3 — a done / confirmed state" },
+    { "label": "Danger", "value": "renders exactly as secondary in every state (white fill, 1px #E3E3E3 border, #1A1A1A label; hover #FEF3F7 fill with a #E70E68 border; active #DB005B border) — a destructive action; the variant name is kept so callers do not break; never the primary button, the safe choice beside it is" },
     { "label": "Positive", "value": "Vivid Pink like primary: bg #E70E68, white label, hover #DB005B + soft pink shadow, active #DB005B — Upgrade and other encouraging actions" },
     { "label": "Primary-alt", "value": "same fill as primary #E70E68 (a second primary slot for a two-primary layout)" },
     { "label": "Text / Text-link", "value": "white bg, no border, weight 400; text = secondary-grey label, hover grey fill; text-link = #E70E68 label, no underline in any state (the default ink gets it back through --aha-text-link-decoration), hover #DB005B, active #DB005B (--aha-color-primary-active); on a surface that swaps the link to the default ink the screen also sets --aha-text-link-decoration: underline, since the underline is then the only cue (default ink on a non-white surface)" },
     { "label": "Disabled", "value": "bg #E3E3E3, label #B5B5B5" },
     { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl/touch); icon 16px, inline-flex, 8px gap" },
-    { "label": "Focus", "value": "2px solid ring outside a 2px gap (box-shadow) — Vivid Pink #E70E68, 4.51:1 on white · default ink #1A1A1A on danger and success. Re-point --aha-button-focus-ring / --aha-button-focus-gap on a dark surface" },
+    { "label": "Focus", "value": "2px solid ring outside a 2px gap (box-shadow) — Vivid Pink #E70E68, 4.51:1 on white . Re-point --aha-button-focus-ring / --aha-button-focus-gap on a dark surface" },
     { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" },
     { "label": "Icon-only", "value": "square (width = height per size: 28/36/40/52), glyph centred, no label; needs aria-label" }
   ],
   "props": [
-    { "name": "variant", "type": "primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link", "default": "secondary", "desc": "tone × emphasis; one primary per view. Status carries no hue, so danger (default-ink fill), success (default-ink outline) and positive (Vivid Pink) differ by shape; primary-alt is a synonym of primary; text / text-link are borderless label buttons" },
+    { "name": "variant", "type": "primary | secondary | tertiary | link | danger | positive | primary-alt | text | text-link", "default": "secondary", "desc": "tone × emphasis; one primary per view. Status carries no hue: danger renders as secondary and positive is Vivid Pink like primary; primary-alt is a synonym of primary; text / text-link are borderless label buttons" },
     { "name": "size", "type": "sm | md | lg | xl | touch", "default": "lg", "desc": "28 / 36 / 40 / 52 / 48px height — lg (40) is the default; xl (52) is for presenter controls rendered inside a slide canvas and read from room distance (the web-component twin of React <XLButtonScope>); touch (48, 8px corners, 16px label) is the audience phone's primary action and clears the 44px touch floor" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "non-interactive; grey fill" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "shows a spinner, blocks clicks" },
@@ -42,7 +41,6 @@
       { "what": "secondary", "when": "the default for most actions — neutral, white with a border" },
       { "what": "tertiary / link", "when": "low-emphasis or inline navigation, no container weight" },
       { "what": "danger", "when": "a destructive action (delete, remove) — pair with a confirm" },
-      { "what": "success", "when": "a done or confirmed state shown as a button (Saved, Connected)" },
       { "what": "positive", "when": "an encouraging action such as Upgrade" },
       { "what": "icon-only", "when": "a compact action where the glyph is self-explanatory (close, more, add) — always give an aria-label" },
       { "what": "xl", "when": "a presenter control drawn inside the slide canvas (Reveal, Next, Start) that the room reads from a distance — not for app screens, where lg is the ceiling" }
@@ -65,8 +63,7 @@
         { "label": "Tertiary", "value": "tertiary" },
         { "label": "Link", "value": "link" },
         { "label": "Danger", "value": "danger" },
-        { "label": "Success", "value": "success" },
-        { "label": "Positive", "value": "positive" },
+            { "label": "Positive", "value": "positive" },
         { "label": "Primary alt", "value": "primary-alt" },
         { "label": "Text", "value": "text" },
         { "label": "Text link", "value": "text-link" }
@@ -99,6 +96,6 @@
     { "label": "label SemiBold 600 14/1.5", "verdict": "PASS" },
     { "label": "icon+label optically centred", "verdict": "PASS" },
     { "label": "focus ring 2px solid #E70E68 outside a 2px gap, 4.51:1 on white", "verdict": "PASS" },
-    { "label": "danger default-ink fill · success default-ink outline · positive Vivid Pink: three distinct shapes", "verdict": "PASS" }
+    { "label": "danger renders as secondary · positive Vivid Pink like primary", "verdict": "PASS" }
   ]
 }
