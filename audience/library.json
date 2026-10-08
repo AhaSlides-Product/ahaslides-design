@@ -62,7 +62,7 @@
    "useWhen": "The participant types one short line: a name, a word, a short answer. The label reads on a light deck and a dark one; the field stays white either way.",
    "notFor": "A number (`type=\"number\"`, below), a long free-text answer (the textarea), or a pick from a fixed set (`<aha-select>` / `<aha-answer-list>`).",
    "replaces": "Replaces a hand-built `<input>`: the DS field already carries the 56px sizing, the resting, hover and focus borders and the counter; a hand-rolled one re-opens the height, the label and the contrast.",
-   "note": "The counter shows on focus; `maxlength=\"none\"` drops the cap.",
+   "note": "The counter shows the characters left, on focus; `maxlength=\"none\"` drops the cap.",
    "demoLight": "<aha-audience-field label=\"Tên đồ uống của bạn\"><aha-counted-input size=\"touch\" maxlength=\"40\" value=\"Cà phê sữa đá\"></aha-counted-input></aha-audience-field>",
    "demoDark": "<aha-audience-field label=\"Tên đồ uống của bạn\"><aha-counted-input size=\"touch\" maxlength=\"40\" value=\"Cà phê sữa đá\"></aha-counted-input></aha-audience-field>",
    "snippets": {
