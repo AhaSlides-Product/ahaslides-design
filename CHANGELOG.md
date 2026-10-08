@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.114.1 — 2026-10-08
+## 0.114.2 — 2026-10-08
 ### Fixed
 - Background task: the inline `link` (e.g. Retry) now looks like the Button text-link variant, in the DS link colour, regular weight and no underline, lighter on hover. It was bold and underlined. (#182)
+
+## 0.114.1 — 2026-10-08
+### Fixed
+- The Pages workflow caps the staging build at 15 minutes and the staging trigger at 5, so a hung staging branch cannot hold the production deploy queue (#200)
 
 ## 0.114.0 — 2026-10-08
 ### Added
