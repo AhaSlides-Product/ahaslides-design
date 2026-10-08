@@ -44,6 +44,12 @@
   ],
   "props": [
     {
+      "name": "icon",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Field-wrapper style: a 12×12 system-x-circle glyph before the message and the text at --aha-size-sm (12/18). Used by aha-input, aha-select and aha-counted-textarea for their error-message, and beside antd Input number, Select and Textarea"
+    },
+    {
       "name": "message",
       "type": "string",
       "default": "''",

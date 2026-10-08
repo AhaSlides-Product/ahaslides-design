@@ -85,6 +85,12 @@
       "desc": "Validation border colour"
     },
     {
+      "name": "error-message",
+      "type": "string",
+      "default": "—",
+      "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the trigger through aria-describedby (aria-invalid is set by status=\"error\")"
+    },
+    {
       "name": "aria-label",
       "type": "string",
       "default": "—",

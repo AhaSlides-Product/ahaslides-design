@@ -3,7 +3,8 @@
      qa.mjs measures: the real antd InputNumber bound to the shared theme. Interactive: the controls
      drive live React state (Size / Status / Controls+Disabled), so the whole DS V3 matrix is
      explorable — the default render (default size · no status · steppers on · min 0/max 100) is
-     what conformance measures (32px field, radius 8, #E3E3E3 border). -->
+     what conformance measures (40px field, radius 8, #E3E3E3 border). -->
+<script type="module">import '../lib/icons.js'; import '../lib/aha-field-error.js';</script>
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -15,9 +16,9 @@
 
 <script>
 window.__inum = {
-  token: { colorPrimary:'#E70E68', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
+  token: { colorPrimary:'#E70E68', borderRadius:8, controlHeight:40, controlHeightLG:48, colorBorder:'#E3E3E3',
            colorTextPlaceholder:'#8A8A8A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
-  components:{ InputNumber:{ activeBorderColor:'#E70E68', hoverBorderColor:'#E70E68', borderRadius:8, controlHeight:32 } }
+  components:{ InputNumber:{ activeBorderColor:'#E70E68', hoverBorderColor:'#E70E68', borderRadius:8, controlHeight:40, controlHeightLG:48 } }
 };
 </script>
 
@@ -53,7 +54,7 @@ function Field({ label, children }) {
 }
 
 function Demo() {
-  const [size, setSize] = useState('default');   // small(24) · default(32) · large(40)
+  const [size, setSize] = useState('default');   // small(24) · default(40) · large(48)
   const [status, setStatus] = useState('');       // '' · error · warning
   const [mode, setMode] = useState('controls');   // controls · nocontrols · disabled · readonly
   const controls = mode !== 'nocontrols';
@@ -94,6 +95,12 @@ function Demo() {
         <InputNumber min={0} defaultValue={30} addonBefore="Every" addonAfter="min" size={size}
           status={status || undefined} controls={controls} disabled={disabled} readOnly={readOnly}
           style={{ width: 240 }} />
+      </Field>
+
+      <Field label="Error · aha-field-error below the field">
+        <InputNumber min={0} max={100} defaultValue={140} size={size} status="error"
+          aria-invalid="true" aria-describedby="inum-error" style={{ width: w }} />
+        <aha-field-error id="inum-error" icon="" message="Enter a number between 0 and 100"></aha-field-error>
       </Field>
 
       <Field label="Empty · placeholder">

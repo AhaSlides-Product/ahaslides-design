@@ -15,12 +15,14 @@
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" },
     { "label": "Sizing", "value": "rows or autoSize={{minRows,maxRows}}" },
     { "label": "Size", "value": "small · default · large (control height 24/32/40)" },
-    { "label": "Status", "value": "error #1A1A1A · warning #1A1A1A border" }
+    { "label": "Status", "value": "error #1A1A1A · warning #1A1A1A border" },
+    { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
     { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Control height / padding: small 24, default 32, large 40" },
     { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — recolours the border" },
+    { "name": "error message", "type": "<aha-field-error icon>", "default": "—", "desc": "Pair status=\"error\" with a sibling <aha-field-error icon message=\"…\"> below the control (12px glyph + --aha-size-sm text) and set aria-invalid=\"true\" + aria-describedby=\"<error id>\" on the control" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; greyed fill" },
     { "name": "readOnly", "type": "boolean", "default": "false", "desc": "Shows value but blocks editing" },
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Empty-state hint (#8A8A8A)" },

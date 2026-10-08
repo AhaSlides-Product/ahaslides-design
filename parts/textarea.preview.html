@@ -3,6 +3,7 @@
      measures: the real antd TextArea bound to the shared theme. Interactive: the controls drive
      live React state (Size / Status / Extras), so the full DS V3 matrix is explorable — the
      default render (default size · no status · autosize, at rest) is what conformance measures. -->
+<script type="module">import '../lib/icons.js'; import '../lib/aha-field-error.js';</script>
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -70,6 +71,10 @@ function Demo() {
           options={[{ label: 'Auto-size', value: 'autosize' }, { label: 'Count', value: 'count' }, { label: 'Disabled', value: 'disabled' }, { label: 'Read-only', value: 'readOnly' }]} />
       </div>
       <TextArea {...props} />
+      <div className="lbl" style={{ margin: '22px 0 8px' }}>Error · aha-field-error below the field</div>
+      <TextArea placeholder="Describe your event" size={size} status="error" autoSize={{ minRows: 3, maxRows: 6 }}
+        aria-invalid="true" aria-describedby="textarea-error" style={{ width: 340 }} />
+      <aha-field-error id="textarea-error" icon="" message="Add a description of at least 10 characters" style={{ width: 340 }}></aha-field-error>
     </div>
   );
 }

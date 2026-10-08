@@ -18,6 +18,7 @@
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay bottom-right; opacity 0 at rest → 1 on focus; 22px bottom gutter reserved; at size touch 12/12 on no fill, a 16px gutter, and it counts the characters left (140 for 0 of 140) instead of used/max" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
+    { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #999999" }
   ],
@@ -30,6 +31,7 @@
     { "name": "maxrows", "type": "number", "default": "5", "desc": "Rows the field grows to before it scrolls internally instead of growing" },
     { "name": "size", "type": "default | touch", "default": "default", "desc": "touch is the audience phone field inside <aha-audience-field>: 16px text, padding 12 16, radius 8" },
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
+    { "name": "error-message", "type": "string", "default": "—", "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the control through aria-describedby (aria-invalid is set by status=\"error\")" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
     { "name": "borderless", "type": "boolean", "default": "false", "desc": "Drop the field's own border/ring/fill — for composing inside a parent that carries the one border (OptionRow, SETTINGS-34)" },
