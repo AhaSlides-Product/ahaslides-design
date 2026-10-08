@@ -443,6 +443,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
 .hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);border-radius:8px;padding:9px 13px;margin:0 0 18px}
+.hub-back{--aha-text-link-decoration:underline}
 .hub-back a{color:var(--aha-text-default);font-weight:600;text-decoration:underline}
 .doc-main h2{font-size:20px;line-height:28px;font-weight:600;margin:44px 0 14px;scroll-margin-top:80px}
 .doc-main h2:first-of-type{margin-top:34px}
@@ -481,6 +482,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .grid2{display:grid;grid-template-columns:1fr 1fr}
 .grid2>div{padding:22px 20px}
 .note{background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
+.note{--aha-text-link-decoration:underline}
 .note a{color:var(--aha-text-default);text-decoration:underline}
 .pad{padding:12px 0}
 code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:var(--aha-text-default)}
@@ -1864,7 +1866,7 @@ function renderDesignMd(t, cs) {
 ## Brand
 Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
 Backgrounds are **white by default**; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states; no gradients on fills (AI-affordance border-only exception).
-Pink text, links included, sits on white only (4.51:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined; on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest, Darker Pink \`${c.textLinkHover}\` on hover.
+Pink text, links included, sits on white only (4.51:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button `text-link` is not underlined at rest, so that screen also sets `--aha-text-link-decoration: underline`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` only on hover and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
