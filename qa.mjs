@@ -98,7 +98,7 @@ chk(g, 'index.html present', read(join(DIST,'index.html')).length > 400);
 chk(g, 'llms.txt lists Checkbox + Table', /Checkbox/.test(read(join(DIST,'llms.txt'))) && /Table/.test(read(join(DIST,'llms.txt'))));
 chk(g, 'llms-full.txt non-empty', read(join(DIST,'llms-full.txt')).length > 400);
 { const cp = read(join(DIST,'foundations','colour.html'));
-  chk(g, 'foundations/colour.html styled in shell', /class="doc-nav"/.test(cp) && /--aha-color-primary:#E70E68/i.test(cp) && /<h2>Palette<\/h2>/.test(cp)); }
+  chk(g, 'foundations/colour.html styled in shell', /class="doc-nav"/.test(cp) && /--aha-color-primary:#E70E68/i.test(cp) && />Palette<\/h2>/.test(cp)); }
 { const fp = read(join(DIST,'feeds','llms-txt.html'));
   chk(g, 'feed pages: in-shell + raw content in code wrapper', /class="doc-nav"/.test(fp) && /class="code-panel feed"/.test(fp) && /Checkbox/.test(fp)); }
 results.push({ slug: '(global feeds)', checks: g });
