@@ -1060,11 +1060,11 @@
     },
     {
       "id": 43,
-      "prompt": "Review this audience scale slider. The unfilled rail carries `border: 1px solid color-mix(in srgb, currentColor 20%, transparent)`, but the FILLED track is only `background: var(--accent)` with no border. On a deck whose background is close to the accent hue (a brown fill on a green deck), the filled portion has no boundary. Is this audience UI correct?",
+      "prompt": "Review this audience scale slider. The unfilled rail carries `border: 1px solid color-mix(in srgb, currentColor 10%, transparent)`, but the FILLED track is only `background: var(--accent)` with no border. On a deck whose background is close to the accent hue (a brown fill on a green deck), the filled portion has no boundary. Is this audience UI correct?",
       "files": [],
       "label": "bad-example",
       "notes": "C18 — filled slider track with no edge while rail has one",
-      "expected_output": "C18 (A filled slider/progress track carries a deck-ink edge) FAILs. The filled track has a colour fill but no border while the empty rail does carry a deck-ink edge, so the coloured portion sinks into a same-hue deck with no boundary. Fix: give the filled `.slider-track` the SAME deck-ink hairline the rail has — `border: 1px solid color-mix(in srgb, currentColor 20%, transparent)` — so both halves of the bar are outlined the same way. Overall: NEEDS FIX",
+      "expected_output": "C18 (A filled slider/progress track carries a deck-ink edge) FAILs. The filled track has a colour fill but no border while the empty rail does carry a deck-ink edge, so the coloured portion sinks into a same-hue deck with no boundary. Fix: give the filled `.slider-track` the SAME deck-ink hairline the rail has — `border: 1px solid color-mix(in srgb, currentColor 10%, transparent)` — so both halves of the bar are outlined the same way. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C18 is marked FAIL",
@@ -1085,7 +1085,7 @@
     },
     {
       "id": 44,
-      "prompt": "Review this audience scale slider. Both the unfilled rail and the filled track carry `border: 1px solid color-mix(in srgb, currentColor 20%, transparent)` (the deck ink at the control-border alpha, via currentColor). The filled track's fill is the deck accent. Is this audience UI correct?",
+      "prompt": "Review this audience scale slider. Both the unfilled rail and the filled track carry `border: 1px solid color-mix(in srgb, currentColor 10%, transparent)` (the deck ink at the 10% audience border alpha, via currentColor). The filled track's fill is the deck accent. Is this audience UI correct?",
       "files": [],
       "label": "good-control",
       "notes": "C18 — filled slider track carries the rail's deck-ink edge",
@@ -1973,11 +1973,11 @@
       "files": [],
       "label": "bad-example",
       "notes": "C32 bad — Team Retro D10/D14.",
-      "expected_output": "C32 FAILs. A chip takes a 1.5px neutral border; a 2px outline at 55% ink is far heavier than the DS chip. Overall: NEEDS FIX",
+      "expected_output": "C32 FAILs. A chip takes a 1px border at the deck ink 10%; a 2px outline at 55% ink is far heavier than the DS chip. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C32 is marked FAIL",
-        "Fix is a 1.5px neutral chip border"
+        "Fix is a 1px chip border at the deck ink 10%"
       ],
       "expected": {
         "overall": "NEEDS_FIX",

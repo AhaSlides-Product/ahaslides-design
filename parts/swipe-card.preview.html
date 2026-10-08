@@ -1,0 +1,17 @@
+<div class="pad">
+  <div class="lbl">Light deck</div>
+  <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
+    <aha-swipe-card data-probe aria-label="Statement"><p style="margin:0;font-size:18px;font-weight:600">A hot dog is a sandwich.</p></aha-swipe-card>
+  </div>
+  <div class="lbl">Dark deck — applyDeck() with a white ink and a mint accent</div>
+  <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
+    <aha-swipe-card aria-label="Statement"><p style="margin:0;font-size:18px;font-weight:600">A hot dog is a sandwich.</p></aha-swipe-card>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
+<script type="module">
+  import '../lib/aha-swipe-card.js';   // registers <aha-swipe-card>
+  import { applyDeck } from '../lib/audience-deck.js';
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#20E8B5'] });
+</script>

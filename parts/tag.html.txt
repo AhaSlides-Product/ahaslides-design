@@ -13,7 +13,9 @@
   <aha-tag color="success" icon="system-check">Published</aha-tag>
   <aha-tag bordered color="processing">Scheduled</aha-tag>
   <aha-tag closable id="kw">Marketing</aha-tag>
+  <aha-tag color="branding">New</aha-tag>
   <aha-tag checkable checked id="filter">Quizzes only</aha-tag>
+  <aha-tag checkable size="large">Filter chip (36px)</aha-tag>
 </div>
 
 <script>
