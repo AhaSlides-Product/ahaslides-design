@@ -20,7 +20,7 @@
   ],
   "props": [
     { "name": "value", "type": "string", "default": "#E70E68", "desc": "Selected colour (hex) — its swatch is ringed + checked" },
-    { "name": "swatches", "type": "string", "default": "12 presets", "desc": "Pipe-separated hex presets, e.g. \"#E70E68|#FF4081\"" },
+    { "name": "swatches", "type": "string", "default": "12 presets", "desc": "Pipe-separated hex presets, e.g. \"#E70E68|#1A1A1A\"" },
     { "name": "size", "type": "'small' | 'default' | 'large'", "default": "default", "desc": "Scales trigger + swatch dimensions" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Greys + inerts the whole control" },
     { "name": "open", "type": "boolean", "default": "false", "desc": "Panel open state; reflected attribute" },

@@ -1,60 +1,199 @@
 {
-  "name": "Popconfirm",
-  "slug": "popconfirm",
-  "group": "Feedback",
-  "tier": "composite-antd",
-  "badge": "composite — antd wrappers",
-  "summary": "A lightweight inline confirmation popover anchored to the trigger — confirm/cancel a low-risk action.",
-  "highlights": ["Lightweight inline confirmation popover", "Anchored to the trigger", "Confirm or cancel a low-risk action"],
-  "lead": "Popconfirm carries a positioned popover, a focus trap and two action buttons — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared popconfirmTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
-  "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Popover.borderRadiusLG", "Button.borderRadius"],
-  "spec": [
-    { "label": "Popover", "value": "white · radius 8 · elevated" },
-    { "label": "Confirm", "value": "primary Button #E70E68 · white label" },
-    { "label": "Cancel", "value": "default Button · 1px #E3E3E3 border · #1A1A1A label" },
-    { "label": "Title", "value": "#1A1A1A, one short question" },
-    { "label": "Anchor", "value": "pops from the trigger; not a full modal" },
-    { "label": "Placement", "value": "top · bottom · left · right (arrow tracks the trigger)" },
-    { "label": "Danger", "value": "okType=\"danger\" → red confirm #000000 for a heavier delete" }
-  ],
-  "props": [
-    { "name": "title", "type": "string", "default": "—", "desc": "The confirmation question" },
-    { "name": "description", "type": "string", "default": "—", "desc": "Optional supporting line" },
-    { "name": "okText", "type": "string", "default": "OK", "desc": "Confirm button label" },
-    { "name": "cancelText", "type": "string", "default": "Cancel", "desc": "Cancel button label" },
-    { "name": "onConfirm", "type": "() => void", "default": "—", "desc": "Fires when the confirm button is clicked" },
-    { "name": "placement", "type": "'top' | 'bottom' | 'left' | 'right' | …", "default": "top", "desc": "Where the popover opens relative to the trigger" },
-    { "name": "okType", "type": "'primary' | 'danger'", "default": "primary", "desc": "danger styles the confirm as a red destructive button" },
-    { "name": "icon", "type": "ReactNode", "default": "warning", "desc": "Leading warning glyph in the popover header" }
-  ],
-  "opinion": {
-    "whenToUse": [
-      { "what": "Popconfirm", "when": "a low-risk, reversible action needs a quick inline check (delete a row, discard a draft)" },
-      { "what": "Modal", "when": "a destructive or irreversible action needs a deliberate, focused confirmation" },
-      { "what": "no confirm", "when": "the action is trivial and easily undone — prefer an undo toast" }
-    ],
-    "note": "Reserve Popconfirm for low-risk, reversible actions — anchor it to the trigger and keep the question to one line. A destructive or irreversible action (delete account, publish) needs a Modal (see the overlays pattern), never a popover.",
-    "dsv3": "COVERED — antd v6 Popconfirm themed by the shared popconfirmTheme; matrix: Placement (top · bottom · left · right) × Danger (off → primary confirm #E70E68 / on → okType=\"danger\" red #000000), over a radius-8 white popover with a #E3E3E3-border cancel. Verified via Figma search_design_system on the DS V3 file (MwjvUjVI0HnfwD9EwPXRAy): DS V3 ships no measured Popconfirm cell (nearest is the 'Delete confirmation' Dialog), so this is a deliberate, documented token mapping onto antd's Popconfirm rather than a re-implementation."
+ "name": "Popconfirm",
+ "slug": "popconfirm",
+ "group": "Feedback",
+ "tier": "composite-antd",
+ "badge": "composite — antd wrappers",
+ "summary": "A lightweight inline confirmation popover anchored to the trigger — confirm/cancel a low-risk action.",
+ "highlights": [
+  "Lightweight inline confirmation popover",
+  "Anchored to the trigger",
+  "Confirm or cancel a low-risk action"
+ ],
+ "lead": "Popconfirm carries a positioned popover, a focus trap and two action buttons — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared popconfirmTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+ "tokensUsed": [
+  "colorPrimary",
+  "borderRadius",
+  "controlHeightSM",
+  "colorBorder",
+  "Popover.borderRadiusLG",
+  "Button.paddingInlineSM"
+ ],
+ "spec": [
+  {
+   "label": "Popover",
+   "value": "white · radius 8 · elevated"
   },
-  "surfaces": ["editor", "dashboard", "settings"],
-  "reuse": { "entry": "./popconfirm-theme", "exportsNamed": ["popconfirmTheme"] },
-  "snippets": [
-    { "key": "html", "label": "HTML", "file": "popconfirm.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the SAME shared popconfirmTheme. No build step." },
-    { "key": "react", "label": "React", "file": "popconfirm.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "popconfirm.vue.txt" }
-  ],
-  "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (popconfirmTheme); residual drift is caught by visual regression.",
-  "preview": "popconfirm.preview.html",
-  "selfCheck": [
-    { "label": "popover white · radius 8", "verdict": "PASS" },
-    { "label": "confirm primary #E70E68 · white label", "verdict": "PASS" },
-    { "label": "cancel #E3E3E3 border · #1A1A1A label", "verdict": "PASS" },
-    { "label": "anchored to the trigger", "verdict": "PASS" }
-  ],
-  "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the Popconfirm is open, its popover portalled to <body>, so the real antd v6 popover surface + confirm/cancel buttons bound to popconfirmTheme are measurable at document level. Selectors match antd v6: the surface is .ant-popover-container; the action buttons are scoped to .ant-popconfirm-buttons so the danger TRIGGER button is not measured by mistake.",
-    "ready": "!!(document.querySelector('.ant-popover-container') && document.querySelector('.ant-popconfirm-buttons .ant-btn-primary') && document.querySelector('.ant-popconfirm-buttons .ant-btn-default'))",
-    "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};return{popBg:g('.ant-popover-container','backgroundColor'),popRadius:g('.ant-popover-container','borderTopLeftRadius'),okBg:g('.ant-popconfirm-buttons .ant-btn-primary','backgroundColor'),okColor:g('.ant-popconfirm-buttons .ant-btn-primary','color'),cancelBorder:g('.ant-popconfirm-buttons .ant-btn-default','borderTopColor'),cancelColor:g('.ant-popconfirm-buttons .ant-btn-default','color')};})()",
-    "expect": { "popBg": "rgb(255, 255, 255)", "popRadius": "8px", "okBg": "rgb(231, 14, 104)", "okColor": "rgb(255, 255, 255)", "cancelBorder": "rgb(227, 227, 227)", "cancelColor": "rgb(26, 26, 26)" }
+  {
+   "label": "Buttons",
+   "value": "DS small button size: 28px tall · 4px corners · 14px semibold · 8px inline padding"
+  },
+  {
+   "label": "Destructive confirm",
+   "value": "destructiveConfirm: Cancel is the primary (#E70E68, white label) · Delete / Remove is the danger button (black #000000 fill, white label)"
+  },
+  {
+   "label": "Plain confirm",
+   "value": "primary confirm #E70E68 · white label, beside a default Cancel (1px #E3E3E3 border · #1A1A1A label)"
+  },
+  {
+   "label": "Icon",
+   "value": "<aha-icon name=\"system-warning-circle\" size=\"16\"> in black, the same glyph the Modal confirmation uses; never a coloured status icon"
+  },
+  {
+   "label": "Title",
+   "value": "#1A1A1A, one short question"
+  },
+  {
+   "label": "Anchor",
+   "value": "pops from the trigger; not a full modal"
+  },
+  {
+   "label": "Placement",
+   "value": "top · bottom · left · right (arrow tracks the trigger)"
+  },
+  {
+   "label": "Trigger",
+   "value": "a DS <aha-button>, never an antd Button"
   }
+ ],
+ "props": [
+  {
+   "name": "title",
+   "type": "string",
+   "default": "—",
+   "desc": "The confirmation question"
+  },
+  {
+   "name": "description",
+   "type": "string",
+   "default": "—",
+   "desc": "Optional supporting line"
+  },
+  {
+   "name": "okText",
+   "type": "string",
+   "default": "OK",
+   "desc": "Confirm button label"
+  },
+  {
+   "name": "cancelText",
+   "type": "string",
+   "default": "Cancel",
+   "desc": "Cancel button label"
+  },
+  {
+   "name": "onConfirm",
+   "type": "() => void",
+   "default": "—",
+   "desc": "Fires when the confirm button is clicked"
+  },
+  {
+   "name": "placement",
+   "type": "'top' | 'bottom' | 'left' | 'right' | …",
+   "default": "top",
+   "desc": "Where the popover opens relative to the trigger"
+  },
+  {
+   "name": "...destructiveConfirm",
+   "type": "{ okButtonProps, cancelButtonProps }",
+   "default": "—",
+   "desc": "Spread on a destructive confirm (Delete, Remove): Cancel becomes the primary button and the confirm the black danger button. Leave it off for a plain confirm"
+  },
+  {
+   "name": "icon",
+   "type": "ReactNode",
+   "default": "antd warning glyph",
+   "desc": "Pass <aha-icon name=\"system-warning-circle\" size=\"16\"> so the popover header carries the DS glyph in black"
+  }
+ ],
+ "opinion": {
+  "whenToUse": [
+   {
+    "what": "Popconfirm",
+    "when": "a low-risk, reversible action needs a quick inline check (delete a row, discard a draft)"
+   },
+   {
+    "what": "Modal",
+    "when": "a destructive or irreversible action needs a deliberate, focused confirmation"
+   },
+   {
+    "what": "no confirm",
+    "when": "the action is trivial and easily undone — prefer an undo toast"
+   }
+  ],
+  "note": "Reserve Popconfirm for low-risk, reversible actions — anchor it to the trigger and keep the question to one line. A destructive or irreversible action (delete account, publish) needs a Modal (see the overlays pattern), never a popover.",
+  "dsv3": "COVERED — antd v6 Popconfirm themed by the shared popconfirmTheme; matrix: Placement (top · bottom · left · right) × Destructive (on → Cancel primary #E70E68 + black danger confirm #000000 via destructiveConfirm / off → primary confirm #E70E68 + #E3E3E3-border Cancel), over a radius-8 white popover with 28px DS-small action buttons. Verified via Figma search_design_system on the DS V3 file (MwjvUjVI0HnfwD9EwPXRAy): DS V3 ships no measured Popconfirm cell (nearest is the 'Delete confirmation' Dialog), so this is a deliberate, documented token mapping onto antd's Popconfirm rather than a re-implementation."
+ },
+ "surfaces": [
+  "editor",
+  "dashboard",
+  "settings"
+ ],
+ "reuse": {
+  "entry": "./popconfirm-theme",
+  "exportsNamed": [
+   "popconfirmTheme",
+   "destructiveConfirm"
+  ]
+ },
+ "snippets": [
+  {
+   "key": "html",
+   "label": "HTML",
+   "file": "popconfirm.html.txt",
+   "runnable": "paste-and-run",
+   "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the SAME shared popconfirmTheme. No build step."
+  },
+  {
+   "key": "react",
+   "label": "React",
+   "file": "popconfirm.react.txt"
+  },
+  {
+   "key": "vue",
+   "label": "Vue 3",
+   "file": "popconfirm.vue.txt"
+  }
+ ],
+ "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (popconfirmTheme); residual drift is caught by visual regression.",
+ "preview": "popconfirm.preview.html",
+ "selfCheck": [
+  {
+   "label": "popover white · radius 8",
+   "verdict": "PASS"
+  },
+  {
+   "label": "destructive confirm: Cancel primary #E70E68 · Delete black danger button",
+   "verdict": "PASS"
+  },
+  {
+   "label": "action buttons at the DS small size (28px · radius 4 · 14px semibold)",
+   "verdict": "PASS"
+  },
+  {
+   "label": "header icon is the black DS glyph (aha-icon system-warning-circle)",
+   "verdict": "PASS"
+  },
+  {
+   "label": "anchored to the trigger",
+   "verdict": "PASS"
+  }
+ ],
+ "conformance": {
+  "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the Popconfirm is open in its default demo state (a destructive confirm), its popover portalled to <body>, so the real antd v6 popover surface and both action buttons bound to popconfirmTheme + destructiveConfirm are measurable at document level. Selectors match antd v6: the surface is .ant-popover-container; the buttons are scoped to .ant-popconfirm-buttons, where the danger confirm carries .ant-btn-dangerous and the primary Cancel does not.",
+  "ready": "!!(document.querySelector('.ant-popover-container') && document.querySelector('.ant-popconfirm-buttons .ant-btn-dangerous') && document.querySelector('.ant-popconfirm-buttons .ant-btn-primary:not(.ant-btn-dangerous)') && document.querySelector('.ant-popconfirm-message-icon aha-icon'))",
+  "measure": "(function(){var g=function(sel,p){var el=document.querySelector(sel);return el?getComputedStyle(el)[p]:null;};var ok='.ant-popconfirm-buttons .ant-btn-dangerous',cancel='.ant-popconfirm-buttons .ant-btn-primary:not(.ant-btn-dangerous)';return{popBg:g('.ant-popover-container','backgroundColor'),popRadius:g('.ant-popover-container','borderTopLeftRadius'),cancelBg:g(cancel,'backgroundColor'),cancelColor:g(cancel,'color'),okBg:g(ok,'backgroundColor'),okColor:g(ok,'color'),buttonHeight:g(ok,'height'),buttonRadius:g(ok,'borderTopLeftRadius'),iconColor:g('.ant-popconfirm-message-icon aha-icon','color')};})()",
+  "expect": {
+   "popBg": "rgb(255, 255, 255)",
+   "popRadius": "8px",
+   "cancelBg": "rgb(231, 14, 104)",
+   "cancelColor": "rgb(255, 255, 255)",
+   "okBg": "rgb(0, 0, 0)",
+   "okColor": "rgb(255, 255, 255)",
+   "buttonHeight": "28px",
+   "buttonRadius": "4px",
+   "iconColor": "rgb(0, 0, 0)"
+  }
+ }
 }

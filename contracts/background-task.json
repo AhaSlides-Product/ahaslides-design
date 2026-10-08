@@ -13,7 +13,7 @@
     "Stack element: bottom-right, newest on top"
   ],
   "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), a 5px progress bar and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar width animates (1.7s) instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed). A process label (\"PDF\", \"Import\") can sit before the heading, split from it by a thin divider; the description line can end in an inline link (\"Download didn't start? Retry\") and the leading icon is centred on heading and description together. A process with no real percentage sets `no-percentage`: the bar eases towards 90% on its own while the caption says what is happening. Several processes share the <aha-background-task-stack> column: one card per process, updated in place, newest on top.",
-  "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (14px heading, #1F1330 ink, #6B6478 secondary, 5px bar, #B5B5B5 paused fill on a #F1F1F1 track) are kept as built in the presenter's Import, not rounded to DS values. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
+  "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Built values with no DS token (14px heading, #1A1A1A ink, #4A4A4A secondary, 5px bar, #B5B5B5 paused fill on a #F1F1F1 track) are kept as built in the presenter's Import, not rounded to DS values. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
   "tokensUsed": [
     "icon-default",
     "color-primary",
@@ -34,7 +34,7 @@
     },
     {
       "label": "Top row",
-      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 14px bold #1F1330, ellipsis · check-circle 12 on success · shared ✕ (aha-close-button) on success / canceled / error"
+      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 14px bold #1A1A1A, ellipsis · check-circle 12 on success · shared ✕ (aha-close-button) on success / canceled / error"
     },
     {
       "label": "Bar",
@@ -42,11 +42,11 @@
     },
     {
       "label": "Caption row",
-      "value": "12px #6B6478 caption left · slot=action right: tertiary small <aha-button>, right edge optically aligned"
+      "value": "12px #4A4A4A caption left · slot=action right: tertiary small <aha-button>, right edge optically aligned"
     },
     {
       "label": "Description",
-      "value": "12px #6B6478 under the heading, 2px gap (canceled / offline / error)"
+      "value": "12px #4A4A4A under the heading, 2px gap (canceled / offline / error)"
     },
     {
       "label": "Error",
@@ -230,7 +230,7 @@
     }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a running card at 42%: a white 320px radius-12 surface, 14px heading in #1F1330, and a 5px bar.",
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] is a running card at 42%: a white 320px radius-12 surface, 14px heading in #1A1A1A, and a 5px bar.",
     "ready": "!!(function(){var el=document.querySelector('aha-background-task[data-probe]');return el&&el.shadowRoot&&el.shadowRoot.querySelector('.card');})()",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-background-task[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.card');var h=r.querySelector('.heading');var b=r.querySelector('.track');var x=r.querySelector('.close');return{bg:getComputedStyle(c).backgroundColor,radius:getComputedStyle(c).borderTopLeftRadius,width:getComputedStyle(c).width,padTop:getComputedStyle(c).paddingTop,headingSize:getComputedStyle(h).fontSize,barHeight:getComputedStyle(b).height,closeHidden:String(x.hidden)};})()",

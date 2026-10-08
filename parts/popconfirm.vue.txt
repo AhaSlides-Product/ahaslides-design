@@ -1,6 +1,8 @@
 <script setup>
-import { ConfigProvider, Popconfirm, Button } from 'ant-design-vue';   // ant-design-vue v4
-import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
+import { ConfigProvider, Popconfirm } from 'ant-design-vue';   // ant-design-vue v4
+import { popconfirmTheme, destructiveConfirm } from '@ahaslides-product/design/popconfirm-theme';
+import '@ahaslides-product/design/aha-button';   // registers <aha-button>
+import '@ahaslides-product/design/icons';        // registers <aha-icon>
 
 function remove() { /* delete the slide */ }
 </script>
@@ -13,12 +15,14 @@ function remove() { /* delete the slide */ }
       ok-text="Delete"
       cancel-text="Cancel"
       placement="top"
-      ok-type="danger"
+      v-bind="destructiveConfirm"
       @confirm="remove"
     >
-      <a-button danger>Delete slide</a-button>
+      <template #icon><aha-icon name="system-warning-circle" size="16" style="margin-inline-end:8px"></aha-icon></template>
+      <aha-button variant="secondary" size="md">Delete slide</aha-button>
     </a-popconfirm>
   </a-config-provider>
 </template>
 <!-- The SAME popconfirmTheme as React → one DS V3 look across both vendor libraries. -->
-<!-- Matrix: placement (top/bottom/left/right) × ok-type (primary/danger). -->
+<!-- The safe choice is the primary: destructiveConfirm makes Cancel the primary and Delete the black danger button. -->
+<!-- Matrix: placement (top/bottom/left/right) × destructive (on/off). -->

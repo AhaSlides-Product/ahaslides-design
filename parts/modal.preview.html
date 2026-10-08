@@ -74,8 +74,8 @@ const cap = (s) => s[0].toUpperCase() + s.slice(1);
 const isExternalUrl = (href) =>
   /^https?:\/\//i.test(href) && !/(^|\.)ahaslides\.com$/i.test(new URL(href).hostname);
 
-// The DS footer: a "Learn more" link on the left, Cancel + Apply on the right (Apply is primary;
-// danger tints it for the Danger confirmation).
+// The DS footer: a "Learn more" link on the left, Cancel + Apply on the right. Apply is the primary;
+// in the Danger confirmation the safe choice takes over: Cancel is the primary, Apply the black danger button.
 function Footer({ danger, onCancel, learnMoreHref = 'https://example.com/reuse-themes' }) {
   const external = isExternalUrl(learnMoreHref);
   return (
@@ -89,7 +89,7 @@ function Footer({ danger, onCancel, learnMoreHref = 'https://example.com/reuse-t
         {external && <aha-icon name="system-arrow-square-out" size="14"></aha-icon>}
       </a>
       <span style={{ display: 'inline-flex', gap: 8 }}>
-        <Button onClick={onCancel}>Cancel</Button>
+        <Button type={danger ? 'primary' : 'default'} onClick={onCancel}>Cancel</Button>
         <Button type="primary" danger={danger}>Apply</Button>
       </span>
     </div>
@@ -195,6 +195,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__modal.theme}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__modal.theme)}><Demo /></ConfigProvider>
 );
 </script>

@@ -95,7 +95,7 @@ function Demo() {
 
 function App() {
   return (
-    <ConfigProvider theme={window.__toast.theme}>
+    <ConfigProvider theme={window.__ahaDsTheme(window.__toast.theme)}>
       <Demo />
     </ConfigProvider>
   );

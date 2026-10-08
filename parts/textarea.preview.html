@@ -75,6 +75,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__st)}><Demo /></ConfigProvider>
 );
 </script>

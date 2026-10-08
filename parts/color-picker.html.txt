@@ -9,10 +9,10 @@
 </script>
 
 <aha-color-picker id="pick" value="#E70E68" size="default"></aha-color-picker>
-<aha-color-picker value="#FF4081" size="small"></aha-color-picker>
-<aha-color-picker value="#20E8B5" size="large"></aha-color-picker>
+<aha-color-picker value="#E70E68" size="small"></aha-color-picker>
+<aha-color-picker value="#1A1A1A" size="large"></aha-color-picker>
 <aha-color-picker value="#E70E68" disabled></aha-color-picker>
-<aha-color-picker value="#0FB5C4" swatches="#0FB5C4|#E70E68|#FF4081|#1A1A1A"></aha-color-picker>
+<aha-color-picker value="#DB005B" swatches="#DB005B|#E70E68|#1A1A1A|#8A8A8A"></aha-color-picker>
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.

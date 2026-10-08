@@ -1,5 +1,7 @@
-import { ConfigProvider, Popconfirm, Button } from 'antd';   // antd v6
-import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
+import { ConfigProvider, Popconfirm } from 'antd';   // antd v6
+import { popconfirmTheme, destructiveConfirm } from '@ahaslides-product/design/popconfirm-theme';
+import '@ahaslides-product/design/aha-button';        // registers <aha-button>
+import '@ahaslides-product/design/icons';             // registers <aha-icon>
 
 <ConfigProvider theme={popconfirmTheme}>
   <Popconfirm
@@ -8,12 +10,15 @@ import { popconfirmTheme } from '@ahaslides-product/design/popconfirm-theme';
     okText="Delete"
     cancelText="Cancel"
     placement="top"          // top | bottom | left | right — arrow tracks the trigger
-    okType="danger"          // "primary" (Vivid Pink) by default; "danger" = black confirm
+    icon={<aha-icon name="system-warning-circle" size="16" style={{ marginInlineEnd: 8 }} />}
+    {...destructiveConfirm}  // destructive: Cancel is the primary, Delete the black danger button
     onConfirm={remove}
   >
-    <Button danger>Delete slide</Button>
+    <aha-button variant="secondary" size="md">Delete slide</aha-button>
   </Popconfirm>
 </ConfigProvider>
-// One shared popconfirmTheme → the DS V3 look; primary confirm, #E3E3E3 cancel border.
-// Matrix: placement (top/bottom/left/right) × okType (primary/danger).
-// For a destructive/irreversible action use a Modal instead (overlays pattern).
+// One shared popconfirmTheme → the DS V3 look, action buttons at the DS small size (28px).
+// The safe choice is the primary: spread destructiveConfirm on Delete / Remove; leave it off for a
+// plain confirm (Publish, Apply), where the confirm is the Vivid Pink primary beside an outlined Cancel.
+// Matrix: placement (top/bottom/left/right) × destructive (on/off).
+// For an irreversible action use a Modal instead (overlays pattern).

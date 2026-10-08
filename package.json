@@ -152,6 +152,7 @@
     "./aha-dropdown": "./lib/aha-dropdown.js",
     "./aha-menu": "./lib/aha-menu.js",
     "./aha-pagination": "./lib/aha-pagination.js",
+    "./antd-base-theme": "./lib/antd-base-theme.js",
     "./table-theme": "./lib/table-theme.js",
     "./table-expandable": "./lib/table-expandable.js",
     "./aha-data-table": "./lib/aha-data-table.js",

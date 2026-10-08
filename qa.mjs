@@ -6,6 +6,8 @@
  *  - CONTRACT CONFORMANCE: measures the REAL rendered UI (getComputedStyle via headless
  *    CDP, cdp.mjs) against each contract's `conformance` block. For composites this asserts
  *    BOTH framework tiers hit the contract AND match each other (parity) — the real gate.
+ *  - INTERACTIVE STATES: state-check.mjs forces :hover, :focus-visible and :active on every control of
+ *    every built page and fails text contrast, an off-list colour, or a focus indicator nobody can see.
  * Prints a PASS/FAIL scorecard; exits non-zero on any FAIL.
  */
 import { readdirSync, readFileSync, existsSync, statSync, rmSync } from 'node:fs';
@@ -13,6 +15,7 @@ import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { evaluateInPage, resolveChrome } from './cdp.mjs';
+import { builtPages, checkPages, formatFinding } from './state-check.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const DIST = join(root, 'dist');
@@ -131,6 +134,18 @@ results.push({ slug: '(global feeds)', checks: g });
 const contracts = {};
 for (const f of readdirSync(CDIR).filter(f => f.endsWith('.json'))) { const j = JSON.parse(readFileSync(join(CDIR, f), 'utf8')); contracts[j.slug] = j; }
 
+/* ---- interactive states — measured for every built page up front, a few pages at a time ---- */
+const statePages = builtPages();
+const stateResults = await checkPages(statePages);
+const stateCheck = (list, slug) => {
+  const result = stateResults[slug];
+  const name = 'interactive states: contrast, colour list and focus in rest / hover / focus / active';
+  if (!result) return;
+  if (result.error) return chk(list, name, false, result.error);
+  chk(list, `${name}${result.known.length ? ` (${result.known.length} known in state-check.baseline.json)` : ''}`, result.fresh.length === 0,
+    result.fresh.slice(0, 4).map(formatFinding).join(' | ') + (result.fresh.length > 4 ? ` | +${result.fresh.length - 4} more — node state-check.mjs ${slug}` : ''));
+};
+
 /* ---- per component ---- */
 const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience', 'charts', 'logo']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
@@ -180,8 +195,12 @@ for (const slug of slugs) {
   } else {
     chk(c, 'contract has a conformance block', false, 'no conformance in contract — gate is blind to the rendered UI');
   }
+  stateCheck(c, slug);
   results.push({ slug, checks: c });
 }
+{ const sitePages = [];
+  for (const slug of statePages.filter(page => NON_COMPONENT_DIRS.has(page))) { const checks = []; stateCheck(checks, slug); sitePages.push(...checks.map(([name, ok, note]) => [`${slug} — ${name}`, ok, note])); }
+  results.push({ slug: '(site pages — interactive states)', checks: sitePages }); }
 
 /* ---- report ---- */
 let pass = 0, fail = 0;

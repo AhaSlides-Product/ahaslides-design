@@ -1,11 +1,12 @@
 <!-- ONE UI (React · antd v6), themed to DS V3 via the shared popconfirmTheme. Vue consumes the
      same popconfirmTheme — see "Show code". This CDN-React page (no build step) is also what
-     qa.mjs measures: the real antd Popconfirm popover + confirm/cancel buttons bound to the
-     shared theme. Interactive: the controls drive live React state (Placement / Danger), so the
-     matrix is explorable. The DEFAULT render (placement=top · Danger OFF · open) is what
-     conformance measures — a primary Vivid Pink confirm (#E70E68) + a default #E3E3E3-border cancel. -->
+     qa.mjs measures: the real antd Popconfirm popover + its two action buttons bound to the
+     shared theme. Interactive: the controls drive live React state (Placement / Destructive).
+     The DEFAULT render (placement=top · Destructive ON · open) is what conformance measures: Cancel
+     is the Vivid Pink primary (#E70E68), Delete the black danger button, both 28px tall. -->
 <div id="react-root" class="pad"></div>
 
+<script type="module">import '../lib/icons.js'; import '../lib/aha-button.js';</script>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
@@ -15,17 +16,16 @@
 
 <script>
 window.__pop = {
-  token: { colorPrimary:'#E70E68', borderRadius:8, borderRadiusLG:8, controlHeight:32, colorBorder:'#E3E3E3',
-           colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorWarning:'#000000', colorError:'#000000',
-           colorBgElevated:'#FFFFFF',
+  token: { borderRadiusLG:8, borderRadiusSM:4, controlHeight:32, controlHeightSM:28, colorTextHeading:'#1A1A1A',
            fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
   components: { Popover:{ borderRadiusLG:8, colorBgElevated:'#FFFFFF' },
-                Button:{ borderRadius:8, controlHeight:32 } }
+                Button:{ controlHeight:32, paddingInlineSM:8, contentFontSizeSM:14 } }
 };
+window.__destructiveConfirm = { okButtonProps:{ danger:true, type:'primary' }, cancelButtonProps:{ type:'primary' } };
 </script>
 
 <script type="text/babel">
-const { ConfigProvider, Popconfirm, Button } = window.__antdR;
+const { ConfigProvider, Popconfirm } = window.__antdR;
 const { useState } = React;
 
 // A segmented control that mirrors the leaf smart-widget bar (.aha-pg styles from the doc shell),
@@ -47,9 +47,9 @@ function Seg({ label, value, onChange, options }) {
 
 function Demo() {
   const [placement, setPlacement] = useState('top');
-  const [danger, setDanger] = useState(false);
+  const [destructive, setDestructive] = useState(true);
   return (
-    <ConfigProvider theme={window.__pop}>
+    <ConfigProvider theme={window.__ahaDsTheme(window.__pop)}>
       <div style={{ maxWidth: 620 }}>
         {/* .aha-pg without data-pg → styled like the leaf widget bar, but driven by React, not PLAYGROUND_JS */}
         <div className="aha-pg" style={{ marginBottom: 18, borderRadius: 8 }}>
@@ -58,23 +58,25 @@ function Demo() {
               { label: 'Top', value: 'top' }, { label: 'Bottom', value: 'bottom' },
               { label: 'Left', value: 'left' }, { label: 'Right', value: 'right' },
             ]} />
-          <Seg label="Danger" value={danger ? 'on' : 'off'} onChange={(v) => setDanger(v === 'on')}
-            options={[{ label: 'Off', value: 'off' }, { label: 'On', value: 'on' }]} />
+          <Seg label="Destructive" value={destructive ? 'on' : 'off'} onChange={(v) => setDestructive(v === 'on')}
+            options={[{ label: 'On', value: 'on' }, { label: 'Off', value: 'off' }]} />
         </div>
         {/* Open Popconfirm — the popover portals to <body>; conformance reads it there.
-            Danger OFF → primary Vivid Pink confirm; Danger ON → okType="danger" black confirm. */}
+            Destructive ON → Cancel is the primary, Delete the black danger button. OFF → a plain
+            confirm: Vivid Pink Publish beside an outlined Cancel. */}
         <div style={{ minHeight: 260, paddingTop: 120, paddingBottom: 120, display: 'flex', justifyContent: 'center' }}>
           <Popconfirm
-            key={placement + String(danger)}
+            key={placement + String(destructive)}
             open
             placement={placement}
-            title="Delete this slide?"
-            description="This cannot be undone."
-            okText="Delete"
+            title={destructive ? 'Delete this slide?' : 'Publish this deck?'}
+            description={destructive ? 'This cannot be undone.' : 'Participants can join straight away.'}
+            okText={destructive ? 'Delete' : 'Publish'}
             cancelText="Cancel"
-            okType={danger ? 'danger' : 'primary'}
+            icon={<aha-icon name={destructive ? 'system-warning-circle' : 'system-info'} size="16" style={{ color: 'var(--aha-color-warning)', marginInlineEnd: 8 }}></aha-icon>}
+            {...(destructive ? window.__destructiveConfirm : {})}
           >
-            <Button danger={danger}>Delete slide</Button>
+            <aha-button variant="secondary" size="md">{destructive ? 'Delete slide' : 'Publish'}</aha-button>
           </Popconfirm>
         </div>
       </div>
