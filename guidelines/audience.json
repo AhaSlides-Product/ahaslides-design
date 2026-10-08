@@ -31,7 +31,7 @@
     {
       "ref": "button",
       "as": "component",
-      "use": "the standard submit button — on the Developer Platform <aha-audience-submit> (wraps <aha-button variant=\"primary\" size=\"touch\" block>) from lib/all.js (the iframe loads it), coloured by --aha-color-primary = the deck accent; a built plugin without the package rebuilds the same spec (full-width, ~44–48px, deck-accent fill, contrast-picked ink, disabled/submitting/locked/post-submit states)",
+      "use": "the standard submit button — on the Developer Platform <aha-audience-submit> (wraps <aha-button variant=\"primary\" size=\"touch\" block>) from lib/audience.js (the iframe loads it), coloured by --aha-color-primary = the deck accent; a built plugin without the package rebuilds the same spec (full-width, ~44–48px, deck-accent fill, contrast-picked ink, disabled/submitting/locked/post-submit states)",
       "status": "available"
     },
     {
@@ -43,19 +43,19 @@
     {
       "ref": "counted-textarea",
       "as": "component",
-      "use": "open-ended / idea text with a character counter — <aha-counted-textarea size=\"touch\"> from lib/all.js on the Developer Platform, never a ported copy",
+      "use": "open-ended / idea text with a character counter — <aha-counted-textarea size=\"touch\"> from lib/audience.js on the Developer Platform, never a ported copy",
       "status": "available"
     },
     {
       "ref": "input",
       "as": "component",
-      "use": "single-line answers and names — <aha-counted-input size=\"touch\"> (56px, 16px text; type=\"number\" for a number) inside <aha-audience-field> from lib/all.js on the Developer Platform",
+      "use": "single-line answers and names — <aha-counted-input size=\"touch\"> (56px, 16px text; type=\"number\" for a number) inside <aha-audience-field> from lib/audience.js on the Developer Platform",
       "status": "available"
     },
     {
       "ref": "tag",
       "as": "component",
-      "use": "idea tags on the presenter side — <aha-tag> from lib/all.js; on the audience phone a tappable chip is <aha-audience-chip> (44px, deck surface), never the 20px tag",
+      "use": "idea tags on the presenter side — <aha-tag> from lib/audience.js; on the audience phone a tappable chip is <aha-audience-chip> (44px, deck surface), never the 20px tag",
       "status": "available"
     },
     {
@@ -221,6 +221,7 @@
       "status": "available"
     }
   ],
+  "entryExtras": ["counted-input", "field-error", "loader", "select"],
   "componentBacklog": "composedOf marks 7 items this pattern leans on that the DS does not ship — the four semantic-state tokens (colorSuccess/Error/Warning/Info, which plugins bundle from the design-system package rather than read as --aha-* vars because no host CSS var crosses the iframe), plus toast, modal and skeleton (the first two are painted by the host outside the iframe). Radio, slider, textarea and the shared instruction now ship as the audience elements. Per the charter, a pattern leaning on a missing component is a signal to add it HERE.",
   "rules": [
     {
@@ -471,7 +472,7 @@
     },
     {
       "id": "submit-button-spec",
-      "rule": "Use the standard submit button: on the Developer Platform it is <aha-audience-submit> from lib/all.js (it wraps <aha-button variant=\"primary\" size=\"touch\" block> and adds the busy, locked and closed states plus the submission lock; never a hand-ported copy of its CSS); a built plugin without the package rebuilds the same spec. Full-width block, ~44–48px tall, 8px corners, fill from the deck accent via --aha-color-primary (never a hard-coded brand colour, never a bare type=\"primary\" fixed purple), readable ink chosen by fill luminance (white or #1A1A1A), semi-bold, positioned at the end of the answer area with ~16px below.",
+      "rule": "Use the standard submit button: on the Developer Platform it is <aha-audience-submit> from lib/audience.js (it wraps <aha-button variant=\"primary\" size=\"touch\" block> and adds the busy, locked and closed states plus the submission lock; never a hand-ported copy of its CSS); a built plugin without the package rebuilds the same spec. Full-width block, ~44–48px tall, 8px corners, fill from the deck accent via --aha-color-primary (never a hard-coded brand colour, never a bare type=\"primary\" fixed purple), readable ink chosen by fill luminance (white or #1A1A1A), semi-bold, positioned at the end of the answer area with ~16px below.",
       "ref": [
         "C15",
         "C9",
@@ -643,7 +644,7 @@
     },
     {
       "id": "consume-ds-elements",
-      "rule": "On the Developer Platform the audience iframe loads lib/all.js, so every control the DS ships is consumed as the element: the audience set (<aha-answer-list>, <aha-rank-list>, <aha-scale-slider>, <aha-audience-chip>, <aha-audience-field> around <aha-counted-input> / <aha-counted-textarea size=\"touch\"> / <aha-select>, <aha-audience-image-upload>, <aha-audience-submit>, <aha-countdown>, <aha-instruction-line>, <aha-waiting-for-host>, <aha-submitted-card>, <aha-identity-strip>, <aha-swipe-card>; the Audience Library page maps each upstream component to its element) plus the shared ones (<aha-button>, <aha-stepper>, <aha-autocomplete>) — never 'ported 1:1' by copying its CSS, which freezes the copy at the version of the day it was built. Keep a control custom only where the DS has no element yet, and build it on DS tokens.",
+      "rule": "On the Developer Platform the audience iframe loads lib/audience.js, so every control the DS ships is consumed as the element: the audience set (<aha-answer-list>, <aha-rank-list>, <aha-scale-slider>, <aha-audience-chip>, <aha-audience-field> around <aha-counted-input> / <aha-counted-textarea size=\"touch\"> / <aha-select>, <aha-audience-image-upload>, <aha-audience-submit>, <aha-countdown>, <aha-instruction-line>, <aha-waiting-for-host>, <aha-submitted-card>, <aha-identity-strip>, <aha-swipe-card>; the Audience Library page maps each upstream component to its element) plus the shared ones (<aha-button>, <aha-stepper>, <aha-autocomplete>) — never 'ported 1:1' by copying its CSS, which freezes the copy at the version of the day it was built. Keep a control custom only where the DS has no element yet, and build it on DS tokens.",
       "ref": [
         "C15",
         "§5"
@@ -683,7 +684,7 @@
     },
     {
       "id": "ds-stepper-combobox",
-      "rule": "A stage indicator is <aha-stepper> and a type-to-pick field is <aha-autocomplete> (both in lib/all.js); a sentiment glyph is the matching face (system-smiley / system-sad-face / system-angry-face). Never hand-roll stepper pills or a combobox, and never mark the current stage with the primary accent — the stepper marks it with ink so the accent stays on the one action that advances the flow.",
+      "rule": "A stage indicator is <aha-stepper> and a type-to-pick field is <aha-autocomplete> (both in lib/audience.js); a sentiment glyph is the matching face (system-smiley / system-sad-face / system-angry-face). Never hand-roll stepper pills or a combobox, and never mark the current stage with the primary accent — the stepper marks it with ink so the accent stays on the one action that advances the flow.",
       "ref": [
         "C15",
         "C35"

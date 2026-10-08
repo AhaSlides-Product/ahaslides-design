@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Surface entry</title>
+</head>
+<body>
+  <script type="module">
+    const entry = location.hash.slice(1);
+    window.surfaceEntryErrors = [];
+    window.addEventListener('error', (event) => window.surfaceEntryErrors.push(String(event.message)));
+    window.addEventListener('unhandledrejection', (event) => window.surfaceEntryErrors.push(String(event.reason)));
+    try {
+      window.surfaceEntryModule = await import(`../lib/${entry}.js`);
+    } catch (error) {
+      window.surfaceEntryErrors.push(String(error));
+    }
+    window.surfaceEntryReady = true;
+  </script>
+</body>
+</html>

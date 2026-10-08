@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.119.0 — 2026-10-08
+### Added
+- Per-surface CDN entries next to `lib/all.js`: `lib/audience.js` (26 elements, also exports `applyDeck`), `lib/settings.js` (63) and `lib/canvas.js` (7). One `<script type="module">` registers just the elements that surface uses, including shared controls such as `<aha-button>`; also exported as `@ahaslides-product/design/audience`, `/settings`, `/canvas`. `lib/all.js` is unchanged
+- The entries are generated from `guidelines/<surface>.json` (`composedOf` plus a new `entryExtras` list), and `generate.mjs` fails when an element module belongs to no surface, so a new element is classified once
+- `tests/surface-entry.test.mjs`: every element is in a surface entry, and each entry loads without error in a no-build page (headless Chrome)
+### Changed
+- The Audience, Settings and guideline pages, `llms.txt`, the README and the audience library snippets show the per-surface CDN link pinned to the release tag (#PR)
+
 ## 0.118.0 — 2026-10-08
 ### Added
 - Foundations → Brand colour rules (`foundations/brand-colour-rules.html`): the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts) served from the docs site at a permanent address, linked from the Foundations sidebar, cross-linked with the Colour token reference, and listed in `llms.txt`. Page content is published as written; tokens and components are unchanged and do not follow these rules yet (#203)
