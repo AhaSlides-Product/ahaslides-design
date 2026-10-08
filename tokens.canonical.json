@@ -19,7 +19,7 @@
     "button": {
       "$source": "DS V3 Button component (Figma node 56611-11049) — latest & authoritative per Brian. Supersedes the older export for hover/fg where they disagreed.",
       "primaryBg": "#E70E68", "primaryBgHover": "#DB005B", "primaryBgPress": "#DB005B", "primaryFg": "#FFFFFF",
-      "secondaryBg": "#FFFFFF", "secondaryBgHover": "#FEF3F7", "secondaryBorder": "#E3E3E3", "secondaryBorderHover": "#E70E68", "secondaryBorderPress": "#D4D4D4",
+      "secondaryBg": "#FFFFFF", "secondaryBgHover": "#FEF3F7", "secondaryBorder": "#E3E3E3", "secondaryBorderHover": "#E70E68", "secondaryBorderPress": "#DB005B",
       "tertiaryBgHover": "#FEF3F7", "tertiaryBgActive": "#FEF3F7", "disabledBg": "#E3E3E3", "disabledFg": "#B5B5B5",
       "dangerBg": "{color.textDefault}", "dangerBgHover": "{color.primitives.gray.90}", "dangerBgPress": "{color.primitives.gray.80}", "dangerRing": "{color.textDefault}",
       "positiveBg": "#E70E68", "positiveBgHover": "#DB005B", "positiveBgPress": "#DB005B", "positiveFg": "#FFFFFF",
