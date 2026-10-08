@@ -21,6 +21,7 @@ const quizzesOnly = ref(true);
   >Marketing</aha-tag>
   <aha-tag
     checkable
+    controlled
     :checked="quizzesOnly || undefined"
     @change="quizzesOnly = $event.detail.checked"
   >Quizzes only</aha-tag>

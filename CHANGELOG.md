@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.116.0 — 2026-10-08
+### Added
+- `<aha-tag controlled>`: for a checkable tag whose host owns the state. A click only emits `change` ({ checked } is the requested state) and the host sets or removes `checked`, so a framework binding (Vue `:checked`) no longer double-toggles. Without `controlled` the tag still flips its own `checked` (#PRNUM)
+### Changed
+- `<aha-tag checkable size="large">` (the filter chip): rest is `--aha-gray-15` fill, `--aha-border-input` border and `--aha-text-default` label; checked is `--aha-purple-15` fill with `--aha-purple-70` border and label. Height stays 36px (#PRNUM)
+- `<aha-tag>` default height 24px to 20px (gap 4px and padding 0 6px unchanged) (#PRNUM)
+- `<aha-rate>`: the filled star is `--aha-pink-60` (was `--aha-yellow-50`) and uses the old kit's rounded star glyph; empty stars, half fill and `precision="exact"` are unchanged (#PRNUM)
+
 ## 0.114.1 — 2026-10-08
 ### Fixed
 - The Pages workflow caps the staging build at 15 minutes and the staging trigger at 5, so a hung staging branch cannot hold the production deploy queue (#200)
