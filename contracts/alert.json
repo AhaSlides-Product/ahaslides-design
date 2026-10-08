@@ -41,7 +41,7 @@
       { "what": "Notification", "when": "a richer, stacking message with a title + description, often from a background event" }
     ],
     "note": "Keep the message to one or two lines; lead with what happened, then what to do. Reserve error for real failures — over-using red trains people to ignore it.",
-    "dsv3": "COVERED — enumerated from the DS V3 Figma sets (Alert + Alert-banner, fileKey MwjvUjVI0HnfwD9EwPXRAy): five types (info · success · warning · error · branding), regular + small sizes, an optional heading + description, a showIcon toggle (hide-icon), a closable ✕, a trailing action slot, and a full-width square banner mode (the separate Alert-banner set). Tones bound to the DS V3 semantic families — bg-informative/positive/warning/negative + matching border/text tokens; branding on bg-accent + border-focus + color-primary. Radius on the scale (radius-default = 8). The status glyph is a real DS icon summoned by name, never an inline SVG."
+    "dsv3": "COVERED — enumerated from the DS V3 Figma sets (Alert + Alert-banner, fileKey MwjvUjVI0HnfwD9EwPXRAy): five types (info · success · warning · error · branding), regular + small sizes, an optional heading + description, a showIcon toggle (hide-icon), a closable ✕, a trailing action slot, and a full-width square banner mode (the separate Alert-banner set). The four status types sit on gray-25 with no border, told apart by icon, role and text; branding on bg-accent + color-primary, no border. Radius on the scale (radius-default = 8). The status glyph is a real DS icon summoned by name, never an inline SVG."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-alert", "registers": "aha-alert", "exportsNamed": ["AhaAlert", "defineAhaAlert"] },
