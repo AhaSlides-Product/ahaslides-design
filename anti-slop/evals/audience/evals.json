@@ -1213,7 +1213,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C20 — Ant's default slider margin left in place, rail misaligned with end labels",
-      "expected_output": "C20 (A horizontal slider's rail sits flush with its end labels) FAILs. Ant's default slider margin is left in place, so the rail is inset ~6px on each side while the min/max label row spans the full container width — the rail no longer lines up under the \"0\" and \"100\" captions it belongs to. Fix: zero out the slider's default margin (e.g. `margin: 0` on the `.ant-slider` override) so the rail runs edge-to-edge under the label row. Overall: NEEDS FIX",
+      "expected_output": "C20 (A horizontal slider's rail lines up with its end labels, never an uneven leftover margin) FAILs. Ant's default slider margin is left in place, so the rail is inset ~6px on each side while the min/max label row spans the full container width — an accidental leftover margin, not an intended inset, and the rail no longer lines up under the \"0\" and \"100\" captions it belongs to. Fix: zero out the slider's default margin (e.g. `margin: 0` on the `.ant-slider` override) so the rail runs edge-to-edge under the label row, or give the label row the same deliberate inset. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C20 is marked FAIL",
@@ -1238,7 +1238,7 @@
       "files": [],
       "label": "good-control",
       "notes": "C20 — slider margin zeroed, rail flush with the min/max label row",
-      "expected_output": "C20 (A horizontal slider's rail sits flush with its end labels) PASSes. Ant's default slider margin is zeroed out, so the rail runs edge-to-edge and shares the same left/right bounds as the min/max label row — the rail sits flush under its end labels. Overall: PASS",
+      "expected_output": "C20 (A horizontal slider's rail lines up with its end labels, never an uneven leftover margin) PASSes. Ant's default slider margin is zeroed out, so the rail runs edge-to-edge and shares the same left/right bounds as the min/max label row — the rail sits flush under its end labels. Overall: PASS",
       "assertions": [
         "Overall verdict is PASS",
         "C20 is marked PASS",

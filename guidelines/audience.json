@@ -369,7 +369,7 @@
     },
     {
       "id": "slider-fill-hairline",
-      "rule": "Fill a slider/progress track with the deck ink at 10% and give a filled part the same 1px hairline (color-mix(in srgb, currentColor 10%, transparent)) so a coloured fill doesn't sink into a same-hue deck — one value for every audience border and track, no heavier 20% edge.",
+      "rule": "Fill a slider/progress track with the deck ink at 10% and give a filled part the same 1px hairline (color-mix(in srgb, currentColor 10%, transparent)) so a coloured fill doesn't sink into a same-hue deck — one value for every track and panel hairline; a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%.",
       "ref": [
         "C18",
         "§2"
@@ -377,7 +377,7 @@
     },
     {
       "id": "slider-rail-flush",
-      "rule": "Zero out Ant's default slider margin (~margin: 10px 6px) so a horizontal slider's rail runs edge-to-edge, flush under the row holding its min/max end labels.",
+      "rule": "Zero out Ant's default slider margin (~margin: 10px 6px) so a horizontal slider's rail lines up with its min/max end labels, either flush or inset by the same intended amount on both sides (<aha-scale-slider> insets 16px), never an uneven leftover component margin.",
       "ref": [
         "C20",
         "§2"
@@ -660,7 +660,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a deck-owned surface (chip, field, track, dashed image drop zone) takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px color-mix(in srgb, currentColor 10%, transparent), except the 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%. Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"
