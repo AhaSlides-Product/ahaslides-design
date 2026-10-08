@@ -29,7 +29,7 @@ not "we chose".
 | **Framed** (`enableFullScreen: false`) | A "question + answer area" slide that should look like every built-in type. The host renders the **title**, **description**, and **question image**; your iframe fills the rest. |
 | **Full-canvas** (`enableFullScreen: true`) | A bespoke layout that owns the whole stage. The host hides its chrome (`xprops.fullCanvas = true`); **you** render the title/header yourself. |
 | **Presenter control bar** (NCB, outside the iframe) — built plugins | Slide-specific actions (Next / Summarise / Previous) on a built plugin. **Declared** in the manifest, painted by the host — never rendered in-canvas. |
-| **In-canvas controls** — Developer Platform | A build-less slide type (`presenter.html` / `audience.html` / `settings.html` loading `lib/all.js`) has no manifest actions: its controls render **inside** the canvas as `<aha-button size="xl">`. |
+| **In-canvas controls** — Developer Platform | A build-less slide type (the presenter canvas loads `lib/canvas.js`; `audience.html` loads `lib/audience.js` and `settings.html` loads `lib/settings.js`, each a single tag: `<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js"></script>`) has no manifest actions: its controls render **inside** the canvas as `<aha-button size="xl">`. |
 
 - **Never `enableFullScreen: true` + `enableQuestionTitle: true` together.** Full-canvas
   hides the host title bar, so the `enableQuestionTitle` value renders **nowhere** and
@@ -249,7 +249,7 @@ The one fixed dark ink is `--aha-text-default` **#1A1A1A** on every surface. `#1
 ## Presenter controls on the Developer Platform — in-canvas, `size="xl"`
 
 A build-less Developer Platform slide type (`presenter.html` / `audience.html` /
-`settings.html`, loading `lib/all.js`) declares no manifest actions, so its presenter
+`settings.html`, each loading its own surface entry: `lib/canvas.js`, `lib/audience.js`, `lib/settings.js`) declares no manifest actions, so its presenter
 controls render **inside** the canvas. Build them from `<aha-button>` and size them for the
 room with **`size="xl"`** (52px — the web-component twin of React `<XLButtonScope>`):
 
@@ -272,7 +272,7 @@ actions.
 
 ## Stage steppers, pickers and mood glyphs — DS elements, not hand-rolled
 
-`lib/all.js` ships the two controls slide types used to hand-roll:
+`lib/canvas.js` (and `lib/audience.js`) ships the two controls slide types used to hand-roll:
 
 ```html
 <aha-stepper size="lg" steps="Ideas|Group|Vote|Discuss" current="1"
