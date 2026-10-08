@@ -272,7 +272,7 @@ actions.
 
 ## Stage steppers, pickers and mood glyphs — DS elements, not hand-rolled
 
-`lib/canvas.js` (and `lib/audience.js`, `lib/settings.js`) ships the two controls slide types used to hand-roll:
+`lib/canvas.js` (and `lib/audience.js`) ships the two controls slide types used to hand-roll:
 
 ```html
 <aha-stepper size="lg" steps="Ideas|Group|Vote|Discuss" current="1"
