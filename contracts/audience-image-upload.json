@@ -25,11 +25,11 @@
   "spec": [
     {
       "label": "Empty (area)",
-      "value": "min-height 120, 1px dashed ink edge, radius 12, transparent; system-image-square 32 in the muted ink, 16px semibold prompt, 12px muted format hint"
+      "value": "about 136 high, 2px dashed edge in the ink at 20%, radius 8, the lab's panel (Deep Space at 80% on a dark deck) with a 20px backdrop blur; system-image-square 32 in the muted ink, 16px semibold prompt, 14px muted format hint on a 20px line"
     },
     {
       "label": "Attached",
-      "value": "the picture fitted (contain) in a 203px box, then Change and Delete as 48px outlined deck-ink buttons"
+      "value": "the picture fitted (contain) in a 203px box, then Change and Delete as 48px outlined deck-ink buttons. The compact variant is one full-width <aha-button variant=\"secondary-deck\" size=\"touch\">: white fill, edge and label in the deck accent"
     },
     {
       "label": "Failed",
@@ -143,7 +143,7 @@
     "measure": "(function(){var el=document.querySelector('aha-audience-image-upload[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var d=cs(q('.drop'));return{minHeight:d.minHeight,radius:d.borderTopLeftRadius,edgeStyle:d.borderTopStyle,ink:d.color,promptSize:cs(q('.prompt')).fontSize};})()",
     "expect": {
       "minHeight": "120px",
-      "radius": "12px",
+      "radius": "8px",
       "edgeStyle": "dashed",
       "ink": "rgb(26, 26, 26)",
       "promptSize": "16px"

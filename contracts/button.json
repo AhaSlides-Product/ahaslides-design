@@ -20,6 +20,7 @@
     { "label": "Positive / Success", "value": "bg #4EF1C5, dark label #1A1A1A, hover #93F5DA, active #20E8B5 (success = alias of positive)" },
     { "label": "Primary-alt", "value": "same fill as primary #6A1EBB (a second primary slot for a two-primary layout)" },
     { "label": "Text / Text-link", "value": "white bg, no border, weight 400; text = secondary-grey label, hover grey fill; text-link = #6A1EBB label, hover #A96FF0" },
+    { "label": "Secondary-deck", "value": "white fill; edge and label in the deck accent (--aha-deck-accent-mark, else --aha-color-primary), hover an 8% wash and the hover accent, pressed a 16% wash, focus a 2px accent ring at 35%; size touch gives the 48px audience height" },
     { "label": "Disabled", "value": "bg #E3E3E3, label #B5B5B5" },
     { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl/touch); icon 16px, inline-flex, 8px gap" },
     { "label": "Focus", "value": "soft box-shadow ring, spread 2 — #D3B4FF@30% (default) · danger #FF2850@20% · positive #20E8B5@30%" },
@@ -27,7 +28,7 @@
     { "label": "Icon-only", "value": "square (width = height per size: 28/36/40/52), glyph centred, no label; needs aria-label" }
   ],
   "props": [
-    { "name": "variant", "type": "primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link", "default": "secondary", "desc": "tone × emphasis; one primary per view. success is a synonym of positive; primary-alt of primary; text / text-link are borderless label buttons" },
+    { "name": "variant", "type": "primary | secondary | tertiary | link | danger | success | positive | primary-alt | text | text-link | secondary-deck", "default": "secondary", "desc": "tone × emphasis; one primary per view. success is a synonym of positive; primary-alt of primary; text / text-link are borderless label buttons; secondary-deck is the white-filled button with its edge and label in the deck accent, the audience phone's secondary action" },
     { "name": "size", "type": "sm | md | lg | xl | touch", "default": "lg", "desc": "28 / 36 / 40 / 52 / 48px height — lg (40) is the default; xl (52) is for presenter controls rendered inside a slide canvas and read from room distance (the web-component twin of React <XLButtonScope>); touch (48, 8px corners, 16px label) is the audience phone's primary action and clears the 44px touch floor" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "non-interactive; grey fill" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "shows a spinner, blocks clicks" },
@@ -46,7 +47,7 @@
       { "what": "xl", "when": "a presenter control drawn inside the slide canvas (Reveal, Next, Start) that the room reads from a distance — not for app screens, where lg is the ceiling" }
     ],
     "note": "Size: LARGE (lg) is the default for most actions; step down to MEDIUM (md) or SMALL (sm) in denser/secondary regions to lower an action's information-hierarchy, not by whim. Size only via the size attribute (sm / md / lg / xl) — never inline height/padding/radius/fontSize, and never through ::part(button). Recolour only by setting --aha-color-primary (plus the --aha-button-primary-* hover, press and text tokens) on the document root. Primary fill is #6A1EBB; hover #8644D4 per DS V3.",
-    "dsv3": "<aha-button> binds to a NAMED button semantic-token layer (--aha-button-*): --aha-button-primary-bg/-bg-hover/-bg-press/-text, --aha-button-default-bg/-text/-border/-bg-hover/-border-hover/-border-press, --aha-button-ghost-bg-hover/-bg-press (tertiary), --aha-button-danger-bg/-bg-hover/-bg-press/-text/-ring, --aha-button-positive-bg/-bg-hover/-bg-press/-text, --aha-button-disabled-bg/-text, --aha-button-focus-ring/-focus-ring-success, --aha-button-elevate-primary/-secondary. Each is a pure indirection whose value references the core DS token (e.g. --aha-button-primary-bg: var(--aha-color-primary)), so button theming can move independently of the core palette with NO visual change — the rendered colours are byte-identical to the raw --aha-btn-* seeds."
+    "dsv3": "<aha-button> binds to a NAMED button semantic-token layer (--aha-button-*): --aha-button-primary-bg/-bg-hover/-bg-press/-text, --aha-button-default-bg/-text/-border/-bg-hover/-border-hover/-border-press, --aha-button-ghost-bg-hover/-bg-press (tertiary), --aha-button-danger-bg/-bg-hover/-bg-press/-text/-ring, --aha-button-positive-bg/-bg-hover/-bg-press/-text, --aha-button-disabled-bg/-text, --aha-button-focus-ring/-focus-ring-success, --aha-button-elevate-primary/-secondary. Two optional hooks default to no change: --aha-button-primary-border (the primary edge, default the fill colour) and --aha-button-focus-outline (an outline on keyboard focus, default none). Each is a pure indirection whose value references the core DS token (e.g. --aha-button-primary-bg: var(--aha-color-primary)), so button theming can move independently of the core palette with NO visual change — the rendered colours are byte-identical to the raw --aha-btn-* seeds."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "snippets": [
@@ -67,7 +68,8 @@
         { "label": "Positive", "value": "positive" },
         { "label": "Primary alt", "value": "primary-alt" },
         { "label": "Text", "value": "text" },
-        { "label": "Text link", "value": "text-link" }
+        { "label": "Text link", "value": "text-link" },
+        { "label": "Secondary deck", "value": "secondary-deck" }
       ] },
       { "prop": "size", "label": "Size", "default": "lg", "options": [
         { "label": "sm", "value": "sm" },

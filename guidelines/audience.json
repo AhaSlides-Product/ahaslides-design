@@ -55,7 +55,7 @@
     {
       "ref": "tag",
       "as": "component",
-      "use": "idea tags on the presenter side — <aha-tag> from lib/audience.js; on the audience phone a tappable chip is <aha-audience-chip> (44px, deck surface), never the 20px tag",
+      "use": "idea tags on the presenter side — <aha-tag> from lib/audience.js; on the audience phone a tappable chip is <aha-audience-chip> (48px, 8px corners, deck surface), never the 20px tag",
       "status": "available"
     },
     {
@@ -133,7 +133,7 @@
     {
       "ref": "scale-slider",
       "as": "component",
-      "use": "scale input — <aha-scale-slider>: rail flush with min/max labels, rail and filled portion both ink 10% with a 1px ink-10% hairline",
+      "use": "scale input — <aha-scale-slider>: readout centred above an 8px rail inset 16px from the min/max labels, rail and filled portion both ink 10% with a 1px ink-10% hairline",
       "status": "available"
     },
     {

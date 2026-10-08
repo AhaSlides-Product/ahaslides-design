@@ -22,6 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.122.0 — 2026-10-08
+### Added
+- `<aha-button variant="secondary-deck">`: a white-filled button whose edge and label take the deck accent (the deepened accent that reads on white), with hover, pressed, focus and disabled states. At `size="touch"` it is the audience phone's secondary action, the counterpart of the Submit button. `<aha-audience-image-upload variant="button">` now uses it, full width (#PR)
+- `--aha-deck-surface-deep` deck variable (and `audienceSurfaceDeep()`): the panel the audience lab draws, the same as `--aha-deck-surface` on a light deck and Deep Space at 80% on a dark one
+- `<aha-button>` hooks `--aha-button-primary-border` (primary edge, default the fill) and `--aha-button-focus-outline` (outline on keyboard focus, default none); with neither set nothing changes
+### Changed
+- Audience components follow the audience lab where the review chose it: `<aha-audience-chip>` is 48px high with 8px corners, a 1px edge at ink 20% (also on hover), the lab's panel on a dark deck and the browser focus ring; `<aha-scale-slider>` centres the readout above an 8px rail with 2px corners, inset 16px from the end captions, step label weight 600, captions on a 16px line; `<aha-audience-image-upload>` area is a 2px dashed ink-20% edge with 8px corners on the lab's panel with a backdrop blur, a 14px hint, and its compact button is full width; `<aha-audience-submit>` has a 1px ink-10% edge in every state and a 2px focus outline 1px off the button; `<aha-waiting-for-host>` has 8px gaps and a 14px sub-line; `<aha-submitted-card>` has a 16px gap, 8px between its texts, the lab's panel, a 14px subtitle and a pip on an ink-10% wash with the glyph in the 65% ink (#PR)
+- Contracts, conformance expectations, library entries and examples for these components match the new values
+### Fixed
+- The loading spinner in `<aha-button>` renders at its intended 16px. Its size shared a selector list with an invalid `::slotted(...) svg` selector, so the whole rule was dropped and the spinner measured 131px and stretched the host. This fixes every `<aha-button loading>` (and so `<aha-audience-submit>` while busy), not only the audience Submit button (#PR)
+
 ## 0.119.1 — 2026-10-08
 ### Changed
 - `<aha-answer-list>` / `<aha-answer-option>` follow the audience lab where the review chose it: rows are 48px tall (was 44), the list has a 16px margin above and below, radio and checkbox borders are 1px (ink at 20% unchecked, the deck accent checked) instead of 2px grey, the checked radio dot is 12px (was 10), the label is weight 400 and 600 only on my pick (was 600 everywhere), and keyboard focus shows the browser default ring instead of the 2px ink outline (#205)

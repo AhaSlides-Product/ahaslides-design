@@ -25,15 +25,15 @@
   "spec": [
     {
       "label": "Card",
-      "value": "radius 12, padding 20/16, gap 6, the frosted surface washed 5% with the ink, 1px ink hairline"
+      "value": "radius 12, padding 20/16, gap 16, the lab's panel (Deep Space at 80% on a dark deck), 1px ink hairline"
     },
     {
       "label": "Pip",
-      "value": "a 24px glyph in the DS success colour (system-check-circle by default); or a 96px image, radius 8"
+      "value": "a 24px square wash of the ink at 10% holding a glyph in the muted ink, 65% (system-check-circle by default); or a 96px image, radius 8"
     },
     {
       "label": "Text",
-      "value": "16px semibold heading; 12px subtitle in the muted ink"
+      "value": "16px semibold heading; 14px subtitle on a 21px line in the muted ink; 8px between them"
     }
   ],
   "props": [
