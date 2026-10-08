@@ -15,7 +15,7 @@ boundary. This pattern carries the **conventions** that keep every slide type's 
 view reading as one product.
 
 **On the Developer Platform** (build-less slide types: `presenter.html` / `audience.html` /
-`settings.html`) the audience iframe loads `lib/all.js`, so the DS elements **are** available
+`settings.html`) the audience iframe loads the audience entry `lib/audience.js` (one tag, pinned to a release tag: `<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience.js"></script>`; it also exports `applyDeck`; `lib/all.js` is the everything option), so the DS elements **are** available
 in it: consume `<aha-button>`, `<aha-counted-textarea>`, `<aha-input>`, `<aha-checkbox>`,
 `<aha-radio>` and `<aha-tag>` as elements. Never "port 1:1" a component by copying its CSS —
 the copy freezes at the version of the day it was built while the page loads a newer DS.
@@ -306,7 +306,7 @@ clearly as primary vs side option. Never paint two visually equal buttons.
 
 On the Developer Platform a stage indicator is `<aha-stepper steps="…" current="…">` and a
 type-to-pick field is `<aha-autocomplete size="large">` (16px text, 48px tall), both from
-`lib/all.js`. Never hand-roll the stepper dots or a `<div role="listbox">` under an `<input>`, and
+`lib/audience.js`. Never hand-roll the stepper dots or a `<div role="listbox">` under an `<input>`, and
 never fill the current stage with the accent — the stepper marks it with ink, leaving the accent
 on submit (C35). Mood glyphs are `system-smiley` / `system-sad-face` / `system-angry-face`.
 

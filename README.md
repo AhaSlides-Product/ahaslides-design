@@ -99,6 +99,10 @@ the release that built it.
 It's **additive** — bundled apps should keep importing per-element (above) so unused elements
 tree-shake out; `all.js` intentionally pulls the whole set.
 
+Only need one surface? Each has its own entry with just the elements it uses (plus the shared controls such as
+`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`.
+In npm: `@ahaslides-product/design/audience`, `/settings`, `/canvas`.
+
 ### Agent feeds — hosted, self-describing
 
 The docs site + every feed are generated together and deployed to GitHub Pages on each merge,

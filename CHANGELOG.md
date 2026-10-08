@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.119.0 — 2026-10-08
+## 0.120.0 — 2026-10-08
 ### Changed
 - **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#197)
 - **Breaking (visual):** status carries no colour. `--aha-color-success | warning | error | info`, the `--aha-text-positive | negative | warning` and `--aha-border-success | warning | error | info` tokens are black, the status backgrounds (`--aha-bg-positive | negative | warning | warning-subtle | informative`) are white, and the status buttons differ by shape (see the status-button entry below); every status keeps its icon and wording, and audience answer rows still tell correct from incorrect by the ✓ / ✗ glyph (#197)
@@ -48,7 +48,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#197)
 - `--aha-logo-purple` (`#6A1EBB`), the one purple left, for the logo only (#197)
 - `standards.mjs` fails a colour token that is off the allowed list (Vivid Pink, Darker Pink, the two flat tints, white, black, neutral greys, and purple at `color.primitives.logoPurple` only) and fails the build when the Colour page shows any other colour (#197)
-- `state-check.mjs`, an interactive-state gate that `qa.mjs` runs on every built page: it forces `:hover`, `:focus-visible` and `:active` on each control and fails text contrast under 4.5:1 (3:1 for large text and icons), a colour off the allowed list, or a focus indicator under 3:1. `node state-check.mjs <slug>` checks one page. Findings that predate the gate (46 across 17 pages, mostly `--aha-text-tertiary` `#8A8A8A` labels at 3.45:1) are listed in `state-check.baseline.json` and can only shrink (#197)
+- `state-check.mjs`, an interactive-state gate that `qa.mjs` runs on every built page: it forces `:hover`, `:focus-visible` and `:active` on each control and fails text contrast under 4.5:1 (3:1 for large text and icons), a colour off the allowed list, or a focus indicator under 3:1. `node state-check.mjs <slug>` checks one page. Findings that predate the gate (87 element-and-state entries across 17 pages, mostly `--aha-text-tertiary` `#8A8A8A` labels at 3.45:1) are listed in `state-check.baseline.json` and can only shrink (#197)
 - `@ahaslides-product/design/antd-base-theme`: `dsAntdTheme(theme)` and `antdBaseTheme`. antd derives hover, press, focus and status colours from its seeds; the base pins each one to an allowed colour. All 17 `*-theme` exports are built with it (#197)
 - `recolour-art.mjs`: maps illustrations, third-party logos and file-type icons onto the allowed colours by rule (old brand hues to the pink ramp by lightness, every other hue to a grey of the same lightness). Run it after a new Figma or brand import; `--check` lists what would change (#197)
 - `standards.mjs` fails art that `recolour-art.mjs` would still change, an off-list colour in the icon or illustration registry, in a demo, contract, guideline or element source, or on the Colour page's inline SVG (only the header logo is skipped), and an antd theme that is not built on the shared base (#197)
@@ -62,6 +62,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Paywall: the See all plans label stays white on hover and press. It turned `#1A1A1A` on the `#2C2C2C` hover fill (1.25:1) because the secondary button's hover rule set its label from `--aha-text-default` instead of the button's own `--aha-button-default-text`; it is now 13.96:1 in every state, with a white focus ring (#197)
 - `<aha-button variant="primary">` and `variant="secondary"` show their focus ring. A later elevation `box-shadow` rule overrode it, so keyboard focus drew nothing (#197)
 - `DataTable`: toolbar actions render inside the table's theme. They sat outside its `ConfigProvider`, so an antd `Button` there (Export) hovered in antd blue `#4096FF` (#197)
+
+## 0.119.0 — 2026-10-08
+### Added
+- Per-surface CDN entries next to `lib/all.js`: `lib/audience.js` (26 elements, also exports `applyDeck`), `lib/settings.js` (63) and `lib/canvas.js` (7). One `<script type="module">` registers just the elements that surface uses, including shared controls such as `<aha-button>`; also exported as `@ahaslides-product/design/audience`, `/settings`, `/canvas`. `lib/all.js` is unchanged
+- The entries are generated from `guidelines/<surface>.json` (`composedOf` plus a new `entryExtras` list), and `generate.mjs` fails when an element module belongs to no surface, so a new element is classified once
+- `tests/surface-entry.test.mjs`: every element is in a surface entry, and each entry loads without error in a no-build page (headless Chrome)
+### Changed
+- The Audience, Settings and guideline pages, `llms.txt`, the README and the audience library snippets show the per-surface CDN link pinned to the release tag (#204)
 
 ## 0.118.0 — 2026-10-08
 ### Added

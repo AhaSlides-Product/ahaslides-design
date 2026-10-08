@@ -255,6 +255,7 @@ const SETTINGS_CATALOG = [
 ];
 const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.slug)));
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
+let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / canvas) → { files, closure }
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
 let MARKETING = [];         // loaded marketing sections — drives the Patterns → Marketing sections group + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
@@ -1377,6 +1378,18 @@ function audienceCodeTabs(snips) {
   const panes = order.map(([k], i) => `<pre class="code ${k} ${i === 0 ? 'active' : ''}">${esc(withCdnRef(snips[k]))}</pre>`).join('');
   return `<div class="code-tabs" data-open="false"><div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs">${tabs}</div><button class="copy" type="button">Copy</button></div>${panes}</div></div>`;
 }
+const surfaceCdnUrl = (surface) => `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/${surface}.js`;
+function surfaceCdnBox(surface) {
+  const entry = SURFACE_ENTRIES[surface];
+  if (!entry) return '';
+  const tags = entry.files.map(f => '&lt;' + (f === 'icons.js' ? 'aha-icon' : f.replace(/\.js$/, '')) + '&gt;').join(' ');
+  return `<div class="note surface-cdn" style="margin:0 0 18px"><b>No build step? One tag for the whole ${esc(surface)} surface</b>
+    <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
+&lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
+    ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
+    <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
+}
 function renderAudienceCard(sec) {
   const badge = sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : '';
   const replaces = sec.replaces ? `<p class="replaces">${audMd(sec.replaces)}</p>` : '';
@@ -1412,6 +1425,7 @@ function renderAudienceLibrary() {
       <h1>${esc(AUDIENCE.title)}</h1>
       <p class="rule">${audMd(AUDIENCE.rule)}</p>
       <p class="why">${audMd(AUDIENCE.why)}</p>
+      ${surfaceCdnBox('audience')}
     </header>
     <div class="hub-layout">
       ${hubAnchorAside(fallbackGroups)}
@@ -1519,6 +1533,7 @@ function renderGuidelineHtml(p) {
   ${p.hub ? `<p class="hub-back">See the standalone <a href="../../${esc(p.hub)}/index.html">Settings page</a> — the whole settings surface (this pattern, the settings-list component, and every control) inline on one page.</p>` : ''}
 
   ${p.lead ? `<div class="note" style="margin:0 0 18px">${mdInline(p.lead)}</div>` : ''}
+  ${surfaceCdnBox(p.slug)}
 
   <h2>Based on</h2>
   <p class="body">The rationale, worked examples, and the full assertion set live in the design skill — this pattern distils the enforceable subset and links each rule back to it.</p>
@@ -1758,6 +1773,7 @@ function renderSettingsHub() {
   <p class="gen">◆ generated from guidelines/settings.json + the settings-list &amp; control contracts — do not edit by hand</p>
 
   ${guide && guide.lead ? `<div class="note" style="margin:0 0 16px">${mdInline(guide.lead)}</div>` : ''}
+  ${surfaceCdnBox('settings')}
 
   <div class="hub-layout">
     ${hubAnchorAside(fallbackGroups)}
@@ -2436,6 +2452,46 @@ writeFileSync(join(root, 'lib', 'all.js'),
   ELEMENT_MODULES.map(f => `import './${f}';`).join('\n') + '\n');
 console.log(`  ✓ lib/all.js — all-in-one entry (${ELEMENT_MODULES.length} elements)`);
 
+/* Per-surface entries — lib/audience.js, lib/settings.js, lib/canvas.js. ONE <script> registers the
+   elements a surface uses. The set is read from the surface's guideline (guidelines/<surface>.json):
+   every `available` component in `composedOf`, plus `entryExtras` (slugs the surface uses that are not
+   a reuse-graph row). An element is classified once, there; a shared control (aha-button) appears in
+   every surface that composes it, and elements an entry imports pull in their own dependencies. */
+const importedModules = (file) => [...read(join(root, 'lib', file)).matchAll(/\bimport\s+(?:[^'";]*?\s+from\s+)?'\.\/([\w.-]+\.js)'/g)].map(m => m[1]);
+const elementFileFor = (slug) => {
+  const element = contracts.find(c => c.slug === slug)?.element ?? `aha-${slug}`;
+  return element === 'aha-icon' ? 'icons.js' : `${element}.js`;
+};
+const moduleClosure = (files) => {
+  const seen = new Set();
+  const visit = (file) => { if (seen.has(file)) return; seen.add(file); importedModules(file).forEach(visit); };
+  files.forEach(visit);
+  return seen;
+};
+SURFACE_ENTRIES = {};
+for (const surface of ['audience', 'settings', 'canvas']) {
+  const guideline = JSON.parse(read(join(GDIR, `${surface}.json`)));
+  const slugs = [
+    ...(guideline.composedOf || []).filter(x => x.as === 'component' && x.status === 'available').map(x => x.ref),
+    ...(guideline.entryExtras || []),
+  ];
+  const files = [...new Set(slugs.map(elementFileFor))].sort();
+  const unknown = files.filter(f => !ELEMENT_MODULES.includes(f));
+  if (unknown.length) throw new Error(`guidelines/${surface}.json names components with no element module in lib/: ${unknown.join(', ')}`);
+  SURFACE_ENTRIES[surface] = { files, closure: moduleClosure(files) };
+}
+const unclassified = ELEMENT_MODULES.filter(f => !Object.values(SURFACE_ENTRIES).some(e => e.closure.has(f)));
+if (unclassified.length) throw new Error(`element modules in no surface entry — add each slug to \`entryExtras\` in guidelines/audience.json, settings.json or canvas.json: ${unclassified.join(', ')}`);
+for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
+  writeFileSync(join(root, 'lib', `${surface}.js`),
+    `// ${PKGNAME}/${surface} — the ${surface} surface entry (generated by generate.mjs from guidelines/${surface}.json; do not edit by hand).\n` +
+    `// ONE import registers the <aha-*> elements the ${surface} surface uses. Load the token layer separately:\n` +
+    `//   <link rel="stylesheet" href=".../lib/tokens.css">   or   import '${PKGNAME}/tokens.css'\n` +
+    entry.files.map(f => `import './${f}';`).join('\n') + '\n' +
+    (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : ''));
+  console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
+}
+
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
    GitHub Pages under the project path. Without this, lib/ isn't deployed and every
@@ -2479,6 +2535,8 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
+  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js, same CDN path and tag:`,
+  ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale (one colour, per the colour rules).`,
   '>',
