@@ -184,7 +184,7 @@
         {
           "id": "C2",
           "title": "On-grid size with its paired line-width token",
-          "test": "Size is one of the four on-grid values — 12 / 16 / 24 / 32 — via the icon's size prop, so its paired line width (1 / 1.5 / 2 / 2.5) comes with it; never an off-grid size (no 20px) and never a hardcoded one-off stroke width."
+          "test": "Size is one of the four on-grid values — 12 / 16 / 24 / 32 — via the icon's size prop, so its paired line width (1 / 1.5 / 2 / 2.5) comes with it; never an off-grid size (no 20px) and never a hardcoded one-off stroke width. A glyph may be drawn by hand only when the library has no suitable icon, and then its stroke follows the size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px."
         },
         {
           "id": "C3",
@@ -199,7 +199,7 @@
         {
           "id": "C5",
           "title": "Standard catalog glyph reused, not a new inline drawing",
-          "test": "Common meanings reuse the established catalogue glyph from the live icon registry (validation → warning-circle, success → check-circle, search → magnifying-glass, settings → gear, more → dots-three-vertical, add → plus) rather than a new synonym or a fresh inline drawing; a genuinely missing glyph is added to the DS library."
+          "test": "Common meanings reuse the established catalogue glyph from the live icon registry (validation → warning-circle, success → check-circle, search → magnifying-glass, settings → gear, more → dots-three-vertical, add → plus) rather than a new synonym or a fresh inline drawing; a genuinely missing glyph is added to the DS library; a new drawing is allowed only when the library has no suitable icon."
         },
         {
           "id": "C6",
@@ -594,12 +594,12 @@
         {
           "id": "C4",
           "title": "Grouping & separation come from spacing — no dividers, no cards",
-          "test": "Hierarchy and separation use `--aha-size*` spacing tokens (the monotonic 4/8/16/32/48 scale), **not** divider/rule lines and **not** raw px. Plain settings and groups are **never** wrapped in a card or **any container with its own background/tinted fill or border** — a lone toggle/setting row sits directly on the panel surface, not on a grey/tinted rounded pill."
+          "test": "Hierarchy and separation use `--aha-size*` spacing tokens (the monotonic 4/16/24/32/48 scale: 4 name→help, 16 sub-setting→parent, 24 between siblings, 32 between groups, 48 danger zone), **not** divider/rule lines and **not** raw px. Plain settings and groups are **never** wrapped in a card or **any container with its own background/tinted fill or border** — a lone toggle/setting row sits directly on the panel surface, not on a grey/tinted rounded pill."
         },
         {
           "id": "C5",
           "title": "Dependent sub-settings — hidden when parent off, nested when shown",
-          "test": "A sub-setting that only applies when its parent is on is **hidden** when the parent is off (not shown disabled — unless the disabled state communicates an upgrade path). When shown, it reads as **nested under** its parent: indented (`sizeLG`) with a tighter gap above (`sizeXS`) **and de-emphasized** (lighter label weight/colour), and it is never bracketed by its own separators on both sides or…"
+          "test": "A sub-setting that only applies when its parent is on is **hidden** when the parent is off (not shown disabled — unless the disabled state communicates an upgrade path). When shown, it reads as **nested under** its parent: indented 24px (`sizeLG`) with a 16px gap below the parent (`size`) **and de-emphasized** (label regular 400 in secondary text `--aha-text-secondary` #4A4A4A, where a top-level label is regular 400 in primary text #1A1A1A), and it is never bracketed by its own separators on both sides or…"
         },
         {
           "id": "C6",
@@ -650,6 +650,16 @@
           "id": "C15",
           "title": "No content-reset / restore-defaults control in a slide-type config panel",
           "test": "*(Slide-type right-panel config only — mark `N/A` for any other settings surface.)* A slide type's right-panel config **must not** carry a \"Reset / Restore-defaults / Clear-all\" control that re-seeds or wipes the **content the panel itself authors** — the dilemmas, items, buckets, lots or options the presenter typed. This is distinct from C7: C7 legitimises a genuine account/workspace…"
+        },
+        {
+          "id": "C16",
+          "title": "Group title only over a real group, and no control in a group header",
+          "test": "A setting-group / SectionHeader title is semibold and used **only** for a real group of two or more settings — never over a single field or a single list. The header and its action slot carry **no setting control** (no toggle, switch, input, select or button); a control is a settings item (label left, control right). Plain text such as a count may stay in the header. **FAIL** on a title over one field, or any control in the header."
+        },
+        {
+          "id": "C17",
+          "title": "Setting label weight and colour",
+          "test": "A setting label (settings item / SettingRow / ModeField label) is regular 400 in primary text (`--aha-text-default` #1A1A1A). A label inside a sub-setting group is regular 400 in secondary text (`--aha-text-secondary` #4A4A4A). Sibling settings sit 24px apart. **FAIL** on a semibold setting label or a nested label in primary text."
         }
       ]
     },

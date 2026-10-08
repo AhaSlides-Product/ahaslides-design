@@ -28,7 +28,7 @@
       { "what": "-filled asset", "when": "a selected/active/on state — e.g. system-bookmark-simple-filled; a solid glyph survives greyscale" },
       { "what": "slide-type / file-type", "when": "labelling a slide kind or a file kind; file-type glyphs are one colour and follow the text colour like every other icon" }
     ],
-    "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). If a glyph is genuinely missing, add the SVG under icons/svg and re-run build-icons.mjs."
+    "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). Draw a glyph only when the library has no suitable icon, and then add the SVG under icons/svg and re-run build-icons.mjs; the stroke follows the size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./icons", "registers": "aha-icon", "exportsNamed": ["icons", "ICON_NAMES", "defineAhaIcon", "AhaIcon"] },

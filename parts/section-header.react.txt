@@ -3,7 +3,7 @@ import '@ahaslides-product/design/aha-section-header';  // registers <aha-sectio
 
 // One shared custom element — React 18 renders it directly (no ref needed; it takes no events).
 // React 19 can pass the same attributes. `label` is a noun phrase in sentence case; `help` fills
-// the "?" tooltip; the `action` slot carries a master switch / count / link pushed to the right.
+// the "?" tooltip; the `action` slot carries plain text such as a count pushed to the right (never a control).
 function SectionHeader({ label, help, action }) {
   return (
     <aha-section-header label={label} {...(help ? { help } : {})}>
