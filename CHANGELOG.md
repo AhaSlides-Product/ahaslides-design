@@ -22,9 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.119.2 — 2026-10-08
+## 0.121.1 — 2026-10-08
 ### Changed
 - Colour rules guideline (`brand/visual-identity-colour-rules.html`) is now v9: illustrations use Vivid Pink tints plus Darker Pink, white, ink and grey; our own illustrations, customer and integration logos and file-type icons follow the rules; black is `#1A1A1A` (#207)
+
+## 0.121.0 — 2026-10-08
+### Changed
+- `<aha-csat>`: rating no longer collapses — both thumbs stay visible, the chosen one shows the active state (`aria-pressed` synced); clicking the other thumb switches the rating and fires `rate`, clicking the chosen thumb again un-rates (#206)
+- `<aha-csat>`: feedback textarea allows 2000 characters (was 200). Opened from the Feedback button it defaults to "Share your thoughts"; thumbs-down keeps "How can we improve? Let us know!" (#206)
+- `<aha-csat>`: the thumb and Feedback buttons sit 2px apart (was 4px) (#206)
 
 ## 0.119.1 — 2026-10-08
 ### Changed
