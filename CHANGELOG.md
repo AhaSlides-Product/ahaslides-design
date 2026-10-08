@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.119.2 — 2026-10-08
 ### Changed
-- Colour rules guideline (`brand/visual-identity-colour-rules.html`) is now v9: illustrations use Vivid Pink tints plus Darker Pink, white, ink and grey; our own illustrations, customer and integration logos and file-type icons follow the rules; black is `#1A1A1A` (#PR)
+- Colour rules guideline (`brand/visual-identity-colour-rules.html`) is now v9: illustrations use Vivid Pink tints plus Darker Pink, white, ink and grey; our own illustrations, customer and integration logos and file-type icons follow the rules; black is `#1A1A1A` (#207)
 
 ## 0.119.1 — 2026-10-08
 ### Changed
