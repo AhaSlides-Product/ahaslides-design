@@ -2,12 +2,12 @@
 <rect width="116" height="64" fill="#E1E1E1"/>
 <g id="Oldies">
 <path d="M-1576 -1097C-1576 -1098.1 -1575.1 -1099 -1574 -1099H782C783.104 -1099 784 -1098.1 784 -1097V2103C784 2104.1 783.104 2105 782 2105H-1574C-1575.1 2105 -1576 2104.1 -1576 2103V-1097Z" fill="#D5D5D5"/>
-<path d="M-1574 -1099V-1098H782V-1099V-1100H-1574V-1099ZM784 -1097H783V2103H784H785V-1097H784ZM782 2105V2104H-1574V2105V2106H782V2105ZM-1576 2103H-1575V-1097H-1576H-1577V2103H-1576ZM-1574 2105V2104C-1574.55 2104 -1575 2103.55 -1575 2103H-1576H-1577C-1577 2104.66 -1575.66 2106 -1574 2106V2105ZM784 2103H783C783 2103.55 782.552 2104 782 2104V2105V2106C783.657 2106 785 2104.66 785 2103H784ZM782 -1099V-1098C782.552 -1098 783 -1097.55 783 -1097H784H785C785 -1098.66 783.657 -1100 782 -1100V-1099ZM-1574 -1099V-1100C-1575.66 -1100 -1577 -1098.66 -1577 -1097H-1576H-1575C-1575 -1097.55 -1574.55 -1098 -1574 -1098V-1099Z" fill="black" fill-opacity="0.1"/>
+<path d="M-1574 -1099V-1098H782V-1099V-1100H-1574V-1099ZM784 -1097H783V2103H784H785V-1097H784ZM782 2105V2104H-1574V2105V2106H782V2105ZM-1576 2103H-1575V-1097H-1576H-1577V2103H-1576ZM-1574 2105V2104C-1574.55 2104 -1575 2103.55 -1575 2103H-1576H-1577C-1577 2104.66 -1575.66 2106 -1574 2106V2105ZM784 2103H783C783 2103.55 782.552 2104 782 2104V2105V2106C783.657 2106 785 2104.66 785 2103H784ZM782 -1099V-1098C782.552 -1098 783 -1097.55 783 -1097H784H785C785 -1098.66 783.657 -1100 782 -1100V-1099ZM-1574 -1099V-1100C-1575.66 -1100 -1577 -1098.66 -1577 -1097H-1576H-1575C-1575 -1097.55 -1574.55 -1098 -1574 -1098V-1099Z" fill="#1A1A1A" fill-opacity="0.1"/>
 <g id="Presentation list">
 <path d="M-219 -72C-219 -89.6731 -204.673 -104 -187 -104H167C184.673 -104 199 -89.6731 199 -72V126C199 143.673 184.673 158 167 158H-187C-204.673 158 -219 143.673 -219 126V-72Z" fill="white"/>
 <g id="Template bar &#62; Browse more">
 <g clip-path="url(#clip0_3348_51605)">
-<rect width="115.556" height="64" rx="4.25541" fill="#B5B5B5"/>
+<rect width="115.556" height="64" rx="4.25541" fill="#F493BB"/>
 <g id="Group 2301">
 <g id="Group 2488">
 <g id="Group 2489">
@@ -20,8 +20,8 @@
 <g id="Rectangle 296" filter="url(#filter2_d_3348_51605)">
 <rect x="23.1191" y="16.1289" width="70.4054" height="53.755" rx="4.39222" fill="white"/>
 </g>
-<circle id="Ellipse 116" cx="59.7051" cy="44" r="12" fill="#EAEAEA"/>
-<rect id="Rectangle 301" x="35.5605" y="21.9961" width="45.9327" height="2.8708" rx="1.4354" fill="#EAEAEA"/>
+<circle id="Ellipse 116" cx="59.7051" cy="44" r="12" fill="#FDE7F0"/>
+<rect id="Rectangle 301" x="35.5605" y="21.9961" width="45.9327" height="2.8708" rx="1.4354" fill="#FDE7F0"/>
 <g id="Group 2490">
 <g id="arrow no tail">
 <path id="Vector" d="M62.9087 43.342C63.2988 43.706 63.2988 44.2972 62.9087 44.6612L57.9153 49.321C57.5252 49.685 56.8917 49.685 56.5016 49.321C56.1115 48.9569 56.1115 48.3657 56.5016 48.0017L60.7897 44.0001L56.5047 39.9986C56.1146 39.6346 56.1146 39.0434 56.5047 38.6793C56.8948 38.3153 57.5283 38.3153 57.9184 38.6793L62.9119 43.339L62.9087 43.342Z" fill="#313131"/>
@@ -43,7 +43,7 @@
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="1.3595"/>
 <feGaussianBlur stdDeviation="7.89867"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.427451 0 0 0 0 0.427451 0 0 0 0 0.427451 0 0 0 1 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.905882 0 0 0 0 0.054902 0 0 0 0 0.407843 0 0 0 1 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3348_51605"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3348_51605" result="shape"/>
 </filter>
@@ -52,7 +52,7 @@
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="1.3595"/>
 <feGaussianBlur stdDeviation="7.89867"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.427451 0 0 0 0 0.427451 0 0 0 0 0.427451 0 0 0 1 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.905882 0 0 0 0 0.054902 0 0 0 0 0.407843 0 0 0 1 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3348_51605"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3348_51605" result="shape"/>
 </filter>
@@ -61,7 +61,7 @@
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="9.24046"/>
 <feGaussianBlur stdDeviation="7.89867"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.427451 0 0 0 0 0.427451 0 0 0 0 0.427451 0 0 0 0.39 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.905882 0 0 0 0 0.054902 0 0 0 0 0.407843 0 0 0 0.39 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3348_51605"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3348_51605" result="shape"/>
 </filter>

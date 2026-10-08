@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; each Brands file is the current SVG from its sourceUrl (thesvg.org, or a Design System V3 Figma export) on the recorded date, mapped to greyscale by recolour-art.mjs (third-party logos are one colour under the colour rules). usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl, then run node recolour-art.mjs.",
+  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; each Brands file is the current SVG from its sourceUrl (thesvg.org, or a Design System V3 Figma export) on the recorded date, mapped to greyscale (never darker than black #1A1A1A) by recolour-art.mjs (third-party logos are one colour under the colour rules). usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl, then run node recolour-art.mjs.",
   "logos": [
     {
       "id": "ahaslides-logo",

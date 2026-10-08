@@ -27,8 +27,8 @@
         <radialGradient xlink:href="#snoo-radial-gragient-4" id="snoo-radial-gragient-5" cx="-73.55" cy="64.68" r="12.85" fx="-73.55" fy="64.68" gradientTransform="matrix(-1.07 0 0 1.55 62.87 27.26)"/>
         <radialGradient id="snoo-radial-gragient-6" cx="107.93" cy="166.96" r="45.3" fx="107.93" fy="166.96" gradientTransform="matrix(1 0 0 .66 0 57.4)" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#282828"/>
-            <stop offset=".29" stop-color="#181818"/>
-            <stop offset=".73" stop-color="#060606"/>
+            <stop offset=".29" stop-color="#1A1A1A"/>
+            <stop offset=".73" stop-color="#1A1A1A"/>
             <stop offset="1"/>
         </radialGradient>
         <radialGradient xlink:href="#snoo-radial-gragient" id="snoo-radial-gragient-7" cx="147.88" cy="32.94" r="39.77" fx="147.88" fy="32.94" gradientTransform="matrix(1 0 0 .98 0 .54)"/>

@@ -27,7 +27,7 @@ import { readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { ART_SOURCES, coloursInSvg, recolourSvg } from './recolour-art.mjs';
+import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -52,7 +52,7 @@ const BASELINE_SPACING_PX = (existsSync(BASELINE_PATH) ? JSON.parse(readFileSync
 const UPDATE_BASELINE = process.argv.includes('--update-baseline');
 const ACKNOWLEDGE_TOKENS = process.argv.includes('--acknowledge-tokens');
 const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; pill = 999
-const NEUTRALS = new Set(['#FFFFFF', '#000000']);          // universal; 'transparent' handled in inPalette
+const NEUTRALS = new Set(['#FFFFFF']);                     // universal; 'transparent' handled in inPalette
 const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
 // every hex the canonical token set blesses — the palette an on-standard colour must land in
 const PALETTE = new Set(); JSON.stringify(TOKENS, (key, value) => (key.startsWith('$') || key === 'openItems' ? undefined : value)).replace(/#[0-9A-Fa-f]{3,8}/g, (h) => (PALETTE.add(normHex(h)), h));
@@ -61,7 +61,7 @@ const CSSVARS = new Set([...read(join(root, 'lib', 'tokens.css')).matchAll(/--ah
 const rgbToHex = (s) => { const m = String(s).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i); return m ? normHex('#' + [1, 2, 3].map(i => (+m[i]).toString(16).padStart(2, '0')).join('')) : null; };
 const isColour = (v) => /^\s*(#[0-9A-Fa-f]{3,8}|rgba?\()/.test(String(v));
 const isPx = (v) => /^\s*\d+(\.\d+)?px\s*$/.test(String(v));
-const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test(s)) return true; const hex = s.startsWith('#') ? normHex(s) : rgbToHex(s); return !!hex && (PALETTE.has(hex) || NEUTRALS.has(hex)); };
+const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test(s) || /^rgba\(\s*0\s*,\s*0\s*,\s*0\s*,\s*(0|0?\.\d+)\s*\)$/.test(s)) return true; const hex = s.startsWith('#') ? normHex(s) : rgbToHex(s); return !!hex && (PALETTE.has(hex) || NEUTRALS.has(hex)); };
 
 /* ===== the ICON LIBRARY — the single source every component icon must come from =====
    icons/registry.json (built by build-icons.mjs from Figma DS V3) IS the icon library published
@@ -780,27 +780,40 @@ const repoChecks = [];
     ...[...String(text).matchAll(/(?<![&\w])#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])/g)].map(m => normHex(m[0]).slice(0, 7)),
     ...[...String(text).matchAll(/rgba?\(\s*\d+[\s,]+\d+[\s,]+\d+/g)].map(m => rgbToHex(m[0].replace(/\s+/g, ',').replace(/,+/g, ', '))),
   ];
-  const offList = (text, purpleAllowed) => [...new Set(coloursIn(text).filter(hex => !(isNeutral(hex) || ALLOWED_COLOURS.has(hex) || (purpleAllowed && hex === LOGO_PURPLE))))];
+  const offList = (text, purpleAllowed, alsoAllowed = []) => [...new Set(coloursIn(text).filter(hex => !(isNeutral(hex) || ALLOWED_COLOURS.has(hex) || alsoAllowed.includes(hex) || (purpleAllowed && hex === LOGO_PURPLE))))];
+  /* Black is the default ink #1A1A1A. Pure black survives only as a transparency: a shadow, a scrim, an ink alpha. */
+  const solidPureBlack = (text) => /(?<![&\w])#(?:000|000000)(?![\w-])|rgb\(\s*0\s*,\s*0\s*,\s*0\s*\)/i.test(String(text));
   const tokenLeaves = (node, path = '') => (node && typeof node === 'object')
     ? Object.entries(node).filter(([key]) => !key.startsWith('$')).flatMap(([key, value]) => tokenLeaves(value, path ? `${path}.${key}` : key))
     : [[path, node]];
   const offListTokens = tokenLeaves(TOKENS).flatMap(([path, value]) => offList(value, path === 'color.primitives.logoPurple').map(hex => `${path} ${hex}`));
   rchk('every colour token is on the allowed colour list', offListTokens.length === 0,
-    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black, neutral greys, and ${LOGO_PURPLE} at color.primitives.logoPurple only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
+    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black #1A1A1A, neutral greys, and ${LOGO_PURPLE} at color.primitives.logoPurple only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
+  const pureBlackTokens = tokenLeaves(TOKENS).filter(([, value]) => solidPureBlack(value)).map(([path]) => path);
+  rchk('no colour token is solid pure black (black is the default ink #1A1A1A)', pureBlackTokens.length === 0,
+    `alias {color.primitives.black} or {color.textDefault}; pure black is allowed only with an alpha, as rgba(0,0,0,a): ${pureBlackTokens.join(', ')}`);
   const colourPagePath = join(DIST, 'foundations', 'colour.html');
-  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/href="#[^"]*"/g, ''), true) : null;
+  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/<section class="illustration-tints"[\s\S]*?<\/section>/g, '').replace(/href="#[^"]*"/g, ''), true) : null;
   rchk('the built Colour page shows only allowed colours', offListOnPage && offListOnPage.length === 0,
     offListOnPage ? `off the list on dist/foundations/colour.html: ${offListOnPage.slice(0, 12).join(', ')}` : 'dist/foundations/colour.html is missing — run node generate.mjs first');
 
-  const artToRecolour = ART_SOURCES.flatMap(({ files, map }) => files().filter(path => recolourSvg(read(path), map) !== read(path)).map(path => relative(root, path)));
+  const artToRecolour = ART_SOURCES.flatMap(({ files, mapFor }) => files().filter(path => recolourSvg(read(path), mapFor(path)) !== read(path)).map(path => relative(root, path)));
   rchk('illustrations, third-party logos and file-type icons are drawn in the allowed colours', artToRecolour.length === 0,
     `run node recolour-art.mjs, then node build-icons.mjs && node build-illustrations.mjs — off the list: ${artToRecolour.slice(0, 8).join(', ')}${artToRecolour.length > 8 ? ` (+${artToRecolour.length - 8} more)` : ''}`);
   const offListInRegistry = ['icons', 'illustrations'].flatMap(kind => {
     const entries = JSON.parse(read(join(root, kind, 'registry.json')) || '{}')[kind] || {};
-    return Object.entries(entries).filter(([, entry]) => offList(coloursInSvg(entry.body || '').join(' '), false).length).map(([name]) => `${kind}/${name}`);
+    return Object.entries(entries).filter(([, entry]) => offList(coloursInSvg(entry.body || '').join(' '), false, kind === 'illustrations' ? ILLUSTRATION_TINTS : []).length).map(([name]) => `${kind}/${name}`);
   });
   rchk('the icon and illustration registries carry only allowed colours', offListInRegistry.length === 0,
     `a registry is stale or an import brought colour in — recolour the source SVG and rebuild: ${offListInRegistry.slice(0, 8).join(', ')}${offListInRegistry.length > 8 ? ` (+${offListInRegistry.length - 8} more)` : ''}`);
+
+  /* The AhaSlides logo is drawn in the logo purple, Vivid Pink and its wordmark ink; a mono variant is one neutral. */
+  const OWN_LOGO_COLOURS = [LOGO_PURPLE, VIVID_PINK, '#1A1A2E'];
+  const logoFiles = readdirSync(join(root, 'logo')).filter(f => f.endsWith('.svg'));
+  const offListOwnLogos = logoFiles.filter(f => /^(ahaslides-logo|thesplash)/.test(f))
+    .filter(f => coloursInSvg(read(join(root, 'logo', f))).some(hex => { const colour = normHex(hex).slice(0, 7); return !(isNeutral(colour) || OWN_LOGO_COLOURS.includes(colour)); }));
+  rchk('the AhaSlides logo and The Splash use the logo purple and Vivid Pink only', offListOwnLogos.length === 0,
+    `the pink hooks are Vivid Pink ${VIVID_PINK}, never Radical Pink #FF4081: ${offListOwnLogos.map(f => `logo/${f}`).join(', ')}`);
 
   /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
      Each exemption names why the file has to spell out an off-list colour. */
@@ -816,9 +829,28 @@ const repoChecks = [];
     ...readdirSync(join(root, 'lib')).filter(f => /^aha-.*\.js$|-theme\.js$|^audience-deck\.js$|^viewport\.js$/.test(f)).map(f => `lib/${f}`),
     'generate.mjs',
   ].filter(f => !(f in OFF_LIST_SOURCE_EXEMPT));
-  const offListSources = sourceFiles.flatMap(f => offList(read(join(root, f)).replace(/%23(?=[0-9a-fA-F]{6}\b)/g, '#'), false).map(hex => `${f} ${hex}`));
+  /* The illustration tints are named where the illustration is documented, and nowhere else. */
+  const NAMES_ILLUSTRATION_TINTS = new Set(['contracts/illustration.json', 'parts/illustration.preview.html']);
+  const sourceText = (f) => read(join(root, f)).replace(/%23(?=[0-9a-fA-F]{6}\b)/g, '#');
+  const offListSources = sourceFiles.flatMap(f => offList(sourceText(f), false, NAMES_ILLUSTRATION_TINTS.has(f) ? ILLUSTRATION_TINTS : []).map(hex => `${f} ${hex}`));
   rchk('demos, contracts, guidelines and element sources use only allowed colours', offListSources.length === 0,
     `use Vivid Pink, its tints, black, white or a grey (a demo placeholder too) — off the list: ${offListSources.slice(0, 10).join(', ')}${offListSources.length > 10 ? ` (+${offListSources.length - 10} more)` : ''}`);
+
+  const pureBlackSources = [...sourceFiles, 'audience/audience.css', 'audience/library.json'].filter(f => solidPureBlack(sourceText(f)));
+  rchk('no demo, contract, guideline or element source paints solid pure black', pureBlackSources.length === 0,
+    `black is the default ink: bind --aha-black, --aha-bg-dark or --aha-text-default (fallback #1A1A1A); keep rgba(0,0,0,a) for a shadow or scrim: ${pureBlackSources.join(', ')}`);
+
+  /* A service or file mark reaches a component as <img src=".../logo/<file>">, which no colour scan of the
+     markup can see into, so the reference itself is held to the Logo library and its recoloured files. */
+  const markSources = [...sourceFiles, 'audience/library.json'];
+  const foreignMarks = markSources.flatMap(f => {
+    const text = read(join(root, f));
+    const outsideLibrary = [...text.matchAll(/\blogo\/([\w.-]+\.(?:svg|png|jpe?g|webp|gif))/gi)].map(m => m[1]).filter(file => !logoFiles.includes(file));
+    const embedded = /data:image\/(?:png|jpe?g|webp|gif)|data:image\/svg\+xml;base64/i.test(text) ? ['an embedded image the colour scan cannot read'] : [];
+    return [...new Set([...outsideLibrary, ...embedded])].map(what => `${f} (${what})`);
+  });
+  rchk('every service and file mark in a demo comes from the Logo library', foreignMarks.length === 0,
+    `reference a file in logo/ (recoloured by recolour-art.mjs) or an <aha-icon>; never a raster or base64 mark: ${foreignMarks.slice(0, 8).join(', ')}${foreignMarks.length > 8 ? ` (+${foreignMarks.length - 8} more)` : ''}`);
 
   /* antd derives hover, press, focus and status shades from its seed colours; only the shared base pins them. */
   const bareThemes = readdirSync(join(root, 'lib')).filter(f => f.endsWith('.js') && f !== 'antd-base-theme.js').filter(f => { const source = read(join(root, 'lib', f)); return (f.endsWith('-theme.js') && !/dsAntdTheme\(/.test(source)) || /export const \w*Theme\w*\s*=\s*\{/.test(source); }).map(f => `lib/${f}`);

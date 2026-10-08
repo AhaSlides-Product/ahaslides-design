@@ -2,7 +2,7 @@
   "$about": "R1 — the single canonical token set for the AhaSlides design-system-for-agents. Resolved from two disagreeing sources; see TOKENS.canonical.md for the ledger.",
   "$precedence": "MEASURED component-standard contract.json (what ships) > DS EXPORT (brand/identity/palette, Brian's stated SoT) > aha-design SKILL data (rules/format). Non-canonical skill bolt-ons (Tailwind neutrals, black-alpha text) discarded.",
   "color": {
-    "$colourRules": "Colour rules of 7 October 2026 (brand guideline v8) override the DS V3 values below: Vivid Pink #E70E68 is the one primary, Darker Pink #DB005B is hover and press, Vivid Pink at 5% (#FEF3F7 flat) is light hover and selected backgrounds, status (success, warning, error, info) is the default ink with an icon, never red, amber, green or blue (the tokens alias textDefault, so they cannot drift from it), and links are Vivid Pink (textLink aliases primary, textLinkHover aliases primaryHover). The only other colour token is primitives.logoPurple #6A1EBB, for the logo alone; the DS V3 hue ramps (purple, pink, teal, coral, red, yellow, indigo, soft indigo, lavender) and the 13 brand slots are removed, and standards.mjs fails any colour token that is not on the allowed list.",
+    "$colourRules": "Colour rules of 7 October 2026 (brand guideline v8) override the DS V3 values below: Vivid Pink #E70E68 is the one primary, Darker Pink #DB005B is hover and press, Vivid Pink at 5% (#FEF3F7 flat) is light hover and selected backgrounds, status (success, warning, error, info) is the default ink with an icon, never red, amber, green or blue (the tokens alias textDefault, so they cannot drift from it), and links are Vivid Pink (textLink aliases primary, textLinkHover aliases primaryHover). Black is #1A1A1A: primitives.black aliases primitives.gray.100, bgDark aliases primitives.black and bgDarkRaised is gray.95 #303030, one step above it; pure black #000000 is never a solid token value, only a transparency (bgOverlay, the inkA alphas, shadows). The only other colour token is primitives.logoPurple #6A1EBB, for the logo alone; the DS V3 hue ramps (purple, pink, teal, coral, red, yellow, indigo, soft indigo, lavender) and the 13 brand slots are removed, and standards.mjs fails any colour token that is not on the allowed list.",
     "$source": "Full color system, transcribed from the DS-EXPORT (palette.css + semantic.css), which is 'verbatim from the Figma DS V3 Variable collections'. Verified 2026-09-08. Two corrections applied per Brian: bgContainerDisabled gray-40→gray-30 (Figma bg-container-disabled); checkboxBorder off-palette #B4BCCF→gray-50 #D4D4D4.",
     "primary": "#E70E68", "primaryHover": "#DB005B", "primaryActive": "#DB005B",
     "success": "{color.textDefault}", "warning": "{color.textDefault}", "error": "{color.textDefault}", "info": "{color.textDefault}",
@@ -14,7 +14,7 @@
     "checkboxBorder": "#D4D4D4", "focus": "#E70E68", "focusRingSoft": "rgba(231,14,104,.3)",
     "bgBase": "#FFFFFF", "bgContainer": "#FFFFFF", "bgContainerSecondary": "#F7F7F7", "bgContainerDisabled": "#F1F1F1", "bgElevated": "#FFFFFF",
     "bgLayout": "#F7F7F7", "bgAccent": "#FEF3F7", "bgInformative": "#FFFFFF", "bgHover": "#F7F7F7",
-    "bgPositive": "#FFFFFF", "bgNegative": "#FFFFFF", "bgWarning": "#FFFFFF", "bgWarningSubtle": "#FFFFFF", "bgOverlay": "rgba(0,0,0,.4)", "bgDark": "#000000", "bgDarkRaised": "#1A1A1A",
+    "bgPositive": "#FFFFFF", "bgNegative": "#FFFFFF", "bgWarning": "#FFFFFF", "bgWarningSubtle": "#FFFFFF", "bgOverlay": "rgba(0,0,0,.4)", "bgDark": "{color.primitives.black}", "bgDarkRaised": "{color.primitives.gray.95}",
     "iconDefault": "#4A4A4A", "iconStrong": "#1A1A1A", "iconMuted": "#8A8A8A", "iconDisabled": "#B5B5B5", "iconInverse": "#FFFFFF", "iconActive": "#E70E68",
     "button": {
       "$source": "DS V3 Button component (Figma node 56611-11049) — latest & authoritative per Brian. Supersedes the older export for hover/fg where they disagreed.",
@@ -29,7 +29,7 @@
       "$note": "Colour rules 2026-10-07: primary Vivid Pink with a solid white label, Darker Pink on hover and press; secondary and tertiary hover Vivid Pink at 5% with a Vivid Pink border; status carries no colour, so the status variants differ by shape: danger is a default-ink fill (textDefault, #1A1A1A) that lifts to grey-90 on hover and grey-80 on press, success is a default-ink outline on white that fills grey-20 on hover and grey-40 on press, positive (Upgrade, encourage) is Vivid Pink like primary; primary press is Darker Pink like hover but drops the hover shadow, since the guideline defines no press shade. Keyboard focus is a solid 2px ring outside a 2px gap (Vivid Pink; default ink on danger and success), 4.51:1 and 17.4:1 against white."
     },
     "primitives": {
-      "white": "#FFFFFF", "black": "#000000",
+      "white": "#FFFFFF", "black": "{color.primitives.gray.100}",
       "vividPink": { "5": "#FEF3F7", "30": "#F8B7D2", "100": "#E70E68", "dark": "#DB005B" },
       "logoPurple": "#6A1EBB",
       "gray": { "0": "#FFFFFF", "10": "#FDFDFD", "15": "#FAFAFA", "20": "#F7F7F7", "25": "#F3F3F3", "30": "#F1F1F1", "35": "#EBEBEB", "40": "#E3E3E3", "50": "#D4D4D4", "55": "#CCCCCC", "60": "#B5B5B5", "65": "#A8A8A8", "70": "#8A8A8A", "80": "#616161", "90": "#4A4A4A", "95": "#303030", "100": "#1A1A1A" }

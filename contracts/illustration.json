@@ -5,14 +5,14 @@
   "tier": "leaf-lit",
   "badge": "shared element + registry",
   "element": "aha-illustration",
-  "summary": "One spot-art set, called by name — 20 multi-colour illustrations imported from Figma, rendered by the shared <aha-illustration>, never inline SVG.",
-  "highlights": ["One spot-art set, called by name", "20 multi-colour illustrations imported from Figma", "Rendered by <aha-illustration>, never inline SVG"],
-  "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every multi-colour spot illustration from a single registry built from Figma (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration keeps its OWN palette; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
+  "summary": "One spot-art set, called by name — 25 illustrations imported from Figma and drawn in pink tints, rendered by the shared <aha-illustration>, never inline SVG.",
+  "highlights": ["One spot-art set, called by name", "25 illustrations imported from Figma, drawn in pink tints", "Rendered by <aha-illustration>, never inline SVG"],
+  "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every spot illustration from a single registry built from Figma (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration has fixed colours: one Vivid Pink ramp from pale to full, with white and the default ink; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
   "tokensUsed": ["color-error"],
   "spec": [
     { "label": "Set", "value": "20 illustrations · empty · onboarding · plan · offer · state · team · misc" },
     { "label": "Source", "value": "Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW" },
-    { "label": "Colour", "value": "multi-colour within the allowed list: Vivid Pink, its two tints, black, white and greys — keeps its own palette (NOT currentColor)" },
+    { "label": "Colour", "value": "one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (#FEF3F7, #FDE7F0, #FACFE1, #F8B7D2, #F493BB, #F16EA4, #EC3E86, #E70E68 and Darker Pink #DB005B), with white, the default ink #1A1A1A for outlines and faces, and a neutral grey where the source was grey. Fixed colours (NOT currentColor). The tints are for illustrations only, never a token or a UI colour" },
     { "label": "Size", "value": "one edge in px; the other follows the art's aspect ratio" },
     { "label": "Fallback", "value": "unknown name → a dashed error box (var(--aha-color-error))" }
   ],
@@ -28,7 +28,7 @@
       { "what": "onboarding-* / plan-* illustration", "when": "onboarding choice cards and plan-tier cards (edu / essential / pro / enterprise)" },
       { "what": "error-* / not-found illustration", "when": "a full-surface error or 404 state, paired with a recovery action" }
     ],
-    "note": "Call by name from the registry — never inline an <svg>, never paste a raster PNG. An illustration is multi-colour art: it does NOT follow currentColor (that is <aha-icon>). Size it by a single edge; the aspect ratio is fixed by the source. If an illustration is genuinely missing, add the SVG under illustrations/svg and re-run build-illustrations.mjs. Raster-backed art (embedded bitmaps) is intentionally excluded — the library stays pure-SVG."
+    "note": "Call by name from the registry — never inline an <svg>, never paste a raster PNG. An illustration is drawn in the illustration tints (a Vivid Pink ramp), which are fixed: it does NOT follow currentColor (that is <aha-icon>). Size it by a single edge; the aspect ratio is fixed by the source. If an illustration is genuinely missing, add the original SVG export under illustrations/svg, run recolour-art.mjs to map it onto the tints, and re-run build-illustrations.mjs. Raster-backed art (embedded bitmaps) is intentionally excluded — the library stays pure-SVG."
   },
   "surfaces": ["dashboard", "editor", "settings", "audience"],
   "reuse": { "entry": "./illustrations", "registers": "aha-illustration", "exportsNamed": ["illustrations", "ILLUSTRATION_NAMES", "defineAhaIllustration", "AhaIllustration"] },
@@ -57,7 +57,7 @@
   "selfCheck": [
     { "label": "called by name from the registry (no inline svg)", "verdict": "PASS" },
     { "label": "20 pure-SVG illustrations imported from Figma", "verdict": "PASS" },
-    { "label": "multi-colour art keeps its own palette (not currentColor)", "verdict": "PASS" },
+    { "label": "art is drawn in the illustration tints, fixed colours (not currentColor)", "verdict": "PASS" },
     { "label": "single size edge scales, aspect ratio preserved via viewBox", "verdict": "PASS" },
     { "label": "unknown name → visible dashed error box (color-error token)", "verdict": "PASS" },
     { "label": "raster-backed art excluded — library stays pure-SVG", "verdict": "PASS" }

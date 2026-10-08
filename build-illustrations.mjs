@@ -2,15 +2,15 @@
 /**
  * build-illustrations.mjs — the ILLUSTRATION source step (the twin of build-icons.mjs).
  *
- * Reads the raw multi-colour spot-art SVGs exported from Figma (Oldies library section,
+ * Reads the spot-art SVGs exported from Figma (Oldies library section,
  * file P764iQ6y4ZwW7W3f7FLZyW) under illustrations/svg/<family>/<name>.svg and normalises
  * them into ONE registry:
  *
  *   illustrations/registry.json   { name → { family, viewBox, body, w, h } }
  *
- * FIDELITY FIRST. An illustration is multi-colour art, NOT a themeable glyph — so unlike an
+ * FIDELITY FIRST. An illustration is fixed-colour art, NOT a themeable glyph — so unlike an
  * icon this NEVER recolours (no #4A4A4A → currentColor rebind; recolour-art.mjs maps a new export
- * onto the allowed colours beforehand, in the source SVG) and, crucially, it preserves the
+ * onto the illustration tints beforehand, in the source SVG) and, crucially, it preserves the
  * art's own rendering machinery: the FULL <defs> (gradients, filters, masks, clipPaths), every
  * <g> and its opacity / transform / mask / filter / clip-path, and all id="…"/url(#…) references.
  * The Figma node export bakes the whole "Oldies" board around each spot (a #E1E1E1 background,
@@ -89,7 +89,7 @@ for (const fam of families.sort()) {
 }
 
 const registry = {
-  $generatedFrom: 'Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW (multi-colour spot illustrations)',
+  $generatedFrom: 'Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW (spot illustrations)',
   $note: 'Single source for <aha-illustration>. Do not edit by hand — re-run build-illustrations.mjs after changing illustrations/svg/**.',
   families: families.sort(),
   count: n,

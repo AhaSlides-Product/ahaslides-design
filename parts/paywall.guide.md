@@ -87,7 +87,7 @@ The upsell funnel's denominator and conversion — never gate a feature without 
 
 ## Visual
 
-- Dark grey surface (`--aha-bg-dark-raised`, `#1A1A1A`), 300px wide, 16px padding, 12px radius.
+- Dark grey surface (`--aha-bg-dark-raised`, `#303030`), 300px wide, 16px padding, 12px radius.
 - The crown badge is the Vivid Pink circle custom SVG — do not substitute a glyph; it lacks the
   circular background.
 

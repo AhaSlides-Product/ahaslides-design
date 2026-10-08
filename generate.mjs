@@ -23,6 +23,7 @@ import { anchorHeadings, buildSearchIndex, searchHeaderHtml, SEARCH_CSS, SEARCH_
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
+import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
@@ -52,7 +53,11 @@ const withCdnRef = (text) => String(text ?? '').replaceAll('@__REF__', `@${CDN_R
 // Composite previews are classic scripts over CDN antd and cannot import the base theme; only escaped data is interpolated, so no value can close the script tag.
 const inlineScriptJson = (value) => JSON.stringify(value).replace(/[<>/\u2028\u2029]/g, (character) => '\\u' + character.charCodeAt(0).toString(16).padStart(4, '0'));
 const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return function(theme){theme=theme||{};var components=Object.assign({},base.components);Object.keys(theme.components||{}).forEach(function(name){components[name]=Object.assign({},base.components[name],theme.components[name]);});return Object.assign({},theme,{token:Object.assign({},base.token,theme.token),components:components});};})(${inlineScriptJson(antdBaseTheme)});</script>`;
-const part = (name) => (name && existsSync(join(PDIR, name)) ? withCdnRef(read(join(PDIR, name))) : '');
+/* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
+   URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
+const LIVE_SITE = 'https://ahaslides-product.github.io/ahaslides-design';
+const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`);
+const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
    one-time scoped-registry + auth setup before `npm i`. These lines are printed into
@@ -93,9 +98,11 @@ function aliasCssVar(path) {
     const match = typeof value === 'string' && /^\{([^}]+)\}$/.exec(value);
     if (!match) continue;
     const refParts = match[1].split('.');
-    const target = refParts[0] === 'space'
+    let target = refParts[0] === 'space'
       ? (TOK.space.includes(Number(refParts[1])) ? Number(refParts[1]) : undefined)
       : refParts.reduce((at, step) => (at == null ? at : at[step]), TOK);
+    for (let hop = 0, chained; hop < 8 && typeof target === 'string' && (chained = /^\{([^}]+)\}$/.exec(target)); hop++)
+      target = chained[1].split('.').reduce((at, step) => (at == null ? at : at[step]), TOK);
     const valid = refParts[0] === 'space' ? typeof target === 'number' : typeof target === 'string' && /^(#|rgba?\()/.test(target);
     if (!valid) throw new Error(`${path.join('.')}: alias ${value} does not resolve to a token value`);
     TOKEN_ALIASES.set(path.join('.'), { ref: match[1], cssVar: aliasCssVar(match[1]) });
@@ -122,7 +129,7 @@ const AHA_ICON_JS = `(function(){
     var label=el.getAttribute('label')||'', dec=el.hasAttribute('decorative')||!label;
     var a11y=dec?'aria-hidden="true"':'role="img" aria-label="'+label.replace(/"/g,'&quot;')+'"';
     if(!el.shadowRoot) el.attachShadow({mode:'open'});
-    if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #000;border-radius:3px"></span>'; return; }
+    if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #1A1A1A;border-radius:3px"></span>'; return; }
     el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>'
       +'<svg width="'+size+'" height="'+size+'" viewBox="'+ic.viewBox+'" fill="none" '+a11y+'>'+ic.body+'</svg>';
   }
@@ -290,7 +297,7 @@ const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // vivid
 function tokenVars(t) {
   const c = t.color, f = t.font, r = t.radius, P = c.primitives, b = c.button;
   const L = [];
-  L.push(Object.keys(P).filter(name => typeof P[name] === 'string').map(name => `--aha-${kebab(name)}:${P[name]};`).join(' '));
+  L.push(Object.keys(P).filter(name => typeof P[name] === 'string').map(name => `--aha-${kebab(name)}:${cssValue(`color.primitives.${name}`, P[name])};`).join(' '));
   for (const hue of Object.keys(P).filter(name => typeof P[name] !== 'string'))
     L.push(Object.keys(P[hue]).map(s => `--aha-${kebab(hue)}-${s}:${P[hue][s]};`).join(' '));
   /* semantic — seed */
@@ -299,7 +306,7 @@ function tokenVars(t) {
   /* text */
   L.push(`--aha-text-default:${c.textDefault}; --aha-text-secondary:${c.textSecondary}; --aha-text-tertiary:${c.textTertiary}; --aha-text-placeholder:${c.textPlaceholder}; --aha-text-disabled:${c.textDisabled}; --aha-text-inverse:${c.textInverse}; --aha-text-link:${cssValue('color.textLink', c.textLink)}; --aha-text-link-hover:${cssValue('color.textLinkHover', c.textLinkHover)}; --aha-text-primary-ink:${c.textPrimaryInk}; --aha-text-positive:${cssValue('color.textPositive', c.textPositive)}; --aha-text-negative:${cssValue('color.textNegative', c.textNegative)}; --aha-text-warning:${cssValue('color.textWarning', c.textWarning)};`);
   /* surfaces */
-  L.push(`--aha-bg-base:${c.bgBase}; --aha-bg-container:${c.bgContainer}; --aha-bg-container-secondary:${c.bgContainerSecondary}; --aha-bg-container-disabled:${c.bgContainerDisabled}; --aha-bg-elevated:${c.bgElevated}; --aha-bg-layout:${c.bgLayout}; --aha-bg-accent:${c.bgAccent}; --aha-bg-informative:${c.bgInformative}; --aha-bg-hover:${c.bgHover}; --aha-bg-positive:${c.bgPositive}; --aha-bg-negative:${c.bgNegative}; --aha-bg-warning:${c.bgWarning}; --aha-bg-warning-subtle:${c.bgWarningSubtle}; --aha-bg-overlay:${c.bgOverlay}; --aha-bg-dark:${c.bgDark}; --aha-bg-dark-raised:${c.bgDarkRaised};`);
+  L.push(`--aha-bg-base:${c.bgBase}; --aha-bg-container:${c.bgContainer}; --aha-bg-container-secondary:${c.bgContainerSecondary}; --aha-bg-container-disabled:${c.bgContainerDisabled}; --aha-bg-elevated:${c.bgElevated}; --aha-bg-layout:${c.bgLayout}; --aha-bg-accent:${c.bgAccent}; --aha-bg-informative:${c.bgInformative}; --aha-bg-hover:${c.bgHover}; --aha-bg-positive:${c.bgPositive}; --aha-bg-negative:${c.bgNegative}; --aha-bg-warning:${c.bgWarning}; --aha-bg-warning-subtle:${c.bgWarningSubtle}; --aha-bg-overlay:${c.bgOverlay}; --aha-bg-dark:${cssValue('color.bgDark', c.bgDark)}; --aha-bg-dark-raised:${cssValue('color.bgDarkRaised', c.bgDarkRaised)};`);
   /* border */
   L.push(`--aha-border:${c.border}; --aha-border-input:${c.borderInput}; --aha-border-secondary:${c.borderSecondary}; --aha-border-strong:${c.borderStrong}; --aha-border-disabled:${c.borderDisabled}; --aha-border-hover:${c.borderHover}; --aha-border-focus:${c.focus}; --aha-border-active:${c.borderActive}; --aha-border-error:${cssValue('color.borderError', c.borderError)}; --aha-border-success:${cssValue('color.borderSuccess', c.borderSuccess)}; --aha-border-warning:${cssValue('color.borderWarning', c.borderWarning)}; --aha-border-info:${cssValue('color.borderInfo', c.borderInfo)}; --aha-split:${c.borderSecondary}; --aha-checkbox-border:${c.checkboxBorder};`);
   /* icon */
@@ -1860,7 +1867,8 @@ Backgrounds are **white by default**; Vivid Pink at 5% \`${c.bgAccent}\` is for 
 Pink text, links included, sits on white only (4.51:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined; on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest, Darker Pink \`${c.textLinkHover}\` on hover.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
-No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. The DS's own illustrations, third-party logos and file-type icons are drawn in the allowed colours (\`node recolour-art.mjs\`); only the AhaSlides logo and The Splash keep their own colours.
+No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
+The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The illustration tints are for illustrations only: they are not tokens and never colour UI. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
 White, black, Vivid Pink (\`5\` and \`30\` are the flat codes of Vivid Pink at 5% and at 30% on white; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
@@ -1937,7 +1945,8 @@ function renderTokenPage(pageSlug) {
       body: `
   <p class="body">These tokens follow the brand colour rules, which are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
   <h2>Palette</h2>
-  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos and customer or presenter content are exempt from the palette. The DS's own illustrations, third-party logos and file-type icons are drawn in the allowed colours (<code>node recolour-art.mjs</code>); only the AhaSlides logo and The Splash keep their own colours.</p>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
+  <p class="body">Black is <code>${P.black}</code>, the same value as grey 100 and the default ink: <code>--aha-black</code> is an alias of <code>--aha-gray-100</code>. A pure, zero-value black is never painted solid; it appears only as a transparency, for a shadow, a scrim or an ink alpha.</p>
   ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
 
@@ -1950,7 +1959,12 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
   ${swGroup('Data visualisation (chart series · aliases of the colour tokens above)', [...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, `color.viz.series.${k}`]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, `color.viz.tint.${k}`]), ['viz-ink', 'color.viz.ink'], ['viz-neutral', 'color.viz.neutral']]
-    .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}`,
+    .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}
+  <section class="illustration-tints">
+  <h2>Illustration tints</h2>
+  <p class="body">Illustrations are drawn in one hue: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white, plus Darker Pink for the deepest accents, with white and the default ink for outlines and faces. These values are for illustrations only. They are not tokens, have no <code>--aha-*</code> variable and never colour UI. The DS's other art follows the palette above: third-party logos are greyscale, file-type icons are one colour, and the AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks (<code>node recolour-art.mjs</code>).</p>
+  ${swGroup('Illustration tints (illustrations only, not tokens)', ILLUSTRATION_TINTS.map((tint, index) => [index === ILLUSTRATION_TINTS.length - 1 ? 'Darker Pink' : `Vivid Pink ${[5, 10, 20, 30, 45, 60, 80, 100][index]}%`, tint]))}
+  </section>`,
     },
     typography: {
       title: 'Typography', highlights: ["Product face Plus Jakarta Sans, self-hosted", "Weights 400 and 600 only", "No Inter"], lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
