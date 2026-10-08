@@ -35,3 +35,29 @@ test('error-message renders a 12px glyph and sm text below the field, linked and
   const row = (text) => ({ text, size: '12px', glyph: '12x12', below: true, invalid: 'true', described: 1 });
   assert.deepEqual(result, { input: row('Enter a name'), select: row('Pick one'), area: row('Too short'), defaultHeight: 40, largeHeight: 48 });
 });
+
+test('toggling status or invalid after error-message shows and clears the error row', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'field-error-toggle-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body>
+<aha-input id="input" error-message="Enter a name"></aha-input>
+<script type="module">import '${lib}'; window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const host = document.getElementById('input');
+    const root = host.shadowRoot;
+    const field = root.querySelector('.field');
+    const error = root.querySelector('aha-field-error');
+    const state = () => ({ message: error.message, described: (field.ariaDescribedByElements || []).length });
+    const before = state();
+    host.setAttribute('status', 'error');
+    const withStatus = state();
+    host.removeAttribute('status');
+    const statusRemoved = state();
+    host.setAttribute('invalid', '');
+    const withInvalid = state();
+    host.removeAttribute('invalid');
+    return { before, withStatus, statusRemoved, withInvalid, invalidRemoved: state() };
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-input")' });
+  const hidden = { message: '', described: 0 };
+  const shown = { message: 'Enter a name', described: 1 };
+  assert.deepEqual(result, { before: hidden, withStatus: shown, statusRemoved: hidden, withInvalid: shown, invalidRemoved: hidden });
+});
