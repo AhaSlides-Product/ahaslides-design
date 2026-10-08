@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.120.0 — 2026-10-08
+## 0.122.0 — 2026-10-08
 ### Changed
 - **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#197)
 - **Breaking (visual):** status carries no colour. `--aha-color-success | warning | error | info`, the `--aha-text-positive | negative | warning` and `--aha-border-success | warning | error | info` tokens are the default ink `#1A1A1A`, each an alias of `--aha-text-default` so the two cannot drift (they were black `#000000`), the status backgrounds (`--aha-bg-positive | negative | warning | warning-subtle | informative`) are white, and the status buttons differ by shape (see the status-button entry below); every status keeps its icon and wording, and audience answer rows still tell correct from incorrect by the ✓ / ✗ glyph (#197)
@@ -71,6 +71,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-button>` fades its label with the fill, border and shadow: `color` and `text-decoration-color` join the one transition (`--aha-motion-mid`, `--aha-ease-in-out`), so the label no longer snaps on hover or press. `<aha-image-action-button>` also fades its fill with its border and label. A unit test fails if a button state rule changes a property that is not in the transition list, or if the properties use different timings (#197)
 - The colour rules page (`brand/visual-identity-colour-rules.html`, v9) adds the illustration tints, lets illustrations use Darker Pink, says our own illustrations, customer and integration logos and file-type icons are not exempt, and writes black as `#1A1A1A` (#197)
 - `<aha-answer-option>` keeps its keyboard focus ring (2px, offset 2px, the row ink) after the audience-lab merge dropped it; the default browser outline was 1.09:1 on the neutral dark deck (#197)
+
+## 0.121.0 — 2026-10-08
+### Changed
+- `<aha-csat>`: rating no longer collapses — both thumbs stay visible, the chosen one shows the active state (`aria-pressed` synced); clicking the other thumb switches the rating and fires `rate`, clicking the chosen thumb again un-rates (#206)
+- `<aha-csat>`: feedback textarea allows 2000 characters (was 200). Opened from the Feedback button it defaults to "Share your thoughts"; thumbs-down keeps "How can we improve? Let us know!" (#206)
+- `<aha-csat>`: the thumb and Feedback buttons sit 2px apart (was 4px) (#206)
 
 ## 0.119.1 — 2026-10-08
 ### Changed
