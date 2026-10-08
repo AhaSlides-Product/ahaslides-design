@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.116.0 — 2026-10-08
+### Removed
+- Marketing pattern Section container (`marketing/section-container.json`) and its generated page, so Patterns → Marketing sections lists Hero only; layout rules (inner width, section spacing, breakpoints) belong to each consuming app (#PRNUM)
+
 ## 0.114.1 — 2026-10-08
 ### Fixed
 - The Pages workflow caps the staging build at 15 minutes and the staging trigger at 5, so a hung staging branch cannot hold the production deploy queue (#200)
