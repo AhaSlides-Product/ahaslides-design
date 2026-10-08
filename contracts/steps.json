@@ -10,6 +10,7 @@
   "tokensUsed": ["colorPrimary", "colorText", "Steps.colorPrimary", "Steps.iconSize", "Steps.iconFontSize", "Steps.titleLineHeight"],
   "spec": [
     { "label": "Icon", "value": "32px circle · brand #E70E68 for current/finished" },
+    { "label": "Title", "value": "SemiBold 600 (.ant-steps-item-title, set by stepsTitleCss)" },
     { "label": "Current", "value": "filled brand icon + brand title" },
     { "label": "Finished", "value": "brand ring + check" },
     { "label": "Waiting", "value": "muted ring + grey title" },
