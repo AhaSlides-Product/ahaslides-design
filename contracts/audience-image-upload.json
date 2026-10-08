@@ -25,7 +25,7 @@
   "spec": [
     {
       "label": "Empty (area)",
-      "value": "about 136 high, 2px dashed edge in the ink at 20%, radius 8, the lab's panel (Deep Space at 80% on a dark deck) with a 20px backdrop blur; system-image-square 32 in the muted ink, 16px semibold prompt, 14px muted format hint on a 20px line"
+      "value": "min-height 136, 2px dashed edge in the ink at 20%, radius 8, the deep panel (Deep Space at 80% on a dark deck) with a 20px backdrop blur; system-image-square 32 in the muted ink, 16px semibold prompt, 14px muted format hint on a 20px line"
     },
     {
       "label": "Attached",
@@ -142,7 +142,7 @@
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-audience-image-upload[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var d=cs(q('.drop'));return{minHeight:d.minHeight,radius:d.borderTopLeftRadius,edgeStyle:d.borderTopStyle,ink:d.color,promptSize:cs(q('.prompt')).fontSize};})()",
     "expect": {
-      "minHeight": "120px",
+      "minHeight": "136px",
       "radius": "8px",
       "edgeStyle": "dashed",
       "ink": "rgb(26, 26, 26)",

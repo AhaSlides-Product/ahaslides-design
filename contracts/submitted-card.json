@@ -25,7 +25,7 @@
   "spec": [
     {
       "label": "Card",
-      "value": "radius 12, padding 20/16, gap 16, the lab's panel (Deep Space at 80% on a dark deck), 1px ink hairline"
+      "value": "radius 12, padding 20/16, gap 16, the deep panel (Deep Space at 80% on a dark deck), 1px ink hairline"
     },
     {
       "label": "Pip",

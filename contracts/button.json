@@ -20,7 +20,7 @@
     { "label": "Positive / Success", "value": "bg #4EF1C5, dark label #1A1A1A, hover #93F5DA, active #20E8B5 (success = alias of positive)" },
     { "label": "Primary-alt", "value": "same fill as primary #6A1EBB (a second primary slot for a two-primary layout)" },
     { "label": "Text / Text-link", "value": "white bg, no border, weight 400; text = secondary-grey label, hover grey fill; text-link = #6A1EBB label, hover #A96FF0" },
-    { "label": "Secondary-deck", "value": "white fill; edge and label in the deck accent (--aha-deck-accent-mark, else --aha-color-primary), hover an 8% wash and the hover accent, pressed a 16% wash, focus a 2px accent ring at 35%; size touch gives the 48px audience height" },
+    { "label": "Secondary-deck", "value": "white fill; edge in the deck accent (--aha-deck-accent-mark, else --aha-color-primary), label in the accent deepened to 4.5:1 on white (--aha-deck-accent-text), hover an 8% wash and the hover accent, pressed a 16% wash, focus a 2px accent ring at 35%; size touch gives the 48px audience height" },
     { "label": "Disabled", "value": "bg #E3E3E3, label #B5B5B5" },
     { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl/touch); icon 16px, inline-flex, 8px gap" },
     { "label": "Focus", "value": "soft box-shadow ring, spread 2 — #D3B4FF@30% (default) · danger #FF2850@20% · positive #20E8B5@30%" },

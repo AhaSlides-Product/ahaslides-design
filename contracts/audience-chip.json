@@ -5,7 +5,7 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-audience-chip",
-  "summary": "One short tappable choice on the audience phone, several to a line: frosted deck surface at the lab's panel, 48px high, 8px corners, the deck font in its button, chosen in the deck accent.",
+  "summary": "One short tappable choice on the audience phone, several to a line: frosted deck surface on the deep panel, 48px high, 8px corners, the deck font in its button, chosen in the deck accent.",
   "highlights": [
     "Short tappable choice, several per line",
     "48px high, 8px corners",
