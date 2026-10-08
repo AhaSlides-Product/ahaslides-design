@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The entries are generated from `guidelines/<surface>.json` (`composedOf` plus a new `entryExtras` list), and `generate.mjs` fails when an element module belongs to no surface, so a new element is classified once
 - `tests/surface-entry.test.mjs`: every element is in a surface entry, and each entry loads without error in a no-build page (headless Chrome)
 ### Changed
-- The Audience, Settings and guideline pages, `llms.txt`, the README and the audience library snippets show the per-surface CDN link pinned to the release tag (#PR)
+- The Audience, Settings and guideline pages, `llms.txt`, the README and the audience library snippets show the per-surface CDN link pinned to the release tag (#204)
 
 ## 0.118.0 — 2026-10-08
 ### Added
