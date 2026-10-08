@@ -22,16 +22,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.114.0 — 2026-10-08
+## 0.115.0 — 2026-10-08
 ### Added
 - Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
 - Tokens: `--aha-shadow-floating` (the Notification elevation), `--aha-layer-floating` (1100) and `--aha-floating-inset-bottom` (88px) for fixed floating cards. (#184)
 ### Changed
 - Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default (#1A1A1A, was #1F1330), description and caption in text-secondary (#4A4A4A, was #6B6478), radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
 
-## 0.113.1 — 2026-10-08
+## 0.114.1 — 2026-10-08
 ### Fixed
 - Background task: the inline `link` (e.g. Retry) now looks like the Button text-link variant, in the DS link colour, regular weight and no underline, lighter on hover. It was bold and underlined. (#182)
+
+## 0.114.0 — 2026-10-08
+### Added
+- A staging copy of the docs site at `/staging/`: every Pages deploy also builds the `staging` branch into `dist/staging/`, so a pending change can be reviewed on a real web link before it merges. Staging pages are `noindex`, their live demos run from the staging build's own `lib/`, and their HTML-tab snippets pin `@staging` on jsDelivr instead of a release tag. Production at `/` is unchanged (#199)
 
 ## 0.113.0 — 2026-10-08
 ### Added
