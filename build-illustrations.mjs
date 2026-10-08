@@ -9,7 +9,8 @@
  *   illustrations/registry.json   { name → { family, viewBox, body, w, h } }
  *
  * FIDELITY FIRST. An illustration is multi-colour art, NOT a themeable glyph — so unlike an
- * icon this NEVER recolours (no #4A4A4A → currentColor rebind) and, crucially, it preserves the
+ * icon this NEVER recolours (no #4A4A4A → currentColor rebind; recolour-art.mjs maps a new export
+ * onto the allowed colours beforehand, in the source SVG) and, crucially, it preserves the
  * art's own rendering machinery: the FULL <defs> (gradients, filters, masks, clipPaths), every
  * <g> and its opacity / transform / mask / filter / clip-path, and all id="…"/url(#…) references.
  * The Figma node export bakes the whole "Oldies" board around each spot (a #E1E1E1 background,

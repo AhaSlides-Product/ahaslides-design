@@ -119,7 +119,7 @@ function installProbe() {
       const attrs = ['variant', 'size', 'type', 'role', 'status', 'tone'].filter(a => n.hasAttribute(a)).map(a => `[${a}=${n.getAttribute(a)}]`).join('');
       const names = typeof n.className === 'string' ? n.className.trim().split(/\s+/).filter(name => name && !/^css-/.test(name)) : [];
       const cls = names.length ? '.' + names.slice(0, 3).join('.') : '';
-      parts.unshift(n.tagName.toLowerCase() + cls + attrs);
+      parts.unshift(n.tagName.toLowerCase() + (n.id ? '#' + n.id : '') + cls + attrs);
     }
     return parts.join(' » ');
   };

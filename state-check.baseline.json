@@ -1,0 +1,85 @@
+{
+ "$about": "Interactive-state findings that predate state-check.mjs, per built page. A finding listed here is reported as known debt and does not fail the gate; any other finding does. Fix one, then run node state-check.mjs --update-baseline to drop it. Never add an entry to make a new finding pass.",
+ "debt": {
+  "audience": [
+   "contrast · aha-audience-submit.demo-submit » aha-button[variant=primary][size=touch] » button: text #FFFFFF on #EB327F is 3.97:1, needs 4.5:1"
+  ],
+  "audience-submit": [
+   "contrast · aha-audience-submit » aha-button[variant=primary][size=touch] » button: text #FFFFFF on #EB327F is 3.97:1, needs 4.5:1"
+  ],
+  "autocomplete": [
+   "contrast · button.ant-select-clear[type=button]: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
+  ],
+  "carousel": [
+   "focus · button: keyboard focus draws no outline, ring, border or fill change"
+  ],
+  "chart": [
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #A8A8A8 on #E3E3E3 is 1.85:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #A8A8A8 on #F7F7F7 is 2.22:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #A8A8A8 on #FFFFFF is 2.38:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #F8B7D2 on #E3E3E3 is 1.29:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #F8B7D2 on #F7F7F7 is 1.54:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #F8B7D2 on #FFFFFF is 1.65:1, needs 3:1"
+  ],
+  "charts": [
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #A8A8A8 on #E3E3E3 is 1.85:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #A8A8A8 on #F7F7F7 is 2.22:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #A8A8A8 on #FFFFFF is 2.38:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #F8B7D2 on #E3E3E3 is 1.29:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #F8B7D2 on #F7F7F7 is 1.54:1, needs 3:1",
+   "contrast · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem]: text #F8B7D2 on #FFFFFF is 1.65:1, needs 3:1"
+  ],
+  "data-table": [
+   "contrast · th.ant-dropdown-trigger.ant-table-cell.aha-data-table__th: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th: icon #B5B5B5 on #F1F1F1 is 1.82:1, needs 3:1",
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th: icon #B5B5B5 on #FFFFFF is 2.05:1, needs 3:1",
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th: text #8A8A8A on #F1F1F1 is 3.06:1, needs 4.5:1",
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters: text #8A8A8A on #F1F1F1 is 3.06:1, needs 4.5:1",
+   "contrast · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "focus · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th: keyboard focus draws no outline, ring, border or fill change",
+   "focus · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters: keyboard focus draws no outline, ring, border or fill change"
+  ],
+  "icons": [
+   "contrast · button.fam-chip[type=button]: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · button.ic[type=button]: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1"
+  ],
+  "image": [
+   "contrast · aha-image » div.frame[role=button]: text #FFFFFF on #949494 is 3.03:1, needs 4.5:1"
+  ],
+  "image-dropzone": [
+   "contrast · aha-image-dropzone » button.add[type=button]: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1"
+  ],
+  "select": [
+   "contrast · button.ant-select-clear[type=button]: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
+  ],
+  "select-field": [
+   "contrast · aha-select » button.trigger[type=button][role=combobox]: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · aha-select[status=error] » button.trigger[type=button][role=combobox]: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1"
+  ],
+  "settings": [
+   "contrast · aha-image-dropzone » button.add[type=button]: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1"
+  ],
+  "slider": [
+   "focus · div.ant-slider-handle[role=slider]: keyboard focus draws no outline, ring, border or fill change"
+  ],
+  "steps": [
+   "contrast · div.ant-steps-item.ant-steps-item-finish[role=button]: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
+   "contrast · div.ant-steps-item.ant-steps-item-wait[role=button]: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
+   "contrast · div.ant-steps-item.ant-steps-item-wait[role=button]: text #E70E68 on #FEF3F7 is 4.16:1, needs 4.5:1"
+  ],
+  "table": [
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters: icon #B5B5B5 on #F0F0F0 is 1.80:1, needs 3:1",
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters: icon #B5B5B5 on #FFFFFF is 2.05:1, needs 3:1",
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters: text #8A8A8A on #F0F0F0 is 3.03:1, needs 4.5:1",
+   "contrast · th.ant-table-cell.ant-table-column-has-sorters: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters: text #8A8A8A on #F0F0F0 is 3.03:1, needs 4.5:1",
+   "contrast · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters: text #E70E68 on #F0F0F0 is 3.95:1, needs 4.5:1",
+   "focus · th.ant-table-cell.ant-table-column-has-sorters: keyboard focus draws no outline, ring, border or fill change",
+   "focus · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters: keyboard focus draws no outline, ring, border or fill change"
+  ],
+  "uploader": [
+   "contrast · aha-uploader » div.zone[role=button]: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1"
+  ]
+ }
+}

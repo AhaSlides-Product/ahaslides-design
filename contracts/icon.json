@@ -13,7 +13,7 @@
     { "label": "Set", "value": "259 glyphs · system · slide-type · file-type" },
     { "label": "Source", "value": "Figma Design System V3 · node 50699-7126" },
     { "label": "Sizes", "value": "12 · 16 · 24 · 32 (only)" },
-    { "label": "Colour", "value": "currentColor / semantic token (254 recolorable)" },
+    { "label": "Colour", "value": "currentColor / semantic token (every glyph is one colour and recolorable, file-type glyphs included)" },
     { "label": "State", "value": "outline = neutral · -filled asset = active" }
   ],
   "props": [
@@ -26,7 +26,7 @@
     "whenToUse": [
       { "what": "system-* glyph", "when": "the default for all product-UI chrome, buttons, menus, list rows, status" },
       { "what": "-filled asset", "when": "a selected/active/on state — e.g. system-bookmark-simple-filled; a solid glyph survives greyscale" },
-      { "what": "slide-type / file-type", "when": "labelling a slide kind or a file kind; file-type glyphs keep their baked brand colour" }
+      { "what": "slide-type / file-type", "when": "labelling a slide kind or a file kind; file-type glyphs are one colour and follow the text colour like every other icon" }
     ],
     "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). If a glyph is genuinely missing, add the SVG under icons/svg and re-run build-icons.mjs."
   },

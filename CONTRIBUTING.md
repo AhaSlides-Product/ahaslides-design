@@ -27,7 +27,7 @@ Plus the reuse declaration — **this is the reusability contract**:
 ### 2. The importable module — `lib/<entry>.js`
 This is the thing that makes reuse real. It must resolve as `@ahaslides-product/design/<entry>` and:
 - **Leaf:** define + auto-register the custom element (`customElements.define('aha-my-thing', …)`), zero runtime deps, themed only by `--aha-*` tokens. Export the class + a `defineAhaMyThing()` helper.
-- **Composite:** export the shared artifact (theme/config object) both framework wrappers consume.
+- **Composite:** export the shared artifact (theme/config object) both framework wrappers consume. Build an antd theme with `dsAntdTheme({ … })` from `lib/antd-base-theme.js`: antd derives hover, press, focus and status colours from its seeds, and only the shared base pins them to the allowed colour list (`standards.mjs` fails a bare theme).
 
 Then add the subpath to `package.json`:
 ```jsonc

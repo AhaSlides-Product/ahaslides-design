@@ -11,7 +11,7 @@
   "spec": [
     { "label": "Card", "value": "white elevated · 384 wide · radius 8" },
     { "label": "Title", "value": "ink #1A1A1A, SemiBold" },
-    { "label": "Type", "value": "success · info · warning · error (status glyph + tone)" },
+    { "label": "Type", "value": "success · info · warning · error — a status glyph in black #000000 (the shared antd base theme pins colorSuccess, colorInfo, colorWarning and colorError); the glyph and the wording carry the status, never green, blue, amber or red" },
     { "label": "Placement", "value": "topRight default (4 corners)" },
     { "label": "Duration", "value": "4.5s default (0 = sticky)" },
     { "label": "Dismiss", "value": "the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A) in the title via dismissibleTitle, with closable: false; top-pinned to the title's first line, 2px into the edge" }

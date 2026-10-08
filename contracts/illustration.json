@@ -12,7 +12,7 @@
   "spec": [
     { "label": "Set", "value": "20 illustrations · empty · onboarding · plan · offer · state · team · misc" },
     { "label": "Source", "value": "Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW" },
-    { "label": "Colour", "value": "multi-colour — keeps its own palette (NOT currentColor)" },
+    { "label": "Colour", "value": "multi-colour within the allowed list: Vivid Pink, its two tints, black, white and greys — keeps its own palette (NOT currentColor)" },
     { "label": "Size", "value": "one edge in px; the other follows the art's aspect ratio" },
     { "label": "Fallback", "value": "unknown name → a dashed error box (var(--aha-color-error))" }
   ],

@@ -8,12 +8,12 @@
   "summary": "Wrap a pro-gated affordance; the shared upsell renders itself — the crown upgrade mark, title, one-sentence body, the fixed unlock line, and Upgrade + See all plans CTAs are baked in.",
   "highlights": ["Wraps a pro-gated affordance", "Shared upsell renders itself: crown mark, title, one-sentence body", "Fixed unlock line, Upgrade and See all plans buttons baked in"],
   "lead": "EVERY pro-gated affordance routes through one element so both products feel like one. You give <aha-paywall> the feature, the copy and the plan; it renders the compliant popover — the Vivid Pink crown upgrade mark (never a generic crown glyph), the title, the one-sentence benefit, the fixed \"Unlock with the <Plan> plan.\" line, and two shared <aha-button> CTAs: Upgrade (positive/green) + See all plans (secondary). Analytics comes back as events. A hand-rolled upgrade modal/tooltip is the drift this replaces.",
-  "tokensUsed": ["color-primary", "color-primary-hover", "color-primary-active", "bg-dark-raised", "text-inverse", "text-secondary", "radius-lg", "radius-pill", "button-positive-bg", "button-default-border", "focus-ring-soft"],
+  "tokensUsed": ["color-primary", "color-primary-hover", "color-primary-active", "bg-dark-raised", "text-inverse", "text-secondary", "radius-lg", "radius-pill", "button-positive-bg", "button-default-border", "button-default-text", "button-focus-ring", "focus-ring"],
   "spec": [
     { "label": "Upgrade mark", "value": "16×16 Vivid Pink circle (--aha-color-primary) + white crown — a focusable control with Default/Hover/Active states; the custom mark, not a Phosphor crown" },
     { "label": "Popover", "value": "dark grey surface #1A1A1A (--aha-bg-dark-raised), 300px wide, 16px padding, radius 12; animates opacity + lift on open via the motion tokens" },
     { "label": "Anatomy", "value": "header (crown + title) · body (one sentence + \"Unlock with the <Plan> plan.\") · footer (Upgrade + See all plans)" },
-    { "label": "Buttons", "value": "TWO shared <aha-button>s — Upgrade (variant=positive, Vivid Pink via the --aha-button-positive-* inputs, because the black positive fill vanishes on the dark popover) + See all plans (variant=secondary, re-themed for the dark surface); never hand-rolled" },
+    { "label": "Buttons", "value": "TWO shared <aha-button>s — Upgrade (variant=positive, Vivid Pink) + See all plans (variant=secondary, re-themed for the dark surface through the --aha-button-default-* inputs: white label in every state, #8A8A8A border that turns white on hover, white focus ring); never hand-rolled" },
     { "label": "Analytics", "value": "paywall-shown on open · paywall-upgrade before Upgrade nav · paywall-plans before See-all-plans nav — all { feature, plan }" },
     { "label": "Behaviour", "value": "Upgrade opens ahaslides.com/pricing (new tab, noopener); See all plans opens plans-url; preventDefault either event to run your own flow. Esc / click-away close" }
   ],

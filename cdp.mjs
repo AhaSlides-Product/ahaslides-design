@@ -250,9 +250,10 @@ export async function withPage(fileUrl, use, { timeout = 45000, readyExpr = null
     let id = 0; const pending = new Map();
     conn.onMessage(txt => { let m; try { m = JSON.parse(txt); } catch { return; } if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } });
     const command = (method, params = {}) => new Promise((res, rej) => {
-      const mid = ++id; pending.set(mid, (m) => (m.error ? rej(new Error(`${method}: ${m.error.message}`)) : res(m.result)));
+      const mid = ++id;
+      const expiry = setTimeout(() => { if (pending.has(mid)) { pending.delete(mid); rej(new Error('cmd timeout: ' + method)); } }, timeout);
+      pending.set(mid, (m) => { clearTimeout(expiry); if (m.error) rej(new Error(`${method}: ${m.error.message}`)); else res(m.result); });
       conn.send({ id: mid, method, params });
-      setTimeout(() => { if (pending.has(mid)) { pending.delete(mid); rej(new Error('cmd timeout: ' + method)); } }, timeout);
     });
     await command('Runtime.enable');
     try { await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] }); } catch {}

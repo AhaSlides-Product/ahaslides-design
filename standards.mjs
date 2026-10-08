@@ -24,9 +24,10 @@
  * (Render truth — does it LOOK right — is qa.mjs. Run both via `npm run check`.)
  */
 import { readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { ART_SOURCES, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -767,8 +768,9 @@ const repoChecks = [];
   rchk('every token in tokens.canonical.json is acknowledged', unacknowledged.length === 0,
     `new token(s) need owner sign-off — add to tokens.acknowledged.json (node standards.mjs --acknowledge-tokens): ${unacknowledged.slice(0, 8).join(', ')}${unacknowledged.length > 8 ? ` (+${unacknowledged.length - 8} more)` : ''}`);
 }
-/* ===== COLOUR ALLOW-LIST — the page check also covers the docs chrome around the swatches; inline <svg> is
-   skipped because logo and illustration art is exempt from the colour rules. */
+/* ===== COLOUR ALLOW-LIST — tokens, the Colour page with the docs chrome around its swatches, the art the
+   DS owns (illustrations, third-party logos, file-type icons) and every demo, contract and element source.
+   The AhaSlides logo itself is the one drawing that keeps its own colours. */
 {
   const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
   const VIVID_PINK = '#E70E68', LOGO_PURPLE = '#6A1EBB';
@@ -786,9 +788,43 @@ const repoChecks = [];
   rchk('every colour token is on the allowed colour list', offListTokens.length === 0,
     `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black, neutral greys, and ${LOGO_PURPLE} at color.primitives.logoPurple only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
   const colourPagePath = join(DIST, 'foundations', 'colour.html');
-  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/href="#[^"]*"/g, ''), true) : null;
+  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/href="#[^"]*"/g, ''), true) : null;
   rchk('the built Colour page shows only allowed colours', offListOnPage && offListOnPage.length === 0,
     offListOnPage ? `off the list on dist/foundations/colour.html: ${offListOnPage.slice(0, 12).join(', ')}` : 'dist/foundations/colour.html is missing — run node generate.mjs first');
+
+  const artToRecolour = ART_SOURCES.flatMap(({ files, map }) => files().filter(path => recolourSvg(read(path), map) !== read(path)).map(path => relative(root, path)));
+  rchk('illustrations, third-party logos and file-type icons are drawn in the allowed colours', artToRecolour.length === 0,
+    `run node recolour-art.mjs, then node build-icons.mjs && node build-illustrations.mjs — off the list: ${artToRecolour.slice(0, 8).join(', ')}${artToRecolour.length > 8 ? ` (+${artToRecolour.length - 8} more)` : ''}`);
+  const offListInRegistry = ['icons', 'illustrations'].flatMap(kind => {
+    const entries = JSON.parse(read(join(root, kind, 'registry.json')) || '{}')[kind] || {};
+    return Object.entries(entries).filter(([, entry]) => offList(coloursInSvg(entry.body || '').join(' '), false).length).map(([name]) => `${kind}/${name}`);
+  });
+  rchk('the icon and illustration registries carry only allowed colours', offListInRegistry.length === 0,
+    `a registry is stale or an import brought colour in — recolour the source SVG and rebuild: ${offListInRegistry.slice(0, 8).join(', ')}${offListInRegistry.length > 8 ? ` (+${offListInRegistry.length - 8} more)` : ''}`);
+
+  /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
+     Each exemption names why the file has to spell out an off-list colour. */
+  const OFF_LIST_SOURCE_EXEMPT = {
+    'lib/aha-color-picker.js': 'the default presets are colours a presenter picks for their own content',
+    'parts/audience.guide.md': 'names forbidden colours as counter-examples',
+    'parts/canvas.guide.md': 'names forbidden colours as counter-examples',
+    'guidelines/audience.json': 'names forbidden colours as counter-examples',
+    'guidelines/canvas.json': 'names forbidden colours as counter-examples',
+  };
+  const sourceFiles = [
+    ...['parts', 'contracts', 'guidelines'].flatMap(dir => readdirSync(join(root, dir)).map(f => `${dir}/${f}`)),
+    ...readdirSync(join(root, 'lib')).filter(f => /^aha-.*\.js$|-theme\.js$|^audience-deck\.js$|^viewport\.js$/.test(f)).map(f => `lib/${f}`),
+    'generate.mjs',
+  ].filter(f => !(f in OFF_LIST_SOURCE_EXEMPT));
+  const offListSources = sourceFiles.flatMap(f => offList(read(join(root, f)).replace(/%23(?=[0-9a-fA-F]{6}\b)/g, '#'), false).map(hex => `${f} ${hex}`));
+  rchk('demos, contracts, guidelines and element sources use only allowed colours', offListSources.length === 0,
+    `use Vivid Pink, its tints, black, white or a grey (a demo placeholder too) — off the list: ${offListSources.slice(0, 10).join(', ')}${offListSources.length > 10 ? ` (+${offListSources.length - 10} more)` : ''}`);
+
+  /* antd derives hover, press, focus and status shades from its seed colours; only the shared base pins them. */
+  const bareThemes = readdirSync(join(root, 'lib')).filter(f => f.endsWith('-theme.js') && f !== 'antd-base-theme.js' && !/dsAntdTheme\(/.test(read(join(root, 'lib', f)))).map(f => `lib/${f}`);
+  const barePreviews = readdirSync(PDIR).filter(f => /\.(preview|conformance)\.html$/.test(f) && /<ConfigProvider theme=\{(?!window\.__ahaDsTheme\()/.test(read(join(PDIR, f)))).map(f => `parts/${f}`);
+  rchk('every antd theme is built on the shared base (dsAntdTheme)', bareThemes.length + barePreviews.length === 0,
+    `wrap the theme in dsAntdTheme(...) (lib) or window.__ahaDsTheme(...) (a CDN preview), or antd falls back to its own hover and status colours: ${[...bareThemes, ...barePreviews].join(', ')}`);
 }
 {
   const retiredSkillRefs = [];
