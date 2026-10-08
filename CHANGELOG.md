@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.121.0 — 2026-10-08
 ### Changed
 - `<aha-csat>`: rating no longer collapses — both thumbs stay visible, the chosen one shows the active state (`aria-pressed` synced); clicking the other thumb switches the rating and fires `rate`, clicking the chosen thumb again un-rates (#206)
-- `<aha-csat>`: feedback textarea allows 2000 characters (was 200) and its default placeholder is "Share your thoughts" (#206)
+- `<aha-csat>`: feedback textarea allows 2000 characters (was 200). Opened from the Feedback button it defaults to "Share your thoughts"; thumbs-down keeps "How can we improve? Let us know!" (#206)
 
 ## 0.119.1 — 2026-10-08
 ### Changed
