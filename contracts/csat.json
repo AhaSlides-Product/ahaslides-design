@@ -11,7 +11,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for the `rate` and `feedback` events; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-secondary", "text-default", "icon-muted", "color-primary"],
   "spec": [
-    { "label": "Layout", "value": "borderless single row (24px high): 12px #616161 prompt, 4px gap, then 28×24 borderless thumb buttons with 16px #4A4A4A icons and no gap between them — the only layout" },
+    { "label": "Layout", "value": "borderless single row (28px high): 12px #616161 prompt, 4px gap, then 28×28 borderless thumb buttons with 16px #4A4A4A icons, 4px apart (--aha-space-4) — the only layout" },
     { "label": "Rest", "value": "icon #4A4A4A" },
     { "label": "Hover", "value": "ghost fill #F9F5FF · icon #8644D4 purple-50 (motion tokens) · tooltip Good / Not good / Feedback" },
     { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #F0E4FF (purple-15) · icon #6A1EBB (purple-60) · aria-pressed synced; hover keeps the selected look" },
@@ -60,7 +60,7 @@
     ]
   },
   "selfCheck": [
-    { "label": "borderless single row · 12px #616161 prompt · 28×24 thumb buttons with 16px #4A4A4A icons · no chrome (the only layout)", "verdict": "PASS" },
+    { "label": "borderless single row · 12px #616161 prompt · 28×28 thumb buttons with 16px #4A4A4A icons · no chrome (the only layout)", "verdict": "PASS" },
     { "label": "hover fills ghost + recolours purple-50 (motion tokens) · Good / Not good / Feedback tooltips", "verdict": "PASS" },
     { "label": "selected = antd tertiary active (fill #F0E4FF · icon #6A1EBB) · aria-pressed synced · the other thumb collapses; re-click un-rates", "verdict": "PASS" },
     { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>, textarea focused; not re-opened after Send until re-rated)", "verdict": "PASS" },
@@ -69,10 +69,10 @@
     { "label": "emits rate with source (rating null on un-rate)", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The [data-probe] probe is pre-rated (value='up') so the borderless single-row layout — the muted #616161 400-weight 12px prompt, the borderless 28×24 thumb button, the selected primary colour and the aria-pressed a11y contract — is measurable; it also pins the thumbs-down feedback flow: the down thumb carries aria-haspopup='dialog' and the shared <aha-popover> is present in the shadow root.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The [data-probe] probe is pre-rated (value='up') so the borderless single-row layout — the muted #616161 400-weight 12px prompt, the borderless 28×28 thumb button, the selected primary colour and the aria-pressed a11y contract — is measurable; it also pins the thumbs-down feedback flow: the down thumb carries aria-haspopup='dialog' and the shared <aha-popover> is present in the shadow root.",
     "ready": "!!(document.querySelector('aha-csat[data-probe]') && document.querySelector('aha-csat[data-probe]').shadowRoot && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('.up aha-icon') && document.querySelector('aha-csat[data-probe]').shadowRoot.querySelector('aha-popover'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-csat[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.prompt');var u=r&&r.querySelector('.up');var d=r&&r.querySelector('.down');var b=r&&r.querySelector('.btn');var ic=u&&u.querySelector('aha-icon');var sp=p?getComputedStyle(p):null;var su=u?getComputedStyle(u):null;var sb=b?getComputedStyle(b):null;return{promptColor:sp?sp.color:null,promptWeight:sp?sp.fontWeight:null,promptSize:sp?sp.fontSize:null,upColor:su?su.color:null,btnWidth:sb?sb.width:null,btnHeight:sb?sb.height:null,iconSize:ic?ic.getAttribute('size'):null,upPressed:u?u.getAttribute('aria-pressed'):null,downPressed:d?d.getAttribute('aria-pressed'):null,downHaspopup:d?d.getAttribute('aria-haspopup'):null,hasPopover:!!r.querySelector('aha-popover')};})()",
-    "expect": { "promptColor": "rgb(97, 97, 97)", "promptWeight": "400", "promptSize": "12px", "upColor": "rgb(106, 30, 187)", "btnWidth": "28px", "btnHeight": "24px", "iconSize": "16", "upPressed": "true", "downPressed": "false", "downHaspopup": "dialog", "hasPopover": true }
+    "expect": { "promptColor": "rgb(97, 97, 97)", "promptWeight": "400", "promptSize": "12px", "upColor": "rgb(106, 30, 187)", "btnWidth": "28px", "btnHeight": "28px", "iconSize": "16", "upPressed": "true", "downPressed": "false", "downHaspopup": "dialog", "hasPopover": true }
   }
 }

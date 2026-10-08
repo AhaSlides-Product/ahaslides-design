@@ -919,7 +919,7 @@
         {
           "id": "C20",
           "title": "Borders are hairlines and radius follows the DS scale",
-          "test": "A bounded white card has a 1px neutral border (`--aha-border` #E3E3E3) and 12px radius (`--aha-radius-lg`); a chip 1.5px neutral; a deck-owned surface a 1px `currentColor` ~10% hairline; dashed empty states 1px; option tiles, inputs and buttons 8px. FAIL on 2px (or heavier) outlines on cards, tiles, chips or inputs, on borders at heavy ink (e.g. 14–55% textColour at 2px), or on a rectangular container above 12px radius."
+          "test": "A bounded white card has a 1px neutral border (`--aha-border` #E3E3E3) and 12px radius (`--aha-radius-lg`); a deck-owned surface (chip, field, track) a 1px `currentColor` 10% hairline, no 20% exception; dashed empty states 1px; option tiles, inputs and buttons 8px. FAIL on 2px (or heavier) outlines on cards, tiles, chips or inputs, on borders at heavy ink (e.g. 14–55% textColour at 2px), or on a rectangular container above 12px radius."
         },
         {
           "id": "C21",
@@ -1049,7 +1049,7 @@
         {
           "id": "C18",
           "title": "A filled slider / progress track carries a deck-ink edge",
-          "test": "**Rule.** A slider's FILLED (accent) portion, and a progress fill, must carry the SAME deck-ink hairline the empty rail already has, so a coloured fill does not sink into a same-hue deck (AHAM-701 issue 4). The edge is the deck ink at the shared control-border alpha (~20%), reached through `currentColor` so it tracks the deck — the same edge the unfilled rail uses, extended onto the fill."
+          "test": "**Rule.** A slider's FILLED (accent) portion, and a progress fill, must carry the SAME deck-ink hairline the empty rail already has, so a coloured fill does not sink into a same-hue deck (AHAM-701 issue 4). The edge is the deck ink at the shared audience border alpha (10%, one value for every audience border and track), reached through `currentColor` so it tracks the deck — the same edge the unfilled rail uses, extended onto the fill."
         },
         {
           "id": "C19",
@@ -1119,7 +1119,7 @@
         {
           "id": "C32",
           "title": "Borders are hairlines and radius follows the DS scale",
-          "test": "A bounded white card has a 1px `--aha-border` (#E3E3E3) border and 12px radius; a chip a 1.5px neutral border; option tiles, inputs and the submit button 8px. FAIL on 2px (or heavier) outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
+          "test": "A bounded white card has a 1px `--aha-border` (#E3E3E3) border and 12px radius; a deck chip a 1px 10% ink border; option tiles, inputs and the submit button 8px. FAIL on 2px (or heavier) outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
         },
         {
           "id": "C33",

@@ -65,7 +65,7 @@
       "name": "ghost",
       "type": "boolean",
       "default": "false",
-      "desc": "Borderless, transparent surface that sits seamlessly on the page"
+      "desc": "Borderless, transparent surface that sits seamlessly on the page; the header has no side padding so its label aligns with the body"
     },
     {
       "name": "size",

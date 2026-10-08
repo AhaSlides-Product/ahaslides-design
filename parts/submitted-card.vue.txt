@@ -1,0 +1,8 @@
+<script setup>
+import '@ahaslides-product/design/aha-submitted-card';
+defineProps({ choice: String });
+</script>
+
+<template>
+  <aha-submitted-card :heading="`Submitted: ${choice}`" subtitle="Wait for the presenter to reveal the answer" />
+</template>

@@ -36,6 +36,16 @@ jobs:
         with:
           node-version: 22
       - run: npm install --no-audit --no-fund
+      # Every HTML-tab snippet imports from the v<version> tag that publish.yml creates on this same
+      # push, so wait for that tag before deploying pages that point at it (bounded: 15 minutes).
+      - name: Wait for the release tag the snippets pin
+        run: |
+          TAG="v$(node -p "require('./package.json').version")"
+          for attempt in $(seq 1 45); do
+            git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null && { echo "$TAG exists"; exit 0; }
+            sleep 20
+          done
+          echo "::warning::$TAG not tagged after 15 minutes; deploying anyway (snippets 404 until it exists)"
       - name: Build docs + feeds
         run: node build-icons.mjs && node generate.mjs
         env:
