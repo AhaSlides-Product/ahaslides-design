@@ -2309,7 +2309,7 @@ const LOGO_GALLERY_JS = `
 `;
 function renderLogoPage() {
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file)}</span><span class="lg-arrow">&darr;</span></a></div>`;
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file.split('/').pop())}</span><span class="lg-arrow">&darr;</span></a></div>`;
   const sections = list => {
     const names = [...new Set(list.map(l => l.section))];
     return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
@@ -2334,6 +2334,8 @@ function renderLogoPage() {
 
   <h3 class="tok-h3">AhaSlides logo rules</h3>
   <p class="body">The logo is The Splash plus the wordmark. Two versions are allowed: the full-colour file on white and the white file on Vivid Pink. An all-pink logo on white is not allowed. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <h3 class="tok-h3">Favicon</h3>
+  <p class="body">Use <code>favicon.ico</code> and <code>favicon-32.png</code> in <code>&lt;link rel="icon"&gt;</code>, <code>favicon-180.png</code> (white ground, because iOS fills transparency black) in <code>&lt;link rel="apple-touch-icon"&gt;</code>, and <code>favicon-512.png</code> as the 512 px icon in the web app manifest. All four are The Splash in its own colours, centred with even padding; rebuild them with <code>node favicons.mjs</code>.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
   <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Third-party marks</h3>

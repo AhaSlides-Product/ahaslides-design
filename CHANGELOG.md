@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.146.0 — 2026-10-09
+### Added
+- Logo library: a Favicon section after The Splash, with `favicon-32.png`, `favicon-180.png` (apple-touch, white ground), `favicon-512.png` and `favicon.ico` (16, 32, 48), each with copy and download and a usage line; `node favicons.mjs` rebuilds them from `logo/thesplash.svg` (#PR)
+
 ## 0.144.1 — 2026-10-09
 ### Fixed
 - The React snippet for `aha-csat` parses again when copied: the tooltip-placement note moved out of the `return` line into a comment above it (#216)
