@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.149.0 — 2026-10-09
+### Added
+- `<aha-product-lockup>`: the AhaSlides product lockup (The Splash, AhaSlides and a product name as one mark) for the top-left of every site, microsite and app header. `product`, `variant` (auto, full, compact, splash), `tone` (colour, inverse) and `size` (20px default, 18px minimum); auto flips to compact below a 480px header (#PR)
+- Logo library: a Product lockup section with the spec table and the don'ts (#PR)
+- screen-lint `hand-set-lockup` (warning): the AhaSlides logo or The Splash set by hand in a header or nav (#PR)
+### Changed
+- `app-shell` C1 and its guideline rule: the header brand of any site or app is `<aha-product-lockup>` (#PR)
+- Agent plugin: every prompt carries the product lockup rule, including marketing-style pages; writing an AhaSlides logo file nudges toward the lockup (#PR)
+
 ## 0.148.0 — 2026-10-09
 ### Changed
 - `<aha-icon>` now draws every stroke at the width paired with its size (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px), whatever the glyph's viewBox. Before, the pairing was declared but never applied, so the stroke scaled with the glyph's viewBox and size: 16-viewBox glyphs drew 1.25px at 16px, and 24-viewBox slide-type glyphs drew 1.25px at 24px and 1.67px at 32px. An off-grid size takes the nearest on-grid stroke. `lib/icons.js` now exports `LINE` and `strokeWidthFor`, and can be imported outside a browser. (#219)

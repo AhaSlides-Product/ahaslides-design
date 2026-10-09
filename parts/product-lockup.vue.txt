@@ -1,0 +1,16 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-product-lockup';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// SiteHeader.vue
+<template>
+  <header style="display:flex; align-items:center; container:aha-header / inline-size">
+    <a href="/" style="display:inline-flex">
+      <aha-product-lockup product="Docs" />   <!-- full, compact below a 480 px header -->
+    </a>
+  </header>
+
+  <aha-product-lockup product="Games" variant="compact" />
+  <aha-product-lockup product="Agent Fleet" variant="splash" />   <!-- icon rail -->
+  <aha-product-lockup product="Careers" tone="inverse" />         <!-- dark or brand-colour header -->
+</template>

@@ -113,3 +113,33 @@ test('the documented import path resolves through the package exports map', asyn
   const { lintHtml: viaName } = await import('@ahaslides-product/design/screen-lint');
   assert.equal(viaName, lintHtml);
 });
+
+test('a logo file inside a header is a hand-set lockup warning', () => {
+  const source = '<header class="site">\n  <a href="/"><img src="/logo/thesplash.svg" alt=""><span>Docs</span></a>\n</header>';
+  const findings = lintHtml(source, { surface: 'product' }).findings;
+  assert.deepEqual(findings.map(f => [f.rule, f.line, f.severity]), [['hand-set-lockup', 2, 'warn']]);
+});
+
+test('a logo file inside a nav is a hand-set lockup warning', () => {
+  const source = '<nav aria-label="Main">\n  <img src="https://design.ahaslides.io/logo/ahaslides-logo-white.svg" alt="AhaSlides">\n</nav>';
+  assert.deepEqual(rulesOf(source), ['hand-set-lockup']);
+});
+
+test('a logo file on a brand-classed element outside a header is a hand-set lockup warning', () => {
+  assert.deepEqual(rulesOf('<img className="topbar-logo" src={"/brand/thesplash.svg"} />'), ['hand-set-lockup']);
+});
+
+test('the product lockup in a header passes', () => {
+  const source = '<header>\n  <a href="/"><aha-product-lockup product="Docs"></aha-product-lockup></a>\n</header>';
+  assert.deepEqual(lintHtml(source, { surface: 'product' }).findings, []);
+});
+
+test('a logo file outside any header or brand slot is not a lockup', () => {
+  const source = '<header><aha-product-lockup product="Docs"></aha-product-lockup></header>\n<footer><img src="/logo/thesplash.svg" alt="AhaSlides"></footer>\n<link rel="icon" href="/logo/thesplash.svg">';
+  assert.deepEqual(rulesOf(source), []);
+});
+
+test('the hand-set lockup rule is suppressed with a reason', () => {
+  const source = '<header><img src="/logo/thesplash.svg" alt=""></header> <!-- ds-lint-allow: lockup (logo gallery tile) -->';
+  assert.deepEqual(rulesOf(source), []);
+});
