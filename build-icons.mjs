@@ -11,7 +11,8 @@
  *   - strip <defs>/<clipPath> and the clip wrappers (Figma bounding-box noise)
  *   - unwrap <g>, drop id= / clip-path= (no cross-icon id collisions when inlined)
  *   - rebind the DS icon ink #4A4A4A → currentColor  (so colour follows the text colour)
- *   - keep any *baked brand* colour (filetype glyphs) untouched → recolorable:false
+ *   - any other baked colour is left untouched → recolorable:false (none ships: recolour-art.mjs puts
+ *     the file-type glyphs on the DS ink first, and standards.mjs fails an off-list colour here)
  *
  * The registry is the single source the <aha-icon> runtime + the gallery + the agent
  * feeds are generated from. Re-run whenever the SVGs change:  node build-icons.mjs

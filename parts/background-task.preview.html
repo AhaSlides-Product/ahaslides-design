@@ -2,14 +2,14 @@
 <div class="pad">
   <div class="lbl">In progress</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task data-probe heading="Quarterly review.pptx" value="42" caption="42%"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
-    <aha-background-task heading="Quarterly review.pptx" value="25" caption="Importing slides…"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
-    <aha-background-task heading="Quarterly review.pptx" value="92" caption="Almost done…"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""></aha-background-task>
-    <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
+    <aha-background-task data-probe heading="Quarterly review.pptx" value="42" caption="42%"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
+    <aha-background-task heading="Quarterly review.pptx" value="25" caption="Importing slides…"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
+    <aha-background-task heading="Quarterly review.pptx" value="92" caption="Almost done…"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon><aha-button slot="action" variant="tertiary" size="sm">Cancel</aha-button></aha-background-task>
   </div>
   <div class="lbl">Cancel confirmation</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt="">
+    <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon>
       <div slot="footer">
         <span style="color:var(--aha-text-secondary); display:block; margin-bottom:var(--aha-space-12)">Cancel import? The 23 slides already created will be kept in your deck.</span>
         <div style="display:flex; justify-content:flex-end; gap:var(--aha-space-8)"><aha-button variant="secondary" size="sm">Cancel import</aha-button><aha-button variant="primary" size="sm">Keep waiting</aha-button></div>
@@ -18,49 +18,49 @@
   </div>
   <div class="lbl">Finished (the rating is always part of it)</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task state="success" heading="Quarterly review.pptx" description="40/40 slides imported" rating-prompt="How did this import go?" rating-source="import_completion_csat"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""></aha-background-task>
-    <aha-background-task state="success" heading="Quarterly review.pdf" rating-prompt="How did this import go?" rating-source="import_completion_csat"><img slot="icon" src="../logo/pdf.svg" width="24" height="24" alt=""></aha-background-task>
-    <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""></aha-background-task>
-    <aha-background-task state="success" heading="Quarterly review.pptx" description="40/40 diapositives importées" rating-prompt="Comment s'est passée cette importation ?" rating-source="import_completion_csat"><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""></aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.pptx" description="40/40 slides imported" rating-prompt="How did this import go?" rating-source="import_completion_csat"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.pdf" rating-prompt="How did this import go?" rating-source="import_completion_csat"><aha-icon slot="icon" name="system-file-pdf" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task state="canceled" heading="Import cancelled" description="23/40 slides are now in your deck"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.pptx" description="40/40 diapositives importées" rating-prompt="Comment s'est passée cette importation ?" rating-source="import_completion_csat"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon></aha-background-task>
   </div>
   <div class="lbl">File name, with an inline link and the rating (export)</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task heading="Quarterly review.pdf" value="42" caption="42%"><img slot="icon" src="../logo/pdf.svg" width="24" height="24" alt=""></aha-background-task>
-    <aha-background-task heading="Quarterly review.xlsx" no-percentage caption="Generating report…"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""></aha-background-task>
-    <aha-background-task state="success" heading="Quarterly review.pdf" description="Download didn’t start?" rating-source="export_pdf"><img slot="icon" src="../logo/pdf.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Retry</a></aha-background-task>
-    <aha-background-task state="error" heading="Export failed" description="Couldn’t create your PDF."><img slot="icon" src="../logo/pdf.svg" width="24" height="24" alt="">
+    <aha-background-task heading="Quarterly review.pdf" value="42" caption="42%"><aha-icon slot="icon" name="system-file-pdf" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task heading="Quarterly review.xlsx" no-percentage caption="Generating report…"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon></aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.pdf" description="Download didn’t start?" rating-source="export_pdf"><aha-icon slot="icon" name="system-file-pdf" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Retry</a></aha-background-task>
+    <aha-background-task state="error" heading="Export failed" description="Couldn’t create your PDF."><aha-icon slot="icon" name="system-file-pdf" size="24" decorative></aha-icon>
       <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="secondary" size="sm">Try again</aha-button></div>
     </aha-background-task>
   </div>
   <div class="lbl">Long translations: the inline link wraps with the description (French, German, Vietnamese, Russian)</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task state="success" heading="Quarterly review.xlsx" description="Le téléchargement n'a pas démarré ?" rating-prompt="Comment ça s'est passé ?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Réessayer</a></aha-background-task>
-    <aha-background-task state="success" heading="Quarterlyreview_Vertriebsbericht.xlsx" description="Der Download wurde nicht gestartet?" rating-prompt="Wie ist der Export verlaufen?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Erneut versuchen</a></aha-background-task>
-    <aha-background-task state="success" heading="Bản trình bày mới của tôi.xlsx" description="Quá trình tải xuống chưa bắt đầu?" rating-prompt="Quá trình xuất diễn ra như thế nào?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Thử lại ngay</a></aha-background-task>
-    <aha-background-task state="success" heading="Квартальный отчёт.xlsx" description="Загрузка не началась автоматически?" rating-prompt="Как прошёл экспорт презентации?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Повторить попытку</a></aha-background-task>
+    <aha-background-task state="success" heading="Quarterly review.xlsx" description="Le téléchargement n'a pas démarré ?" rating-prompt="Comment ça s'est passé ?" rating-source="export_xlsx"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Réessayer</a></aha-background-task>
+    <aha-background-task state="success" heading="Quarterlyreview_Vertriebsbericht.xlsx" description="Der Download wurde nicht gestartet?" rating-prompt="Wie ist der Export verlaufen?" rating-source="export_xlsx"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Erneut versuchen</a></aha-background-task>
+    <aha-background-task state="success" heading="Bản trình bày mới của tôi.xlsx" description="Quá trình tải xuống chưa bắt đầu?" rating-prompt="Quá trình xuất diễn ra như thế nào?" rating-source="export_xlsx"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Thử lại ngay</a></aha-background-task>
+    <aha-background-task state="success" heading="Квартальный отчёт.xlsx" description="Загрузка не началась автоматически?" rating-prompt="Как прошёл экспорт презентации?" rating-source="export_xlsx"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Повторить попытку</a></aha-background-task>
   </div>
   <div class="lbl">Stack: several processes, newest on top, one card each</div>
   <div style="padding:8px 0 24px; min-height:400px">
     <aha-background-task-stack style="position:static">
-      <aha-background-task state="success" heading="Quarterly review.xlsx" description="Download didn’t start?" rating-source="export_xlsx"><img slot="icon" src="../logo/microsoft-excel.svg" width="24" height="24" alt=""><a slot="link" href="#" role="button">Retry</a></aha-background-task>
+      <aha-background-task state="success" heading="Quarterly review.xlsx" description="Download didn’t start?" rating-source="export_xlsx"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Retry</a></aha-background-task>
       <aha-background-task heading="Quarterly review.zip" value="77" caption="77%"><aha-icon slot="icon" name="system-images" size="24" decorative></aha-icon></aha-background-task>
-      <aha-background-task heading="Quarterly review.pdf" value="12" caption="12%"><img slot="icon" src="../logo/pdf.svg" width="24" height="24" alt=""></aha-background-task>
+      <aha-background-task heading="Quarterly review.pdf" value="12" caption="12%"><aha-icon slot="icon" name="system-file-pdf" size="24" decorative></aha-icon></aha-background-task>
     </aha-background-task-stack>
   </div>
-  <div class="lbl">Close button when text wraps</div>
+  <div class="lbl">Close ✕ when text wraps</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
-    <aha-background-task state="canceled" heading="Import cancelled" description="You cancelled the import. 23/40 slides are now in your deck; the other 17 weren’t imported."><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt=""></aha-background-task>
+    <aha-background-task state="canceled" heading="Import cancelled" description="You cancelled the import. 23/40 slides are now in your deck; the other 17 weren’t imported."><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon></aha-background-task>
   </div>
   <div class="lbl">Connection lost and error</div>
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px; padding-bottom:96px">
     <aha-background-task state="offline" heading="Connection lost" description="Waiting to reconnect…" value="58">
-      <img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt="">
+      <aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon>
       <div slot="footer">
         <span style="color:var(--aha-text-secondary); display:block; margin-bottom:var(--aha-space-12)">23/40 slides imported so far</span>
         <div style="display:flex; justify-content:flex-end; gap:var(--aha-space-8)"><aha-button variant="secondary" size="sm">Cancel import</aha-button><aha-button variant="primary" size="sm">Try again</aha-button></div>
       </div>
     </aha-background-task>
-    <aha-background-task state="error" heading="Import failed" description="Couldn’t import your file."><img slot="icon" src="../logo/microsoft-powerpoint.svg" width="24" height="24" alt="">
+    <aha-background-task state="error" heading="Import failed" description="Couldn’t import your file."><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon>
       <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="secondary" size="sm">Try again</aha-button></div>
     </aha-background-task>
   </div>

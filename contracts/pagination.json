@@ -9,13 +9,13 @@
   "highlights": ["Page selector for a paged list or table", "Previous, numbered pages with ellipsis, next", "Two sizes, simple mode, disabled state"],
   "lead": "ONE custom element — <aha-pagination> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; give it `total`+`page-size` (or a direct `pages` count) and `current` and it computes a page WINDOW with ellipses for long ranges — prev / numbered pages / next. It ships two `size`s (default 32px, `small` 24px), a `simple` mode that collapses the numbers to prev · n / total · next, and a whole-control `disabled` state. The current page is brand-filled; prev/next disable at the ends; hover animates via the shared motion tokens on persistent nodes; arrows use the DS caret glyph via <aha-icon>. Emits a composed `change` event.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `change`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "border-hover", "border-disabled", "bg-container", "text-default", "text-inverse", "text-disabled", "text-tertiary", "color-primary", "border-focus", "radius-default"],
+  "tokensUsed": ["border", "border-hover", "button-default-bg-hover", "button-default-border-hover", "button-default-border-press", "button-default-text-hover", "border-disabled", "bg-container", "text-default", "text-inverse", "text-disabled", "text-tertiary", "color-primary", "border-focus", "radius-default"],
   "spec": [
     { "label": "Cell (default)", "value": "min-width 32 · height 32 · radius 8 · SemiBold 600" },
     { "label": "Cell (small)", "value": "min-width 24 · height 24 · radius 6 · 12px" },
     { "label": "Rest", "value": "white bg, 1px border #E3E3E3, text-default" },
-    { "label": "Hover", "value": "border-hover #D3B4FF + color-primary text (motion-fast + ease-out)" },
-    { "label": "Current", "value": "color-primary #6A1EBB fill, text-inverse #FFFFFF" },
+    { "label": "Hover", "value": "the secondary button hover: #FEF3F7 fill, #E70E68 border, #DB005B label (motion-fast + ease-out); press keeps the fill with a #DB005B border" },
+    { "label": "Current", "value": "color-primary #E70E68 fill, text-inverse #FFFFFF" },
     { "label": "Ellipsis", "value": "… text-tertiary #8A8A8A, aria-hidden, for elided ranges" },
     { "label": "Simple", "value": "prev · <b>n</b> / total · next — n in color-primary" },
     { "label": "Disabled prev/next", "value": "text-disabled #B5B5B5, not-allowed" },
@@ -39,7 +39,7 @@
       { "what": "Load more", "when": "occasional appends where exact page position doesn't matter" }
     ],
     "note": "Show pagination only when there is more than one page. Keep page cells on the 32px square + radius-8 scale (or the 24px small scale for dense tables), and reserve the brand fill for the current page. The first/last ellipsis keeps long ranges compact; reach for simple mode when width is tight.",
-    "dsv3": "COVERED — enumerated from the DS V3 Pagination component-set taxonomy: Pagination (the control) + Pagination / Page (the cell, carrying size + state variants) + a prev/next arrow. The family is size (default · small), the page window with ellipses for elided ranges, a current (brand-filled) page, a simple mode (prev · n / total · next), and a whole-control disabled. No measured Pagination cell ships in the reference set, so px/rgb are derived from the token layer (white rest, border #E3E3E3, border-hover #D3B4FF, color-primary #6A1EBB current fill, text-inverse label, radius-default 8 / radius-sm 6 small, text-tertiary ellipsis) + AntD Pagination conventions. Motion + arrow glyphs bound to the shared motion tokens and the DS icon library."
+    "dsv3": "COVERED — enumerated from the DS V3 Pagination component-set taxonomy: Pagination (the control) + Pagination / Page (the cell, carrying size + state variants) + a prev/next arrow. The family is size (default · small), the page window with ellipses for elided ranges, a current (brand-filled) page, a simple mode (prev · n / total · next), and a whole-control disabled. No measured Pagination cell ships in the reference set, so px/rgb are derived from the token layer (white rest, border #E3E3E3, border-hover #E70E68, color-primary #E70E68 current fill, text-inverse label, radius-default 8 / radius-sm 6 small, text-tertiary ellipsis) + AntD Pagination conventions. Motion + arrow glyphs bound to the shared motion tokens and the DS icon library."
   },
   "surfaces": ["dashboard", "admin", "editor"],
   "reuse": { "entry": "./aha-pagination", "registers": "aha-pagination", "exportsNamed": ["AhaPagination", "defineAhaPagination"] },
@@ -74,6 +74,6 @@
     "ready": "!!(document.querySelector('aha-pagination[data-probe]') && document.querySelector('aha-pagination[data-probe]').shadowRoot && document.querySelector('aha-pagination[data-probe]').shadowRoot.querySelector('.page.current'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-pagination[data-probe]');var r=el&&el.shadowRoot;var c=r&&r.querySelector('.page.current');var s=c?getComputedStyle(c):null;var pg=r&&r.querySelector('.page:not(.current)');var ps=pg?getComputedStyle(pg):null;var el2=r&&r.querySelector('.ellipsis');return{bg:s?s.backgroundColor:null,color:s?s.color:null,minWidth:s?s.minWidth:null,radius:s?s.borderTopLeftRadius:null,ariaCurrent:c?c.getAttribute('aria-current'):null,pageHeight:ps?ps.height:null,hasEllipsis:!!el2};})()",
-    "expect": { "bg": "rgb(106, 30, 187)", "color": "rgb(255, 255, 255)", "minWidth": "32px", "radius": "8px", "ariaCurrent": "page", "pageHeight": "32px", "hasEllipsis": true }
+    "expect": { "bg": "rgb(231, 14, 104)", "color": "rgb(255, 255, 255)", "minWidth": "32px", "radius": "8px", "ariaCurrent": "page", "pageHeight": "32px", "hasEllipsis": true }
   }
 }

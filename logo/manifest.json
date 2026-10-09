@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; each Brands file is the current SVG from its sourceUrl (thesvg.org, or a Design System V3 Figma export) on the recorded date. usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl.",
+  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; each Brands file is the current SVG from its sourceUrl (thesvg.org, or a Design System V3 Figma export) on the recorded date, mapped to greyscale (never darker than black #1A1A1A) by recolour-art.mjs (third-party logos are one colour under the colour rules). usedIn lists where stpancras-presenter-app renders the brand. Refresh by re-fetching sourceUrl, then run node recolour-art.mjs.",
   "logos": [
     {
       "id": "ahaslides-logo",
@@ -66,6 +66,38 @@
       "sourceLastChanged": "2026-08-26",
       "sourceCommit": "89ccad9",
       "section": "The Splash"
+    },
+    {
+      "id": "favicon-32",
+      "name": "Favicon, 32 px",
+      "category": "AhaSlides",
+      "file": "favicon/favicon-32.png",
+      "source": "derived from thesplash.svg (node favicons.mjs)",
+      "section": "Favicon"
+    },
+    {
+      "id": "favicon-180",
+      "name": "Favicon, 180 px (apple-touch-icon)",
+      "category": "AhaSlides",
+      "file": "favicon/favicon-180.png",
+      "source": "derived from thesplash.svg (node favicons.mjs)",
+      "section": "Favicon"
+    },
+    {
+      "id": "favicon-512",
+      "name": "Favicon, 512 px (web app manifest)",
+      "category": "AhaSlides",
+      "file": "favicon/favicon-512.png",
+      "source": "derived from thesplash.svg (node favicons.mjs)",
+      "section": "Favicon"
+    },
+    {
+      "id": "favicon-ico",
+      "name": "Favicon, .ico (16, 32, 48)",
+      "category": "AhaSlides",
+      "file": "favicon/favicon.ico",
+      "source": "derived from thesplash.svg (node favicons.mjs)",
+      "section": "Favicon"
     },
     {
       "id": "google",

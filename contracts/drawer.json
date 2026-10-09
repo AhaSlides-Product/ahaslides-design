@@ -12,7 +12,7 @@
     { "label": "Panel", "value": "white surface, slides from the right (or any edge)" },
     { "label": "Title", "value": "ink #1A1A1A · SemiBold" },
     { "label": "Body", "value": "24 padding · ink text" },
-    { "label": "Mask", "value": "ink overlay rgba(26,26,46,.7)" },
+    { "label": "Mask", "value": "ink overlay rgba(0,0,0,.4)" },
     { "label": "Motion", "value": "antd's built-in slide enter/leave (kept)" }
   ],
   "props": [
@@ -24,7 +24,7 @@
     { "name": "size", "type": "default | large", "default": "default", "desc": "antd preset size (378/736 l·r); the DS default is 378" },
     { "name": "footer", "type": "ReactNode", "default": "—", "desc": "Pinned actions row (keep the primary action here)" },
     { "name": "mask", "type": "boolean", "default": "true", "desc": "Dim + scroll-lock the page behind the panel" },
-    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared <aha-close-button> rides in the title (dismissibleDrawerTitle) instead of antd's own close" },
+    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared ✕ (tertiary icon-only <aha-button>, size xs) rides in the title (dismissibleDrawerTitle) instead of antd's own close" },
     { "name": "onClose", "type": "() => void", "default": "—", "desc": "Dismiss handler" }
   ],
   "opinion": {

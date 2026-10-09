@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button text-link underline</title>
+</head>
+<body>
+  <aha-button id="link" variant="text-link">View details</aha-button>
+  <script type="module">
+    await import('../lib/aha-button.js');
+    await customElements.whenDefined('aha-button');
+    window.textLinkFixtureReady = !!document.querySelector('#link').shadowRoot?.querySelector('button');
+  </script>
+</body>
+</html>
