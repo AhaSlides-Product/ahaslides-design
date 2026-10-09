@@ -14,7 +14,7 @@
     { "label": "Zone", "value": "1px dashed border-strong #D4D4D4, radius 8, pad 24 16" },
     { "label": "Rest text", "value": "text-tertiary #8A8A8A, 14/21" },
     { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent (motion-mid, persistent zone)" },
-    { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (<aha-close-button>, 20 × 20, 14px system-x)" },
+    { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (tertiary icon-only <aha-button> xs, 20 × 20, 14px system-x)" },
     { "label": "Uploading", "value": "4px pill progress track (split), color-primary fill, width animates (motion-slow)" },
     { "label": "Error item", "value": "border + text color-error #F5222D on bg-negative, warning glyph" },
     { "label": "Done item", "value": "check-circle glyph color-success #16C49A" },
