@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.144.2 — 2026-10-09
 ### Fixed
-- The React snippet for the date picker parses again when copied: the `size` note inside the `<DatePicker>` props is now a `//` comment, not a `{/* */}` child expression (#000)
+- The React snippet for the date picker parses again when copied: the `size` note inside the `<DatePicker>` props is now a `//` comment, not a `{/* */}` child expression (#217)
 
 ## 0.144.1 — 2026-10-09
 ### Fixed
