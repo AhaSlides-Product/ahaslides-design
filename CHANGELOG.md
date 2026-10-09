@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.148.2 — 2026-10-09
 ### Added
-- Icon library page: sizes are named XS 12px, S 16px, M 24px and L 32px (the DS had no icon size names), the Stroke by size demo shows one glyph per size across the full content width, and a size switcher beside the family chips redraws every tile at the chosen size so the stroke rule can be previewed on all icons. The icon contract and preview name the sizes the same way. (#PR)
+- Icon library page: sizes are named XS 12px, S 16px, M 24px and L 32px (the DS had no icon size names), the Stroke by size demo shows one glyph per size across the full content width, and a size switcher beside the family chips redraws every tile at the chosen size so the stroke rule can be previewed on all icons. The icon contract and preview name the sizes the same way. (#222)
 
 ## 0.148.0 — 2026-10-09
 ### Changed
