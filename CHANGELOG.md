@@ -24,6 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.134.0 — 2026-10-08
 ### Changed
+- `<aha-button variant="text-link">` is underlined on hover and press (no underline at rest) (#197)
 - Toast and Notification status icons are the DS stroke glyphs (info, check-circle, warning-circle, x-circle) in `--aha-icon-default` `#4A4A4A`, not antd's filled ones; importing `toast-theme` / `notification-theme` adds the rule so default `message.success()` calls get them, and `dsToastIcon` / `dsNotificationIcon` return an `<aha-icon>` for the `icon` option (#197)
 - Notification title is SemiBold 600 (was 400); `notification-theme` adds one `.ant-notification-notice-title` rule (#197)
 - `modalTheme` and `drawerTheme`: the antd Button is 36px, the DS `md` size (it was 32px) (#197)
