@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.144.0 — 2026-10-09
 ### Changed
-- The docs site and every agent feed (`llms.txt`, `*.agent.json`, `design.md`, `variables.css`, the icon gallery) move from `ahaslides-product.github.io/ahaslides-design` to `https://design.ahaslides.io`, served at the domain root (staging at `/staging`); the old address stops being canonical at cut-over (#PR)
+- The docs site and every agent feed (`llms.txt`, `*.agent.json`, `design.md`, `variables.css`, the icon gallery) move from `ahaslides-product.github.io/ahaslides-design` to `https://design.ahaslides.io`, served at the domain root (staging at `/staging`); the old address stops being canonical at cut-over (#215)
 
 ## 0.143.0 — 2026-10-09
 ### Added
