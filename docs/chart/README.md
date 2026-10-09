@@ -2,7 +2,7 @@
 
 One framework-free web component that draws eleven kinds of result chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud and mind map.
 
-Live examples, the playground and the "Choosing a chart" guide are on the hosted **[Charts tab](https://ahaslides-product.github.io/ahaslides-design/charts/index.html)**.
+Live examples, the playground and the "Choosing a chart" guide are on the hosted **[Charts tab](https://design.ahaslides.io/charts/index.html)**.
 
 - No build step, no framework, no dependencies. One `<script type="module">` and one HTML tag.
 - Works in plain HTML, React, Vue, Svelte, Angular or anything else that can render a custom element.
@@ -372,4 +372,4 @@ This repository's `package.json` currently declares the licence as `UNLICENSED` 
 
 - Component contract (the source of truth for attributes and data): [`contracts/chart.json`](../../contracts/chart.json)
 - Element source and API comments: [`lib/aha-chart.js`](../../lib/aha-chart.js)
-- Design-system site and agent feeds: <https://ahaslides-product.github.io/ahaslides-design/>
+- Design-system site and agent feeds: <https://design.ahaslides.io/>
