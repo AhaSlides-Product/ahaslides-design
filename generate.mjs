@@ -2351,7 +2351,7 @@ function renderLogoPage() {
       <input id="logo-search" type="search" placeholder="Search logos by name…" aria-label="Search logos" autocomplete="off" spellcheck="false" />
       <span id="logo-count" class="gal-count" aria-live="polite"></span>
     </div>
-    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div>
+    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div><!-- ds-lint-allow: lockup (Logo library gallery tiles, not a header) -->
     <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
   </div>
 
