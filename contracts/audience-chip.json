@@ -23,7 +23,7 @@
   "spec": [
     {
       "label": "Chip",
-      "value": "min-height 48, padding 0 16, radius 8, 16px semibold label in the deck ink, frosted surface (Deep Space at 80% on a dark deck), 1px edge in the ink at 20%, the browser's own focus ring"
+      "value": "min-height 48, padding 0 16, radius 8, 16px semibold label in the deck ink, frosted surface (Deep Space at 80% on a dark deck), 1px edge in the ink at 20%, a 2px ink focus outline offset 2px"
     },
     {
       "label": "Chosen",
