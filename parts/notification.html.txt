@@ -19,7 +19,7 @@
   function App() {
     const [api, ctx] = notification.useNotification();
     // type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
-    // the ✕ is the shared ✕ (tertiary icon-only <aha-button>, size xs) in the title; closable: false turns antd's own close off
+    // the ✕ is the shared tertiary icon-only <aha-button> (size xs) in the title; closable: false turns antd's own close off
     const notify = (type, placement, key = `export-${Date.now()}`) =>
       api[type]({
         key,

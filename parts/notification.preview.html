@@ -69,7 +69,7 @@ function Demo() {
   const [type, setType] = useState('info');
   const [placement, setPlacement] = useState('topRight');
 
-  // The ✕ is the shared ✕ (tertiary icon-only <aha-button>, size xs) in the title (dismissibleTitle); antd's own close is off.
+  // The ✕ is the shared tertiary icon-only <aha-button> (size xs) in the title (dismissibleTitle); antd's own close is off.
   const fire = (t, extra, key = 'n' + Date.now()) => api[t]({
     key, closable: false, placement, description: COPY[t].description,
     title: window.__dismissibleTitle(React.createElement, COPY[t].message, () => api.destroy(key)), ...extra });
