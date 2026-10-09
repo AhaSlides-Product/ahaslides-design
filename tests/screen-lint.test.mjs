@@ -139,8 +139,13 @@ test('a logo file outside any header or brand slot is not a lockup', () => {
   assert.deepEqual(rulesOf(source), []);
 });
 
-test('a logo in a footer-logo class is not a lockup', () => {
-  assert.deepEqual(rulesOf('<img class="footer-logo" src="/logo/thesplash.svg" alt="AhaSlides">'), []);
+test('a React <Header /> or a <nav-item> does not open a header region', () => {
+  const source = '<Header />\n<nav-item>Docs</nav-item>\n<footer><img src="/logo/thesplash.svg" alt="AhaSlides"></footer>';
+  assert.deepEqual(rulesOf(source), []);
+});
+
+test('a class that only contains logo, such as footer-logo, is not a brand slot', () => {
+  assert.deepEqual(rulesOf('<footer><img src="/logo/thesplash.svg" class="footer-logo" alt="AhaSlides"></footer>'), []);
 });
 
 test('the hand-set lockup rule is suppressed with a reason', () => {
