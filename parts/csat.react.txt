@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import '@ahaslides-product/design/aha-csat';   // registers <aha-csat> (+ <aha-icon>, <aha-popover>, <aha-counted-textarea>, <aha-button>)
 
 // The element emits composed `rate` and `feedback` events — attach ref listeners (React <19 pattern).
-function AhaCsat({ prompt, source, onRate, onFeedback }) {
+function AhaCsat({ prompt, source, tooltipPlacement, onRate, onFeedback }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
@@ -12,13 +12,14 @@ function AhaCsat({ prompt, source, onRate, onFeedback }) {
     el.addEventListener('feedback', feedback);
     return () => { el.removeEventListener('rate', rate); el.removeEventListener('feedback', feedback); };
   }, [onRate, onFeedback]);
-  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button />;
+  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} />   {/* 'top' (default) | 'bottom' — open the tooltips below inside a titled card */};
 }
 
 // usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover
 <AhaCsat
   prompt="How did this import go?"
   source="editor_help"
+  tooltipPlacement="bottom"
   onRate={(d) => track('CSAT_RATED', d)}
   onFeedback={(d) => track('CSAT_FEEDBACK_SUBMITTED', d)}
 />
