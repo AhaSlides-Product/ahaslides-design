@@ -1,5 +1,5 @@
 // main.ts — register the element + mark aha-* as custom elements
-import '@ahaslides-product/design/aha-info-box';   // registers <aha-info-box> (+ <aha-close-button>)
+import '@ahaslides-product/design/aha-info-box';   // registers <aha-info-box> (+ <aha-button>)
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue

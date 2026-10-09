@@ -137,7 +137,6 @@ const AHA_ICON_JS = `(function(){
 const COMPONENTS_CATALOG = [
   { cat: 'General', items: [
     { name: 'Button',       slug: 'button' },
-    { name: 'Close button', slug: 'close-button' },
     { name: 'Icon',         slug: 'icon' },
     { name: 'Illustration', slug: 'illustration' },
   ] },

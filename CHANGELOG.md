@@ -22,9 +22,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.138.0 — 2026-10-09
+## 0.140.0 — 2026-10-09
 ### Changed
 - Background task: a file task's 24px leading icon is now its file-type glyph (`<aha-icon slot="icon" name="system-file-ppt|xls|pdf|csv|doc|image|…" size="24" decorative>`, default icon colour, `system-file` as fallback) instead of a Logo-library brand logo. Contract, snippets and previews updated; API unchanged (#210)
+- Background task: the inline `link` slot (Retry, Réessayer, …) follows the Button `link` variant: `--aha-text-link` at weight 400 with no underline at rest; on hover `--aha-text-link-hover` and an underline. It was weight 600 and always underlined. Focus ring and inline wrapping unchanged (#210)
+
+## 0.139.0 — 2026-10-09
+### Added
+- Button: size `xs` for icon-only (20 × 20 hit area, radius 6) and a `corner` attribute that pins it to the first line of its flex row, 2px into the container's end padding. The dismiss ✕ is now documented here as a variant of the tertiary icon-only button (a "Close" section on the Button page) (#211)
+
+### Changed
+- The dismiss ✕ follows the tertiary Button: glyph #1A1A1A at rest (was muted #8A8A8A); hover fills #F9F5FF with the primary #6A1EBB glyph and press #F0E4FF (was #F7F7F7 fill, #1A1A1A glyph); focus is the soft Button ring. Size, radius, first-line pinning and the corner position are unchanged (#211)
+- Alert, Info box, Background task, CSAT follow-up, Uploader, and Toast, Notification, Modal and Drawer (through `closeButtonRow`) render `<aha-button variant="tertiary" icon-only size="xs" corner>` directly. `::part(close)`, `::part(dismiss)` and `::part(remove)` now target the `<aha-button>` host (#211)
+- Guidelines, contracts and the feedback anti-slop criterion C6 describe the ✕ as the tertiary icon-only button (#211)
+
+### Removed
+- The standalone "Close button" docs page and nav entry. `<aha-close-button>` stays as a deprecated alias that renders the xs tertiary icon-only button; `AhaCloseButton` and `defineAhaCloseButton` still resolve (#211)
 
 ## 0.133.0 — 2026-10-08
 ### Added
