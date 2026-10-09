@@ -29,7 +29,7 @@
 <!-- secondary-deck: the audience phone's secondary action. White fill; 10% dark-ink edge and a solid dark-ink label on every deck, light or dark (the deck accent and deck ink are not used: the ink turns white on a dark deck). -->
 <aha-button variant="secondary-deck" size="touch" block>Upload</aha-button>
 
-<!-- tertiary-deck: the audience phone's quiet action. No fill or edge; label in the deck ink (applyDeck sets it); ink 10% on hover, 20% pressed.
+<!-- tertiary-deck: the audience phone's quiet action. No fill or edge; label in the deck ink (applyDeck sets it); ink 5% on hover, 10% pressed.
      Three forms: text only, icon + text, and icon only (48 x 48, aria-label required). secondary-deck takes the same three. -->
 <aha-button variant="tertiary-deck" size="touch">Skip</aha-button>
 <aha-button variant="tertiary-deck" size="touch"><aha-icon slot="icon" name="system-trash" size="16" decorative></aha-icon>Remove</aha-button>
