@@ -24,15 +24,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.139.0 — 2026-10-09
 ### Added
-- Button: size `xs` for icon-only (20 × 20 hit area, radius 6) and a `corner` attribute that pins it to the first line of its flex row, 2px into the container's end padding. The dismiss ✕ is now documented here as a variant of the tertiary icon-only button (a "Close" section on the Button page) (#PR)
+- Button: size `xs` for icon-only (20 × 20 hit area, radius 6) and a `corner` attribute that pins it to the first line of its flex row, 2px into the container's end padding. The dismiss ✕ is now documented here as a variant of the tertiary icon-only button (a "Close" section on the Button page) (#211)
 
 ### Changed
-- The dismiss ✕ follows the tertiary Button: glyph #1A1A1A at rest (was muted #8A8A8A); hover fills #F9F5FF with the primary #6A1EBB glyph and press #F0E4FF (was #F7F7F7 fill, #1A1A1A glyph); focus is the soft Button ring. Size, radius, first-line pinning and the corner position are unchanged (#PR)
-- Alert, Info box, Background task, CSAT follow-up, Uploader, and Toast, Notification, Modal and Drawer (through `closeButtonRow`) render `<aha-button variant="tertiary" icon-only size="xs" corner>` directly. `::part(close)`, `::part(dismiss)` and `::part(remove)` now target the `<aha-button>` host (#PR)
-- Guidelines, contracts and the feedback anti-slop criterion C6 describe the ✕ as the tertiary icon-only button (#PR)
+- The dismiss ✕ follows the tertiary Button: glyph #1A1A1A at rest (was muted #8A8A8A); hover fills #F9F5FF with the primary #6A1EBB glyph and press #F0E4FF (was #F7F7F7 fill, #1A1A1A glyph); focus is the soft Button ring. Size, radius, first-line pinning and the corner position are unchanged (#211)
+- Alert, Info box, Background task, CSAT follow-up, Uploader, and Toast, Notification, Modal and Drawer (through `closeButtonRow`) render `<aha-button variant="tertiary" icon-only size="xs" corner>` directly. `::part(close)`, `::part(dismiss)` and `::part(remove)` now target the `<aha-button>` host (#211)
+- Guidelines, contracts and the feedback anti-slop criterion C6 describe the ✕ as the tertiary icon-only button (#211)
 
 ### Removed
-- The standalone "Close button" docs page and nav entry. `<aha-close-button>` stays as a deprecated alias that renders the xs tertiary icon-only button; `AhaCloseButton` and `defineAhaCloseButton` still resolve (#PR)
+- The standalone "Close button" docs page and nav entry. `<aha-close-button>` stays as a deprecated alias that renders the xs tertiary icon-only button; `AhaCloseButton` and `defineAhaCloseButton` still resolve (#211)
 
 ## 0.133.0 — 2026-10-08
 ### Added
