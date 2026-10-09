@@ -15,7 +15,7 @@
     { "label": "Link", "value": "text-secondary #4A4A4A → hover color-primary #E70E68 (motion-fast + ease-out)" },
     { "label": "Current", "value": "text-default #1A1A1A, SemiBold 600, aria-current=page (stronger than links)" },
     { "label": "Page title", "value": "size=page-title → current crumb is a real heading (<h1>, heading-level picks h1–h6); whole trail SemiBold 600; standalone (1 item) = Heading4 24/600/ls 0, in a trail = 18/1.3/ls 0.2" },
-    { "label": "Item icon", "value": "optional leading <aha-icon>, currentColor — 12 mini / 14 default / 16 page-title" },
+    { "label": "Item icon", "value": "optional leading <aha-icon>, currentColor — 12 mini / 16 default and page-title" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not a link (aria-disabled)" },
     { "label": "Separator", "value": "caret (<aha-icon name=\"system-caret-right\">, icon-muted, 12 · 16 at page-title) or slash \"/\"" },
     { "label": "Collapse", "value": "maxItems > trail → first + ellipsis toggle + trailing (maxItems−1)" },

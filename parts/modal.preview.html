@@ -86,7 +86,7 @@ function Footer({ danger, onCancel, learnMoreHref = 'https://example.com/reuse-t
       <a href={learnMoreHref} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}
          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' }}>
         Learn more
-        {external && <aha-icon name="system-arrow-square-out" size="14"></aha-icon>}
+        {external && <aha-icon name="system-arrow-square-out" size="16"></aha-icon>}
       </a>
       <span style={{ display: 'inline-flex', gap: 8 }}>
         <Button type={danger ? 'primary' : 'default'} onClick={onCancel}>Cancel</Button>
@@ -126,7 +126,7 @@ function Demo() {
   // A styled title: Confirmation contexts prefix a status icon; Action is a plain heading.
   const title = isConf && ctx
     ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-        <aha-icon name={ctx.icon} size="22" style={{ color: ctx.color }}></aha-icon>
+        <aha-icon name={ctx.icon} size="24" style={{ color: ctx.color }}></aha-icon>
         <span>Modal title</span>
       </span>
     : 'Modal title';

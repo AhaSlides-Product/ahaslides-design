@@ -17,5 +17,5 @@
 
 <!-- simple variant, custom illustration, no action -->
 <aha-empty image="simple" description="No results">
-  <aha-icon slot="image" name="system-folder" size="40"></aha-icon>
+  <aha-icon slot="image" name="system-folder" size="32"></aha-icon>
 </aha-empty>

@@ -11,7 +11,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["color-primary", "color-success", "color-error", "color-warning", "color-info", "text-default", "text-tertiary"],
   "spec": [
-    { "label": "Icon", "value": "48px DS glyph, coloured by status (or an `icon` override)" },
+    { "label": "Icon", "value": "32px DS glyph, coloured by status (or an `icon` override)" },
     { "label": "Success", "value": "check-circle · #1A1A1A" },
     { "label": "Error / 500", "value": "x-circle / cloud-disconnected · #1A1A1A" },
     { "label": "Warning / 403", "value": "warning-circle / lock · #1A1A1A" },
@@ -56,7 +56,7 @@
     ]
   },
   "selfCheck": [
-    { "label": "48px status glyph from DS icons", "verdict": "PASS" },
+    { "label": "32px status glyph from DS icons", "verdict": "PASS" },
     { "label": "success #1A1A1A · error #1A1A1A · warning/403 #1A1A1A · info/404 #1A1A1A · 500 #1A1A1A", "verdict": "PASS" },
     { "label": "status success/error/info/warning/404/403/500 each resolve a DS glyph", "verdict": "PASS" },
     { "label": "icon attribute overrides the status glyph", "verdict": "PASS" },

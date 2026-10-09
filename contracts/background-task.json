@@ -22,7 +22,7 @@
   "spec": [
     {
       "label": "Dismiss",
-      "value": "the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x) on success / canceled / error, top-pinned to the leading icon row, 2px into the end padding"
+      "value": "the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x) on success / canceled / error, top-pinned to the leading icon row, 2px into the end padding"
     },
     {
       "label": "Card",

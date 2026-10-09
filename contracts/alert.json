@@ -22,7 +22,7 @@
     { "label": "Banner", "value": "full-width, square (radius 0), no border" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
     { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A" },
-    { "label": "Close", "value": "closable → the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x), top-pinned to the first line, 2px into the end padding" }
+    { "label": "Close", "value": "closable → the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x), top-pinned to the first line, 2px into the end padding" }
   ],
   "props": [
     { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface tokens" },

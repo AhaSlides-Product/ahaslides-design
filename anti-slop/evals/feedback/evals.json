@@ -166,7 +166,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Hand-rolled ✕ centred on the card, antd's own notification close, a 28 × 28 tertiary button standing in for the shared ✕, and two circular ✕ controls",
-      "expected_output": "C6 FAILS: the banner ✕ is a hand-rolled button vertically centred on the whole card (it drifts when the text wraps) instead of the shared ✕ (tertiary icon-only <aha-button>, size xs), and the notification shows antd's own close instead of dismissibleTitle with closable: false; the modal's ✕ is a 28 × 28 tertiary aha-button with a 16px glyph instead of the shared 20 × 20 tertiary icon-only <aha-button> (size xs) (14px system-x) through dismissibleModalTitle; the lightbox close is a circular disc and the search clear is a system-x-circle button, and a ✕ is never circular.",
+      "expected_output": "C6 FAILS: the banner ✕ is a hand-rolled button vertically centred on the whole card (it drifts when the text wraps) instead of the shared ✕ (tertiary icon-only <aha-button>, size xs), and the notification shows antd's own close instead of dismissibleTitle with closable: false; the modal's ✕ is a 28 × 28 tertiary aha-button with a 16px glyph instead of the shared 20 × 20 tertiary icon-only <aha-button> (size xs) (16px system-x) through dismissibleModalTitle; the lightbox close is a circular disc and the search clear is a system-x-circle button, and a ✕ is never circular.",
       "expected": {
         "overall": "NEEDS_FIX",
         "criteria": {

@@ -119,10 +119,15 @@ const ICONS = existsSync(join(root, 'icons', 'registry.json'))
   : { icons: {}, families: [], count: 0, $generatedFrom: '(no registry — run build-icons.mjs)' };
 
 /* The shared custom element — defined ONCE, loaded by every page that shows an icon.
-   Reads window.AHA_ICONS[name] → { viewBox, body }; body already carries currentColor +
-   the baked per-size stroke, so colour follows the text colour and size is a width/height. */
+   Reads window.AHA_ICONS[name] → { viewBox, body }; body carries currentColor; the
+   runtime overrides every stroke width to LINE[size] px, so colour follows the text and size sets the stroke. */
 const AHA_ICON_JS = `(function(){
-  var LINE={12:1,16:1.5,24:2,32:2.5};   // documented size↔stroke pairing (12/16/24/32 only)
+  var LINE={12:1,16:1.5,24:2,32:2.5}, GRID=[12,16,24,32];
+  function strokeWidthFor(size,viewBox){
+    var near=GRID.reduce(function(b,k){return Math.abs(k-size)<Math.abs(b-size)?k:b;});
+    var vw=parseFloat(String(viewBox).split(/[\\s,]+/)[2])||size;
+    return +(LINE[near]*vw/size).toFixed(4);
+  }
   function draw(el){
     var R=window.AHA_ICONS||{}, name=el.getAttribute('name'), ic=R[name];
     var size=parseInt(el.getAttribute('size')||'24',10);
@@ -130,7 +135,7 @@ const AHA_ICON_JS = `(function(){
     var a11y=dec?'aria-hidden="true"':'role="img" aria-label="'+label.replace(/"/g,'&quot;')+'"';
     if(!el.shadowRoot) el.attachShadow({mode:'open'});
     if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #1A1A1A;border-radius:3px"></span>'; return; }
-    el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>'
+    el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}svg [stroke]{stroke-width:'+strokeWidthFor(size,ic.viewBox)+'}</style>'
       +'<svg width="'+size+'" height="'+size+'" viewBox="'+ic.viewBox+'" fill="none" '+a11y+'>'+ic.body+'</svg>';
   }
   if(!customElements.get('aha-icon')) customElements.define('aha-icon',class extends HTMLElement{
@@ -1014,7 +1019,7 @@ ${fontPreloads(base)}
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style>${DS_ANTD_THEME_SCRIPT}</head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
-  ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="18" decorative></aha-icon></button>`}
+  ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="16" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
   <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
@@ -2146,7 +2151,7 @@ function startCards() {
     ['system-book', 'Guidelines', NAV_LANDING.guidelines, 'The rules to follow when you design a screen.'],
   ];
   return `<div class="cards start-cards">${cards.map(([icon, name, href, text]) => `<a class="card" href="${href}">
-      <div class="ct"><aha-icon name="${icon}" size="20" decorative></aha-icon>${esc(name)}</div>
+      <div class="ct"><aha-icon name="${icon}" size="16" decorative></aha-icon>${esc(name)}</div>
       <div class="cs">${esc(text)}</div></a>`).join('')}</div>`;
 }
 function renderIndex() {
@@ -2229,8 +2234,12 @@ function renderIconGallery() {
     `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
   const main = `
   <h1>Icon library</h1>
-  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name'])}
+  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
   <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
+
+  <h3 class="tok-h3">Stroke by size</h3>
+  <p class="body">The runtime draws every stroke at the width paired with the size, whatever the glyph&rsquo;s own viewBox, so the same glyph keeps one line weight across the library. Do not set <code>stroke-width</code> in an SVG or on the element.</p>
+  <div class="stroke-demo">${[[12, 1], [16, 1.5], [24, 2], [32, 2.5]].map(([size, line]) => `<div class="stroke-cell"><div class="stroke-stage"><aha-icon name="system-bell" size="${size}" decorative></aha-icon><aha-icon name="slidetype-poll" size="${size}" decorative></aha-icon></div><span class="stroke-cap">${size}px &middot; ${line}px stroke</span></div>`).join('')}</div>
 
   <div class="gal-bar">
     <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name…" autocomplete="off" spellcheck="false" />
@@ -2256,7 +2265,11 @@ function renderIconGallery() {
   .ic:hover{border-color:var(--aha-border-hover);color:var(--aha-color-primary);box-shadow:0 3px 10px rgba(0,0,0,.08)}
   .ic .icn{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary);word-break:break-word;text-align:center}
   .ic.copied{border-color:var(--aha-color-success);color:var(--aha-color-success)}
-  .ic.copied .icn{color:var(--aha-color-success)}`;
+  .ic.copied .icn{color:var(--aha-color-success)}
+  .stroke-demo{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:8px 0 24px}
+  .stroke-cell{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 8px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;color:var(--aha-icon-default,#4B4B4B);font-family:var(--aha-font-product)}
+  .stroke-stage{display:flex;align-items:center;gap:14px;min-height:32px}
+  .stroke-cap{font-size:12px;color:var(--aha-text-secondary);font-family:Menlo,monospace}`;
   return docShell({ base: '../', active: '__icons__', section: 'foundations', main, extraCss });
 }
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
@@ -2379,7 +2392,7 @@ function renderIconsLlms() {
   for (const [k, v] of Object.entries(ICONS.icons)) (byFam[v.family] || (byFam[v.family] = [])).push(k);
   let s = `# AhaSlides Icons — call by name\n\n> ${ICONS.count} glyphs, generated from ${ICONS.$generatedFrom}. Render with the shared <aha-icon> element — NEVER hand-author or inline an <svg>.\n\n`;
   s += 'Usage: `<aha-icon name="system-bell" size={16} label="Notifications" />`\n';
-  s += '- size: 12 | 16 | 24 | 32 (only). Colour follows currentColor — set it on the wrapper.\n';
+  s += '- size: 12 | 16 | 24 | 32 (only); the runtime draws the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px. Colour follows currentColor — set it on the wrapper.\n';
   s += '- omit `label` and add `decorative` for an icon that only repeats adjacent text.\n';
   s += '- filled/active state → pick the `-filled` asset (e.g. system-bookmark-simple-filled).\n\n';
   for (const fam of ICONS.families) s += `## ${fam} (${(byFam[fam] || []).length})\n${(byFam[fam] || []).sort().join(', ')}\n\n`;
@@ -2389,7 +2402,7 @@ function renderIconsAgentJson() {
   return JSON.stringify({
     generatedFrom: ICONS.$generatedFrom, element: 'aha-icon',
     usage: '<aha-icon name="system-bell" size={16} label="Notifications" />',
-    rules: { sizes: [12, 16, 24, 32], colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset' },
+    rules: { sizes: [12, 16, 24, 32], strokeByPixelSize: { 12: 1, 16: 1.5, 24: 2, 32: 2.5 }, colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset' },
     families: ICONS.families, count: ICONS.count,
     names: Object.keys(ICONS.icons).sort(),
     icons: Object.fromEntries(Object.entries(ICONS.icons).map(([k, v]) => [k, { family: v.family, recolorable: v.recolorable }])),

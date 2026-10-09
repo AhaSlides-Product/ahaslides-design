@@ -30,7 +30,7 @@
     { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' } },
     h('a', { href: learnMore, target: external ? '_blank' : undefined, rel: external ? 'noreferrer' : undefined,
              style: { display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' } },
-      'Learn more ', external && h('aha-icon', { name: 'system-arrow-square-out', size: '14' })),
+      'Learn more ', external && h('aha-icon', { name: 'system-arrow-square-out', size: '16' })),
     h('span', { style: { display: 'inline-flex', gap: 8 } },
       h(Button, { type: danger ? 'primary' : 'default', onClick: close }, 'Cancel'),
       h(Button, { type: 'primary', danger }, 'Apply')));

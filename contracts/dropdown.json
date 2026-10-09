@@ -23,7 +23,7 @@
     { "label": "Divider", "value": "1px border-disabled #EBEBEB rule, role=separator" },
     { "label": "Group title", "value": "11px uppercase, text-tertiary #8A8A8A, non-interactive section header" },
     { "label": "Disabled item", "value": "text-disabled #B5B5B5, not-allowed" },
-    { "label": "Submenu parent", "value": "item with children[]; aria-haspopup=menu, trailing <aha-icon name=\"system-caret-right\" size=14>; brand-tinted (bg-accent #FEF3F7, color-primary #E70E68) while its flyout is open" },
+    { "label": "Submenu parent", "value": "item with children[]; aria-haspopup=menu, trailing <aha-icon name=\"system-caret-right\" size=16>; brand-tinted (bg-accent #FEF3F7, color-primary #E70E68) while its flyout is open" },
     { "label": "Flyout", "value": "second elevated panel adjacent to the parent (left:100%), opens on hover / ArrowRight / Enter; fades+scales on a persistent node (motion-mid + ease-out)" },
     { "label": "Edge-collision flip", "value": "flyout measures on open; if it overflows the viewport it flips to open on the left (right:100%)" },
     { "label": "Flyout keyboard", "value": "Up/Down within the flyout, ArrowLeft / Escape closes it back to the parent (focus returns to the parent row)" }
