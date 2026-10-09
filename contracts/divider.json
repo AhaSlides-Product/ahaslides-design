@@ -32,7 +32,7 @@
       { "what": "whitespace", "when": "the separation reads clearly without any rule — prefer less chrome" }
     ],
     "note": "A divider is quiet structure — keep it 1px and on the border token. Use a label only when the section genuinely needs naming; reach for whitespace before adding a rule.",
-    "dsv3": "COVERED — matched to the DS V3 Divider component-set (fileKey MwjvUjVI0HnfwD9EwPXRAy) whose token layer defines divider/colorSplit (between container → --aha-border #E3E3E3) and divider/colorSplitSecondary (inside container → --aha-split #F1F1F1). The matrix: orientation horizontal/vertical, variant solid/dashed, and a slotted label with align left/center/right in heading (bold, text-default) or plain (regular, text-secondary) emphasis — the AntD Divider conventions the DS builds on. Bound entirely to canonical tokens; no measured px/hex literals."
+    "dsv3": "COVERED — matched to the DS V3 Divider component-set (fileKey MwjvUjVI0HnfwD9EwPXRAy) whose token layer defines divider/colorSplit (between container → --aha-border-default #E3E3E3) and divider/colorSplitSecondary (inside container → --aha-split #F1F1F1). The matrix: orientation horizontal/vertical, variant solid/dashed, and a slotted label with align left/center/right in heading (bold, text-default) or plain (regular, text-secondary) emphasis — the AntD Divider conventions the DS builds on. Bound entirely to canonical tokens; no measured px/hex literals."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-divider", "registers": "aha-divider", "exportsNamed": ["AhaDivider", "defineAhaDivider"] },

@@ -319,7 +319,7 @@
     },
     {
       "id": "function-token-not-lookalike",
-      "rule": "Use the actual function token (colorSuccess #16C49A, colorError #F5222D, colorWarning, colorInfo) for state marks — never a lookalike brand accent (Bright Teal #20E8B5 as a tick is wrong and fails contrast at ~1.58:1). A light success/error glyph goes on a bounded fill (filled badge, white ✓), not straight onto the light surface (colorSuccess on white is only ~2.23:1).",
+      "rule": "Use the actual function token (colorSuccess, colorError, colorWarning, colorInfo — all the default ink #1A1A1A under the 7 October 2026 colour rules) for state marks, and let the icon (✓ / ✗ / !) and wording carry the meaning, never a colour alone and never a lookalike accent (a teal such as #20E8B5 as a tick is wrong and fails contrast at ~1.58:1). On a dark deck put the dark glyph on a bounded light fill (white badge), or a white glyph on a black pill.",
       "ref": [
         "C10",
         "§2"
@@ -660,7 +660,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border (#E3E3E3); a deck-owned surface (chip, field, track, dashed image drop zone) takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (chip, field, track, dashed image drop zone) takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"
@@ -668,7 +668,7 @@
     },
     {
       "id": "one-dark-ink",
-      "rule": "One fixed dark ink on every surface: --aha-text-default #1A1A1A. Never #1A1A2E (--aha-brand-3 / --aha-indigo-100) and never #000 for a dark label on the accent.",
+      "rule": "One fixed dark ink on every surface: --aha-text-default #1A1A1A. Never the retired indigo #1A1A2E and never #000 for a dark label on the accent.",
       "ref": [
         "C33",
         "§2"

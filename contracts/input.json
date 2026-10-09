@@ -11,13 +11,14 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-tertiary", "text-disabled", "radius-default", "radius-sm", "focus-ring-soft", "border-error", "color-error", "border-warning", "color-warning", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "height 32 (default) · radius 8 · padding 0 12" },
-    { "label": "Sizes", "value": "small 24 · default 32 · large 40 — all radius 8" },
+    { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12" },
+    { "label": "Sizes", "value": "small 24 · default 40 · large 48 — all radius 8" },
     { "label": "Rest border", "value": "1px #E3E3E3" },
-    { "label": "Hover border", "value": "#D3B4FF (purple-30)" },
-    { "label": "Focus", "value": "#6A1EBB border + 2px #D3B4FF@30% ring (on the persistent wrapper)" },
-    { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
-    { "label": "Warning", "value": "#FF7747 border + warning-tinted ring" },
+    { "label": "Hover border", "value": "#E70E68 (color-primary)" },
+    { "label": "Focus", "value": "#E70E68 border + 2px #E70E68@30% ring (on the persistent wrapper)" },
+    { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
+    { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
+    { "label": "Warning", "value": "#1A1A1A border + warning-tinted ring" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Readonly", "value": "#F7F7F7 fill, still selectable" },
     { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable circled ✕ (a tertiary icon-only <aha-button>: 16px system-x-circle, 28px target — 20px in the small input); password reveal (eye)" },
@@ -28,8 +29,9 @@
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
     { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name, forwarded to the inner field (a placeholder is not a label); <aha-audience-field> sets it from its label" },
     { "name": "type", "type": "text | number | email | password | search", "default": "text", "desc": "Native input type; password adds a reveal (eye) toggle" },
-    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 32 · large 40 (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases)" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 40 · large 48 (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases)" },
     { "name": "status", "type": "default | error | warning", "default": "default", "desc": "Border + ring recolour; error also sets aria-invalid (legacy `invalid` boolean = status error)" },
+    { "name": "error-message", "type": "string", "default": "—", "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the control through aria-describedby (aria-invalid is set by status=\"error\")" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
     { "name": "prefix-icon / prefix", "type": "string", "default": "—", "desc": "Leading affix — an icon by name (from the DS library) or plain text" },
@@ -46,7 +48,7 @@
       { "what": "Select", "when": "one value from a known set — don't make the user type it" }
     ],
     "note": "Label the field with a noun phrase; use placeholder for an example, never as the label. Show the error status only after the user leaves the field, and pair it with a message that says how to fix it. Reach for a prefix icon to hint the field's job (a magnifier for search, an envelope for email), a suffix for a fixed unit or domain, clearable for search/filter fields, and password reveal for credentials.",
-    "dsv3": "COVERED — enumerated from the DS V3 Input component-set taxonomy: Input (Size · Status), Components/Input-Affix (prefix/suffix), Input-Addon/Label + Input-Addon/Icon (addons), Password (reveal toggle). Sizes match the measured DS V3 input cells (small/default/large = 24/32/40, radius 8, default 32 = controlHeight root). Error border is the measured error stroke bound to `border-error` (#F5222D token; the measured cell reads #FF5A7A, reconciled to the DS error token). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker). Warning status + affixes/clear/reveal follow the same token layer; motion + focus ring on a persistent node."
+    "dsv3": "COVERED — enumerated from the DS V3 Input component-set taxonomy: Input (Size · Status), Components/Input-Affix (prefix/suffix), Input-Addon/Label + Input-Addon/Icon (addons), Password (reveal toggle). Sizes match the measured DS V3 input cells (small/default/large = 24/32/40, radius 8, default 32 = controlHeight root). Error border is the measured error stroke bound to `border-error` (#1A1A1A token; the measured cell reads #1A1A1A, reconciled to the DS error token). Rest border is bound to the `border` token (#E3E3E3): the measured cell reads #D4D4D4, but the reconciled token layer resolves the field border to the export brand gray #E3E3E3 (precedence EXPORT for brand colour), kept consistent across the whole field family (input/select/form/datepicker). Warning status + affixes/clear/reveal follow the same token layer; motion + focus ring on a persistent node."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-input", "registers": "aha-input", "exportsNamed": ["AhaInput", "defineAhaInput"] },
@@ -81,10 +83,10 @@
     ]
   },
   "selfCheck": [
-    { "label": "height 32 (default) · small 24 · large 40 · radius 8", "verdict": "PASS" },
+    { "label": "height 40 (default) · small 24 · large 48 · radius 8", "verdict": "PASS" },
     { "label": "rest border #E3E3E3", "verdict": "PASS" },
-    { "label": "focus #6A1EBB border + ring (persistent wrapper)", "verdict": "PASS" },
-    { "label": "error #F5222D border + aria-invalid; warning #FF7747 border", "verdict": "PASS" },
+    { "label": "focus #E70E68 border + ring (persistent wrapper)", "verdict": "PASS" },
+    { "label": "error #1A1A1A border + aria-invalid; warning #1A1A1A border", "verdict": "PASS" },
     { "label": "prefix/suffix affix, clearable ✕, password reveal render", "verdict": "PASS" },
     { "label": "placeholder #8A8A8A 14/21", "verdict": "PASS" }
   ],
@@ -93,6 +95,6 @@
     "ready": "!!(document.querySelector('aha-input[data-probe]') && document.querySelector('aha-input[data-probe]').shadowRoot && document.querySelector('aha-input[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-input[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,ariaInvalid:f?f.getAttribute('aria-invalid'):null};})()",
-    "expect": { "height": "32px", "radius": "8px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "ariaInvalid": "true" }
+    "expect": { "height": "40px", "radius": "8px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "ariaInvalid": "true" }
   }
 }

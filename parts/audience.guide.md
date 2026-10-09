@@ -147,12 +147,11 @@ The same two-jobs split as the canvas, with less theme forwarded.
 | `colorWarning` | caution, "are you sure?" prompt body |
 | `colorInfo` | informational note |
 
-- **Use the FUNCTION token, not a lookalike accent.** `colorSuccess` (#16C49A), `colorError`
-  (#F5222D), `colorWarning`, `colorInfo` are the semantic functions. A bright brand accent
-  that merely *looks* green/red (Bright Teal `#20E8B5` as a tick) is wrong and fails contrast
-  (~1.58:1 on white). Even correct `colorSuccess` on white is only ~2.23:1 — below 3:1 — so
-  put a light success/error glyph on a **bounded fill** (a filled badge with a white ✓), not
-  straight onto the light surface.
+- **Use the FUNCTION token, not a lookalike accent.** `colorSuccess`, `colorError`,
+  `colorWarning`, `colorInfo` are the semantic functions (all the default ink #1A1A1A under the colour rules; the glyph and wording carry the meaning). A bright accent
+  that merely *looks* green/red (a teal such as `#20E8B5` as a tick) is wrong and fails contrast
+  (~1.58:1 on white). On a dark deck the dark
+  status glyph fails, so put it on a **bounded light fill** or use a white glyph on a black pill.
 - **`textColour` is for text, not borders.** Bind body text to `xprops.slide.textColour`.
   Derive hairlines from `color-mix(in srgb, currentColor 10%, transparent)`, never from
   `textColour` directly.
@@ -208,12 +207,12 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
 - **No extra-bold weight.** Text uses weight **400 or 600 only** (the standard submit button is
   600). No 700 / 800 / 900.
 
-**Borders are hairlines** (C32): a bounded white card **1px `--aha-border`** (#E3E3E3); a deck-owned
+**Borders are hairlines** (C32): a bounded white card **1px `--aha-border-default`** (#E3E3E3); a deck-owned
 surface (chip, field, track, image drop zone, option) a **1px** `color-mix(in srgb, currentColor 10%, transparent)` on every deck, light or dark; the drop zone stays dashed, still 1px.
 Never a 2px outline at heavy ink (55% `textColour` on a chip is the miss).
 
-**One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never `#1A1A2E`
-(`--aha-brand-3` / `--aha-indigo-100`), never `#000` for the dark label on the accent.
+**One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never the retired
+indigo `#1A1A2E`, never `#000` for the dark label on the accent.
 
 ## Text economy — say it once, in plain body text
 

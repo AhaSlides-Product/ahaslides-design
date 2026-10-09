@@ -26,8 +26,8 @@
 
 <script>
 window.__st = {
-  token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A',
-           colorBgElevated:'#FFFFFF', colorError:'#F5222D',
+  token: { colorPrimary:'#E70E68', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A',
+           colorBgElevated:'#FFFFFF', colorError:'#1A1A1A',
            fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
   components:{ Notification:{ width:384, borderRadiusLG:8, colorBgElevated:'#FFFFFF' } }
 };
@@ -115,6 +115,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__st)}><Demo /></ConfigProvider>
 );
 </script>

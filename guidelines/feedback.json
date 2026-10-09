@@ -57,7 +57,7 @@
     {
       "ref": "--aha-colorSuccess",
       "as": "token",
-      "use": "inline correct-result border and Alert success border — never hardcode a hex",
+      "use": "inline correct-result border — never hardcode a hex",
       "status": "available"
     },
     {
@@ -69,7 +69,7 @@
     {
       "ref": "--aha-colorError",
       "as": "token",
-      "use": "inline incorrect-result border and Alert error border",
+      "use": "inline incorrect-result border",
       "status": "available"
     },
     {
@@ -81,7 +81,7 @@
     {
       "ref": "alert",
       "as": "component",
-      "use": "the DS V3 AhaAlert inline banner — 5 types (success/error/info/warning/branding) × regular/small sizes, DS surface/border/icon tokens, distinct glyph per type; NOT a bare AntD Alert",
+      "use": "the DS V3 AhaAlert inline banner — 5 types (success/error/info/warning/branding) × regular/small sizes, DS surface/icon tokens and no border, distinct glyph per type; NOT a bare AntD Alert",
       "status": "missing"
     },
     {
@@ -128,14 +128,14 @@
     },
     {
       "id": "alert-is-ds-v3",
-      "rule": "Build the DS V3 AhaAlert wrapper per references/alert.md — DS surface/border/icon tokens per type plus size (regular: 12/16 padding, 8px radius, 14px text; small: 8px padding, 4px radius, 12px text). Never ship a bare AntD <Alert>: it cannot express the branding type, the regular/small sizes, the DS surface/border tokens, or the DS system glyphs.",
+      "rule": "Build the DS V3 AhaAlert wrapper per references/alert.md — DS surface tokens per type (a grey-25 surface with no border and icon-default on info, success, warning and error alike; branding sits on pale pink, also with no border) plus size (regular: 12/16 padding, 8px radius, 14px text; small: 8px padding, 4px radius, 12px text). Never ship a bare AntD <Alert>: it cannot express the branding type, the regular/small sizes, the DS surface tokens, or the DS system glyphs.",
       "ref": [
         "FEEDBACK-08"
       ]
     },
     {
       "id": "alert-five-types-glyph",
-      "rule": "Support five types — success, error, info, warning, branding — each with its own DS bg-surface/border/icon token AND a distinct system glyph (check-circle / x-circle / info-circle / warning-triangle / lightbulb); colour is never the only signal.",
+      "rule": "Support five types — success, error, info, warning, branding — each with its DS bg-surface/icon token (no border) AND a distinct system glyph (check-circle / x-circle / info-circle / warning-triangle / lightbulb); colour is never the only signal.",
       "ref": [
         "FEEDBACK-09"
       ]

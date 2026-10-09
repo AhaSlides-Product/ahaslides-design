@@ -303,14 +303,14 @@ Types with defaults: `donut`, `radial`, `treemap`, `quadrant`, `bell`, `radar`, 
 | `deck` | A presentation or full-screen canvas with its own colour scheme | `colors`: your own list, in order. `ink`: your text colour. Text that sits on a fill picks a readable colour automatically. |
 
 ```html
-<div style="background:#1A1A2E; padding:24px">
+<div style="background:#1A1A1A; padding:24px">
   <aha-chart type="donut" palette="deck"
-    colors="#20E8B5,#FF4081,#FF9068,#BFD2FF" ink="#FFFFFF" label="Budget"
+    colors="#E70E68,#FFFFFF,#F8B7D2,#A8A8A8" ink="#FFFFFF" label="Budget"
     data='[{"label":"Trips","value":34},{"label":"Insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13}]'></aha-chart>
 </div>
 ```
 
-From JavaScript: `chart.colors = ['#20E8B5', '#FF4081']`.
+From JavaScript: `chart.colors = ['#E70E68', '#FFFFFF']`.
 
 ## Locale and strings
 

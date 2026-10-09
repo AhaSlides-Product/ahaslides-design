@@ -155,7 +155,7 @@
     "expect": {
       "readoutSize": "16px",
       "ink": "rgb(26, 26, 26)",
-      "fill": "rgb(106, 30, 187)",
+      "fill": "rgb(231, 14, 104)",
       "railHeight": "6px",
       "hitHeight": "44px"
     }

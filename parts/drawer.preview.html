@@ -6,7 +6,7 @@
      trigger overlays a real masked drawer on the stage. The conformance measure reads the ALWAYS-ON
      inline drawer (right · default · titled) rendered under #react-root — that default is intact. -->
 <style>
-  #react-root .aha-stage { position:relative; height:380px; overflow:hidden; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); background:var(--aha-bg-layout); }
+  #react-root .aha-stage { position:relative; height:380px; overflow:hidden; border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-default); background:var(--aha-bg-layout); }
   #react-root .aha-stage-hint { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--aha-text-secondary); font-size:13px; }
 </style>
 
@@ -26,9 +26,9 @@
 <script>
 window.__drawer = {
   theme: {
-    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorBgElevated:'#FFFFFF',
+    token: { colorPrimary:'#E70E68', borderRadius:8, colorText:'#1A1A1A', colorTextHeading:'#1A1A1A', colorBgElevated:'#FFFFFF',
              fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
-    components:{ Drawer:{ colorBgElevated:'#FFFFFF', colorText:'#1A1A1A' } }
+    components:{ Button:{ controlHeight:36, borderRadius:8 }, Drawer:{ colorBgElevated:'#FFFFFF', colorText:'#1A1A1A' } }
   }
 };
 </script>
@@ -126,6 +126,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__drawer.theme}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__drawer.theme)}><Demo /></ConfigProvider>
 );
 </script>

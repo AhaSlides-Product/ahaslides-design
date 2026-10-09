@@ -90,7 +90,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C4 — inline banners must use DS V3 `<aha-alert>` (5 types incl branding, distinct glyph, weights 400/600), not a bare AntD Alert",
-      "expected_output": "C4 FAILs. This is a bare AntD <Alert> with default styling — not the Design System V3 Alert — the DS `<aha-alert>` element — so it lacks the per-type DS bg-surface/border/icon token and distinct glyph guarantee, and its title is ALL CAPS instead of sentence case. Fix: use <aha-alert type=\"warning\" size=\"regular\" heading=\"Changes not saved\">Save before you leave.</aha-alert> with the DS surface/border/icon token, distinct warning glyph, Plus Jakarta Sans 400/600, and a sentence-case title. Overall: NEEDS FIX.",
+      "expected_output": "C4 FAILs. This is a bare AntD <Alert> with default styling — not the Design System V3 Alert — the DS `<aha-alert>` element — so it lacks the per-type DS bg-surface/icon token and distinct glyph guarantee, and its title is ALL CAPS instead of sentence case. Fix: use <aha-alert type=\"warning\" size=\"regular\" heading=\"Changes not saved\">Save before you leave.</aha-alert> with the DS surface/icon token, distinct warning glyph, Plus Jakarta Sans 400/600, and a sentence-case title. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C4 is marked FAIL",

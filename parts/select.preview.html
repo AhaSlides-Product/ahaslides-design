@@ -4,6 +4,7 @@
      live React state (Size / Status / Mode / Clearable · Disabled), so the whole DS V3 matrix is
      explorable — the default render (default size · no status · single · clearable) is what
      conformance measures (a value-bearing .ant-select-content + a .ant-select-placeholder). -->
+<script type="module">import '../lib/icons.js'; import '../lib/aha-field-error.js';</script>
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -15,10 +16,10 @@
 
 <script>
 window.__st = {
-  token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
-           colorError:'#F5222D', colorWarning:'#FAAD14', colorTextPlaceholder:'#8A8A8A',
+  token: { colorPrimary:'#E70E68', borderRadius:8, controlHeight:40, controlHeightLG:48, colorBorder:'#E3E3E3',
+           colorError:'#1A1A1A', colorWarning:'#1A1A1A', colorTextPlaceholder:'#8A8A8A',
            fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
-  components:{ Select:{ optionSelectedBg:'#F9F5FF', optionSelectedColor:'#6A1EBB', optionActiveBg:'#F7F7F7', borderRadius:8, controlHeight:32 } }
+  components:{ Select:{ optionSelectedBg:'#FEF3F7', optionSelectedColor:'#E70E68', optionActiveBg:'#F7F7F7', borderRadius:8, controlHeight:40, controlHeightLG:48 } }
 };
 window.__sel = {
   options: [
@@ -99,6 +100,10 @@ function Demo() {
       <Field label="Empty · placeholder">
         <Select {...common} placeholder="Choose a slide type" />
       </Field>
+      <Field label="Error · aha-field-error below the field">
+        <Select {...common} status="error" aria-invalid="true" aria-describedby="select-error" placeholder="Choose a slide type" />
+        <aha-field-error id="select-error" icon="" message="Choose a slide type to continue"></aha-field-error>
+      </Field>
       {/* Loading (async options) is part of the matrix but orthogonal to the axes above. */}
       <Field label="Loading">
         <Select showSearch loading size={size} status={status} placeholder="Fetching…" options={[]} style={{ width: 260 }} />
@@ -108,6 +113,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__st)}><Demo /></ConfigProvider>
 );
 </script>

@@ -9,21 +9,23 @@
   "lead": "Select carries a popup, a virtualised list, search and tagging — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared selectTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "Select.optionSelectedBg", "Select.optionActiveBg"],
   "spec": [
-    { "label": "Control", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Control", "value": "height 40 · radius 8 · 1px #E3E3E3 border" },
     { "label": "Search", "value": "showSearch — type to filter options" },
-    { "label": "Focus", "value": "brand #6A1EBB border" },
-    { "label": "Selected option", "value": "brand-tint #F9F5FF row, #6A1EBB label" },
+    { "label": "Focus", "value": "brand #E70E68 border" },
+    { "label": "Selected option", "value": "brand-tint #FEF3F7 row, #E70E68 label" },
     { "label": "Placeholder", "value": "#8A8A8A" },
-    { "label": "Size", "value": "small 24 · default 32 · large 40" },
-    { "label": "Status", "value": "error #F5222D · warning #FAAD14 border" }
+    { "label": "Size", "value": "small 24 · default 40 · large 48" },
+    { "label": "Status", "value": "error #1A1A1A · warning #1A1A1A border" },
+    { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A" }
   ],
   "props": [
     { "name": "options", "type": "{ label, value }[]", "default": "[]", "desc": "The selectable set" },
     { "name": "value", "type": "string | string[]", "default": "—", "desc": "Selected value(s); array when mode=multiple" },
     { "name": "showSearch", "type": "boolean", "default": "true", "desc": "Type to filter options" },
     { "name": "mode", "type": "single | multiple | tags", "default": "single", "desc": "Selection cardinality" },
-    { "name": "size", "type": "small | default | large | touch", "default": "default", "desc": "Control height 24 / 32 / 40; touch is 56 with 16px text and 16px side padding, for the audience phone inside <aha-audience-field>" },
+    { "name": "size", "type": "small | default | large | touch", "default": "default", "desc": "Control height 24 / 40 / 48; touch is 56 with 16px text and 16px side padding, for the audience phone inside <aha-audience-field>" },
     { "name": "status", "type": "error | warning", "default": "—", "desc": "Validation border colour" },
+    { "name": "error message", "type": "<aha-field-error icon>", "default": "—", "desc": "Pair status=\"error\" with a sibling <aha-field-error icon message=\"…\"> below the control (12px glyph + --aha-size-sm text) and set aria-invalid=\"true\" + aria-describedby=\"<error id>\" on the control" },
     { "name": "allowClear", "type": "boolean", "default": "false", "desc": "Show an × to clear the selection" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive, muted control" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "Spinner while async options load" },
@@ -37,7 +39,7 @@
       { "what": "Input", "when": "free text that isn't a known set" }
     ],
     "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; for long lists keep showSearch on. For a short, known set (or a select inside a shadow-DOM surface like a settings row) reach for the leaf Select field (slug `select-field`, <aha-select>) instead — this composite is for search / tags / multi / virtualised lists.",
-    "dsv3": "COVERED — antd v6 Select themed by selectTheme; matrix: size (small 24 / default 32 / large 40) × status (—/error #F5222D/warning #FAAD14) × mode (single/multiple/tags) × allowClear · disabled · loading, plus showSearch and placeholder. Verified via Figma search_design_system against the DS V3 Select set (Select, Form-Item/Select, Form-Item/Select-Multiple, Input-Addon/Select-Single) on fileKey MwjvUjVI0HnfwD9EwPXRAy. Not yet exposed: prefix/suffix adornments and option groups (optGroup) — real follow-up."
+    "dsv3": "COVERED — antd v6 Select themed by selectTheme; matrix: size (small 24 / default 40 / large 48) × status (—/error #1A1A1A/warning #1A1A1A) × mode (single/multiple/tags) × allowClear · disabled · loading, plus showSearch and placeholder. Verified via Figma search_design_system against the DS V3 Select set (Select, Form-Item/Select, Form-Item/Select-Multiple, Input-Addon/Select-Single) on fileKey MwjvUjVI0HnfwD9EwPXRAy. Not yet exposed: prefix/suffix adornments and option groups (optGroup) — real follow-up."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./select-theme", "exportsNamed": ["selectTheme"] },
@@ -49,7 +51,7 @@
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (selectTheme); residual drift is caught by visual regression.",
   "preview": "select.preview.html",
   "selfCheck": [
-    { "label": "control 32 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
+    { "label": "control 40 · radius 8 · #E3E3E3 border", "verdict": "PASS" },
     { "label": "type-to-search filters options", "verdict": "PASS" },
     { "label": "selected row brand-tint", "verdict": "PASS" },
     { "label": "placeholder #8A8A8A", "verdict": "PASS" }
@@ -58,6 +60,6 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 selector bound to selectTheme.",
     "ready": "!!document.querySelector('#react-root .ant-select-content') && !!document.querySelector('#react-root .ant-select-placeholder')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{radius:g('.ant-select','borderTopLeftRadius'),radiusBR:g('.ant-select','borderBottomRightRadius'),border:g('.ant-select','borderTopColor'),borderWidth:g('.ant-select','borderTopWidth'),height:g('.ant-select','height'),placeholder:g('.ant-select-placeholder','color')};})()",
-    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "32px", "placeholder": "rgb(138, 138, 138)" }
+    "expect": { "radius": "8px", "radiusBR": "8px", "border": "rgb(227, 227, 227)", "borderWidth": "1px", "height": "40px", "placeholder": "rgb(138, 138, 138)" }
   }
 }
