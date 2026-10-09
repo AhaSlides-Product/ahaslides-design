@@ -31,7 +31,7 @@
     {
       "ref": "button",
       "as": "component",
-      "use": "the standard submit button — on the Developer Platform <aha-audience-submit> (wraps <aha-button variant=\"primary\" size=\"touch\" block>) from lib/audience.js (the iframe loads it), coloured by --aha-color-primary = the deck accent; a built plugin without the package rebuilds the same spec (full-width, ~44–48px, deck-accent fill, contrast-picked ink, disabled/submitting/locked/post-submit states); the two lower-emphasis actions are <aha-button size=\"touch\"> variants — secondary-deck (white fill, 10% dark-ink edge, dark-ink label) and tertiary-deck (no fill or edge, label in the deck ink, ink 5% hover / 10% pressed), each as text, icon + text or icon only (icon-only needs aria-label)",
+      "use": "the standard submit button — on the Developer Platform <aha-audience-submit> (wraps <aha-button variant=\"primary\" size=\"touch\" block>) from lib/audience.js (the iframe loads it), coloured by --aha-color-primary = the deck accent; a built plugin without the package rebuilds the same spec (full-width, ~44–48px, deck-accent fill, contrast-picked ink, disabled/submitting/locked/post-submit states); the two lower-emphasis actions are <aha-button size=\"touch\"> variants — secondary-deck (white fill, 10% dark-ink edge, dark-ink label) and tertiary-deck (no fill or edge, label in the deck ink, ink 8% hover / 16% pressed), each as text, icon + text or icon only (icon-only needs aria-label)",
       "status": "available"
     },
     {
