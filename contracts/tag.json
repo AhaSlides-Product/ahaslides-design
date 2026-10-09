@@ -20,7 +20,7 @@
     { "label": "Success / Processing / Warning / Error", "value": "tinted bg + matching text token" },
     { "label": "Bordered", "value": "white surface + a coloured 1px hairline (the outlined DS V3 flavour)" },
     { "label": "Closable", "value": "12px system-x ✕ in #8A8A8A, #1A1A1A on bg-hover over 100ms (the shared ✕ colours at chip size); animates out (scale + fade, motion-mid) then removes + emits close" },
-    { "label": "Checkable", "value": "outlined toggle; checked → brand fill #E70E68 / white label; aria-pressed synced. size=\"large\" filter chip: rest gray-15 #FAFAFA fill, border-input #D4D4D4 border, text-default label; checked Vivid Pink at 5% #FEF3F7 fill with a Vivid Pink #E70E68 border and a text-default label. Flips its own checked on click unless `controlled`" }
+    { "label": "Checkable", "value": "outlined toggle; checked → brand fill #E70E68 / white label; aria-pressed synced. size=\"large\" filter chip: rest gray-15 #FAFAFA fill, border-input #D4D4D4 border, text-default label; checked Vivid Pink at 5% #FEF3F7 fill with a Vivid Pink #E70E68 border and a text-link-hover #DB005B label (4.73:1; text-link #E70E68 is 4.16:1 on that fill), as the secondary button hover. Flips its own checked on click unless `controlled`" }
   ],
   "props": [
     { "name": "color", "type": "neutral | primary | branding | success | processing | warning | error", "default": "neutral", "desc": "Semantic tone preset (alias: `variant`); branding is the pink \"New\" label" },

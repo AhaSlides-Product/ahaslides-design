@@ -15,7 +15,7 @@
     { "label": "Error", "value": "#1A1A1A border + message below the field" },
     { "label": "Item gap", "value": "20px between items" },
     { "label": "Size", "value": "control height 24 (small) · 40 (default) · 48 (large)" },
-    { "label": "Validation", "value": "error / warning / success — coloured border + help text" }
+    { "label": "Validation", "value": "error / warning / success — border + help text; an error message is the field error row: 12px x-circle glyph + 12px (size-sm) text, as Input" }
   ],
   "props": [
     { "name": "layout", "type": "vertical | horizontal | inline", "default": "vertical", "desc": "Label placement" },
