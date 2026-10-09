@@ -122,7 +122,7 @@
     },
     {
       "label": "Donut · radial · tree map",
-      "value": "6 slices max (the rest fold into \"Other (n)\") · donut ring 38% · leader-line callouts up to 5 slices from 480px wide, else a legend · radial 270° rings on a nice scale · squarified tree map with tint chips"
+      "value": "6 slices max (the rest fold into \"Other (n)\") · donut ring 38% · slice 1 alone takes series 1 and later slices cycle series 2–4 (deck: the deck colours after the first), so the last slice never matches the first · 2px slice gap in --aha-viz-slice-gap (default the container white; on a deck the inverse ink) · leader-line callouts up to 5 slices from 480px wide, else a legend · radial 270° rings on a nice scale · squarified tree map with tint chips"
     },
     {
       "label": "Bell · radar · quadrant",
