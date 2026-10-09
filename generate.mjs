@@ -2160,7 +2160,7 @@ function renderIndex() {
   return docShell({ base: '', active: '__overview__', section: 'overview', main });
 }
 
-/* ===== For developers — install steps and agent feeds (moved off the Overview) ===== */
+/* ===== For developers — install steps and agent feeds ===== */
 function renderGetStarted(cs) {
   const live = cs.filter(c => !c.docPage).length;
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
@@ -2560,7 +2560,7 @@ const indexLines = [
   `> Version: ${PKG.version} — changelog: ${SITE}/CHANGELOG.md`,
   `> Registry:  GitHub Packages (${REGISTRY}) — needs a GitHub token with read:packages.`,
   `> Configure once in .npmrc:  ${SCOPE}:registry=${REGISTRY}`,
-  `> Install steps for people: ${SITE}/get-started/index.html`,
+  `> Install guide (web page): ${SITE}/get-started/index.html`,
   `> Install:  npm i ${PKGNAME}`,
   `> Import the token layer once at the app root:  import '${PKGNAME}/tokens.css'`,
   `> Then import a component by subpath, e.g.  import '${PKGNAME}/aha-button'`,
