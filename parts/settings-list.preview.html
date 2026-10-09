@@ -20,6 +20,14 @@
     ]}]}'>
   </aha-settings-list>
 
+  <div class="lbl" style="margin-top:24px">Opt-in variant: must-see consequence line</div>
+  <!-- Standing help line = `consequence`, opt-in only: for a consequence the user must see BEFORE acting. Not the default. -->
+  <aha-settings-list label="Scores" style="max-width:380px; display:block">
+    <aha-settings-item label="Reset scores" consequence="This cannot be undone.">
+      <aha-switch slot="control"></aha-switch>
+    </aha-settings-item>
+  </aha-settings-list>
+
   <div class="lbl" style="margin-top:24px">Slot form</div>
   <aha-settings-list label="Presentation" style="max-width:380px; display:block">
     <!-- "?" help + inline probe: description → the help tooltip after the label -->

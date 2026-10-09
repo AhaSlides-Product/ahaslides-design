@@ -7,8 +7,8 @@ import '@ahaslides-product/design/aha-switch';
 import '@ahaslides-product/design/aha-input';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
-// Component.vue — <aha-sub-setting-group> nests DEPENDENT settings under a parent toggle: 8px above
-// + 24px indent, spacing only. The host owns visibility — bind `hidden` off the parent state.
+// Component.vue — <aha-sub-setting-group> nests DEPENDENT settings under a parent toggle: 16px below
+// the parent + 24px indent, spacing only. The host owns visibility — bind `hidden` off the parent state.
 <script setup>
 import { ref } from 'vue';
 const on = ref(true);
