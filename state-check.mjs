@@ -152,6 +152,7 @@ function installProbe() {
   const paint = (el) => {
     const cs = getComputedStyle(el), marks = [];
     if (cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0) marks.push(...coloursIn(cs.outlineColor));
+    if (cs.outlineStyle === 'auto') marks.push({ r: 255, g: 255, b: 255, a: 1 }); // the UA ring is two-tone and getComputedStyle exposes only the dark one
     if (cs.boxShadow !== 'none') marks.push(...coloursIn(cs.boxShadow));
     const border = parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== 'none' ? cs.borderTopColor : '';
     return { outline: cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0 ? cs.outlineColor + cs.outlineWidth : '', shadow: cs.boxShadow, border, background: cs.backgroundColor, marks, borderColour: parse(border) };
