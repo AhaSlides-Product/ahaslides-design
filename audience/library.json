@@ -215,7 +215,7 @@
    "useWhen": "A real but lesser action beside the one primary: upload a photo, change an answer, add another. Pick it when the action needs a visible container; pick the tertiary when it should recede.",
    "notFor": "The submit (that is `<aha-audience-submit>`, the one primary) or a low-emphasis action (skip, back, remove: use `tertiary-deck`). Never two equal-weight buttons on one screen.",
    "replaces": null,
-   "note": "Primary = `<aha-audience-submit>`, secondary = `secondary-deck`, tertiary = `tertiary-deck`.",
+   "note": "Primary = `<aha-audience-submit>`, secondary = `secondary-deck`, tertiary = `tertiary-deck`. On a photo slide: Submit is the primary, Upload photo the secondary and Skip the tertiary.",
    "demoLight": "<aha-button variant=\"secondary-deck\" size=\"touch\">Change answer</aha-button>\n      <aha-button variant=\"secondary-deck\" size=\"touch\"><aha-icon slot=\"icon\" name=\"system-upload-simple\" size=\"16\" decorative></aha-icon>Upload photo</aha-button>\n      <aha-button variant=\"secondary-deck\" size=\"touch\" icon-only aria-label=\"Upload photo\"><aha-icon name=\"system-upload-simple\" size=\"16\" decorative></aha-icon></aha-button>",
    "demoDark": "<aha-button variant=\"secondary-deck\" size=\"touch\">Change answer</aha-button>\n      <aha-button variant=\"secondary-deck\" size=\"touch\"><aha-icon slot=\"icon\" name=\"system-upload-simple\" size=\"16\" decorative></aha-icon>Upload photo</aha-button>\n      <aha-button variant=\"secondary-deck\" size=\"touch\" icon-only aria-label=\"Upload photo\"><aha-icon name=\"system-upload-simple\" size=\"16\" decorative></aha-icon></aha-button>",
    "snippets": {
