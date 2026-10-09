@@ -16,7 +16,7 @@
     { "label": "Success", "value": "#FFFFFF fill · #1A1A1A border · #1A1A1A glyph (system-check-circle)" },
     { "label": "Warning", "value": "#FFFFFF fill · #1A1A1A border/glyph (system-warning-circle)" },
     { "label": "Error", "value": "#FFFFFF fill · #1A1A1A border/glyph (system-x-circle)" },
-    { "label": "Dismiss", "value": "optional shared <aha-close-button> ✕ (20 × 20, 14px system-x, #8A8A8A) top-pinned to the first line: hit area 15px from the right edge and 11px from the top; fades out on a persistent node, emits `dismiss`" },
+    { "label": "Dismiss", "value": "optional shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x) top-pinned to the first line: hit area 15px from the right edge and 11px from the top; fades out on a persistent node, emits `dismiss`" },
     { "label": "Text", "value": "Plus Jakarta 14/21 #1A1A1A" }
   ],
   "props": [

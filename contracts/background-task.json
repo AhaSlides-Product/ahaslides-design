@@ -22,7 +22,7 @@
   "spec": [
     {
       "label": "Dismiss",
-      "value": "the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A) on success / canceled / error, top-pinned to the leading icon row, 2px into the end padding"
+      "value": "the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x) on success / canceled / error, top-pinned to the leading icon row, 2px into the end padding"
     },
     {
       "label": "Card",
@@ -34,7 +34,7 @@
     },
     {
       "label": "Top row",
-      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 14px bold #1A1A1A, ellipsis · check-circle 12 on success · shared ✕ (aha-close-button) on success / canceled / error"
+      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 14px bold #1A1A1A, ellipsis · check-circle 12 on success · shared ✕ (tertiary icon-only aha-button xs) on success / canceled / error"
     },
     {
       "label": "Bar",

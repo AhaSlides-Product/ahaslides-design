@@ -7,12 +7,12 @@
   "element": "aha-button",
   "reuse": { "entry": "./aha-button", "registers": "aha-button", "exportsNamed": ["AhaButton", "defineAhaButton"] },
   "summary": "Trigger an action or navigation — the primary interactive control.",
-  "highlights": ["Triggers an action or navigation", "The primary interactive control"],
+  "highlights": ["Triggers an action or navigation", "The primary interactive control", "Also the dismiss ✕: tertiary icon-only at size xs"],
   "lead": "ONE custom element — <aha-button> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens, so every button reads identically across apps and even outside one. Variants and sizes are attributes; there is one rendered UI, not a per-framework look-alike.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue consumes the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["button-primary-bg", "button-primary-bg-hover", "button-primary-bg-press", "button-primary-text", "button-default-bg", "button-default-border", "button-ghost-bg-hover", "button-positive-bg", "button-disabled-bg", "button-disabled-text", "button-focus-ring", "text-default", "text-link", "radius-xs", "radius-default", "focus"],
+  "tokensUsed": ["button-primary-bg", "button-primary-bg-hover", "button-primary-bg-press", "button-primary-text", "button-default-bg", "button-default-border", "button-ghost-bg-hover", "button-ghost-bg-press", "button-positive-bg", "button-disabled-bg", "button-disabled-text", "button-focus-ring", "text-default", "text-link", "radius-xs", "radius-sm", "radius-default", "space-20", "focus"],
   "spec": [
-    { "label": "Sizes", "value": "sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) · touch 48 (r8, padding 24) — heights; fontSize 14 (sm/md) / 16 (lg/xl/touch)" },
+    { "label": "Sizes", "value": "xs 20 (icon-only only, r6) · sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) · touch 48 (r8, padding 24) — heights; fontSize 14 (sm/md) / 16 (lg/xl/touch)" },
     { "label": "Primary", "value": "bg #E70E68, label #FFFFFF, hover #DB005B + soft pink shadow, active #DB005B without the hover shadow" },
     { "label": "Secondary", "value": "white bg, #1A1A1A label, 1px #E3E3E3 border; hover pale pink #FEF3F7 fill, #E70E68 border and #DB005B label (--aha-text-link-hover, 4.66:1); active #FEF3F7 fill, #DB005B border (--aha-border-active), #DB005B label; disabled shows no hover or press change; focus ring unchanged" },
     { "label": "Tertiary / Link", "value": "transparent; tertiary rest label #1A1A1A, no border; hover and active #FEF3F7 fill with #DB005B label (--aha-text-link-hover, 4.66:1), no border so no border change; link #E70E68 weight 400, underlined at rest and on hover (the text-link variant is not: see Text / Text-link), hover #DB005B; the component cannot see its surface, so on a surface other than white the screen sets --aha-text-link and --aha-text-link-hover to the default ink #1A1A1A on that container (white on a dark surface), since pink fails 4.5:1 there" },
@@ -24,16 +24,24 @@
     { "label": "Label / icon", "value": "Plus Jakarta Sans SemiBold 600, 14 (sm/md) / 16 (lg/xl/touch); icon 16px, inline-flex, 8px gap" },
     { "label": "Focus", "value": "2px solid ring outside a 2px gap (box-shadow) — Vivid Pink #E70E68, 4.51:1 on white. Re-point --aha-button-focus-ring / --aha-button-focus-gap on a dark surface" },
     { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" },
-    { "label": "Icon-only", "value": "square (width = height per size: 28/36/40/52), glyph centred, no label; needs aria-label" }
+    { "label": "Icon-only", "value": "square (width = height per size: 20/28/36/40/52), glyph centred, no label; needs aria-label" },
+    { "label": "Close (✕)", "value": "tertiary icon-only at size xs: <aha-button variant=\"tertiary\" icon-only size=\"xs\" corner aria-label=\"Close\"> holding the 14px system-x · 20 × 20 hit area · radius 6 (radius-sm) · never circular (no disc, no system-x-circle as a control); over a photo it takes a white fill" },
+    { "label": "Close · colour", "value": "tertiary: glyph --aha-text-default (#1A1A1A) at rest, transparent fill; hover --aha-button-ghost-bg-hover (#FEF3F7) fill with the --aha-text-link-hover #DB005B glyph; press --aha-button-ghost-bg-press (#FEF3F7) with the same glyph; focus is the 2px Vivid Pink ring outside a 2px gap" },
+    { "label": "Close · position", "value": "`corner`: end of the row, top-pinned, centre 2.5px above the centre of the first line of text (stays put when the text wraps); -2px end margin tucks it 2px into the container's end padding (Info box: hit area 15px from the right, 11px from the top)" },
+    { "label": "Close · used by", "value": "Alert · Info box · Background task · Toast · Notification · Modal · Drawer · CSAT · Uploader. Toast and Notification take it through dismissibleToast / dismissibleTitle, Modal and Drawer through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`" }
   ],
   "props": [
     { "name": "variant", "type": "primary | secondary | tertiary | link | danger | positive | primary-alt | text | text-link", "default": "secondary", "desc": "tone × emphasis; one primary per view. Status carries no hue: danger renders as secondary and positive is Vivid Pink like primary; primary-alt is a synonym of primary; text / text-link are borderless label buttons" },
-    { "name": "size", "type": "sm | md | lg | xl | touch", "default": "lg", "desc": "28 / 36 / 40 / 52 / 48px height — lg (40) is the default; xl (52) is for presenter controls rendered inside a slide canvas and read from room distance (the web-component twin of React <XLButtonScope>); touch (48, 8px corners, 16px label) is the audience phone's primary action and clears the 44px touch floor" },
+    { "name": "size", "type": "xs | sm | md | lg | xl | touch", "default": "lg", "desc": "20 / 28 / 36 / 40 / 52 / 48px height — xs (20, r6) exists for icon-only only: it is the dismiss ✕; lg (40) is the default; xl (52) is for presenter controls rendered inside a slide canvas and read from room distance (the web-component twin of React <XLButtonScope>); touch (48, 8px corners, 16px label) is the audience phone's primary action and clears the 44px touch floor" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "non-interactive; grey fill" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "shows a spinner, blocks clicks" },
     { "name": "block", "type": "boolean", "default": "false", "desc": "full-width" },
     { "name": "iconOnly", "type": "boolean (attr icon-only)", "default": "false", "desc": "square, label-less; requires aria-label" },
-    { "name": "icon", "type": "slot", "default": "—", "desc": "leading glyph via <span slot=\"icon\">; for icon-only, the glyph is the default child" }
+    { "name": "icon", "type": "slot", "default": "—", "desc": "leading glyph via <span slot=\"icon\">; for icon-only, the glyph is the default child" },
+    { "name": "corner", "type": "boolean", "default": "false", "desc": "icon-only xs only: pins the ✕ to the end of a flex row, centre 2.5px above the first line's centre, 2px into the container's end padding" },
+    { "name": "--aha-close-line-height", "type": "CSS length", "default": "21px", "desc": "with corner: height of the first line of text, so the ✕ centre sits 2.5px above that line's centre" },
+    { "name": "--aha-close-inset", "type": "CSS length", "default": "—", "desc": "with corner: optional fixed distance from the container's end edge, measured against --aha-close-container-padding (the container's end padding, border included), instead of the -2px corner margin" },
+    { "name": "<aha-close-button>", "type": "deprecated alias", "default": "—", "desc": "kept so existing code resolves (AhaCloseButton, defineAhaCloseButton, label prop); renders the xs tertiary icon-only button above. Use <aha-button> directly" }
   ],
   "opinion": {
     "whenToUse": [
@@ -43,9 +51,10 @@
       { "what": "danger", "when": "a destructive action (delete, remove) — pair with a confirm" },
       { "what": "positive", "when": "an encouraging action such as Upgrade" },
       { "what": "icon-only", "when": "a compact action where the glyph is self-explanatory (close, more, add) — always give an aria-label" },
+      { "what": "close ✕", "when": "any dismiss or remove ✕ — alert, info box, background task, toast, notification, modal, drawer, CSAT follow-up, uploader row: tertiary icon-only at size xs with the 14px system-x and `corner`" },
       { "what": "xl", "when": "a presenter control drawn inside the slide canvas (Reveal, Next, Start) that the room reads from a distance — not for app screens, where lg is the ceiling" }
     ],
-    "note": "Size: LARGE (lg) is the default for most actions; step down to MEDIUM (md) or SMALL (sm) in denser/secondary regions to lower an action's information-hierarchy, not by whim. Size only via the size attribute (sm / md / lg / xl) — never inline height/padding/radius/fontSize, and never through ::part(button). Recolour only by setting --aha-color-primary (plus the --aha-button-primary-* hover, press and text tokens) on the document root. Primary fill is #E70E68; hover #DB005B per DS V3.",
+    "note": "Close ✕: every dismiss is a tertiary icon-only size-xs button — never hand-roll a ✕, never use antd's own notification or message close, never make it a circle, never resize it, and never put it in the middle of the box: it sits on the first line of text, in the corner. Size: LARGE (lg) is the default for most actions; step down to MEDIUM (md) or SMALL (sm) in denser/secondary regions to lower an action's information-hierarchy, not by whim. Size only via the size attribute (xs / sm / md / lg / xl) — never inline height/padding/radius/fontSize, and never through ::part(button). Recolour only by setting --aha-color-primary (plus the --aha-button-primary-* hover, press and text tokens) on the document root. Primary fill is #E70E68; hover #DB005B per DS V3.",
     "dsv3": "<aha-button> binds to a NAMED button semantic-token layer (--aha-button-*): --aha-button-primary-bg/-bg-hover/-bg-press/-text, --aha-button-default-bg/-text/-border/-bg-hover/-text-hover/-border-hover/-border-press, --aha-button-ghost-bg-hover/-bg-press (tertiary), --aha-button-positive-bg/-bg-hover/-bg-press/-text, --aha-button-disabled-bg/-text, --aha-button-focus-ring, --aha-button-elevate-primary/-primary-hover/-secondary. The --aha-button-danger-* tokens and --aha-button-focus-ring-success still exist but <aha-button> no longer reads them: danger renders as secondary, and only <aha-dropdown> reads --aha-button-danger-bg. --aha-button-focus-gap is different: it is an override hook with no value in tokens.css, so the focus gap falls back to --aha-bg-base until a screen sets it. Every other token named above is a pure indirection whose value references the core DS token (e.g. --aha-button-primary-bg: var(--aha-color-primary)), so button theming can move independently of the core palette with NO visual change — the rendered colours are byte-identical to the raw --aha-btn-* seeds."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
@@ -96,6 +105,8 @@
     { "label": "label SemiBold 600 14/1.5", "verdict": "PASS" },
     { "label": "icon+label optically centred", "verdict": "PASS" },
     { "label": "focus ring 2px solid #E70E68 outside a 2px gap, 4.51:1 on white", "verdict": "PASS" },
-    { "label": "danger renders as secondary · positive Vivid Pink like primary", "verdict": "PASS" }
+    { "label": "danger renders as secondary · positive Vivid Pink like primary", "verdict": "PASS" },
+    { "label": "close ✕: tertiary icon-only xs · 20 × 20 · radius 6 · 14px system-x · never circular", "verdict": "PASS" },
+    { "label": "close ✕: top-pinned, 2.5px above the first line's centre, -2px into the end padding", "verdict": "PASS" }
   ]
 }

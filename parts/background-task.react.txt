@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import '@ahaslides-product/design/aha-background-task';   // registers <aha-background-task> (+ <aha-button>, <aha-close-button>)
+import '@ahaslides-product/design/aha-background-task';   // registers <aha-background-task> (+ <aha-button>)
 import '@ahaslides-product/design/icons';                // <aha-icon> glyphs
 
 // Attributes + slots only — React 18/19 render the element directly; `dismiss` is a DOM event.

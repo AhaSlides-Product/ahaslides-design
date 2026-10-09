@@ -24,7 +24,7 @@
     { "name": "size", "type": "default | large", "default": "default", "desc": "antd preset size (378/736 l·r); the DS default is 378" },
     { "name": "footer", "type": "ReactNode", "default": "—", "desc": "Pinned actions row (keep the primary action here)" },
     { "name": "mask", "type": "boolean", "default": "true", "desc": "Dim + scroll-lock the page behind the panel" },
-    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared <aha-close-button> rides in the title (dismissibleDrawerTitle) instead of antd's own close" },
+    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared ✕ (tertiary icon-only <aha-button>, size xs) rides in the title (dismissibleDrawerTitle) instead of antd's own close" },
     { "name": "onClose", "type": "() => void", "default": "—", "desc": "Dismiss handler" }
   ],
   "opinion": {

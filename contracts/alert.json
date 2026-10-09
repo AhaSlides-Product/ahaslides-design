@@ -22,14 +22,14 @@
     { "label": "Banner", "value": "full-width, square (radius 0), no border" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
     { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A" },
-    { "label": "Close", "value": "closable → the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A), top-pinned to the first line, 2px into the end padding" }
+    { "label": "Close", "value": "closable → the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x), top-pinned to the first line, 2px into the end padding" }
   ],
   "props": [
     { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface tokens" },
     { "name": "heading", "type": "string", "default": "—", "desc": "Optional bold title above the message" },
     { "name": "size", "type": "regular | small", "default": "regular", "desc": "Compact padding + type scale" },
     { "name": "banner", "type": "boolean", "default": "false", "desc": "Full-width, square-cornered edge-to-edge page notice" },
-    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows the shared <aha-close-button> ✕ on the first line" },
+    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows the shared ✕ (tertiary icon-only <aha-button>, size xs) ✕ on the first line" },
     { "name": "hide-icon", "type": "boolean", "default": "false", "desc": "Suppresses the leading status icon (the showIcon toggle)" },
     { "name": "slot=\"action\"", "type": "slot", "default": "—", "desc": "Trailing action — a button or link" },
     { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the banner is dismissed" }

@@ -44,7 +44,7 @@
     {
       "ref": "icon",
       "as": "component",
-      "use": "footer action glyphs — functional icons only, via the shared Icon; the Modal and Drawer dismiss ✕ is the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A → #1A1A1A on bg-hover, top-pinned to the title line) through dismissibleModalTitle / dismissibleDrawerTitle with closable={false}",
+      "use": "footer action glyphs — functional icons only, via the shared Icon; the Modal and Drawer dismiss ✕ is the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x, #1A1A1A → #DB005B on #FEF3F7, top-pinned to the title line) through dismissibleModalTitle / dismissibleDrawerTitle with closable={false}",
       "status": "available"
     },
     {

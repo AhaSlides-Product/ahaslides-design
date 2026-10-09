@@ -42,6 +42,16 @@
     <aha-button icon-only variant="secondary" size="sm" aria-label="More small"><aha-icon name="system-dots-three" size="16" decorative></aha-icon></aha-button>
     <aha-button icon-only variant="primary" size="lg" aria-label="Add large"><aha-icon name="system-plus" size="16" decorative></aha-icon></aha-button>
     <aha-button icon-only variant="secondary" size="xl" aria-label="Add extra large"><aha-icon name="system-plus" size="16" decorative></aha-icon></aha-button>
+    <aha-button icon-only variant="tertiary" size="xs" aria-label="Close extra small"><aha-icon name="system-x" size="14" decorative></aha-icon></aha-button>
+  </div>
+
+  <div class="lbl">Close (tertiary icon-only, xs) — the dismiss ✕</div>
+  <div style="display:flex; gap:8px; align-items:flex-start; max-width:360px; padding:12px 16px; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); font:14px/21px var(--aha-font-product)">
+    <span>Your audience can still join with the old code until the session ends.</span>
+    <aha-button icon-only variant="tertiary" size="xs" corner aria-label="Dismiss" style="--aha-close-line-height:21px"><aha-icon name="system-x" size="14" decorative></aha-icon></aha-button>
+  </div>
+  <div class="row" style="padding-top:12px">
+    <aha-alert type="info" closable>Alert, Info box, Toast, Notification, Modal and Drawer carry the same ✕.</aha-alert>
   </div>
 </div>
 
@@ -50,5 +60,6 @@
      generated from contracts/button.json → playground and drives the [data-probe] button live. -->
 <script type="module">
   import '../lib/icons.js';        // registers <aha-icon> so the icon-slot glyphs resolve from the DS library
+  import '../lib/aha-alert.js';   // its closable ✕ is the xs tertiary icon-only button above
   import '../lib/aha-button.js';   // registers <aha-button> — the shipped primitive, byte-identical to what consumers get
 </script>
