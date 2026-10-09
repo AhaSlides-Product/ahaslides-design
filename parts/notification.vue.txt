@@ -8,7 +8,7 @@ import { notificationTheme, dismissibleTitle } from '@ahaslides-product/design/n
 const [notificationApi, contextHolder] = notification.useNotification();
 
 // type: success | info | warning | error   ·   placement: topLeft | topRight | bottomLeft | bottomRight
-// the ✕ is the shared <aha-close-button> in the title; closable: false turns antd's own close off
+// the ✕ is the shared ✕ (tertiary icon-only <aha-button>, size xs) in the title; closable: false turns antd's own close off
 const notify = (type, placement, key = `export-${Date.now()}`) =>
   notificationApi[type]({
     key,

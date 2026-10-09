@@ -14,7 +14,7 @@
     { "label": "Type", "value": "success · info · warning · error (status glyph + tone)" },
     { "label": "Placement", "value": "topRight default (4 corners)" },
     { "label": "Duration", "value": "4.5s default (0 = sticky)" },
-    { "label": "Dismiss", "value": "the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A) in the title via dismissibleTitle, with closable: false; top-pinned to the title's first line, 2px into the edge" }
+    { "label": "Dismiss", "value": "the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x) in the title via dismissibleTitle, with closable: false; top-pinned to the title's first line, 2px into the edge" }
   ],
   "props": [
     { "name": "dismissibleTitle(h, title, onClose, label?)", "type": "function", "default": "—", "desc": "Title with the shared ✕; pass closable: false so antd's own close is not drawn" },
