@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.152.0 — 2026-10-09
+### Fixed
+- `standards.mjs` now fails a pull request whose `package.json` version is not strictly greater than the base branch's (read from `origin/<base>`, failing closed if it cannot be read); the existing check already requires the top CHANGELOG entry to equal `package.json`. Stops stale-base PRs from claiming an already-released version. (#173)
+
 ## 0.151.0 — 2026-10-09
 ### Added
 - `<aha-product-lockup>`: the AhaSlides product lockup (The Splash, AhaSlides and a product name as one mark) for the top-left of every site, microsite and app header. `product`, `variant` (auto, full, compact, splash), `tone` (colour, inverse) and `size` (20px default, 18px minimum); auto flips to compact below a 480px header; the box keeps a 0.1em bleed so a clipping parent never cuts a glyph edge (#221)
