@@ -22,9 +22,37 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.144.2 — 2026-10-09
+## 0.150.0 — 2026-10-09
 ### Fixed
 - The React snippet for the date picker parses again when copied: the `size` note inside the `<DatePicker>` props is now a `//` comment, not a `{/* */}` child expression (#217)
+
+## 0.148.0 — 2026-10-09
+### Changed
+- `<aha-icon>` now draws every stroke at the width paired with its size (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px), whatever the glyph's viewBox. Before, the pairing was declared but never applied, so the stroke scaled with the glyph's viewBox and size: 16-viewBox glyphs drew 1.25px at 16px, and 24-viewBox slide-type glyphs drew 1.25px at 24px and 1.67px at 32px. An off-grid size takes the nearest on-grid stroke. `lib/icons.js` now exports `LINE` and `strokeWidthFor`, and can be imported outside a browser. (#219)
+- Every icon inside a component now sits on the 12 / 16 / 24 / 32 grid, so the size-paired stroke applies to it: the shared dismiss and remove ✕ (alert, info box, background task, CSAT follow-up, uploader, image preview, close button) and the carets (menu, dropdown, collapse), option-row trash, add-option, colour-picker tick and breadcrumb leading icon go 14 → 16; info-box glyph and image-action-button 18 → 16; card-select, list avatar and uploader add tile 20 → 24; uploader drop zone and skeleton image 28 → 24; paywall crown 10 → 12; tag and badge lead icons 14 → 12 (16 on the large badge); progress status glyph 14 → 12; avatar glyph is 12 / 24 / 32 for avatars up to 28 / 48 / larger; result status glyph 48 → 32; chart correct-answer tick 18 → 16, chart pager carets 20 → 16 and mind-map add and collapse 14 → 16; toast and notification status icons are drawn at 16 and 24 with the paired stroke. Layout shift: uploader drop zone and file list 4px shorter, card-select 4px taller, progress status row 2px shorter, result 16px shorter, tag with a lead icon 2px narrower; every other component keeps its size.
+- The checkbox and option-row ticks draw at 1px (was 1.6px) because they render at 12px.
+- Contract and guideline text names the 16px dismiss ✕, 16px image-action glyph and 32px result glyph; flavour snippets (button, collapse, empty, modal) use on-grid sizes.
+### Added
+- Icon library: a "Stroke by size" section showing one glyph at all four sizes with its stroke, and `tests/icon-stroke.test.mjs` measuring the rendered stroke for 16- and 24-viewBox glyphs at each size, and failing when any component, flavour snippet or docs template passes an off-grid size to `<aha-icon>`. The icon feeds (`icons.llms.txt`, `icons.agent.json`), contract and anti-slop wording state the rule. (#219)
+
+## 0.147.0 — 2026-10-09
+### Added
+- `<aha-button variant="secondary-deck">`: a white-filled button whose edge is the dark text ink (`--aha-text-default`, #1A1A1A) at 10% and whose label is that ink solid (17.4:1 on white), on every deck, light or dark, never the deck accent; hover is a 5% ink wash, pressed 10%, focus the browser's own focus ring, disabled an ink-10% edge and ink-45% label. No new token. At `size="touch"` it is the audience phone's secondary action, the counterpart of the Submit button. `<aha-audience-image-upload variant="button">` now uses it, full width (#209)
+- `--aha-deck-surface-deep` deck variable (and `audienceSurfaceDeep()`): the deep panel, the same as `--aha-deck-surface` on a light deck and Deep Space at 80% on a dark one
+- `<aha-button variant="tertiary-deck">`: the audience phone's tertiary action at `size="touch"`. No edge, transparent fill, label and icon in the deck ink (`--aha-deck-ink`); ink 5% on hover and 10% pressed, the browser's own focus ring, ink 45% disabled. Text only, icon + text and icon only (48 x 48, `aria-label` required); `secondary-deck` takes the same three forms. Both are listed in the audience library with when-to-use lines (primary `aha-audience-submit`, secondary `secondary-deck`, tertiary `tertiary-deck`). Additive: every existing variant renders unchanged; to revert, delete the `tertiary-deck` rules in `lib/aha-button.js` and the two library entries (#209)
+- `<aha-button>` hooks `--aha-button-primary-border` (primary edge, default the fill) and `--aha-button-focus-outline` (outline on keyboard focus, default none); with neither set nothing changes
+### Changed
+- Audience components are re-specified: `<aha-audience-chip>` is 48px high with 8px corners, a 1px edge at ink 20% (also on hover), the deep panel on a dark deck and a 2px ink focus outline; `<aha-scale-slider>` centres the readout above an 8px rail with 2px corners, inset 16px from the end captions, step label weight 600, captions on a 16px line; `<aha-audience-image-upload>` area is a 2px dashed ink-20% edge with 8px corners on the deep panel with a backdrop blur, a 14px hint, and its compact button is full width; `<aha-audience-submit>` has a 1px ink-10% edge in every state and a 2px focus outline 1px off the button; `<aha-waiting-for-host>` has 8px gaps and a 14px sub-line; `<aha-submitted-card>` has a 16px gap, 8px between its texts, the deep panel, a 14px subtitle and a pip on an ink-10% wash with the glyph in the 65% ink (#209)
+- `<aha-swipe-card>` has 16px padding (was 24) and its `hint` is a 14px line below the statement with no arrows (was a 12px line above it between two arrows), so the card is 90px tall with a hint
+- Contracts, conformance expectations, library entries and examples for these components match the new values
+- Audience guidance matches the shipped components: rule `slider-rail-flush` and criterion C20 allow an equal intended rail inset (`<aha-scale-slider>` insets 16px) and only fail an uneven leftover Ant margin; rule `slider-fill-hairline`, C18, C32 and `border-weight` limit the one 10% value to tracks and panel hairlines and name the 20% edges (chip, dashed drop area, answer-row radio / checkbox control) (#209)
+### Fixed
+- The loading spinner in `<aha-button>` renders at its intended 16px. Its size shared a selector list with an invalid `::slotted(...) svg` selector, so the whole rule was dropped and the spinner measured 131px and stretched the host. This fixes every `<aha-button loading>` (and so `<aha-audience-submit>` while busy), not only the audience Submit button (#209)
+- `state-check.mjs` counts the white second tone of the browser's own focus ring (`outline-style: auto`), which `getComputedStyle` does not expose, so that ring is no longer read as 1.00:1 on a dark deck; authored outlines are measured as before (#209)
+
+## 0.146.0 — 2026-10-09
+### Added
+- Logo library: a Favicon section after The Splash, with `favicon-32.png`, `favicon-180.png` (apple-touch, white ground), `favicon-512.png` and `favicon.ico` (16, 32, 48), each with copy and download and a usage line; `node favicons.mjs` rebuilds them from `logo/thesplash.svg` (#218)
 
 ## 0.144.1 — 2026-10-09
 ### Fixed

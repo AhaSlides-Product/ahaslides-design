@@ -28,7 +28,7 @@ export function Notice({ children, onDismiss }) {
       <span>{children}</span>
       <aha-button variant="tertiary" icon-only="" size="xs" corner="" aria-label="Dismiss"
         onClick={onDismiss} style={{ '--aha-close-line-height': '21px' }}>
-        <aha-icon name="system-x" size="14" decorative="" />
+        <aha-icon name="system-x" size="16" decorative="" />
       </aha-button>
     </div>
   );

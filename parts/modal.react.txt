@@ -25,7 +25,7 @@ function ModalDemo() {
           The external-link glyph shows ONLY when the target leaves AhaSlides. */}
       <a href={learnMore} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}
          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' }}>
-        Learn more {external && <aha-icon name="system-arrow-square-out" size="14" />}
+        Learn more {external && <aha-icon name="system-arrow-square-out" size="16" />}
       </a>
       <span style={{ display: 'inline-flex', gap: 8 }}>
         <Button type={danger ? 'primary' : 'default'} onClick={() => { setConfirm(false); setAction(false); }}>Cancel</Button>

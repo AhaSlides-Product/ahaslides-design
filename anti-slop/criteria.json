@@ -184,7 +184,7 @@
         {
           "id": "C2",
           "title": "On-grid size with its paired line-width token",
-          "test": "Size is one of the four on-grid values — 12 / 16 / 24 / 32 — via the icon's size prop, so its paired line width (1 / 1.5 / 2 / 2.5) comes with it; never an off-grid size (no 20px) and never a hardcoded one-off stroke width. A glyph may be drawn by hand only when the library has no suitable icon, and then its stroke follows the size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px."
+          "test": "Size is one of the four on-grid values — 12 / 16 / 24 / 32 — via the icon's size prop, so the runtime draws its paired line width (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) whatever the glyph's viewBox; never an off-grid size (no 20px) and never a hardcoded one-off stroke width. A glyph may be drawn by hand only when the library has no suitable icon, and then its stroke follows the size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px."
         },
         {
           "id": "C3",
@@ -1049,7 +1049,7 @@
         {
           "id": "C18",
           "title": "A filled slider / progress track carries a deck-ink edge",
-          "test": "**Rule.** A slider's FILLED (accent) portion, and a progress fill, must carry the SAME deck-ink hairline the empty rail already has, so a coloured fill does not sink into a same-hue deck (AHAM-701 issue 4). The edge is the deck ink at the shared audience border alpha (10%, one value for every audience border and track), reached through `currentColor` so it tracks the deck — the same edge the unfilled rail uses, extended onto the fill."
+          "test": "**Rule.** A slider's FILLED (accent) portion, and a progress fill, must carry the SAME deck-ink hairline the empty rail already has, so a coloured fill does not sink into a same-hue deck (AHAM-701 issue 4). The edge is the deck ink at the shared audience border alpha (10%, one value for every track and panel hairline; a tappable chip, the dashed image drop area and an answer row's radio / checkbox control use the ink at 20%), reached through `currentColor` so it tracks the deck — the same edge the unfilled rail uses, extended onto the fill."
         },
         {
           "id": "C19",
@@ -1058,8 +1058,8 @@
         },
         {
           "id": "C20",
-          "title": "A horizontal slider's rail sits flush with its end labels",
-          "test": "**Rule.** A horizontal audience slider's rail runs edge-to-edge inside its container, aligned flush under its min/max end labels — no leftover Ant component margin (e.g. a default `margin: 10px 6px`-ish inset) shifting the rail inward so it no longer lines up with the captions it belongs to (AHAM-701 issue 3)."
+          "title": "A horizontal slider's rail lines up with its end labels, never an uneven leftover margin",
+          "test": "**Rule.** A horizontal audience slider's rail lines up with its min/max end labels: flush under them, or inset by the same intended amount on both sides (`<aha-scale-slider>` insets 16px). FAIL on an accidental, uneven leftover Ant component margin (e.g. a default `margin: 10px 6px`-ish inset on a rail whose end-label row spans the full width) that shifts the rail so it no longer lines up with the captions it belongs to (AHAM-701 issue 3)."
         },
         {
           "id": "C21",
@@ -1119,7 +1119,7 @@
         {
           "id": "C32",
           "title": "Borders are hairlines and radius follows the DS scale",
-          "test": "A bounded white card has a 1px `--aha-border-default` (#E3E3E3) border and 12px radius; a deck chip a 1px 10% ink border; option tiles, inputs and the submit button 8px. FAIL on 2px (or heavier) outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
+          "test": "A bounded white card has a 1px `--aha-border-default` (#E3E3E3) border and 12px radius; a deck field, track or panel a 1px 10% ink border (a tappable chip, the dashed drop area and an answer row's radio / checkbox control take the ink at 20%); the dashed image drop area is the one 2px edge, dashed; option tiles, inputs and the submit button 8px. FAIL on any other 2px (or heavier) outline, on outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
         },
         {
           "id": "C33",

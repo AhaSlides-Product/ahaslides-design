@@ -1213,7 +1213,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C20 — Ant's default slider margin left in place, rail misaligned with end labels",
-      "expected_output": "C20 (A horizontal slider's rail sits flush with its end labels) FAILs. Ant's default slider margin is left in place, so the rail is inset ~6px on each side while the min/max label row spans the full container width — the rail no longer lines up under the \"0\" and \"100\" captions it belongs to. Fix: zero out the slider's default margin (e.g. `margin: 0` on the `.ant-slider` override) so the rail runs edge-to-edge under the label row. Overall: NEEDS FIX",
+      "expected_output": "C20 (A horizontal slider's rail lines up with its end labels, never an uneven leftover margin) FAILs. Ant's default slider margin is left in place, so the rail is inset ~6px on each side while the min/max label row spans the full container width — an accidental leftover margin, not an intended inset, and the rail no longer lines up under the \"0\" and \"100\" captions it belongs to. Fix: zero out the slider's default margin (e.g. `margin: 0` on the `.ant-slider` override) so the rail runs edge-to-edge under the label row, or give the label row the same deliberate inset. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C20 is marked FAIL",
@@ -1238,7 +1238,7 @@
       "files": [],
       "label": "good-control",
       "notes": "C20 — slider margin zeroed, rail flush with the min/max label row",
-      "expected_output": "C20 (A horizontal slider's rail sits flush with its end labels) PASSes. Ant's default slider margin is zeroed out, so the rail runs edge-to-edge and shares the same left/right bounds as the min/max label row — the rail sits flush under its end labels. Overall: PASS",
+      "expected_output": "C20 (A horizontal slider's rail lines up with its end labels, never an uneven leftover margin) PASSes. Ant's default slider margin is zeroed out, so the rail runs edge-to-edge and shares the same left/right bounds as the min/max label row — the rail sits flush under its end labels. Overall: PASS",
       "assertions": [
         "Overall verdict is PASS",
         "C20 is marked PASS",
@@ -1973,11 +1973,11 @@
       "files": [],
       "label": "bad-example",
       "notes": "C32 bad — Team Retro D10/D14.",
-      "expected_output": "C32 FAILs. A chip takes a 1px border at the deck ink 10%; a 2px outline at 55% ink is far heavier than the DS chip. Overall: NEEDS FIX",
+      "expected_output": "C32 FAILs. A chip takes a 1px border at the deck ink 20%; a 2px outline at 55% ink is far heavier than the DS chip, and its 999px pill corners are not the DS chip's 8px. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C32 is marked FAIL",
-        "Fix is a 1px chip border at the deck ink 10%"
+        "Fix is a 1px chip border at the deck ink 20%, with 8px corners (not a 999px pill)"
       ],
       "expected": {
         "overall": "NEEDS_FIX",

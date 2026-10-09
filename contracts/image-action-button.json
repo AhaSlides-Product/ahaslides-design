@@ -11,7 +11,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. Wire the host to the intents; drive `state`/`src` from the host's upload flow. React (< 19) via a thin ref wrapper; Vue binds the custom element natively.",
   "tokensUsed": ["border", "border-hover", "border-disabled", "color-primary", "color-error", "bg-container", "bg-container-disabled", "bg-accent", "bg-elevated", "bg-hover", "ink-a50", "text-default", "text-inverse", "text-disabled", "icon-muted", "radius-default", "radius-sm", "radius-xs", "radius-pill", "ink-a10"],
   "spec": [
-    { "label": "Trigger", "value": "36×36 icon button, radius 8, 1px #E3E3E3 border; 18px glyph" },
+    { "label": "Trigger", "value": "36×36 icon button, radius 8, 1px #E3E3E3 border; 16px glyph" },
     { "label": "Empty", "value": "system-image-square glyph + \"Add image\" tooltip; click emits `add`" },
     { "label": "Hover", "value": "#FEF3F7 fill + #DB005B glyph/border" },
     { "label": "Loading", "value": "#E70E68 spinner at the same 36×36 size, 1px #E3E3E3 border — no layout jump; role=status, aria-label \"Loading\", aria-busy" },
