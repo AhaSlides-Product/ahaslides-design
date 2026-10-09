@@ -14,6 +14,7 @@
   },
   "surfaces": ["dashboard", "editor", "presenter"],
   "composedOf": [
+    { "ref": "product-lockup", "as": "component", "use": "the top-left brand of the header or nav rail: The Splash, AhaSlides and the product name as one mark", "status": "available" },
     { "ref": "button", "as": "component", "use": "the primary CTA in the nav rail (e.g. New presentation), top-bar actions, and per-row actions — one primary per region, sized via the size prop, never inline height/padding/radius", "status": "available" },
     { "ref": "icon", "as": "component", "use": "the brand mark glyph, every nav-item glyph, and top-bar action glyphs — an <aha-icon name> from the library, never an inline <svg> or a foreign icon set", "status": "available" },
     { "ref": "avatar", "as": "component", "use": "the top-bar account avatar and any per-row user avatar", "status": "available" },
@@ -24,7 +25,7 @@
   ],
   "componentBacklog": "No missing components — the shell composes entirely from shipped DS leaves plus tokens. The gap this pattern closes is COMPOSITION knowledge, not a missing primitive.",
   "rules": [
-    { "rule": "Use the real AhaSlides brand mark + wordmark at the top of the nav rail — the file from the Logo library (design.ahaslides.io/foundations/logo.html, logo/ahaslides-logo*.svg), never redrawn — never a coloured letter-tile or initials square standing in for a logo.", "ref": ["C1"] },
+    { "rule": "The top-left brand of any site, microsite or app header, nav rail included, is <aha-product-lockup product=\"<name>\"> (no product attribute when no name is approved): full above a 480px header, compact below, variant=\"splash\" in an icon rail. Never hand-set The Splash or the logo file next to a text span, and never a coloured letter tile or initials square standing in for a logo; every other logo comes from the Logo library (design.ahaslides.io/foundations/logo.html).", "ref": ["C1"] },
     { "rule": "Never ship a placeholder as a final state: a QR/thumbnail/region renders a real asset or an explicit, styled empty state — never a permanent 'Loading QR…' label, spinner, or grey box.", "ref": ["C2"] },
     { "rule": "Give each region one primary action and a scannable type hierarchy from the scale; do not render uniform grey-on-white equal-weight cards with evenly-spaced everything (the admin-template tell).", "ref": ["C3"] },
     { "rule": "Fill every shell slot with a DS component (aha-button, aha-icon, aha-avatar, aha-badge, DataTable) and take all spacing/radius/colour from --aha-* tokens — never a hand-rolled <button>/<div> with inline hex/px, never a raw <table>.", "ref": ["C4"] },

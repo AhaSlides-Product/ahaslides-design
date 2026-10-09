@@ -22,9 +22,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.148.2 — 2026-10-09
+## 0.151.2 — 2026-10-09
 ### Added
 - Icon library page: sizes are named XS 12px, S 16px, M 24px and L 32px (the DS had no icon size names), the Stroke by size demo shows one glyph per size across the full content width, and a size switcher beside the family chips redraws every tile at the chosen size so the stroke rule can be previewed on all icons. The icon contract and preview name the sizes the same way. (#222)
+
+## 0.151.0 — 2026-10-09
+### Added
+- `<aha-product-lockup>`: the AhaSlides product lockup (The Splash, AhaSlides and a product name as one mark) for the top-left of every site, microsite and app header. `product`, `variant` (auto, full, compact, splash), `tone` (colour, inverse) and `size` (20px default, 18px minimum); auto flips to compact below a 480px header; the box keeps a 0.1em bleed so a clipping parent never cuts a glyph edge (#221)
+- Logo library: a Product lockup section with the spec table and the don'ts (#221)
+- screen-lint `hand-set-lockup` (warning): the AhaSlides logo or The Splash set by hand in a header or nav (#221)
+### Changed
+- `app-shell` C1 and its guideline rule: the header brand of any site or app is `<aha-product-lockup>` (#221)
+- The design.ahaslides.io site header is `<aha-product-lockup product="Design System">` (full, compact below a 480px header) in place of The Splash beside hand-set text (#221)
+- Agent plugin: every prompt carries the product lockup rule, including marketing-style pages; writing an AhaSlides logo file nudges toward the lockup (#221)
+
+## 0.150.0 — 2026-10-09
+### Fixed
+- The React snippet for the date picker parses again when copied: the `size` note inside the `<DatePicker>` props is now a `//` comment, not a `{/* */}` child expression (#217)
 
 ## 0.148.0 — 2026-10-09
 ### Changed
