@@ -26,6 +26,6 @@
 <!-- touch (48px, 8px corners) is the audience phone's one primary action; the audience page wraps it as <aha-audience-submit>. -->
 <aha-button variant="primary" size="touch" block>Submit</aha-button>
 
-<!-- Low-emphasis label buttons: text / text-link are borderless; text-link is never underlined (set --aha-text-link-decoration: underline where a screen swaps the link to the default ink). primary-alt is a second primary slot. -->
+<!-- Low-emphasis label buttons: text / text-link are borderless; text-link has no underline at rest and is underlined on hover, press and keyboard focus (set --aha-text-link-decoration: underline where a screen swaps the link to the default ink). primary-alt is a second primary slot. -->
 <aha-button variant="text">Skip</aha-button>
 <aha-button variant="text-link">Learn more</aha-button>
