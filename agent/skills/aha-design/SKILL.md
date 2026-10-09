@@ -100,6 +100,11 @@ Read the list from the DS each time — surfaces get added.
    `palette="brand"` on app screens and `palette="deck"` on the presenting / audience canvas. Never
    a hand-rolled SVG, another chart library or a generic dataviz skill. Only a type `<aha-chart>`
    does not ship falls back to `@ant-design/plots` (the DS charter) — flag it as a gap.
+6. Icons come from the registry by name. Draw one only when the library has no suitable icon, and
+   then use the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px.
+7. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
+   24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
+   no toggle, switch, input, select or button in a group header.
 
 ## 4. Judge
 

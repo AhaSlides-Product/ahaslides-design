@@ -35,7 +35,7 @@
     },
     {
       "surface": "In-canvas presenter controls — Developer Platform (build-less HTML slide types)",
-      "useFor": "slide-specific actions on a build-less slide type (presenter.html / audience.html / settings.html loading lib/all.js): the controls render INSIDE the canvas as <aha-button size=\"xl\">, sized by the attribute and coloured through --aha-color-primary",
+      "useFor": "slide-specific actions on a build-less slide type (presenter canvas loads lib/canvas.js, audience.html lib/audience.js, settings.html lib/settings.js): the controls render INSIDE the canvas as <aha-button size=\"xl\">, sized by the attribute and coloured through --aha-color-primary",
       "example": "Team Retro's Previous / Next stage / Reveal row"
     }
   ],
@@ -155,6 +155,7 @@
       "status": "missing"
     }
   ],
+  "entryExtras": ["status-icon"],
   "componentBacklog": "composedOf marks 5 artifacts this pattern needs that the DS does not yet ship (aha-antd-button host wrapper, kbd-chip, tooltip, focus-trap, use-deck-font). Per the charter, a pattern that leans on a missing component is a signal to add it HERE — this is the pattern surfacing the component roadmap so the next slide type reuses it instead of hand-rolling.",
   "rules": [
     {
@@ -343,7 +344,7 @@
       ]
     },
     {
-      "rule": "On the Developer Platform (build-less HTML slide types — presenter.html / audience.html / settings.html loading lib/all.js) presenter controls render INSIDE the canvas: a row of <aha-button size=\"xl\"> (52px, the web-component twin of React <XLButtonScope>) so the room can read them. Size only through the size attribute — never ::part(button) height / padding / font-size overrides or inline sizing; colour only through --aha-color-primary (one primary per row, per-round steppers secondary). The host-control-bar rule applies only to built plugins that declare manifest actions.",
+      "rule": "On the Developer Platform (build-less HTML slide types — presenter.html / audience.html / settings.html, each loading its own entry: lib/canvas.js, lib/audience.js, lib/settings.js) presenter controls render INSIDE the canvas: a row of <aha-button size=\"xl\"> (52px, the web-component twin of React <XLButtonScope>) so the room can read them. Size only through the size attribute — never ::part(button) height / padding / font-size overrides or inline sizing; colour only through --aha-color-primary (one primary per row, per-round steppers secondary). The host-control-bar rule applies only to built plugins that declare manifest actions.",
       "ref": [
         "§5",
         "C3",
@@ -453,7 +454,7 @@
       ]
     },
     {
-      "rule": "A stage indicator is <aha-stepper> and a type-to-pick field is <aha-autocomplete> (both in lib/all.js); a sentiment glyph is the matching face (system-smiley / system-sad-face / system-angry-face). Never hand-roll stepper pills or a combobox, and never mark the current stage with the primary accent — the stepper marks it with ink so the accent stays on the one action that advances the flow.",
+      "rule": "A stage indicator is <aha-stepper> and a type-to-pick field is <aha-autocomplete> (both in lib/canvas.js and lib/audience.js); a sentiment glyph is the matching face (system-smiley / system-sad-face / system-angry-face). Never hand-roll stepper pills or a combobox, and never mark the current stage with the primary accent — the stepper marks it with ink so the accent stays on the one action that advances the flow.",
       "ref": [
         "C16",
         "C23"
