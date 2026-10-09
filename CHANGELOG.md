@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.134.0 — 2026-10-08
 ### Changed
-- `carouselTheme`: the active dot is Vivid Pink. antd drew a white overlay over it that no token reaches, so importing the module adds one `.ant-carousel .slick-dots` rule (`carouselDotsCss`); rest dots are grey 50 (#197)
+- `carouselTheme`: the active dot is Vivid Pink. antd drew a white overlay over it that no token reaches, so importing the module adds one `.ant-carousel .slick-dots` rule (`carouselDotsCss`); rest dots are grey 70 (#8A8A8A, 3.45:1 on white) and a focused dot shows the Vivid Pink focus outline (#197)
 - `formTheme` validation messages use the field error row: a 12px x-circle glyph and 12px (`--aha-size-sm`) text, as Input; importing the module adds one `.ant-form-item-explain-error` rule (`formErrorCss`). `<aha-tag checkable size="large" checked>` labels are the link pink `--aha-text-link-hover` `#DB005B`, the step that passes 4.5:1 on the pale pink fill, as the secondary button hover (#197)
 - `formTheme`: the antd Button is 36px, the DS `md` size (it was 32px) (#197)
 - `<aha-badge>` status: error, warning and success no longer look alike. Success is a solid black dot, error a hollow black ring, warning Vivid Pink 30% (`#F8B7D2`) with a 1px Vivid Pink edge, processing stays Vivid Pink and pulsing, default stays grey; `dot` markers take the same shapes. A Vivid Pink count is `status="primary"`, now shown on the Badge page and in the playground (#197)
