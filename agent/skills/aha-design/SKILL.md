@@ -94,6 +94,10 @@ Read the list from the DS each time — surfaces get added.
    Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
+   The top-left brand of any site, microsite, docs site, careers or marketing-style page, internal
+   tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
+   approved), never the logo file hand-set beside a text span; this holds even on a marketing page,
+   and the header is judged on `app-shell` C1.
 5. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
    radar, word cloud, mind map) is `<aha-chart>` from the DS: read
    `https://design.ahaslides.io/chart.agent.json` first, use
