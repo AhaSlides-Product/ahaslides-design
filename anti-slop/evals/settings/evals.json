@@ -355,17 +355,17 @@
     },
     {
       "id": 15,
-      "prompt": "Review the ? help tooltip on an 'Options' setting label. When it opens, the tooltip's arrow does not point at the ? icon (it floats off to the side), the tooltip text is in a large body/heading-size font, and the tooltip background is a plain grey/black instead of the standard dark-navy tooltip colour.",
+      "prompt": "Review the ? help tooltip on an 'Options' setting label. When it opens, the tooltip's arrow does not point at the ? icon (it floats off to the side), the tooltip text is in a large body/heading-size font, and the tooltip background is a custom mid-grey instead of the standard black tooltip colour.",
       "files": [],
       "label": "bad-example",
-      "notes": "Reported by Lan (BAD screenshot): ? tooltip with a mis-anchored arrow, oversized font, and wrong background colour. The GOOD counterpart uses the default a-tooltip (arrow on the icon, small font, dark-navy bg) as in the shipped MarkQuestionLabel.vue. BAD example for C3's styling/arrow rule.",
-      "expected_output": "FAILs C3 (styling & arrow). The ? help tooltip must use the standard/shared tooltip: the default dark-navy background token (not grey/black), the small default tooltip font size (not body/heading size), and an arrow anchored to point directly at the ? icon. Fix: reuse the shared tooltip component and anchor its placement to the icon; don't restyle background or font. Overall NEEDS FIX.",
+      "notes": "Reported by Lan (BAD screenshot): ? tooltip with a mis-anchored arrow, oversized font, and wrong background colour. The GOOD counterpart uses the default a-tooltip (arrow on the icon, small font, black bg) as in the shipped MarkQuestionLabel.vue. BAD example for C3's styling/arrow rule.",
+      "expected_output": "FAILs C3 (styling & arrow). The ? help tooltip must use the standard/shared tooltip: the default black background token `--aha-bg-dark` (not a custom grey), the small default tooltip font size (not body/heading size), and an arrow anchored to point directly at the ? icon. Fix: reuse the shared tooltip component and anchor its placement to the icon; don't restyle background or font. Overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C3 is marked FAIL",
         "Flags that the tooltip arrow must point at / be anchored to the ? icon (not floating off to the side)",
         "Flags the oversized font (must be the small default tooltip font size)",
-        "Flags the wrong background (must be the standard dark-navy tooltip token, not grey/black)"
+        "Flags the wrong background (must be the standard black tooltip token, not a custom grey)"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -381,11 +381,11 @@
     },
     {
       "id": 16,
-      "prompt": "Review the ? help tooltip on a setting label. It opens with its arrow pointing directly at the ? icon, the text in the small default tooltip font, and the standard dark-navy tooltip background.",
+      "prompt": "Review the ? help tooltip on a setting label. It opens with its arrow pointing directly at the ? icon, the text in the small default tooltip font, and the standard black tooltip background.",
       "files": [],
       "label": "good-control",
       "notes": "Positive control (GOOD screenshot from Lan) matching the shipped MarkQuestionLabel.vue default a-tooltip. Counterpart to eval 15; ensures the judge accepts a correctly-styled ? tooltip.",
-      "expected_output": "C3 PASSES for the tooltip styling — this is the correct shared/default tooltip (arrow anchored to the icon, small font, dark-navy background). The judge should NOT flag a correctly-styled standard tooltip.",
+      "expected_output": "C3 PASSES for the tooltip styling — this is the correct shared/default tooltip (arrow anchored to the icon, small font, black background). The judge should NOT flag a correctly-styled standard tooltip.",
       "assertions": [
         "C3 is marked PASS (the tooltip styling is correct)",
         "Does not flag the tooltip background, font size, or arrow anchoring"
@@ -963,12 +963,12 @@
       "files": [],
       "label": "bad-example",
       "notes": "Lone setting titled with the bold SectionHeader instead of SettingRow — the AHAM-473 rule. Should FAIL C4 / SETTINGS-48; the sibling SettingRow is correct.",
-      "expected_output": "FAILS C4 (and SETTINGS-48). 'Race duration' is one control with one label — a lone setting, not a group — so it must be a regular-weight SettingRow, not a bold SectionHeader. Using SectionHeader here renders a group-level bold label with no group beneath it, and it reads inconsistently beside the regular-weight 'Race sound' row. Fix: make 'Race duration' a SettingRow too (`<SettingRow label=\"Race duration\" help=\"…\"><NumberWithUnit …/></SettingRow>`); reserve SectionHeader for a real group header over 2+ settings or a master-toggle row. Everything else passes; overall NEEDS FIX.",
+      "expected_output": "FAILS C4 (and SETTINGS-48). 'Race duration' is one control with one label — a lone setting, not a group — so it must be a regular-weight SettingRow, not a bold SectionHeader. Using SectionHeader here renders a group-level bold label with no group beneath it, and it reads inconsistently beside the regular-weight 'Race sound' row. Fix: make 'Race duration' a SettingRow too (`<SettingRow label=\"Race duration\" help=\"…\"><NumberWithUnit …/></SettingRow>`); reserve SectionHeader for a real group header over 2+ settings, and it never carries a control. Everything else passes; overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C4 is marked FAIL (SETTINGS-48)",
         "Flags SectionHeader used to title a lone setting (should be a regular-weight SettingRow)",
-        "Notes SectionHeader is reserved for a real group header over 2+ settings / a master-toggle",
+        "Notes SectionHeader is reserved for a real group header over 2+ settings and never carries a control",
         "Does NOT FAIL the 'Race sound' SettingRow"
       ],
       "expected": {
@@ -1554,7 +1554,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C5 — dependent sub-setting shown disabled and flat.",
-      "expected_output": "C5 FAILs: a sub-setting that only applies when its parent is on must be hidden while the parent is off (disabled is reserved for an upgrade path), and when shown it must read as nested — indented (sizeLG), a tighter gap above (sizeXS) and a lighter label. Fix: render 'Maximum answers per person' only when 'Allow multiple answers' is on, indented and de-emphasised. Overall NEEDS FIX.",
+      "expected_output": "C5 FAILs: a sub-setting that only applies when its parent is on must be hidden while the parent is off (disabled is reserved for an upgrade path), and when shown it must read as nested — indented 24px (sizeLG), 16px below the parent and a regular 400 secondary-text label. Fix: render 'Maximum answers per person' only when 'Allow multiple answers' is on, indented and de-emphasised. Overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C5 is marked FAIL",
@@ -1689,6 +1689,54 @@
       "source": {
         "authored": "ahaslides-design",
         "why": "AHAM-1725: no case covered restyling/replacing the NumberedItem chip"
+      }
+    },
+    {
+      "id": 73,
+      "prompt": "Review a Countdown slide's settings panel. The timer settings sit in one group whose header carries the on/off switch, and a second header sits over a single field:\n\n```vue\n<!-- slide/countdown/Settings.vue -->\n<aha-setting-group label=\"Timer\">\n  <aha-switch slot=\"action\" :checked=\"config.timerOn\" @change=\"toggleTimer\"></aha-switch>\n  <aha-settings-item label=\"Duration\"><aha-input-number slot=\"control\" v-model=\"config.seconds\" /></aha-settings-item>\n  <aha-settings-item label=\"Play a sound at zero\"><aha-switch slot=\"control\" v-model=\"config.sound\" /></aha-settings-item>\n</aha-setting-group>\n\n<aha-setting-group label=\"Background\">\n  <aha-settings-item label=\"Image\"><ImagePicker slot=\"control\" v-model=\"config.image\" /></aha-settings-item>\n</aha-setting-group>\n```\nLabels are regular 400 in primary text and sibling settings sit 24px apart.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "BAD control for C16, both facets: a master switch in the group header's action slot, and a group title over a single field.",
+      "expected_output": "FAILs C16. The \"Timer\" header carries a switch in its action slot — a setting control never sits in a group header; it is a settings item (\"Show a timer\", label left, switch right) as the first row of the group. The \"Background\" title sits over a single field, which is not a group — drop the title and let the Image setting stand on its own. Plain text such as a count would be allowed in the header; a control is not. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C16 is marked FAIL",
+        "Names the switch in the group header's action slot and moves it to a settings item",
+        "Names the group title over a single field"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C16": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "AHAM-1833: no case made C16 fire"
+      }
+    },
+    {
+      "id": 74,
+      "prompt": "Review a Quiz slide's settings panel. Two independent settings sit 24px apart, and the dependent settings under the timer are nested in a sub-setting group:\n\n```vue\n<!-- slide/quiz/Settings.vue -->\n<aha-settings-item class=\"top\" label=\"Show a timer\">\n  <aha-switch slot=\"control\" v-model=\"config.timerOn\" />\n</aha-settings-item>\n<aha-sub-setting-group :hidden=\"!config.timerOn\" style=\"--aha-setting-label-color:var(--aha-text-default)\">\n  <aha-settings-item label=\"Duration\"><aha-input-number slot=\"control\" v-model=\"config.seconds\" /></aha-settings-item>\n  <aha-settings-item label=\"Extra points for speed\"><aha-switch slot=\"control\" v-model=\"config.speedBonus\" /></aha-settings-item>\n</aha-sub-setting-group>\n<aha-settings-item class=\"top\" label=\"Show the leaderboard\">\n  <aha-switch slot=\"control\" v-model=\"config.leaderboard\" />\n</aha-settings-item>\n\n<style scoped>\n.top::part(label) { font-weight: 600; }\n</style>\n```\nOn screen the top-level labels render semibold 600 #1A1A1A and the two nested labels render regular 400 #1A1A1A, the same colour as their parent.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "BAD control for C17, both facets: semibold top-level setting labels, and nested labels forced back to primary text.",
+      "expected_output": "FAILs C17. A setting label is regular 400 in primary text, so the semibold 600 on \"Show a timer\" and \"Show the leaderboard\" is wrong — semibold belongs to a group title only. The labels inside the sub-setting group are overridden to primary text (#1A1A1A); a nested label is regular 400 in secondary text (`--aha-text-secondary` #4A4A4A) so the dependency reads at a glance. Fix: remove both overrides and let the components' own label styles apply. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C17 is marked FAIL",
+        "Names the semibold setting labels",
+        "Names the nested labels rendered in primary instead of secondary text"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C17": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "AHAM-1833: no case made C17 fire"
       }
     }
   ]

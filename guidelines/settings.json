@@ -63,7 +63,7 @@
     {
       "ref": "--aha-size*",
       "as": "token",
-      "use": "the whole spacing hierarchy (4/8/16/32/48) — separation comes from spacing, never dividers",
+      "use": "the whole spacing hierarchy (4/16/24/32/48) — separation comes from spacing, never dividers",
       "status": "available"
     },
     {
@@ -93,7 +93,7 @@
     {
       "ref": "tooltip",
       "as": "component",
-      "use": "the ? help tooltip (HelpTooltip) — shared dark-navy tooltip, arrow anchored to the ? icon",
+      "use": "the ? help tooltip (HelpTooltip) — shared black tooltip, arrow anchored to the ? icon",
       "status": "available"
     },
     {
@@ -181,7 +181,7 @@
       "status": "available"
     }
   ],
-  "entryExtras": ["add-item-button", "alert", "avatar", "background-task", "badge", "breadcrumb", "card", "collapse", "color-picker", "csat", "descriptions", "divider", "empty", "error-page", "flex", "grid", "image", "list", "loader", "pagination", "paywall", "popover", "progress", "progress-toast", "progressbar", "rate", "result", "screen-heading", "section-header", "segmented", "setting-group", "setting-row", "skeleton", "space", "spin", "statistic", "status-badge", "sub-setting-group", "tabs", "uploader", "user-info", "viewport-switch"],
+  "entryExtras": ["add-item-button", "alert", "avatar", "background-task", "badge", "breadcrumb", "card", "close-button", "collapse", "color-picker", "csat", "descriptions", "divider", "empty", "error-page", "flex", "grid", "image", "list", "loader", "pagination", "paywall", "popover", "progress", "progress-toast", "progressbar", "rate", "result", "screen-heading", "section-header", "segmented", "setting-group", "setting-row", "skeleton", "space", "spin", "statistic", "status-badge", "sub-setting-group", "tabs", "uploader", "user-info", "viewport-switch"],
   "componentBacklog": "Cleared — every settings-lab composed control now ships in the DS as a first-class artifact (contract + lib + parts + conformance): CountedInput, CountedTextarea, NumberWithUnit, CardSelect, ModeField, InfoBox, NumberedItem, ImageActionButton, ImageDropzone, OptionRow and QuestionList, alongside the atomic controls (Switch, Select, Input, Tooltip=HelpTooltip, Dropdown=DropdownMenu) and <aha-settings-list> (SectionHeader + SettingRow + SubSettingGroup). Every composedOf entry now resolves to a real contract, so a fully-compliant settings surface is buildable purely by reuse. See the canonical settings-lab → DS mapping in parts/settings.guide.md.",
   "rules": [
     {
@@ -210,7 +210,7 @@
     },
     {
       "id": "help-glyph",
-      "rule": "The help trigger is a question-mark (?) glyph from the shared Icon — never an info circle (ⓘ). Every ? in a panel is the same glyph, size, and tooltip placement; the tooltip is the shared dark-navy tooltip with its arrow anchored to the icon.",
+      "rule": "The help trigger is a question-mark (?) glyph from the shared Icon — never an info circle (ⓘ). Every ? in a panel is the same glyph, size, and tooltip placement; the tooltip is the shared black tooltip with its arrow anchored to the icon.",
       "ref": [
         "SETTINGS-26",
         "SETTINGS-30",
@@ -219,7 +219,7 @@
     },
     {
       "id": "spacing-not-dividers",
-      "rule": "Hierarchy and separation come from --aha-size* spacing tokens (4 name→help, 8 sub→parent, 16 sibling, 32 group, 48 danger zone) — never divider lines, never raw px.",
+      "rule": "Hierarchy and separation come from --aha-size* spacing tokens (4 name→help, 16 sub→parent with a 24 indent, 24 sibling, 32 group, 48 danger zone) — never divider lines, never raw px.",
       "ref": [
         "SETTINGS-13"
       ]
@@ -233,11 +233,19 @@
     },
     {
       "id": "group-shape",
-      "rule": "A group has 2–6 settings. Header is a 1–3 word noun phrase, sentence case, no colon. Only the group header carries weight — semibold (600, the SectionHeader weight); member/single-control labels are regular weight (400).",
+      "rule": "A group has 2–6 settings. Header is a 1–3 word noun phrase, sentence case, no colon. Only the group header carries weight — semibold (600, the SectionHeader weight), and only over a real group of two or more settings, never over a single field or a single list; member/single-control labels are regular weight (400) in primary text (#1A1A1A), and regular 400 in secondary text (#4A4A4A) inside a sub-setting group.",
       "ref": [
         "SETTINGS-05",
         "SETTINGS-06",
         "SETTINGS-37"
+      ]
+    },
+    {
+      "id": "no-control-in-group-header",
+      "rule": "No setting control in a group header: no toggle, switch, input, select or button in the header or its action slot. A control is a settings item (label left, control right). Plain text, such as a count, may stay in the header.",
+      "ref": [
+        "SETTINGS-05",
+        "SETTINGS-06"
       ]
     },
     {
@@ -258,7 +266,7 @@
     },
     {
       "id": "sub-settings",
-      "rule": "A dependent sub-setting is HIDDEN (not disabled) when its parent is off. When shown it reads as nested — indented and de-emphasised — never as a top-level peer and never bracketed by its own separators.",
+      "rule": "A dependent sub-setting is HIDDEN (not disabled) when its parent is off. When shown it reads as nested — indented 24px, 16px below its parent, labels regular 400 in secondary text — never as a top-level peer and never bracketed by its own separators.",
       "ref": [
         "SETTINGS-07",
         "SETTINGS-14"

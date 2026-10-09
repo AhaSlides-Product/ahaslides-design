@@ -31,7 +31,7 @@ A single-block panel growing past 8–10 settings is a signal to re-group or spl
 This is the single most common AI failure — do not give every setting a description line.
 
 1. **Name only** — the default; carries most settings.
-2. **`?` tooltip** — the home for any "what/why/how it interacts" elaboration. Costs no standing weight. The glyph is a question-mark from the shared Icon (never an info circle), same glyph/size/placement across the panel, shared dark-navy tooltip with the arrow on the icon. Tooltip copy follows UXW-9 in the UX writing guideline (one short idea).
+2. **`?` tooltip** — the home for any "what/why/how it interacts" elaboration. Costs no standing weight. The glyph is a question-mark from the shared Icon (never an info circle), same glyph/size/placement across the panel, shared black tooltip with the arrow on the icon. Tooltip copy follows UXW-9 in the UX writing guideline (one short idea).
 3. **Help text** — only a must-see consequence that is hard to undo (≤90 chars, states the consequence, ends with a period). **Default zero per panel.** Never a `?` and a help line on the same setting.
 
 **Ship gate:** count the help-text lines. More than one is almost always the anti-pattern.
@@ -49,14 +49,15 @@ Hierarchy comes from the gap size, on the `--aha-size*` scale — monotonic so w
 | Relationship | Token | px |
 | --- | --- | --- |
 | Name → its help text | `sizeXXS` | 4 |
-| Sub-setting → parent | `sizeXS` | 8 |
-| Between sibling settings | `size` / `sizeMS` | 16 |
+| Sub-setting → parent | `size` / `sizeMS` | 16 |
+| Between sibling settings | `sizeLG` | 24 |
 | Between groups | `sizeXL` | 32 |
 | Danger zone | `sizeXXL` | 48 |
 
 - **Never a divider line** between settings, groups, or the danger zone — more distance means a wider gap.
 - **Never a card/tinted/bordered container** around plain settings or a lone toggle; a filled box signals a *selectable* object. Reserve it for real selectable items and the repeatable composite-item wrapper.
-- **Group shape:** 2–6 settings; header is a 1–3 word noun phrase, sentence case, no colon; **only the header carries weight — semibold (600)** (the `SectionHeader` weight), member/single-control labels regular (400).
+- **Group shape:** 2–6 settings; header is a 1–3 word noun phrase, sentence case, no colon; **only the header carries weight — semibold (600)** (the `SectionHeader` weight), member/single-control labels regular (400) in primary text (`--aha-text-default` #1A1A1A). A group title is for a real group of two or more settings — never over a single field or a single list.
+- **No control in a group header.** No toggle, switch, input, select or button in the header or its action slot; a control is a settings item (label left, control right). Plain text such as a count may stay.
 - **Order:** most-used first; a dependent sub-setting directly under its parent; dangerous last.
 
 ## NumberedItem chip is never restyled
@@ -65,7 +66,7 @@ The number chip on `NumberedItem` is stock: a muted-grey 22px pill. Never overri
 
 ## Sub-settings
 
-A setting that only applies when a parent is on is **hidden when the parent is off** — not shown disabled. When visible it reads as *nested*: indented (`sizeLG`), tighter gap above (`sizeXS`), and de-emphasised label — never a top-level peer, never bracketed by its own separators.
+A setting that only applies when a parent is on is **hidden when the parent is off** — not shown disabled. When visible it reads as *nested*: indented 24 (`sizeLG`), 16 below the parent (`size` / `sizeMS`), and a regular 400 label in secondary text (`--aha-text-secondary` #4A4A4A) — never a top-level peer, never bracketed by its own separators.
 
 ## Plan-gated and dangerous settings
 

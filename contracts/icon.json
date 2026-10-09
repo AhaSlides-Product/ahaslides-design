@@ -5,20 +5,20 @@
   "tier": "leaf-lit",
   "badge": "shared element + registry",
   "element": "aha-icon",
-  "summary": "One glyph set, called by name — 259 icons imported from Figma, rendered by the shared <aha-icon>, never inline SVG.",
-  "highlights": ["One glyph set, called by name", "259 icons imported from Figma", "Rendered by <aha-icon>, never inline SVG"],
-  "lead": "ONE shared element — <aha-icon name=\"system-bell\"> — renders every glyph from a single registry built from Figma Design System V3 (259 icons across system / slide-type / file-type). Agents call a name; they never hand-author or paste an <svg>. Colour follows currentColor, size is 12/16/24/32, and filled/active states are dedicated -filled assets. Browse every name in the Icon library.",
+  "summary": "One glyph set, called by name — 304 icons in one registry, rendered by the shared <aha-icon>, never inline SVG.",
+  "highlights": ["One glyph set, called by name", "304 icons in one registry", "Rendered by <aha-icon>, never inline SVG"],
+  "lead": "ONE shared element — <aha-icon name=\"system-bell\"> — renders every glyph from a single registry built from Figma Design System V3 (304 icons across system / slide-type / file-type; the 36 system-file-* glyphs are Phosphor Icons Regular, MIT, credited in icons/svg/system/PHOSPHOR-CREDITS.md). Agents call a name; they never hand-author or paste an <svg>. Colour follows currentColor, size is 12/16/24/32, and filled/active states are dedicated -filled assets. Browse every name in the Icon library.",
   "tokensUsed": ["color-error"],
   "spec": [
-    { "label": "Set", "value": "259 glyphs · system · slide-type · file-type" },
+    { "label": "Set", "value": "304 glyphs · system · slide-type · file-type" },
     { "label": "Source", "value": "Figma Design System V3 · node 50699-7126" },
     { "label": "Sizes", "value": "12 · 16 · 24 · 32 (only)" },
-    { "label": "Colour", "value": "currentColor / semantic token (254 recolorable)" },
+    { "label": "Colour", "value": "currentColor / semantic token (every glyph is one colour and recolorable, file-type glyphs included)" },
     { "label": "State", "value": "outline = neutral · -filled asset = active" }
   ],
   "props": [
     { "name": "name", "type": "string", "default": "—", "desc": "Registry glyph name, e.g. system-bell, slidetype-poll, filetype-course" },
-    { "name": "size", "type": "12 | 16 | 24 | 32", "default": "24", "desc": "On-grid pixel size; the master stroke scales with it" },
+    { "name": "size", "type": "12 | 16 | 24 | 32", "default": "24", "desc": "On-grid pixel size. The runtime draws every stroke at the size's paired width: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px. An off-grid size takes the nearest on-grid stroke" },
     { "name": "label", "type": "string", "default": "—", "desc": "Accessible name (role=img). Omit for a decorative icon" },
     { "name": "decorative", "type": "boolean", "default": "false", "desc": "aria-hidden — for an icon that only repeats adjacent text" }
   ],
@@ -26,9 +26,9 @@
     "whenToUse": [
       { "what": "system-* glyph", "when": "the default for all product-UI chrome, buttons, menus, list rows, status" },
       { "what": "-filled asset", "when": "a selected/active/on state — e.g. system-bookmark-simple-filled; a solid glyph survives greyscale" },
-      { "what": "slide-type / file-type", "when": "labelling a slide kind or a file kind; file-type glyphs keep their baked brand colour" }
+      { "what": "slide-type / file-type", "when": "labelling a slide kind or a file kind; file-type glyphs are one colour and follow the text colour like every other icon" }
     ],
-    "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). If a glyph is genuinely missing, add the SVG under icons/svg and re-run build-icons.mjs."
+    "note": "Call by name from the registry — never inline an <svg>, never pull a second icon set (Lucide/Heroicons/FontAwesome/@ant-design/icons). Off-grid sizes (no 20px) aren't supported. Icon-only buttons need an aria-label (and a tooltip when the meaning isn't obvious). Draw a glyph only when the library has no suitable icon, and then add the SVG under icons/svg and re-run build-icons.mjs; the runtime applies the size\u2019s stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) to every stroked element whatever the SVG carries, so do not set stroke-width in the SVG to match."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./icons", "registers": "aha-icon", "exportsNamed": ["icons", "ICON_NAMES", "defineAhaIcon", "AhaIcon"] },
@@ -56,17 +56,17 @@
   },
   "selfCheck": [
     { "label": "called by name from the registry (no inline svg)", "verdict": "PASS" },
-    { "label": "259 glyphs imported from Figma DS V3", "verdict": "PASS" },
+    { "label": "304 glyphs in the registry (Figma DS V3 plus Phosphor file glyphs)", "verdict": "PASS" },
     { "label": "on-grid size 12/16/24/32 only", "verdict": "PASS" },
     { "label": "colour = currentColor / token, no hex at call site", "verdict": "PASS" },
     { "label": "state via -filled asset, not a thicker stroke", "verdict": "PASS" },
     { "label": "icon-only button has aria-label", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Asserts the promises: the requested size becomes the rendered box (24→24px, 16→16px), a stroked glyph inherits currentColor (probe wrapped in #6A1EBB renders its stroke in that colour), and the smart-widget playground probe [data-pg-target] renders its default 32px box from its own size attribute.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Asserts the promises: the requested size becomes the rendered box (24→24px, 16→16px), a stroked glyph inherits currentColor (probe wrapped in #E70E68 renders its stroke in that colour), and the smart-widget playground probe [data-pg-target] renders its default 32px box from its own size attribute.",
     "ready": "!!(window.AHA_ICONS && document.querySelector('aha-icon[data-pg-target]') && document.querySelector('aha-icon[data-pg-target]').shadowRoot && document.querySelector('aha-icon[data-pg-target]').shadowRoot.querySelector('svg') && document.querySelector('aha-icon[data-probe=\"24\"]') && document.querySelector('aha-icon[data-probe=\"24\"]').shadowRoot && document.querySelector('aha-icon[data-probe=\"24\"]').shadowRoot.querySelector('svg'))",
     "singleUI": true,
     "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('svg');if(!s)return{};var p=s.querySelector('[stroke]')||s.querySelector('path');var cs=getComputedStyle(s);return{w:cs.width,h:cs.height,stroke:p?getComputedStyle(p).stroke:null};};var a=q('aha-icon[data-probe=\"24\"]');var b=q('aha-icon[data-probe=\"16\"]');var pg=q('aha-icon[data-pg-target]');return{w24:a.w,h24:a.h,stroke24:a.stroke,w16:b.w,wPg:pg.w,hPg:pg.h};})()",
-    "expect": { "w24": "24px", "h24": "24px", "stroke24": "rgb(106, 30, 187)", "w16": "16px", "wPg": "32px", "hPg": "32px" }
+    "expect": { "w24": "24px", "h24": "24px", "stroke24": "rgb(231, 14, 104)", "w16": "16px", "wPg": "32px", "hPg": "32px" }
   }
 }

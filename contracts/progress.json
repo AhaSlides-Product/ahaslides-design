@@ -12,10 +12,10 @@
   "tokensUsed": ["color-primary", "color-success", "color-warning", "color-error", "gray-30", "radius-pill", "text-secondary", "text-positive", "text-negative"],
   "spec": [
     { "label": "Track", "value": "line height 8 (small 6) · radius pill · #F1F1F1" },
-    { "label": "Fill", "value": "default primary #6A1EBB · width (line) or stroke-dashoffset (circle) = percent" },
+    { "label": "Fill", "value": "default primary #E70E68 · width (line) or stroke-dashoffset (circle) = percent" },
     { "label": "Type", "value": "line (default) · circle (SVG ring, box 96 / small 40)" },
     { "label": "Steps", "value": "steps=N → N equal segments, first round(percent) filled" },
-    { "label": "Status", "value": "active primary · success #16C49A · warning #FF7747 · exception #F5222D" },
+    { "label": "Status", "value": "active primary · success #1A1A1A · warning #1A1A1A · exception #1A1A1A" },
     { "label": "Motion", "value": "width / stroke-dashoffset animate on --aha-motion-slow / --aha-ease-out" },
     { "label": "Info", "value": "percent label (✓/✕ glyph at success/exception); hide with show-info=false" },
     { "label": "A11y", "value": "role=progressbar · aria-valuemin 0 / valuemax 100 / valuenow synced to percent" }
@@ -68,7 +68,7 @@
   },
   "selfCheck": [
     { "label": "track height 8 (small 6) · radius pill", "verdict": "PASS" },
-    { "label": "default fill primary #6A1EBB", "verdict": "PASS" },
+    { "label": "default fill primary #E70E68", "verdict": "PASS" },
     { "label": "line fill width / circle stroke-dashoffset = percent", "verdict": "PASS" },
     { "label": "status recolours the fill (active/success/warning/exception)", "verdict": "PASS" },
     { "label": "type=circle SVG ring · steps=N segments render", "verdict": "PASS" },
@@ -79,6 +79,6 @@
     "ready": "!!(document.querySelector('aha-progress[data-probe]') && document.querySelector('aha-progress[data-probe]').shadowRoot && document.querySelector('aha-progress[data-probe]').shadowRoot.querySelector('.fill'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-progress[data-probe]');var r=el&&el.shadowRoot;var f=r&&r.querySelector('.fill');var t=r&&r.querySelector('.track');var sf=f?getComputedStyle(f):null;var st=t?getComputedStyle(t):null;var ex=document.querySelector('aha-progress[status=\"error\"]')||document.querySelector('aha-progress[status=\"exception\"]');var exr=ex&&ex.shadowRoot;var exf=exr&&exr.querySelector('.fill');var sef=exf?getComputedStyle(exf):null;return{fillBg:sf?sf.backgroundColor:null,trackBg:st?st.backgroundColor:null,height:st?st.height:null,radius:st?st.borderTopLeftRadius:null,role:el?el.getAttribute('role'):null,ariaNow:el?el.getAttribute('aria-valuenow'):null,ariaMax:el?el.getAttribute('aria-valuemax'):null,exceptionFillBg:sef?sef.backgroundColor:null};})()",
-    "expect": { "fillBg": "rgb(106, 30, 187)", "trackBg": "rgb(241, 241, 241)", "height": "8px", "radius": "999px", "role": "progressbar", "ariaNow": "60", "ariaMax": "100", "exceptionFillBg": "rgb(245, 34, 45)" }
+    "expect": { "fillBg": "rgb(231, 14, 104)", "trackBg": "rgb(241, 241, 241)", "height": "8px", "radius": "999px", "role": "progressbar", "ariaNow": "60", "ariaMax": "100", "exceptionFillBg": "rgb(26, 26, 26)" }
   }
 }

@@ -221,6 +221,59 @@ export async function measureAtViewports(fileUrl, expression, { timeout = 45000,
   }
 }
 
+/**
+ * withPage(fileUrl, use, opts) → whatever `use` returns. Opens the page in one Chrome launch and hands
+ * `use` a raw `command(method, params)` sender, for checks that need more of the protocol than an
+ * evaluate (forcing :hover / :focus-visible / :active through the CSS domain, say).
+ */
+export async function withPage(fileUrl, use, { timeout = 45000, readyExpr = null } = {}) {
+  const dir = mkdtempSync(join(tmpdir(), 'aha-cdp-'));
+  const proc = spawn(CHROME, [
+    '--headless=new', '--disable-gpu', '--no-sandbox', '--hide-scrollbars',
+    '--allow-file-access-from-files',
+    '--remote-debugging-port=0', `--user-data-dir=${dir}`, '--window-size=1200,1400', fileUrl,
+  ], { stdio: 'ignore' });
+  const t0 = Date.now();
+  const cleanup = () => { try { proc.kill('SIGKILL'); } catch {} try { rmSync(dir, { recursive: true, force: true }); } catch {} };
+  try {
+    const portFile = join(dir, 'DevToolsActivePort');
+    let port;
+    while (Date.now() - t0 < timeout) { if (existsSync(portFile)) { const p = Number(readFileSync(portFile, 'utf8').split('\n')[0]); if (p) { port = p; break; } } await sleep(80); }
+    if (!port) throw new Error('no DevTools port');
+    let wsUrl;
+    while (Date.now() - t0 < timeout) {
+      try { const list = JSON.parse(await httpGet(port, '/json')); const pg = list.find(t => t.type === 'page' && t.webSocketDebuggerUrl); if (pg) { wsUrl = pg.webSocketDebuggerUrl; break; } } catch {}
+      await sleep(120);
+    }
+    if (!wsUrl) throw new Error('no page target');
+    const conn = await wsConnect(wsUrl, timeout);
+    let id = 0; const pending = new Map();
+    conn.onMessage(txt => { let m; try { m = JSON.parse(txt); } catch { return; } if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } });
+    const command = (method, params = {}) => new Promise((res, rej) => {
+      const mid = ++id;
+      const expiry = setTimeout(() => { if (pending.has(mid)) { pending.delete(mid); rej(new Error('cmd timeout: ' + method)); } }, timeout);
+      pending.set(mid, (m) => { clearTimeout(expiry); if (m.error) rej(new Error(`${method}: ${m.error.message}`)); else res(m.result); });
+      conn.send({ id: mid, method, params });
+    });
+    await command('Runtime.enable');
+    try { await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] }); } catch {}
+    if (readyExpr) {
+      let ready = false;
+      while (Date.now() - t0 < timeout) {
+        const r = await command('Runtime.evaluate', { expression: readyExpr, returnByValue: true });
+        if (r.result && r.result.value) { ready = true; break; }
+        await sleep(200);
+      }
+      if (!ready) throw new Error('readyExpr never became true within timeout');
+    }
+    const result = await use(command);
+    conn.close();
+    return result;
+  } finally {
+    cleanup();
+  }
+}
+
 /* CLI: node cdp.mjs <file> "<expression>" [readyExpr] — prints JSON (diagnostic use) */
 if (import.meta.url === `file://${process.argv[1]}`) {
   const [file, expr, readyExpr] = process.argv.slice(2);

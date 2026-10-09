@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-setting-group> is the SAME shared custom element React and Vue consume — here in its
-     native form. It BAKES IN the settings-panel spacing scale: rows 16px apart, groups 32px apart
+     native form. It BAKES IN the settings-panel spacing scale: rows 24px apart, groups 32px apart
      automatically, a danger zone 48px down — no dividers, no cards, white bg. Theming comes only
      from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
@@ -15,10 +15,10 @@
 </script>
 
 <!-- A mini settings panel: TWO groups → the 32px between-group gap is automatic (you set nothing),
-     and the first group has a row with a nested sub-setting-group (8px above + 24px indent). -->
+     and the first group has a row with a nested sub-setting-group (16px below + 24px indent). -->
 <div style="max-width:380px">
 
-  <!-- Group 1 — an optional header (semibold) + a "?" help; rows sit 16px apart on their own. -->
+  <!-- Group 1 — an optional header (semibold) + a "?" help; rows sit 24px apart on their own. -->
   <aha-setting-group label="Presentation" help="How the deck shows to the audience.">
     <aha-settings-item label="Progress bar">
       <aha-switch slot="control" checked></aha-switch>

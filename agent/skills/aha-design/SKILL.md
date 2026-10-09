@@ -52,7 +52,7 @@ hooks fall back to it); it is the same file as the package's, so read it when th
 
 | What | Installed package (`node_modules/@ahaslides-product/design/…`) | Hosted feed (public, no auth) |
 |---|---|---|
-| Index of every component | `package.json` exports + `lib/` | `https://ahaslides-product.github.io/ahaslides-design/llms.txt` |
+| Index of every component | `package.json` exports + `lib/` | `https://design.ahaslides.io/llms.txt` |
 | Anti-slop criteria, per surface | `anti-slop/criteria.json` | `…/anti-slop.agent.json` (criteria + rules + live targets) · `…/anti-slop.md` |
 | Composition guideline, per surface | `guidelines/<surface>.json` | `…/guidelines.llms.txt` → `…/guidelines/<surface>/<surface>.agent.json` |
 | One component's contract | — | `…/<slug>.agent.json` |
@@ -73,7 +73,7 @@ Read the list from the DS each time — surfaces get added.
 - Pick by what the UI **contains**, not its container. A modal, drawer, page or editor panel that
   holds settings, options or preferences is the `settings` surface (plus `overlays` for the
   modal / drawer shell). For `settings`, read the hub page
-  `https://ahaslides-product.github.io/ahaslides-design/settings/index.html` first — its control
+  `https://design.ahaslides.io/settings/index.html` first — its control
   table (`#ctrl-<slug>`) decides which DS control each setting type uses (e.g. an image setting →
   image action button / dropzone), so do not reach for a generic component.
 - A product-app screen (React / AntD, or the DS web components) is always judged on
@@ -91,15 +91,20 @@ Read the list from the DS each time — surfaces get added.
    colour, radius and spacing to DS tokens. If the DS lacks a component you need, say so — do not
    hand-roll a look-alike.
 4. Every logo (the AhaSlides logo / The Splash, or a third-party brand such as Google, Zoom or
-   Microsoft) comes from the Logo library: `https://ahaslides-product.github.io/ahaslides-design/foundations/logo.html`, files at
-   `https://ahaslides-product.github.io/ahaslides-design/logo/<file>`. Never redraw one, inline a
+   Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
+   `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
 5. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
    radar, word cloud, mind map) is `<aha-chart>` from the DS: read
-   `https://ahaslides-product.github.io/ahaslides-design/chart.agent.json` first, use
+   `https://design.ahaslides.io/chart.agent.json` first, use
    `palette="brand"` on app screens and `palette="deck"` on the presenting / audience canvas. Never
    a hand-rolled SVG, another chart library or a generic dataviz skill. Only a type `<aha-chart>`
    does not ship falls back to `@ant-design/plots` (the DS charter) — flag it as a gap.
+6. Icons come from the registry by name. Draw one only when the library has no suitable icon, and
+   then use the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px.
+7. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
+   24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
+   no toggle, switch, input, select or button in a group header.
 
 ## 4. Judge
 

@@ -26,7 +26,7 @@
 
   <!-- Presenting canvas: the deck's palette and text colour; the chart stays transparent -->
   <div style="background:var(--aha-bg-dark); padding:var(--aha-space-24)">
-    <aha-chart type="donut" palette="deck" colors="var(--aha-brand-4),var(--aha-brand-2),var(--aha-brand-6),var(--aha-brand-9)" ink="var(--aha-text-inverse)" label="Benefits budget"
+    <aha-chart type="donut" palette="deck" colors="#E70E68,#FFFFFF,#F8B7D2,#A8A8A8" ink="var(--aha-text-inverse)" label="Benefits budget"
       data='[{"label":"Company trips","value":34},{"label":"Health insurance","value":27},{"label":"Courses","value":18},{"label":"Lunch","value":13}]'></aha-chart>
   </div>
 

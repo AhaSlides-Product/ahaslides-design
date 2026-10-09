@@ -2,12 +2,12 @@
 
 The AhaSlides design system **for agents** — one source of truth, everything else generated.
 
-> **Agents start here →** fetch **`https://ahaslides-product.github.io/ahaslides-design/llms.txt`** (public, no auth). That one URL lists the composition **Patterns** (read the matching one before picking components — a settings UI → Settings) and indexes every component, linking each `<slug>.agent.json`. Two hosts, two jobs: **GitHub Pages** (`ahaslides-product.github.io/ahaslides-design/…`) serves everything you *read* (docs + feeds, at the site root — no `dist/` prefix); **jsDelivr** (`.../gh/ahaslides-product/ahaslides-design@v<version>/lib/<element>.js`, pinned to a release tag) serves only the element source you *import at runtime*. `dist/` is a gitignored local build folder — never a fetch path.
+> **Agents start here →** fetch **`https://design.ahaslides.io/llms.txt`** (public, no auth). That one URL lists the composition **Patterns** (read the matching one before picking components — a settings UI → Settings) and indexes every component, linking each `<slug>.agent.json`. Two hosts, two jobs: **GitHub Pages** (`design.ahaslides.io/…`) serves everything you *read* (docs + feeds, at the site root — no `dist/` prefix); **jsDelivr** (`.../gh/ahaslides-product/ahaslides-design@v<version>/lib/<element>.js`, pinned to a release tag) serves only the element source you *import at runtime*. `dist/` is a gitignored local build folder — never a fetch path.
 
 Initiative: PRO38-1. This repo is the permanent home for the design-system-for-agents
 (replaces the in-monorepo spike PR #118).
 
-> **Just want the charts?** The `<aha-chart>` library works from a plain HTML page via a public CDN, with no registry access and no build step: see **[docs/chart/README.md](docs/chart/README.md)**, or browse every chart live on the **[Charts tab](https://ahaslides-product.github.io/ahaslides-design/charts/index.html)**.
+> **Just want the charts?** The `<aha-chart>` library works from a plain HTML page via a public CDN, with no registry access and no build step: see **[docs/chart/README.md](docs/chart/README.md)**, or browse every chart live on the **[Charts tab](https://design.ahaslides.io/charts/index.html)**.
 
 ## The idea
 
@@ -22,7 +22,7 @@ contracts/<slug>.json  ─┼─→ generate.mjs ─→ dist/
 parts/*  (authored)    ─┘        │
                                  ├─ variables.css          --aha-* token layer (single source)
                                  ├─ design.md              machine-readable visual language
-                                 ├─ index.html             browsable component index
+                                 ├─ index.html             start page · get-started/index.html  install steps for developers
                                  ├─ llms.txt / llms-full.txt   agent feeds
                                  └─ <slug>/ index.html · <slug>.md · <slug>.agent.json · <slug>.llms.txt
 ```
@@ -57,7 +57,7 @@ npm i @ahaslides-product/design
 
 ```js
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer — once, at the app root
-import '@ahaslides-product/design/icons';               // registers <aha-icon> (268 glyphs, call by name)
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (304 glyphs, call by name)
 import { ICON_NAMES } from '@ahaslides-product/design/icons';   // discover valid names
 import '@ahaslides-product/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
 import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared Table theme
@@ -113,11 +113,11 @@ carry the exact `.npmrc` lines). Absolute URLs:
 
 | Feed | URL |
 |------|-----|
-| Index (start here) | `https://ahaslides-product.github.io/ahaslides-design/llms.txt` |
-| Full docs | `https://ahaslides-product.github.io/ahaslides-design/llms-full.txt` |
-| Visual language | `https://ahaslides-product.github.io/ahaslides-design/design.md` |
-| Token layer | `https://ahaslides-product.github.io/ahaslides-design/variables.css` |
-| Per component | `https://ahaslides-product.github.io/ahaslides-design/<slug>.agent.json` |
+| Index (start here) | `https://design.ahaslides.io/llms.txt` |
+| Full docs | `https://design.ahaslides.io/llms-full.txt` |
+| Visual language | `https://design.ahaslides.io/design.md` |
+| Token layer | `https://design.ahaslides.io/variables.css` |
+| Per component | `https://design.ahaslides.io/<slug>.agent.json` |
 
 Each `agent.json` carries the exact `install` / `import` lines — including the `registry`,
 `scope`, and `.npmrc` needed for GitHub Packages — and links to the sibling feeds, so discovery
@@ -205,7 +205,7 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 
 ## Status
 
-Proven end-to-end and QA-green: **Icon** (268 glyphs imported from Figma DS V3, call-by-name via
+Proven end-to-end and QA-green: **Icon** (304 glyphs: 268 imported from Figma DS V3 plus 36 Phosphor file glyphs, call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 

@@ -1,0 +1,123 @@
+{
+ "$about": "Interactive-state findings that predate state-check.mjs, per built page. A finding listed here is reported as known debt and does not fail the gate; any other finding does. Fix one, then run node state-check.mjs --update-baseline to drop it; an entry the page no longer shows fails the gate until it is dropped. Never add an entry to make a new finding pass.",
+ "debt": {
+  "audience": [
+   "contrast · hover · aha-audience-submit.demo-submit » aha-button[variant=primary][size=touch] » button: text #FFFFFF on #EB327F is 3.97:1, needs 4.5:1"
+  ],
+  "audience-submit": [
+   "contrast · hover · aha-audience-submit » aha-button[variant=primary][size=touch] » button: text #FFFFFF on #EB327F is 3.97:1, needs 4.5:1"
+  ],
+  "autocomplete": [
+   "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
+   "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
+  ],
+  "chart": [
+   "contrast · active · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #E3E3E3 is 1.29:1, needs 3:1",
+   "contrast · active · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #E3E3E3 is 1.85:1, needs 3:1",
+   "contrast · focus · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #F7F7F7 is 1.54:1, needs 3:1",
+   "contrast · focus · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #F7F7F7 is 2.22:1, needs 3:1",
+   "contrast · hover · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #F7F7F7 is 1.54:1, needs 3:1",
+   "contrast · hover · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #F7F7F7 is 2.22:1, needs 3:1",
+   "contrast · rest · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #FFFFFF is 1.65:1, needs 3:1",
+   "contrast · rest · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #FFFFFF is 2.38:1, needs 3:1"
+  ],
+  "charts": [
+   "contrast · active · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #E3E3E3 is 1.29:1, needs 3:1",
+   "contrast · active · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #E3E3E3 is 1.85:1, needs 3:1",
+   "contrast · focus · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #F7F7F7 is 1.54:1, needs 3:1",
+   "contrast · focus · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #F7F7F7 is 2.22:1, needs 3:1",
+   "contrast · hover · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #F7F7F7 is 1.54:1, needs 3:1",
+   "contrast · hover · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #F7F7F7 is 2.22:1, needs 3:1",
+   "contrast · rest · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #FFFFFF is 1.65:1, needs 3:1",
+   "contrast · rest · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #FFFFFF is 2.38:1, needs 3:1"
+  ],
+  "data-table": [
+   "contrast · active · th.ant-dropdown-trigger.ant-table-cell.aha-data-table__th “Name”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · active · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Name”: icon #B5B5B5 on #F1F1F1 is 1.82:1, needs 3:1",
+   "contrast · active · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Name”: text #8A8A8A on #F1F1F1 is 3.06:1, needs 4.5:1",
+   "contrast · active · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: text #8A8A8A on #F1F1F1 is 3.06:1, needs 4.5:1",
+   "contrast · focus · th.ant-dropdown-trigger.ant-table-cell.aha-data-table__th “Name”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · focus · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Name”: icon #B5B5B5 on #FFFFFF is 2.05:1, needs 3:1",
+   "contrast · hover · th.ant-dropdown-trigger.ant-table-cell.aha-data-table__th “Name”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · hover · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Name”: icon #B5B5B5 on #F1F1F1 is 1.82:1, needs 3:1",
+   "contrast · hover · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Name”: text #8A8A8A on #F1F1F1 is 3.06:1, needs 4.5:1",
+   "contrast · hover · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: text #8A8A8A on #F1F1F1 is 3.06:1, needs 4.5:1",
+   "contrast · rest · th.ant-dropdown-trigger.ant-table-cell.aha-data-table__th “Name”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · rest · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Name”: icon #B5B5B5 on #FFFFFF is 2.05:1, needs 3:1",
+   "contrast · rest · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Name”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · rest · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "focus · focus · th.ant-table-cell.ant-table-column-has-sorters.aha-data-table__th “Responses”: keyboard focus draws no outline, ring, border or fill change",
+   "focus · focus · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: keyboard focus draws no outline, ring, border or fill change"
+  ],
+  "icons": [
+   "contrast · active · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · active · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · focus · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · focus · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · hover · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · hover · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · rest · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · rest · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1"
+  ],
+  "image": [
+   "contrast · active · aha-image » div.frame[role=button] “Preview: Deck cover”: text #FFFFFF on #949494 is 3.03:1, needs 4.5:1",
+   "contrast · hover · aha-image » div.frame[role=button] “Preview: Deck cover”: text #FFFFFF on #949494 is 3.03:1, needs 4.5:1"
+  ],
+  "image-dropzone": [
+   "contrast · active · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
+   "contrast · focus · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
+   "contrast · hover · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
+   "contrast · rest · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1"
+  ],
+  "select": [
+   "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
+   "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
+  ],
+  "select-field": [
+   "contrast · active · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · active · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · focus · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · focus · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · hover · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · hover · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · rest · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
+   "contrast · rest · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1"
+  ],
+  "settings": [
+   "contrast · active · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
+   "contrast · focus · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
+   "contrast · hover · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
+   "contrast · rest · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1"
+  ],
+  "slider": [
+   "focus · focus · div.ant-slider-handle[role=slider]: keyboard focus draws no outline, ring, border or fill change"
+  ],
+  "steps": [
+   "contrast · active · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #E70E68 on #FEF3F7 is 4.16:1, needs 4.5:1",
+   "contrast · focus · div.ant-steps-item.ant-steps-item-finish[role=button] “DetailsName & type”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
+   "contrast · focus · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
+   "contrast · hover · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #E70E68 on #FEF3F7 is 4.16:1, needs 4.5:1",
+   "contrast · rest · div.ant-steps-item.ant-steps-item-finish[role=button] “DetailsName & type”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1",
+   "contrast · rest · div.ant-steps-item.ant-steps-item-wait[role=button] “3ReviewCheck answers”: text #8C8C8C on #FFFFFF is 3.35:1, needs 4.5:1"
+  ],
+  "table": [
+   "contrast · active · th.ant-table-cell.ant-table-column-has-sorters “Name”: icon #B5B5B5 on #F0F0F0 is 1.80:1, needs 3:1",
+   "contrast · active · th.ant-table-cell.ant-table-column-has-sorters “Name”: text #8A8A8A on #F0F0F0 is 3.03:1, needs 4.5:1",
+   "contrast · active · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: text #8A8A8A on #F0F0F0 is 3.03:1, needs 4.5:1",
+   "contrast · focus · th.ant-table-cell.ant-table-column-has-sorters “Name”: icon #B5B5B5 on #FFFFFF is 2.05:1, needs 3:1",
+   "contrast · focus · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: text #E70E68 on #F0F0F0 is 3.95:1, needs 4.5:1",
+   "contrast · hover · th.ant-table-cell.ant-table-column-has-sorters “Name”: icon #B5B5B5 on #F0F0F0 is 1.80:1, needs 3:1",
+   "contrast · hover · th.ant-table-cell.ant-table-column-has-sorters “Name”: text #8A8A8A on #F0F0F0 is 3.03:1, needs 4.5:1",
+   "contrast · hover · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: text #8A8A8A on #F0F0F0 is 3.03:1, needs 4.5:1",
+   "contrast · rest · th.ant-table-cell.ant-table-column-has-sorters “Name”: icon #B5B5B5 on #FFFFFF is 2.05:1, needs 3:1",
+   "contrast · rest · th.ant-table-cell.ant-table-column-has-sorters “Name”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · rest · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: text #8A8A8A on #F0F0F0 is 3.03:1, needs 4.5:1",
+   "focus · focus · th.ant-table-cell.ant-table-column-has-sorters “Name”: keyboard focus draws no outline, ring, border or fill change",
+   "focus · focus · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: keyboard focus draws no outline, ring, border or fill change"
+  ],
+  "uploader": [
+   "contrast · focus · aha-uploader » div.zone[role=button] “Click to upload or drag files he”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
+   "contrast · rest · aha-uploader » div.zone[role=button] “Click to upload or drag files he”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1"
+  ]
+ }
+}

@@ -12,7 +12,7 @@
     { "label": "Content", "value": "white surface · radius 8" },
     { "label": "Title", "value": "ink #1A1A1A · 18 · SemiBold" },
     { "label": "Footer", "value": "brand primary confirm + secondary cancel" },
-    { "label": "Overlay", "value": "always-on mask (ink rgba(26,26,46,.7)) · portals to body · locks page scroll · click mask / Esc / ✕ to close (destructive: mask not closable)" },
+    { "label": "Overlay", "value": "always-on mask (ink rgba(0,0,0,.4)) · portals to body · locks page scroll · click mask / Esc / ✕ to close (destructive: mask not closable)" },
     { "label": "Motion", "value": "antd's built-in zoom enter/leave (kept)" },
     { "label": "Types", "value": "Confirmation (status icon + copy) · Action (task surface)" },
     { "label": "Confirmation", "value": "contexts: default · confirm · warning · info · danger (status icon left of title)" },
@@ -29,7 +29,7 @@
     { "name": "styles", "type": "object", "default": "modalStyles('simple')", "desc": "Height cap + body scroll for the size — modalStyles(size)" },
     { "name": "footer", "type": "ReactNode", "default": "—", "desc": "DS footer: Learn-more link (left, a --aha-text-link anchor — external-link glyph only when it leaves AhaSlides) + Cancel + Apply (right)" },
     { "name": "centered", "type": "boolean", "default": "false", "desc": "Vertically centre the dialog in the viewport" },
-    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared <aha-close-button> rides in the title (dismissibleModalTitle) instead of antd's own close" },
+    { "name": "closable", "type": "boolean", "default": "true", "desc": "Pass false: the shared ✕ (tertiary icon-only <aha-button>, size xs) rides in the title (dismissibleModalTitle) instead of antd's own close" },
     { "name": "mask", "type": "boolean", "default": "true", "desc": "Render the dimming overlay behind the dialog" }
   ],
   "opinion": {

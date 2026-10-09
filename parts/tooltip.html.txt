@@ -7,7 +7,7 @@
 </script>
 
 <div style="padding:48px; display:flex; gap:40px">
-  <!-- default: dark navy, above, arrow on, shows on mouse hover or keyboard focus (not on click/tap) -->
+  <!-- default: black, above, arrow on, shows on mouse hover or keyboard focus (not on click/tap) -->
   <aha-tooltip text="Copy share link">
     <button style="font-family:'Plus Jakarta Sans',sans-serif">Share</button>
   </aha-tooltip>

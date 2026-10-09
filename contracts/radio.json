@@ -12,8 +12,8 @@
   "tokensUsed": ["color-primary", "border-strong", "border-hover", "bg-container", "bg-container-disabled", "border-disabled", "bg-accent", "text-default", "text-secondary", "text-disabled", "font-product", "radius-default"],
   "spec": [
     { "label": "Ring", "value": "16×16 circle · 1px #D4D4D4 border (small: 14×14)" },
-    { "label": "Hover border", "value": "#D3B4FF (purple-30)" },
-    { "label": "Checked", "value": "#6A1EBB ring + 8px brand dot (scales in)" },
+    { "label": "Hover border", "value": "#E70E68 (color-primary)" },
+    { "label": "Checked", "value": "#E70E68 ring + 8px brand dot (scales in)" },
     { "label": "Disabled", "value": "#F1F1F1 fill · #EBEBEB border" },
     { "label": "Label", "value": "Plus Jakarta 14/21 (small: 13/20)" },
     { "label": "Button variant", "value": "segmented pill · 32px (small 24) · checked = bg-accent + brand border, shared edge collapsed" },
@@ -37,7 +37,7 @@
       { "what": "Checkbox", "when": "one or more independent options that don't exclude each other" }
     ],
     "note": "Pre-select a sensible default rather than leaving the group empty. Labels are sentence case and state the choice — 'Show results after each question', not 'Show Results'. Keep product nouns: Q&A, Word cloud. Reach for variant='button' when the options are short, mutually-exclusive views (Grid/List, Day/Week/Month) that read better as a segmented control. Reach for variant='card' when each option carries a title plus a line of explanation and the whole tile should be the click target (plan pickers, mode choosers).",
-    "dsv3": "COVERED — enumerated from the DS V3 Radio component-set taxonomy: Radio-Group / Radio Group (dot radio + label, states rest·hover·checked·unchecked·disabled), Radio-Button-Group & Components/Radio-Button/Solid & Form-Item/Segmented-radio (the segmented connected-pill button variant), and Radio-Card (the whole bordered card is the selectable target — dot + title + optional description; selected = brand border + bg-accent fill), with size (default·small) and group direction (horizontal·vertical). Measured reference (radio|rest·hover·checked·disabled): 16px ring, rest border #D4D4D4, hover border purple-30, checked brand ring + brand dot, disabled #F1F1F1 fill / #EBEBEB border. Token layer: color-primary dot + button fill + card selected border (bg-accent fill), border-strong rest, border-hover hover, border-disabled + bg-container-disabled disabled, radius-default pills + cards, text-secondary card description. Motion bound to shared motion tokens on persistent nodes (dot scale, ring/button border-color, card border-color + background)."
+    "dsv3": "COVERED — enumerated from the DS V3 Radio component-set taxonomy: Radio-Group / Radio Group (dot radio + label, states rest·hover·checked·unchecked·disabled), Radio-Button-Group & Components/Radio-Button/Solid & Form-Item/Segmented-radio (the segmented connected-pill button variant), and Radio-Card (the whole bordered card is the selectable target — dot + title + optional description; selected = brand border + bg-accent fill), with size (default·small) and group direction (horizontal·vertical). Measured reference (radio|rest·hover·checked·disabled): 16px ring, rest border #D4D4D4, hover border border-hover, checked brand ring + brand dot, disabled #F1F1F1 fill / #EBEBEB border. Token layer: color-primary dot + button fill + card selected border (bg-accent fill), border-strong rest, border-hover hover, border-disabled + bg-container-disabled disabled, radius-default pills + cards, text-secondary card description. Motion bound to shared motion tokens on persistent nodes (dot scale, ring/button border-color, card border-color + background)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-radio", "registers": "aha-radio", "exportsNamed": ["AhaRadio", "defineAhaRadio"] },
@@ -70,8 +70,8 @@
   },
   "selfCheck": [
     { "label": "ring 16×16 circle #D4D4D4 (small 14×14)", "verdict": "PASS" },
-    { "label": "checked #6A1EBB ring + brand dot", "verdict": "PASS" },
-    { "label": "hover border purple-30", "verdict": "PASS" },
+    { "label": "checked #E70E68 ring + brand dot", "verdict": "PASS" },
+    { "label": "hover border border-hover", "verdict": "PASS" },
     { "label": "dot scales in on check (motion token)", "verdict": "PASS" },
     { "label": "button variant = segmented pill, checked bg-accent + brand border", "verdict": "PASS" },
     { "label": "card variant = bordered tile, whole card selectable; checked brand border + bg-accent fill", "verdict": "PASS" },
@@ -84,6 +84,6 @@
     "ready": "!!(document.querySelector('aha-radio[data-probe]') && document.querySelector('aha-radio[data-probe]').shadowRoot && document.querySelector('aha-radio[data-probe]').shadowRoot.querySelector('.ring') && document.querySelector('aha-radio[data-card-probe]') && document.querySelector('aha-radio[data-card-probe]').shadowRoot && document.querySelector('aha-radio[data-card-probe]').shadowRoot.querySelector('.desc'))",
     "singleUI": true,
     "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);return el&&el.shadowRoot?el.shadowRoot:null;};var u=q('aha-radio:not([checked]):not([disabled]):not([variant])');var c=q('aha-radio[data-probe]');var d=q('aha-radio[disabled]');var k=q('aha-radio[data-card-probe]');var ur=u?getComputedStyle(u.querySelector('.ring')):null;var cr=c?getComputedStyle(c.querySelector('.ring')):null;var cd=c?getComputedStyle(c.querySelector('.dot')):null;var dr=d?getComputedStyle(d.querySelector('.ring')):null;var kl=k?getComputedStyle(k.querySelector('label')):null;var kd=k?getComputedStyle(k.querySelector('.desc')):null;return{ringW:cr?cr.width:null,ringH:cr?cr.height:null,restBorder:ur?ur.borderTopColor:null,checkedBorder:cr?cr.borderTopColor:null,dotBg:cd?cd.backgroundColor:null,disabledBg:dr?dr.backgroundColor:null,disabledBorder:dr?dr.borderTopColor:null,cardBorder:kl?kl.borderTopColor:null,cardBg:kl?kl.backgroundColor:null,cardRadius:kl?kl.borderTopLeftRadius:null,cardDescColor:kd?kd.color:null};})()",
-    "expect": { "ringW": "16px", "ringH": "16px", "restBorder": "rgb(212, 212, 212)", "checkedBorder": "rgb(106, 30, 187)", "dotBg": "rgb(106, 30, 187)", "disabledBg": "rgb(241, 241, 241)", "disabledBorder": "rgb(235, 235, 235)", "cardBorder": "rgb(106, 30, 187)", "cardBg": "rgb(249, 245, 255)", "cardRadius": "8px", "cardDescColor": "rgb(74, 74, 74)" }
+    "expect": { "ringW": "16px", "ringH": "16px", "restBorder": "rgb(212, 212, 212)", "checkedBorder": "rgb(231, 14, 104)", "dotBg": "rgb(231, 14, 104)", "disabledBg": "rgb(241, 241, 241)", "disabledBorder": "rgb(235, 235, 235)", "cardBorder": "rgb(231, 14, 104)", "cardBg": "rgb(254, 243, 247)", "cardRadius": "8px", "cardDescColor": "rgb(74, 74, 74)" }
   }
 }
