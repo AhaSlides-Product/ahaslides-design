@@ -27,6 +27,8 @@
     "./lib/aha-loader.js",
     "./lib/icons.js",
     "./lib/form-theme.js",
+    "./lib/carousel-theme.js",
+    "./lib/steps-theme.js",
     "./lib/aha-checkbox.js",
     "./lib/aha-button.js",
     "./lib/aha-close-button.js",
