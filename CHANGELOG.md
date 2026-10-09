@@ -35,6 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Audience guidance matches the shipped components: rule `slider-rail-flush` and criterion C20 allow an equal intended rail inset (`<aha-scale-slider>` insets 16px) and only fail an uneven leftover Ant margin; rule `slider-fill-hairline`, C18, C32 and `border-weight` limit the one 10% value to tracks and panel hairlines and name the 20% edges (chip, dashed drop area, answer-row radio / checkbox control) (#209)
 ### Fixed
 - The loading spinner in `<aha-button>` renders at its intended 16px. Its size shared a selector list with an invalid `::slotted(...) svg` selector, so the whole rule was dropped and the spinner measured 131px and stretched the host. This fixes every `<aha-button loading>` (and so `<aha-audience-submit>` while busy), not only the audience Submit button (#209)
+- `state-check.mjs` counts the white second tone of the browser's own focus ring (`outline-style: auto`), which `getComputedStyle` does not expose, so that ring is no longer read as 1.00:1 on a dark deck; authored outlines are measured as before (#209)
 
 ## 0.146.0 — 2026-10-09
 ### Added

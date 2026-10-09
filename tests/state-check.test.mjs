@@ -54,3 +54,12 @@ test('a baseline entry covers one element in one state, and one the page no long
   assert.equal(fresh.length, everything.fresh.length - 1, 'the other findings on the page stay fresh');
   assert.deepEqual(resolved, [stale]);
 });
+
+test('the browser focus ring counts as visible on a dark deck because its second tone is white', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'state-check-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body style="margin:24px;background:#fff;font:14px sans-serif">
+<style>button{ font:inherit; padding:8px 16px; border:1px solid #E3E3E3; border-radius:8px; background:#fff; color:#1A1A1A } .dark{ background:#1A1A1A; padding:16px }</style>
+<div class="dark"><button id="ua">Change answer</button></div>`);
+  const { findings } = await checkStates(pathToFileURL(file).href);
+  assert.ok(!findings.some(f => f.who === 'button#ua' && f.kind === 'focus'), 'no focus finding for the default ring');
+});
