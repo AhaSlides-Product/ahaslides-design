@@ -25,7 +25,7 @@
     },
     {
       "label": "Field",
-      "value": "the DS field unchanged: opaque white fill, fixed #1A1A1A ink (deck-independent, so a dark deck is never white-on-white); 56px with 16px text at size touch"
+      "value": "the DS field unchanged: opaque white fill, fixed #1A1A1A ink (deck-independent, so a dark deck is never white-on-white); 48px with 16px text at size lg"
     },
     {
       "label": "Lock",
@@ -61,7 +61,7 @@
       "name": "(slot)",
       "type": "element",
       "default": "—",
-      "desc": "One DS field: <aha-counted-input size=\"touch\">, <aha-counted-input type=\"number\" maxlength=\"none\" size=\"touch\">, <aha-counted-textarea size=\"touch\"> or <aha-select size=\"touch\">"
+      "desc": "One DS field: <aha-counted-input size=\"lg\">, <aha-counted-input type=\"number\" maxlength=\"none\" size=\"lg\">, <aha-counted-textarea size=\"lg\"> or <aha-select size=\"lg\">"
     }
   ],
   "opinion": {
@@ -121,7 +121,7 @@
       "labelSize": "16px",
       "labelInk": "rgb(26, 26, 26)",
       "gap": "8px",
-      "fieldHeight": "56px",
+      "fieldHeight": "48px",
       "named": "Your nickname"
     }
   }
