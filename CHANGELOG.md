@@ -24,6 +24,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.134.0 — 2026-10-08
 ### Changed
+- Toast and Notification status icons are the DS stroke glyphs (info, check-circle, warning-circle, x-circle) in `--aha-icon-default` `#4A4A4A`, not antd's filled ones; importing `toast-theme` / `notification-theme` adds the rule so default `message.success()` calls get them, and `dsToastIcon` / `dsNotificationIcon` return an `<aha-icon>` for the `icon` option (#197)
+- Notification title is SemiBold 600 (was 400); `notification-theme` adds one `.ant-notification-notice-title` rule (#197)
+- `modalTheme` and `drawerTheme`: the antd Button is 36px, the DS `md` size (it was 32px) (#197)
 - `carouselTheme`: the active dot is Vivid Pink. antd drew a white overlay over it that no token reaches, so importing the module adds one `.ant-carousel .slick-dots` rule (`carouselDotsCss`); rest dots are grey 50 (#197)
 - `formTheme` validation messages use the field error row: a 12px x-circle glyph and 12px (`--aha-size-sm`) text, as Input; importing the module adds one `.ant-form-item-explain-error` rule (`formErrorCss`). `<aha-tag checkable size="large" checked>` labels are the link pink `--aha-text-link-hover` `#DB005B`, the step that passes 4.5:1 on the pale pink fill, as the secondary button hover (#197)
 - `formTheme`: the antd Button is 36px, the DS `md` size (it was 32px) (#197)
