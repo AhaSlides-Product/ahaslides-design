@@ -14,6 +14,8 @@ cd domain
 CLOUDFLARE_API_TOKEN=<token> CLOUDFLARE_ACCOUNT_ID=<account id> npx wrangler deploy
 ```
 
+This token cannot write zone routes, so wrangler uploads the script and then reports a 403 on the route step. The custom domain is already attached and that 403 is harmless; to attach it afresh, `PUT /accounts/<account id>/workers/domains` with `{"hostname":"design.ahaslides.io","service":"ahaslides-design-docs","environment":"production","zone_name":"ahaslides.io"}`.
+
 The token is `CLOUDFLARE_WORKERS_API_TOKEN` in the fleet SSM param `ahaslides-slide-types-market-place/env`.
 
 ## Revert
