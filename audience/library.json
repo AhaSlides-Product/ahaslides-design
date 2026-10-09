@@ -211,7 +211,7 @@
    "name": "SecondaryButton",
    "element": "<aha-button variant=\"secondary-deck\" size=\"touch\">",
    "kind": "Action",
-   "what": "The audience phone's SECONDARY action: `<aha-button variant=\"secondary-deck\" size=\"touch\">`, 48px high, white fill, 1px edge and label in the dark text ink (#1A1A1A, 16.7:1 on white) on every deck, light or dark, a 5% ink tint on hover and 10% on press. Three forms: text only, icon + text (glyph in the `icon` slot) and icon only (`icon-only`, a 48 x 48 square, needs `aria-label`).",
+   "what": "The audience phone's SECONDARY action: `<aha-button variant=\"secondary-deck\" size=\"touch\">`, 48px high, white fill, 1px edge and label in the dark text ink (#1A1A1A, 17.4:1 on white) on every deck, light or dark, a 5% ink tint on hover and 10% on press. Three forms: text only, icon + text (glyph in the `icon` slot) and icon only (`icon-only`, a 48 x 48 square, needs `aria-label`).",
    "useWhen": "A real but lesser action beside the one primary: upload a photo, change an answer, add another. Pick it when the action needs a visible container; pick the tertiary when it should recede.",
    "notFor": "The submit (that is `<aha-audience-submit>`, the one primary) or a low-emphasis action (skip, back, remove: use `tertiary-deck`). Never two equal-weight buttons on one screen.",
    "replaces": null,
