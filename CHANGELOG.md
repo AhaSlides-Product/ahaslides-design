@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.148.0 — 2026-10-09
+### Changed
+- `<aha-icon>` now draws every stroke at the width paired with its size (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px), whatever the glyph's viewBox. Before, the pairing was declared but never applied, so 16-viewBox glyphs rendered 1.125px at 12px, 2.25px at 24px and 3px at 32px, and 24-viewBox slide-type glyphs rendered 1.5px at 24px. An off-grid size takes the nearest on-grid stroke. `lib/icons.js` now exports `LINE` and `strokeWidthFor`, and can be imported outside a browser. (#PR)
+### Added
+- Icon library: a "Stroke by size" section showing one glyph at all four sizes with its stroke, and `tests/icon-stroke.test.mjs` measuring the rendered stroke for 16- and 24-viewBox glyphs at each size. The icon feeds (`icons.llms.txt`, `icons.agent.json`), contract and anti-slop wording state the rule. (#PR)
+
 ## 0.146.0 — 2026-10-09
 ### Added
 - Logo library: a Favicon section after The Splash, with `favicon-32.png`, `favicon-180.png` (apple-touch, white ground), `favicon-512.png` and `favicon.ico` (16, 32, 48), each with copy and download and a usage line; `node favicons.mjs` rebuilds them from `logo/thesplash.svg` (#218)

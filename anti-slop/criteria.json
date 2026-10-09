@@ -184,7 +184,7 @@
         {
           "id": "C2",
           "title": "On-grid size with its paired line-width token",
-          "test": "Size is one of the four on-grid values — 12 / 16 / 24 / 32 — via the icon's size prop, so its paired line width (1 / 1.5 / 2 / 2.5) comes with it; never an off-grid size (no 20px) and never a hardcoded one-off stroke width. A glyph may be drawn by hand only when the library has no suitable icon, and then its stroke follows the size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px."
+          "test": "Size is one of the four on-grid values — 12 / 16 / 24 / 32 — via the icon's size prop, so the runtime draws its paired line width (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) whatever the glyph's viewBox; never an off-grid size (no 20px) and never a hardcoded one-off stroke width. A glyph may be drawn by hand only when the library has no suitable icon, and then its stroke follows the size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px."
         },
         {
           "id": "C3",
