@@ -139,6 +139,10 @@ test('a logo file outside any header or brand slot is not a lockup', () => {
   assert.deepEqual(rulesOf(source), []);
 });
 
+test('a logo in a footer-logo class is not a lockup', () => {
+  assert.deepEqual(rulesOf('<img class="footer-logo" src="/logo/thesplash.svg" alt="AhaSlides">'), []);
+});
+
 test('the hand-set lockup rule is suppressed with a reason', () => {
   const source = '<header><img src="/logo/thesplash.svg" alt=""></header> <!-- ds-lint-allow: lockup (logo gallery tile) -->';
   assert.deepEqual(rulesOf(source), []);
