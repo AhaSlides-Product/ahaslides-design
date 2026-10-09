@@ -23,7 +23,7 @@
     { "name": "value", "type": "string | string[]", "default": "—", "desc": "Selected value(s); array when mode=multiple" },
     { "name": "showSearch", "type": "boolean", "default": "true", "desc": "Type to filter options" },
     { "name": "mode", "type": "single | multiple | tags", "default": "single", "desc": "Selection cardinality" },
-    { "name": "size", "type": "small | default | large | touch", "default": "default", "desc": "Control height 24 / 40 / 48; touch is 56 with 16px text and 16px side padding, for the audience phone inside <aha-audience-field>" },
+    { "name": "size", "type": "small | default | large | touch", "default": "default", "desc": "Control height 24 / 40 / 48; touch is 56 with 16px text and 16px side padding (the audience phone now uses lg)" },
     { "name": "status", "type": "error | warning", "default": "—", "desc": "Validation border colour" },
     { "name": "error message", "type": "<aha-field-error icon>", "default": "—", "desc": "Pair status=\"error\" with a sibling <aha-field-error icon message=\"…\"> below the control (12px glyph + --aha-size-sm text) and set aria-invalid=\"true\" + aria-describedby=\"<error id>\" on the control" },
     { "name": "allowClear", "type": "boolean", "default": "false", "desc": "Show an × to clear the selection" },

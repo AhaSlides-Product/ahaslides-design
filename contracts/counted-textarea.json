@@ -29,7 +29,7 @@
     { "name": "maxlength", "type": "number", "default": "150", "desc": "Character cap (settings-lab default 150); drives the focus-only counter (shows current/max). Pass `none` to drop the cap and hide the counter" },
     { "name": "minrows", "type": "number", "default": "2", "desc": "Rows shown at rest — the field never shrinks below this" },
     { "name": "maxrows", "type": "number", "default": "5", "desc": "Rows the field grows to before it scrolls internally instead of growing" },
-    { "name": "size", "type": "default | touch", "default": "default", "desc": "touch is the audience phone field inside <aha-audience-field>: 16px text, padding 12 16, radius 8" },
+    { "name": "size", "type": "default | touch", "default": "default", "desc": "touch is a 16px-text phone field: 16px text, padding 12 16, radius 8" },
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
     { "name": "error-message", "type": "string", "default": "—", "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the control through aria-describedby (aria-invalid is set by status=\"error\")" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },

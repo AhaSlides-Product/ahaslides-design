@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.148.1 — 2026-10-09
+### Changed
+- The audience field compositions now use the foundation fields at `size="lg"` (48px) instead of `size="touch"` (56px): `<aha-counted-input>` (line and number), `<aha-counted-textarea>` and `<aha-select>` inside `<aha-audience-field>`, in the element docs, contract, library entry and HTML/React/Vue snippets. The foundation `touch` rules stay for other consumers; buttons keep `size="touch"`. At lg the field text is 14px, the counter reads used/max and the textarea uses its default padding (no change to the foundation components). (#220)
+
 ## 0.148.0 — 2026-10-09
 ### Changed
 - `<aha-icon>` now draws every stroke at the width paired with its size (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px), whatever the glyph's viewBox. Before, the pairing was declared but never applied, so the stroke scaled with the glyph's viewBox and size: 16-viewBox glyphs drew 1.25px at 16px, and 24-viewBox slide-type glyphs drew 1.25px at 24px and 1.67px at 32px. An off-grid size takes the nearest on-grid stroke. `lib/icons.js` now exports `LINE` and `strokeWidthFor`, and can be imported outside a browser. (#219)
