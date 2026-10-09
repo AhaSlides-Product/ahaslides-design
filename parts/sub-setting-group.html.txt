@@ -1,7 +1,7 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-sub-setting-group> is the SAME shared custom element React and Vue consume — here in its
-     native form. It nests DEPENDENT settings under a parent toggle: 8px above (binds tighter than
-     the 16 between siblings) + a 24px indent — no left border, no card. The host owns visibility:
+     native form. It nests DEPENDENT settings under a parent toggle: 16px below the parent (binds tighter than
+     the 24 between siblings) + a 24px indent — no left border, no card. The host owns visibility:
      add `hidden` when the parent is off. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
@@ -20,7 +20,7 @@
       <aha-switch slot="control" id="parent" checked></aha-switch>
     </aha-settings-item>
 
-    <!-- its dependent sub-settings — indented 24px, bound 8px under the parent, hidden when off -->
+    <!-- its dependent sub-settings — indented 24px, bound 16px under the parent, hidden when off -->
     <aha-sub-setting-group id="sub">
       <aha-settings-item label="Seconds per question">
         <aha-input slot="control" value="30"></aha-input>

@@ -22,12 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.125.0 — 2026-10-08
-### Added
-- Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
-- Tokens: `--aha-shadow-floating` (the Notification elevation), `--aha-layer-floating` (1100) and `--aha-floating-inset-bottom` (88px) for fixed floating cards. (#184)
+## 0.130.0 — 2026-10-08
 ### Changed
-- Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default (#1A1A1A, was #1F1330), description and caption in text-secondary (#4A4A4A, was #6B6478), radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
+- Settings spacing: sibling settings sit 24px apart (was 16) in `aha-setting-group`, `aha-sub-setting-group` and `aha-settings-list`; a sub-setting group sits 16px below its parent (was 8) with the same 24px indent. Rule SETTINGS-13, criterion C5 and the sub-setting conformance probe follow (#192)
+- Settings labels: a setting label is regular 400 in primary text; a label inside a sub-setting group is regular 400 in secondary text, set through `--aha-setting-label-color` on `aha-settings-item`, `aha-setting-row` and `aha-mode-field`. Stale "semibold row label" text removed from contracts (#192)
+- Group header: no toggle, switch, input, select or button in the `aha-setting-group` / `aha-section-header` action slot, plain text such as a count only; the section-header demos and snippets no longer show a master switch. A group title is only for a real group of two or more settings (#192)
+- Icons: criterion C2, the icon contract and the agent skill say a glyph may be drawn only when the library has no suitable icon, with strokes 12px 1, 16px 1.5, 24px 2, 32px 2.5 (#192)
+- Settings list: the standing consequence line is documented and demoed as an opt-in variant, not the default (#192)
+### Added
+- Anti-slop criteria C16 (group title and header controls) and C17 (setting label weight and colour, sibling gap) on the settings surface (#192)
+
+## 0.129.0 — 2026-10-08
+### Changed
+- Colour rules guideline (`brand/visual-identity-colour-rules.html`) is now v9: illustrations use Vivid Pink tints plus Darker Pink, white, ink and grey; our own illustrations, customer and integration logos and file-type icons follow the rules; black is `#1A1A1A` (#207)
 
 ## 0.121.0 — 2026-10-08
 ### Changed
