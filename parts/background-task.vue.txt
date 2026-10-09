@@ -1,5 +1,5 @@
 // main.ts — register the elements + mark aha-* as custom elements
-import '@ahaslides-product/design/aha-background-task';   // registers <aha-background-task> (+ <aha-button>, <aha-close-button>)
+import '@ahaslides-product/design/aha-background-task';   // registers <aha-background-task> (+ <aha-button>)
 import '@ahaslides-product/design/icons';
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
@@ -12,7 +12,7 @@ const emit = defineEmits(['cancel', 'dismiss']);
 <template>
   <aha-background-task :state="state" :heading="fileName" :value="percent" :caption="`${percent}%`"
     @dismiss="emit('dismiss')">
-    <img slot="icon" src="https://ahaslides-product.github.io/ahaslides-design/logo/microsoft-powerpoint.svg" width="24" height="24" alt="">
+    <aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon>
     <aha-button v-if="state === 'progress'" slot="action" variant="tertiary" size="sm" @click="emit('cancel')">Cancel</aha-button>
   </aha-background-task>
 </template>

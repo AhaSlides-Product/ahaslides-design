@@ -15,9 +15,9 @@
 
 <script>
 window.__sl = {
-  token: { colorPrimary:'#6A1EBB', borderRadius:8, fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
-  components:{ Slider:{ railBg:'#F1F1F1', railHoverBg:'#E3E3E3', trackBg:'#6A1EBB', trackHoverBg:'#5715A0',
-    handleColor:'#6A1EBB', handleActiveColor:'#5715A0', dotActiveBorderColor:'#6A1EBB', railSize:4, handleSize:14, handleSizeHover:16 } }
+  token: { colorPrimary:'#E70E68', borderRadius:8, fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  components:{ Slider:{ railBg:'#F1F1F1', railHoverBg:'#E3E3E3', trackBg:'#E70E68', trackHoverBg:'#DB005B',
+    handleColor:'#E70E68', handleActiveColor:'#DB005B', dotActiveBorderColor:'#E70E68', railSize:4, handleSize:14, handleSizeHover:16 } }
 };
 </script>
 
@@ -84,6 +84,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__sl}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__sl)}><Demo /></ConfigProvider>
 );
 </script>

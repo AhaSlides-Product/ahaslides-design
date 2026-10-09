@@ -31,7 +31,7 @@ A single-block panel growing past 8–10 settings is a signal to re-group or spl
 This is the single most common AI failure — do not give every setting a description line.
 
 1. **Name only** — the default; carries most settings.
-2. **`?` tooltip** — the home for any "what/why/how it interacts" elaboration. Costs no standing weight. The glyph is a question-mark from the shared Icon (never an info circle), same glyph/size/placement across the panel, shared dark-navy tooltip with the arrow on the icon. Tooltip copy follows UXW-9 in the UX writing guideline (one short idea).
+2. **`?` tooltip** — the home for any "what/why/how it interacts" elaboration. Costs no standing weight. The glyph is a question-mark from the shared Icon (never an info circle), same glyph/size/placement across the panel, shared black tooltip with the arrow on the icon. Tooltip copy follows UXW-9 in the UX writing guideline (one short idea).
 3. **Help text** — only a must-see consequence that is hard to undo (≤90 chars, states the consequence, ends with a period). **Default zero per panel.** Never a `?` and a help line on the same setting.
 
 **Ship gate:** count the help-text lines. More than one is almost always the anti-pattern.

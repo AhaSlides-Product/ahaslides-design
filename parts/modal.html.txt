@@ -32,7 +32,7 @@
              style: { display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' } },
       'Learn more ', external && h('aha-icon', { name: 'system-arrow-square-out', size: '14' })),
     h('span', { style: { display: 'inline-flex', gap: 8 } },
-      h(Button, { onClick: close }, 'Cancel'),
+      h(Button, { type: danger ? 'primary' : 'default', onClick: close }, 'Cancel'),
       h(Button, { type: 'primary', danger }, 'Apply')));
 
   function App() {
@@ -43,7 +43,7 @@
       h(Button, { onClick: () => setConfirm(true) }, 'Delete team…'),
       h(Button, { type: 'primary', onClick: () => setAction(true) }, 'Share course…'),
 
-      // Confirmation modal — always `simple` (504px · 75vh); danger tints Apply.
+      // Confirmation modal — always `simple` (504px · 75vh); in the danger context Cancel is the primary and Apply the dark danger button.
       h(Modal, {
         open: confirm, closable: false, title: dismissibleModalTitle(h, 'Delete this team?', () => setConfirm(false)),
         width: modalWidth('simple'), styles: modalStyles('simple'), centered: true,

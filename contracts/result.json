@@ -12,10 +12,10 @@
   "tokensUsed": ["color-primary", "color-success", "color-error", "color-warning", "color-info", "text-default", "text-tertiary"],
   "spec": [
     { "label": "Icon", "value": "48px DS glyph, coloured by status (or an `icon` override)" },
-    { "label": "Success", "value": "check-circle · #16C49A" },
-    { "label": "Error / 500", "value": "x-circle / cloud-disconnected · #F5222D" },
-    { "label": "Warning / 403", "value": "warning-circle / lock · #FF7747" },
-    { "label": "Info / 404", "value": "info / magnifying-glass · #9BB3E9" },
+    { "label": "Success", "value": "check-circle · #1A1A1A" },
+    { "label": "Error / 500", "value": "x-circle / cloud-disconnected · #1A1A1A" },
+    { "label": "Warning / 403", "value": "warning-circle / lock · #1A1A1A" },
+    { "label": "Info / 404", "value": "info / magnifying-glass · #1A1A1A" },
     { "label": "Title", "value": "24/32 SemiBold #1A1A1A, centred" },
     { "label": "Subtitle", "value": "14/21 Regular #8A8A8A" }
   ],
@@ -57,7 +57,7 @@
   },
   "selfCheck": [
     { "label": "48px status glyph from DS icons", "verdict": "PASS" },
-    { "label": "success #16C49A · error #F5222D · warning/403 #FF7747 · info/404 #9BB3E9 · 500 #F5222D", "verdict": "PASS" },
+    { "label": "success #1A1A1A · error #1A1A1A · warning/403 #1A1A1A · info/404 #1A1A1A · 500 #1A1A1A", "verdict": "PASS" },
     { "label": "status success/error/info/warning/404/403/500 each resolve a DS glyph", "verdict": "PASS" },
     { "label": "icon attribute overrides the status glyph", "verdict": "PASS" },
     { "label": "title 24/32 #1A1A1A", "verdict": "PASS" },
@@ -68,6 +68,6 @@
     "ready": "!!(document.querySelector('aha-result[data-probe]') && document.querySelector('aha-result[data-probe]').shadowRoot && document.querySelector('aha-result[data-probe]').shadowRoot.querySelector('.title'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-result[data-probe]');var r=el&&el.shadowRoot;var ic=r&&r.querySelector('.icon');var gl=r&&r.querySelector('aha-icon');var t=r&&r.querySelector('.title');var s=r&&r.querySelector('.subtitle');var sc=ic?getComputedStyle(ic):null;var tc=t?getComputedStyle(t):null;var ss=s?getComputedStyle(s):null;return{iconColor:sc?sc.color:null,glyph:gl?gl.getAttribute('name'):null,titleColor:tc?tc.color:null,titleSize:tc?tc.fontSize:null,subtitleColor:ss?ss.color:null};})()",
-    "expect": { "iconColor": "rgb(22, 196, 154)", "glyph": "system-check-circle", "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "subtitleColor": "rgb(138, 138, 138)" }
+    "expect": { "iconColor": "rgb(26, 26, 26)", "glyph": "system-check-circle", "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "subtitleColor": "rgb(138, 138, 138)" }
   }
 }

@@ -102,7 +102,7 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6 → the Colour page's Brand slots (the DS has no categorical chart set): brand-1 purple · brand-2 pink · brand-4 mint · brand-6 coral · brand-5 indigo · brand-10 periwinkle; tints → bg-accent · brand-12 · bg-positive · bg-warning-subtle · brand-11 · bg-informative · Other / non-correct → icon-muted · correct → color-success · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → color-success · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
@@ -122,7 +122,7 @@
     },
     {
       "label": "Donut · radial · tree map",
-      "value": "6 slices max (the rest fold into \"Other (n)\") · donut ring 38% · leader-line callouts up to 5 slices from 480px wide, else a legend · radial 270° rings on a nice scale · squarified tree map with tint chips"
+      "value": "6 slices max (the rest fold into \"Other (n)\") · donut ring 38% · slice 1 alone takes series 1 and later slices cycle series 2–4 (deck: the deck colours after the first), so the last slice never matches the first · 2px slice gap in --aha-viz-slice-gap (default the container white; on a deck the inverse ink) · leader-line callouts up to 5 slices from 480px wide, else a legend · radial 270° rings on a nice scale · squarified tree map with tint chips"
     },
     {
       "label": "Bell · radar · quadrant",
@@ -454,7 +454,7 @@
     "expect": {
       "role": "figure",
       "ariaLabel": "Q4 priorities",
-      "fillBg": "rgb(106, 30, 187)",
+      "fillBg": "rgb(231, 14, 104)",
       "trackHeight": "38px",
       "trackRadius": "8px",
       "valueSize": "20px",

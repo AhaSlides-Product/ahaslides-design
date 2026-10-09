@@ -2,13 +2,16 @@
      Popconfirm is a COMPOSITE (antd, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It consumes
      the SAME shared `popconfirmTheme` the React/Vue wrappers use, so it renders the DS V3
-     look (radius-8 popover, primary confirm, #E3E3E3 cancel border). No JSX — React.createElement. -->
+     look (radius-8 popover, 28px action buttons). The confirm is destructive, so Cancel is the
+     primary button and Delete the dark danger button. No JSX — React.createElement. -->
 <div id="root"></div>
 <script type="module">
   import React from 'https://esm.sh/react@18';
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
-  import { ConfigProvider, Popconfirm, Button } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
-  import { popconfirmTheme } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/popconfirm-theme.js';
+  import { ConfigProvider, Popconfirm } from 'https://esm.sh/antd@6?deps=react@18,react-dom@18';
+  import { popconfirmTheme, destructiveConfirm } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/popconfirm-theme.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';        // registers <aha-icon>
 
   const h = React.createElement;
 
@@ -19,9 +22,10 @@
         description: 'This cannot be undone.',
         okText: 'Delete', cancelText: 'Cancel',
         placement: 'top',        // top | bottom | left | right
-        okType: 'danger',        // 'primary' (purple) default; 'danger' = red confirm
+        icon: h('aha-icon', { name: 'system-warning-circle', size: 16, style: { marginInlineEnd: 8 } }),
+        ...destructiveConfirm,   // destructive: Cancel is the primary, Delete the dark danger button
         onConfirm: () => console.log('confirmed'),
-      }, h(Button, { danger: true }, 'Delete slide'))
+      }, h('aha-button', { variant: 'secondary', size: 'md' }, 'Delete slide'))
     )
   );
 </script>

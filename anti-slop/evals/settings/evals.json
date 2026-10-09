@@ -355,17 +355,17 @@
     },
     {
       "id": 15,
-      "prompt": "Review the ? help tooltip on an 'Options' setting label. When it opens, the tooltip's arrow does not point at the ? icon (it floats off to the side), the tooltip text is in a large body/heading-size font, and the tooltip background is a plain grey/black instead of the standard dark-navy tooltip colour.",
+      "prompt": "Review the ? help tooltip on an 'Options' setting label. When it opens, the tooltip's arrow does not point at the ? icon (it floats off to the side), the tooltip text is in a large body/heading-size font, and the tooltip background is a custom mid-grey instead of the standard black tooltip colour.",
       "files": [],
       "label": "bad-example",
-      "notes": "Reported by Lan (BAD screenshot): ? tooltip with a mis-anchored arrow, oversized font, and wrong background colour. The GOOD counterpart uses the default a-tooltip (arrow on the icon, small font, dark-navy bg) as in the shipped MarkQuestionLabel.vue. BAD example for C3's styling/arrow rule.",
-      "expected_output": "FAILs C3 (styling & arrow). The ? help tooltip must use the standard/shared tooltip: the default dark-navy background token (not grey/black), the small default tooltip font size (not body/heading size), and an arrow anchored to point directly at the ? icon. Fix: reuse the shared tooltip component and anchor its placement to the icon; don't restyle background or font. Overall NEEDS FIX.",
+      "notes": "Reported by Lan (BAD screenshot): ? tooltip with a mis-anchored arrow, oversized font, and wrong background colour. The GOOD counterpart uses the default a-tooltip (arrow on the icon, small font, black bg) as in the shipped MarkQuestionLabel.vue. BAD example for C3's styling/arrow rule.",
+      "expected_output": "FAILs C3 (styling & arrow). The ? help tooltip must use the standard/shared tooltip: the default black background token `--aha-bg-dark` (not a custom grey), the small default tooltip font size (not body/heading size), and an arrow anchored to point directly at the ? icon. Fix: reuse the shared tooltip component and anchor its placement to the icon; don't restyle background or font. Overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C3 is marked FAIL",
         "Flags that the tooltip arrow must point at / be anchored to the ? icon (not floating off to the side)",
         "Flags the oversized font (must be the small default tooltip font size)",
-        "Flags the wrong background (must be the standard dark-navy tooltip token, not grey/black)"
+        "Flags the wrong background (must be the standard black tooltip token, not a custom grey)"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -381,11 +381,11 @@
     },
     {
       "id": 16,
-      "prompt": "Review the ? help tooltip on a setting label. It opens with its arrow pointing directly at the ? icon, the text in the small default tooltip font, and the standard dark-navy tooltip background.",
+      "prompt": "Review the ? help tooltip on a setting label. It opens with its arrow pointing directly at the ? icon, the text in the small default tooltip font, and the standard black tooltip background.",
       "files": [],
       "label": "good-control",
       "notes": "Positive control (GOOD screenshot from Lan) matching the shipped MarkQuestionLabel.vue default a-tooltip. Counterpart to eval 15; ensures the judge accepts a correctly-styled ? tooltip.",
-      "expected_output": "C3 PASSES for the tooltip styling — this is the correct shared/default tooltip (arrow anchored to the icon, small font, dark-navy background). The judge should NOT flag a correctly-styled standard tooltip.",
+      "expected_output": "C3 PASSES for the tooltip styling — this is the correct shared/default tooltip (arrow anchored to the icon, small font, black background). The judge should NOT flag a correctly-styled standard tooltip.",
       "assertions": [
         "C3 is marked PASS (the tooltip styling is correct)",
         "Does not flag the tooltip background, font size, or arrow anchoring"

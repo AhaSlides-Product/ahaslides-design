@@ -14,10 +14,10 @@
     { "label": "Zone", "value": "1px dashed border-strong #D4D4D4, radius 8, pad 24 16" },
     { "label": "Rest text", "value": "text-tertiary #8A8A8A, 14/21" },
     { "label": "Hover / drag", "value": "border + accent tint color-primary / bg-accent (motion-mid, persistent zone)" },
-    { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (<aha-close-button>, 20 × 20, 14px system-x)" },
+    { "label": "File row", "value": "1px border #E3E3E3, radius 8, file icon + name + the shared remove ✕ (tertiary icon-only <aha-button> xs, 20 × 20, 14px system-x)" },
     { "label": "Uploading", "value": "4px pill progress track (split), color-primary fill, width animates (motion-slow)" },
-    { "label": "Error item", "value": "border + text color-error #F5222D on bg-negative, warning glyph" },
-    { "label": "Done item", "value": "check-circle glyph color-success #16C49A" },
+    { "label": "Error item", "value": "border + text color-error #1A1A1A on bg-negative, warning glyph" },
+    { "label": "Done item", "value": "check-circle glyph color-success #1A1A1A" },
     { "label": "Picture-card", "value": "104px tiles + dashed add-box; add-box is the trigger" }
   ],
   "props": [
@@ -77,6 +77,6 @@
     "ready": "!!(document.querySelector('aha-uploader[data-probe]') && document.querySelector('aha-uploader[data-probe]').shadowRoot && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.zone') && document.querySelector('aha-uploader[data-probe]').shadowRoot.querySelector('.row.error'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-uploader[data-probe]');var sr=el.shadowRoot;var z=sr.querySelector('.zone');var zs=getComputedStyle(z);var errName=sr.querySelector('.row.error .name');var es=getComputedStyle(errName);var fill=sr.querySelector('.row .bar > i');var fs=fill?getComputedStyle(fill):null;var hasRemove=!!sr.querySelector('.rm[part=\"remove\"]');return{radius:zs.borderTopLeftRadius,border:zs.borderTopColor,zoneColor:zs.color,errorColor:es.color,progressFill:fs?fs.backgroundColor:null,hasRemove:hasRemove};})()",
-    "expect": { "radius": "8px", "border": "rgb(212, 212, 212)", "zoneColor": "rgb(138, 138, 138)", "errorColor": "rgb(245, 34, 45)", "progressFill": "rgb(106, 30, 187)", "hasRemove": true }
+    "expect": { "radius": "8px", "border": "rgb(212, 212, 212)", "zoneColor": "rgb(138, 138, 138)", "errorColor": "rgb(26, 26, 26)", "progressFill": "rgb(231, 14, 104)", "hasRemove": true }
   }
 }

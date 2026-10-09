@@ -64,7 +64,7 @@
         {
           "id": "C1",
           "title": "Real brand identity, never a placeholder",
-          "test": "The brand mark + wordmark, and any third-party brand logo, are taken from the Logo library (ahaslides-product.github.io/ahaslides-design/foundations/logo.html, files at /logo/<file>), never redrawn, hand-inlined, recoloured, or replaced by a coloured letter tile or initials square."
+          "test": "The brand mark + wordmark, and any third-party brand logo, are taken from the Logo library (design.ahaslides.io/foundations/logo.html, files at /logo/<file>), never redrawn, hand-inlined, recoloured, or replaced by a coloured letter tile or initials square."
         },
         {
           "id": "C2",
@@ -474,7 +474,7 @@
         {
           "id": "C2",
           "title": "Popover anatomy is exactly correct",
-          "test": "**Rule.** The popover is, top to bottom: **crown badge** (the purple-circle custom `CrownBadge`, 16×16 SVG — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the line **\"Unlock with the _\\<Plan\\> plan_.\"** (plan name bold); then a **single** full-width (`block`) primary **Upgrade** CTA. No secondary \"View plans\" button, no dismiss link, no…"
+          "test": "**Rule.** The popover is, top to bottom: **crown badge** (the Vivid Pink circle custom `CrownBadge`, 16×16 SVG — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the line **\"Unlock with the _\\<Plan\\> plan_.\"** (plan name bold); then a **single** full-width (`block`) primary **Upgrade** CTA. No secondary \"View plans\" button, no dismiss link, no…"
         },
         {
           "id": "C3",
@@ -693,7 +693,7 @@
           "use": "the shared CSAT widget (C3)"
         },
         {
-          "source": "contracts/close-button.json",
+          "source": "contracts/button.json",
           "use": "the shared dismiss ✕ (C6)"
         }
       ],
@@ -716,7 +716,7 @@
         {
           "id": "C4",
           "title": "Inline banners use the DS V3 Alert, not a bare AntD Alert",
-          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its own DS `bg-surface` / `border` / `icon` token **and a distinct glyph** (colour is never the only…"
+          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its DS `bg-surface` / `icon` token with no border **and a distinct glyph** (colour is never the only…"
         },
         {
           "id": "C5",
@@ -726,7 +726,7 @@
         {
           "id": "C6",
           "title": "One shared dismiss ✕ on banners, toasts, notifications and overlays",
-          "test": "**Rule.** Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared `<aha-close-button>` (`contracts/close-button.json`): a 20 × 20 hit area (radius 6) with the 14px `system-x` glyph in #8A8A8A (`--aha-icon-muted`) that turns #1A1A1A on `--aha-bg-hover` over 100ms, top-pinned with its centre 2.5px above the first line's centre so it stays put when the text wraps, and 2px into the container's end padding (Info box: 15px from the right, 11px from the top). A sticky Toast takes it through `dismissibleToast`, a Notification through `dismissibleTitle` with `closable: false`. **FAIL** when any of these surfaces hand-rolls a ✕ (a bare `<button>×</button>`, an inline SVG, a raw icon with its own size or hover, a tertiary or 28 × 28 `<aha-button>` holding a 16px ✕, a circular ✕ — a disc, a 50% or pill radius, or `system-x-circle` used as a control rather than a status icon), shows antd's own message or notification close, or centres the ✕ on the whole card so it drifts down when the text wraps. Modal and Drawer carry it in the title through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. **N/A** when the material has no dismissible feedback surface."
+          "test": "**Rule.** Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared `tertiary icon-only <aha-button> (size xs)` (`contracts/button.json`): a 20 × 20 hit area (radius 6) with the 14px `system-x` glyph in #8A8A8A (`--aha-icon-muted`) that turns #1A1A1A (`--aha-text-default`) on a #F7F7F7 hover fill (`--aha-bg-hover`), top-pinned with its centre 2.5px above the first line's centre so it stays put when the text wraps, and 2px into the container's end padding (Info box: 15px from the right, 11px from the top). A sticky Toast takes it through `dismissibleToast`, a Notification through `dismissibleTitle` with `closable: false`. **FAIL** when any of these surfaces hand-rolls a ✕ (a bare `<button>×</button>`, an inline SVG, a raw icon with its own size or hover, a tertiary or 28 × 28 `<aha-button>` holding a 16px ✕, a circular ✕ — a disc, a 50% or pill radius, or `system-x-circle` used as a control rather than a status icon), shows antd's own message or notification close, or centres the ✕ on the whole card so it drifts down when the text wraps. Modal and Drawer carry it in the title through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. **N/A** when the material has no dismissible feedback surface."
         }
       ]
     },
@@ -794,7 +794,7 @@
         {
           "id": "C7",
           "title": "Destructive confirm uses a danger-styled button",
-          "test": "**Rule.** A destructive confirmation uses `okButtonProps={{ danger: true, loading: busy }}` — the **danger styling lives on the action button**, never on the title or body. For confirmations the title is a **question** (\"Delete this survey permanently?\"), and cancel is disabled while busy (`cancelButtonProps={{ disabled: busy }}`)."
+          "test": "**Rule.** A destructive confirmation uses `okButtonProps={{ danger: true, type: 'primary', loading: busy }}` — the **dark danger styling lives on the action button**, never on the title or body — and Cancel, the safe choice, is the primary button (`cancelButtonProps={{ type: 'primary', disabled: busy }}`), disabled while busy. For confirmations the title is a **question** (\"Delete this survey permanently?\")."
         }
       ]
     },
@@ -919,12 +919,12 @@
         {
           "id": "C20",
           "title": "Borders are hairlines and radius follows the DS scale",
-          "test": "A bounded white card has a 1px neutral border (`--aha-border` #E3E3E3) and 12px radius (`--aha-radius-lg`); a deck-owned surface (chip, field, track) a 1px `currentColor` 10% hairline, no 20% exception; dashed empty states 1px; option tiles, inputs and buttons 8px. FAIL on 2px (or heavier) outlines on cards, tiles, chips or inputs, on borders at heavy ink (e.g. 14–55% textColour at 2px), or on a rectangular container above 12px radius."
+          "test": "A bounded white card has a 1px neutral border (`--aha-border-default` #E3E3E3) and 12px radius (`--aha-radius-lg`); a deck-owned surface (chip, field, track) a 1px `currentColor` 10% hairline, no 20% exception; dashed empty states 1px; option tiles, inputs and buttons 8px. FAIL on 2px (or heavier) outlines on cards, tiles, chips or inputs, on borders at heavy ink (e.g. 14–55% textColour at 2px), or on a rectangular container above 12px radius."
         },
         {
           "id": "C21",
           "title": "One fixed dark ink: #1A1A1A",
-          "test": "Wherever the slide uses a fixed dark ink (labels on a light fill, the dark half of a contrast pick, a fallback ink), it is `--aha-text-default` #1A1A1A. FAIL on `#1A1A2E` / `--aha-brand-3` / `--aha-indigo-100` used as text ink, or on a second near-black (`#000`, `#111`) used alongside it."
+          "test": "Wherever the slide uses a fixed dark ink (labels on a light fill, the dark half of a contrast pick, a fallback ink), it is `--aha-text-default` #1A1A1A. FAIL on the retired indigo `#1A1A2E` used as text ink, or on a second near-black (`#000`, `#111`) used alongside it."
         },
         {
           "id": "C22",
@@ -1119,12 +1119,12 @@
         {
           "id": "C32",
           "title": "Borders are hairlines and radius follows the DS scale",
-          "test": "A bounded white card has a 1px `--aha-border` (#E3E3E3) border and 12px radius; a deck field, track or panel a 1px 10% ink border (a tappable chip, the dashed drop area and an answer row's radio / checkbox control take the ink at 20%); the dashed image drop area is the one 2px edge, dashed; option tiles, inputs and the submit button 8px. FAIL on any other 2px (or heavier) outline, on outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
+          "test": "A bounded white card has a 1px `--aha-border-default` (#E3E3E3) border and 12px radius; a deck field, track or panel a 1px 10% ink border (a tappable chip, the dashed drop area and an answer row's radio / checkbox control take the ink at 20%); the dashed image drop area is the one 2px edge, dashed; option tiles, inputs and the submit button 8px. FAIL on any other 2px (or heavier) outline, on outlines at heavy ink (e.g. 55% textColour) on chips, cards or inputs, or on a rectangular container above 12px radius."
         },
         {
           "id": "C33",
           "title": "One fixed dark ink: #1A1A1A",
-          "test": "Any fixed dark ink — a label on a light accent, a fallback ink — is `--aha-text-default` #1A1A1A. FAIL on `#1A1A2E` / `--aha-brand-3` / `--aha-indigo-100` as text ink, or `#000` as the dark label on the accent."
+          "test": "Any fixed dark ink — a label on a light accent, a fallback ink — is `--aha-text-default` #1A1A1A. FAIL on the retired indigo `#1A1A2E` as text ink, or `#000` as the dark label on the accent."
         },
         {
           "id": "C34",

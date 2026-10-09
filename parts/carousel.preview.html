@@ -7,18 +7,17 @@
 <style>
   /* DS V3 slide panel — brand-tint surface, radius 8, bound to --aha-* tokens (never raw hex). */
   #react-root .aha-slide { box-sizing:border-box; height:160px; padding:24px; border-radius:var(--aha-radius-default);
-    background:var(--aha-purple-10); color:var(--aha-purple-60);
+    background:var(--aha-bg-accent); color:var(--aha-text-default);
     font-family:var(--aha-font-product); display:flex; flex-direction:column; justify-content:center; gap:6px; }
   #react-root .aha-slide h3 { margin:0; font-size:20px; font-weight:700; }
   #react-root .aha-slide p { margin:0; font-size:14px; color:var(--aha-text-secondary); }
   #react-root .ant-carousel { max-width:520px; }
   /* side dot positions need room beside the track */
   #react-root .ant-carousel.dp-left, #react-root .ant-carousel.dp-right { padding:0 22px; }
-  /* brand active dot (antd draws the dots; colour bound to the token) */
-  #react-root .ant-carousel .slick-dots li button { background:var(--aha-gray-50); opacity:1; }
-  #react-root .ant-carousel .slick-dots li.slick-active button { background:var(--aha-color-primary); }
+  /* carouselDotsCss, as carousel-theme.js injects it */
+  .ant-carousel .slick-dots li button{background:var(--aha-gray-70,#8A8A8A);opacity:1}.ant-carousel .slick-dots li button:focus-visible{outline:2px solid var(--aha-focus-ring,#E70E68);outline-offset:2px}.ant-carousel .slick-dots li.slick-active button,.ant-carousel .slick-dots li.slick-active::after{background:var(--aha-color-primary,#E70E68)}
   /* arrows tinted to brand text */
-  #react-root .ant-carousel .slick-arrow { color:var(--aha-purple-60); font-size:18px; }
+  #react-root .ant-carousel .slick-arrow { color:var(--aha-text-default); font-size:18px; }
 </style>
 
 <div id="react-root" class="pad"></div>
@@ -33,7 +32,7 @@
 <script>
 window.__car = {
   theme: {
-    token: { colorPrimary:'#6A1EBB', borderRadius:8, fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+    token: { colorPrimary:'#E70E68', borderRadius:8, fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
     components:{ Carousel:{ dotWidth:16, dotHeight:4, dotActiveWidth:28, dotGap:8, arrowSize:20, arrowOffset:12 } }
   },
   slides: [
@@ -101,6 +100,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__car.theme}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__car.theme)}><Demo /></ConfigProvider>
 );
 </script>

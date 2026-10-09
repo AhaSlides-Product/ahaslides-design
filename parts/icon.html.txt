@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      Call any glyph BY NAME — never inline an <svg>. One import loads <aha-icon> +
-     the 259-glyph registry; colour follows currentColor, size is 12 | 16 | 24 | 32. -->
+     the 304-glyph registry; colour follows currentColor, size is 12 | 16 | 24 | 32. -->
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';   // registers <aha-icon> + registry
 </script>
@@ -17,6 +17,6 @@
 </button>
 
 <!-- Colour is set on the wrapper; the glyph inherits it via currentColor. State = -filled asset. -->
-<span style="color: var(--aha-color-primary, #6A1EBB)">
+<span style="color: var(--aha-color-primary, #E70E68)">
   <aha-icon name="system-bookmark-simple-filled" size="24" label="Saved"></aha-icon>
 </span>

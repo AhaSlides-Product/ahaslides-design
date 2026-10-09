@@ -5,7 +5,7 @@
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-waiting-for-host.js';   // registers <aha-waiting-for-host>
   import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
-  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#6A1EBB'] });
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
 </script>
 
 <aha-waiting-for-host headline="Waiting for the host" subline="The question appears as soon as they start."></aha-waiting-for-host>
