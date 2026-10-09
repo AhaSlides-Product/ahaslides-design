@@ -22,7 +22,7 @@ contracts/<slug>.json  ─┼─→ generate.mjs ─→ dist/
 parts/*  (authored)    ─┘        │
                                  ├─ variables.css          --aha-* token layer (single source)
                                  ├─ design.md              machine-readable visual language
-                                 ├─ index.html             browsable component index
+                                 ├─ index.html             start page · get-started/index.html  install steps for developers
                                  ├─ llms.txt / llms-full.txt   agent feeds
                                  └─ <slug>/ index.html · <slug>.md · <slug>.agent.json · <slug>.llms.txt
 ```
