@@ -228,7 +228,7 @@
    "name": "TertiaryButton",
    "element": "<aha-button variant=\"tertiary-deck\" size=\"touch\">",
    "kind": "Action",
-   "what": "The audience phone's TERTIARY action: `<aha-button variant=\"tertiary-deck\" size=\"touch\">`, 48px high, no edge, transparent fill, label and glyph in the deck ink. Fill is ink 5% on hover and ink 10% pressed; the keyboard focus ring is the ink at 55%; disabled is the ink at 45%. Three forms: text only, icon + text and icon only (a 48 x 48 square, needs `aria-label`).",
+   "what": "The audience phone's TERTIARY action: `<aha-button variant=\"tertiary-deck\" size=\"touch\">`, 48px high, no edge, transparent fill, label and glyph in the deck ink. Fill is ink 5% on hover and ink 10% pressed; keyboard focus is the browser's own focus ring; disabled is the ink at 45%. Three forms: text only, icon + text and icon only (a 48 x 48 square, needs `aria-label`).",
    "useWhen": "A low-emphasis action that should recede behind the primary and secondary: skip, back, remove, dismiss, clear.",
    "notFor": "The submit or a main side action (use `<aha-audience-submit>` or `secondary-deck`); a link inside running text; a button that must be found at a glance on a busy deck.",
    "replaces": null,
