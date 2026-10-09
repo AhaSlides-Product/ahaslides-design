@@ -26,7 +26,7 @@
 <!-- touch (48px, 8px corners) is the audience phone's one primary action; the audience page wraps it as <aha-audience-submit>. -->
 <aha-button variant="primary" size="touch" block>Submit</aha-button>
 
-<!-- secondary-deck: the audience phone's secondary action. White fill; edge and label in the dark text ink on every deck, light or dark (the deck accent and deck ink are not used: the ink turns white on a dark deck). -->
+<!-- secondary-deck: the audience phone's secondary action. White fill; 10% dark-ink edge and a solid dark-ink label on every deck, light or dark (the deck accent and deck ink are not used: the ink turns white on a dark deck). -->
 <aha-button variant="secondary-deck" size="touch" block>Upload</aha-button>
 
 <!-- tertiary-deck: the audience phone's quiet action. No fill or edge; label in the deck ink (applyDeck sets it); ink 5% on hover, 10% pressed.

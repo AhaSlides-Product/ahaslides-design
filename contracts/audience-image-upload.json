@@ -29,7 +29,7 @@
     },
     {
       "label": "Attached",
-      "value": "the picture fitted (contain) in a 203px box, then Change and Delete as 48px outlined deck-ink buttons. The compact variant is one full-width <aha-button variant=\"secondary-deck\" size=\"touch\">: white fill, edge and label in the dark text ink"
+      "value": "the picture fitted (contain) in a 203px box, then Change and Delete as 48px outlined deck-ink buttons. The compact variant is one full-width <aha-button variant=\"secondary-deck\" size=\"touch\">: white fill, a 10% dark-ink edge and a dark-ink label"
     },
     {
       "label": "Failed",
