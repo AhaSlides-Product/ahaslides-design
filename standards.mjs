@@ -72,7 +72,7 @@ const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test
    in the source scan below). */
 const ICON_REGISTRY = JSON.parse(read(join(root, 'icons', 'registry.json')) || '{"icons":{}}');
 const ICON_NAMES = new Set(Object.keys(ICON_REGISTRY.icons || {}));
-const ICON_GALLERY = 'https://ahaslides-product.github.io/ahaslides-design/icons/index.html';
+const ICON_GALLERY = 'https://design.ahaslides.io/icons/index.html';
 // Pull every icon referenced by name from a blob of source / snippet / contract text. A DS icon
 // reaches the runtime by two paths, and BOTH must be gated or a bad name ships green:
 //   1. the ELEMENT — <aha-icon name="…"> (also :name= for Vue-bind, name={…} for JSX);

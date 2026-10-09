@@ -64,7 +64,7 @@
         {
           "id": "C1",
           "title": "Real brand identity, never a placeholder",
-          "test": "The brand mark + wordmark, and any third-party brand logo, are taken from the Logo library (ahaslides-product.github.io/ahaslides-design/foundations/logo.html, files at /logo/<file>), never redrawn, hand-inlined, recoloured, or replaced by a coloured letter tile or initials square."
+          "test": "The brand mark + wordmark, and any third-party brand logo, are taken from the Logo library (design.ahaslides.io/foundations/logo.html, files at /logo/<file>), never redrawn, hand-inlined, recoloured, or replaced by a coloured letter tile or initials square."
         },
         {
           "id": "C2",
