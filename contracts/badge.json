@@ -14,9 +14,9 @@
     { "label": "Count bubble", "value": "height 18 · min-width 18 · radius pill · padding 0 6 · scales in" },
     { "label": "On a child", "value": "floats to the child's top-right, 1px container-colour ring" },
     { "label": "Dot", "value": "8×8, no label" },
-    { "label": "Status", "value": "standalone 6px dot + 14px label; processing pulses" },
+    { "label": "Status", "value": "standalone 6px dot + 14px label. success solid black; error a hollow black ring; warning Vivid Pink 30% #F8B7D2 with a 1px Vivid Pink edge; processing Vivid Pink, pulsing; default grey #8A8A8A. Dot markers follow the same shapes" },
     { "label": "Text", "value": "Plus Jakarta SemiBold 600, 11/18, #FFFFFF" },
-    { "label": "Default colour", "value": "count/dot → error #1A1A1A; status → its semantic token; ribbon → primary #E70E68" },
+    { "label": "Default colour", "value": "count/dot → error #1A1A1A; status → its semantic token; ribbon → primary #E70E68. Vivid Pink count: status=\"primary\" (white number on #E70E68)" },
     { "label": "Overflow / zero", "value": "count > overflowCount → N+; 0 hides unless showZero" },
     { "label": "Ribbon", "value": "corner banner over a wrapped card; 22px tall, radius 4, triangular fold; placement start/end" },
     { "label": "Tone chip", "value": "filled/tinted pill (radius pill, 22px); danger·success·positive·essential·pro·branding·primary-alt, each bound to an --aha token" },
@@ -66,7 +66,8 @@
         { "label": "Success", "value": "success" },
         { "label": "Warning", "value": "warning" },
         { "label": "Processing", "value": "processing" },
-        { "label": "Default", "value": "default" }
+        { "label": "Default", "value": "default" },
+        { "label": "Primary (Vivid Pink)", "value": "primary" }
       ] },
       { "prop": "count", "label": "Count", "default": "5", "options": [
         { "label": "5", "value": "5" },

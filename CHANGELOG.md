@@ -24,6 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.134.0 — 2026-10-08
 ### Changed
+- `<aha-badge>` status: error, warning and success no longer look alike. Success is a solid black dot, error a hollow black ring, warning Vivid Pink 30% (`#F8B7D2`) with a 1px Vivid Pink edge, processing stays Vivid Pink and pulsing, default stays grey; `dot` markers take the same shapes. A Vivid Pink count is `status="primary"`, now shown on the Badge page and in the playground (#197)
 - `<aha-avatar-group>` rotates its members through Vivid Pink 5% (`#FEF3F7`), 30% (`#F8B7D2`) and 100% (`#E70E68`, white initials) so neighbours never share a ground; a member with its own `color` keeps it, and the +N chip sits on grey 25 (`#F3F3F3`) (#197)
 - Form, Autocomplete, Date picker, Time picker and Textarea themes follow the same field scale: default 40px, large 48px (they were 32 / 40), so an Input, a counted input and these controls sit level in a form; Button in `formTheme` stays 32px (#197)
 - Input, Input number and Select: default height 40px, large 48px (small stays 24px); `<aha-input>` was 32 / 40, and `selectTheme` and `inputNumberTheme` set `controlHeight` 40 and `controlHeightLG` 48 (#197)
