@@ -55,7 +55,7 @@ const inlineScriptJson = (value) => JSON.stringify(value).replace(/[<>/\u2028\u2
 const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return function(theme){theme=theme||{};var components=Object.assign({},base.components);Object.keys(theme.components||{}).forEach(function(name){components[name]=Object.assign({},base.components[name],theme.components[name]);});return Object.assign({},theme,{token:Object.assign({},base.token,theme.token),components:components});};})(${inlineScriptJson(antdBaseTheme)});</script>`;
 /* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
    URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
-const LIVE_SITE = 'https://ahaslides-product.github.io/ahaslides-design';
+const LIVE_SITE = 'https://design.ahaslides.io';
 const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`);
 const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
@@ -69,7 +69,7 @@ const NPMRC = `${SCOPE}:registry=${REGISTRY}\n//${REGISTRY_HOST}/:_authToken=\${
 /* Absolute base URL where dist/ is hosted (GitHub Pages by default). The feed links
    printed on the docs pages + in llms.txt/agent.json are ABSOLUTE so an agent that
    lands anywhere can fetch them directly. CI overrides via AHA_SITE_URL. */
-const SITE = (process.env.AHA_SITE_URL || 'https://ahaslides-product.github.io/ahaslides-design').replace(/\/+$/, '');
+const SITE = (process.env.AHA_SITE_URL || 'https://design.ahaslides.io').replace(/\/+$/, '');
 
 /* ===== R1 canonical tokens → the --aha-* var layer (single source) ===== */
 const TOK = JSON.parse(read(join(root, 'tokens.canonical.json')));
