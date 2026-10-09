@@ -31,7 +31,7 @@
     {
       "ref": "button",
       "as": "component",
-      "use": "the standard submit button — on the Developer Platform <aha-audience-submit> (wraps <aha-button variant=\"primary\" size=\"touch\" block>) from lib/audience.js (the iframe loads it), coloured by --aha-color-primary = the deck accent; a built plugin without the package rebuilds the same spec (full-width, ~44–48px, deck-accent fill, contrast-picked ink, disabled/submitting/locked/post-submit states)",
+      "use": "the standard submit button — on the Developer Platform <aha-audience-submit> (wraps <aha-button variant=\"primary\" size=\"touch\" block>) from lib/audience.js (the iframe loads it), coloured by --aha-color-primary = the deck accent; a built plugin without the package rebuilds the same spec (full-width, ~44–48px, deck-accent fill, contrast-picked ink, disabled/submitting/locked/post-submit states); the two lower-emphasis actions are <aha-button size=\"touch\"> variants — secondary-deck (white fill, 10% dark-ink edge, dark-ink label) and tertiary-deck (no fill or edge, label in the deck ink, ink 5% hover / 10% pressed), each as text, icon + text or icon only (icon-only needs aria-label)",
       "status": "available"
     },
     {
@@ -55,7 +55,7 @@
     {
       "ref": "tag",
       "as": "component",
-      "use": "idea tags on the presenter side — <aha-tag> from lib/audience.js; on the audience phone a tappable chip is <aha-audience-chip> (44px, deck surface), never the 20px tag",
+      "use": "idea tags on the presenter side — <aha-tag> from lib/audience.js; on the audience phone a tappable chip is <aha-audience-chip> (48px, 8px corners, deck surface), never the 20px tag",
       "status": "available"
     },
     {
@@ -133,7 +133,7 @@
     {
       "ref": "scale-slider",
       "as": "component",
-      "use": "scale input — <aha-scale-slider>: rail flush with min/max labels, rail and filled portion both ink 10% with a 1px ink-10% hairline",
+      "use": "scale input — <aha-scale-slider>: readout centred above an 8px rail inset 16px from the min/max labels, rail and filled portion both ink 10% with a 1px ink-10% hairline",
       "status": "available"
     },
     {
@@ -369,7 +369,7 @@
     },
     {
       "id": "slider-fill-hairline",
-      "rule": "Fill a slider/progress track with the deck ink at 10% and give a filled part the same 1px hairline (color-mix(in srgb, currentColor 10%, transparent)) so a coloured fill doesn't sink into a same-hue deck — one value for every audience border and track, no heavier 20% edge.",
+      "rule": "Fill a slider/progress track with the deck ink at 10% and give a filled part the same 1px hairline (color-mix(in srgb, currentColor 10%, transparent)) so a coloured fill doesn't sink into a same-hue deck — one value for every track and panel hairline; a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%.",
       "ref": [
         "C18",
         "§2"
@@ -377,7 +377,7 @@
     },
     {
       "id": "slider-rail-flush",
-      "rule": "Zero out Ant's default slider margin (~margin: 10px 6px) so a horizontal slider's rail runs edge-to-edge, flush under the row holding its min/max end labels.",
+      "rule": "Zero out Ant's default slider margin (~margin: 10px 6px) so a horizontal slider's rail lines up with its min/max end labels, either flush or inset by the same intended amount on both sides (<aha-scale-slider> insets 16px), never an uneven leftover component margin.",
       "ref": [
         "C20",
         "§2"
@@ -513,7 +513,7 @@
     },
     {
       "id": "secondary-actions",
-      "rule": "Secondary actions (Skip, Start voting) use a lower-contrast variant (surface + border, or a desaturated palette shade), same height, same i18n discipline — the hierarchy must read clearly as primary vs side option. Never paint two visually equal buttons.",
+      "rule": "Secondary actions (Change answer, Start voting; Skip and back go quieter still) use a lower-contrast variant (surface + border, or a desaturated palette shade; in the DS secondary-deck, or tertiary-deck for the quietest), same height, same i18n discipline — the hierarchy must read clearly as primary vs side option. Never paint two visually equal buttons.",
       "ref": [
         "§5"
       ]
@@ -660,7 +660,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (chip, field, track, dashed image drop zone) takes 1px color-mix(in srgb, currentColor 10%, transparent). Never a 2px outline at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px color-mix(in srgb, currentColor 10%, transparent), except the 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%; the dashed image drop area is the one 2px edge, dashed. No other 2px outline, and never one at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"

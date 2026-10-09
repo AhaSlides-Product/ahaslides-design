@@ -26,6 +26,16 @@
 <!-- touch (48px, 8px corners) is the audience phone's one primary action; the audience page wraps it as <aha-audience-submit>. -->
 <aha-button variant="primary" size="touch" block>Submit</aha-button>
 
+<!-- secondary-deck: the audience phone's secondary action. White fill; 10% dark-ink edge and a solid dark-ink label on every deck, light or dark (the deck accent and deck ink are not used: the ink turns white on a dark deck). -->
+<aha-button variant="secondary-deck" size="touch" block>Upload</aha-button>
+
+<!-- tertiary-deck: the audience phone's quiet action. No fill or edge; label in the deck ink (applyDeck sets it); ink 5% on hover, 10% pressed.
+     Three forms: text only, icon + text, and icon only (48 x 48, aria-label required). secondary-deck takes the same three. -->
+<aha-button variant="tertiary-deck" size="touch">Skip</aha-button>
+<aha-button variant="tertiary-deck" size="touch"><aha-icon slot="icon" name="system-trash" size="16" decorative></aha-icon>Remove</aha-button>
+<aha-button variant="tertiary-deck" size="touch" icon-only aria-label="Remove"><aha-icon name="system-trash" size="16" decorative></aha-icon></aha-button>
+
+
 <!-- Close (✕): a tertiary icon-only button at size xs (20 x 20, radius 6). `corner` pins it to the first line of its
      flex container, in the corner; the container passes --aha-close-line-height. A press is a normal click. -->
 <div style="display:flex; gap:8px; align-items:flex-start; max-width:320px; padding:12px 16px">
