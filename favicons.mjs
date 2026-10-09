@@ -4,7 +4,7 @@
  *
  *   node favicons.mjs     writes favicon-32.png, favicon-180.png (white ground), favicon-512.png, favicon.ico (16+32+48)
  *
- * Needs headless Chrome: set CHROME_BIN, or it falls back to a Playwright download.
+ * Needs headless Chrome: set CHROME_BIN, else it uses the cached Playwright Chromium (chromium-1243).
  */
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
