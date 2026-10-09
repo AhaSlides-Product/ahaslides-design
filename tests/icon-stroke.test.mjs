@@ -61,6 +61,7 @@ function iconSizesIn(text) {
     else for (const number of match[3].matchAll(/[?:]\s*(\d+)(?!\d)/g)) addLiteral(number[1], match.index);
   }
   for (const match of text.matchAll(/['"]aha-icon['"],\s*\{[^}]*?\bsize:\s*'(\d+)'/g)) addLiteral(match[1], match.index);
+  for (const match of text.matchAll(/\bicon\(\s*['"][\w-]+['"],\s*(\d+)\b/g)) addLiteral(match[1], match.index);
   for (const match of text.matchAll(/dsStatusIcon\(h,\s*[^,)]+,\s*(\d+)\)|statusIconCss\([^,)]+,\s*(\d+)\)/g)) addLiteral(match[1] || match[2], match.index);
   return found;
 }
@@ -87,6 +88,7 @@ test('the guard recognises every spelling of an off-grid size', () => {
     "h('aha-icon', { name: 'a', size: '28' })",
     '<aha-icon name="a" size="${open ? 12 : 10}"></aha-icon>',
     'dsStatusIcon(h, type, 20)',
+    "icon('system-check', 18, badge)",
   ];
   for (const sample of samples) assert.ok(iconSizesIn(sample).some(({ value }) => !GRID.includes(value)), sample);
 });
