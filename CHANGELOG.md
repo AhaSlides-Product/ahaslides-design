@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.143.1 — 2026-10-09
 ### Fixed
-- The React snippet for `aha-csat` parses again when copied: the tooltip-placement note moved out of the `return` line into a comment above it (#000)
+- The React snippet for `aha-csat` parses again when copied: the tooltip-placement note moved out of the `return` line into a comment above it (#216)
 
 ## 0.143.0 — 2026-10-09
 ### Added
