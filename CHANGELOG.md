@@ -24,12 +24,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.149.0 — 2026-10-09
 ### Added
-- `<aha-product-lockup>`: the AhaSlides product lockup (The Splash, AhaSlides and a product name as one mark) for the top-left of every site, microsite and app header. `product`, `variant` (auto, full, compact, splash), `tone` (colour, inverse) and `size` (20px default, 18px minimum); auto flips to compact below a 480px header (#PR)
-- Logo library: a Product lockup section with the spec table and the don'ts (#PR)
-- screen-lint `hand-set-lockup` (warning): the AhaSlides logo or The Splash set by hand in a header or nav (#PR)
+- `<aha-product-lockup>`: the AhaSlides product lockup (The Splash, AhaSlides and a product name as one mark) for the top-left of every site, microsite and app header. `product`, `variant` (auto, full, compact, splash), `tone` (colour, inverse) and `size` (20px default, 18px minimum); auto flips to compact below a 480px header (#221)
+- Logo library: a Product lockup section with the spec table and the don'ts (#221)
+- screen-lint `hand-set-lockup` (warning): the AhaSlides logo or The Splash set by hand in a header or nav (#221)
 ### Changed
-- `app-shell` C1 and its guideline rule: the header brand of any site or app is `<aha-product-lockup>` (#PR)
-- Agent plugin: every prompt carries the product lockup rule, including marketing-style pages; writing an AhaSlides logo file nudges toward the lockup (#PR)
+- `app-shell` C1 and its guideline rule: the header brand of any site or app is `<aha-product-lockup>` (#221)
+- Agent plugin: every prompt carries the product lockup rule, including marketing-style pages; writing an AhaSlides logo file nudges toward the lockup (#221)
 
 ## 0.148.0 — 2026-10-09
 ### Changed
