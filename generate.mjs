@@ -2199,6 +2199,7 @@ function writeIconRuntime() {
   writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(ICONS.icons) + ';\n');
   writeFileSync(join(OUT, 'icons', 'aha-icon.js'), AHA_ICON_JS);
 }
+const ICON_SIZES = [{ px: 12, name: 'XS', line: 1 }, { px: 16, name: 'S', line: 1.5 }, { px: 24, name: 'M', line: 2 }, { px: 32, name: 'L', line: 2.5 }];
 const GALLERY_JS = `
 (function(){
   var q=document.getElementById('icon-search'), grid=document.getElementById('icon-grid'),
@@ -2222,6 +2223,11 @@ const GALLERY_JS = `
     var was=c.querySelector('.icn').textContent; c.classList.add('copied'); c.querySelector('.icn').textContent='copied!';
     setTimeout(function(){c.classList.remove('copied');c.querySelector('.icn').textContent=was;},900);
   });
+  var sizer=document.getElementById('icon-size');
+  if(sizer) sizer.addEventListener('change',function(e){
+    var px=String(e.detail.value);
+    [].slice.call(grid.querySelectorAll('aha-icon')).forEach(function(i){i.setAttribute('size',px);});
+  });
   apply();
 })();
 `;
@@ -2234,22 +2240,24 @@ function renderIconGallery() {
     `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
   const main = `
   <h1>Icon library</h1>
-  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
+  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name', `Sizes: ${ICON_SIZES.map(z => `${z.name} ${z.px}px ${z.line}px stroke`).join(', ')}; the runtime applies the stroke`])}
   <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
 
   <h3 class="tok-h3">Stroke by size</h3>
   <p class="body">The runtime draws every stroke at the width paired with the size, whatever the glyph&rsquo;s own viewBox, so the same glyph keeps one line weight across the library. Do not set <code>stroke-width</code> in an SVG or on the element.</p>
-  <div class="stroke-demo">${[[12, 1], [16, 1.5], [24, 2], [32, 2.5]].map(([size, line]) => `<div class="stroke-cell"><div class="stroke-stage"><aha-icon name="system-bell" size="${size}" decorative></aha-icon><aha-icon name="slidetype-poll" size="${size}" decorative></aha-icon></div><span class="stroke-cap">${size}px &middot; ${line}px stroke</span></div>`).join('')}</div>
+  <div class="stroke-demo">${ICON_SIZES.map(z => `<div class="stroke-cell"><div class="stroke-stage"><aha-icon name="system-bell" size="${z.px}" decorative></aha-icon></div><span class="stroke-cap">${z.name} &middot; ${z.px}px &middot; ${z.line}px stroke</span></div>`).join('')}</div>
 
   <div class="gal-bar">
     <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name…" autocomplete="off" spellcheck="false" />
     <div class="fam-chips">${chips}</div>
+    <aha-segmented id="icon-size" size="small" aria-label="Preview size" value="24" options='${esc(JSON.stringify(ICON_SIZES.map(z => ({ value: String(z.px), label: `${z.name} ${z.px}` }))))}'></aha-segmented>
     <span id="icon-count" class="gal-count"></span>
   </div>
   <div id="icon-grid" class="icon-grid">${cells}</div>
 
   <script src="registry.js"></script>
   <script src="aha-icon.js"></script>
+  <script type="module">import '../lib/aha-segmented.js';</script>
   <script>${GALLERY_JS}</script>`;
   const extraCss = `
   .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0;z-index:5;border-bottom:1px solid var(--aha-split)}
