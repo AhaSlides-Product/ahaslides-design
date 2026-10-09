@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.143.0 — 2026-10-09
+### Added
+- "For developers" page (`get-started/index.html`, top-nav tab) holds the install steps, token layer, CDN snippet and agent feeds that used to open the Overview (#129)
+### Changed
+- The Overview is now a short start page for non-developers: what the system is, and six cards into Colour, Typography, Button, Components, Patterns and Guidelines. The 100-odd component cards are gone from it; the Components tab still lists them (#129)
+### Fixed
+- Plus Jakarta Sans loads sooner and survives a failed fetch: every docs page preloads the Regular and SemiBold files, and each `@font-face` falls back to a jsDelivr copy pinned to the release tag (#129)
+
 ## 0.142.0 — 2026-10-09
 ### Changed
 - `<aha-menu>` rows are Regular 400; the selected row is SemiBold 600 (#197)

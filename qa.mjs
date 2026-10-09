@@ -148,7 +148,7 @@ const stateCheck = (list, slug) => {
 };
 
 /* ---- per component ---- */
-const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience', 'charts', 'logo']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component)
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience', 'charts', 'logo', 'get-started']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];

@@ -280,6 +280,7 @@ const SECTIONS = [
   { key: 'audience',    label: 'Audience Library' },
   { key: 'charts',      label: 'Charts' },
   { key: 'guidelines',  label: 'Guidelines' },
+  { key: 'developers',  label: 'For developers' },
   { key: 'feeds',       label: 'Agent feeds' },
 ];
 /* Foundations · design tokens, split into structured pages (one sidebar item each) —
@@ -358,13 +359,15 @@ function tokenVars(t) {
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),
    skinned with the --aha-* tokens. base = relative prefix so links/fonts resolve from
    both dist/index.html ('') and dist/<slug>/index.html ('../'). ===== */
+const FONT_CDN = `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v${PKG.version}/fonts/`;
+const fontPreloads = (base) => ['Regular', 'SemiBold'].map(w => `<link rel="preload" href="${base}fonts/PlusJakartaSans-${w}.woff2" as="font" type="font/woff2" crossorigin/>`).join('\n');
 const shellCss = (base) => `
 /* Plus Jakarta Sans — AhaSlides DS V3 product face (aha-design-typography), self-hosted per
    aha-design-antd; weights 400/600; system-ui final fallback. DS-mandated — do not substitute. */
 @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;
-  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-Regular.woff2") format("woff2")}
+  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-Regular.woff2") format("woff2"),url("${FONT_CDN}PlusJakartaSans-Regular.woff2") format("woff2")}
 @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;
-  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}
+  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-SemiBold.woff2") format("woff2"),url("${FONT_CDN}PlusJakartaSans-SemiBold.woff2") format("woff2")}
 *{box-sizing:border-box}
 body{margin:0;background:#fff;color:var(--aha-text-default);font-family:var(--aha-font-product);font-size:14px;line-height:22px;-webkit-font-smoothing:antialiased}
 a{color:var(--aha-color-primary)}
@@ -931,7 +934,7 @@ function topNav(base, section) {
 
 // Left sidebar — scoped to the CURRENT area only (empty on Overview, which is full-width).
 function sidebarNav(base, active, section) {
-  if (section === 'overview') return '';
+  if (section === 'overview' || section === 'developers') return '';
   let inner = '';
   if (section === 'foundations') {
     const tokenItems = TOKEN_PAGES.map(p =>
@@ -1006,6 +1009,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <link rel="alternate" type="text/plain" title="llms-full.txt — full docs" href="${SITE}/llms-full.txt"/>
 <link rel="alternate" type="text/markdown" title="design.md — visual language" href="${SITE}/design.md"/>
 <link rel="alternate" type="text/markdown" title="CHANGELOG.md — version history" href="${SITE}/CHANGELOG.md"/>
+${fontPreloads(base)}
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style>${DS_ANTD_THEME_SCRIPT}</head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
@@ -2131,46 +2135,55 @@ function renderAntiSlop(store, guidelines) {
 }
 
 /* ===== overview / landing page ===== */
-function renderIndex(cs) {
-  cs = cs.filter(c => !c.docPage);
-  const cards = cs.map(c => `<a class="card" href="${docPagePath(c)}">
-      <div class="ct">${esc(c.name)} <span class="badge ${c.tier==='leaf-lit'?'leaf':'composite'}">${c.tier==='leaf-lit'?'leaf':'composite'}</span></div>
-      <div class="cs">${esc(c.summary)}</div>
-      <div class="cf">${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt</div></a>`).join('');
+function startCards() {
+  const cards = [
+    ['system-palette', 'Colour', 'foundations/colour.html', 'The brand pink, the greys and how we use them.'],
+    ['system-text-t', 'Typography', 'foundations/typography.html', 'Fonts, sizes and weights for every screen.'],
+    ['system-cursor-click', 'Button', 'button/index.html', 'See one component in full: every style, size and state.'],
+    ['system-grid-complex', 'Components', NAV_LANDING.components, 'Every ready-made piece, from buttons to tables.'],
+    ['system-layout', 'Patterns', NAV_LANDING.patterns, 'How pieces fit together on a real screen.'],
+    ['system-book', 'Guidelines', NAV_LANDING.guidelines, 'The rules to follow when you design a screen.'],
+  ];
+  return `<div class="cards start-cards">${cards.map(([icon, name, href, text]) => `<a class="card" href="${href}">
+      <div class="ct"><aha-icon name="${icon}" size="20" decorative></aha-icon>${esc(name)}</div>
+      <div class="cs">${esc(text)}</div></a>`).join('')}</div>`;
+}
+function renderIndex() {
+  const main = `
+  <h1>AhaSlides Design</h1>
+  <p class="subtitle">The colours, type, components and rules every AhaSlides screen is built from.</p>
+
+  <h2 style="margin-top:30px">Where to start</h2>
+  ${startCards()}
+
+  <p class="body" style="margin-top:24px">Building with the design system? <a href="get-started/index.html">For developers &rarr;</a></p>`;
+  return docShell({ base: '', active: '__overview__', section: 'overview', main });
+}
+
+/* ===== For developers — install steps and agent feeds (moved off the Overview) ===== */
+function renderGetStarted(cs) {
+  const live = cs.filter(c => !c.docPage).length;
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
   const main = `
-  <h1>Components</h1>
+  <h1>For developers</h1>
   ${headline(['One token source and one contract per component', 'Generates this site, the llms.txt feeds, design.md and each agent.json together', 'Generated together, so they cannot drift'])}
-  <p class="gen">◆ generated by generate.mjs — ${cs.length} live of ${planned} planned components</p>
+  <p class="gen">◆ generated by generate.mjs — ${live} live of ${planned} planned components</p>
 
   ${consumeBlock()}
 
-  <h2 style="margin-top:30px">Live components</h2>
-  <div class="cards">${cards}</div>
-
-  ${GUIDELINES.length ? `<h2>Guidelines</h2>
-  <p class="body">Composition guides — how to assemble the components above for a use case. A pattern ships no new primitive; it reuses components and documents conventions, linking each rule back to its <code>aha-design</code> skill.</p>
-  <div class="cards">${GUIDELINES.map(p => {
-    const missing = (p.composedOf||[]).filter(x=>x.status==='missing').length;
-    return `<a class="card" href="guidelines/${p.slug}/index.html">
-      <div class="ct">${esc(p.name)} <span class="badge pattern" style="color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default)">pattern</span></div>
-      <div class="cs">${esc(p.summary)}</div>
-      <div class="cf">${(p.rules||[]).length} rules · reuses ${(p.composedOf||[]).length}${missing?` · ${missing} backlog`:''}</div></a>`;
-  }).join('')}</div>` : ''}
-
   <h2>Agent feeds</h2>
   <p class="feeds">
-    <a href="feeds/llms-txt.html"><code>llms.txt</code></a> index ·
-    <a href="feeds/llms-full-txt.html"><code>llms-full.txt</code></a> full ·
-    <a href="feeds/design-md.html"><code>design.md</code></a> visual language ·
-    <a href="feeds/changelog.html"><code>CHANGELOG.md</code></a> version history ·
-    <a href="feeds/variables-css.html"><code>variables.css</code></a> token layer ·
+    <a href="../feeds/llms-txt.html"><code>llms.txt</code></a> index ·
+    <a href="../feeds/llms-full-txt.html"><code>llms-full.txt</code></a> full ·
+    <a href="../feeds/design-md.html"><code>design.md</code></a> visual language ·
+    <a href="../feeds/changelog.html"><code>CHANGELOG.md</code></a> version history ·
+    <a href="../feeds/variables-css.html"><code>variables.css</code></a> token layer ·
     per-component <code>&lt;slug&gt;.agent.json</code>
   </p>
 
   <h2>Roadmap</h2>
   <p class="body">The <b>Components</b> tab lists the full planned inventory (greyed = <b>soon</b>), taken from the aha-design <code>component-standard</code> measured set. Leaf primitives ship as one shared Lit web component (portable to any environment); composites ship as antd / ant-design-vue wrappers (app-only). Each component follows the same lifecycle: contract &rarr; build &rarr; theme &rarr; render-matrix verify &rarr; judge &rarr; publish.</p>`;
-  return docShell({ base: '', active: '__overview__', section: 'overview', main });
+  return docShell({ base: '../', active: '__get-started__', section: 'developers', main });
 }
 
 /* ===== Icon library — runtime, gallery page, and agent feeds (from the registry) ===== */
@@ -2417,6 +2430,7 @@ NAV_LANDING = {
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
   charts: 'charts/index.html',
+  developers: 'get-started/index.html',
   feeds: 'feeds/llms-txt.html',
 };
 if (GUIDELINES.length) {
@@ -2528,7 +2542,9 @@ mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
 cpSync(join(root, 'brand', 'visual-identity-colour-rules.html'), join(OUT, 'foundations', 'brand-colour-rules.html'));
-writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
+writeFileSync(join(OUT, 'index.html'), renderIndex());
+mkdirSync(join(OUT, 'get-started'), { recursive: true });
+writeFileSync(join(OUT, 'get-started', 'index.html'), renderGetStarted(contracts));
 
 /* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
 writeIconRuntime();
@@ -2544,6 +2560,7 @@ const indexLines = [
   `> Version: ${PKG.version} — changelog: ${SITE}/CHANGELOG.md`,
   `> Registry:  GitHub Packages (${REGISTRY}) — needs a GitHub token with read:packages.`,
   `> Configure once in .npmrc:  ${SCOPE}:registry=${REGISTRY}`,
+  `> Install steps for people: ${SITE}/get-started/index.html`,
   `> Install:  npm i ${PKGNAME}`,
   `> Import the token layer once at the app root:  import '${PKGNAME}/tokens.css'`,
   `> Then import a component by subpath, e.g.  import '${PKGNAME}/aha-button'`,

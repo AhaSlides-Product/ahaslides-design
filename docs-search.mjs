@@ -41,6 +41,7 @@ const AREAS = {
   audience: { type: 'audience', label: 'Audience Library' },
   charts: { type: 'component', label: 'Charts' },
   guidelines: { type: 'guideline', label: 'Guidelines' },
+  developers: { type: 'page', label: 'For developers' },
   feeds: { type: 'feed', label: 'Agent feeds' },
 };
 
