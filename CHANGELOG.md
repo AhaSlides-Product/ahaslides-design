@@ -24,6 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.140.0 — 2026-10-09
 ### Changed
+- `<aha-menu>` rows are Regular 400; the selected row is SemiBold 600 (#197)
 - `<aha-chart type="donut">` (donut and pie): only slice 1 is series 1; later slices cycle series 2 to 4, so the last slice no longer repeats Vivid Pink beside the first. Slices are separated by a 2px gap in `--aha-viz-slice-gap` (default `--aha-bg-container`; on a deck palette the inverse ink) instead of the 10% ink hairline (#197)
 - The dismiss ✕ (tertiary icon-only `<aha-button>` at size `xs`) keeps the glyph #1A1A1A at rest and turns #DB005B on a #FEF3F7 fill on hover and press, from `--aha-button-ghost-bg-hover` and `--aha-text-link-hover`; the purple hover of 0.139.0 is gone (#197)
 - `<aha-button variant="text-link">` is underlined on hover, press and keyboard focus (no underline at rest) (#197)
