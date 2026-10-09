@@ -13,7 +13,7 @@
     { "label": "Position", "value": "top-centre, floating" },
     { "label": "Duration", "value": "3s default (0 = sticky)" },
     { "label": "Status", "value": "success / info / warning / error / loading; every status icon is the default ink #1A1A1A (the shared antd base theme pins colorSuccess, colorInfo, colorWarning and colorError), so the glyph and the wording carry the status, never green, blue, amber or red" },
-    { "label": "Dismiss", "value": "a sticky toast (duration 0) carries the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 14px system-x) via dismissibleToast, top-pinned to the first line, 2px into the end padding; never antd's own close" }
+    { "label": "Dismiss", "value": "a sticky toast (duration 0) carries the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x) via dismissibleToast, top-pinned to the first line, 2px into the end padding; never antd's own close" }
   ],
   "props": [
     { "name": "dismissibleToast(h, content, onClose, label?)", "type": "function", "default": "—", "desc": "Toast content with the shared ✕; h is React's createElement or Vue's h" },

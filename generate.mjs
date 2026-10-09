@@ -1019,7 +1019,7 @@ ${fontPreloads(base)}
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style>${DS_ANTD_THEME_SCRIPT}</head><body>
 <header class="doc-header">
   <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
-  ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="18" decorative></aha-icon></button>`}
+  ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="16" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
   <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
@@ -2151,7 +2151,7 @@ function startCards() {
     ['system-book', 'Guidelines', NAV_LANDING.guidelines, 'The rules to follow when you design a screen.'],
   ];
   return `<div class="cards start-cards">${cards.map(([icon, name, href, text]) => `<a class="card" href="${href}">
-      <div class="ct"><aha-icon name="${icon}" size="20" decorative></aha-icon>${esc(name)}</div>
+      <div class="ct"><aha-icon name="${icon}" size="16" decorative></aha-icon>${esc(name)}</div>
       <div class="cs">${esc(text)}</div></a>`).join('')}</div>`;
 }
 function renderIndex() {

@@ -23,7 +23,7 @@ const emit = defineEmits(['save', 'dismiss']);
     <span><slot /></span>
     <aha-button variant="tertiary" icon-only size="xs" corner aria-label="Dismiss"
       style="--aha-close-line-height:21px" @click="emit('dismiss')">
-      <aha-icon name="system-x" :size="14" decorative />
+      <aha-icon name="system-x" :size="16" decorative />
     </aha-button>
   </div>
 </template>

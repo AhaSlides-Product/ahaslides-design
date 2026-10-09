@@ -25,7 +25,7 @@
     { "label": "Focus", "value": "2px solid ring outside a 2px gap (box-shadow) — Vivid Pink #E70E68, 4.51:1 on white. Re-point --aha-button-focus-ring / --aha-button-focus-gap on a dark surface" },
     { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" },
     { "label": "Icon-only", "value": "square (width = height per size: 20/28/36/40/52), glyph centred, no label; needs aria-label" },
-    { "label": "Close (✕)", "value": "tertiary icon-only at size xs: <aha-button variant=\"tertiary\" icon-only size=\"xs\" corner aria-label=\"Close\"> holding the 14px system-x · 20 × 20 hit area · radius 6 (radius-sm) · never circular (no disc, no system-x-circle as a control); over a photo it takes a white fill" },
+    { "label": "Close (✕)", "value": "tertiary icon-only at size xs: <aha-button variant=\"tertiary\" icon-only size=\"xs\" corner aria-label=\"Close\"> holding the 16px system-x · 20 × 20 hit area · radius 6 (radius-sm) · never circular (no disc, no system-x-circle as a control); over a photo it takes a white fill" },
     { "label": "Close · colour", "value": "muted glyph --aha-icon-muted (#8A8A8A) at rest, transparent fill; hover and press turn the glyph --aha-text-default (#1A1A1A) on a --aha-bg-hover (#F7F7F7) fill with the same 0.2s fade as every Button state; focus is the 2px Vivid Pink ring outside a 2px gap" },
     { "label": "Close · position", "value": "`corner`: end of the row, top-pinned, centre 2.5px above the centre of the first line of text (stays put when the text wraps); -2px end margin tucks it 2px into the container's end padding (Info box: hit area 15px from the right, 11px from the top)" },
     { "label": "Close · used by", "value": "Alert · Info box · Background task · Toast · Notification · Modal · Drawer · CSAT · Uploader. Toast and Notification take it through dismissibleToast / dismissibleTitle, Modal and Drawer through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`" }
@@ -51,7 +51,7 @@
       { "what": "danger", "when": "a destructive action (delete, remove) — pair with a confirm" },
       { "what": "positive", "when": "an encouraging action such as Upgrade" },
       { "what": "icon-only", "when": "a compact action where the glyph is self-explanatory (close, more, add) — always give an aria-label" },
-      { "what": "close ✕", "when": "any dismiss or remove ✕ — alert, info box, background task, toast, notification, modal, drawer, CSAT follow-up, uploader row: tertiary icon-only at size xs with the 14px system-x and `corner`" },
+      { "what": "close ✕", "when": "any dismiss or remove ✕ — alert, info box, background task, toast, notification, modal, drawer, CSAT follow-up, uploader row: tertiary icon-only at size xs with the 16px system-x and `corner`" },
       { "what": "xl", "when": "a presenter control drawn inside the slide canvas (Reveal, Next, Start) that the room reads from a distance — not for app screens, where lg is the ceiling" }
     ],
     "note": "Close ✕: every dismiss is a tertiary icon-only size-xs button — never hand-roll a ✕, never use antd's own notification or message close, never make it a circle, never resize it, and never put it in the middle of the box: it sits on the first line of text, in the corner. Size: LARGE (lg) is the default for most actions; step down to MEDIUM (md) or SMALL (sm) in denser/secondary regions to lower an action's information-hierarchy, not by whim. Size only via the size attribute (xs / sm / md / lg / xl) — never inline height/padding/radius/fontSize, and never through ::part(button). Recolour only by setting --aha-color-primary (plus the --aha-button-primary-* hover, press and text tokens) on the document root. Primary fill is #E70E68; hover #DB005B per DS V3.",
@@ -106,7 +106,7 @@
     { "label": "icon+label optically centred", "verdict": "PASS" },
     { "label": "focus ring 2px solid #E70E68 outside a 2px gap, 4.51:1 on white", "verdict": "PASS" },
     { "label": "danger renders as secondary · positive Vivid Pink like primary", "verdict": "PASS" },
-    { "label": "close ✕: tertiary icon-only xs · 20 × 20 · radius 6 · 14px system-x · never circular", "verdict": "PASS" },
+    { "label": "close ✕: tertiary icon-only xs · 20 × 20 · radius 6 · 16px system-x · never circular", "verdict": "PASS" },
     { "label": "close ✕: top-pinned, 2.5px above the first line's centre, -2px into the end padding", "verdict": "PASS" }
   ]
 }

@@ -12,7 +12,7 @@
 <div style="display:flex; flex-direction:column; gap:8px; max-width:380px">
   <aha-collapse accordion open>
     <span slot="header">Advanced settings</span>
-    <aha-icon slot="extra" name="system-star" size="14" aria-hidden="true"></aha-icon>
+    <aha-icon slot="extra" name="system-star" size="16" aria-hidden="true"></aha-icon>
     Let participants join anonymously, and shuffle the answer order.
   </aha-collapse>
   <aha-collapse accordion id="scoring">

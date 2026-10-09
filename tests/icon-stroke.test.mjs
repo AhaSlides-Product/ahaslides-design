@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -41,4 +41,52 @@ test('the rendered <aha-icon> strokes every stroked element at 1 / 1.5 / 2 / 2.5
     assert.ok(widths.length > 0, `${key} @${size} has stroked elements`);
     for (const width of widths) assert.equal(width, LINE[size], `${key} @${size}px stroke`);
   }
+});
+
+const root = fileURLToPath(new URL('..', import.meta.url));
+const GRID = Object.keys(LINE).map(Number);
+const OFF_GRID_ALLOWED = {};
+
+function sourceFiles() {
+  const lib = readdirSync(join(root, 'lib')).filter(name => name.endsWith('.js') && !/registry|illustrations/.test(name)).map(name => `lib/${name}`);
+  const parts = readdirSync(join(root, 'parts')).map(name => `parts/${name}`);
+  return [...lib, ...parts, 'generate.mjs'];
+}
+
+function iconSizesIn(text) {
+  const found = [];
+  const addLiteral = (value, index) => found.push({ value: Number(value), index });
+  for (const match of text.matchAll(/<aha-icon\b[^>]*?[\s:]size=(?:"(\d+)"|\{(\d+)\}|"\$\{([^}"]*)\}")/g)) {
+    if (match[1] || match[2]) addLiteral(match[1] || match[2], match.index);
+    else for (const number of match[3].matchAll(/[?:]\s*(\d+)(?!\d)/g)) addLiteral(number[1], match.index);
+  }
+  for (const match of text.matchAll(/['"]aha-icon['"],\s*\{[^}]*?\bsize:\s*'(\d+)'/g)) addLiteral(match[1], match.index);
+  for (const match of text.matchAll(/dsStatusIcon\(h,\s*[^,)]+,\s*(\d+)\)|statusIconCss\([^,)]+,\s*(\d+)\)/g)) addLiteral(match[1] || match[2], match.index);
+  return found;
+}
+
+test('no component, flavour snippet or docs template passes an off-grid size to <aha-icon>', () => {
+  const offenders = [];
+  for (const file of sourceFiles()) {
+    const text = readFileSync(join(root, file), 'utf8');
+    for (const { value, index } of iconSizesIn(text)) {
+      if (GRID.includes(value)) continue;
+      const line = text.slice(0, index).split('\n').length;
+      const allowedReason = OFF_GRID_ALLOWED[`${file}:${value}`];
+      if (!allowedReason) offenders.push(`${file}:${line} passes size ${value}; use one of ${GRID.join(' / ')}`);
+    }
+  }
+  assert.deepEqual(offenders, []);
+});
+
+test('the guard recognises every spelling of an off-grid size', () => {
+  const samples = [
+    '<aha-icon name="a" size="14"></aha-icon>',
+    '<aha-icon name="a" size={20} />',
+    '<aha-icon name="a" :size="18" />',
+    "h('aha-icon', { name: 'a', size: '28' })",
+    '<aha-icon name="a" size="${open ? 12 : 10}"></aha-icon>',
+    'dsStatusIcon(h, type, 20)',
+  ];
+  for (const sample of samples) assert.ok(iconSizesIn(sample).some(({ value }) => !GRID.includes(value)), sample);
 });
