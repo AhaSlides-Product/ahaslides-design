@@ -22,21 +22,170 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.136.0 — 2026-10-08
+## 0.151.1 — 2026-10-09
 ### Fixed
-- CSAT: the question uses the DS secondary text colour (#4A4A4A, was #616161), so it matches the grey text of the card around it. Its sizes, gaps and line heights are DS tokens, and the keyboard focus ring is the DS lilac focus ring (was dark purple).
+- CSAT: the question uses the DS secondary text colour (#4A4A4A, was #616161), so it matches the grey text of the card around it. Its sizes, gaps and line heights are DS tokens, and the keyboard focus ring uses the DS focus-ring token.
 - Background task: "Try again" is a primary button on every failed or offline card (Export failed and Import failed were secondary). (#185)
 
-## 0.135.0 — 2026-10-08
+## 0.151.0 — 2026-10-09
 ### Added
 - Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
 - Tokens: `--aha-shadow-floating` (the Notification elevation), `--aha-layer-floating` (1100) and `--aha-floating-inset-bottom` (88px) for fixed floating cards. (#184)
 ### Changed
-- Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default (#1A1A1A, was #1F1330), description and caption in text-secondary (#4A4A4A, was #6B6478), radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
+- Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default, description and caption in text-secondary, radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
 
-## 0.134.0 — 2026-10-08
+## 0.150.0 — 2026-10-09
 ### Fixed
-- Background task: the inline `link` (e.g. Retry) now looks like the Button text-link variant, in the DS link colour, regular weight and no underline, lighter on hover. It was bold and underlined. (#182)
+- The React snippet for the date picker parses again when copied: the `size` note inside the `<DatePicker>` props is now a `//` comment, not a `{/* */}` child expression (#217)
+
+## 0.148.0 — 2026-10-09
+### Changed
+- `<aha-icon>` now draws every stroke at the width paired with its size (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px), whatever the glyph's viewBox. Before, the pairing was declared but never applied, so the stroke scaled with the glyph's viewBox and size: 16-viewBox glyphs drew 1.25px at 16px, and 24-viewBox slide-type glyphs drew 1.25px at 24px and 1.67px at 32px. An off-grid size takes the nearest on-grid stroke. `lib/icons.js` now exports `LINE` and `strokeWidthFor`, and can be imported outside a browser. (#219)
+- Every icon inside a component now sits on the 12 / 16 / 24 / 32 grid, so the size-paired stroke applies to it: the shared dismiss and remove ✕ (alert, info box, background task, CSAT follow-up, uploader, image preview, close button) and the carets (menu, dropdown, collapse), option-row trash, add-option, colour-picker tick and breadcrumb leading icon go 14 → 16; info-box glyph and image-action-button 18 → 16; card-select, list avatar and uploader add tile 20 → 24; uploader drop zone and skeleton image 28 → 24; paywall crown 10 → 12; tag and badge lead icons 14 → 12 (16 on the large badge); progress status glyph 14 → 12; avatar glyph is 12 / 24 / 32 for avatars up to 28 / 48 / larger; result status glyph 48 → 32; chart correct-answer tick 18 → 16, chart pager carets 20 → 16 and mind-map add and collapse 14 → 16; toast and notification status icons are drawn at 16 and 24 with the paired stroke. Layout shift: uploader drop zone and file list 4px shorter, card-select 4px taller, progress status row 2px shorter, result 16px shorter, tag with a lead icon 2px narrower; every other component keeps its size.
+- The checkbox and option-row ticks draw at 1px (was 1.6px) because they render at 12px.
+- Contract and guideline text names the 16px dismiss ✕, 16px image-action glyph and 32px result glyph; flavour snippets (button, collapse, empty, modal) use on-grid sizes.
+### Added
+- Icon library: a "Stroke by size" section showing one glyph at all four sizes with its stroke, and `tests/icon-stroke.test.mjs` measuring the rendered stroke for 16- and 24-viewBox glyphs at each size, and failing when any component, flavour snippet or docs template passes an off-grid size to `<aha-icon>`. The icon feeds (`icons.llms.txt`, `icons.agent.json`), contract and anti-slop wording state the rule. (#219)
+
+## 0.147.0 — 2026-10-09
+### Added
+- `<aha-button variant="secondary-deck">`: a white-filled button whose edge is the dark text ink (`--aha-text-default`, #1A1A1A) at 10% and whose label is that ink solid (17.4:1 on white), on every deck, light or dark, never the deck accent; hover is a 5% ink wash, pressed 10%, focus the browser's own focus ring, disabled an ink-10% edge and ink-45% label. No new token. At `size="touch"` it is the audience phone's secondary action, the counterpart of the Submit button. `<aha-audience-image-upload variant="button">` now uses it, full width (#209)
+- `--aha-deck-surface-deep` deck variable (and `audienceSurfaceDeep()`): the deep panel, the same as `--aha-deck-surface` on a light deck and Deep Space at 80% on a dark one
+- `<aha-button variant="tertiary-deck">`: the audience phone's tertiary action at `size="touch"`. No edge, transparent fill, label and icon in the deck ink (`--aha-deck-ink`); ink 5% on hover and 10% pressed, the browser's own focus ring, ink 45% disabled. Text only, icon + text and icon only (48 x 48, `aria-label` required); `secondary-deck` takes the same three forms. Both are listed in the audience library with when-to-use lines (primary `aha-audience-submit`, secondary `secondary-deck`, tertiary `tertiary-deck`). Additive: every existing variant renders unchanged; to revert, delete the `tertiary-deck` rules in `lib/aha-button.js` and the two library entries (#209)
+- `<aha-button>` hooks `--aha-button-primary-border` (primary edge, default the fill) and `--aha-button-focus-outline` (outline on keyboard focus, default none); with neither set nothing changes
+### Changed
+- Audience components are re-specified: `<aha-audience-chip>` is 48px high with 8px corners, a 1px edge at ink 20% (also on hover), the deep panel on a dark deck and a 2px ink focus outline; `<aha-scale-slider>` centres the readout above an 8px rail with 2px corners, inset 16px from the end captions, step label weight 600, captions on a 16px line; `<aha-audience-image-upload>` area is a 2px dashed ink-20% edge with 8px corners on the deep panel with a backdrop blur, a 14px hint, and its compact button is full width; `<aha-audience-submit>` has a 1px ink-10% edge in every state and a 2px focus outline 1px off the button; `<aha-waiting-for-host>` has 8px gaps and a 14px sub-line; `<aha-submitted-card>` has a 16px gap, 8px between its texts, the deep panel, a 14px subtitle and a pip on an ink-10% wash with the glyph in the 65% ink (#209)
+- `<aha-swipe-card>` has 16px padding (was 24) and its `hint` is a 14px line below the statement with no arrows (was a 12px line above it between two arrows), so the card is 90px tall with a hint
+- Contracts, conformance expectations, library entries and examples for these components match the new values
+- Audience guidance matches the shipped components: rule `slider-rail-flush` and criterion C20 allow an equal intended rail inset (`<aha-scale-slider>` insets 16px) and only fail an uneven leftover Ant margin; rule `slider-fill-hairline`, C18, C32 and `border-weight` limit the one 10% value to tracks and panel hairlines and name the 20% edges (chip, dashed drop area, answer-row radio / checkbox control) (#209)
+### Fixed
+- The loading spinner in `<aha-button>` renders at its intended 16px. Its size shared a selector list with an invalid `::slotted(...) svg` selector, so the whole rule was dropped and the spinner measured 131px and stretched the host. This fixes every `<aha-button loading>` (and so `<aha-audience-submit>` while busy), not only the audience Submit button (#209)
+- `state-check.mjs` counts the white second tone of the browser's own focus ring (`outline-style: auto`), which `getComputedStyle` does not expose, so that ring is no longer read as 1.00:1 on a dark deck; authored outlines are measured as before (#209)
+
+## 0.146.0 — 2026-10-09
+### Added
+- Logo library: a Favicon section after The Splash, with `favicon-32.png`, `favicon-180.png` (apple-touch, white ground), `favicon-512.png` and `favicon.ico` (16, 32, 48), each with copy and download and a usage line; `node favicons.mjs` rebuilds them from `logo/thesplash.svg` (#218)
+
+## 0.144.1 — 2026-10-09
+### Fixed
+- The React snippet for `aha-csat` parses again when copied: the tooltip-placement note moved out of the `return` line into a comment above it (#216)
+
+## 0.144.0 — 2026-10-09
+### Changed
+- The docs site and every agent feed (`llms.txt`, `*.agent.json`, `design.md`, `variables.css`, the icon gallery) move from `ahaslides-product.github.io/ahaslides-design` to `https://design.ahaslides.io`, served at the domain root (staging at `/staging`); the old address stops being canonical at cut-over (#215)
+- `design.ahaslides.io` is served by a small Cloudflare Worker (`ahaslides-design-docs`, in `domain/`) that proxies the GitHub Pages site; no DNS edit or Pages custom domain needed (#215)
+- Docs pages opened on the old `ahaslides-product.github.io` address redirect to the same page on `design.ahaslides.io` (#215)
+
+## 0.143.0 — 2026-10-09
+### Added
+- "For developers" page (`get-started/index.html`, top-nav tab) holds the install steps, token layer, CDN snippet and agent feeds that used to open the Overview (#214)
+### Changed
+- The Overview is now a short start page for non-developers: what the system is, and six cards into Colour, Typography, Button, Components, Patterns and Guidelines. The 100-odd component cards are gone from it; the Components tab still lists them (#214)
+### Fixed
+- Plus Jakarta Sans loads sooner and survives a failed fetch: every docs page preloads the Regular and SemiBold files, and each `@font-face` falls back to a jsDelivr copy pinned to the release tag (#214)
+
+## 0.142.0 — 2026-10-09
+### Changed
+- `<aha-menu>` rows are Regular 400; the selected row is SemiBold 600 (#197)
+- `<aha-chart type="donut">` (donut and pie): only slice 1 is series 1; later slices cycle series 2 to 4, so the last slice no longer repeats Vivid Pink beside the first. Slices are separated by a 2px gap in `--aha-viz-slice-gap` (default `--aha-bg-container`; on a deck palette the inverse ink) instead of the 10% ink hairline (#197)
+- `<aha-button variant="text-link">` is underlined on hover, press and keyboard focus (no underline at rest) (#197)
+- Toast and Notification status icons are the DS stroke glyphs (info, check-circle, warning-circle, x-circle) in `--aha-icon-default` `#4A4A4A`, not antd's filled ones; importing `toast-theme` / `notification-theme` adds the rule so default `message.success()` calls get them, and `dsToastIcon` / `dsNotificationIcon` return an `<aha-icon>` for the `icon` option (#197)
+- Notification title is SemiBold 600 (was 400); `notification-theme` adds one `.ant-notification-notice-title` rule (#197)
+- `modalTheme` and `drawerTheme`: the antd Button is 36px, the DS `md` size (it was 32px) (#197)
+- `carouselTheme`: the active dot is Vivid Pink. antd drew a white overlay over it that no token reaches, so importing the module adds one `.ant-carousel .slick-dots` rule (`carouselDotsCss`); rest dots are grey 70 (#8A8A8A, 3.45:1 on white) and a focused dot shows the Vivid Pink focus outline (#197)
+- `formTheme` validation messages use the field error row: a 12px x-circle glyph and 12px (`--aha-size-sm`) text, as Input; importing the module adds one `.ant-form-item-explain-error` rule (`formErrorCss`). `<aha-tag checkable size="large" checked>` labels are the link pink `--aha-text-link-hover` `#DB005B`, the step that passes 4.5:1 on the pale pink fill, as the secondary button hover (#197)
+- `formTheme`: the antd Button is 36px, the DS `md` size (it was 32px) (#197)
+- `<aha-badge>` status: error, warning and success no longer look alike. Success is a solid black dot, error a hollow black ring, warning Vivid Pink 30% (`#F8B7D2`) with a 1px Vivid Pink edge, processing stays Vivid Pink and pulsing, default stays grey; `dot` markers take the same shapes. A Vivid Pink count is `status="primary"`, now shown on the Badge page and in the playground (#197)
+- `<aha-avatar-group>` rotates its members through Vivid Pink 5% (`#FEF3F7`), 30% (`#F8B7D2`) and 100% (`#E70E68`, white initials) so neighbours never share a ground; a member with its own `color` keeps it, and the +N chip sits on grey 25 (`#F3F3F3`) (#197)
+- Form, Autocomplete, Date picker, Time picker and Textarea themes follow the same field scale: default 40px, large 48px (they were 32 / 40), so an Input, a counted input and these controls sit level in a form (#197)
+- Input, Input number and Select: default height 40px, large 48px (small stays 24px); `<aha-input>` was 32 / 40, and `selectTheme` and `inputNumberTheme` set `controlHeight` 40 and `controlHeightLG` 48 (#197)
+- `<aha-pagination>` page and prev / next hover and press take the secondary button's treatment: `#FEF3F7` fill, `#E70E68` border, `#DB005B` label (press: `#DB005B` border) (#197)
+- Steps titles (`.ant-steps-item-title`) are SemiBold 600 (were 400); `steps-theme` adds the one rule when imported (#197)
+- `<aha-alert>` status glyph is 16px in both sizes (it was 18px in regular). `<aha-dropdown>` items: hover is `--aha-bg-hover` `#F7F7F7` (was grey 40 `#E3E3E3`), the leading icon is `--aha-icon-default` `#4A4A4A` (danger and disabled rows keep their text colour), the label is Regular 400 (was 600) (#197)
+- `<aha-alert>` info, success, warning and error sit on grey 25 (`--aha-gray-25`, `#F3F3F3`) with no border; branding keeps its pale pink surface, also with no border (#197)
+- **Breaking (visual):** the 7 October 2026 colour rules replace the DS V3 palette. Vivid Pink `#E70E68` is the one primary (`--aha-color-primary`, buttons, focus, link hover, icon-active); Darker Pink `#DB005B` is hover and press; Vivid Pink at 5% (`#FEF3F7`) is the hover and selected background (`--aha-bg-accent`, button secondary and tertiary hover). Token names are unchanged, only values move (#197)
+- **Breaking (visual):** status carries no colour. `--aha-color-success | warning | error | info`, the `--aha-text-positive | negative | warning` and `--aha-border-success | warning | error | info` tokens are the default ink `#1A1A1A`, each an alias of `--aha-text-default` so the two cannot drift (they were black `#000000`), the status backgrounds (`--aha-bg-positive | negative | warning | warning-subtle | informative`) are white, and the status buttons differ by shape (see the status-button entry below); every status keeps its icon and wording, and audience answer rows still tell correct from incorrect by the ✓ / ✗ glyph (#197)
+- **Breaking (visual):** brand charts use four colours in order: Vivid Pink, black `#1A1A1A`, Vivid Pink at 30% (`#F8B7D2`), light grey `#A8A8A8` (`--aha-viz-series-1…4`; 5 and 6 repeat the first two); tints are Vivid Pink at 5% or grey. Deck-palette charts are unchanged (#197)
+- Links are Vivid Pink `#E70E68`, underlined at rest (Button `text-link` has no underline at rest and is underlined on hover, press and keyboard focus, and `--aha-text-link-decoration: underline` restores it where the link takes the default ink), and turn Darker Pink `#DB005B` on hover (`--aha-text-link` aliases `--aha-color-primary`, `--aha-text-link-hover` aliases `--aha-color-primary-hover`; Button `link` and `text-link`, antd `colorLink`). Pink text passes contrast on white only (4.51:1), so on grey or Vivid Pink at 5% the screen sets `--aha-text-link` and `--aha-text-link-hover` to the default ink on that container (Button `link` does not detect its surface) and the link stays underlined, and on a dark surface it sets them to white; the docs site's note and back-link panels reach the same result by colouring their plain anchors the default ink directly. Text on Vivid Pink at 5% is the default ink: selected menu, select, radio button, card select, list avatar, dropdown, tabs, tag, badge, avatar, CSAT, uploader, table filter and number-step states no longer put pink text on the pale pink tint (#197)
+- The primary button gains a soft pink shadow on hover (`--aha-button-elevate-primary-hover`) and drops it on press. Overlay, ink alphas (`--aha-bg-overlay` is now black at 40%, `--aha-ink-a*`) and popover, tooltip and colour-picker shadows are black instead of indigo (#197)
+- Badge tones, plans and ranks drop coral, yellow, green and purple for Vivid Pink, pale pink, black and grey; rate stars are Vivid Pink (#197)
+- The colour picker's first preset and the audience snippets' sample deck accent are Vivid Pink (#197)
+- **Breaking (visual):** black is `#1A1A1A`, the same value as grey 100 and the default ink, since pure black is too harsh: `--aha-black` is an alias of `--aha-gray-100` (it was `#000000`), so the second chart series, the Pro plan badge and the docs composite badge soften with it. A pure black is never painted solid; shadows, the overlay scrim and the `--aha-ink-a*` alphas stay transparencies of it, where the difference cannot be seen (#197)
+- **Breaking (visual):** the dark surfaces are neutral. `--aha-bg-dark` is black `#1A1A1A`, an alias of `--aha-black` (tooltip, chart tooltip, docs code blocks; was indigo `#1A1A2E`) and `--aha-bg-dark-raised` is grey 95 `#303030`, an alias of `--aha-gray-95`, one step above it (paywall popover; was `#242442`). On the paywall popover white text is 13.2:1, the See all plans border 3.8:1 and both focus rings 13.2:1; the Upgrade button's fill is 2.9:1 against the surface, its white label 4.51:1 on the fill. `--aha-border-input` is grey-50 `#D4D4D4` (was `#D3D7E1`) and `--aha-text-primary-ink` is grey-90 `#4A4A4A` (was `#3E3E5A`) (#197)
+- The Colour page, `design.md` and the feeds list only the allowed palette: white, black, Vivid Pink, the grey ramp and the logo purple. The docs site's own badges, pills, notes, code panels and search highlight use those colours too (#197)
+- **Breaking (visual):** status carries no hue, so `<aha-button variant="positive">` (Upgrade, encourage) is Vivid Pink like primary (it was black). `--aha-btn-positive-bg | -bg-hover | -bg-press` are `#E70E68 | #DB005B | #DB005B` and `--aha-btn-danger-bg` is an alias of `--aha-text-default` and `--aha-btn-danger-bg-hover | -bg-press` alias `--aha-gray-90 | --aha-gray-80` (#197)
+- **Breaking (visual):** keyboard focus on `<aha-button>` is a 2px solid ring outside a 2px gap: Vivid Pink (4.51:1 on white). `--aha-btn-focus-ring` is `#E70E68` and `--aha-btn-focus-ring-success` and `--aha-btn-danger-ring` alias `--aha-text-default` (they were 30% and 20% alphas, 1.66:1 and 1.61:1). Set `--aha-button-focus-ring` and the new `--aha-button-focus-gap` on a dark surface (#197)
+- **Breaking (visual):** every illustration, third-party brand logo and file-type icon is drawn in the allowed colours. The 25 illustrations are one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (`#FEF3F7`, `#FDE7F0`, `#FACFE1`, `#F8B7D2`, `#F493BB`, `#F16EA4`, `#EC3E86`, `#E70E68`) plus Darker Pink `#DB005B`, with white and the default ink for outlines and faces; each original colour maps to the tint nearest to it in lightness, so shading keeps its order. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI; the 5% and 30% tints and Darker Pink keep their interface roles from the colour rules. The 18 coloured brand logos (PowerPoint, Excel, Word, Teams, OneDrive, Google, Drive, Slides, Zoom, YouTube and the rest) are greyscale, none darker than black `#1A1A1A`; the 5 file-type icons are one colour and now follow the text colour like every other icon (`recolorable: true`) (#197)
+- **Breaking (visual):** the pink hooks of the AhaSlides logo and The Splash are Vivid Pink `#E70E68` (they were Radical Pink `#FF4081`) in `logo/ahaslides-logo.svg` and `logo/thesplash.svg`, and so in the docs header. The purple hooks and the wordmark are unchanged, and so are the black and white variants (#197)
+- **Breaking:** the token `color.semantic.border` (`#E3E3E3`) is renamed `borderDefault`, so `--aha-border` is now `--aha-border-default` (JS key `borderDefault`), matching `--aha-text-default` and `--aha-icon-default`. `--aha-border` stays one release as a deprecated alias of `--aha-border-default` (as the renamed icon names and `<aha-progress-toast>` did), and is removed in the next release: migrate now. `--aha-border-input | -secondary | -strong | -disabled | -hover | -active | -error | -success | -warning | -info` are unchanged (#197)
+- **Breaking (visual):** `<aha-alert>` info, success, warning and error draw their icon in `--aha-icon-default` (`#4A4A4A`), and no alert type or banner draws a border any more (#197)
+- **Breaking (visual):** `<aha-button variant="danger">` renders exactly as `secondary` in every state (white fill, `#E3E3E3` border, pale pink hover with a Vivid Pink border, Darker Pink active border, disabled grey); the variant name is kept so callers do not break. the `--aha-button-danger-*` tokens stay defined: the dropdown danger item reads `--aha-button-danger-bg`, and nothing else in `lib/` reads the family (#197)
+- **Breaking:** `<aha-button variant="success">` is removed (it was not used anywhere in the DS); use `secondary`, or `positive` for a Vivid Pink call to action. `--aha-btn-focus-ring-success` stays because `<aha-option-row>` reads it; its `--aha-button-focus-ring-success` alias stays too, though nothing in `lib/` reads the alias any more (#197)
+- Fixed: the `loading` spinner on `<aha-button>` was invisible (0px wide) in every variant, because its size sat in one rule with an invalid `::slotted(...) svg` selector and the browser dropped the whole rule; it is now 16px in the label colour of each variant (#197)
+- **Breaking (docs):** Popconfirm follows the rule that the safe choice is the primary button. Spread the new `destructiveConfirm` (from `popconfirm-theme`) on a Delete or Remove confirm: Cancel is the Vivid Pink primary and the confirm is the dark danger button. It replaces the `okType="danger"` recipe. The action buttons are the DS small button size (28px tall, 4px corners, 14px semibold), the header icon is `<aha-icon name="system-warning-circle">` in the default ink, and the examples trigger from an `<aha-button>` (#197)
+- The Modal danger confirmation and the overlays guideline use the same roles: `cancelButtonProps={{ type: 'primary' }}` beside `okButtonProps={{ danger: true, type: 'primary' }}` (#197)
+- Toast and notification status icons (success, info, warning, error) are the default ink; they were antd's green, blue and amber. An antd `Button` under any DS theme hovers like the DS secondary button (pale pink fill, Vivid Pink border, Darker Pink label) instead of antd's lighter pink, and its focus outline is Vivid Pink (#197)
+- Error and warning focus on `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>`, `<aha-autocomplete>`, `<aha-select>` and `<aha-number-with-unit>` draws a solid 2px ring in the default ink (it was black at 20%, 1.61:1) (#197)
+- `<aha-button variant="text">` press is a grey-50 fill; it was a pink label on grey (3.51:1). The question-list add buttons and the uploader drop zone turn their label the default ink on the pale pink hover (pink on pale pink is 4.16:1) (#197)
+- The checked `<aha-tag checkable size="large">` filter chip from 0.117.0 is pale pink with a Vivid Pink border and a default-ink label (it shipped on the removed purple ramp) (#197)
+- Demo placeholders use allowed colours: card and image covers are grey, sample deck accents and deck-palette chart examples are Vivid Pink, white, Vivid Pink at 30% and light grey, the colour-picker examples pick Vivid Pink, Darker Pink and black. The colour picker's 12 default presets are unchanged: they are colours a presenter picks for their own content (#197)
+- Button `text-link` has no underline at rest (hover and active are #DB005B); new `--aha-text-link-decoration` (default `none`) lets a grey or Vivid Pink 5% surface restore it, and the docs note and back-link panels do. Button `link` and plain anchors stay underlined (#197)
+- Button `secondary` and `tertiary`: on hover and active the label and icon are `--aha-text-link-hover` (#DB005B) on the existing pale pink fill (#FEF3F7), 4.66:1; on active the `secondary` border is `--aha-border-active` (#DB005B), `tertiary` has no border. New `--aha-button-default-text-hover` (aliases `--aha-text-link-hover`); `--aha-button-default-border-press` is `--aha-border-active`. The antd base theme matches (`defaultHoverColor`, `defaultActiveColor`, `defaultActiveBorderColor`). Dark and deck surfaces (Paywall, audience image upload) override the label token to keep their ink. Hover and active rules of every variant skip a disabled button, so a disabled label keeps the disabled ink. (#197)
+- Docs site: every Show code toggle is the DS `<aha-button variant="secondary" size="sm">`; notes, hub hints and badges sit on grey instead of pale pink, and links inside them are the default ink, underlined (#197)
+### Added
+- Error message row: `error-message` on `<aha-input>`, `<aha-select>` and `<aha-counted-textarea>` shows a 12px error glyph and the message at `--aha-size-sm` below the field, linked by `aria-describedby` (with `aria-invalid` from `status="error"`). `<aha-field-error>` gains `icon` (the same row); antd Input number, Select and Textarea pair `status="error"` with a sibling `<aha-field-error icon>` (#197)
+- `--aha-vivid-pink-5 | 30 | 100 | dark` primitives and `--aha-gray-65` (`#A8A8A8`, the chart light grey) (#197)
+- `--aha-logo-purple` (`#6A1EBB`), the one purple left, for the logo only (#197)
+- `standards.mjs` fails a colour token that is off the allowed list (Vivid Pink, Darker Pink, the two flat tints, white, black, neutral greys, and purple at `color.primitives.logoPurple` only) and fails the build when the Colour page shows any other colour (#197)
+- `state-check.mjs`, an interactive-state gate that `qa.mjs` runs on every built page: it forces `:hover`, `:focus-visible` and `:active` on each control and fails text contrast under 4.5:1 (3:1 for large text and icons), a colour off the allowed list, or a focus indicator under 3:1. `node state-check.mjs <slug>` checks one page. Findings that predate the gate (87 element-and-state entries across 17 pages, mostly `--aha-text-tertiary` `#8A8A8A` labels at 3.45:1) are listed in `state-check.baseline.json` and can only shrink (#197)
+- `@ahaslides-product/design/antd-base-theme`: `dsAntdTheme(theme)` and `antdBaseTheme`. antd derives hover, press, focus and status colours from its seeds; the base pins each one to an allowed colour. All 17 `*-theme` exports are built with it (#197)
+- `recolour-art.mjs`: maps illustrations, third-party logos and file-type icons onto the allowed colours by rule (an illustration colour to the illustration tint nearest in lightness, a logo colour to a grey of the same lightness). Run it on the original export after a new Figma or brand import; `--check` lists what would change. Per-illustration exceptions sit in one table, `ILLUSTRATION_OVERRIDES` (#197)
+- `standards.mjs` fails a colour token or a source that paints pure black solid, an AhaSlides logo file with a colour other than the logo purple and Vivid Pink, and a demo whose service or file mark is not a file in the Logo library (a raster or base64 image hides its colours from the gate). The illustration tints pass in illustration files only (#197)
+- `standards.mjs` fails art that `recolour-art.mjs` would still change, an off-list colour in the icon or illustration registry, in a demo, contract, guideline or element source, or on the Colour page's inline SVG (only the header logo is skipped), and an antd theme that is not built on the shared base (#197)
+### Removed
+- **Breaking:** the DS V3 hue ramps are gone from `tokens.css`, `tokens.js`, `design.md` and every feed: `--aha-purple-*`, `--aha-pink-*`, `--aha-teal-*`, `--aha-coral-*`, `--aha-red-*`, `--aha-yellow-*`, `--aha-indigo-*`, `--aha-soft-indigo-*` and `--aha-lavender-*` (98 values). Use a semantic token; for the logo purple use `--aha-logo-purple` (was `--aha-purple-60`) (#197)
+- **Breaking:** the 13 brand slots `--aha-brand-1` to `--aha-brand-13` are gone. A deck-palette chart or a sample deck passes its own colours as values, since a deck theme is presenter content (#197)
+### Fixed
+- `<aha-dropdown>` keyboard: Tab from the open trigger now lands on the first enabled item (Tab / Shift+Tab and the arrows step through items, Tab past the last closes). Keydown checks read the retargeted shadow event target, so trigger and item were never recognised, and the panel's delayed `visibility` also blocked focus on open (#197)
+- A code snippet that names a Logo library file (`background-task` HTML, React and Vue) points at the build that printed it, so a staging page no longer shows a snippet that loads the released, still coloured PowerPoint mark (#197)
+- `DataTable` used on its own (outside a `tableTheme` provider) gives Export and the filter Reset / Apply buttons the DS secondary hover, a Vivid Pink border on Vivid Pink 5%, where antd's derived Darker Pink label showed (#197)
+- `state-check.baseline.json` lists one entry per element and state, and an entry the page no longer shows fails the gate until `node state-check.mjs --update-baseline` drops it, so known debt cannot quietly come back (#197)
+- The shared antd base theme reaches composite previews as escaped data, so no theme value can close the inline script it is written into (#197)
+- Paywall: the See all plans label stays white on hover and press. It turned `#1A1A1A` on the `#2C2C2C` hover fill (1.25:1) because the secondary button's hover rule set its label from `--aha-text-default` instead of the button's own `--aha-button-default-text`; it is now 13.96:1 in every state, with a white focus ring (#197)
+- `<aha-button variant="primary">` and `variant="secondary"` show their focus ring. A later elevation `box-shadow` rule overrode it, so keyboard focus drew nothing (#197)
+- `DataTable`: toolbar actions render inside the table's theme. They sat outside its `ConfigProvider`, so an antd `Button` there (Export) hovered in antd blue `#4096FF` (#197)
+- `<aha-button>` fades its label with the fill, border and shadow: `color` and `text-decoration-color` join the one transition (`--aha-motion-mid`, `--aha-ease-in-out`), so the label no longer snaps on hover or press. `<aha-image-action-button>` also fades its fill with its border and label. A unit test fails if a button state rule changes a property that is not in the transition list, or if the properties use different timings (#197)
+- The colour rules page (`brand/visual-identity-colour-rules.html`, v9) adds the illustration tints, lets illustrations use Darker Pink, says our own illustrations, customer and integration logos and file-type icons are not exempt, and writes black as `#1A1A1A` (#197)
+- `<aha-answer-option>` keeps its keyboard focus ring (2px, offset 2px, the row ink) after the audience-lab merge dropped it; the default browser outline was 1.09:1 on the neutral dark deck (#197)
+
+## 0.141.0 — 2026-10-09
+### Added
+- CSAT: opt-in `tooltip-placement="top|bottom"` attribute for the Good / Not good / Feedback tooltips. Default `top` is unchanged; `bottom` opens them below the buttons so they do not cover a title above the CSAT in a card. Any other value falls back to `top`; the feedback popover placement is unchanged (#213)
+
+## 0.140.0 — 2026-10-09
+### Changed
+- Background task: a file task's 24px leading icon is now its file-type glyph (`<aha-icon slot="icon" name="system-file-ppt|xls|pdf|csv|doc|image|…" size="24" decorative>`, default icon colour, `system-file` as fallback) instead of a Logo-library brand logo. Contract, snippets and previews updated; API unchanged (#210)
+- Background task: the inline `link` slot (Retry, Réessayer, …) follows the Button `link` variant: `--aha-text-link` at weight 400 with no underline at rest; on hover `--aha-text-link-hover` and an underline. It was weight 600 and always underlined. Focus ring and inline wrapping unchanged (#210)
+
+## 0.139.1 — 2026-10-09
+### Fixed
+- The dismiss ✕ (tertiary icon-only size xs Button) is back to the previous close-button colours: muted #8A8A8A glyph at rest, hover turns it #1A1A1A on a #F7F7F7 fill over 100ms, no purple hover or press. Other tertiary buttons keep the purple hover; the focus ring is unchanged (#212)
+
+## 0.139.0 — 2026-10-09
+### Added
+- Button: size `xs` for icon-only (20 × 20 hit area, radius 6) and a `corner` attribute that pins it to the first line of its flex row, 2px into the container's end padding. The dismiss ✕ is now documented here as a variant of the tertiary icon-only button (a "Close" section on the Button page) (#211)
+
+### Changed
+- The dismiss ✕ follows the tertiary Button: glyph #1A1A1A at rest (was muted #8A8A8A); hover fills #F9F5FF with the primary #6A1EBB glyph and press #F0E4FF (was #F7F7F7 fill, #1A1A1A glyph); focus is the soft Button ring. Size, radius, first-line pinning and the corner position are unchanged (#211)
+- Alert, Info box, Background task, CSAT follow-up, Uploader, and Toast, Notification, Modal and Drawer (through `closeButtonRow`) render `<aha-button variant="tertiary" icon-only size="xs" corner>` directly. `::part(close)`, `::part(dismiss)` and `::part(remove)` now target the `<aha-button>` host (#211)
+- Guidelines, contracts and the feedback anti-slop criterion C6 describe the ✕ as the tertiary icon-only button (#211)
+
+### Removed
+- The standalone "Close button" docs page and nav entry. `<aha-close-button>` stays as a deprecated alias that renders the xs tertiary icon-only button; `AhaCloseButton` and `defineAhaCloseButton` still resolve (#211)
+
+## 0.133.0 — 2026-10-08
+### Added
+- Icon: 36 file glyphs from Phosphor Icons Regular (MIT) — `system-file-pdf`, `system-file-c-sharp`, `system-file-zip` and the rest of the `file-*` set — on the DS 16px grid with the 1.5 stroke, matching `system-file-xls`. Registry is now 304 glyphs. Licence and name list in `icons/svg/system/PHOSPHOR-CREDITS.md` (#208)
 
 ## 0.130.0 — 2026-10-08
 ### Changed
@@ -101,7 +250,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.113.0 — 2026-10-08
 ### Added
 - `<aha-tag size="large">`: the 36px checkable filter chip (14px regular text, 12px padding, 8px radius) (#198)
-- `<aha-tag color="branding">`: the pink "New" label, `--aha-pink-20` fill with `--aha-pink-60` text (#198)
+- `<aha-tag color="branding">`: the pink "New" label, pale pink fill with black text and a Vivid Pink border (#198)
 - `<aha-rate size="sm">` draws 16px stars with a 2px gap, and `<aha-rate readonly precision="exact">` fills the last star by the exact fraction, so 4.8 shows 80% of the fifth star (#198)
 - `<aha-empty image="none">`: a text-only empty state with no illustration (#198)
 - Icon `system-funnel-2`: a real funnel (16px, stroke `currentColor`); `system-funnel` is unchanged (#198)

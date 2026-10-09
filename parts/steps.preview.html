@@ -3,6 +3,7 @@
      measures: the real antd Steps bound to the shared theme. Interactive: the controls drive
      live React state (Direction / Size / Style / status), so the whole matrix is explorable —
      the default render (horizontal · default · numbered · step 2) is what conformance measures. -->
+<style>.ant-steps-item-title{font-weight:600}</style>
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -14,9 +15,9 @@
 
 <script>
 window.__st = {
-  token: { colorPrimary:'#6A1EBB', colorText:'#1A1A1A', borderRadius:8,
+  token: { colorPrimary:'#E70E68', colorText:'#1A1A1A', borderRadius:8,
            fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
-  components:{ Steps:{ colorPrimary:'#6A1EBB', iconSize:32, iconFontSize:14, titleLineHeight:32 } }
+  components:{ Steps:{ colorPrimary:'#E70E68', iconSize:32, iconFontSize:14, titleLineHeight:32 } }
 };
 </script>
 
@@ -73,6 +74,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__st)}><Demo /></ConfigProvider>
 );
 </script>

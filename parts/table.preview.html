@@ -10,7 +10,7 @@
   .aha-toolbar .ttl { font-size:18px; font-weight:600; color:var(--aha-text-default); }
   .aha-tbtns { display:flex; gap:8px; }
   /* DS V3 container — 1px border + radius 8 wrapping the whole grid (antd draws none) */
-  #react-root .ant-table { border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); overflow:hidden; }
+  #react-root .ant-table { border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-default); overflow:hidden; }
   /* single-arrow sort (replaces antd's dual caret) */
   .ant-table-column-sorter { display:none !important; }
   .aha-sort { margin-left:6px; color:var(--aha-text-disabled); display:inline-flex; vertical-align:middle; }
@@ -25,7 +25,7 @@
   .aha-pop .aha-foot { display:flex; justify-content:space-between; align-items:center; margin-top:14px; }
   .aha-reset { background:none; border:none; color:var(--aha-text-tertiary); cursor:pointer; font:inherit; padding:0; }
   .aha-reset:hover { color:var(--aha-text-secondary); }
-  /* reorder — draggable headers + purple drop-line */
+  /* reorder — draggable headers + Vivid Pink drop-line */
   .aha-th-grab { display:inline-flex; align-items:center; gap:6px; cursor:grab; }
   .aha-th-grab .dots { color:var(--aha-text-tertiary); display:inline-flex; }
   th.aha-drag-over { box-shadow: inset 2px 0 0 0 var(--aha-color-primary); }
@@ -49,10 +49,10 @@
 <script>
 window.__aha = {
   theme: {
-    token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32,
+    token: { colorPrimary:'#E70E68', borderRadius:8, controlHeight:32,
              fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif',
              colorText:'#1A1A1A', colorTextSecondary:'#8A8A8A', colorBorderSecondary:'#E3E3E3' },
-    components:{ Table:{ headerBg:'#ffffff', headerColor:'#8A8A8A', headerSplitColor:'transparent',
+    components:{ Table:{ headerBg:'#FFFFFF', headerColor:'#8A8A8A', headerSplitColor:'transparent',
              borderColor:'#E3E3E3', rowHoverBg:'#F1F1F1', cellPaddingBlock:16, cellPaddingInline:16, headerBorderRadius:0 } }
   },
   rows: [
@@ -155,7 +155,7 @@ const COLS = {
   score: { key:'score', title:'Score', dataIndex:'score' },
 };
 
-/* Reorder — HTML5 drag on headers via onHeaderCell; purple drop-line on the drag-over cell.
+/* Reorder — HTML5 drag on headers via onHeaderCell; Vivid Pink drop-line on the drag-over cell.
    (antd's Table has no native column reorder — this is the "customise" layer, hand-rolled.) */
 function ReorderDemo() {
   const [order, setOrder] = useState(['name','team','responses','score']);
@@ -243,7 +243,7 @@ function App() {
   const editCols = [COLS.name, ...editable.filter(k=>visible.includes(k)).map(k=>COLS[k])];
 
   return (
-    <ConfigProvider theme={R.theme}>
+    <ConfigProvider theme={window.__ahaDsTheme(R.theme)}>
       <Space direction="vertical" size={28} style={{ display:'flex' }}>
 
         <Section title="Basic">
@@ -276,7 +276,7 @@ function App() {
           <Table rowKey="key" columns={editCols} dataSource={R.rows} pagination={false} />
         </Section>
 
-        <Section title="Reorder column" hint="drag a header to reorder; purple drop-line marks the target">
+        <Section title="Reorder column" hint="drag a header to reorder; Vivid Pink drop-line marks the target">
           <ReorderDemo />
         </Section>
 

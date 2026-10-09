@@ -33,7 +33,7 @@ Two "sources of truth" for AhaSlides tokens disagreed. This resolves them into *
 | 13 | **spacing scale** | full 4-based + 6/10/14 | (antd size) | **EXPORT** | export scale | Rich, matches README |
 
 ## Open items — need a DS-owner decision (not mechanically resolvable)
-1. **`encourage` button greens** (`#2CB268 / #168C4D / #12733F`) live in the export's `semantic.css` but exist in **no** palette scale, and the skill has no "encourage" concept → add green primitives + alias, or drop the variant.
+1. **`encourage` button greens** — resolved by the colour rules of 7 October 2026: the encourage button follows the primary (Vivid Pink) and no green exists in the token set.
 2. **`radius-64`** is off the 4/6/8/12/16 scale; the export README documents an **80px** outlier, not 64 → confirm 80 or remove.
 3. **`--aha-lh-tight:8px`** in the export is a broken value (smaller than any font) → discarded here; fix at the export source too.
 

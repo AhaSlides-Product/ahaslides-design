@@ -12,7 +12,7 @@
   "tokensUsed": ["text-default", "text-secondary", "color-primary"],
   "spec": [
     { "label": "Type", "value": "title = <aha-breadcrumb size=\"page-title\"> — Heading4 24 / SemiBold 600 / line-height 1.3 / #1A1A1A (text-default) for a single-crumb page title; 18/600 with an ancestor path" },
-    { "label": "Highlight", "value": "optional `highlight` substring of the title in color-primary #6A1EBB (a person's name) → a local greeting <h1>, matched to the breadcrumb page-title solo" },
+    { "label": "Highlight", "value": "optional `highlight` substring of the title in color-primary #E70E68 (a person's name) → a local greeting <h1>, matched to the breadcrumb page-title solo" },
     { "label": "Breadcrumb", "value": "`breadcrumb` JSON [{label, href?}] → the `›` trail renders as the page title via the reused <aha-breadcrumb size=\"page-title\"> (heading-level 1)" },
     { "label": "Description", "value": "optional subtitle, Plus Jakarta 14/22 · text-secondary #4A4A4A, under the title" },
     { "label": "Actions", "value": "slot=\"actions\" — the consumer drops <aha-button>s here (never a hand-rolled button)" },
@@ -36,7 +36,7 @@
       { "what": "Card", "when": "a titled content container, not the page-level header" }
     ],
     "note": "One primary action on the right at most; the rest secondary. Use a plain `title` for a top-level page (optionally with a `highlight` name), and a `breadcrumb` trail for a sub-page — both render the page heading via the reused <aha-breadcrumb size=\"page-title\">, never a hand-rolled <h1>. Keep the title a short sentence-case phrase.",
-    "dsv3": "COVERED — DS V3 Screen heading (fileKey P764iQ6y4ZwW7W3f7FLZyW, node 2237:55733; Desktop / Tablet / Phone device variants). The Desktop symbol = a Breadcrumb instance + a (hidden) description line + a Button Group. Bindings from get_variable_defs: title Heading4 24 / weight 600 / line-height 1.3 / #1A1A1A (text-default), brand-accent name #6A1EBB (color-primary), gaps 8 (GapM) and 16 (GapL), icon 16. REUSE: the title IS the shipped <aha-breadcrumb size=\"page-title\"> (a Breadcrumb instance in Figma too — the page heading, single-crumb or trailed); the actions are slotted <aha-button>s from the DS button. The only local <h1> is the accent-name greeting the breadcrumb can't render — no second breadcrumb, no hand-rolled title, no hand-rolled button."
+    "dsv3": "COVERED — DS V3 Screen heading (fileKey P764iQ6y4ZwW7W3f7FLZyW, node 2237:55733; Desktop / Tablet / Phone device variants). The Desktop symbol = a Breadcrumb instance + a (hidden) description line + a Button Group. Bindings from get_variable_defs: title Heading4 24 / weight 600 / line-height 1.3 / #1A1A1A (text-default), brand-accent name #E70E68 (color-primary), gaps 8 (GapM) and 16 (GapL), icon 16. REUSE: the title IS the shipped <aha-breadcrumb size=\"page-title\"> (a Breadcrumb instance in Figma too — the page heading, single-crumb or trailed); the actions are slotted <aha-button>s from the DS button. The only local <h1> is the accent-name greeting the breadcrumb can't render — no second breadcrumb, no hand-rolled title, no hand-rolled button."
   },
   "surfaces": ["dashboard", "editor", "admin", "settings"],
   "reuse": { "entry": "./aha-screen-heading", "registers": "aha-screen-heading", "exportsNamed": ["AhaScreenHeading", "defineAhaScreenHeading"] },
@@ -98,7 +98,7 @@
   },
   "selfCheck": [
     { "label": "greeting title Heading4 24 / SemiBold 600 / #1A1A1A (text-default)", "verdict": "PASS" },
-    { "label": "highlight substring in color-primary #6A1EBB", "verdict": "PASS" },
+    { "label": "highlight substring in color-primary #E70E68", "verdict": "PASS" },
     { "label": "page title reuses <aha-breadcrumb size=\"page-title\"> (plain title + trail), never a hand-rolled <h1>", "verdict": "PASS" },
     { "label": "reused breadcrumb renders a real heading (h1) for the current page", "verdict": "PASS" },
     { "label": "actions are slotted <aha-button>s (reused, not rewritten)", "verdict": "PASS" },
@@ -110,6 +110,6 @@
     "ready": "!!(document.querySelector('aha-screen-heading[data-probe]') && document.querySelector('aha-screen-heading[data-probe]').shadowRoot && document.querySelector('aha-screen-heading[data-probe]').shadowRoot.querySelector('.title') && (function(){var bc=document.querySelector('aha-screen-heading[breadcrumb]');var bcr=bc&&bc.shadowRoot;var ib=bcr&&bcr.querySelector('aha-breadcrumb');return !!(ib&&ib.shadowRoot&&ib.shadowRoot.querySelector('h1'));})())",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-screen-heading[data-probe]');var r=el&&el.shadowRoot;var t=r&&r.querySelector('.title');var hl=r&&r.querySelector('.hl');var d=r&&r.querySelector('.desc');var st=t?getComputedStyle(t):null;var sd=d?getComputedStyle(d):null;var bc=document.querySelector('aha-screen-heading[breadcrumb]');var bcr=bc&&bc.shadowRoot;var ib=bcr&&bcr.querySelector('aha-breadcrumb');var ibr=ib&&ib.shadowRoot;return{titleColor:st?st.color:null,titleSize:st?st.fontSize:null,titleWeight:st?st.fontWeight:null,highlightColor:hl?getComputedStyle(hl).color:null,descColor:sd?sd.color:null,reusesBreadcrumb:!!ib,breadcrumbSize:ib?ib.getAttribute('size'):null,breadcrumbHeading:!!(ibr&&ibr.querySelector('h1'))};})()",
-    "expect": { "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "titleWeight": "600", "highlightColor": "rgb(106, 30, 187)", "descColor": "rgb(74, 74, 74)", "reusesBreadcrumb": true, "breadcrumbSize": "page-title", "breadcrumbHeading": true }
+    "expect": { "titleColor": "rgb(26, 26, 26)", "titleSize": "24px", "titleWeight": "600", "highlightColor": "rgb(231, 14, 104)", "descColor": "rgb(74, 74, 74)", "reusesBreadcrumb": true, "breadcrumbSize": "page-title", "breadcrumbHeading": true }
   }
 }

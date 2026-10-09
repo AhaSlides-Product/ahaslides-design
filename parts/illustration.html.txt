@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      Call any illustration BY NAME — never inline an <svg>. One import loads <aha-illustration> +
-     the multi-colour spot-art registry; art keeps its OWN palette, size is one edge (px), the
+     the spot-art registry; art is drawn in fixed pink tints, size is one edge (px), the
      other edge follows the art's aspect ratio. -->
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/illustrations.js';   // registers <aha-illustration> + registry

@@ -3,7 +3,7 @@
   <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
     <aha-countdown data-probe total-ms="30000" urgent-below-ms="5000"></aha-countdown>
   </div>
-  <div class="lbl">Dark deck — applyDeck() with a white ink and a mint accent</div>
+  <div class="lbl">Dark deck — applyDeck() with a white ink and a Vivid Pink accent</div>
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <aha-countdown total-ms="30000" urgent-below-ms="5000"></aha-countdown>
   </div>
@@ -13,6 +13,6 @@
 <script type="module">
   import '../lib/aha-countdown.js';   // registers <aha-countdown>
   import { applyDeck } from '../lib/audience-deck.js';
-  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#20E8B5'] });
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
   for (const t of document.querySelectorAll('aha-countdown')) t.setAttribute('ends-at', String(Date.now() + 18000));
 </script>

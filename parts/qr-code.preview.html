@@ -7,7 +7,7 @@
 <style>
   /* DS V3 QR frame — 1px border, radius 8, white surface, bound to --aha-* tokens (never raw hex). */
   #react-root .aha-qr { display:inline-block; box-sizing:border-box; padding:16px; background:var(--aha-bg-container);
-    border:1px solid var(--aha-border); border-radius:var(--aha-radius-default);
+    border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-default);
     transition:border-color var(--aha-motion-duration-mid,.2s) var(--aha-ease-standard,ease); }
   #react-root .aha-qr .ant-qrcode { padding:0 !important; margin:0 !important; border:0 !important; }
   #react-root .aha-caption { margin-top:8px; font-family:var(--aha-font-product); font-size:12px; color:var(--aha-text-tertiary); text-align:center; }
@@ -24,7 +24,7 @@
 
 <script>
 window.__st = {
-  token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorBorderSecondary:'#E3E3E3',
+  token: { colorPrimary:'#E70E68', borderRadius:8, colorText:'#1A1A1A', colorBorderSecondary:'#E3E3E3',
            fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' }
 };
 </script>
@@ -84,6 +84,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__st}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__st)}><Demo /></ConfigProvider>
 );
 </script>

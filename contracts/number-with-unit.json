@@ -19,9 +19,9 @@
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },
-    { "label": "Rest border", "value": "1px #D3D7E1 (border-input)" },
-    { "label": "Error", "value": "#F5222D border + ring + a 12/18 #F5222D message line below; sets aria-invalid" },
-    { "label": "Focus", "value": "#6A1EBB border + solid 2px #D3B4FF (border-focus) ring (persistent wrapper); hover #6A1EBB border" },
+    { "label": "Rest border", "value": "1px #D4D4D4 (border-input)" },
+    { "label": "Error", "value": "#1A1A1A border + ring + a 12/18 #1A1A1A message line below; sets aria-invalid" },
+    { "label": "Focus", "value": "#E70E68 border + solid 2px #E70E68 (border-focus) ring (persistent wrapper); hover #E70E68 border" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],
   "props": [
@@ -79,6 +79,6 @@
     "ready": "!!(document.querySelector('aha-number-with-unit[data-probe]') && document.querySelector('aha-number-with-unit[data-probe]').shadowRoot && document.querySelector('aha-number-with-unit[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-number-with-unit[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var s=r&&r.querySelector('.stepper');var u=r&&r.querySelector('.unit');var m=r&&r.querySelector('.msg');var ws=w?getComputedStyle(w):null;var us=u?getComputedStyle(u):null;var ms=m?getComputedStyle(m):null;var order=(s&&u)?((s.compareDocumentPosition(u)&Node.DOCUMENT_POSITION_FOLLOWING)?'stepper-before-unit':'unit-before-stepper'):null;return{height:ws?ws.height:null,radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,unitColor:us?us.color:null,msgColor:ms?ms.color:null,childOrder:order};})()",
-    "expect": { "height": "32px", "radius": "8px", "border": "rgb(245, 34, 45)", "unitColor": "rgb(153, 153, 153)", "msgColor": "rgb(245, 34, 45)", "childOrder": "stepper-before-unit" }
+    "expect": { "height": "32px", "radius": "8px", "border": "rgb(26, 26, 26)", "unitColor": "rgb(153, 153, 153)", "msgColor": "rgb(26, 26, 26)", "childOrder": "stepper-before-unit" }
   }
 }

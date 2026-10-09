@@ -12,6 +12,9 @@
      Thumbs-up rates instantly; thumbs-down opens the free-text feedback popover. -->
 <aha-csat prompt="How did this import go?" source="docs_footer" feedback-button></aha-csat>
 
+<!-- Inside a card whose title sits above the CSAT, open the tooltips below so they do not cover it. -->
+<aha-csat prompt="How did this import go?" source="docs_card" feedback-button tooltip-placement="bottom"></aha-csat>
+
 <script>
   const csat = document.querySelector('aha-csat');
   csat.addEventListener('rate', (e) => {

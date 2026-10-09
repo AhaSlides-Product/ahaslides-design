@@ -24,10 +24,10 @@ const footer = (danger, close) => h('div',
   { style: 'display:flex;align-items:center;justify-content:space-between' }, [
     h('a', { href: learnMore, target: external ? '_blank' : undefined, rel: external ? 'noreferrer' : undefined,
              style: 'display:inline-flex;align-items:center;gap:6px;color:var(--aha-text-link);text-decoration:none' }, [
-      'Learn more ', external ? h('aha-icon', { name: 'system-arrow-square-out', size: '14' }) : null,
+      'Learn more ', external ? h('aha-icon', { name: 'system-arrow-square-out', size: '16' }) : null,
     ]),
     h('span', { style: 'display:inline-flex;gap:8px' }, [
-      h(Button, { onClick: close }, () => 'Cancel'),
+      h(Button, { type: danger ? 'primary' : 'default', onClick: close }, () => 'Cancel'),
       h(Button, { type: 'primary', danger }, () => 'Apply'),
     ]),
   ]);
@@ -38,7 +38,7 @@ const footer = (danger, close) => h('div',
     <a-button @click="confirm = true">Delete team…</a-button>
     <a-button type="primary" @click="action = true">Share course…</a-button>
 
-    <!-- Confirmation modal — always `simple`; the danger context tints Apply. -->
+    <!-- Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply the dark danger button. -->
     <a-modal
       v-model:open="confirm"
       :closable="false"

@@ -32,7 +32,7 @@
     },
     {
       "label": "Fill",
-      "value": "primary #6A1EBB · status recolours (success/warning/exception) · active = running, moving white stripes over the fill"
+      "value": "primary #E70E68 · status recolours (success/warning/exception) · active = running, moving white stripes over the fill"
     },
     {
       "label": "Motion",
@@ -146,7 +146,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "fill primary #6A1EBB · track 8px",
+      "label": "fill primary #E70E68 · track 8px",
       "verdict": "PASS"
     },
     {
@@ -168,7 +168,7 @@
       "ariaValueText": "Question 3 of 10",
       "innerHidden": "true",
       "innerPercent": "30",
-      "fillBg": "rgb(106, 30, 187)",
+      "fillBg": "rgb(231, 14, 104)",
       "trackHeight": "8px"
     }
   }

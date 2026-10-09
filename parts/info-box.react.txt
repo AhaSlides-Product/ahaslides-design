@@ -1,4 +1,4 @@
-import '@ahaslides-product/design/aha-info-box'; // registers <aha-info-box> (+ <aha-close-button>)
+import '@ahaslides-product/design/aha-info-box'; // registers <aha-info-box> (+ <aha-button>)
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-info-box> directly.
