@@ -15,7 +15,7 @@
     { "label": "Sizes", "value": "xs 20 (icon-only only, r6) · sm 28 (r4) · md 36 (r8) · lg 40 (r8, default) · xl 52 (r12, padding 28) · touch 48 (r8, padding 24) — heights; fontSize 14 (sm/md) / 16 (lg/xl/touch)" },
     { "label": "Primary", "value": "bg #6A1EBB, label #FDFDFD, hover #8644D4, active #5715A0" },
     { "label": "Secondary", "value": "white bg, #1A1A1A label, 1px #E3E3E3 border; hover brand-tint #F9F5FF + #A96FF0 border" },
-    { "label": "Tertiary / Link", "value": "transparent; tertiary hover #F9F5FF, active #F0E4FF; link #6A1EBB weight 400" },
+    { "label": "Tertiary / Link", "value": "transparent; tertiary hover #F9F5FF, active #F0E4FF (the xs icon-only close ✕ keeps its own grey hover, see Close · colour); link #6A1EBB weight 400" },
     { "label": "Danger", "value": "bg #F5222D, white label, hover #FF4D4F, active #CF1322" },
     { "label": "Positive / Success", "value": "bg #4EF1C5, dark label #1A1A1A, hover #93F5DA, active #20E8B5 (success = alias of positive)" },
     { "label": "Primary-alt", "value": "same fill as primary #6A1EBB (a second primary slot for a two-primary layout)" },
@@ -26,7 +26,7 @@
     { "label": "Elevation", "value": "subtle drop-shadow (primary rgba0,0,0,.04 · secondary .016)" },
     { "label": "Icon-only", "value": "square (width = height per size: 20/28/36/40/52), glyph centred, no label; needs aria-label" },
     { "label": "Close (✕)", "value": "tertiary icon-only at size xs: <aha-button variant=\"tertiary\" icon-only size=\"xs\" corner aria-label=\"Close\"> holding the 14px system-x · 20 × 20 hit area · radius 6 (radius-sm) · never circular (no disc, no system-x-circle as a control); over a photo it takes a white fill" },
-    { "label": "Close · colour", "value": "tertiary: glyph --aha-text-default (#1A1A1A) at rest, transparent fill; hover --aha-button-ghost-bg-hover (#F9F5FF) fill with the #6A1EBB primary glyph; press --aha-button-ghost-bg-press (#F0E4FF); 2px soft focus ring" },
+    { "label": "Close · colour", "value": "muted glyph --aha-icon-muted (#8A8A8A) at rest, transparent fill; hover and press turn the glyph --aha-text-default (#1A1A1A) on a --aha-bg-hover (#F7F7F7) fill over 100ms (not the purple tertiary hover); 2px soft focus ring" },
     { "label": "Close · position", "value": "`corner`: end of the row, top-pinned, centre 2.5px above the centre of the first line of text (stays put when the text wraps); -2px end margin tucks it 2px into the container's end padding (Info box: hit area 15px from the right, 11px from the top)" },
     { "label": "Close · used by", "value": "Alert · Info box · Background task · Toast · Notification · Modal · Drawer · CSAT · Uploader. Toast and Notification take it through dismissibleToast / dismissibleTitle, Modal and Drawer through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`" }
   ],
