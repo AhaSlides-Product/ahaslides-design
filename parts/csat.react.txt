@@ -12,7 +12,8 @@ function AhaCsat({ prompt, source, tooltipPlacement, onRate, onFeedback }) {
     el.addEventListener('feedback', feedback);
     return () => { el.removeEventListener('rate', rate); el.removeEventListener('feedback', feedback); };
   }, [onRate, onFeedback]);
-  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} />   {/* 'top' (default) | 'bottom' — open the tooltips below inside a titled card */};
+  // tooltipPlacement: 'top' (default) | 'bottom' — open the tooltips below inside a titled card
+  return <aha-csat ref={ref} prompt={prompt} source={source} feedback-button tooltip-placement={tooltipPlacement} />;
 }
 
 // usage — thumbs-up rates instantly; thumbs-down opens the free-text feedback popover

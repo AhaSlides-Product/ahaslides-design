@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.143.1 — 2026-10-09
+### Fixed
+- The React snippet for `aha-csat` parses again when copied: the tooltip-placement note moved out of the `return` line into a comment above it (#000)
+
 ## 0.143.0 — 2026-10-09
 ### Added
 - "For developers" page (`get-started/index.html`, top-nav tab) holds the install steps, token layer, CDN snippet and agent feeds that used to open the Overview (#214)
