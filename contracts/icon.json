@@ -12,7 +12,7 @@
   "spec": [
     { "label": "Set", "value": "304 glyphs · system · slide-type · file-type" },
     { "label": "Source", "value": "Figma Design System V3 · node 50699-7126" },
-    { "label": "Sizes", "value": "12 · 16 · 24 · 32 (only)" },
+    { "label": "Sizes", "value": "XS 12 · S 16 · M 24 · L 32 (only)" },
     { "label": "Colour", "value": "currentColor / semantic token (every glyph is one colour and recolorable, file-type glyphs included)" },
     { "label": "State", "value": "outline = neutral · -filled asset = active" }
   ],
