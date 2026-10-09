@@ -22,9 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.130.0 — 2026-10-08
+## 0.133.0 — 2026-10-08
 ### Added
 - Icon: 36 file glyphs from Phosphor Icons Regular (MIT) — `system-file-pdf`, `system-file-c-sharp`, `system-file-zip` and the rest of the `file-*` set — on the DS 16px grid with the 1.5 stroke, matching `system-file-xls`. Registry is now 304 glyphs. Licence and name list in `icons/svg/system/PHOSPHOR-CREDITS.md` (#208)
+
+## 0.130.0 — 2026-10-08
+### Changed
+- Settings spacing: sibling settings sit 24px apart (was 16) in `aha-setting-group`, `aha-sub-setting-group` and `aha-settings-list`; a sub-setting group sits 16px below its parent (was 8) with the same 24px indent. Rule SETTINGS-13, criterion C5 and the sub-setting conformance probe follow (#192)
+- Settings labels: a setting label is regular 400 in primary text; a label inside a sub-setting group is regular 400 in secondary text, set through `--aha-setting-label-color` on `aha-settings-item`, `aha-setting-row` and `aha-mode-field`. Stale "semibold row label" text removed from contracts (#192)
+- Group header: no toggle, switch, input, select or button in the `aha-setting-group` / `aha-section-header` action slot, plain text such as a count only; the section-header demos and snippets no longer show a master switch. A group title is only for a real group of two or more settings (#192)
+- Icons: criterion C2, the icon contract and the agent skill say a glyph may be drawn only when the library has no suitable icon, with strokes 12px 1, 16px 1.5, 24px 2, 32px 2.5 (#192)
+- Settings list: the standing consequence line is documented and demoed as an opt-in variant, not the default (#192)
+### Added
+- Anti-slop criteria C16 (group title and header controls) and C17 (setting label weight and colour, sibling gap) on the settings surface (#192)
 
 ## 0.129.0 — 2026-10-08
 ### Changed
