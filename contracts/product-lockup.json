@@ -51,6 +51,10 @@
     {
       "label": "Minimum",
       "value": "18px type (The Splash about 24px); a smaller size is raised to 18"
+    },
+    {
+      "label": "Bleed",
+      "value": "the box keeps 0.1em past the ink at the right, top and bottom, so a clipping parent never cuts a glyph edge or The Splash"
     }
   ],
   "props": [

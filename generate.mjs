@@ -33,8 +33,6 @@ const ADIR = join(root, 'audience');     // audience component library — the m
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
-const HEADER_SPLASH = read(join(root, 'logo', 'thesplash.svg')).trim()
-  .replace(/<svg\s+width="\d+"\s+height="\d+"/, '<svg class="logo" aria-hidden="true"');
 const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
@@ -378,8 +376,8 @@ body{margin:0;background:#fff;color:var(--aha-text-default);font-family:var(--ah
 a{color:var(--aha-color-primary)}
 
 /* ---- app shell ---- */
-.doc-header{position:sticky;top:0;z-index:30;height:64px;display:flex;align-items:center;gap:22px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
-.brand{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:600;color:var(--aha-text-default);text-decoration:none;flex:0 0 auto}
+.doc-header{position:sticky;top:0;z-index:30;height:64px;container:aha-header / inline-size;display:flex;align-items:center;gap:22px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
+.brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
 
 /* ---- top-level area nav (AntD-style header tabs) ---- */
 .top-nav{display:flex;gap:2px;align-items:center;flex:1 1 auto;height:100%}
@@ -387,8 +385,6 @@ a{color:var(--aha-color-primary)}
 .top-nav a:hover{color:var(--aha-color-primary)}
 .top-nav a.active{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
 .hmeta{flex:0 0 auto}
-.brand .logo{width:30px;height:30px;display:inline-block;flex:0 0 auto}
-.brand small{display:block;font-size:11px;font-weight:400;color:var(--aha-text-tertiary);letter-spacing:.2px;margin-top:1px}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
 a.ver{color:var(--aha-text-secondary);text-decoration:none}
@@ -1018,7 +1014,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 ${fontPreloads(base)}
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style>${DS_ANTD_THEME_SCRIPT}</head><body>
 <header class="doc-header">
-  <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
+  <a class="brand" href="${base}index.html"><aha-product-lockup product="Design System"></aha-product-lockup></a>
   ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="16" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
@@ -1029,7 +1025,7 @@ ${fontPreloads(base)}
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
-<script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';</script>
+<script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';import '${base || './'}lib/aha-product-lockup.js';</script>
 <script>${SEARCH_JS}${NAV_TOGGLE_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
@@ -2368,7 +2364,6 @@ function renderLogoPage() {
   ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
   <p class="body">Don&rsquo;t:</p>
   <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
-  <script type="module">import '../lib/aha-product-lockup.js';</script>
   <h3 class="tok-h3">Favicon</h3>
   <p class="body">Use <code>favicon.ico</code> and <code>favicon-32.png</code> in <code>&lt;link rel="icon"&gt;</code>, <code>favicon-180.png</code> (white ground, because iOS fills transparency black) in <code>&lt;link rel="apple-touch-icon"&gt;</code>, and <code>favicon-512.png</code> as the 512 px icon in the web app manifest. All four are The Splash in its own colours, centred with even padding; rebuild them with <code>node favicons.mjs</code>.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
