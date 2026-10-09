@@ -22,11 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.140.0 — 2026-10-09
+## 0.141.0 — 2026-10-09
 ### Changed
 - `<aha-menu>` rows are Regular 400; the selected row is SemiBold 600 (#197)
 - `<aha-chart type="donut">` (donut and pie): only slice 1 is series 1; later slices cycle series 2 to 4, so the last slice no longer repeats Vivid Pink beside the first. Slices are separated by a 2px gap in `--aha-viz-slice-gap` (default `--aha-bg-container`; on a deck palette the inverse ink) instead of the 10% ink hairline (#197)
-- The dismiss ✕ (tertiary icon-only `<aha-button>` at size `xs`) keeps the glyph #1A1A1A at rest and turns #DB005B on a #FEF3F7 fill on hover and press, from `--aha-button-ghost-bg-hover` and `--aha-text-link-hover`; the purple hover of 0.139.0 is gone (#197)
 - `<aha-button variant="text-link">` is underlined on hover, press and keyboard focus (no underline at rest) (#197)
 - Toast and Notification status icons are the DS stroke glyphs (info, check-circle, warning-circle, x-circle) in `--aha-icon-default` `#4A4A4A`, not antd's filled ones; importing `toast-theme` / `notification-theme` adds the rule so default `message.success()` calls get them, and `dsToastIcon` / `dsNotificationIcon` return an `<aha-icon>` for the `icon` option (#197)
 - Notification title is SemiBold 600 (was 400); `notification-theme` adds one `.ant-notification-notice-title` rule (#197)
@@ -96,6 +95,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-button>` fades its label with the fill, border and shadow: `color` and `text-decoration-color` join the one transition (`--aha-motion-mid`, `--aha-ease-in-out`), so the label no longer snaps on hover or press. `<aha-image-action-button>` also fades its fill with its border and label. A unit test fails if a button state rule changes a property that is not in the transition list, or if the properties use different timings (#197)
 - The colour rules page (`brand/visual-identity-colour-rules.html`, v9) adds the illustration tints, lets illustrations use Darker Pink, says our own illustrations, customer and integration logos and file-type icons are not exempt, and writes black as `#1A1A1A` (#197)
 - `<aha-answer-option>` keeps its keyboard focus ring (2px, offset 2px, the row ink) after the audience-lab merge dropped it; the default browser outline was 1.09:1 on the neutral dark deck (#197)
+
+## 0.140.0 — 2026-10-09
+### Changed
+- Background task: a file task's 24px leading icon is now its file-type glyph (`<aha-icon slot="icon" name="system-file-ppt|xls|pdf|csv|doc|image|…" size="24" decorative>`, default icon colour, `system-file` as fallback) instead of a Logo-library brand logo. Contract, snippets and previews updated; API unchanged (#210)
+- Background task: the inline `link` slot (Retry, Réessayer, …) follows the Button `link` variant: `--aha-text-link` at weight 400 with no underline at rest; on hover `--aha-text-link-hover` and an underline. It was weight 600 and always underlined. Focus ring and inline wrapping unchanged (#210)
+
+## 0.139.1 — 2026-10-09
+### Fixed
+- The dismiss ✕ (tertiary icon-only size xs Button) is back to the previous close-button colours: muted #8A8A8A glyph at rest, hover turns it #1A1A1A on a #F7F7F7 fill over 100ms, no purple hover or press. Other tertiary buttons keep the purple hover; the focus ring is unchanged (#212)
 
 ## 0.139.0 — 2026-10-09
 ### Added

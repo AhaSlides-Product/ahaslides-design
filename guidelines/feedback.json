@@ -45,7 +45,7 @@
     {
       "ref": "button",
       "as": "component",
-      "use": "the one dismiss ✕ (20 × 20, radius 6, 14px system-x, #1A1A1A → #DB005B on #FEF3F7, top-pinned to the first line of text) for alert, info box, background task, toast, notification, modal and drawer",
+      "use": "the one dismiss ✕ (20 × 20, radius 6, 14px system-x, #8A8A8A → #1A1A1A on #F7F7F7, top-pinned to the first line of text) for alert, info box, background task, toast, notification, modal and drawer",
       "status": "available"
     },
     {
@@ -171,7 +171,7 @@
     },
     {
       "id": "one-dismiss-button",
-      "rule": "Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared ✕ (tertiary icon-only <aha-button>, size xs): a 20 × 20 hit area (radius 6) with the 14px system-x glyph in #1A1A1A (--aha-text-default) that turns #DB005B (--aha-text-link-hover) on the tertiary hover fill #FEF3F7 (--aha-button-ghost-bg-hover). It is top-pinned to the first line of text, its centre 2.5px above that line's centre, so it stays put when the text wraps, and sits 2px into the container's end padding (in the Info box: 15px from the right, 11px from the top). Alert `closable`, Info box `dismissible` and Background task render it already; a sticky Toast takes it through dismissibleToast, a Notification through dismissibleTitle with `closable: false`, and Modal and Drawer through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Every other ✕ in the design system (CSAT follow-up, Uploader remove, Input clear, Image preview close, Tag remove) follows the same glyph, colour, hover and square shape. Never hand-roll a ✕, never use a tertiary or 28 × 28 button for it, never a circular ✕ (no disc, no 50% or pill radius, no system-x-circle as a control; over a photo it is the white 20 × 20 square), and never show antd's own message or notification close.",
+      "rule": "Every dismiss ✕ on an Alert, Info box, Background task, Toast, Notification, Modal or Drawer is the shared ✕ (tertiary icon-only <aha-button>, size xs): a 20 × 20 hit area (radius 6) with the 14px system-x glyph in #8A8A8A (--aha-icon-muted) that turns #1A1A1A (--aha-text-default) on a #F7F7F7 hover fill (--aha-bg-hover). It is top-pinned to the first line of text, its centre 2.5px above that line's centre, so it stays put when the text wraps, and sits 2px into the container's end padding (in the Info box: 15px from the right, 11px from the top). Alert `closable`, Info box `dismissible` and Background task render it already; a sticky Toast takes it through dismissibleToast, a Notification through dismissibleTitle with `closable: false`, and Modal and Drawer through dismissibleModalTitle / dismissibleDrawerTitle with `closable={false}`. Every other ✕ in the design system (CSAT follow-up, Uploader remove, Input clear, Image preview close, Tag remove) follows the same glyph, colour, hover and square shape. Never hand-roll a ✕, never use a tertiary or 28 × 28 button for it, never a circular ✕ (no disc, no 50% or pill radius, no system-x-circle as a control; over a photo it is the white 20 × 20 square), and never show antd's own message or notification close.",
       "ref": [
         "C6"
       ]

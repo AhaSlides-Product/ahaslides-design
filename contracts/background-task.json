@@ -34,7 +34,7 @@
     },
     {
       "label": "Top row",
-      "value": "24px leading icon (a file task shows its brand logo from the Logo library) · heading 14px bold #1A1A1A, ellipsis · check-circle 12 on success · shared ✕ (tertiary icon-only aha-button xs) on success / canceled / error"
+      "value": "24px leading icon (a file task shows its file-type glyph) · heading 14px bold #1A1A1A, ellipsis · check-circle 12 on success · shared ✕ (tertiary icon-only aha-button xs) on success / canceled / error"
     },
     {
       "label": "Bar",
@@ -120,13 +120,13 @@
       "name": "slot=icon",
       "type": "slot",
       "default": "system-file glyph",
-      "desc": "24px leading task icon. A file task passes its brand logo from the Logo library as <img src=\".../logo/<file>.svg\" width=\"24\" height=\"24\" alt=\"\"> (.pptx microsoft-powerpoint, .xlsx microsoft-excel, .pdf pdf); never redrawn, inlined or recoloured. Other tasks (an export or upload) pass a glyph"
+      "desc": "24px leading task icon. A file task passes its file-type glyph as <aha-icon slot=\"icon\" name=\"system-file-…\" size=\"24\" decorative>, in the default icon colour with no tint: .pptx/.ppt system-file-ppt (a Google Slides import too), .xlsx/.xls system-file-xls, .pdf system-file-pdf, .csv system-file-csv, .docx/.doc system-file-doc, images system-file-image, anything else system-file. A file task never shows a brand logo here. Other tasks (an export or upload) pass a glyph"
     },
     {
       "name": "slot=link",
       "type": "slot",
       "default": "—",
-      "desc": "Inline text action that ends the description, e.g. <a href=\"#\" role=\"button\">Retry</a>; flows inline with the description text and wraps with it like a word (never a separate column); underlined at rest in the DS link colour, with a visible focus ring. An outer style on the link overrides this, so don't recolour it"
+      "desc": "Inline text action that ends the description, e.g. <a href=\"#\" role=\"button\">Retry</a>; flows inline with the description text and wraps with it like a word (never a separate column); styled as the Button link variant (DS link colour, weight 400, underline and hover colour on hover only), with a visible focus ring. An outer style on the link overrides this, so don't recolour it"
     },
     {
       "name": "slot=action",
@@ -167,7 +167,7 @@
       }
     ],
     "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card only after the rating is answered or the ✕ is pressed and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs. Failed: the leading task icon stays, the heading stays neutral (no red border), one short reason line that names the object (\"Couldn’t import your file.\") and a secondary \"Try again\" button in the footer that reruns the same process in the same card. Finished: the rating spans the card under a divider, and the card stays until it is rated or dismissed.",
-    "dsv3": "Reference implementation mirrors the presenter's ImportProgressNotification.vue, ImportCompletionCSAT.vue and FileTypeIcon.vue (stpancras-presenter-app PR #5833). Shadow is the DS Elevate/Overlays effect style. Rating is the DS <aha-csat>. No dedicated Figma component."
+    "dsv3": "Reference implementation mirrors the presenter's ImportProgressNotification.vue and ImportCompletionCSAT.vue (stpancras-presenter-app PR #5833); the presenter's FileTypeIcon.vue still shows brand logos and is a consumer to update. Shadow is the DS Elevate/Overlays effect style. Rating is the DS <aha-csat>. No dedicated Figma component."
   },
   "surfaces": [
     "editor",
