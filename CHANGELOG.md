@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.133.0 — 2026-10-08
+### Added
+- Icon: 36 file glyphs from Phosphor Icons Regular (MIT) — `system-file-pdf`, `system-file-c-sharp`, `system-file-zip` and the rest of the `file-*` set — on the DS 16px grid with the 1.5 stroke, matching `system-file-xls`. Registry is now 304 glyphs. Licence and name list in `icons/svg/system/PHOSPHOR-CREDITS.md` (#208)
+
 ## 0.130.0 — 2026-10-08
 ### Changed
 - Settings spacing: sibling settings sit 24px apart (was 16) in `aha-setting-group`, `aha-sub-setting-group` and `aha-settings-list`; a sub-setting group sits 16px below its parent (was 8) with the same 24px indent. Rule SETTINGS-13, criterion C5 and the sub-setting conformance probe follow (#192)
