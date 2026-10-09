@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.141.0 — 2026-10-09
+### Added
+- CSAT: opt-in `tooltip-placement="top|bottom"` attribute for the Good / Not good / Feedback tooltips. Default `top` is unchanged; `bottom` opens them below the buttons so they do not cover a title above the CSAT in a card. Any other value falls back to `top`; the feedback popover placement is unchanged (#213)
+
 ## 0.140.0 — 2026-10-09
 ### Changed
 - Background task: a file task's 24px leading icon is now its file-type glyph (`<aha-icon slot="icon" name="system-file-ppt|xls|pdf|csv|doc|image|…" size="24" decorative>`, default icon colour, `system-file` as fallback) instead of a Logo-library brand logo. Contract, snippets and previews updated; API unchanged (#210)

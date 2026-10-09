@@ -3,6 +3,10 @@
   <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0 96px">
     <aha-csat data-probe prompt="How did this import go?" value="up" feedback-button source="preview_feedback_button"></aha-csat>
   </div>
+  <div class="lbl">Tooltips below — tooltip-placement="bottom" (hover a button)</div>
+  <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap; padding:8px 0 96px">
+    <aha-csat prompt="How did this import go?" feedback-button tooltip-placement="bottom" source="preview_tooltip_bottom"></aha-csat>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-csat.js) + the icon library — no inlined copy, so

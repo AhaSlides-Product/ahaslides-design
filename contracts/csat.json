@@ -13,7 +13,7 @@
   "spec": [
     { "label": "Layout", "value": "borderless single row (28px high): 12px #616161 prompt, 4px gap, then 28×28 borderless thumb buttons with 16px #4A4A4A icons, 2px apart (--aha-space-2) — the only layout" },
     { "label": "Rest", "value": "icon #4A4A4A" },
-    { "label": "Hover", "value": "ghost fill #F9F5FF · icon #8644D4 purple-50 (motion tokens) · tooltip Good / Not good / Feedback" },
+    { "label": "Hover", "value": "ghost fill #F9F5FF · icon #8644D4 purple-50 (motion tokens) · tooltip Good / Not good / Feedback (above by default, below with `tooltip-placement=\"bottom\"`)" },
     { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #F0E4FF (purple-15) · icon #6A1EBB (purple-60) · aria-pressed synced; hover keeps the selected look" },
     { "label": "Rating toggle", "value": "once rated both thumbs stay visible and the chosen one shows the active state; clicking the other thumb switches the rating (`rate` fires with the new value); clicking the chosen thumb again un-rates — `value` is removed and `rate` fires with rating null" },
     { "label": "Thumbs-up", "value": "rates instantly — reflects value='up', keeps the thumbs-down visible, emits `rate`" },
@@ -28,6 +28,7 @@
     { "name": "feedback-prompt", "type": "string", "default": "—", "desc": "Optional heading in the feedback popover, beside the X — none by default" },
     { "name": "feedback-button", "type": "boolean", "default": "—", "desc": "Show the Feedback chat-icon button after the thumbs; it opens the feedback popover without rating" },
     { "name": "feedback-button-placeholder", "type": "string", "default": "Share your thoughts", "desc": "Placeholder when the popover is opened from the Feedback button (falls back to feedback-placeholder)" },
+    { "name": "tooltip-placement", "type": "top | bottom", "default": "top", "desc": "Where the Good / Not good / Feedback tooltips open; use bottom inside a card whose title sits above the CSAT so the tooltips do not cover it. Any other value falls back to top; the feedback popover placement is unchanged" },
     { "name": "like-label", "type": "string", "default": "Good", "desc": "Tooltip and accessible name of the thumbs-up" },
     { "name": "dislike-label", "type": "string", "default": "Not good", "desc": "Tooltip and accessible name of the thumbs-down" },
     { "name": "feedback-label", "type": "string", "default": "Feedback", "desc": "Tooltip on the Feedback button" },
