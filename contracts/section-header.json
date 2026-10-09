@@ -5,9 +5,9 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-section-header",
-  "summary": "A settings GROUP header — the hierarchy parent that a stack of setting rows sits under: a noun-phrase label, an optional \"?\" help, and a right-aligned action slot (a master switch, a count, a link).",
-  "highlights": ["Header for a settings group", "Noun-phrase label with optional “?” help", "Right-aligned action slot: switch, count or link"],
-  "lead": "ONE custom element — <aha-section-header> — defined once, imported unchanged by React and Vue. It is the PARENT node of the settings hierarchy: a group title over a stack of <aha-setting-row>s. The label is the group's labelled heading (role=\"heading\" aria-level=\"3\") — a noun phrase in sentence case (\"Presentation\", \"Audience settings\"), never a full sentence. A muted \"?\" help trigger sits right after the label — the shared DS <aha-tooltip help>, the CIRCLED question glyph summoned by name from the icon library, never a hand-placed icon — and an `action` slot pushes right (margin-left:auto) to carry a master switch, a count, or a link. NO decorative leading-icon slot (SETTINGS-40): the label is text + the \"?\" only. Shadow-DOM CSS, themed only by --aha-* tokens; the header is static (no interactive state of its own). Zero drift — the same element, not two look-alikes.",
+  "summary": "A settings GROUP header — the hierarchy parent that a stack of setting rows sits under: a noun-phrase label, an optional \"?\" help, and a right-aligned action slot for plain text such as a count.",
+  "highlights": ["Header for a settings group", "Noun-phrase label with optional “?” help", "Right-aligned action slot: plain text such as a count"],
+  "lead": "ONE custom element — <aha-section-header> — defined once, imported unchanged by React and Vue. It is the PARENT node of the settings hierarchy: a group title over a stack of <aha-setting-row>s. The label is the group's labelled heading (role=\"heading\" aria-level=\"3\") — a noun phrase in sentence case (\"Presentation\", \"Audience settings\"), never a full sentence. A muted \"?\" help trigger sits right after the label — the shared DS <aha-tooltip help>, the CIRCLED question glyph summoned by name from the icon library, never a hand-placed icon — and an `action` slot pushes right (margin-left:auto) to carry plain text such as a count (never a toggle, switch, input, select or button — a control is a settings item). NO decorative leading-icon slot (SETTINGS-40): the label is text + the \"?\" only. Shadow-DOM CSS, themed only by --aha-* tokens; the header is static (no interactive state of its own). Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) renders it directly (no events to wire); Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["font-product", "text-default", "text-tertiary"],
   "spec": [
@@ -15,13 +15,13 @@
     { "label": "Label", "value": "Plus Jakarta 14/21, weight 600, text-default (#1A1A1A) — a role=heading aria-level=3" },
     { "label": "Casing", "value": "noun phrase, sentence case — \"Presentation\", NOT \"Presentation Settings\"" },
     { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the circled question glyph)" },
-    { "label": "Action", "value": "right-aligned slot (margin-left:auto) — a master switch / count / link" },
+    { "label": "Action", "value": "right-aligned slot (margin-left:auto) — plain text only, e.g. a count; no toggle, switch, input, select or button" },
     { "label": "Motion", "value": "none — static header, no interactive state of its own" }
   ],
   "props": [
     { "name": "label", "type": "string", "default": "—", "desc": "The group title — a noun phrase in sentence case; exposed as a role=heading aria-level=3" },
     { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (circled question glyph) after the label; the tooltip carries the text" },
-    { "name": "action", "type": "slot", "default": "—", "desc": "Right-aligned slot (slot=\"action\") — a master switch, a count, or a link" }
+    { "name": "action", "type": "slot", "default": "—", "desc": "Right-aligned slot (slot=\"action\") — plain text only, e.g. a count; never a control" }
   ],
   "opinion": {
     "whenToUse": [
@@ -29,7 +29,7 @@
       { "what": "Setting row", "when": "ONE setting inside the group — a label + a control" },
       { "what": "Settings list", "when": "a whole schema-driven surface of groups + rows at once" }
     ],
-    "note": "Name the group with a short noun phrase in sentence case (\"Audience\", \"Interaction\") — never a full sentence and never Title Case. Add `help` only when the group needs a word of guidance; keep the label itself terse. Reach for the `action` slot to hang a master switch that toggles the whole group, a count of items, or a \"Manage\" link — anything that acts on the group, not on one row."
+    "note": "Name the group with a short noun phrase in sentence case (\"Audience\", \"Interaction\") — never a full sentence and never Title Case. Add `help` only when the group needs a word of guidance; keep the label itself terse. Use the `action` slot only for plain text such as a count of items. Never put a toggle, switch, input, select or button in the header: a control is a settings item (label left, control right). A group title is for a real group of two or more settings, never over a single field or a single list."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-section-header", "registers": "aha-section-header", "exportsNamed": ["AhaSectionHeader", "defineAhaSectionHeader"] },

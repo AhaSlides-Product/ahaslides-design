@@ -63,7 +63,7 @@
     {
       "ref": "--aha-size*",
       "as": "token",
-      "use": "the whole spacing hierarchy (4/8/16/32/48) — separation comes from spacing, never dividers",
+      "use": "the whole spacing hierarchy (4/16/24/32/48) — separation comes from spacing, never dividers",
       "status": "available"
     },
     {
@@ -219,7 +219,7 @@
     },
     {
       "id": "spacing-not-dividers",
-      "rule": "Hierarchy and separation come from --aha-size* spacing tokens (4 name→help, 8 sub→parent, 16 sibling, 32 group, 48 danger zone) — never divider lines, never raw px.",
+      "rule": "Hierarchy and separation come from --aha-size* spacing tokens (4 name→help, 16 sub→parent with a 24 indent, 24 sibling, 32 group, 48 danger zone) — never divider lines, never raw px.",
       "ref": [
         "SETTINGS-13"
       ]
@@ -233,11 +233,19 @@
     },
     {
       "id": "group-shape",
-      "rule": "A group has 2–6 settings. Header is a 1–3 word noun phrase, sentence case, no colon. Only the group header carries weight — semibold (600, the SectionHeader weight); member/single-control labels are regular weight (400).",
+      "rule": "A group has 2–6 settings. Header is a 1–3 word noun phrase, sentence case, no colon. Only the group header carries weight — semibold (600, the SectionHeader weight), and only over a real group of two or more settings, never over a single field or a single list; member/single-control labels are regular weight (400) in primary text (#1A1A1A), and regular 400 in secondary text (#4A4A4A) inside a sub-setting group.",
       "ref": [
         "SETTINGS-05",
         "SETTINGS-06",
         "SETTINGS-37"
+      ]
+    },
+    {
+      "id": "no-control-in-group-header",
+      "rule": "No setting control in a group header: no toggle, switch, input, select or button in the header or its action slot. A control is a settings item (label left, control right). Plain text, such as a count, may stay in the header.",
+      "ref": [
+        "SETTINGS-05",
+        "SETTINGS-06"
       ]
     },
     {
@@ -258,7 +266,7 @@
     },
     {
       "id": "sub-settings",
-      "rule": "A dependent sub-setting is HIDDEN (not disabled) when its parent is off. When shown it reads as nested — indented and de-emphasised — never as a top-level peer and never bracketed by its own separators.",
+      "rule": "A dependent sub-setting is HIDDEN (not disabled) when its parent is off. When shown it reads as nested — indented 24px, 16px below its parent, labels regular 400 in secondary text — never as a top-level peer and never bracketed by its own separators.",
       "ref": [
         "SETTINGS-07",
         "SETTINGS-14"

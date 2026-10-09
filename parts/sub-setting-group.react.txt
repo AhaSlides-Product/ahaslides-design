@@ -6,7 +6,7 @@ import '@ahaslides-product/design/aha-switch';
 import '@ahaslides-product/design/aha-input';
 import { useState } from 'react';
 
-// <aha-sub-setting-group> nests DEPENDENT settings under a parent toggle: 8px above + 24px indent,
+// <aha-sub-setting-group> nests DEPENDENT settings under a parent toggle: 16px below the parent + 24px indent,
 // spacing only (no border, no card). The host owns visibility — add `hidden` when the parent is off.
 function TimerSettings() {
   const [on, setOn] = useState(true);
