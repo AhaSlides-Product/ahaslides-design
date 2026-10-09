@@ -1,32 +1,32 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { evaluateInPage, resolveChrome } from '../cdp.mjs';
+import { withPage, resolveChrome } from '../cdp.mjs';
 
+const fixture = pathToFileURL(fileURLToPath(new URL('./button-text-link-underline.html', import.meta.url))).href;
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
-const lib = pathToFileURL(fileURLToPath(new URL('../lib/aha-button.js', import.meta.url))).href;
 
-const page = `<!doctype html><body>
-<aha-button id="link" variant="text-link">Learn more</aha-button>
-<script type="module">import '${lib}'; window.ready = true;</script>`;
-
-test('text-link has no underline at rest and is underlined on hover, keyboard focus and press', { skip }, async () => {
-  const file = join(mkdtempSync(join(tmpdir(), 'text-link-underline-')), 'page.html');
-  writeFileSync(file, page);
-  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
-    const button = document.getElementById('link').shadowRoot.querySelector('button');
-    const sheet = [...button.getRootNode().styleSheets].flatMap((s) => [...s.cssRules]);
-    const lineIn = (state) => {
-      const rule = sheet.find((r) => r.selectorText && r.selectorText.split(',').some((s) => s.includes('text-link') && s.trim().endsWith('button:' + state)));
-      return rule ? rule.style.textDecorationLine || rule.style.textDecoration : 'missing';
+test('text-link has no underline at rest and is underlined on hover, press and keyboard focus', { skip }, async () => {
+  const decorationByState = await withPage(fixture, async (command) => {
+    await command('DOM.enable'); await command('CSS.enable');
+    await command('DOM.getDocument', { depth: -1, pierce: true });
+    const inner = await command('Runtime.evaluate', { expression: `document.querySelector('#link').shadowRoot.querySelector('button')` });
+    const { nodeId } = await command('DOM.requestNode', { objectId: inner.result.objectId });
+    const decoration = async (forcedPseudoClasses) => {
+      await command('CSS.forcePseudoState', { nodeId, forcedPseudoClasses });
+      const read = await command('Runtime.evaluate', { expression: `getComputedStyle(document.querySelector('#link').shadowRoot.querySelector('button')).textDecorationLine`, returnByValue: true });
+      return read.result.value;
     };
-    return { rest: getComputedStyle(button).textDecorationLine, hover: lineIn('hover'), focus: lineIn('focus-visible'), active: lineIn('active') };
-  })()`, { readyExpr: 'window.ready === true' });
-  assert.equal(result.rest, 'none');
-  assert.match(result.hover, /underline/);
-  assert.match(result.focus, /underline/);
-  assert.match(result.active, /underline/);
+    return {
+      rest: await decoration([]),
+      hover: await decoration(['hover']),
+      active: await decoration(['active']),
+      focusVisible: await decoration(['focus', 'focus-visible']),
+    };
+  }, { readyExpr: '!!window.textLinkFixtureReady' });
+  assert.equal(decorationByState.rest, 'none');
+  assert.equal(decorationByState.hover, 'underline');
+  assert.equal(decorationByState.active, 'underline');
+  assert.equal(decorationByState.focusVisible, 'underline');
 });
