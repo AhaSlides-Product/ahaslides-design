@@ -16,7 +16,7 @@ function NoResponses({ onShare }) {
 function NoResults() {
   return (
     <aha-empty image="simple" description="No results">
-      <aha-icon slot="image" name="system-folder" size="40" />
+      <aha-icon slot="image" name="system-folder" size="32" />
     </aha-empty>
   );
 }

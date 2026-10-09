@@ -13,11 +13,12 @@
   "spec": [
     { "label": "Box", "value": "radius 6 · padding 6 12 · resize off" },
     { "label": "Autogrow", "value": "minrows (default 2) → maxrows (default 5); beyond maxrows scrolls internally, never grows unbounded" },
-    { "label": "Rest border", "value": "1px #D3D7E1 (border-input)" },
-    { "label": "Focus", "value": "hover AND focus stay the LIGHTER #D3B4FF (border-hover) border + solid 2px #D3B4FF (border-focus) ring — textarea exception, not full primary" },
+    { "label": "Rest border", "value": "1px #D4D4D4 (border-input)" },
+    { "label": "Focus", "value": "hover AND focus stay the LIGHTER #E70E68 (border-hover) border + solid 2px #E70E68 (border-focus) ring — textarea exception, not full primary" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay bottom-right; opacity 0 at rest → 1 on focus; 22px bottom gutter reserved; at size touch 12/12 on no fill, a 16px gutter, and it counts the characters left (140 for 0 of 140) instead of used/max" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
-    { "label": "Error", "value": "#F5222D border + error-tinted ring; sets aria-invalid" },
+    { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
+    { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #999999" }
   ],
@@ -30,6 +31,7 @@
     { "name": "maxrows", "type": "number", "default": "5", "desc": "Rows the field grows to before it scrolls internally instead of growing" },
     { "name": "size", "type": "default | touch", "default": "default", "desc": "touch is the audience phone field inside <aha-audience-field>: 16px text, padding 12 16, radius 8" },
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
+    { "name": "error-message", "type": "string", "default": "—", "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the control through aria-describedby (aria-invalid is set by status=\"error\")" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
     { "name": "borderless", "type": "boolean", "default": "false", "desc": "Drop the field's own border/ring/fill — for composing inside a parent that carries the one border (OptionRow, SETTINGS-34)" },
@@ -70,14 +72,14 @@
     { "label": "grows minrows→maxrows then scrolls internally (never unbounded)", "verdict": "PASS" },
     { "label": "counter hidden at rest, revealed on focus (opacity), overlay bottom-right", "verdict": "PASS" },
     { "label": "counter space reserved — revealing it does not shift the text", "verdict": "PASS" },
-    { "label": "hover AND focus #D3B4FF border + solid #D3B4FF ring (textarea exception, persistent wrapper)", "verdict": "PASS" },
-    { "label": "error #F5222D border + aria-invalid", "verdict": "PASS" }
+    { "label": "hover AND focus #E70E68 border + solid #E70E68 ring (textarea exception, persistent wrapper)", "verdict": "PASS" },
+    { "label": "error #1A1A1A border + aria-invalid", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-counted-textarea[data-probe]') && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot && document.querySelector('aha-counted-textarea[data-probe]').shadowRoot.querySelector('.wrap'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-counted-textarea[data-probe]');var r=el&&el.shadowRoot;var w=r&&r.querySelector('.wrap');var f=r&&r.querySelector('.field');var c=r&&r.querySelector('.counter');var ws=w?getComputedStyle(w):null;var fs=f?getComputedStyle(f):null;var cs=c?getComputedStyle(c):null;return{radius:ws?ws.borderTopLeftRadius:null,border:ws?ws.borderTopColor:null,fontSize:fs?fs.fontSize:null,lineHeight:fs?fs.lineHeight:null,counterColor:cs?cs.color:null};})()",
-    "expect": { "radius": "6px", "border": "rgb(245, 34, 45)", "fontSize": "14px", "lineHeight": "21px", "counterColor": "rgb(138, 138, 138)" }
+    "expect": { "radius": "6px", "border": "rgb(26, 26, 26)", "fontSize": "14px", "lineHeight": "21px", "counterColor": "rgb(138, 138, 138)" }
   }
 }

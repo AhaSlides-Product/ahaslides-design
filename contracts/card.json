@@ -18,7 +18,7 @@
     { "label": "Actions", "value": "footer row, 12/20 padding, 8 gap, top divider #F1F1F1; hidden when empty" },
     { "label": "Small size", "value": "header 8/12 · body 12 · actions 8/12 (antd Card size=small)" },
     { "label": "Bordered=false", "value": "border-color transparent — a flat surface" },
-    { "label": "Hover (hoverable)", "value": "border #D3B4FF + shadow, motion-mid ease-out on a persistent node" },
+    { "label": "Hover (hoverable)", "value": "border #E70E68 + shadow, motion-mid ease-out on a persistent node" },
     { "label": "Loading", "value": "body → shimmer skeleton bars (aria-busy), motion-slow sweep" }
   ],
   "props": [

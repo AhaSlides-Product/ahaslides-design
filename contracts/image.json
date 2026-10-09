@@ -13,8 +13,8 @@
   "spec": [
     { "label": "Frame", "value": "radius 8px (radius attr xs 4·sm 6·default 8·lg 12·xl 16·pill) · bg #F7F7F7 · overflow hidden · role=button, keyboard-focusable" },
     { "label": "Image", "value": "object-fit cover · scale 1.06 on hover, motion-slow ease-out" },
-    { "label": "Mask", "value": "overlay rgba(26,26,46,.7) · #FFFFFF 13/SemiBold · fade motion-mid" },
-    { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button (the shared ✕ spec: 20 × 20 radius-6 square, white fill, 14px system-x #8A8A8A → #1A1A1A on bg-hover, 11px / 15px into the image's top-right corner; never a circle) / backdrop dismiss; focus moves in and is restored on close. preview=\"false\" → plain picture, no mask/click/dialog" },
+    { "label": "Mask", "value": "overlay rgba(0,0,0,.4) · #FFFFFF 13/SemiBold · fade motion-mid" },
+    { "label": "Preview", "value": "click/Enter opens a modal dialog (role=dialog, aria-modal); Esc / close button (the shared ✕ spec: 20 × 20 radius-6 square, white fill, 16px system-x #8A8A8A → #1A1A1A on bg-hover, 11px / 15px into the image's top-right corner; never a circle) / backdrop dismiss; focus moves in and is restored on close. preview=\"false\" → plain picture, no mask/click/dialog" },
     { "label": "Placeholder", "value": "shimmer skeleton (icon-muted on bg-secondary) shown while loading; fades on the image load, persistent node" },
     { "label": "Fallback", "value": "broken/empty src → system-image-square glyph + label, text-tertiary on bg-secondary, role=img" },
     { "label": "Sizing", "value": "width/height attributes drive the frame" }
@@ -60,7 +60,7 @@
         { "label": "Pill", "value": "pill" }
       ] },
       { "prop": "src", "label": "Source", "default": "ok", "options": [
-        { "label": "Loads", "value": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%236A1EBB'/%3E%3Ccircle cx='180' cy='40' r='60' fill='%23FF4081' opacity='0.7'/%3E%3C/svg%3E" },
+        { "label": "Loads", "value": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%238A8A8A'/%3E%3Ccircle cx='180' cy='40' r='60' fill='%23E70E68' opacity='0.7'/%3E%3C/svg%3E" },
         { "label": "Broken (fallback)", "value": "/broken-image-does-not-exist.png" }
       ] }
     ]
@@ -68,7 +68,7 @@
   "selfCheck": [
     { "label": "frame radius 8 · bg #F7F7F7 (radius attr picks the DS scale)", "verdict": "PASS" },
     { "label": "image scales on hover via motion tokens (persistent node)", "verdict": "PASS" },
-    { "label": "mask overlay rgba(26,26,46,.7) fades in", "verdict": "PASS" },
+    { "label": "mask overlay rgba(0,0,0,.4) fades in", "verdict": "PASS" },
     { "label": "mask label #FFFFFF 13/SemiBold", "verdict": "PASS" },
     { "label": "click/Enter opens a modal preview (role=dialog, aria-modal); Esc/close/backdrop dismiss; focus restored", "verdict": "PASS" },
     { "label": "preview=\"false\" → no mask, no click/dialog (plain framed picture)", "verdict": "PASS" },
@@ -79,6 +79,6 @@
     "ready": "!!(document.querySelector('aha-image[data-probe]') && document.querySelector('aha-image[data-probe]').shadowRoot && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.mask') && document.querySelector('aha-image[data-probe]').shadowRoot.querySelector('.fallback'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-image[data-probe]');var sr=el&&el.shadowRoot;var f=sr&&sr.querySelector('.frame');var m=sr&&sr.querySelector('.mask');var fb=sr&&sr.querySelector('.fallback');var pv=sr&&sr.querySelector('.pv');var fs=f?getComputedStyle(f):null;var ms=m?getComputedStyle(m):null;var fbs=fb?getComputedStyle(fb):null;return{frameRadius:fs?fs.borderTopLeftRadius:null,frameBg:fs?fs.backgroundColor:null,maskColor:ms?ms.color:null,maskBg:ms?ms.backgroundColor:null,hasFallback:!!fb,fallbackColor:fbs?fbs.color:null,previewRole:pv?pv.getAttribute('role'):null};})()",
-    "expect": { "frameRadius": "8px", "frameBg": "rgb(247, 247, 247)", "maskColor": "rgb(255, 255, 255)", "maskBg": "rgba(26, 26, 46, 0.7)", "hasFallback": true, "fallbackColor": "rgb(138, 138, 138)", "previewRole": "dialog" }
+    "expect": { "frameRadius": "8px", "frameBg": "rgb(247, 247, 247)", "maskColor": "rgb(255, 255, 255)", "maskBg": "rgba(0, 0, 0, 0.4)", "hasFallback": true, "fallbackColor": "rgb(138, 138, 138)", "previewRole": "dialog" }
   }
 }

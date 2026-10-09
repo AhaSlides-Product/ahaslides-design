@@ -6,6 +6,8 @@
  *  - CONTRACT CONFORMANCE: measures the REAL rendered UI (getComputedStyle via headless
  *    CDP, cdp.mjs) against each contract's `conformance` block. For composites this asserts
  *    BOTH framework tiers hit the contract AND match each other (parity) — the real gate.
+ *  - INTERACTIVE STATES: state-check.mjs forces :hover, :focus-visible and :active on every control of
+ *    every built page and fails text contrast, an off-list colour, or a focus indicator nobody can see.
  * Prints a PASS/FAIL scorecard; exits non-zero on any FAIL.
  */
 import { readdirSync, readFileSync, existsSync, statSync, rmSync } from 'node:fs';
@@ -13,6 +15,7 @@ import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { evaluateInPage, resolveChrome } from './cdp.mjs';
+import { builtPages, checkPages, formatFinding } from './state-check.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const DIST = join(root, 'dist');
@@ -88,17 +91,17 @@ const chk = (list, name, cond, note = '') => list.push([name, !!cond, cond ? '' 
 
 /* ---- global feeds ---- */
 const g = [];
-chk(g, 'variables.css has canonical tokens', /--aha-color-primary:#6A1EBB/i.test(read(join(DIST,'variables.css'))) && /--aha-radius-default:8px/.test(read(join(DIST,'variables.css'))));
+chk(g, 'variables.css has canonical tokens', /--aha-color-primary:#E70E68/i.test(read(join(DIST,'variables.css'))) && /--aha-radius-default:8px/.test(read(join(DIST,'variables.css'))));
 chk(g, 'variables.css clean (no Google Fonts / no Inter)', !/googleapis|\bInter\b/.test(read(join(DIST,'variables.css'))));
-chk(g, 'design.md carries brand + architecture', /#6A1EBB/.test(read(join(DIST,'design.md'))) && /Leaf primitives/.test(read(join(DIST,'design.md'))));
+chk(g, 'design.md carries brand + architecture', /#E70E68/.test(read(join(DIST,'design.md'))) && /Leaf primitives/.test(read(join(DIST,'design.md'))));
 { const dm = read(join(DIST,'design.md'));
-  chk(g, 'design.md carries full palette (primitive ramps + semantic tables)',
-    /primitive ramps/i.test(dm) && /--aha-btn-encourage-bg/.test(dm) && /--aha-brand-13/.test(dm) && /`100`/.test(dm)); }
+  chk(g, 'design.md carries full palette (palette + semantic tables)',
+    /Colour — the palette/.test(dm) && /--aha-btn-encourage-bg/.test(dm) && /--aha-logo-purple/.test(dm) && /`100`/.test(dm)); }
 chk(g, 'index.html present', read(join(DIST,'index.html')).length > 400);
 chk(g, 'llms.txt lists Checkbox + Table', /Checkbox/.test(read(join(DIST,'llms.txt'))) && /Table/.test(read(join(DIST,'llms.txt'))));
 chk(g, 'llms-full.txt non-empty', read(join(DIST,'llms-full.txt')).length > 400);
 { const cp = read(join(DIST,'foundations','colour.html'));
-  chk(g, 'foundations/colour.html styled in shell', /class="doc-nav"/.test(cp) && /--aha-color-primary:#6A1EBB/i.test(cp) && /Primitive ramps/i.test(cp)); }
+  chk(g, 'foundations/colour.html styled in shell', /class="doc-nav"/.test(cp) && /--aha-color-primary:#E70E68/i.test(cp) && />Palette<\/h2>/.test(cp)); }
 { const fp = read(join(DIST,'feeds','llms-txt.html'));
   chk(g, 'feed pages: in-shell + raw content in code wrapper', /class="doc-nav"/.test(fp) && /class="code-panel feed"/.test(fp) && /Checkbox/.test(fp)); }
 results.push({ slug: '(global feeds)', checks: g });
@@ -131,8 +134,21 @@ results.push({ slug: '(global feeds)', checks: g });
 const contracts = {};
 for (const f of readdirSync(CDIR).filter(f => f.endsWith('.json'))) { const j = JSON.parse(readFileSync(join(CDIR, f), 'utf8')); contracts[j.slug] = j; }
 
+/* ---- interactive states — measured for every built page up front, a few pages at a time ---- */
+const statePages = builtPages();
+const stateResults = await checkPages(statePages);
+const stateCheck = (list, slug) => {
+  const result = stateResults[slug];
+  const name = 'interactive states: contrast, colour list and focus in rest / hover / focus / active';
+  if (!result) return;
+  if (result.error) return chk(list, name, false, result.error);
+  chk(list, `${name}${result.known.length ? ` (${result.known.length} known in state-check.baseline.json)` : ''}`, result.fresh.length === 0 && result.resolved.length === 0,
+    [result.fresh.slice(0, 4).map(formatFinding).join(' | ') + (result.fresh.length > 4 ? ` | +${result.fresh.length - 4} more — node state-check.mjs ${slug}` : ''),
+      result.resolved.length ? `${result.resolved.length} baseline entr${result.resolved.length === 1 ? 'y is' : 'ies are'} fixed: run node state-check.mjs --update-baseline (${result.resolved.slice(0, 2).join(' | ')})` : ''].filter(Boolean).join(' | '));
+};
+
 /* ---- per component ---- */
-const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience', 'charts', 'logo']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component)
+const NON_COMPONENT_DIRS = new Set(['feeds', 'fonts', 'icons', 'guidelines', 'foundations', 'lib', 'landing', 'marketing', 'settings', 'audience', 'charts', 'logo', 'get-started']);  // generated support dirs, not components (guidelines are prose composition guides gated by standards.mjs; foundations are token pages; lib is the shipped component modules copied in for previews; landing holds only redirect stubs; marketing is framework-free HTML+CSS sections, not product components; settings is the consolidated Settings group hub, composed from the guideline + settings-list contract; audience is a first-class area page, not a product component)
 const slugs = readdirSync(DIST, { withFileTypes: true }).filter(d => d.isDirectory() && !d.name.startsWith('.') && !NON_COMPONENT_DIRS.has(d.name)).map(d => d.name);
 for (const slug of slugs) {
   const c = [];
@@ -180,8 +196,12 @@ for (const slug of slugs) {
   } else {
     chk(c, 'contract has a conformance block', false, 'no conformance in contract — gate is blind to the rendered UI');
   }
+  stateCheck(c, slug);
   results.push({ slug, checks: c });
 }
+{ const sitePages = [];
+  for (const slug of statePages.filter(page => NON_COMPONENT_DIRS.has(page))) { const checks = []; stateCheck(checks, slug); sitePages.push(...checks.map(([name, ok, note]) => [`${slug} — ${name}`, ok, note])); }
+  results.push({ slug: '(site pages — interactive states)', checks: sitePages }); }
 
 /* ---- report ---- */
 let pass = 0, fail = 0;

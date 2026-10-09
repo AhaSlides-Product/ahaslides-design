@@ -6,7 +6,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 // Component.vue
 <script setup>
 import { ref } from 'vue';
-const colour = ref('#6A1EBB');
+const colour = ref('#E70E68');
 </script>
 
 <template>

@@ -9,27 +9,27 @@
   "highlights": ["Inline, contextual feedback banner", "Info, success, warning, error or branding tone", "Regular or small, with optional banner mode and trailing action"],
   "lead": "ONE custom element — <aha-alert> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens; tone is the `type` attribute (info · success · warning · error · branding), the status glyph is summoned BY NAME from the shared icon library. `size` compacts it (regular · small), `banner` makes it a full-width, square-cornered page notice, `hide-icon` drops the glyph, a slot=\"action\" carries a trailing button/link, and `closable` adds a dismiss control that animates the banner out on a persistent node and emits a composed `close`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper for the composed `close` event; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "text-positive", "border-success", "bg-warning", "text-warning", "border-warning", "bg-negative", "text-negative", "border-error", "bg-accent", "border-focus", "color-primary", "text-default", "radius-default"],
+  "tokensUsed": ["gray-25", "icon-default", "bg-accent", "color-primary", "text-default", "radius-default"],
   "spec": [
-    { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · 1px tonal border" },
+    { "label": "Box", "value": "flex row, gap 10 · padding 10 14 · radius 8 · no border on any type" },
     { "label": "Text", "value": "Plus Jakarta 14/1.5; heading SemiBold 600" },
-    { "label": "Info", "value": "bg #F4F8FF, border #BFD2FF, icon #9BB3E9" },
-    { "label": "Success", "value": "bg #D8FAEF, border #16C49A, icon/text #13A181" },
-    { "label": "Warning", "value": "bg #FFF5F0, border #FF7747, icon/text #E65B29" },
-    { "label": "Error", "value": "bg #FFF1F0, border #F5222D, icon/text #F5222D" },
-    { "label": "Branding", "value": "bg-accent #F9F5FF, border-focus #D3B4FF, icon/text color-primary #6A1EBB" },
+    { "label": "Info", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
+    { "label": "Success", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
+    { "label": "Warning", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
+    { "label": "Error", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
+    { "label": "Branding", "value": "bg-accent #FEF3F7, no border, icon/text color-primary #E70E68" },
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
-    { "label": "Banner", "value": "full-width, square (radius 0), border on the bottom edge only" },
+    { "label": "Banner", "value": "full-width, square (radius 0), no border" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
-    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle)" },
-    { "label": "Close", "value": "closable → the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A), top-pinned to the first line, 2px into the end padding" }
+    { "label": "Icon", "value": "status glyph via <aha-icon> (system-info / system-check-circle / system-warning-circle / system-x-circle / system-sparkle), 16px in both sizes, icon-default #4A4A4A" },
+    { "label": "Close", "value": "closable → the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x), top-pinned to the first line, 2px into the end padding" }
   ],
   "props": [
-    { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface/border tokens" },
+    { "name": "type", "type": "info | success | warning | error | branding", "default": "info", "desc": "Tone + status icon + surface tokens" },
     { "name": "heading", "type": "string", "default": "—", "desc": "Optional bold title above the message" },
     { "name": "size", "type": "regular | small", "default": "regular", "desc": "Compact padding + type scale" },
     { "name": "banner", "type": "boolean", "default": "false", "desc": "Full-width, square-cornered edge-to-edge page notice" },
-    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows the shared <aha-close-button> ✕ on the first line" },
+    { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows the shared ✕ (tertiary icon-only <aha-button>, size xs) ✕ on the first line" },
     { "name": "hide-icon", "type": "boolean", "default": "false", "desc": "Suppresses the leading status icon (the showIcon toggle)" },
     { "name": "slot=\"action\"", "type": "slot", "default": "—", "desc": "Trailing action — a button or link" },
     { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the banner is dismissed" }
@@ -41,7 +41,7 @@
       { "what": "Notification", "when": "a richer, stacking message with a title + description, often from a background event" }
     ],
     "note": "Keep the message to one or two lines; lead with what happened, then what to do. Reserve error for real failures — over-using red trains people to ignore it.",
-    "dsv3": "COVERED — enumerated from the DS V3 Figma sets (Alert + Alert-banner, fileKey MwjvUjVI0HnfwD9EwPXRAy): five types (info · success · warning · error · branding), regular + small sizes, an optional heading + description, a showIcon toggle (hide-icon), a closable ✕, a trailing action slot, and a full-width square banner mode (the separate Alert-banner set). Tones bound to the DS V3 semantic families — bg-informative/positive/warning/negative + matching border/text tokens; branding on bg-accent + border-focus + color-primary. Radius on the scale (radius-default = 8). The status glyph is a real DS icon summoned by name, never an inline SVG."
+    "dsv3": "COVERED — enumerated from the DS V3 Figma sets (Alert + Alert-banner, fileKey MwjvUjVI0HnfwD9EwPXRAy): five types (info · success · warning · error · branding), regular + small sizes, an optional heading + description, a showIcon toggle (hide-icon), a closable ✕, a trailing action slot, and a full-width square banner mode (the separate Alert-banner set). The four status types sit on gray-25 with no border, told apart by icon, role and text; branding on bg-accent + color-primary, no border. Radius on the scale (radius-default = 8). The status glyph is a real DS icon summoned by name, never an inline SVG."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-alert", "registers": "aha-alert", "exportsNamed": ["AhaAlert", "defineAhaAlert"] },
@@ -75,9 +75,9 @@
     ]
   },
   "selfCheck": [
-    { "label": "radius 8 · 1px tonal border", "verdict": "PASS" },
-    { "label": "info bg #F4F8FF / border #BFD2FF", "verdict": "PASS" },
-    { "label": "branding bg #F9F5FF / border #D3B4FF / color-primary glyph", "verdict": "PASS" },
+    { "label": "radius 8 · no border on any type", "verdict": "PASS" },
+    { "label": "info bg gray-25 #F3F3F3 / no border / icon-default #4A4A4A", "verdict": "PASS" },
+    { "label": "branding bg #FEF3F7 / no border / color-primary glyph", "verdict": "PASS" },
     { "label": "small compacts padding; banner squares the corners", "verdict": "PASS" },
     { "label": "status glyph via <aha-icon> by name; trailing action slot", "verdict": "PASS" },
     { "label": "closable animates out on a persistent node + emits composed close", "verdict": "PASS" }
@@ -86,7 +86,7 @@
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. Probe is the default (info) alert; the branding-type alert in the same preview is measured to assert the new tone.",
     "ready": "!!(document.querySelector('aha-alert[data-probe]') && document.querySelector('aha-alert[data-probe]').shadowRoot && document.querySelector('aha-alert[data-probe]').shadowRoot.querySelector('.alert') && document.querySelector('aha-alert[type=\"branding\"]') && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot.querySelector('.alert'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-alert[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.alert');var s=a?getComputedStyle(a):null;var be=document.querySelector('aha-alert[type=\"branding\"]');var ba=be&&be.shadowRoot&&be.shadowRoot.querySelector('.alert');var bs=ba?getComputedStyle(ba):null;return{bg:s?s.backgroundColor:null,border:s?s.borderTopColor:null,radius:s?s.borderTopLeftRadius:null,color:s?s.color:null,padTop:s?s.paddingTop:null,brandBg:bs?bs.backgroundColor:null,brandBorder:bs?bs.borderTopColor:null};})()",
-    "expect": { "bg": "rgb(244, 248, 255)", "border": "rgb(191, 210, 255)", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(249, 245, 255)", "brandBorder": "rgb(211, 180, 255)" }
+    "measure": "(function(){var el=document.querySelector('aha-alert[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.alert');var s=a?getComputedStyle(a):null;var be=document.querySelector('aha-alert[type=\"branding\"]');var ba=be&&be.shadowRoot&&be.shadowRoot.querySelector('.alert');var bs=ba?getComputedStyle(ba):null;return{bg:s?s.backgroundColor:null,borderWidth:s?s.borderTopWidth:null,radius:s?s.borderTopLeftRadius:null,color:s?s.color:null,padTop:s?s.paddingTop:null,brandBg:bs?bs.backgroundColor:null,brandBorderWidth:bs?bs.borderTopWidth:null};})()",
+    "expect": { "bg": "rgb(243, 243, 243)", "borderWidth": "0px", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(254, 243, 247)", "brandBorderWidth": "0px" }
   }
 }

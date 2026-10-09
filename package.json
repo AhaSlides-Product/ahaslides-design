@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.137.0",
+  "version": "0.150.1",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/AhaSlides-Product/ahaslides-design.git"
   },
-  "homepage": "https://ahaslides-product.github.io/ahaslides-design",
+  "homepage": "https://design.ahaslides.io",
   "bugs": {
     "url": "https://github.com/AhaSlides-Product/ahaslides-design/issues"
   },
@@ -26,6 +26,11 @@
     "./lib/aha-status-icon.js",
     "./lib/aha-loader.js",
     "./lib/icons.js",
+    "./lib/form-theme.js",
+    "./lib/carousel-theme.js",
+    "./lib/steps-theme.js",
+    "./lib/toast-theme.js",
+    "./lib/notification-theme.js",
     "./lib/aha-checkbox.js",
     "./lib/aha-button.js",
     "./lib/aha-close-button.js",
@@ -158,6 +163,7 @@
     "./aha-dropdown": "./lib/aha-dropdown.js",
     "./aha-menu": "./lib/aha-menu.js",
     "./aha-pagination": "./lib/aha-pagination.js",
+    "./antd-base-theme": "./lib/antd-base-theme.js",
     "./table-theme": "./lib/table-theme.js",
     "./table-expandable": "./lib/table-expandable.js",
     "./aha-data-table": "./lib/aha-data-table.js",
