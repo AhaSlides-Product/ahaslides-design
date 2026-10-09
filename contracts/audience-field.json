@@ -25,7 +25,7 @@
     },
     {
       "label": "Field",
-      "value": "the DS field unchanged: opaque white fill, fixed #1A1A1A ink (deck-independent, so a dark deck is never white-on-white); 48px with 14px text at size lg"
+      "value": "the DS field unchanged: opaque white fill, fixed #1A1A1A ink (deck-independent, so a dark deck is never white-on-white); 48px with 16px text at size lg"
     },
     {
       "label": "Lock",

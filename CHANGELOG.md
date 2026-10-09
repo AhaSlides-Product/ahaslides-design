@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.148.1 — 2026-10-09
 ### Changed
-- The audience field compositions now use the foundation fields at `size="lg"` (48px) instead of `size="touch"` (56px): `<aha-counted-input>` (line and number), `<aha-counted-textarea>` and `<aha-select>` inside `<aha-audience-field>`, in the element docs, contract, library entry and HTML/React/Vue snippets. The foundation `touch` rules stay for other consumers; buttons keep `size="touch"`. At lg the field text is 14px, the counter reads used/max and the textarea uses its default padding (no change to the foundation components). (#220)
+- The audience field compositions now use the foundation fields at `size="lg"` (48px) instead of `size="touch"` (56px): `<aha-counted-input>` (line and number), `<aha-counted-textarea>` and `<aha-select>` inside `<aha-audience-field>`, in the element docs, contract, library entry and HTML/React/Vue snippets. The foundation `touch` rules stay for other consumers; buttons keep `size="touch"`. At `large`/`lg` the field text of `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and the `<aha-select>` trigger is now 16px (`--aha-size-l`) on a 24px line, so the audience field text stays at the 16px iOS focus-zoom floor; `<aha-counted-textarea>` gains a `large` rule for the text only (no fixed height). At lg the audience fields still show used/max in the counter, a 12px side padding (6px 12px on the textarea) and a white textarea counter fill. (#220)
 
 ## 0.148.0 — 2026-10-09
 ### Changed
