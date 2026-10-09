@@ -25,6 +25,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.144.0 — 2026-10-09
 ### Changed
 - The docs site and every agent feed (`llms.txt`, `*.agent.json`, `design.md`, `variables.css`, the icon gallery) move from `ahaslides-product.github.io/ahaslides-design` to `https://design.ahaslides.io`, served at the domain root (staging at `/staging`); the old address stops being canonical at cut-over (#215)
+- `design.ahaslides.io` is served by a small Cloudflare Worker (`ahaslides-design-docs`, in `domain/`) that proxies the GitHub Pages site; no DNS edit or Pages custom domain needed (#215)
+- Docs pages opened on the old `ahaslides-product.github.io` address redirect to the same page on `design.ahaslides.io` (#215)
 
 ## 0.143.0 — 2026-10-09
 ### Added

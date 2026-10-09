@@ -1001,6 +1001,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>AhaSlides Design System — for agents</title>
 <meta name="generator" content="ahaslides-design generate.mjs"/>
+<script>if(location.hostname==='ahaslides-product.github.io')location.replace('https://design.ahaslides.io'+location.pathname.replace(/^\/ahaslides-design/,'')+location.search+location.hash)</script>
 <meta name="aha:package" content="${esc(PKGNAME)}"/>
 <meta name="aha:registry" content="${esc(REGISTRY)}"/>
 <meta name="aha:install" content="npm i ${esc(PKGNAME)}"/>
