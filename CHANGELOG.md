@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.141.0 — 2026-10-09
 ### Added
-- CSAT: opt-in `tooltip-placement="top|bottom"` attribute for the Good / Not good / Feedback tooltips. Default `top` is unchanged; `bottom` opens them below the buttons so they do not cover a title above the CSAT in a card. Any other value falls back to `top`; the feedback popover placement is unchanged (#PR)
+- CSAT: opt-in `tooltip-placement="top|bottom"` attribute for the Good / Not good / Feedback tooltips. Default `top` is unchanged; `bottom` opens them below the buttons so they do not cover a title above the CSAT in a card. Any other value falls back to `top`; the feedback popover placement is unchanged (#213)
 
 ## 0.140.0 — 2026-10-09
 ### Changed
