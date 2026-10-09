@@ -9,7 +9,7 @@
   "highlights": ["Represents a person or entity", "Photo, initials or icon", "Solo or stacked in a group"],
   "lead": "ONE custom element — <aha-avatar> — defined once, imported unchanged by React and Vue. Shadow-DOM CSS, themed only by --aha-* tokens. The DS V3 Avatar is a small matrix: THREE content modes (an image `src`, the initials of `name`, or an `<aha-icon>` glyph via `icon`), two `shape`s (circle · square), a named or numeric `size` (small 24 · default 40 · large 64), and a `color` ground tint. A sibling <aha-avatar-group> overlaps stacked children and collapses the overflow past `max` into a trailing +N chip. A purely static display marker, so it declares no motion. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitives are defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-accent", "text-default", "bg-container", "radius-pill", "radius-default", "font-product"],
+  "tokensUsed": ["bg-accent", "vivid-pink-5", "vivid-pink-30", "vivid-pink-100", "text-inverse", "gray-25", "text-default", "bg-container", "radius-pill", "radius-default", "font-product"],
   "spec": [
     { "label": "Size", "value": "small 24 · default 40 · large 64 (named), or any numeric px via `size`" },
     { "label": "Shape", "value": "circle (pill radius) · square (radius 8)" },
@@ -17,7 +17,7 @@
     { "label": "Image", "value": "object-fit cover, clipped to shape" },
     { "label": "Icon", "value": "<aha-icon> glyph by name, ~half the avatar diameter, currentColor" },
     { "label": "Color", "value": "ground tint from an --aha-* token via `color` (default brand tint)" },
-    { "label": "Group", "value": "stacked overlap (-10px), 2px container-white ring, +N chip past `max`" }
+    { "label": "Group", "value": "stacked overlap (-10px), 2px container-white ring; grounds rotate Vivid Pink 5% #FEF3F7 (ink), 30% #F8B7D2 (ink), 100% #E70E68 (white) so neighbours never match; an avatar with its own `color` keeps it; +N chip past `max` on grey 25 #F3F3F3" }
   ],
   "props": [
     { "name": "name", "type": "string", "default": "—", "desc": "Full name; initials are derived when no src/icon. Also the alt/aria-label" },
