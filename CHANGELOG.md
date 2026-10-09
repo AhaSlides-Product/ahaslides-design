@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.139.1 — 2026-10-09
 ### Fixed
-- The dismiss ✕ (tertiary icon-only size xs Button) is back to the previous close-button colours: muted #8A8A8A glyph at rest, hover turns it #1A1A1A on a #F7F7F7 fill over 100ms, no purple hover or press. Other tertiary buttons keep the purple hover; the focus ring is unchanged (#PR)
+- The dismiss ✕ (tertiary icon-only size xs Button) is back to the previous close-button colours: muted #8A8A8A glyph at rest, hover turns it #1A1A1A on a #F7F7F7 fill over 100ms, no purple hover or press. Other tertiary buttons keep the purple hover; the focus ring is unchanged (#212)
 
 ## 0.139.0 — 2026-10-09
 ### Added
