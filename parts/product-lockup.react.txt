@@ -1,0 +1,16 @@
+import '@ahaslides-product/design/aha-product-lockup';   // registers <aha-product-lockup>
+
+// The custom element renders identically in React; attributes are plain strings.
+export function SiteHeader() {
+  return (
+    <header style={{ display: 'flex', alignItems: 'center', containerType: 'inline-size', containerName: 'aha-header' }}>
+      <a href="/" style={{ display: 'inline-flex' }}>
+        <aha-product-lockup product="Docs" />   {/* full, compact below a 480 px header */}
+      </a>
+    </header>
+  );
+}
+
+<aha-product-lockup product="Games" variant="compact" />
+<aha-product-lockup product="Agent Fleet" variant="splash" />   {/* icon rail */}
+<aha-product-lockup product="Careers" tone="inverse" />         {/* dark or brand-colour header */}

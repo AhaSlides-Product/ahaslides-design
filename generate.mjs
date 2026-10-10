@@ -33,8 +33,6 @@ const ADIR = join(root, 'audience');     // audience component library — the m
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
-const HEADER_SPLASH = read(join(root, 'logo', 'thesplash.svg')).trim()
-  .replace(/<svg\s+width="\d+"\s+height="\d+"/, '<svg class="logo" aria-hidden="true"');
 const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
@@ -378,8 +376,8 @@ body{margin:0;background:#fff;color:var(--aha-text-default);font-family:var(--ah
 a{color:var(--aha-color-primary)}
 
 /* ---- app shell ---- */
-.doc-header{position:sticky;top:0;z-index:30;height:64px;display:flex;align-items:center;gap:22px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
-.brand{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:600;color:var(--aha-text-default);text-decoration:none;flex:0 0 auto}
+.doc-header{position:sticky;top:0;z-index:30;height:64px;container:aha-header / inline-size;display:flex;align-items:center;gap:22px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
+.brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
 
 /* ---- top-level area nav (AntD-style header tabs) ---- */
 .top-nav{display:flex;gap:2px;align-items:center;flex:1 1 auto;height:100%}
@@ -387,8 +385,6 @@ a{color:var(--aha-color-primary)}
 .top-nav a:hover{color:var(--aha-color-primary)}
 .top-nav a.active{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
 .hmeta{flex:0 0 auto}
-.brand .logo{width:30px;height:30px;display:inline-block;flex:0 0 auto}
-.brand small{display:block;font-size:11px;font-weight:400;color:var(--aha-text-tertiary);letter-spacing:.2px;margin-top:1px}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
 a.ver{color:var(--aha-text-secondary);text-decoration:none}
@@ -1018,7 +1014,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 ${fontPreloads(base)}
 <style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style>${DS_ANTD_THEME_SCRIPT}</head><body>
 <header class="doc-header">
-  <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
+  <a class="brand" href="${base}index.html"><aha-product-lockup product="Design System"></aha-product-lockup></a>
   ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="16" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
@@ -1029,7 +1025,7 @@ ${fontPreloads(base)}
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
-<script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';</script>
+<script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';import '${base || './'}lib/aha-product-lockup.js';</script>
 <script>${SEARCH_JS}${NAV_TOGGLE_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
@@ -2278,6 +2274,20 @@ const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
 const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
 const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white']);
 const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
+const LOCKUP_SPEC = [
+  ['Full', 'The Splash, AhaSlides (Plus Jakarta Sans 600), one normal space, the product name (400)'],
+  ['Compact', 'The Splash and the product name (600), no word AhaSlides'],
+  ['Type size', '20 px reference; 18 px minimum'],
+  ['Line height', '1.3 (26 px)'],
+  ['Letter spacing', '-0.03em (-0.6 px)'],
+  ['The Splash', '1.325em high (26.5 px; about 24 px at the 18 px minimum), centred on the capitals'],
+  ['Gap, The Splash to the text', '0.36em (7.2 px)'],
+  ['Ink', 'text-default #1A1A1A with the full-colour Splash on light; all white on a dark or brand-colour header'],
+  ['Full to compact', 'below a header 480 px wide'],
+  ['Splash only', 'a slot narrower than the compact lockup, such as a 72 px icon rail'],
+  ['No approved product name', 'The Splash and AhaSlides only; never invent a name'],
+];
+const LOCKUP_DONTS = ['Hand-set the lockup from the logo file and a text span: use <aha-product-lockup>', 'Put a divider or a bar between The Splash and the words', 'Scale The Splash and the text separately: one size drives both', 'Use a product name nobody approved'];
 const LOGO_GALLERY_JS = `
 (function(){
   var root=document.getElementById('logo-gallery'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count');
@@ -2341,12 +2351,19 @@ function renderLogoPage() {
       <input id="logo-search" type="search" placeholder="Search logos by name…" aria-label="Search logos" autocomplete="off" spellcheck="false" />
       <span id="logo-count" class="gal-count" aria-live="polite"></span>
     </div>
-    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div>
+    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div><!-- ds-lint-allow: lockup (Logo library gallery tiles, not a header) -->
     <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
   </div>
 
   <h3 class="tok-h3">AhaSlides logo rules</h3>
   <p class="body">The logo is The Splash plus the wordmark. Two versions are allowed: the full-colour file on white and the white file on Vivid Pink. An all-pink logo on white is not allowed. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <h3 class="tok-h3" id="product-lockup">Product lockup</h3>
+  <p class="body">The top-left brand of every AhaSlides site, microsite and app header (Docs, Games, Careers, Agent Fleet, a pre-launch site) is the product lockup, rendered by <a href="../product-lockup/index.html"><code>&lt;aha-product-lockup&gt;</code></a>. Full is The Splash, AhaSlides and the product name; compact drops AhaSlides. The element sets the text live in Plus Jakarta Sans and sizes everything from one type size, so the proportions below hold at every size.</p>
+  <div class="lockup-demo"><aha-product-lockup product="Docs" variant="full"></aha-product-lockup><aha-product-lockup product="Docs" variant="compact"></aha-product-lockup><aha-product-lockup></aha-product-lockup></div>
+  <div class="lockup-demo lockup-demo--dark"><aha-product-lockup product="Games" tone="inverse" variant="full"></aha-product-lockup><aha-product-lockup product="Games" tone="inverse" variant="compact"></aha-product-lockup></div>
+  ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
+  <p class="body">Don&rsquo;t:</p>
+  <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Favicon</h3>
   <p class="body">Use <code>favicon.ico</code> and <code>favicon-32.png</code> in <code>&lt;link rel="icon"&gt;</code>, <code>favicon-180.png</code> (white ground, because iOS fills transparency black) in <code>&lt;link rel="apple-touch-icon"&gt;</code>, and <code>favicon-512.png</code> as the 512 px icon in the web app manifest. All four are The Splash in its own colours, centred with even padding; rebuild them with <code>node favicons.mjs</code>.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
@@ -2384,7 +2401,9 @@ function renderLogoPage() {
   .lg-dl:hover{color:var(--aha-text-link)}
   .lg.copied{border-color:var(--aha-color-success)}
   .lg.copied .lgn{color:var(--aha-color-success)}
-  .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}`;
+  .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}
+  .lockup-demo{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:24px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
+  .lockup-demo--dark{background:var(--aha-bg-dark);border-color:var(--aha-bg-dark)}`;
   return docShell({ base: '../', active: '__logo__', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
@@ -2587,6 +2606,7 @@ const indexLines = [
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale (one colour, per the colour rules).`,
+  `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers or marketing-style page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
   '>',
   '> ⚑ Before you build: this is the OFFICIAL AhaSlides anti-slop tool. Read anti-slop.md and',
   `>   run the binary judge for your surface — build → self-judge (PASS/FAIL each) → fix → repeat.`,
