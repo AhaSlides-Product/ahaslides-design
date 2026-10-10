@@ -6,8 +6,8 @@
   "badge": "shared web component",
   "element": "aha-progressbar",
   "summary": "The accessible progress bar — role=progressbar with your real value/min/max and a required label, drawn by the DS Progress.",
-  "highlights": ["Accessible progress bar", "role=progressbar with real value, min, max and a required label", "Drawn by the DS Progress"],
-  "lead": "ONE custom element — <aha-progressbar> — the a11y wrapper around the DS <aha-progress>. The HOST is the single role=\"progressbar\" in the accessibility tree and carries the consumer's real range: aria-valuenow / aria-valuemin / aria-valuemax straight from value / min / max (3 of 10 announces as 3 of 10, not 30%), aria-label from `label`, and an optional aria-valuetext. The visual is the shipped <aha-progress>, driven with the derived percent and hidden from assistive tech so the bar is announced once; status / size / type / steps / show-info pass through. A value change only updates the persistent inner bar, so its fill animates on the DS motion tokens.",
+  "highlights": ["Accessible progress bar", "role=progressbar with real value, min, max and a required label", "Drawn by the DS Progress", "Running state: moving stripes while a task works"],
+  "lead": "ONE custom element — <aha-progressbar> — the a11y wrapper around the DS <aha-progress>. The HOST is the single role=\"progressbar\" in the accessibility tree and carries the consumer's real range: aria-valuenow / aria-valuemin / aria-valuemax straight from value / min / max (3 of 10 announces as 3 of 10, not 30%), aria-label from `label`, and an optional aria-valuetext. The visual is the shipped <aha-progress>, driven with the derived percent and hidden from assistive tech so the bar is announced once; status / size / type / steps / show-info pass through. A value change only updates the persistent inner bar, so its fill animates on the DS motion tokens. Set status=\"active\" while the task is running: the DS Progress running state, white stripes moving over the fill (still under reduced motion).",
   "codeNote": "Reach for <aha-progressbar> whenever the bar must be announced (quiz progress, upload, a step count). Plain <aha-progress> stays for purely decorative bars that sit next to their own text.",
   "tokensUsed": [
     "color-primary",
@@ -32,11 +32,15 @@
     },
     {
       "label": "Fill",
-      "value": "primary #E70E68 · status recolours (success/warning/exception)"
+      "value": "primary #E70E68 · status recolours (success/warning/exception) · active = running, moving white stripes over the fill"
     },
     {
       "label": "Motion",
       "value": "fill animates on --aha-motion-slow / --aha-ease-out (persistent node)"
+    },
+    {
+      "label": "Running",
+      "value": "status=\"active\": white-a50 diagonal stripes over the fill, one 20px tile per --aha-motion-loop; still under prefers-reduced-motion"
     }
   ],
   "props": [
@@ -143,6 +147,10 @@
     },
     {
       "label": "fill primary #E70E68 · track 8px",
+      "verdict": "PASS"
+    },
+    {
+      "label": "status=active shows the running stripes, still under reduced motion",
       "verdict": "PASS"
     }
   ],
