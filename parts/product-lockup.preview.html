@@ -1,0 +1,29 @@
+<div class="pad">
+  <div class="lbl">Full · on light</div>
+  <div class="row" style="flex-wrap:wrap;gap:var(--aha-space-24,24px)">
+    <aha-product-lockup data-probe product="Docs" variant="full"></aha-product-lockup>
+    <aha-product-lockup product="Agent Fleet" variant="full"></aha-product-lockup>
+    <aha-product-lockup></aha-product-lockup>
+  </div>
+  <div class="lbl">Compact · Splash only</div>
+  <div class="row" style="flex-wrap:wrap;gap:var(--aha-space-24,24px)">
+    <aha-product-lockup product="Docs" variant="compact"></aha-product-lockup>
+    <aha-product-lockup product="Agent Fleet" variant="compact"></aha-product-lockup>
+    <aha-product-lockup product="Agent Fleet" variant="splash"></aha-product-lockup>
+  </div>
+  <div class="lbl">Inverse · on a dark or brand-colour header</div>
+  <div class="row" style="flex-wrap:wrap;gap:var(--aha-space-24,24px);padding:var(--aha-space-16,16px);background:var(--aha-bg-dark,#1A1A1A);border-radius:var(--aha-radius-default,8px)">
+    <aha-product-lockup product="Games" tone="inverse" variant="full"></aha-product-lockup>
+    <aha-product-lockup product="Games" tone="inverse" variant="compact"></aha-product-lockup>
+  </div>
+  <div class="row" style="flex-wrap:wrap;gap:var(--aha-space-24,24px);padding:var(--aha-space-16,16px);background:var(--aha-color-primary,#E70E68);border-radius:var(--aha-radius-default,8px)">
+    <aha-product-lockup product="Careers" tone="inverse" variant="full"></aha-product-lockup>
+    <aha-product-lockup product="Careers" tone="inverse" variant="compact"></aha-product-lockup>
+  </div>
+</div>
+
+<!-- Imports the REAL shipped element (../lib/aha-product-lockup.js) — no inlined copy, so the preview can
+     never drift from lib/. -->
+<script type="module">
+  import '../lib/aha-product-lockup.js';   // registers <aha-product-lockup>
+</script>

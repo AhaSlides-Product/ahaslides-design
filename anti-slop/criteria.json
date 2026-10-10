@@ -63,8 +63,8 @@
       "criteria": [
         {
           "id": "C1",
-          "title": "Real brand identity, never a placeholder",
-          "test": "The brand mark + wordmark, and any third-party brand logo, are taken from the Logo library (design.ahaslides.io/foundations/logo.html, files at /logo/<file>), never redrawn, hand-inlined, recoloured, or replaced by a coloured letter tile or initials square."
+          "title": "Real brand identity: the header brand is the product lockup",
+          "test": "The top-left brand of any site, microsite or app header (product app, docs site, careers or marketing-style page, internal tool, nav rail) is <aha-product-lockup> with the product name, or with no product attribute when no name is approved; never the logo file or The Splash hand-set next to a text span, never a divider between The Splash and the words. Every other logo (The Splash, the AhaSlides logo, any third-party brand) is taken from the Logo library (design.ahaslides.io/foundations/logo.html, files at /logo/<file>), never redrawn, hand-inlined, recoloured, or replaced by a coloured letter tile or initials square. FAIL if either half is broken."
         },
         {
           "id": "C2",
