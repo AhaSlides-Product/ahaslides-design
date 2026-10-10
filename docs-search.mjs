@@ -246,7 +246,7 @@ export const SEARCH_CSS = `
 @media (max-width:1489px){.hmeta>span{display:none}.doc-header{gap:var(--aha-space-16)}}
 @media (max-width:767px){
   .doc-header{padding:0 var(--aha-space-16);gap:var(--aha-space-8)}
-  .brand>span{display:none}
+  .hmeta{display:none}
   .top-nav a{padding:0 var(--aha-space-10)}
   .ds-search{position:static}
   .ds-search-toggle{display:inline-flex}

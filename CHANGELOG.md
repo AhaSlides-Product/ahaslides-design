@@ -22,17 +22,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.151.1 — 2026-10-09
+## 0.152.1 — 2026-10-09
 ### Fixed
 - CSAT: the question uses the DS secondary text colour (#4A4A4A, was #616161), so it matches the grey text of the card around it. Its sizes, gaps and line heights are DS tokens, and the keyboard focus ring uses the DS focus-ring token.
 - Background task: "Try again" is a primary button on every failed or offline card (Export failed and Import failed were secondary). (#185)
 
 ## 0.151.0 — 2026-10-09
 ### Added
-- Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
-- Tokens: `--aha-shadow-floating` (the Notification elevation), `--aha-layer-floating` (1100) and `--aha-floating-inset-bottom` (88px) for fixed floating cards. (#184)
+- `<aha-product-lockup>`: the AhaSlides product lockup (The Splash, AhaSlides and a product name as one mark) for the top-left of every site, microsite and app header. `product`, `variant` (auto, full, compact, splash), `tone` (colour, inverse) and `size` (20px default, 18px minimum); auto flips to compact below a 480px header; the box keeps a 0.1em bleed so a clipping parent never cuts a glyph edge (#221)
+- Logo library: a Product lockup section with the spec table and the don'ts (#221)
+- screen-lint `hand-set-lockup` (warning): the AhaSlides logo or The Splash set by hand in a header or nav (#221)
 ### Changed
-- Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default, description and caption in text-secondary, radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
+- `app-shell` C1 and its guideline rule: the header brand of any site or app is `<aha-product-lockup>` (#221)
+- The design.ahaslides.io site header is `<aha-product-lockup product="Design System">` (full, compact below a 480px header) in place of The Splash beside hand-set text (#221)
+- Agent plugin: every prompt carries the product lockup rule, including marketing-style pages; writing an AhaSlides logo file nudges toward the lockup (#221)
 
 ## 0.150.0 — 2026-10-09
 ### Fixed
