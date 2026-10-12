@@ -7,7 +7,7 @@ import {
   loadColourRules, loadBackgrounds, listRules, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
   renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE,
 } from '../colour-rules.mjs';
-import { buildSplash, readyMadeSet, loadSplashRules, readIcon, pathBounds, largestHook } from '../build-splash.mjs';
+import { buildSplash, readyMadeSet, loadSplashRules, readIcon } from '../build-splash.mjs';
 import { loadEnvironmentTable, environmentNames } from '../environments.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -63,19 +63,11 @@ test('the Splash prose states the same figures the generator reads', () => {
   assert.equal(centreRow[1], `${centre.iconWidthPerShorterSide * 100}%`);
   assert.equal(rightRow[1], `${right.iconWidthPerShorterSide * 100}%`);
   assert.ok(rightRow[2].startsWith(`${right.meetingPointAcross * 100}% across`));
-  assert.ok(minimalRow[1].startsWith(`${Math.round(minimal.iconWidthPerLongerSideOnThePage * 100)}% of the longer side`));
+  assert.ok(minimalRow[1].includes(`${minimal.hookLengthPerLongerSide} of the longer side`));
   assert.ok(minimalRow[2].includes(`lower ${minimal.bottomLeftCoversLowerShare * 100}%`) && minimalRow[2].includes(`upper ${minimal.topRightCoversUpperShare * 100}%`));
   assert.ok(ruleText('5.1').includes('Vivid Pink at 5% on a white background, Darker Pink on a Vivid Pink background'));
   const hex = (id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
   assert.deepEqual(rules.splash.surfaces, { white: { background: hex('white'), hooks: hex('vivid-pink-5') }, pink: { background: hex('vivid-pink'), hooks: hex('darker-pink') } });
-});
-
-test('the open point on the minimal layout matches the logo vector', () => {
-  const { iconWidth, hooks } = readIcon(read(rules.splash.icon));
-  const bounds = pathBounds(largestHook(hooks));
-  const hookLength = rules.splash.layouts.minimal.iconWidthPerLongerSideOnThePage * (bounds.bottom - bounds.top) / iconWidth;
-  assert.equal(hookLength.toFixed(2), '0.73');
-  assert.ok(rules.open.find(point => point.id === 'O1').text.includes('0.73, not 0.77'));
 });
 
 test('every ready-made background is exactly what the generator builds, and the manifest lists them all', () => {
@@ -89,7 +81,7 @@ test('every ready-made background is exactly what the generator builds, and the 
     const built = set.find(candidate => candidate.file === entry.file);
     assert.deepEqual([entry.width, entry.height, entry.layout, entry.surface], [built.width, built.height, built.layout, built.surface]);
   }
-  assert.ok(set.filter(entry => entry.layout === 'minimal').every(entry => entry.ratio === '16x9'));
+  for (const layout of Object.keys(splashRules.layouts)) assert.deepEqual(set.filter(entry => entry.layout === layout && entry.surface === 'white').map(entry => entry.ratio).sort(), Object.keys(splashRules.frames).sort(), layout);
 });
 
 test('a Splash background keeps the hooks of the icon and only moves them', () => {
@@ -115,7 +107,7 @@ test('a value with quotes cannot break out of an attribute', () => {
   assert.ok(!main.includes('a".svg') && main.includes('a&quot;.svg'));
 });
 
-test('the page, the feed and the markdown all carry every rule and every open point', () => {
+test('the page, the feed and the markdown all carry every rule', () => {
   const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE) });
   const feed = JSON.parse(renderColourRulesAgent(rules, { site: SITE, store, backgrounds }));
   const markdown = renderColourRulesMd(rules, { site: SITE, store, backgrounds });
@@ -130,7 +122,8 @@ test('the page, the feed and the markdown all carry every rule and every open po
     assert.ok(page.includes(`id="${point.id}"`) && markdown.includes(point.title));
     assert.ok(feed.open.some(entry => entry.id === point.id));
   }
-  assert.ok(!page.includes('Nothing open.'));
+  assert.deepEqual(rules.open, []);
+  assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
   assert.equal(feed.splash.files.length, backgrounds.length);
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
   assert.equal(rules.changes[0].version, 'v10');

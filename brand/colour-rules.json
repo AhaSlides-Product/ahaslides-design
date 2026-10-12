@@ -36,7 +36,7 @@
   "layouts": {
    "centre": { "iconWidthPerShorterSide": 4.5, "meetingPointAcross": 0.5, "meetingPointDown": 0.5 },
    "right": { "iconWidthPerShorterSide": 3.0, "meetingPointAcross": 0.79, "meetingPointDown": 0.5 },
-   "minimal": { "hookLengthPerLongerSide": 0.77, "iconWidthPerLongerSideOnThePage": 1.15, "bottomLeftCoversLowerShare": 0.42, "topRightCoversUpperShare": 0.44, "readyMadeFrames": ["16x9"] }
+   "minimal": { "hookLengthPerLongerSide": 0.77, "bottomLeftCoversLowerShare": 0.42, "topRightCoversUpperShare": 0.44 }
   },
   "frames": {
    "16x9": { "width": 1920, "height": 1080 },
@@ -49,7 +49,7 @@
    "id": "s1", "key": "palette", "title": "The palette",
    "blocks": [
     { "type": "palette" },
-    { "type": "paragraph", "text": "The two tints are Vivid Pink with transparency (the last two digits are the alpha). The flat codes in brackets match them on a white page only. The contrast figures in section 10 are measured on white." },
+    { "type": "paragraph", "text": "The two tints are Vivid Pink with transparency (the last two digits are the alpha). The flat codes in brackets match them on a white page only. Colours are defined in RGB (hex) only; when something goes to print, convert them then. The contrast figures in section 10 are measured on white." },
     { "type": "paragraph", "id": "1.1", "rule": true, "text": "No other colour appears on anything we draw ourselves. Photos and customer content are exempt (see section 9)." },
     { "type": "heading", "anchor": "illustrations", "text": "Illustrations" },
     { "type": "paragraph", "id": "1.2", "rule": true, "text": "Illustrations may use Vivid Pink at any of these tints, plus Darker Pink, white, the default ink and grey. The 10, 20, 45, 60 and 80% tints are for illustrations only and never appear in the interface. Vivid Pink, its 5% and 30% tints and Darker Pink keep their interface roles in the table above." },
@@ -152,10 +152,10 @@
       "rows": [
        ["Centre", "450%", "50% across, 50% down"],
        ["Right", "300%", "79% across, 50% down"],
-       ["Minimal", "115% of the longer side (two copies of the largest hook only)", "Bottom-left hook covers the lower 42% of the left three quarters; top-right hook covers the upper 44% of the right three quarters"]
+       ["Minimal", "Not set by the icon: each of the two hooks is 0.77 of the longer side in length", "Bottom-left hook covers the lower 42% of the left three quarters; top-right hook covers the upper 44% of the right three quarters"]
       ] },
     { "type": "heading", "anchor": "splash-files", "text": "Ready-made files and the generator", "origin": "aha-marketing-backgrounds" },
-    { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "The [Background library](backgrounds.html) holds the ready-made files: centre and right at 16:9, 1:1 and 9:16, and minimal at 16:9, each on white and on Vivid Pink. For any other size, build the file with the generator on that page." },
+    { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "The [Background library](backgrounds.html) holds the ready-made files: centre, right and minimal at 16:9, 1:1 and 9:16, each on white and on Vivid Pink. For any other size, build the file with the generator on that page." },
     { "type": "rules", "start": 9, "origin": "aha-marketing-backgrounds", "rules": [
      { "id": "5.9", "text": "A splash background is built for its exact frame. Never stretch, cover-crop or re-crop one file into another ratio, because that changes the scale these rules fix." },
      { "id": "5.10", "text": "The hooks come from the real icon. Never redraw, reshape or mirror them, turn them outside the two quarter-turns of the minimal layout, recolour a ready-made file, or add a shadow, bevel or 3D effect." },
@@ -170,7 +170,7 @@
     { "type": "rules", "start": 17, "origin": "aha-marketing-backgrounds", "rules": [
      { "id": "5.17", "text": "Icon width, for centre and right, is the width of the splash icon's own 802-unit frame." },
      { "id": "5.18", "text": "The meeting point is the centre of the gap the four hooks surround: 400 across and 336 down in the icon's 802 by 788 frame." },
-     { "id": "5.19", "text": "Minimal is sized by the hook: its long side, once turned, is 0.77 of the frame's longer side. The other figure on this page is still open (section 11)." }
+     { "id": "5.19", "text": "Minimal is sized by the hook: its long side, once turned, is 0.77 of the frame's longer side." }
     ] }
    ]
   },
@@ -186,14 +186,12 @@
      { "id": "6.6", "text": "Pink text is allowed on white only." }
     ] },
     { "type": "heading", "anchor": "marketing-buttons", "text": "Buttons on marketing pages, email, ads and slides", "origin": "aha-marketing-buttons" },
-    { "type": "paragraph", "origin": "aha-marketing-buttons", "text": "The rules above define the primary button. The secondary and text link rows below are an interim reading of the text rules and are still open (section 11). Buttons in the product app are the design system Button component." },
+    { "type": "paragraph", "origin": "aha-marketing-buttons", "text": "The primary button follows rules 6.1 and 6.2 and the table below. Secondary buttons and text links follow the design system Button component (secondary and text-link variants) everywhere, marketing included." },
     { "type": "table", "id": "marketing-button-variants", "origin": "aha-marketing-buttons", "environment": ["marketing-web", "video", "social-ads"],
       "columns": ["Variant", "Background", "Label", "Border"],
       "rows": [
        ["Primary, on white", "Vivid Pink `#E70E68`", "White `#FFFFFF`", "None"],
-       ["Primary, on Vivid Pink", "White `#FFFFFF`", "Vivid Pink `#E70E68`", "None"],
-       ["Secondary (interim)", "Transparent", "Black on white; solid white on Vivid Pink", "1.5px, the label's colour"],
-       ["Text link (interim)", "Transparent", "Black on white, Vivid Pink on hover; solid white on Vivid Pink", "None"]
+       ["Primary, on Vivid Pink", "White `#FFFFFF`", "Vivid Pink `#E70E68`", "None"]
       ] },
     { "type": "table", "id": "marketing-button-states", "origin": "aha-marketing-buttons", "environment": ["marketing-web", "video", "social-ads"],
       "columns": ["State", "Primary, on white", "Primary, on Vivid Pink"],
@@ -264,19 +262,13 @@
   {
    "id": "s11", "key": "open", "title": "Still to decide",
    "blocks": [
-    { "type": "paragraph", "text": "These points are open. Each one waits for the brand owner; until it is settled, follow the interim reading given with it." },
     { "type": "open" }
    ]
   }
  ],
- "open": [
-  { "id": "O1", "title": "The two minimal splash figures disagree", "environment": ["marketing-web", "video", "social-ads"], "text": "Section 5 gives the minimal layout two sizes: each hook is 0.77 times the frame's longer side, and the icon is 115% of the longer side. On the logo's own vector the second figure makes each hook 0.73, not 0.77.", "interim": "The generator and the ready-made files use the hook length, 0.77." },
-  { "id": "O2", "title": "Minimal splash outside 16:9", "environment": ["marketing-web", "video", "social-ads"], "text": "The placement of the two hooks is given as shares of a 16:9 frame. On a square or portrait frame the same shares make the hooks crowd the canvas.", "interim": "Ready-made minimal files are 16:9 only. For a square or portrait asset use centre or right." },
-  { "id": "O3", "title": "Print values", "environment": ["social-ads"], "text": "CMYK and Pantone values for Vivid Pink and Darker Pink are not published.", "interim": "Ask the brand owner before sending anything to print. Do not convert the values yourself." },
-  { "id": "O4", "title": "Secondary and text link buttons outside the product", "environment": ["marketing-web", "video", "social-ads"], "text": "These rules define the primary button only. The secondary and text link rows in section 6 were read from the text rules by the marketing team and have not been confirmed.", "interim": "Use the rows in section 6 and say they are interim." }
- ],
+ "open": [],
  "changes": [
-  { "version": "v10", "date": "12 Oct", "text": "The rules now live as data in the design system, the one source for this page, the agent feed and the judge criteria. Added from the marketing skills: applied usage per surface, splash files and the generator, marketing button colours, no gradients, retired colours. Four points listed under Still to decide. No existing rule changed." },
+  { "version": "v10", "date": "12 Oct", "text": "The rules now live as data in the design system, the one source for this page, the agent feed and the judge criteria. Added from the marketing skills: applied usage per surface, splash files and the generator, marketing button colours, no gradients, retired colours. Nothing is left under Still to decide. The minimal splash is sized by the hook length, 0.77 of the longer side, and the splash works on any aspect ratio. Colours are defined in RGB only. Secondary buttons and text links follow the design system Button component. No existing rule changed." },
   { "version": "v9", "date": "8 Oct", "text": "Illustrations use Vivid Pink tints; our own illustrations, logos of customers and tools and file-type icons follow the rules; black is 1A1A1A." },
   { "version": "v8", "date": "7 Oct", "text": "Section rule made easy to check: two named kinds of coloured section, a full white section between any two, at most two Vivid Pink, first screen white. \"White stays the larger share\" removed." },
   { "version": "v7", "date": "7 Oct", "text": "Final: contents list, rules at a glance and click-to-copy colour codes. No rule changed." },

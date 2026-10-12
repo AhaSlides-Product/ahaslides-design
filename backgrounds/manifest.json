@@ -288,6 +288,42 @@
    ]
   },
   {
+   "id": "splash-minimal-white-1x1",
+   "name": "Minimal splash on white, 1:1",
+   "file": "splash-minimal-white-1x1.svg",
+   "layout": "minimal",
+   "surface": "white",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-white-9x16",
+   "name": "Minimal splash on white, 9:16",
+   "file": "splash-minimal-white-9x16.svg",
+   "layout": "minimal",
+   "surface": "white",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
    "id": "splash-minimal-pink-16x9",
    "name": "Minimal splash on Vivid Pink, 16:9",
    "file": "splash-minimal-pink-16x9.svg",
@@ -302,6 +338,42 @@
    "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-minimal-pink-16x9.svg",
    "sourceCommit": "caf1f59",
    "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-pink-1x1",
+   "name": "Minimal splash on Vivid Pink, 1:1",
+   "file": "splash-minimal-pink-1x1.svg",
+   "layout": "minimal",
+   "surface": "pink",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-pink-9x16",
+   "name": "Minimal splash on Vivid Pink, 9:16",
+   "file": "splash-minimal-pink-9x16.svg",
+   "layout": "minimal",
+   "surface": "pink",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
    "environment": [
     "product",
     "marketing-web",

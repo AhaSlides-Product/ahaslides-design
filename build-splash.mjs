@@ -99,12 +99,12 @@ export function buildSplash({ layout, surface, width, height, rules = loadSplash
     + `<g clip-path="url(#frame)">${splash}</g></svg>\n`;
 }
 
-/** The ready-made set: every layout on every surface, at each frame the rules settle for it. */
+/** The ready-made set: every layout on every surface. */
 export function readyMadeSet(rules = loadSplashRules()) {
   const files = [];
   for (const surface of Object.keys(rules.surfaces)) {
-    for (const [layout, geometry] of Object.entries(rules.layouts)) {
-      for (const ratio of geometry.readyMadeFrames || Object.keys(rules.frames)) {
+    for (const layout of Object.keys(rules.layouts)) {
+      for (const ratio of Object.keys(rules.frames)) {
         const { width, height } = rules.frames[ratio];
         files.push({ file: `splash-${layout}-${surface}-${ratio}.svg`, layout, surface, ratio, width, height });
       }
