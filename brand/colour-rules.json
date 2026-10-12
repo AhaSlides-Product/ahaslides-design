@@ -152,7 +152,7 @@
       "rows": [
        ["Centre", "450%", "50% across, 50% down"],
        ["Right", "300%", "79% across, 50% down"],
-       ["Minimal", "Not set by the icon: each of the two hooks is 0.77 of the longer side in length", "Bottom-left hook covers the lower 42% of the left three quarters; top-right hook covers the upper 44% of the right three quarters"]
+       ["Minimal", "Not set by the icon: each of the two hooks is 0.77 of the longer side in length", "Bottom-left hook covers the lower 42% of the frame height; top-right hook covers the upper 44%. Each spans about three quarters of the width at 16:9 and 1:1, and the full width at 9:16"]
       ] },
     { "type": "heading", "anchor": "splash-files", "text": "Ready-made files and the generator", "origin": "aha-marketing-backgrounds" },
     { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "The [Background library](backgrounds.html) holds the ready-made files: centre, right and minimal at 16:9, 1:1 and 9:16, each on white and on Vivid Pink. For any other size, build the file with the generator on that page." },
