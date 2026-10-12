@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.153.0 — 2026-10-12
 ### Added
-- Icons: `filetype-report` joins the File type family beside Course, Knowledge base, Lesson, Presentation and Survey; it keeps its baked green (#PRNUM)
+- Icons: `filetype-report` joins the File type family beside Course, Knowledge base, Lesson, Presentation and Survey; it keeps its baked green (#224)
 
 ## 0.151.0 — 2026-10-09
 ### Added
