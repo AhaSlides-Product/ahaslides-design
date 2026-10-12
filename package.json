@@ -282,6 +282,7 @@
     "route-scan": "node route-scan.mjs",
     "icon-search": "node icon-search.mjs",
     "icon-duplicates": "node icon-similarity.mjs",
+    "splash": "node build-splash.mjs",
     "evals:anti-slop": "node anti-slop/evals-harness.mjs",
     "build": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
     "check": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node screen-lint.mjs --self-test && node --test tests/*.test.mjs && node qa.mjs"
