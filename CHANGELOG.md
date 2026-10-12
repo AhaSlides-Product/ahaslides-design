@@ -5,7 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-The gate also rejects an unfilled `(#129)` placeholder in the top entry: link the **real** PR number.
+The gate also rejects an unfilled `(#228)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.156.0 — 2026-10-12
 ### Removed
-- Icon library: the `system-question-circle` glyph is gone. The name still resolves as a deprecated back-compat alias of `system-question`, so consumers that reference it keep working while they migrate; the alias is not listed as its own glyph on the Icon library page (which now lists only real glyphs). The registry still holds 305 names: 300 glyph files plus 5 back-compat aliases. (#129)
+- Icon library: the `system-question-circle` glyph is gone. The name still resolves as a deprecated back-compat alias of `system-question`, so consumers that reference it keep working while they migrate; the alias is not listed as its own glyph on the Icon library page (which now lists only real glyphs). The registry still holds 305 names: 300 glyph files plus 5 back-compat aliases. (#228)
 
 ### Changed
-- `<aha-tooltip help>` now draws `system-question` instead of `system-question-circle`. The tooltip, section-header, setting-row and setting-group contracts name `system-question` for the help glyph. (#129)
+- `<aha-tooltip help>` now draws `system-question` instead of `system-question-circle`. The tooltip, section-header, setting-row and setting-group contracts name `system-question` for the help glyph. (#228)
 
 ## 0.154.0 — 2026-10-12
 ### Added
@@ -618,9 +618,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.66.0 — 2026-09-28
 ### Added
-- **An accuracy gate for the anti-slop store: all fifteen surfaces now ship a labelled eval set at `anti-slop/evals/<surface>/evals.json`.** The aha-design judge datasets (plugin v1.80.0) are ported for `audience`, `background`, `canvas`, `component-standard`, `feedback`, `icons`, `overlays`, `paywall`, `settings`, `shared-components`, `status-badges`, `table`, `typography` and `ux-writing` (canvas with its code fixtures), each case pinned to an explicit `expected` verdict keyed to the DS criterion ids. Cases that contradicted the live DS were remapped rather than copied, with the reason in each case's `source.remap`: typography no longer accepts Inter for a label role (the DS has no Inter), component-standard cases cite the live contracts and doc-site render instead of the plugin's frozen `contract.json` / `review.html`, the Button matrix is the live 10 variants × sm/md/lg, feedback banners are the DS `<aha-alert>` rather than the plugin's AhaAlert wrapper, shared-components cases name the 0.64.0 primitives (`<aha-field-error>`, `<aha-live-region>`, `<aha-progressbar>`, `<aha-viewport-switch>`, `<aha-error-page>`, `<aha-empty>`), and settings cases pinned to the judge's `CR` (reuse over rebuild), which the store does not carry, are re-keyed to C10 / C13 or listed under `notPorted`. `app-shell` has no plugin judge, so its set is DS-authored with code fixtures; `icons` C6, settings C5–C8 and the new shared-components primitives gain authored cases. Every store criterion now has at least one FAIL case. (#129)
-- **`standards.mjs` gates the eval sets (no model call).** For every store surface: an eval set exists, every case is well-formed, every expected criterion id exists in `criteria.json`, both PASS and FAIL cases are present, every fixture resolves and no case cites a frozen plugin snapshot; plus a verdict-parser self-test. A new surface without an eval set now fails `npm run check`. (#129)
-- **`npm run evals:anti-slop` — the live, model-in-the-loop scorer.** Hands the judge the store's own criteria for a surface, majority-votes over `--samples`, and prints per-case results, a per-criterion confusion table and overall accuracy (`--min-accuracy` to gate, `--dry-run` to print prompts). Documented in `anti-slop/README.md`. (#129)
+- **An accuracy gate for the anti-slop store: all fifteen surfaces now ship a labelled eval set at `anti-slop/evals/<surface>/evals.json`.** The aha-design judge datasets (plugin v1.80.0) are ported for `audience`, `background`, `canvas`, `component-standard`, `feedback`, `icons`, `overlays`, `paywall`, `settings`, `shared-components`, `status-badges`, `table`, `typography` and `ux-writing` (canvas with its code fixtures), each case pinned to an explicit `expected` verdict keyed to the DS criterion ids. Cases that contradicted the live DS were remapped rather than copied, with the reason in each case's `source.remap`: typography no longer accepts Inter for a label role (the DS has no Inter), component-standard cases cite the live contracts and doc-site render instead of the plugin's frozen `contract.json` / `review.html`, the Button matrix is the live 10 variants × sm/md/lg, feedback banners are the DS `<aha-alert>` rather than the plugin's AhaAlert wrapper, shared-components cases name the 0.64.0 primitives (`<aha-field-error>`, `<aha-live-region>`, `<aha-progressbar>`, `<aha-viewport-switch>`, `<aha-error-page>`, `<aha-empty>`), and settings cases pinned to the judge's `CR` (reuse over rebuild), which the store does not carry, are re-keyed to C10 / C13 or listed under `notPorted`. `app-shell` has no plugin judge, so its set is DS-authored with code fixtures; `icons` C6, settings C5–C8 and the new shared-components primitives gain authored cases. Every store criterion now has at least one FAIL case. (#228)
+- **`standards.mjs` gates the eval sets (no model call).** For every store surface: an eval set exists, every case is well-formed, every expected criterion id exists in `criteria.json`, both PASS and FAIL cases are present, every fixture resolves and no case cites a frozen plugin snapshot; plus a verdict-parser self-test. A new surface without an eval set now fails `npm run check`. (#228)
+- **`npm run evals:anti-slop` — the live, model-in-the-loop scorer.** Hands the judge the store's own criteria for a surface, majority-votes over `--samples`, and prints per-case results, a per-criterion confusion table and overall accuracy (`--min-accuracy` to gate, `--dry-run` to print prompts). Documented in `anti-slop/README.md`. (#228)
 
 ## 0.65.0 — 2026-09-28
 ### Removed
