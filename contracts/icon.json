@@ -1,7 +1,7 @@
 {
   "name": "Icon",
   "slug": "icon",
-  "environment": ["product"],
+  "environment": ["product", "audience"],
   "group": "General",
   "tier": "leaf-lit",
   "badge": "shared element + registry",
