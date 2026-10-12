@@ -118,8 +118,14 @@ Read the list from the DS each time — surfaces get added.
    Take the file from the Background library, `https://design.ahaslides.io/foundations/backgrounds.html`
    (files at `https://design.ahaslides.io/backgrounds/<file>`), or build another size with the
    package's `build-splash.mjs`. Never draw, stretch or recolour the hooks.
-7. Icons come from the registry by name. Draw one only when the library has no suitable icon, and
-   then use the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px.
+7. Icons come from the registry by name. Search by meaning before choosing or drawing one:
+   `node node_modules/@ahaslides-product/design/icon-search.mjs <words>` (in the design-system repo
+   `npm run icon-search <words>`), `https://design.ahaslides.io/icons/index.html?q=<words>`, or the
+   "Find by meaning" list in `icons.llms.txt` ("help" finds `system-question`, "delete" finds
+   `system-trash`). Try two or three synonyms. Never inline an `<svg>` or add a `.svg` file in an app
+   (the plugin blocks both). Only when nothing fits, add the glyph to the design system, with meaning
+   words, the paired stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) and an `Icon search:` line
+   in its pull request; a glyph that looks nearly identical to an existing one fails the DS build.
 8. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
    24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
    no toggle, switch, input, select or button in a group header.
