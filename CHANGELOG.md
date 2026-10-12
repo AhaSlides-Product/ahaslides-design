@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.153.1 — 2026-10-12
+### Fixed
+- Icon docs: the registry count reads 305 (301 glyph files, 265 from Figma DS V3 and 36 Phosphor, plus 4 back-compat aliases) in the README, the Icon contract and the icon snippets, after `filetype-report` joined it (#225)
+
 ## 0.153.0 — 2026-10-12
 ### Added
 - Icons: `filetype-report` joins the File type family beside Course, Knowledge base, Lesson, Presentation and Survey, drawn in the DS icon ink so it follows the text colour like the others (#224)
