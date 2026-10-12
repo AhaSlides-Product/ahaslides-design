@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.153.0 — 2026-10-12
+### Added
+- Icons: `filetype-report` joins the File type family beside Course, Knowledge base, Lesson, Presentation and Survey, drawn in the DS icon ink so it follows the text colour like the others (#224)
+
 ## 0.151.1 — 2026-10-12
 ### Changed
 - Every text field now follows the `<aha-input>` look: rest border `--aha-border-default`, focus border `--aha-color-primary` with the soft `--aha-focus-ring-soft` ring (replaces the solid `--aha-border-focus` ring). Changed components: `<aha-counted-input>`, `<aha-counted-textarea>`, `<aha-select>`, `<aha-number-with-unit>`, `<aha-autocomplete>`, `<aha-option-row>` (ring only) and the audience `.field` rest border (#223)
