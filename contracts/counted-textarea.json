@@ -4,6 +4,7 @@
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
+  "environment": ["product", "audience"],
   "element": "aha-counted-textarea",
   "summary": "The multi-line settings field — a CountedInput that wraps to several lines, grows from minRows to maxRows then scrolls, with the same focus-only character counter.",
   "highlights": ["Multi-line version of CountedInput", "Grows from minRows to maxRows, then scrolls", "Same focus-only character counter"],

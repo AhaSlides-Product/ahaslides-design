@@ -4,6 +4,7 @@
   "group": "Data entry",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
+  "environment": ["product", "audience"],
   "element": "aha-input",
   "summary": "A single-line text field — names, search, numbers, short free text — with sizes, error/warning status, affixes, a clear circled ✕ and a password reveal.",
   "highlights": ["Single-line text field", "Sizes, error and warning status, affixes", "Clear button and password reveal"],
