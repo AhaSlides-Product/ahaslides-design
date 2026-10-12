@@ -26,6 +26,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Icons: `filetype-report` joins the File type family beside Course, Knowledge base, Lesson, Presentation and Survey, drawn in the DS icon ink so it follows the text colour like the others (#224)
 
+## 0.151.1 — 2026-10-12
+### Changed
+- Every text field now follows the `<aha-input>` look: rest border `--aha-border-default`, focus border `--aha-color-primary` with the soft `--aha-focus-ring-soft` ring (replaces the solid `--aha-border-focus` ring). Changed components: `<aha-counted-input>`, `<aha-counted-textarea>`, `<aha-select>`, `<aha-number-with-unit>`, `<aha-autocomplete>`, `<aha-option-row>` (ring only) and the audience `.field` rest border (#223)
+- `<aha-counted-textarea>`: radius 8 (was 6) and the "textarea exception" is gone: focus now uses the primary border like the other fields (#223)
+
 ## 0.151.0 — 2026-10-09
 ### Added
 - `<aha-product-lockup>`: the AhaSlides product lockup (The Splash, AhaSlides and a product name as one mark) for the top-left of every site, microsite and app header. `product`, `variant` (auto, full, compact, splash), `tone` (colour, inverse) and `size` (20px default, 18px minimum); auto flips to compact below a 480px header; the box keeps a 0.1em bleed so a clipping parent never cuts a glyph edge (#221)
