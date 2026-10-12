@@ -64,7 +64,13 @@ up to the workspace root in a monorepo). Without it, fetch the feeds. The feed's
 `surfaces.<key>.targets[].url` are the live DS pages each surface is judged against — read them,
 never a frozen snapshot.
 
-## 2. Pick the surface(s)
+## 2. Pick the environment, then the surface(s)
+
+Every DS item names its environment (`product`, `audience`, `marketing-web`, `video`,
+`social-ads`); each one's route (guidelines, judge, lint, plugin, owner) is in `llms.txt` →
+**Routes**, from `environments.json` in the package. This skill covers `product` and
+`audience`. A `marketing-web`, `video` or `social-ads` task follows its own route (the `aha-mkt`
+skill), not this loop.
 
 The surface keys are the keys of `surfaces` in `criteria.json` (e.g. `table`, `overlays`,
 `feedback`, `settings`, `icons`, `typography`, `ux-writing`, `canvas`, `audience`, `app-shell`).
@@ -104,8 +110,14 @@ Read the list from the DS each time — surfaces get added.
    `palette="brand"` on app screens and `palette="deck"` on the presenting / audience canvas. Never
    a hand-rolled SVG, another chart library or a generic dataviz skill. Only a type `<aha-chart>`
    does not ship falls back to `@ant-design/plots` (the DS charter) — flag it as a gap.
-6. Icons come from the registry by name. Draw one only when the library has no suitable icon, and
-   then use the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px.
+6. Icons come from the registry by name. Search by meaning before choosing or drawing one:
+   `node node_modules/@ahaslides-product/design/icon-search.mjs <words>` (in the design-system repo
+   `npm run icon-search <words>`), `https://design.ahaslides.io/icons/index.html?q=<words>`, or the
+   "Find by meaning" list in `icons.llms.txt` ("help" finds `system-question`, "delete" finds
+   `system-trash`). Try two or three synonyms. Never inline an `<svg>` or add a `.svg` file in an app
+   (the plugin blocks both). Only when nothing fits, add the glyph to the design system, with meaning
+   words, the paired stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) and an `Icon search:` line
+   in its pull request; a glyph that looks nearly identical to an existing one fails the DS build.
 7. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
    24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
    no toggle, switch, input, select or button in a group header.

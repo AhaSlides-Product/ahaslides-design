@@ -114,6 +114,7 @@ const contract = {
     note: 'TODO: the one opinionated rule for this component.',
   },
   surfaces: ['editor', 'dashboard'],
+  environment: ['product'],
   snippets: [
     { key: 'html', label: 'HTML', file: `${slug}.html.txt`, runnable: 'paste-and-run', note: 'The native form — a web component in an HTML file renders on open, no build step.' },
     { key: 'react', label: 'React', file: `${slug}.react.txt` },

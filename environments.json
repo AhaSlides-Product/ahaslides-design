@@ -1,0 +1,89 @@
+{
+ "$about": "The one table of environments and their routes. Every contract, guideline and marketing or brand asset declares \"environment\": one or more names below. generate.mjs prints each route in llms.txt; standards.mjs, the pull request check and route-scan.mjs read the same table. Add an environment by adding an entry here, and an item folder by adding a source. {site} is the docs host.",
+ "environments": {
+  "product": {
+   "label": "Product UI",
+   "summary": "The AhaSlides apps people work in: editor, dashboard, settings, admin, presenter controls, docs and internal tools.",
+   "route": {
+    "guidelines": [
+     "{site}/guidelines.llms.txt",
+     "{site}/guidelines/settings/settings.md",
+     "{site}/guidelines/app-shell/app-shell.md",
+     "{site}/guidelines/overlays/overlays.md",
+     "{site}/guidelines/feedback/feedback.md",
+     "{site}/guidelines/ux-writing/ux-writing.md"
+    ],
+    "judge": "{site}/anti-slop.md (every product surface: run the binary judge for the surfaces you touch)",
+    "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=product <files>",
+    "plugin": "ahaslides-design:aha-design",
+    "owner": "Design system team (#design-system-agents)"
+   }
+  },
+  "audience": {
+   "label": "Audience and presenting canvas",
+   "summary": "What the audience sees: the phone answer screens and the presenting canvas on the big screen.",
+   "route": {
+    "guidelines": [
+     "{site}/guidelines/audience/audience.md",
+     "{site}/guidelines/canvas/canvas.md",
+     "{site}/guidelines/ux-writing/ux-writing.md"
+    ],
+    "judge": "{site}/anti-slop.md (surfaces audience and canvas)",
+    "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=canvas <files>",
+    "plugin": "ahaslides-design:aha-design",
+    "owner": "Design system team (#design-system-agents)"
+   }
+  },
+  "marketing-web": {
+   "label": "Marketing web",
+   "summary": "The public marketing sites: landing pages, pricing, blog and campaign pages.",
+   "route": {
+    "guidelines": [
+     "{site}/marketing.llms.txt",
+     "{site}/foundations/brand-colour-rules.html",
+     "{site}/foundations/logo.html"
+    ],
+    "judge": "the aha-mkt skill (Marketing approves its own content)",
+    "lint": "the aha-mkt skill's own check",
+    "plugin": "aha-mkt",
+    "owner": "Marketing"
+   }
+  },
+  "video": {
+   "label": "Video",
+   "summary": "Product videos, explainers, motion graphics and their thumbnails.",
+   "route": {
+    "guidelines": [
+     "{site}/foundations/brand-colour-rules.html",
+     "{site}/foundations/logo.html"
+    ],
+    "judge": "the aha-mkt skill (Marketing approves its own content)",
+    "lint": "the aha-mkt skill's own check",
+    "plugin": "aha-mkt",
+    "owner": "Marketing"
+   }
+  },
+  "social-ads": {
+   "label": "Social and ads",
+   "summary": "Social posts, paid ads and other campaign creative outside the marketing sites.",
+   "route": {
+    "guidelines": [
+     "{site}/foundations/brand-colour-rules.html",
+     "{site}/foundations/logo.html"
+    ],
+    "judge": "the aha-mkt skill (Marketing approves its own content)",
+    "lint": "the aha-mkt skill's own check",
+    "plugin": "aha-mkt",
+    "owner": "Marketing"
+   }
+  }
+ },
+ "sources": [
+  { "kind": "contract", "folder": "contracts", "key": "slug", "folderEnvironments": ["product", "audience"] },
+  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience"] },
+  { "kind": "marketing", "folder": "marketing", "key": "slug", "folderEnvironments": ["marketing-web", "video", "social-ads"] },
+  { "kind": "logo", "file": "logo/manifest.json", "list": "logos", "key": "id" },
+  { "kind": "brand", "file": "brand/manifest.json", "list": "assets", "key": "id" }
+ ],
+ "declarationPaths": ["contracts/", "guidelines/", "marketing/", "brand/", "logo/", "illustrations/"]
+}
