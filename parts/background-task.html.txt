@@ -1,5 +1,5 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
-     <aha-background-task> is the pattern for any long-running process; this example follows the presenter's Import notification: you own the task, the copy and the
+     <aha-background-task> tracks one long-running process the user started and can keep working beside (over 10 seconds, nothing blocked, a clear end with a result); this example follows the presenter's Import notification: you own the task, the copy and the
      dismissal. Update the same element in place through its states — never add a card per state. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
