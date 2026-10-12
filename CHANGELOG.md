@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.154.0 — 2026-10-12
 ### Added
-- Environments and routes: every contract, guideline and marketing or brand asset declares `environment` (one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`). The one table, `environments.json` (now in the package), holds each environment's route (guidelines, judge, lint, plugin, owner); `llms.txt` prints it under **Routes**, and index lines show an item's environment. Adding an environment or an item folder is a data change only. (#PR)
-- Every generated feed opens with a three-line route header pointing at `llms.txt` Routes, `anti-slop.md`, `guidelines.llms.txt` and the agent plugin (a `route` key in `icons.agent.json` and `anti-slop.agent.json`); per-component and marketing agent feeds carry `environment`. (#PR)
-- `standards.mjs` fails a new or changed item with no environment or an unknown one; the 146 older items wait in `environments.baseline.json`, which may only shrink. CI also fails a pull request that touches `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/` or `illustrations/` without an `Environment:` line in its body matching the changed items (new pull request template). (#PR)
-- `npm run route-scan`: report-only scan (always exits 0, `--json` for routines) of items with no environment, an unknown one, or one their folder does not serve. The aha-design skill now picks the environment before the surface. (#PR)
+- Environments and routes: every contract, guideline and marketing or brand asset declares `environment` (one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`). The one table, `environments.json` (now in the package), holds each environment's route (guidelines, judge, lint, plugin, owner); `llms.txt` prints it under **Routes**, and index lines show an item's environment. Adding an environment or an item folder is a data change only. (#226)
+- Every generated feed opens with a three-line route header pointing at `llms.txt` Routes, `anti-slop.md`, `guidelines.llms.txt` and the agent plugin (a `route` key in `icons.agent.json` and `anti-slop.agent.json`); per-component and marketing agent feeds carry `environment`. (#226)
+- `standards.mjs` fails a new or changed item with no environment or an unknown one; the 146 older items wait in `environments.baseline.json`, which may only shrink. CI also fails a pull request that touches `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/` or `illustrations/` without an `Environment:` line in its body matching the changed items (new pull request template). (#226)
+- `npm run route-scan`: report-only scan (always exits 0, `--json` for routines) of items with no environment, an unknown one, or one their folder does not serve. The aha-design skill now picks the environment before the surface. (#226)
 
 ## 0.153.2 — 2026-10-12
 ### Fixed
