@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.154.1 — 2026-10-12
+### Changed
+- Background task: the use case is now stated up front. It tracks one long-running process that keeps running while the user carries on working in the editor or dashboard, and applies only when all four hold: the user started it, it takes over 10 seconds, nothing is blocked, and it has a clear end (finished, cancelled or failed) with a result to point at. Not for a Toast, Notification, Modal or Spin, an Uploader or Progress, or anything the system does on its own (autosave). The rules lead the docs page intro and sit in the contract's summary and When to use, so `background-task.agent.json`, `background-task.md`, `design.md` and `llms.txt` carry them. Docs only, API unchanged. (#230)
+
 ## 0.154.0 — 2026-10-12
 ### Added
 - Environments and routes: every contract, guideline and marketing or brand asset declares `environment` (one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`). The one table, `environments.json` (now in the package), holds each environment's route (guidelines, judge, lint, plugin, owner); `llms.txt` prints it under **Routes**, and index lines show an item's environment. Adding an environment or an item folder is a data change only. (#226)
