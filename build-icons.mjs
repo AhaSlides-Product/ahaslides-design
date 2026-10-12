@@ -82,6 +82,7 @@ const ALIASES = {
   'system-PaperPlaneTilt': 'system-paper-plane-tilt',
   'system-arrowCircleUp': 'system-arrow-circle-up',
   'system-q&a': 'system-qa',
+  'system-question-circle': 'system-question',
 };
 for (const [oldName, canon] of Object.entries(ALIASES)) {
   if (icons[canon]) { icons[oldName] = { ...icons[canon], aliasOf: canon }; n++; }

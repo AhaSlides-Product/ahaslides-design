@@ -33,8 +33,9 @@ test('every glyph in the library can be drawn', () => {
   assert.deepEqual(Object.keys(drawings).filter(name => !drawings[name]), []);
 });
 
-test('system-question and system-question-circle are a near-duplicate pair', () => {
-  assert.ok(similarity(drawings['system-question'], drawings['system-question-circle']) >= DUPLICATE_THRESHOLD);
+test('the removed system-question-circle glyph is a near-duplicate of system-question', () => {
+  const removedGlyph = rasteriseIcon(readFileSync(join(root, 'tests', 'fixtures', 'removed-system-question-circle.svg'), 'utf8'));
+  assert.ok(similarity(drawings['system-question'], removedGlyph) >= DUPLICATE_THRESHOLD);
 });
 
 test('distinct glyphs are not near-duplicates', () => {

@@ -246,7 +246,6 @@
   "system-qa": ["q&a", "questions", "ask", "chat", "help", "questions and answers"],
   "system-qr-code": ["qr code", "scan", "join", "code", "barcode", "share"],
   "system-question-bubble": ["question", "ask", "help", "chat question", "support", "faq"],
-  "system-question-circle": ["help", "question", "support", "faq", "info", "unknown"],
   "system-question-mark": ["question mark", "help", "unknown", "ask", "query"],
   "system-question": ["help", "question", "support", "faq", "info", "unknown"],
   "system-remote": ["remote", "clicker", "controller", "presenter remote", "control"],

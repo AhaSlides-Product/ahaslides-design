@@ -2227,12 +2227,12 @@ const GALLERY_JS = `
 })();
 `;
 function renderIconGallery() {
-  const entries = Object.entries(ICONS.icons).sort((a, b) => a[0].localeCompare(b[0]));
+  const entries = Object.entries(ICONS.icons).filter(([, v]) => !v.aliasOf).sort((a, b) => a[0].localeCompare(b[0]));
   const strip = (n) => n.replace(/^(system|slidetype|filetype)-/, '');
   const cells = entries.map(([name, v]) =>
     `<button class="ic" type="button" data-name="${esc(name)}" data-words="${esc((v.meaning || []).join(' '))}" data-fam="${esc(v.family)}" title="${esc(name)}${v.meaning && v.meaning.length ? ` (${esc(v.meaning.join(', '))})` : ''} — click to copy"><aha-icon name="${esc(name)}" size="24"></aha-icon><span class="icn">${esc(strip(name))}</span></button>`).join('');
   const chips = ['all', ...ICONS.families].map((f, i) =>
-    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
+    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => !x.aliasOf && x.family === f).length}</b>`}</button>`).join('');
   const main = `
   <h1>Icon library</h1>
   ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Search by meaning (help, delete, settings) before drawing a new glyph: a near-duplicate fails the build', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
