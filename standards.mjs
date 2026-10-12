@@ -29,6 +29,8 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
+import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, evaluateDuplicateGate } from './icon-similarity.mjs';
+import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
@@ -734,6 +736,21 @@ const repoChecks = [];
             `${PKG.version} < ${latest}: you branched off a STALE base and would revert merged work — rebase onto master and bump above ${latest} (git fetch origin master --tags first)`);
         }
       } catch { /* no git / no tags (fresh or shallow CI) — skip rather than false-fail */ }
+      const baseRef = process.env.GITHUB_BASE_REF || process.env.VERSION_BASE_REF;
+      if (baseRef) {
+        let baseVersion = null;
+        try {
+          execFileSync('git', ['fetch', '--quiet', '--depth=1', 'origin', baseRef], { cwd: root, stdio: 'ignore' });
+          baseVersion = JSON.parse(execFileSync('git', ['show', 'FETCH_HEAD:package.json'], { cwd: root, encoding: 'utf8' })).version;
+        } catch { /* reported by the check below */ }
+        const parts = (version) => version.split('.').map(Number);
+        const isGreater = (a, b) => { const [A, B] = [parts(a), parts(b)]; return (A[0] - B[0] || A[1] - B[1] || A[2] - B[2]) > 0; };
+        rchk(`version ${PKG.version} is strictly greater than ${baseRef}'s ${baseVersion ?? '(unreadable)'}`,
+          baseVersion !== null && isGreater(PKG.version, baseVersion),
+          baseVersion === null
+            ? `could not read package.json from origin/${baseRef} — the version gate fails closed`
+            : `merge origin/${baseRef}, then bump package.json, agent/.claude-plugin/plugin.json and the top CHANGELOG entry above ${baseVersion}`);
+      }
       // the block from this heading up to the next "## " must carry at least one "- " bullet
       const block = changelog.slice(changelog.indexOf(m[0]) + m[0].length).split(/\n##\s/)[0];
       rchk('top entry lists ≥1 change bullet', /^\s*-\s+\S/m.test(block),
@@ -908,6 +925,66 @@ const repoChecks = [];
   rchk('agent plugin criteria copy equals anti-slop/criteria.json',
     existsSync(bundled) && read(bundled) === read(join(root, 'anti-slop', 'criteria.json')),
     'run npm run generate — it rewrites agent/anti-slop/criteria.json from the store; commit the result');
+}
+/* ===== environment — every contract, guideline and marketing or brand asset names the environment(s) it
+   serves, so an agent can pick its route from llms.txt. Items that predate the rule sit in a baseline that
+   only shrinks; the base branch (CI's pull request base, else the local merge-base with origin/master)
+   tells a changed item from an untouched one. */
+{
+  const table = loadEnvironmentTable(root);
+  const baselinePath = join(root, ENVIRONMENT_BASELINE_FILE);
+  const baseline = existsSync(baselinePath) ? JSON.parse(readFileSync(baselinePath, 'utf8')).missing : [];
+  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  let baseRef = null;
+  try {
+    if (process.env.GITHUB_BASE_REF) { git('fetch', '--quiet', '--depth=1', 'origin', process.env.GITHUB_BASE_REF); baseRef = git('rev-parse', 'FETCH_HEAD'); }
+    else baseRef = git('merge-base', 'HEAD', `origin/${process.env.VERSION_BASE_REF || 'master'}`);
+  } catch { /* no base to compare: changed-item and growth checks run in CI */ }
+  const baseReader = baseRef ? gitReader(root, baseRef) : null;
+  const baseBaselineText = baseReader?.read(ENVIRONMENT_BASELINE_FILE);
+  const { failures, nextBaseline } = evaluateEnvironmentGate({
+    table,
+    items: collectItems(table, fileSystemReader(root)),
+    baseline,
+    baseItems: baseReader ? collectItems(table, baseReader) : null,
+    baseBaseline: baseBaselineText ? JSON.parse(baseBaselineText).missing : null,
+  });
+  if (UPDATE_BASELINE) writeFileSync(baselinePath, JSON.stringify({ $about: ENVIRONMENT_BASELINE_ABOUT, missing: nextBaseline }, null, 1) + '\n');
+  const incompleteEnvironments = Object.entries(table.environments).filter(([, environment]) => !environment.label || !environment.summary || !environment.route).map(([name]) => name);
+  repoChecks.push([`${ENVIRONMENT_TABLE_FILE}: every environment has a label, summary and route`, incompleteEnvironments.length === 0, `complete these entries: ${incompleteEnvironments.join(', ')}`]);
+  repoChecks.push([`every new or changed item declares a known environment (${baseline.length} older item(s) baselined)`, failures.length === 0, failures.join(' · ')]);
+}
+/* ===== icon reuse — every glyph carries the meaning words icon-search matches, and no glyph may look
+   nearly identical to another (icon-similarity.mjs draws each one as <aha-icon> does). Pairs that
+   predate the gate sit in a baseline that only shrinks, read against the same base as above. */
+{
+  const glyphNames = Object.keys(ICON_REGISTRY.icons || {}).filter(name => !ICON_REGISTRY.icons[name].aliasOf);
+  const fewWords = glyphNames.filter(name => (ICON_REGISTRY.icons[name].meaning || []).length < 3);
+  const meaningSource = JSON.parse(read(join(root, 'icons', 'meaning.json')) || '{"icons":{}}').icons || {};
+  const unknownMeaning = Object.keys(meaningSource).filter(name => !ICON_NAMES.has(name));
+  repoChecks.push(['every icon has at least 3 meaning words (icons/meaning.json) so npm run icon-search finds it', fewWords.length === 0 && unknownMeaning.length === 0,
+    [fewWords.length ? `add words a builder would type for: ${fewWords.slice(0, 8).join(', ')}${fewWords.length > 8 ? ` (+${fewWords.length - 8} more)` : ''}, then node build-icons.mjs` : '',
+      unknownMeaning.length ? `icons/meaning.json names glyphs that do not exist: ${unknownMeaning.join(', ')}` : ''].filter(Boolean).join(' · ')]);
+
+  const glyphs = readGlyphSources(root);
+  const drawings = rasteriseAll(glyphs);
+  const baseline = readDuplicateBaseline(root);
+  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  let baseBaseline = null;
+  try {
+    const baseRef = process.env.GITHUB_BASE_REF ? 'FETCH_HEAD' : git('merge-base', 'HEAD', `origin/${process.env.VERSION_BASE_REF || 'master'}`);
+    if (process.env.GITHUB_BASE_REF) git('fetch', '--quiet', '--depth=1', 'origin', process.env.GITHUB_BASE_REF);
+    const text = git('show', `${baseRef}:${DUPLICATE_BASELINE_FILE}`);
+    baseBaseline = JSON.parse(text).pairs;
+  } catch { /* no base baseline (first introduction, or no base to read): the growth check waits */ }
+  const { failures, nextBaseline } = evaluateDuplicateGate({
+    pairs: nearDuplicatePairs(drawings),
+    baseline,
+    baseBaseline,
+    unreadable: Object.keys(drawings).filter(name => !drawings[name]),
+  });
+  if (UPDATE_BASELINE) writeFileSync(join(root, DUPLICATE_BASELINE_FILE), JSON.stringify({ $about: DUPLICATE_BASELINE_ABOUT, threshold: DUPLICATE_THRESHOLD, pairs: nextBaseline }, null, 1) + '\n');
+  repoChecks.push([`no new icon looks nearly identical to an existing one (≥ ${DUPLICATE_THRESHOLD * 100}% overlap; ${baseline.length} older pair(s) baselined)`, failures.length === 0, failures.join(' · ')]);
 }
 if (UPDATE_BASELINE) writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Per-file count of raw padding/margin/gap px declarations (> 1px) in component source, grandfathered. standards.mjs fails when a file exceeds its count; lower it with --update-baseline.', spacingPx: spacingPxBaselineNext }, null, 1) + '\n');
 for (const note of spacingPxLowered) console.log(`ratchet: ${note}`);

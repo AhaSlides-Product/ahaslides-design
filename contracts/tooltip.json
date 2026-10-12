@@ -1,6 +1,7 @@
 {
   "name": "Tooltip",
   "slug": "tooltip",
+  "environment": ["product"],
   "group": "Data display",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -16,7 +17,7 @@
     { "label": "Arrow", "value": "anchored to the trigger, matches the fill; `arrow=false` hides it" },
     { "label": "Placement", "value": "top (default) · bottom · left · right centred, PLUS 8 edge-aligned (top-start/-end, bottom-start/-end, left-start/-end, right-start/-end) — same side, aligned to the trigger edge with the arrow offset near it" },
     { "label": "Trigger", "value": "mouse hover or keyboard focus (default; not on click/tap) · focus · click (toggle, Esc/click-away to close); `open` forces it visible" },
-    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question-mark\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#E70E68) on hover/focus, focus ring 2px #E70E68 — the settings-label help glyph; focusable, so it shows on focus, not hover-only. Bakes `help` defaults: no author placement → bottom-start; no author arrow → arrow off (both still overridable)" },
+    { "label": "Help", "value": "`help` renders a built-in `?` trigger — a DS <aha-icon name=\"system-question\"> at 16px, muted (--aha-text-tertiary #8A8A8A) → brand (#E70E68) on hover/focus, focus ring 2px #E70E68 — the settings-label help glyph; focusable, so it shows on focus, not hover-only. Bakes `help` defaults: no author placement → bottom-start; no author arrow → arrow off (both still overridable)" },
     { "label": "a11y", "value": "role=tooltip, aria-describedby wired to the active trigger (slotted, or the built-in help button), shows on focus, no leaked listeners" }
   ],
   "props": [
@@ -26,7 +27,7 @@
     { "name": "arrow", "type": "boolean", "default": "true", "desc": "Show the caret pointing at the trigger; arrow=\"false\" hides it" },
     { "name": "trigger", "type": "'hover' | 'focus' | 'click'", "default": "hover", "desc": "How it opens: hover+focus · focus only · click to toggle" },
     { "name": "open", "type": "boolean", "default": "false", "desc": "Force the bubble visible (demos/tests); otherwise the trigger opens it" },
-    { "name": "help", "type": "boolean", "default": "false", "desc": "Render a built-in `?` help trigger — a focusable button carrying the DS <aha-icon name=\"system-question-mark\"> (16px, muted → brand on hover/focus) — instead of requiring a slotted trigger. The settings-label help-glyph pattern; shows on focus as well as hover" }
+    { "name": "help", "type": "boolean", "default": "false", "desc": "Render a built-in `?` help trigger — a focusable button carrying the DS <aha-icon name=\"system-question\"> (16px, muted → brand on hover/focus) — instead of requiring a slotted trigger. The settings-label help-glyph pattern; shows on focus as well as hover" }
   ],
   "opinion": {
     "whenToUse": [
