@@ -29,6 +29,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
+import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, evaluateDuplicateGate } from './icon-similarity.mjs';
 import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -952,6 +953,38 @@ const repoChecks = [];
   const incompleteEnvironments = Object.entries(table.environments).filter(([, environment]) => !environment.label || !environment.summary || !environment.route).map(([name]) => name);
   repoChecks.push([`${ENVIRONMENT_TABLE_FILE}: every environment has a label, summary and route`, incompleteEnvironments.length === 0, `complete these entries: ${incompleteEnvironments.join(', ')}`]);
   repoChecks.push([`every new or changed item declares a known environment (${baseline.length} older item(s) baselined)`, failures.length === 0, failures.join(' · ')]);
+}
+/* ===== icon reuse — every glyph carries the meaning words icon-search matches, and no glyph may look
+   nearly identical to another (icon-similarity.mjs draws each one as <aha-icon> does). Pairs that
+   predate the gate sit in a baseline that only shrinks, read against the same base as above. */
+{
+  const glyphNames = Object.keys(ICON_REGISTRY.icons || {}).filter(name => !ICON_REGISTRY.icons[name].aliasOf);
+  const fewWords = glyphNames.filter(name => (ICON_REGISTRY.icons[name].meaning || []).length < 3);
+  const meaningSource = JSON.parse(read(join(root, 'icons', 'meaning.json')) || '{"icons":{}}').icons || {};
+  const unknownMeaning = Object.keys(meaningSource).filter(name => !ICON_NAMES.has(name));
+  repoChecks.push(['every icon has at least 3 meaning words (icons/meaning.json) so npm run icon-search finds it', fewWords.length === 0 && unknownMeaning.length === 0,
+    [fewWords.length ? `add words a builder would type for: ${fewWords.slice(0, 8).join(', ')}${fewWords.length > 8 ? ` (+${fewWords.length - 8} more)` : ''}, then node build-icons.mjs` : '',
+      unknownMeaning.length ? `icons/meaning.json names glyphs that do not exist: ${unknownMeaning.join(', ')}` : ''].filter(Boolean).join(' · ')]);
+
+  const glyphs = readGlyphSources(root);
+  const drawings = rasteriseAll(glyphs);
+  const baseline = readDuplicateBaseline(root);
+  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  let baseBaseline = null;
+  try {
+    const baseRef = process.env.GITHUB_BASE_REF ? 'FETCH_HEAD' : git('merge-base', 'HEAD', `origin/${process.env.VERSION_BASE_REF || 'master'}`);
+    if (process.env.GITHUB_BASE_REF) git('fetch', '--quiet', '--depth=1', 'origin', process.env.GITHUB_BASE_REF);
+    const text = git('show', `${baseRef}:${DUPLICATE_BASELINE_FILE}`);
+    baseBaseline = JSON.parse(text).pairs;
+  } catch { /* no base baseline (first introduction, or no base to read): the growth check waits */ }
+  const { failures, nextBaseline } = evaluateDuplicateGate({
+    pairs: nearDuplicatePairs(drawings),
+    baseline,
+    baseBaseline,
+    unreadable: Object.keys(drawings).filter(name => !drawings[name]),
+  });
+  if (UPDATE_BASELINE) writeFileSync(join(root, DUPLICATE_BASELINE_FILE), JSON.stringify({ $about: DUPLICATE_BASELINE_ABOUT, threshold: DUPLICATE_THRESHOLD, pairs: nextBaseline }, null, 1) + '\n');
+  repoChecks.push([`no new icon looks nearly identical to an existing one (≥ ${DUPLICATE_THRESHOLD * 100}% overlap; ${baseline.length} older pair(s) baselined)`, failures.length === 0, failures.join(' · ')]);
 }
 if (UPDATE_BASELINE) writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Per-file count of raw padding/margin/gap px declarations (> 1px) in component source, grandfathered. standards.mjs fails when a file exceeds its count; lower it with --update-baseline.', spacingPx: spacingPxBaselineNext }, null, 1) + '\n');
 for (const note of spacingPxLowered) console.log(`ratchet: ${note}`);

@@ -45,6 +45,12 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
           BASE_REF: ${{ github.base_ref }}
         run: node .github/scripts/pr-environment.mjs "$BASE_REF"
+      - name: 'Icon search declared in the PR body (a new glyph names every close match and why it does not fit)'
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_REF: ${{ github.base_ref }}
+        run: node .github/scripts/pr-icon-search.mjs "$BASE_REF"
       - name: Unit tests
         env:
           CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
