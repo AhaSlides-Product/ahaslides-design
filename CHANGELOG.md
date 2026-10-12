@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.154.1 — 2026-10-12
 ### Changed
-- Background task: the use case is now stated up front. It tracks one long-running process that keeps running while the user carries on working in the editor or dashboard, and applies only when all four hold: the user started it, it takes over 10 seconds, nothing is blocked, and it has a clear end (finished, cancelled or failed) with a result to point at. In scope: import, export to PDF or XLSX, upload, duplicate. Not for a Toast, Notification, Modal or Spin, an Uploader or Progress, or anything the system does on its own (autosave). The rules lead the docs page intro and sit in the contract's summary and When to use, so `background-task.agent.json`, `background-task.md`, `design.md` and `llms.txt` carry them. Docs only, API unchanged. (#230)
+- Background task: the use case is now stated up front. It tracks one long-running process that keeps running while the user carries on working in the editor or dashboard, and applies only when all four hold: the user started it, it takes over 10 seconds, nothing is blocked, and it has a clear end (finished, cancelled or failed) with a result to point at. Not for a Toast, Notification, Modal or Spin, an Uploader or Progress, or anything the system does on its own (autosave). The rules lead the docs page intro and sit in the contract's summary and When to use, so `background-task.agent.json`, `background-task.md`, `design.md` and `llms.txt` carry them. Docs only, API unchanged. (#230)
 
 ## 0.154.0 — 2026-10-12
 ### Added
