@@ -59,9 +59,16 @@ export function searchIcons(registryIcons, query, limit = 10) {
 
 /** The text of a pull request's "Icon search:" section: from that label to the next blank line. */
 export function iconSearchDeclaration(pullRequestBody) {
-  const match = String(pullRequestBody || '').match(/^[ \t*_>-]*Icon search[*_]*:([^\n]*(?:\n(?![ \t]*\n)[^\n]*)*)/mi);
-  if (!match) return null;
-  const text = match[1].replace(/<!--[\s\S]*?-->/g, '').trim();
+  const label = /^[ \t*_>-]*Icon search[*_]*:/i;
+  const lines = String(pullRequestBody || '').split('\n');
+  const start = lines.findIndex(line => label.test(line));
+  if (start < 0) return null;
+  const section = [lines[start].replace(label, '')];
+  for (const line of lines.slice(start + 1)) {
+    if (!line.trim()) break;
+    section.push(line);
+  }
+  const text = section.filter(line => !line.trim().startsWith('<!--')).join('\n').trim();
   return text || null;
 }
 
