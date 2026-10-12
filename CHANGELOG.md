@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.151.1 — 2026-10-12
 ### Changed
-- Every text field now follows the `<aha-input>` look: rest border `--aha-border-default`, focus border `--aha-color-primary` with the soft `--aha-focus-ring-soft` ring (replaces the solid `--aha-border-focus` ring). Changed components: `<aha-counted-input>`, `<aha-counted-textarea>`, `<aha-select>`, `<aha-number-with-unit>`, `<aha-autocomplete>`, `<aha-option-row>` (ring only) and the audience `.field` rest border (#PRNUM)
-- `<aha-counted-textarea>`: radius 8 (was 6) and the "textarea exception" is gone: focus now uses the primary border like the other fields (#PRNUM)
+- Every text field now follows the `<aha-input>` look: rest border `--aha-border-default`, focus border `--aha-color-primary` with the soft `--aha-focus-ring-soft` ring (replaces the solid `--aha-border-focus` ring). Changed components: `<aha-counted-input>`, `<aha-counted-textarea>`, `<aha-select>`, `<aha-number-with-unit>`, `<aha-autocomplete>`, `<aha-option-row>` (ring only) and the audience `.field` rest border (#223)
+- `<aha-counted-textarea>`: radius 8 (was 6) and the "textarea exception" is gone: focus now uses the primary border like the other fields (#223)
 
 ## 0.151.0 — 2026-10-09
 ### Added
