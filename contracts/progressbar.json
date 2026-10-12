@@ -4,6 +4,7 @@
   "group": "Feedback",
   "tier": "leaf-lit",
   "badge": "shared web component",
+  "environment": ["product"],
   "element": "aha-progressbar",
   "summary": "The accessible progress bar — role=progressbar with your real value/min/max and a required label, drawn by the DS Progress.",
   "highlights": ["Accessible progress bar", "role=progressbar with real value, min, max and a required label", "Drawn by the DS Progress", "Running state: moving stripes while a task works"],
