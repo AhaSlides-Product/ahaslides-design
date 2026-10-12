@@ -4,6 +4,7 @@
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
+  "environment": ["product"],
   "element": "aha-csat",
   "summary": "The shared thumbs up/down satisfaction prompt — the one CSAT control, not a bespoke rating.",
   "highlights": ["Shared thumbs up and down satisfaction prompt", "The one CSAT control, not a bespoke rating"],

@@ -4,6 +4,7 @@
   "group": "Feedback",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
+  "environment": ["product"],
   "element": "aha-progress",
   "summary": "A determinate progress indicator — completion, upload, a quiz timer — as a line, segmented steps, or a circle.",
   "highlights": ["Determinate progress indicator", "For completion, upload and quiz timers", "Line, segmented steps or circle"],
