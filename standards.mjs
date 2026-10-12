@@ -29,6 +29,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
+import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
@@ -923,6 +924,34 @@ const repoChecks = [];
   rchk('agent plugin criteria copy equals anti-slop/criteria.json',
     existsSync(bundled) && read(bundled) === read(join(root, 'anti-slop', 'criteria.json')),
     'run npm run generate — it rewrites agent/anti-slop/criteria.json from the store; commit the result');
+}
+/* ===== environment — every contract, guideline and marketing or brand asset names the environment(s) it
+   serves, so an agent can pick its route from llms.txt. Items that predate the rule sit in a baseline that
+   only shrinks; the base branch (CI's pull request base, else the local merge-base with origin/master)
+   tells a changed item from an untouched one. */
+{
+  const table = loadEnvironmentTable(root);
+  const baselinePath = join(root, ENVIRONMENT_BASELINE_FILE);
+  const baseline = existsSync(baselinePath) ? JSON.parse(readFileSync(baselinePath, 'utf8')).missing : [];
+  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  let baseRef = null;
+  try {
+    if (process.env.GITHUB_BASE_REF) { git('fetch', '--quiet', '--depth=1', 'origin', process.env.GITHUB_BASE_REF); baseRef = git('rev-parse', 'FETCH_HEAD'); }
+    else baseRef = git('merge-base', 'HEAD', `origin/${process.env.VERSION_BASE_REF || 'master'}`);
+  } catch { /* no base to compare: changed-item and growth checks run in CI */ }
+  const baseReader = baseRef ? gitReader(root, baseRef) : null;
+  const baseBaselineText = baseReader?.read(ENVIRONMENT_BASELINE_FILE);
+  const { failures, nextBaseline } = evaluateEnvironmentGate({
+    table,
+    items: collectItems(table, fileSystemReader(root)),
+    baseline,
+    baseItems: baseReader ? collectItems(table, baseReader) : null,
+    baseBaseline: baseBaselineText ? JSON.parse(baseBaselineText).missing : null,
+  });
+  if (UPDATE_BASELINE) writeFileSync(baselinePath, JSON.stringify({ $about: ENVIRONMENT_BASELINE_ABOUT, missing: nextBaseline }, null, 1) + '\n');
+  const incompleteEnvironments = Object.entries(table.environments).filter(([, environment]) => !environment.label || !environment.summary || !environment.route).map(([name]) => name);
+  repoChecks.push([`${ENVIRONMENT_TABLE_FILE}: every environment has a label, summary and route`, incompleteEnvironments.length === 0, `complete these entries: ${incompleteEnvironments.join(', ')}`]);
+  repoChecks.push([`every new or changed item declares a known environment (${baseline.length} older item(s) baselined)`, failures.length === 0, failures.join(' · ')]);
 }
 if (UPDATE_BASELINE) writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Per-file count of raw padding/margin/gap px declarations (> 1px) in component source, grandfathered. standards.mjs fails when a file exceeds its count; lower it with --update-baseline.', spacingPx: spacingPxBaselineNext }, null, 1) + '\n');
 for (const note of spacingPxLowered) console.log(`ratchet: ${note}`);

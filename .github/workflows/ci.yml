@@ -9,6 +9,8 @@ name: standards
 
 on:
   pull_request:
+    # edited: re-check when the author fixes the Environment: line in the body
+    types: [opened, edited, synchronize, reopened]
   push:
     branches: [master]
 
@@ -37,6 +39,12 @@ jobs:
         run: git diff --exit-code -- agent/anti-slop/criteria.json
       - name: Component standards gate (reusable or it fails)
         run: node standards.mjs
+      - name: 'Environment declared in the PR body (its Environment: line matches the changed items)'
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_REF: ${{ github.base_ref }}
+        run: node .github/scripts/pr-environment.mjs "$BASE_REF"
       - name: Unit tests
         env:
           CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
