@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.153.1 — 2026-10-12
 ### Fixed
-- Icon docs: the registry count reads 305 (301 glyph files, 265 from Figma DS V3 and 36 Phosphor, plus 4 back-compat aliases) in the README, the Icon contract and the icon snippets, after `filetype-report` joined it (#PRNUM)
+- Icon docs: the registry count reads 305 (301 glyph files, 265 from Figma DS V3 and 36 Phosphor, plus 4 back-compat aliases) in the README, the Icon contract and the icon snippets, after `filetype-report` joined it (#225)
 
 ## 0.153.0 — 2026-10-12
 ### Added
