@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.157.0 — 2026-10-12
+### Added
+- Icon search by meaning: every glyph carries at least 3 meaning words (`icons/meaning.json`, copied into `icons/registry.json`), so "help" finds `system-question` and "delete" finds `system-trash`. Search with `npm run icon-search <words>` (in an app: `node node_modules/@ahaslides-product/design/icon-search.mjs <words>`), the Icon library search box (`icons/index.html?q=<words>`), `icons.agent.json` (each icon's `meaning`, plus a `search` key) or `icons.llms.txt` → Find by meaning; `llms.txt` points there. The runtime bundles carry no search words. (#229)
+- Near-duplicate icon gate: `icon-similarity.mjs` draws every glyph as `<aha-icon>` does at 16px (pure JS, no browser) and `standards.mjs` fails a new or changed glyph at or above 86% overlap with an existing one; outline / `-filled` variants and aliases are exempt. The 30 pairs that predate the gate are listed in `icon-duplicates.baseline.json`, which may only shrink (`npm run icon-duplicates` prints them; `node icon-similarity.mjs --check <file.svg>` shows a candidate's closest glyphs). `standards.mjs` also fails a glyph with fewer than 3 meaning words. (#229)
+- CI fails a pull request that adds a glyph under `icons/svg/` without an `Icon search:` line naming each close existing match, by look or by meaning, and why it does not fit (`.github/scripts/pr-icon-search.mjs`, new line in the pull request template). (#229)
+- Agent plugin: the write guard blocks a hand-made icon in an app, an inline `<svg>` or a new `.svg` file, and points to the icon search. Markup files (`.tsx`, `.jsx`, `.vue`, `.svelte`, `.astro`) are always checked; `.ts`, `.js` and `.html` files only in a project whose `package.json` depends on `@ahaslides-product/design`. Test files, lines marked `ds-lint-allow: svg (why)`, `<svg>` tags already in the file, react-native-svg's `<Svg>`, and the design system's own glyph, illustration and logo sources are allowed. The aha-design skill's icon step names the search. (#229)
+
 ## 0.156.0 — 2026-10-12
 ### Removed
 - Icon library: the `system-question-circle` glyph is gone. The name still resolves as a deprecated back-compat alias of `system-question`, so consumers that reference it keep working while they migrate; the alias is not listed as its own glyph on the Icon library page (which now lists only real glyphs). The registry still holds 305 names: 300 glyph files plus 5 back-compat aliases. (#228)
