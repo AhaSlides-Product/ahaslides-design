@@ -141,7 +141,7 @@ export function routeLines(table, site) {
   const lines = [
     '## Routes — pick your environment first',
     '',
-    `Every contract, guideline and marketing or brand asset declares \`environment\` (one or more of: ${environmentNames(table).join(', ')}). Find the environment your task is for and follow its route.`,
+    `Contract, guideline and marketing or brand items declare \`environment\` (one or more of: ${environmentNames(table).join(', ')}); older items still being backfilled show no tag. Find the environment your task is for and follow its route.`,
     '',
   ];
   for (const [name, environment] of Object.entries(table.environments)) {
