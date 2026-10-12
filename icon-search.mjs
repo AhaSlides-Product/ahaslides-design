@@ -9,7 +9,7 @@
  * Matches the words against each glyph's name and its meaning words (icons/meaning.json, carried in
  * icons/registry.json), so "help" finds system-question and "delete" finds system-trash.
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, realpathSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -90,7 +90,7 @@ export function checkIconSearchDeclaration({ body, addedGlyphs, closeMatches }) 
   return { required: true, problems };
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === realpathSync(process.argv[1])) {
   const args = process.argv.slice(2);
   const query = args.filter(arg => !arg.startsWith('--')).join(' ');
   if (!query) {

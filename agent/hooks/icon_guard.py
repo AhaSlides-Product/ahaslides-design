@@ -1,9 +1,15 @@
 """Blocks a hand-made icon: an inline <svg> or a new .svg file written outside the design system.
 
 Icons come from the DS library by name (<aha-icon name="...">), found by meaning with the DS icon
-search. Allowed: a line marked `ds-lint-allow: svg (why)` (sub-glyph chrome such as a spinner or a
-tick, as the DS standards gate allows), edits that only keep or move SVG already in a file, and the
-design system's own glyph, illustration and logo sources. Fail-open: any error allows the write.
+search. Where it applies:
+- markup files (.tsx .jsx .vue .svelte .astro): always;
+- script and page files (.ts .js .mjs .cjs .html .htm): only when the nearest package.json depends on
+  @ahaslides-product/design, since such files often build SVG strings for charts, QR codes or exports;
+- a new .svg file: anywhere outside the design system's own glyph, illustration and logo sources.
+Never: test files (*.test.*, *.spec.*, __tests__/), a line marked `ds-lint-allow: svg (why)`
+(sub-glyph chrome such as a spinner or a tick, as the DS standards gate allows), an edit that only
+keeps or moves <svg> tags already in the file, react-native-svg's capitalised <Svg>, and the design
+system repo outside lib/. Fail-open: any error allows the write.
 """
 import json
 import os
@@ -12,8 +18,10 @@ import re
 DS_PACKAGE = "@ahaslides-product/design"
 DS_SOURCE_FOLDERS = re.compile(r"(^|/)(icons/svg|illustrations|logo)/")
 DS_ELEMENT_SOURCE = re.compile(r"(^|/)lib/")
-MARKUP_EXT = re.compile(r"\.(tsx|jsx|ts|js|mjs|cjs|mts|cts|vue|html|htm|svelte|astro)$", re.IGNORECASE)
-INLINE_SVG = re.compile(r"<svg\b", re.IGNORECASE)
+MARKUP_EXT = re.compile(r"\.(tsx|jsx|vue|svelte|astro)$", re.IGNORECASE)
+SCRIPT_EXT = re.compile(r"\.(ts|js|mjs|cjs|mts|cts|html|htm)$", re.IGNORECASE)
+TEST_FILE = re.compile(r"(\.(test|spec)\.[a-z]+$)|(^|/)__tests__/", re.IGNORECASE)
+INLINE_SVG = re.compile(r"<svg\b")
 ALLOW_SVG = re.compile(r"ds-lint-allow:\s*[a-z, ]*\bsvg\b", re.IGNORECASE)
 MAX_LEVELS = 12
 
@@ -28,26 +36,40 @@ SEARCH_HINT = (
 )
 
 
-def _ds_repo_root(path):
+def _package_jsons(path):
     directory = os.path.dirname(os.path.abspath(path))
     for _ in range(MAX_LEVELS):
         package_json = os.path.join(directory, "package.json")
         if os.path.isfile(package_json):
             try:
                 with open(package_json, encoding="utf-8") as handle:
-                    if json.load(handle).get("name") == DS_PACKAGE:
-                        return directory
+                    yield directory, json.load(handle)
             except Exception:
                 pass
         parent = os.path.dirname(directory)
         if parent == directory:
             break
         directory = parent
+
+
+def _ds_repo_root(path):
+    for directory, package in _package_jsons(path):
+        if package.get("name") == DS_PACKAGE:
+            return directory
     return None
 
 
+def _uses_design_system(path):
+    for _, package in _package_jsons(path):
+        for field in ("dependencies", "devDependencies", "peerDependencies"):
+            if DS_PACKAGE in (package.get(field) or {}):
+                return True
+        return False
+    return False
+
+
 def _unmarked_svg_count(text):
-    return sum(1 for line in (text or "").splitlines() if INLINE_SVG.search(line) and not ALLOW_SVG.search(line))
+    return sum(len(INLINE_SVG.findall(line)) for line in (text or "").splitlines() if not ALLOW_SVG.search(line))
 
 
 def _read(path):
@@ -86,10 +108,14 @@ def check(tool_name, tool_input, cwd):
             return None
         return "[icons] New .svg file " + os.path.basename(path) + " — a hand-made icon bypasses the design system. " + SEARCH_HINT
 
-    if not MARKUP_EXT.search(path):
+    if TEST_FILE.search(path.replace(os.sep, "/")):
         return None
-    if ds_root and not DS_ELEMENT_SOURCE.search(relative):
-        return None
+    if ds_root:
+        if not DS_ELEMENT_SOURCE.search(relative) or not (MARKUP_EXT.search(path) or SCRIPT_EXT.search(path)):
+            return None
+    elif not MARKUP_EXT.search(path):
+        if not SCRIPT_EXT.search(path) or not _uses_design_system(absolute_path):
+            return None
     before, after = _before_and_after(tool_name, tool_input, absolute_path)
     added = _unmarked_svg_count(after) - _unmarked_svg_count(before)
     if added <= 0:

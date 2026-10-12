@@ -2205,7 +2205,7 @@ const GALLERY_JS = `
       count=document.getElementById('icon-count'), cells=[].slice.call(grid.querySelectorAll('.ic')),
       fams=[].slice.call(document.querySelectorAll('.fam-chip')), fam='all';
   function apply(){
-    var terms=(q.value||'').trim().toLowerCase().split(/\s+/).filter(Boolean), n=0;
+    var terms=(q.value||'').trim().toLowerCase().split(/\\s+/).filter(Boolean), n=0;
     cells.forEach(function(c){
       var text=c.dataset.name+' '+c.dataset.words;
       var ok=(fam==='all'||c.dataset.fam===fam) && terms.every(function(t){return text.indexOf(t)>=0;});

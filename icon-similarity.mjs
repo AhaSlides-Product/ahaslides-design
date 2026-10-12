@@ -15,7 +15,7 @@
  * standards.mjs runs the gate: a pair that is not in icon-duplicates.baseline.json fails, and the
  * baseline may only shrink.
  */
-import { readFileSync, readdirSync, statSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, writeFileSync, existsSync, realpathSync } from 'node:fs';
 import { dirname, join, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -408,7 +408,7 @@ export function readDuplicateBaseline(root) {
   return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')).pairs : [];
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === realpathSync(process.argv[1])) {
   const root = dirname(fileURLToPath(import.meta.url));
   const args = process.argv.slice(2);
   const glyphs = readGlyphSources(root);

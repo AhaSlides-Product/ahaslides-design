@@ -87,5 +87,32 @@ class IconGuardTest(unittest.TestCase):
         self.assertEqual(code, 2)
 
 
+    def test_reflowing_existing_svg_tags_onto_more_lines_is_allowed(self):
+        code, _ = self.run_guard({"file_path": os.path.join(self.app, "src/Pair.tsx"),
+                                  "old_string": "<i><svg a/><svg b/></i>", "new_string": "<i>\n<svg a/>\n<svg b/>\n</i>"}, tool_name="Edit")
+        self.assertEqual(code, 0)
+
+    def test_a_second_svg_on_the_same_line_is_blocked(self):
+        code, _ = self.run_guard({"file_path": os.path.join(self.app, "src/Pair.tsx"),
+                                  "old_string": "<i><svg a/></i>", "new_string": "<i><svg a/><svg b/></i>"}, tool_name="Edit")
+        self.assertEqual(code, 2)
+
+    def test_test_files_are_exempt(self):
+        for name in ("src/Help.test.tsx", "src/help.spec.ts", "src/__tests__/Help.tsx"):
+            code, _ = self.run_guard({"file_path": os.path.join(self.app, name), "content": "expect(html).toContain('<svg')"})
+            self.assertEqual(code, 0, name)
+
+    def test_react_native_svg_component_is_not_an_inline_svg(self):
+        code, _ = self.run_guard({"file_path": os.path.join(self.app, "src/Logo.tsx"), "content": "<Svg width={16} />"})
+        self.assertEqual(code, 0)
+
+    def test_script_files_are_checked_only_in_apps_that_use_the_design_system(self):
+        script = {"file_path": os.path.join(self.app, "src/qr.ts"), "content": "const markup = `<svg>${path}</svg>`"}
+        self.assertEqual(self.run_guard(script)[0], 0)
+        with open(os.path.join(self.app, "package.json"), "w") as handle:
+            json.dump({"name": "presenter", "dependencies": {"@ahaslides-product/design": "^0.157.0"}}, handle)
+        self.assertEqual(self.run_guard(script)[0], 2)
+
+
 if __name__ == "__main__":
     unittest.main()
