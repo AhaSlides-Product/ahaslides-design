@@ -24,8 +24,10 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
+import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
+const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
 const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
@@ -1283,7 +1285,7 @@ function renderAgent(c) {
       : null,
     frameworks,
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
-    opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
+    opinion: c.opinion || null, surfaces: c.surfaces || null, environment: c.environment || null, snippets,
     ...((c.typeDefaults || []).length ? { typeDefaults: typeDefaultsMap(c) } : {}),
   }, null, 2) + '\n';
 }
@@ -1505,15 +1507,16 @@ ${marketingSnippet(b)}\`\`\`
 function renderMarketingAgent(b) {
   return JSON.stringify({
     generatedFrom: `marketing/${b.slug}.json`, kind: 'marketing-section', name: b.name, slug: b.slug,
-    summary: b.summary,
+    summary: b.summary, environment: b.environment || null,
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
+const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
 function renderMarketingLlms(blocks) {
   let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Patterns → ${MARKETING_CAT}). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
-  for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md) — ${b.summary}\n`;
+  for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
@@ -2634,6 +2637,7 @@ const indexLines = [
   `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
   '>   Opt out per line, per rule: ds-lint-allow: <rule-id>[,<rule-id>] (<reason>) — a bare ds-lint-allow suppresses nothing and warns.',
   '',
+  ...routeLines(ENVIRONMENTS, SITE),
   ...patternIndexLines(),
   '## Components',
   '',
@@ -2653,7 +2657,7 @@ for (const c of contracts) {
   writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
   writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
-  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
+  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
   fullDocs.push(md);
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
@@ -2716,6 +2720,7 @@ if (ANTISLOP) {
   console.log('  ✓ agent plugin: agent/anti-slop/criteria.json');
 }
 
+for (const f of RAW_FEEDS) if (f.file !== 'llms.txt') writeFileSync(join(OUT, f.file), withRouteHeader(f.file, read(join(OUT, f.file)), SITE, ENVIRONMENTS));
 // Feed pages LAST — they embed the actual generated files (now all on disk) in a code wrapper.
 mkdirSync(join(OUT, 'feeds'), { recursive: true });
 for (const f of RAW_FEEDS) {

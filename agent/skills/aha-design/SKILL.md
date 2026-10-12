@@ -64,7 +64,13 @@ up to the workspace root in a monorepo). Without it, fetch the feeds. The feed's
 `surfaces.<key>.targets[].url` are the live DS pages each surface is judged against — read them,
 never a frozen snapshot.
 
-## 2. Pick the surface(s)
+## 2. Pick the environment, then the surface(s)
+
+Every DS item names its environment (`product`, `audience`, `marketing-web`, `video`,
+`social-ads`); each one's route (guidelines, judge, lint, plugin, owner) is in `llms.txt` →
+**Routes**, from `environments.json` in the package. This skill covers `product` and
+`audience`. A `marketing-web`, `video` or `social-ads` task follows its own route (the `aha-mkt`
+skill), not this loop.
 
 The surface keys are the keys of `surfaces` in `criteria.json` (e.g. `table`, `overlays`,
 `feedback`, `settings`, `icons`, `typography`, `ux-writing`, `canvas`, `audience`, `app-shell`).

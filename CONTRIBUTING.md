@@ -10,7 +10,7 @@ A component is **done** only when both are green.
 ## The recipe (what the gate checks, in order)
 
 ### 1. Contract — `contracts/<slug>.json`
-Required fields: `name, slug, group, tier, summary, highlights (1–4 short bullets shown under the page title; `summary` stays the prose for the agent feeds), props (≥1), spec (≥1), snippets (html lead + react + vue), opinion, surfaces (≥1), preview, conformance`.
+Required fields: `name, slug, group, tier, summary, highlights (1–4 short bullets shown under the page title; `summary` stays the prose for the agent feeds), props (≥1), spec (≥1), snippets (html lead + react + vue), opinion, surfaces (≥1), preview, conformance`, plus `environment` (below).
 Every `snippets` array MUST **lead with an `html` entry** (see §3) — HTML first, then React, then Vue. No exceptions: a leaf's HTML uses its custom element; a composite's HTML is a CDN-React runnable page.
 Plus the reuse declaration — **this is the reusability contract**:
 
@@ -76,12 +76,22 @@ When a component needs a glyph, look it up in the [icon gallery](https://design.
 
   Two more, not statically catchable — **you own them, the reviewer checks them**: (a) declare the **right** role in the first place — a progress bar needs `role="progressbar"` + `aria-valuenow/min/max`, a spinner `role="status"`; a control with no role is invisible to AT. (b) A **themed imperative overlay** in a snippet — antd's `message`/`notification`/`Modal` have a *static* form (`message.success()`, `notification.open()`, `Modal.confirm()`) that renders **outside** `ConfigProvider`, so it ships **un-themed**. The gate flags the static call in a snippet: use the **hook** form (`useMessage()` / `useNotification()` / `useModal()` + `contextHolder`) so the overlay consumes the DS theme in **every** framework snippet, not just the conformance harness.
 
+## Environment — every item declares one (enforced)
+
+Every contract, guideline, marketing section and brand or logo asset carries `"environment": [...]`: one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`. It tells an agent which route to follow (guidelines, judge, lint, plugin, owner), printed per environment in `llms.txt` → **Routes**. The one table is `environments.json`.
+
+- **New or changed item without a known environment → `standards.mjs` fails.** Items that shipped before the rule are listed in `environments.baseline.json`; touching one means declaring its environment and dropping it from the list (`node standards.mjs --update-baseline`). The list may only shrink: CI fails a pull request that adds to it.
+- **The pull request body declares it too.** A pull request that changes `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/` or `illustrations/` needs a line `Environment: <names>` (the template has it), equal to the environments of the items it adds or changes. CI's standards job checks it, and re-runs when you edit the body.
+- **Add an environment:** one entry under `environments` in `environments.json` (`label`, `summary`, `route` with `guidelines`, `judge`, `lint`, `plugin`, `owner`; `{site}` is the docs host). No code changes: the gate, the routes, the feed headers and the scan all read the table.
+- **Add an item folder** (a `video/` folder, say): one line under `sources` — `folder` + `key` for one item per JSON file, or `file` + `list` + `key` for a manifest array — with `folderEnvironments` (what the folder serves) and its path in `declarationPaths`.
+- **Marketing, video and social contributors are not blocked beyond declaring the environment:** their own `aha-mkt` skill approves the content. `npm run route-scan` (report only, always exits 0) lists items with no environment, an unknown one, or one their folder does not serve, for a routine to follow up.
+
 ## Contributing a pattern (composition guide)
 
 A **pattern** is the other artifact type. It ships **no new primitive** — it documents how to *compose existing components* for a use case (settings, paywall, overlays), distils the enforceable essence of an `aha-design` skill, and links back to that skill for the "why". The narrative stays single-sourced in the skill; the repo carries only what it can enforce. `standards.mjs` gates patterns too — copy `patterns/settings.json` as the template.
 
 ### 1. Contract — `patterns/<slug>.json`
-Required fields: `name, slug, kind: "pattern", summary, highlights (1–4 short bullets shown under the page title), skillRef, surfaces, composedOf, rules`.
+Required fields: `name, slug, kind: "pattern", summary, highlights (1–4 short bullets shown under the page title), skillRef, surfaces, composedOf, rules`, plus `environment` (see Environment above).
 
 - **`skillRef`** — `{ "build": "aha-design:aha-design-<x>", "judge": "…-judge" }`. The design skill this pattern distils; the gate requires `skillRef.build`.
 - **`composedOf`** — the reuse graph: each entry `{ ref, as, use, status }`.

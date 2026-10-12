@@ -43,6 +43,14 @@ Pre-1.0 bump rule: a new component/prop/token/export → **MINOR** (`0.x.0`); a 
 
 A red gate means the work isn't done. **Fix it — don't work around it.** To add a component, copy an existing one of your tier: **Icon** / **Checkbox** (leaf), **Table** (composite), then follow `CONTRIBUTING.md`.
 
+## Environments and routes
+
+Every contract, guideline and marketing or brand asset declares `"environment"`: one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`. Each environment has one route (guidelines, judge, lint, plugin, owner), defined once in `environments.json` and printed in `llms.txt` → **Routes**; every generated feed opens with a three-line route header pointing there (a `route` key in JSON feeds). Pick the environment first, then follow its route.
+
+- **Gate:** `standards.mjs` fails a new or changed item with no environment or an unknown one. Older items wait in `environments.baseline.json`, which may only shrink. A pull request touching `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/` or `illustrations/` also needs an `Environment: <names>` line in its body matching the changed items (`.github/scripts/pr-environment.mjs`, in CI).
+- **Add an environment or an item folder:** edit `environments.json` only (an entry under `environments`, or a line under `sources` + `declarationPaths`). Recipe in `CONTRIBUTING.md` → Environment.
+- **Marketing, video and social** content is approved by its own `aha-mkt` skill; the DS only requires the environment. `npm run route-scan` reports mismatches without blocking.
+
 ## Claude Code: the DS agent plugin
 
 This repo is also a Claude Code plugin marketplace. `agent/` is the `ahaslides-design` plugin (skill `aha-design` + hooks), released with every version: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design` (settings.json snippet in `README.md`, "Agent plugin"). Changing it: every release bumps `package.json` and `agent/.claude-plugin/plugin.json` to the same version, keep rules in `anti-slop/` and `guidelines/` (the skill points at them), and run `npm run generate` so `agent/anti-slop/criteria.json` stays the store's copy. `standards.mjs` gates all three; the hook suites run in `npm test`.
