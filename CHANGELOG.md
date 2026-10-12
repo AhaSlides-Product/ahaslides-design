@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.156.0 — 2026-10-12
+### Removed
+- Icon library: the `system-question-circle` glyph is gone. The name still resolves as a deprecated back-compat alias of `system-question`, so consumers that reference it keep working while they migrate; the alias is not listed as its own glyph on the Icon library page (which now lists only real glyphs). The registry still holds 305 names: 300 glyph files plus 5 back-compat aliases. (#129)
+
+### Changed
+- `<aha-tooltip help>` now draws `system-question` instead of `system-question-circle`. The tooltip, section-header, setting-row and setting-group contracts name `system-question` for the help glyph. (#129)
+
 ## 0.154.0 — 2026-10-12
 ### Added
 - Environments and routes: every contract, guideline and marketing or brand asset declares `environment` (one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`). The one table, `environments.json` (now in the package), holds each environment's route (guidelines, judge, lint, plugin, owner); `llms.txt` prints it under **Routes**, and index lines show an item's environment. Adding an environment or an item folder is a data change only. (#226)

@@ -205,7 +205,7 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 
 ## Status
 
-Proven end-to-end and QA-green: **Icon** (305 registry names: 301 glyph files, 265 imported from Figma DS V3 and 36 Phosphor file glyphs, plus 4 back-compat aliases; call-by-name via
+Proven end-to-end and QA-green: **Icon** (305 registry names: 300 glyph files, 264 imported from Figma DS V3 and 36 Phosphor file glyphs, plus 5 back-compat aliases; call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 
