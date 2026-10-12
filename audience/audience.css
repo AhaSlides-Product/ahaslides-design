@@ -65,7 +65,7 @@
 
 /* fields */
 .audience-lib .flabel{color:var(--ink);font-weight:var(--aha-weight-semibold);font-size:var(--aha-size-default)}
-.audience-lib .field{display:flex;align-items:center;gap:var(--aha-space-8);background:var(--aha-white);color:var(--aha-text-default);border:1px solid var(--aha-border-input);border-radius:var(--aha-radius-default);min-height:var(--aha-space-56);padding:0 var(--aha-space-16);margin-top:var(--aha-space-6)}
+.audience-lib .field{display:flex;align-items:center;gap:var(--aha-space-8);background:var(--aha-white);color:var(--aha-text-default);border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-default);min-height:var(--aha-space-56);padding:0 var(--aha-space-16);margin-top:var(--aha-space-6)}
 .audience-lib .field.ta{align-items:flex-start;min-height:84px;padding-top:var(--aha-space-12)}
 .audience-lib .field .fval{flex:1}
 .audience-lib .field .ph{color:var(--aha-text-placeholder)}

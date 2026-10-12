@@ -24,8 +24,10 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
+import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
+const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
 const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
@@ -920,8 +922,8 @@ const RAW_FEEDS = [
   { name: 'llms-full.txt', file: 'llms-full.txt',  page: 'llms-full-txt', desc: 'Every component doc concatenated — the full-context feed.' },
   { name: 'CHANGELOG.md',  file: 'CHANGELOG.md',   page: 'changelog',     desc: 'Version history — what changed in each release. One entry per merge; the top version matches the package.' },
   { name: 'variables.css', file: 'variables.css',  page: 'variables-css', desc: 'The --aha-* token layer as CSS custom properties, generated from tokens.canonical.json.' },
-  { name: 'icons.llms.txt', file: 'icons.llms.txt', page: 'icons-llms-txt', desc: 'Every icon name, grouped by family — the feed an agent reads to call <aha-icon name="…"> instead of writing an SVG.' },
-  { name: 'icons.agent.json', file: 'icons.agent.json', page: 'icons-agent-json', desc: 'Machine feed: the full icon catalogue (names + family + recolorable) plus the <aha-icon> usage contract.' },
+  { name: 'icons.llms.txt', file: 'icons.llms.txt', page: 'icons-llms-txt', desc: 'Every icon name, grouped by family, and the meaning words that find each one — the feed an agent reads to call <aha-icon name="…"> instead of writing an SVG.' },
+  { name: 'icons.agent.json', file: 'icons.agent.json', page: 'icons-agent-json', desc: 'Machine feed: the full icon catalogue (names, family, recolorable, meaning words) plus the <aha-icon> usage contract and how to search it.' },
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
@@ -1042,8 +1044,8 @@ const FEED_HIGHLIGHTS = {
   'llms-full.txt': ['Every component doc concatenated', 'The full-context feed'],
   'CHANGELOG.md': ['Version history, one entry per merge', 'The top version matches the package'],
   'variables.css': ['The --aha-* token layer as CSS custom properties', 'Generated from tokens.canonical.json'],
-  'icons.llms.txt': ['Every icon name, grouped by family', 'Read it to call <aha-icon name="…"> instead of writing an SVG'],
-  'icons.agent.json': ['Full icon catalogue: names, family, recolorable', 'Plus the <aha-icon> usage contract'],
+  'icons.llms.txt': ['Every icon name, grouped by family, with the meaning words that find it', 'Read it to call <aha-icon name="…"> instead of writing an SVG'],
+  'icons.agent.json': ['Full icon catalogue: names, family, recolorable, meaning words', 'Plus the <aha-icon> usage contract and the icon search'],
   'guidelines.llms.txt': ['One entry per composition pattern', 'What it reuses, rule count and component backlog'],
   'guidelines.agent.json': ['Every pattern with its composedOf reuse graph', 'Rules, each tied to a skill assertion', 'Whether the pattern ships code'],
   'marketing.llms.txt': ['One entry per marketing section', 'Paste-and-run and token-bound, for the marketing sites'],
@@ -1283,7 +1285,7 @@ function renderAgent(c) {
       : null,
     frameworks,
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
-    opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
+    opinion: c.opinion || null, surfaces: c.surfaces || null, environment: c.environment || null, snippets,
     ...((c.typeDefaults || []).length ? { typeDefaults: typeDefaultsMap(c) } : {}),
   }, null, 2) + '\n';
 }
@@ -1505,15 +1507,16 @@ ${marketingSnippet(b)}\`\`\`
 function renderMarketingAgent(b) {
   return JSON.stringify({
     generatedFrom: `marketing/${b.slug}.json`, kind: 'marketing-section', name: b.name, slug: b.slug,
-    summary: b.summary,
+    summary: b.summary, environment: b.environment || null,
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
+const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
 function renderMarketingLlms(blocks) {
   let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Patterns → ${MARKETING_CAT}). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
-  for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md) — ${b.summary}\n`;
+  for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
@@ -2192,7 +2195,8 @@ function renderGetStarted(cs) {
 // The client artifacts every icon-bearing page loads: the registry data + the shared element.
 function writeIconRuntime() {
   mkdirSync(join(OUT, 'icons'), { recursive: true });
-  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(ICONS.icons) + ';\n');
+  const glyphsOnly = Object.fromEntries(Object.entries(ICONS.icons).map(([name, { meaning, ...glyph }]) => [name, glyph]));
+  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(glyphsOnly) + ';\n');
   writeFileSync(join(OUT, 'icons', 'aha-icon.js'), AHA_ICON_JS);
 }
 const GALLERY_JS = `
@@ -2201,9 +2205,10 @@ const GALLERY_JS = `
       count=document.getElementById('icon-count'), cells=[].slice.call(grid.querySelectorAll('.ic')),
       fams=[].slice.call(document.querySelectorAll('.fam-chip')), fam='all';
   function apply(){
-    var t=(q.value||'').trim().toLowerCase(), n=0;
+    var terms=(q.value||'').trim().toLowerCase().split(/\\s+/).filter(Boolean), n=0;
     cells.forEach(function(c){
-      var ok=(fam==='all'||c.dataset.fam===fam) && (!t||c.dataset.name.indexOf(t)>=0);
+      var text=c.dataset.name+' '+c.dataset.words;
+      var ok=(fam==='all'||c.dataset.fam===fam) && terms.every(function(t){return text.indexOf(t)>=0;});
       c.style.display=ok?'':'none'; if(ok)n++;
     });
     count.textContent=n+' icon'+(n===1?'':'s');
@@ -2222,23 +2227,26 @@ const GALLERY_JS = `
 })();
 `;
 function renderIconGallery() {
-  const entries = Object.entries(ICONS.icons).sort((a, b) => a[0].localeCompare(b[0]));
+  const entries = Object.entries(ICONS.icons).filter(([, v]) => !v.aliasOf).sort((a, b) => a[0].localeCompare(b[0]));
   const strip = (n) => n.replace(/^(system|slidetype|filetype)-/, '');
   const cells = entries.map(([name, v]) =>
-    `<button class="ic" type="button" data-name="${esc(name)}" data-fam="${esc(v.family)}" title="${esc(name)} — click to copy"><aha-icon name="${esc(name)}" size="24"></aha-icon><span class="icn">${esc(strip(name))}</span></button>`).join('');
+    `<button class="ic" type="button" data-name="${esc(name)}" data-words="${esc((v.meaning || []).join(' '))}" data-fam="${esc(v.family)}" title="${esc(name)}${v.meaning && v.meaning.length ? ` (${esc(v.meaning.join(', '))})` : ''} — click to copy"><aha-icon name="${esc(name)}" size="24"></aha-icon><span class="icn">${esc(strip(name))}</span></button>`).join('');
   const chips = ['all', ...ICONS.families].map((f, i) =>
-    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
+    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => !x.aliasOf && x.family === f).length}</b>`}</button>`).join('');
   const main = `
   <h1>Icon library</h1>
-  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
+  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Search by meaning (help, delete, settings) before drawing a new glyph: a near-duplicate fails the build', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
   <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
 
   <h3 class="tok-h3">Stroke by size</h3>
   <p class="body">The runtime draws every stroke at the width paired with the size, whatever the glyph&rsquo;s own viewBox, so the same glyph keeps one line weight across the library. Do not set <code>stroke-width</code> in an SVG or on the element.</p>
   <div class="stroke-demo">${[[12, 1], [16, 1.5], [24, 2], [32, 2.5]].map(([size, line]) => `<div class="stroke-cell"><div class="stroke-stage"><aha-icon name="system-bell" size="${size}" decorative></aha-icon><aha-icon name="slidetype-poll" size="${size}" decorative></aha-icon></div><span class="stroke-cap">${size}px &middot; ${line}px stroke</span></div>`).join('')}</div>
 
+  <h3 class="tok-h3">Reuse before you draw</h3>
+  <p class="body">Every glyph carries meaning words, so a search for <b>help</b> finds <code>system-question</code> and <b>delete</b> finds <code>system-trash</code>. Search here, or run <code>npm run icon-search &lt;words&gt;</code> in the design-system repo (<code>node node_modules/@ahaslides-product/design/icon-search.mjs &lt;words&gt;</code> in an app). Add a glyph only when nothing fits: the build fails a new glyph that looks nearly identical to an existing one, and the pull request names what was searched and why each close match did not fit (an <code>Icon search:</code> line).</p>
+
   <div class="gal-bar">
-    <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name…" autocomplete="off" spellcheck="false" />
+    <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name or meaning: help, delete, settings…" autocomplete="off" spellcheck="false" />
     <div class="fam-chips">${chips}</div>
     <span id="icon-count" class="gal-count"></span>
   </div>
@@ -2414,17 +2422,23 @@ function renderIconsLlms() {
   s += '- size: 12 | 16 | 24 | 32 (only); the runtime draws the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px. Colour follows currentColor — set it on the wrapper.\n';
   s += '- omit `label` and add `decorative` for an icon that only repeats adjacent text.\n';
   s += '- filled/active state → pick the `-filled` asset (e.g. system-bookmark-simple-filled).\n\n';
+  s += `Search before you draw: find a glyph by what it means ("help" → system-question, "delete" → system-trash) in "Find by meaning" below, with \`npm run icon-search <words>\` (in an app: \`node node_modules/@ahaslides-product/design/icon-search.mjs <words>\`) or at ${SITE}/icons/index.html?q=<words>. Add a glyph to the DS only when nothing fits; a new glyph that looks nearly identical to an existing one fails the build.\n\n`;
   for (const fam of ICONS.families) s += `## ${fam} (${(byFam[fam] || []).length})\n${(byFam[fam] || []).sort().join(', ')}\n\n`;
+  s += '## Find by meaning\n';
+  for (const [name, glyph] of Object.entries(ICONS.icons).sort((a, b) => a[0].localeCompare(b[0]))) {
+    if (!glyph.aliasOf) s += `- ${name}: ${(glyph.meaning || []).join(', ')}\n`;
+  }
   return s;
 }
 function renderIconsAgentJson() {
   return JSON.stringify({
     generatedFrom: ICONS.$generatedFrom, element: 'aha-icon',
     usage: '<aha-icon name="system-bell" size={16} label="Notifications" />',
-    rules: { sizes: [12, 16, 24, 32], strokeByPixelSize: { 12: 1, 16: 1.5, 24: 2, 32: 2.5 }, colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset' },
+    rules: { sizes: [12, 16, 24, 32], strokeByPixelSize: { 12: 1, 16: 1.5, 24: 2, 32: 2.5 }, colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset', reuseFirst: 'match your need against each icon\'s meaning words before drawing a glyph; a new glyph that looks nearly identical to an existing one fails the build' },
+    search: { command: 'npm run icon-search <words>', inAnApp: 'node node_modules/@ahaslides-product/design/icon-search.mjs <words>', hosted: `${SITE}/icons/index.html?q=<words>`, fields: 'icons.<name>.meaning' },
     families: ICONS.families, count: ICONS.count,
     names: Object.keys(ICONS.icons).sort(),
-    icons: Object.fromEntries(Object.entries(ICONS.icons).map(([k, v]) => [k, { family: v.family, recolorable: v.recolorable }])),
+    icons: Object.fromEntries(Object.entries(ICONS.icons).map(([k, v]) => [k, { family: v.family, recolorable: v.recolorable, meaning: v.meaning || [], ...(v.aliasOf ? { aliasOf: v.aliasOf } : {}) }])),
   }, null, 2) + '\n';
 }
 
@@ -2605,6 +2619,7 @@ const indexLines = [
   `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js, same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
+  `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
   `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale (one colour, per the colour rules).`,
   `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers or marketing-style page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
   '>',
@@ -2634,6 +2649,7 @@ const indexLines = [
   `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
   '>   Opt out per line, per rule: ds-lint-allow: <rule-id>[,<rule-id>] (<reason>) — a bare ds-lint-allow suppresses nothing and warns.',
   '',
+  ...routeLines(ENVIRONMENTS, SITE),
   ...patternIndexLines(),
   '## Components',
   '',
@@ -2653,7 +2669,7 @@ for (const c of contracts) {
   writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
   writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
-  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
+  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
   fullDocs.push(md);
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
@@ -2716,6 +2732,7 @@ if (ANTISLOP) {
   console.log('  ✓ agent plugin: agent/anti-slop/criteria.json');
 }
 
+for (const f of RAW_FEEDS) if (f.file !== 'llms.txt') writeFileSync(join(OUT, f.file), withRouteHeader(f.file, read(join(OUT, f.file)), SITE, ENVIRONMENTS));
 // Feed pages LAST — they embed the actual generated files (now all on disk) in a code wrapper.
 mkdirSync(join(OUT, 'feeds'), { recursive: true });
 for (const f of RAW_FEEDS) {

@@ -50,13 +50,13 @@
    "focus · focus · th.ant-table-cell.ant-table-column-sort.ant-table-column-has-sorters “Score”: keyboard focus draws no outline, ring, border or fill change"
   ],
   "icons": [
-   "contrast · active · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · active · button.fam-chip[type=button] “filetype 6”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
    "contrast · active · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
-   "contrast · focus · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · focus · button.fam-chip[type=button] “filetype 6”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
    "contrast · focus · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
-   "contrast · hover · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · hover · button.fam-chip[type=button] “filetype 6”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
    "contrast · hover · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1",
-   "contrast · rest · button.fam-chip[type=button] “filetype 5”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
+   "contrast · rest · button.fam-chip[type=button] “filetype 6”: text #8F8F8F on #F7F7F7 is 3.01:1, needs 4.5:1",
    "contrast · rest · button.ic[type=button] “course”: text #8A8A8A on #FFFFFF is 3.45:1, needs 4.5:1"
   ],
   "image": [

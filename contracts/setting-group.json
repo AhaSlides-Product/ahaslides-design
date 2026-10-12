@@ -1,6 +1,7 @@
 {
   "name": "Setting group",
   "slug": "setting-group",
+  "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -14,12 +15,12 @@
     { "label": "Rows", "value": "column · 24px between sibling settings (the settings scale) · header→rows 12px" },
     { "label": "Between groups", "value": "32px automatically (:host(:not(:first-child))) — no divider, no wiring" },
     { "label": "Danger zone", "value": "tone=danger → 48px above (overrides the 32); the danger CTA styling lives on the button, not here" },
-    { "label": "Header", "value": "optional (label) · 14/21 Semibold (600) #1A1A1A · optional \"?\" help (composed <aha-tooltip help>) · action slot pushed right (margin-left:auto), plain text only (a count), never a control" },
+    { "label": "Header", "value": "optional (label) · 14/21 Semibold (600) #1A1A1A · optional \"?\" help (composed <aha-tooltip help>, system-question glyph) · action slot pushed right (margin-left:auto), plain text only (a count), never a control" },
     { "label": "Structure", "value": "no divider lines, no card/box — spacing only, white background" }
   ],
   "props": [
     { "name": "label", "type": "string", "default": "—", "desc": "Optional group header (a 1–3 word noun phrase). When set, renders a semibold header and becomes the group's aria-label" },
-    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance shown as the \"?\" help tooltip (composed DS <aha-tooltip help>) after the header label — never a standing line" },
+    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance shown as the \"?\" help tooltip (composed DS <aha-tooltip help>, system-question glyph) after the header label — never a standing line" },
     { "name": "tone", "type": "'default' | 'danger'", "default": "default", "desc": "danger → a danger-zone group, dropped 48px below the previous group (overrides the automatic 32). Spacing only — the danger CTA styling lives on the button" },
     { "name": "action", "type": "slot", "default": "—", "desc": "Forwarded to the header, right-aligned — plain text only, e.g. a count. Never a toggle, switch, input, select or button: a control is a settings item" },
     { "name": "(default slot)", "type": "slot", "default": "—", "desc": "The setting rows / sub-groups; they stack 24px apart automatically" }

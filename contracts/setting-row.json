@@ -1,6 +1,7 @@
 {
   "name": "Setting Row",
   "slug": "setting-row",
+  "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -15,13 +16,13 @@
     { "label": "Label", "value": "Plus Jakarta 14/21, regular (400), text-default (#1A1A1A); flex:1 (label-left)" },
     { "label": "Control", "value": "flex:0 0 auto (control-right); slotted DS control — reuse, not re-implemented" },
     { "label": "Stack", "value": "flex-direction column; align-items stretch; gap 8; control full-width" },
-    { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the circled question glyph)" },
+    { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the system-question glyph)" },
     { "label": "Disabled", "value": "label dims to text-disabled (#B5B5B5); the control disables itself" },
     { "label": "Leading icon", "value": "NONE — no decorative leading-icon slot on the label (SETTINGS-40)" }
   ],
   "props": [
     { "name": "label", "type": "string", "default": "—", "desc": "The setting name — a noun phrase in sentence case" },
-    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (circled question glyph) after the label; the tooltip carries the text" },
+    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (system-question glyph) after the label; the tooltip carries the text" },
     { "name": "layout", "type": "inline | stack", "default": "inline", "desc": "inline: label-left / control-right (space-between). stack: label above, control full-width — for a wide control" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims the label to text-disabled and sets aria-disabled; the slotted control disables itself on its own element" },
     { "name": "control", "type": "slot", "default": "—", "desc": "The DS control (slot=\"control\") — an existing element like <aha-switch> / <aha-checkbox> / <aha-input>; reuse, never a re-implemented control" }
@@ -62,7 +63,7 @@
     { "label": "inline row space-between, gap 12, min-height 24", "verdict": "PASS" },
     { "label": "label Plus Jakarta 14/21 regular (400) text-default; label-left", "verdict": "PASS" },
     { "label": "control-right (flex:0 0 auto); stack → control full-width", "verdict": "PASS" },
-    { "label": "\"?\" help (circled question glyph) renders after the label when help is set", "verdict": "PASS" },
+    { "label": "\"?\" help (system-question glyph) renders after the label when help is set", "verdict": "PASS" },
     { "label": "no decorative leading-icon slot (SETTINGS-40)", "verdict": "PASS" }
   ],
   "conformance": {

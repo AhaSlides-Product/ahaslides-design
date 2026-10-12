@@ -9,12 +9,12 @@
   "highlights": ["Single-line settings field", "Character counter shows only while focused", "Shared pattern for option and answer text"],
   "lead": "ONE custom element — <aha-counted-input> — the settings-panel text field. Its character counter is REVEALED ONLY ON FOCUS and hidden at rest (SETTINGS-21 / SETTINGS-42): a permanently-visible counter on every field is the anti-pattern. The counter is a persistent overlay INSIDE the field (absolute, right-aligned) — never a sibling beside it, which would steal width and misalign stacked fields — and the right padding is always reserved so revealing it never shifts the text. Focus toggles an attribute on a persistent node, so the opacity transition actually fires. Shadow-DOM CSS, themed only by --aha-* tokens; emits composed `input` / `change`. Zero drift — the same element in React and Vue.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border-input", "color-primary", "border-focus", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-placeholder", "text-disabled", "radius-default", "border-error", "color-error", "border-disabled"],
+  "tokensUsed": ["border-default", "color-primary", "focus-ring-soft", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-placeholder", "text-disabled", "radius-default", "border-error", "color-error", "border-disabled"],
   "spec": [
     { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12" },
     { "label": "Sizes", "value": "small 32 · default 40 · large 48 — all radius 8" },
-    { "label": "Rest border", "value": "1px #D4D4D4 (border-input)" },
-    { "label": "Focus", "value": "#E70E68 border + solid 2px #E70E68 (border-focus) ring (on the persistent wrapper); hover #E70E68 border" },
+    { "label": "Rest border", "value": "1px #E3E3E3 (border-default)" },
+    { "label": "Focus", "value": "#E70E68 border + soft 2px ring (focus-ring-soft, 30% #E70E68) (on the persistent wrapper); hover #E70E68 border" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus; at size touch 12/12 and it counts the characters left (27 for 13 of 40) instead of used/max" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
@@ -73,7 +73,7 @@
     { "label": "height 40 (default) · small 32 · large 48 · radius 8", "verdict": "PASS" },
     { "label": "counter hidden at rest, revealed on focus (opacity), overlay inside the field", "verdict": "PASS" },
     { "label": "counter space reserved — revealing it does not shift the text", "verdict": "PASS" },
-    { "label": "focus #E70E68 border + ring (persistent wrapper)", "verdict": "PASS" },
+    { "label": "focus #E70E68 border + soft ring (persistent wrapper)", "verdict": "PASS" },
     { "label": "error #1A1A1A border + aria-invalid", "verdict": "PASS" }
   ],
   "conformance": {

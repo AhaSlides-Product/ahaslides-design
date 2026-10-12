@@ -1,6 +1,7 @@
 {
   "name": "Section Header",
   "slug": "section-header",
+  "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -14,13 +15,13 @@
     { "label": "Row", "value": "flex; align-items center; gap 8" },
     { "label": "Label", "value": "Plus Jakarta 14/21, weight 600, text-default (#1A1A1A) — a role=heading aria-level=3" },
     { "label": "Casing", "value": "noun phrase, sentence case — \"Presentation\", NOT \"Presentation Settings\"" },
-    { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the circled question glyph)" },
+    { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the system-question glyph)" },
     { "label": "Action", "value": "right-aligned slot (margin-left:auto) — plain text only, e.g. a count; no toggle, switch, input, select or button" },
     { "label": "Motion", "value": "none — static header, no interactive state of its own" }
   ],
   "props": [
     { "name": "label", "type": "string", "default": "—", "desc": "The group title — a noun phrase in sentence case; exposed as a role=heading aria-level=3" },
-    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (circled question glyph) after the label; the tooltip carries the text" },
+    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (system-question glyph) after the label; the tooltip carries the text" },
     { "name": "action", "type": "slot", "default": "—", "desc": "Right-aligned slot (slot=\"action\") — plain text only, e.g. a count; never a control" }
   ],
   "opinion": {
@@ -56,7 +57,7 @@
   "selfCheck": [
     { "label": "label Plus Jakarta 14/21 weight 600 text-default", "verdict": "PASS" },
     { "label": "label is a role=heading aria-level=3", "verdict": "PASS" },
-    { "label": "\"?\" help (circled question glyph) renders after the label when help is set", "verdict": "PASS" },
+    { "label": "\"?\" help (system-question glyph) renders after the label when help is set", "verdict": "PASS" },
     { "label": "action slot pushed right (margin-left:auto)", "verdict": "PASS" },
     { "label": "no decorative leading-icon slot (SETTINGS-40)", "verdict": "PASS" }
   ],
