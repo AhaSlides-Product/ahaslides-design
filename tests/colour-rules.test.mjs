@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   loadColourRules, loadBackgrounds, listRules, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
-  renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, COLOUR_RULES_TEMPLATE_FILE,
+  renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE,
 } from '../colour-rules.mjs';
 import { buildSplash, readyMadeSet, loadSplashRules, readIcon, pathBounds, largestHook } from '../build-splash.mjs';
 import { loadEnvironmentTable, environmentNames } from '../environments.mjs';
@@ -105,6 +105,14 @@ test('markup renders a copy code on the page and plain text in the feeds', () =>
   const html = markupToHtml('grey [[#A8A8A8]] and plain [[#FDE7F0|plain]] <b>');
   assert.ok(html.includes('data-copy="#A8A8A8"') && html.includes('class="swatch sw-grey"'));
   assert.ok(!/data-copy="#FDE7F0"[^>]*><span class="swatch/.test(html) && html.includes('&lt;b&gt;'));
+});
+
+test('a value with quotes cannot break out of an attribute', () => {
+  const html = markupToHtml('[x](a"onmouseover="y) and \'q\' & "d"');
+  assert.ok(!/href="a"onmouseover/.test(html) && html.includes('a&quot;onmouseover=&quot;y'));
+  assert.ok(html.includes('&#39;q&#39; &amp; &quot;d&quot;'));
+  const { main } = renderBackgroundLibrary(loadColourRules(root), [{ id: 'x', name: 'n"', file: 'a".svg', layout: 'right', surface: 'pink', ratio: '16:9', width: 1, height: 1 }], { site: 's', headline: () => '' });
+  assert.ok(!main.includes('a".svg') && main.includes('a&quot;.svg'));
 });
 
 test('the page, the feed and the markdown all carry every rule and every open point', () => {

@@ -17,7 +17,7 @@ export function loadBackgrounds(root) {
   return JSON.parse(readFileSync(join(root, BACKGROUNDS_MANIFEST_FILE), 'utf8')).backgrounds;
 }
 
-const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const SWATCH_CLASS = {
   '#E70E68': 'sw-pink', '#DB005B': 'sw-pinkdark', '#FFFFFF': 'sw-white', '#E70E680D': 'sw-pink5', '#FEF3F7': 'sw-pink5',
@@ -26,7 +26,7 @@ const SWATCH_CLASS = {
 
 function copyChip(hex, withSwatch = true) {
   const swatch = withSwatch && SWATCH_CLASS[hex] ? `<span class="swatch ${SWATCH_CLASS[hex]}"></span>` : '';
-  return `<button type="button" class="chip" data-copy="${hex}" aria-label="Copy ${hex}">${swatch}<code>${hex}</code><span class="hint">Copy</span></button>`;
+  return `<button type="button" class="chip" data-copy="${escapeHtml(hex)}" aria-label="Copy ${escapeHtml(hex)}">${swatch}<code>${escapeHtml(hex)}</code><span class="hint">Copy</span></button>`;
 }
 
 export function markupToHtml(text) {
@@ -224,9 +224,9 @@ const LAYOUT_LABEL = { centre: 'Centre', right: 'Right', minimal: 'Minimal' };
 export function renderBackgroundLibrary(rules, backgrounds, { site, headline }) {
   const ruleList = listRules(rules);
   const tile = (entry) =>
-    `<figure class="bgl-tile"><a class="bgl-stage" href="../backgrounds/${entry.file}" download><img src="../backgrounds/${entry.file}" width="${entry.width}" height="${entry.height}" alt="${escapeHtml(entry.name)}" loading="lazy"/></a>`
+    `<figure class="bgl-tile"><a class="bgl-stage" href="../backgrounds/${escapeHtml(entry.file)}" download><img src="../backgrounds/${escapeHtml(entry.file)}" width="${Number(entry.width)}" height="${Number(entry.height)}" alt="${escapeHtml(entry.name)}" loading="lazy"/></a>`
     + `<figcaption><span class="bgl-name">${entry.surface === 'pink' ? 'Vivid Pink' : 'White'}, ${escapeHtml(entry.ratio)}</span><span class="bgl-size">${entry.width} &times; ${entry.height}</span>`
-    + `<a class="bgl-file" href="../backgrounds/${entry.file}" download>${escapeHtml(entry.file)} &darr;</a></figcaption></figure>`;
+    + `<a class="bgl-file" href="../backgrounds/${escapeHtml(entry.file)}" download>${escapeHtml(entry.file)} &darr;</a></figcaption></figure>`;
   const gallery = LAYOUT_ORDER.filter(layout => backgrounds.some(entry => entry.layout === layout)).map(layout =>
     `<section class="bgl-sec"><h3 class="tok-h3">${LAYOUT_LABEL[layout]}</h3><div class="bgl-grid">${backgrounds.filter(entry => entry.layout === layout).map(tile).join('')}</div></section>`).join('');
   const splashRules = (first, last) => ruleList.filter(rule => { const [section, index] = rule.id.split('.').map(Number); return section === 5 && index >= first && index <= last; });
