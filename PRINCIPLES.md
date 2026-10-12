@@ -42,7 +42,7 @@ These come from the `aha-design` skills — follow the owning skill, then self-c
 - **Tables:** the shared DataTable, never a raw AntD `<Table>`.
 - **Icons:** the shared Icon component — **call a glyph by name** from the registry, never inline an `<svg>` or pull Lucide/Heroicons/FontAwesome/@ant-design/icons.
 - **Logos:** every logo — the AhaSlides logo / The Splash or a third-party brand — comes from the [Logo library](https://design.ahaslides.io/foundations/logo.html) (files at `https://design.ahaslides.io/logo/<file>`), never redrawn, inlined as a hand-made `<svg>`, recoloured, or swapped for an icon or letter tile.
-- **Backgrounds** white by default; no gradients on backgrounds/fills (AI-affordance border-only exception).
+- **Colour and backgrounds** follow the colour rules, kept once in `brand/colour-rules.json`: the page is white, light grey only inside or beside it, Vivid Pink at 5% for hover and selected states plus one highlighted panel per screen, black only for full-screen presenting and viewers, no dark mode, no status tint, no gradients on backgrounds/fills (AI-affordance border-only exception).
 - **Buttons:** size via the `size` prop (`sm` / `md` / `lg` / `xl` on `<aha-button>`; `xl` 52px is for in-canvas presenter controls) or React `<XLButtonScope>`; never inline height/padding/radius/fontSize, never `::part(button)` sizing.
 - **Typography:** Plus Jakarta Sans, weights 400/600 (Display 700), fixed DS V3 scale.
 

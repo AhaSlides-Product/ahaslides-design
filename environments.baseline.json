@@ -107,7 +107,6 @@
   "contract:waiting-for-host",
   "guideline:app-shell",
   "guideline:audience",
-  "guideline:background",
   "guideline:canvas",
   "guideline:feedback",
   "guideline:overlays",

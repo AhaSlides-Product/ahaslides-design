@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.154.0",
+  "version": "0.155.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -246,6 +246,9 @@
     "./screen-lint.mjs": "./screen-lint.mjs",
     "./tokens.canonical.json": "./tokens.canonical.json",
     "./guidelines/*": "./guidelines/*",
+    "./colour-rules.json": "./brand/colour-rules.json",
+    "./backgrounds/*": "./backgrounds/*",
+    "./build-splash": "./build-splash.mjs",
     "./anti-slop/criteria.json": "./anti-slop/criteria.json"
   },
   "files": [
@@ -254,6 +257,9 @@
     "fonts/",
     "icons/svg/",
     "logo/",
+    "backgrounds/",
+    "brand/colour-rules.json",
+    "build-splash.mjs",
     "icons/registry.json",
     "illustrations/svg/",
     "illustrations/registry.json",
@@ -273,6 +279,7 @@
     "test": "node --test tests/*.test.mjs",
     "drift": "node version-drift.mjs",
     "route-scan": "node route-scan.mjs",
+    "splash": "node build-splash.mjs",
     "evals:anti-slop": "node anti-slop/evals-harness.mjs",
     "build": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
     "check": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node screen-lint.mjs --self-test && node --test tests/*.test.mjs && node qa.mjs"

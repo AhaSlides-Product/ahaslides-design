@@ -1,0 +1,226 @@
+{
+  "surface": "colour",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.colour",
+  "portedFrom": null,
+  "authoredNote": "DS-authored from brand/colour-rules.json; no plugin judge dataset exists for colour.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a Report screen built with DS components. A 'Pro' tag is styled with a teal fill from a custom property the app defines, and section headings are a deep blue from another custom property. Buttons, links, status and charts are untouched DS components.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1: off-palette hues.",
+      "expected_output": "C1 FAILs: teal and blue are not palette colours. Fix: use the DS tag and the default ink. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review a sidebar. The active navigation item's label and icon use `var(--aha-logo-purple)`, and a 'New' pill beside it is filled with `var(--aha-vivid-pink-30)`. Everything else is DS components on white.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2: palette colours outside their roles.",
+      "expected_output": "C2 FAILs: purple is the logo only, and Vivid Pink at 30% is for charts only. Fix: Vivid Pink or the default ink for the active item, and the DS tag for the pill. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review a selected card. Its background is `var(--aha-bg-accent)` (Vivid Pink at 5%) and the title and a 'Learn more' link inside it are `var(--aha-color-primary)`. Separately, a Vivid Pink banner sets its body text to white at 80% opacity.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3: text colour against its background.",
+      "expected_output": "C3 FAILs: pink text on pale pink, and see-through white on Vivid Pink. Fix: the default ink on the pale pink card (set --aha-text-link on the container) and solid white on the banner. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review a delete confirmation modal. 'Delete presentation' is a primary button restyled with a red fill from an app-defined custom property, and 'Cancel' is a secondary button. The body text names what will be lost. No other colour is used.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4: destructive primary, coloured.",
+      "expected_output": "C4 FAILs: the destructive action is the primary button, and it is red. Fix: Cancel is the primary button; Delete is the DS danger button, which carries no hue. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review a team table. Each row's status is a coloured dot with a label: green for Active, amber for Pending, red for Suspended, set through app-defined custom properties. A trend column shows +12% in green and -4% in red. Backgrounds are white throughout.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5: hue for status and trend.",
+      "expected_output": "C5 FAILs: status and trend are shown in green, amber and red. Fix: the DS status badge (icon, wording, outline or black fill); a rise in plain black with an up arrow, a fall as white on a black pill with a down arrow. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review a Report chart built with `<aha-chart>` on an app screen. The author overrides the series colours through its options with six hand-picked colours: Vivid Pink, a teal, an orange, a blue, black and a grey, one per series, with no value labels.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6: chart colours.",
+      "expected_output": "C6 FAILs: six series colours, four of them hand-picked hues. Fix: palette=\"brand\"; beyond four series repeat the four with a pattern and label each mark. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review an integrations page. The Zoom, Google Drive and Microsoft Teams logos are shown in a row in their full brand colours, taken from each vendor's press kit, and a PDF file-type icon is red and white. The rest of the page is DS components.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7: logos and file-type icons.",
+      "expected_output": "C7 FAILs: integration logos in their own colours, and a two-colour file-type icon. Fix: the greyscale files from the Logo library and the one-colour file-type icon. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review a card component. On hover it gains `box-shadow: 0 8px 24px` in a translucent blue, and its focus state is a blue outline; both colours come from app-defined custom properties. Fill, text and status are untouched DS values.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C8: a shadow and border outside the palette.",
+      "expected_output": "C8 FAILs: a blue shadow and a blue outline. Fix: a black shadow at low opacity and the DS focus ring. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review a Report screen. The primary button is the DS primary (Vivid Pink, white label), links are Vivid Pink on white, a selected card on Vivid Pink at 5% sets its text and link to the default ink, status uses the DS status badge, the chart is `<aha-chart palette=\"brand\">` with three series, integration logos are the greyscale Logo library files, and shadows are black at low opacity. No colour is defined outside --aha-* tokens.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: every rule followed.",
+      "expected_output": "All eight criteria PASS. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PASS",
+          "C4": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS",
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review the presenting canvas for a customer deck. The slide uses the presenter's own theme (a navy background with yellow headings) and an uploaded photo; the result chart uses `palette=\"deck\"`. The AhaSlides chrome around it (the control bar and its buttons) is untouched DS components.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: the presenter-content exemption.",
+      "expected_output": "C1 and C6 PASS: the navy, the yellow, the photo and the deck palette are presenter content, which is exempt; our own chrome stays in the palette. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C6": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    }
+  ]
+}

@@ -1,26 +1,18 @@
 {
   "surface": "background",
   "judgedAgainst": "anti-slop/criteria.json surfaces.background",
-  "portedFrom": {
-    "plugin": "aha-design",
-    "version": "1.80.0",
-    "commit": "b514997",
-    "judge": "aha-design-background-judge",
-    "path": "plugins/aha-design/skills/aha-design-background-judge/evals/evals.json"
-  },
+  "portedFrom": null,
+  "authoredNote": "Rewritten with the criteria for the colour rules of 7 and 8 October 2026 (brand/colour-rules.json, section 3). The earlier set, ported from the aha-design plugin, graded feedback tints and an app-shell grey body as correct.",
   "evals": [
     {
       "id": 1,
-      "prompt": "Review a dashboard surface diff. A plain data panel is styled `.dashboard-panel { background: var(--brand-violet-purple); }` and a summary card is styled `.hero-card { background: #f3e8ff; }` described in the PR as 'tinted for emphasis'. Neither is a feedback surface, an app-shell layout, or an interactive state, and nothing in the task asked for a coloured background.",
+      "prompt": "Review a dashboard screen. A plain data panel is styled `.dashboard-panel { background: var(--aha-logo-purple); }` and a summary card is `.summary-card { background: var(--aha-color-primary); }`, described in the pull request as 'coloured for emphasis'. Neither is a state, a highlighted panel, presenting or a viewer. Everything else on the screen is white and token-bound, with no gradients.",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets C1 — decorative/brand fill on a neutral surface with no sanctioned reason or request.",
-      "expected_output": "C1 (Every surface is white-by-default or a sanctioned exception) FAILs: a neutral data panel is painted brand purple and a card is given a pastel tint 'for emphasis' — neither maps to a sanctioned reason (semantic feedback tint, app-shell colorBgLayout grey, or interactive state fill) and there is no evidence the human requested the colour. Fix: remove the fills so both surfaces inherit white colorBgContainer (or, if the colour was actually requested, cite where in the task and keep it as a brand token). This is a C1-only failure — do not re-flag under C3. C2 and C3 pass. Overall: NEEDS FIX.",
+      "notes": "Targets C1: a decorative fill on a neutral container.",
+      "expected_output": "C1 FAILs: two neutral containers are painted purple and Vivid Pink for emphasis; neither is an allowed non-white surface. Fix: remove both fills so the containers inherit white. Overall: NEEDS FIX.",
       "assertions": [
-        "Overall verdict is NEEDS FIX",
-        "C1 is marked FAIL",
-        "Notes the panel/card have no feedback/state/layout role and no request",
-        "Does not double-count the same fill under C3"
+        "Overall verdict is NEEDS FIX"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -29,23 +21,19 @@
         }
       },
       "source": {
-        "judge": "aha-design-background-judge",
-        "id": 1,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
     },
     {
       "id": 2,
-      "prompt": "Review a landing surface. The page wrapper is `.page { background: linear-gradient(135deg, #6a1ebb, #16c49a); }` and a promo card is `.cta-card { background: radial-gradient(circle, #7f58f0, #d7b8ff); }`. Both gradients paint the full surface fill; neither is the AI border-gradient technique (there is no transparent border with a white padding-box fill).",
+      "prompt": "Review an app shell. The layout body behind every page is `.app-body { background: var(--aha-bg-layout); }`, so each page reads as a grey page with white cards on it. Cards are white, there are no gradients, no pale pink and no dark surfaces, and every value is a token.",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets C2 — gradient used as a surface background/fill, not the AI border-only exception.",
-      "expected_output": "C2 (No gradient as a background or fill) FAILs: both surfaces use a gradient as their background fill (a linear-gradient page and a radial-gradient card), and neither is the sole sanctioned exception — the AI affordance, where the gradient sits on the border-box only with a white padding-box fill. Fix: replace the gradient fills with a solid token (white colorBgContainer by default), reserving gradients only for the AI border technique. C1 and C3 pass. Overall: NEEDS FIX.",
+      "notes": "Targets C2: grey as the page background.",
+      "expected_output": "C2 FAILs: light grey is the background of the whole page. Grey is allowed only for surfaces inside or beside the white page. Fix: make the layout body white and keep grey for the sidebar, table headers or cards. Overall: NEEDS FIX.",
       "assertions": [
-        "Overall verdict is NEEDS FIX",
-        "C2 is marked FAIL",
-        "Identifies both the linear-gradient and radial-gradient surface fills",
-        "Notes the AI border-gradient (white padding-box) is the only exception"
+        "Overall verdict is NEEDS FIX"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -54,23 +42,19 @@
         }
       },
       "source": {
-        "judge": "aha-design-background-judge",
-        "id": 2,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
     },
     {
       "id": 3,
-      "prompt": "Review an inline result panel that is a legitimate semantic feedback surface (an incorrect-answer banner). It is styled `.answer--incorrect { background: #fff1f0; }` — a raw hex literal, even though it is the correct error-tint colour, instead of the semantic token.",
+      "prompt": "Review a settings page. Three separate panels on the same screen (plan summary, a tip, and an invite prompt) are each styled `background: var(--aha-bg-accent)`. The page is white, hovered rows use the DS list component, there are no gradients and no dark surfaces, and every value is a token.",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets C3 — legitimately non-white feedback surface but value is a raw hex instead of a token.",
-      "expected_output": "C3 (Non-white colour comes from a token, never a raw hex) FAILs: this surface is legitimately non-white (a sanctioned semantic feedback tint, so C1 passes), but the value is a raw `#fff1f0` hex literal rather than the semantic token. Fix: replace the hex with `var(--aha-colorErrorBg)` so the error tint comes from the token. C1 and C2 pass. Overall: NEEDS FIX.",
+      "notes": "Targets C3: more than one highlighted panel.",
+      "expected_output": "C3 FAILs: three pale pink panels on one screen; at most one highlighted panel per screen is allowed. Fix: keep one and make the others white. Overall: NEEDS FIX.",
       "assertions": [
-        "Overall verdict is NEEDS FIX",
-        "C3 is marked FAIL",
-        "Confirms the surface is allowed non-white (C1 passes) so the failure is only C3",
-        "Fix replaces #fff1f0 with var(--aha-colorErrorBg)"
+        "Overall verdict is NEEDS FIX"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -79,35 +63,163 @@
         }
       },
       "source": {
-        "judge": "aha-design-background-judge",
-        "id": 3,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
     },
     {
       "id": 4,
-      "prompt": "Review a dashboard build. The main data Card is left unset so it inherits white colorBgContainer, the app shell Layout body uses `background: var(--aha-colorBgLayout)` grey, list rows use `.list-row:hover { background: var(--aha-colorFillTertiary); }`, and an incorrect-answer panel uses `.answer--incorrect { background: var(--aha-colorErrorBg); }`. No gradients anywhere and every non-white value is a token/--aha-* var.",
+      "prompt": "Review a dashboard change. It adds a 'Dark mode' switch to the user menu; when on, `body.theme-dark { background: var(--aha-bg-dark); }` and cards use `var(--aha-bg-dark-raised)`. In the default theme everything is white and token-bound, with no gradients.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4: a dark mode.",
+      "expected_output": "C4 FAILs: there is no dark mode, and black backgrounds are for full-screen presenting and video or image viewers only. Fix: remove the dark theme. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review an import screen. A failed-import banner is styled `.banner--error { background: var(--import-error-tint); }` where the app defines `--import-error-tint` as a pale red, and a success banner uses a pale green custom property in the same way. Both carry an icon and a sentence. Everything else is white and token-bound.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5: a tinted status surface.",
+      "expected_output": "C5 FAILs: status surfaces are tinted red and green. Fix: keep both banners white (the DS alert) and carry the meaning with the icon, the wording and an outline. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review a page. The page wrapper is `.page { background: linear-gradient(135deg, var(--aha-white), var(--aha-bg-accent)); }` and a promo card is `.cta-card { background: radial-gradient(circle, var(--aha-white), var(--aha-bg-accent)); }`. Neither is the AI border technique: there is no transparent border with a white padding-box fill.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6: a gradient fill.",
+      "expected_output": "C6 FAILs: both surfaces use a gradient as their fill, and neither is the AI border exception. Fix: use a solid fill. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review a list screen on a white page. A hovered row is styled `.row:hover { background: #F7F7F7; }` and a sidebar is `.sidebar { background: #F7F7F7; }`. The grey is the right grey and both surfaces sit inside or beside the white page, but the values are literals. No gradients, no pale pink panels, no dark surfaces.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7: allowed surfaces, raw values.",
+      "expected_output": "C7 FAILs: both greys are raw literals. C2 passes because grey is used where it is allowed. Fix: bind `var(--aha-bg-hover)` and `var(--aha-bg-layout)`. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL",
+          "C2": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review the slide editor. To make it feel on-brand, the editor workspace has a background image of the logo's four hooks, traced by hand as an inline shape and scaled to fill the workspace behind the slide list and the settings panel. The page is otherwise white and grey from tokens, with no gradients.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C8: Splash on the editor, hand-drawn.",
+      "expected_output": "C8 FAILs: a Splash background on a dense app screen, and the hooks are redrawn by hand. Fix: remove it; a Splash background belongs on an empty state or a hero area and comes from the Background library. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review a dashboard. The page and its cards are white (unset). The sidebar is `var(--aha-bg-layout)` and table headers are `var(--aha-bg-container-secondary)`. A selected row is `var(--aha-bg-accent)`, and one 'What is new' panel on the screen is also `var(--aha-bg-accent)`. A failed-import message is the DS alert on white, with an icon and a sentence. There are no gradients, no dark surfaces and no raw colour values.",
       "files": [],
       "label": "good-control",
-      "notes": "Good control — white-default plus only sanctioned non-white surfaces, all token-bound.",
-      "expected_output": "All 3 criteria PASS: every surface is either white-by-default (the Card) or a sanctioned exception (app-shell colorBgLayout grey, an interactive hover fill, a semantic feedback tint), there are no gradient backgrounds/fills, and every non-white value comes from a token/--aha-* var rather than a raw hex. Overall: OK TO SHIP.",
+      "notes": "Control: every allowed non-white surface, used correctly.",
+      "expected_output": "Every criterion PASSes: white page and cards, grey only beside or inside the page, pale pink for a selected state and one highlighted panel, an untinted status message, no gradients, tokens throughout. Overall: OK TO SHIP.",
       "assertions": [
-        "Overall verdict is OK TO SHIP",
-        "C1, C2, and C3 are all marked PASS",
-        "No criterion is marked FAIL"
+        "Overall verdict is OK TO SHIP"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",
         "criteria": {
           "C1": "PASS",
           "C2": "PASS",
-          "C3": "PASS"
+          "C3": "PASS",
+          "C5": "PASS",
+          "C6": "PASS",
+          "C7": "PASS"
         }
       },
       "source": {
-        "judge": "aha-design-background-judge",
-        "id": 4,
-        "remap": "identity — judge criterion ids equal the DS criterion ids"
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review two screens. The full-screen presenting view has `background: var(--aha-bg-dark)` behind the slide, and the image viewer overlay does too. The dashboard's empty state (no presentations yet) shows `splash-right-white-16x9.svg` from the Background library behind the heading and the primary button. An AI prompt input has a gradient on its border with a white padding-box fill. Nothing else is non-white.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: the three narrow allowances.",
+      "expected_output": "C4 PASSes: black only for presenting and a viewer. C8 PASSes: a library Splash file on an empty state. C6 PASSes: the gradient is the AI border exception. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS",
+          "C6": "PASS",
+          "C8": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
     }
   ]
