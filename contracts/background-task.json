@@ -4,16 +4,18 @@
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
   "badge": "shared web component",
-  "element": "aha-background-task",
-  "summary": "The pattern for any long-running process on AhaSlides — import, export, upload, duplicate: a fixed bottom-right card that tracks one background task from start to finish — icon, subject, bar, caption and its terminal states.",
-  "highlights": [
-    "Pattern for any long-running process: import, export, upload, duplicate",
-    "File name as the heading, inline link action and the rating",
-    "Bar eases towards 90% when there is no real percentage",
-    "Stack element: bottom-right, newest on top"
+  "environment": [
+    "product"
   ],
-  "lead": "ONE custom element — <aha-background-task> — is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), the DS Progress bar in its running state (moving stripes) and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar animates on the DS motion tokens instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed). A process label (\"PDF\", \"Import\") can sit before the heading, split from it by a thin divider; the description line can end in an inline link (\"Download didn't start? Retry\") and the leading icon is centred on heading and description together. A process with no real percentage sets `no-percentage`: the bar eases towards 90% on its own while the caption says what is happening. Several processes share the <aha-background-task-stack> column: one card per process, updated in place, newest on top.",
-  "codeNote": "Reach for <aha-background-task> for any background process (import, export, upload, duplicate) — a pattern for tracking one task, not a general component. It is not a one-line confirmation (Toast), a titled message (Notification) or a blocking wait (Modal / Spin). Every value binds to a DS token: text-default heading, text-secondary description and caption, radius-lg, the shadow-floating elevation, the space scale, and the type, line-height and motion tokens. The bar is <aha-progress size=\"small\" status=\"active\">, not a hand-made track. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
+  "element": "aha-background-task",
+  "summary": "Use it to track one long-running process that keeps running while the user carries on working in the editor or dashboard. Use it only when all four hold: the user started it, it takes over 10 seconds, nothing is blocked, and it has a clear end (finished, cancelled or failed) with a result to point at, such as a file or deck. It is a fixed bottom-right card that tracks the task from start to finish — icon, subject, bar, caption and its terminal states.",
+  "highlights": [
+    "Tracks one long-running process while the user carries on working in the editor or dashboard",
+    "Use it when all four hold: the user started it · it takes over 10 seconds · nothing is blocked · it has a clear end (finished, cancelled or failed) with a result to point at, such as a file or deck",
+    "Not for: an instant confirmation (Toast) · a message that is not a live task (Notification) · a wait the user must sit through (Modal or Spin) · progress that belongs where the user is looking, such as an upload field in a form (Uploader or Progress) · anything the system does on its own, such as autosave"
+  ],
+  "lead": "ONE custom element — <aha-background-task> — tracks one long-running process that keeps running while the user carries on working in the editor or dashboard. Use it only when all four hold: the user started the process; it takes over 10 seconds; nothing is blocked; it has a clear end (finished, cancelled or failed) with a result to point at, such as a file or deck. It is the presenter's background-task pattern (ImportProgressNotification). It shows a leading task icon, the task's subject (a file, deck or export name), the DS Progress bar in its running state (moving stripes) and a caption row with an optional tertiary Cancel button. It updates in place through five states — progress, success, canceled, offline, error — by toggling attributes on persistent nodes, so the bar animates on the DS motion tokens instead of being recreated. The ✕ appears on success, canceled and error. A `footer` slot carries the inline cancel confirmation or the connection-lost buttons; the success state always shows the DS <aha-csat> rating by default (a finished card without it is not a valid state), and a `footer` overrides it. Cancel is a tertiary <aha-button size=\"sm\">. The consumer owns the task, the copy and the timers (the presenter's Import dismisses a successful card only after the rating is answered or the ✕ is pressed). A process label (\"PDF\", \"Import\") can sit before the heading, split from it by a thin divider; the description line can end in an inline link (\"Download didn't start? Retry\") and the leading icon is centred on heading and description together. A process with no real percentage sets `no-percentage`: the bar eases towards 90% on its own while the caption says what is happening. Several processes share the <aha-background-task-stack> column: one card per process, updated in place, newest on top.",
+  "codeNote": "Reach for <aha-background-task> only to track one long-running process that keeps running while the user carries on working, and only when all four hold: the user started it, it takes over 10 seconds, nothing is blocked, and it has a clear end (finished, cancelled or failed) with a result to point at, such as a file or deck. It is a pattern for tracking one task, not a general component. It is not an instant confirmation (Toast), a message that is not a live task (Notification), a wait the user must sit through (Modal / Spin), progress that belongs where the user is looking, such as an upload field in a form (Uploader / Progress), or anything the system does on its own, such as autosave. Every value binds to a DS token: text-default heading, text-secondary description and caption, radius-lg, the shadow-floating elevation, the space scale, and the type, line-height and motion tokens. The bar is <aha-progress size=\"small\" status=\"active\">, not a hand-made track. Deprecated: <aha-progress-toast> (0.81.0) stays registered as an alias of the same element and the `@ahaslides-product/design/aha-progress-toast` entry still resolves; migrate to <aha-background-task> (the API is unchanged).",
   "tokensUsed": [
     "bg-elevated",
     "text-default",
@@ -166,19 +168,27 @@
     "whenToUse": [
       {
         "what": "Background task",
-        "when": "any long-running process the user keeps working beside — import, export, upload, duplicate"
+        "when": "one long-running process that keeps running while the user carries on working in the editor or dashboard, when all four hold: the user started it, it takes over 10 seconds, nothing is blocked, and it has a clear end (finished, cancelled or failed) with a result to point at, such as a file or deck."
       },
       {
         "what": "Toast",
-        "when": "a one-line past-tense confirmation with nothing to track"
+        "when": "an instant confirmation, a one-line past-tense message with nothing to track"
       },
       {
         "what": "Notification",
         "when": "a titled message with detail and at most one action, not a live task"
       },
       {
-        "what": "Modal",
-        "when": "the user must wait for or answer the task before continuing"
+        "what": "Modal or Spin",
+        "when": "a wait the user must sit through, or must answer before continuing"
+      },
+      {
+        "what": "Uploader or Progress",
+        "when": "progress that belongs where the user is looking, such as an upload field in a form"
+      },
+      {
+        "what": "Nothing",
+        "when": "anything the system does on its own, such as autosave: no card"
       }
     ],
     "note": "One card per task, updated in place. The card has no timers: the consumer dismisses a successful card only after the rating is answered or the ✕ is pressed and leaves canceled / offline / error until the user acts. Cancel with slides already created asks for confirmation in the footer (\"Keep waiting\" primary, \"Cancel import\" secondary, small, right-aligned); offline offers \"Try again\" and \"Cancel import\". Copy is the consumer's: the presenter's Import uses \"Import cancelled\", \"Connection lost\" and \"Import failed\" and is the reference implementation; an export or upload reuses the same shape with its own verbs. Failed: the leading task icon stays, the heading stays neutral (no red border), one short reason line that names the object (\"Couldn’t import your file.\") and a secondary \"Try again\" button in the footer that reruns the same process in the same card. Finished: the rating spans the card under a divider, and the card stays until it is rated or dismissed.",

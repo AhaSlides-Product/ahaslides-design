@@ -22,12 +22,54 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.152.2 — 2026-10-09
+## 0.160.0 — 2026-10-12
 ### Added
 - Progress: a running state. `status="active"` on a line `<aha-progress>` / `<aha-progressbar>` now draws white diagonal stripes moving over the fill, on the new `--aha-motion-loop`; they stop under `prefers-reduced-motion`. Steps and circle are unchanged. The Progressbar page has a Running example. (#184)
 - Tokens: `--aha-shadow-floating` (the Notification elevation), `--aha-layer-floating` (1100) and `--aha-floating-inset-bottom` (88px) for fixed floating cards. (#184)
 ### Changed
 - Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default, description and caption in text-secondary, radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
+
+## 0.157.0 — 2026-10-12
+### Added
+- Icon search by meaning: every glyph carries at least 3 meaning words (`icons/meaning.json`, copied into `icons/registry.json`), so "help" finds `system-question` and "delete" finds `system-trash`. Search with `npm run icon-search <words>` (in an app: `node node_modules/@ahaslides-product/design/icon-search.mjs <words>`), the Icon library search box (`icons/index.html?q=<words>`), `icons.agent.json` (each icon's `meaning`, plus a `search` key) or `icons.llms.txt` → Find by meaning; `llms.txt` points there. The runtime bundles carry no search words. (#229)
+- Near-duplicate icon gate: `icon-similarity.mjs` draws every glyph as `<aha-icon>` does at 16px (pure JS, no browser) and `standards.mjs` fails a new or changed glyph at or above 86% overlap with an existing one; outline / `-filled` variants and aliases are exempt. The 30 pairs that predate the gate are listed in `icon-duplicates.baseline.json`, which may only shrink (`npm run icon-duplicates` prints them; `node icon-similarity.mjs --check <file.svg>` shows a candidate's closest glyphs). `standards.mjs` also fails a glyph with fewer than 3 meaning words. (#229)
+- CI fails a pull request that adds a glyph under `icons/svg/` without an `Icon search:` line naming each close existing match, by look or by meaning, and why it does not fit (`.github/scripts/pr-icon-search.mjs`, new line in the pull request template). (#229)
+- Agent plugin: the write guard blocks a hand-made icon in an app, an inline `<svg>` or a new `.svg` file, and points to the icon search. Markup files (`.tsx`, `.jsx`, `.vue`, `.svelte`, `.astro`) are always checked; `.ts`, `.js` and `.html` files only in a project whose `package.json` depends on `@ahaslides-product/design`. Test files, lines marked `ds-lint-allow: svg (why)`, `<svg>` tags already in the file, react-native-svg's `<Svg>`, and the design system's own glyph, illustration and logo sources are allowed. The aha-design skill's icon step names the search. (#229)
+
+## 0.156.0 — 2026-10-12
+### Removed
+- Icon library: the `system-question-circle` glyph is gone. The name still resolves as a deprecated back-compat alias of `system-question`, so consumers that reference it keep working while they migrate; the alias is not listed as its own glyph on the Icon library page (which now lists only real glyphs). The registry still holds 305 names: 300 glyph files plus 5 back-compat aliases. (#228)
+
+### Changed
+- `<aha-tooltip help>` now draws `system-question` instead of `system-question-circle`. The tooltip, section-header, setting-row and setting-group contracts name `system-question` for the help glyph. (#228)
+
+## 0.154.1 — 2026-10-12
+### Changed
+- Background task: the use case is now stated up front. It tracks one long-running process that keeps running while the user carries on working in the editor or dashboard, and applies only when all four hold: the user started it, it takes over 10 seconds, nothing is blocked, and it has a clear end (finished, cancelled or failed) with a result to point at. Not for a Toast, Notification, Modal or Spin, an Uploader or Progress, or anything the system does on its own (autosave). The rules lead the docs page intro and sit in the contract's summary and When to use, so `background-task.agent.json`, `background-task.md`, `design.md` and `llms.txt` carry them. Docs only, API unchanged. (#230)
+
+## 0.154.0 — 2026-10-12
+### Added
+- Environments and routes: every contract, guideline and marketing or brand asset declares `environment` (one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`). The one table, `environments.json` (now in the package), holds each environment's route (guidelines, judge, lint, plugin, owner); `llms.txt` prints it under **Routes**, and index lines show an item's environment. Adding an environment or an item folder is a data change only. (#226)
+- Every generated feed opens with a three-line route header pointing at `llms.txt` Routes, `anti-slop.md`, `guidelines.llms.txt` and the agent plugin (a `route` key in `icons.agent.json` and `anti-slop.agent.json`); per-component and marketing agent feeds carry `environment`. (#226)
+- `standards.mjs` fails a new or changed item with no environment or an unknown one; the 146 older items wait in `environments.baseline.json`, which may only shrink. CI also fails a pull request that touches `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/` or `illustrations/` without an `Environment:` line in its body matching the changed items (new pull request template). (#226)
+- `npm run route-scan`: report-only scan (always exits 0, `--json` for routines) of items with no environment, an unknown one, or one their folder does not serve. The aha-design skill now picks the environment before the surface. (#226)
+
+## 0.153.2 — 2026-10-12
+### Fixed
+- `standards.mjs` now fails a pull request whose `package.json` version is not strictly greater than the base branch's (read from `origin/<base>`, failing closed if it cannot be read); the existing check already requires the top CHANGELOG entry to equal `package.json`. Stops stale-base PRs from claiming an already-released version. (#173)
+
+## 0.153.1 — 2026-10-12
+### Fixed
+- Icon docs: the registry count reads 305 (301 glyph files, 265 from Figma DS V3 and 36 Phosphor, plus 4 back-compat aliases) in the README, the Icon contract and the icon snippets, after `filetype-report` joined it (#225)
+
+## 0.153.0 — 2026-10-12
+### Added
+- Icons: `filetype-report` joins the File type family beside Course, Knowledge base, Lesson, Presentation and Survey, drawn in the DS icon ink so it follows the text colour like the others (#224)
+
+## 0.151.1 — 2026-10-12
+### Changed
+- Every text field now follows the `<aha-input>` look: rest border `--aha-border-default`, focus border `--aha-color-primary` with the soft `--aha-focus-ring-soft` ring (replaces the solid `--aha-border-focus` ring). Changed components: `<aha-counted-input>`, `<aha-counted-textarea>`, `<aha-select>`, `<aha-number-with-unit>`, `<aha-autocomplete>`, `<aha-option-row>` (ring only) and the audience `.field` rest border (#223)
+- `<aha-counted-textarea>`: radius 8 (was 6) and the "textarea exception" is gone: focus now uses the primary border like the other fields (#223)
 
 ## 0.151.0 — 2026-10-09
 ### Added

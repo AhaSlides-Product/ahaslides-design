@@ -11,6 +11,8 @@ the same release; never the network, so a write is never slowed down).
 Firing modes (per rule in rules.json):
 - "block"  -> exit 2, message on stderr. Only where a canonical DS component
               exists (table -> DataTable) or the import is forbidden (icon sets).
+A hand-made icon (an inline <svg> or a new .svg file) is also blocked, pointing at
+the DS icon search (icon_guard.py).
 - "nudge"  -> exit 0 with hookSpecificOutput.additionalContext; the write proceeds.
 
 Contract:
@@ -37,6 +39,7 @@ except Exception:  # never let a logging-import problem break a write
     firing_log = None
 
 import ds_criteria
+import icon_guard
 import legacy_vue
 
 CRITERIA_SHOWN_PER_SURFACE = 8
@@ -89,6 +92,8 @@ def main():
         _log("noop", "bad_payload")
         return 0
     path = tool_input.get("file_path") or ""
+    if _block_hand_made_icon(data, tool_input, path):
+        return 2
     if not FRONTEND_EXT.search(path):
         return 0
 
@@ -166,6 +171,24 @@ def main():
         _log("nudge", ",".join(s for s, _ in nudges) + _source_tag(criteria))
         return 0
     return 0
+
+
+def _block_hand_made_icon(data, tool_input, path):
+    cwd = data.get("cwd") or os.getcwd()
+    try:
+        message = icon_guard.check(data.get("tool_name"), tool_input, cwd)
+        if message:
+            absolute_path = path if os.path.isabs(path) else os.path.join(cwd, path)
+            if legacy_vue.is_vue2(absolute_path) and legacy_vue.is_existing_file(absolute_path):
+                return False
+    except Exception:
+        return False
+    if not message:
+        return False
+    criteria = ds_criteria.load(cwd)
+    print("aha-design guard\n\n" + message + _criteria_footer(criteria, ["icons"]), file=sys.stderr)
+    _log("block", "icons-svg" + _source_tag(criteria))
+    return True
 
 
 def _source_tag(criteria):

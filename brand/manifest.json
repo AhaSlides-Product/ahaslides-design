@@ -1,0 +1,11 @@
+{
+ "$comment": "Brand assets that are not tokens, logos or illustrations. Each entry names its file and the environments it serves; generate.mjs publishes visual-identity-colour-rules.html as foundations/brand-colour-rules.html.",
+ "assets": [
+  {
+   "id": "visual-identity-colour-rules",
+   "name": "Visual identity colour rules",
+   "file": "visual-identity-colour-rules.html",
+   "environment": ["product", "audience", "marketing-web", "video", "social-ads"]
+  }
+ ]
+}
