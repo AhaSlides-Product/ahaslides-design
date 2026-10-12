@@ -92,7 +92,7 @@ export function evaluateEnvironmentGate({ table, items, baseline, baseItems = nu
 }
 
 export function declaredEnvironments(pullRequestBody) {
-  const line = String(pullRequestBody || '').match(/^[ \t*_>-]*Environment[*_]*:[*_ \t]*(.*)$/mi);
+  const line = String(pullRequestBody || '').match(/^[ \t*_>-]*Environment[*_]*:(.*)$/mi);
   if (!line) return null;
   return [...new Set(line[1].replace(/[`*_]/g, '').split(/[\s,]+/).filter(Boolean).map(name => name.toLowerCase()))];
 }
