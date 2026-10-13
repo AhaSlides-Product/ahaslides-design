@@ -30,7 +30,7 @@ test('canvas deck: accent hover and press darken 12% and 22%, label and chip was
   assert.equal(pink['--aha-button-primary-bg-press'], '#B40B51');
   assert.equal(pink['--aha-button-primary-text'], '#FFFFFF');
   assert.equal(pink['--aha-button-primary-shortcut-bg'], 'rgba(0,0,0,.2)');
-  assert.equal(pink['--aha-button-elevate-primary-hover'], 'var(--aha-button-elevate-primary)');
+  assert.equal(pink['--aha-button-elevate-primary-hover'], 'var(--aha-button-elevate-primary, 0 2px 0 0 rgba(0,0,0,.04))');
   assert.equal(pale['--aha-button-primary-text'], '#1A1A1A');
   assert.match(pale['--aha-button-primary-shortcut-bg'], /10%/);
 });
@@ -69,7 +69,10 @@ const measure = String.raw`(async () => {
   out.tipChip = { ...box(tipChip), font: style(tipChip).fontSize, bg: style(tipChip).backgroundColor, ariaHidden: tipChip.getAttribute('aria-hidden'), text: tipChip.textContent };
   out.tipChipEndInset = Math.round(bubble.getBoundingClientRect().right - tipChip.getBoundingClientRect().right);
   out.tipNameToChip = Math.round(tipChip.getBoundingClientRect().left - bubble.getBoundingClientRect().left - 12);
+  const muteButtonBefore = document.getElementById('mute').shadowRoot.querySelector('button');
   tip.setAttribute('text', 'Mute the background music for everyone in the room');
+  out.sameMuteButtonAfterTipText = document.getElementById('mute').shadowRoot.querySelector('button') === muteButtonBefore;
+  out.muteDescriptionAfterTipText = muteButtonBefore.getAttribute('aria-description');
   out.longTipHeight = Math.round(bubble.getBoundingClientRect().height);
   const defaultBubble = document.getElementById('default-tip').shadowRoot.querySelector('.bubble');
   out.defaultBubble = { font: style(defaultBubble).fontSize + '/' + style(defaultBubble).lineHeight, padding: style(defaultBubble).padding, shadow: style(defaultBubble).boxShadow, chipHidden: defaultBubble.querySelector('.shortcut').hidden };
@@ -110,6 +113,8 @@ test('the shortcut chip and the lg tooltip render the signed-off canvas values',
   assert.equal(r.tipChip.ariaHidden, 'true');
   assert.equal(r.tipChipEndInset, 6);
   assert.equal(r.longTipHeight, 36, 'the lg tooltip stays on one line past 280px');
+  assert.equal(r.sameMuteButtonAfterTipText, true, 'a tooltip text change does not rebuild the trigger button');
+  assert.equal(r.muteDescriptionAfterTipText, 'Mute the background music for everyone in the room');
   assert.equal(r.defaultBubble.font, '12px/18px');
   assert.equal(r.defaultBubble.padding, '6px 10px');
   assert.equal(r.defaultBubble.chipHidden, true);
