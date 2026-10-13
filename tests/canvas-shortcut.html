@@ -22,6 +22,10 @@
     <aha-tooltip id="named-tip" text="copy link "><button id="named">Copy link</button></aha-tooltip>
     <aha-tooltip id="default-tip" text="Copy share link" open><button>Top</button></aha-tooltip>
     <aha-tooltip id="help-tip" help text="Help hint"></aha-tooltip>
+    <span id="author-note">Opens the share panel</span>
+    <aha-tooltip id="described-tip" text="Copy link"><aha-button id="described" icon-only aria-label="Share" aria-describedby="author-note"><aha-icon name="system-link" size="16" decorative></aha-icon></aha-button></aha-tooltip>
+    <aha-tooltip id="native-author-tip" text="Copy link"><button id="native-author" aria-describedby="author-note">Share</button></aha-tooltip>
+    <aha-tooltip id="hover-tip" text="Hover hint"><button id="hover-trigger">Hover me</button></aha-tooltip>
   </div>
   <script type="module">
     await import('../lib/icons.js');

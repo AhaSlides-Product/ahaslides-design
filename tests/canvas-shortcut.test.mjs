@@ -72,7 +72,7 @@ const measure = String.raw`(async () => {
   const muteButtonBefore = document.getElementById('mute').shadowRoot.querySelector('button');
   tip.setAttribute('text', 'Mute the background music for everyone in the room');
   out.sameMuteButtonAfterTipText = document.getElementById('mute').shadowRoot.querySelector('button') === muteButtonBefore;
-  out.muteDescriptionAfterTipText = muteButtonBefore.getAttribute('aria-description');
+  out.muteDescriptionAfterTipText = (muteButtonBefore.ariaDescribedByElements || []).map((node) => node.textContent).join(' ');
   out.longTipHeight = Math.round(bubble.getBoundingClientRect().height);
   const defaultBubble = document.getElementById('default-tip').shadowRoot.querySelector('.bubble');
   out.defaultBubble = { font: style(defaultBubble).fontSize + '/' + style(defaultBubble).lineHeight, padding: style(defaultBubble).padding, shadow: style(defaultBubble).boxShadow, chipHidden: defaultBubble.querySelector('.shortcut').hidden };
@@ -134,9 +134,11 @@ test('a tooltip text reaches the trigger\'s accessible description', { skip }, a
       ahaButton: await descriptionOf(command, `document.getElementById('mute').shadowRoot.querySelector('button')`),
       native: await descriptionOf(command, `document.getElementById('native')`),
       named: await descriptionOf(command, `document.getElementById('named')`),
-      namedAttribute: (await command('Runtime.evaluate', { expression: `document.getElementById('named').hasAttribute('aria-description')`, returnByValue: true })).result.value,
-      muteAttribute: (await command('Runtime.evaluate', { expression: `document.getElementById('mute').shadowRoot.querySelector('button').hasAttribute('aria-description')`, returnByValue: true })).result.value,
+      namedAttribute: (await command('Runtime.evaluate', { expression: `document.getElementById('named').hasAttribute('aria-describedby')`, returnByValue: true })).result.value,
+      muteAttribute: (await command('Runtime.evaluate', { expression: `document.getElementById('mute').hasAttribute('aria-describedby')`, returnByValue: true })).result.value,
       help: await descriptionOf(command, `document.getElementById('help-tip').shadowRoot.querySelector('.help')`),
+      ahaButtonWithAuthorIds: await descriptionOf(command, `document.getElementById('described').shadowRoot.querySelector('button')`),
+      nativeWithAuthorIds: await descriptionOf(command, `document.getElementById('native-author')`),
     };
   }, { readyExpr, timeout: 45000 });
   assert.equal(r.ahaButton.name, 'Mute music (M)');
@@ -146,4 +148,78 @@ test('a tooltip text reaches the trigger\'s accessible description', { skip }, a
   assert.equal(r.namedAttribute, false);
   assert.equal(r.native.description, 'Copy link');
   assert.equal(r.help.description, 'Help hint');
+  assert.equal(r.ahaButtonWithAuthorIds.description, 'Opens the share panel Copy link', 'an aha-button forwards both the author id and the tooltip id');
+  assert.equal(r.nativeWithAuthorIds.description, 'Opens the share panel Copy link');
+});
+
+const lifecycle = String.raw`(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const out = {};
+  const tip = document.getElementById('native-author-tip');
+  const trigger = document.getElementById('native-author');
+  const node = () => tip.querySelector('[slot="aha-tooltip-description"]');
+  const hidden = getComputedStyle(node());
+  out.hiddenNode = { position: hidden.position, width: hidden.width, clipPath: hidden.clipPath, display: hidden.display, visibility: hidden.visibility };
+  out.tipSize = tip.offsetWidth + 'x' + tip.offsetHeight;
+  out.triggerSize = trigger.offsetWidth + 'x' + trigger.offsetHeight;
+  out.withText = trigger.getAttribute('aria-describedby');
+  tip.removeAttribute('text');
+  out.withoutText = trigger.getAttribute('aria-describedby');
+  out.nodeWithoutText = !!node();
+  tip.setAttribute('text', 'Copy link');
+  const parent = tip.parentNode;
+  tip.remove();
+  out.afterDisconnect = trigger.getAttribute('aria-describedby');
+  out.nodeAfterDisconnect = !!node();
+  parent.append(tip);
+  out.afterReconnect = trigger.getAttribute('aria-describedby');
+  const replacement = document.createElement('button');
+  replacement.textContent = 'Other';
+  trigger.replaceWith(replacement);
+  await frame();
+  out.oldTriggerAfterSwap = trigger.getAttribute('aria-describedby');
+  out.newTriggerAfterSwap = (replacement.getAttribute('aria-describedby') || '').startsWith('aha-tip-');
+  const button = document.getElementById('described');
+  button.removeAttribute('aria-describedby');
+  out.ahaButtonClearedElements = button.shadowRoot.querySelector('button').ariaDescribedByElements;
+
+  const hover = document.getElementById('hover-tip');
+  const bubble = hover.shadowRoot.querySelector('.bubble');
+  const visible = () => getComputedStyle(bubble).visibility === 'visible';
+  hover.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' })); await frame();
+  out.hoverShown = visible();
+  const rect = bubble.getBoundingClientRect();
+  const triggerRect = document.getElementById('hover-trigger').getBoundingClientRect();
+  const gapPoint = document.elementFromPoint(rect.left + rect.width / 2, (rect.bottom + triggerRect.top) / 2);
+  const bubblePoint = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  out.gapHitsTooltip = gapPoint === hover;
+  out.bubbleHitsTooltip = bubblePoint === hover;
+  document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  await frame();
+  out.afterEscape = visible();
+  hover.dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse' })); await frame();
+  hover.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' })); await frame();
+  out.reshownAfterLeave = visible();
+  hover.dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse' })); await frame();
+  return out;
+})()`;
+
+test('the hidden description node stays out of layout, cleans up, and the tooltip meets WCAG 1.4.13', { skip }, async () => {
+  const r = await evaluateInPage(fixture, lifecycle, { readyExpr, timeout: 45000 });
+  assert.deepEqual(r.hiddenNode, { position: 'absolute', width: '1px', clipPath: 'inset(50%)', display: 'block', visibility: 'visible' });
+  assert.equal(r.tipSize, r.triggerSize, 'the hidden node adds nothing to the tooltip box');
+  assert.match(r.withText, /^author-note aha-tip-\d+-description$/);
+  assert.equal(r.withoutText, 'author-note', 'only the tooltip id is removed');
+  assert.equal(r.nodeWithoutText, false);
+  assert.equal(r.afterDisconnect, 'author-note');
+  assert.equal(r.nodeAfterDisconnect, false);
+  assert.match(r.afterReconnect, /^author-note aha-tip-\d+-description$/);
+  assert.equal(r.oldTriggerAfterSwap, 'author-note', 'a replaced trigger loses only the tooltip id');
+  assert.equal(r.newTriggerAfterSwap, true);
+  assert.equal(r.ahaButtonClearedElements, null);
+  assert.equal(r.hoverShown, true);
+  assert.equal(r.gapHitsTooltip, true, 'the gap between trigger and bubble keeps the hover');
+  assert.equal(r.bubbleHitsTooltip, true, 'the bubble itself is hoverable');
+  assert.equal(r.afterEscape, false, 'Esc dismisses a hover tooltip');
+  assert.equal(r.reshownAfterLeave, true);
 });
