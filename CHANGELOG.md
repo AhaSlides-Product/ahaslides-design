@@ -5,7 +5,7 @@ All notable changes to `@ahaslides-product/design`, **newest first**.
 **The rule:** every merge adds one entry here **and** bumps `version` in `package.json`.
 The top entry's version MUST equal `package.json` → `version` — `standards.mjs` enforces it, so a
 PR that forgets either goes red. The `v<version>` release tag (what `npm publish` ships) matches too.
-The gate also rejects an unfilled `(#129)` placeholder in the top entry: link the **real** PR number.
+The gate also rejects an unfilled `(#234)` placeholder in the top entry: link the **real** PR number.
 
 **Format** — one entry per version:
 
@@ -21,6 +21,10 @@ The gate also rejects an unfilled `(#129)` placeholder in the top entry: link th
 Include only the sections you touched. **Versioning is [SemVer](https://semver.org)** — pre-1.0:
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
+
+## 0.164.5 — 2026-10-13
+### Fixed
+- The app-shell eval fixture `pass-dashboard-shell` no longer sets the content region to `--aha-bg-layout`: the page body is white, as rule 3.6 and background criterion C2 require, and the join card is told apart by a `--aha-border-default` border. Rules, tokens and the other grey uses (sidebar, table header, editor workspace) are unchanged. (#129)
 
 ## 0.164.3 — 2026-10-13
 ### Changed
