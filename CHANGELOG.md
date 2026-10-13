@@ -25,7 +25,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.162.1 — 2026-10-13
 ### Fixed
 - `<aha-tooltip>` edge-aligned placements (`top-end`, `bottom-end`, `left-end`, `right-start`, `right-end` and the rest): the arrow is the same 10px triangle as the centred placements. Before, `top-end` and `bottom-end` kept `left:50%` beside `right:16px` (a 26px stretched box), `left-end` kept `top:100%` beside `bottom:12px`, and `right-start` and `right-end` kept `left:50%` beside `right:100%`. Every inset is now reset before the placement sets its own. (#231)
-- The edge-aligned arrow points at the trigger: it sits 16px in from the aligned edge (12px on the vertical sides) but no further than the trigger centre, so a 24px icon button gets an arrow over its middle. The trigger size is measured once by a `ResizeObserver` onto the persistent bubble node (`--aha-tip-trigger-w` / `-h`); the shadow DOM is still built once. Triggers wider than 42px render as before. (#231)
+- The `-end` edge-aligned arrow is the exact mirror of the `-start` one: same 10px triangle, 16px in from the aligned edge (12px on the vertical sides), only the side differs.
+### Changed
+- `<aha-tooltip help>`: the built-in `?` icon is `--aha-icon-muted` at rest and `--aha-icon-default` on hover and keyboard focus (was `--aha-text-tertiary`, brand on hover/focus). The 2px brand focus ring is unchanged. (#231)
 
 ## 0.162.0 — 2026-10-12
 ### Changed
