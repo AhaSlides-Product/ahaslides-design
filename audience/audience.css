@@ -138,3 +138,4 @@
   .audience-lib .callout,.audience-lib .decks{grid-template-columns:1fr}
   .audience-lib .al-head h1{font-size:var(--aha-size-h4)}
 }
+.audience-lib .variant-lbl{margin:0;font-size:var(--aha-size-sm);font-weight:600;color:var(--ink-muted)}

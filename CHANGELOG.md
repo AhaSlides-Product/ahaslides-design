@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.165.0 — 2026-10-13
+### Changed
+- Audience library: the `SubmitButton`, `SecondaryButton` and `TertiaryButton` sections are now one `Button` section with three variants, Primary (`<aha-audience-submit>`), Secondary (`secondary-deck`) and Tertiary (`tertiary-deck`), each demo, rule, state and snippet carried across unchanged. Docs-page change only: no tag, attribute, event, export or `lib/` file changes, so no slide type needs to change; the old `#SubmitButton`, `#SecondaryButton` and `#TertiaryButton` page anchors are gone. (#236)
+
 ## 0.164.5 — 2026-10-13
 ### Fixed
 - The app-shell eval fixture `pass-dashboard-shell` no longer sets the content region to `--aha-bg-layout`: the page body is white, as rule 3.6 and background criterion C2 require, and the join card is told apart by a `--aha-border-default` border. Rules, tokens and the other grey uses (sidebar, table header, editor workspace) are unchanged. (#129)
