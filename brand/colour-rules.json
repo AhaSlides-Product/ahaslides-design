@@ -87,13 +87,13 @@
    "id": "s3", "key": "backgrounds-web", "title": "Backgrounds on the web",
    "environment": ["marketing-web", "product"],
    "blocks": [
-    { "type": "paragraph", "text": "Which rules apply depends on how the page is built. A web page built from full-width sections stacked down the page, such as a landing page, a pricing page or an article, follows rules 3.2 to 3.5. A screen of the product app, such as the editor, the dashboard or settings, follows rules 3.6 and 3.7. Every other rule in this section applies to both." },
+    { "type": "paragraph", "text": "Which rules apply depends on how the page is built. A web page built from full-width sections stacked down the page, such as a landing page, a pricing page, an article, a help article, or a sign-up or upgrade page, follows rules 3.2 to 3.5, whether it sits on the public website or inside the product. A screen of the product app, such as the editor, the dashboard or settings, follows rules 3.6 and 3.7. Every other rule in this section applies to both." },
     { "type": "rules", "rules": [
      { "id": "3.1", "text": "The page background is always white." },
-     { "id": "3.2", "environment": ["marketing-web"], "text": "There are two kinds of coloured section: a **Vivid Pink section** and a **pale pink section** (Vivid Pink at 5%). Pale pink sections and boxes are for web pages built from full-width sections, not for screens of the product app." },
-     { "id": "3.3", "environment": ["marketing-web"], "text": "Two coloured sections, of either kind, never sit next to each other. A full white section always sits between them; white padding alone does not count." },
-     { "id": "3.4", "environment": ["marketing-web"], "text": "A page has at most two Vivid Pink sections. Pale pink sections have no limit beyond the rule above." },
-     { "id": "3.5", "environment": ["marketing-web"], "text": "The first screen is white." },
+     { "id": "3.2", "environment": ["product", "marketing-web"], "text": "There are two kinds of coloured section: a **Vivid Pink section** and a **pale pink section** (Vivid Pink at 5%). Pale pink sections and boxes are for web pages built from full-width sections, not for screens of the product app." },
+     { "id": "3.3", "environment": ["product", "marketing-web"], "text": "Two coloured sections, of either kind, never sit next to each other. A full white section always sits between them; white padding alone does not count." },
+     { "id": "3.4", "environment": ["product", "marketing-web"], "text": "A page has at most two Vivid Pink sections. Pale pink sections have no limit beyond the rule above." },
+     { "id": "3.5", "environment": ["product", "marketing-web"], "text": "The first screen is white." },
      { "id": "3.6", "environment": ["product"], "text": "In the product app, light grey is allowed for surfaces that sit inside or beside the white page: cards, sidebars, input fields, table headers and the editor workspace around the slide. Grey is never the background of a whole page or a full-width section." },
      { "id": "3.7", "environment": ["product"], "text": "In the product app, Vivid Pink at 5% is for hover and selected states, plus at most one highlighted panel per screen." },
      { "id": "3.8", "environment": ["product", "audience", "marketing-web"], "text": "Black backgrounds are allowed in two places only: full-screen presenting, and video or image viewers." },
@@ -115,7 +115,7 @@
     ] },
     { "type": "heading", "anchor": "applied", "text": "Applied usage on a white or a Vivid Pink surface", "origin": "aha-marketing-colors" },
     { "type": "paragraph", "origin": "aha-marketing-colors", "text": "A layout is one section of a web page built from full-width sections, one social post, ad, slide or printed piece, or one video scene. Every layout picks one of the two surfaces, then takes the other roles from its column." },
-    { "type": "table", "id": "applied-usage", "origin": "aha-marketing-colors", "environment": ["marketing-web", "video", "social-ads"],
+    { "type": "table", "id": "applied-usage", "origin": "aha-marketing-colors", "environment": ["product", "marketing-web", "video", "social-ads"],
       "columns": ["Role", "On a white surface", "On a Vivid Pink surface"],
       "rows": [
        ["Background", "White `#FFFFFF`", "Vivid Pink `#E70E68`"],
@@ -221,7 +221,7 @@
      { "id": "9.2", "text": "Photos." },
      { "id": "9.3", "text": "Official AhaSlides themes and palettes are not exempt. They follow these rules." },
      { "id": "9.4", "text": "Our own illustrations, customer and integration logos and file-type icons are not exempt. They follow these rules." },
-     { "id": "9.5", "origin": "aha-marketing-colors", "environment": ["marketing-web", "video", "social-ads"], "text": "A real product screenshot placed in a design, such as a web page, a social post, an ad, a slide or a video, counts as product or customer content. Never recolour it to fit the palette." }
+     { "id": "9.5", "origin": "aha-marketing-colors", "environment": ["product", "audience", "marketing-web", "video", "social-ads"], "text": "A real product screenshot placed in a design, such as a web page, a social post, an ad, a slide or a video, counts as product or customer content. Never recolour it to fit the palette." }
     ] }
    ]
   },

@@ -22,11 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.164.1 — 2026-10-13
+## 0.164.3 — 2026-10-13
 ### Changed
 - Colour rules name the medium, never "marketing": rule 3.2, rule 5.6, the applied-usage heading and its lead line, the Button paragraph in section 6 and rule 9.5 now say a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The environment ids are unchanged. (#233)
 - The retired colours table and rule 1.3 (near-match colours) are tagged for every environment, as rule 1.1 already required; `rulesByEnvironment.product` and `.audience` in `colour-rules.agent.json` gain `1.3`. (#233)
+- Rules 3.2 to 3.5 (coloured sections) and the applied-usage table now also carry the `product` tag: a web page built from full-width sections outside the public website, such as a help article or a sign-up or upgrade page, follows them. Rule 9.5 (a real product screenshot is never recoloured) carries `product` and `audience` too. The background judge criterion C3 now accepts pale pink sections on such a page and keeps the one-panel limit for screens of the product app, with a new eval (#11) and a matching line in the Background pattern. (#233)
 - The agent feeds carry the explanatory paragraphs too, not only rules and tables: `colour-rules.md` prints them under each section heading and `colour-rules.agent.json` gains `notes`. Section 3's line on telling a sectioned web page from a product app screen now reaches agents. (#233)
+
+## 0.164.2 — 2026-10-13
+### Changed
+- `<aha-radio variant="button">` states follow the new reference: the label is regular weight (400) in every state, hover turns the text brand and keeps the grey border, and the selected pill is a brand border with brand text on a white fill (was bg-accent tint with default text). A selected disabled pill now has a darker grey fill (`--aha-btn-disabled-bg`) than the unselected disabled pills, with no brand colour; hover on a disabled pill changes nothing. A selected or keyboard-focused pill now shows its brand border or focus ring on all four sides, in any position in the group (the neighbouring pill used to cover the shared edge). Dot and card variants are unchanged. Revert: revert this PR. (#232)
 
 ## 0.164.0 — 2026-10-12
 ### Added

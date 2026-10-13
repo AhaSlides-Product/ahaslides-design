@@ -32,11 +32,12 @@ test('every rule has a unique id inside its section and names known environments
   for (const name of known) assert.ok(ruleList.some(rule => rule.environment.includes(name)), name);
 });
 
-test('the product app rules reach product and the coloured-section rules stay on marketing-web', () => {
+test('the product app rules reach product and the coloured-section rules reach product and marketing-web', () => {
   const environmentOf = (id) => ruleList.find(rule => rule.id === id).environment;
   assert.deepEqual(environmentOf('3.6'), ['product']);
   assert.deepEqual(environmentOf('3.7'), ['product']);
-  assert.deepEqual(environmentOf('3.3'), ['marketing-web']);
+  for (const id of ['3.2', '3.3', '3.4', '3.5']) assert.deepEqual(environmentOf(id), ['product', 'marketing-web']);
+  assert.deepEqual(environmentOf('9.5'), ['product', 'audience', 'marketing-web', 'video', 'social-ads']);
   assert.ok(environmentOf('4.1').includes('video') && environmentOf('4.1').includes('social-ads'));
 });
 
