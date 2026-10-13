@@ -2,15 +2,22 @@
   "name": "Status badges",
   "slug": "status-badges",
   "kind": "guideline",
+  "environment": [
+    "product"
+  ],
   "group": "Patterns",
   "badge": "pattern — composition guide",
-  "summary": "How to build a status/state pill on a domain object — dot + localised label, the aha-status-pill class convention, the role=status + aria-label contract, i18n labels, and colour driven by the modifier class — from existing components.",
-  "highlights": ["How to build a status pill on a domain object", "Dot plus localised label, aha-status-pill class, role=status and aria-label", "Colour driven by the modifier class"],
-  "lead": "A status pill communicates the lifecycle state of a domain object (a survey, presentation, or collector) in one glanceable, screen-reader-announced token. This pattern ships NO new component: it documents the markup, class convention, i18n and accessibility rules that keep every state indicator reading as one product, binding colour to semantic tokens via a modifier class rather than inline hex. The narrative 'why' lives in the DS `status-badges` guide; this artifact carries only what the repo can enforce.",
+  "summary": "How to show the state of a domain object with <aha-status-badge>: one box, four looks, a dot, an icon or no marker, one marker family per dimension, the default badge for information that is not a status, and when a badge is the wrong element.",
+  "highlights": [
+    "One box, four looks, three markers",
+    "Never mix dot badges with icon or no-marker badges in one dimension",
+    "Default badge for counters and types; due dates are plain text"
+  ],
+  "lead": "A status badge tells the state of a domain object (a survey, a presentation, a course, a learner) in one glanceable, screen-reader-announced token. Every badge is the DS element <aha-status-badge>, so the box, the four looks and the markers stay the same in every app. This guideline says which look and marker a state takes, what must never be mixed, and what is not a badge at all.",
   "skillRef": {
     "build": "DS guideline — guidelines/status-badges.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: status-badges)",
-    "note": "The DS now OWNS this build ruleset — it is the single source of truth and the plugin skill will be generated FROM this pattern. The skill remains the home for rationale, worked BAD/GOOD examples, the judge verdicts and evals; this pattern distils the enforceable construction rules and links each back by ref (STATUS-xx)."
+    "note": "The DS owns this ruleset. The component contract (contracts/status-badge.json) carries the element API; this guideline carries the composition rules; the judge criteria and evals live in anti-slop/."
   },
   "surfaces": [
     "dashboard",
@@ -20,98 +27,130 @@
   "surfaceChoice": [
     {
       "surface": "Dashboard list / card",
-      "useFor": "the lifecycle state of a survey, presentation, or collector row",
-      "example": "draft / published / closed / archived on a survey card"
+      "useFor": "the lifecycle state of a survey, presentation or collector",
+      "example": "Published, Draft, Closed, Archived with a dot"
     },
     {
-      "surface": "Admin / ops table",
-      "useFor": "an enum-driven state column on a domain object",
-      "example": "active / inactive on an account row"
+      "surface": "Progress column",
+      "useFor": "how far a learner or a course has got",
+      "example": "Completed (check), In progress (hourglass), Not started (no marker)"
     },
     {
-      "surface": "Detail header",
-      "useFor": "the current state of the object being viewed",
-      "example": "a published badge beside a presentation title"
+      "surface": "Admin / member table",
+      "useFor": "a state with no built-in status, dressed in one of the four looks",
+      "example": "Invited (draft look), Joined (closed look), Removed (archived look)"
+    },
+    {
+      "surface": "Report card",
+      "useFor": "information that is not a status, in the default look",
+      "example": "4/6, a slide type with its icon, Unanswered or Time out with an icon"
     }
   ],
   "composedOf": [
     {
+      "ref": "status-badge",
+      "as": "component",
+      "use": "the badge itself: <aha-status-badge> with status, look, marker and icon",
+      "status": "available"
+    },
+    {
       "ref": "icon",
       "as": "component",
-      "use": "any glyph rendered beside the status (owned by the `icons` guide) — the dot itself is decorative CSS, not a glyph",
+      "use": "the 12px icon marker, called by name from the registry through the badge's icon attribute",
       "status": "available"
     },
     {
-      "ref": "--aha-color-success",
+      "ref": "--aha-bg-accent",
       "as": "token",
-      "use": "the semantic colour a 'published'/'active' state maps to via its modifier class — never an inline hex",
+      "use": "the published look background, with --aha-text-link for the label and --aha-vivid-pink-100 for the dot",
       "status": "available"
     },
     {
-      "ref": "--aha-color-error",
+      "ref": "--aha-gray-35",
       "as": "token",
-      "use": "the semantic colour a 'closed'/failed state maps to via its modifier class — never an inline hex",
+      "use": "the draft, closed and default look background (--aha-gray-25 for archived)",
       "status": "available"
-    },
-    {
-      "ref": "status-pill",
-      "as": "component",
-      "use": "the StatusBadge wrapper itself (aha-status-pill + dot + label) — the canonical element this pattern describes",
-      "status": "missing"
     },
     {
       "ref": "tag",
       "as": "component",
-      "use": "the generic Tag for free-form labels this pattern explicitly is NOT (contrast target — a status badge is a fixed, semantic set, not a free-form Tag)",
+      "use": "the contrast target: a free-form label the user adds, removes or filters by is a Tag, not a status badge",
       "status": "available"
     },
     {
       "ref": "badge",
       "as": "component",
-      "use": "the generic count/notification Badge this pattern explicitly is NOT (contrast target — a status badge conveys state, not a count)",
+      "use": "the contrast target: a count bubble or notification dot on another element is a Badge, not a status badge",
       "status": "available"
     }
   ],
-  "componentBacklog": "composedOf marks 3 components this pattern references that the DS does not yet ship (status-pill, tag, badge). The status pill (StatusBadge / aha-status-pill family) is the primitive this pattern is built around and currently lives only in the product repo (features/dashboard/StatusBadge.tsx) — per the charter, a pattern that leans on a missing component is the signal to add it HERE. tag and badge are named as the primitives this pattern is NOT, so the roadmap keeps them distinct.",
   "rules": [
     {
       "id": "enum-only",
-      "rule": "Render a status pill only for a value from a known status enum (e.g. SurveyStatus: draft / published / closed / archived). Never use it for free-form labels, counts, or notification dots — those are AntD Badge/Tag territory.",
+      "rule": "Render a status badge only for a value from a known status enum (lifecycle, progress, membership). A free-form label is a Tag; a count bubble or notification dot is a Badge.",
       "ref": [
         "STATUS-01"
       ]
     },
     {
-      "id": "anatomy",
-      "rule": "A status pill is a single inline element containing exactly two parts: a dot span (aha-status-pill__dot) carrying the state colour, followed by the localised label text.",
+      "id": "one-element",
+      "rule": "Every badge is <aha-status-badge>. Set status for a built-in state, or look (published, draft, closed, archived) for a state the element does not know. Never hand-build the pill, restyle a Tag, or override the box (22px tall, 8px side padding, 6px radius, 12px semibold label, 6px gap).",
       "ref": [
         "STATUS-02"
       ]
     },
     {
-      "id": "class-convention",
-      "rule": "Markup is the base class aha-status-pill plus a per-state modifier aha-status-pill--{status}. Use the class convention, not a one-off prop or inline style.",
+      "id": "four-looks",
+      "rule": "A state takes one of four looks: published (pale pink, pink label) for the live or successful end state; closed (grey, default ink) for an ongoing or ended-normally state; draft (grey, muted label) for not begun or not yet live; archived (lighter grey, disabled label) for retired or removed. No status gets a hue of its own: no green, red, amber or blue.",
+      "ref": [
+        "STATUS-03"
+      ]
+    },
+    {
+      "id": "markers",
+      "rule": "A badge has one marker before the label or none: a 6px dot for lifecycle states; a 12px icon from the DS icon registry in place of the dot; or no marker. Progress uses the built-in set: Completed is the published look with system-check, In progress the closed look with system-hourglass-high, Not started the draft look with no marker. Never a dot and an icon together.",
       "ref": [
         "STATUS-02"
       ]
     },
     {
-      "id": "colour-by-modifier",
-      "rule": "Colour of the pill and its dot is driven by the --{status} modifier class, keeping every state's colour in one stylesheet and on semantic tokens. Never set the colour inline with a hardcoded hex.",
+      "id": "no-mixed-markers",
+      "rule": "Never mix the dot variant with the icon or no-marker variants inside one status dimension (one column, one list, one card slot, one legend). A dimension shows dots only, or icons and no-marker badges only. A state added to an icon dimension takes an icon or marker=\"none\".",
+      "ref": [
+        "STATUS-07"
+      ]
+    },
+    {
+      "id": "default-badge",
+      "rule": "Information that is not a status but sits where badges sit (a counter such as 4/6, a slide or question type with its icon, Unanswered, Time out) uses look=\"default\": the same box, Gray 35 background, default ink, with or without an icon, never a dot.",
+      "ref": [
+        "STATUS-08"
+      ]
+    },
+    {
+      "id": "not-a-badge",
+      "rule": "A due date or deadline is not a badge. Write it as plain text; use the primary colour only when it needs attention (due soon, due today, overdue) and do not highlight on-time states.",
+      "ref": [
+        "STATUS-09"
+      ]
+    },
+    {
+      "id": "app-colours",
+      "rule": "An app that already owns an approved colour set for a result (Report: Correct, Partially correct, Incorrect) keeps those colours and takes only the box, through --aha-status-badge-bg and --aha-status-badge-fg set once in its stylesheet. Never use the two properties to tint a lifecycle or progress status, and never inline a hex on a badge.",
       "ref": [
         "STATUS-03"
       ]
     },
     {
       "id": "label-from-i18n",
-      "rule": "The visible label is always sourced from i18n — t(`survey_status.${status}`) or the equivalent namespace for the object. Never hardcode the visible string.",
+      "rule": "The visible label is always sourced from i18n (t(`survey_status.${status}`) or the object's own namespace), in sentence case. Never hardcode the visible string.",
       "ref": [
         "STATUS-04"
       ]
     },
     {
       "id": "new-state-two-parts",
-      "rule": "Adding a new state means adding BOTH a translation key AND a --{status} modifier class — neither alone is complete.",
+      "rule": "Adding a state means adding a translation key AND choosing its look and marker in one mapping (one place per enum), so the same state never appears in two looks.",
       "ref": [
         "STATUS-03",
         "STATUS-04"
@@ -119,39 +158,41 @@
     },
     {
       "id": "a11y-contract",
-      "rule": "The element carries role=\"status\" and an aria-label equal to the visible label, so the state is announced and not conveyed by colour alone.",
+      "rule": "The element carries role=\"status\" and an aria-label equal to the visible label (the DS element sets both). The text label is always present; a dot or an icon is decorative and never the only signal.",
       "ref": [
-        "STATUS-05"
-      ]
-    },
-    {
-      "id": "not-colour-alone",
-      "rule": "State is never conveyed by the dot colour alone — the text label is always present and is the source of truth; the dot is decorative.",
-      "ref": [
+        "STATUS-05",
         "STATUS-06"
       ]
     },
     {
-      "id": "test-id",
-      "rule": "Carry a data-testid of status-badge-${status} on the pill so the rendered state is assertable.",
+      "id": "existing-markup",
+      "rule": "Existing screens on the aha-status-pill class convention keep working and are migrated to the element when they are next touched; new work never adds that markup.",
       "ref": [
         "STATUS-02"
       ]
     }
   ],
   "reuse": null,
-  "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical StatusBadge component and the aha-status-pill class family live in the product repo at features/dashboard/StatusBadge.tsx; that is their source of truth. If the StatusBadge wrapper graduates into this DS, add a reuse block and it is gated like a leaf/composite.",
+  "reuseNote": "Doc-only guideline. The component it describes ships as <aha-status-badge> (contracts/status-badge.json, lib/aha-status-badge.js) and is gated there.",
   "selfCheck": [
     {
-      "label": "pill renders only for a known status enum, not free-form labels/counts",
+      "label": "every badge is <aha-status-badge> with a status or a look; the box is not overridden",
       "verdict": "N/A — per-surface"
     },
     {
-      "label": "markup is aha-status-pill + aha-status-pill--{status} with a dot span and a text label",
+      "label": "each status dimension uses one marker family: dots only, or icons and no-marker only",
       "verdict": "N/A — per-surface"
     },
     {
-      "label": "colour comes from the --{status} modifier class, no inline hex",
+      "label": "counters, types, Unanswered and Time out use the default look, never a dot",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "no due date or deadline is drawn as a badge",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "no status has its own hue; colour comes from status or look, no inline hex",
       "verdict": "N/A — per-surface"
     },
     {

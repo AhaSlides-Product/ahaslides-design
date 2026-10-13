@@ -1,14 +1,22 @@
 // main.ts — register the element + mark aha-* as custom elements
-import '@ahaslides-product/design/aha-status-badge';
+import '@ahaslides-product/design/aha-status-badge';   // registers <aha-status-badge> and <aha-icon>
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <script setup>
 import { useI18n } from 'vue-i18n';   // label comes from i18n, never a hardcoded string
 const { t } = useI18n();
-defineProps({ status: String });
+defineProps({ status: String, memberState: String });
+const memberLook = { invited: 'draft', joined: 'closed', removed: 'archived' };
 </script>
 
 <template>
+  <!-- a built-in status picks its own look and marker -->
   <aha-status-badge :status="status">{{ t(`survey_status.${status}`) }}</aha-status-badge>
+
+  <!-- a state with no built-in status: map it to a look -->
+  <aha-status-badge :look="memberLook[memberState]">{{ t(`member_status.${memberState}`) }}</aha-status-badge>
+
+  <!-- default badge: information that is not a status -->
+  <aha-status-badge look="default" icon="slidetype-match-pair">{{ t('slide_type.match_pair') }}</aha-status-badge>
 </template>

@@ -155,6 +155,93 @@
         "id": 6,
         "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
       }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this status column. A learner table has one Progress column. Its cells render `<aha-status-badge status=\"completed\">{t('progress.completed')}</aha-status-badge>`, `<aha-status-badge status=\"in-progress\">{t('progress.in_progress')}</aha-status-badge>`, `<aha-status-badge status=\"not-started\">{t('progress.not_started')}</aha-status-badge>` and, for learners who left, `<aha-status-badge look=\"draft\">{t('progress.abandoned')}</aha-status-badge>`. Is the column correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6 — one marker family per status dimension.",
+      "expected_output": "C6 FAILs: the Progress column mixes marker families. Completed and In progress carry an icon and Not started has no marker, but Abandoned is `look=\"draft\"` with the default dot. Fix: give Abandoned `marker=\"none\"` (or an icon) so the column holds icon and no-marker badges only. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Identifies the dot badge (Abandoned) inside an icon / no-marker column",
+        "Recommends marker=\"none\" or an icon for it"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DS-authored for the marker, default badge and no-mixing rules"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review these badges on a quiz report card. The question counter renders `<aha-status-badge status=\"published\">4/6</aha-status-badge>` and the deadline renders `<aha-status-badge look=\"closed\">{t('due.in_days', { count: 3 })}</aha-status-badge>`. Are these the right elements?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 — default look for information that is not a status; a due date is not a badge.",
+      "expected_output": "C7 FAILs twice: a counter is not a status, so it takes the default look with no dot, not the published look; and a due date is plain text (primary colour when it needs attention), not a badge. Fix: `<aha-status-badge look=\"default\">4/6</aha-status-badge>` and render the due date as text. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Says the counter needs the default look without a dot",
+        "Says the due date is plain text, not a badge"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DS-authored for the marker, default badge and no-mixing rules"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this status badge. A course row shows progress with a registry icon and no text: `<aha-status-badge status=\"completed\"></aha-status-badge>`, relying on the check icon to say the course is done. Is this badge correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — an icon marker does not replace the text label.",
+      "expected_output": "C1 FAILs: the badge has an icon marker but no visible text label, so the state rests on the icon alone. The marker is decorative and the label is the source of truth. Fix: slot the localised label, `{t('progress.completed')}`. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Identifies the missing text label"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DS-authored for the marker, default badge and no-mixing rules"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review these badges. A learner table has a Progress column whose cells render `<aha-status-badge status=\"completed\">{t('progress.completed')}</aha-status-badge>`, `<aha-status-badge status=\"in-progress\">{t('progress.in_progress')}</aha-status-badge>`, `<aha-status-badge status=\"not-started\">{t('progress.not_started')}</aha-status-badge>` and `<aha-status-badge look=\"draft\" marker=\"none\">{t('progress.abandoned')}</aha-status-badge>`. A separate Slides column renders `<aha-status-badge look=\"default\">{done}/{total}</aha-status-badge>`, and the due date beside it is plain text. Nothing overrides the badge size or colour. Are these correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control for C1, C2, C5, C6, C7 — icon and no-marker badges in one column, a default badge for a counter, a due date as text.",
+      "expected_output": "All criteria pass: every badge is the DS element with a localised label; the Progress column holds icon and no-marker badges only; the counter uses the default look with no dot; the due date is plain text; colour comes from status and look. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "authored": "DS-authored for the marker, default badge and no-mixing rules"
+      }
     }
   ]
 }

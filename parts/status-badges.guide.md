@@ -1,92 +1,107 @@
 # Status badges — composition guide
 
-> The design system now OWNS this build ruleset — it is the single source of truth,
-> and the DS `status-badges` guide is generated FROM this pattern. The
-> skill keeps the rationale, worked BAD/GOOD examples, and the judge verdicts / evals
-> (the DS anti-slop judge, `status-badges` surface); this guide is the shippable checklist. When the
-> two ever disagree, this pattern wins and the skill is regenerated.
+A status badge tells the **state of a domain object** (a survey, a presentation, a
+course, a learner) in one glanceable, screen-reader-announced token. Every badge is the
+DS element `<aha-status-badge>`; this guide says which look and marker a state takes,
+what must never be mixed, and what is not a badge at all.
 
-A status pill communicates the **lifecycle state of a domain object** — a survey,
-presentation, or collector — in one glanceable, screen-reader-announced token. Its
-canonical form is the `StatusBadge` component and the `aha-status-pill` class family
-(`features/dashboard/StatusBadge.tsx`). This pattern adds no new control; it defines
-the **markup, class, i18n and accessibility conventions** that keep every state
-indicator reading as one product.
+**Companion guides.** `icons` for the glyph a badge calls by name, the colour rules for
+why no status has a hue, and `paywall` for the crown badge (that is upsell, not status).
 
-**Companion guides.** Use the `icons` guide for any glyph rendered beside a status,
-the `aha-branding:*` colour skill for the semantic colour each state maps to, and
-the `paywall` guide for the crown badge (that is upsell, not status).
+## The box
 
-## When to use a status pill
+One box for every badge: **22px** tall, **8px** side padding, radius **6px**, label
+**12px semibold**, **6px** gap. Never override it. *(STATUS-02)*
 
-Use it to reflect a value from a known **status enum** (e.g. `SurveyStatus`: draft /
-published / closed / archived). Do **not** use it for:
+## Four looks
 
-- free-form labels,
-- counts, or
-- notification dots.
+| Look | Use it for | Background | Label | Dot |
+| --- | --- | --- | --- | --- |
+| **published** | live, or the successful end state | `--aha-bg-accent` | `--aha-text-link` | `--aha-vivid-pink-100` |
+| **closed** | ongoing, or ended normally | `--aha-gray-35` | `--aha-text-default` | `--aha-icon-default` |
+| **draft** | not begun, not yet live | `--aha-gray-35` | `--aha-text-tertiary` | `--aha-icon-disabled` |
+| **archived** | retired, removed | `--aha-gray-25` | `--aha-text-disabled` | `--aha-icon-disabled` |
 
-Those are AntD `Badge` / `Tag` territory, not a status pill. *(STATUS-01)*
+No status gets a hue of its own: no green, red, amber or blue. *(STATUS-03)*
 
-## Anatomy
-
-A status pill is a single inline element containing exactly two parts, in order:
-
-| Part | Class | Role |
-| --- | --- | --- |
-| **Dot** | `aha-status-pill__dot` | carries the state colour; decorative only |
-| **Label** | — (text node) | the localised label text; the source of truth |
-
-```tsx
-<span
-  className={`aha-status-pill aha-status-pill--${status}`}
-  aria-label={label}
-  role="status"
-  data-testid={`status-badge-${status}`}
->
-  <span className="aha-status-pill__dot" />
-  {label}
-</span>
+```html
+<aha-status-badge status="published">Published</aha-status-badge>   <!-- a built-in status -->
+<aha-status-badge look="closed">Joined</aha-status-badge>           <!-- any other state: pick a look -->
 ```
 
-*(STATUS-02)*
+Built-in `status` values: `draft`, `published`, `closed`, `archived`, `active`
+(published look), `inactive` (archived look), `completed`, `in-progress`, `not-started`.
 
-## Class convention
+## Three markers
 
-- Base class `aha-status-pill` plus a **modifier per state**: `aha-status-pill--{status}`.
-- The modifier — **not** an inline style or a one-off prop — controls the colour of the
-  pill and its dot. This keeps every state's colour in one stylesheet and on semantic
-  tokens.
-- **Never** set the colour inline with a hardcoded hex. *(STATUS-02, STATUS-03)*
+| Marker | When | How |
+| --- | --- | --- |
+| **Dot** (6px) | lifecycle states | the default for the four looks |
+| **Icon** (12px, from the icon registry) | progress and other states an icon explains | `icon="system-check"` in place of the dot |
+| **None** | a state that needs no marker | `marker="none"` |
 
-## Labels come from i18n
+Progress is built in: **Completed** = published look + `system-check`; **In progress** =
+closed look + `system-hourglass-high`; **Not started** = draft look, no marker. Never a
+dot and an icon together. *(STATUS-02)*
 
-- The label is always `t(\`survey_status.${status}\`)` — or the equivalent namespace for
-  the object. **Never hardcode** the visible string.
-- Adding a new state means adding **both** a translation key **and** a `--{status}`
-  modifier class. Neither alone is complete. *(STATUS-03, STATUS-04)*
+## Never mix marker families
 
-## Accessibility
+Inside **one status dimension** (one column, one list, one card slot, one legend) use
+**dots only**, or **icons and no-marker badges only**. Never both. A state added to an
+icon dimension takes an icon or `marker="none"`. Two different dimensions on a screen
+may differ. *(STATUS-07)*
 
-- `role="status"` and an `aria-label` **equal to the visible label**, so the state is
-  announced and not conveyed by colour alone.
-- The dot is **decorative** — the text label is the source of truth, never the dot
-  colour by itself. State is never conveyed by dot colour alone; the text label is
-  always present. *(STATUS-05, STATUS-06)*
+## Default badge
+
+Information that is **not a status** but sits where badges sit uses `look="default"`:
+the same box, Gray 35 background, default ink, with or without an icon, never a dot.
+
+```html
+<aha-status-badge look="default">4/6</aha-status-badge>
+<aha-status-badge look="default" icon="slidetype-match-pair">Match pairs</aha-status-badge>
+<aha-status-badge look="default" icon="system-time-out">Time out</aha-status-badge>
+```
+
+Default badge or Tag? A **default badge** is read-only information about the object. A
+**Tag** is a label the user adds, removes or filters by. *(STATUS-08)*
+
+## When not to use a badge
+
+- **A due date or deadline** is plain text. Use the primary colour only when it needs
+  attention (due soon, due today, overdue); do not highlight on-time states. *(STATUS-09)*
+- **A free-form label or keyword** is a Tag.
+- **A count bubble or a notification dot** on another element is a Badge. *(STATUS-01)*
+
+## App-supplied colours
+
+An app that already owns an approved colour set for a result (Report: Correct, Partially
+correct, Incorrect) keeps those colours and takes only the box, through
+`--aha-status-badge-bg` and `--aha-status-badge-fg` set once in its stylesheet. Never use
+them to tint a lifecycle or progress status, and never inline a hex on a badge. *(STATUS-03)*
+
+## Labels and accessibility
+
+- The label always comes from i18n, in sentence case. Adding a state means a translation
+  key **and** one mapping to its look and marker. *(STATUS-04)*
+- The element carries `role="status"` and an `aria-label` equal to the visible label.
+  The label is always present; the dot or icon is decorative. *(STATUS-05, STATUS-06)*
 
 ## Build checklist
 
 | # | Rule | Ref |
 | --- | --- | --- |
-| 1 | Renders only for a known status enum — not free-form labels, counts, or notification dots | STATUS-01 |
-| 2 | Markup is `aha-status-pill` + `aha-status-pill--{status}`, with a dot span and a text label | STATUS-02 |
-| 3 | Colour is driven by the `--{status}` modifier class — no inline/hardcoded hex | STATUS-03 |
-| 4 | The visible label is sourced from i18n (`t('<namespace>.<status>')`), never a hardcoded string | STATUS-04 |
-| 5 | The element carries `role="status"` and an `aria-label` matching the visible label | STATUS-05 |
-| 6 | State is not conveyed by dot colour alone — the text label is always present | STATUS-06 |
+| 1 | Only for a known status enum; free-form labels are Tags, counts on an element are Badges | STATUS-01 |
+| 2 | Every badge is `<aha-status-badge>`; the box is never overridden | STATUS-02 |
+| 3 | Colour comes from `status` or `look`; no status hue, no inline hex | STATUS-03 |
+| 4 | The label comes from i18n | STATUS-04 |
+| 5 | `role="status"` and an `aria-label` matching the label | STATUS-05 |
+| 6 | The text label is always present; the marker is decorative | STATUS-06 |
+| 7 | One marker family per status dimension: dots only, or icons and no marker only | STATUS-07 |
+| 8 | Counters, types, Unanswered and Time out use the default look, never a dot | STATUS-08 |
+| 9 | A due date is plain text, not a badge | STATUS-09 |
 
 ---
 
-*Full rationale, screenshots, and worked examples live in the DS `status-badges` guide.
-Self-check any built pill with the DS anti-slop judge (`status-badges` surface) and fix every FAIL
-before shipping.*
+*Existing screens on the `aha-status-pill` class convention keep working and move to the
+element when next touched. Self-check any built badge with the DS anti-slop judge
+(`status-badges` surface) and fix every FAIL before shipping.*

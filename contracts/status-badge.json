@@ -1,68 +1,337 @@
 {
   "name": "Status badge",
   "slug": "status-badge",
+  "environment": [
+    "product"
+  ],
   "group": "AhaSlides surfaces",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-status-badge",
-  "summary": "A glanceable lifecycle pill for a domain object — draft, published, closed, archived, active, inactive.",
-  "highlights": ["Glanceable lifecycle pill for a domain object", "Draft, published, closed, archived, active, inactive"],
-  "lead": "ONE custom element — <aha-status-badge> — the reusable form of the status-badges pattern. A coloured dot plus a text label (state is never conveyed by colour alone), `status` drives the colour via CSS on a persistent node, and the label is your slotted text. Six lifecycle states: draft · published · closed · archived · active · inactive. Shadow-DOM CSS, themed only by --aha-* tokens; carries role=\"status\" with an aria-label mirrored from the slotted label for screen readers. Zero drift.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin attribute wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["gray-20", "gray-25", "gray-60", "gray-70", "text-secondary", "text-tertiary", "text-positive", "text-warning", "bg-positive", "bg-warning", "color-success", "color-warning", "radius-pill"],
+  "summary": "One 22px badge for a status (a dot, an icon or no marker before the label) and for neutral information that is not a status.",
+  "highlights": [
+    "Four looks: published, draft, closed, archived",
+    "Marker: a dot, an icon or none, never mixed in one dimension",
+    "Default badge for counters and types"
+  ],
+  "lead": "ONE custom element, <aha-status-badge>, for every badge that reports a state. The box never changes: 22px tall, 8px side padding, 6px radius, a 12px semibold label and a 6px gap. `status` is a built-in state that picks its own look and marker: the lifecycle states (draft, published, closed, archived, active, inactive) carry a 6px dot; the progress states carry an icon in place of the dot (completed, in-progress) or no marker (not-started). `look` dresses a state that has no built-in status in one of the four looks, and `look=\"default\"` is the neutral badge for information that is not a status (a counter, a slide type), with or without an icon and never with a dot. Inside one status dimension (a column, a list, a card slot) use dots only, or icons and no marker only, never both. The label is your slotted text and is always present; the marker is decorative. Shadow-DOM CSS on one persistent node, themed only by --aha-* tokens; role=\"status\" with an aria-label mirrored from the label.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React and Vue set attributes on the custom element directly. Importing the element also registers <aha-icon>, which draws the icon marker. Defined once in @ahaslides-product/design.",
+  "tokensUsed": [
+    "bg-accent",
+    "text-link",
+    "vivid-pink-100",
+    "gray-35",
+    "gray-25",
+    "text-tertiary",
+    "text-default",
+    "text-disabled",
+    "icon-default",
+    "icon-disabled",
+    "radius-sm",
+    "radius-pill",
+    "space-6",
+    "space-8"
+  ],
   "spec": [
-    { "label": "Shape", "value": "height 22 · radius pill · dot 6 + label" },
-    { "label": "Draft", "value": "neutral #F7F7F7 · dot #B5B5B5" },
-    { "label": "Published", "value": "positive #FFFFFF / #1A1A1A · dot #1A1A1A" },
-    { "label": "Closed", "value": "warning #FFFFFF / #1A1A1A · dot #1A1A1A" },
-    { "label": "Archived", "value": "muted #F3F3F3 / #8A8A8A · dot #8A8A8A" },
-    { "label": "Active", "value": "positive #FFFFFF / #1A1A1A · dot #1A1A1A" },
-    { "label": "Inactive", "value": "neutral #F3F3F3 / #8A8A8A · dot #B5B5B5" }
+    {
+      "label": "Box",
+      "value": "height 22 · padding 0 8 · radius sm 6 · label 12/18 semibold 600 · gap 6"
+    },
+    {
+      "label": "Marker",
+      "value": "dot 6 × 6, or a 12px icon from the registry in the label colour, or none"
+    },
+    {
+      "label": "Published",
+      "value": "background bgAccent #FEF3F7 · text textLink #E70E68 · dot vivid-pink-100 #E70E68"
+    },
+    {
+      "label": "Draft",
+      "value": "background Gray 35 #EBEBEB · text textTertiary #8A8A8A · dot iconDisabled #B5B5B5"
+    },
+    {
+      "label": "Closed",
+      "value": "background Gray 35 #EBEBEB · text textDefault #1A1A1A · dot iconDefault #4A4A4A"
+    },
+    {
+      "label": "Archived",
+      "value": "background Gray 25 #F3F3F3 · text textDisabled #B5B5B5 · dot iconDisabled #B5B5B5"
+    },
+    {
+      "label": "Default",
+      "value": "background Gray 35 #EBEBEB · text textDefault #1A1A1A · no dot, optional icon"
+    },
+    {
+      "label": "Built-in status",
+      "value": "active → published look · inactive → archived look · completed → published look + system-check · in-progress → closed look + system-hourglass-high · not-started → draft look, no marker"
+    },
+    {
+      "label": "App colours",
+      "value": "--aha-status-badge-bg and --aha-status-badge-fg replace the background and the label colour; the box stays. The DS ships no hue for status"
+    }
   ],
   "props": [
-    { "name": "status", "type": "draft | published | closed | archived | active | inactive", "default": "draft", "desc": "The lifecycle state — drives the pill and dot colour via a CSS-only persistent node" }
+    {
+      "name": "status",
+      "type": "draft | published | closed | archived | active | inactive | not-started | in-progress | completed",
+      "default": "draft",
+      "desc": "A built-in state. It picks its own look and marker: the six lifecycle states show a dot, completed a check icon, in-progress an hourglass icon, not-started no marker"
+    },
+    {
+      "name": "look",
+      "type": "published | draft | closed | archived | default",
+      "default": "from status",
+      "desc": "The look for a state with no built-in status (Invited, Joined, Removed). default is the neutral badge for information that is not a status, and never shows a dot"
+    },
+    {
+      "name": "marker",
+      "type": "dot | icon | none",
+      "default": "from status; icon when icon is set; else dot",
+      "desc": "What sits before the label. Use one family per status dimension: dots only, or icons and none only"
+    },
+    {
+      "name": "icon",
+      "type": "icon registry name",
+      "default": "—",
+      "desc": "A 12px glyph from the DS icon registry, drawn in the label colour in place of the dot. Decorative: the label carries the meaning"
+    },
+    {
+      "name": "--aha-status-badge-bg",
+      "type": "CSS custom property",
+      "default": "the look's background",
+      "desc": "App-supplied background. Only for a colour set the app already owns (Report results); never to give a DS status a hue"
+    },
+    {
+      "name": "--aha-status-badge-fg",
+      "type": "CSS custom property",
+      "default": "the look's text colour",
+      "desc": "App-supplied label and icon colour, paired with --aha-status-badge-bg"
+    }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Status badge", "when": "reflecting a value from a known status enum (a survey/presentation/collector's lifecycle state)" },
-      { "what": "Tag", "when": "a free-form label, keyword or category chip" },
-      { "what": "Badge", "when": "a count or a bare notification dot" }
+      {
+        "what": "Status badge",
+        "when": "the state of a domain object from a known enum: lifecycle (published, draft, closed, archived), progress (completed, in progress, not started) or membership (invited, joined, removed)"
+      },
+      {
+        "what": "Status badge, default look",
+        "when": "read-only information about the object that is not a status and sits where badges sit: a counter (4/6), a slide or question type with its icon, Unanswered or Time out with an icon"
+      },
+      {
+        "what": "Tag",
+        "when": "a free-form label, keyword or category the user adds, removes or filters by (closable, checkable)"
+      },
+      {
+        "what": "Badge",
+        "when": "a count bubble or notification dot on another element, a plan chip"
+      },
+      {
+        "what": "Plain text",
+        "when": "a due date or deadline: plain text, in the primary colour only when it needs attention (due soon, overdue), not highlighted when on time"
+      }
     ],
-    "note": "Use only for a value from a real status enum — not free-form labels, counts, or notification dots (those are Tag / Badge). Always keep the text label; the dot colour is decorative and never the sole signal.",
-    "dsv3": "COVERED — this is the reusable component form of the status-badges pattern (parts/status-badges.guide.md): dot + text label, colour by state, role=\"status\" + aria-label. The status enum is the one the DS status-badges pattern defines — draft · published · closed · archived, plus the active/inactive lifecycle pair called out in the pattern (SurveyStatus and the active/inactive label). Colours map to the semantic token layer (positive/warning + neutral greys), never inline hex. FOLLOW-UP: a `scheduled` state is NOT defined by the DS status-badges pattern today, so it is intentionally left out (add a translation key + a modifier + a token mapping to the pattern first)."
+    "note": "Never mix marker families in one status dimension: a column, a list or a card slot shows dot badges only, or icon and no-marker badges only. Keep the text label on every badge; the dot or icon is decorative and never the only signal. Set the look through status or look, never by restyling the part. The two colour custom properties exist so an app can keep a colour set it already owns inside the shared box; they are not a way to add a hue to a DS status.",
+    "dsv3": "This is the reusable form of the status-badges guideline (guidelines/status-badges.json). The four looks and the box were agreed in DESY-181; the DS colour rules give status no hue, so there is no green, red or amber look. A scheduled state is not defined yet: add a translation key and choose one of the four looks."
   },
-  "surfaces": ["dashboard", "editor", "settings"],
-  "reuse": { "entry": "./aha-status-badge", "registers": "aha-status-badge", "exportsNamed": ["AhaStatusBadge", "defineAhaStatusBadge"] },
+  "surfaces": [
+    "dashboard",
+    "editor",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-status-badge",
+    "registers": "aha-status-badge",
+    "exportsNamed": [
+      "AhaStatusBadge",
+      "defineAhaStatusBadge"
+    ]
+  },
   "snippets": [
-    { "key": "html", "label": "HTML", "file": "status-badge.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
-    { "key": "react", "label": "React", "file": "status-badge.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "status-badge.vue.txt" }
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "status-badge.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "status-badge.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "status-badge.vue.txt"
+    }
   ],
   "preview": "status-badge.preview.html",
   "playground": {
     "controls": [
-      { "prop": "status", "label": "Status", "default": "published", "options": [
-        { "label": "Draft", "value": "draft" },
-        { "label": "Published", "value": "published" },
-        { "label": "Closed", "value": "closed" },
-        { "label": "Archived", "value": "archived" },
-        { "label": "Active", "value": "active" },
-        { "label": "Inactive", "value": "inactive" }
-      ] }
+      {
+        "prop": "status",
+        "label": "Status",
+        "default": "published",
+        "options": [
+          {
+            "label": "Published",
+            "value": "published"
+          },
+          {
+            "label": "Draft",
+            "value": "draft"
+          },
+          {
+            "label": "Closed",
+            "value": "closed"
+          },
+          {
+            "label": "Archived",
+            "value": "archived"
+          },
+          {
+            "label": "Active",
+            "value": "active"
+          },
+          {
+            "label": "Inactive",
+            "value": "inactive"
+          },
+          {
+            "label": "Completed",
+            "value": "completed"
+          },
+          {
+            "label": "In progress",
+            "value": "in-progress"
+          },
+          {
+            "label": "Not started",
+            "value": "not-started"
+          }
+        ]
+      },
+      {
+        "prop": "look",
+        "label": "Look",
+        "options": [
+          {
+            "label": "From status",
+            "value": null
+          },
+          {
+            "label": "Published",
+            "value": "published"
+          },
+          {
+            "label": "Draft",
+            "value": "draft"
+          },
+          {
+            "label": "Closed",
+            "value": "closed"
+          },
+          {
+            "label": "Archived",
+            "value": "archived"
+          },
+          {
+            "label": "Default",
+            "value": "default"
+          }
+        ]
+      },
+      {
+        "prop": "marker",
+        "label": "Marker",
+        "options": [
+          {
+            "label": "Auto",
+            "value": null
+          },
+          {
+            "label": "Dot",
+            "value": "dot"
+          },
+          {
+            "label": "Icon",
+            "value": "icon"
+          },
+          {
+            "label": "None",
+            "value": "none"
+          }
+        ]
+      },
+      {
+        "prop": "icon",
+        "label": "Icon",
+        "options": [
+          {
+            "label": "None",
+            "value": null
+          },
+          {
+            "label": "Check",
+            "value": "system-check"
+          },
+          {
+            "label": "Hourglass",
+            "value": "system-hourglass-high"
+          },
+          {
+            "label": "Time out",
+            "value": "system-time-out"
+          }
+        ]
+      }
     ]
   },
   "selfCheck": [
-    { "label": "dot + text label (never colour alone)", "verdict": "PASS" },
-    { "label": "published positive #1A1A1A", "verdict": "PASS" },
-    { "label": "active positive dot #1A1A1A · inactive neutral dot #B5B5B5", "verdict": "PASS" },
-    { "label": "height 22 · radius pill", "verdict": "PASS" },
-    { "label": "role=status + aria-label mirrors the visible label", "verdict": "PASS" }
+    {
+      "label": "box: height 22 · padding 0 8 · radius 6 · label 12px 600 · gap 6",
+      "verdict": "PASS"
+    },
+    {
+      "label": "published look: #FEF3F7 / #E70E68, dot #E70E68",
+      "verdict": "PASS"
+    },
+    {
+      "label": "marker is a 6px dot, a 12px registry icon or none; the text label is always present",
+      "verdict": "PASS"
+    },
+    {
+      "label": "default look never shows a dot",
+      "verdict": "PASS"
+    },
+    {
+      "label": "one marker family per status dimension: dots only, or icons and none only",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "role=status + aria-label mirrors the visible label",
+      "verdict": "PASS"
+    }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-status-badge[data-probe]') && document.querySelector('aha-status-badge[data-probe]').shadowRoot && document.querySelector('aha-status-badge[data-probe]').shadowRoot.querySelector('.pill'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-status-badge[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.pill');var d=r&&r.querySelector('.dot');var sp=p?getComputedStyle(p):null;var sd=d?getComputedStyle(d):null;return{pillBg:sp?sp.backgroundColor:null,pillColor:sp?sp.color:null,dotBg:sd?sd.backgroundColor:null,height:sp?sp.height:null,radius:sp?sp.borderTopLeftRadius:null,role:p?p.getAttribute('role'):null,ariaLabel:p?p.getAttribute('aria-label'):null};})()",
-    "expect": { "pillBg": "rgb(255, 255, 255)", "pillColor": "rgb(26, 26, 26)", "dotBg": "rgb(26, 26, 26)", "height": "22px", "radius": "999px", "role": "status", "ariaLabel": "Published" }
+    "measure": "(function(){var el=document.querySelector('aha-status-badge[data-probe]');var r=el&&el.shadowRoot;var p=r&&r.querySelector('.pill');var d=r&&r.querySelector('.dot');var sp=p?getComputedStyle(p):null;var sd=d?getComputedStyle(d):null;return{pillBg:sp?sp.backgroundColor:null,pillColor:sp?sp.color:null,dotBg:sd?sd.backgroundColor:null,dotWidth:sd?sd.width:null,height:sp?sp.height:null,radius:sp?sp.borderTopLeftRadius:null,paddingLeft:sp?sp.paddingLeft:null,gap:sp?sp.columnGap:null,fontSize:sp?sp.fontSize:null,fontWeight:sp?sp.fontWeight:null,role:p?p.getAttribute('role'):null,ariaLabel:p?p.getAttribute('aria-label'):null};})()",
+    "expect": {
+      "pillBg": "rgb(254, 243, 247)",
+      "pillColor": "rgb(231, 14, 104)",
+      "dotBg": "rgb(231, 14, 104)",
+      "dotWidth": "6px",
+      "height": "22px",
+      "radius": "6px",
+      "paddingLeft": "8px",
+      "gap": "6px",
+      "fontSize": "12px",
+      "fontWeight": "600",
+      "role": "status",
+      "ariaLabel": "Published"
+    }
   }
 }

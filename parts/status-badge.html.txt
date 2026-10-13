@@ -3,14 +3,33 @@
      native form. Theming comes only from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-status-badge.js';   // registers <aha-status-badge>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-status-badge.js';   // registers <aha-status-badge> and <aha-icon>
 </script>
 
+<!-- Lifecycle: a built-in status, shown with a dot -->
 <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap">
-  <aha-status-badge status="draft">Draft</aha-status-badge>
   <aha-status-badge status="published">Published</aha-status-badge>
+  <aha-status-badge status="draft">Draft</aha-status-badge>
   <aha-status-badge status="closed">Closed</aha-status-badge>
   <aha-status-badge status="archived">Archived</aha-status-badge>
-  <aha-status-badge status="active">Active</aha-status-badge>
-  <aha-status-badge status="inactive">Inactive</aha-status-badge>
+</div>
+
+<!-- Progress: an icon in place of the dot, or no marker. Never beside a dot badge. -->
+<div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:16px">
+  <aha-status-badge status="completed">Completed</aha-status-badge>
+  <aha-status-badge status="in-progress">In progress</aha-status-badge>
+  <aha-status-badge status="not-started">Not started</aha-status-badge>
+</div>
+
+<!-- A state with no built-in status: choose a look -->
+<div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:16px">
+  <aha-status-badge look="draft">Invited</aha-status-badge>
+  <aha-status-badge look="closed">Joined</aha-status-badge>
+</div>
+
+<!-- Default badge: information that is not a status -->
+<div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:16px">
+  <aha-status-badge look="default">4/6</aha-status-badge>
+  <aha-status-badge look="default" icon="slidetype-match-pair">Match pairs</aha-status-badge>
+  <aha-status-badge look="default" icon="system-time-out">Time out</aha-status-badge>
 </div>

@@ -669,23 +669,23 @@
       "targets": [
         {
           "source": "guidelines/status-badges.json",
-          "use": "the status-pill pattern: dot + localised label, role=status, --{status} modifier colours"
+          "use": "the status badge rules: one box, four looks, the three markers, one marker family per dimension, the default badge, when not to use a badge"
         },
         {
           "source": "contracts/status-badge.json",
-          "use": "the DS status badge markup and status variants (C1, C2, C5)"
+          "use": "the DS status badge element: status, look, marker, icon and the two colour custom properties (C1, C2, C5, C6, C7)"
         }
       ],
       "criteria": [
         {
           "id": "C1",
-          "title": "The pill is a dot + a localised text label",
-          "test": "**Rule.** A status pill is a single inline element containing a **dot** (`aha-status-pill__dot`) carrying the state colour **and** the visible **text label**. The dot is decorative; the text is the source of truth."
+          "title": "The badge is a marker (dot, icon or none) + a localised text label",
+          "test": "**Rule.** A status badge is a single inline element with a visible **text label**, optionally led by one decorative marker: a 6px **dot**, a 12px **icon** from the DS icon registry in place of the dot, or **no marker**. The text is the source of truth. A badge with no text label fails (a bare dot or a bare icon), and so does a badge that shows a dot and an icon together."
         },
         {
           "id": "C2",
-          "title": "Markup uses the aha-status-pill / aha-status-pill--{status} convention",
-          "test": "**Rule.** The base class is `aha-status-pill` plus a **per-state modifier** `aha-status-pill--{status}`, and the dot is `aha-status-pill__dot`. The state name comes from the status enum."
+          "title": "Markup is the DS status badge, not an ad-hoc class family",
+          "test": "**Rule.** New work renders `<aha-status-badge>` with a `status` from the built-in enum or a `look` (`published`, `draft`, `closed`, `archived`, `default`), and leaves the box alone: no size, padding, radius or font override on the element or its part. Existing markup on the `aha-status-pill` / `aha-status-pill--{status}` / `aha-status-pill__dot` class convention still passes. A bespoke class family (`badge badge-green`), a restyled `<aha-tag>` or a hand-built span fails."
         },
         {
           "id": "C3",
@@ -699,8 +699,18 @@
         },
         {
           "id": "C5",
-          "title": "Colour comes from the --{status} modifier class, no inline hex",
-          "test": "**Rule.** The **modifier class** — not an inline style or prop — drives the pill and dot colour, and it resolves to **semantic tokens**. Every state's colour lives in one stylesheet on tokens; the visible label is never coloured by a hardcoded hex."
+          "title": "Colour comes from the status or look, no inline hex",
+          "test": "**Rule.** The `status` or `look` attribute (or, in existing markup, the `--{status}` modifier class) drives the badge and marker colour, and it resolves to **semantic tokens**. A status never gets a hue: no green, red, amber or blue badge, and no hardcoded hex on the label. The one exception is `--aha-status-badge-bg` with `--aha-status-badge-fg`, set once in a stylesheet for a colour set the app already owns and has had approved (the Report result badges); used to tint a lifecycle or progress status, it fails."
+        },
+        {
+          "id": "C6",
+          "title": "One marker family per status dimension",
+          "test": "**Rule.** Inside one status dimension (one table column, one list, one card slot, one legend) every badge uses the same marker family: **dots only**, or **icons and no-marker badges only**. A dot badge beside an icon badge or beside a no-marker badge in the same dimension fails. Two different dimensions on one screen (a lifecycle column with dots and a progress column with icons) may differ."
+        },
+        {
+          "id": "C7",
+          "title": "The right element for the information",
+          "test": "**Rule.** Information that is not a status (a counter such as `4/6`, a slide or question type, Unanswered, Time out) uses the **default** look, with or without an icon and never with a dot. A due date or deadline is **not a badge**: it is plain text, in the primary colour only when it needs attention (due soon, overdue) and not highlighted when on time. A counter or type dressed in a status look or given a dot fails, and so does a due date drawn as a badge."
         }
       ]
     },

@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.169.0 — 2026-10-13
+### Added
+- `<aha-status-badge>` takes three progress statuses with their marker built in: `completed` (check icon), `in-progress` (hourglass icon) and `not-started` (no marker). (#PR)
+- `<aha-status-badge>` takes `look` (`published`, `draft`, `closed`, `archived`, `default`) for a state with no built-in status, `marker` (`dot`, `icon`, `none`) and `icon` (a registry name, drawn at 12px in place of the dot). `look="default"` is the neutral badge for information that is not a status (a counter, a slide type) and never shows a dot. (#PR)
+- `--aha-status-badge-bg` and `--aha-status-badge-fg` let an app keep a colour set it already owns inside the shared box. The design system still ships no hue for status. (#PR)
+- Status badges guideline and judge: never mix dot badges with icon or no-marker badges in one status dimension (criterion C6); counters and types use the default badge and a due date is plain text, not a badge (C7). (#PR)
+### Changed
+- **Visible change for every `<aha-status-badge>`:** the box is now 22px tall with 8px side padding (was 10px) and a 6px radius (was a full pill). Published and active are pale pink with a pink label and dot (were white with black); draft is Gray 35 with a muted label; closed is Gray 35 with default ink; archived and inactive are Gray 25 with a disabled label. Attribute names and the six existing `status` values are unchanged. Importing the element now also registers `<aha-icon>`. (#PR)
+- Status badges guideline and criteria C1, C2 and C5 describe `<aha-status-badge>` instead of the hand-built `aha-status-pill` markup, which still passes on existing screens. (#PR)
+
 ## 0.166.0 — 2026-10-13
 ### Changed
 - `<aha-number-with-unit>` is on the `aha-input` size scale: default 40px (was 32), large 48 (was 40), with no small size (the `size="small"` and `size="sm"` rule is removed), and the large field text is 16px like `aha-input`. Look is otherwise unchanged in every state. Any `size="large"` use grows 8px and the default grows 8px. (#237)
