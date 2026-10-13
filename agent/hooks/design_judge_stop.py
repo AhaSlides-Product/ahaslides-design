@@ -2,7 +2,8 @@
 """aha-design Stop-hook JUDGE TRIGGER.
 
 At end of turn, detects the UNCOMMITTED frontend UI files changed this session
-(base = HEAD) and, when there are any, blocks the stop with an instruction to
+(base = HEAD), plus a build-less slide type's presenter / audience / settings .html and .js
+files in any repo (slide_type.py), and, when there are any, blocks the stop with an instruction to
 run the `aha-design` skill's judge step on those files against the DS anti-slop
 criteria for the matching surface(s), and apply the fixes. The criteria come
 from the DS itself (installed package, else the plugin's own copy — see ds_criteria.py).
@@ -30,6 +31,7 @@ except Exception:  # a logging-import problem must never break a turn
 
 import ds_criteria
 import legacy_vue
+import slide_type
 
 HOOK_DIR = os.path.dirname(os.path.abspath(__file__))
 STATE_DIR = os.path.normpath(os.path.join(HOOK_DIR, "..", ".impeccable"))
@@ -234,10 +236,11 @@ def main():
         _log("noop", "disabled", session_id)
         return 0
     cwd = payload.get("cwd") or os.getcwd()
-    if not is_frontend_repo(cwd):
+    slide_files = slide_type.changed_files(cwd)
+    if not is_frontend_repo(cwd) and not slide_files:
         _log("noop", "not_frontend", session_id)
         return 0
-    files = changed_ui_files(cwd)
+    files = sorted(set((changed_ui_files(cwd) if is_frontend_repo(cwd) else []) + slide_files))
     if not files:
         _log("noop", "no_ui_changes", session_id)
         return 0
@@ -255,7 +258,10 @@ def main():
     seen.add(key)
     save_seen(seen_path, session_id, seen)
     criteria = ds_criteria.load(cwd)
-    surfaces = surfaces_for(files, criteria)
+    slide_files = [f for f in files if f in slide_files]
+    app_files = [f for f in files if f not in slide_files]
+    surfaces = sorted(set(surfaces_for(app_files, criteria) if app_files else [])
+                      | {slide_type.surface_for(f) for f in slide_files})
     print(render_block(files, surfaces, criteria))
     source = criteria["source"] if criteria else "none"
     _log("block", "{}_files;criteria={}".format(len(files), source), session_id)

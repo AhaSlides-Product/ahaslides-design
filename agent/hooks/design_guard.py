@@ -12,7 +12,9 @@ Firing modes (per rule in rules.json):
 - "block"  -> exit 2, message on stderr. Only where a canonical DS component
               exists (table -> DataTable) or the import is forbidden (icon sets).
 A hand-made icon (an inline <svg> or a new .svg file) is also blocked, pointing at
-the DS icon search (icon_guard.py).
+the DS icon search (icon_guard.py), and so is a raw <button> or <aha-button size="xl">
+added to a build-less slide type's presenter.* / audience.* file, .html included
+(slide_control_guard.py).
 - "nudge"  -> exit 0 with hookSpecificOutput.additionalContext; the write proceeds.
 
 Contract:
@@ -41,6 +43,7 @@ except Exception:  # never let a logging-import problem break a write
 import ds_criteria
 import icon_guard
 import legacy_vue
+import slide_control_guard
 
 CRITERIA_SHOWN_PER_SURFACE = 8
 
@@ -93,6 +96,8 @@ def main():
         return 0
     path = tool_input.get("file_path") or ""
     if _block_hand_made_icon(data, tool_input, path):
+        return 2
+    if _block_hand_made_slide_control(data, tool_input):
         return 2
     if not FRONTEND_EXT.search(path):
         return 0
@@ -188,6 +193,21 @@ def _block_hand_made_icon(data, tool_input, path):
     criteria = ds_criteria.load(cwd)
     print("aha-design guard\n\n" + message + _criteria_footer(criteria, ["icons"]), file=sys.stderr)
     _log("block", "icons-svg" + _source_tag(criteria))
+    return True
+
+
+def _block_hand_made_slide_control(data, tool_input):
+    cwd = data.get("cwd") or os.getcwd()
+    try:
+        blocked = slide_control_guard.check(data.get("tool_name"), tool_input, cwd)
+    except Exception:
+        return False
+    if not blocked:
+        return False
+    surface, message = blocked
+    criteria = ds_criteria.load(cwd)
+    print("aha-design guard\n\n[" + surface + "] " + message + _criteria_footer(criteria, [surface]), file=sys.stderr)
+    _log("block", "slide-control" + _source_tag(criteria))
     return True
 
 

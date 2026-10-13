@@ -73,6 +73,19 @@ class CollectTouchedFiles(unittest.TestCase):
             out = sg.collect_touched_files({"transcript_path": tp}, home)
             self.assertEqual(out, [os.path.abspath(good)])
 
+    def test_transcript_keeps_a_slide_type_page_and_drops_other_html(self):
+        with tempfile.TemporaryDirectory() as home:
+            slide = os.path.join(home, "slide-types", "quiz")
+            os.makedirs(slide)
+            page = os.path.join(slide, "presenter.html")
+            with open(page, "w") as fh:
+                fh.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@latest/lib/tokens.css">')
+            other = os.path.join(home, "index.html")
+            open(other, "w").close()
+            tp = self._transcript(home, [page, other])
+            out = sg.collect_touched_files({"transcript_path": tp}, home)
+            self.assertEqual(out, [os.path.abspath(page)])
+
     def test_no_transcript_no_git_is_empty(self):
         with tempfile.TemporaryDirectory() as home:
             self.assertEqual(sg.collect_touched_files({}, home), [])
