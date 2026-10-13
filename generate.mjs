@@ -1410,7 +1410,34 @@ function surfaceCdnBox(surface) {
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
+function renderAudienceVariant(variant) {
+  return `<div class="variant">
+      <h3 class="variant-name">${esc(variant.name)}</h3>
+      <p class="element">Use <code class="ic">${esc(variant.element)}</code></p>
+      <p class="what">${audMd(variant.what)}</p>
+      <dl class="callout">
+        <div class="use"><dt>Use when</dt><dd>${audMd(variant.useWhen)}</dd></div>
+        <div class="not"><dt>Not for</dt><dd>${audMd(variant.notFor)}</dd></div>
+      </dl>
+    </div>`;
+}
+function renderAudienceVariantCard(sec) {
+  const note = sec.note ? `<p class="note">${audMd(sec.note)}</p>` : '';
+  return `<section id="${esc(sec.name)}" class="card">
+  <header class="card-h">
+    <div class="card-title"><h2>${esc(sec.name)}</h2>${sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : ''}</div>
+    <p class="what">${audMd(sec.what)}</p>
+    ${sec.variants.map(renderAudienceVariant).join('\n    ')}${note}
+  </header>
+  <div class="decks">
+    <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body">${sec.demoLight}</div></div>
+    <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body">${sec.demoDark}</div></div>
+  </div>
+  ${audienceCodeTabs(sec.snippets)}
+</section>`;
+}
 function renderAudienceCard(sec) {
+  if (sec.variants) return renderAudienceVariantCard(sec);
   const badge = sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : '';
   const replaces = sec.replaces ? `<p class="replaces">${audMd(sec.replaces)}</p>` : '';
   const note = sec.note ? `<p class="note">${audMd(sec.note)}</p>` : '';
