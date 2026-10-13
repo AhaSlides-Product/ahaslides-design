@@ -17,7 +17,7 @@
     <button style="font-family:'Plus Jakarta Sans',sans-serif">More</button>
   </aha-tooltip>
 
-  <!-- edge-aligned: same side, aligned to the trigger's start edge, arrow 16px in -->
+  <!-- edge-aligned: same side, aligned to the trigger's start edge, arrow on the trigger centre -->
   <aha-tooltip text="Aligned to the left edge" placement="bottom-start">
     <button style="font-family:'Plus Jakarta Sans',sans-serif">Aligned</button>
   </aha-tooltip>
