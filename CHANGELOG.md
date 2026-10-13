@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.162.1 — 2026-10-13
+### Fixed
+- `<aha-tooltip>` edge-aligned placements (`top-end`, `bottom-end`, `left-end`, `right-start`, `right-end` and the rest): the arrow is the same 10px triangle as the centred placements. Before, `top-end` and `bottom-end` kept `left:50%` beside `right:16px` (a 26px stretched box), `left-end` kept `top:100%` beside `bottom:12px`, and `right-start` and `right-end` kept `left:50%` beside `right:100%`. Every inset is now reset before the placement sets its own. (#PRNUM)
+- The edge-aligned arrow points at the trigger: it sits 16px in from the aligned edge (12px on the vertical sides) but no further than the trigger centre, so a 24px icon button gets an arrow over its middle. The trigger size is measured once by a `ResizeObserver` onto the persistent bubble node (`--aha-tip-trigger-w` / `-h`); the shadow DOM is still built once. Triggers wider than 42px render as before. (#PRNUM)
+
 ## 0.162.0 — 2026-10-12
 ### Changed
 - The audience field compositions now use the foundation fields at `size="lg"` (48px) instead of `size="touch"` (56px): `<aha-counted-input>` (line and number), `<aha-counted-textarea>` and `<aha-select>` inside `<aha-audience-field>`, in the element docs, contract, library entry and HTML/React/Vue snippets. The foundation `touch` rules stay for other consumers; buttons keep `size="touch"`. At `large`/`lg` the field text of `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and the `<aha-select>` trigger is now 16px (`--aha-size-l`) on a 24px line, so the audience field text stays at the 16px iOS focus-zoom floor; `<aha-counted-textarea>` gains a `large` rule for the text only (no fixed height). At lg the audience fields still show used/max in the counter, a 12px side padding (6px 12px on the textarea) and a white textarea counter fill. (#220)
