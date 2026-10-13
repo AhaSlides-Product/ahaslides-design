@@ -129,6 +129,10 @@ Read the list from the DS each time — surfaces get added.
 8. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
    24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
    no toggle, switch, input, select or button in a group header.
+9. Any new page, route, site or app shell sets its own document `<title>` and the one favicon set:
+   `<specific part> | AhaSlides`, brand last, updated on every client-side route change, The Splash
+   files from `logo/favicon/` with `/favicon.ico` at the site root. Rules:
+   `https://design.ahaslides.io/guidelines/page-title-favicon/page-title-favicon.md`.
 
 ## 4. Judge
 
