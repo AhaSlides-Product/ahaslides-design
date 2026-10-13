@@ -25,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
+import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
 import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines } from './colour-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -685,6 +686,7 @@ const PJAX_JS = `
       });
     });
   }
+  absolutize(document.head, location.href);   // the favicon links outlive a swap, and a relative href would re-resolve against the new URL
   absolutize(document.querySelector('.doc-header'), location.href);
   absolutize(document.querySelector('.doc-nav'), location.href);
   absolutize(document.querySelector('.doc-main'), location.href);
@@ -998,13 +1000,16 @@ function sidebarNav(base, active, section) {
 
 const missingGlyphs = SEARCH_GLYPHS.filter(n => !ICONS.icons[n]);
 if (missingGlyphs.length && ICONS.count) throw new Error(`docs search uses glyphs missing from icons/registry.json: ${missingGlyphs.join(', ')}`);
-function docShell({ base, active, section = 'components', main, extraCss = '', noSidebar = false }) {
+const SITE_NAME = 'AhaSlides Design System';
+const claimDocumentTitle = uniqueTitleRegistry();
+const siteTitle = (page, section, claimedBy) => claimDocumentTitle(documentTitle({ site: SITE_NAME, page, section, environment: CDN_REF === 'staging' ? 'staging' : null }), claimedBy);
+function docShell({ base, active, title, titleSection, section = 'components', main, extraCss = '', noSidebar = false }) {
   // The Settings page carries its own in-page antd Anchor, so the shell sidebar would be a second
   // nav of the same items — noSidebar drops it and .doc-main (flex:1) reclaims the width.
   const nav = noSidebar ? '' : sidebarNav(base, active, section);
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AhaSlides Design System — for agents</title>
+${documentHead({ title: siteTitle(title, titleSection, active), base })}
 <meta name="generator" content="ahaslides-design generate.mjs"/>
 <script>if(location.hostname==='ahaslides-product.github.io')location.replace('https://design.ahaslides.io'+location.pathname.replace(/^\/ahaslides-design/,'')+location.search+location.hash)</script>
 <meta name="aha:package" content="${esc(PKGNAME)}"/>
@@ -1068,7 +1073,7 @@ function renderFeedPage(f, content) {
     <div class="code-head"><div class="tabs"><span class="tab active">${esc(f.file)}</span></div><button class="copy" type="button">Copy</button></div>
     <pre class="active">${esc(content)}</pre>
   </div>`;
-  return docShell({ base: '../', active: 'feed:' + f.file, section: 'feeds', main });
+  return docShell({ base: '../', active: 'feed:' + f.file, title: f.name, section: 'feeds', main });
 }
 
 // The "smart widget" control bar: one compact segmented row per playground axis. Each option carries
@@ -1125,7 +1130,7 @@ function renderChartsPage(c) {
     <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
   </div>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'charts', section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
+  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
 }
 
 function renderHtml(c) {
@@ -1156,7 +1161,7 @@ function renderHtml(c) {
 
   <h2>Spec</h2>
   <div class="spec-line">${specList(c.spec)}</div>`;
-  return docShell({ base: '../', active: c.slug, section: area, main });
+  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
 }
 
 // Hidden conformance harness (composites): mounts both framework tiers with the token layer,
@@ -1494,7 +1499,7 @@ function renderAudienceLibrary() {
     for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
   </script>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+  return docShell({ base: '../', active: 'audience', title: AUDIENCE.title, section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
 function renderMarketingHtml(b) {
@@ -1519,7 +1524,7 @@ function renderMarketingHtml(b) {
     <div class="code-head"><div class="tabs"><span class="tab active">head</span></div><button class="copy" type="button">Copy</button></div>
     <pre class="active">${esc(`<link rel="stylesheet" href="${SITE}/variables.css">`)}</pre>
   </div>`;
-  return docShell({ base: '../../', active: 'marketing:' + b.slug, section: 'patterns', main, extraCss: `
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'patterns', main, extraCss: `
   .marketing-stage{margin:0 0 12px}` });
 }
 function renderMarketingMd(b) {
@@ -1561,7 +1566,7 @@ const LANDING_REDIRECTS = {
   grid: 'grid/index.html',
 };
 const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
-<title>Moved — AhaSlides Design System</title>
+<title>${esc(documentTitle({ site: SITE_NAME, page: 'Page moved' }))}</title>
 <meta name="robots" content="noindex"/>
 <meta http-equiv="refresh" content="0; url=${target}"/>
 <link rel="canonical" href="${target}"/>
@@ -1618,7 +1623,7 @@ function renderGuidelineHtml(p) {
   .pat-h3{font-size:14px;font-weight:600;margin:16px 0 6px}
   .pat-hr{border:none;border-top:1px solid var(--aha-split);margin:22px 0}
   .pat-foot{font-size:13px;color:var(--aha-text-tertiary)}`;
-  return docShell({ base: '../../', active: 'guideline:' + p.slug, section: 'guidelines', main, extraCss });
+  return docShell({ base: '../../', active: 'guideline:' + p.slug, title: p.name, titleSection: 'Guidelines', section: 'guidelines', main, extraCss });
 }
 function renderGuidelineMd(p) {
   const skill = p.skillRef || {};
@@ -1843,7 +1848,7 @@ ${HUB_ANCHOR_CSS}
   .ctrl h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:16px;margin:0 0 6px}
   .ctrl h4{font-size:13px;margin:16px 0 6px;color:var(--aha-text-secondary)}
   .ctrl h3 code{font-size:12px;font-weight:400;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-radius:5px;padding:1px 7px}`;
-  return docShell({ base: '../', active: 'hub:settings', section: 'settings', main, extraCss, noSidebar: true });
+  return docShell({ base: '../', active: 'hub:settings', title: 'Settings', section: 'settings', main, extraCss, noSidebar: true });
 }
 
 /* Consolidated Settings page as a Markdown feed — the same self-contained content, flat, for agents. */
@@ -2059,7 +2064,7 @@ function renderTokenPage(pageSlug) {
   .ramp-cell{width:44px;text-align:center}
   .ramp-chip{height:34px;border-radius:6px;border:1px solid rgba(0,0,0,.06)}
   .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}`;
-  return docShell({ base: '../', active: 'token:' + pageSlug, section: 'foundations', main, extraCss });
+  return docShell({ base: '../', active: 'token:' + pageSlug, title: pg.title, section: 'foundations', main, extraCss });
 }
 
 /* ===== self-describing "how to consume" blocks =====
@@ -2194,7 +2199,7 @@ function renderIndex() {
   ${startCards()}
 
   <p class="body" style="margin-top:24px">Building with the design system? <a href="get-started/index.html">For developers &rarr;</a></p>`;
-  return docShell({ base: '', active: '__overview__', section: 'overview', main });
+  return docShell({ base: '', active: '__overview__', title: null, section: 'overview', main });
 }
 
 /* ===== For developers — install steps and agent feeds ===== */
@@ -2220,7 +2225,7 @@ function renderGetStarted(cs) {
 
   <h2>Roadmap</h2>
   <p class="body">The <b>Components</b> tab lists the full planned inventory (greyed = <b>soon</b>), taken from the aha-design <code>component-standard</code> measured set. Leaf primitives ship as one shared Lit web component (portable to any environment); composites ship as antd / ant-design-vue wrappers (app-only). Each component follows the same lifecycle: contract &rarr; build &rarr; theme &rarr; render-matrix verify &rarr; judge &rarr; publish.</p>`;
-  return docShell({ base: '../', active: '__get-started__', section: 'developers', main });
+  return docShell({ base: '../', active: '__get-started__', title: 'For developers', section: 'developers', main });
 }
 
 /* ===== Icon library — runtime, gallery page, and agent feeds (from the registry) ===== */
@@ -2306,7 +2311,7 @@ function renderIconGallery() {
   .stroke-cell{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 8px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;color:var(--aha-icon-default,#4B4B4B);font-family:var(--aha-font-product)}
   .stroke-stage{display:flex;align-items:center;gap:14px;min-height:32px}
   .stroke-cap{font-size:12px;color:var(--aha-text-secondary);font-family:Menlo,monospace}`;
-  return docShell({ base: '../', active: '__icons__', section: 'foundations', main, extraCss });
+  return docShell({ base: '../', active: '__icons__', title: 'Icon library', section: 'foundations', main, extraCss });
 }
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
 const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
@@ -2314,7 +2319,7 @@ const COLOUR_RULES = loadColourRules(root);
 const BACKGROUNDS = loadBackgrounds(root);
 function renderBackgroundLibraryPage() {
   const { main, extraCss } = renderBackgroundLibrary(COLOUR_RULES, BACKGROUNDS, { site: SITE, headline });
-  return docShell({ base: '../', active: '__backgrounds__', section: 'foundations', main, extraCss });
+  return docShell({ base: '../', active: '__backgrounds__', title: 'Background library', section: 'foundations', main, extraCss });
 }
 const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
 const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
@@ -2410,8 +2415,8 @@ function renderLogoPage() {
   ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
   <p class="body">Don&rsquo;t:</p>
   <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
-  <h3 class="tok-h3">Favicon</h3>
-  <p class="body">Use <code>favicon.ico</code> and <code>favicon-32.png</code> in <code>&lt;link rel="icon"&gt;</code>, <code>favicon-180.png</code> (white ground, because iOS fills transparency black) in <code>&lt;link rel="apple-touch-icon"&gt;</code>, and <code>favicon-512.png</code> as the 512 px icon in the web app manifest. All four are The Splash in its own colours, centred with even padding; rebuild them with <code>node favicons.mjs</code>.</p>
+  <h3 class="tok-h3" id="favicon">Favicon</h3>
+  <p class="body">The four files in <code>logo/favicon/</code> are The Splash in its own colours, centred with even padding: <code>favicon.ico</code>, <code>favicon-32.png</code>, <code>favicon-180.png</code> (white ground) and <code>favicon-512.png</code>. Rebuild them with <code>node favicons.mjs</code>. Which tag uses which file, and where <code>/favicon.ico</code> must answer, is in the <a href="../guidelines/page-title-favicon/index.html">Page title and favicon</a> guideline.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
   <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Third-party marks</h3>
@@ -2450,7 +2455,7 @@ function renderLogoPage() {
   .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}
   .lockup-demo{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:24px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
   .lockup-demo--dark{background:var(--aha-bg-dark);border-color:var(--aha-bg-dark)}`;
-  return docShell({ base: '../', active: '__logo__', section: 'foundations', main, extraCss });
+  return docShell({ base: '../', active: '__logo__', title: 'Logo library', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
   const byFam = {};
@@ -2624,6 +2629,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
@@ -2633,10 +2639,10 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
-writeFileSync(join(OUT, COLOUR_RULES_PAGE), renderColourRulesPage(COLOUR_RULES, {
+writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
   fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
   templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
-}));
+}), { title: siteTitle('Brand colour rules', null, COLOUR_RULES_PAGE), base: '../' }));
 writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
 writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 writeFileSync(join(OUT, 'colour-rules.agent.json'), renderColourRulesAgent(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
@@ -2671,6 +2677,7 @@ const indexLines = [
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
   `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale (one colour, per the colour rules).`,
+  `> Page title and favicon: every page, route, site and app sets its own document <title> as "<specific part> | AhaSlides" (brand last, one " | " separator; a named site ends "| AhaSlides <Site name>"; only the marketing home page is brand-first) and links the one favicon set, The Splash in ${SITE}/logo/favicon/, with /favicon.ico answering at the site root. Rules: ${SITE}/guidelines/page-title-favicon/page-title-favicon.md`,
   `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers or marketing-style page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
   '>',
   '> ⚑ Before you build: this is the OFFICIAL AhaSlides anti-slop tool. Read anti-slop.md and',
