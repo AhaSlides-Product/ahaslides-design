@@ -449,9 +449,10 @@
           "id": "C3",
           "title": "Vivid Pink at 5% is a state fill, plus at most one highlighted panel per screen",
           "source": [
+            "3.2",
             "3.7"
           ],
-          "test": "Vivid Pink at 5% (--aha-bg-accent) fills a hover or selected state, and at most one highlighted panel on a screen. A second pale pink panel on the same screen, or pale pink as the background of a page or a full-width section, fails. The fill a DS component ships with (a tag, a badge, a selected card) comes from its contract and is not counted as a panel."
+          "test": "Vivid Pink at 5% (--aha-bg-accent) fills a hover or selected state, and at most one highlighted panel on a screen. A second pale pink panel on the same screen, or pale pink as the background of a page or of a full-width section on a screen of the product app, fails. A web page built from full-width sections, wherever it lives (a help article, a sign-up or upgrade page), may use pale pink sections under rules 3.2 to 3.5: they never sit next to each other, and a full white section sits between them. The fill a DS component ships with (a tag, a badge, a selected card) comes from its contract and is not counted as a panel."
         },
         {
           "id": "C4",

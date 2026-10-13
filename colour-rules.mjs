@@ -77,6 +77,13 @@ export function listTables(rules) {
   })));
 }
 
+/** The explanatory paragraphs that are not rules, in reading order. */
+export function listNotes(rules) {
+  return rules.sections.flatMap(section => section.blocks.filter(block => block.type === 'paragraph' && !block.rule).map(block => ({
+    section: sectionNumber(section), sectionTitle: section.title, text: markupToText(block.text),
+  })));
+}
+
 /** Rule id to the judge criteria that cite it, as "surface:C1". */
 export function judgeCriteriaByRule(store) {
   const byRule = {};
@@ -168,6 +175,7 @@ export function renderColourRulesAgent(rules, { site, store, backgrounds }) {
     glance: rules.glance.map(markupToText),
     rulesByEnvironment: Object.fromEntries(rules.environment.map(name => [name, ruleList.filter(rule => rule.environment.includes(name)).map(rule => rule.id)])),
     rules: ruleList,
+    notes: listNotes(rules),
     tables: listTables(rules),
     splash: {
       ...Object.fromEntries(Object.entries(rules.splash).filter(([key]) => !key.startsWith('$'))),
@@ -185,10 +193,11 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
   const judgedBy = judgeCriteriaByRule(store);
   const ruleList = listRules(rules);
   const tables = listTables(rules);
+  const notes = listNotes(rules);
   const tag = (environment) => `[${environment.join(', ')}]`;
   const paletteValue = (colour) => colour.hex || (colour.alphaHex && `${colour.alphaHex} (flat on white ${colour.flatHex})`)
     || (colour.tints && `${colour.tintsLabel}: ${colour.tints.join(', ')}. ${markupToText(colour.tintsAfter)}`) || colour.valueText;
-  let md = `# ${rules.title}\n\n> Generated from ${COLOUR_RULES_FILE} — do not edit by hand. The human page is ${site}/${COLOUR_RULES_PAGE}; the machine feed is ${site}/colour-rules.agent.json.\n> Last updated ${longDate(rules.updated)}. Each rule names the environments it applies to in square brackets. Product and audience work is judged on the anti-slop surfaces colour and background (${site}/anti-slop.md); marketing, video and social work by the aha-mkt skill.\n\n${markupToText(rules.lede)}\n\n`;
+  let md = `# ${rules.title}\n\n> Generated from ${COLOUR_RULES_FILE} — do not edit by hand. The human page is ${site}/${COLOUR_RULES_PAGE}; the machine feed is ${site}/colour-rules.agent.json.\n> Last updated ${longDate(rules.updated)}. Each rule names the environments it applies to in square brackets. Product and audience work is judged on the anti-slop surfaces colour and background (${site}/anti-slop.md); work in the marketing-web, video and social-ads environments by the aha-mkt skill.\n\n${markupToText(rules.lede)}\n\n`;
   md += `## The rules at a glance\n\n${rules.glance.map((line, index) => `${index + 1}. ${markupToText(line)}`).join('\n')}\n\n`;
   md += `## Rules by environment\n\n${rules.environment.map(name => `- ${name}: ${ruleList.filter(rule => rule.environment.includes(name)).map(rule => rule.id).join(', ')}`).join('\n')}\n\n`;
   md += `## Palette\n\n${rules.palette.map(colour => `- ${markupToText(colour.name)}: ${paletteValue(colour)} — ${markupToText(colour.role)}`).join('\n')}\n\n`;
@@ -196,8 +205,10 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
     const number = sectionNumber(section);
     const sectionRules = ruleList.filter(rule => rule.section === number);
     const sectionTables = tables.filter(table => table.section === number);
-    if (!sectionRules.length && !sectionTables.length) continue;
+    const sectionNotes = notes.filter(note => note.section === number);
+    if (!sectionRules.length && !sectionTables.length && !sectionNotes.length) continue;
     md += `## ${number}. ${section.title}\n\n`;
+    if (sectionNotes.length) md += `${sectionNotes.map(note => note.text).join('\n\n')}\n\n`;
     if (sectionRules.length) md += `${sectionRules.map(rule => `- ${rule.id} ${tag(rule.environment)} ${rule.text}${judgedBy[rule.id] ? ` (judge: ${judgedBy[rule.id].join(', ')})` : ''}`).join('\n')}\n\n`;
     for (const table of sectionTables) {
       md += `Table ${table.id} ${tag(table.environment)}\n\n| ${table.columns.join(' | ')} |\n|${table.columns.map(() => '---').join('|')}|\n${table.rows.map(row => `| ${row.join(' | ')} |`).join('\n')}\n\n`;
