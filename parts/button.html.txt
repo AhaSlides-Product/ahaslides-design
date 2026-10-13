@@ -5,6 +5,7 @@
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';   // registers <aha-icon> for the icon slot
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tooltip.js';   // registers <aha-tooltip> for the icon-only canvas control
 </script>
 
 <div style="display:flex; gap:8px">
@@ -19,9 +20,12 @@
 <aha-button variant="primary" size="lg" block>Get started</aha-button>
 <aha-button icon-only variant="tertiary" aria-label="Settings"><aha-icon name="system-gear" size="16" decorative></aha-icon></aha-button>
 
-<!-- xl (52px) is for presenter controls drawn inside a slide canvas and read from across the room.
-     Recolour through --aha-color-primary on :root, never ::part(button). -->
-<aha-button variant="primary" size="xl">Reveal results</aha-button>
+<!-- Presenter controls drawn inside a slide canvas are lg (40px), themed once with applyCanvasDeck from lib/canvas.js
+     (never ::part(button)). shortcut draws the key as a display-only chip after the label. -->
+<aha-button variant="primary" size="lg" shortcut="Enter">Reveal results</aha-button>
+<aha-tooltip size="lg" text="Mute music" shortcut="M">
+  <aha-button variant="secondary-deck" size="lg" icon-only aria-label="Mute music (M)"><aha-icon name="system-speaker-simple-high" size="16" decorative></aha-icon></aha-button>
+</aha-tooltip>
 
 <!-- touch (48px, 8px corners) is the audience phone's one primary action; the audience page wraps it as <aha-audience-submit>. -->
 <aha-button variant="primary" size="touch" block>Submit</aha-button>

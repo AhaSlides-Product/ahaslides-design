@@ -1,14 +1,16 @@
 <!--
   BAD-EXAMPLE (C10, icon-tooltip axis) — an icon-only in-canvas control (mute
   music) with no discoverable name or shortcut. An icon button has no room for an
-  inline chip, so its tooltip AND aria-label must be the button's NAME plus the
-  shortcut in parentheses, e.g. "Mute music (M)". Here the aria-label is a bare
-  "Mute" and there is no tooltip carrying the name+shortcut, so a viewer can't
-  tell what it does or which key toggles it.
+  inline chip, so its tooltip shows the button's NAME followed by the shortcut
+  chip ("Mute music" + M) and its aria-label is the name plus the shortcut in
+  parentheses, "Mute music (M)". Here the aria-label is a bare "Mute" and there
+  is no tooltip carrying the name and shortcut, so a viewer can't tell what it
+  does or which key toggles it.
 
   Colour/font come from xprops (C1 clean) and the button is the library
   <a-button> (C4 clean), so this isolates C10 → the only expected FAIL is C10.
-  Fix: set title and aria-label to "Mute music (M)".
+  Fix: wrap it in a tooltip showing "Mute music" and an M chip, and set
+  aria-label to "Mute music (M)".
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
