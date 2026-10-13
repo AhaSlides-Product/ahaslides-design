@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.165.0 — 2026-10-13
 ### Changed
-- Audience library: the `SubmitButton`, `SecondaryButton` and `TertiaryButton` sections are now one `Button` section with three variants, Primary (`<aha-audience-submit>`), Secondary (`secondary-deck`) and Tertiary (`tertiary-deck`), each demo, rule, state and snippet carried across unchanged. Docs-page change only: no tag, attribute, event, export or `lib/` file changes, so no slide type needs to change; the old `#SubmitButton`, `#SecondaryButton` and `#TertiaryButton` page anchors are gone. (#236)
+- Audience library: the `SubmitButton`, `SecondaryButton` and `TertiaryButton` sections are now one `Button` section with three variants, Primary (`<aha-audience-submit>`), Secondary (`secondary-deck`) and Tertiary (`tertiary-deck`), each rule, state, demo and snippet carried across unchanged, shown as labelled variant blocks (a new optional `variants` list in `audience/library.json`, rendered by the audience page generator only). Docs-page change only: no tag, attribute, event, export or `lib/` file changes, so no slide type needs to change; the old `#SubmitButton`, `#SecondaryButton` and `#TertiaryButton` page anchors are gone. (#236)
 
 ## 0.164.6 — 2026-10-13
 ### Fixed
