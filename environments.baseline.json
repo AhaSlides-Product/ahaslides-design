@@ -94,7 +94,6 @@
   "contract:viewport-switch",
   "contract:waiting-for-host",
   "guideline:app-shell",
-  "guideline:background",
   "guideline:canvas",
   "guideline:feedback",
   "guideline:overlays",

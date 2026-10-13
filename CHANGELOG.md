@@ -22,9 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.162.2 — 2026-10-13
+## 0.164.2 — 2026-10-13
 ### Changed
 - `<aha-radio variant="button">` states follow the new reference: the label is regular weight (400) in every state, hover turns the text brand and keeps the grey border, and the selected pill is a brand border with brand text on a white fill (was bg-accent tint with default text). A selected disabled pill now has a darker grey fill (`--aha-btn-disabled-bg`) than the unselected disabled pills, with no brand colour; hover on a disabled pill changes nothing. Dot and card variants are unchanged. Revert: revert this PR. (#232)
+
+## 0.164.0 — 2026-10-12
+### Added
+- One source for the colour and background rules: `brand/colour-rules.json` (exported as `@ahaslides-product/design/colour-rules.json`). Every rule carries an id and the environments it applies to (`product`, `audience`, `marketing-web`, `video`, `social-ads`). It also holds what only the marketing skills had: applied usage per surface, no gradients, retired colours, the Splash generator's readings. (#227)
+- Agent feeds from that source: `colour-rules.md` and `colour-rules.agent.json` (rules by environment, palette, Splash geometry and files, open points, and the judge criteria that check each rule). Both are in `llms.txt` and in every environment's route. (#227)
+- Background library (Foundations): 18 ready-made Splash backgrounds in `backgrounds/` (centre, right and minimal at 16:9, 1:1 and 9:16, on white and on Vivid Pink) with `backgrounds/manifest.json`, and the generator `build-splash.mjs` (`npm run splash`, export `./build-splash`), which builds any size from `logo/thesplash.svg`. (#227)
+- Anti-slop surface `colour` (8 advisory judge criteria, with its eval set): palette only, each colour in its role, text colour by background, the primary button, status without hue, chart colours, one-colour logos and file-type icons, borders and shadows. No new hard gate in `screen-lint.mjs` or `standards.mjs`. (#227)
+### Changed
+- The Brand colour rules page (`foundations/brand-colour-rules.html`, same address and look) is now generated from `brand/colour-rules.json`. No existing rule changed. "Still to decide" says "Nothing open." The minimal Splash is two copies of the largest hook, sized as if the icon were 1.15 times the longer side (each hook 0.73 of it), each pinned to its own corner with offsets measured against the longer side, so it works on any aspect ratio; colours are defined in RGB only (converted when something goes to print); and every button and text link, on any surface, is the design system Button component (there is no separate marketing button table), except the white primary button on Vivid Pink (rule 6.2), whose hover and focus outline the page now states. (#227)
+- The Background pattern and the `background` anti-slop surface are rewritten to the colour rules (C1 to C8 replace C1 to C3). A consumer judged on the old criteria should re-read them: a grey page body (`--aha-bg-layout` behind the content) and a red or green status tint no longer pass, a colour "the human asked for" is no longer an exception, and the criteria add one pale pink panel per screen, black only for presenting and viewers, no dark mode, and where a Splash background is allowed. Tokens and components are unchanged. (#227)
+### Removed
+- `brand/visual-identity-colour-rules.html`, the hand-made page; `brand/colour-rules.json` and `brand/colour-rules.template.html` replace it. (#227)
 
 ## 0.162.0 — 2026-10-12
 ### Changed

@@ -25,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines } from './colour-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
@@ -946,7 +947,8 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
-      `<a class="nav-item" href="${base}foundations/brand-colour-rules.html"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item${active==='__backgrounds__'?' active':''}" href="${base}${BACKGROUND_LIBRARY_PAGE}"><span>Background library</span><span class="nav-count">${BACKGROUNDS.length}</span></a>` +
+      `<a class="nav-item" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -1052,6 +1054,8 @@ const FEED_HIGHLIGHTS = {
   'marketing.agent.json': ['Every marketing section with its summary', 'Paste-and-run html and css, and how to consume it'],
   'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
   'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
+  'colour-rules.md': ['The colour and background rules for agents', 'Each rule tagged with its environment and the judge criteria that check it', 'Same source as the Brand colour rules page'],
+  'colour-rules.agent.json': ['The colour and background rules in machine form', 'Palette, rules by environment, Splash geometry and files, open points'],
 };
 
 // Agent-feed page: the raw file content shown in a code wrapper (with copy), inside the shell.
@@ -1873,7 +1877,7 @@ function renderDesignMd(t, cs) {
 
 ## Brand
 Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
-Backgrounds are **white by default**; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states; no gradients on fills (AI-affordance border-only exception).
+The page background is **white**; light grey is for surfaces inside or beside the white page (cards, sidebars, input fields, table headers, the editor workspace), never a whole page or a full-width section; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states plus at most one highlighted panel per screen; black backgrounds are for full-screen presenting and video or image viewers only, and there is no dark mode; no gradients on fills (AI-affordance border-only exception). Every colour and background rule, tagged by environment: ${SITE}/colour-rules.md.
 Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
@@ -2105,6 +2109,7 @@ function antiSlopTargetUrl(source) {
   if (m) return `${SITE}/${m[1]}.agent.json`;
   m = source.match(/^guidelines\/([a-z0-9-]+)\.json$/);
   if (m) return `${SITE}/guidelines/${m[1]}/${m[1]}.agent.json`;
+  if (source === COLOUR_RULES_FILE) return `${SITE}/colour-rules.agent.json`;
   throw new Error(`anti-slop target "${source}" has no published feed — map it in antiSlopTargetUrl`);
 }
 
@@ -2278,6 +2283,12 @@ function renderIconGallery() {
 }
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
 const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
+const COLOUR_RULES = loadColourRules(root);
+const BACKGROUNDS = loadBackgrounds(root);
+function renderBackgroundLibraryPage() {
+  const { main, extraCss } = renderBackgroundLibrary(COLOUR_RULES, BACKGROUNDS, { site: SITE, headline });
+  return docShell({ base: '../', active: '__backgrounds__', section: 'foundations', main, extraCss });
+}
 const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
 const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
 const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white']);
@@ -2494,6 +2505,10 @@ if (MARKETING.length) {
     { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
+RAW_FEEDS.push(
+  { name: 'colour-rules.md', file: 'colour-rules.md', page: 'colour-rules-md', desc: 'The colour and background rules for agents: every rule tagged with its environment and the judge criteria that check it.' },
+  { name: 'colour-rules.agent.json', file: 'colour-rules.agent.json', page: 'colour-rules-agent-json', desc: 'Machine feed: palette, rules by environment, Splash geometry and files, and the points still open.' },
+);
 if (ANTISLOP) {
   RAW_FEEDS.push(
     { name: 'anti-slop.md', file: 'anti-slop.md', page: 'anti-slop-md', desc: 'The official AhaSlides anti-slop loop — per-surface rules + the binary judge a consumer self-runs. Read this BEFORE building.' },
@@ -2582,6 +2597,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
@@ -2590,7 +2606,14 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
-cpSync(join(root, 'brand', 'visual-identity-colour-rules.html'), join(OUT, 'foundations', 'brand-colour-rules.html'));
+writeFileSync(join(OUT, COLOUR_RULES_PAGE), renderColourRulesPage(COLOUR_RULES, {
+  fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
+  templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
+}));
+writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
+writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
+writeFileSync(join(OUT, 'colour-rules.agent.json'), renderColourRulesAgent(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
+console.log(`  ✓ colour rules: ${COLOUR_RULES_PAGE} · colour-rules.md · colour-rules.agent.json · ${BACKGROUND_LIBRARY_PAGE} (${BACKGROUNDS.length} backgrounds)`);
 writeFileSync(join(OUT, 'index.html'), renderIndex());
 mkdirSync(join(OUT, 'get-started'), { recursive: true });
 writeFileSync(join(OUT, 'get-started', 'index.html'), renderGetStarted(contracts));
@@ -2634,7 +2657,7 @@ const indexLines = [
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
-  `>   ${SITE}/foundations/brand-colour-rules.html  brand colour rules — the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts); the token reference is foundations/colour.html`,
+  ...colourRulesIndexLines(SITE, BACKGROUNDS),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,

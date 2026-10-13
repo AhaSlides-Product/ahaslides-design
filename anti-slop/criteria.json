@@ -409,20 +409,16 @@
     },
     "background": {
       "surface": "background",
-      "origin": "seeded",
-      "seededFrom": {
-        "plugin": "aha-design",
-        "version": "1.80.0",
-        "importedOn": "2026-09-28"
-      },
-      "skillRef": {
-        "build": "aha-design:aha-design-antd",
-        "judge": "aha-design:aha-design-background-judge"
-      },
+      "origin": "authored",
+      "skillRef": null,
       "targets": [
         {
           "source": "guidelines/background.json",
-          "use": "the DS background rule: white by default, the sanctioned exceptions, and the one gradient allowed"
+          "use": "the product background pattern: which surface may be non-white, and the token each one binds to"
+        },
+        {
+          "source": "brand/colour-rules.json",
+          "use": "the colour and background rules each criterion cites by id (sections 3, 5 and 7), with what is still open"
         },
         {
           "source": "tokens.canonical.json",
@@ -432,18 +428,172 @@
       "criteria": [
         {
           "id": "C1",
-          "title": "Every surface is white-by-default or a sanctioned exception",
-          "test": "Cards, panels, page/section wrappers, modal/drawer bodies, table/list rows and tab panels are white or unset (--aha-bg-container) unless the non-white background is a sanctioned exception — a semantic feedback tint (--aha-bg-positive / -negative / -warning / -informative), the app-shell layout grey (--aha-bg-layout), an interactive hover/selected/active fill (--aha-bg-hover) — or the task carries explicit evidence the human asked for the colour; a decorative or brand tint on a neutral container fails here only."
+          "title": "The page and every neutral container is white",
+          "source": [
+            "3.1",
+            "9.1",
+            "9.2",
+            "9.3"
+          ],
+          "test": "The page background and every neutral container (card body, panel, modal and drawer body, table and list row, tab panel) is white or unset (--aha-bg-container), unless it is one of the non-white surfaces judged in C2 to C4: light grey inside or beside the page, Vivid Pink at 5% as a state fill or the one highlighted panel, or black for presenting and viewers. Any other colour on a surface we draw fails here: a brand, pastel or purple fill, a panel painted Vivid Pink, a tint added for emphasis. Misplaced grey, pale pink or black is judged under C2, C3 or C4 and is not flagged again here. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not."
         },
         {
           "id": "C2",
-          "title": "No gradient as a background or fill",
-          "test": "No linear-, radial- or conic-gradient is used as a background or fill; the only exception is the AI affordance, where the gradient sits on the border (border-box) and the padding-box fill stays white."
+          "title": "Light grey sits only inside or beside the white page",
+          "source": [
+            "3.6"
+          ],
+          "test": "Light grey (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-container-disabled) is used only on a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the editor workspace around the slide, or a hovered or disabled control. Grey as the background of a whole page, of the layout body behind the content, or of a full-width section fails."
         },
         {
           "id": "C3",
-          "title": "Non-white colour comes from a token, never a raw hex",
-          "test": "A legitimately non-white surface takes its value from a DS token (--aha-bg-* / --aha-color-*), never a hardcoded #hex, rgb() or hsl() literal — a disallowed non-white surface is already a C1 fail and is not re-flagged here."
+          "title": "Vivid Pink at 5% is a state fill, plus at most one highlighted panel per screen",
+          "source": [
+            "3.7"
+          ],
+          "test": "Vivid Pink at 5% (--aha-bg-accent) fills a hover or selected state, and at most one highlighted panel on a screen. A second pale pink panel on the same screen, or pale pink as the background of a page or a full-width section, fails. The fill a DS component ships with (a tag, a badge, a selected card) comes from its contract and is not counted as a panel."
+        },
+        {
+          "id": "C4",
+          "title": "Black backgrounds are for full-screen presenting and viewers only, and there is no dark mode",
+          "source": [
+            "3.8",
+            "3.9"
+          ],
+          "test": "A black or dark background (--aha-bg-dark, --aha-bg-dark-raised) is the background of full-screen presenting or of a video or image viewer, and of nothing else. A dark page, header, sidebar or panel fails, and so does a dark mode: a theme toggle, a dark theme class, or a prefers-color-scheme: dark restyle of our own. A DS component that ships with its own dark fill (a tooltip, the paywall panel) is judged by its contract, not here."
+        },
+        {
+          "id": "C5",
+          "title": "A status surface is not tinted",
+          "source": [
+            "7.1",
+            "7.2"
+          ],
+          "test": "No surface is filled or tinted red, yellow, amber, green or blue to show danger, warning, success or information. A status surface stays white (--aha-bg-positive, --aha-bg-negative, --aha-bg-warning and --aha-bg-informative all resolve to white) and carries its meaning with an icon, clear wording and an outline or a black fill."
+        },
+        {
+          "id": "C6",
+          "title": "No gradient as a background or fill",
+          "source": [
+            "3.10"
+          ],
+          "test": "No linear-, radial- or conic-gradient is used as a background or fill. The one exception is an AI feature, where the gradient sits on the border (border-box) and the padding-box fill stays white."
+        },
+        {
+          "id": "C7",
+          "title": "A non-white background comes from a token, never a raw colour",
+          "source": [],
+          "test": "A background that is allowed to be non-white takes its value from a DS token (--aha-bg-*), never a hardcoded #hex, rgb() or hsl() literal, even when the literal is the right colour. A background that is not allowed at all already fails C1 to C5 and is not flagged again here."
+        },
+        {
+          "id": "C8",
+          "title": "A Splash background appears only where it is allowed, and comes from the library",
+          "source": [
+            "5.6",
+            "5.9",
+            "5.10",
+            "5.11"
+          ],
+          "test": "A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, or one built by build-splash.mjs for the exact frame; hooks drawn, placed, stretched or recoloured by hand fail."
+        }
+      ]
+    },
+    "colour": {
+      "surface": "colour",
+      "origin": "authored",
+      "skillRef": null,
+      "targets": [
+        {
+          "source": "brand/colour-rules.json",
+          "use": "the colour rules each criterion cites by id: palette, logo, text, buttons, status, charts, what is exempt and what is still open"
+        },
+        {
+          "source": "tokens.canonical.json",
+          "use": "the --aha-* colour tokens: the only colours a product screen may bind to"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Only palette colours appear on anything we draw",
+          "source": [
+            "1.1",
+            "9.1",
+            "9.2",
+            "9.3",
+            "9.4"
+          ],
+          "test": "Every colour on UI we draw is Vivid Pink, Darker Pink, white, Vivid Pink at 5%, Vivid Pink at 30%, black or a grey, taken from an --aha-* token. Any other hue fails: purple, teal, blue, orange, a retired colour such as Radical Pink, or a near match of a palette colour. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not. The purple inside the logo file is the logo, not a UI colour. Which palette colour goes where is judged in C2 to C8, not here."
+        },
+        {
+          "id": "C2",
+          "title": "Each palette colour keeps its role",
+          "source": [
+            "1.2",
+            "2.7"
+          ],
+          "test": "Vivid Pink is the one primary colour. Darker Pink is hover and press only. Vivid Pink at 30% appears in charts only. The 10, 20, 45, 60 and 80% tints appear in illustrations only, never in the interface. Purple appears in the logo only: never in text, buttons, links, states, charts or backgrounds of the product app. A colour used outside its role fails."
+        },
+        {
+          "id": "C3",
+          "title": "Text colour follows the background it sits on",
+          "source": [
+            "6.4",
+            "6.5",
+            "6.6"
+          ],
+          "test": "Pink text and pink links sit on white only. On Vivid Pink at 5% or on grey, text and links are the default ink. On Vivid Pink, text is solid white, never white at a reduced opacity. Pink text on pale pink or on grey fails, and so does see-through white on Vivid Pink."
+        },
+        {
+          "id": "C4",
+          "title": "The primary button is Vivid Pink, and a destructive action is never the primary button",
+          "source": [
+            "6.1",
+            "6.2",
+            "6.3"
+          ],
+          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on a Vivid Pink background it is white with a Vivid Pink label. In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
+        },
+        {
+          "id": "C5",
+          "title": "Status carries no hue",
+          "source": [
+            "7.1",
+            "7.2",
+            "7.3",
+            "8.5"
+          ],
+          "test": "No red, yellow, amber, green or blue shows danger, warning, success or information, whether as text, an icon, a border or a dot. Status is shown with an icon, clear wording and an outline or a black fill. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow; never green and red. A tinted status background is judged on the background surface (C5 there), not here."
+        },
+        {
+          "id": "C6",
+          "title": "Charts use the four colours, in order",
+          "source": [
+            "8.1",
+            "8.2",
+            "8.3",
+            "8.4"
+          ],
+          "test": "A chart on an app screen uses four colours in this order and never more: Vivid Pink, black, Vivid Pink at 30%, light grey (the brand palette of <aha-chart>). Beyond four series the four repeat with a dashed line or a pattern and a label beside each mark. Anything drawn in Vivid Pink at 30% or light grey shows its value in writing. A fifth colour, a reordered palette or a hand-picked series colour fails. A presenter's own deck palette on the canvas is exempt."
+        },
+        {
+          "id": "C7",
+          "title": "Logos and file-type icons are one colour",
+          "source": [
+            "2.1",
+            "2.3",
+            "2.6",
+            "7.4"
+          ],
+          "test": "A customer or integration logo is shown in one colour, greyscale or Vivid Pink (white on a Vivid Pink background), with one treatment per row of logos, never in its own brand colours. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
+        },
+        {
+          "id": "C8",
+          "title": "Borders and shadows stay in the palette",
+          "source": [
+            "7.5"
+          ],
+          "test": "Every border, divider, outline, shadow and glow is black, white or a palette colour at any transparency. A shadow or border in another hue (a blue focus glow, a purple card shadow) fails."
         }
       ]
     },
