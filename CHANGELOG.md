@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.164.5 — 2026-10-13
+### Fixed
+- The app-shell eval fixture `pass-dashboard-shell` no longer sets the content region to `--aha-bg-layout`: the page body is white, as rule 3.6 and background criterion C2 require, and the join card is told apart by a `--aha-border-default` border. Rules, tokens and the other grey uses (sidebar, table header, editor workspace) are unchanged. (#129)
+
 ## 0.164.3 — 2026-10-13
 ### Changed
 - Colour rules name the medium, never "marketing": rule 3.2, rule 5.6, the applied-usage heading and its lead line, the Button paragraph in section 6 and rule 9.5 now say a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The environment ids are unchanged. (#233)
