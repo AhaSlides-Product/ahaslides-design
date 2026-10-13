@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.164.2 — 2026-10-13
 ### Changed
-- `<aha-radio variant="button">` states follow the new reference: the label is regular weight (400) in every state, hover turns the text brand and keeps the grey border, and the selected pill is a brand border with brand text on a white fill (was bg-accent tint with default text). A selected disabled pill now has a darker grey fill (`--aha-btn-disabled-bg`) than the unselected disabled pills, with no brand colour; hover on a disabled pill changes nothing. Dot and card variants are unchanged. Revert: revert this PR. (#232)
+- `<aha-radio variant="button">` states follow the new reference: the label is regular weight (400) in every state, hover turns the text brand and keeps the grey border, and the selected pill is a brand border with brand text on a white fill (was bg-accent tint with default text). A selected disabled pill now has a darker grey fill (`--aha-btn-disabled-bg`) than the unselected disabled pills, with no brand colour; hover on a disabled pill changes nothing. A selected or keyboard-focused pill now shows its brand border or focus ring on all four sides, in any position in the group (the neighbouring pill used to cover the shared edge). Dot and card variants are unchanged. Revert: revert this PR. (#232)
 
 ## 0.164.0 — 2026-10-12
 ### Added
