@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.167.0 — 2026-10-13
+### Added
+- **Page title and favicon** guideline (`guidelines/page-title-favicon.json`, [docs page](https://design.ahaslides.io/guidelines/page-title-favicon/index.html)): one rule for the browser tab title and the favicon on everything AhaSlides builds (product apps, audience and join pages, shared links, the marketing site, docs and help sites, internal tools). Titles are `<specific part> | AhaSlides`, brand last, one ` | ` separator, unique per page and updated on every client-side route change; only the marketing home page is brand-first. The favicon is The Splash set in `logo/favicon/`, with `/favicon.ico` answering at the site root. It says which of branding, search and usability wins where they disagree. Listed in `llms.txt` (header line, Patterns, and the `product`, `audience` and `marketing-web` routes) and in the agent plugin's build steps. Guidance only: no component, token or export changes. (#PR)
+### Fixed
+- Docs site: every page now has its own tab title in that format (`Button | AhaSlides Design System`; the home page is `AhaSlides Design System`) instead of `AhaSlides Design System — for agents` on every page, and every page links the favicon set. `/favicon.ico` now exists at the site root (it was a 404). The build fails if two pages claim the same title. (#PR)
+### Changed
+- Logo library → Favicon: the paragraph lists the four files and links to the new guideline for the tag set, instead of holding a second copy of the rule. (#PR)
+
 ## 0.165.1 — 2026-10-13
 ### Fixed
 - `<aha-tooltip>` edge-aligned placements (`top-end`, `bottom-end`, `left-end`, `right-start`, `right-end` and the rest): the arrow is the same 10px triangle as the centred placements. Before, `top-end` and `bottom-end` kept `left:50%` beside `right:16px` (a 26px stretched box), `left-end` kept `top:100%` beside `bottom:12px`, and `right-start` and `right-end` kept `left:50%` beside `right:100%`. Every inset is now reset before the placement sets its own. (#231)
