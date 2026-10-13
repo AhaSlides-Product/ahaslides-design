@@ -22,13 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.167.0 — 2026-10-13
+## 0.171.0 — 2026-10-13
 ### Added
 - **Page title and favicon** guideline (`guidelines/page-title-favicon.json`, [docs page](https://design.ahaslides.io/guidelines/page-title-favicon/index.html)): one rule for the browser tab title and the favicon on everything AhaSlides builds (product apps, audience and join pages, shared links, the marketing site, docs and help sites, internal tools). Titles are `<specific part> | AhaSlides`, brand last, one ` | ` separator, unique per page and updated on every client-side route change; only the marketing home page is brand-first. The favicon is The Splash set in `logo/favicon/`, with `/favicon.ico` answering at the site root. It says which of branding, search and usability wins where they disagree. Listed in `llms.txt` (header line, Patterns, and the `product`, `audience` and `marketing-web` routes) and in the agent plugin's build steps. Guidance only: no component, token or export changes. (#238)
 ### Fixed
 - Docs site: every page now has its own tab title in that format (`Button | AhaSlides Design System`; the home page is `AhaSlides Design System`) instead of `AhaSlides Design System — for agents` on every page, and every page links the favicon set. `/favicon.ico` now exists at the site root (it was a 404). The build fails if two pages claim the same title. (#238)
 ### Changed
 - Logo library → Favicon: the paragraph lists the four files and links to the new guideline for the tag set, instead of holding a second copy of the rule. (#238)
+
+## 0.170.0 — 2026-10-13
+### Added
+- `<aha-csat layout="stacked">` (`row` default): the prompt on the top line and the buttons (thumbs, optional Feedback) on the line below, both left-aligned, for narrow side panels. Without the attribute the single row is unchanged. (#241)
+- `<aha-csat feedback-placement="start">` (`end` default): the feedback popover opens start-aligned (left edge on the thumbs, extending right) instead of end-aligned, and still flips above at the bottom of the viewport. Without the attribute it stays `bottom-end`. Any other value falls back to the default. (#241)
 
 ## 0.166.0 — 2026-10-13
 ### Changed
