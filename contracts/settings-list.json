@@ -1,6 +1,7 @@
 {
   "name": "Settings list",
   "slug": "settings-list",
+  "environment": ["product"],
   "group": "Settings",
   "hubRef": "settings",
   "tier": "leaf-lit",
