@@ -22,12 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.164.1 — 2026-10-13
+## 0.164.3 — 2026-10-13
 ### Fixed
 - `<aha-tooltip>` edge-aligned placements (`top-end`, `bottom-end`, `left-end`, `right-start`, `right-end` and the rest): the arrow is the same 10px triangle as the centred placements. Before, `top-end` and `bottom-end` kept `left:50%` beside `right:16px` (a 26px stretched box), `left-end` kept `top:100%` beside `bottom:12px`, and `right-start` and `right-end` kept `left:50%` beside `right:100%`. Every inset is now reset before the placement sets its own. (#231)
 - The `-end` edge-aligned arrow is the exact mirror of the `-start` one: same 10px triangle, 16px in from the aligned edge (12px on the vertical sides), only the side differs.
 ### Changed
 - `<aha-tooltip help>`: the built-in `?` icon is `--aha-icon-muted` at rest and `--aha-icon-default` on hover and keyboard focus (was `--aha-text-tertiary`, brand on hover/focus). The 2px brand focus ring is unchanged. (#231)
+
+## 0.164.2 — 2026-10-13
+### Changed
+- `<aha-radio variant="button">` states follow the new reference: the label is regular weight (400) in every state, hover turns the text brand and keeps the grey border, and the selected pill is a brand border with brand text on a white fill (was bg-accent tint with default text). A selected disabled pill now has a darker grey fill (`--aha-btn-disabled-bg`) than the unselected disabled pills, with no brand colour; hover on a disabled pill changes nothing. A selected or keyboard-focused pill now shows its brand border or focus ring on all four sides, in any position in the group (the neighbouring pill used to cover the shared edge). Dot and card variants are unchanged. Revert: revert this PR. (#232)
 
 ## 0.164.0 — 2026-10-12
 ### Added
