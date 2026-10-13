@@ -4,65 +4,87 @@
   "kind": "guideline",
   "group": "Patterns",
   "badge": "pattern — composition guide",
-  "summary": "Surface backgrounds are white by default. A non-white background is allowed only for a sanctioned reason — a semantic feedback tint, the app-shell layout grey, an interactive state fill, or colour the human explicitly asked for — and always from an --aha-bg-* token. No gradients on any background or fill, except the AI affordance's border.",
-  "highlights": ["Backgrounds are white by default", "Non-white only for a sanctioned reason: feedback tint, app-shell grey, interactive state, or an explicit human request", "Always an --aha-bg-* token; no gradients except the AI affordance border"],
-  "lead": "White-first is the house default for every product-UI surface: cards, panels, page and section wrappers, modal and drawer bodies, table and list rows, tab panels. 'White by default' is not 'never any colour' — a handful of non-white backgrounds are functional and correct, and this pattern names them and the token each one binds to. What it rules out is decorative or brand colour on a surface with no functional reason to be non-white, any gradient fill, and raw colour literals. This pattern ships NO new component; the slide-type canvas / presenting stage is out of scope (it is theme-coloured by design — see the canvas guideline).",
+  "environment": ["product", "audience"],
+  "summary": "In the product app the page is white. Light grey is for surfaces inside or beside the white page, Vivid Pink at 5% is for hover and selected states plus at most one highlighted panel per screen, and black is for full-screen presenting and video or image viewers only. There is no dark mode, no tinted status surface and no gradient fill, and every non-white background comes from an --aha-bg-* token.",
+  "highlights": ["The page is white; light grey only inside or beside it", "Vivid Pink at 5% for hover and selected, plus one highlighted panel per screen", "Black only for presenting and viewers; no dark mode, no status tint, no gradient", "Every non-white background is an --aha-bg-* token"],
+  "whenToRead": "Read before giving any product surface a background that is not white: a grey area, a pale pink panel, a dark screen, a status banner or a Splash background.",
+  "lead": "This pattern is the product-app reading of the AhaSlides colour rules. The rules themselves live once, in brand/colour-rules.json, and are published on the Brand colour rules page (foundations/brand-colour-rules.html) and in the colour-rules.md feed; each rule below names the rule it applies (`source`) and the judge criterion that checks it. It ships no component. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) is exempt, so the slide on the presenting stage is theme-coloured by design: see the canvas guideline. Marketing pages, video and social posts follow the same rules page under their own environment, not this pattern.",
   "skillRef": {
     "build": "DS guideline — guidelines/background.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: background)",
-    "note": "The rule was born as the 'Backgrounds are white by default' section of the `background` guide; its binary judge is the DS anti-slop judge (`background` surface). The DS owns the enforceable criteria in anti-slop/criteria.json (surfaces.background, C1..C3). The plugin's colour names (--aha-colorSuccessBg, colorBgLayout, …) map to the live DS --aha-bg-* tokens used here."
+    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.background (C1 to C8). They and the rules below cite brand/colour-rules.json by rule id, so the rule text has one home."
   },
   "surfaces": ["dashboard", "editor", "settings", "presenter", "audience"],
   "surfaceChoice": [
     {
-      "surface": "Neutral container (card, panel, page, section, modal/drawer body, row, tab panel)",
-      "useFor": "the default — white or unset, inheriting --aha-bg-container",
-      "example": "A dashboard panel, a settings card, a modal body"
+      "surface": "The page and neutral containers (card, panel, modal or drawer body, row, tab panel)",
+      "useFor": "the default: white or unset, inheriting --aha-bg-container",
+      "example": "A dashboard page, a settings card, a modal body"
     },
     {
-      "surface": "Semantic feedback surface",
-      "useFor": "a success / error / warning / info result panel or banner — the tint carries meaning",
-      "example": "--aha-bg-positive on a correct-answer panel, --aha-bg-negative on a failed-import banner"
+      "surface": "A surface inside or beside the white page",
+      "useFor": "light grey: a card, a sidebar, an input field, a table header, the editor workspace around the slide, a hovered or disabled control",
+      "example": "--aha-bg-layout on the sidebar, --aha-bg-container-secondary on a table header"
     },
     {
-      "surface": "App-shell layout",
-      "useFor": "the layout body behind the app's white surfaces",
-      "example": "--aha-bg-layout behind the dashboard content cards"
+      "surface": "A hover or selected state, and one highlighted panel per screen",
+      "useFor": "Vivid Pink at 5%",
+      "example": "--aha-bg-accent on a selected row, or on the one panel a screen draws attention to"
     },
     {
-      "surface": "Interactive state",
-      "useFor": "a hover / selected / active row, menu item or chip",
-      "example": "--aha-bg-hover on a hovered list row"
+      "surface": "Full-screen presenting, and a video or image viewer",
+      "useFor": "black, the only two places a dark background is allowed",
+      "example": "--aha-bg-dark behind the slide while presenting"
     },
     {
-      "surface": "AI affordance",
-      "useFor": "the one sanctioned gradient — on the border only, the fill stays white",
+      "surface": "A status message",
+      "useFor": "white, with an icon, clear wording and an outline or a black fill; never a red, yellow, green or blue tint",
+      "example": "The DS alert for a failed import"
+    },
+    {
+      "surface": "An empty state or a hero area",
+      "useFor": "optionally a Splash background from the Background library; never on a dense screen such as the editor",
+      "example": "splash-right-white-16x9.svg behind an empty dashboard"
+    },
+    {
+      "surface": "An AI feature",
+      "useFor": "the one gradient allowed: on the border only, the fill stays white",
       "example": "An AI prompt input with a gradient border and a white padding-box fill"
     }
   ],
   "composedOf": [
-    { "ref": "card", "as": "component", "use": "the default white container — leave its background unset so it inherits --aha-bg-container", "status": "available" },
-    { "ref": "alert", "as": "component", "use": "the semantic feedback surface — its tint comes from the alert type, never a hand-picked fill", "status": "available" },
-    { "ref": "--aha-bg-container", "as": "token", "use": "white — the default surface colour", "status": "available" },
-    { "ref": "--aha-bg-layout", "as": "token", "use": "the app-shell layout grey behind white surfaces", "status": "available" },
-    { "ref": "--aha-bg-hover", "as": "token", "use": "the interactive hover / selected / active state fill", "status": "available" },
-    { "ref": "--aha-bg-positive", "as": "token", "use": "the success feedback tint", "status": "available" },
-    { "ref": "--aha-bg-negative", "as": "token", "use": "the error feedback tint", "status": "available" },
-    { "ref": "--aha-bg-warning", "as": "token", "use": "the warning feedback tint", "status": "available" },
-    { "ref": "--aha-bg-informative", "as": "token", "use": "the info feedback tint", "status": "available" }
+    { "ref": "card", "as": "component", "use": "the default white container: leave its background unset so it inherits --aha-bg-container", "status": "available" },
+    { "ref": "alert", "as": "component", "use": "the status message: white, with its icon, wording and outline; never a hand-picked tint", "status": "available" },
+    { "ref": "--aha-bg-container", "as": "token", "use": "white, the page and the default surface", "status": "available" },
+    { "ref": "--aha-bg-layout", "as": "token", "use": "light grey for a surface beside the white page, such as a sidebar or the editor workspace; never the page body", "status": "available" },
+    { "ref": "--aha-bg-container-secondary", "as": "token", "use": "light grey for a surface inside the white page, such as a table header or an input field", "status": "available" },
+    { "ref": "--aha-bg-hover", "as": "token", "use": "the neutral hover fill DS components ship with", "status": "available" },
+    { "ref": "--aha-bg-accent", "as": "token", "use": "Vivid Pink at 5%: hover and selected states, and the one highlighted panel per screen", "status": "available" },
+    { "ref": "--aha-bg-dark", "as": "token", "use": "black, for full-screen presenting and a video or image viewer only", "status": "available" },
+    { "ref": "--aha-bg-positive", "as": "token", "use": "a status surface token; it resolves to white, as do -negative, -warning and -informative", "status": "available" }
   ],
-  "componentBacklog": "No missing components. The DS has no AI-gradient token yet: the AI affordance's border gradient is the one sanctioned gradient, but until a token lands it cannot be expressed token-only — add it here before a consumer needs it.",
+  "componentBacklog": "No missing components. The DS has no AI-gradient token yet: the AI feature's border gradient is the one gradient allowed, but until a token lands it cannot be expressed token-only. Add it here before a consumer needs it.",
   "rules": [
-    { "rule": "Leave neutral containers — cards, panels, page and section wrappers, modal and drawer bodies, table and list rows, tab panels — white or unset (--aha-bg-container). Paint a surface non-white only for a sanctioned reason: a semantic feedback tint, the app-shell layout grey, an interactive state fill, or colour the human explicitly asked for (say so in the PR).", "ref": ["C1"] },
-    { "rule": "Never tint a neutral container with brand or pastel colour 'for emphasis', and never use a feedback tint on a surface that isn't feedback — a green panel that isn't a success reads as one.", "ref": ["C1"] },
-    { "rule": "Use no linear-, radial- or conic-gradient as a background or fill. The only exception is the AI affordance: the gradient sits on the border (border-box) and the fill stays white (padding-box).", "ref": ["C2"] },
-    { "rule": "Bind every non-white background to a DS token — --aha-bg-layout, --aha-bg-hover, --aha-bg-positive / -negative / -warning / -informative — never a raw #hex, rgb() or hsl() literal, even when the literal is the right colour.", "ref": ["C3"] }
+    { "rule": "Keep the page, and every neutral container on it (card body, panel, modal and drawer body, table and list row, tab panel), white or unset (--aha-bg-container). Never paint one with a brand, pastel or other colour for emphasis.", "ref": ["C1"], "source": ["3.1"] },
+    { "rule": "Use light grey (--aha-bg-layout, --aha-bg-container-secondary) only for a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the editor workspace around the slide. Never make grey the background of a whole page, of the layout body behind the content, or of a full-width section.", "ref": ["C2"], "source": ["3.6"] },
+    { "rule": "Use Vivid Pink at 5% (--aha-bg-accent) for a hover or selected state, and for at most one highlighted panel per screen.", "ref": ["C3"], "source": ["3.7"] },
+    { "rule": "Use a black background (--aha-bg-dark) in two places only: full-screen presenting, and a video or image viewer.", "ref": ["C4"], "source": ["3.8"] },
+    { "rule": "Build no dark mode: no theme switch, no dark theme class, no prefers-color-scheme: dark restyle. People who need a dark screen use their device or browser setting, and the screen must not break under it.", "ref": ["C4"], "source": ["3.9"] },
+    { "rule": "Never tint a surface red, yellow, green or blue to show danger, warning, success or information. A status surface stays white and carries its meaning with an icon, clear wording and an outline or a black fill.", "ref": ["C5"], "source": ["7.1", "7.2"] },
+    { "rule": "Use no linear-, radial- or conic-gradient as a background or fill. The one exception is an AI feature: the gradient sits on the border (border-box) and the fill stays white (padding-box).", "ref": ["C6"], "source": ["3.10"] },
+    { "rule": "Bind every non-white background to a DS token (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-accent, --aha-bg-dark), never a raw #hex, rgb() or hsl() literal, even when the literal is the right colour.", "ref": ["C7"], "source": [] },
+    { "rule": "Use a Splash background only on an empty state or a hero area, never on a dense screen such as the editor. Take the file from the Background library, or build it for the exact frame with build-splash.mjs; never draw, place, stretch or recolour the hooks by hand.", "ref": ["C8"], "source": ["5.6", "5.9", "5.10", "5.11"] }
   ],
   "reuse": null,
-  "reuseNote": "Doc-only pattern — the DS ships no background wrapper. The rule lives in the consuming app's styles; this pattern is the conventions + the binary criteria (anti-slop/criteria.json → surfaces.background) a consumer self-judges against.",
+  "reuseNote": "Doc-only pattern: the DS ships no background wrapper. The rule lives in the consuming app's styles; this pattern is the conventions plus the binary criteria (anti-slop/criteria.json, surfaces.background) a consumer self-judges against.",
   "selfCheck": [
-    { "label": "every neutral container is white or unset; each non-white surface has a sanctioned reason", "verdict": "consumer self-judges (C1)" },
-    { "label": "no gradient background or fill, except the AI affordance's border", "verdict": "consumer self-judges (C2)" },
-    { "label": "every non-white background is an --aha-bg-* token, never a raw colour literal", "verdict": "consumer self-judges (C3)" }
+    { "label": "the page and every neutral container is white or unset", "verdict": "consumer self-judges (C1)" },
+    { "label": "light grey only inside or beside the white page, never a whole page or a full-width section", "verdict": "consumer self-judges (C2)" },
+    { "label": "Vivid Pink at 5% only as a hover or selected fill, plus at most one highlighted panel per screen", "verdict": "consumer self-judges (C3)" },
+    { "label": "black only for full-screen presenting and a video or image viewer; no dark mode", "verdict": "consumer self-judges (C4)" },
+    { "label": "no status surface is tinted red, yellow, green or blue", "verdict": "consumer self-judges (C5)" },
+    { "label": "no gradient background or fill, except the AI feature's border", "verdict": "consumer self-judges (C6)" },
+    { "label": "every non-white background is an --aha-bg-* token, never a raw colour literal", "verdict": "consumer self-judges (C7)" },
+    { "label": "a Splash background only on an empty state or a hero area, from the Background library", "verdict": "consumer self-judges (C8)" }
   ]
 }
