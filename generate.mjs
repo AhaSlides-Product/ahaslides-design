@@ -22,8 +22,14 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync
 import { anchorHeadings, buildSearchIndex, searchHeaderHtml, SEARCH_CSS, SEARCH_JS, SEARCH_GLYPHS } from './docs-search.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
+import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
+import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
+import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines } from './colour-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
+const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
 const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
@@ -31,8 +37,6 @@ const ADIR = join(root, 'audience');     // audience component library — the m
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
 const read = (p) => readFileSync(p, 'utf8');
-const HEADER_SPLASH = read(join(root, 'logo', 'thesplash.svg')).trim()
-  .replace(/<svg\s+width="\d+"\s+height="\d+"/, '<svg class="logo" aria-hidden="true"');
 const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
@@ -48,7 +52,14 @@ const PKGNAME = PKG.name;   // @ahaslides-product/design — the package to inst
 // it. Override with AHA_CDN_REF (e.g. `master`) for a local preview of unreleased element code.
 const CDN_REF = process.env.AHA_CDN_REF || `v${PKG.version}`;
 const withCdnRef = (text) => String(text ?? '').replaceAll('@__REF__', `@${CDN_REF}`);
-const part = (name) => (name && existsSync(join(PDIR, name)) ? withCdnRef(read(join(PDIR, name))) : '');
+// Composite previews are classic scripts over CDN antd and cannot import the base theme; only escaped data is interpolated, so no value can close the script tag.
+const inlineScriptJson = (value) => JSON.stringify(value).replace(/[<>/\u2028\u2029]/g, (character) => '\\u' + character.charCodeAt(0).toString(16).padStart(4, '0'));
+const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return function(theme){theme=theme||{};var components=Object.assign({},base.components);Object.keys(theme.components||{}).forEach(function(name){components[name]=Object.assign({},base.components[name],theme.components[name]);});return Object.assign({},theme,{token:Object.assign({},base.token,theme.token),components:components});};})(${inlineScriptJson(antdBaseTheme)});</script>`;
+/* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
+   URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
+const LIVE_SITE = 'https://design.ahaslides.io';
+const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`);
+const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
    one-time scoped-registry + auth setup before `npm i`. These lines are printed into
@@ -60,12 +71,12 @@ const NPMRC = `${SCOPE}:registry=${REGISTRY}\n//${REGISTRY_HOST}/:_authToken=\${
 /* Absolute base URL where dist/ is hosted (GitHub Pages by default). The feed links
    printed on the docs pages + in llms.txt/agent.json are ABSOLUTE so an agent that
    lands anywhere can fetch them directly. CI overrides via AHA_SITE_URL. */
-const SITE = (process.env.AHA_SITE_URL || 'https://ahaslides-product.github.io/ahaslides-design').replace(/\/+$/, '');
+const SITE = (process.env.AHA_SITE_URL || 'https://design.ahaslides.io').replace(/\/+$/, '');
 
 /* ===== R1 canonical tokens → the --aha-* var layer (single source) ===== */
 const TOK = JSON.parse(read(join(root, 'tokens.canonical.json')));
 
-/* Token aliases: a value written "{color.primitives.purple.60}" points at another token. TOK keeps the
+/* Token aliases: a value written "{color.primitives.gray.65}" points at another token. TOK keeps the
    resolved hex (tokens.js, swatches, contrast checks); TOKEN_ALIASES maps the aliased path to the
    referenced token so tokens.css can emit var(--aha-…) and the docs can name the source. */
 const TOKEN_ALIASES = new Map();
@@ -75,9 +86,8 @@ function aliasCssVar(path) {
   if (parts[0] === 'space') return `--aha-space-${parts[1]}`;
   if (parts[0] !== 'color') throw new Error(`no CSS var for alias ${path}`);
   if (parts[1] === 'primitives') return `--aha-${kebab(parts[2])}${parts[3] !== undefined ? '-' + parts[3] : ''}`;
-  if (parts[1] === 'brand') return `--aha-brand-${parts[2]}`;
   if (parts[1] === 'alpha') return `--aha-${kebab(parts[2])}`;
-  if (['success', 'warning', 'error', 'info', 'primary'].includes(parts[1])) return `--aha-color-${parts[1]}`;
+  if (/^(success|warning|error|info|primary)(Hover|Active)?$/.test(parts[1])) return `--aha-color-${kebab(parts[1])}`;
   const role = /^(text|bg|icon|border)(.*)$/.exec(parts[1]);
   if (role) return `--aha-${role[1]}${role[2] ? '-' + kebab(role[2]).replace(/^-/, '') : ''}`;
   throw new Error(`no CSS var for alias ${path}`);
@@ -90,9 +100,11 @@ function aliasCssVar(path) {
     const match = typeof value === 'string' && /^\{([^}]+)\}$/.exec(value);
     if (!match) continue;
     const refParts = match[1].split('.');
-    const target = refParts[0] === 'space'
+    let target = refParts[0] === 'space'
       ? (TOK.space.includes(Number(refParts[1])) ? Number(refParts[1]) : undefined)
       : refParts.reduce((at, step) => (at == null ? at : at[step]), TOK);
+    for (let hop = 0, chained; hop < 8 && typeof target === 'string' && (chained = /^\{([^}]+)\}$/.exec(target)); hop++)
+      target = chained[1].split('.').reduce((at, step) => (at == null ? at : at[step]), TOK);
     const valid = refParts[0] === 'space' ? typeof target === 'number' : typeof target === 'string' && /^(#|rgba?\()/.test(target);
     if (!valid) throw new Error(`${path.join('.')}: alias ${value} does not resolve to a token value`);
     TOKEN_ALIASES.set(path.join('.'), { ref: match[1], cssVar: aliasCssVar(match[1]) });
@@ -109,18 +121,23 @@ const ICONS = existsSync(join(root, 'icons', 'registry.json'))
   : { icons: {}, families: [], count: 0, $generatedFrom: '(no registry — run build-icons.mjs)' };
 
 /* The shared custom element — defined ONCE, loaded by every page that shows an icon.
-   Reads window.AHA_ICONS[name] → { viewBox, body }; body already carries currentColor +
-   the baked per-size stroke, so colour follows the text colour and size is a width/height. */
+   Reads window.AHA_ICONS[name] → { viewBox, body }; body carries currentColor; the
+   runtime overrides every stroke width to LINE[size] px, so colour follows the text and size sets the stroke. */
 const AHA_ICON_JS = `(function(){
-  var LINE={12:1,16:1.5,24:2,32:2.5};   // documented size↔stroke pairing (12/16/24/32 only)
+  var LINE={12:1,16:1.5,24:2,32:2.5}, GRID=[12,16,24,32];
+  function strokeWidthFor(size,viewBox){
+    var near=GRID.reduce(function(b,k){return Math.abs(k-size)<Math.abs(b-size)?k:b;});
+    var vw=parseFloat(String(viewBox).split(/[\\s,]+/)[2])||size;
+    return +(LINE[near]*vw/size).toFixed(4);
+  }
   function draw(el){
     var R=window.AHA_ICONS||{}, name=el.getAttribute('name'), ic=R[name];
     var size=parseInt(el.getAttribute('size')||'24',10);
     var label=el.getAttribute('label')||'', dec=el.hasAttribute('decorative')||!label;
     var a11y=dec?'aria-hidden="true"':'role="img" aria-label="'+label.replace(/"/g,'&quot;')+'"';
     if(!el.shadowRoot) el.attachShadow({mode:'open'});
-    if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #F5222D;border-radius:3px"></span>'; return; }
-    el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}</style>'
+    if(!ic){ el.shadowRoot.innerHTML='<span title="unknown icon: '+name+'" style="display:inline-block;box-sizing:border-box;width:'+size+'px;height:'+size+'px;border:1px dashed #1A1A1A;border-radius:3px"></span>'; return; }
+    el.shadowRoot.innerHTML='<style>:host{display:inline-flex;line-height:0;color:inherit;vertical-align:middle}svg{display:block}svg [stroke]{stroke-width:'+strokeWidthFor(size,ic.viewBox)+'}</style>'
       +'<svg width="'+size+'" height="'+size+'" viewBox="'+ic.viewBox+'" fill="none" '+a11y+'>'+ic.body+'</svg>';
   }
   if(!customElements.get('aha-icon')) customElements.define('aha-icon',class extends HTMLElement{
@@ -137,7 +154,6 @@ const AHA_ICON_JS = `(function(){
 const COMPONENTS_CATALOG = [
   { cat: 'General', items: [
     { name: 'Button',       slug: 'button' },
-    { name: 'Close button', slug: 'close-button' },
     { name: 'Icon',         slug: 'icon' },
     { name: 'Illustration', slug: 'illustration' },
   ] },
@@ -271,6 +287,7 @@ const SECTIONS = [
   { key: 'audience',    label: 'Audience Library' },
   { key: 'charts',      label: 'Charts' },
   { key: 'guidelines',  label: 'Guidelines' },
+  { key: 'developers',  label: 'For developers' },
   { key: 'feeds',       label: 'Agent feeds' },
 ];
 /* Foundations · design tokens, split into structured pages (one sidebar item each) —
@@ -283,39 +300,34 @@ const TOKEN_PAGES = [
   { slug: 'radius',     label: 'Radius' },
   { slug: 'sizing',     label: 'Sizing' },
 ];
-const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // softIndigo → soft-indigo, inkA10 → ink-a10
+const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // vividPink → vivid-pink, inkA10 → ink-a10
 function tokenVars(t) {
   const c = t.color, f = t.font, r = t.radius, P = c.primitives, b = c.button;
   const L = [];
-  /* primitives — the full 10→100 ramps, one CSS var per step */
-  L.push(`--aha-white:${P.white}; --aha-black:${P.black};`);
-  for (const hue of Object.keys(P)) {
-    if (hue === 'white' || hue === 'black') continue;
+  L.push(Object.keys(P).filter(name => typeof P[name] === 'string').map(name => `--aha-${kebab(name)}:${cssValue(`color.primitives.${name}`, P[name])};`).join(' '));
+  for (const hue of Object.keys(P).filter(name => typeof P[name] !== 'string'))
     L.push(Object.keys(P[hue]).map(s => `--aha-${kebab(hue)}-${s}:${P[hue][s]};`).join(' '));
-  }
   /* semantic — seed */
   L.push(`--aha-color-primary:${c.primary}; --aha-color-primary-hover:${c.primaryHover}; --aha-color-primary-active:${c.primaryActive};`);
-  L.push(`--aha-color-success:${c.success}; --aha-color-warning:${c.warning}; --aha-color-error:${c.error}; --aha-color-info:${c.info};`);
+  L.push(`--aha-color-success:${cssValue('color.success', c.success)}; --aha-color-warning:${cssValue('color.warning', c.warning)}; --aha-color-error:${cssValue('color.error', c.error)}; --aha-color-info:${cssValue('color.info', c.info)};`);
   /* text */
-  L.push(`--aha-text-default:${c.textDefault}; --aha-text-secondary:${c.textSecondary}; --aha-text-tertiary:${c.textTertiary}; --aha-text-placeholder:${c.textPlaceholder}; --aha-text-disabled:${c.textDisabled}; --aha-text-inverse:${c.textInverse}; --aha-text-link:${c.textLink}; --aha-text-link-hover:${c.textLinkHover}; --aha-text-primary-ink:${c.textPrimaryInk}; --aha-text-positive:${c.textPositive}; --aha-text-negative:${c.textNegative}; --aha-text-warning:${c.textWarning};`);
+  L.push(`--aha-text-default:${c.textDefault}; --aha-text-secondary:${c.textSecondary}; --aha-text-tertiary:${c.textTertiary}; --aha-text-placeholder:${c.textPlaceholder}; --aha-text-disabled:${c.textDisabled}; --aha-text-inverse:${c.textInverse}; --aha-text-link:${cssValue('color.textLink', c.textLink)}; --aha-text-link-hover:${cssValue('color.textLinkHover', c.textLinkHover)}; --aha-text-primary-ink:${c.textPrimaryInk}; --aha-text-positive:${cssValue('color.textPositive', c.textPositive)}; --aha-text-negative:${cssValue('color.textNegative', c.textNegative)}; --aha-text-warning:${cssValue('color.textWarning', c.textWarning)};`);
   /* surfaces */
-  L.push(`--aha-bg-base:${c.bgBase}; --aha-bg-container:${c.bgContainer}; --aha-bg-container-secondary:${c.bgContainerSecondary}; --aha-bg-container-disabled:${c.bgContainerDisabled}; --aha-bg-elevated:${c.bgElevated}; --aha-bg-layout:${c.bgLayout}; --aha-bg-accent:${c.bgAccent}; --aha-bg-informative:${c.bgInformative}; --aha-bg-hover:${c.bgHover}; --aha-bg-positive:${c.bgPositive}; --aha-bg-negative:${c.bgNegative}; --aha-bg-warning:${c.bgWarning}; --aha-bg-warning-subtle:${c.bgWarningSubtle}; --aha-bg-overlay:${c.bgOverlay}; --aha-bg-dark:${c.bgDark}; --aha-bg-dark-raised:${c.bgDarkRaised};`);
+  L.push(`--aha-bg-base:${c.bgBase}; --aha-bg-container:${c.bgContainer}; --aha-bg-container-secondary:${c.bgContainerSecondary}; --aha-bg-container-disabled:${c.bgContainerDisabled}; --aha-bg-elevated:${c.bgElevated}; --aha-bg-layout:${c.bgLayout}; --aha-bg-accent:${c.bgAccent}; --aha-bg-informative:${c.bgInformative}; --aha-bg-hover:${c.bgHover}; --aha-bg-positive:${c.bgPositive}; --aha-bg-negative:${c.bgNegative}; --aha-bg-warning:${c.bgWarning}; --aha-bg-warning-subtle:${c.bgWarningSubtle}; --aha-bg-overlay:${c.bgOverlay}; --aha-bg-dark:${cssValue('color.bgDark', c.bgDark)}; --aha-bg-dark-raised:${cssValue('color.bgDarkRaised', c.bgDarkRaised)};`);
   /* border */
-  L.push(`--aha-border:${c.border}; --aha-border-input:${c.borderInput}; --aha-border-secondary:${c.borderSecondary}; --aha-border-strong:${c.borderStrong}; --aha-border-disabled:${c.borderDisabled}; --aha-border-hover:${c.borderHover}; --aha-border-focus:${c.focus}; --aha-border-active:${c.borderActive}; --aha-border-error:${c.borderError}; --aha-border-success:${c.borderSuccess}; --aha-border-warning:${c.borderWarning}; --aha-border-info:${c.borderInfo}; --aha-split:${c.borderSecondary}; --aha-checkbox-border:${c.checkboxBorder};`);
+  L.push(`--aha-border-default:${c.borderDefault}; --aha-border:var(--aha-border-default); --aha-border-input:${c.borderInput}; --aha-border-secondary:${c.borderSecondary}; --aha-border-strong:${c.borderStrong}; --aha-border-disabled:${c.borderDisabled}; --aha-border-hover:${c.borderHover}; --aha-border-focus:${c.focus}; --aha-border-active:${c.borderActive}; --aha-border-error:${cssValue('color.borderError', c.borderError)}; --aha-border-success:${cssValue('color.borderSuccess', c.borderSuccess)}; --aha-border-warning:${cssValue('color.borderWarning', c.borderWarning)}; --aha-border-info:${cssValue('color.borderInfo', c.borderInfo)}; --aha-split:${c.borderSecondary}; --aha-checkbox-border:${c.checkboxBorder};`);
   /* icon */
   L.push(`--aha-icon-default:${c.iconDefault}; --aha-icon-strong:${c.iconStrong}; --aha-icon-muted:${c.iconMuted}; --aha-icon-disabled:${c.iconDisabled}; --aha-icon-inverse:${c.iconInverse}; --aha-icon-active:${c.iconActive};`);
   /* focus */
   L.push(`--aha-focus:${c.focus}; --aha-focus-ring:${c.focus}; --aha-focus-ring-soft:${c.focusRingSoft};`);
   /* buttons */
-  L.push(`--aha-btn-primary-bg:${b.primaryBg}; --aha-btn-primary-bg-hover:${b.primaryBgHover}; --aha-btn-primary-bg-press:${b.primaryBgPress}; --aha-btn-primary-fg:${b.primaryFg}; --aha-btn-secondary-bg:${b.secondaryBg}; --aha-btn-secondary-bg-hover:${b.secondaryBgHover}; --aha-btn-secondary-border:${b.secondaryBorder}; --aha-btn-secondary-border-hover:${b.secondaryBorderHover}; --aha-btn-secondary-border-press:${b.secondaryBorderPress}; --aha-btn-tertiary-bg-hover:${b.tertiaryBgHover}; --aha-btn-tertiary-bg-active:${b.tertiaryBgActive}; --aha-btn-disabled-bg:${b.disabledBg}; --aha-btn-disabled-fg:${b.disabledFg}; --aha-btn-danger-bg:${b.dangerBg}; --aha-btn-danger-bg-hover:${b.dangerBgHover}; --aha-btn-danger-bg-press:${b.dangerBgPress}; --aha-btn-danger-ring:${b.dangerRing}; --aha-btn-positive-bg:${b.positiveBg}; --aha-btn-positive-bg-hover:${b.positiveBgHover}; --aha-btn-positive-bg-press:${b.positiveBgPress}; --aha-btn-positive-fg:${b.positiveFg}; --aha-btn-focus-ring:${b.focusRing}; --aha-btn-focus-ring-success:${b.focusRingSuccess}; --aha-btn-elevate-primary:${b.elevatePrimary}; --aha-btn-elevate-secondary:${b.elevateSecondary}; --aha-btn-encourage-bg:${b.encourageBg}; --aha-btn-encourage-bg-hover:${b.encourageBgHover}; --aha-btn-encourage-bg-press:${b.encourageBgPress};`);
+  L.push(`--aha-btn-primary-bg:${b.primaryBg}; --aha-btn-primary-bg-hover:${b.primaryBgHover}; --aha-btn-primary-bg-press:${b.primaryBgPress}; --aha-btn-primary-fg:${b.primaryFg}; --aha-btn-secondary-bg:${b.secondaryBg}; --aha-btn-secondary-bg-hover:${b.secondaryBgHover}; --aha-btn-secondary-border:${b.secondaryBorder}; --aha-btn-secondary-border-hover:${b.secondaryBorderHover}; --aha-btn-secondary-border-press:${b.secondaryBorderPress}; --aha-btn-tertiary-bg-hover:${b.tertiaryBgHover}; --aha-btn-tertiary-bg-active:${b.tertiaryBgActive}; --aha-btn-disabled-bg:${b.disabledBg}; --aha-btn-disabled-fg:${b.disabledFg}; --aha-btn-danger-bg:${cssValue('color.button.dangerBg', b.dangerBg)}; --aha-btn-danger-bg-hover:${cssValue('color.button.dangerBgHover', b.dangerBgHover)}; --aha-btn-danger-bg-press:${cssValue('color.button.dangerBgPress', b.dangerBgPress)}; --aha-btn-danger-ring:${cssValue('color.button.dangerRing', b.dangerRing)}; --aha-btn-positive-bg:${b.positiveBg}; --aha-btn-positive-bg-hover:${b.positiveBgHover}; --aha-btn-positive-bg-press:${b.positiveBgPress}; --aha-btn-positive-fg:${b.positiveFg}; --aha-btn-focus-ring:${b.focusRing}; --aha-btn-focus-ring-success:${cssValue('color.button.focusRingSuccess', b.focusRingSuccess)}; --aha-btn-elevate-primary:${b.elevatePrimary}; --aha-btn-elevate-primary-hover:${b.elevatePrimaryHover}; --aha-btn-elevate-secondary:${b.elevateSecondary}; --aha-btn-encourage-bg:${b.encourageBg}; --aha-btn-encourage-bg-hover:${b.encourageBgHover}; --aha-btn-encourage-bg-press:${b.encourageBgPress};`);
   /* NAMED BUTTON SEMANTIC LAYER (--aha-button-*) — the DS V3 button token layer <aha-button> binds to.
      Each name references a CORE token whose value is IDENTICAL to the raw --aha-btn-* seed (a pure
      indirection, no colour change), so button theming can move independently of the core palette:
      re-point one --aha-button-* var and only the button retints, without disturbing --aha-color-primary
      or the shared --aha-btn-* seeds. This is a DEFINITION layer (the value SOURCE — not hex-scanned). */
-  L.push(`--aha-button-primary-bg:var(--aha-color-primary); --aha-button-primary-bg-hover:var(--aha-purple-50); --aha-button-primary-bg-press:var(--aha-purple-80); --aha-button-primary-text:var(--aha-gray-10); --aha-button-default-bg:var(--aha-white); --aha-button-default-text:var(--aha-text-default); --aha-button-default-border:var(--aha-gray-40); --aha-button-default-bg-hover:var(--aha-purple-10); --aha-button-default-border-hover:var(--aha-purple-40); --aha-button-default-border-press:var(--aha-gray-50); --aha-button-ghost-bg-hover:var(--aha-purple-10); --aha-button-ghost-bg-press:var(--aha-purple-15); --aha-button-danger-bg:var(--aha-red-60); --aha-button-danger-bg-hover:var(--aha-red-50); --aha-button-danger-bg-press:var(--aha-red-70); --aha-button-danger-text:var(--aha-text-inverse); --aha-button-danger-ring:var(--aha-btn-danger-ring); --aha-button-positive-bg:var(--aha-teal-40); --aha-button-positive-bg-hover:var(--aha-teal-30); --aha-button-positive-bg-press:var(--aha-teal-50); --aha-button-positive-text:var(--aha-text-default); --aha-button-disabled-bg:var(--aha-gray-40); --aha-button-disabled-text:var(--aha-gray-60); --aha-button-focus-ring:var(--aha-focus-ring-soft); --aha-button-focus-ring-success:var(--aha-btn-focus-ring-success); --aha-button-elevate-primary:var(--aha-btn-elevate-primary); --aha-button-elevate-secondary:var(--aha-btn-elevate-secondary);`);
-  /* brand slots + alpha ramps */
-  L.push(Object.keys(c.brand).map(k => `--aha-brand-${k}:${c.brand[k]};`).join(' '));
+  L.push(`--aha-button-primary-bg:var(--aha-color-primary); --aha-button-primary-bg-hover:var(--aha-color-primary-hover); --aha-button-primary-bg-press:var(--aha-color-primary-active); --aha-button-primary-text:var(--aha-btn-primary-fg); --aha-button-default-bg:var(--aha-white); --aha-button-default-text:var(--aha-text-default); --aha-button-default-border:var(--aha-gray-40); --aha-button-default-bg-hover:var(--aha-bg-accent); --aha-button-default-text-hover:var(--aha-text-link-hover); --aha-button-default-border-hover:var(--aha-color-primary); --aha-button-default-border-press:var(--aha-border-active); --aha-button-ghost-bg-hover:var(--aha-btn-tertiary-bg-hover); --aha-button-ghost-bg-press:var(--aha-btn-tertiary-bg-active); --aha-button-danger-bg:var(--aha-btn-danger-bg); --aha-button-danger-bg-hover:var(--aha-btn-danger-bg-hover); --aha-button-danger-bg-press:var(--aha-btn-danger-bg-press); --aha-button-danger-text:var(--aha-text-inverse); --aha-button-danger-ring:var(--aha-btn-danger-ring); --aha-button-positive-bg:var(--aha-btn-positive-bg); --aha-button-positive-bg-hover:var(--aha-btn-positive-bg-hover); --aha-button-positive-bg-press:var(--aha-btn-positive-bg-press); --aha-button-positive-text:var(--aha-btn-positive-fg); --aha-button-disabled-bg:var(--aha-gray-40); --aha-button-disabled-text:var(--aha-gray-60); --aha-button-focus-ring:var(--aha-focus-ring); --aha-button-focus-ring-success:var(--aha-btn-focus-ring-success); --aha-button-elevate-primary:var(--aha-btn-elevate-primary); --aha-button-elevate-primary-hover:var(--aha-btn-elevate-primary-hover); --aha-button-elevate-secondary:var(--aha-btn-elevate-secondary);`);
   L.push(Object.keys(c.alpha).map(k => `--aha-${kebab(k)}:${c.alpha[k]};`).join(' '));
   /* a deck chart swaps series for the deck palette and re-derives the ink mixes from the deck text colour inside the element */
   const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
@@ -354,20 +366,22 @@ function tokenVars(t) {
 /* ===== structural shell styles — AntD docs IA (sticky header + left nav + main),
    skinned with the --aha-* tokens. base = relative prefix so links/fonts resolve from
    both dist/index.html ('') and dist/<slug>/index.html ('../'). ===== */
+const FONT_CDN = `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v${PKG.version}/fonts/`;
+const fontPreloads = (base) => ['Regular', 'SemiBold'].map(w => `<link rel="preload" href="${base}fonts/PlusJakartaSans-${w}.woff2" as="font" type="font/woff2" crossorigin/>`).join('\n');
 const shellCss = (base) => `
 /* Plus Jakarta Sans — AhaSlides DS V3 product face (aha-design-typography), self-hosted per
    aha-design-antd; weights 400/600; system-ui final fallback. DS-mandated — do not substitute. */
 @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;
-  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-Regular.woff2") format("woff2")}
+  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-Regular.woff2") format("woff2"),url("${FONT_CDN}PlusJakartaSans-Regular.woff2") format("woff2")}
 @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;
-  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}
+  src:local("Plus Jakarta Sans"),url("${base}fonts/PlusJakartaSans-SemiBold.woff2") format("woff2"),url("${FONT_CDN}PlusJakartaSans-SemiBold.woff2") format("woff2")}
 *{box-sizing:border-box}
 body{margin:0;background:#fff;color:var(--aha-text-default);font-family:var(--aha-font-product);font-size:14px;line-height:22px;-webkit-font-smoothing:antialiased}
 a{color:var(--aha-color-primary)}
 
 /* ---- app shell ---- */
-.doc-header{position:sticky;top:0;z-index:30;height:64px;display:flex;align-items:center;gap:22px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
-.brand{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:600;color:var(--aha-text-default);text-decoration:none;flex:0 0 auto}
+.doc-header{position:sticky;top:0;z-index:30;height:64px;container:aha-header / inline-size;display:flex;align-items:center;gap:22px;padding:0 24px;background:#fff;border-bottom:1px solid var(--aha-split)}
+.brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
 
 /* ---- top-level area nav (AntD-style header tabs) ---- */
 .top-nav{display:flex;gap:2px;align-items:center;flex:1 1 auto;height:100%}
@@ -375,12 +389,10 @@ a{color:var(--aha-color-primary)}
 .top-nav a:hover{color:var(--aha-color-primary)}
 .top-nav a.active{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
 .hmeta{flex:0 0 auto}
-.brand .logo{width:30px;height:30px;display:inline-block;flex:0 0 auto}
-.brand small{display:block;font-size:11px;font-weight:400;color:var(--aha-text-tertiary);letter-spacing:.2px;margin-top:1px}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
-a.ver{color:var(--aha-text-tertiary);text-decoration:none}
-a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
+a.ver{color:var(--aha-text-secondary);text-decoration:none}
+a.ver:hover{color:var(--aha-text-default);background:var(--aha-bg-accent)}
 .doc-body{display:flex;align-items:flex-start}
 .doc-nav{position:sticky;top:64px;flex:0 0 268px;width:268px;height:calc(100vh - 64px);overflow-y:auto;padding:22px 14px 70px;border-right:1px solid var(--aha-split);background:#fff}
 .doc-main{flex:1 1 auto;min-width:0;padding:36px 52px 96px}
@@ -390,12 +402,12 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
    off-canvas panel (opened via .doc-nav-toggle in the header) instead of forcing the page
    to scroll sideways. Same breakpoint as .hub-layout's own narrow collapse, for consistency. ---- */
 .doc-nav-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:1px solid transparent;border-radius:var(--aha-radius-default,8px);background:transparent;color:var(--aha-text-secondary);cursor:pointer;flex:0 0 auto}
-.doc-nav-toggle:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
-.doc-nav-backdrop{display:none;position:fixed;inset:64px 0 0 0;background:rgba(20,16,32,.35);z-index:34}
+.doc-nav-toggle:hover{background:var(--aha-bg-accent);color:var(--aha-text-default)}
+.doc-nav-backdrop{display:none;position:fixed;inset:64px 0 0 0;background:var(--aha-bg-overlay);z-index:34}
 @media (max-width:900px){
   .doc-nav-toggle{display:inline-flex}
   .doc-nav{position:fixed;top:64px;left:0;z-index:35;width:min(84vw,300px);height:calc(100vh - 64px);
-    transform:translateX(-100%);transition:transform var(--aha-motion-mid) var(--aha-ease-out);box-shadow:0 8px 24px rgba(20,16,32,.16)}
+    transform:translateX(-100%);transition:transform var(--aha-motion-mid) var(--aha-ease-out);box-shadow:0 8px 24px rgba(0,0,0,.16)}
   body.nav-open .doc-nav{transform:translateX(0)}
   body.nav-open .doc-nav-backdrop{display:block}
   .doc-main{padding:28px 20px 72px}
@@ -404,13 +416,13 @@ a.ver:hover{color:var(--aha-color-primary);background:var(--aha-purple-10)}
 
 /* ---- nav ---- */
 .nav-top{display:block;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:8px 12px;border-radius:8px;margin-bottom:2px}
-.nav-top:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
-.nav-top.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
+.nav-top:hover{background:var(--aha-bg-accent);color:var(--aha-text-default)}
+.nav-top.active{background:var(--aha-bg-accent);color:var(--aha-text-default);font-weight:600}
 .nav-group{margin:16px 0 8px}
 .nav-cat{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);padding:6px 12px}
 .nav-item{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;color:var(--aha-text-secondary);font-size:14px;padding:7px 12px;border-radius:8px;line-height:20px;margin:1px 0}
-a.nav-item:hover{background:var(--aha-purple-10);color:var(--aha-color-primary)}
-.nav-item.active{background:var(--aha-purple-10);color:var(--aha-color-primary);font-weight:600}
+a.nav-item:hover{background:var(--aha-bg-accent);color:var(--aha-text-default)}
+.nav-item.active{background:var(--aha-bg-accent);color:var(--aha-text-default);font-weight:600}
 .nav-item.soon{color:var(--aha-text-disabled);cursor:default}
 .nav-item.soon i{font-style:normal;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px}
 .nav-dot{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--aha-color-success)}
@@ -437,15 +449,16 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .doc-main h1{font-size:32px;line-height:40px;font-weight:600;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:0}
 .subtitle{color:var(--aha-text-secondary);font-size:16px;line-height:25px;margin:0 0 10px;max-width:72ch}
 .gen{font-size:11px;color:var(--aha-text-tertiary);margin:0 0 18px;font-family:Menlo,monospace}
-.hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:9px 13px;margin:0 0 18px}
-.hub-back a{color:var(--aha-color-primary);font-weight:600}
+.hub-back{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);border-radius:8px;padding:9px 13px;margin:0 0 18px}
+.hub-back{--aha-text-link-decoration:underline}
+.hub-back a{color:var(--aha-text-default);font-weight:600;text-decoration:underline}
 .doc-main h2{font-size:20px;line-height:28px;font-weight:600;margin:44px 0 14px;scroll-margin-top:80px}
 .doc-main h2:first-of-type{margin-top:34px}
 .body{line-height:1.75;color:var(--aha-text-default);max-width:72ch}
 .badge{display:inline-block;font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;border-radius:6px;padding:3px 9px}
-.badge.leaf{color:#0E7C63;background:#D3F5EC;border:1px solid #16C49A}
-.badge.composite{color:#B24A20;background:#FFF0EB;border:1px solid #FF7747}
-.badge.raw{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);font-family:Menlo,monospace;text-transform:none}
+.badge.leaf{color:var(--aha-text-default);background:var(--aha-bg-container);border:1px solid var(--aha-text-default)}
+.badge.composite{color:var(--aha-text-inverse);background:var(--aha-black);border:1px solid var(--aha-black)}
+.badge.raw{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);font-family:Menlo,monospace;text-transform:none}
 
 /* ---- agent-feed code page ---- */
 .code-panel.feed{border-radius:12px;margin:14px 0}
@@ -464,51 +477,53 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
 .aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
-.aha-pg-opt:hover:not(.active){color:#5715A0}
-.aha-pg-opt.active{color:#5715A0;background:var(--aha-purple-10)}
+.aha-pg-opt:hover:not(.active){color:var(--aha-text-default)}
+.aha-pg-opt.active{color:var(--aha-text-default);background:var(--aha-bg-accent)}
 
 /* ---- utilities used by preview parts ---- */
-.tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
+.tier{font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600;color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);border-radius:6px;padding:2px 8px;display:inline-block;margin-bottom:14px}
 .lbl{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:0 0 var(--aha-space-8)}
-.lbl~.lbl{margin-top:var(--aha-space-24);padding-top:var(--aha-space-20);border-top:1px solid var(--aha-border)}
+.lbl~.lbl{margin-top:var(--aha-space-24);padding-top:var(--aha-space-20);border-top:1px solid var(--aha-border-default)}
 .row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .stack{display:flex;flex-direction:column;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr}
 .grid2>div{padding:22px 20px}
-.note{background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
+.note{background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--aha-text-secondary)}
+.note{--aha-text-link-decoration:underline}
+.note a{color:var(--aha-text-default);text-decoration:underline}
 .pad{padding:12px 0}
-code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:#5715A0}
+code{font-family:Menlo,monospace;font-size:12px;background:var(--aha-gray-20);padding:1px 6px;border-radius:4px;color:var(--aha-text-default)}
 .api-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px}
 table.api{width:100%;min-width:420px;border-collapse:collapse;font-size:13px;border:1px solid var(--aha-split);border-radius:8px;overflow:hidden}
 table.api td,table.api th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--aha-split);vertical-align:top}
 table.api tr:last-child td{border-bottom:none}
 table.api th{color:var(--aha-text-secondary);font-weight:var(--aha-weight-semibold);font-size:13px;background:var(--aha-gray-20)}
 ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
-.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:#D3F5EC;color:#0E7C63;margin:2px 4px 2px 0}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--aha-gray-20);color:var(--aha-text-default);margin:2px 4px 2px 0}
 .pill.na{background:var(--aha-gray-20);color:var(--aha-text-tertiary)}
 .spec-line{margin-bottom:12px;color:var(--aha-text-secondary);font-size:13px;line-height:1.7}
 
 /* ---- component index cards (overview) ---- */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .card{display:block;padding:18px;border:1px solid var(--aha-split);border-radius:12px;text-decoration:none;color:inherit;background:#fff}
-.card:hover{border-color:var(--aha-purple-30);box-shadow:0 4px 12px rgba(106,30,187,.08)}
+.card:hover{border-color:var(--aha-border-hover);box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .ct{font-size:16px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .cs{color:var(--aha-text-secondary);font-size:14px;line-height:1.55}
 .cf{margin-top:10px;font-family:Menlo,monospace;font-size:11px;color:var(--aha-text-tertiary)}
 .feeds{font-size:13px;line-height:1.9}.feeds code{margin-right:2px}
 
 /* ---- code widget ---- */
-.show-code{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30);border-radius:8px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.show-code:hover{background:#F0E7FF}.show-code .chev{transition:transform .15s ease}
-.code-tabs[data-open="true"] .show-code .chev{transform:rotate(90deg)}
-.code-panel{background:#1A1A2E;overflow:hidden}
+.show-code aha-icon{transition:transform var(--aha-motion-mid) var(--aha-ease-in-out)}
+.code-tabs[data-open="true"] .show-code aha-icon{transform:rotate(90deg)}
+.code-panel{background:var(--aha-bg-dark);overflow:hidden}
 .code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
 .tabs{display:flex;gap:4px}
-.tab{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:#8A83B0;background:transparent;border:none;border-radius:8px;padding:6px 16px;cursor:pointer}
-.tab.active{color:#fff;background:#2E2A48}.tab:hover:not(.active){color:#C7A3FF}
-.copy{font-family:var(--aha-font-product);font-size:12px;font-weight:600;color:#C7A3FF;background:transparent;border:1px solid rgba(199,163,255,.4);border-radius:8px;padding:5px 12px;cursor:pointer}
-.copy:hover{background:rgba(199,163,255,.12)}
-.code-panel pre{display:none;margin:0;background:transparent;color:#EAE6F5;padding:18px 20px;overflow:auto;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre}
+.tab{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-gray-65);background:transparent;border:none;border-radius:8px;padding:6px 16px;cursor:pointer}
+.tab.active{color:var(--aha-white);background:var(--aha-gray-95)}.tab:hover:not(.active){color:var(--aha-white)}
+.copy{font-family:var(--aha-font-product);font-size:12px;font-weight:600;color:var(--aha-white);background:transparent;border:1px solid var(--aha-white-a50);border-radius:8px;padding:5px 12px;cursor:pointer}
+.copy:hover{background:var(--aha-gray-95)}
+.copy:focus-visible{outline:2px solid var(--aha-white);outline-offset:2px}
+.code-panel pre{display:none;margin:0;background:transparent;color:var(--aha-gray-35);padding:18px 20px;overflow:auto;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre}
 .code-panel pre.active{display:block}
 
 /* ---- get started / consume + for-agents block ---- */
@@ -516,7 +531,7 @@ ul{margin:0;padding-left:18px}li{margin:5px 0;line-height:1.6}
 .consume-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}
 .cg{border:1px solid var(--aha-split);border-radius:12px;overflow:hidden;background:#fff}
 .cg-h{padding:9px 14px;font-size:12px;font-weight:600;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-bottom:1px solid var(--aha-split)}
-.cg-code{margin:0;padding:14px 16px;background:#1A1A2E;color:#EAE6F5;font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.cg-code{margin:0;padding:14px 16px;background:var(--aha-bg-dark);color:var(--aha-gray-35);font-family:Menlo,Monaco,monospace;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
 .agent-feeds{font-size:13.5px;line-height:1.75}
 .agent-feeds li{margin:7px 0}
 .agent-feeds code{font-size:12px}
@@ -549,8 +564,8 @@ function ahaBindWidgets(root){
     var show=w.querySelector('.show-code'), panel=w.querySelector('.code-panel'), copy=w.querySelector('.copy');
     show.addEventListener('click',function(){
       var opening=panel.hasAttribute('hidden');
-      if(opening){panel.removeAttribute('hidden');w.dataset.open='true';show.lastChild.textContent=' Hide code';}
-      else{panel.setAttribute('hidden','');w.dataset.open='false';show.lastChild.textContent=' Show code';}
+      if(opening){panel.removeAttribute('hidden');w.dataset.open='true';show.lastChild.textContent='Hide code';}
+      else{panel.setAttribute('hidden','');w.dataset.open='false';show.lastChild.textContent='Show code';}
     });
     w.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
       w.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
@@ -671,6 +686,7 @@ const PJAX_JS = `
       });
     });
   }
+  absolutize(document.head, location.href);   // the favicon links outlive a swap, and a relative href would re-resolve against the new URL
   absolutize(document.querySelector('.doc-header'), location.href);
   absolutize(document.querySelector('.doc-nav'), location.href);
   absolutize(document.querySelector('.doc-main'), location.href);
@@ -768,7 +784,7 @@ function codeWidget(c) {
   const panes = c.snippets.map((s, i) =>
     `<pre class="code ${s.key} ${i===0?'active':''}">${esc(part(s.file))}</pre>`).join('\n');
   return `<div class="code-tabs" data-open="false">
-    <div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div>
+    <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
       <div class="code-head"><div class="tabs">${tabs}</div><button class="copy" type="button">Copy</button></div>
       ${panes}
@@ -858,7 +874,7 @@ function chartTypeCodeWidget(def, cases) {
   const tabButtons = tabs.map(([key, label], i) => `<button class="tab ${i === 0 ? 'active' : ''}" type="button" data-f="${key}">${esc(label)}</button>`).join('');
   const panes = tabs.map(([key, , code], i) => `<pre class="code ${key} ${i === 0 ? 'active' : ''}">${esc(code)}</pre>`).join('\n');
   return `<div class="code-tabs chart-type-code" data-open="false" data-cases="${esc(JSON.stringify(cases))}">
-    <div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div>
+    <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
       <div class="code-head"><div class="tabs">${tabButtons}</div><button class="copy" type="button">Copy</button></div>
       ${panes}
@@ -909,8 +925,8 @@ const RAW_FEEDS = [
   { name: 'llms-full.txt', file: 'llms-full.txt',  page: 'llms-full-txt', desc: 'Every component doc concatenated — the full-context feed.' },
   { name: 'CHANGELOG.md',  file: 'CHANGELOG.md',   page: 'changelog',     desc: 'Version history — what changed in each release. One entry per merge; the top version matches the package.' },
   { name: 'variables.css', file: 'variables.css',  page: 'variables-css', desc: 'The --aha-* token layer as CSS custom properties, generated from tokens.canonical.json.' },
-  { name: 'icons.llms.txt', file: 'icons.llms.txt', page: 'icons-llms-txt', desc: 'Every icon name, grouped by family — the feed an agent reads to call <aha-icon name="…"> instead of writing an SVG.' },
-  { name: 'icons.agent.json', file: 'icons.agent.json', page: 'icons-agent-json', desc: 'Machine feed: the full icon catalogue (names + family + recolorable) plus the <aha-icon> usage contract.' },
+  { name: 'icons.llms.txt', file: 'icons.llms.txt', page: 'icons-llms-txt', desc: 'Every icon name, grouped by family, and the meaning words that find each one — the feed an agent reads to call <aha-icon name="…"> instead of writing an SVG.' },
+  { name: 'icons.agent.json', file: 'icons.agent.json', page: 'icons-agent-json', desc: 'Machine feed: the full icon catalogue (names, family, recolorable, meaning words) plus the <aha-icon> usage contract and how to search it.' },
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
@@ -924,7 +940,7 @@ function topNav(base, section) {
 
 // Left sidebar — scoped to the CURRENT area only (empty on Overview, which is full-width).
 function sidebarNav(base, active, section) {
-  if (section === 'overview') return '';
+  if (section === 'overview' || section === 'developers') return '';
   let inner = '';
   if (section === 'foundations') {
     const tokenItems = TOKEN_PAGES.map(p =>
@@ -933,7 +949,8 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
-      `<a class="nav-item" href="${base}foundations/brand-colour-rules.html"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item${active==='__backgrounds__'?' active':''}" href="${base}${BACKGROUND_LIBRARY_PAGE}"><span>Background library</span><span class="nav-count">${BACKGROUNDS.length}</span></a>` +
+      `<a class="nav-item" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -983,14 +1000,18 @@ function sidebarNav(base, active, section) {
 
 const missingGlyphs = SEARCH_GLYPHS.filter(n => !ICONS.icons[n]);
 if (missingGlyphs.length && ICONS.count) throw new Error(`docs search uses glyphs missing from icons/registry.json: ${missingGlyphs.join(', ')}`);
-function docShell({ base, active, section = 'components', main, extraCss = '', noSidebar = false }) {
+const SITE_NAME = 'AhaSlides Design System';
+const claimDocumentTitle = uniqueTitleRegistry();
+const siteTitle = (page, section, claimedBy) => claimDocumentTitle(documentTitle({ site: SITE_NAME, page, section, environment: CDN_REF === 'staging' ? 'staging' : null }), claimedBy);
+function docShell({ base, active, title, titleSection, section = 'components', main, extraCss = '', noSidebar = false }) {
   // The Settings page carries its own in-page antd Anchor, so the shell sidebar would be a second
   // nav of the same items — noSidebar drops it and .doc-main (flex:1) reclaims the width.
   const nav = noSidebar ? '' : sidebarNav(base, active, section);
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AhaSlides Design System — for agents</title>
+${documentHead({ title: siteTitle(title, titleSection, active), base })}
 <meta name="generator" content="ahaslides-design generate.mjs"/>
+<script>if(location.hostname==='ahaslides-product.github.io')location.replace('https://design.ahaslides.io'+location.pathname.replace(/^\/ahaslides-design/,'')+location.search+location.hash)</script>
 <meta name="aha:package" content="${esc(PKGNAME)}"/>
 <meta name="aha:registry" content="${esc(REGISTRY)}"/>
 <meta name="aha:install" content="npm i ${esc(PKGNAME)}"/>
@@ -999,10 +1020,11 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
 <link rel="alternate" type="text/plain" title="llms-full.txt — full docs" href="${SITE}/llms-full.txt"/>
 <link rel="alternate" type="text/markdown" title="design.md — visual language" href="${SITE}/design.md"/>
 <link rel="alternate" type="text/markdown" title="CHANGELOG.md — version history" href="${SITE}/CHANGELOG.md"/>
-<style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style></head><body>
+${fontPreloads(base)}
+<style>${tokenVars(TOK)}${shellCss(base)}${SEARCH_CSS}${extraCss}</style>${DS_ANTD_THEME_SCRIPT}</head><body>
 <header class="doc-header">
-  <a class="brand" href="${base}index.html">${HEADER_SPLASH}<span>AhaSlides Design</span></a>
-  ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="18" decorative></aha-icon></button>`}
+  <a class="brand" href="${base}index.html"><aha-product-lockup product="Design System"></aha-product-lockup></a>
+  ${noSidebar ? '' : `<button class="doc-nav-toggle" type="button" aria-label="Browse components" aria-expanded="false" aria-controls="doc-nav"><aha-icon name="system-list" size="16" decorative></aha-icon></button>`}
   ${topNav(base, section)}
   ${searchHeaderHtml(base)}
   <div class="hmeta"><a class="ver" href="${base}feeds/changelog.html" title="Changelog — what changed in each release">v${esc(PKG.version)}</a><span>React · Vue · Lit</span></div>
@@ -1012,7 +1034,7 @@ function docShell({ base, active, section = 'components', main, extraCss = '', n
   ${nav}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
-<script type="module">import '${base || './'}lib/icons.js';</script>
+<script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';import '${base || './'}lib/aha-product-lockup.js';</script>
 <script>${SEARCH_JS}${NAV_TOGGLE_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
@@ -1029,14 +1051,16 @@ const FEED_HIGHLIGHTS = {
   'llms-full.txt': ['Every component doc concatenated', 'The full-context feed'],
   'CHANGELOG.md': ['Version history, one entry per merge', 'The top version matches the package'],
   'variables.css': ['The --aha-* token layer as CSS custom properties', 'Generated from tokens.canonical.json'],
-  'icons.llms.txt': ['Every icon name, grouped by family', 'Read it to call <aha-icon name="…"> instead of writing an SVG'],
-  'icons.agent.json': ['Full icon catalogue: names, family, recolorable', 'Plus the <aha-icon> usage contract'],
+  'icons.llms.txt': ['Every icon name, grouped by family, with the meaning words that find it', 'Read it to call <aha-icon name="…"> instead of writing an SVG'],
+  'icons.agent.json': ['Full icon catalogue: names, family, recolorable, meaning words', 'Plus the <aha-icon> usage contract and the icon search'],
   'guidelines.llms.txt': ['One entry per composition pattern', 'What it reuses, rule count and component backlog'],
   'guidelines.agent.json': ['Every pattern with its composedOf reuse graph', 'Rules, each tied to a skill assertion', 'Whether the pattern ships code'],
   'marketing.llms.txt': ['One entry per marketing section', 'Paste-and-run and token-bound, for the marketing sites'],
   'marketing.agent.json': ['Every marketing section with its summary', 'Paste-and-run html and css, and how to consume it'],
   'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
   'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
+  'colour-rules.md': ['The colour and background rules for agents', 'Each rule tagged with its environment and the judge criteria that check it', 'Same source as the Brand colour rules page'],
+  'colour-rules.agent.json': ['The colour and background rules in machine form', 'Palette, rules by environment, Splash geometry and files, open points'],
 };
 
 // Agent-feed page: the raw file content shown in a code wrapper (with copy), inside the shell.
@@ -1049,7 +1073,7 @@ function renderFeedPage(f, content) {
     <div class="code-head"><div class="tabs"><span class="tab active">${esc(f.file)}</span></div><button class="copy" type="button">Copy</button></div>
     <pre class="active">${esc(content)}</pre>
   </div>`;
-  return docShell({ base: '../', active: 'feed:' + f.file, section: 'feeds', main });
+  return docShell({ base: '../', active: 'feed:' + f.file, title: f.name, section: 'feeds', main });
 }
 
 // The "smart widget" control bar: one compact segmented row per playground axis. Each option carries
@@ -1106,7 +1130,7 @@ function renderChartsPage(c) {
     <div class="hub-body">${sections.map(x => x.html).join('\n\n  ')}</div>
   </div>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'charts', section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
+  return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
 }
 
 function renderHtml(c) {
@@ -1137,7 +1161,7 @@ function renderHtml(c) {
 
   <h2>Spec</h2>
   <div class="spec-line">${specList(c.spec)}</div>`;
-  return docShell({ base: '../', active: c.slug, section: area, main });
+  return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
 }
 
 // Hidden conformance harness (composites): mounts both framework tiers with the token layer,
@@ -1145,7 +1169,7 @@ function renderHtml(c) {
 function renderConformanceHarness(c) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <style>${tokenVars(TOK)}
-body{margin:0;font-family:var(--aha-font-product);background:#fff;color:var(--aha-text-default)}</style></head>
+body{margin:0;font-family:var(--aha-font-product);background:#fff;color:var(--aha-text-default)}</style>${DS_ANTD_THEME_SCRIPT}</head>
 <body>${part(c.conformancePart)}</body></html>`;
 }
 
@@ -1270,7 +1294,7 @@ function renderAgent(c) {
       : null,
     frameworks,
     props: c.props || [], tokens: c.tokensUsed || [], spec: c.spec || [],
-    opinion: c.opinion || null, surfaces: c.surfaces || null, snippets,
+    opinion: c.opinion || null, surfaces: c.surfaces || null, environment: c.environment || null, snippets,
     ...((c.typeDefaults || []).length ? { typeDefaults: typeDefaultsMap(c) } : {}),
   }, null, 2) + '\n';
 }
@@ -1370,10 +1394,6 @@ const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || 
    (audience/library.json); the collapsible HTML/React/Vue code panels reuse the shell's
    own .code-tabs CSS + ahaBindWidgets JS. Each section names the DS <aha-*> element that
    replaces the upstream Vue component, and its demos ARE that element (lib/), not a mock-up. */
-const AUDIENCE_KIND_ACCENT = {
-  Answers: 'var(--aha-brand-2)', Input: 'var(--aha-color-primary)', Feedback: 'var(--aha-brand-4)',
-  Action: 'var(--aha-brand-6)', Layout: 'var(--aha-soft-indigo-60)', '': 'var(--aha-indigo-60)',
-};
 // Inline `code` spans in the reference copy; everything else is escaped.
 const audMd = (s) => String(s ?? '').split('`').map((seg, i) => i % 2 ? `<code class="ic">${esc(seg)}</code>` : esc(seg)).join('');
 function audienceCodeTabs(snips) {
@@ -1381,7 +1401,7 @@ function audienceCodeTabs(snips) {
   const order = [['html', 'HTML'], ['react', 'React'], ['vue', 'Vue 3']];
   const tabs = order.map(([k, l], i) => `<button class="tab ${i === 0 ? 'active' : ''}" type="button" data-f="${k}">${esc(l)}</button>`).join('');
   const panes = order.map(([k], i) => `<pre class="code ${k} ${i === 0 ? 'active' : ''}">${esc(withCdnRef(snips[k]))}</pre>`).join('');
-  return `<div class="code-tabs" data-open="false"><div class="demo-toolbar"><button class="show-code" type="button"><span class="chev">▸</span> Show code</button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs">${tabs}</div><button class="copy" type="button">Copy</button></div>${panes}</div></div>`;
+  return `<div class="code-tabs" data-open="false"><div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div><div class="code-panel" hidden><div class="code-head"><div class="tabs">${tabs}</div><button class="copy" type="button">Copy</button></div>${panes}</div></div>`;
 }
 const surfaceCdnUrl = (surface) => `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/${surface}.js`;
 function surfaceCdnBox(surface) {
@@ -1395,9 +1415,35 @@ function surfaceCdnBox(surface) {
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
+function renderAudienceVariant(variant) {
+  return `<div class="variant">
+      <h3 class="variant-name">${esc(variant.name)}</h3>
+      <p class="element">Use <code class="ic">${esc(variant.element)}</code></p>
+      <p class="what">${audMd(variant.what)}</p>
+      <dl class="callout">
+        <div class="use"><dt>Use when</dt><dd>${audMd(variant.useWhen)}</dd></div>
+        <div class="not"><dt>Not for</dt><dd>${audMd(variant.notFor)}</dd></div>
+      </dl>
+    </div>`;
+}
+function renderAudienceVariantCard(sec) {
+  const note = sec.note ? `<p class="note">${audMd(sec.note)}</p>` : '';
+  return `<section id="${esc(sec.name)}" class="card">
+  <header class="card-h">
+    <div class="card-title"><h2>${esc(sec.name)}</h2>${sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : ''}</div>
+    <p class="what">${audMd(sec.what)}</p>
+    ${sec.variants.map(renderAudienceVariant).join('\n    ')}${note}
+  </header>
+  <div class="decks">
+    <div class="deck light"><span class="deck-lbl">Light deck</span><div class="deck-body">${sec.demoLight}</div></div>
+    <div class="deck dark"><span class="deck-lbl">Dark deck</span><div class="deck-body">${sec.demoDark}</div></div>
+  </div>
+  ${audienceCodeTabs(sec.snippets)}
+</section>`;
+}
 function renderAudienceCard(sec) {
-  const accent = AUDIENCE_KIND_ACCENT[sec.kind] ?? 'var(--aha-indigo-60)';
-  const badge = sec.kind ? `<span class="badge" style="background:${accent}">${esc(sec.kind)}</span>` : '';
+  if (sec.variants) return renderAudienceVariantCard(sec);
+  const badge = sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : '';
   const replaces = sec.replaces ? `<p class="replaces">${audMd(sec.replaces)}</p>` : '';
   const note = sec.note ? `<p class="note">${audMd(sec.note)}</p>` : '';
   const element = sec.element ? `<p class="element">Use <code class="ic">${esc(sec.element)}</code></p>` : '';
@@ -1446,14 +1492,14 @@ function renderAudienceLibrary() {
   <script type="module">
     import '../lib/all.js';
     import { applyDeck } from '../lib/audience-deck.js';
-    for (const deck of document.querySelectorAll('.audience-lib .deck.light')) applyDeck(deck, { textColour: '#1A1A1A', presentationColorPalette: ['#FF4081'] });
-    for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FAFAFA', presentationColorPalette: ['#FF4081'] });
+    for (const deck of document.querySelectorAll('.audience-lib .deck.light')) applyDeck(deck, { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
+    for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FAFAFA', presentationColorPalette: ['#E70E68'] });
     for (const timer of document.querySelectorAll('.audience-lib .demo-countdown')) timer.setAttribute('ends-at', String(Date.now() + 37000));
     for (const upload of document.querySelectorAll('.audience-lib .demo-upload')) upload.uploadImage = () => new Promise((resolve) => setTimeout(() => resolve({ url: '../logo/thesplash.svg', path: 'demo' }), 600));
     for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
   </script>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'audience', section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+  return docShell({ base: '../', active: 'audience', title: AUDIENCE.title, section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
 function renderMarketingHtml(b) {
@@ -1478,7 +1524,7 @@ function renderMarketingHtml(b) {
     <div class="code-head"><div class="tabs"><span class="tab active">head</span></div><button class="copy" type="button">Copy</button></div>
     <pre class="active">${esc(`<link rel="stylesheet" href="${SITE}/variables.css">`)}</pre>
   </div>`;
-  return docShell({ base: '../../', active: 'marketing:' + b.slug, section: 'patterns', main, extraCss: `
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'patterns', main, extraCss: `
   .marketing-stage{margin:0 0 12px}` });
 }
 function renderMarketingMd(b) {
@@ -1497,15 +1543,16 @@ ${marketingSnippet(b)}\`\`\`
 function renderMarketingAgent(b) {
   return JSON.stringify({
     generatedFrom: `marketing/${b.slug}.json`, kind: 'marketing-section', name: b.name, slug: b.slug,
-    summary: b.summary,
+    summary: b.summary, environment: b.environment || null,
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
+const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
 function renderMarketingLlms(blocks) {
   let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Patterns → ${MARKETING_CAT}). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
-  for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md) — ${b.summary}\n`;
+  for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
@@ -1519,7 +1566,7 @@ const LANDING_REDIRECTS = {
   grid: 'grid/index.html',
 };
 const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
-<title>Moved — AhaSlides Design System</title>
+<title>${esc(documentTitle({ site: SITE_NAME, page: 'Page moved' }))}</title>
 <meta name="robots" content="noindex"/>
 <meta http-equiv="refresh" content="0; url=${target}"/>
 <link rel="canonical" href="${target}"/>
@@ -1565,18 +1612,18 @@ function renderGuidelineHtml(p) {
 
   ${guide ? `<h2>Guide</h2><div class="body pat-guide">${mdToHtml(guide)}</div>` : ''}`;
   const extraCss = `
-  .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
+  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default)}
   .skillrefs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 4px}
   .skillref{font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid var(--aha-split);border-radius:8px;padding:6px 11px}
   .skillref b{font-weight:var(--aha-weight-semibold);color:var(--aha-text-default);margin-right:6px}
-  .pill.warn{background:#FFF0EB;color:#B24A20}
-  .note.warn{background:#FFF5F0;border-color:#FFCBB0;color:#8A3B18}
+  .pill.warn{background:var(--aha-text-default);color:var(--aha-white)}
+  .note.warn{background:var(--aha-bg-container);border-color:var(--aha-text-default);color:var(--aha-text-default)}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
   .pat-guide h2{font-size:17px;line-height:24px;margin:28px 0 10px}
   .pat-h3{font-size:14px;font-weight:600;margin:16px 0 6px}
   .pat-hr{border:none;border-top:1px solid var(--aha-split);margin:22px 0}
   .pat-foot{font-size:13px;color:var(--aha-text-tertiary)}`;
-  return docShell({ base: '../../', active: 'guideline:' + p.slug, section: 'guidelines', main, extraCss });
+  return docShell({ base: '../../', active: 'guideline:' + p.slug, title: p.name, titleSection: 'Guidelines', section: 'guidelines', main, extraCss });
 }
 function renderGuidelineMd(p) {
   const skill = p.skillRef || {};
@@ -1631,7 +1678,7 @@ function renderGuidelinesLlms(patterns) {
    instead, so the "On this page" component is defined once and can't drift between areas. Callers pass
    the antd Anchor `items` tree and a matching `fallbackGroups` list for the pre-hydration / no-JS nav.
    `fallbackGroups`: [{ cat: string|null, links: [{ id, title }] }]. ===== */
-const HUB_ANCHOR_THEME = { token: { colorPrimary: TOK.color.primary, fontFamily: TOK.font.product, borderRadius: 8 } };
+const HUB_ANCHOR_THEME = dsAntdTheme({ token: { colorPrimary: TOK.color.primary, fontFamily: TOK.font.product, borderRadius: 8 } });
 
 // The sticky aside. The no-JS fallback list lives inside the mount; the React island replaces it once
 // antd loads (so the nav works even before/without hydration).
@@ -1791,8 +1838,8 @@ function renderSettingsHub() {
 
   ${hubAnchorScript(anchorItems)}`;
   const extraCss = `
-  .badge.pattern{color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)}
-  .pill.warn{background:#FFF0EB;color:#B24A20}
+  .badge.pattern{color:var(--aha-text-default);background:var(--aha-bg-container-secondary);border:1px solid var(--aha-border-default)}
+  .pill.warn{background:var(--aha-text-default);color:var(--aha-white)}
   .ref{font-family:Menlo,monospace;font-size:10.5px;color:var(--aha-text-tertiary);background:var(--aha-gray-20);border-radius:5px;padding:1px 6px;white-space:nowrap}
 ${HUB_ANCHOR_CSS}
   .hub-body>h2{scroll-margin-top:84px}
@@ -1801,7 +1848,7 @@ ${HUB_ANCHOR_CSS}
   .ctrl h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:16px;margin:0 0 6px}
   .ctrl h4{font-size:13px;margin:16px 0 6px;color:var(--aha-text-secondary)}
   .ctrl h3 code{font-size:12px;font-weight:400;color:var(--aha-text-secondary);background:var(--aha-gray-20);border-radius:5px;padding:1px 7px}`;
-  return docShell({ base: '../', active: 'hub:settings', section: 'settings', main, extraCss, noSidebar: true });
+  return docShell({ base: '../', active: 'hub:settings', title: 'Settings', section: 'settings', main, extraCss, noSidebar: true });
 }
 
 /* Consolidated Settings page as a Markdown feed — the same self-contained content, flat, for agents. */
@@ -1841,16 +1888,17 @@ ${groupsMd}
 /* ===== G3 · design.md ===== */
 function renderDesignMd(t, cs) {
   const c = t.color, P = c.primitives, b = c.button;
-  const ramp = (hue) => `- **${hue}** — ` + Object.keys(P[hue]).map(s => `\`${s}\` ${P[hue][s]}`).join(' · ');
-  const primitiveLines = Object.keys(P).filter(h => h!=='white' && h!=='black').map(ramp).join('\n');
+  const primitiveLine = (name) => typeof P[name] === 'string'
+    ? `- **${name}** — \`--aha-${kebab(name)}\` ${P[name]}`
+    : `- **${name}** — ` + Object.keys(P[name]).map(step => `\`${step}\` ${P[name][step]}`).join(' · ');
+  const primitiveLines = Object.keys(P).map(primitiveLine).join('\n');
   const tbl = (rows) => '| Token | Value |\n| --- | --- |\n' + rows.map(([k,v]) => `| \`--aha-${k}\` | \`${v}\` |`).join('\n');
   const seed   = [['color-primary',c.primary],['color-primary-hover',c.primaryHover],['color-primary-active',c.primaryActive],['color-success',c.success],['color-warning',c.warning],['color-error',c.error],['color-info',c.info]];
   const text   = [['text-default',c.textDefault],['text-secondary',c.textSecondary],['text-tertiary',c.textTertiary],['text-disabled',c.textDisabled],['text-inverse',c.textInverse],['text-link',c.textLink],['text-link-hover',c.textLinkHover],['text-primary-ink',c.textPrimaryInk],['text-positive',c.textPositive],['text-negative',c.textNegative],['text-warning',c.textWarning]];
-  const border = [['border',c.border],['border-secondary',c.borderSecondary],['border-strong',c.borderStrong],['border-disabled',c.borderDisabled],['border-hover',c.borderHover],['border-active',c.borderActive],['border-error',c.borderError],['border-success',c.borderSuccess],['border-warning',c.borderWarning],['border-info',c.borderInfo],['checkbox-border',c.checkboxBorder]];
+  const border = [['border-default',c.borderDefault],['border-secondary',c.borderSecondary],['border-strong',c.borderStrong],['border-disabled',c.borderDisabled],['border-hover',c.borderHover],['border-active',c.borderActive],['border-error',c.borderError],['border-success',c.borderSuccess],['border-warning',c.borderWarning],['border-info',c.borderInfo],['checkbox-border',c.checkboxBorder]];
   const bg     = [['bg-base',c.bgBase],['bg-container',c.bgContainer],['bg-container-secondary',c.bgContainerSecondary],['bg-container-disabled',c.bgContainerDisabled],['bg-elevated',c.bgElevated],['bg-layout',c.bgLayout],['bg-accent',c.bgAccent],['bg-informative',c.bgInformative],['bg-hover',c.bgHover],['bg-positive',c.bgPositive],['bg-negative',c.bgNegative],['bg-warning',c.bgWarning],['bg-overlay',c.bgOverlay],['bg-dark',c.bgDark],['bg-dark-raised',c.bgDarkRaised]];
   const icon   = [['icon-default',c.iconDefault],['icon-strong',c.iconStrong],['icon-muted',c.iconMuted],['icon-disabled',c.iconDisabled],['icon-inverse',c.iconInverse],['icon-active',c.iconActive]];
   const btn    = [['btn-primary-bg',b.primaryBg],['btn-primary-bg-hover',b.primaryBgHover],['btn-primary-bg-press',b.primaryBgPress],['btn-primary-fg',b.primaryFg],['btn-secondary-bg',b.secondaryBg],['btn-secondary-bg-hover',b.secondaryBgHover],['btn-secondary-border',b.secondaryBorder],['btn-secondary-border-press',b.secondaryBorderPress],['btn-tertiary-bg-hover',b.tertiaryBgHover],['btn-disabled-bg',b.disabledBg],['btn-disabled-fg',b.disabledFg],['btn-danger-bg',b.dangerBg],['btn-danger-bg-hover',b.dangerBgHover],['btn-danger-ring',b.dangerRing],['btn-encourage-bg',b.encourageBg],['btn-encourage-bg-hover',b.encourageBgHover],['btn-encourage-bg-press',b.encourageBgPress]];
-  const brand  = Object.keys(c.brand).map(k => [`brand-${k}`, c.brand[k]]);
   const vizValue = (path, hex) => (aliasOf(path) ? `var(${aliasOf(path).cssVar}) = ${hex}` : hex);
   const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
     ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
@@ -1860,12 +1908,16 @@ function renderDesignMd(t, cs) {
 > Version ${PKG.version} · changelog (what changed per release): ${SITE}/CHANGELOG.md
 
 ## Brand
-Primary is violet purple \`${c.primary}\` on near-white neutrals; ink is warm gray \`${c.textDefault}\`.
-Backgrounds are **white by default**; no gradients on fills (AI-affordance border-only exception).
-Success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\`.
+Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
+The page background is **white**; light grey is for surfaces inside or beside the white page (cards, sidebars, input fields, table headers, the editor workspace), never a whole page or a full-width section; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states plus at most one highlighted panel per screen; black backgrounds are for full-screen presenting and video or image viewers only, and there is no dark mode; no gradients on fills (AI-affordance border-only exception). Every colour and background rule, tagged by environment: ${SITE}/colour-rules.md.
+Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
+Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue.
+Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
+No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
+The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
-## Colour — primitive ramps
-Each hue is a 10→100 scale. Semantic tokens below alias into these; **never hardcode a ramp value in a component** — bind to a semantic \`--aha-*\` token.
+## Colour — the palette
+White, black, Vivid Pink (\`5\` and \`30\` are the flat codes of Vivid Pink at 5% and at 30% on white; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
 ${primitiveLines}
 
 ## Colour — semantic tokens
@@ -1886,9 +1938,6 @@ ${tbl(icon)}
 
 ### Button
 ${tbl(btn)}
-
-### Brand slots (categorical, Aha 1–13)
-${tbl(brand)}
 
 ### Data visualisation (\`<aha-chart>\` brand palette)
 Series colours for charts on Report and other app screens. On the presenting/audience canvas a chart takes the deck palette instead (\`palette="deck"\`).
@@ -1924,7 +1973,8 @@ function renderTokenPage(pageSlug) {
   const ramp = (hue) => `<div class="ramp"><div class="ramp-name">${esc(hue)}</div><div class="ramp-cells">`
     + Object.keys(P[hue]).map(s => `<div class="ramp-cell" title="${P[hue][s]}"><div class="ramp-chip" style="background:${P[hue][s]}"></div><div class="ramp-k">${s}</div></div>`).join('')
     + `</div></div>`;
-  const primitives = Object.keys(P).filter(h => h!=='white' && h!=='black').map(ramp).join('');
+  const flatPrimitives = Object.keys(P).filter(name => typeof P[name] === 'string');
+  const primitives = Object.keys(P).filter(name => typeof P[name] !== 'string').map(ramp).join('');
   const typeRows = [['display1',s.display1],['display2',s.display2],['h1',s.h1],['h2',s.h2],['h3',s.h3],['h4',s.h4],['h5 / xl',s.xl],['h6',s.h6],['body (default)',s.default],['bodyLG (l)',s.l],['bodySM (sm)',s.sm]]
     .map(([role,px]) => `<tr><td style="font-size:${px}px;line-height:1.2">${esc(role)}</td><td><code>${px}px</code></td></tr>`).join('');
   const radScale = [['xs',r.xs],['sm',r.sm],['default',r.default],['lg',r.lg],['xl',r.xl]];
@@ -1937,24 +1987,30 @@ function renderTokenPage(pageSlug) {
   const gen = `<p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>`;
   const BODY = {
     colour: {
-      title: 'Colour', highlights: ["Primitive ramps plus semantic tokens that alias into them", "Never hardcode a ramp value", "Bind to a semantic --aha-* token"], lead: 'The primitive ramps and the semantic tokens that alias into them. Never hardcode a ramp value in a component — bind to a semantic <code>--aha-*</code> token.',
+      title: 'Colour', highlights: ["Vivid Pink, white, black and neutral greys are the whole palette", "Purple is the logo only", "Bind to a semantic --aha-* token, never a raw value"], lead: 'The whole palette is Vivid Pink, white, black and neutral greys, plus one purple for the logo. Semantic tokens alias into it. Never hardcode a value in a component — bind to a semantic <code>--aha-*</code> token.',
       body: `
-  <p class="body">These are the tokens the product uses today. The brand colour rules, which the tokens do not follow yet, are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
-  <h2>Primitive ramps</h2>
-  <p class="body">The raw colour scales (10&rarr;100). Semantic tokens below alias into these — never hardcode a ramp value in a component.</p>
+  <p class="body">These tokens follow the brand colour rules, which are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
+  <h2>Palette</h2>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
+  <p class="body">Black is <code>${P.black}</code>, the same value as grey 100 and the default ink: <code>--aha-black</code> is an alias of <code>--aha-gray-100</code>. A pure, zero-value black is never painted solid; it appears only as a transparency, for a shadow, a scrim or an ink alpha.</p>
+  ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
 
   <h2>Semantic colour</h2>
   ${swGroup('Brand', [['primary',c.primary],['primaryHover',c.primaryHover],['primaryActive',c.primaryActive],['focus',c.focus]])}
   ${swGroup('Status', [['success',c.success],['warning',c.warning],['error',c.error],['info',c.info]])}
   ${swGroup('Text', [['textDefault',c.textDefault],['textSecondary',c.textSecondary],['textTertiary',c.textTertiary],['textDisabled',c.textDisabled],['textLink',c.textLink],['textPositive',c.textPositive],['textNegative',c.textNegative],['textWarning',c.textWarning]])}
-  ${swGroup('Border', [['border',c.border],['borderSecondary',c.borderSecondary],['borderStrong',c.borderStrong],['borderHover',c.borderHover],['borderActive',c.borderActive],['checkboxBorder',c.checkboxBorder]])}
+  ${swGroup('Border', [['borderDefault',c.borderDefault],['borderSecondary',c.borderSecondary],['borderStrong',c.borderStrong],['borderHover',c.borderHover],['borderActive',c.borderActive],['checkboxBorder',c.checkboxBorder]])}
   ${swGroup('Background', [['bgLayout',c.bgLayout],['bgAccent',c.bgAccent],['bgInformative',c.bgInformative],['bgPositive',c.bgPositive],['bgNegative',c.bgNegative],['bgWarning',c.bgWarning],['bgDark',c.bgDark]])}
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
-  ${swGroup('Brand slots (Aha 1–13)', Object.keys(c.brand).map(k=>['aha'+k, c.brand[k]]))}
   ${swGroup('Data visualisation (chart series · aliases of the colour tokens above)', [...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, `color.viz.series.${k}`]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, `color.viz.tint.${k}`]), ['viz-ink', 'color.viz.ink'], ['viz-neutral', 'color.viz.neutral']]
-    .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}`,
+    .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}
+  <section class="illustration-tints">
+  <h2>Illustration tints</h2>
+  <p class="body">Illustrations are drawn in one hue: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white, plus Darker Pink for the deepest accents, with white and the default ink for outlines and faces. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens, have no <code>--aha-*</code> variable and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles from the colour rules. The DS's other art follows the palette above: third-party logos are greyscale, file-type icons are one colour, and the AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks (<code>node recolour-art.mjs</code>).</p>
+  ${swGroup('Illustration tints (10, 20, 45, 60 and 80% are for illustrations only; none are tokens)', ILLUSTRATION_TINTS.map((tint, index) => [index === ILLUSTRATION_TINTS.length - 1 ? 'Darker Pink' : `Vivid Pink ${[5, 10, 20, 30, 45, 60, 80, 100][index]}%`, tint]))}
+  </section>`,
     },
     typography: {
       title: 'Typography', highlights: ["Product face Plus Jakarta Sans, self-hosted", "Weights 400 and 600 only", "No Inter"], lead: 'Product face <b>Plus Jakarta Sans</b> (self-hosted); weights <b>400 / 600</b> only. No Inter.',
@@ -1999,7 +2055,7 @@ function renderTokenPage(pageSlug) {
   .sw .hex{font-family:Menlo,monospace;font-size:11px;color:var(--aha-text-tertiary)}
   .scale-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:12px 0 8px}
   .scale-cell{text-align:center}
-  .radius-chip{width:66px;height:48px;background:var(--aha-purple-10);border:1.5px solid var(--aha-color-primary);margin-bottom:6px}
+  .radius-chip{width:66px;height:48px;background:var(--aha-bg-accent);border:1.5px solid var(--aha-color-primary);margin-bottom:6px}
   .space-bar{height:16px;background:var(--aha-color-primary);border-radius:2px;margin-bottom:5px}
   .ramps{display:flex;flex-direction:column;gap:10px;margin:8px 0}
   .ramp{display:flex;align-items:center;gap:12px}
@@ -2008,7 +2064,7 @@ function renderTokenPage(pageSlug) {
   .ramp-cell{width:44px;text-align:center}
   .ramp-chip{height:34px;border-radius:6px;border:1px solid rgba(0,0,0,.06)}
   .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}`;
-  return docShell({ base: '../', active: 'token:' + pageSlug, section: 'foundations', main, extraCss });
+  return docShell({ base: '../', active: 'token:' + pageSlug, title: pg.title, section: 'foundations', main, extraCss });
 }
 
 /* ===== self-describing "how to consume" blocks =====
@@ -2085,6 +2141,7 @@ function antiSlopTargetUrl(source) {
   if (m) return `${SITE}/${m[1]}.agent.json`;
   m = source.match(/^guidelines\/([a-z0-9-]+)\.json$/);
   if (m) return `${SITE}/guidelines/${m[1]}/${m[1]}.agent.json`;
+  if (source === COLOUR_RULES_FILE) return `${SITE}/colour-rules.agent.json`;
   throw new Error(`anti-slop target "${source}" has no published feed — map it in antiSlopTargetUrl`);
 }
 
@@ -2120,53 +2177,63 @@ function renderAntiSlop(store, guidelines) {
 }
 
 /* ===== overview / landing page ===== */
-function renderIndex(cs) {
-  cs = cs.filter(c => !c.docPage);
-  const cards = cs.map(c => `<a class="card" href="${docPagePath(c)}">
-      <div class="ct">${esc(c.name)} <span class="badge ${c.tier==='leaf-lit'?'leaf':'composite'}">${c.tier==='leaf-lit'?'leaf':'composite'}</span></div>
-      <div class="cs">${esc(c.summary)}</div>
-      <div class="cf">${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt</div></a>`).join('');
+function startCards() {
+  const cards = [
+    ['system-palette', 'Colour', 'foundations/colour.html', 'The brand pink, the greys and how we use them.'],
+    ['system-text-t', 'Typography', 'foundations/typography.html', 'Fonts, sizes and weights for every screen.'],
+    ['system-cursor-click', 'Button', 'button/index.html', 'See one component in full: every style, size and state.'],
+    ['system-grid-complex', 'Components', NAV_LANDING.components, 'Every ready-made piece, from buttons to tables.'],
+    ['system-layout', 'Patterns', NAV_LANDING.patterns, 'How pieces fit together on a real screen.'],
+    ['system-book', 'Guidelines', NAV_LANDING.guidelines, 'The rules to follow when you design a screen.'],
+  ];
+  return `<div class="cards start-cards">${cards.map(([icon, name, href, text]) => `<a class="card" href="${href}">
+      <div class="ct"><aha-icon name="${icon}" size="16" decorative></aha-icon>${esc(name)}</div>
+      <div class="cs">${esc(text)}</div></a>`).join('')}</div>`;
+}
+function renderIndex() {
+  const main = `
+  <h1>AhaSlides Design</h1>
+  <p class="subtitle">The colours, type, components and rules every AhaSlides screen is built from.</p>
+
+  <h2 style="margin-top:30px">Where to start</h2>
+  ${startCards()}
+
+  <p class="body" style="margin-top:24px">Building with the design system? <a href="get-started/index.html">For developers &rarr;</a></p>`;
+  return docShell({ base: '', active: '__overview__', title: null, section: 'overview', main });
+}
+
+/* ===== For developers — install steps and agent feeds ===== */
+function renderGetStarted(cs) {
+  const live = cs.filter(c => !c.docPage).length;
   const planned = [...COMPONENTS_CATALOG, ...PATTERNS_CATALOG].reduce((n,g)=>n+g.items.length,0);
   const main = `
-  <h1>Components</h1>
+  <h1>For developers</h1>
   ${headline(['One token source and one contract per component', 'Generates this site, the llms.txt feeds, design.md and each agent.json together', 'Generated together, so they cannot drift'])}
-  <p class="gen">◆ generated by generate.mjs — ${cs.length} live of ${planned} planned components</p>
+  <p class="gen">◆ generated by generate.mjs — ${live} live of ${planned} planned components</p>
 
   ${consumeBlock()}
 
-  <h2 style="margin-top:30px">Live components</h2>
-  <div class="cards">${cards}</div>
-
-  ${GUIDELINES.length ? `<h2>Guidelines</h2>
-  <p class="body">Composition guides — how to assemble the components above for a use case. A pattern ships no new primitive; it reuses components and documents conventions, linking each rule back to its <code>aha-design</code> skill.</p>
-  <div class="cards">${GUIDELINES.map(p => {
-    const missing = (p.composedOf||[]).filter(x=>x.status==='missing').length;
-    return `<a class="card" href="guidelines/${p.slug}/index.html">
-      <div class="ct">${esc(p.name)} <span class="badge pattern" style="color:#5715A0;background:var(--aha-purple-10);border:1px solid var(--aha-purple-30)">pattern</span></div>
-      <div class="cs">${esc(p.summary)}</div>
-      <div class="cf">${(p.rules||[]).length} rules · reuses ${(p.composedOf||[]).length}${missing?` · ${missing} backlog`:''}</div></a>`;
-  }).join('')}</div>` : ''}
-
   <h2>Agent feeds</h2>
   <p class="feeds">
-    <a href="feeds/llms-txt.html"><code>llms.txt</code></a> index ·
-    <a href="feeds/llms-full-txt.html"><code>llms-full.txt</code></a> full ·
-    <a href="feeds/design-md.html"><code>design.md</code></a> visual language ·
-    <a href="feeds/changelog.html"><code>CHANGELOG.md</code></a> version history ·
-    <a href="feeds/variables-css.html"><code>variables.css</code></a> token layer ·
+    <a href="../feeds/llms-txt.html"><code>llms.txt</code></a> index ·
+    <a href="../feeds/llms-full-txt.html"><code>llms-full.txt</code></a> full ·
+    <a href="../feeds/design-md.html"><code>design.md</code></a> visual language ·
+    <a href="../feeds/changelog.html"><code>CHANGELOG.md</code></a> version history ·
+    <a href="../feeds/variables-css.html"><code>variables.css</code></a> token layer ·
     per-component <code>&lt;slug&gt;.agent.json</code>
   </p>
 
   <h2>Roadmap</h2>
   <p class="body">The <b>Components</b> tab lists the full planned inventory (greyed = <b>soon</b>), taken from the aha-design <code>component-standard</code> measured set. Leaf primitives ship as one shared Lit web component (portable to any environment); composites ship as antd / ant-design-vue wrappers (app-only). Each component follows the same lifecycle: contract &rarr; build &rarr; theme &rarr; render-matrix verify &rarr; judge &rarr; publish.</p>`;
-  return docShell({ base: '', active: '__overview__', section: 'overview', main });
+  return docShell({ base: '../', active: '__get-started__', title: 'For developers', section: 'developers', main });
 }
 
 /* ===== Icon library — runtime, gallery page, and agent feeds (from the registry) ===== */
 // The client artifacts every icon-bearing page loads: the registry data + the shared element.
 function writeIconRuntime() {
   mkdirSync(join(OUT, 'icons'), { recursive: true });
-  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(ICONS.icons) + ';\n');
+  const glyphsOnly = Object.fromEntries(Object.entries(ICONS.icons).map(([name, { meaning, ...glyph }]) => [name, glyph]));
+  writeFileSync(join(OUT, 'icons', 'registry.js'), 'window.AHA_ICONS=' + JSON.stringify(glyphsOnly) + ';\n');
   writeFileSync(join(OUT, 'icons', 'aha-icon.js'), AHA_ICON_JS);
 }
 const GALLERY_JS = `
@@ -2175,9 +2242,10 @@ const GALLERY_JS = `
       count=document.getElementById('icon-count'), cells=[].slice.call(grid.querySelectorAll('.ic')),
       fams=[].slice.call(document.querySelectorAll('.fam-chip')), fam='all';
   function apply(){
-    var t=(q.value||'').trim().toLowerCase(), n=0;
+    var terms=(q.value||'').trim().toLowerCase().split(/\\s+/).filter(Boolean), n=0;
     cells.forEach(function(c){
-      var ok=(fam==='all'||c.dataset.fam===fam) && (!t||c.dataset.name.indexOf(t)>=0);
+      var text=c.dataset.name+' '+c.dataset.words;
+      var ok=(fam==='all'||c.dataset.fam===fam) && terms.every(function(t){return text.indexOf(t)>=0;});
       c.style.display=ok?'':'none'; if(ok)n++;
     });
     count.textContent=n+' icon'+(n===1?'':'s');
@@ -2196,19 +2264,26 @@ const GALLERY_JS = `
 })();
 `;
 function renderIconGallery() {
-  const entries = Object.entries(ICONS.icons).sort((a, b) => a[0].localeCompare(b[0]));
+  const entries = Object.entries(ICONS.icons).filter(([, v]) => !v.aliasOf).sort((a, b) => a[0].localeCompare(b[0]));
   const strip = (n) => n.replace(/^(system|slidetype|filetype)-/, '');
   const cells = entries.map(([name, v]) =>
-    `<button class="ic" type="button" data-name="${esc(name)}" data-fam="${esc(v.family)}" title="${esc(name)} — click to copy"><aha-icon name="${esc(name)}" size="24"></aha-icon><span class="icn">${esc(strip(name))}</span></button>`).join('');
+    `<button class="ic" type="button" data-name="${esc(name)}" data-words="${esc((v.meaning || []).join(' '))}" data-fam="${esc(v.family)}" title="${esc(name)}${v.meaning && v.meaning.length ? ` (${esc(v.meaning.join(', '))})` : ''} — click to copy"><aha-icon name="${esc(name)}" size="24"></aha-icon><span class="icn">${esc(strip(name))}</span></button>`).join('');
   const chips = ['all', ...ICONS.families].map((f, i) =>
-    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => x.family === f).length}</b>`}</button>`).join('');
+    `<button class="fam-chip${i === 0 ? ' on' : ''}" type="button" data-fam="${esc(f)}">${esc(f)}${f === 'all' ? '' : ` <b>${Object.values(ICONS.icons).filter(x => !x.aliasOf && x.family === f).length}</b>`}</button>`).join('');
   const main = `
   <h1>Icon library</h1>
-  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Click a glyph to copy its name'])}
+  ${headline([`${ICONS.count} glyphs across ${ICONS.families.length} families, imported from Figma Design System V3`, 'Call any glyph by name with <aha-icon name="…">; never inline an SVG', 'Search by meaning (help, delete, settings) before drawing a new glyph: a near-duplicate fails the build', 'Click a glyph to copy its name', 'Stroke follows size: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px, applied by the runtime'])}
   <p class="gen">◆ generated from icons/registry.json (built by build-icons.mjs from ${esc(ICONS.$generatedFrom || 'Figma')}) — do not edit by hand</p>
 
+  <h3 class="tok-h3">Stroke by size</h3>
+  <p class="body">The runtime draws every stroke at the width paired with the size, whatever the glyph&rsquo;s own viewBox, so the same glyph keeps one line weight across the library. Do not set <code>stroke-width</code> in an SVG or on the element.</p>
+  <div class="stroke-demo">${[[12, 1], [16, 1.5], [24, 2], [32, 2.5]].map(([size, line]) => `<div class="stroke-cell"><div class="stroke-stage"><aha-icon name="system-bell" size="${size}" decorative></aha-icon><aha-icon name="slidetype-poll" size="${size}" decorative></aha-icon></div><span class="stroke-cap">${size}px &middot; ${line}px stroke</span></div>`).join('')}</div>
+
+  <h3 class="tok-h3">Reuse before you draw</h3>
+  <p class="body">Every glyph carries meaning words, so a search for <b>help</b> finds <code>system-question</code> and <b>delete</b> finds <code>system-trash</code>. Search here, or run <code>npm run icon-search &lt;words&gt;</code> in the design-system repo (<code>node node_modules/@ahaslides-product/design/icon-search.mjs &lt;words&gt;</code> in an app). Add a glyph only when nothing fits: the build fails a new glyph that looks nearly identical to an existing one, and the pull request names what was searched and why each close match did not fit (an <code>Icon search:</code> line).</p>
+
   <div class="gal-bar">
-    <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name…" autocomplete="off" spellcheck="false" />
+    <input id="icon-search" type="search" placeholder="Search ${ICONS.count} icons by name or meaning: help, delete, settings…" autocomplete="off" spellcheck="false" />
     <div class="fam-chips">${chips}</div>
     <span id="icon-count" class="gal-count"></span>
   </div>
@@ -2219,27 +2294,51 @@ function renderIconGallery() {
   <script>${GALLERY_JS}</script>`;
   const extraCss = `
   .gal-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 18px;position:sticky;top:64px;background:#fff;padding:12px 0;z-index:5;border-bottom:1px solid var(--aha-split)}
-  #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
-  #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  #icon-search{flex:1 1 320px;min-width:240px;height:38px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
+  #icon-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .fam-chips{display:flex;gap:6px}
   .fam-chip{font-family:var(--aha-font-product);font-size:13px;color:var(--aha-text-secondary);background:var(--aha-gray-20);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;text-transform:capitalize}
   .fam-chip b{opacity:.6;font-weight:600}
-  .fam-chip.on{background:var(--aha-purple-10);border-color:var(--aha-purple-30);color:#5715A0}
+  .fam-chip.on{background:var(--aha-bg-accent);border-color:var(--aha-border-hover);color:var(--aha-text-default)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin-left:auto}
   .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
   .ic{display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 8px 10px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;color:var(--aha-icon-default,#4B4B4B);font-family:var(--aha-font-product)}
-  .ic:hover{border-color:var(--aha-purple-30);color:var(--aha-color-primary);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .ic:hover{border-color:var(--aha-border-hover);color:var(--aha-color-primary);box-shadow:0 3px 10px rgba(0,0,0,.08)}
   .ic .icn{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary);word-break:break-word;text-align:center}
   .ic.copied{border-color:var(--aha-color-success);color:var(--aha-color-success)}
-  .ic.copied .icn{color:var(--aha-color-success)}`;
-  return docShell({ base: '../', active: '__icons__', section: 'foundations', main, extraCss });
+  .ic.copied .icn{color:var(--aha-color-success)}
+  .stroke-demo{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:8px 0 24px}
+  .stroke-cell{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 8px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;color:var(--aha-icon-default,#4B4B4B);font-family:var(--aha-font-product)}
+  .stroke-stage{display:flex;align-items:center;gap:14px;min-height:32px}
+  .stroke-cap{font-size:12px;color:var(--aha-text-secondary);font-family:Menlo,monospace}`;
+  return docShell({ base: '../', active: '__icons__', title: 'Icon library', section: 'foundations', main, extraCss });
 }
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
 const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
+const COLOUR_RULES = loadColourRules(root);
+const BACKGROUNDS = loadBackgrounds(root);
+function renderBackgroundLibraryPage() {
+  const { main, extraCss } = renderBackgroundLibrary(COLOUR_RULES, BACKGROUNDS, { site: SITE, headline });
+  return docShell({ base: '../', active: '__backgrounds__', title: 'Background library', section: 'foundations', main, extraCss });
+}
 const LOGO_AHA = LOGO_MANIFEST.filter(l => l.category === 'AhaSlides');
 const LOGO_BRANDS = LOGO_MANIFEST.filter(l => l.category !== 'AhaSlides');
 const LOGO_DARK_TILE = new Set(['ahaslides-logo-white', 'thesplash-white']);
 const LOGO_DONTS = ['Change the colours', 'Stretch the logo', 'Rotate or tilt the logo', 'Apply a gradient to The Splash', 'Apply a gradient to the wordmark', 'Separate and move the elements'];
+const LOCKUP_SPEC = [
+  ['Full', 'The Splash, AhaSlides (Plus Jakarta Sans 600), one normal space, the product name (400)'],
+  ['Compact', 'The Splash and the product name (600), no word AhaSlides'],
+  ['Type size', '20 px reference; 18 px minimum'],
+  ['Line height', '1.3 (26 px)'],
+  ['Letter spacing', '-0.03em (-0.6 px)'],
+  ['The Splash', '1.325em high (26.5 px; about 24 px at the 18 px minimum), centred on the capitals'],
+  ['Gap, The Splash to the text', '0.36em (7.2 px)'],
+  ['Ink', 'text-default #1A1A1A with the full-colour Splash on light; all white on a dark or brand-colour header'],
+  ['Full to compact', 'below a header 480 px wide'],
+  ['Splash only', 'a slot narrower than the compact lockup, such as a 72 px icon rail'],
+  ['No approved product name', 'The Splash and AhaSlides only; never invent a name'],
+];
+const LOCKUP_DONTS = ['Hand-set the lockup from the logo file and a text span: use <aha-product-lockup>', 'Put a divider or a bar between The Splash and the words', 'Scale The Splash and the text separately: one size drives both', 'Use a product name nobody approved'];
 const LOGO_GALLERY_JS = `
 (function(){
   var root=document.getElementById('logo-gallery'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count');
@@ -2284,14 +2383,14 @@ const LOGO_GALLERY_JS = `
 `;
 function renderLogoPage() {
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file)}</span><span class="lg-arrow">&darr;</span></a></div>`;
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file.split('/').pop())}</span><span class="lg-arrow">&darr;</span></a></div>`;
   const sections = list => {
     const names = [...new Set(list.map(l => l.section))];
     return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
   };
   const main = `
   <h1>Logo library</h1>
-  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official full-colour SVG, from theSVG or the Design System V3 Figma file; never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, shown in greyscale: third-party logos are one colour under the colour rules; never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
   <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
 
   <div id="logo-gallery">
@@ -2303,12 +2402,21 @@ function renderLogoPage() {
       <input id="logo-search" type="search" placeholder="Search logos by name…" aria-label="Search logos" autocomplete="off" spellcheck="false" />
       <span id="logo-count" class="gal-count" aria-live="polite"></span>
     </div>
-    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div>
+    <div id="panel-aha" role="tabpanel" aria-labelledby="tab-aha" class="lg-panel">${sections(LOGO_AHA)}</div><!-- ds-lint-allow: lockup (Logo library gallery tiles, not a header) -->
     <div id="panel-brands" role="tabpanel" aria-labelledby="tab-brands" class="lg-panel" hidden>${sections(LOGO_BRANDS)}</div>
   </div>
 
   <h3 class="tok-h3">AhaSlides logo rules</h3>
-  <p class="body">The logo is The Splash plus the wordmark. Use the full-colour file on white, the white file on Radical Pink, Radical Purple or Deep Space Blue, and the black file for one-colour use on light surfaces. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <p class="body">The logo is The Splash plus the wordmark. Two versions are allowed: the full-colour file on white and the white file on Vivid Pink. An all-pink logo on white is not allowed. Minimum size <b>154 &times; 35 px</b> on screen, <b>175 &times; 40 mm</b> in print.</p>
+  <h3 class="tok-h3" id="product-lockup">Product lockup</h3>
+  <p class="body">The top-left brand of every AhaSlides site, microsite and app header (Docs, Games, Careers, Agent Fleet, a pre-launch site) is the product lockup, rendered by <a href="../product-lockup/index.html"><code>&lt;aha-product-lockup&gt;</code></a>. Full is The Splash, AhaSlides and the product name; compact drops AhaSlides. The element sets the text live in Plus Jakarta Sans and sizes everything from one type size, so the proportions below hold at every size.</p>
+  <div class="lockup-demo"><aha-product-lockup product="Docs" variant="full"></aha-product-lockup><aha-product-lockup product="Docs" variant="compact"></aha-product-lockup><aha-product-lockup></aha-product-lockup></div>
+  <div class="lockup-demo lockup-demo--dark"><aha-product-lockup product="Games" tone="inverse" variant="full"></aha-product-lockup><aha-product-lockup product="Games" tone="inverse" variant="compact"></aha-product-lockup></div>
+  ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
+  <p class="body">Don&rsquo;t:</p>
+  <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+  <h3 class="tok-h3" id="favicon">Favicon</h3>
+  <p class="body">The four files in <code>logo/favicon/</code> are The Splash in its own colours, centred with even padding: <code>favicon.ico</code>, <code>favicon-32.png</code>, <code>favicon-180.png</code> (white ground) and <code>favicon-512.png</code>. Rebuild them with <code>node favicons.mjs</code>. Which tag uses which file, and where <code>/favicon.ico</code> must answer, is in the <a href="../guidelines/page-title-favicon/index.html">Page title and favicon</a> guideline.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
   <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Third-party marks</h3>
@@ -2320,11 +2428,11 @@ function renderLogoPage() {
   .logo-tabs{display:flex;gap:4px;margin-bottom:-1px}
   .logo-tab{font-family:var(--aha-font-product);font-size:14px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-bottom:2px solid transparent;padding:8px 14px 10px;cursor:pointer}
   .logo-tab b{opacity:.6;font-weight:600;margin-left:4px}
-  .logo-tab[aria-selected="true"]{color:#5715A0;border-bottom-color:var(--aha-color-primary)}
-  .logo-tab:hover{color:#5715A0}
+  .logo-tab[aria-selected="true"]{color:var(--aha-text-default);border-bottom-color:var(--aha-color-primary)}
+  .logo-tab:hover{color:var(--aha-text-default)}
   .logo-tab:focus-visible,.lg:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
-  #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border,#D4D4D4);border-radius:8px;outline:none}
-  #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft,#EDE0FF)}
+  #logo-search{flex:1 1 260px;min-width:220px;height:38px;margin-bottom:12px;padding:0 14px;font-family:var(--aha-font-product);font-size:14px;border:1px solid var(--aha-border-default,#D4D4D4);border-radius:8px;outline:none}
+  #logo-search:focus{border-color:var(--aha-color-primary);box-shadow:0 0 0 3px var(--aha-focus-ring-soft)}
   .gal-count{font-size:12px;color:var(--aha-text-tertiary);font-family:Menlo,monospace;margin:0 0 12px auto}
   .logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px}
   .lg-panel[hidden],.lg-sec[hidden]{display:none}
@@ -2332,7 +2440,7 @@ function renderLogoPage() {
   .lg-sec:first-child .lg-sec-h{margin-top:4px}
   .lg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 10px 12px;background:#fff;border:1px solid var(--aha-split);border-radius:10px;cursor:pointer;font-family:var(--aha-font-product)}
   .lg[hidden]{display:none}
-  .lg:hover{border-color:var(--aha-purple-30);box-shadow:0 3px 10px rgba(106,30,187,.08)}
+  .lg:hover{border-color:var(--aha-border-hover);box-shadow:0 3px 10px rgba(0,0,0,.08)}
   .lg-stage{display:flex;align-items:center;justify-content:center;width:100%;height:104px;border-radius:6px;background:var(--aha-gray-10,#FAFAFA)}
   .lg-stage.lg-dark{background:var(--aha-color-primary)}
   .lg-stage img{width:56px;height:56px;object-fit:contain;display:block}
@@ -2344,28 +2452,36 @@ function renderLogoPage() {
   .lg-dl:hover{color:var(--aha-text-link)}
   .lg.copied{border-color:var(--aha-color-success)}
   .lg.copied .lgn{color:var(--aha-color-success)}
-  .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}`;
-  return docShell({ base: '../', active: '__logo__', section: 'foundations', main, extraCss });
+  .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}
+  .lockup-demo{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:24px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
+  .lockup-demo--dark{background:var(--aha-bg-dark);border-color:var(--aha-bg-dark)}`;
+  return docShell({ base: '../', active: '__logo__', title: 'Logo library', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
   const byFam = {};
   for (const [k, v] of Object.entries(ICONS.icons)) (byFam[v.family] || (byFam[v.family] = [])).push(k);
   let s = `# AhaSlides Icons — call by name\n\n> ${ICONS.count} glyphs, generated from ${ICONS.$generatedFrom}. Render with the shared <aha-icon> element — NEVER hand-author or inline an <svg>.\n\n`;
   s += 'Usage: `<aha-icon name="system-bell" size={16} label="Notifications" />`\n';
-  s += '- size: 12 | 16 | 24 | 32 (only). Colour follows currentColor — set it on the wrapper.\n';
+  s += '- size: 12 | 16 | 24 | 32 (only); the runtime draws the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px. Colour follows currentColor — set it on the wrapper.\n';
   s += '- omit `label` and add `decorative` for an icon that only repeats adjacent text.\n';
   s += '- filled/active state → pick the `-filled` asset (e.g. system-bookmark-simple-filled).\n\n';
+  s += `Search before you draw: find a glyph by what it means ("help" → system-question, "delete" → system-trash) in "Find by meaning" below, with \`npm run icon-search <words>\` (in an app: \`node node_modules/@ahaslides-product/design/icon-search.mjs <words>\`) or at ${SITE}/icons/index.html?q=<words>. Add a glyph to the DS only when nothing fits; a new glyph that looks nearly identical to an existing one fails the build.\n\n`;
   for (const fam of ICONS.families) s += `## ${fam} (${(byFam[fam] || []).length})\n${(byFam[fam] || []).sort().join(', ')}\n\n`;
+  s += '## Find by meaning\n';
+  for (const [name, glyph] of Object.entries(ICONS.icons).sort((a, b) => a[0].localeCompare(b[0]))) {
+    if (!glyph.aliasOf) s += `- ${name}: ${(glyph.meaning || []).join(', ')}\n`;
+  }
   return s;
 }
 function renderIconsAgentJson() {
   return JSON.stringify({
     generatedFrom: ICONS.$generatedFrom, element: 'aha-icon',
     usage: '<aha-icon name="system-bell" size={16} label="Notifications" />',
-    rules: { sizes: [12, 16, 24, 32], colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset' },
+    rules: { sizes: [12, 16, 24, 32], strokeByPixelSize: { 12: 1, 16: 1.5, 24: 2, 32: 2.5 }, colour: 'currentColor (set on wrapper)', decorative: 'add `decorative`, drop `label`', filledState: 'use the -filled asset', reuseFirst: 'match your need against each icon\'s meaning words before drawing a glyph; a new glyph that looks nearly identical to an existing one fails the build' },
+    search: { command: 'npm run icon-search <words>', inAnApp: 'node node_modules/@ahaslides-product/design/icon-search.mjs <words>', hosted: `${SITE}/icons/index.html?q=<words>`, fields: 'icons.<name>.meaning' },
     families: ICONS.families, count: ICONS.count,
     names: Object.keys(ICONS.icons).sort(),
-    icons: Object.fromEntries(Object.entries(ICONS.icons).map(([k, v]) => [k, { family: v.family, recolorable: v.recolorable }])),
+    icons: Object.fromEntries(Object.entries(ICONS.icons).map(([k, v]) => [k, { family: v.family, recolorable: v.recolorable, meaning: v.meaning || [], ...(v.aliasOf ? { aliasOf: v.aliasOf } : {}) }])),
   }, null, 2) + '\n';
 }
 
@@ -2406,6 +2522,7 @@ NAV_LANDING = {
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
   charts: 'charts/index.html',
+  developers: 'get-started/index.html',
   feeds: 'feeds/llms-txt.html',
 };
 if (GUIDELINES.length) {
@@ -2420,6 +2537,10 @@ if (MARKETING.length) {
     { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
+RAW_FEEDS.push(
+  { name: 'colour-rules.md', file: 'colour-rules.md', page: 'colour-rules-md', desc: 'The colour and background rules for agents: every rule tagged with its environment and the judge criteria that check it.' },
+  { name: 'colour-rules.agent.json', file: 'colour-rules.agent.json', page: 'colour-rules-agent-json', desc: 'Machine feed: palette, rules by environment, Splash geometry and files, and the points still open.' },
+);
 if (ANTISLOP) {
   RAW_FEEDS.push(
     { name: 'anti-slop.md', file: 'anti-slop.md', page: 'anti-slop-md', desc: 'The official AhaSlides anti-slop loop — per-surface rules + the binary judge a consumer self-runs. Read this BEFORE building.' },
@@ -2508,6 +2629,8 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
+cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
@@ -2516,8 +2639,17 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
-cpSync(join(root, 'brand', 'visual-identity-colour-rules.html'), join(OUT, 'foundations', 'brand-colour-rules.html'));
-writeFileSync(join(OUT, 'index.html'), renderIndex(contracts));
+writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
+  fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
+  templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
+}), { title: siteTitle('Brand colour rules', null, COLOUR_RULES_PAGE), base: '../' }));
+writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
+writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
+writeFileSync(join(OUT, 'colour-rules.agent.json'), renderColourRulesAgent(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
+console.log(`  ✓ colour rules: ${COLOUR_RULES_PAGE} · colour-rules.md · colour-rules.agent.json · ${BACKGROUND_LIBRARY_PAGE} (${BACKGROUNDS.length} backgrounds)`);
+writeFileSync(join(OUT, 'index.html'), renderIndex());
+mkdirSync(join(OUT, 'get-started'), { recursive: true });
+writeFileSync(join(OUT, 'get-started', 'index.html'), renderGetStarted(contracts));
 
 /* Icon library — runtime (registry.js + aha-icon.js), the searchable gallery page, and the agent feeds */
 writeIconRuntime();
@@ -2533,6 +2665,7 @@ const indexLines = [
   `> Version: ${PKG.version} — changelog: ${SITE}/CHANGELOG.md`,
   `> Registry:  GitHub Packages (${REGISTRY}) — needs a GitHub token with read:packages.`,
   `> Configure once in .npmrc:  ${SCOPE}:registry=${REGISTRY}`,
+  `> Install guide (web page): ${SITE}/get-started/index.html`,
   `> Install:  npm i ${PKGNAME}`,
   `> Import the token layer once at the app root:  import '${PKGNAME}/tokens.css'`,
   `> Then import a component by subpath, e.g.  import '${PKGNAME}/aha-button'`,
@@ -2542,7 +2675,10 @@ const indexLines = [
   `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js, same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
-  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile.`,
+  `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
+  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale (one colour, per the colour rules).`,
+  `> Page title and favicon: every page, route, site and app sets its own document <title> as "<specific part> | AhaSlides" (brand last, one " | " separator; a named site ends "| AhaSlides <Site name>"; only the marketing home page is brand-first) and links the one favicon set, The Splash in ${SITE}/logo/favicon/, with /favicon.ico answering at the site root. Rules: ${SITE}/guidelines/page-title-favicon/page-title-favicon.md`,
+  `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers or marketing-style page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
   '>',
   '> ⚑ Before you build: this is the OFFICIAL AhaSlides anti-slop tool. Read anti-slop.md and',
   `>   run the binary judge for your surface — build → self-judge (PASS/FAIL each) → fix → repeat.`,
@@ -2555,7 +2691,7 @@ const indexLines = [
   `>   ${SITE}/design.md         machine-readable visual language + tokens`,
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
-  `>   ${SITE}/foundations/brand-colour-rules.html  brand colour rules — the AhaSlides visual identity colour rules (palette, backgrounds, splash layouts, buttons and text, status, charts); the token reference is foundations/colour.html`,
+  ...colourRulesIndexLines(SITE, BACKGROUNDS),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
@@ -2570,6 +2706,7 @@ const indexLines = [
   `>   lintHtml(html, { surface: 'product' | 'canvas' }) → { findings: [{ rule, line, message, severity }] }`,
   '>   Opt out per line, per rule: ds-lint-allow: <rule-id>[,<rule-id>] (<reason>) — a bare ds-lint-allow suppresses nothing and warns.',
   '',
+  ...routeLines(ENVIRONMENTS, SITE),
   ...patternIndexLines(),
   '## Components',
   '',
@@ -2589,7 +2726,7 @@ for (const c of contracts) {
   writeFileSync(join(d, `${c.slug}.agent.json`), agentJson);       // alongside the doc page
   writeFileSync(join(OUT, `${c.slug}.agent.json`), agentJson);     // flat canonical URL agents fetch
   writeFileSync(join(OUT, `${c.slug}.llms.txt`), renderLlms(c));
-  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
+  indexLines.push(`- [${c.name}](${c.slug}/${c.slug}.md) — ${c.tier}${environmentTag(c)} — ${c.summary}${settingsHubPointer(c) ? ' (Settings pattern: read the Settings hub first)' : ''}`);
   fullDocs.push(md);
   console.log(`  ✓ ${c.slug}: index.html · ${c.slug}.md · ${c.slug}.agent.json · ${c.slug}.llms.txt`);
 }
@@ -2652,6 +2789,7 @@ if (ANTISLOP) {
   console.log('  ✓ agent plugin: agent/anti-slop/criteria.json');
 }
 
+for (const f of RAW_FEEDS) if (f.file !== 'llms.txt') writeFileSync(join(OUT, f.file), withRouteHeader(f.file, read(join(OUT, f.file)), SITE, ENVIRONMENTS));
 // Feed pages LAST — they embed the actual generated files (now all on disk) in a code wrapper.
 mkdirSync(join(OUT, 'feeds'), { recursive: true });
 for (const f of RAW_FEEDS) {

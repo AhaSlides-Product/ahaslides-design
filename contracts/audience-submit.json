@@ -23,7 +23,7 @@
   "spec": [
     {
       "label": "Button",
-      "value": "<aha-button variant=\"primary\" size=\"touch\" block>: 48px, radius 8, 16px semibold, full width"
+      "value": "<aha-button variant=\"primary\" size=\"touch\" block>: 48px, radius 8, 16px semibold, full width, 1px edge in the ink at 10% (also on hover), keyboard focus a 2px --aha-border-focus outline 1px off the button, the spinner 16px so the button never grows while loading"
     },
     {
       "label": "Fill",
@@ -152,7 +152,7 @@
     "expect": {
       "height": "48px",
       "radius": "8px",
-      "fill": "rgb(106, 30, 187)",
+      "fill": "rgb(231, 14, 104)",
       "size": "16px",
       "weight": "600"
     }

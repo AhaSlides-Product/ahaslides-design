@@ -21,6 +21,19 @@ function AhaButton({ variant = 'secondary', size = 'md', disabled, loading, icon
   );
 }
 
+// Close (✕): tertiary icon-only at size xs; `corner` pins it to the first line of its flex row.
+export function Notice({ children, onDismiss }) {
+  return (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '12px 16px' }}>
+      <span>{children}</span>
+      <aha-button variant="tertiary" icon-only="" size="xs" corner="" aria-label="Dismiss"
+        onClick={onDismiss} style={{ '--aha-close-line-height': '21px' }}>
+        <aha-icon name="system-x" size="16" decorative="" />
+      </aha-button>
+    </div>
+  );
+}
+
 export function SaveBar({ onSave, saving }) {
   return (
     <div style={{ display: 'flex', gap: 8 }}>

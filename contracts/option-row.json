@@ -11,7 +11,7 @@
   "codeNote": "A composite element that COMPOSES DS leaves (never re-implements them): the borderless CountedTextarea and the ImageActionButton. The correct-answer toggle is a native <button role=\"checkbox\"> (keyboard-operable, aria-checked kept in sync) rather than the square Checkbox, because the reference toggle is success-green and shape-variant (circle | square). React (< 19) via a thin ref wrapper; Vue binds natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": [
     "border",
-    "border-focus",
+    "focus-ring-soft",
     "color-primary",
     "color-success",
     "border-success",
@@ -63,11 +63,11 @@
     },
     {
       "label": "Hover",
-      "value": "hover → #6A1EBB row border on the one persistent border"
+      "value": "hover → #E70E68 row border on the one persistent border"
     },
     {
       "label": "Focus",
-      "value": "focus-within → #6A1EBB row border + solid 2px --aha-border-focus #D3B4FF ring (success-green ring when correct), on the one persistent border"
+      "value": "focus-within → #E70E68 row border + soft 2px --aha-focus-ring-soft ring (success-green ring when correct), on the one persistent border"
     }
   ],
   "props": [

@@ -21,7 +21,7 @@ import os
 
 PACKAGE = os.path.join("node_modules", "@ahaslides-product", "design")
 PACKAGE_CRITERIA = os.path.join(PACKAGE, "anti-slop", "criteria.json")
-FEED_SITE = "https://ahaslides-product.github.io/ahaslides-design"
+FEED_SITE = "https://design.ahaslides.io"
 LLMS_URL = FEED_SITE + "/llms.txt"
 ANTI_SLOP_MD_URL = FEED_SITE + "/anti-slop.md"
 

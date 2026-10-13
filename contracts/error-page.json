@@ -162,7 +162,7 @@
       "hostBg": "rgb(255, 255, 255)",
       "probeAction": "none",
       "retryLabel": "Try again",
-      "retryBg": "rgb(106, 30, 187)",
+      "retryBg": "rgb(231, 14, 104)",
       "retryHeight": "40px"
     }
   }

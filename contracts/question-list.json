@@ -54,6 +54,6 @@
     "ready": "!!(document.querySelector('aha-question-list[data-probe]') && document.querySelector('aha-question-list[data-probe]').shadowRoot && document.querySelector('aha-question-list[data-probe]').shadowRoot.querySelector('.add-q'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-question-list[data-probe]');var r=el&&el.shadowRoot;var a=r&&r.querySelector('.add-q');var s=a?getComputedStyle(a):null;return{color:s?s.color:null,border:s?s.borderTopColor:null,height:s?s.height:null,fontSize:s?s.fontSize:null};})()",
-    "expect": { "color": "rgb(106, 30, 187)", "border": "rgb(211, 180, 255)", "height": "32px", "fontSize": "14px" }
+    "expect": { "color": "rgb(231, 14, 104)", "border": "rgb(231, 14, 104)", "height": "32px", "fontSize": "14px" }
   }
 }

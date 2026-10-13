@@ -1,0 +1,210 @@
+{
+  "name": "Product lockup",
+  "slug": "product-lockup",
+  "group": "Navigation",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-product-lockup",
+  "summary": "The AhaSlides product lockup: The Splash, the word AhaSlides and a product name as one brand mark, for the top-left of every AhaSlides site, microsite and app header.",
+  "highlights": [
+    "The Splash, AhaSlides and the product name as one mark",
+    "Full, compact below a 480 px header, or the Splash alone",
+    "Live Plus Jakarta Sans text, never a hand-set wordmark",
+    "The top-left brand of every AhaSlides site and app header"
+  ],
+  "lead": "ONE custom element — <aha-product-lockup> — defined once, imported unchanged by React and Vue. It renders The Splash from the Logo library beside live Plus Jakarta Sans text, everything sized in em from one type size, so the Splash and the words can never be scaled apart. Full is The Splash, AhaSlides (600) and the product name (400); compact drops the word AhaSlides and sets the name in 600. `variant=\"auto\"` (the default) shows full and flips to compact below 480 px: the viewport, or a header that declares `container: aha-header / inline-size`. With no `product` it renders The Splash and AhaSlides only. The accessible name is always the full lockup text. A static brand mark with no interactive state, so it carries no motion.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render. React and Vue pass plain string attributes. The element loads The Splash and Plus Jakarta Sans from the package itself (relative to its own URL), so the lockup is right even on a page that never loaded the DS font.",
+  "tokensUsed": [
+    "text-default",
+    "text-inverse",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Full",
+      "value": "The Splash · AhaSlides (Plus Jakarta Sans 600) · one normal space · product name (400)"
+    },
+    {
+      "label": "Compact",
+      "value": "The Splash · product name (600); no word AhaSlides"
+    },
+    {
+      "label": "Type",
+      "value": "20px reference size (1em), line height 1.3 (26px), letter spacing -0.03em (-0.6px)"
+    },
+    {
+      "label": "The Splash",
+      "value": "1.325em high (26.5px at 20px type), centred on the capitals"
+    },
+    {
+      "label": "Gap",
+      "value": "0.36em (7.2px) from The Splash to the text"
+    },
+    {
+      "label": "Colour",
+      "value": "text-default #1A1A1A with the full-colour Splash on light; tone=\"inverse\": all white (text-inverse #FFFFFF, the white Splash) on a dark or brand-colour header"
+    },
+    {
+      "label": "Switch",
+      "value": "auto: full, compact below a 480px header; splash: The Splash only, for a slot narrower than the compact lockup (a 72px icon rail)"
+    },
+    {
+      "label": "Minimum",
+      "value": "18px type (The Splash about 24px); a smaller size is raised to 18"
+    },
+    {
+      "label": "Bleed",
+      "value": "the box keeps 0.1em past the ink at the right, top and bottom, so a clipping parent never cuts a glyph edge or The Splash"
+    }
+  ],
+  "props": [
+    {
+      "name": "product",
+      "type": "string",
+      "default": "—",
+      "desc": "The product or site name (Docs, Games, Agent Fleet). Absent: The Splash and AhaSlides only, for a site with no approved name yet"
+    },
+    {
+      "name": "variant",
+      "type": "auto | full | compact | splash",
+      "default": "auto",
+      "desc": "auto shows full and flips to compact below 480px (the viewport, or a container named aha-header); splash shows The Splash alone"
+    },
+    {
+      "name": "tone",
+      "type": "colour | inverse",
+      "default": "colour",
+      "desc": "colour on light backgrounds; inverse is all white, on a dark or brand-colour header"
+    },
+    {
+      "name": "size",
+      "type": "number (px)",
+      "default": "20",
+      "desc": "Type size; The Splash and the gap scale with it. Never below 18"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Product lockup",
+        "when": "the top-left brand of any AhaSlides site, microsite, docs site, careers or marketing-style page, and app header or nav rail"
+      },
+      {
+        "what": "Logo library file",
+        "when": "a brand appearance that is not a header: a footer, an email, a slide, a favicon"
+      }
+    ],
+    "note": "Never hand-set the lockup from the logo file and a text span, never add a divider between The Splash and the words, and never scale The Splash and the text separately: one size attribute drives both. Do not invent a product name; with no approved name, leave product empty."
+  },
+  "surfaces": [
+    "dashboard",
+    "editor",
+    "admin",
+    "presenter"
+  ],
+  "reuse": {
+    "entry": "./aha-product-lockup",
+    "registers": "aha-product-lockup",
+    "exportsNamed": [
+      "AhaProductLockup",
+      "defineAhaProductLockup"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "product-lockup.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less site header."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "product-lockup.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "product-lockup.vue.txt"
+    }
+  ],
+  "preview": "product-lockup.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "variant",
+        "label": "Variant",
+        "default": "full",
+        "options": [
+          {
+            "label": "Full",
+            "value": "full"
+          },
+          {
+            "label": "Compact",
+            "value": "compact"
+          },
+          {
+            "label": "Splash",
+            "value": "splash"
+          }
+        ]
+      },
+      {
+        "prop": "product",
+        "label": "Product",
+        "default": "Docs",
+        "options": [
+          {
+            "label": "Docs",
+            "value": "Docs"
+          },
+          {
+            "label": "Agent Fleet",
+            "value": "Agent Fleet"
+          },
+          {
+            "label": "None",
+            "value": "__remove__"
+          }
+        ]
+      }
+    ]
+  },
+  "selfCheck": [
+    {
+      "label": "20px type, -0.6px tracking, AhaSlides 600 and name 400",
+      "verdict": "PASS"
+    },
+    {
+      "label": "The Splash 26.5px high, 7.2px gap, centred on the capitals",
+      "verdict": "PASS"
+    },
+    {
+      "label": "ink text-default #1A1A1A; inverse all white",
+      "verdict": "PASS"
+    },
+    {
+      "label": "accessible name is the full lockup text",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the full Docs lockup at the 20px reference size.",
+    "ready": "!!(document.querySelector('aha-product-lockup[data-probe]')&&document.querySelector('aha-product-lockup[data-probe]').shadowRoot&&document.querySelector('aha-product-lockup[data-probe]').shadowRoot.querySelector('.lockup'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-product-lockup[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var l=cs(q('.lockup'));var s=cs(q('.splash'));return{size:l.fontSize,ink:l.color,tracking:l.letterSpacing,lineHeight:l.lineHeight,gap:l.columnGap,splashHeight:s.height,wordWeight:cs(q('.word')).fontWeight,nameWeight:cs(q('.name')).fontWeight,label:q('.lockup')&&q('.lockup').getAttribute('aria-label')};})()",
+    "expect": {
+      "size": "20px",
+      "ink": "rgb(26, 26, 26)",
+      "tracking": "-0.6px",
+      "lineHeight": "26px",
+      "gap": "7.2px",
+      "splashHeight": "26.5px",
+      "wordWeight": "600",
+      "nameWeight": "400",
+      "label": "AhaSlides Docs"
+    }
+  }
+}

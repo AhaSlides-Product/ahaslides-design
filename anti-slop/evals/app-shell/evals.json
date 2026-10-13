@@ -10,8 +10,8 @@
       "files": [{ "path": "fixtures/fail-c1-letter-tile-logo/Shell.html" }],
       "label": "bad-example",
       "notes": "Targets C1 — a coloured letter tile standing in for the brand mark; everything else in the rail is DS-built so the failure is isolated.",
-      "expected_output": "C1 FAILs: the brand slot is a purple 'A' letter tile plus a text wordmark, not the real AhaSlides brand mark / shipped logo. Fix: render the shipped AhaSlides logo (or the DS brand glyph) in the rail's brand slot. Overall: NEEDS FIX.",
-      "assertions": ["Overall verdict is NEEDS FIX", "C1 is marked FAIL", "Cites the letter tile standing in for the logo", "Recommends the shipped AhaSlides logo"],
+      "expected_output": "C1 FAILs: the brand slot is a purple 'A' letter tile plus a text wordmark, not the real AhaSlides brand mark / shipped logo. Fix: render <aha-product-lockup> in the rail's brand slot. Overall: NEEDS FIX.",
+      "assertions": ["Overall verdict is NEEDS FIX", "C1 is marked FAIL", "Cites the letter tile standing in for the logo", "Recommends <aha-product-lockup>"],
       "expected": { "overall": "NEEDS_FIX", "criteria": { "C1": "FAIL" } },
       "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
     },
@@ -69,6 +69,7 @@
       "assertions": ["Overall verdict is OK TO SHIP", "C1 through C5 are all marked PASS", "No criterion is marked FAIL"],
       "expected": { "overall": "OK_TO_SHIP", "criteria": { "C1": "PASS", "C2": "PASS", "C3": "PASS", "C4": "PASS", "C5": "PASS" } },
       "source": { "authored": "ahaslides-design", "why": "no plugin app-shell judge dataset exists" }
-    }
+    },
+    {"id": 7, "prompt": "Review the header of this docs microsite (Header.html), docs.ahaslides.com.", "files": [{"path": "fixtures/fail-c1-hand-set-lockup/Header.html"}], "label": "bad-example", "notes": "Targets C1 — the header brand is The Splash file, a divider and a text span hand-set as a lockup, instead of <aha-product-lockup>. Logo file, tokens and button are all DS, so only the lockup rule fails.", "expected_output": "C1 FAILs: the top-left brand is hand-set from the Splash file, a divider and a 'Docs' text span, so the type, weight, spacing and proportions are off-spec and the word AhaSlides is missing. Fix: <a href=\"/\"><aha-product-lockup product=\"Docs\"></aha-product-lockup></a>. Overall: NEEDS FIX.", "assertions": ["Overall verdict is NEEDS FIX", "C1 is marked FAIL", "Cites the hand-set Splash and text span (or the divider)", "Recommends <aha-product-lockup product=\"Docs\">"], "expected": {"overall": "NEEDS_FIX", "criteria": {"C1": "FAIL"}}, "source": {"authored": "ahaslides-design", "why": "the product lockup rule"}}
   ]
 }

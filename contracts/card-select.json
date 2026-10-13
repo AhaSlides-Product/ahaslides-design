@@ -14,8 +14,8 @@
     { "label": "Card", "value": "icon 20 over label 13; padding 8; inner gap 6; radius 8; 1px #E3E3E3 border" },
     { "label": "Grid", "value": "repeat(columns, minmax(0,1fr)) — tiles stretch to fill; columns default 3; 8px gap" },
     { "label": "iconOnly", "value": "repeat(columns, 44px) — fixed 44px squares packed to the start; label hidden, kept as title + aria-label" },
-    { "label": "Selected", "value": "#6A1EBB border + color-mix(#6A1EBB 5%) tint + #6A1EBB label/icon (persistent node)" },
-    { "label": "Hover", "value": "#6A1EBB border + #6A1EBB label/icon (unselected)" },
+    { "label": "Selected", "value": "#E70E68 border + color-mix(#E70E68 5%) tint + #E70E68 label/icon (persistent node)" },
+    { "label": "Hover", "value": "#E70E68 border + #E70E68 label/icon (unselected)" },
     { "label": "Keyboard", "value": "roving radiogroup — one tab-stop; Arrow keys move-and-select; Space/Enter select" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],
@@ -59,7 +59,7 @@
     { "label": "labelled tiles fill via repeat(columns, minmax(0,1fr)); iconOnly = repeat(columns, 44px) squares packed to start", "verdict": "PASS" },
     { "label": "iconOnly hides the label but keeps it as title + aria-label (option stays named for pointer + AT)", "verdict": "PASS" },
     { "label": "one tab-stop; Arrow keys move-and-select (roving radiogroup)", "verdict": "PASS" },
-    { "label": "selected = #6A1EBB border + color-mix(#6A1EBB 5%) tint on a persistent node (transition fires)", "verdict": "PASS" },
+    { "label": "selected = #E70E68 border + color-mix(#E70E68 5%) tint on a persistent node (transition fires)", "verdict": "PASS" },
     { "label": "icons summoned by name via <aha-icon> — no inline svg", "verdict": "PASS" }
   ],
   "conformance": {
@@ -67,6 +67,6 @@
     "ready": "!!(document.querySelector('aha-card-select[data-probe]') && document.querySelector('aha-card-select[data-probe]').shadowRoot && document.querySelector('aha-card-select[data-probe]').shadowRoot.querySelector('.card[aria-checked=\"true\"]'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-card-select[data-probe]');var r=el&&el.shadowRoot;var sel=r&&r.querySelector('.card[aria-checked=\"true\"]');var s=sel?getComputedStyle(sel):null;return{selBorder:s?s.borderTopColor:null,selBg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,fontSize:s?s.fontSize:null};})()",
-    "expect": { "selBorder": "rgb(106, 30, 187)", "selBg": "rgba(106, 30, 187, 0.05)", "radius": "8px", "fontSize": "13px" }
+    "expect": { "selBorder": "rgb(231, 14, 104)", "selBg": "rgba(231, 14, 104, 0.05)", "radius": "8px", "fontSize": "13px" }
   }
 }

@@ -44,7 +44,7 @@
     {
       "ref": "icon",
       "as": "component",
-      "use": "footer action glyphs — functional icons only, via the shared Icon; the Modal and Drawer dismiss ✕ is the shared <aha-close-button> (20 × 20, 14px system-x, #8A8A8A → #1A1A1A on bg-hover, top-pinned to the title line) through dismissibleModalTitle / dismissibleDrawerTitle with closable={false}",
+      "use": "footer action glyphs — functional icons only, via the shared Icon; the Modal and Drawer dismiss ✕ is the shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x, #8A8A8A → #1A1A1A on #F7F7F7, top-pinned to the title line) through dismissibleModalTitle / dismissibleDrawerTitle with closable={false}",
       "status": "available"
     },
     {
@@ -131,7 +131,7 @@
     },
     {
       "id": "danger-confirm-button",
-      "rule": "A destructive confirm uses okButtonProps={{ danger: true, loading: busy }} — the danger styling lives on the action button, never the title or body — and cancel is disabled while busy (cancelButtonProps={{ disabled: busy }}).",
+      "rule": "A destructive confirm uses okButtonProps={{ danger: true, type: 'primary', loading: busy }} — the dark danger styling lives on the action button, never the title or body — and Cancel, the safe choice, is the primary button (cancelButtonProps={{ type: 'primary', disabled: busy }}), disabled while busy. A Popconfirm gets both from destructiveConfirm in popconfirm-theme.",
       "ref": [
         "OVERLAY-06"
       ]

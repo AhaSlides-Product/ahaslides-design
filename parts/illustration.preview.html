@@ -43,8 +43,8 @@
   </div>
 
   <!-- conformance probes: a SQUARE illustration (plan-pro 48×48) at 128 + 64 proves the size edge
-       becomes the rendered box; a path filled #A96FF0 (an on-palette purple-40) proves the art
-       colour renders untouched; an unknown-name probe proves the error box paints in color-error.
+       becomes the rendered box; a path filled #E70E68 proves the art keeps its own
+       colour; an unknown-name probe proves the error box paints in color-error.
        Kept distinct from the playground probe (which carries data-pg-target). -->
   <div style="position:absolute;left:-9999px" aria-hidden="true">
     <aha-illustration name="plan-pro" size="128" data-probe="128"></aha-illustration>
@@ -53,7 +53,7 @@
   </div>
 
   <div class="note" style="margin-top:20px">
-    Every illustration is called by <code>name</code> from the shared registry — <b id="ill-count">…</b> pure-SVG illustrations imported from Figma, no inline SVG at the call site. Browse and copy any name in the <a href="../illustrations/index.html">Illustration library →</a>. Multi-colour art keeps its own palette; size by a single edge and the aspect ratio is fixed by the source. Raster-backed art is intentionally excluded so the library stays pure-SVG.
+    Every illustration is called by <code>name</code> from the shared registry — <b id="ill-count">…</b> pure-SVG illustrations imported from Figma, no inline SVG at the call site. Browse and copy any name in the <a href="../illustrations/index.html">Illustration library →</a>. Every illustration is drawn in one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white, plus Darker Pink for the deepest accents, with white, and the default ink for outlines and faces. <span style="display:inline-flex;gap:4px;vertical-align:middle"><span title="#FEF3F7" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#FEF3F7"></span><span title="#FDE7F0" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#FDE7F0"></span><span title="#FACFE1" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#FACFE1"></span><span title="#F8B7D2" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#F8B7D2"></span><span title="#F493BB" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#F493BB"></span><span title="#F16EA4" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#F16EA4"></span><span title="#EC3E86" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#EC3E86"></span><span title="#E70E68" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#E70E68"></span><span title="#DB005B" style="display:inline-block;width:28px;height:28px;border-radius:4px;border:1px solid var(--aha-border-default);background:#DB005B"></span></span> The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. Size by a single edge and the aspect ratio is fixed by the source. Raster-backed art is intentionally excluded so the library stays pure-SVG.
   </div>
 </div>
 

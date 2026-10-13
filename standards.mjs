@@ -24,10 +24,13 @@
  * (Render truth — does it LOOK right — is qa.mjs. Run both via `npm run check`.)
  */
 import { readdirSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
+import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, evaluateDuplicateGate } from './icon-similarity.mjs';
+import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const CDIR = join(root, 'contracts');
@@ -51,16 +54,16 @@ const BASELINE_SPACING_PX = (existsSync(BASELINE_PATH) ? JSON.parse(readFileSync
 const UPDATE_BASELINE = process.argv.includes('--update-baseline');
 const ACKNOWLEDGE_TOKENS = process.argv.includes('--acknowledge-tokens');
 const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; pill = 999
-const NEUTRALS = new Set(['#FFFFFF', '#000000']);          // universal; 'transparent' handled in inPalette
+const NEUTRALS = new Set(['#FFFFFF']);                     // universal; 'transparent' handled in inPalette
 const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
 // every hex the canonical token set blesses — the palette an on-standard colour must land in
-const PALETTE = new Set(); JSON.stringify(TOKENS).replace(/#[0-9A-Fa-f]{3,8}/g, (h) => (PALETTE.add(normHex(h)), h));
+const PALETTE = new Set(); JSON.stringify(TOKENS, (key, value) => (key.startsWith('$') || key === 'openItems' ? undefined : value)).replace(/#[0-9A-Fa-f]{3,8}/g, (h) => (PALETTE.add(normHex(h)), h));
 // the generated custom properties an author may legitimately bind tokensUsed to (source file, always present)
 const CSSVARS = new Set([...read(join(root, 'lib', 'tokens.css')).matchAll(/--aha-[a-z0-9-]+/g)].map(m => m[0]));
 const rgbToHex = (s) => { const m = String(s).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i); return m ? normHex('#' + [1, 2, 3].map(i => (+m[i]).toString(16).padStart(2, '0')).join('')) : null; };
 const isColour = (v) => /^\s*(#[0-9A-Fa-f]{3,8}|rgba?\()/.test(String(v));
 const isPx = (v) => /^\s*\d+(\.\d+)?px\s*$/.test(String(v));
-const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test(s)) return true; const hex = s.startsWith('#') ? normHex(s) : rgbToHex(s); return !!hex && (PALETTE.has(hex) || NEUTRALS.has(hex)); };
+const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test(s) || /^rgba\(\s*0\s*,\s*0\s*,\s*0\s*,\s*(0|0?\.\d+)\s*\)$/.test(s)) return true; const hex = s.startsWith('#') ? normHex(s) : rgbToHex(s); return !!hex && (PALETTE.has(hex) || NEUTRALS.has(hex)); };
 
 /* ===== the ICON LIBRARY — the single source every component icon must come from =====
    icons/registry.json (built by build-icons.mjs from Figma DS V3) IS the icon library published
@@ -71,7 +74,7 @@ const inPalette = (v) => { const s = String(v).trim(); if (/^transparent$/i.test
    in the source scan below). */
 const ICON_REGISTRY = JSON.parse(read(join(root, 'icons', 'registry.json')) || '{"icons":{}}');
 const ICON_NAMES = new Set(Object.keys(ICON_REGISTRY.icons || {}));
-const ICON_GALLERY = 'https://ahaslides-product.github.io/ahaslides-design/icons/index.html';
+const ICON_GALLERY = 'https://design.ahaslides.io/icons/index.html';
 // Pull every icon referenced by name from a blob of source / snippet / contract text. A DS icon
 // reaches the runtime by two paths, and BOTH must be gated or a bad name ships green:
 //   1. the ELEMENT — <aha-icon name="…"> (also :name= for Vue-bind, name={…} for JSX);
@@ -555,7 +558,7 @@ const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [
 const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
 const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
-const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json)$/;
+const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json|brand\/colour-rules\.json)$/;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -680,7 +683,7 @@ if (ANTISLOP) {
     for (const t of targets)
       achk(`surface "${key}": target "${t?.source}" is a live DS source`,
         LIVE_TARGET_SOURCE.test(t?.source) && existsSync(join(root, t.source)) && !!t.use,
-        'targets name a DS contract / tokens.canonical.json / icons/registry.json / guideline that exists, with a use');
+        'targets name a DS contract / tokens.canonical.json / icons/registry.json / guideline / brand/colour-rules.json that exists, with a use');
     for (const c of (s.criteria || []))
       achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(`${c.title} ${c.test}`),
         'the test cites a plugin snapshot (contract.json / typography.json / review.html / references/) — point it at the DS contract or tokens');
@@ -733,6 +736,21 @@ const repoChecks = [];
             `${PKG.version} < ${latest}: you branched off a STALE base and would revert merged work — rebase onto master and bump above ${latest} (git fetch origin master --tags first)`);
         }
       } catch { /* no git / no tags (fresh or shallow CI) — skip rather than false-fail */ }
+      const baseRef = process.env.GITHUB_BASE_REF || process.env.VERSION_BASE_REF;
+      if (baseRef) {
+        let baseVersion = null;
+        try {
+          execFileSync('git', ['fetch', '--quiet', '--depth=1', 'origin', baseRef], { cwd: root, stdio: 'ignore' });
+          baseVersion = JSON.parse(execFileSync('git', ['show', 'FETCH_HEAD:package.json'], { cwd: root, encoding: 'utf8' })).version;
+        } catch { /* reported by the check below */ }
+        const parts = (version) => version.split('.').map(Number);
+        const isGreater = (a, b) => { const [A, B] = [parts(a), parts(b)]; return (A[0] - B[0] || A[1] - B[1] || A[2] - B[2]) > 0; };
+        rchk(`version ${PKG.version} is strictly greater than ${baseRef}'s ${baseVersion ?? '(unreadable)'}`,
+          baseVersion !== null && isGreater(PKG.version, baseVersion),
+          baseVersion === null
+            ? `could not read package.json from origin/${baseRef} — the version gate fails closed`
+            : `merge origin/${baseRef}, then bump package.json, agent/.claude-plugin/plugin.json and the top CHANGELOG entry above ${baseVersion}`);
+      }
       // the block from this heading up to the next "## " must carry at least one "- " bullet
       const block = changelog.slice(changelog.indexOf(m[0]) + m[0].length).split(/\n##\s/)[0];
       rchk('top entry lists ≥1 change bullet', /^\s*-\s+\S/m.test(block),
@@ -766,6 +784,96 @@ const repoChecks = [];
   const unacknowledged = current.filter(t => !acknowledged.has(t));
   rchk('every token in tokens.canonical.json is acknowledged', unacknowledged.length === 0,
     `new token(s) need owner sign-off — add to tokens.acknowledged.json (node standards.mjs --acknowledge-tokens): ${unacknowledged.slice(0, 8).join(', ')}${unacknowledged.length > 8 ? ` (+${unacknowledged.length - 8} more)` : ''}`);
+}
+/* ===== COLOUR ALLOW-LIST — tokens, the Colour page with the docs chrome around its swatches, the art the
+   DS owns (illustrations, third-party logos, file-type icons) and every demo, contract and element source.
+   The AhaSlides logo itself is the one drawing that keeps its own colours. */
+{
+  const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
+  const VIVID_PINK = '#E70E68', LOGO_PURPLE = '#6A1EBB';
+  const ALLOWED_COLOURS = new Set([VIVID_PINK, '#DB005B', '#FEF3F7', '#F8B7D2']);
+  const isNeutral = (hex) => hex.slice(1, 3) === hex.slice(3, 5) && hex.slice(3, 5) === hex.slice(5, 7);
+  const coloursIn = (text) => [
+    ...[...String(text).matchAll(/(?<![&\w])#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])/g)].map(m => normHex(m[0]).slice(0, 7)),
+    ...[...String(text).matchAll(/rgba?\(\s*\d+[\s,]+\d+[\s,]+\d+/g)].map(m => rgbToHex(m[0].replace(/\s+/g, ',').replace(/,+/g, ', '))),
+  ];
+  const offList = (text, purpleAllowed, alsoAllowed = []) => [...new Set(coloursIn(text).filter(hex => !(isNeutral(hex) || ALLOWED_COLOURS.has(hex) || alsoAllowed.includes(hex) || (purpleAllowed && hex === LOGO_PURPLE))))];
+  /* Black is the default ink #1A1A1A. Pure black survives only as a transparency: a shadow, a scrim, an ink alpha. */
+  const solidPureBlack = (text) => /(?<![&\w])#(?:000|000000)(?![\w-])|rgb\(\s*0\s*,\s*0\s*,\s*0\s*\)/i.test(String(text));
+  const tokenLeaves = (node, path = '') => (node && typeof node === 'object')
+    ? Object.entries(node).filter(([key]) => !key.startsWith('$')).flatMap(([key, value]) => tokenLeaves(value, path ? `${path}.${key}` : key))
+    : [[path, node]];
+  const offListTokens = tokenLeaves(TOKENS).flatMap(([path, value]) => offList(value, path === 'color.primitives.logoPurple').map(hex => `${path} ${hex}`));
+  rchk('every colour token is on the allowed colour list', offListTokens.length === 0,
+    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black #1A1A1A, neutral greys, and ${LOGO_PURPLE} at color.primitives.logoPurple only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
+  const pureBlackTokens = tokenLeaves(TOKENS).filter(([, value]) => solidPureBlack(value)).map(([path]) => path);
+  rchk('no colour token is solid pure black (black is the default ink #1A1A1A)', pureBlackTokens.length === 0,
+    `alias {color.primitives.black} or {color.textDefault}; pure black is allowed only with an alpha, as rgba(0,0,0,a): ${pureBlackTokens.join(', ')}`);
+  const colourPagePath = join(DIST, 'foundations', 'colour.html');
+  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/<section class="illustration-tints"[\s\S]*?<\/section>/g, '').replace(/href="#[^"]*"/g, ''), true) : null;
+  rchk('the built Colour page shows only allowed colours', offListOnPage && offListOnPage.length === 0,
+    offListOnPage ? `off the list on dist/foundations/colour.html: ${offListOnPage.slice(0, 12).join(', ')}` : 'dist/foundations/colour.html is missing — run node generate.mjs first');
+
+  const artToRecolour = ART_SOURCES.flatMap(({ files, mapFor }) => files().filter(path => recolourSvg(read(path), mapFor(path)) !== read(path)).map(path => relative(root, path)));
+  rchk('illustrations, third-party logos and file-type icons are drawn in the allowed colours', artToRecolour.length === 0,
+    `run node recolour-art.mjs, then node build-icons.mjs && node build-illustrations.mjs — off the list: ${artToRecolour.slice(0, 8).join(', ')}${artToRecolour.length > 8 ? ` (+${artToRecolour.length - 8} more)` : ''}`);
+  const offListInRegistry = ['icons', 'illustrations'].flatMap(kind => {
+    const entries = JSON.parse(read(join(root, kind, 'registry.json')) || '{}')[kind] || {};
+    return Object.entries(entries).filter(([, entry]) => offList(coloursInSvg(entry.body || '').join(' '), false, kind === 'illustrations' ? ILLUSTRATION_TINTS : []).length).map(([name]) => `${kind}/${name}`);
+  });
+  rchk('the icon and illustration registries carry only allowed colours', offListInRegistry.length === 0,
+    `a registry is stale or an import brought colour in — recolour the source SVG and rebuild: ${offListInRegistry.slice(0, 8).join(', ')}${offListInRegistry.length > 8 ? ` (+${offListInRegistry.length - 8} more)` : ''}`);
+
+  /* The AhaSlides logo is drawn in the logo purple, Vivid Pink and its wordmark ink; a mono variant is one neutral. */
+  const OWN_LOGO_COLOURS = [LOGO_PURPLE, VIVID_PINK, '#1A1A2E'];
+  const logoFiles = readdirSync(join(root, 'logo')).filter(f => f.endsWith('.svg'));
+  const offListOwnLogos = logoFiles.filter(f => /^(ahaslides-logo|thesplash)/.test(f))
+    .filter(f => coloursInSvg(read(join(root, 'logo', f))).some(hex => { const colour = normHex(hex).slice(0, 7); return !(isNeutral(colour) || OWN_LOGO_COLOURS.includes(colour)); }));
+  rchk('the AhaSlides logo and The Splash use the logo purple and Vivid Pink only', offListOwnLogos.length === 0,
+    `the pink hooks are Vivid Pink ${VIVID_PINK}, never Radical Pink #FF4081: ${offListOwnLogos.map(f => `logo/${f}`).join(', ')}`);
+
+  /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
+     Each exemption names why the file has to spell out an off-list colour. */
+  const OFF_LIST_SOURCE_EXEMPT = {
+    'lib/aha-color-picker.js': 'the default presets are colours a presenter picks for their own content',
+    'parts/audience.guide.md': 'names forbidden colours as counter-examples',
+    'parts/canvas.guide.md': 'names forbidden colours as counter-examples',
+    'guidelines/audience.json': 'names forbidden colours as counter-examples',
+    'guidelines/canvas.json': 'names forbidden colours as counter-examples',
+  };
+  const sourceFiles = [
+    ...['parts', 'contracts', 'guidelines'].flatMap(dir => readdirSync(join(root, dir)).map(f => `${dir}/${f}`)),
+    ...readdirSync(join(root, 'lib')).filter(f => /^aha-.*\.js$|-theme\.js$|^audience-deck\.js$|^viewport\.js$/.test(f)).map(f => `lib/${f}`),
+    'generate.mjs',
+  ].filter(f => !(f in OFF_LIST_SOURCE_EXEMPT));
+  /* The illustration tints are named where the illustration is documented, and nowhere else. */
+  const NAMES_ILLUSTRATION_TINTS = new Set(['contracts/illustration.json', 'parts/illustration.preview.html']);
+  const sourceText = (f) => read(join(root, f)).replace(/%23(?=[0-9a-fA-F]{6}\b)/g, '#');
+  const offListSources = sourceFiles.flatMap(f => offList(sourceText(f), false, NAMES_ILLUSTRATION_TINTS.has(f) ? ILLUSTRATION_TINTS : []).map(hex => `${f} ${hex}`));
+  rchk('demos, contracts, guidelines and element sources use only allowed colours', offListSources.length === 0,
+    `use Vivid Pink, its tints, black, white or a grey (a demo placeholder too) — off the list: ${offListSources.slice(0, 10).join(', ')}${offListSources.length > 10 ? ` (+${offListSources.length - 10} more)` : ''}`);
+
+  const pureBlackSources = [...sourceFiles, 'audience/audience.css', 'audience/library.json'].filter(f => solidPureBlack(sourceText(f)));
+  rchk('no demo, contract, guideline or element source paints solid pure black', pureBlackSources.length === 0,
+    `black is the default ink: bind --aha-black, --aha-bg-dark or --aha-text-default (fallback #1A1A1A); keep rgba(0,0,0,a) for a shadow or scrim: ${pureBlackSources.join(', ')}`);
+
+  /* A service or file mark reaches a component as <img src=".../logo/<file>">, which no colour scan of the
+     markup can see into, so the reference itself is held to the Logo library and its recoloured files. */
+  const markSources = [...sourceFiles, 'audience/library.json'];
+  const foreignMarks = markSources.flatMap(f => {
+    const text = read(join(root, f));
+    const outsideLibrary = [...text.matchAll(/\blogo\/([\w.-]+\.(?:svg|png|jpe?g|webp|gif))/gi)].map(m => m[1]).filter(file => !logoFiles.includes(file));
+    const embedded = /data:image\/(?:png|jpe?g|webp|gif)|data:image\/svg\+xml;base64/i.test(text) ? ['an embedded image the colour scan cannot read'] : [];
+    return [...new Set([...outsideLibrary, ...embedded])].map(what => `${f} (${what})`);
+  });
+  rchk('every service and file mark in a demo comes from the Logo library', foreignMarks.length === 0,
+    `reference a file in logo/ (recoloured by recolour-art.mjs) or an <aha-icon>; never a raster or base64 mark: ${foreignMarks.slice(0, 8).join(', ')}${foreignMarks.length > 8 ? ` (+${foreignMarks.length - 8} more)` : ''}`);
+
+  /* antd derives hover, press, focus and status shades from its seed colours; only the shared base pins them. */
+  const bareThemes = readdirSync(join(root, 'lib')).filter(f => f.endsWith('.js') && f !== 'antd-base-theme.js').filter(f => { const source = read(join(root, 'lib', f)); return (f.endsWith('-theme.js') && !/dsAntdTheme\(/.test(source)) || /export const \w*Theme\w*\s*=\s*\{/.test(source); }).map(f => `lib/${f}`);
+  const barePreviews = readdirSync(PDIR).filter(f => /\.(preview|conformance)\.html$/.test(f) && /<ConfigProvider theme=\{(?!window\.__ahaDsTheme\()/.test(read(join(PDIR, f)))).map(f => `parts/${f}`);
+  rchk('every antd theme is built on the shared base (dsAntdTheme)', bareThemes.length + barePreviews.length === 0,
+    `wrap the theme in dsAntdTheme(...) (lib) or window.__ahaDsTheme(...) (a CDN preview), or antd falls back to its own hover and status colours: ${[...bareThemes, ...barePreviews].join(', ')}`);
 }
 {
   const retiredSkillRefs = [];
@@ -817,6 +925,66 @@ const repoChecks = [];
   rchk('agent plugin criteria copy equals anti-slop/criteria.json',
     existsSync(bundled) && read(bundled) === read(join(root, 'anti-slop', 'criteria.json')),
     'run npm run generate — it rewrites agent/anti-slop/criteria.json from the store; commit the result');
+}
+/* ===== environment — every contract, guideline and marketing or brand asset names the environment(s) it
+   serves, so an agent can pick its route from llms.txt. Items that predate the rule sit in a baseline that
+   only shrinks; the base branch (CI's pull request base, else the local merge-base with origin/master)
+   tells a changed item from an untouched one. */
+{
+  const table = loadEnvironmentTable(root);
+  const baselinePath = join(root, ENVIRONMENT_BASELINE_FILE);
+  const baseline = existsSync(baselinePath) ? JSON.parse(readFileSync(baselinePath, 'utf8')).missing : [];
+  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  let baseRef = null;
+  try {
+    if (process.env.GITHUB_BASE_REF) { git('fetch', '--quiet', '--depth=1', 'origin', process.env.GITHUB_BASE_REF); baseRef = git('rev-parse', 'FETCH_HEAD'); }
+    else baseRef = git('merge-base', 'HEAD', `origin/${process.env.VERSION_BASE_REF || 'master'}`);
+  } catch { /* no base to compare: changed-item and growth checks run in CI */ }
+  const baseReader = baseRef ? gitReader(root, baseRef) : null;
+  const baseBaselineText = baseReader?.read(ENVIRONMENT_BASELINE_FILE);
+  const { failures, nextBaseline } = evaluateEnvironmentGate({
+    table,
+    items: collectItems(table, fileSystemReader(root)),
+    baseline,
+    baseItems: baseReader ? collectItems(table, baseReader) : null,
+    baseBaseline: baseBaselineText ? JSON.parse(baseBaselineText).missing : null,
+  });
+  if (UPDATE_BASELINE) writeFileSync(baselinePath, JSON.stringify({ $about: ENVIRONMENT_BASELINE_ABOUT, missing: nextBaseline }, null, 1) + '\n');
+  const incompleteEnvironments = Object.entries(table.environments).filter(([, environment]) => !environment.label || !environment.summary || !environment.route).map(([name]) => name);
+  repoChecks.push([`${ENVIRONMENT_TABLE_FILE}: every environment has a label, summary and route`, incompleteEnvironments.length === 0, `complete these entries: ${incompleteEnvironments.join(', ')}`]);
+  repoChecks.push([`every new or changed item declares a known environment (${baseline.length} older item(s) baselined)`, failures.length === 0, failures.join(' · ')]);
+}
+/* ===== icon reuse — every glyph carries the meaning words icon-search matches, and no glyph may look
+   nearly identical to another (icon-similarity.mjs draws each one as <aha-icon> does). Pairs that
+   predate the gate sit in a baseline that only shrinks, read against the same base as above. */
+{
+  const glyphNames = Object.keys(ICON_REGISTRY.icons || {}).filter(name => !ICON_REGISTRY.icons[name].aliasOf);
+  const fewWords = glyphNames.filter(name => (ICON_REGISTRY.icons[name].meaning || []).length < 3);
+  const meaningSource = JSON.parse(read(join(root, 'icons', 'meaning.json')) || '{"icons":{}}').icons || {};
+  const unknownMeaning = Object.keys(meaningSource).filter(name => !ICON_NAMES.has(name));
+  repoChecks.push(['every icon has at least 3 meaning words (icons/meaning.json) so npm run icon-search finds it', fewWords.length === 0 && unknownMeaning.length === 0,
+    [fewWords.length ? `add words a builder would type for: ${fewWords.slice(0, 8).join(', ')}${fewWords.length > 8 ? ` (+${fewWords.length - 8} more)` : ''}, then node build-icons.mjs` : '',
+      unknownMeaning.length ? `icons/meaning.json names glyphs that do not exist: ${unknownMeaning.join(', ')}` : ''].filter(Boolean).join(' · ')]);
+
+  const glyphs = readGlyphSources(root);
+  const drawings = rasteriseAll(glyphs);
+  const baseline = readDuplicateBaseline(root);
+  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  let baseBaseline = null;
+  try {
+    const baseRef = process.env.GITHUB_BASE_REF ? 'FETCH_HEAD' : git('merge-base', 'HEAD', `origin/${process.env.VERSION_BASE_REF || 'master'}`);
+    if (process.env.GITHUB_BASE_REF) git('fetch', '--quiet', '--depth=1', 'origin', process.env.GITHUB_BASE_REF);
+    const text = git('show', `${baseRef}:${DUPLICATE_BASELINE_FILE}`);
+    baseBaseline = JSON.parse(text).pairs;
+  } catch { /* no base baseline (first introduction, or no base to read): the growth check waits */ }
+  const { failures, nextBaseline } = evaluateDuplicateGate({
+    pairs: nearDuplicatePairs(drawings),
+    baseline,
+    baseBaseline,
+    unreadable: Object.keys(drawings).filter(name => !drawings[name]),
+  });
+  if (UPDATE_BASELINE) writeFileSync(join(root, DUPLICATE_BASELINE_FILE), JSON.stringify({ $about: DUPLICATE_BASELINE_ABOUT, threshold: DUPLICATE_THRESHOLD, pairs: nextBaseline }, null, 1) + '\n');
+  repoChecks.push([`no new icon looks nearly identical to an existing one (≥ ${DUPLICATE_THRESHOLD * 100}% overlap; ${baseline.length} older pair(s) baselined)`, failures.length === 0, failures.join(' · ')]);
 }
 if (UPDATE_BASELINE) writeFileSync(BASELINE_PATH, JSON.stringify({ $about: 'Per-file count of raw padding/margin/gap px declarations (> 1px) in component source, grandfathered. standards.mjs fails when a file exceeds its count; lower it with --update-baseline.', spacingPx: spacingPxBaselineNext }, null, 1) + '\n');
 for (const note of spacingPxLowered) console.log(`ratchet: ${note}`);

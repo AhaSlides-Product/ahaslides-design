@@ -1,0 +1,21 @@
+<header class="site-header">
+  <a class="site-header__brand" href="/">
+    <img src="https://design.ahaslides.io/logo/thesplash.svg" alt="" class="site-header__splash">
+    <span class="site-header__divider" aria-hidden="true"></span>
+    <span class="site-header__name">Docs</span>
+  </a>
+  <nav class="site-header__nav" aria-label="Main">
+    <a href="/guides">Guides</a>
+    <a href="/api">API reference</a>
+  </nav>
+  <aha-button variant="primary" size="md">Try AhaSlides</aha-button>
+</header>
+
+<style>
+  .site-header { display: flex; align-items: center; gap: var(--aha-space-16); padding: var(--aha-space-12) var(--aha-space-24); background: var(--aha-bg-base); border-bottom: 1px solid var(--aha-border); }
+  .site-header__brand { display: flex; align-items: center; gap: var(--aha-space-8); text-decoration: none; color: var(--aha-text-default); }
+  .site-header__splash { height: var(--aha-space-32); }
+  .site-header__divider { width: 1px; height: var(--aha-space-20); background: var(--aha-border); }
+  .site-header__name { font-size: var(--aha-size-h5); font-weight: var(--aha-weight-semibold); }
+  .site-header__nav { display: flex; gap: var(--aha-space-16); margin-inline-start: auto; }
+</style>

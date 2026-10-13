@@ -9,17 +9,17 @@
   "lead": "Form carries layout, validation, and every control it hosts — too much to rebuild as a web component, so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared formTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "controlHeight", "colorBorder", "colorError", "Form.labelColor"],
   "spec": [
-    { "label": "Controls", "value": "height 32 · radius 8 · 1px #E3E3E3 border" },
+    { "label": "Controls", "value": "height 40 · radius 8 · 1px #E3E3E3 border" },
     { "label": "Label", "value": "#4A4A4A, above the field (vertical layout)" },
-    { "label": "Submit", "value": "primary Button #6A1EBB" },
-    { "label": "Error", "value": "#F5222D border + message below the field" },
+    { "label": "Submit", "value": "primary Button #E70E68" },
+    { "label": "Error", "value": "#1A1A1A border + message below the field" },
     { "label": "Item gap", "value": "20px between items" },
-    { "label": "Size", "value": "control height 24 (small) · 32 (default) · 40 (large)" },
-    { "label": "Validation", "value": "error / warning / success — coloured border + help text" }
+    { "label": "Size", "value": "control height 24 (small) · 40 (default) · 48 (large)" },
+    { "label": "Validation", "value": "error / warning / success — border + help text; an error message is the field error row: 12px x-circle glyph + 12px (size-sm) text, as Input" }
   ],
   "props": [
     { "name": "layout", "type": "vertical | horizontal | inline", "default": "vertical", "desc": "Label placement" },
-    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height for every field (24 / 32 / 40)" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height for every field (24 / 40 / 48)" },
     { "name": "fields", "type": "FormItem[]", "default": "[]", "desc": "name / label / rules / control per row" },
     { "name": "requiredMark", "type": "boolean | 'optional'", "default": "true", "desc": "Show the required asterisk (or mark optional fields instead)" },
     { "name": "validateStatus", "type": "error | warning | success | validating", "default": "—", "desc": "Per-Form.Item validation state — coloured border + help text" },
@@ -34,7 +34,7 @@
       { "what": "Settings pattern", "when": "a settings surface — see the Settings pattern for grouping and spacing" }
     ],
     "note": "Label every field with a noun phrase above the control (vertical layout reads best on narrow surfaces). Validate on blur and on submit; show the error below the field with how to fix it. One primary submit per form.",
-    "dsv3": "COVERED — antd v6 Form + ant-design-vue v4, one shared formTheme. Matrix: layout {vertical, horizontal, inline} × size {small 24, default 32, large 40} × disabled {off, on}, plus requiredMark and per-Form.Item validation states {error, warning, success} with help text below the field. Verified via Figma search_design_system against the DS V3 Form set (system-form + the Form-Item/* component sets: Input, Textarea, Select, Select-Multiple, Input number, Date-Picker, Checkbox, Radio, Segmented-radio, Switcher — all sized small/default/large with rest/focus/disabled/error states). Sizes cross-checked against the measured contract (inp|sm/md/lg = 24/32/40px, radius 8, error border). The playground exposes layout · size · disabled with a live errored field."
+    "dsv3": "COVERED — antd v6 Form + ant-design-vue v4, one shared formTheme. Matrix: layout {vertical, horizontal, inline} × size {small 24, default 40, large 48} × disabled {off, on}, plus requiredMark and per-Form.Item validation states {error, warning, success} with help text below the field. Verified via Figma search_design_system against the DS V3 Form set (system-form + the Form-Item/* component sets: Input, Textarea, Select, Select-Multiple, Input number, Date-Picker, Checkbox, Radio, Segmented-radio, Switcher — all sized small/default/large with rest/focus/disabled/error states). Sizes cross-checked against the measured contract (inp|sm/md/lg = 24/40/48px, radius 8, error border). The playground exposes layout · size · disabled with a live errored field."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./form-theme", "exportsNamed": ["formTheme"] },
@@ -46,15 +46,15 @@
   "codeNote": "React and Vue are two real vendor libraries at two Ant generations — they can't share a primitive. They converge via the same token/theme (formTheme); residual drift is caught by visual regression.",
   "preview": "form.preview.html",
   "selfCheck": [
-    { "label": "controls 32 · radius 8 · #E3E3E3", "verdict": "PASS" },
+    { "label": "controls 40 · radius 8 · #E3E3E3", "verdict": "PASS" },
     { "label": "labels #4A4A4A above field", "verdict": "PASS" },
-    { "label": "primary submit #6A1EBB", "verdict": "PASS" },
-    { "label": "error #F5222D + message", "verdict": "PASS" }
+    { "label": "primary submit #E70E68", "verdict": "PASS" },
+    { "label": "error #1A1A1A + message", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 input + primary button bound to formTheme.",
     "ready": "!!document.querySelector('#react-root .ant-input') && !!document.querySelector('#react-root .ant-btn-primary') && !!document.querySelector('#react-root .ant-form-item-label label')",
     "measure": "(function(){var g=function(sel,p){var el=document.querySelector('#react-root '+sel);return el?getComputedStyle(el)[p]:null;};return{inputRadius:g('.ant-input','borderTopLeftRadius'),inputBorder:g('.ant-input','borderTopColor'),inputBorderWidth:g('.ant-input','borderTopWidth'),inputHeight:g('.ant-input','height'),primaryBg:g('.ant-btn-primary','backgroundColor'),labelColor:g('.ant-form-item-label label','color')};})()",
-    "expect": { "inputRadius": "8px", "inputBorder": "rgb(227, 227, 227)", "inputBorderWidth": "1px", "inputHeight": "32px", "primaryBg": "rgb(106, 30, 187)", "labelColor": "rgb(74, 74, 74)" }
+    "expect": { "inputRadius": "8px", "inputBorder": "rgb(227, 227, 227)", "inputBorderWidth": "1px", "inputHeight": "40px", "primaryBg": "rgb(231, 14, 104)", "labelColor": "rgb(74, 74, 74)" }
   }
 }

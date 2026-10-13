@@ -29,7 +29,7 @@
     },
     {
       "label": "Sub-line",
-      "value": "12px, the muted ink (ink at 65%)"
+      "value": "14px on a 21px line, the muted ink (ink at 65%); 8px between glyph, headline and sub-line"
     }
   ],
   "props": [
@@ -111,7 +111,7 @@
       "headlineSize": "16px",
       "headlineWeight": "600",
       "ink": "rgb(26, 26, 26)",
-      "sublineSize": "12px",
+      "sublineSize": "14px",
       "padding": "20px"
     }
   }

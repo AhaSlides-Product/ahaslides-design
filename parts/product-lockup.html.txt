@@ -1,0 +1,21 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-product-lockup> is the SAME shared custom element React and Vue consume. It loads The Splash
+     from the Logo library and its own Plus Jakarta Sans, so the lockup is right on any page. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-product-lockup.js';   // registers <aha-product-lockup>
+</script>
+
+<!-- Site header: the lockup is the home link, top left. Full by default, compact below a 480 px header. -->
+<header style="display:flex; align-items:center; gap:var(--aha-space-12); padding:var(--aha-space-12) var(--aha-space-16); container:aha-header / inline-size">
+  <a href="/" style="display:inline-flex"><aha-product-lockup product="Docs"></aha-product-lockup></a>
+</header>
+
+<aha-product-lockup product="Games" variant="compact"></aha-product-lockup>   <!-- Splash + product name -->
+<aha-product-lockup product="Agent Fleet" variant="splash"></aha-product-lockup>   <!-- a 72 px icon rail -->
+<aha-product-lockup></aha-product-lockup>   <!-- no product name approved yet: Splash + AhaSlides -->
+
+<!-- On a dark or brand-colour header: all white -->
+<div style="background:var(--aha-bg-dark); padding:var(--aha-space-16)">
+  <aha-product-lockup product="Careers" tone="inverse"></aha-product-lockup>
+</div>

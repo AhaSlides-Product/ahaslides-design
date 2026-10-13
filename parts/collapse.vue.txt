@@ -17,7 +17,7 @@ const open = ref(true);
     @toggle="open = $event.detail.open"
   >
     <span slot="header">Advanced settings</span>
-    <aha-icon slot="extra" name="system-star" size="14" aria-hidden="true" />
+    <aha-icon slot="extra" name="system-star" size="16" aria-hidden="true" />
     Let participants join anonymously, and shuffle the answer order.
   </aha-collapse>
   <aha-collapse accordion>

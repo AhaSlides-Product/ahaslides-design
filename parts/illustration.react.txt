@@ -1,8 +1,8 @@
 import '@ahaslides-product/design/illustrations';   // registers <aha-illustration> + loads the spot-art registry (20 illustrations)
 
 // Call any illustration BY NAME — never inline an <svg>. Browse names in the Illustration library,
-// or read illustration.agent.json. Unlike <aha-icon>, an illustration is MULTI-COLOUR — it keeps
-// its own palette, so there is no currentColor. Size is a single edge (px); aspect ratio is fixed.
+// or read illustration.agent.json. Unlike <aha-icon>, an illustration has FIXED colours (pink
+// tints, white and ink), so there is no currentColor. Size is a single edge (px); aspect ratio is fixed.
 
 // Empty state — a large illustration above the copy + a recovery action.
 <div className="empty">

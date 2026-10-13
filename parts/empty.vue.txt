@@ -14,6 +14,6 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
   <!-- simple variant with a custom illustration and no action -->
   <aha-empty image="simple" description="No results">
-    <aha-icon slot="image" name="system-folder" size="40" />
+    <aha-icon slot="image" name="system-folder" size="32" />
   </aha-empty>
 </template>

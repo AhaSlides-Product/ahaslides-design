@@ -15,8 +15,8 @@
     { "label": "Border", "value": "1px dashed #E3E3E3 (rest)" },
     { "label": "Content", "value": "centered — system-plus 16px + label, 8px gap" },
     { "label": "Text", "value": "Plus Jakarta 14/600, #4A4A4A (secondary)" },
-    { "label": "Hover", "value": "border + text → #6A1EBB, #F9F5FF fill (animated)" },
-    { "label": "Focus", "value": "#6A1EBB border + 2px soft ring" },
+    { "label": "Hover", "value": "border + text → #E70E68, #FEF3F7 fill (animated)" },
+    { "label": "Focus", "value": "#E70E68 border + 2px soft ring" },
     { "label": "Disabled", "value": "#B5B5B5 text, #EBEBEB border, not-allowed, no hover, aria-disabled" }
   ],
   "props": [
@@ -57,7 +57,7 @@
     { "label": "full width (100%) · height 40 · radius 8", "verdict": "PASS" },
     { "label": "1px dashed #E3E3E3 rest border", "verdict": "PASS" },
     { "label": "text #4A4A4A (secondary) · leading system-plus glyph", "verdict": "PASS" },
-    { "label": "hover border+text → #6A1EBB + #F9F5FF fill (animated on persistent node)", "verdict": "PASS" },
+    { "label": "hover border+text → #E70E68 + #FEF3F7 fill (animated on persistent node)", "verdict": "PASS" },
     { "label": "disabled #B5B5B5 text, not-allowed, aria-disabled", "verdict": "PASS" }
   ],
   "conformance": {

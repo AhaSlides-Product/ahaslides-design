@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <style>
   .aha-qr { display:inline-block; box-sizing:border-box; padding:16px; background:var(--aha-bg-container);
-    border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); }
+    border:1px solid var(--aha-border-default); border-radius:var(--aha-radius-default); }
 </style>
 <div id="root"></div>
 <script type="module">

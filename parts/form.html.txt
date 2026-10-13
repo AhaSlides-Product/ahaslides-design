@@ -2,7 +2,7 @@
      Form is a COMPOSITE (antd, no framework-free element), so its HTML form is a
      CDN-React page — React + antd load from a CDN (esm.sh) and mount on open. It
      consumes the SAME shared `formTheme` the React/Vue wrappers use, so it renders
-     the DS V3 look (32px controls, radius 8, #E3E3E3 border, brand primary submit).
+     the DS V3 look (40px controls, a 36px submit, radius 8, #E3E3E3 border, brand primary submit).
      Matrix props: layout (vertical|horizontal|inline) · size (small|default|large) ·
      disabled · requiredMark · per-Item validation (error|warning|success) + help text.
      No JSX here (JSX needs a compiler) — we use React.createElement via the `h` alias. -->

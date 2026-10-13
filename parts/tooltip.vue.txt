@@ -10,7 +10,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
     <button aria-label="Copy share link">Share</button>
   </aha-tooltip>
 
-  <!-- help — the built-in `?` trigger (DS <aha-icon>, 16px muted → brand); no slotted child,
+  <!-- help — the built-in `?` trigger (DS <aha-icon>, 16px --aha-icon-muted → --aha-icon-default on hover/focus); no slotted child,
        focusable so it shows on focus, not hover-only. The settings-label help-glyph pattern. -->
   <label style="display:inline-flex; align-items:center; gap:6px">
     Shuffle options

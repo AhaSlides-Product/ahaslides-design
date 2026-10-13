@@ -5,14 +5,14 @@
   "tier": "leaf-lit",
   "badge": "shared element + registry",
   "element": "aha-illustration",
-  "summary": "One spot-art set, called by name — 20 multi-colour illustrations imported from Figma, rendered by the shared <aha-illustration>, never inline SVG.",
-  "highlights": ["One spot-art set, called by name", "20 multi-colour illustrations imported from Figma", "Rendered by <aha-illustration>, never inline SVG"],
-  "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every multi-colour spot illustration from a single registry built from Figma (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration keeps its OWN palette; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
+  "summary": "One spot-art set, called by name — 25 illustrations imported from Figma and drawn in pink tints, rendered by the shared <aha-illustration>, never inline SVG.",
+  "highlights": ["One spot-art set, called by name", "25 illustrations imported from Figma, drawn in pink tints", "Rendered by <aha-illustration>, never inline SVG"],
+  "lead": "ONE shared element — <aha-illustration name=\"empty-team\"> — renders every spot illustration from a single registry built from Figma (empty states, onboarding, plan tiers, mascots, offers). Agents call a name; they never hand-author or paste an <svg>. Unlike <aha-icon> (one-colour, currentColor), an illustration has fixed colours: one Vivid Pink ramp from pale to full, with white and the default ink; a single size edge scales it, preserving aspect ratio via the viewBox. Browse every name in the Illustration library.",
   "tokensUsed": ["color-error"],
   "spec": [
     { "label": "Set", "value": "20 illustrations · empty · onboarding · plan · offer · state · team · misc" },
     { "label": "Source", "value": "Figma · Oldies library · file P764iQ6y4ZwW7W3f7FLZyW" },
-    { "label": "Colour", "value": "multi-colour — keeps its own palette (NOT currentColor)" },
+    { "label": "Colour", "value": "one hue, the illustration tints: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white (#FEF3F7, #FDE7F0, #FACFE1, #F8B7D2, #F493BB, #F16EA4, #EC3E86, #E70E68 and Darker Pink #DB005B), with white, the default ink #1A1A1A for outlines and faces, and a neutral grey where the source was grey. Fixed colours (NOT currentColor). The 10, 20, 45, 60 and 80% tints are for illustrations only, never a token or a UI colour; the 5% and 30% tints and Darker Pink keep their interface roles" },
     { "label": "Size", "value": "one edge in px; the other follows the art's aspect ratio" },
     { "label": "Fallback", "value": "unknown name → a dashed error box (var(--aha-color-error))" }
   ],
@@ -28,7 +28,7 @@
       { "what": "onboarding-* / plan-* illustration", "when": "onboarding choice cards and plan-tier cards (edu / essential / pro / enterprise)" },
       { "what": "error-* / not-found illustration", "when": "a full-surface error or 404 state, paired with a recovery action" }
     ],
-    "note": "Call by name from the registry — never inline an <svg>, never paste a raster PNG. An illustration is multi-colour art: it does NOT follow currentColor (that is <aha-icon>). Size it by a single edge; the aspect ratio is fixed by the source. If an illustration is genuinely missing, add the SVG under illustrations/svg and re-run build-illustrations.mjs. Raster-backed art (embedded bitmaps) is intentionally excluded — the library stays pure-SVG."
+    "note": "Call by name from the registry — never inline an <svg>, never paste a raster PNG. An illustration is drawn in the illustration tints (a Vivid Pink ramp), which are fixed: it does NOT follow currentColor (that is <aha-icon>). Size it by a single edge; the aspect ratio is fixed by the source. If an illustration is genuinely missing, add the original SVG export under illustrations/svg, run recolour-art.mjs to map it onto the tints, and re-run build-illustrations.mjs. Raster-backed art (embedded bitmaps) is intentionally excluded — the library stays pure-SVG."
   },
   "surfaces": ["dashboard", "editor", "settings", "audience"],
   "reuse": { "entry": "./illustrations", "registers": "aha-illustration", "exportsNamed": ["illustrations", "ILLUSTRATION_NAMES", "defineAhaIllustration", "AhaIllustration"] },
@@ -57,16 +57,16 @@
   "selfCheck": [
     { "label": "called by name from the registry (no inline svg)", "verdict": "PASS" },
     { "label": "20 pure-SVG illustrations imported from Figma", "verdict": "PASS" },
-    { "label": "multi-colour art keeps its own palette (not currentColor)", "verdict": "PASS" },
+    { "label": "art is drawn in the illustration tints, fixed colours (not currentColor)", "verdict": "PASS" },
     { "label": "single size edge scales, aspect ratio preserved via viewBox", "verdict": "PASS" },
     { "label": "unknown name → visible dashed error box (color-error token)", "verdict": "PASS" },
     { "label": "raster-backed art excluded — library stays pure-SVG", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element. Asserts the promises: the requested size becomes the rendered box for a square illustration (plan-pro 48×48 → 128→128px, 64→64px), an on-palette art colour renders untouched (a plan-pro path filled #A96FF0 renders rgb(169, 30... i.e. purple-40), NOT recoloured), and an unknown name paints the dashed error box in the --aha-color-error token.",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element. Asserts the promises: the requested size becomes the rendered box for a square illustration (plan-pro 48×48 → 128→128px, 64→64px), the art keeps its own colour (a plan-pro path filled with the illustration tint #EC3E86, Vivid Pink at 80%, still renders rgb(236, 62, 134), not rebound to the text colour; the art is drawn in the illustration tints), and an unknown name paints the dashed error box in the --aha-color-error token.",
     "ready": "!!(window.AHA_ILLUSTRATIONS && document.querySelector('aha-illustration[data-probe=\"128\"]') && document.querySelector('aha-illustration[data-probe=\"128\"]').shadowRoot && document.querySelector('aha-illustration[data-probe=\"128\"]').shadowRoot.querySelector('svg') && document.querySelector('aha-illustration[data-probe-err]') && document.querySelector('aha-illustration[data-probe-err]').shadowRoot && document.querySelector('aha-illustration[data-probe-err]').shadowRoot.querySelector('span'))",
     "singleUI": true,
-    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('svg');if(!s)return{};var cs=getComputedStyle(s);var p=null,paths=s.querySelectorAll('path');for(var i=0;i<paths.length;i++){var f=getComputedStyle(paths[i]).fill;if(f==='rgb(169, 111, 240)'){p=f;break;}}return{w:cs.width,h:cs.height,fill:p};};var a=q('aha-illustration[data-probe=\"128\"]');var b=q('aha-illustration[data-probe=\"64\"]');var errEl=document.querySelector('aha-illustration[data-probe-err]');var errSpan=errEl&&errEl.shadowRoot&&errEl.shadowRoot.querySelector('span');var err=errSpan?getComputedStyle(errSpan).borderTopColor:null;return{w128:a.w,h128:a.h,artFill:a.fill,w64:b.w,errBorder:err};})()",
-    "expect": { "w128": "128px", "h128": "128px", "artFill": "rgb(169, 111, 240)", "w64": "64px", "errBorder": "rgb(245, 34, 45)" }
+    "measure": "(function(){var q=function(sel){var el=document.querySelector(sel);var s=el&&el.shadowRoot&&el.shadowRoot.querySelector('svg');if(!s)return{};var cs=getComputedStyle(s);var ink=getComputedStyle(el).color;var p=null,paths=s.querySelectorAll('path');for(var i=0;i<paths.length;i++){var f=getComputedStyle(paths[i]).fill;if(f==='rgb(236, 62, 134)'&&f!==ink){p=f;break;}}return{w:cs.width,h:cs.height,fill:p};};var a=q('aha-illustration[data-probe=\"128\"]');var b=q('aha-illustration[data-probe=\"64\"]');var errEl=document.querySelector('aha-illustration[data-probe-err]');var errSpan=errEl&&errEl.shadowRoot&&errEl.shadowRoot.querySelector('span');var err=errSpan?getComputedStyle(errSpan).borderTopColor:null;return{w128:a.w,h128:a.h,artKeepsOwnFill:a.fill==='rgb(236, 62, 134)',w64:b.w,errBorder:err};})()",
+    "expect": { "w128": "128px", "h128": "128px", "artKeepsOwnFill": true, "w64": "64px", "errBorder": "rgb(26, 26, 26)" }
   }
 }

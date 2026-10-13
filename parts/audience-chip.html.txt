@@ -5,7 +5,7 @@
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audience-chip.js';   // registers <aha-audience-chip>
   import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
-  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#6A1EBB'] });
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
   document.querySelectorAll('aha-audience-chip').forEach((chip) =>
     chip.addEventListener('change', (event) => console.log(chip.textContent, event.detail.selected)));
 </script>

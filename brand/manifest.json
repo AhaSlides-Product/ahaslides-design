@@ -1,0 +1,14 @@
+{
+ "$comment": "Brand assets that are not tokens, logos or illustrations. Each entry names its file and the environments it serves. colour-rules.json is the one source of the colour and background rules: generate.mjs renders it as foundations/brand-colour-rules.html (through colour-rules.template.html), colour-rules.md and colour-rules.agent.json.",
+ "assets": [
+  {
+   "id": "visual-identity-colour-rules",
+   "name": "Visual identity colour rules",
+   "file": "colour-rules.json",
+   "template": "colour-rules.template.html",
+   "page": "foundations/brand-colour-rules.html",
+   "feeds": ["colour-rules.md", "colour-rules.agent.json"],
+   "environment": ["product", "audience", "marketing-web", "video", "social-ads"]
+  }
+ ]
+}

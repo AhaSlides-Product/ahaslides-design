@@ -48,11 +48,11 @@
     },
     {
       "label": "Filter",
-      "value": "funnel trigger: grey → purple-10 hover → purple-15 open → filled brand when applied; checklist (search + list) or min/max range, Reset + Apply footer"
+      "value": "funnel trigger: grey → pale pink hover → pale pink open → filled brand when applied; checklist (search + list) or min/max range, Reset + Apply footer"
     },
     {
       "label": "Reorder",
-      "value": "drag a header (grab handle on hover) → purple drop-line; Alt+←/→ on a focused header"
+      "value": "drag a header (grab handle on hover) → Vivid Pink drop-line; Alt+←/→ on a focused header"
     },
     {
       "label": "Freeze",
@@ -68,7 +68,7 @@
     },
     {
       "label": "Expand chevron",
-      "value": "24px button, system-caret-right rotating 0→90° on --aha-motion-mid + --aha-ease-in-out; hover purple-10; visible focus ring; aria-expanded + aria-controls (the panel id, or the child row ids for a tree); Enter / Space; row click toggles too without double-toggling the chevron or firing from links / buttons / inputs"
+      "value": "24px button, system-caret-right rotating 0→90° on --aha-motion-mid + --aha-ease-in-out; hover bg-accent; visible focus ring; aria-expanded + aria-controls (the panel id, or the child row ids for a tree); Enter / Space; row click toggles too without double-toggling the chevron or firing from links / buttons / inputs"
     },
     {
       "label": "Expand all / collapse all",

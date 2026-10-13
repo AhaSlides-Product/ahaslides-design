@@ -5,7 +5,7 @@
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-scale-slider.js';   // registers <aha-scale-slider>
   import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
-  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#6A1EBB'] });
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
   document.querySelector('aha-scale-slider').addEventListener('change', (event) => console.log('rated', event.detail.value));
 </script>
 
@@ -14,4 +14,4 @@
 
 <!-- one scale per statement: the accent follows the statement's palette position -->
 <aha-scale-slider min="0" max="10" unset unset-hint="Drag to rate" low-label="Not at all" high-label="Completely"
-  accent="#FF4081"></aha-scale-slider>
+  accent="#E70E68"></aha-scale-slider>

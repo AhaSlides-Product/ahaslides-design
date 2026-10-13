@@ -8,21 +8,21 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-counted-textarea.js';
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-select.js';   // registers <aha-audience-field>
   import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
-  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#6A1EBB'] });
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
 </script>
 
 <aha-audience-field label="Your nickname" lock-key="slide-42">
-  <aha-counted-input size="touch" maxlength="30"></aha-counted-input>
+  <aha-counted-input size="lg" maxlength="30"></aha-counted-input>
 </aha-audience-field>
 
 <aha-audience-field label="Your guess">
-  <aha-counted-input type="number" maxlength="none" size="touch"></aha-counted-input>
+  <aha-counted-input type="number" maxlength="none" size="lg"></aha-counted-input>
 </aha-audience-field>
 
 <aha-audience-field label="Your idea">
-  <aha-counted-textarea size="touch" maxlength="150"></aha-counted-textarea>
+  <aha-counted-textarea size="lg" maxlength="150"></aha-counted-textarea>
 </aha-audience-field>
 
 <aha-audience-field label="Your team">
-  <aha-select size="touch" options='[{"label":"Red","value":"red"},{"label":"Blue","value":"blue"}]'></aha-select>
+  <aha-select size="lg" options='[{"label":"Red","value":"red"},{"label":"Blue","value":"blue"}]'></aha-select>
 </aha-audience-field>

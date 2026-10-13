@@ -14,7 +14,7 @@
     { "label": "Track", "value": "44×22 (small 28×16) · radius pill · 1px #D4D4D4 border" },
     { "label": "Knob", "value": "18×18 white circle, slides 20px (small 12×12, slides 12px)" },
     { "label": "Off", "value": "track #F7F7F7 (gray-20)" },
-    { "label": "On", "value": "track #6A1EBB (primary)" },
+    { "label": "On", "value": "track #E70E68 (primary)" },
     { "label": "Disabled", "value": "40% opacity, not-allowed" },
     { "label": "Loading", "value": "system-circle-notch spinner rides in the knob; interaction blocked" },
     { "label": "Children", "value": "optional text or icon inside the track, away from the knob (checked ↔ unchecked)" }
@@ -37,7 +37,7 @@
       { "what": "Radio", "when": "exactly one from a small mutually-exclusive set" }
     ],
     "note": "Never mix switches and checkboxes in one group. The label names what the setting controls as a noun phrase; the switch communicates the action — don't prefix the label with Enable/Turn on. Reach for `loading` on an async setting that may fail, `size=small` in a dense list, and checked/unchecked children only when the on/off meaning isn't obvious from context.",
-    "dsv3": "COVERED — enumerated from the DS V3 Switch component-set + AntD matrix: size (default | small), disabled, loading (spinner in the knob), and checkedChildren/unCheckedChildren (text or icon inside the track). The default-size look is matched to the measured DS V3 `toggle` cell: track 44×22, radius pill, 1px #D4D4D4 border, off #F7F7F7 (gray-20), on #6A1EBB, disabled 40% opacity (small = 28×16 knob-12, from the AntD scale). All bound to canonical gray/primary/text-tertiary tokens; the knob slide + track fill + spinner animate on persistent nodes via the shared motion tokens (checked/loading toggle a host attr, never a rebuild — the Switch-click trap)."
+    "dsv3": "COVERED — enumerated from the DS V3 Switch component-set + AntD matrix: size (default | small), disabled, loading (spinner in the knob), and checkedChildren/unCheckedChildren (text or icon inside the track). The default-size look is matched to the measured DS V3 `toggle` cell: track 44×22, radius pill, 1px #D4D4D4 border, off #F7F7F7 (gray-20), on #E70E68, disabled 40% opacity (small = 28×16 knob-12, from the AntD scale). All bound to canonical gray/primary/text-tertiary tokens; the knob slide + track fill + spinner animate on persistent nodes via the shared motion tokens (checked/loading toggle a host attr, never a rebuild — the Switch-click trap)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
   "reuse": { "entry": "./aha-switch", "registers": "aha-switch", "exportsNamed": ["AhaSwitch", "defineAhaSwitch"] },
@@ -69,7 +69,7 @@
   },
   "selfCheck": [
     { "label": "track 44×22 radius pill · 1px border (small 28×16)", "verdict": "PASS" },
-    { "label": "on #6A1EBB · off #F7F7F7", "verdict": "PASS" },
+    { "label": "on #E70E68 · off #F7F7F7", "verdict": "PASS" },
     { "label": "knob 18 white, slides 20 (small 12, slides 12)", "verdict": "PASS" },
     { "label": "loading spinner (system-circle-notch) in knob; toggle blocked", "verdict": "PASS" },
     { "label": "checked/unchecked children render inside the track", "verdict": "PASS" },
@@ -80,6 +80,6 @@
     "ready": "!!(document.querySelector('aha-switch[data-probe]') && document.querySelector('aha-switch[data-probe]').shadowRoot && document.querySelector('aha-switch[data-probe]').shadowRoot.querySelector('.track'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-switch[data-probe]');var t=el&&el.shadowRoot&&el.shadowRoot.querySelector('.track');var s=t?getComputedStyle(t):null;var sm=document.querySelector('aha-switch[size=\"small\"]');var st=sm&&sm.shadowRoot&&sm.shadowRoot.querySelector('.track');var ss=st?getComputedStyle(st):null;return{bg:s?s.backgroundColor:null,width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,smallWidth:ss?ss.width:null};})()",
-    "expect": { "bg": "rgb(106, 30, 187)", "width": "44px", "height": "22px", "radius": "999px", "smallWidth": "28px" }
+    "expect": { "bg": "rgb(231, 14, 104)", "width": "44px", "height": "22px", "radius": "999px", "smallWidth": "28px" }
   }
 }

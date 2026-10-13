@@ -58,7 +58,9 @@ UI_SIGNAL = re.compile(
     # docs UI, internal tools, admin, ops. Marketing surfaces route to
     # aha-marketing-skills via the MANDATE text, so a false positive here is harmless.
     r"|docs|help\s*cent(?:er|re)|admin|back-?office|console|ops|status\s*page"
-    r"|dev\s*tool|internal\s*tool)\b",
+    r"|dev\s*tool|internal\s*tool"
+    # Site headers: the product lockup rule applies even on a marketing-style page.
+    r"|microsite|website|header|logo|lockup|careers)\b",
     re.IGNORECASE,
 )
 
@@ -79,6 +81,15 @@ MANDATE = (
     "because the ask sounds simple. Outward MARKETING / brand surfaces (landing & "
     "marketing site, public pricing page, blog, email, social, ads, key art) and "
     "brand voice are aha-marketing-skills, not this. If neither, ignore this line."
+)
+
+LOCKUP = (
+    "[aha-design] Product lockup, on EVERY AhaSlides site: the top-left brand of any "
+    "site, microsite, docs site, careers or marketing-style page, internal tool or app "
+    "header is the DS <aha-product-lockup product=\"<name>\"> (The Splash + AhaSlides + "
+    "the product name; no product attribute when no name is approved), even when the "
+    "rest of the page is a marketing surface. Never hand-set it from the logo file and "
+    "a text span. Spec: " + ds_criteria.FEED_SITE + "/product-lockup/index.html"
 )
 
 LOOP = (
@@ -104,7 +115,8 @@ def digest(criteria):
         "\n\n[aha-design — DS anti-slop criteria, source: " + criteria["source"] + "]\n"
         "Surfaces judged (criteria count): " + surfaces + ".\n" + LOOP + "\n"
         "A product-app screen is also judged on `background` and `component-standard`; "
-        "add `ux-writing` whenever UI copy changes."
+        "add `ux-writing` whenever UI copy changes. Any site or app header is judged on "
+        "`app-shell` C1 (the product lockup)."
     )
 
 
@@ -148,7 +160,7 @@ def main():
         vue2 = legacy_vue.is_vue2(cwd)
     except Exception:
         vue2 = False
-    context = legacy_vue.VUE2_NOTICE + "\n\n" + MANDATE if vue2 else MANDATE
+    context = (legacy_vue.VUE2_NOTICE + "\n\n" + MANDATE if vue2 else MANDATE) + "\n" + LOCKUP
     try:
         ui = bool(UI_SIGNAL.search(prompt)) or _has_frontend_project(cwd)
     except Exception:

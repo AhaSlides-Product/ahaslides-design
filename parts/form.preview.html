@@ -4,6 +4,7 @@
      controls drive live React state (Layout / Size / Disabled), so the whole DS V3 matrix is
      explorable — the default render (vertical · default · enabled, a required Input + primary
      submit, plus an errored field with help text) is what conformance measures. -->
+<style>.ant-form-item-explain-error{display:flex;align-items:flex-start;gap:4px;margin-top:4px;font-size:var(--aha-size-sm,12px);line-height:18px;color:var(--aha-text-negative,#1A1A1A)}.ant-form-item-explain-error::before{content:"";flex:0 0 auto;width:12px;height:12px;margin-top:3px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.33 5.67 5.67 10.33M5.67 5.67l4.66 4.66M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'/%3E%3C/svg%3E") center/12px 12px no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.33 5.67 5.67 10.33M5.67 5.67l4.66 4.66M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'/%3E%3C/svg%3E") center/12px 12px no-repeat}</style>
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -15,10 +16,10 @@
 
 <script>
 window.__form = {
-  token: { colorPrimary:'#6A1EBB', borderRadius:8, controlHeight:32, colorBorder:'#E3E3E3',
-           colorTextPlaceholder:'#8A8A8A', colorError:'#F5222D', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
+  token: { colorPrimary:'#E70E68', borderRadius:8, controlHeight:40, controlHeightLG:48, colorBorder:'#E3E3E3',
+           colorTextPlaceholder:'#8A8A8A', colorError:'#1A1A1A', fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
   components:{ Form:{ labelColor:'#4A4A4A', itemMarginBottom:20, verticalLabelPadding:'0 0 4px' },
-               Input:{ borderRadius:8, controlHeight:32 }, Button:{ borderRadius:8, controlHeight:32 } }
+               Input:{ borderRadius:8, controlHeight:40, controlHeightLG:48 }, Button:{ borderRadius:8, controlHeight:36 } }
 };
 </script>
 
@@ -82,6 +83,6 @@ function Demo() {
 }
 
 ReactDOM.createRoot(document.getElementById('react-root')).render(
-  <ConfigProvider theme={window.__form}><Demo /></ConfigProvider>
+  <ConfigProvider theme={window.__ahaDsTheme(window.__form)}><Demo /></ConfigProvider>
 );
 </script>

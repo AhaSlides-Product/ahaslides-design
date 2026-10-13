@@ -3,7 +3,7 @@
   <div class="row" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box">
     <aha-audience-submit data-probe>Submit</aha-audience-submit>
   </div>
-  <div class="lbl">Dark deck — applyDeck() with a white ink and a mint accent</div>
+  <div class="lbl">Dark deck — applyDeck() with a white ink and a Vivid Pink accent</div>
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <div style="display:flex;flex-direction:column;gap:8px"><aha-audience-submit>Submit</aha-audience-submit><aha-audience-submit locked>Submit</aha-audience-submit><aha-audience-submit closed>Submit</aha-audience-submit></div>
   </div>
@@ -13,6 +13,6 @@
 <script type="module">
   import '../lib/aha-audience-submit.js';   // registers <aha-audience-submit>
   import { applyDeck } from '../lib/audience-deck.js';
-  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#20E8B5'] });
+  for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
   for (const s of document.querySelectorAll('aha-audience-submit')) s.addEventListener('submit-answer', () => setTimeout(() => s.lock('preview'), 600));
 </script>

@@ -1728,11 +1728,11 @@
       "files": [],
       "label": "bad-example",
       "notes": "C20 bad — Team Retro D10.",
-      "expected_output": "C20 FAILs. A bounded white card takes a 1px neutral hairline (--aha-border #E3E3E3) and 12px radius (--aha-radius-lg, the DS card); 2px outlines read heavy. Overall: NEEDS FIX",
+      "expected_output": "C20 FAILs. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3) and 12px radius (--aha-radius-lg, the DS card); 2px outlines read heavy. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C20 is marked FAIL",
-        "Fix is 1px --aha-border and 12px radius on cards"
+        "Fix is 1px --aha-border-default and 12px radius on cards"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -1747,11 +1747,11 @@
     },
     {
       "id": 63,
-      "prompt": "Review this canvas. The presenter's dark ink is `--ink: var(--aha-indigo-100)` (#1A1A2E) and the dark label on the accent is `rgb(26,26,46)`. Is the ink right?",
+      "prompt": "Review this canvas. The presenter's dark ink is `--ink: #1A1A2E` and the dark label on the accent is `rgb(26,26,46)`. Is the ink right?",
       "files": [],
       "label": "bad-example",
       "notes": "C21 bad — Team Retro D11.",
-      "expected_output": "C21 FAILs. The fixed dark ink is --aha-text-default #1A1A1A everywhere; #1A1A2E (indigo-100 / brand-3) is not a text ink. Overall: NEEDS FIX",
+      "expected_output": "C21 FAILs. The fixed dark ink is --aha-text-default #1A1A1A everywhere; #1A1A2E (the retired indigo) is not a text ink. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C21 is marked FAIL",
@@ -1793,7 +1793,7 @@
     },
     {
       "id": 65,
-      "prompt": "Review this canvas. Card nodes are created once and kept; a vote toggles `card.classList.toggle('is-selected')` and updates the count's textContent. CSS: `.card{border:1px solid var(--aha-border);border-radius:var(--aha-radius-lg);transition:border-color var(--aha-motion-mid) var(--aha-ease-out), box-shadow var(--aha-motion-mid) var(--aha-ease-out)}`, with a prefers-reduced-motion override. Labels on the accent use `var(--aha-text-default)` or white by contrast. Is this correct?",
+      "prompt": "Review this canvas. Card nodes are created once and kept; a vote toggles `card.classList.toggle('is-selected')` and updates the count's textContent. CSS: `.card{border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-lg);transition:border-color var(--aha-motion-mid) var(--aha-ease-out), box-shadow var(--aha-motion-mid) var(--aha-ease-out)}`, with a prefers-reduced-motion override. Labels on the accent use `var(--aha-text-default)` or white by contrast. Is this correct?",
       "files": [],
       "label": "good-control",
       "notes": "C20–C22 good control.",

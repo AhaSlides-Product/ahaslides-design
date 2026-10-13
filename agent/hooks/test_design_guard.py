@@ -36,5 +36,16 @@ class SettingsRoutingTest(unittest.TestCase):
         self.assertIn("[overlays]", out)
 
 
+class ProductLockupRoutingTest(unittest.TestCase):
+    def test_logo_file_in_a_header_nudges_app_shell(self):
+        _, out = run_guard('<header><img src="/logo/thesplash.svg" alt="" /><span>Docs</span></header>', "src/SiteHeader.tsx")
+        self.assertIn("[app-shell]", out)
+        self.assertIn("aha-product-lockup", out)
+
+    def test_product_lockup_does_not_nudge(self):
+        _, out = run_guard('<header><aha-product-lockup product="Docs" /></header>', "src/SiteHeader.tsx")
+        self.assertNotIn("[app-shell]", out)
+
+
 if __name__ == "__main__":
     unittest.main()

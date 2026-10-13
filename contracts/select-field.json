@@ -10,8 +10,8 @@
   "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a popup + virtualised list, it is a styled control backed by a NATIVE <select>, so it inherits the OS keyboard model, focus and a11y for free — no custom listbox, no roving to hand-roll. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach. The open dropdown is a fully THEMED role=\"listbox\" popup (DS surface, radius 8, elevation shadow, brand-tinted hover + a check on the selected option) — not the browser's native <select> list; it's an accessible combobox (Arrow/Home/End, typeahead, Enter/Escape, outside-click).",
   "tokensUsed": [
     "color-primary",
-    "border-input",
-    "border-focus",
+    "border-default",
+    "focus-ring-soft",
     "border-error",
     "border-warning",
     "bg-container",
@@ -26,7 +26,7 @@
   "spec": [
     {
       "label": "Control",
-      "value": "height 40 · radius 8 · 1px #D3D7E1 (border-input) border"
+      "value": "height 40 · radius 8 · 1px #E3E3E3 (border-default) border"
     },
     {
       "label": "Size",
@@ -34,7 +34,7 @@
     },
     {
       "label": "Focus",
-      "value": "brand #6A1EBB border + solid 2px #D3B4FF (border-focus) ring; hover #6A1EBB border"
+      "value": "brand #E70E68 border + soft 2px ring (focus-ring-soft, 30% #E70E68); hover #E70E68 border"
     },
     {
       "label": "Placeholder",
@@ -46,7 +46,7 @@
     },
     {
       "label": "Status",
-      "value": "error #F5222D · warning #FF7747 border"
+      "value": "error #1A1A1A · warning #1A1A1A border"
     },
     {
       "label": "Popup",
@@ -83,6 +83,12 @@
       "type": "error | warning",
       "default": "—",
       "desc": "Validation border colour"
+    },
+    {
+      "name": "error-message",
+      "type": "string",
+      "default": "—",
+      "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the trigger through aria-describedby (aria-invalid is set by status=\"error\")"
     },
     {
       "name": "aria-label",
@@ -125,7 +131,7 @@
       }
     ],
     "note": "Pre-select the recommended default rather than leaving it empty. Keep option labels short and sentence case; keep product nouns — Q&A, Word cloud. This is the leaf half of the hybrid — reach for the composite Select the moment you need search, tags, or a virtualised list.",
-    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #D3D7E1 (border-input), size axis small 32 / default 40 / large 48, brand #6A1EBB focus border + solid 2px #D3B4FF (border-focus) ring, #999999 placeholder, status error #F5222D / warning #FF7747. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, rest border border-input #D3D7E1, hover border color-primary #6A1EBB, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
+    "dsv3": "COVERED — the DS V3 select chrome measured against the Select component set on fileKey MwjvUjVI0HnfwD9EwPXRAy: control 40 · radius 8 · 1px border #E3E3E3 (border-default), size axis small 32 / default 40 / large 48, brand #E70E68 focus border + soft 2px ring (focus-ring-soft, 30% #E70E68), #999999 placeholder, status error #1A1A1A / warning #1A1A1A. This is the native-<select>-backed LEAF form of that chrome (the composite Select carries the popup/search/tags axes). Token layer: white surface, rest border border-default #E3E3E3, hover border color-primary #E70E68, disabled bg-container-disabled #F1F1F1 / border-disabled #EBEBEB. a11y: a native <select> carries the full OS keyboard + AT contract for free — no custom listbox/roving to hand-roll; the border/focus transition lives on a PERSISTENT wrapper (a `_focused` attribute toggles; the <option> list repopulates in place, the transition node is never rebuilt). The trailing caret is summoned by name via <aha-icon name=\"system-caret-down\">, never an inline glyph."
   },
   "a11y": {
     "role": "the native <select> carries its own combobox/listbox semantics — no ARIA to bolt on",
@@ -226,7 +232,7 @@
   },
   "selfCheck": [
     {
-      "label": "control 40 · radius 8 · #D3D7E1 (border-input) border",
+      "label": "control 40 · radius 8 · #E3E3E3 (border-default) border",
       "verdict": "PASS"
     },
     {
@@ -238,7 +244,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "focus brand #6A1EBB border + solid #D3B4FF ring (persistent wrapper, animated)",
+      "label": "focus brand #E70E68 border + soft ring (persistent wrapper, animated)",
       "verdict": "PASS"
     },
     {
@@ -257,7 +263,7 @@
     "measure": "(function(){var el=document.querySelector('aha-select[data-probe]');var r=el&&el.shadowRoot;var t=r&&r.querySelector('.trigger');var v=r&&r.querySelector('.value');var lb=r&&r.querySelector('.listbox');var st=t?getComputedStyle(t):null;var sv=v?getComputedStyle(v):null;var sl=lb?getComputedStyle(lb):null;return{radius:st?st.borderTopLeftRadius:null,border:st?st.borderTopColor:null,borderWidth:st?st.borderTopWidth:null,height:st?st.height:null,placeholder:sv?sv.color:null,listboxRadius:sl?sl.borderTopLeftRadius:null};})()",
     "expect": {
       "radius": "8px",
-      "border": "rgb(211, 215, 225)",
+      "border": "rgb(227, 227, 227)",
       "borderWidth": "1px",
       "height": "40px",
       "placeholder": "rgb(153, 153, 153)",

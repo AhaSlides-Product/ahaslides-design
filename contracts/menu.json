@@ -9,16 +9,16 @@
   "highlights": ["List of selectable options", "For side navs, settings lists and overflow menus", "Icons, groups, submenus and danger actions"],
   "lead": "ONE custom element — <aha-menu> — defined once, imported unchanged by React and Vue. Feed it an `items` tree and a `value` (the selected key). The DS V3 Menu is a family, not a flat list: rows carry leading icons, a group title splits sections, a divider rules them off, a submenu expands inline, an item can be disabled or a red danger action. Three `mode`s: `vertical` (compact popover list, default), `inline` (indented sidebar tree), `horizontal` (top nav bar). The selected row is brand-tinted; hover, selection, submenu expand and the caret all animate via the shared motion tokens on PERSISTENT nodes — a class toggles, the subtree is never rebuilt on a state change. Emits a composed `select`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper that listens for `select`; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "text-default", "text-tertiary", "text-disabled", "color-primary", "color-error", "border-focus", "split", "radius-default"],
+  "tokensUsed": ["border", "bg-container", "bg-hover", "bg-accent", "weight-regular", "weight-semibold", "text-default", "text-tertiary", "text-disabled", "color-primary", "color-error", "border-focus", "split", "radius-default"],
   "spec": [
     { "label": "Container", "value": "white surface, 1px border #E3E3E3, radius 8, 6 padding, min-width 200" },
-    { "label": "Row", "value": "height 36 · radius 8 · SemiBold 600 · 10px gap to a 16px leading icon" },
+    { "label": "Row", "value": "height 36 · radius 8 · Regular 400, the selected row SemiBold 600 · 10px gap to a 16px leading icon" },
     { "label": "Group title", "value": "11px uppercase, text-tertiary #8A8A8A, non-interactive section header" },
     { "label": "Divider", "value": "1px split #F1F1F1 rule, role=separator" },
     { "label": "Submenu", "value": "caret rotates 90° + children expand inline (motion-mid), aria-expanded synced" },
     { "label": "Hover", "value": "bg-hover #F7F7F7 (motion-fast + ease-out, persistent node)" },
-    { "label": "Selected", "value": "bg-accent #F9F5FF fill + color-primary #6A1EBB text" },
-    { "label": "Danger", "value": "color-error #F5222D text, error-tinted hover" },
+    { "label": "Selected", "value": "bg-accent #FEF3F7 fill + color-primary #E70E68 text" },
+    { "label": "Danger", "value": "color-error #1A1A1A text, error-tinted hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed" }
   ],
   "props": [
@@ -71,6 +71,6 @@
     "ready": "!!(document.querySelector('aha-menu[data-probe]') && document.querySelector('aha-menu[data-probe]').shadowRoot && document.querySelector('aha-menu[data-probe]').shadowRoot.querySelector('.item.selected'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-menu[data-probe]');var r=el&&el.shadowRoot;var it=r&&r.querySelector('.item.selected');var s=it?getComputedStyle(it):null;var gt=r&&r.querySelector('.group-title');var gs=gt?getComputedStyle(gt):null;var sub=r&&r.querySelector('.sub');return{bg:s?s.backgroundColor:null,color:s?s.color:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,groupColor:gs?gs.color:null,hasSubmenu:!!sub};})()",
-    "expect": { "bg": "rgb(249, 245, 255)", "color": "rgb(106, 30, 187)", "height": "36px", "radius": "8px", "groupColor": "rgb(138, 138, 138)", "hasSubmenu": true }
+    "expect": { "bg": "rgb(254, 243, 247)", "color": "rgb(26, 26, 26)", "height": "36px", "radius": "8px", "groupColor": "rgb(138, 138, 138)", "hasSubmenu": true }
   }
 }

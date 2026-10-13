@@ -15,7 +15,7 @@
 <script src="https://unpkg.com/antd@6/dist/antd.min.js"></script>
 <script>window.__antdR = window.antd;</script>
 <script type="module">
-  import { dismissibleToast } from '../lib/toast-theme.js';   // registers <aha-close-button> — the shipped ✕
+  import { dismissibleToast } from '../lib/toast-theme.js';   // registers <aha-button> — the shipped ✕
   window.__dismissibleToast = dismissibleToast;
 </script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -23,7 +23,7 @@
 <script>
 window.__toast = {
   theme: {
-    token: { colorPrimary:'#6A1EBB', borderRadius:8, colorText:'#1A1A1A', colorBgElevated:'#FFFFFF',
+    token: { colorPrimary:'#E70E68', borderRadius:8, colorText:'#1A1A1A', colorBgElevated:'#FFFFFF',
              fontFamily:'"Plus Jakarta Sans",-apple-system,"Segoe UI",Roboto,sans-serif' },
     components:{ Message:{ contentBg:'#FFFFFF', contentPadding:'9px 12px' } }
   }
@@ -95,7 +95,7 @@ function Demo() {
 
 function App() {
   return (
-    <ConfigProvider theme={window.__toast.theme}>
+    <ConfigProvider theme={window.__ahaDsTheme(window.__toast.theme)}>
       <Demo />
     </ConfigProvider>
   );

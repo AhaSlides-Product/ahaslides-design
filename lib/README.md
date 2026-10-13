@@ -13,7 +13,7 @@ Pin a release tag (for example `@v0.111.0`), never `@master`.
 how to use this design system, fetch the hosted index instead (public, no auth):
 
 ```
-https://ahaslides-product.github.io/ahaslides-design/llms.txt
+https://design.ahaslides.io/llms.txt
 ```
 
 It lists every component and links each machine feed (`<slug>.agent.json`), the visual language
@@ -23,7 +23,7 @@ It lists every component and links each machine feed (`<slug>.agent.json`), the 
 
 | You want to… | Host | URL shape |
 |---|---|---|
-| **Read** docs + feeds (start here) | GitHub Pages | `https://ahaslides-product.github.io/ahaslides-design/<file>` — site root, no `dist/` prefix |
+| **Read** docs + feeds (start here) | GitHub Pages | `https://design.ahaslides.io/<file>` — site root, no `dist/` prefix |
 | **Import** an element at runtime | jsDelivr | `https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v<version>/lib/<element>.js` |
 
 `dist/` is a local build folder — gitignored, never a fetch path. Docs and feeds are **not** on

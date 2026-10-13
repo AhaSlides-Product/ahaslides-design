@@ -35,7 +35,7 @@
       { "what": "Expandable rows", "when": "a row hides a detail panel or sub-table, or rows nest children — spread useExpandableRows tableProps on the Table instead of hand-rolling an antd expandIcon caret" },
       { "what": "never a per-call-site restyle", "when": "a bare antd Table restyled at each call site is the drift this replaces" }
     ],
-    "note": "White header (not antd grey #fafafa), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
+    "note": "White header (not antd grey #FAFAFA), single-arrow sort (not dual caret), Phosphor icons, tokenised colour. The look is theme-driven; call sites pass data + columns only."
   },
   "surfaces": ["editor", "dashboard", "admin"],
   "reuse": { "entry": "./table-theme", "exportsNamed": ["tableTheme"] },

@@ -2,9 +2,9 @@ name: pages
 
 # Builds the docs site + agent feeds (dist/) and deploys them to GitHub Pages on every
 # push to master, giving stable, fetchable URLs:
-#   https://ahaslides-product.github.io/ahaslides-design/llms.txt
-#   https://ahaslides-product.github.io/ahaslides-design/design.md
-#   https://ahaslides-product.github.io/ahaslides-design/<slug>.agent.json
+#   https://design.ahaslides.io/llms.txt
+#   https://design.ahaslides.io/design.md
+#   https://design.ahaslides.io/<slug>.agent.json
 #
 # dist/ is .gitignored on purpose — it is rebuilt here from the contracts so the feeds
 # can never drift from the committed source. AHA_SITE_URL makes the printed feed links
@@ -59,7 +59,7 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: node build-icons.mjs && node generate.mjs
         env:
-          AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design/staging
+          AHA_SITE_URL: https://design.ahaslides.io/staging
           AHA_CDN_REF: staging
       - run: find dist -name '*.html' -exec sed -i '0,/<head>/s//<head><meta name="robots" content="noindex,nofollow"\/>/' {} +
       - uses: actions/upload-artifact@v4
@@ -94,7 +94,7 @@ jobs:
       - name: Build docs + feeds
         run: node build-icons.mjs && node generate.mjs
         env:
-          AHA_SITE_URL: https://ahaslides-product.github.io/ahaslides-design
+          AHA_SITE_URL: https://design.ahaslides.io
       - name: Add the staging build
         continue-on-error: true
         uses: actions/download-artifact@v4

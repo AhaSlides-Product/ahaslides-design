@@ -25,10 +25,10 @@ function ModalDemo() {
           The external-link glyph shows ONLY when the target leaves AhaSlides. */}
       <a href={learnMore} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}
          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--aha-text-link)', textDecoration: 'none' }}>
-        Learn more {external && <aha-icon name="system-arrow-square-out" size="14" />}
+        Learn more {external && <aha-icon name="system-arrow-square-out" size="16" />}
       </a>
       <span style={{ display: 'inline-flex', gap: 8 }}>
-        <Button onClick={() => { setConfirm(false); setAction(false); }}>Cancel</Button>
+        <Button type={danger ? 'primary' : 'default'} onClick={() => { setConfirm(false); setAction(false); }}>Cancel</Button>
         <Button type="primary" danger={danger}>Apply</Button>
       </span>
     </div>
@@ -39,7 +39,7 @@ function ModalDemo() {
       <Button onClick={() => setConfirm(true)}>Delete team…</Button>
       <Button type="primary" onClick={() => setAction(true)}>Share course…</Button>
 
-      {/* Confirmation modal — always `simple`; the danger context tints Apply. */}
+      {/* Confirmation modal — always `simple`; in the danger context Cancel is the primary and Apply the dark danger button. */}
       <Modal
         open={confirm}
         closable={false}   /* the shared ✕ rides in the title */

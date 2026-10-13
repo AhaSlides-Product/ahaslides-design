@@ -18,7 +18,7 @@ function AhaTooltip({ text, placement, color, arrow, trigger, help, children }) 
   <button aria-label="Copy share link">Share</button>
 </AhaTooltip>
 
-// help — the built-in `?` trigger (DS <aha-icon>, 16px muted → brand); no slotted child needed,
+// help — the built-in `?` trigger (DS <aha-icon>, 16px --aha-icon-muted → --aha-icon-default on hover/focus); no slotted child needed,
 // focusable so it shows on focus, not hover-only. The settings-label help-glyph pattern.
 <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
   Shuffle options

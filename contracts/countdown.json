@@ -136,7 +136,7 @@
     "measure": "(function(){var el=document.querySelector('aha-countdown[data-probe]');var r=el&&el.shadowRoot;function q(s){return r&&r.querySelector(s)}function cs(n){return n?getComputedStyle(n):{}}var t=cs(q('.track'));var k=cs(q('.clock'));return{trackHeight:t.height,fill:cs(q('.fill')).backgroundColor,clockSize:k.fontSize,clockInk:k.color,clockWeight:k.fontWeight};})()",
     "expect": {
       "trackHeight": "8px",
-      "fill": "rgb(106, 30, 187)",
+      "fill": "rgb(231, 14, 104)",
       "clockSize": "14px",
       "clockInk": "rgb(26, 26, 26)",
       "clockWeight": "600"

@@ -15,5 +15,5 @@ import { qrCodeTheme } from '@ahaslides-product/design/qr-code-theme';
   </div>
 </ConfigProvider>
 // One shared qrCodeTheme → the DS V3 look. Frame the code with the .aha-qr container
-// (1px --aha-border, radius --aha-radius-default) and show the join link/code alongside.
+// (1px --aha-border-default, radius --aha-radius-default) and show the join link/code alongside.
 // Add a centre logo with icon="…" and bump errorLevel to Q/H so it still scans.

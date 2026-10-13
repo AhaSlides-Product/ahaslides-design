@@ -115,16 +115,16 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, St
 
 | Token | Where it goes |
 | --- | --- |
-| `colorSuccess` (#16C49A) | ✓ icon, correct-answer badge, validation-passed border |
-| `colorError` (#F5222D) | ✗ icon, incorrect-answer badge, destructive-action chip |
+| `colorSuccess` (#1A1A1A, colour rules) | ✓ icon, correct-answer badge, validation-passed border |
+| `colorError` (#1A1A1A, colour rules) | ✗ icon, incorrect-answer badge, destructive-action chip |
 | `colorWarning` | caution icon, "are you sure?" prompt |
 | `colorInfo` | informational badge |
 
 - **Bundle the semantic tokens** into the plugin's build (import from the DS package, or
   plugin-local constants matching it) — AntD's `theme.useToken()` isn't available in this
   Vue stack, `--aha-*` vars don't cross the iframe, and xprops doesn't forward them.
-- **Use the FUNCTION token, not a lookalike brand accent.** A bright brand accent that
-  merely *looks* green (Bright Teal `#20E8B5` as a "correct" tick) is wrong — it drifts per
+- **Use the FUNCTION token, not a lookalike accent.** A bright accent that
+  merely *looks* green (a teal such as `#20E8B5` as a "correct" tick) is wrong — it drifts per
   brand and usually fails contrast (~1.58:1 on white).
 - **The #1 mistake: applying state colours to the chart.** Painting the "correct" bar
   green-success fights the deck's brand and conveys state *through* the chart. Move the green
@@ -176,8 +176,9 @@ seat** — the same bar applies to the small editor preview.
     traps: a **translucent tint** is not a contrast guarantee (only an opaque surface is);
     and any **fixed-colour mark** on it (a semantic `✓`/`✗` token, a palette accent, a
     border) must clear the floor on **both** a light and a dark deck.
-  - **A light semantic token on a light surface still fails:** `colorSuccess #16C49A` on
-    white ≈ 2.23:1, below the 3:1 mark floor. Put it on a bounded fill (a `colorSuccess`
+  - **A light semantic token on a light surface still fails:** a deck theme's light
+    success colour (for example `#16C49A`; deck themes are presenter content, outside the brand
+    palette) on white ≈ 2.23:1, below the 3:1 mark floor. Put it on a bounded fill (a `colorSuccess`
     circle with a white ✓) or use it on a dark surface.
 - **Type scale — fixed logical px.** The stage transform scales everything as one unit, so a
   **fixed logical px** scales proportionally on every screen. Use the preset roles:
@@ -210,7 +211,7 @@ seat** — the same bar applies to the small editor preview.
   (empty when undecorated) or render it as a positioned overlay, or the decorated row's track
   is narrower and the chart lies.
 - **Borders are ornament — never derive them directly from `textColour`, and never 2px.**
-  A bounded white card: **1px `--aha-border`** (#E3E3E3). A chip: **1.5px** neutral. A
+  A bounded white card: **1px `--aha-border-default`** (#E3E3E3). A chip: **1.5px** neutral. A
   deck-owned (transparent) surface: a 1px theme-aware hairline
   `color-mix(in srgb, currentColor 10%, transparent)`. Dashed empty states: 1px (C20). Fix a marginal
   contrast check at the bar or the scrim, not with a darker border. Pick the palette shade
@@ -243,8 +244,8 @@ root.setProperty('--aha-button-primary-bg-press', `color-mix(in srgb, ${accent} 
 root.setProperty('--aha-button-primary-text', ink);
 ```
 
-The one fixed dark ink is `--aha-text-default` **#1A1A1A** on every surface. `#1A1A2E`
-(`--aha-brand-3`, `--aha-indigo-100`) is a brand swatch, not a text colour (C21).
+The one fixed dark ink is `--aha-text-default` **#1A1A1A** on every surface. The retired
+indigo `#1A1A2E` is not a text colour (C21).
 
 ## Presenter controls on the Developer Platform — in-canvas, `size="xl"`
 
