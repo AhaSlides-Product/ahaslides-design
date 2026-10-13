@@ -34,6 +34,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Removed
 - `brand/visual-identity-colour-rules.html`, the hand-made page; `brand/colour-rules.json` and `brand/colour-rules.template.html` replace it. (#227)
 
+## 0.162.0 — 2026-10-12
+### Changed
+- The audience field compositions now use the foundation fields at `size="lg"` (48px) instead of `size="touch"` (56px): `<aha-counted-input>` (line and number), `<aha-counted-textarea>` and `<aha-select>` inside `<aha-audience-field>`, in the element docs, contract, library entry and HTML/React/Vue snippets. The foundation `touch` rules stay for other consumers; buttons keep `size="touch"`. At `large`/`lg` the field text of `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and the `<aha-select>` trigger is now 16px (`--aha-size-l`) on a 24px line, so the audience field text stays at the 16px iOS focus-zoom floor; `<aha-counted-textarea>` gains a `large` rule for the text only (no fixed height). At lg the audience fields still show used/max in the counter, a 12px side padding (6px 12px on the textarea) and a white textarea counter fill. (#220)
+
 ## 0.157.0 — 2026-10-12
 ### Added
 - Icon search by meaning: every glyph carries at least 3 meaning words (`icons/meaning.json`, copied into `icons/registry.json`), so "help" finds `system-question` and "delete" finds `system-trash`. Search with `npm run icon-search <words>` (in an app: `node node_modules/@ahaslides-product/design/icon-search.mjs <words>`), the Icon library search box (`icons/index.html?q=<words>`), `icons.agent.json` (each icon's `meaning`, plus a `search` key) or `icons.llms.txt` → Find by meaning; `llms.txt` points there. The runtime bundles carry no search words. (#229)
