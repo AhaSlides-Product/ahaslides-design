@@ -221,6 +221,27 @@
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
+    },
+    {
+      "id": 11,
+      "prompt": "Review a sign-up page in the product, built as full-width sections stacked down the page: a white first screen, a pale pink section (`var(--aha-bg-accent)`) with the plan comparison, a full white section with the FAQ, then a second pale pink section with the closing call to action. No two coloured sections touch, nothing is a gradient, and every value is a token.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: a web page built from full-width sections inside the product may use pale pink sections.",
+      "expected_output": "C3 PASSes: the page is built from full-width sections, so rules 3.2 to 3.5 apply; the pale pink sections are separated by a full white section and the first screen is white. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
     }
   ]
 }
