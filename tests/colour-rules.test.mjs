@@ -4,7 +4,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  loadColourRules, loadBackgrounds, listRules, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
+  loadColourRules, loadBackgrounds, listRules, listNotes, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
   renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE,
 } from '../colour-rules.mjs';
 import { buildSplash, readyMadeSet, loadSplashRules, readIcon, largestHook } from '../build-splash.mjs';
@@ -197,6 +197,10 @@ test('the page, the feed and the markdown all carry every rule', () => {
     assert.ok(markdown.includes(`- ${rule.id} [`), rule.id);
   }
   for (const section of rules.sections) assert.ok(page.includes(`<h2 id="${section.id}">`));
+  const notes = listNotes(rules);
+  assert.ok(notes.some(note => note.section === '3' && note.text.startsWith('Which rules apply depends on how the page is built')));
+  assert.deepEqual(feed.notes, notes);
+  for (const note of notes) assert.ok(markdown.includes(note.text), note.text);
   for (const point of rules.open) {
     assert.ok(page.includes(`id="${point.id}"`) && markdown.includes(point.title));
     assert.ok(feed.open.some(entry => entry.id === point.id));

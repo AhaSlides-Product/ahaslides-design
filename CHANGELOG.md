@@ -26,6 +26,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Colour rules name the medium, never "marketing": rule 3.2, rule 5.6, the applied-usage heading and its lead line, the Button paragraph in section 6 and rule 9.5 now say a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The environment ids are unchanged. (#233)
 - The retired colours table and rule 1.3 (near-match colours) are tagged for every environment, as rule 1.1 already required; `rulesByEnvironment.product` and `.audience` in `colour-rules.agent.json` gain `1.3`. (#233)
+- The agent feeds carry the explanatory paragraphs too, not only rules and tables: `colour-rules.md` prints them under each section heading and `colour-rules.agent.json` gains `notes`. Section 3's line on telling a sectioned web page from a product app screen now reaches agents. (#233)
 
 ## 0.164.0 — 2026-10-12
 ### Added
