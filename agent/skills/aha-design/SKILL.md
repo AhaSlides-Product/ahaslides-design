@@ -85,6 +85,10 @@ Read the list from the DS each time — surfaces get added.
 - A product-app screen (React / AntD, or the DS web components) is always judged on
   `background` and `component-standard`, plus every surface it touches.
 - UI copy or labels changed → add `ux-writing`.
+- Any colour chosen or changed (a fill, text or link colour, a status, a chart series, a logo or
+  file-type icon, a border or shadow) → add `colour`. Its rules, and the background rules, live once
+  in the DS: `https://design.ahaslides.io/colour-rules.md` (package: `brand/colour-rules.json`),
+  each rule tagged with its environment. Read the rules for your environment there, never from memory.
 - A slide-type iframe is `canvas` (presenter stage) or `audience` (participant phone) — a
   separate runtime; the product-app baseline does not apply.
 
@@ -110,7 +114,11 @@ Read the list from the DS each time — surfaces get added.
    `palette="brand"` on app screens and `palette="deck"` on the presenting / audience canvas. Never
    a hand-rolled SVG, another chart library or a generic dataviz skill. Only a type `<aha-chart>`
    does not ship falls back to `@ant-design/plots` (the DS charter) — flag it as a gap.
-6. Icons come from the registry by name. Search by meaning before choosing or drawing one:
+6. A Splash background (the logo's hooks, enlarged) is allowed on an empty state or a hero area only.
+   Take the file from the Background library, `https://design.ahaslides.io/foundations/backgrounds.html`
+   (files at `https://design.ahaslides.io/backgrounds/<file>`), or build another size with the
+   package's `build-splash.mjs`. Never draw, stretch or recolour the hooks.
+7. Icons come from the registry by name. Search by meaning before choosing or drawing one:
    `node node_modules/@ahaslides-product/design/icon-search.mjs <words>` (in the design-system repo
    `npm run icon-search <words>`), `https://design.ahaslides.io/icons/index.html?q=<words>`, or the
    "Find by meaning" list in `icons.llms.txt` ("help" finds `system-question`, "delete" finds
@@ -118,7 +126,7 @@ Read the list from the DS each time — surfaces get added.
    (the plugin blocks both). Only when nothing fits, add the glyph to the design system, with meaning
    words, the paired stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) and an `Icon search:` line
    in its pull request; a glyph that looks nearly identical to an existing one fails the DS build.
-7. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
+8. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
    24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
    no toggle, switch, input, select or button in a group header.
 
