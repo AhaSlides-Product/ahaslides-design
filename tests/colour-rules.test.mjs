@@ -7,7 +7,7 @@ import {
   loadColourRules, loadBackgrounds, listRules, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
   renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE,
 } from '../colour-rules.mjs';
-import { buildSplash, readyMadeSet, loadSplashRules, readIcon } from '../build-splash.mjs';
+import { buildSplash, readyMadeSet, loadSplashRules, readIcon, largestHook } from '../build-splash.mjs';
 import { loadEnvironmentTable, environmentNames } from '../environments.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -58,16 +58,67 @@ test('the Splash prose states the same figures the generator reads', () => {
   assert.ok(ruleText('5.3').includes(`${centre.iconWidthPerShorterSide.toFixed(1)} times`));
   assert.ok(ruleText('5.4').includes(`${right.iconWidthPerShorterSide.toFixed(1)} times`));
   assert.ok(ruleText('5.4').includes(`${right.meetingPointAcross * 100}% of the way across`));
-  assert.ok(ruleText('5.5').includes(`${minimal.hookLengthPerLongerSide} times`));
+  assert.ok(ruleText('5.5').includes(`${minimal.iconWidthPerLongerSide} times`));
   const [centreRow, rightRow, minimalRow] = table('splash-layouts').rows;
   assert.equal(centreRow[1], `${centre.iconWidthPerShorterSide * 100}%`);
   assert.equal(rightRow[1], `${right.iconWidthPerShorterSide * 100}%`);
   assert.ok(rightRow[2].startsWith(`${right.meetingPointAcross * 100}% across`));
-  assert.ok(minimalRow[1].includes(`${minimal.hookLengthPerLongerSide} of the longer side`));
-  assert.ok(minimalRow[2].includes(`lower ${minimal.bottomLeftCoversLowerShare * 100}%`) && minimalRow[2].includes(`upper ${minimal.topRightCoversUpperShare * 100}%`));
+  assert.ok(minimalRow[1].includes(`${minimal.iconWidthPerLongerSide} times the longer side`));
+  const percent = (share) => `${Number((share * 100).toFixed(2))}%`;
+  for (const share of [minimal.bottomLeftOutsideLeftEdge, minimal.bottomLeftRiseAboveBottomEdge, minimal.topRightOutsideRightEdge, minimal.topRightDropBelowTopEdge]) {
+    assert.ok(minimalRow[2].includes(percent(share)) && ruleText('5.5').includes(percent(share)), percent(share));
+  }
+  assert.ok(ruleText('5.19').includes(`${minimal.iconWidthPerLongerSide} times`));
   assert.ok(ruleText('5.1').includes('Vivid Pink at 5% on a white background, Darker Pink on a Vivid Pink background'));
   const hex = (id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
   assert.deepEqual(rules.splash.surfaces, { white: { background: hex('white'), hooks: hex('vivid-pink-5') }, pink: { background: hex('vivid-pink'), hooks: hex('darker-pink') } });
+});
+
+function outlinePoints(pathData) {
+  const tokens = pathData.match(/[MCLHZ]|-?\d*\.?\d+(?:e-?\d+)?/g);
+  const points = [];
+  let x = 0, y = 0, index = 0, command = null;
+  while (index < tokens.length) {
+    if (/[A-Z]/.test(tokens[index])) { command = tokens[index++]; if (command === 'Z') continue; }
+    if (command === 'M' || command === 'L') { x = Number(tokens[index]); y = Number(tokens[index + 1]); index += 2; points.push([x, y]); }
+    else if (command === 'H') { x = Number(tokens[index++]); points.push([x, y]); }
+    else {
+      const [x1, y1, x2, y2, x3, y3] = tokens.slice(index, index + 6).map(Number);
+      index += 6;
+      for (let step = 1; step <= 50; step++) {
+        const t = step / 50, u = 1 - t;
+        points.push([u ** 3 * x + 3 * u * u * t * x1 + 3 * u * t * t * x2 + t ** 3 * x3, u ** 3 * y + 3 * u * u * t * y1 + 3 * u * t * t * y2 + t ** 3 * y3]);
+      }
+      x = x3; y = y3;
+    }
+  }
+  return points;
+}
+
+const boxOf = (points, [a, b, c, d, e, f]) => {
+  const xs = points.map(([x, y]) => a * x + c * y + e), ys = points.map(([x, y]) => b * x + d * y + f);
+  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+};
+
+test('the minimal Splash puts each hook where the approved demo puts it, on every frame shape', () => {
+  const hookPoints = outlinePoints(largestHook(readIcon(read(rules.splash.icon)).hooks));
+  const frames = [[1600, 900], [1500, 500], [1080, 1350], [1080, 1920], [1080, 1080], [1920, 1080]];
+  for (const [width, height] of frames) {
+    const longerSide = Math.max(width, height), unit = longerSide / 1600;
+    const demoBoxes = [
+      boxOf(hookPoints, [-0.04176 * unit, -2.28576 * unit, 2.27056 * unit, -0.04144 * unit, -633.632 * unit, height + 505.344 * unit]),
+      boxOf(hookPoints, [0, 2.28608 * unit, -2.27088 * unit, 0, width + 648.128 * unit, -473.024 * unit]),
+    ];
+    const svg = buildSplash({ layout: 'minimal', surface: 'pink', width, height });
+    const generated = [...svg.matchAll(/translate\(([-\d.]+) ([-\d.]+)\) rotate\((-?90)\) scale\(([\d.]+)\)/g)].map(([, e, f, turn, scale]) => {
+      const s = Number(scale);
+      return boxOf(hookPoints, turn === '-90' ? [0, -s, s, 0, Number(e), Number(f)] : [0, s, -s, 0, Number(e), Number(f)]);
+    });
+    assert.equal(generated.length, 2);
+    generated.forEach((box, hook) => box.forEach((edge, side) => {
+      assert.ok(Math.abs(edge - demoBoxes[hook][side]) <= 0.01 * longerSide, `${width}x${height} hook ${hook} edge ${side}`);
+    }));
+  }
 });
 
 test('every ready-made background is exactly what the generator builds, and the manifest lists them all', () => {

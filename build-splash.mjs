@@ -73,13 +73,18 @@ function wholeIcon(hooks, colour, scale, meetingX, meetingY, meetingPoint) {
   return `<g fill="${colour}" transform="${transform}">${hooks.map(hook => `<path d="${hook}"/>`).join('')}</g>`;
 }
 
-function minimalHooks(hooks, colour, width, height, layout) {
+function minimalHooks(hooks, colour, width, height, layout, iconWidth) {
   const hook = largestHook(hooks);
-  const { top, right, bottom } = pathBounds(hook);
-  const scale = layout.hookLengthPerLongerSide * Math.max(width, height) / (bottom - top);
+  const { top, right } = pathBounds(hook);
+  const longerSide = Math.max(width, height);
+  const scale = layout.iconWidthPerLongerSide * longerSide / iconWidth;
   // rotate(-90) maps (x, y) to (y, -x); rotate(90) maps (x, y) to (-y, x).
-  const bottomLeft = `translate(${(-top * scale).toFixed(3)} ${((1 - layout.bottomLeftCoversLowerShare) * height + right * scale).toFixed(3)}) rotate(-90) scale(${scale.toFixed(6)})`;
-  const topRight = `translate(${(width + top * scale).toFixed(3)} ${(layout.topRightCoversUpperShare * height - right * scale).toFixed(3)}) rotate(90) scale(${scale.toFixed(6)})`;
+  const bottomLeftX = -layout.bottomLeftOutsideLeftEdge * longerSide - top * scale;
+  const bottomLeftY = height - layout.bottomLeftRiseAboveBottomEdge * longerSide + right * scale;
+  const topRightX = width + layout.topRightOutsideRightEdge * longerSide + top * scale;
+  const topRightY = layout.topRightDropBelowTopEdge * longerSide - right * scale;
+  const bottomLeft = `translate(${bottomLeftX.toFixed(3)} ${bottomLeftY.toFixed(3)}) rotate(-90) scale(${scale.toFixed(6)})`;
+  const topRight = `translate(${topRightX.toFixed(3)} ${topRightY.toFixed(3)}) rotate(90) scale(${scale.toFixed(6)})`;
   return `<g fill="${colour}"><path transform="${bottomLeft}" d="${hook}"/><path transform="${topRight}" d="${hook}"/></g>`;
 }
 
@@ -90,7 +95,7 @@ export function buildSplash({ layout, surface, width, height, rules = loadSplash
   if (!geometry || !colours) throw new Error(`layout is one of ${Object.keys(rules.layouts).join(', ')}; surface is one of ${Object.keys(rules.surfaces).join(', ')}`);
   const { iconWidth, hooks } = readIcon(iconSvg);
   const splash = layout === 'minimal'
-    ? minimalHooks(hooks, colours.hooks, width, height, geometry)
+    ? minimalHooks(hooks, colours.hooks, width, height, geometry, iconWidth)
     : wholeIcon(hooks, colours.hooks, geometry.iconWidthPerShorterSide * Math.min(width, height) / iconWidth,
       geometry.meetingPointAcross * width, geometry.meetingPointDown * height, rules.meetingPoint);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`
