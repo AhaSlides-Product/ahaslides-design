@@ -1020,7 +1020,7 @@
         {
           "id": "C10",
           "title": "Keyboard-shortcut affordances",
-          "test": "**Scope.** This criterion is about controls the **canvas renders itself** — a bespoke overlay the host control bar (NCB, §C3) doesn't paint: an animated game's play / pause, a reveal toggle, a music-mute button, a settings popover. Host-painted NCB actions get their shortcut chips, focus order, and sound from the host and are out of scope here."
+          "test": "**Scope.** This criterion is about controls the **canvas renders itself** — a bespoke overlay the host control bar (NCB, §C3) doesn't paint: an animated game's play / pause, a reveal toggle, a music-mute button, a settings popover. Host-painted NCB actions get their shortcut chips, focus order, and sound from the host and are out of scope here. **Rule.** a. A modal / overlay / popover moves focus in on open, traps Tab / Shift+Tab, and returns focus to the trigger on close. b. Every actionable button shows its shortcut as a chip: a **24 × 24 square, radius 4**, key 14px / 400; a longer key keeps the 24px height and grows with 6px side padding — never a wide pill. On `<aha-button>` it is the `shortcut` attribute, not a hand-made `<kbd>`. c. A labelled button shows the chip **inline** after its label, never only in a hover `title=\"Press X\"`. d. An icon-only button sits in a tooltip that shows its **name followed by the shortcut chip** (`<aha-tooltip size=\"lg\" text=\"Mute music\" shortcut=\"M\">`), and its `aria-label` is the name plus the shortcut in parentheses, `Mute music (M)`. Any sub-rule missed → FAIL."
         },
         {
           "id": "C11",
@@ -1035,7 +1035,7 @@
         {
           "id": "C13",
           "title": "On-canvas text clears a legible size floor",
-          "test": "**Rule.** Every meaningful on-canvas text — the title / question, answer text, data values, status lines, option labels — uses a **fixed-px type-scale role at or above the 16px caption floor**, the same scale C5 defines (no new number is introduced here): | role | class | px @720 | |---|---|---| | caption (floor) | `text-base` | 16 | | body (default) | `text-lg` | 18 | | subhead | `text-2xl` |…"
+          "test": "**Rule.** Every meaningful on-canvas text — the title / question, answer text, data values, status lines, option labels, button labels, tooltip names — uses a **fixed-px type-scale role at or above the 16px caption floor**, the same scale C5 defines (caption `text-base` 16 · body `text-lg` 18 · subhead `text-2xl` 24 · title `text-5xl` 48 · hero `text-7xl` 72). FAIL on meaningful text below 16px, a `vh`/`vw` font-size, a `clamp()` px floor or `text-xs`/`text-sm`. **The one exception:** the 14px / 400 key inside a shortcut chip (`<aha-button shortcut>`, `<aha-tooltip shortcut>`, or the same chip on a library button) PASSes; its label or tooltip name beside it stays 16px."
         },
         {
           "id": "C14",
@@ -1054,8 +1054,8 @@
         },
         {
           "id": "C17",
-          "title": "An in-canvas presenter control is <aha-button> sized by attribute (size=\"xl\"), never resized through ::part",
-          "test": "*(Fires when the canvas renders its own presenter controls — the Developer Platform's in-canvas row or a built plugin's fallback. N/A otherwise.)* Each control is a DS `<aha-button>` whose size comes from the `size` attribute — `size=\"xl\"` (52px) for controls the room reads from a distance. Any `::part(button)` rule (or inline style) that sets height, padding, font-size or radius FAILs, as does recolouring through `::part` or a per-slide accent variable instead of `--aha-color-primary`."
+          "title": "An in-canvas presenter control is <aha-button> sized by attribute (size=\"lg\"), never resized through ::part",
+          "test": "*(Fires when the canvas renders its own presenter controls — the Developer Platform's in-canvas row or a built plugin's fallback. N/A otherwise.)* Each control is a DS `<aha-button>` whose size comes from the `size` attribute — `size=\"lg\"` (40px, 8px corners, 16px / 600 label; icon-only 40 × 40) — and whose colours come from `applyCanvasDeck` (`lib/canvas.js`): the deck accent on the primary, a black or white label by contrast, hover 12% and pressed 22% darker, no hover shadow. FAIL on `size=\"xl\"` (the retired 52px canvas size) or any other size, on any `::part(button)` rule (or inline style) that sets height, padding, font-size or radius, and on recolouring through `::part` or a per-slide accent variable instead of `applyCanvasDeck` / `--aha-color-primary`. Also FAIL on `variant=\"tertiary-deck\"` on a photographic deck (`slide.backgroundImage` set): the action becomes a `secondary-deck`."
         },
         {
           "id": "C18",
@@ -1065,7 +1065,7 @@
         {
           "id": "C19",
           "title": "One accent per deck — palette[0] on --aha-color-primary, same on every surface",
-          "test": "The deck accent is `presentationColorPalette[0]` published as `--aha-color-primary` on `:root` (with the `--aha-button-primary-*` hover / press / text tokens), so canvas, audience and every `<aha-button>` show the same colour. FAIL when a surface recomputes the accent (mixes it toward the ink until a contrast target, darkens it in steps, uses a 'towardInk' variant for selection), when two surfaces show different 'primary' colours, or when a semantic colour (success teal, error red) is used as a data / series / column colour. Picking only the LABEL ink by contrast is correct."
+          "test": "The deck accent is `presentationColorPalette[0]` published as `--aha-color-primary` on `:root` (with the `--aha-button-primary-*` hover / press / text tokens), so canvas, audience and every `<aha-button>` show the same colour. FAIL when a surface recomputes the accent (mixes it toward the ink until a contrast target, darkens it in steps, uses a 'towardInk' variant for selection), when two surfaces show different 'primary' colours, or when a semantic colour (success teal, error red) is used as a data / series / column colour. Picking only the LABEL ink by contrast is correct. So are the hover and pressed shades `applyCanvasDeck` (canvas) and `applyDeck` (audience) derive from the accent: the rest fill is still the accent itself."
         },
         {
           "id": "C20",

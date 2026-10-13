@@ -29,7 +29,7 @@ not "we chose".
 | **Framed** (`enableFullScreen: false`) | A "question + answer area" slide that should look like every built-in type. The host renders the **title**, **description**, and **question image**; your iframe fills the rest. |
 | **Full-canvas** (`enableFullScreen: true`) | A bespoke layout that owns the whole stage. The host hides its chrome (`xprops.fullCanvas = true`); **you** render the title/header yourself. |
 | **Presenter control bar** (NCB, outside the iframe) — built plugins | Slide-specific actions (Next / Summarise / Previous) on a built plugin. **Declared** in the manifest, painted by the host — never rendered in-canvas. |
-| **In-canvas controls** — Developer Platform | A build-less slide type (the presenter canvas loads `lib/canvas.js`; `audience.html` loads `lib/audience.js` and `settings.html` loads `lib/settings.js`, each a single tag: `<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js"></script>`) has no manifest actions: its controls render **inside** the canvas as `<aha-button size="xl">`. |
+| **In-canvas controls** — Developer Platform | A build-less slide type (the presenter canvas loads `lib/canvas.js`; `audience.html` loads `lib/audience.js` and `settings.html` loads `lib/settings.js`, each a single tag: `<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js"></script>`) has no manifest actions: its controls render **inside** the canvas as `<aha-button size="lg">`, themed by `applyCanvasDeck`. |
 
 - **Never `enableFullScreen: true` + `enableQuestionTitle: true` together.** Full-canvas
   hides the host title bar, so the `enableQuestionTitle` value renders **nowhere** and
@@ -197,6 +197,9 @@ seat** — the same bar applies to the small editor preview.
     (~498px, not 720), so `text-[2.3vh]` renders ~11px, and its basis wobbles by framing.
   - **No `clamp()` px floor** — a px floor pins an absolute size while siblings scale,
     breaking proportion on the transform-scaled canvas. A plain fixed px needs no floor.
+  - **The one exception: the shortcut key.** The key inside a shortcut chip is 14px / 400, drawn
+    by `<aha-button shortcut>` and `<aha-tooltip shortcut>` themselves; button labels and tooltip
+    names stay 16px.
   - **Never `text-xs`/`text-sm`** (12/14px) and no arbitrary `text-[…]` font-size — pick a
     role. (`em` is fine — a relative multiplier of a role-sized parent.)
 - **Text is for reading, not decorating.** A real word renders as normal running text —
@@ -247,26 +250,47 @@ root.setProperty('--aha-button-primary-text', ink);
 The one fixed dark ink is `--aha-text-default` **#1A1A1A** on every surface. The retired
 indigo `#1A1A2E` is not a text colour (C21).
 
-## Presenter controls on the Developer Platform — in-canvas, `size="xl"`
+## Presenter controls on the Developer Platform — in-canvas, `size="lg"`
 
 A build-less Developer Platform slide type (`presenter.html` / `audience.html` /
 `settings.html`, each loading its own surface entry: `lib/canvas.js`, `lib/audience.js`, `lib/settings.js`) declares no manifest actions, so its presenter
-controls render **inside** the canvas. Build them from `<aha-button>` and size them for the
-room with **`size="xl"`** (52px — the web-component twin of React `<XLButtonScope>`):
+controls render **inside** the canvas. Build them from `<aha-button size="lg">` (40px, 8px
+corners, 20px side padding, 16px / 600 label, 16px icon; icon-only 40 × 40), and theme them
+from the deck once with `applyCanvasDeck`:
 
 ```html
+<script type="module">
+  import { applyCanvasDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';
+  applyCanvasDeck(document.documentElement, {
+    accent: xprops.presentationColorPalette[0],
+    ink: xprops.slide.textColour,
+    background: xprops.slide.baseColour,
+  });
+</script>
 <div class="controls">
-  <aha-button variant="secondary" size="xl">Previous</aha-button>
-  <aha-button variant="primary" size="xl">Reveal</aha-button>
+  <aha-tooltip size="lg" text="Previous" shortcut="Shift+Enter">
+    <aha-button variant="secondary-deck" size="lg" icon-only aria-label="Previous (Shift+Enter)">
+      <aha-icon name="system-arrow-left" size="16" decorative></aha-icon>
+    </aha-button>
+  </aha-tooltip>
+  <aha-button variant="secondary-deck" size="lg" shortcut="V">Hide votes</aha-button>
+  <aha-button variant="tertiary-deck" size="lg" shortcut="S">Skip</aha-button>
+  <aha-button variant="primary" size="lg" shortcut="Enter">Next: Result</aha-button>
 </div>
 ```
 
 - **Size through the attribute only.** Never `aha-button::part(button){height:…;padding:…;font-size:…}`
   or inline sizing — a hand-forced 48px drifts from every other slide (C17).
-- **Colour through `--aha-color-primary`** on `:root` (above), never a `::part` recolour or a
-  per-slide `--accent`.
-- The variant hierarchy is the same as the host bar's: at most one `primary`, per-round
-  steppers `secondary`. Keyboard chips follow the in-canvas affordance rules below.
+- **Colour through `applyCanvasDeck`**, never a `::part` recolour or a per-slide `--accent`. It
+  puts the deck accent on `--aha-color-primary` and the primary fill, picks a black or white
+  label by contrast, darkens hover 12% and pressed 22%, and drops the hover shadow, so hover is
+  a fill change only. It is scoped to the element you pass, so app buttons outside the canvas
+  keep their look.
+- The variant hierarchy is the same as the host bar's: at most one `primary`, the rest
+  `secondary-deck` (white on every deck), per-round steppers `secondary-deck`. `tertiary-deck`
+  is never used on a photographic deck — a borderless button gets lost on a busy picture — so
+  the action becomes a `secondary-deck` there.
+- Keyboard chips follow the in-canvas affordance rules below.
 
 The host control bar (next section) applies only to **built** plugins that declare manifest
 actions.
@@ -351,17 +375,22 @@ settings popover) owns those affordances — skipping any is a defect.
   open, keep `Tab`/`Shift+Tab` cycling **within** it (the presenter can't tab out to the
   page behind), and **return focus to the trigger** on close. An overlay that opens but
   leaves focus behind is invisible to keyboard and screen-reader users.
-- **b. Every actionable button shows its shortcut; a single character is a SQUARE.** Render
-  the key in a small `<kbd>` chip. A **one-character** key is a **square** (equal width and
-  height, small rounded corners ~4px), **never** a wide pill — a pill reads as a tag, a
-  square reads as a key; multi-char keys grow wider.
-- **c. A labelled button shows its shortcut INLINE next to the label**, always visible —
-  never hidden in a hover-only `title="Press X"` tooltip (which makes the presenter hunt and
-  hides it from touch).
-- **d. An icon-only button carries a name + shortcut tooltip.** Its **tooltip** (and
-  `aria-label`) is the button's **name plus the shortcut in parentheses** — `Mute music (M)`.
-  A bare icon, or a tooltip that drops the name or `(shortcut)`, leaves the control
-  undiscoverable.
+- **b. Every actionable button shows its shortcut; a single character is a SQUARE.** On an
+  `<aha-button>`, draw the key with its display-only `shortcut` attribute (`shortcut="M"`,
+  `"Esc"`, `"Enter"`, `"Shift+Enter"`, `"Mod+Enter"`), not a hand-made `<kbd>`; a component-library
+  button in a built plugin draws the same chip. The chip is a **24 × 24 square with radius 4**
+  and a 14px / 400 key; a longer key keeps the 24px height and grows with 6px
+  side padding — **never** a wide pill (a pill reads as a tag, a square reads as a key). Mac
+  glyphs (⌘ ⇧) or Windows words (Ctrl, Shift) follow the presenter's machine, and Enter draws
+  the DS icon `system-key-return`. The chip is `aria-hidden`.
+- **c. A labelled button shows its shortcut INLINE next to the label**, 8px after it, always
+  visible — never hidden in a hover-only `title="Press X"` tooltip (which makes the presenter
+  hunt and hides it from touch).
+- **d. An icon-only button carries a name + shortcut tooltip.** Wrap it in
+  `<aha-tooltip size="lg" text="Mute music" shortcut="M">`: the tooltip shows the **name
+  followed by the shortcut chip**, and the button's `aria-label` is the name plus the shortcut
+  in parentheses — `Mute music (M)` — so a screen reader still hears the key. A bare icon, or
+  a tooltip that drops the name or the shortcut, leaves the control undiscoverable.
 
 (The buttons above still come from the component library per §5 — the affordance rules are
 additive, not a licence to hand-roll the element.)
