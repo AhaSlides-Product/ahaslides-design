@@ -1,6 +1,7 @@
 {
   "name": "Settings list",
   "slug": "settings-list",
+  "environment": ["product"],
   "group": "Settings",
   "hubRef": "settings",
   "tier": "leaf-lit",
@@ -35,7 +36,7 @@
     },
     {
       "label": "Help",
-      "value": "guidance = a \"?\" help trigger after the label (DS <aha-tooltip help>, icon system-question-mark, muted ~50% = text-tertiary #8A8A8A → brand on hover/focus) + tooltip; NO standing description line. `description` is the tooltip content"
+      "value": "guidance = a \"?\" help trigger after the label (DS <aha-tooltip help>, icon system-question-mark, --aha-icon-muted #8A8A8A → --aha-icon-default #4A4A4A on hover/focus) + tooltip; NO standing description line. `description` is the tooltip content"
     },
     {
       "label": "Consequence (rare)",

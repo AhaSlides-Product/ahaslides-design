@@ -13,8 +13,11 @@ function onFeedback(e) {
 </script>
 
 <template>
-  <!-- The borderless single row (the only layout). Thumbs-up rates instantly; thumbs-down opens the
+  <!-- The borderless single row (the default layout). Thumbs-up rates instantly; thumbs-down opens the
        free-text feedback popover, which emits `feedback` on submit.
        tooltip-placement="bottom" opens the hover tooltips below (default top) — use it inside a titled card. -->
   <aha-csat prompt="How did this import go?" source="editor_help" feedback-button tooltip-placement="bottom" @rate="onRate" @feedback="onFeedback" />
+  <!-- In a narrow side panel: layout="stacked" puts the prompt above the buttons; feedback-placement="start"
+       opens the feedback popover start-aligned (extending right of the thumbs). -->
+  <aha-csat prompt="How did this import go?" source="side_panel" feedback-button layout="stacked" feedback-placement="start" @rate="onRate" @feedback="onFeedback" />
 </template>
