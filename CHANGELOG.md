@@ -24,13 +24,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.169.0 — 2026-10-13
 ### Added
-- `<aha-status-badge>` takes three progress statuses with their marker built in: `completed` (check icon), `in-progress` (hourglass icon) and `not-started` (no marker). (#PR)
-- `<aha-status-badge>` takes `look` (`published`, `draft`, `closed`, `archived`, `default`) for a state with no built-in status, `marker` (`dot`, `icon`, `none`) and `icon` (a registry name, drawn at 12px in place of the dot). `look="default"` is the neutral badge for information that is not a status (a counter, a slide type) and never shows a dot. (#PR)
-- `--aha-status-badge-bg` and `--aha-status-badge-fg` let an app keep a colour set it already owns inside the shared box. The design system still ships no hue for status. (#PR)
-- Status badges guideline and judge: never mix dot badges with icon or no-marker badges in one status dimension (criterion C6); counters and types use the default badge and a due date is plain text, not a badge (C7). (#PR)
+- `<aha-status-badge>` takes three progress statuses with their marker built in: `completed` (check icon), `in-progress` (hourglass icon) and `not-started` (no marker). (#240)
+- `<aha-status-badge>` takes `look` (`published`, `draft`, `closed`, `archived`, `default`) for a state with no built-in status, `marker` (`dot`, `icon`, `none`) and `icon` (a registry name, drawn at 12px in place of the dot). `look="default"` is the neutral badge for information that is not a status (a counter, a slide type) and never shows a dot. (#240)
+- `--aha-status-badge-bg` and `--aha-status-badge-fg` let an app keep a colour set it already owns inside the shared box. The design system still ships no hue for status. (#240)
+- Status badges guideline and judge: never mix dot badges with icon or no-marker badges in one status dimension (criterion C6); counters and types use the default badge and a due date is plain text, not a badge (C7). (#240)
 ### Changed
-- **Visible change for every `<aha-status-badge>`:** the box is now 22px tall with 8px side padding (was 10px) and a 6px radius (was a full pill). Published and active are pale pink with a pink label and dot (were white with black); draft is Gray 35 with a muted label; closed is Gray 35 with default ink; archived and inactive are Gray 25 with a disabled label. Attribute names and the six existing `status` values are unchanged. Importing the element now also registers `<aha-icon>`. (#PR)
-- Status badges guideline and criteria C1, C2 and C5 describe `<aha-status-badge>` instead of the hand-built `aha-status-pill` markup, which still passes on existing screens. (#PR)
+- **Visible change for every `<aha-status-badge>`:** the box is now 22px tall with 8px side padding (was 10px) and a 6px radius (was a full pill). Published and active are pale pink with a pink label and dot (were white with black); draft is Gray 35 with a muted label; closed is Gray 35 with default ink; archived and inactive are Gray 25 with a disabled label. Attribute names and the six existing `status` values are unchanged. Importing the element now also registers `<aha-icon>`. (#240)
+- Status badges guideline and criteria C1, C2 and C5 describe `<aha-status-badge>` instead of the hand-built `aha-status-pill` markup, which still passes on existing screens. (#240)
 
 ## 0.166.0 — 2026-10-13
 ### Changed
