@@ -49,7 +49,6 @@
   "contract:modal",
   "contract:mode-field",
   "contract:notification",
-  "contract:number-with-unit",
   "contract:numbered-item",
   "contract:option-row",
   "contract:pagination",
