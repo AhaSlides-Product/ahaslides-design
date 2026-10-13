@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.170.0 — 2026-10-13
 ### Added
-- `<aha-csat layout="stacked">` (`row` default): the prompt on the top line and the buttons (thumbs, optional Feedback) on the line below, both left-aligned, for narrow side panels. Without the attribute the single row is unchanged. (#PR)
-- `<aha-csat feedback-placement="start">` (`end` default): the feedback popover opens start-aligned (left edge on the thumbs, extending right) instead of end-aligned, and still flips above at the bottom of the viewport. Without the attribute it stays `bottom-end`. Any other value falls back to the default. (#PR)
+- `<aha-csat layout="stacked">` (`row` default): the prompt on the top line and the buttons (thumbs, optional Feedback) on the line below, both left-aligned, for narrow side panels. Without the attribute the single row is unchanged. (#241)
+- `<aha-csat feedback-placement="start">` (`end` default): the feedback popover opens start-aligned (left edge on the thumbs, extending right) instead of end-aligned, and still flips above at the bottom of the viewport. Without the attribute it stays `bottom-end`. Any other value falls back to the default. (#241)
 
 ## 0.166.0 — 2026-10-13
 ### Changed
