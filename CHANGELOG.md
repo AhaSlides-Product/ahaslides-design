@@ -22,13 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.164.3 — 2026-10-13
+## 0.164.4 — 2026-10-13
 ### Fixed
 - `<aha-tooltip>` edge-aligned placements (`top-end`, `bottom-end`, `left-end`, `right-start`, `right-end` and the rest): the arrow is the same 10px triangle as the centred placements. Before, `top-end` and `bottom-end` kept `left:50%` beside `right:16px` (a 26px stretched box), `left-end` kept `top:100%` beside `bottom:12px`, and `right-start` and `right-end` kept `left:50%` beside `right:100%`. Every inset is now reset before the placement sets its own. (#231)
 - The `-end` edge-aligned arrow is the exact mirror of the `-start` one: same 10px triangle, 16px in from the aligned edge (12px on the vertical sides), only the side differs.
 ### Changed
 - `<aha-tooltip help>`: the built-in `?` icon is `--aha-icon-muted` at rest and `--aha-icon-default` on hover and keyboard focus (was `--aha-text-tertiary`, brand on hover/focus). The 2px brand focus ring is unchanged. (#231)
 
+## 0.164.3 — 2026-10-13
 ### Changed
 - Colour rules name the medium, never "marketing": rule 3.2, rule 5.6, the applied-usage heading and its lead line, the Button paragraph in section 6 and rule 9.5 now say a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The environment ids are unchanged. (#233)
 - The retired colours table and rule 1.3 (near-match colours) are tagged for every environment, as rule 1.1 already required; `rulesByEnvironment.product` and `.audience` in `colour-rules.agent.json` gain `1.3`. (#233)
