@@ -32,12 +32,21 @@ test('every rule has a unique id inside its section and names known environments
   for (const name of known) assert.ok(ruleList.some(rule => rule.environment.includes(name)), name);
 });
 
-test('the product app rules reach product and the marketing section rules stay on marketing-web', () => {
+test('the product app rules reach product and the coloured-section rules stay on marketing-web', () => {
   const environmentOf = (id) => ruleList.find(rule => rule.id === id).environment;
   assert.deepEqual(environmentOf('3.6'), ['product']);
   assert.deepEqual(environmentOf('3.7'), ['product']);
   assert.deepEqual(environmentOf('3.3'), ['marketing-web']);
   assert.ok(environmentOf('4.1').includes('video') && environmentOf('4.1').includes('social-ads'));
+});
+
+test('no rule text names marketing as a surface: every rule says which medium it applies to', () => {
+  const readerFacing = (key, value) => (key === 'origin' || key === 'environment' || key.startsWith('$') ? undefined : value);
+  const offending = JSON.stringify(rules, readerFacing).match(/[^"]*marketing[^"]*/gi) || [];
+  assert.deepEqual(offending, []);
+  for (const feed of [renderColourRulesMd(rules, { site: SITE, store, backgrounds }), JSON.stringify(JSON.parse(read('guidelines/background.json')).lead)]) {
+    assert.deepEqual(feed.replace(/marketing-web|aha-marketing-[a-z-]+/g, '').match(/marketing/gi) || [], []);
+  }
 });
 
 test('the judge criteria and the Background pattern cite rules that exist', () => {
@@ -196,5 +205,5 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
   assert.equal(feed.splash.files.length, backgrounds.length);
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
-  assert.equal(rules.changes[0].version, 'v10');
+  assert.equal(rules.changes[0].version, 'v11');
 });
