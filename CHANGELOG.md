@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.164.6 — 2026-10-13
 ### Fixed
-- The 0.164.5 entry links its real pull request (#234), and the placeholder example in the header is restored. (#)
+- The 0.164.5 entry links its real pull request (#234), and the placeholder example in the header is restored. (#235)
 
 ## 0.164.5 — 2026-10-13
 ### Fixed
