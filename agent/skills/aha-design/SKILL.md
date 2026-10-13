@@ -133,6 +133,12 @@ Read the list from the DS each time — surfaces get added.
    `<specific part> | AhaSlides`, brand last, updated on every client-side route change, The Splash
    files from `logo/favicon/` with `/favicon.ico` at the site root. Rules:
    `https://design.ahaslides.io/guidelines/page-title-favicon/page-title-favicon.md`.
+10. Presenter controls a slide type draws on its own canvas are `<aha-button size="lg">` (40px),
+    themed once with `applyCanvasDeck` from `lib/canvas.js` (deck accent primary, hover a fill
+    change only), never `size="xl"` or `::part` sizing. A labelled one carries its key in the
+    display-only `shortcut` attribute; an icon-only one sits in
+    `<aha-tooltip size="lg" text="Mute music" shortcut="M">` with `aria-label="Mute music (M)"`.
+    No `tertiary-deck` on a photographic deck. Detail in the `canvas` guideline.
 
 ## 4. Judge
 

@@ -2613,7 +2613,8 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
     `// ONE import registers the <aha-*> elements the ${surface} surface uses. Load the token layer separately:\n` +
     `//   <link rel="stylesheet" href=".../lib/tokens.css">   or   import '${PKGNAME}/tokens.css'\n` +
     entry.files.map(f => `import './${f}';`).join('\n') + '\n' +
-    (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : ''));
+    (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : '') +
+    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : ''));
   console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
 }
 
