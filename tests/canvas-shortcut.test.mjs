@@ -133,11 +133,17 @@ test('a tooltip text reaches the trigger\'s accessible description', { skip }, a
     return {
       ahaButton: await descriptionOf(command, `document.getElementById('mute').shadowRoot.querySelector('button')`),
       native: await descriptionOf(command, `document.getElementById('native')`),
+      named: await descriptionOf(command, `document.getElementById('named')`),
+      namedAttribute: (await command('Runtime.evaluate', { expression: `document.getElementById('named').hasAttribute('aria-description')`, returnByValue: true })).result.value,
+      muteAttribute: (await command('Runtime.evaluate', { expression: `document.getElementById('mute').shadowRoot.querySelector('button').hasAttribute('aria-description')`, returnByValue: true })).result.value,
       help: await descriptionOf(command, `document.getElementById('help-tip').shadowRoot.querySelector('.help')`),
     };
   }, { readyExpr, timeout: 45000 });
   assert.equal(r.ahaButton.name, 'Mute music (M)');
-  assert.equal(r.ahaButton.description, 'Mute music');
+  assert.equal(r.ahaButton.description, '', 'the name already says "Mute music", so it is not described again');
+  assert.equal(r.muteAttribute, false);
+  assert.equal(r.named.description, '', 'case and surrounding spaces are ignored when the name already carries the text');
+  assert.equal(r.namedAttribute, false);
   assert.equal(r.native.description, 'Copy link');
   assert.equal(r.help.description, 'Help hint');
 });

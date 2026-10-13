@@ -198,7 +198,7 @@ seat** — the same bar applies to the small editor preview.
   - **No `clamp()` px floor** — a px floor pins an absolute size while siblings scale,
     breaking proportion on the transform-scaled canvas. A plain fixed px needs no floor.
   - **The one exception: the shortcut key.** The key inside a shortcut chip is 14px / 400, drawn
-    by `<aha-button shortcut>` and `<aha-tooltip shortcut>` themselves; button labels and tooltip
+    by `<aha-button shortcut>` and `<aha-tooltip size="lg" shortcut>` themselves; button labels and tooltip
     names stay 16px.
   - **Never `text-xs`/`text-sm`** (12/14px) and no arbitrary `text-[…]` font-size — pick a
     role. (`em` is fine — a relative multiplier of a role-sized parent.)
