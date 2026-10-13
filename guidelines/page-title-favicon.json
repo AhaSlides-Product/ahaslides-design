@@ -1,0 +1,205 @@
+{
+  "name": "Page title and favicon",
+  "slug": "page-title-favicon",
+  "kind": "guideline",
+  "group": "Patterns",
+  "badge": "guide — every surface",
+  "environment": [
+    "product",
+    "audience"
+  ],
+  "summary": "The browser tab title (the document <title>) and the favicon for everything AhaSlides builds: product apps, audience and join pages, shared links, the marketing site, docs and help sites and internal tools. One format, specific part first and the brand last, with one separator; one favicon set, The Splash, served the same way everywhere.",
+  "highlights": [
+    "Every page has its own title: the specific part first, the brand last",
+    "The marketing home page is the one brand-first title",
+    "One favicon everywhere: The Splash from logo/favicon, with /favicon.ico at the site root",
+    "State and environment go in the title, never drawn onto the favicon"
+  ],
+  "lead": "This is about the document `<title>`, the text in the browser tab, in history, in bookmarks and in a search result. It is not the heading on the page: that one is `<aha-breadcrumb size=\"page-title\">` and its rule is unchanged. The two should say the same thing, so the first part of the tab title repeats the page heading. Branding, search and usability mostly agree; the Guide below says which one wins where they do not.",
+  "skillRef": {
+    "build": "DS guideline — guidelines/page-title-favicon.json",
+    "note": "The rules are the enforceable part; the Guide carries the reasoning, the worked good and bad examples and the measured favicon contrast. The docs site (generate.mjs → document-head.mjs) is the first surface built to it."
+  },
+  "surfaces": [
+    "presenter",
+    "editor",
+    "dashboard",
+    "admin",
+    "workspace",
+    "audience",
+    "shared links",
+    "marketing site",
+    "docs and help sites",
+    "internal tools"
+  ],
+  "surfaceChoice": [
+    {
+      "surface": "Marketing home page",
+      "useFor": "AhaSlides | <what it is, in a few words>. The one title that starts with the brand",
+      "example": "AhaSlides | Interactive presentations, quizzes and polls"
+    },
+    {
+      "surface": "Marketing, blog, template and other indexable pages",
+      "useFor": "<Page or article name> | AhaSlides. Unique per page, 60 characters or fewer in all",
+      "example": "Pricing | AhaSlides · 15 interactive presentation ideas | AhaSlides"
+    },
+    {
+      "surface": "Product app screen (presenter, editor, dashboard, admin, workspace)",
+      "useFor": "<Screen name, or the name of the open object> | AhaSlides. Add a middle part only when two tabs would otherwise read the same",
+      "example": "My presentations | AhaSlides · Team quiz | AhaSlides · Team quiz | Report | AhaSlides"
+    },
+    {
+      "surface": "Audience and join pages",
+      "useFor": "<Presentation name> | AhaSlides once a presentation is joined; the action before that",
+      "example": "Join a presentation | AhaSlides · Team quiz | AhaSlides"
+    },
+    {
+      "surface": "Shared or public presentation link",
+      "useFor": "<Presentation name> | AhaSlides. The owner's name for it comes first",
+      "example": "Q3 kick-off | AhaSlides"
+    },
+    {
+      "surface": "Named site (docs, help, design system, careers, community, internal tool)",
+      "useFor": "<Page name> | AhaSlides <Site name>; the site's home page is AhaSlides <Site name> alone. The site name is the product name in its header lockup",
+      "example": "Button | AhaSlides Design System · AhaSlides Design System"
+    },
+    {
+      "surface": "Log in, error and utility pages",
+      "useFor": "<What the page is, or what happened> | AhaSlides",
+      "example": "Log in | AhaSlides · Page not found | AhaSlides"
+    },
+    {
+      "surface": "A build that is not production",
+      "useFor": "[<environment>] in front of the normal title; the favicon stays the same",
+      "example": "[staging] My presentations | AhaSlides"
+    }
+  ],
+  "composedOf": [
+    {
+      "ref": "breadcrumb",
+      "as": "component",
+      "use": "the on-page title (size=\"page-title\"); the first part of the tab title repeats its current-page label",
+      "status": "available"
+    },
+    {
+      "ref": "product-lockup",
+      "as": "component",
+      "use": "the header brand; the site name that ends the tab title is the lockup's text: AhaSlides, or AhaSlides plus the approved product name",
+      "status": "available"
+    },
+    {
+      "ref": "error-page",
+      "as": "component",
+      "use": "a full-page failure; its tab title names the outcome (Page not found | AhaSlides), never the previous page's title",
+      "status": "available"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "Every page and every routed screen sets its own document `<title>`. No two pages of one site share a title, and none ships the framework default, a bare URL, an empty title or a tagline repeated on every route.",
+      "ref": [
+        "TITLE-1"
+      ]
+    },
+    {
+      "rule": "Format: `<specific part> | <site name>`. The specific part comes first because a crowded tab, a history row and a search result all cut the end. The only brand-first title is the marketing home page: `AhaSlides | <what it is>`. The home page of a named site is the site name alone.",
+      "ref": [
+        "TITLE-2"
+      ]
+    },
+    {
+      "rule": "One separator everywhere: a vertical bar with a space on each side (` | `). No hyphen, dash, colon, middle dot or bullet between parts. At most three parts; the middle part (a section or a view) is added only when two pages would otherwise have the same title.",
+      "ref": [
+        "TITLE-3"
+      ]
+    },
+    {
+      "rule": "The brand is spelt `AhaSlides`: one word, capital A and capital S, never translated, abbreviated or set in capitals. The site name is `AhaSlides` for the product and the marketing site and `AhaSlides <Site name>` for a named site, matching `<aha-product-lockup>`. The brand appears once in a title.",
+      "ref": [
+        "TITLE-4"
+      ]
+    },
+    {
+      "rule": "The specific part is the page's own name in sentence case, the same words as its on-page heading (`<aha-breadcrumb size=\"page-title\">`) and its navigation label. No keyword lists, no marketing tagline on inner pages, no emoji, no all-capitals.",
+      "ref": [
+        "TITLE-5"
+      ]
+    },
+    {
+      "rule": "An indexable public page keeps the whole title at 60 characters or fewer so a search result shows it uncut, and puts the words a person would search for in the first part. Shorten the specific part to fit; never drop the brand to make room.",
+      "ref": [
+        "TITLE-6"
+      ]
+    },
+    {
+      "rule": "A page that search engines do not index (a screen behind a login, a join link, a build that is not production) is written only for the person looking for the tab: the name of the screen or the open object, with no keywords. A build that is not production is `noindex`.",
+      "ref": [
+        "TITLE-7"
+      ]
+    },
+    {
+      "rule": "A single-page app updates `document.title` on every route change, in the same step as the URL change, so the tab, the history entry and the bookmark all carry the new page's name. While data loads, the title is the screen's static name (`Presentation | AhaSlides`), never blank and never `Loading…`; it switches to the object's name when the data arrives.",
+      "ref": [
+        "TITLE-8"
+      ]
+    },
+    {
+      "rule": "A state goes at the very front of the title, on app screens only: an unread count as `(3) ` (hidden at zero, `(99+)` above 99) and a running session as `Live: `. Change the title when the state changes; never flash, scroll or alternate it on a timer. Indexable pages have no state in the title.",
+      "ref": [
+        "TITLE-9"
+      ]
+    },
+    {
+      "rule": "A name a person typed (a presentation, a workspace, a folder) goes in as plain text: whitespace and line breaks collapsed, cut to 60 characters on a word boundary with `…`, and escaped, never parsed as HTML. The brand suffix is never cut. An empty name uses the same fallback label the screen shows.",
+      "ref": [
+        "TITLE-10"
+      ]
+    },
+    {
+      "rule": "Titles are translated with the page: the specific part and any state word follow the interface language and `<html lang>`, the separator and its order stay the same in every language, right-to-left included, and `AhaSlides` is never translated or transliterated. Each language version of an indexable page has its own title within the 60 characters.",
+      "ref": [
+        "TITLE-11"
+      ]
+    },
+    {
+      "rule": "The title is the first thing a screen reader announces when a page loads (WCAG 2.4.2 Page Titled), so it names the page before the brand. A title change on a client-side route change is not announced by itself, so the app also announces the new page: move focus to its heading, or use the framework's route announcer.",
+      "ref": [
+        "TITLE-12"
+      ]
+    },
+    {
+      "rule": "One favicon on every AhaSlides surface, third-party-hosted sites included: The Splash set in `logo/favicon/` of the Logo library. No per-product icon, letter tile, recoloured or tinted mark, and nothing drawn on top of it (no badge, dot or environment ribbon).",
+      "ref": [
+        "ICON-1"
+      ]
+    },
+    {
+      "rule": "Every page links the same set: `<link rel=\"icon\" href=\"/favicon.ico\" sizes=\"16x16 32x32 48x48\">`, `<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"…/favicon-32.png\">` and `<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"…/favicon-180.png\">` (the white-ground file, because iOS fills transparency black). In a single-page app the hrefs are root-relative or absolute: a path relative to the page re-resolves against the new URL after a client-side route change and the icon 404s.",
+      "ref": [
+        "ICON-2"
+      ]
+    },
+    {
+      "rule": "`/favicon.ico` answers 200 at the root of every origin that serves pages or files to a browser. Browsers and crawlers ask for that exact path when a response has no `<head>` (a PDF, a text or JSON file, an error from a proxy), so the `<link>` tags alone are not enough.",
+      "ref": [
+        "ICON-3"
+      ]
+    },
+    {
+      "rule": "An app a person can add to a home screen (the product apps, the audience app) also links a web app manifest whose `name` and `short_name` are `AhaSlides` and whose icons include `favicon-512.png`, and sets `<meta name=\"theme-color\">` to the page background (white in the product). A content site (marketing, docs, help) does not need a manifest.",
+      "ref": [
+        "ICON-4"
+      ]
+    },
+    {
+      "rule": "The favicon never changes with state, theme or environment: no canvas-drawn badge, no swapped file for unread or live, no separate dark-scheme file, and never `thesplash-white.svg` or `thesplash-black.svg` as a favicon. State and environment are said in the title (`(3) `, `Live: `, `[staging] `).",
+      "ref": [
+        "ICON-5"
+      ]
+    }
+  ],
+  "reuse": null,
+  "reuseNote": "The favicon files are the Logo library's logo/favicon/ set (rebuilt with node favicons.mjs). The docs site applies the format through document-head.mjs in this repo.",
+  "guide": "page-title-favicon.guide.md",
+  "whenToRead": "ANY new page, route, site, microsite or app shell, and any change to a document <title>, favicon, apple-touch-icon or web app manifest: title is `<specific part> | AhaSlides` (brand last, one ` | ` separator, unique per page, updated on every client-side route change), favicon is The Splash set from logo/favicon with /favicon.ico at the site root. Not the on-page heading (that is aha-breadcrumb size=page-title)."
+}
