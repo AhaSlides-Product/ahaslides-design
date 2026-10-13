@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canvas shortcut chip and tooltip</title>
+<link rel="stylesheet" href="../lib/tokens.css">
+</head>
+<body style="font-family:var(--aha-font-product)">
+  <div id="canvas">
+    <aha-button id="primary" variant="primary" size="lg" shortcut="Enter">Next: Result</aha-button>
+    <aha-button id="dark-label" variant="primary" size="lg" shortcut="M" accent-probe>Start</aha-button>
+    <aha-button id="secondary" variant="secondary-deck" size="lg" shortcut="Esc">Discard</aha-button>
+    <aha-button id="disabled" variant="primary" size="lg" shortcut="Mod+Enter" disabled>Save</aha-button>
+    <aha-tooltip id="tip" size="lg" text="Mute music" shortcut="M" open>
+      <aha-button id="mute" variant="secondary-deck" size="lg" icon-only shortcut="M" aria-label="Mute music (M)"><aha-icon name="system-speaker-simple-high" size="16" decorative></aha-icon></aha-button>
+    </aha-tooltip>
+  </div>
+  <div id="app">
+    <aha-button id="app-primary" variant="primary">Save</aha-button>
+    <aha-tooltip id="native-tip" text="Copy link"><button id="native">Share</button></aha-tooltip>
+    <aha-tooltip id="named-tip" text="copy link "><button id="named">Copy link</button></aha-tooltip>
+    <aha-tooltip id="default-tip" text="Copy share link" open><button>Top</button></aha-tooltip>
+    <aha-tooltip id="help-tip" help text="Help hint"></aha-tooltip>
+    <span id="author-note">Opens the share panel</span>
+    <aha-tooltip id="described-tip" text="Copy link"><aha-button id="described" icon-only aria-label="Share" aria-describedby="author-note"><aha-icon name="system-link" size="16" decorative></aha-icon></aha-button></aha-tooltip>
+    <aha-tooltip id="native-author-tip" text="Copy link"><button id="native-author" aria-describedby="author-note">Share</button></aha-tooltip>
+    <aha-tooltip id="hover-tip" text="Hover hint"><button id="hover-trigger">Hover me</button></aha-tooltip>
+  </div>
+  <script type="module">
+    await import('../lib/icons.js');
+    await import('../lib/aha-button.js');
+    await import('../lib/aha-tooltip.js');
+    const { applyCanvasDeck } = await import('../lib/canvas-deck.js');
+    const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    applyCanvasDeck(document.querySelector('#canvas'), { accent: token('--aha-vivid-pink-100'), ink: token('--aha-gray-100'), background: token('--aha-white') });
+    applyCanvasDeck(document.querySelector('#dark-label'), { accent: token('--aha-vivid-pink-30') });
+    window.canvasFixtureReady = true;
+  </script>
+</body>
+</html>
