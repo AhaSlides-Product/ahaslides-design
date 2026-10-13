@@ -25,7 +25,7 @@ RAW_BUTTON = re.compile(
     r"|[\"']role[\"']\s*,\s*[\"']button[\"']",
     re.IGNORECASE)
 SIZE_XL = re.compile(
-    r"<aha-button\b[^>]*(?<![\w-])size\s*=\s*\\?[\"']?xl\b"
+    r"<aha-button(?![\w-])(?:\"[^\"]*\"|'[^']*'|=>|[^>\"'])*?(?<![\w-])size\s*=\s*\\?[\"']?xl\b"
     r"|[\"']aha-button[\"'].*(?<![\w$-])[\"']?size[\"']?\s*:\s*[\"']xl[\"']"
     r"|setAttribute\(\s*[\"']size[\"']\s*,\s*[\"']xl[\"']",
     re.IGNORECASE)

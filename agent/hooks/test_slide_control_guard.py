@@ -68,6 +68,16 @@ class SlideControlGuardTest(unittest.TestCase):
                                   "content": "var b = el('aha-button', { variant: v, size: 'xl' }, [label]);"})
         self.assertEqual(code, 2)
 
+    def test_size_xl_after_an_arrow_function_in_the_tag_is_blocked(self):
+        code, _ = self.run_guard({"file_path": self.slide_file("presenter.html"),
+                                  "content": DS_PAGE + '<aha-button @click="() => go()" size="xl">Reveal</aha-button>'})
+        self.assertEqual(code, 2)
+
+    def test_a_longer_element_name_is_not_the_button(self):
+        code, _ = self.run_guard({"file_path": self.slide_file("presenter.html"),
+                                  "content": DS_PAGE + '<aha-button-group size="xl"></aha-button-group>'})
+        self.assertEqual(code, 0)
+
     def test_the_ds_button_passes(self):
         code, err = self.run_guard({"file_path": self.slide_file("presenter.js"),
                                     "content": "var b = el('aha-button', { variant: v, size: 'lg', shortcut: 'N' }, [label]);\n"

@@ -33,6 +33,8 @@ export const SLIDE_RULE_FIXTURES = [
       `var button = el('aha-button', { variant: variant, size: 'xl', 'data-act': action }, [label]);`,
       `var button = el('aha-button', {\n  variant: variant,\n  size: 'xl' }, [label]);`,
       `button.setAttribute('size', 'xl');`,
+      '<aha-button @click="() => go()" size="xl">Reveal</aha-button>',
+      '<aha-button onClick={() => go()} size="xl">Reveal</aha-button>',
     ],
     pass: [
       '<aha-button variant="primary" size="lg">Reveal</aha-button>',
@@ -40,6 +42,7 @@ export const SLIDE_RULE_FIXTURES = [
       `var button = el('aha-button', { variant: variant, size: 'lg' }, [label]);`,
       '<aha-icon name="system-bell" size="24"></aha-icon>',
       `button.setAttribute('size', 'lg');`,
+      '<aha-button-group size="xl"><aha-button size="lg">Next</aha-button></aha-button-group>',
     ],
   },
   {
@@ -74,6 +77,7 @@ export const SLIDE_RULE_FIXTURES = [
       '<aha-tooltip size="lg" text="Mute music" shortcut="M"><aha-button icon-only size="lg" aria-label="Mute music (M)"></aha-button></aha-tooltip>',
       `var button = el('aha-button', { variant: variant, size: 'lg', shortcut: key }, [label]);`,
       'kbd.key{ display:inline-grid }',
+      '<aha-button-group size="lg">\n</aha-button-group>\n<p>Press <kbd>N</kbd></p>',
     ],
   },
   {
