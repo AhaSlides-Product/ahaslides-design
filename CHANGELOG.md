@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.166.0 — 2026-10-13
 ### Changed
-- `<aha-number-with-unit>` is on the `aha-input` size scale: default 40px (was 32), small 24, large 48 (was 40), and the large field text is 16px like `aha-input`. Look is otherwise unchanged in every state. Any `size="large"` use grows 8px and the default grows 8px. (#PR)
+- `<aha-number-with-unit>` is on the `aha-input` size scale: default 40px (was 32), small 24, large 48 (was 40), and the large field text is 16px like `aha-input`. Look is otherwise unchanged in every state. Any `size="large"` use grows 8px and the default grows 8px. (#237)
 
 ## 0.165.0 — 2026-10-13
 ### Changed
