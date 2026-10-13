@@ -167,7 +167,7 @@ in Node and Cloudflare workerd. The icon names it needs are bundled.
 ```js
 import { lintHtml } from '@ahaslides-product/design/screen-lint';
 
-const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas'
+const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a slide type's presenter stage), 'audience' (its phone screen)
 // findings: [{ rule, line, message, severity: 'hard' | 'warn' }]
 ```
 
@@ -178,6 +178,15 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas'
 `<!-- ds-lint-allow: hex,radius (brand logo, no token) -->`. Only the named rules are silenced on that
 line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
 suppresses nothing and is reported as a `ds-lint-allow-bare` warning.
+
+**Slide surfaces** — `canvas` and `audience` also hard-fail a hand-made control: a raw `<button>` or
+`role="button"` (`raw-button`), `<aha-button size="xl">` (`button-size-xl`), height, padding,
+font-size or radius set through `::part(button)` or an inline style on `<aha-button>`
+(`button-hand-sizing`), and a `<kbd>` inside `<aha-button>` instead of its `shortcut` attribute
+(`hand-made-key-chip`). A control the DS does not ship (a draggable tile, a seek-bar grip) keeps its
+tag with `ds-lint-allow: raw-button (why)`. Lint a slide type's `presenter.*` as `canvas`, its
+`audience.*` as `audience` and its `settings.*` as `product`; the 16px and viewport-unit font rules
+are canvas only.
 
 ## Commands
 

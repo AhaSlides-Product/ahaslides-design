@@ -182,6 +182,42 @@ class MainEndToEnd(unittest.TestCase):
             self.assertIn("background: C1 White by default", out["reason"])
             self.assertIn("source: file", out["reason"])
 
+    def _slide_repo(self, root):
+        subprocess.run(["git", "-C", root, "init", "-q"], check=True)
+        subprocess.run(["git", "-C", root, "config", "user.email", "t@t"], check=True)
+        subprocess.run(["git", "-C", root, "config", "user.name", "t"], check=True)
+        slide = os.path.join(root, "slide-types", "quiz")
+        os.makedirs(slide)
+        with open(os.path.join(slide, "presenter.html"), "w") as fh:
+            fh.write('<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@latest/lib/canvas.js"></script>')
+        os.makedirs(os.path.join(root, "models"))
+        open(os.path.join(root, "models", "audience.js"), "w").close()
+        subprocess.run(["git", "-C", root, "add", "-A"], check=True)
+        subprocess.run(["git", "-C", root, "commit", "-qm", "init"], check=True)
+        return slide
+
+    def test_blocks_on_a_build_less_slide_type_without_a_package_json(self):
+        with tempfile.TemporaryDirectory() as root:
+            slide = self._slide_repo(root)
+            for name in ("presenter.js", "audience.js", "settings.js"):
+                open(os.path.join(slide, name), "w").close()
+            p = self._run(dj.HOOK_DIR, {"cwd": root, "session_id": "s1"})
+            out = json.loads(p.stdout)
+            self.assertEqual(out["decision"], "block")
+            for name in ("presenter.js", "audience.js", "settings.js"):
+                self.assertIn("- slide-types/quiz/" + name, out["reason"])
+            for surface in ("canvas", "audience", "settings"):
+                self.assertIn("- {}: ".format(surface), out["reason"])
+            self.assertNotIn("- background: ", out["reason"])
+
+    def test_same_named_files_outside_a_slide_type_stay_silent(self):
+        with tempfile.TemporaryDirectory() as root:
+            self._slide_repo(root)
+            with open(os.path.join(root, "models", "audience.js"), "w") as fh:
+                fh.write("module.exports = {}")
+            p = self._run(dj.HOOK_DIR, {"cwd": root})
+            self.assertEqual(p.stdout.strip(), "")
+
     def test_no_ui_changes_silent(self):
         with tempfile.TemporaryDirectory() as root:
             self._git_repo(root)
