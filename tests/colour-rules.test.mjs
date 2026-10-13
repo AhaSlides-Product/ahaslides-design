@@ -121,6 +121,25 @@ test('the minimal Splash puts each hook where the approved demo puts it, on ever
   }
 });
 
+test('the centre and right Splash put the whole icon where the approved social posts put it', () => {
+  const { hooks } = readIcon(read(rules.splash.icon));
+  const points = hooks.flatMap(hook => outlinePoints(hook));
+  const references = [
+    ['centre', 100, 100, [0.56110, 0, 0, 0.55738, -182.406, -137.278]],
+    ['centre', 160, 90, [0.50499, 0, 0, 0.50164, -129.166, -123.550]],
+    ['right', 80, 100, [0.29925, 0, 0, 0.29727, -60.430, -49.882]],
+    ['right', 100, 100, [0.37406, 0, 0, 0.37158, -75.538, -74.852]],
+  ];
+  for (const [layout, width, height, matrix] of references) {
+    const svg = buildSplash({ layout, surface: 'pink', width, height });
+    const [across, down, scale, offsetX, offsetY] = svg.match(/<g fill="[^"]+" transform="translate\(([-\d.]+) ([-\d.]+)\) scale\(([\d.]+)\) translate\(([-\d.]+) ([-\d.]+)\)"/).slice(1).map(Number);
+    const generated = boxOf(points, [scale, 0, 0, scale, across + scale * offsetX, down + scale * offsetY]);
+    const expected = boxOf(points, matrix);
+    const shorterSide = Math.min(width, height);
+    generated.forEach((edge, side) => { assert.ok(Math.abs(edge - expected[side]) <= 0.02 * shorterSide, `${layout} ${width}x${height} edge ${side}: ${edge} against ${expected[side]}`); });
+  }
+});
+
 test('every ready-made background is exactly what the generator builds, and the manifest lists them all', () => {
   const splashRules = loadSplashRules();
   const set = readyMadeSet(splashRules);

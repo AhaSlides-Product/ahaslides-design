@@ -28,7 +28,7 @@
  "splash": {
   "$about": "Geometry and colours of a Splash background. build-splash.mjs reads every figure from here; the prose in section 5 states the same figures and tests/colour-rules.test.mjs fails when the two disagree.",
   "icon": "logo/thesplash.svg",
-  "meetingPoint": { "x": 400, "y": 336, "note": "the centre of the gap the four hooks surround, in the icon's own 802 by 788 frame" },
+  "meetingPoint": { "x": 414, "y": 336, "note": "the centre of the gap the four hooks surround, in the icon's own 802 by 788 frame" },
   "surfaces": {
    "white": { "background": "#FFFFFF", "hooks": "#FEF3F7" },
    "pink": { "background": "#E70E68", "hooks": "#DB005B" }
@@ -169,7 +169,7 @@
     { "type": "heading", "anchor": "splash-readings", "text": "How the generator reads these rules", "origin": "aha-marketing-backgrounds" },
     { "type": "rules", "start": 17, "origin": "aha-marketing-backgrounds", "rules": [
      { "id": "5.17", "text": "Icon width, for centre and right, is the width of the splash icon's own 802-unit frame." },
-     { "id": "5.18", "text": "The meeting point is the centre of the gap the four hooks surround: 400 across and 336 down in the icon's 802 by 788 frame." },
+     { "id": "5.18", "text": "The meeting point is the centre of the gap the four hooks surround: 414 across and 336 down in the icon's 802 by 788 frame." },
      { "id": "5.19", "text": "Minimal is sized as if the whole icon were 1.15 times as wide as the frame's longer side (icon width is the 802-unit frame, as above), which makes each turned hook 0.73 of the longer side long. Every offset is a share of the longer side, never of the frame's height or width." }
     ] }
    ]
