@@ -22,9 +22,72 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.158.0 — 2026-10-12
+## 0.178.0 — 2026-10-12
 ### Fixed
 - Logo library: the PDF icon now fills its frame like the other brand logos instead of rendering about a quarter smaller. The Figma export's 2px padding is cropped with the viewBox; the path data is unchanged. (#181)
+
+## 0.171.0 — 2026-10-13
+### Added
+- **Page title and favicon** guideline (`guidelines/page-title-favicon.json`, [docs page](https://design.ahaslides.io/guidelines/page-title-favicon/index.html)): one rule for the browser tab title and the favicon on everything AhaSlides builds (product apps, audience and join pages, shared links, the marketing site, docs and help sites, internal tools). Titles are `<specific part> | AhaSlides`, brand last, one ` | ` separator, unique per page and updated on every client-side route change; only the marketing home page is brand-first. The favicon is The Splash set in `logo/favicon/`, with `/favicon.ico` answering at the site root. It says which of branding, search and usability wins where they disagree. Listed in `llms.txt` (header line, Patterns, and the `product`, `audience` and `marketing-web` routes) and in the agent plugin's build steps. Guidance only: no component, token or export changes. (#238)
+### Fixed
+- Docs site: every page now has its own tab title in that format (`Button | AhaSlides Design System`; the home page is `AhaSlides Design System`) instead of `AhaSlides Design System — for agents` on every page, and every page links the favicon set. `/favicon.ico` now exists at the site root (it was a 404). The build fails if two pages claim the same title. (#238)
+### Changed
+- Logo library → Favicon: the paragraph lists the four files and links to the new guideline for the tag set, instead of holding a second copy of the rule. (#238)
+
+## 0.170.0 — 2026-10-13
+### Added
+- `<aha-csat layout="stacked">` (`row` default): the prompt on the top line and the buttons (thumbs, optional Feedback) on the line below, both left-aligned, for narrow side panels. Without the attribute the single row is unchanged. (#241)
+- `<aha-csat feedback-placement="start">` (`end` default): the feedback popover opens start-aligned (left edge on the thumbs, extending right) instead of end-aligned, and still flips above at the bottom of the viewport. Without the attribute it stays `bottom-end`. Any other value falls back to the default. (#241)
+
+## 0.166.0 — 2026-10-13
+### Changed
+- `<aha-number-with-unit>` is on the `aha-input` size scale: default 40px (was 32), large 48 (was 40), with no small size (the `size="small"` and `size="sm"` rule is removed), and the large field text is 16px like `aha-input`. Look is otherwise unchanged in every state. Any `size="large"` use grows 8px and the default grows 8px. (#237)
+
+## 0.165.1 — 2026-10-13
+### Fixed
+- `<aha-tooltip>` edge-aligned placements (`top-end`, `bottom-end`, `left-end`, `right-start`, `right-end` and the rest): the arrow is the same 10px triangle as the centred placements. Before, `top-end` and `bottom-end` kept `left:50%` beside `right:16px` (a 26px stretched box), `left-end` kept `top:100%` beside `bottom:12px`, and `right-start` and `right-end` kept `left:50%` beside `right:100%`. Every inset is now reset before the placement sets its own. (#231)
+- `<aha-tooltip>` edge-aligned placements: the arrow now points at the centre of the trigger instead of sitting a fixed 16px (12px on the vertical sides) from the aligned edge, so on a small icon button it no longer lands beside the button. The arrow keeps at least radius + 5px (11px) from the bubble corner; a trigger smaller than 22px shifts the bubble outward past its edge so the arrow still lands on it, and a trigger larger than the bubble clamps the arrow at the far inset, still over the trigger. `-end` stays the exact mirror of `-start`. The trigger size is measured once per resize into `--aha-tip-trigger-w` / `--aha-tip-trigger-h` on the persistent bubble node; the shadow DOM is not rebuilt. Cardinal placements are unchanged. (#231)
+### Changed
+- `<aha-tooltip help>`: the built-in `?` icon is `--aha-icon-muted` at rest and `--aha-icon-default` on hover and keyboard focus (was `--aha-text-tertiary`, brand on hover/focus). The 2px brand focus ring is unchanged. (#231)
+
+## 0.165.0 — 2026-10-13
+### Changed
+- Audience library: the `SubmitButton`, `SecondaryButton` and `TertiaryButton` sections are now one `Button` section with three variants, Primary (`<aha-audience-submit>`), Secondary (`secondary-deck`) and Tertiary (`tertiary-deck`), each rule, state, demo and snippet carried across unchanged, shown as labelled variant blocks (a new optional `variants` list in `audience/library.json`, rendered by the audience page generator only). Docs-page change only: no tag, attribute, event, export or `lib/` file changes, so no slide type needs to change; the old `#SubmitButton`, `#SecondaryButton` and `#TertiaryButton` page anchors are gone. (#236)
+
+## 0.164.6 — 2026-10-13
+### Fixed
+- The 0.164.5 entry links its real pull request (#234), and the placeholder example in the header is restored. (#235)
+
+## 0.164.5 — 2026-10-13
+### Fixed
+- The app-shell eval fixture `pass-dashboard-shell` no longer sets the content region to `--aha-bg-layout`: the page body is white, as rule 3.6 and background criterion C2 require, and the join card is told apart by a `--aha-border-default` border. Rules, tokens and the other grey uses (sidebar, table header, editor workspace) are unchanged. (#234)
+
+## 0.164.3 — 2026-10-13
+### Changed
+- Colour rules name the medium, never "marketing": rule 3.2, rule 5.6, the applied-usage heading and its lead line, the Button paragraph in section 6 and rule 9.5 now say a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The environment ids are unchanged. (#233)
+- The retired colours table and rule 1.3 (near-match colours) are tagged for every environment, as rule 1.1 already required; `rulesByEnvironment.product` and `.audience` in `colour-rules.agent.json` gain `1.3`. (#233)
+- Rules 3.2 to 3.5 (coloured sections) and the applied-usage table now also carry the `product` tag: a web page built from full-width sections outside the public website, such as a help article or a sign-up or upgrade page, follows them. Rule 9.5 (a real product screenshot is never recoloured) carries `product` and `audience` too. The background judge criterion C3 now accepts pale pink sections on such a page and keeps the one-panel limit for screens of the product app, with a new eval (#11) and a matching line in the Background pattern. (#233)
+- The agent feeds carry the explanatory paragraphs too, not only rules and tables: `colour-rules.md` prints them under each section heading and `colour-rules.agent.json` gains `notes`. Section 3's line on telling a sectioned web page from a product app screen now reaches agents. (#233)
+
+## 0.164.2 — 2026-10-13
+### Changed
+- `<aha-radio variant="button">` states follow the new reference: the label is regular weight (400) in every state, hover turns the text brand and keeps the grey border, and the selected pill is a brand border with brand text on a white fill (was bg-accent tint with default text). A selected disabled pill now has a darker grey fill (`--aha-btn-disabled-bg`) than the unselected disabled pills, with no brand colour; hover on a disabled pill changes nothing. A selected or keyboard-focused pill now shows its brand border or focus ring on all four sides, in any position in the group (the neighbouring pill used to cover the shared edge). Dot and card variants are unchanged. Revert: revert this PR. (#232)
+
+## 0.164.0 — 2026-10-12
+### Added
+- One source for the colour and background rules: `brand/colour-rules.json` (exported as `@ahaslides-product/design/colour-rules.json`). Every rule carries an id and the environments it applies to (`product`, `audience`, `marketing-web`, `video`, `social-ads`). It also holds what only the marketing skills had: applied usage per surface, no gradients, retired colours, the Splash generator's readings. (#227)
+- Agent feeds from that source: `colour-rules.md` and `colour-rules.agent.json` (rules by environment, palette, Splash geometry and files, open points, and the judge criteria that check each rule). Both are in `llms.txt` and in every environment's route. (#227)
+- Background library (Foundations): 18 ready-made Splash backgrounds in `backgrounds/` (centre, right and minimal at 16:9, 1:1 and 9:16, on white and on Vivid Pink) with `backgrounds/manifest.json`, and the generator `build-splash.mjs` (`npm run splash`, export `./build-splash`), which builds any size from `logo/thesplash.svg`. (#227)
+- Anti-slop surface `colour` (8 advisory judge criteria, with its eval set): palette only, each colour in its role, text colour by background, the primary button, status without hue, chart colours, one-colour logos and file-type icons, borders and shadows. No new hard gate in `screen-lint.mjs` or `standards.mjs`. (#227)
+### Changed
+- The Brand colour rules page (`foundations/brand-colour-rules.html`, same address and look) is now generated from `brand/colour-rules.json`. No existing rule changed. "Still to decide" says "Nothing open." The minimal Splash is two copies of the largest hook, sized as if the icon were 1.15 times the longer side (each hook 0.73 of it), each pinned to its own corner with offsets measured against the longer side, so it works on any aspect ratio; colours are defined in RGB only (converted when something goes to print); and every button and text link, on any surface, is the design system Button component (there is no separate marketing button table), except the white primary button on Vivid Pink (rule 6.2), whose hover and focus outline the page now states. (#227)
+- The Background pattern and the `background` anti-slop surface are rewritten to the colour rules (C1 to C8 replace C1 to C3). A consumer judged on the old criteria should re-read them: a grey page body (`--aha-bg-layout` behind the content) and a red or green status tint no longer pass, a colour "the human asked for" is no longer an exception, and the criteria add one pale pink panel per screen, black only for presenting and viewers, no dark mode, and where a Splash background is allowed. Tokens and components are unchanged. (#227)
+### Removed
+- `brand/visual-identity-colour-rules.html`, the hand-made page; `brand/colour-rules.json` and `brand/colour-rules.template.html` replace it. (#227)
+
+## 0.162.0 — 2026-10-12
+### Changed
+- The audience field compositions now use the foundation fields at `size="lg"` (48px) instead of `size="touch"` (56px): `<aha-counted-input>` (line and number), `<aha-counted-textarea>` and `<aha-select>` inside `<aha-audience-field>`, in the element docs, contract, library entry and HTML/React/Vue snippets. The foundation `touch` rules stay for other consumers; buttons keep `size="touch"`. At `large`/`lg` the field text of `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and the `<aha-select>` trigger is now 16px (`--aha-size-l`) on a 24px line, so the audience field text stays at the 16px iOS focus-zoom floor; `<aha-counted-textarea>` gains a `large` rule for the text only (no fixed height). At lg the audience fields still show used/max in the counter, a 12px side padding (6px 12px on the textarea) and a white textarea counter fill. (#220)
 
 ## 0.157.0 — 2026-10-12
 ### Added

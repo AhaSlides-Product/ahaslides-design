@@ -1,0 +1,385 @@
+{
+ "$comment": "Source of truth for backgrounds/. Every file is built by build-splash.mjs from logo/thesplash.svg with the geometry and colours in brand/colour-rules.json (splash); none is drawn or edited by hand. Each entry records the command that builds it and the date, and the aha-claude-plugins file it replaced (byte-identical at sourceCommit). Rebuild with node build-splash.mjs --all; tests/colour-rules.test.mjs fails when a file no longer matches the generator.",
+ "backgrounds": [
+  {
+   "id": "splash-centre-white-16x9",
+   "name": "Centre splash on white, 16:9",
+   "file": "splash-centre-white-16x9.svg",
+   "layout": "centre",
+   "surface": "white",
+   "ratio": "16:9",
+   "width": 1920,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-centre-white-16x9.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-centre-white-1x1",
+   "name": "Centre splash on white, 1:1",
+   "file": "splash-centre-white-1x1.svg",
+   "layout": "centre",
+   "surface": "white",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-centre-white-1x1.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-centre-white-9x16",
+   "name": "Centre splash on white, 9:16",
+   "file": "splash-centre-white-9x16.svg",
+   "layout": "centre",
+   "surface": "white",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-centre-white-9x16.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-centre-pink-16x9",
+   "name": "Centre splash on Vivid Pink, 16:9",
+   "file": "splash-centre-pink-16x9.svg",
+   "layout": "centre",
+   "surface": "pink",
+   "ratio": "16:9",
+   "width": 1920,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-centre-pink-16x9.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-centre-pink-1x1",
+   "name": "Centre splash on Vivid Pink, 1:1",
+   "file": "splash-centre-pink-1x1.svg",
+   "layout": "centre",
+   "surface": "pink",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-centre-pink-1x1.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-centre-pink-9x16",
+   "name": "Centre splash on Vivid Pink, 9:16",
+   "file": "splash-centre-pink-9x16.svg",
+   "layout": "centre",
+   "surface": "pink",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-centre-pink-9x16.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-right-white-16x9",
+   "name": "Right splash on white, 16:9",
+   "file": "splash-right-white-16x9.svg",
+   "layout": "right",
+   "surface": "white",
+   "ratio": "16:9",
+   "width": 1920,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-right-white-16x9.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-right-white-1x1",
+   "name": "Right splash on white, 1:1",
+   "file": "splash-right-white-1x1.svg",
+   "layout": "right",
+   "surface": "white",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-right-white-1x1.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-right-white-9x16",
+   "name": "Right splash on white, 9:16",
+   "file": "splash-right-white-9x16.svg",
+   "layout": "right",
+   "surface": "white",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-right-white-9x16.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-right-pink-16x9",
+   "name": "Right splash on Vivid Pink, 16:9",
+   "file": "splash-right-pink-16x9.svg",
+   "layout": "right",
+   "surface": "pink",
+   "ratio": "16:9",
+   "width": 1920,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-right-pink-16x9.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-right-pink-1x1",
+   "name": "Right splash on Vivid Pink, 1:1",
+   "file": "splash-right-pink-1x1.svg",
+   "layout": "right",
+   "surface": "pink",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-right-pink-1x1.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-right-pink-9x16",
+   "name": "Right splash on Vivid Pink, 9:16",
+   "file": "splash-right-pink-9x16.svg",
+   "layout": "right",
+   "surface": "pink",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-right-pink-9x16.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-white-16x9",
+   "name": "Minimal splash on white, 16:9",
+   "file": "splash-minimal-white-16x9.svg",
+   "layout": "minimal",
+   "surface": "white",
+   "ratio": "16:9",
+   "width": 1920,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-minimal-white-16x9.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-white-1x1",
+   "name": "Minimal splash on white, 1:1",
+   "file": "splash-minimal-white-1x1.svg",
+   "layout": "minimal",
+   "surface": "white",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-white-9x16",
+   "name": "Minimal splash on white, 9:16",
+   "file": "splash-minimal-white-9x16.svg",
+   "layout": "minimal",
+   "surface": "white",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-pink-16x9",
+   "name": "Minimal splash on Vivid Pink, 16:9",
+   "file": "splash-minimal-pink-16x9.svg",
+   "layout": "minimal",
+   "surface": "pink",
+   "ratio": "16:9",
+   "width": 1920,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-12",
+   "sourceRepo": "aha-claude-plugins",
+   "sourcePath": "plugins/aha-marketing-skills/skills/aha-marketing-backgrounds/assets/splash-minimal-pink-16x9.svg",
+   "sourceCommit": "caf1f59",
+   "sourceLastChanged": "2026-10-08",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-pink-1x1",
+   "name": "Minimal splash on Vivid Pink, 1:1",
+   "file": "splash-minimal-pink-1x1.svg",
+   "layout": "minimal",
+   "surface": "pink",
+   "ratio": "1:1",
+   "width": 1080,
+   "height": 1080,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-minimal-pink-9x16",
+   "name": "Minimal splash on Vivid Pink, 9:16",
+   "file": "splash-minimal-pink-9x16.svg",
+   "layout": "minimal",
+   "surface": "pink",
+   "ratio": "9:16",
+   "width": 1080,
+   "height": 1920,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  }
+ ]
+}
