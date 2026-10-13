@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.170.0 — 2026-10-13
+### Added
+- `<aha-csat layout="stacked">` (`row` default): the prompt on the top line and the buttons (thumbs, optional Feedback) on the line below, both left-aligned, for narrow side panels. Without the attribute the single row is unchanged. (#241)
+- `<aha-csat feedback-placement="start">` (`end` default): the feedback popover opens start-aligned (left edge on the thumbs, extending right) instead of end-aligned, and still flips above at the bottom of the viewport. Without the attribute it stays `bottom-end`. Any other value falls back to the default. (#241)
+
 ## 0.166.0 — 2026-10-13
 ### Changed
 - `<aha-number-with-unit>` is on the `aha-input` size scale: default 40px (was 32), large 48 (was 40), with no small size (the `size="small"` and `size="sm"` rule is removed), and the large field text is 16px like `aha-input`. Look is otherwise unchanged in every state. Any `size="large"` use grows 8px and the default grows 8px. (#237)
