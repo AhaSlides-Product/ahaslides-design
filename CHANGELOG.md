@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.165.1 — 2026-10-13
+### Fixed
+- `<aha-tooltip>` edge-aligned placements (`top-end`, `bottom-end`, `left-end`, `right-start`, `right-end` and the rest): the arrow is the same 10px triangle as the centred placements. Before, `top-end` and `bottom-end` kept `left:50%` beside `right:16px` (a 26px stretched box), `left-end` kept `top:100%` beside `bottom:12px`, and `right-start` and `right-end` kept `left:50%` beside `right:100%`. Every inset is now reset before the placement sets its own. (#231)
+- `<aha-tooltip>` edge-aligned placements: the arrow now points at the centre of the trigger instead of sitting a fixed 16px (12px on the vertical sides) from the aligned edge, so on a small icon button it no longer lands beside the button. The arrow keeps at least radius + 5px (11px) from the bubble corner; a trigger smaller than 22px shifts the bubble outward past its edge so the arrow still lands on it, and a trigger larger than the bubble clamps the arrow at the far inset, still over the trigger. `-end` stays the exact mirror of `-start`. The trigger size is measured once per resize into `--aha-tip-trigger-w` / `--aha-tip-trigger-h` on the persistent bubble node; the shadow DOM is not rebuilt. Cardinal placements are unchanged. (#231)
+### Changed
+- `<aha-tooltip help>`: the built-in `?` icon is `--aha-icon-muted` at rest and `--aha-icon-default` on hover and keyboard focus (was `--aha-text-tertiary`, brand on hover/focus). The 2px brand focus ring is unchanged. (#231)
+
 ## 0.165.0 — 2026-10-13
 ### Changed
 - Audience library: the `SubmitButton`, `SecondaryButton` and `TertiaryButton` sections are now one `Button` section with three variants, Primary (`<aha-audience-submit>`), Secondary (`secondary-deck`) and Tertiary (`tertiary-deck`), each rule, state, demo and snippet carried across unchanged, shown as labelled variant blocks (a new optional `variants` list in `audience/library.json`, rendered by the audience page generator only). Docs-page change only: no tag, attribute, event, export or `lib/` file changes, so no slide type needs to change; the old `#SubmitButton`, `#SecondaryButton` and `#TertiaryButton` page anchors are gone. (#236)
