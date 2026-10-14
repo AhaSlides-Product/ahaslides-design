@@ -1134,10 +1134,12 @@ function renderFeedPage(f, content) {
 // the attribute (data-prop) + value it applies to the demo's target element; PLAYGROUND_JS wires the
 // clicks. A null/undefined option value becomes the __remove__ sentinel (removeAttribute). Absent a
 // `playground` block, this renders nothing and the demo is the plain default stage.
-function playgroundBar(c) {
+function playgroundBar(c, group) {
   const pg = c.playground;
-  if (!pg || !Array.isArray(pg.controls) || !pg.controls.length) return '';
-  const rows = pg.controls.map((ctrl) => {
+  if (!pg || !Array.isArray(pg.controls)) return '';
+  const shown = pg.controls.filter((ctrl) => (group ? ctrl.group === group : !ctrl.group));
+  if (!shown.length) return '';
+  const rows = shown.map((ctrl) => {
     const opts = (ctrl.options || []).map((o, i) => {
       const raw = (o.value === null || o.value === undefined) ? '__remove__' : String(o.value);
       const active = ctrl.default !== undefined ? (String(o.value) === String(ctrl.default)) : i === 0;
@@ -1149,6 +1151,9 @@ function playgroundBar(c) {
   }).join('');
   return `<div class="aha-pg" data-pg>${rows}</div>`;
 }
+
+// A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
+const previewWithBars = (c) => part(c.preview).replace(/<!--pg:([\w-]+)-->/g, (_, group) => playgroundBar(c, group));
 
 const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
 
@@ -1210,7 +1215,7 @@ function mergedSections(host) {
 
 function renderHtml(c) {
   if (c.docPage) return renderChartsPage(c);
-  const preview = part(c.preview);
+  const preview = previewWithBars(c);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
   const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
@@ -1925,7 +1930,7 @@ function renderSettingsHub() {
     <p class="body">${esc(c.summary)}</p>
     <div class="demo">
       ${playgroundBar(c)}
-      <div class="demo-stage">${part(c.preview)}</div>
+      <div class="demo-stage">${previewWithBars(c)}</div>
       ${codeWidget(c)}
     </div>
     <h4>API</h4>

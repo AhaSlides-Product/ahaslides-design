@@ -23,7 +23,7 @@ const unread = ref(128);
     <div class="template-card">Quiz template</div>
   </aha-badge>
 
-  <!-- a PLAN preset chip (default 28px, or size="sm" 18px; cycle appends the billing cycle) -->
+  <!-- a PLAN preset chip (default 28px, or size="sm" 20px; cycle appends the billing cycle) -->
   <aha-badge plan="pro" cycle="yearly" />
   <aha-badge plan="pro" size="sm" />
 

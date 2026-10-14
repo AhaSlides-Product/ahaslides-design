@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.182.0 — 2026-10-14
 ### Added
-- `<aha-badge size="default" | "sm">` on plan, rank and session chips. `default` is 28px with a 14px label, radius sm and a 16px icon; `sm` is 18px with 4px side padding, a 12px regular (400) label, radius xs and a 12px icon. Plan defaults to `default`; rank and session default to `sm`. (#244)
-- `<aha-badge kind="new" | "beta">`: a New tag (Vivid Pink fill, white text) and a Beta tag (grey fill, default text), size sm by default. (#244)
-- `<aha-status-badge size="sm">`: the same 18px box as a small Badge chip. The default stays 28px, so nothing changes for existing use. (#244)
-- Badge docs page: a Default / sm switch at the top changes every chip on the page, and the Status badges now sit with the plan, rank, session, New and Beta chips. (#244)
+- `<aha-badge size="default" | "sm">` on plan, rank and session chips. `default` is 28px with a 14px label, radius sm and a 16px icon; `sm` is 20px with 4px side padding, a 12px regular (400) label, radius xs and a 12px icon. Plan defaults to `default`; rank and session default to `sm`. (#244)
+- `<aha-badge kind="new" | "beta">`: a New tag and a Beta tag, each with one look (grey fill, default text), size sm by default. (#244)
+- `<aha-status-badge size="sm">`: the same 20px box as a small Badge chip, with a 4px dot (6px at the default size). The default stays 28px, so nothing changes for existing use. (#244)
+- Badge docs page: a Default / sm switch at the top changes every chip on the page (the only toggle left at the top; the Status colour, Count, Ribbon placement, Plan and Rank toggles sit in their own section next to the badge they control), and the Status badges now sit with the plan, rank, session, New and Beta chips. (#244)
 
 ### Changed
 - **Breaking:** Badge dot: limited to three colours, `status="default"` (default, `--aha-icon-strong` #1A1A1A), `"disabled"` (`--aha-icon-disabled` #B5B5B5) and `"active"` (`--aha-icon-active` #E70E68); other dot `status` values no longer apply. The hollow ring, pink edge and pulse shapes are gone. The Dot section of the docs page shows the three plus a dot on a bell. Count bubble and ribbon colours are unchanged. (#244)

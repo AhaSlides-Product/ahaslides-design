@@ -43,11 +43,11 @@
     },
     {
       "label": "Marker",
-      "value": "a 16px registry icon in iconDefault #4A4A4A, or a 6 × 6 dot with 2px side margin, or none"
+      "value": "a 16px registry icon in iconDefault #4A4A4A, or a 6 × 6 dot with 2px side margin (4 × 4, no margin, at size sm), or none"
     },
     {
       "label": "Size sm",
-      "value": "height 18 · padding 0 4 · radius xs 4 · label 12/16 regular 400 · gap 4 · 12px icon · plain look keeps no padding"
+      "value": "height 20 · padding 0 4 · radius xs 4 · label 12/16 regular 400 · gap 4 · 12px icon · plain look keeps no padding"
     },
     {
       "label": "Quiet",
@@ -93,7 +93,7 @@
       "name": "size",
       "type": "default | sm",
       "default": "default",
-      "desc": "default is the 28px box. sm is 18px tall with 4px side padding, a 12px regular label, radius xs and a 12px icon, the same as a small Badge chip"
+      "desc": "default is the 28px box. sm is 20px tall with 4px side padding, a 12px regular label, radius xs, a 12px icon and a 4px dot, the same as a small Badge chip"
     },
     {
       "name": "look",

@@ -20,12 +20,12 @@
     { "label": "Default colour", "value": "count → error #1A1A1A (black); dot → default #1A1A1A; ribbon → primary #E70E68. Vivid Pink count: status=\"primary\" (white number on #E70E68), only for a new count that needs attention now" },
     { "label": "Overflow / zero", "value": "count > overflowCount → N+; 0 hides unless showZero" },
     { "label": "Ribbon", "value": "corner banner over a wrapped card; 22px tall, radius 4, triangular fold; placement start/end" },
-    { "label": "Plan chip", "value": "preset (free·edu·essential·pro·enterprise); size default: height 28 · radius sm 6 · padding 0 12 · label 14/20 semibold 600; size sm: height 18 · radius xs 4 · padding 0 4 · label 12 regular 400 · no icon; grey fill (gray-30), enterprise Vivid Pink 5% fill (bg-accent); cycle monthly/yearly" },
-    { "label": "Rank chip", "value": "leaderboard 1st–4th, leading system-medal glyph; size sm by default (18px, radius xs, 12px icon), size=\"default\" is 28px with a 16px icon; 1st is grey (gray-30)" },
+    { "label": "Plan chip", "value": "preset (free·edu·essential·pro·enterprise); size default: height 28 · radius sm 6 · padding 0 12 · label 14/20 semibold 600; size sm: height 20 · radius xs 4 · padding 0 4 · label 12 regular 400 · no icon; grey fill (gray-30), enterprise Vivid Pink 5% fill (bg-accent); cycle monthly/yearly" },
+    { "label": "Rank chip", "value": "leaderboard 1st–4th, leading system-medal glyph; size sm by default (20px, radius xs, 12px icon), size=\"default\" is 28px with a 16px icon; 1st is grey (gray-30)" },
     { "label": "Session chip", "value": "\"Session N\" chip, size sm by default: grey fill (gray-30), default text; label from `session` / slotted text" },
-    { "label": "New and Beta", "value": "size sm by default (18px · padding 0 4 · 12px label regular 400 · radius xs). New: Vivid Pink fill (color-primary #E70E68) + white text (text-inverse). Beta: grey fill (gray-30 #F1F1F1) + text-default #1A1A1A. Labels \"New\" and \"Beta\"" },
-    { "label": "Status badge", "value": "<aha-status-badge> is shown with the chips and takes the same `size`: default 28px (padding 8, 14px semibold, radius sm, 16px icon) · sm 18px (padding 4, 12px regular 400, radius xs, 12px icon). Its own spec is in the Status badge section" },
-    { "label": "Chip size", "value": "default 28px · 14px label semibold · radius sm · 16px icon · padding 12; sm 18px · 12px label regular 400 · radius xs · 12px icon · padding 4; plan defaults to default, rank, session and New / Beta to sm" }
+    { "label": "New and Beta", "value": "size sm by default (20px · padding 0 4 · 12px label regular 400 · radius xs). New and Beta each have one look: grey fill (gray-30 #F1F1F1) + text-default #1A1A1A. Labels \"New\" and \"Beta\"" },
+    { "label": "Status badge", "value": "<aha-status-badge> is shown with the chips and takes the same `size`: default 28px (padding 8, 14px semibold, radius sm, 16px icon) · sm 20px (padding 4, 12px regular 400, radius xs, 12px icon). Its own spec is in the Status badge section" },
+    { "label": "Chip size", "value": "default 28px · 14px label semibold · radius sm · 16px icon · padding 12; sm 20px · 12px label regular 400 · radius xs · 12px icon · padding 4; plan defaults to default, rank, session and New / Beta to sm" }
   ],
   "props": [
     { "name": "count", "type": "number", "default": "0", "desc": "The number shown in the bubble; 0 hides it unless showZero" },
@@ -42,7 +42,7 @@
     { "name": "rank", "type": "1 | 2 | 3 | 4", "default": "—", "desc": "Leaderboard rank chip with a leading system-medal glyph; size sm unless `size` is set" },
     { "name": "session", "type": "string", "default": "—", "desc": "Renders a \"Session N\" chip on a grey fill; the value is N (slotted content / `text` overrides the label). Size sm unless `size` is set" },
     { "name": "kind", "type": "new | beta", "default": "—", "desc": "New or Beta tag. New is Vivid Pink with white text, Beta is grey; label \"New\" / \"Beta\"; size sm unless `size` is set" },
-    { "name": "size", "type": "default | sm", "default": "default (plan) · sm (rank, session, kind)", "desc": "Chip size: default is 28px tall with a 14px label and 16px icon; sm is 18px with 4px side padding, a 12px regular label and a 12px icon. Also accepted by `<aha-status-badge>`" }
+    { "name": "size", "type": "default | sm", "default": "default (plan) · sm (rank, session, kind)", "desc": "Chip size: default is 28px tall with a 14px label and 16px icon; sm is 20px with 4px side padding, a 12px regular label and a 12px icon. Also accepted by `<aha-status-badge>`" }
   ],
   "opinion": {
     "whenToUse": [
@@ -86,6 +86,8 @@
     "controls": [
       {
         "prop": "status",
+        "group": "count",
+        "targets": "aha-badge[data-probe]",
         "label": "Status colour",
         "default": "error",
         "options": [
@@ -99,6 +101,8 @@
       },
       {
         "prop": "count",
+        "group": "count",
+        "targets": "aha-badge[data-probe]",
         "label": "Count",
         "default": "5",
         "options": [
@@ -110,6 +114,8 @@
       },
       {
         "prop": "placement",
+        "group": "ribbon",
+        "targets": "[data-ribbon]",
         "label": "Ribbon placement",
         "default": "end",
         "options": [
@@ -119,6 +125,8 @@
       },
       {
         "prop": "plan",
+        "group": "plan",
+        "targets": "[data-probe-plan]",
         "label": "Plan chip",
         "default": "pro",
         "options": [
@@ -131,6 +139,8 @@
       },
       {
         "prop": "rank",
+        "group": "rank",
+        "targets": "[data-probe-rank]",
         "label": "Rank chip",
         "default": "1",
         "options": [
@@ -149,14 +159,14 @@
     { "label": "dot 8×8 no label; colour limited to default #1A1A1A, disabled #B5B5B5, active #E70E68", "verdict": "PASS" },
     { "label": "ribbon wraps a card as a corner banner (22px, radius 4, primary default), placement start/end", "verdict": "PASS" },
     { "label": "count default black #1A1A1A; Vivid Pink (status=primary) only for a new count needing attention now, at most one per screen", "verdict": "PASS" },
-    { "label": "plan chip default 28px · 14px label · radius sm 6; size sm 18px · padding 4 · 12px label regular 400 · radius xs 4 · 12px icon", "verdict": "PASS" },
-    { "label": "plan, rank and session chips are grey (gray-30); enterprise on bg-accent; no crown on any plan chip; session is size sm; New is Vivid Pink with white text, Beta grey", "verdict": "PASS" }
+    { "label": "plan chip default 28px · 14px label · radius sm 6; size sm 20px · padding 4 · 12px label regular 400 · radius xs 4 · 12px icon", "verdict": "PASS" },
+    { "label": "plan, rank and session chips are grey (gray-30); enterprise on bg-accent; no crown on any plan chip; session is size sm; New and Beta each have a single grey look", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
     "ready": "!!(document.querySelector('aha-badge[data-probe]') && document.querySelector('aha-badge[data-probe]').shadowRoot && document.querySelector('aha-badge[data-probe]').shadowRoot.querySelector('.marker') && document.querySelector('aha-badge[data-ribbon]') && document.querySelector('aha-badge[data-ribbon]').shadowRoot && document.querySelector('aha-badge[data-ribbon]').shadowRoot.querySelector('.ribbon') && (document.querySelector('aha-badge[data-probe-plan]')&&document.querySelector('aha-badge[data-probe-plan]').shadowRoot&&document.querySelector('aha-badge[data-probe-plan]').shadowRoot.querySelector('.chip')) && (document.querySelector('aha-badge[data-probe-new]')&&document.querySelector('aha-badge[data-probe-new]').shadowRoot&&document.querySelector('aha-badge[data-probe-new]').shadowRoot.querySelector('.chip')) && (document.querySelector('aha-badge[data-probe-enterprise]')&&document.querySelector('aha-badge[data-probe-enterprise]').shadowRoot&&document.querySelector('aha-badge[data-probe-enterprise]').shadowRoot.querySelector('.chip')) && (document.querySelector('aha-badge[data-probe-session]')&&document.querySelector('aha-badge[data-probe-session]').shadowRoot&&document.querySelector('aha-badge[data-probe-session]').shadowRoot.querySelector('.chip')) && (document.querySelector('aha-badge[data-probe-rank]')&&document.querySelector('aha-badge[data-probe-rank]').shadowRoot&&document.querySelector('aha-badge[data-probe-rank]').shadowRoot.querySelector('.chip')))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-badge[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.marker');var s=b?getComputedStyle(b):null;var dt=document.querySelector('aha-badge[dot][status=\"active\"]');var d=dt&&dt.shadowRoot&&dt.shadowRoot.querySelector('.marker');var ds=d?getComputedStyle(d):null;var rb=document.querySelector('aha-badge[data-ribbon]');var rr=rb&&rb.shadowRoot;var rn=rr&&rr.querySelector('.ribbon');var rs=rn?getComputedStyle(rn):null;var cs=function(a,z){var e=document.querySelector('aha-badge['+a+']');if(e&&z)e.setAttribute('size',z);var c=e&&e.shadowRoot&&e.shadowRoot.querySelector('.chip');return c?getComputedStyle(c):null;};var ps=cs('data-probe-plan','default');var plan0=ps?{bg:ps.backgroundColor,h:ps.height,f:ps.fontSize,r:ps.borderTopLeftRadius}:{};var sm=cs('data-probe-plan','sm');var smRead=sm?{h:sm.height,f:sm.fontSize,r:sm.borderTopLeftRadius,p:sm.paddingLeft,w:sm.fontWeight}:{};var nw=cs('data-probe-new','sm'),en=cs('data-probe-enterprise'),se=cs('data-probe-session','sm'),rk=cs('data-probe-rank','sm');var ri=document.querySelector('aha-badge[data-probe-rank]').shadowRoot.querySelector('aha-icon');return{bg:s?s.backgroundColor:null,radius:s?s.borderTopLeftRadius:null,height:s?s.height:null,color:s?s.color:null,dotBg:ds?ds.backgroundColor:null,dotW:ds?ds.width:null,ribbonBg:rs?rs.backgroundColor:null,ribbonColor:rs?rs.color:null,ribbonHeight:rs?rs.height:null,ribbonRadius:rs?rs.borderTopLeftRadius:null,planBg:plan0.bg,planHeight:plan0.h,planFont:plan0.f,planRadius:plan0.r,planSmHeight:smRead.h,planSmFont:smRead.f,planSmRadius:smRead.r,planSmPadding:smRead.p,planSmWeight:smRead.w,newBg:nw?nw.backgroundColor:null,newColor:nw?nw.color:null,newHeight:nw?nw.height:null,enterpriseBg:en?en.backgroundColor:null,sessionBg:se?se.backgroundColor:null,sessionHeight:se?se.height:null,rankIcon:ri?ri.getAttribute('size'):null};})()",
-    "expect": { "bg": "rgb(26, 26, 26)", "radius": "999px", "height": "18px", "color": "rgb(255, 255, 255)", "dotBg": "rgb(231, 14, 104)", "dotW": "8px", "ribbonBg": "rgb(231, 14, 104)", "ribbonColor": "rgb(255, 255, 255)", "ribbonHeight": "22px", "ribbonRadius": "4px", "planBg": "rgb(241, 241, 241)", "planHeight": "28px", "planFont": "14px", "planRadius": "6px", "planSmHeight": "18px", "planSmFont": "12px", "planSmRadius": "4px", "planSmPadding": "4px", "planSmWeight": "400", "newBg": "rgb(231, 14, 104)", "newColor": "rgb(255, 255, 255)", "newHeight": "18px", "enterpriseBg": "rgb(254, 243, 247)", "sessionBg": "rgb(241, 241, 241)", "sessionHeight": "18px", "rankIcon": "12" }
+    "expect": { "bg": "rgb(26, 26, 26)", "radius": "999px", "height": "18px", "color": "rgb(255, 255, 255)", "dotBg": "rgb(231, 14, 104)", "dotW": "8px", "ribbonBg": "rgb(231, 14, 104)", "ribbonColor": "rgb(255, 255, 255)", "ribbonHeight": "22px", "ribbonRadius": "4px", "planBg": "rgb(241, 241, 241)", "planHeight": "28px", "planFont": "14px", "planRadius": "6px", "planSmHeight": "20px", "planSmFont": "12px", "planSmRadius": "4px", "planSmPadding": "4px", "planSmWeight": "400", "newBg": "rgb(241, 241, 241)", "newColor": "rgb(26, 26, 26)", "newHeight": "20px", "enterpriseBg": "rgb(254, 243, 247)", "sessionBg": "rgb(241, 241, 241)", "sessionHeight": "20px", "rankIcon": "12" }
   }
 }
