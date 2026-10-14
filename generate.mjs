@@ -26,7 +26,7 @@ import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
-import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, answerExamplesHtml, ANSWER_EXAMPLES_CSS, listTables, markupToHtml } from './colour-rules.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
@@ -2049,7 +2049,7 @@ The page background is **white**; light grey is for surfaces inside or beside th
 Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
-The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; labels stay ink on its tints and every mark is a tick or a cross on a disc, so the meaning never rests on colour alone (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
+The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink and every mark carries a white tick or cross (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
 The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
@@ -2076,7 +2076,7 @@ ${tbl(icon)}
 ${tbl(btn)}
 
 ### Correct and wrong answers (answers only)
-The tick or cross disc, a row edge and the correct chart column take the solid colour; an answer row or response box takes the 5% tint, a result banner or chip the 30% tint; \`-dark\` steps are for a dark or photo deck. Never status, alerts or decoration.
+The tick or cross disc, a row edge and the correct chart column take the solid colour; areas take the 5% or 30% tint. Never status, alerts or decoration.
 ${answerTable}
 
 ### Data visualisation (\`<aha-chart>\` brand palette)
@@ -2105,39 +2105,27 @@ ${comps}
 /* ===== Foundations · Colour, the correct and wrong answer section (rules from brand/colour-rules.json, values from the answer tokens) ===== */
 const registryGlyphSvg = (name, size) => {
   const glyph = ICONS.icons[name];
-  if (!glyph) throw new Error(`answer examples: no icon "${name}" in icons/registry.json`);
+  if (!glyph) throw new Error(`no icon "${name}" in icons/registry.json`);
   return `<svg viewBox="${glyph.viewBox}" width="${size}" height="${size}" aria-hidden="true" focusable="false">${glyph.body}</svg>`;
 };
 const ANSWER_COLOURS_CSS = `
-  .answer-colours{--ans-ink:var(--aha-text-default);--ans-ink-2:var(--aha-text-secondary);--ans-inverse:var(--aha-text-inverse);--ans-page:var(--aha-bg-container);--ans-line:var(--aha-border-default);--ans-dark:var(--aha-bg-dark);--ans-dark-raised:var(--aha-bg-dark-raised);--ans-panel:var(--aha-gray-20);--ans-neutral:var(--aha-viz-neutral);--ans-font:var(--aha-font-product);${answerTokenEntries(TOK.color).map(([cssVar]) => `${cssVar.replace('--aha-answer-', '--ans-').replace('-tint-', '-')}:var(${cssVar});`).join('')}}
   .answer-colours ol.answer-rules{margin:0 0 12px;padding-left:0;list-style:none;font-size:var(--aha-size-l);line-height:1.5}
   .answer-colours ol.answer-rules li{margin-bottom:8px}
   .answer-colours .answer-panels{display:flex;flex-direction:column;gap:12px;margin:16px 0 8px}
-  .answer-colours .rule-id{font-family:Menlo,monospace;font-size:12px;color:var(--aha-text-secondary);margin-right:4px}
-  .answer-colours table.answer-contrast{border-collapse:collapse;width:100%;font-size:14px;margin:0 0 12px}
-  .answer-colours table.answer-contrast th,.answer-colours table.answer-contrast td{text-align:left;padding:8px 12px 8px 0;border-bottom:1px solid var(--aha-border-default);vertical-align:top}
-  .answer-colours table.answer-contrast th{font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary)}
-  ${ANSWER_EXAMPLES_CSS}`;
+  .answer-colours .rule-id{font-family:Menlo,monospace;font-size:12px;color:var(--aha-text-secondary);margin-right:4px}`;
 function answerColoursSection(swatchGroup) {
   const section = answerSection(COLOUR_RULES);
   const sectionNumber = section.id.replace(/^s/, '');
   const intro = section.blocks.find(block => block.type === 'paragraph');
-  const icon = (name, size) => `<aha-icon name="${name}" size="${size}" decorative></aha-icon>`;
   const panelBody = (block) => {
     if (block.type === 'rules') return `<ol class="answer-rules">${block.rules.map(rule => `<li id="answer-r${rule.id}"><a class="rule-id" href="brand-colour-rules.html#r${rule.id}">${rule.id}</a> ${markupToHtml(rule.text)}</li>`).join('')}</ol>`;
-    if (block.type === 'paragraph') return `<p class="body">${markupToHtml(block.text)}</p>`;
-    if (block.type === 'answer-examples') return answerExamplesHtml(block, { icon });
-    if (block.type === 'table') {
-      const table = listTables(COLOUR_RULES).find(entry => entry.id === block.id);
-      return `<table class="answer-contrast"><thead><tr>${table.columns.map(column => `<th>${esc(column)}</th>`).join('')}</tr></thead><tbody>${table.rows.map(row => `<tr>${row.map(cell => `<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-    }
     throw new Error(`Colour page: no rendering for a "${block.type}" block inside a panel`);
   };
   const panels = section.blocks.filter(block => block.type === 'panel')
     .map(panel => `<aha-collapse id="${panel.id}"><span slot="header">${esc(panel.title)}</span>${panel.blocks.map(panelBody).join('')}</aha-collapse>`).join('\n  ');
   return `<section class="answer-colours" id="answer-colours">
   <h2>Correct and wrong answers</h2>
-  <p class="body">${markupToHtml(intro.text)} The rules are section ${sectionNumber} of the <a href="brand-colour-rules.html#${section.id}">Brand colour rules</a>; this page shows the tokens and how the three surfaces use them.</p>
+  <p class="body">${markupToHtml(intro.text)} The rules are section ${sectionNumber} of the <a href="brand-colour-rules.html#${section.id}">Brand colour rules</a>; this page shows the tokens.</p>
   ${swatchGroup('Answer pair and tints (correct and wrong answers only)', answerTokenEntries(TOK.color))}
   <div class="answer-panels">
   ${panels}

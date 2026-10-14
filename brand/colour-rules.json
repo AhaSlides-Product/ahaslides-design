@@ -24,8 +24,8 @@
   { "id": "illustration-tints", "name": "Illustration tints", "tintsLabel": "Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100%", "tints": ["#FEF3F7", "#FDE7F0", "#FACFE1", "#F8B7D2", "#F493BB", "#F16EA4", "#EC3E86", "#E70E68"], "tintsAfter": "Plus Darker Pink (`#DB005B`).", "role": "Illustrations. The 10, 20, 45, 60 and 80% tints are for illustrations only; Vivid Pink, its 5% and 30% tints and Darker Pink keep their interface roles above." },
   { "id": "black", "name": "Black (`#1A1A1A`) and greys", "ink": "#1A1A1A", "valueText": "black at any opacity", "role": "Text, borders, shadows, dividers, app surfaces." },
   { "id": "purple", "name": "Purple", "hex": "#6A1EBB", "role": "The logo, and a rare playful touch (section 2)." },
-  { "id": "answer-correct", "name": "Correct green", "hex": "#008A05", "answerTints": { "light5": "#F2F9F2", "light30": "#B2DCB4", "dark5": "#192019", "dark30": "#123C14" }, "role": "A correct answer only: the tick disc, the edge of the correct answer and the correct column of a result chart. Tints in section 11." },
-  { "id": "answer-wrong", "name": "Wrong red", "hex": "#C7401E", "answerTints": { "light5": "#FCF5F4", "light30": "#EEC6BC", "dark5": "#231C1A", "dark30": "#4E251B" }, "role": "A wrong answer only: the cross disc and the edge of a wrong answer. Tints in section 11." }
+  { "id": "answer-correct", "name": "Correct green", "hex": "#008A05", "answerTints": { "light5": "#F2F9F2", "light30": "#B2DCB4" }, "role": "A correct answer only: the tick disc, the edge of the correct answer and the correct column of a result chart. Tints in section 11." },
+  { "id": "answer-wrong", "name": "Wrong red", "hex": "#C7401E", "answerTints": { "light5": "#FCF5F4", "light30": "#EEC6BC" }, "role": "A wrong answer only: the cross disc and the edge of a wrong answer. Tints in section 11." }
  ],
  "splash": {
   "$about": "Geometry and colours of a Splash background. build-splash.mjs reads every figure from here; the prose in section 5 states the same figures and tests/colour-rules.test.mjs fails when the two disagree.",
@@ -250,81 +250,22 @@
    "id": "s11", "key": "answers", "title": "Correct and wrong answers",
    "environment": ["product", "audience"],
    "blocks": [
-    { "type": "paragraph", "text": "When AhaSlides shows whether an answer is correct or wrong, and only then, it uses one green and one red. They are strong enough that every viewer tells right from wrong at a glance, and used sparingly, so they never compete with Vivid Pink or the presenter's deck." },
+    { "type": "paragraph", "text": "When AhaSlides shows whether an answer is correct or wrong, and only then, it uses one green and one red." },
     { "type": "table", "id": "answer-colours",
       "columns": ["Colour", "Solid", "At 5%", "At 30%"],
       "rows": [
-       ["Correct green, light deck, page or phone", "[[#008A05]]", "[[#F2F9F2]]", "[[#B2DCB4]]"],
-       ["Correct green, dark or photo deck", "[[#008A05]]", "[[#192019]]", "[[#123C14]]"],
-       ["Wrong red, light deck, page or phone", "[[#C7401E]]", "[[#FCF5F4]]", "[[#EEC6BC]]"],
-       ["Wrong red, dark or photo deck", "[[#C7401E]]", "[[#231C1A]]", "[[#4E251B]]"]
+       ["Correct green", "[[#008A05]]", "[[#F2F9F2]]", "[[#B2DCB4]]"],
+       ["Wrong red", "[[#C7401E]]", "[[#FCF5F4]]", "[[#EEC6BC]]"]
       ] },
-    { "type": "paragraph", "text": "Each tint is the colour at 5% or 30%, flattened on white for a light surface and on black (`#1A1A1A`) for a dark one. In code they are the `--aha-answer-*` tokens on the [Colour](colour.html#answer-colours) page." },
+    { "type": "paragraph", "text": "Each tint is the colour at 5% or 30%, flattened on white. In code they are the `--aha-answer-*` tokens on the [Colour](colour.html#answer-colours) page." },
     { "type": "panel", "id": "answer-rules", "title": "Rules", "blocks": [
     { "type": "rules", "rules": [
-     { "id": "11.1", "text": "The correct green and the wrong red mark whether an answer is correct or wrong, and nothing else: after a quiz reveal on the presenting screen and the audience phone, and in a report or results table that scores answers. They are never used for status, an alert, a success or error message, validation, a rise or a fall, a button or decoration. In a chart they appear in one place only, the correct answer's column of a quiz result (see Applications); never in any other series, column or chart." },
-     { "id": "11.2", "text": "Every mark carries its meaning by shape, not by colour alone: a white tick on a green disc for correct, a white cross on a red disc for wrong. The green and the red are almost the same lightness (1.10 to 1) and look alike to readers with red-green colour blindness. Where there is room, a word (Correct, Incorrect, Wrong) says it as well." },
-     { "id": "11.3", "text": "Text never turns green or red. An answer label, a count or a score stays the default ink on a light surface and white on a dark one, on a tint too." },
-     { "id": "11.4", "text": "Areas take a tint, never the solid colour: the 5% tint for an area that holds an answer, the 30% tint for an area that announces a result. The solid colour is only for marks: the disc, an edge and the correct column of a result chart. On a dark or photo surface, use the dark tints." },
-     { "id": "11.5", "text": "The disc needs 3 to 1 against whatever touches it, and the tick or cross 3 to 1 on the disc. Text on a tint needs 4.5 to 1. Five places fall short today and are marked as known fails in the table below: the correct disc on its light and dark 30% tints, the wrong disc on its dark 30% tint, and either disc on grey 95. There the word or label beside the disc carries the meaning (rule 11.2) until the white ring (section 12) is decided." },
-     { "id": "11.6", "text": "The pair is fixed. It never follows the deck palette or a presenter's theme, and neither the deck accent nor Vivid Pink stands in for it. In code, bind the `--aha-answer-*` tokens; never type the codes." }
+     { "id": "11.1", "text": "Green [[#008A05]] and red [[#C7401E]] mark correct and wrong answers, and nothing else: not status, alerts, success or error messages, a rise or a fall, buttons or decoration." },
+     { "id": "11.2", "text": "Every green or red mark carries a white tick or cross." },
+     { "id": "11.3", "text": "Text is never green or red; it stays the default ink, on a tint too." },
+     { "id": "11.4", "text": "Solid colour is only for the tick or cross disc, an answer row's edge and the correct column of a result chart; areas use the 5% or 30% tint." },
+     { "id": "11.5", "text": "The pair is fixed: never replaced by deck colours, a theme or Vivid Pink." }
     ] }
-    ] },
-    { "type": "panel", "id": "answer-applications-panel", "title": "Applications", "blocks": [
-    { "type": "paragraph", "text": "Examples of how each surface applies the pair, drawn with the answer tokens. The rules for each surface are set in its components; these examples show the intent. The white ring around the disc is not shown: it is still to decide (section 12)." },
-    { "type": "answer-examples", "id": "answer-applications",
-      "presentingText": "On the presenting screen after a quiz reveal, the correct row takes the 5% green tint and a 2px green edge, and each wrong row the 5% red tint and a 1px red edge; every row shows its disc. In the result chart only the correct column is green; the other columns keep the chart's neutral grey, never red, and each column label carries its disc. No row is dimmed so far that its label falls below 4.5 to 1 against its row.",
-      "audienceText": "On the audience phone after the reveal there are three states. Picked the correct answer: the picked row is green, and a banner in the 30% green tint says Correct with the points won. Picked a wrong answer: the picked row is red, the correct row is shown green, and a banner in the 30% red tint says Incorrect. No pick: the correct row is shown green and there is no banner. A wrong row nobody picked keeps its plain surface and shows only the red disc, and no unpicked row is dimmed so far that its label falls below 4.5 to 1.",
-      "reportText": "In the participant report each response sits in a box with the 5% tint of its result, the matching edge and its disc; a wrong response has the correct answer beside it in a plain box. The results table shows each result as a chip in the 30% tint, with its disc and the word Correct or Wrong.",
-      "question": "Which planet is closest to the Sun?",
-      "options": [
-       { "label": "Mars", "count": 0 },
-       { "label": "Earth", "count": 1 },
-       { "label": "Venus", "count": 2 },
-       { "label": "Mercury", "count": 2, "correct": true }
-      ],
-      "presenting": [
-       { "deck": "light", "caption": "Presenting, light deck" },
-       { "deck": "dark", "caption": "Presenting, dark deck" }
-      ],
-      "audience": [
-       { "pick": "Mercury", "caption": "Picked the correct answer", "banner": "Correct", "points": "+52 points" },
-       { "pick": "Venus", "caption": "Picked a wrong answer", "banner": "Incorrect", "points": "+0 points" },
-       { "caption": "No pick" }
-      ],
-      "audienceDecks": ["light", "dark"],
-      "report": {
-       "participant": "Cheryl", "summary": "1 of 2 correct, 960 points.",
-       "questions": [
-        { "question": "Which planet is closest to the Sun?", "response": "Venus", "correctAnswer": "Mercury", "points": "0 points" },
-        { "question": "What is the capital of Australia?", "response": "Canberra", "correctAnswer": "Canberra", "points": "960 points", "correct": true }
-       ]
-      } }
-    ] },
-    { "type": "panel", "id": "answer-contrast-panel", "title": "Measured contrast", "blocks": [
-    { "type": "table", "id": "answer-contrast",
-      "columns": ["Pair", "Contrast", "Verdict"],
-      "rows": [
-       ["White tick on the correct disc (`#FFFFFF` on `#008A05`)", "4.52 to 1", "Passes (needs 3)"],
-       ["White cross on the wrong disc (`#FFFFFF` on `#C7401E`)", "5.02 to 1", "Passes (needs 3)"],
-       ["Correct disc on white (`#008A05` on `#FFFFFF`)", "4.52 to 1", "Passes (needs 3)"],
-       ["Correct disc on its 5% tint (`#008A05` on `#F2F9F2`)", "4.22 to 1", "Passes (needs 3)"],
-       ["Correct disc on its dark 5% tint (`#008A05` on `#192019`)", "3.67 to 1", "Passes (needs 3)"],
-       ["Wrong disc on white (`#C7401E` on `#FFFFFF`)", "5.02 to 1", "Passes (needs 3)"],
-       ["Wrong disc on its 5% tint (`#C7401E` on `#FCF5F4`)", "4.66 to 1", "Passes (needs 3)"],
-       ["Wrong disc on its dark 5% tint (`#C7401E` on `#231C1A`)", "3.33 to 1", "Passes (needs 3)"],
-       ["Wrong disc on its 30% tint (`#C7401E` on `#EEC6BC`)", "3.21 to 1", "Passes (needs 3)"],
-       ["Correct disc on its 30% tint (`#008A05` on `#B2DCB4`)", "2.97 to 1", "Known fail (rule 11.5): the word Correct sits beside it; the white ring is still to decide"],
-       ["Correct disc on its dark 30% tint (`#008A05` on `#123C14`)", "2.75 to 1", "Known fail (rule 11.5): the word Correct sits beside it; the white ring is still to decide"],
-       ["Wrong disc on its dark 30% tint (`#C7401E` on `#4E251B`)", "2.60 to 1", "Known fail (rule 11.5): the word Incorrect sits beside it; the white ring is still to decide"],
-       ["Correct disc on grey 95 (`#008A05` on `#303030`)", "2.91 to 1", "Known fail (rule 11.5): the chart label names the answer beside it; the white ring is still to decide"],
-       ["Wrong disc on grey 95 (`#C7401E` on `#303030`)", "2.62 to 1", "Known fail (rule 11.5): the chart label names the answer beside it; the white ring is still to decide"],
-       ["Default ink on the wrong 5% tint, the lower of the two (`#1A1A1A` on `#FCF5F4`)", "16.16 to 1", "Passes (needs 4.5)"],
-       ["Default ink on the wrong 30% tint, the lower of the two (`#1A1A1A` on `#EEC6BC`)", "11.13 to 1", "Passes (needs 4.5)"],
-       ["White on the correct dark 30% tint, the lower of the two (`#FFFFFF` on `#123C14`)", "12.48 to 1", "Passes (needs 4.5)"],
-       ["Correct green against wrong red (`#008A05` on `#C7401E`)", "1.10 to 1", "The same lightness, so shape carries the meaning (rule 11.2)"]
-      ] },
-    { "type": "paragraph", "text": "Ratios are truncated to two decimals. The 30% tints and grey 95 are the places where a bare disc falls under 3 to 1; the white ring that would fix them is still to decide (section 12)." }
     ] }
    ]
   },
@@ -335,12 +276,9 @@
    ]
   }
  ],
- "open": [
-  { "id": "open-answer-ring", "title": "A white ring around the answer disc", "environment": ["product", "audience"], "text": "A thin (2px) white ring around the tick or cross disc wherever the bare disc falls under 3 to 1 against what touches it: the correct disc on its 30% tint (2.97 to 1 light, 2.75 to 1 dark), the wrong disc on its dark 30% tint (2.60 to 1), and either disc on grey 95 (2.91 and 2.62 to 1). With the ring, the disc measures against white: 4.52 to 1 correct, 5.02 to 1 wrong.", "interim": "the disc has no ring; where it falls under 3 to 1, the word or label beside it carries the meaning, as rule 11.2 already asks." },
-  { "id": "open-results-share-bar", "title": "The share bar in a results table", "environment": ["product"], "text": "The round 18 mockup colours the bar showing the share of participants who answered a question correctly: green at 50% or more, red below. That colours a threshold rather than one answer, so it is not settled whether rule 11.1 allows it.", "interim": "the bar stays neutral grey and the percentage is written beside it." }
- ],
+ "open": [],
  "changes": [
-  { "version": "v12", "date": "14 Oct", "text": "New section 11, Correct and wrong answers: one green and one red, with 5% and 30% tints for light and dark decks, mark a correct or wrong answer on the presenting screen, the audience phone and the report, and nothing else. Six general rules (11.1 to 11.6); how the presenting screen, the audience phone and the report apply the pair is shown as examples under Applications, since each component sets its own contextual rules. Rules, Applications and Measured contrast are collapsed panels. Five disc pairs under 3 to 1 are listed as known fails under rule 11.5. Rules 1.1, 7.1 and 8.5 and the glance line on status now name that exception. Still to decide moves to section 12 and holds two points: a white ring around the answer disc, and the colour of the share bar in a results table. No existing rule id changed." },
+  { "version": "v12", "date": "14 Oct", "text": "New section 11, Correct and wrong answers: one green and one red, with 5% and 30% tints, mark a correct or wrong answer and nothing else. Five short rules (11.1 to 11.5) in a collapsed Rules panel. Rules 1.1, 7.1 and 8.5 and the glance line on status now name that exception. Still to decide moves to section 12. No existing rule id changed." },
   { "version": "v11", "date": "13 Oct", "text": "Rules that scoped themselves by who makes a page or a layout now name the medium instead: a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The retired colours and the near matches (rule 1.3) are marked as applying everywhere, which rule 1.1 already required. No rule asks for anything new." },
   { "version": "v10", "date": "12 Oct", "text": "The rules now live as data in the design system, the one source for this page, the agent feed and the judge criteria. Added: applied usage per surface, splash files and the generator, no gradients, retired colours. Nothing is left under Still to decide. The minimal splash is two copies of the largest hook, sized as if the icon were 1.15 times the longer side (each hook 0.73 of it), each pinned to its own corner with offsets measured against the longer side, so it works on any aspect ratio. Colours are defined in RGB only. Every button and text link, on any surface, is the design system Button component, except the white primary button on Vivid Pink (rule 6.2), which keeps its own colours, hover and focus outline. No existing rule changed." },
   { "version": "v9", "date": "8 Oct", "text": "Illustrations use Vivid Pink tints; our own illustrations, logos of customers and tools and file-type icons follow the rules; black is 1A1A1A." },

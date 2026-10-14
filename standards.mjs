@@ -793,7 +793,7 @@ const repoChecks = [];
   const VIVID_PINK = '#E70E68', LOGO_PURPLE = '#6A1EBB';
   const ALLOWED_COLOURS = new Set([VIVID_PINK, '#DB005B', '#FEF3F7', '#F8B7D2']);
   /* Colour rules section 11: the correct and wrong answer pair and its tints, allowed at color.answer.* and on the Colour page only. */
-  const ANSWER_COLOURS = ['#008A05', '#F2F9F2', '#B2DCB4', '#192019', '#123C14', '#C7401E', '#FCF5F4', '#EEC6BC', '#231C1A', '#4E251B'];
+  const ANSWER_COLOURS = ['#008A05', '#F2F9F2', '#B2DCB4', '#C7401E', '#FCF5F4', '#EEC6BC'];
   const isNeutral = (hex) => hex.slice(1, 3) === hex.slice(3, 5) && hex.slice(3, 5) === hex.slice(5, 7);
   const coloursIn = (text) => [
     ...[...String(text).matchAll(/(?<![&\w])#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])/g)].map(m => normHex(m[0]).slice(0, 7)),

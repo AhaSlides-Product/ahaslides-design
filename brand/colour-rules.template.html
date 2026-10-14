@@ -18,10 +18,6 @@
 --grey-faint:#FAFAFA; /* ds-lint-allow: hex (palette token) */
 --swatch-edge:rgba(0,0,0,.16);
 --shadow:rgba(0,0,0,.12);
-{{answerVariables}} /* ds-lint-allow: hex (answer pair from the palette) */
---ans-ink:var(--ink);--ans-ink-2:var(--ink-2);--ans-inverse:var(--page);--ans-page:var(--page);--ans-line:var(--line);
---ans-dark:var(--ink);--ans-dark-raised:#303030;--ans-panel:#F7F7F7;--ans-neutral:#8A8A8A; /* ds-lint-allow: hex (grey 95, grey 20 and the chart neutral grey) */
---ans-font:inherit;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:16px;color-scheme:light}
@@ -75,7 +71,6 @@ a{color:var(--ink)}
 .toc-wrap summary{display:none}
 .toc{margin:0}
 }
-{{answerExamplesCss}}
 .panel{border:1px solid var(--line);border-radius:12px;margin:0 0 12px}
 .panel>summary{display:flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;cursor:pointer;font-weight:600;list-style:none}
 .panel>summary::-webkit-details-marker{display:none}

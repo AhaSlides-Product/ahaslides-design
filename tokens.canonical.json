@@ -57,10 +57,10 @@
       }
     },
     "answer": {
-      "$source": "Colour rules section 11 (the requester's round 18 mockup): one green and one red that mark an answer correct or wrong after a quiz reveal, on the presenting screen, the audience phone and the report, and nothing else: never status, alerts, validation, a rise or a fall, a button or decoration; in a chart only the correct answer's column of a quiz result, never any other series or column. correct and wrong are the solid colours for the tick or cross disc, a row edge and the correct chart column; the Tint5 and Tint30 steps are each colour at 5% and 30% flattened on white, the Dark steps the same flattened on #1A1A1A, for an answer row or response box (5%) and a result banner or chip (30%). Labels stay the default ink or white on a tint, never green or red text. standards.mjs allows these values at these paths only.",
+      "$source": "Colour rules section 11 (the requester's round 18 mockup): one green and one red that mark an answer correct or wrong after a quiz reveal, on the presenting screen, the audience phone and the report, and nothing else: never status, alerts, validation, a rise or a fall, a button or decoration; in a chart only the correct answer's column of a quiz result, never any other series or column. correct and wrong are the solid colours for the tick or cross disc, a row edge and the correct chart column; the Tint5 and Tint30 steps are each colour at 5% and 30% flattened on white, for areas. Labels stay the default ink or white on a tint, never green or red text. standards.mjs allows these values at these paths only.",
       "correct": "#008A05", "wrong": "#C7401E",
-      "correctTint5": "#F2F9F2", "correctTint30": "#B2DCB4", "correctTint5Dark": "#192019", "correctTint30Dark": "#123C14",
-      "wrongTint5": "#FCF5F4", "wrongTint30": "#EEC6BC", "wrongTint5Dark": "#231C1A", "wrongTint30Dark": "#4E251B"
+      "correctTint5": "#F2F9F2", "correctTint30": "#B2DCB4",
+      "wrongTint5": "#FCF5F4", "wrongTint30": "#EEC6BC"
     },
     "alpha": { "inkA10": "rgba(0,0,0,.1)", "inkA30": "rgba(0,0,0,.3)", "inkA50": "rgba(0,0,0,.5)", "inkA70": "rgba(0,0,0,.7)", "inkA90": "rgba(0,0,0,.9)", "whiteA0": "rgba(255,255,255,0)", "whiteA50": "rgba(255,255,255,.5)", "whiteA70": "rgba(255,255,255,.7)", "whiteA90": "rgba(255,255,255,.9)" },
     "$note": "Solid warm-gray text (export) chosen over the skill's black-alpha-of-indigo — alpha text is the dark-surface-invisible trap aha-design-antd itself warns about."
