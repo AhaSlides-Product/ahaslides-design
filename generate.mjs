@@ -1188,7 +1188,7 @@ function mergedSections(host) {
   return contracts.filter(m => m.mergedInto === host.slug).map(m => `
 
   <h2 id="${esc(m.slug)}">${esc(m.name)}</h2>
-  <p class="body">${esc(m.lead)}</p>
+  <p class="body">${esc(m.lead).replace(/`([^`]+)`/g, '<code>$1</code>')}</p>
   <div class="demo">
     ${playgroundBar(m)}
     <div class="demo-stage">${part(m.preview)}</div>
