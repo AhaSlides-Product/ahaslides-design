@@ -29,6 +29,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Rules 1.1, 7.1 and 8.5, the glance line on status, the `colour` C1 and C5 and `background` C5 judge criteria, the Background pattern and the canvas and audience guides now say the answer pair is the one exception and is for answers only. A quiz result chart colours the correct column green (section 11, Applications). Still to decide moves to section 12 and holds two points: a white ring around the answer disc, and the share bar in a results table. No existing rule id changed. (#245)
 
+## 0.181.1 — 2026-10-14
+### Fixed
+- `aha-product-lockup` writes every asset URL as an inline `new URL('<literal>', import.meta.url)`, so rspack and webpack bundle the Splash and font files instead of throwing "Cannot find module" and stopping `@ahaslides-product/design/all` from registering. A new unit test fails on any non-literal `import.meta.url` in `lib/`. (#246)
+
 ## 0.181.0 — 2026-10-14
 ### Added
 - `<aha-status-badge look>` takes four styles: `quiet` (Gray 25, no border), `emphasis` (white, 1px `--aha-border-strong` inset border), `alert` (white, 1px `--aha-border-warning` inset border, a `system-warning-circle` icon in `--aha-icon-active`, the only pink on any badge) and `plain` (no box, Gray 80 regular text, optional icon). `look="default"` is accepted as a deprecated alias of `quiet`. (#240)
