@@ -1,6 +1,7 @@
 {
   "name": "Image action button",
   "slug": "image-action-button",
+  "environment": ["product", "audience"],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -13,7 +14,7 @@
   "spec": [
     { "label": "Trigger", "value": "36×36 icon button, radius 8, 1px #E3E3E3 border; 16px glyph" },
     { "label": "Empty", "value": "system-image-square glyph + \"Add image\" tooltip; click emits `add`" },
-    { "label": "Hover", "value": "#FEF3F7 fill + #DB005B glyph/border" },
+    { "label": "Hover", "value": "#E70E680D fill + #DB005B glyph/border" },
     { "label": "Loading", "value": "#E70E68 spinner at the same 36×36 size, 1px #E3E3E3 border — no layout jump; role=status, aria-label \"Loading\", aria-busy" },
     { "label": "Filled", "value": "36×36 thumbnail (radius 4, cover) + hover pencil overlay (black @50%, white pencil), hover/focus #E70E68 border; click opens Change/Edit/Delete" },
     { "label": "Menu", "value": "Change / Edit / Delete (Delete in #1A1A1A); each emits an intent" },

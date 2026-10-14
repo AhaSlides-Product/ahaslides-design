@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.185.0 — 2026-10-14
+### Changed
+- Vivid Pink 5 and Vivid Pink 30 are now the transparent values, `color.primitives.vividPink.5` `#E70E680D` and `.30` `#E70E684D`, not the flat `#FEF3F7` and `#F8B7D2`. `bgAccent`, `button.secondaryBgHover`, `button.tertiaryBgHover` and `button.tertiaryBgActive` alias the primitive, so there is one source. The tints now take the colour of the surface under them (a New badge on a hovered pink row stacks instead of vanishing); on white they look as before. Every `var(--aha-bg-accent,#FEF3F7)` fallback in `lib/`, the antd theme seeds and the contracts carry the transparent value, and contract `expect` colours read `rgba(231, 14, 104, 0.05)`. Illustration tints stay flat (illustrations are a separate palette), and deck-palette chart samples keep their flat customer colours. Twelve contracts now declare `environment`. (#PRNUM)
+- Colour page and `design.md`: Vivid Pink 5 and 30 are described as transparencies, not as flat codes on white. (#PRNUM)
+
+### Fixed
+- Colour page, Text group: `textInverse` (`--aha-text-inverse`, white) was missing from the swatches. It is listed after `textDisabled`, and every swatch chip has a bottom divider so a white chip is visible on the white page. (#PRNUM)
+
 ## 0.182.0 — 2026-10-14
 ### Added
 - `<aha-badge size="default" | "sm">` on plan and session badges. `default` is 28px with 8px side padding, a 14px label, radius sm and a 16px icon; `sm` is 20px with 4px side padding, a 12px regular (400) label, radius xs and a 12px icon. Plan defaults to `default`; session defaults to `sm`. (#244)

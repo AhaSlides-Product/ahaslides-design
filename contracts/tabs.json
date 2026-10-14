@@ -1,6 +1,7 @@
 {
   "name": "Tabs",
   "slug": "tabs",
+  "environment": ["product", "audience"],
   "group": "Navigation",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -15,7 +16,7 @@
     { "label": "Tab", "value": "SemiBold 600 14 / line-height 21, pad 8 0, 8px gap to a 16px leading icon" },
     { "label": "Line (default)", "value": "active color-primary #E70E68 text + 2px color-primary underline" },
     { "label": "Primary", "value": "same underline, active label Bold 700" },
-    { "label": "Card", "value": "active in a bg-accent #FEF3F7 pill, radius-sm 6, no underline; hover bg-hover" },
+    { "label": "Card", "value": "active in a bg-accent #E70E680D pill, radius-sm 6, no underline; hover bg-hover" },
     { "label": "Inactive", "value": "text-secondary #4A4A4A → text-default on hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, skipped by arrow-key nav" },
     { "label": "Small", "value": "13px label, tighter padding + gap" },
