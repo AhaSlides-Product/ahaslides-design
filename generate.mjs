@@ -402,7 +402,7 @@ a{color:var(--aha-color-primary)}
 .nav-drop.active .nav-drop-btn{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
 .nav-drop-panel{position:fixed;top:60px;left:0;min-width:180px;padding:6px;background:#fff;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default,8px);box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:40;flex-direction:column}
 .nav-drop-panel:not([hidden]){display:flex}
-.top-nav .nav-drop-panel a{height:auto;padding:8px 12px;border-bottom:0;border-radius:6px}
+.top-nav .nav-drop-panel a{height:auto;padding:8px 12px;border-bottom:0;border-radius:var(--aha-radius-sm)}
 .top-nav .nav-drop-panel a:hover{background:var(--aha-bg-accent)}
 .top-nav .nav-drop-panel a.active{background:var(--aha-bg-accent)}
 .hmeta{flex:0 0 auto}
@@ -973,7 +973,7 @@ const RAW_FEEDS = [
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
   const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB);
-  const link = (s, cls = '') => `<a class="${[cls, section===s.key?'active':''].filter(Boolean).join(' ')}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
+  const link = s => `<a class="${section===s.key?'active':''}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
   const out = [];
   const grouped = new Set();
   for (const s of SECTIONS) {
