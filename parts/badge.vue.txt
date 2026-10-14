@@ -27,8 +27,7 @@ const unread = ref(128);
   <aha-badge plan="pro" cycle="yearly" />
   <aha-badge plan="pro" size="sm" />
 
-  <!-- a leaderboard RANK badge + a SESSION badge (both size sm by default) -->
-  <aha-badge rank="1" />
+  <!-- a SESSION badge (size sm by default) -->
   <aha-badge session="3" />
 
   <!-- NEW (Vivid Pink 5% fill, Darker Pink label) and BETA (grey) tags, size sm by default -->

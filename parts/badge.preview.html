@@ -1,4 +1,8 @@
 <div class="pad">
+  <div class="lbl">Default badge</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-badge data-size-group size="default" data-probe-session session="3"></aha-badge>
+  </div>
   <div class="lbl">Count</div>
   <!--pg:count-->
   <div class="row" style="gap:24px; align-items:center">
@@ -24,17 +28,6 @@
     <aha-badge data-size-group size="default" plan="pro" cycle="yearly"></aha-badge>
     <aha-badge data-size-group size="default" data-probe-enterprise plan="enterprise"></aha-badge>
   </div>
-  <div class="lbl">Rank badges</div>
-  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
-    <aha-badge data-size-group size="default" data-probe-rank rank="1"></aha-badge>
-    <aha-badge data-size-group size="default" rank="2"></aha-badge>
-    <aha-badge data-size-group size="default" rank="3"></aha-badge>
-    <aha-badge data-size-group size="default" rank="4"></aha-badge>
-  </div>
-  <div class="lbl">Default badge</div>
-  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
-    <aha-badge data-size-group size="default" data-probe-session session="3"></aha-badge>
-  </div>
   <div class="lbl">New and Beta</div>
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
     <aha-badge data-size-group size="default" data-probe-new kind="new"></aha-badge>
@@ -47,8 +40,8 @@
     <aha-status-badge data-size-group size="default" look="alert">Alert</aha-status-badge>
     <aha-status-badge data-size-group size="default" look="plain">Plain text</aha-status-badge>
   </div>
-  <div class="lbl">Examples</div>
-  <div class="example-group" style="display:flex; flex-direction:column; gap:10px; padding:16px; border:1px solid var(--aha-border-default,#E3E3E3); border-radius:var(--aha-radius-default,8px)">
+  <div style="margin-top:16px; font-size:var(--aha-size-sm,12px); line-height:16px; font-weight:600; color:var(--aha-text-tertiary,#8A8A8A)">Examples</div>
+  <div class="example-group" style="display:flex; flex-direction:column; gap:10px; padding:16px; margin-top:8px; border:1px solid var(--aha-border-default,#E3E3E3); border-radius:var(--aha-radius-default,8px)">
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
     <aha-status-badge data-size-group size="default" status="draft">Draft</aha-status-badge>
     <aha-status-badge data-size-group size="default" status="scheduled">Scheduled</aha-status-badge>

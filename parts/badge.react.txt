@@ -4,7 +4,7 @@ import '@ahaslides-product/design/icons';       // registers <aha-icon>
 // Attributes only — no events — so React 18/19 can render the element directly.
 // Boolean attrs (dot/showZero) are the attribute PRESENCE, so spread them conditionally.
 function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ribbon, placement,
-                    plan, cycle, rank, session, kind, size, children }) {
+                    plan, cycle, session, kind, size, children }) {
   return (
     <aha-badge
       count={count}
@@ -15,7 +15,6 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
       placement={placement}
       plan={plan}
       cycle={cycle}
-      rank={rank}
       session={session}
       kind={kind}
       size={size}
@@ -47,6 +46,5 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
 <AhaBadge plan="pro" cycle="yearly" />
 <AhaBadge plan="pro" size="sm" />
 
-// a leaderboard RANK badge + a SESSION badge (both size sm by default)
-<AhaBadge rank={1} />
+// a SESSION badge (size sm by default)
 <AhaBadge session={3} />
