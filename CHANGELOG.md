@@ -14,6 +14,8 @@ The gate also rejects an unfilled `(#129)` placeholder in the top entry: link th
 ### Added        ← new component / prop / token / export
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
+- Status badge alert style: the inset border is the same grey as emphasis (`--aha-border-strong`, was black `--aha-border-warning`); the warning icon stays the only Vivid Pink. (#244)
+
 ### Removed       ← a removed export / component / token
 - one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#125)
 ```
