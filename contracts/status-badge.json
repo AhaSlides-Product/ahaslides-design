@@ -1,6 +1,7 @@
 {
   "name": "Status badge",
   "slug": "status-badge",
+  "mergedInto": "badge",
   "environment": [
     "product"
   ],

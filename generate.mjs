@@ -232,7 +232,6 @@ const COMPONENTS_CATALOG = [
 const PATTERNS_CATALOG = [
   { cat: 'AhaSlides surfaces', items: [
     { name: 'Paywall',        slug: 'paywall' },
-    { name: 'Status badge',   slug: 'status-badge' },
     { name: 'CSAT',           slug: 'csat' },
     { name: 'Screen heading', slug: 'screen-heading' },
     { name: 'Loader',         slug: 'aha-loader' },
@@ -1185,6 +1184,27 @@ function renderChartsPage(c) {
   return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
 }
 
+function mergedSections(host) {
+  return contracts.filter(m => m.mergedInto === host.slug).map(m => `
+
+  <h2 id="${esc(m.slug)}">${esc(m.name)}</h2>
+  <p class="body">${esc(m.lead)}</p>
+  <div class="demo">
+    ${playgroundBar(m)}
+    <div class="demo-stage">${part(m.preview)}</div>
+    ${codeWidget(m)}
+  </div>
+
+  <h3 id="${esc(m.slug)}-api">${esc(m.name)} API</h3>
+  ${propsTable(m.props)}
+
+  <h3 id="${esc(m.slug)}-when-to-use">${esc(m.name)}: when to use</h3>
+  ${opinionBlock(m.opinion)}${surfaceBlock(m.surfaces)}
+
+  <h3 id="${esc(m.slug)}-spec">${esc(m.name)} spec</h3>
+  <div class="spec-line">${specList(m.spec)}</div>`).join('');
+}
+
 function renderHtml(c) {
   if (c.docPage) return renderChartsPage(c);
   const preview = part(c.preview);
@@ -1212,7 +1232,7 @@ function renderHtml(c) {
   ${c.opinion ? `<h2>When to use</h2>${opinionBlock(c.opinion)}${surfaceBlock(c.surfaces)}` : ''}
 
   <h2>Spec</h2>
-  <div class="spec-line">${specList(c.spec)}</div>`;
+  <div class="spec-line">${specList(c.spec)}</div>${mergedSections(c)}`;
   return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
 }
 
@@ -2616,7 +2636,7 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   ? JSON.parse(read(join(root, 'anti-slop', 'criteria.json')))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
-const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage);
+const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage && !c.mergedInto);
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
@@ -2826,7 +2846,8 @@ for (const c of contracts) {
     mkdirSync(join(OUT, dirname(c.docPage)), { recursive: true });
     writeFileSync(join(OUT, c.docPage), renderHtml(c));
     writeFileSync(join(d, 'index.html'), redirectStub('../' + c.docPage));
-  } else writeFileSync(join(d, 'index.html'), renderHtml(c));
+  } else if (c.mergedInto) writeFileSync(join(d, 'index.html'), redirectStub(`../${c.mergedInto}/index.html#${c.slug}`));
+  else writeFileSync(join(d, 'index.html'), renderHtml(c));
   if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);

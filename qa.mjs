@@ -39,7 +39,7 @@ function screenshotBytes(file, tag) {
 /* Measure the rendered UI against a contract.conformance block.
    Composites point at a hidden dual-tier harness (_conformance.html) since the doc page shows
    a single UI; leaf measures the doc page directly. */
-const docPageOf = (slug) => (contracts[slug] && contracts[slug].docPage) || join(slug, 'index.html');
+const docPageOf = (slug) => (contracts[slug] && contracts[slug].docPage) || join((contracts[slug] && contracts[slug].mergedInto) || slug, 'index.html');
 async function runConformance(slug, conf, harness) {
   const file = 'file://' + (harness ? join(DIST, slug, '_conformance.html') : join(DIST, docPageOf(slug)));
   // Normalise a colour to a canonical rgba() tuple so equivalent forms compare equal. Chrome
