@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.180.0 — 2026-10-14
+### Added
+- Canvas Library: a new top-nav page (`canvas/index.html`), built like the Audience Library, for the in-canvas presenter controls: the light, dark and image deck demos (`<aha-button size="lg">`, `applyCanvasDeck`, the shortcut chip, `<aha-tooltip size="lg" shortcut>`), the Canvas rule from the Button spec, a copy-paste snippet and the one-tag `lib/canvas.js` box. (#DESY182)
+
+### Changed
+- The Button page no longer carries the canvas deck demo; one line links to the Canvas Library. The Button contract's `Canvas` spec row moved to the new page and its `canvas presenter controls` usage row now points there. The canvas guideline's presenter-controls rule and `llms.txt` point to the new page. Docs search finds it under Canvas Library.
+
 ## 0.173.0 — 2026-10-13
 ### Added
 - `screen-lint`: a third surface, `--surface=audience` (`lintHtml(source, { surface: 'audience' })`), for a slide type's phone screen. It keeps the shared rules and the deck colour and font rules, and drops the canvas-only 16px and viewport-unit font rules, since 14px is legitimate on audience metadata. Lint `presenter.*` as `canvas`, `audience.*` as `audience` and `settings.*` as `product`. (#242)

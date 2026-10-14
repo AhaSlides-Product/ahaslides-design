@@ -29,7 +29,7 @@ export const SEARCH_GLYPHS = [...new Set([
 
 const GROUPS = [
   ['component', 'Components'], ['guideline', 'Guidelines'], ['foundation', 'Foundations'],
-  ['token', 'Tokens'], ['icon', 'Icons'], ['audience', 'Audience Library'],
+  ['token', 'Tokens'], ['icon', 'Icons'], ['audience', 'Audience Library'], ['canvas', 'Canvas Library'],
   ['section', 'Sections'], ['page', 'Pages'], ['feed', 'Agent feeds'],
 ];
 const AREAS = {
@@ -39,6 +39,7 @@ const AREAS = {
   patterns: { type: 'component', label: 'Patterns' },
   settings: { type: 'component', label: 'Settings' },
   audience: { type: 'audience', label: 'Audience Library' },
+  canvas: { type: 'component', label: 'Canvas Library' },
   charts: { type: 'component', label: 'Charts' },
   guidelines: { type: 'guideline', label: 'Guidelines' },
   developers: { type: 'page', label: 'For developers' },

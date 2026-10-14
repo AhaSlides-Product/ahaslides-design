@@ -33,6 +33,7 @@ const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
 const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
+const CANVAS_DIR = join(root, 'canvas');       // canvas library — in-canvas presenter controls, rendered as a first-class DS area (single scroll page)
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
@@ -272,6 +273,8 @@ let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / ca
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
 let MARKETING = [];         // loaded marketing sections — drives the Patterns → Marketing sections group + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
+let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
+let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
 
@@ -285,6 +288,7 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
+  { key: 'canvas',      label: 'Canvas Library' },
   { key: 'charts',      label: 'Charts' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'developers',  label: 'For developers' },
@@ -933,6 +937,7 @@ function topNav(base, section) {
   return `<nav class="top-nav">` + SECTIONS.map(s => {
     if (s.key === 'guidelines' && !GUIDELINES.length) return '';
     if (s.key === 'audience' && !AUDIENCE) return '';
+    if (s.key === 'canvas' && !CANVAS_LIB) return '';
     const href = base + (NAV_LANDING[s.key] || 'index.html');
     return `<a class="${section===s.key?'active':''}" href="${href}">${esc(s.label)}</a>`;
   }).join('') + `</nav>`;
@@ -1412,6 +1417,7 @@ function surfaceCdnBox(surface) {
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
     ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -1500,6 +1506,56 @@ function renderAudienceLibrary() {
   </script>
   ${hubAnchorScript(anchorItems)}`;
   return docShell({ base: '../', active: 'audience', title: AUDIENCE.title, section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+}
+
+/* ---- Canvas Library — a first-class top-level area, built like the Audience Library: ONE scroll page
+   rendered into docShell (noSidebar + the shared sticky Anchor), content is data (canvas/library.json).
+   Its demos ARE the shipped <aha-button> / <aha-tooltip> themed by applyCanvasDeck, not mock-ups. */
+function renderCanvasCard(sec) {
+  const rules = (sec.rules || []).map(r => `<dt>${esc(r.label)}</dt><dd>${audMd(r.value)}</dd>`).join('');
+  const code = sec.snippet ? `<div class="cl-code"><div class="code-panel feed"><div class="code-head"><div class="tabs"><span class="tab active">HTML</span></div><button class="copy" type="button">Copy</button></div><pre class="active">${esc(withCdnRef(sec.snippet))}</pre></div></div>` : '';
+  return `<section id="${esc(sec.name)}" class="card">
+  <header class="card-h">
+    <div class="card-title"><h2>${esc(sec.name)}</h2>${sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : ''}</div>
+    <p class="element">Use <code class="ic">${esc(sec.element)}</code></p>
+    <p class="what">${audMd(sec.what)}</p>
+    <dl class="callout">
+      <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
+      <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
+    </dl>
+  </header>
+  <div class="cl-demo">${sec.demo}</div>
+  ${rules ? `<div class="cl-rules"><h3>Rules</h3><dl>${rules}</dl></div>` : ''}
+  ${code}
+</section>`;
+}
+function renderCanvasLibrary() {
+  const anchorItems = CANVAS_LIB.sections.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
+  const fallbackGroups = [{ cat: 'Canvas components', links: CANVAS_LIB.sections.map(s => ({ id: s.name, title: s.name })) }];
+  const main = `<div class="canvas-lib">
+    <header class="cl-head">
+      <h1>${esc(CANVAS_LIB.title)}</h1>
+      <p class="rule">${audMd(CANVAS_LIB.rule)}</p>
+      <p class="why">${audMd(CANVAS_LIB.why)}</p>
+      ${surfaceCdnBox('canvas')}
+    </header>
+    <div class="hub-layout">
+      ${hubAnchorAside(fallbackGroups)}
+      <div class="hub-body"><div class="cl-cards">${CANVAS_LIB.sections.map(renderCanvasCard).join('\n')}</div></div>
+    </div>
+  </div>
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyCanvasDeck } from '../lib/canvas-deck.js';
+    const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
+    }
+  </script>
+  ${hubAnchorScript(anchorItems)}`;
+  return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
 function renderMarketingHtml(b) {
@@ -2504,6 +2560,8 @@ MARKETING = existsSync(MDIR)
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
 AUDIENCE = existsSync(join(ADIR, 'library.json')) ? JSON.parse(read(join(ADIR, 'library.json'))) : null;
+CANVAS_LIB = existsSync(join(CANVAS_DIR, 'library.json')) ? JSON.parse(read(join(CANVAS_DIR, 'library.json'))) : null;
+CANVAS_CSS = existsSync(join(CANVAS_DIR, 'canvas.css')) ? read(join(CANVAS_DIR, 'canvas.css')) : '';
 AUD_CSS = existsSync(join(ADIR, 'audience.css')) ? read(join(ADIR, 'audience.css')) : '';
 /* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
    source of truth the consumer feeds compile from. Absent-safe: no store → no feed. */
@@ -2521,6 +2579,7 @@ NAV_LANDING = {
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
+  canvas: (CANVAS_LIB ? 'canvas/index.html' : 'index.html'),
   charts: 'charts/index.html',
   developers: 'get-started/index.html',
   feeds: 'feeds/llms-txt.html',
@@ -2694,6 +2753,7 @@ const indexLines = [
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
+  `>   ${SITE}/canvas/index.html  Canvas Library — in-canvas presenter controls (<aha-button size="lg">, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
@@ -2777,6 +2837,12 @@ if (AUDIENCE) {
   mkdirSync(join(OUT, 'audience'), { recursive: true });
   writeFileSync(join(OUT, 'audience', 'index.html'), renderAudienceLibrary());
   console.log(`  ✓ audience library: audience/index.html (${AUDIENCE.sections.length} component sections)`);
+}
+/* canvas library — one first-class in-site page (canvas/index.html) under the DS shell */
+if (CANVAS_LIB) {
+  mkdirSync(join(OUT, 'canvas'), { recursive: true });
+  writeFileSync(join(OUT, 'canvas', 'index.html'), renderCanvasLibrary());
+  console.log(`  ✓ canvas library: canvas/index.html (${CANVAS_LIB.sections.length} sections)`);
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
 if (ANTISLOP) {
