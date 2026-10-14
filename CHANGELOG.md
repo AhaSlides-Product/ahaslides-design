@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.189.0 — 2026-10-14
 ### Changed
-- `<aha-chart>` brand palette: Vivid Pink 30 (series 3) is flattened to an opaque 30% pink over white (`#F8B7D2`) where the chart resolves its series colours, so every mark, legend swatch, tooltip and word looks the same on a white, grey, Vivid Pink or dark background. The `viz.series.3` token stays `#E70E684D`. `palette="deck"` charts are unchanged. (#PRNUM)
+- `<aha-chart>` brand palette: Vivid Pink 30 (series 3) is flattened to an opaque 30% pink over white (`#F8B7D2`) where the chart resolves its series colours, so every mark, legend swatch, tooltip and word looks the same on a white, grey, Vivid Pink or dark background. The `viz.series.3` token stays `#E70E684D`. `palette="deck"` charts are unchanged. (#252)
 
 ## 0.185.1 — 2026-10-14
 ### Fixed
