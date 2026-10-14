@@ -24,15 +24,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.190.0 — 2026-10-14
 ### Added
-- Image Dropzone draws its `hint` as a second, muted line under the label (text-tertiary), as the settings lab shows "PNG, JPG, GIF, WebP"; the label itself is now text-default (#249).
+- Image Dropzone draws its `hint` as a second line under the label (text-secondary, since the lab's #8A8A8A is 3.22:1 on the grey fill), as the settings lab shows "PNG, JPG, GIF, WebP"; the label itself is now text-default (#249).
 - Image Action Button `variant="tertiary"`: no border or fill until hover, then the tertiary Button hover (Vivid Pink 5% fill, text-link-hover glyph). Option Row uses it for its per-option image (#249).
 - Alert `icon`: a named DS icon in place of the type's status glyph (#249).
 ### Changed
 - Counted Input and Counted Textarea counters show the characters left (36 for 24 of 60) at every size, as the settings lab does, instead of used/max (#249).
 - Number With Unit draws its error message with the shared `<aha-field-error icon>` (12px system-x-circle + the message), the same as Input and Counted Textarea, and links it through aria-describedby. The colour is unchanged (#249).
 - Mode Field is composed from DS components instead of its own buttons: `variant="radio"` (default) is the radio group (`<aha-radio variant="button">` in a role=radiogroup, regular 14/21, padding 0 16, hover = brand label with the border unchanged, arrow keys from the radio) and `variant="segmented"` is `<aha-segmented>`. The `seg-btn` part now names each `aha-radio` (#249).
-- Card Select hover and selected follow the checkable Tag at size large: hover moves only the border to Vivid Pink, selected is the Vivid Pink 5% fill (bg-accent) with a Vivid Pink border and a text-link label (#249).
+- Card Select hover and selected follow the checkable Tag at size large: hover moves only the border to Vivid Pink, selected is the Vivid Pink 5% fill (bg-accent) with a Vivid Pink border and a text-link-hover label (#DB005B; text-link #E70E68 is 4.16:1 on that fill) (#249).
 - Setting Group: groups sit 24px apart (was 32) and the header sits 8px above its rows (was 12), on the space tokens, as the settings lab does. The danger zone stays 48px (#249).
+- state-check allows the correct-answer green and its 5% and 30% tints (colour rule 11), so an answer row may carry them (#249).
 - Option Row correct state uses the answer colours of colour rule 11: an answer-correct edge over the answer-correct-tint-5 fill, the toggle filled answer-correct, and a tint-30 focus ring (#249).
 - Info Box is now a thin wrapper over Alert: its variants map to the Alert types, so it takes the Alert look (grey surface, no border, grey status glyph) and roles. Its API (`variant`, `icon`, `dismissible`, `dismiss`) is unchanged (#249).
 - Image Dropzone hover softens only the dashed edge to Vivid Pink 30% (vivid-pink-30); the fill and text stay (#249).
