@@ -10,8 +10,8 @@ why no status has a hue, and `paywall` for the crown badge (that is upsell, not 
 
 ## The box
 
-One box for every boxed badge: **24px** tall, **8px** side padding, radius **6px**, label
-**14px semibold** on a 24px line in `--aha-text-default`, **6px** gap, a **16px** icon in
+One box for every boxed badge: **28px** tall, **8px** side padding, radius **6px**, label
+**14px semibold** on a 28px line in `--aha-text-default`, **6px** gap, a **16px** icon in
 `--aha-icon-default` or a **6px** dot before the label. Never override it. *(STATUS-02)*
 
 ## Four styles

@@ -94,7 +94,7 @@
     },
     {
       "id": "one-element",
-      "rule": "Every badge is <aha-status-badge>. Set status for a built-in state, or look (quiet, emphasis, alert, plain) with an optional icon for a state the element does not know. Never hand-build the badge, restyle a Tag, or override the box (24px tall, 8px side padding, 6px radius, 14px semibold label, 6px gap).",
+      "rule": "Every badge is <aha-status-badge>. Set status for a built-in state, or look (quiet, emphasis, alert, plain) with an optional icon for a state the element does not know. Never hand-build the badge, restyle a Tag, or override the box (28px tall, 8px side padding, 6px radius, 14px semibold label, 6px gap).",
       "ref": [
         "STATUS-02"
       ]
