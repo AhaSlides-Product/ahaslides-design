@@ -43,10 +43,10 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
   <TemplateCard />
 </AhaBadge>
 
-// a PLAN preset chip (default 28px, or size="sm" 20px; cycle appends the billing cycle)
+// a PLAN preset badge (default 28px, or size="sm" 20px; cycle appends the billing cycle)
 <AhaBadge plan="pro" cycle="yearly" />
 <AhaBadge plan="pro" size="sm" />
 
-// a leaderboard RANK chip + a SESSION chip (both size sm by default)
+// a leaderboard RANK badge + a SESSION badge (both size sm by default)
 <AhaBadge rank={1} />
 <AhaBadge session={3} />

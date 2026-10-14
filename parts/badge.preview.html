@@ -7,16 +7,15 @@
     <aha-badge count="0" show-zero></aha-badge>
     <aha-badge count="9" status="primary"></aha-badge>
     <aha-badge count="12"><button style="padding:8px 14px; border:1px solid var(--aha-border-default,#E3E3E3); border-radius:var(--aha-radius-default,8px); background:#fff; font:inherit; cursor:pointer">Inbox</button></aha-badge>
-    <aha-badge dot status="active"><aha-icon name="system-bell" size="24"></aha-icon></aha-badge>
+    <aha-badge data-size-group size="default" dot status="active"><aha-icon name="system-bell" size="24"></aha-icon></aha-badge>
   </div>
   <div class="lbl">Dot</div>
   <div class="row" style="gap:24px; align-items:center">
-    <span style="display:inline-flex; align-items:center; gap:8px"><aha-badge dot status="default"></aha-badge>Default</span>
-    <span style="display:inline-flex; align-items:center; gap:8px"><aha-badge dot status="disabled"></aha-badge>Disabled</span>
-    <span style="display:inline-flex; align-items:center; gap:8px"><aha-badge dot status="active"></aha-badge>Active</span>
+    <span style="display:inline-flex; align-items:center; gap:8px"><aha-badge data-size-group size="default" dot status="default"></aha-badge>Default</span>
+    <span style="display:inline-flex; align-items:center; gap:8px"><aha-badge data-size-group size="default" dot status="disabled"></aha-badge>Disabled</span>
+    <span style="display:inline-flex; align-items:center; gap:8px"><aha-badge data-size-group size="default" dot status="active"></aha-badge>Active</span>
   </div>
-  <div class="lbl">Plan chips</div>
-  <!--pg:plan-->
+  <div class="lbl">Plan badges</div>
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
     <aha-badge data-size-group size="default" plan="free"></aha-badge>
     <aha-badge data-size-group size="default" plan="edu"></aha-badge>
@@ -25,13 +24,15 @@
     <aha-badge data-size-group size="default" plan="pro" cycle="yearly"></aha-badge>
     <aha-badge data-size-group size="default" data-probe-enterprise plan="enterprise"></aha-badge>
   </div>
-  <div class="lbl">Rank and session chips</div>
-  <!--pg:rank-->
+  <div class="lbl">Rank badges</div>
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
     <aha-badge data-size-group size="default" data-probe-rank rank="1"></aha-badge>
     <aha-badge data-size-group size="default" rank="2"></aha-badge>
     <aha-badge data-size-group size="default" rank="3"></aha-badge>
     <aha-badge data-size-group size="default" rank="4"></aha-badge>
+  </div>
+  <div class="lbl">Default badge</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
     <aha-badge data-size-group size="default" data-probe-session session="3"></aha-badge>
   </div>
   <div class="lbl">New and Beta</div>
@@ -46,6 +47,8 @@
     <aha-status-badge data-size-group size="default" look="alert">Alert</aha-status-badge>
     <aha-status-badge data-size-group size="default" look="plain">Plain text</aha-status-badge>
   </div>
+  <div class="lbl">Examples</div>
+  <div class="example-group" style="display:flex; flex-direction:column; gap:10px; padding:16px; border:1px solid var(--aha-border-default,#E3E3E3); border-radius:var(--aha-radius-default,8px)">
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
     <aha-status-badge data-size-group size="default" status="draft">Draft</aha-status-badge>
     <aha-status-badge data-size-group size="default" status="scheduled">Scheduled</aha-status-badge>
@@ -62,6 +65,7 @@
     <aha-status-badge data-size-group size="default" look="plain">Due in 9 days</aha-status-badge>
     <aha-status-badge data-size-group size="default" look="plain" icon="system-check">On time</aha-status-badge>
     <aha-status-badge data-size-group size="default" look="plain" icon="system-clock-late">4 days late</aha-status-badge>
+  </div>
   </div>
   <div class="lbl">Ribbon</div>
   <!--pg:ribbon-->

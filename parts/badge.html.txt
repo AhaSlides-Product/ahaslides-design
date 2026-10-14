@@ -17,12 +17,12 @@
 </div>
 
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">
-  <!-- PLAN preset chips — default size 28px; `size="sm"` is 20px; `cycle` appends the billing cycle -->
+  <!-- PLAN preset badges — default size 28px; `size="sm"` is 20px; `cycle` appends the billing cycle -->
   <aha-badge plan="free"></aha-badge>
   <aha-badge plan="pro" cycle="yearly"></aha-badge>
   <aha-badge plan="enterprise" size="sm"></aha-badge>
 
-  <!-- RANK (leaderboard) and SESSION chips are size sm unless `size="default"` -->
+  <!-- RANK (leaderboard) and SESSION badges are size sm unless `size="default"` -->
   <aha-badge rank="1"></aha-badge>
   <aha-badge session="3"></aha-badge>
 

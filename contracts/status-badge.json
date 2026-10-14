@@ -93,7 +93,7 @@
       "name": "size",
       "type": "default | sm",
       "default": "default",
-      "desc": "default is the 28px box. sm is 20px tall with 4px side padding, a 12px regular label, radius xs, a 12px icon and a 4px dot, the same as a small Badge chip"
+      "desc": "default is the 28px box. sm is 20px tall with 4px side padding, a 12px regular label, radius xs, a 12px icon and a 4px dot, the same as a small Badge"
     },
     {
       "name": "look",
@@ -146,7 +146,7 @@
       },
       {
         "what": "Badge",
-        "when": "a count bubble or notification dot on another element, a plan chip"
+        "when": "a count bubble or notification dot on another element, a plan badge"
       }
     ],
     "note": "The dot is only for the published / live and closed lifecycle states; every other state takes an icon or no marker, so a survey column can show Draft (pencil), Published (dot) and Closed (dot) together. Alert is the only look with pink, and only on its icon: keep it for something the user must act on (overdue). Keep the text label on every badge; the dot or icon is decorative and never the only signal. Set the style through status or look, never by restyling the part. The two colour custom properties exist so an app can keep a colour set it already owns inside the shared box; they are not a way to add a hue to a DS status.",
