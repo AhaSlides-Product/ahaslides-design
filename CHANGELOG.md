@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Correct and incorrect badges for the Report app: `<aha-badge kind="correct">` and `kind="incorrect"`, size sm by default and `size="default"` for the 28px box. The fill is the answer colour at 5% (`--aha-answer-correct-tint-5`, `--aha-answer-wrong-tint-5`), the label stays the default ink (rule 11.2), and a solid tick or cross circle icon (`system-check-circle`, `system-x-circle`) carries `--aha-answer-correct` and `--aha-answer-wrong` (rule 11.3). For a correct or wrong answer only (rule 11.1). Contract row, docs examples, html, React and Vue snippets and render probes on the Badge page. (#250)
 
+## 0.185.1 — 2026-10-14
+### Fixed
+- `<aha-chart>` treemap chip and bell-curve average badge: the translucent series tint now sits on an opaque white base, so the label keeps its contrast on a Vivid Pink tile (it fell to about 3.86:1 in 0.185.0). (#251)
+
 ## 0.185.0 — 2026-10-14
 ### Changed
 - Vivid Pink 5 and Vivid Pink 30 are now the transparent values, `color.primitives.vividPink.5` `#E70E680D` and `.30` `#E70E684D`, not the flat `#FEF3F7` and `#F8B7D2`. `bgAccent`, `button.secondaryBgHover`, `button.tertiaryBgHover` and `button.tertiaryBgActive` alias the primitive, so there is one source. The tints now take the colour of the surface under them (a New badge on a hovered pink row stacks instead of vanishing); on white they look as before. Every `var(--aha-bg-accent,#FEF3F7)` fallback in `lib/`, the antd theme seeds and the contracts carry the transparent value, and contract `expect` colours read `rgba(231, 14, 104, 0.05)`. Illustration tints stay flat (illustrations are a separate palette), and deck-palette chart samples keep their flat customer colours. Twelve contracts now declare `environment`. (#248)
