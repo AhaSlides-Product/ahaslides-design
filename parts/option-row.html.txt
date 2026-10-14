@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-option-row> is the SAME shared custom element React and Vue consume — here in its native form.
-     It COMPOSES DS leaves (borderless CountedTextarea, ImageActionButton) + a success-green correct
+     It COMPOSES DS leaves (borderless CountedTextarea, ImageActionButton) + a correct-answer green correct
      toggle (circle | square). Theming comes only from the --aha-* tokens in tokens.css. Hover a row to
      reveal its delete (top-right). -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">

@@ -8,13 +8,13 @@
   "element": "aha-setting-group",
   "summary": "The settings GROUP container — an optional semibold header (with a \"?\" help and an action slot) over a column of rows — that bakes in the panel spacing scale so gaps come out right automatically.",
   "highlights": ["Settings group container", "Optional semibold header with “?” help and action slot", "Panel spacing scale baked in"],
-  "lead": "ONE custom element — <aha-setting-group> — that encodes the settings-panel SPACING scale so you never hand-place a gap. Rows inside a group sit 24px apart (the between-settings step); stacked groups sit 32px apart automatically (`:host(:not(:first-child))` — no wiring); a danger-zone group (`tone=\"danger\"`) drops 48px (overriding the 32). An optional `label` renders a semibold (600) header with an optional `?` help trigger — the composed DS <aha-tooltip help>, never a hand-placed icon — and an `action` slot pushed to the right. NO divider line, NO card/tinted box — spacing only, white background. role=\"group\" + aria-label so AT announces it. Header + rows are persistent nodes. Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift.",
+  "lead": "ONE custom element — <aha-setting-group> — that encodes the settings-panel SPACING scale so you never hand-place a gap. Rows inside a group sit 24px apart (the between-settings step); stacked groups sit 24px apart automatically, as the settings lab does (`:host(:not(:first-child))` — no wiring); a danger-zone group (`tone=\"danger\"`) drops 48px (overriding the 24). An optional `label` renders a semibold (600) header with an optional `?` help trigger — the composed DS <aha-tooltip help>, never a hand-placed icon — and an `action` slot pushed to the right. NO divider line, NO card/tinted box — spacing only, white background. role=\"group\" + aria-label so AT announces it. Header + rows are persistent nodes. Shadow-DOM CSS, themed only by --aha-* tokens → byte-identical in React and Vue. Zero drift.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["text-default", "text-tertiary", "bg-container"],
   "spec": [
-    { "label": "Rows", "value": "column · 24px between sibling settings (the settings scale) · header→rows 12px" },
-    { "label": "Between groups", "value": "32px automatically (:host(:not(:first-child))) — no divider, no wiring" },
-    { "label": "Danger zone", "value": "tone=danger → 48px above (overrides the 32); the danger CTA styling lives on the button, not here" },
+    { "label": "Rows", "value": "column · 24px between sibling settings (the settings scale) · header→rows 8px (space-8)" },
+    { "label": "Between groups", "value": "24px (space-24) automatically (:host(:not(:first-child))) — no divider, no wiring" },
+    { "label": "Danger zone", "value": "tone=danger → 48px above (overrides the 24); the danger CTA styling lives on the button, not here" },
     { "label": "Header", "value": "optional (label) · 14/21 Semibold (600) #1A1A1A · optional \"?\" help (composed <aha-tooltip help>, system-question glyph) · action slot pushed right (margin-left:auto), plain text only (a count), never a control" },
     { "label": "Structure", "value": "no divider lines, no card/box — spacing only, white background" }
   ],
@@ -27,7 +27,7 @@
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Setting group", "when": "a titled cluster of related settings in a panel — it bakes in the 24/32/48 spacing scale" },
+      { "what": "Setting group", "when": "a titled cluster of related settings in a panel — it bakes in the 24/24/48 spacing scale (rows / groups / danger zone) and 8px under the header" },
       { "what": "Sub setting group", "when": "dependent child settings that appear under one parent toggle (indent + tight gap)" },
       { "what": "Settings list", "when": "you want the whole surface rendered from a schema (rows + reused DS controls) in one element" }
     ],
@@ -59,17 +59,17 @@
   },
   "selfCheck": [
     { "label": "rows 24px apart (settings scale)", "verdict": "PASS" },
-    { "label": "between groups 32px automatically", "verdict": "PASS" },
-    { "label": "tone=danger drops 48px (overrides 32)", "verdict": "PASS" },
+    { "label": "between groups 24px automatically; header→rows 8px", "verdict": "PASS" },
+    { "label": "tone=danger drops 48px (overrides 24)", "verdict": "PASS" },
     { "label": "header label semibold (600) #1A1A1A", "verdict": "PASS" },
     { "label": "\"?\" help = composed <aha-tooltip help>, action slot right-aligned (plain text only)", "verdict": "PASS" },
     { "label": "no divider / no card — spacing only, white bg", "verdict": "PASS" }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is a group with a header + 2 rows, followed by a second group (data-next-probe) so the automatic 32px between-group margin is measurable. Measures ≥4 props incl a colour (header label) + px (rows gap, between-group margin).",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render. The probe is a group with a header + 2 rows, followed by a second group (data-next-probe) so the automatic 24px between-group margin is measurable. Measures ≥4 props incl a colour (header label) + px (rows gap, between-group margin).",
     "ready": "!!(document.querySelector('aha-setting-group[data-probe]') && document.querySelector('aha-setting-group[data-probe]').shadowRoot && document.querySelector('aha-setting-group[data-probe]').shadowRoot.querySelector('.rows') && document.querySelector('aha-setting-group[data-probe]').shadowRoot.querySelector('.label') && document.querySelector('aha-setting-group[data-next-probe]'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-setting-group[data-probe]');var r=el&&el.shadowRoot;var rows=r&&r.querySelector('.rows');var label=r&&r.querySelector('.label');var srows=rows?getComputedStyle(rows):null;var sl=label?getComputedStyle(label):null;var next=document.querySelector('aha-setting-group[data-next-probe]');var sn=next?getComputedStyle(next):null;return{rowsGap:srows?srows.rowGap:null,labelColor:sl?sl.color:null,labelWeight:sl?sl.fontWeight:null,labelSize:sl?sl.fontSize:null,betweenGroups:sn?sn.marginTop:null};})()",
-    "expect": { "rowsGap": "24px", "labelColor": "rgb(26, 26, 26)", "labelWeight": "600", "labelSize": "14px", "betweenGroups": "32px" }
+    "expect": { "rowsGap": "24px", "labelColor": "rgb(26, 26, 26)", "labelWeight": "600", "labelSize": "14px", "betweenGroups": "24px" }
   }
 }

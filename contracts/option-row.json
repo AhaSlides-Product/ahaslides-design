@@ -1,20 +1,23 @@
 {
   "name": "Option row",
   "slug": "option-row",
+  "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component — composite",
   "element": "aha-option-row",
-  "summary": "The repeatable option/answer row — one bordered row with an inside drag handle, a borderless counted textarea, an optional correct toggle (circle or square) and per-option image, and a floating hover delete; marking correct paints the whole card success-green (SETTINGS-20/34/23/39).",
-  "highlights": ["Repeatable option or answer row", "Drag handle, borderless counted textarea, optional correct toggle, per-option image", "Marking correct paints the whole card success green"],
-  "lead": "ONE custom element — <aha-option-row> — the repeatable option/answer row, composed from DS primitives. Its UNIVERSAL CORE (SETTINGS-34): the ROW carries the ONE border (radius 8) — the text field inside is a BORDERLESS counted textarea (no box-in-a-box / double border); the drag handle is the FIRST child INSIDE that border (not a column to its left); the delete floats just OUTSIDE the top-right, shown ONLY on hover and disabled at the minimum item count (SETTINGS-23). Per-type extras compose in only when the type has them — a correct-answer toggle (scored types) and the per-option image control (SETTINGS-22). The correct toggle has two shapes (`checkboxShape`, default `circle`): a 20px outline circle, or a radius-6 square; either FILLS success-green with a white tick when marked correct, and the WHOLE card paints success-green (a `border-success` border over a faint `color-success` 8% tint). With `singleLine` the field is a single-line answer — Enter is blocked and the text is trimmed on blur. The drag handle appears only when order matters (`orderable`); an unordered set is not numbered (SETTINGS-39). Reuses <aha-counted-textarea borderless> and <aha-image-action-button>. Shadow-DOM CSS, themed only by --aha-* tokens.",
-  "codeNote": "A composite element that COMPOSES DS leaves (never re-implements them): the borderless CountedTextarea and the ImageActionButton. The correct-answer toggle is a native <button role=\"checkbox\"> (keyboard-operable, aria-checked kept in sync) rather than the square Checkbox, because the reference toggle is success-green and shape-variant (circle | square). React (< 19) via a thin ref wrapper; Vue binds natively. Defined once in @ahaslides-product/design.",
+  "summary": "The repeatable option/answer row — one bordered row with an inside drag handle, a borderless counted textarea, an optional correct toggle (circle or square) and per-option image, and a floating hover delete; marking correct paints the whole card in the correct-answer green (SETTINGS-20/34/23/39).",
+  "highlights": ["Repeatable option or answer row", "Drag handle, borderless counted textarea, optional correct toggle, per-option image", "Marking correct paints the whole card in the correct-answer green"],
+  "lead": "ONE custom element — <aha-option-row> — the repeatable option/answer row, composed from DS primitives. Its UNIVERSAL CORE (SETTINGS-34): the ROW carries the ONE border (radius 8) — the text field inside is a BORDERLESS counted textarea (no box-in-a-box / double border); the drag handle is the FIRST child INSIDE that border (not a column to its left); the delete floats just OUTSIDE the top-right, shown ONLY on hover and disabled at the minimum item count (SETTINGS-23). Per-type extras compose in only when the type has them — a correct-answer toggle (scored types) and the per-option image control (SETTINGS-22). The correct toggle has two shapes (`checkboxShape`, default `circle`): a 20px outline circle, or a radius-6 square; either FILLS correct green (`answer-correct`) with a white tick when marked correct, and the WHOLE card paints it (an `answer-correct` edge over the `answer-correct-tint-5` fill; colour rule 11: the one green marks a correct answer and nothing else). The per-option image control is the tertiary ImageActionButton (no border or fill until hover). With `singleLine` the field is a single-line answer — Enter is blocked and the text is trimmed on blur. The drag handle appears only when order matters (`orderable`); an unordered set is not numbered (SETTINGS-39). Reuses <aha-counted-textarea borderless> and <aha-image-action-button>. Shadow-DOM CSS, themed only by --aha-* tokens.",
+  "codeNote": "A composite element that COMPOSES DS leaves (never re-implements them): the borderless CountedTextarea and the ImageActionButton. The correct-answer toggle is a native <button role=\"checkbox\"> (keyboard-operable, aria-checked kept in sync) rather than the square Checkbox, because the reference toggle is correct-answer green and shape-variant (circle | square). React (< 19) via a thin ref wrapper; Vue binds natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": [
     "border",
     "focus-ring-soft",
     "color-primary",
     "color-success",
-    "border-success",
+    "answer-correct",
+    "answer-correct-tint-5",
+    "answer-correct-tint-30",
     "color-error",
     "bg-container",
     "bg-elevated",
@@ -25,7 +28,6 @@
     "radius-default",
     "radius-sm",
     "radius-pill",
-    "btn-focus-ring-success",
     "ink-a10"
   ],
   "spec": [
@@ -43,11 +45,11 @@
     },
     {
       "label": "Correct toggle",
-      "value": "optional (correctable), scored types only — 20px circle (default) or radius-6 square; fills --aha-color-success with a white tick when correct"
+      "value": "optional (correctable), scored types only — 20px circle (default) or radius-6 square; fills --aha-answer-correct with a white tick when correct"
     },
     {
       "label": "Correct card",
-      "value": "when correct the WHOLE row paints success-green: --aha-border-success border over a faint --aha-color-success 8% tint fill"
+      "value": "when correct the WHOLE row paints the correct-answer green: --aha-answer-correct edge over the --aha-answer-correct-tint-5 fill (colour rule 11)"
     },
     {
       "label": "Single line",
@@ -55,7 +57,7 @@
     },
     {
       "label": "Image",
-      "value": "optional per-option ImageActionButton (image) — the full state set (SETTINGS-22)"
+      "value": "optional per-option ImageActionButton (image), tertiary variant: no border or fill at rest, #E70E680D fill + #DB005B glyph on hover — the full state set (SETTINGS-22)"
     },
     {
       "label": "Delete",
@@ -67,7 +69,7 @@
     },
     {
       "label": "Focus",
-      "value": "focus-within → #E70E68 row border + soft 2px --aha-focus-ring-soft ring (success-green ring when correct), on the one persistent border"
+      "value": "focus-within → #E70E68 row border + soft 2px --aha-focus-ring-soft ring (a --aha-answer-correct-tint-30 ring when correct), on the one persistent border"
     }
   ],
   "props": [
@@ -105,13 +107,13 @@
       "name": "correct",
       "type": "boolean",
       "default": "false",
-      "desc": "Whether this option is marked correct — paints the whole card success-green + fills the toggle"
+      "desc": "Whether this option is marked correct — paints the whole card in the correct-answer green + fills the toggle"
     },
     {
       "name": "checkboxShape",
       "type": "circle | square (attr checkboxshape)",
       "default": "circle",
-      "desc": "The correct-answer toggle shape — a 20px outline circle, or a radius-6 square; both fill success-green with a white tick when correct"
+      "desc": "The correct-answer toggle shape — a 20px outline circle, or a radius-6 square; both fill the correct-answer green with a white tick when correct"
     },
     {
       "name": "singleLine",
@@ -274,7 +276,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "correct → whole card paints success-green (border-success border + color-success 8% tint) + toggle fills green with white tick",
+      "label": "correct → whole card: answer-correct edge + answer-correct-tint-5 fill; toggle fills answer-correct with a white tick",
       "verdict": "PASS"
     },
     {

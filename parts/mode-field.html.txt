@@ -2,7 +2,7 @@
      <aha-mode-field> is the SAME shared custom element React and Vue consume — here in its native form.
      Theming comes only from the --aha-* tokens in tokens.css. The bodies are light-DOM children tagged
      data-mode; switching the active value toggles which is visible IN PLACE (the hidden one keeps its
-     state). variant="radio" (default) is the OUTLINE mode control; variant="segmented" is the grey one. -->
+     state). variant="radio" (default) is the DS radio group (aha-radio variant="button"); variant="segmented" is the DS aha-segmented. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-mode-field.js';   // registers <aha-mode-field>

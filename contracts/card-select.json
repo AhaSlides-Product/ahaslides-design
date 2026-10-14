@@ -5,17 +5,18 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-card-select",
+  "environment": ["product"],
   "summary": "Single-select as an icon+label card grid — pick one of N options each shown as its own visual card, with roving radiogroup keyboard navigation. Two layouts: labelled tiles (stretch to fill `columns`) or compact 44px icon-only squares.",
   "highlights": ["Single-select as an icon and label card grid", "Roving radiogroup keyboard navigation", "Labelled tiles that fill the columns, or compact 44px icon squares"],
-  "lead": "ONE custom element — <aha-card-select> — the selection shape Ant has no built-in for (SETTINGS-51): pick one of N options, each shown as its own visual card (icon + label). Reach for it when each option carries a visual — a chart-type picker, a layout/mode picker; 2–4 short text-only options in one row are a segmented control instead (SETTINGS-38), a longer set a dropdown. Two layouts, both driven by `columns` (default 3): labelled tiles stretch to fill each track (repeat(columns, minmax(0,1fr))); `iconOnly` packs fixed 44px squares to the start (repeat(columns, 44px)) with the label hidden but kept as the card's title + aria-label. The whole grid is ONE accessible radiogroup — exactly one card is tabbable (roving tabindex), Arrow keys move-and-select, Space/Enter select. Selection lives on a PERSISTENT node — choosing a card only toggles its [aria-checked], so the brand border + brand tint transition fires. Icons are summoned by name via <aha-icon>. Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `change`.",
+  "lead": "ONE custom element — <aha-card-select> — the selection shape Ant has no built-in for (SETTINGS-51): pick one of N options, each shown as its own visual card (icon + label). Reach for it when each option carries a visual — a chart-type picker, a layout/mode picker; 2–4 short text-only options in one row are a segmented control instead (SETTINGS-38), a longer set a dropdown. Two layouts, both driven by `columns` (default 3): labelled tiles stretch to fill each track (repeat(columns, minmax(0,1fr))); `iconOnly` packs fixed 44px squares to the start (repeat(columns, 44px)) with the label hidden but kept as the card's title + aria-label. The whole grid is ONE accessible radiogroup — exactly one card is tabbable (roving tabindex), Arrow keys move-and-select, Space/Enter select. Selection lives on a PERSISTENT node — choosing a card only toggles its [aria-checked], so the brand border + pale pink fill transition fires; hover and selected follow the checkable Tag at size large. Icons are summoned by name via <aha-icon>. Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `change`.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. Options are set as a property (`el.options = [...]`) or a JSON `options` attribute. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively.",
-  "tokensUsed": ["border", "border-disabled", "color-primary", "bg-container", "bg-container-disabled", "text-default", "text-disabled", "icon-default", "radius-default"],
+  "tokensUsed": ["border", "border-hover", "border-disabled", "color-primary", "bg-accent", "bg-container", "bg-container-disabled", "text-default", "text-link", "text-disabled", "icon-default", "radius-default"],
   "spec": [
     { "label": "Card", "value": "icon 20 over label 13; padding 8; inner gap 6; radius 8; 1px #E3E3E3 border" },
     { "label": "Grid", "value": "repeat(columns, minmax(0,1fr)) — tiles stretch to fill; columns default 3; 8px gap" },
     { "label": "iconOnly", "value": "repeat(columns, 44px) — fixed 44px squares packed to the start; label hidden, kept as title + aria-label" },
-    { "label": "Selected", "value": "#E70E68 border + color-mix(#E70E68 5%) tint + #E70E68 label/icon (persistent node)" },
-    { "label": "Hover", "value": "#E70E68 border + #E70E68 label/icon (unselected)" },
+    { "label": "Selected", "value": "as the checkable Tag at size large: #E70E68 border + Vivid Pink 5% fill (bg-accent) + #E70E68 icon; label text-link #E70E68 (persistent node)" },
+    { "label": "Hover", "value": "as the checkable Tag at size large: #E70E68 border (border-hover); label and icon keep their colour" },
     { "label": "Keyboard", "value": "roving radiogroup — one tab-stop; Arrow keys move-and-select; Space/Enter select" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],
@@ -59,7 +60,7 @@
     { "label": "labelled tiles fill via repeat(columns, minmax(0,1fr)); iconOnly = repeat(columns, 44px) squares packed to start", "verdict": "PASS" },
     { "label": "iconOnly hides the label but keeps it as title + aria-label (option stays named for pointer + AT)", "verdict": "PASS" },
     { "label": "one tab-stop; Arrow keys move-and-select (roving radiogroup)", "verdict": "PASS" },
-    { "label": "selected = #E70E68 border + color-mix(#E70E68 5%) tint on a persistent node (transition fires)", "verdict": "PASS" },
+    { "label": "selected = #E70E68 border + bg-accent fill + text-link label on a persistent node (transition fires)", "verdict": "PASS" },
     { "label": "icons summoned by name via <aha-icon> — no inline svg", "verdict": "PASS" }
   ],
   "conformance": {
