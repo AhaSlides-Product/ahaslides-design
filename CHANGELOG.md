@@ -27,6 +27,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Setting Row, Settings Item, Counted Input and Number With Unit now carry the paragraph letter-spacing (`--aha-letter-spacing-paragraph`, 0.2px) on the row label, the field text and the unit, and the subtext letter-spacing (0.3px) on the counter and the error message, as the settings lab does. The tokens already existed; the components did not use them (#249).
 - Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width (#249). The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
 
+## 0.189.0 — 2026-10-14
+### Changed
+- `<aha-chart>` brand palette: Vivid Pink 30 (series 3) is flattened to an opaque 30% pink over white (`#F8B7D2`) where the chart resolves its series colours, so every mark, legend swatch, tooltip and word looks the same on a white, grey, Vivid Pink or dark background. The `viz.series.3` token stays `#E70E684D`. `palette="deck"` charts are unchanged. (#252)
+
 ## 0.188.0 — 2026-10-14
 ### Added
 - Correct and incorrect badges for the Report app: `<aha-badge kind="correct">` and `kind="incorrect"`, size sm by default and `size="default"` for the 28px box. The fill is the answer colour at 5% (`--aha-answer-correct-tint-5`, `--aha-answer-wrong-tint-5`), the label stays the default ink (rule 11.2), and a tick or cross circle icon (`system-check-circle`, `system-x-circle`) in `--aha-answer-correct` and `--aha-answer-wrong` (rule 11.3). For a correct or wrong answer only (rule 11.1). Contract row, docs examples, html, React and Vue snippets and render probes on the Badge page. (#250)
