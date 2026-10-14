@@ -11,12 +11,15 @@
  *
  * USAGE
  *   node screen-lint.mjs --surface=product  <file ...>
- *   node screen-lint.mjs --surface=canvas   <file ...>
+ *   node screen-lint.mjs --surface=canvas   <file ...>      # a slide type's presenter stage
+ *   node screen-lint.mjs --surface=audience <file ...>      # a slide type's audience phone
  *   node screen-lint.mjs --self-test                       # dogfood: run over this repo's snippets
  *
  * --surface is REQUIRED and mirrors the judge's J0: you cannot grade a screen without first routing
  * its world. Product UI = fixed violet-on-white; Canvas/Audience = colour/font read from the deck at
- * runtime, so ANY hardcoded colour there is a defect.
+ * runtime, so ANY hardcoded colour there is a defect. Both slide surfaces also hard-fail a hand-made
+ * control (a raw <button>, size="xl", sizing through ::part or inline style, a <kbd> key chip inside
+ * <aha-button>); only the canvas carries the 16px and viewport-unit font rules.
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
@@ -101,6 +104,24 @@ function run(fileList, surf) {
   return hardCount;
 }
 
+async function slideRuleSelfTest() {
+  const { SLIDE_RULE_FIXTURES } = await import('./tests/fixtures/slide-control-lint.mjs');
+  let broken = 0;
+  console.log('=== SCREEN-LINT · slide-surface rule fixtures ===\n');
+  for (const { rule, severity, surfaces, fail, pass } of SLIDE_RULE_FIXTURES)
+    for (const surface of surfaces) {
+      const hitsOf = (source) => lintHtml(source, { surface }).findings.filter(f => f.rule === rule);
+      const missed = fail.filter(source => { const hits = hitsOf(source); return !hits.length || hits.some(f => f.severity !== severity); });
+      const falsePositives = pass.filter(source => hitsOf(source).length);
+      broken += missed.length + falsePositives.length;
+      console.log(`${missed.length + falsePositives.length ? '✗' : '✓'} ${rule} (${severity}) on ${surface}: ${fail.length} failing, ${pass.length} passing snippet(s)`);
+      for (const source of missed) console.log(`      ✗ not reported as ${severity}: ${source}`);
+      for (const source of falsePositives) console.log(`      ✗ reported on a passing snippet: ${source}`);
+    }
+  console.log(`\n${broken} broken fixture(s)\n`);
+  return broken;
+}
+
 /* ---- self-test: dogfood the material/a11y rules over the repo's own snippets + previews ---- */
 if (selfTest) {
   const partsDir = join(root, 'parts');
@@ -118,12 +139,12 @@ if (selfTest) {
     .filter(f => { const slug = f.replace('.html.txt', ''); return !composite.has(slug) && !canvasSlugs.has(slug); });
   console.log(`Self-test: linting ${leaf.length} leaf paste-and-run snippet(s) as product-UI (composite theme pages + preview harnesses excluded).`);
   const hard = run(leaf.map(f => join(partsDir, f)), 'product');
-  process.exit(hard > 0 ? 1 : 0);
+  process.exit(hard + await slideRuleSelfTest() > 0 ? 1 : 0);
 }
 
 /* ---- normal CLI ---- */
-if (!surface || !['product', 'canvas'].includes(surface)) {
-  console.error('screen-lint: --surface=product|canvas is REQUIRED (route the world first, like the judge J0).');
+if (!surface || !['product', 'canvas', 'audience'].includes(surface)) {
+  console.error('screen-lint: --surface=product|canvas|audience is REQUIRED (route the world first, like the judge J0).');
   process.exit(2);
 }
 if (!files.length) {
