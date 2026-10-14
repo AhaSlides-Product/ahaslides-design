@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.186.0 — 2026-10-14
 ### Fixed
-- Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width. The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
+- Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width (#249). The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
 
 ## 0.183.0 — 2026-10-14
 ### Added
