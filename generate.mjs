@@ -281,6 +281,7 @@ let NAV_LANDING = {};   // top-nav → each area's landing page (set once contra
 /* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
    sidebar (Components shows only components, Foundations only tokens/icons, etc.). One area
    per screen keeps every sidebar short and relevant. */
+const NAV_GROUPS = [{ key: 'visuals', label: 'Charts & Canvas', members: ['charts', 'canvas'] }];
 const SECTIONS = [
   { key: 'overview',    label: 'Overview' },
   { key: 'foundations', label: 'Foundations' },
@@ -392,6 +393,18 @@ a{color:var(--aha-color-primary)}
 .top-nav a{display:inline-flex;align-items:center;height:100%;font-size:14px;color:var(--aha-text-secondary);text-decoration:none;padding:0 14px;font-weight:500;border-bottom:2px solid transparent}
 .top-nav a:hover{color:var(--aha-color-primary)}
 .top-nav a.active{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
+.top-nav .nav-drop{position:relative;display:inline-flex;align-items:stretch;height:100%}
+.nav-drop-btn{display:inline-flex;align-items:center;gap:6px;height:100%;padding:0 14px;white-space:nowrap;flex:0 0 auto;border:0;border-bottom:2px solid transparent;background:transparent;font:inherit;font-size:14px;font-weight:500;color:var(--aha-text-secondary);cursor:pointer}
+.nav-drop-btn:hover,.nav-drop-btn[aria-expanded="true"]{color:var(--aha-color-primary)}
+.nav-drop-btn:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:-2px;border-radius:8px}
+.nav-drop-btn aha-icon{transition:transform var(--aha-motion-fast) var(--aha-ease-out)}
+.nav-drop-btn[aria-expanded="true"] aha-icon{transform:rotate(180deg)}
+.nav-drop.active .nav-drop-btn{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
+.nav-drop-panel{position:fixed;top:60px;left:0;min-width:180px;padding:6px;background:#fff;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default,8px);box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:40;flex-direction:column}
+.nav-drop-panel:not([hidden]){display:flex}
+.top-nav .nav-drop-panel a{height:auto;padding:8px 12px;border-bottom:0;border-radius:6px}
+.top-nav .nav-drop-panel a:hover{background:var(--aha-bg-accent)}
+.top-nav .nav-drop-panel a.active{background:var(--aha-bg-accent)}
 .hmeta{flex:0 0 auto}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
@@ -557,6 +570,31 @@ const NAV_TOGGLE_JS = `
   if(backdrop) backdrop.addEventListener('click', close);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&isOpen()) close(); });
   document.addEventListener('click', function(e){ if(isOpen() && e.target.closest('.doc-nav a')) close(); });
+})();
+`;
+
+const NAV_DROP_JS = `
+(function(){
+  if(window.__navDrop) return; window.__navDrop=true;
+  function parts(d){ return {btn:d.querySelector('.nav-drop-btn'), panel:d.querySelector('.nav-drop-panel')}; }
+  function setOpen(d,open){ var p=parts(d); if(!p.btn) return; p.btn.setAttribute('aria-expanded',open?'true':'false'); if(open){ p.panel.removeAttribute('hidden'); var r=p.btn.getBoundingClientRect(); p.panel.style.left=Math.max(8,Math.min(r.left,window.innerWidth-p.panel.offsetWidth-8))+'px'; } else p.panel.setAttribute('hidden',''); }
+  function isOpen(d){ var b=d.querySelector('.nav-drop-btn'); return !!b && b.getAttribute('aria-expanded')==='true'; }
+  function closeAll(except){ document.querySelectorAll('.nav-drop').forEach(function(d){ if(d!==except) setOpen(d,false); }); }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('.nav-drop-btn');
+    if(btn){ var d=btn.closest('.nav-drop'); var pinning=isOpen(d)&&d.__byHover; d.__byHover=false; closeAll(d); setOpen(d,pinning?true:!isOpen(d)); return; }
+    if(e.target.closest('.nav-drop-panel a')){ closeAll(); return; }
+    closeAll();
+  });
+  document.addEventListener('pointerover',function(e){ if(e.pointerType!=='mouse') return; var d=e.target.closest&&e.target.closest('.nav-drop'); if(d && !isOpen(d)){ closeAll(d); d.__byHover=true; setOpen(d,true); } });
+  document.addEventListener('pointerout',function(e){ if(e.pointerType!=='mouse') return; var d=e.target.closest&&e.target.closest('.nav-drop'); if(d && d.__byHover && !d.contains(e.relatedTarget)){ d.__byHover=false; setOpen(d,false); } });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    var d=document.querySelector('.nav-drop .nav-drop-btn[aria-expanded="true"]'); if(!d) return;
+    var drop=d.closest('.nav-drop'), inside=drop.contains(document.activeElement);
+    setOpen(drop,false); if(inside) d.focus();
+  });
+  document.addEventListener('focusin',function(e){ document.querySelectorAll('.nav-drop').forEach(function(d){ if(isOpen(d) && !d.contains(e.target)) setOpen(d,false); }); });
 })();
 `;
 
@@ -934,13 +972,22 @@ const RAW_FEEDS = [
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
-  return `<nav class="top-nav">` + SECTIONS.map(s => {
-    if (s.key === 'guidelines' && !GUIDELINES.length) return '';
-    if (s.key === 'audience' && !AUDIENCE) return '';
-    if (s.key === 'canvas' && !CANVAS_LIB) return '';
-    const href = base + (NAV_LANDING[s.key] || 'index.html');
-    return `<a class="${section===s.key?'active':''}" href="${href}">${esc(s.label)}</a>`;
-  }).join('') + `</nav>`;
+  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB);
+  const link = (s, cls = '') => `<a class="${[cls, section===s.key?'active':''].filter(Boolean).join(' ')}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
+  const out = [];
+  const grouped = new Set();
+  for (const s of SECTIONS) {
+    if (grouped.has(s.key) || !visible(s)) continue;
+    const group = NAV_GROUPS.find(g => g.members.includes(s.key));
+    if (!group) { out.push(link(s)); continue; }
+    const members = group.members.map(k => SECTIONS.find(x => x.key === k)).filter(m => m && visible(m));
+    members.forEach(m => grouped.add(m.key));
+    const id = `top-nav-${group.key}`;
+    out.push(`<div class="nav-drop${members.some(m => m.key === section) ? ' active' : ''}">` +
+      `<button class="nav-drop-btn" type="button" aria-expanded="false" aria-controls="${id}">${esc(group.label)}<aha-icon name="system-caret-down" size="12" decorative></aha-icon></button>` +
+      `<div class="nav-drop-panel" id="${id}" hidden>${members.map(m => link(m)).join('')}</div></div>`);
+  }
+  return `<nav class="top-nav">` + out.join('') + `</nav>`;
 }
 
 // Left sidebar — scoped to the CURRENT area only (empty on Overview, which is full-width).
@@ -1040,7 +1087,7 @@ ${fontPreloads(base)}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
 <script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';import '${base || './'}lib/aha-product-lockup.js';</script>
-<script>${SEARCH_JS}${NAV_TOGGLE_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
+<script>${SEARCH_JS}${NAV_TOGGLE_JS}${NAV_DROP_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
