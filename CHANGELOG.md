@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.179.0 — 2026-10-14
+## 0.181.0 — 2026-10-14
 ### Added
 - `<aha-status-badge look>` takes four styles: `quiet` (Gray 25, no border), `emphasis` (white, 1px `--aha-border-strong` inset border), `alert` (white, 1px `--aha-border-warning` inset border, a `system-warning-circle` icon in `--aha-icon-active`, the only pink on any badge) and `plain` (no box, Gray 80 regular text, optional icon). `look="default"` is accepted as a deprecated alias of `quiet`. (#240)
 - `<aha-status-badge>` takes `marker` (`dot`, `icon`, `none`) and `icon` (a registry name, drawn at 16px before the label). (#240)
@@ -32,6 +32,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - **Visible change for every `<aha-status-badge>`:** the box is now 28px tall with 8px side padding (was 10px), a 6px radius (was a full pill), a 14px semibold label (was 12px) and a 16px icon or a 6px dot. Published and active are the emphasis style with a dark dot (were white with black); closed is quiet with a light dot; draft is quiet with a pencil icon and archived quiet with an archive-box icon (both had a dot); inactive follows closed. Attribute names and the six existing `status` values are unchanged. Importing the element now also registers `<aha-icon>`. (#240)
 - Status badges guideline and judge: the dot is only for the published / live and closed lifecycle states, so one column may mix icons and dots (criterion C6); due states are badges in this family, and counters and types use the quiet or plain style (C7); C1, C2 and C5 describe `<aha-status-badge>` instead of the hand-built `aha-status-pill` markup, which still passes on existing screens. (#240)
+
+## 0.180.0 — 2026-10-14
+### Added
+- Canvas Library › Components: a new page (`canvas/index.html`), built like the Audience Library, for the in-canvas presenter controls: the light, dark and image deck demos (`<aha-button size="lg">`, `applyCanvasDeck`, the shortcut chip, `<aha-tooltip size="lg" shortcut>`), the Canvas rule from the Button spec, a copy-paste snippet and the one-tag `lib/canvas.js` box. (#243)
+
+### Changed
+- Docs header: one top-nav item, "Canvas Library", opens a two-link dropdown (Chart, then Components: the charts page and the canvas presenter-controls page, each page titled with its dropdown label) on hover, keyboard focus and click or tap (a disclosure button: Escape closes and returns focus, an outside click or focus leaving closes it). The item is active when either page is current; the page URLs are unchanged. (#243)
+- The Button page no longer carries the canvas deck demo; one line links to Canvas Library › Components. The Button contract's `Canvas` spec row moved to the new page and its `canvas presenter controls` usage row now points there. The canvas guideline's presenter-controls rule and `llms.txt` point to the new page. Docs search finds it as Components.
 
 ## 0.173.0 — 2026-10-13
 ### Added

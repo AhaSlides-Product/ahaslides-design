@@ -33,6 +33,7 @@ const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
 const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
+const CANVAS_DIR = join(root, 'canvas');       // canvas library — in-canvas presenter controls, rendered as a first-class DS area (single scroll page)
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
@@ -272,12 +273,15 @@ let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / ca
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
 let MARKETING = [];         // loaded marketing sections — drives the Patterns → Marketing sections group + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
+let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
+let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
 
 /* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
    sidebar (Components shows only components, Foundations only tokens/icons, etc.). One area
    per screen keeps every sidebar short and relevant. */
+const NAV_GROUPS = [{ key: 'canvas-library', label: 'Canvas Library', members: ['charts', 'canvas'] }];
 const SECTIONS = [
   { key: 'overview',    label: 'Overview' },
   { key: 'foundations', label: 'Foundations' },
@@ -285,7 +289,8 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
-  { key: 'charts',      label: 'Charts' },
+  { key: 'canvas',      label: 'Components' },
+  { key: 'charts',      label: 'Chart' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'developers',  label: 'For developers' },
   { key: 'feeds',       label: 'Agent feeds' },
@@ -388,6 +393,18 @@ a{color:var(--aha-color-primary)}
 .top-nav a{display:inline-flex;align-items:center;height:100%;font-size:14px;color:var(--aha-text-secondary);text-decoration:none;padding:0 14px;font-weight:500;border-bottom:2px solid transparent}
 .top-nav a:hover{color:var(--aha-color-primary)}
 .top-nav a.active{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
+.top-nav .nav-drop{position:relative;display:inline-flex;align-items:stretch;height:100%}
+.nav-drop-btn{display:inline-flex;align-items:center;gap:6px;height:100%;padding:0 14px;white-space:nowrap;flex:0 0 auto;border:0;border-bottom:2px solid transparent;background:transparent;font:inherit;font-size:14px;font-weight:500;color:var(--aha-text-secondary);cursor:pointer}
+.nav-drop-btn:hover,.nav-drop-btn[aria-expanded="true"]{color:var(--aha-color-primary)}
+.nav-drop-btn:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:-2px;border-radius:8px}
+.nav-drop-btn aha-icon{transition:transform var(--aha-motion-fast) var(--aha-ease-out)}
+.nav-drop-btn[aria-expanded="true"] aha-icon{transform:rotate(180deg)}
+.nav-drop.active .nav-drop-btn{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
+.nav-drop-panel{position:fixed;top:60px;left:0;min-width:180px;padding:6px;background:#fff;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default,8px);box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:40;flex-direction:column}
+.nav-drop-panel:not([hidden]){display:flex}
+.top-nav .nav-drop-panel a{height:auto;padding:8px 12px;border-bottom:0;border-radius:var(--aha-radius-sm)}
+.top-nav .nav-drop-panel a:hover{background:var(--aha-bg-accent)}
+.top-nav .nav-drop-panel a.active{background:var(--aha-bg-accent)}
 .hmeta{flex:0 0 auto}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
@@ -553,6 +570,31 @@ const NAV_TOGGLE_JS = `
   if(backdrop) backdrop.addEventListener('click', close);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&isOpen()) close(); });
   document.addEventListener('click', function(e){ if(isOpen() && e.target.closest('.doc-nav a')) close(); });
+})();
+`;
+
+const NAV_DROP_JS = `
+(function(){
+  if(window.__navDrop) return; window.__navDrop=true;
+  function parts(d){ return {btn:d.querySelector('.nav-drop-btn'), panel:d.querySelector('.nav-drop-panel')}; }
+  function setOpen(d,open){ var p=parts(d); if(!p.btn) return; p.btn.setAttribute('aria-expanded',open?'true':'false'); if(open){ p.panel.removeAttribute('hidden'); var r=p.btn.getBoundingClientRect(); p.panel.style.left=Math.max(8,Math.min(r.left,window.innerWidth-p.panel.offsetWidth-8))+'px'; } else p.panel.setAttribute('hidden',''); }
+  function isOpen(d){ var b=d.querySelector('.nav-drop-btn'); return !!b && b.getAttribute('aria-expanded')==='true'; }
+  function closeAll(except){ document.querySelectorAll('.nav-drop').forEach(function(d){ if(d!==except) setOpen(d,false); }); }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('.nav-drop-btn');
+    if(btn){ var d=btn.closest('.nav-drop'); var pinning=isOpen(d)&&d.__byHover; d.__byHover=false; closeAll(d); setOpen(d,pinning?true:!isOpen(d)); return; }
+    if(e.target.closest('.nav-drop-panel a')){ closeAll(); return; }
+    closeAll();
+  });
+  document.addEventListener('pointerover',function(e){ if(e.pointerType!=='mouse') return; var d=e.target.closest&&e.target.closest('.nav-drop'); if(d && !isOpen(d)){ closeAll(d); d.__byHover=true; setOpen(d,true); } });
+  document.addEventListener('pointerout',function(e){ if(e.pointerType!=='mouse') return; var d=e.target.closest&&e.target.closest('.nav-drop'); if(d && d.__byHover && !d.contains(e.relatedTarget)){ d.__byHover=false; setOpen(d,false); } });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    var d=document.querySelector('.nav-drop .nav-drop-btn[aria-expanded="true"]'); if(!d) return;
+    var drop=d.closest('.nav-drop'), inside=drop.contains(document.activeElement);
+    setOpen(drop,false); if(inside) d.focus();
+  });
+  document.addEventListener('focusin',function(e){ document.querySelectorAll('.nav-drop').forEach(function(d){ if(isOpen(d) && !d.contains(e.target)) setOpen(d,false); }); });
 })();
 `;
 
@@ -930,12 +972,22 @@ const RAW_FEEDS = [
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
-  return `<nav class="top-nav">` + SECTIONS.map(s => {
-    if (s.key === 'guidelines' && !GUIDELINES.length) return '';
-    if (s.key === 'audience' && !AUDIENCE) return '';
-    const href = base + (NAV_LANDING[s.key] || 'index.html');
-    return `<a class="${section===s.key?'active':''}" href="${href}">${esc(s.label)}</a>`;
-  }).join('') + `</nav>`;
+  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB);
+  const link = s => `<a class="${section===s.key?'active':''}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
+  const out = [];
+  const grouped = new Set();
+  for (const s of SECTIONS) {
+    if (grouped.has(s.key) || !visible(s)) continue;
+    const group = NAV_GROUPS.find(g => g.members.includes(s.key));
+    if (!group) { out.push(link(s)); continue; }
+    const members = group.members.map(k => SECTIONS.find(x => x.key === k)).filter(m => m && visible(m));
+    members.forEach(m => grouped.add(m.key));
+    const id = `top-nav-${group.key}`;
+    out.push(`<div class="nav-drop${members.some(m => m.key === section) ? ' active' : ''}">` +
+      `<button class="nav-drop-btn" type="button" aria-expanded="false" aria-controls="${id}">${esc(group.label)}<aha-icon name="system-caret-down" size="12" decorative></aha-icon></button>` +
+      `<div class="nav-drop-panel" id="${id}" hidden>${members.map(m => link(m)).join('')}</div></div>`);
+  }
+  return `<nav class="top-nav">` + out.join('') + `</nav>`;
 }
 
 // Left sidebar — scoped to the CURRENT area only (empty on Overview, which is full-width).
@@ -1035,7 +1087,7 @@ ${fontPreloads(base)}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
 <script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';import '${base || './'}lib/aha-product-lockup.js';</script>
-<script>${SEARCH_JS}${NAV_TOGGLE_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
+<script>${SEARCH_JS}${NAV_TOGGLE_JS}${NAV_DROP_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
@@ -1412,6 +1464,7 @@ function surfaceCdnBox(surface) {
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
     ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -1500,6 +1553,56 @@ function renderAudienceLibrary() {
   </script>
   ${hubAnchorScript(anchorItems)}`;
   return docShell({ base: '../', active: 'audience', title: AUDIENCE.title, section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+}
+
+/* ---- Canvas Library — a first-class top-level area, built like the Audience Library: ONE scroll page
+   rendered into docShell (noSidebar + the shared sticky Anchor), content is data (canvas/library.json).
+   Its demos ARE the shipped <aha-button> / <aha-tooltip> themed by applyCanvasDeck, not mock-ups. */
+function renderCanvasCard(sec) {
+  const rules = (sec.rules || []).map(r => `<dt>${esc(r.label)}</dt><dd>${audMd(r.value)}</dd>`).join('');
+  const code = sec.snippet ? `<div class="cl-code"><div class="code-panel feed"><div class="code-head"><div class="tabs"><span class="tab active">HTML</span></div><button class="copy" type="button">Copy</button></div><pre class="active">${esc(withCdnRef(sec.snippet))}</pre></div></div>` : '';
+  return `<section id="${esc(sec.name)}" class="card">
+  <header class="card-h">
+    <div class="card-title"><h2>${esc(sec.name)}</h2>${sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : ''}</div>
+    <p class="element">Use <code class="ic">${esc(sec.element)}</code></p>
+    <p class="what">${audMd(sec.what)}</p>
+    <dl class="callout">
+      <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
+      <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
+    </dl>
+  </header>
+  <div class="cl-demo">${sec.demo}</div>
+  ${rules ? `<div class="cl-rules"><h3>Rules</h3><dl>${rules}</dl></div>` : ''}
+  ${code}
+</section>`;
+}
+function renderCanvasLibrary() {
+  const anchorItems = CANVAS_LIB.sections.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
+  const fallbackGroups = [{ cat: 'Canvas components', links: CANVAS_LIB.sections.map(s => ({ id: s.name, title: s.name })) }];
+  const main = `<div class="canvas-lib">
+    <header class="cl-head">
+      <h1>${esc(CANVAS_LIB.title)}</h1>
+      <p class="rule">${audMd(CANVAS_LIB.rule)}</p>
+      <p class="why">${audMd(CANVAS_LIB.why)}</p>
+      ${surfaceCdnBox('canvas')}
+    </header>
+    <div class="hub-layout">
+      ${hubAnchorAside(fallbackGroups)}
+      <div class="hub-body"><div class="cl-cards">${CANVAS_LIB.sections.map(renderCanvasCard).join('\n')}</div></div>
+    </div>
+  </div>
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyCanvasDeck } from '../lib/canvas-deck.js';
+    const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
+    }
+  </script>
+  ${hubAnchorScript(anchorItems)}`;
+  return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
 function renderMarketingHtml(b) {
@@ -2504,6 +2607,8 @@ MARKETING = existsSync(MDIR)
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
 AUDIENCE = existsSync(join(ADIR, 'library.json')) ? JSON.parse(read(join(ADIR, 'library.json'))) : null;
+CANVAS_LIB = existsSync(join(CANVAS_DIR, 'library.json')) ? JSON.parse(read(join(CANVAS_DIR, 'library.json'))) : null;
+CANVAS_CSS = existsSync(join(CANVAS_DIR, 'canvas.css')) ? read(join(CANVAS_DIR, 'canvas.css')) : '';
 AUD_CSS = existsSync(join(ADIR, 'audience.css')) ? read(join(ADIR, 'audience.css')) : '';
 /* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
    source of truth the consumer feeds compile from. Absent-safe: no store → no feed. */
@@ -2521,6 +2626,7 @@ NAV_LANDING = {
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
+  canvas: (CANVAS_LIB ? 'canvas/index.html' : 'index.html'),
   charts: 'charts/index.html',
   developers: 'get-started/index.html',
   feeds: 'feeds/llms-txt.html',
@@ -2694,6 +2800,7 @@ const indexLines = [
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
+  `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
@@ -2777,6 +2884,12 @@ if (AUDIENCE) {
   mkdirSync(join(OUT, 'audience'), { recursive: true });
   writeFileSync(join(OUT, 'audience', 'index.html'), renderAudienceLibrary());
   console.log(`  ✓ audience library: audience/index.html (${AUDIENCE.sections.length} component sections)`);
+}
+/* canvas library — one first-class in-site page (canvas/index.html) under the DS shell */
+if (CANVAS_LIB) {
+  mkdirSync(join(OUT, 'canvas'), { recursive: true });
+  writeFileSync(join(OUT, 'canvas', 'index.html'), renderCanvasLibrary());
+  console.log(`  ✓ canvas library: canvas/index.html (${CANVAS_LIB.sections.length} sections)`);
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
 if (ANTISLOP) {
