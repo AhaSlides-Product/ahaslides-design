@@ -42,7 +42,7 @@
     { "name": "rank", "type": "1 | 2 | 3 | 4", "default": "—", "desc": "Leaderboard rank badge with a leading system-medal glyph; size sm unless `size` is set" },
     { "name": "session", "type": "string", "default": "—", "desc": "Renders a \"Session N\" badge on a grey fill; the value is N (slotted content / `text` overrides the label). Size sm unless `size` is set" },
     { "name": "kind", "type": "new | beta", "default": "—", "desc": "New tag: Vivid Pink 5% fill (bg-accent #FEF3F7) with Darker Pink label (text-link-hover #DB005B, 4.65:1). Beta tag: grey fill (gray-30), default text; label \"New\" / \"Beta\"; size sm unless `size` is set" },
-    { "name": "size", "type": "default | sm", "default": "default (plan) · sm (rank, session, kind)", "desc": "Badge size: default is 28px tall with a 14px label and 16px icon; sm is 20px with 4px side padding, a 12px regular label and a 12px icon. Also accepted by `<aha-status-badge>`" }
+    { "name": "size", "type": "default | sm", "default": "default (plan) · sm (rank, session, kind)", "desc": "Badge size: default is 28px tall with a 14px label and 16px icon; sm is 20px with 4px side padding, a 12px regular label and a 12px icon. A `dot` is 6px at default and 4px at sm. Also accepted by `<aha-status-badge>`" }
   ],
   "opinion": {
     "whenToUse": [
