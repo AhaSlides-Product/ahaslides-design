@@ -25,7 +25,9 @@ const SWATCH_CLASS = {
 };
 
 function copyChip(hex, withSwatch = true) {
-  const swatch = withSwatch && SWATCH_CLASS[hex] ? `<span class="swatch ${SWATCH_CLASS[hex]}"></span>` : '';
+  const swatch = !withSwatch ? ''
+    : SWATCH_CLASS[hex] ? `<span class="swatch ${SWATCH_CLASS[hex]}"></span>`
+      : `<span class="swatch" style="background:${escapeHtml(hex)}"></span>`;
   return `<button type="button" class="chip" data-copy="${escapeHtml(hex)}" aria-label="Copy ${escapeHtml(hex)}">${swatch}<code>${escapeHtml(hex)}</code><span class="hint">Copy</span></button>`;
 }
 
@@ -51,11 +53,17 @@ export function markupToText(text) {
 
 const sectionNumber = (section) => section.id.replace(/^s/, '');
 
+/** A section's blocks in reading order, with each collapsed panel opened out into the blocks it holds. */
+export function sectionBlocks(section) {
+  const open = (blocks) => blocks.flatMap(block => (block.type === 'panel' ? open(block.blocks) : [block]));
+  return open(section.blocks);
+}
+
 /** Every rule in reading order, each with the environments it applies to. */
 export function listRules(rules) {
   const list = [];
   for (const section of rules.sections) {
-    for (const block of section.blocks) {
+    for (const block of sectionBlocks(section)) {
       const inherited = block.environment || section.environment || rules.environment;
       const entries = block.type === 'rules' ? block.rules : (block.rule ? [block] : []);
       for (const entry of entries) {
@@ -70,7 +78,7 @@ export function listRules(rules) {
 }
 
 export function listTables(rules) {
-  return rules.sections.flatMap(section => section.blocks.filter(block => block.type === 'table').map(block => ({
+  return rules.sections.flatMap(section => sectionBlocks(section).filter(block => block.type === 'table').map(block => ({
     id: block.id, section: sectionNumber(section), sectionTitle: section.title,
     environment: block.environment || section.environment || rules.environment, origin: block.origin || 'rules page',
     columns: block.columns, rows: block.rows.map(row => row.map(markupToText)),
@@ -79,9 +87,10 @@ export function listTables(rules) {
 
 /** The explanatory paragraphs that are not rules, in reading order. */
 export function listNotes(rules) {
-  return rules.sections.flatMap(section => section.blocks.filter(block => block.type === 'paragraph' && !block.rule).map(block => ({
-    section: sectionNumber(section), sectionTitle: section.title, text: markupToText(block.text),
-  })));
+  return rules.sections.flatMap(section => sectionBlocks(section).flatMap(block => {
+    const texts = block.type === 'paragraph' && !block.rule ? [block.text] : [];
+    return texts.map(text => ({ section: sectionNumber(section), sectionTitle: section.title, text: markupToText(text) }));
+  }));
 }
 
 /** Rule id to the judge criteria that cite it, as "surface:C1". */
@@ -117,7 +126,7 @@ function paletteValueCell(colour) {
   return markupToHtml(colour.valueText);
 }
 
-function blockHtml(block, rules, parts) {
+function blockHtml(block, rules, parts, options = {}) {
   const grid = (columns, rows) => fill(parts['rules-table'], {
     head: columns.map(column => `<th>${escapeHtml(column)}</th>`).join('\n'),
     rows: rows.map(row => `<tr>\n${row.map(cell => `<td>${cell}</td>`).join('\n')}\n</tr>`).join('\n'),
@@ -127,6 +136,10 @@ function blockHtml(block, rules, parts) {
   if (block.type === 'rules') return `<ol${block.start ? ` start="${block.start}"` : ''}>\n${block.rules.map(rule => `<li id="r${rule.id}">${markupToHtml(rule.text)}</li>`).join('\n')}\n</ol>`;
   if (block.type === 'table') return grid(block.columns, block.rows.map(row => row.map(markupToHtml)));
   if (block.type === 'palette') return grid(['Colour', 'Value', 'What it is for'], rules.palette.map(colour => [markupToHtml(colour.name), paletteValueCell(colour), markupToHtml(colour.role)]));
+  if (block.type === 'panel') {
+    const caret = options.icon ? options.icon('system-caret-right', 16) : '';
+    return `<details class="panel" id="${escapeHtml(block.id)}"><summary><span class="panel-caret">${caret}</span>${escapeHtml(block.title)}</summary>\n<div class="panel-body">\n${block.blocks.map(inner => blockHtml(inner, rules, parts, options)).join('\n')}\n</div></details>`;
+  }
   if (block.type === 'open') {
     return rules.open.length
       ? `<ol>\n${rules.open.map(point => `<li id="${point.id}"><strong>${escapeHtml(point.title)}.</strong> ${markupToHtml(point.text)} Until it is settled: ${markupToHtml(point.interim)}</li>`).join('\n')}\n</ol>`
@@ -135,10 +148,15 @@ function blockHtml(block, rules, parts) {
   throw new Error(`${COLOUR_RULES_FILE}: unknown block type "${block.type}"`);
 }
 
+/** The section that holds the correct and wrong answer rules, for pages that show it outside the rules page. */
+export function answerSection(rules) {
+  return rules.sections.find(section => section.key === 'answers');
+}
+
 const paletteHex = (rules, id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 
 /** The human page, self-contained: one file, both font weights embedded. */
-export function renderColourRulesPage(rules, { fonts, templateHtml }) {
+export function renderColourRulesPage(rules, { fonts, templateHtml, icon }) {
   const { shell, parts } = parseTemplate(templateHtml);
   const number = (section) => `<span class="num">${sectionNumber(section)}</span>`;
   return fill(shell, {
@@ -151,7 +169,7 @@ export function renderColourRulesPage(rules, { fonts, templateHtml }) {
     updated: longDate(rules.updated),
     glance: rules.glance.map(line => `<li>${markupToHtml(line)}</li>`).join(''),
     sections: rules.sections.map(section =>
-      `<h2 id="${section.id}">${number(section)}${escapeHtml(section.title)}</h2>\n${section.blocks.map(block => blockHtml(block, rules, parts)).join('\n')}`).join('\n'),
+      `<h2 id="${section.id}">${number(section)}${escapeHtml(section.title)}</h2>\n${section.blocks.map(block => blockHtml(block, rules, parts, { icon })).join('\n')}`).join('\n'),
     changes: rules.changes.map(change => `<li><span class="ver">${escapeHtml(change.version)}</span><span class="date">${escapeHtml(change.date)}</span><span>${escapeHtml(change.text)}</span></li>`).join(''),
   });
 }
