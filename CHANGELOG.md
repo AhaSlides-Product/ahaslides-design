@@ -35,7 +35,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Card Select hover and selected follow the checkable Tag at size large: hover moves only the border to Vivid Pink, selected is the Vivid Pink 5% fill (bg-accent) with a Vivid Pink border and a text-link-hover label (#DB005B; text-link #E70E68 is 4.16:1 on that fill) (#249).
 - Setting Group: groups sit 24px apart (was 32) and the header sits 8px above its rows (was 12), on the space tokens, as the settings lab does. The danger zone stays 48px (#249).
 - state-check allows the correct-answer green and its 5% and 30% tints (colour rule 11), so an answer row may carry them (#249).
-- Option Row correct state uses the answer colours of colour rule 11: an answer-correct edge over the answer-correct-tint-5 fill, the toggle filled answer-correct, and a tint-30 focus ring (#249).
+- Option Row correct state uses the answer colours of colour rule 11: an answer-correct edge over the answer-correct-tint-5 fill, the toggle filled answer-correct, and a 2px answer-correct focus ring (3:1 or more on the tint) (#249).
 - Info Box is now a thin wrapper over Alert: its variants map to the Alert types, so it takes the Alert look (grey surface, no border, grey status glyph) and roles. Its API (`variant`, `icon`, `dismissible`, `dismiss`) is unchanged (#249).
 - Image Dropzone hover softens only the dashed edge to Vivid Pink 30% (vivid-pink-30); the fill and text stay (#249).
 ### Fixed

@@ -17,7 +17,6 @@
     "color-success",
     "answer-correct",
     "answer-correct-tint-5",
-    "answer-correct-tint-30",
     "color-error",
     "bg-container",
     "bg-elevated",
@@ -69,7 +68,7 @@
     },
     {
       "label": "Focus",
-      "value": "focus-within → #E70E68 row border + soft 2px --aha-focus-ring-soft ring (a --aha-answer-correct-tint-30 ring when correct), on the one persistent border"
+      "value": "focus-within → #E70E68 row border + soft 2px --aha-focus-ring-soft ring (a 2px --aha-answer-correct ring when correct, 3:1 or more on the 5% tint), on the one persistent border"
     }
   ],
   "props": [
