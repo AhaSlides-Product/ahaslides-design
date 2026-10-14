@@ -1165,7 +1165,7 @@
         {
           "id": "C9",
           "title": "Submit button matches the standard spec",
-          "test": "**Rule.** Every built-in audience slide type uses one consistent submit-button look + behaviour (the host design system's `aha-antd-button` in the \"primary-alt\" variant). That component doesn't cross the iframe boundary, so plugin authors build their own — but the in-iframe button MUST match the shared spec (visual + behaviour + wiring), or audience experience drifts per slide type."
+          "test": "**Rule.** Every built-in audience slide type uses one consistent submit-button look + behaviour (the host design system's `aha-antd-button` in the \"primary-alt\" variant). That component doesn't cross the iframe boundary, so plugin authors build their own — but the in-iframe button MUST match the shared spec (visual + behaviour + wiring), or audience experience drifts per slide type. On the build-less Developer Platform the design system does cross the boundary (the iframe loads `lib/audience.js`): the submit is `<aha-audience-submit>`, and a raw `<button>` or a hand-ported copy of its CSS FAILs."
         },
         {
           "id": "C10",
@@ -1270,7 +1270,7 @@
         {
           "id": "C30",
           "title": "An ACTIVE audience submit button is passed the deck accent, not left on the component's purple fallback",
-          "test": "**Rule.** This repo's submit CTA is the shared library component (`SubmitButton` / `AudienceSubmitButton` from `@/iframe/audience`), whose fill DEFAULTS to the fixed brand purple and only tracks the deck when it is passed `:accent=\"presentationColorPalette[0]\"`. So an ACTIVE (answerable) submit button MUST bind that accent."
+          "test": "**Rule.** This repo's submit CTA is the shared library component (`SubmitButton` / `AudienceSubmitButton` from `@/iframe/audience`), whose fill DEFAULTS to the fixed brand purple and only tracks the deck when it is passed `:accent=\"presentationColorPalette[0]\"`. So an ACTIVE (answerable) submit button MUST bind that accent. On the build-less Developer Platform the submit is `<aha-audience-submit>` from `lib/audience.js`, which reads the deck accent from `--aha-color-primary` once `applyDeck` has run: it PASSes with no accent prop, and FAILs when `applyDeck` is never called."
         },
         {
           "id": "C31",
