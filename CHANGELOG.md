@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.184.0 — 2026-10-14
 ### Added
-- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"): participant join bar, main navigation with Products, Solutions and Resources dropdowns, Pricing, Enterprise, the language switch, Log in and Sign up. Hamburger menu at 991px and below (dropdowns become an accordion). The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, every value is an `--aha-*` token. Webflow differences are listed in `docs/landing-webflow-scan.md` for the consumer to update. (#PR)
+- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"): participant join bar, main navigation with Products, Solutions and Resources dropdowns, Pricing, Enterprise, the language switch, Log in and Sign up. Hamburger menu at 991px and below (dropdowns become an accordion). The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, every value is an `--aha-*` token. Webflow differences are listed in `docs/landing-webflow-scan.md` for the consumer to update. (#247)
 
 ## 0.182.0 — 2026-10-14
 ### Added
