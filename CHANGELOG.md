@@ -44,6 +44,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **Breaking:** Badge `rank` preset (`<aha-badge rank="1" | "2" | "3" | "4">`, the leaderboard medal badge), with its docs section, snippets and contract rows. The ordinal badges of `<aha-rank-list>` are unchanged. (#244)
 - **Breaking:** Badge standalone status label (`<aha-badge status="…" text="…">` with no count or dot), its docs "Status" section, snippets and contract rows. Use the Status badge component for a state label. (#244)
 
+## 0.181.1 — 2026-10-14
+### Fixed
+- `aha-product-lockup` writes every asset URL as an inline `new URL('<literal>', import.meta.url)`, so rspack and webpack bundle the Splash and font files instead of throwing "Cannot find module" and stopping `@ahaslides-product/design/all` from registering. A new unit test fails on any non-literal `import.meta.url` in `lib/`. (#246)
+
 ## 0.181.0 — 2026-10-14
 ### Added
 - `<aha-status-badge look>` takes four styles: `quiet` (Gray 25, no border), `emphasis` (white, 1px `--aha-border-strong` inset border), `alert` (white, 1px `--aha-border-warning` inset border, a `system-warning-circle` icon in `--aha-icon-active`, the only pink on any badge) and `plain` (no box, Gray 80 regular text, optional icon). `look="default"` is accepted as a deprecated alias of `quiet`. (#240)
