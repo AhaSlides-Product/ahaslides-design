@@ -1629,7 +1629,7 @@ function renderCanvasLibrary() {
   <script type="module">
     import '../lib/all.js';
     import { applyCanvasDeck } from '../lib/canvas-deck.js';
-    const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
     for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
       applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
     }
