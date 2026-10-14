@@ -281,7 +281,7 @@ let NAV_LANDING = {};   // top-nav → each area's landing page (set once contra
 /* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
    sidebar (Components shows only components, Foundations only tokens/icons, etc.). One area
    per screen keeps every sidebar short and relevant. */
-const NAV_GROUPS = [{ key: 'visuals', label: 'Charts & Canvas', members: ['charts', 'canvas'] }];
+const NAV_GROUPS = [{ key: 'canvas-library', label: 'Canvas Library', members: ['charts', 'canvas'], memberLabels: { charts: 'Chart', canvas: 'Components' } }];
 const SECTIONS = [
   { key: 'overview',    label: 'Overview' },
   { key: 'foundations', label: 'Foundations' },
@@ -985,7 +985,7 @@ function topNav(base, section) {
     const id = `top-nav-${group.key}`;
     out.push(`<div class="nav-drop${members.some(m => m.key === section) ? ' active' : ''}">` +
       `<button class="nav-drop-btn" type="button" aria-expanded="false" aria-controls="${id}">${esc(group.label)}<aha-icon name="system-caret-down" size="12" decorative></aha-icon></button>` +
-      `<div class="nav-drop-panel" id="${id}" hidden>${members.map(m => link(m)).join('')}</div></div>`);
+      `<div class="nav-drop-panel" id="${id}" hidden>${members.map(m => link({ ...m, label: group.memberLabels?.[m.key] || m.label })).join('')}</div></div>`);
   }
   return `<nav class="top-nav">` + out.join('') + `</nav>`;
 }
