@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.181.1 — 2026-10-14
+### Fixed
+- `aha-product-lockup` writes every asset URL as an inline `new URL('<literal>', import.meta.url)`, so rspack and webpack bundle the Splash and font files instead of throwing "Cannot find module" and stopping `@ahaslides-product/design/all` from registering. A new unit test fails on any non-literal `import.meta.url` in `lib/`. (#246)
+
 ## 0.181.0 — 2026-10-14
 ### Added
 - `<aha-status-badge look>` takes four styles: `quiet` (Gray 25, no border), `emphasis` (white, 1px `--aha-border-strong` inset border), `alert` (white, 1px `--aha-border-warning` inset border, a `system-warning-circle` icon in `--aha-icon-active`, the only pink on any badge) and `plain` (no box, Gray 80 regular text, optional icon). `look="default"` is accepted as a deprecated alias of `quiet`. (#240)
