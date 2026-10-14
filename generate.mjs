@@ -492,6 +492,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 
 /* ---- interactive playground (the "smart widget": explore variants, don't stack them) ---- */
 .aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;margin-bottom:12px;border-radius:8px;background:var(--aha-gray-20)}
+.aha-pg .ant-btn.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover,.aha-pg .ant-btn.ant-btn-default:not(:disabled):not(.ant-btn-disabled):active{color:var(--aha-text-default)}
 .aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}

@@ -29,6 +29,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Fixed
 - Translucent tints that float over other content now sit on an opaque white backing, so nothing shows through: `<aha-avatar>` ground (stacked groups overlap by 10px), the wrapped `<aha-badge>` count and dot (soft 5% count, 30% warning dot), the `<aha-badge ribbon>` fill, and the `<aha-image-action-button>` hover fill over an image. (#248)
+- `parseColour` (`lib/audience-deck.js`) accepts `#RRGGBBAA` and `#RGBA`, composited over white, so the transparent Vivid Pink tokens no longer fall back to white. Chart swatches (legend, tooltip, read-out rows) sit on an opaque container backing. On a grey playground surface the antd default button hover and active label is the default ink, not Darker Pink (4.35:1 there). (#248)
 - Colour page, Text group: `textInverse` (`--aha-text-inverse`, white) was missing from the swatches. It is listed after `textDisabled`, and every swatch chip has a bottom divider so a white chip is visible on the white page. (#248)
 
 ## 0.183.0 — 2026-10-14
