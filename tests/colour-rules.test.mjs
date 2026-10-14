@@ -236,11 +236,11 @@ test('the answer pair in the rules, the palette and the tokens is one set of val
   }
 });
 
-test('the answer section sits before Still to decide, holds five rules and keeps every earlier rule id', () => {
+test('the answer section sits before Still to decide, holds four rules and keeps every earlier rule id', () => {
   assert.deepEqual(rules.sections.map(section => section.id).slice(-2), ['s11', 's12']);
   assert.equal(answerSectionOf().id, 's11');
   assert.equal(rules.sections.at(-1).key, 'open');
-  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 5 }, (_, index) => `11.${index + 1}`));
+  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 4 }, (_, index) => `11.${index + 1}`));
   for (const [id, words] of [['1.1', 'section 11'], ['7.1', 'section 11'], ['8.5', 'section 11']]) assert.ok(ruleText(id).includes(words), id);
   assert.deepEqual(rules.open, []);
 });

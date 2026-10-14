@@ -469,7 +469,7 @@
           "source": [
             "7.1",
             "7.2",
-            "11.4"
+            "11.3"
           ],
           "test": "No surface is filled or tinted red, yellow, amber, green or blue to show danger, warning, success or information. A status surface stays white (--aha-bg-positive, --aha-bg-negative, --aha-bg-warning and --aha-bg-informative all resolve to white) and carries its meaning with an icon, clear wording and an outline or a black fill. The correct and wrong answer tints (--aha-answer-*, colour rules section 11) on an answer row, a response box or a result banner or chip mark an answer, not a status, and pass."
         },

@@ -25,9 +25,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.183.0 — 2026-10-14
 ### Added
 - Correct and wrong answer colours: `--aha-answer-correct` (`#008A05`) and `--aha-answer-wrong` (`#C7401E`), each with a 5% and a 30% tint (`-tint-5`, `-tint-30`), at `color.answer.*` in the tokens. For marking an answer correct or wrong only; no component uses them yet. (#245)
-- Brand colour rules section 11, Correct and wrong answers: five short rules (11.1 to 11.5) in a collapsed Rules panel, and the colour table. `<aha-collapse>` on the Colour page, a native disclosure on the Brand colour rules page; the agent feeds keep the full text. The Colour page shows the tokens and the same Rules panel. (#245)
+- Brand colour rules section 11, Correct and wrong answers: four short rules (11.1 to 11.4) in a collapsed Rules panel, and the colour table. `<aha-collapse>` on the Colour page, a native disclosure on the Brand colour rules page; the agent feeds keep the full text. The Colour page shows the tokens and the same Rules panel. (#245)
 ### Changed
-- Rules 1.1, 7.1 and 8.5, the glance line on status, the `colour` C1 and C5 and `background` C5 judge criteria, the Background pattern and the canvas and audience guides now say the answer pair is the one exception and is for answers only. A quiz result chart colours the correct column green (rule 11.4). Still to decide moves to section 12. No existing rule id changed. (#245)
+- Rules 1.1, 7.1 and 8.5, the glance line on status, the `colour` C1 and C5 and `background` C5 judge criteria, the Background pattern and the canvas and audience guides now say the answer pair is the one exception and is for answers only. A quiz result chart colours the correct column green (rule 11.3). Still to decide moves to section 12. No existing rule id changed. (#245)
 
 ## 0.182.0 — 2026-10-14
 ### Added

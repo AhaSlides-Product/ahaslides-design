@@ -261,10 +261,9 @@
     { "type": "panel", "id": "answer-rules", "title": "Rules", "blocks": [
     { "type": "rules", "rules": [
      { "id": "11.1", "text": "Green [[#008A05]] and red [[#C7401E]] mark correct and wrong answers, and nothing else: not status, alerts, success or error messages, a rise or a fall, buttons or decoration." },
-     { "id": "11.2", "text": "Every green or red mark carries a white tick or cross." },
-     { "id": "11.3", "text": "Text is never green or red; it stays the default ink, on a tint too." },
-     { "id": "11.4", "text": "Solid colour is only for the tick or cross disc, an answer row's edge and the correct column of a result chart; areas use the 5% or 30% tint." },
-     { "id": "11.5", "text": "The pair is fixed: never replaced by deck colours, a theme or Vivid Pink." }
+     { "id": "11.2", "text": "Text is never green or red; it stays the default ink, on a tint too." },
+     { "id": "11.3", "text": "Solid colour is only for the tick or cross disc, an answer row's edge and the correct column of a result chart; areas use the 5% or 30% tint." },
+     { "id": "11.4", "text": "The pair is fixed: never replaced by deck colours, a theme or Vivid Pink." }
     ] }
     ] }
    ]
@@ -278,7 +277,7 @@
  ],
  "open": [],
  "changes": [
-  { "version": "v12", "date": "14 Oct", "text": "New section 11, Correct and wrong answers: one green and one red, with 5% and 30% tints, mark a correct or wrong answer and nothing else. Five short rules (11.1 to 11.5) in a collapsed Rules panel. Rules 1.1, 7.1 and 8.5 and the glance line on status now name that exception. Still to decide moves to section 12. No existing rule id changed." },
+  { "version": "v12", "date": "14 Oct", "text": "New section 11, Correct and wrong answers: one green and one red, with 5% and 30% tints, mark a correct or wrong answer and nothing else. Four short rules (11.1 to 11.4) in a collapsed Rules panel. Rules 1.1, 7.1 and 8.5 and the glance line on status now name that exception. Still to decide moves to section 12. No existing rule id changed." },
   { "version": "v11", "date": "13 Oct", "text": "Rules that scoped themselves by who makes a page or a layout now name the medium instead: a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The retired colours and the near matches (rule 1.3) are marked as applying everywhere, which rule 1.1 already required. No rule asks for anything new." },
   { "version": "v10", "date": "12 Oct", "text": "The rules now live as data in the design system, the one source for this page, the agent feed and the judge criteria. Added: applied usage per surface, splash files and the generator, no gradients, retired colours. Nothing is left under Still to decide. The minimal splash is two copies of the largest hook, sized as if the icon were 1.15 times the longer side (each hook 0.73 of it), each pinned to its own corner with offsets measured against the longer side, so it works on any aspect ratio. Colours are defined in RGB only. Every button and text link, on any surface, is the design system Button component, except the white primary button on Vivid Pink (rule 6.2), which keeps its own colours, hover and focus outline. No existing rule changed." },
   { "version": "v9", "date": "8 Oct", "text": "Illustrations use Vivid Pink tints; our own illustrations, logos of customers and tools and file-type icons follow the rules; black is 1A1A1A." },
