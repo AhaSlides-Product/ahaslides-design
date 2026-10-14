@@ -22,10 +22,28 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.186.0 — 2026-10-14
+## 0.190.0 — 2026-10-14
 ### Fixed
 - Setting Row, Settings Item, Counted Input and Number With Unit now carry the paragraph letter-spacing (`--aha-letter-spacing-paragraph`, 0.2px) on the row label, the field text and the unit, and the subtext letter-spacing (0.3px) on the counter and the error message, as the settings lab does. The tokens already existed; the components did not use them (#249).
 - Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width (#249). The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
+
+## 0.188.0 — 2026-10-14
+### Added
+- Correct and incorrect badges for the Report app: `<aha-badge kind="correct">` and `kind="incorrect"`, size sm by default and `size="default"` for the 28px box. The fill is the answer colour at 5% (`--aha-answer-correct-tint-5`, `--aha-answer-wrong-tint-5`), the label stays the default ink (rule 11.2), and a tick or cross circle icon (`system-check-circle`, `system-x-circle`) in `--aha-answer-correct` and `--aha-answer-wrong` (rule 11.3). For a correct or wrong answer only (rule 11.1). Contract row, docs examples, html, React and Vue snippets and render probes on the Badge page. (#250)
+
+## 0.185.1 — 2026-10-14
+### Fixed
+- `<aha-chart>` treemap chip and bell-curve average badge: the translucent series tint now sits on an opaque white base, so the label keeps its contrast on a Vivid Pink tile (it fell to about 3.86:1 in 0.185.0). (#251)
+
+## 0.185.0 — 2026-10-14
+### Changed
+- Vivid Pink 5 and Vivid Pink 30 are now the transparent values, `color.primitives.vividPink.5` `#E70E680D` and `.30` `#E70E684D`, not the flat `#FEF3F7` and `#F8B7D2`. `bgAccent`, `button.secondaryBgHover`, `button.tertiaryBgHover` and `button.tertiaryBgActive` alias the primitive, so there is one source. The tints now take the colour of the surface under them (a New badge on a hovered pink row stacks instead of vanishing); on white they look as before. Every `var(--aha-bg-accent,#FEF3F7)` fallback in `lib/`, the antd theme seeds and the contracts carry the transparent value, and contract `expect` colours read `rgba(231, 14, 104, 0.05)`. Illustration tints stay flat (illustrations are a separate palette), and deck-palette chart samples keep their flat customer colours. Twelve contracts now declare `environment`. (#248)
+- Colour page and `design.md`: Vivid Pink 5 and 30 are described as transparencies, not as flat codes on white. (#248)
+
+### Fixed
+- Translucent tints that float over other content now sit on an opaque white backing, so nothing shows through: `<aha-avatar>` ground (stacked groups overlap by 10px), the wrapped `<aha-badge>` count and dot (soft 5% count, 30% warning dot), the `<aha-badge ribbon>` fill, and the `<aha-image-action-button>` hover fill over an image. (#248)
+- Canvas Library dark-deck demo: its pale pink accent is a flat `#F8B7D2` (a customer deck colour, not the translucent token). `parseColour` (`lib/audience-deck.js`) accepts `#RRGGBBAA` and `#RGBA`, composited over white, so the transparent Vivid Pink tokens no longer fall back to white. Chart swatches (legend, tooltip, read-out rows) sit on an opaque container backing. On a grey playground surface the antd default button hover and active label is the default ink, not Darker Pink (4.35:1 there). (#248)
+- Colour page, Text group: `textInverse` (`--aha-text-inverse`, white) was missing from the swatches. It is listed after `textDisabled`, and every swatch chip has a bottom divider so a white chip is visible on the white page. (#248)
 
 ## 0.183.0 — 2026-10-14
 ### Added

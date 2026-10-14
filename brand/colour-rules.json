@@ -66,7 +66,7 @@
        ["Lighter Purple", "`#7831C8`", "Retired, no replacement"],
        ["Deep Space Blue as a text or background colour", "`#1A1A2E`", "Black for text; no dark backgrounds. The logo wordmark keeps its own colour"],
        ["Teal", "`#1BCFA5`", "Retired, no decorative accent colour"],
-       ["Rose", "`#FAF0F6`", "Vivid Pink at 5% `#FEF3F7`"]
+       ["Rose", "`#FAF0F6`", "Vivid Pink at 5% `#E70E680D`"]
       ] },
     { "type": "paragraph", "id": "1.3", "rule": true, "origin": "aha-marketing-video-brand", "text": "Near matches are not the brand colours either: `#7C3AED`, `#EC4899` and `#14B8A6` are never used." }
    ]
@@ -121,7 +121,7 @@
       "columns": ["Role", "On a white surface", "On a Vivid Pink surface"],
       "rows": [
        ["Background", "White `#FFFFFF`", "Vivid Pink `#E70E68`"],
-       ["Splash hooks", "Vivid Pink at 5% `#FEF3F7`", "Darker Pink `#DB005B`"],
+       ["Splash hooks", "Vivid Pink at 5% `#E70E680D`", "Darker Pink `#DB005B`"],
        ["Heading", "Vivid Pink or black", "Solid white"],
        ["Body text", "Black", "Solid white"],
        ["Primary button", "Vivid Pink with white text", "White with Vivid Pink text"],
