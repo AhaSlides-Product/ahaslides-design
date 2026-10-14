@@ -792,6 +792,8 @@ const repoChecks = [];
   const rchk = (name, cond, note = '') => repoChecks.push([name, !!cond, cond ? '' : note]);
   const VIVID_PINK = '#E70E68', LOGO_PURPLE = '#6A1EBB';
   const ALLOWED_COLOURS = new Set([VIVID_PINK, '#DB005B', '#FEF3F7', '#F8B7D2']);
+  /* Colour rules section 11: the correct and wrong answer pair and its tints, allowed at color.answer.* and on the Colour page only. */
+  const ANSWER_COLOURS = ['#008A05', '#F2F9F2', '#B2DCB4', '#192019', '#123C14', '#C7401E', '#FCF5F4', '#EEC6BC', '#231C1A', '#4E251B'];
   const isNeutral = (hex) => hex.slice(1, 3) === hex.slice(3, 5) && hex.slice(3, 5) === hex.slice(5, 7);
   const coloursIn = (text) => [
     ...[...String(text).matchAll(/(?<![&\w])#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])/g)].map(m => normHex(m[0]).slice(0, 7)),
@@ -803,14 +805,14 @@ const repoChecks = [];
   const tokenLeaves = (node, path = '') => (node && typeof node === 'object')
     ? Object.entries(node).filter(([key]) => !key.startsWith('$')).flatMap(([key, value]) => tokenLeaves(value, path ? `${path}.${key}` : key))
     : [[path, node]];
-  const offListTokens = tokenLeaves(TOKENS).flatMap(([path, value]) => offList(value, path === 'color.primitives.logoPurple').map(hex => `${path} ${hex}`));
+  const offListTokens = tokenLeaves(TOKENS).flatMap(([path, value]) => offList(value, path === 'color.primitives.logoPurple', path.startsWith('color.answer.') ? ANSWER_COLOURS : []).map(hex => `${path} ${hex}`));
   rchk('every colour token is on the allowed colour list', offListTokens.length === 0,
-    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black #1A1A1A, neutral greys, and ${LOGO_PURPLE} at color.primitives.logoPurple only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
+    `allowed: Vivid Pink ${VIVID_PINK}, Darker Pink #DB005B, #FEF3F7, #F8B7D2, white, black #1A1A1A, neutral greys, ${LOGO_PURPLE} at color.primitives.logoPurple only, and the answer pair at color.answer.* only — off the list: ${offListTokens.slice(0, 8).join(', ')}${offListTokens.length > 8 ? ` (+${offListTokens.length - 8} more)` : ''}`);
   const pureBlackTokens = tokenLeaves(TOKENS).filter(([, value]) => solidPureBlack(value)).map(([path]) => path);
   rchk('no colour token is solid pure black (black is the default ink #1A1A1A)', pureBlackTokens.length === 0,
     `alias {color.primitives.black} or {color.textDefault}; pure black is allowed only with an alpha, as rgba(0,0,0,a): ${pureBlackTokens.join(', ')}`);
   const colourPagePath = join(DIST, 'foundations', 'colour.html');
-  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/<section class="illustration-tints"[\s\S]*?<\/section>/g, '').replace(/href="#[^"]*"/g, ''), true) : null;
+  const offListOnPage = existsSync(colourPagePath) ? offList(read(colourPagePath).replace(/<svg class="logo"[\s\S]*?<\/svg>/g, '').replace(/<section class="illustration-tints"[\s\S]*?<\/section>/g, '').replace(/href="#[^"]*"/g, ''), true, ANSWER_COLOURS) : null;
   rchk('the built Colour page shows only allowed colours', offListOnPage && offListOnPage.length === 0,
     offListOnPage ? `off the list on dist/foundations/colour.html: ${offListOnPage.slice(0, 12).join(', ')}` : 'dist/foundations/colour.html is missing — run node generate.mjs first');
 

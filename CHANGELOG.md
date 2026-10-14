@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.183.0 — 2026-10-14
+### Added
+- Correct and wrong answer colours: `--aha-answer-correct` (`#008A05`) and `--aha-answer-wrong` (`#C7401E`), each with 5% and 30% tints for a light surface (`-tint-5`, `-tint-30`) and a dark one (`-tint-5-dark`, `-tint-30-dark`), at `color.answer.*` in the tokens. For marking an answer correct or wrong only; no component uses them yet. (#PRNUM)
+- Brand colour rules section 11, Correct and wrong answers: ten rules (11.1 to 11.10), the measured contrast and rendered applications for the presenting screen (light and dark deck), the audience phone (picked correct, picked wrong, no pick) and the report. The Colour page shows the tokens, the rules and the same applications. (#PRNUM)
+### Changed
+- Rules 1.1, 7.1 and 8.5, the glance line on status, the `colour` C1 and C5 and `background` C5 judge criteria, the Background pattern and the canvas and audience guides now say the answer pair is the one exception and is for answers only. A quiz result chart colours the correct column green (rule 11.5). Still to decide moves to section 12 and holds two points: a white ring around the answer disc, and the share bar in a results table. No existing rule id changed. (#PRNUM)
+
 ## 0.181.0 — 2026-10-14
 ### Added
 - `<aha-status-badge look>` takes four styles: `quiet` (Gray 25, no border), `emphasis` (white, 1px `--aha-border-strong` inset border), `alert` (white, 1px `--aha-border-warning` inset border, a `system-warning-circle` icon in `--aha-icon-active`, the only pink on any badge) and `plain` (no box, Gray 80 regular text, optional icon). `look="default"` is accepted as a deprecated alias of `quiet`. (#240)

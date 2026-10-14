@@ -206,9 +206,67 @@ test('the page, the feed and the markdown all carry every rule', () => {
     assert.ok(page.includes(`id="${point.id}"`) && markdown.includes(point.title));
     assert.ok(feed.open.some(entry => entry.id === point.id));
   }
-  assert.deepEqual(rules.open, []);
-  assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
+  assert.deepEqual(rules.open.map(point => point.id), ['open-answer-ring', 'open-results-share-bar']);
+  assert.ok(!page.includes('Nothing open.') && feed.open.length === rules.open.length);
   assert.equal(feed.splash.files.length, backgrounds.length);
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
-  assert.equal(rules.changes[0].version, 'v11');
+  assert.equal(rules.changes[0].version, 'v12');
+});
+
+const contrastRatio = (first, second) => {
+  const luminance = (hex) => [1, 3, 5].map(index => parseInt(hex.slice(index, index + 2), 16) / 255)
+    .map(channel => (channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4))
+    .reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+  const [lighter, darker] = [luminance(first), luminance(second)].sort((a, b) => b - a);
+  return (lighter + 0.05) / (darker + 0.05);
+};
+const flatten = (hex, share, base) => '#' + [1, 3, 5].map(index => Math.round(parseInt(hex.slice(index, index + 2), 16) * share + parseInt(base.slice(index, index + 2), 16) * (1 - share)).toString(16).padStart(2, '0').toUpperCase()).join('');
+const answerSectionOf = () => rules.sections.find(section => section.key === 'answers');
+
+test('the answer pair in the rules, the palette and the tokens is one set of values', () => {
+  const tokens = JSON.parse(read('tokens.canonical.json')).color.answer;
+  const rows = table('answer-colours').rows;
+  for (const kind of ['correct', 'wrong']) {
+    const colour = rules.palette.find(entry => entry.id === `answer-${kind}`);
+    assert.equal(tokens[kind], colour.hex);
+    const { light5, light30, dark5, dark30 } = colour.answerTints;
+    assert.deepEqual([tokens[`${kind}Tint5`], tokens[`${kind}Tint30`], tokens[`${kind}Tint5Dark`], tokens[`${kind}Tint30Dark`]], [light5, light30, dark5, dark30]);
+    const channels = (hex) => [1, 3, 5].map(index => parseInt(hex.slice(index, index + 2), 16));
+    [[light5, 0.05, '#FFFFFF'], [light30, 0.3, '#FFFFFF'], [dark5, 0.05, '#1A1A1A'], [dark30, 0.3, '#1A1A1A']].forEach(([tint, share, base]) => {
+      const expected = channels(flatten(colour.hex, share, base));
+      assert.ok(channels(tint).every((value, index) => Math.abs(value - expected[index]) <= 1), `${kind} ${tint} is ${share * 100}% on ${base}`);
+    });
+    const [light, dark] = rows.filter(row => row[0].toLowerCase().startsWith(kind));
+    assert.deepEqual(light.slice(1), [colour.hex, light5, light30]);
+    assert.deepEqual(dark.slice(1), [colour.hex, dark5, dark30]);
+  }
+});
+
+test('every measured answer contrast is what the two colours give', () => {
+  for (const [pair, contrast] of table('answer-contrast').rows) {
+    const [foreground, background] = pair.match(/#[0-9A-F]{6}/g);
+    const truncated = Math.floor(contrastRatio(foreground, background) * 100) / 100;
+    assert.equal(contrast, `${truncated.toFixed(2)} to 1`, pair);
+  }
+});
+
+test('the answer section sits before Still to decide and keeps every earlier rule id', () => {
+  assert.deepEqual(rules.sections.map(section => section.id).slice(-2), ['s11', 's12']);
+  assert.equal(answerSectionOf().id, 's11');
+  assert.equal(rules.sections.at(-1).key, 'open');
+  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 10 }, (_, index) => `11.${index + 1}`));
+  for (const [id, words] of [['1.1', 'section 11'], ['7.1', 'section 11'], ['8.5', 'rule 11.5']]) assert.ok(ruleText(id).includes(words), id);
+});
+
+test('the answer applications draw the three surfaces with a tick or a cross on every mark', () => {
+  const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
+  const block = answerSectionOf().blocks.find(entry => entry.type === 'answer-examples');
+  assert.equal((page.match(/class="ax-stage /g) || []).length, block.presenting.length);
+  assert.equal((page.match(/class="ax-phone /g) || []).length, block.audience.length * block.audienceDecks.length);
+  assert.ok(page.includes('class="ax-report"') && page.includes('class="ax-table"'));
+  const discs = (page.match(/class="ax-disc[^"]*"/g) || []).length;
+  assert.ok(discs > 0);
+  assert.equal((page.match(/data-icon="system-(check|x)"/g) || []).length, discs);
+  assert.ok(page.includes('--ans-correct:#008A05;') && page.includes('--ans-wrong-30-dark:#4E251B;'));
+  assert.ok(!/class="ax-(label|count)"[^>]*style=/.test(page));
 });

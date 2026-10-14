@@ -98,13 +98,13 @@
     {
       "ref": "--aha-colorSuccess",
       "as": "token",
-      "use": "the ✓ / correct-answer / validation-passed mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent",
+      "use": "the ✓ / validation-passed mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent. A quiz answer's correct mark is the one exception: a white tick on the correct green disc (--aha-answer-correct, colour rules section 11), bundled the same way",
       "status": "available"
     },
     {
       "ref": "--aha-colorError",
       "as": "token",
-      "use": "the ✗ / incorrect-answer / destructive-action mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded",
+      "use": "the ✗ / destructive-action mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded. A quiz answer's wrong mark is the one exception: a white cross on the wrong red disc (--aha-answer-wrong, colour rules section 11), bundled the same way",
       "status": "available"
     },
     {
@@ -198,14 +198,14 @@
       ]
     },
     {
-      "rule": "Keep the two colour jobs separate: the chart/visualization layer (bar fills, ring segments, dots) pulls from the accent palette and NEVER carries state meaning; the state-indicator layer (✓/✗, status badge, border accent) is where correctness lives. Don't paint the 'correct' bar green — move the green to a ✓ icon and leave the bar in palette colours.",
+      "rule": "Keep the two colour jobs separate: the chart/visualization layer (bar fills, ring segments, dots) pulls from the accent palette and NEVER carries state meaning; the state-indicator layer (✓/✗, status badge, border accent) is where correctness lives. The one exception is a quiz result reveal: the correct answer's column takes the correct green (--aha-answer-correct) and every other column stays the chart's neutral grey, never red (colour rules 11.5). No other bar is painted green or red.",
       "ref": [
         "§2a",
         "C2"
       ]
     },
     {
-      "rule": "Semantic state colours (colorSuccess/colorError/colorWarning/colorInfo) must be the design-system FUNCTION tokens bundled into the plugin's own build (imported from the DS package or plugin-local constants matching it) — not host CSS vars (they don't cross the iframe), not xprops, and not a lookalike accent that merely reads green/red.",
+      "rule": "Semantic state colours (colorSuccess/colorError/colorWarning/colorInfo) must be the design-system FUNCTION tokens bundled into the plugin's own build (imported from the DS package or plugin-local constants matching it) — not host CSS vars (they don't cross the iframe), not xprops, and not a lookalike accent that merely reads green/red. A correct or wrong answer mark uses the answer pair (--aha-answer-correct, --aha-answer-wrong and their tints, colour rules section 11), bundled the same way; the pair is for answers only, never success, error, warning or info.",
       "ref": [
         "§2a",
         "C2",

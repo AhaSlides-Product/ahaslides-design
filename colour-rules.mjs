@@ -25,7 +25,9 @@ const SWATCH_CLASS = {
 };
 
 function copyChip(hex, withSwatch = true) {
-  const swatch = withSwatch && SWATCH_CLASS[hex] ? `<span class="swatch ${SWATCH_CLASS[hex]}"></span>` : '';
+  const swatch = !withSwatch ? ''
+    : SWATCH_CLASS[hex] ? `<span class="swatch ${SWATCH_CLASS[hex]}"></span>`
+      : `<span class="swatch" style="background:${escapeHtml(hex)}"></span>`;
   return `<button type="button" class="chip" data-copy="${escapeHtml(hex)}" aria-label="Copy ${escapeHtml(hex)}">${swatch}<code>${escapeHtml(hex)}</code><span class="hint">Copy</span></button>`;
 }
 
@@ -117,7 +119,7 @@ function paletteValueCell(colour) {
   return markupToHtml(colour.valueText);
 }
 
-function blockHtml(block, rules, parts) {
+function blockHtml(block, rules, parts, options = {}) {
   const grid = (columns, rows) => fill(parts['rules-table'], {
     head: columns.map(column => `<th>${escapeHtml(column)}</th>`).join('\n'),
     rows: rows.map(row => `<tr>\n${row.map(cell => `<td>${cell}</td>`).join('\n')}\n</tr>`).join('\n'),
@@ -127,6 +129,7 @@ function blockHtml(block, rules, parts) {
   if (block.type === 'rules') return `<ol${block.start ? ` start="${block.start}"` : ''}>\n${block.rules.map(rule => `<li id="r${rule.id}">${markupToHtml(rule.text)}</li>`).join('\n')}\n</ol>`;
   if (block.type === 'table') return grid(block.columns, block.rows.map(row => row.map(markupToHtml)));
   if (block.type === 'palette') return grid(['Colour', 'Value', 'What it is for'], rules.palette.map(colour => [markupToHtml(colour.name), paletteValueCell(colour), markupToHtml(colour.role)]));
+  if (block.type === 'answer-examples') return answerExamplesHtml(block, options);
   if (block.type === 'open') {
     return rules.open.length
       ? `<ol>\n${rules.open.map(point => `<li id="${point.id}"><strong>${escapeHtml(point.title)}.</strong> ${markupToHtml(point.text)} Until it is settled: ${markupToHtml(point.interim)}</li>`).join('\n')}\n</ol>`
@@ -135,10 +138,129 @@ function blockHtml(block, rules, parts) {
   throw new Error(`${COLOUR_RULES_FILE}: unknown block type "${block.type}"`);
 }
 
+/** The section that holds the correct and wrong answer rules, for pages that show it outside the rules page. */
+export function answerSection(rules) {
+  return rules.sections.find(section => section.key === 'answers');
+}
+
+const ANSWER_TINT_NAMES = { light5: '5', light30: '30', dark5: '5-dark', dark30: '30-dark' };
+
+/** The --ans-* custom properties of the answer examples, filled from the palette (correct and wrong entries). */
+export function answerPaletteVariables(rules) {
+  return ['correct', 'wrong'].map(kind => {
+    const colour = rules.palette.find(entry => entry.id === `answer-${kind}`);
+    return [`--ans-${kind}:${colour.hex};`, ...Object.entries(colour.answerTints).map(([step, hex]) => `--ans-${kind}-${ANSWER_TINT_NAMES[step]}:${hex};`)].join(' ');
+  }).join(' ');
+}
+
+/* Bound only to --ans-* properties, so the same markup renders on the self-contained rules page
+   (properties from the palette) and on the Colour page (properties from the --aha-answer-* tokens). */
+export const ANSWER_EXAMPLES_CSS = `
+.ax{margin:8px 0 16px;font-family:var(--ans-font)}
+.ax-h{font-size:16px;font-weight:600;margin:20px 0 8px}
+.ax-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--ax-min,300px)),1fr));margin:0 0 8px}
+.ax-grid.is-stages{--ax-min:420px}
+.ax-grid.is-phones{--ax-min:200px}
+.ax-fig{margin:0;min-width:0}
+.ax-fig figcaption{font-size:13px;color:var(--ans-ink-2);margin-top:6px}
+.ax-light{--ax-c5:var(--ans-correct-5);--ax-c30:var(--ans-correct-30);--ax-w5:var(--ans-wrong-5);--ax-w30:var(--ans-wrong-30);--ax-ink:var(--ans-ink);--ax-surface:var(--ans-page);--ax-panel:var(--ans-panel);--ax-line:var(--ans-line)}
+.ax-dark{--ax-c5:var(--ans-correct-5-dark);--ax-c30:var(--ans-correct-30-dark);--ax-w5:var(--ans-wrong-5-dark);--ax-w30:var(--ans-wrong-30-dark);--ax-ink:var(--ans-inverse);--ax-surface:var(--ans-dark);--ax-panel:var(--ans-dark-raised);--ax-line:var(--ans-dark-raised)}
+.ax-stage,.ax-phone{background:var(--ax-surface);color:var(--ax-ink);border:1px solid var(--ans-line);border-radius:12px;padding:16px}
+.ax-q{font-size:18px;font-weight:600;line-height:1.3;margin:0 0 4px}
+.ax-sub{font-size:13px;margin:0 0 12px}
+.ax-body{display:flex;flex-wrap:wrap;gap:16px;align-items:stretch}
+.ax-list{flex:1 1 180px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.ax-row{display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 12px;border-radius:8px;background:var(--ax-surface);box-shadow:inset 0 0 0 1px var(--ax-line);font-size:14px}
+.ax-row.is-correct{background:var(--ax-c5);box-shadow:inset 0 0 0 2px var(--ans-correct)}
+.ax-row.is-wrong{background:var(--ax-w5);box-shadow:inset 0 0 0 1px var(--ans-wrong)}
+.ax-row.is-picked .ax-label{font-weight:600}
+.ax-label{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.ax-count{font-variant-numeric:tabular-nums;font-weight:600}
+.ax-disc{display:inline-flex;align-items:center;justify-content:center;flex:none;width:24px;height:24px;border-radius:999px;color:var(--ans-page)}
+.ax-disc.is-small{width:20px;height:20px}
+.ax-disc.is-large{width:32px;height:32px}
+.ax-disc.is-correct{background:var(--ans-correct)}
+.ax-disc.is-wrong{background:var(--ans-wrong)}
+.ax-disc svg{display:block}
+.ax-chart{flex:1 1 160px;display:flex;align-items:flex-end;justify-content:space-around;gap:8px;min-height:180px;padding:12px;border-radius:8px;background:var(--ax-panel)}
+.ax-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;flex:1 1 0;min-width:0;height:100%}
+.ax-value{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.ax-bar{width:min(100%,40px);border-radius:4px 4px 0 0;background:var(--ans-neutral)}
+.ax-col.is-correct .ax-bar{background:var(--ans-correct)}
+.ax-col-label{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;max-width:100%;text-align:center}
+.ax-phone{display:flex;flex-direction:column;gap:8px;min-height:380px;padding-bottom:0;overflow:hidden}
+.ax-phone .ax-q{margin-bottom:8px}
+.ax-banner{display:flex;align-items:center;gap:10px;margin:auto -16px 0;padding:14px 16px;font-size:16px;font-weight:600}
+.ax-banner.is-correct{background:var(--ax-c30)}
+.ax-banner.is-wrong{background:var(--ax-w30)}
+.ax-banner .ax-points{margin-left:auto;font-size:14px;font-weight:400;font-variant-numeric:tabular-nums}
+.ax-phone-end{margin-top:auto;height:16px}
+.ax-report{background:var(--ans-page);color:var(--ans-ink);border:1px solid var(--ans-line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.ax-report-name{font-size:18px;font-weight:600;margin:0}
+.ax-report-sub{font-size:13px;color:var(--ans-ink-2);margin:2px 0 0}
+.ax-card{border:1px solid var(--ans-line);border-radius:12px;padding:12px 16px}
+.ax-card-q{font-size:14px;font-weight:600;margin:8px 0 10px}
+.ax-cols{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+.ax-colhead{font-size:13px;color:var(--ans-ink-2);margin:0 0 4px}
+.ax-box{display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 12px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--ans-line);font-size:14px}
+.ax-box .ax-label{flex:1 1 auto}
+.ax-box.is-correct{background:var(--ans-correct-5);box-shadow:inset 0 0 0 1px var(--ans-correct)}
+.ax-box.is-wrong{background:var(--ans-wrong-5);box-shadow:inset 0 0 0 1px var(--ans-wrong)}
+.ax-chip{display:inline-flex;align-items:center;gap:6px;padding:2px 10px 2px 2px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ans-ink)}
+.ax-chip.is-correct{background:var(--ans-correct-30)}
+.ax-chip.is-wrong{background:var(--ans-wrong-30)}
+.ax-table-wrap{overflow-x:auto}
+.ax-table{border-collapse:collapse;width:100%;font-size:14px}
+.ax-table th,.ax-table td{text-align:left;vertical-align:middle;padding:8px 12px 8px 0;border-bottom:1px solid var(--ans-line);font-weight:400}
+.ax-table th{font-size:13px;font-weight:600;color:var(--ans-ink-2)}
+`;
+
+/** The applications of section 11: presenting, the audience phone and the report, as static markup. */
+export function answerExamplesHtml(block, { icon = () => '' } = {}) {
+  const disc = (correct, size = '') => `<span class="ax-disc ${correct ? 'is-correct' : 'is-wrong'}${size ? ` is-${size}` : ''}">${icon(correct ? 'system-check' : 'system-x', size === 'small' ? 12 : 16)}</span>`;
+  const deckClass = (deck) => (deck === 'dark' ? 'ax-dark' : 'ax-light');
+  const highest = Math.max(1, ...block.options.map(option => option.count));
+  const answered = block.options.reduce((sum, option) => sum + option.count, 0);
+  const stage = ({ deck, caption }) => {
+    const rows = block.options.map(option => `<div class="ax-row ${option.correct ? 'is-correct' : 'is-wrong'}">${disc(!!option.correct)}<span class="ax-label">${escapeHtml(option.label)}</span><span class="ax-count">${option.count}</span></div>`).join('');
+    const columns = block.options.map(option => `<div class="ax-col${option.correct ? ' is-correct' : ''}"><span class="ax-value">${option.count}</span><span class="ax-bar" style="height:${Math.max(4, Math.round(option.count / highest * 120))}px"></span><span class="ax-col-label">${disc(!!option.correct, 'small')}${escapeHtml(option.label)}</span></div>`).join('');
+    return `<figure class="ax-fig"><div class="ax-stage ${deckClass(deck)}"><p class="ax-q">${escapeHtml(block.question)}</p><p class="ax-sub">${answered} of ${answered} answered</p><div class="ax-body"><div class="ax-list">${rows}</div><div class="ax-chart">${columns}</div></div></div><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
+  };
+  const phone = (deck, { pick, caption, banner, points }) => {
+    const pickedOption = block.options.find(option => option.label === pick);
+    const rows = block.options.map(option => {
+      const picked = option.label === pick;
+      const tone = option.correct ? 'is-correct' : (picked ? 'is-wrong' : 'is-plain');
+      return `<div class="ax-row ${tone}${picked ? ' is-picked' : ''}">${disc(!!option.correct)}<span class="ax-label">${escapeHtml(option.label)}</span><span class="ax-count">${option.count}</span></div>`;
+    }).join('');
+    const end = banner
+      ? `<div class="ax-banner ${pickedOption?.correct ? 'is-correct' : 'is-wrong'}">${disc(!!pickedOption?.correct, 'large')}<span>${escapeHtml(banner)}</span><span class="ax-points">${escapeHtml(points || '')}</span></div>`
+      : '<div class="ax-phone-end"></div>';
+    return `<figure class="ax-fig"><div class="ax-phone ${deckClass(deck)}"><p class="ax-q">${escapeHtml(block.question)}</p>${rows}${end}</div><figcaption>${escapeHtml(caption)}, ${deck === 'dark' ? 'dark' : 'light'} deck</figcaption></figure>`;
+  };
+  const chip = (correct) => `<span class="ax-chip ${correct ? 'is-correct' : 'is-wrong'}">${disc(correct, 'small')}${correct ? 'Correct' : 'Wrong'}</span>`;
+  const { report } = block;
+  const cards = report.questions.map((entry, index) => {
+    const correct = !!entry.correct;
+    const answerColumn = correct ? '' : `<div><p class="ax-colhead">Correct answer</p><div class="ax-box"><span class="ax-label">${escapeHtml(entry.correctAnswer)}</span></div></div>`;
+    return `<div class="ax-card"><div class="ax-card-head">${chip(correct)} <span class="ax-report-sub">${index + 1}/${report.questions.length} · ${escapeHtml(entry.points)}</span></div><p class="ax-card-q">${escapeHtml(entry.question)}</p><div class="ax-cols"><div><p class="ax-colhead">Response</p><div class="ax-box ${correct ? 'is-correct' : 'is-wrong'}"><span class="ax-label">${escapeHtml(entry.response)}</span>${disc(correct, 'small')}</div></div>${answerColumn}</div></div>`;
+  }).join('');
+  const tableRows = report.questions.map(entry => `<tr><td>${escapeHtml(entry.question)}</td><td>${escapeHtml(entry.correctAnswer)}</td><td>${chip(!!entry.correct)}</td></tr>`).join('');
+  return `<div class="ax" id="${escapeHtml(block.id)}">
+<h4 class="ax-h">Presenting: quiz result reveal</h4>
+<div class="ax-grid is-stages">${block.presenting.map(stage).join('')}</div>
+<h4 class="ax-h">Audience phone, after the reveal</h4>
+${block.audienceDecks.map(deck => `<div class="ax-grid is-phones">${block.audience.map(state => phone(deck, state)).join('')}</div>`).join('\n')}
+<h4 class="ax-h">Report</h4>
+<figure class="ax-fig"><div class="ax-report"><div><p class="ax-report-name">${escapeHtml(report.participant)}</p><p class="ax-report-sub">${escapeHtml(report.summary)}</p></div>${cards}</div><figcaption>Participant report: each response with the correct answer beside it</figcaption></figure>
+<figure class="ax-fig"><div class="ax-report ax-table-wrap"><table class="ax-table"><thead><tr><th>Question</th><th>Correct answer</th><th>Result for ${escapeHtml(report.participant)}</th></tr></thead><tbody>${tableRows}</tbody></table></div><figcaption>Results table: one 30% chip per result</figcaption></figure>
+</div>`;
+}
+
 const paletteHex = (rules, id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 
 /** The human page, self-contained: one file, both font weights embedded. */
-export function renderColourRulesPage(rules, { fonts, templateHtml }) {
+export function renderColourRulesPage(rules, { fonts, templateHtml, icon }) {
   const { shell, parts } = parseTemplate(templateHtml);
   const number = (section) => `<span class="num">${sectionNumber(section)}</span>`;
   return fill(shell, {
@@ -146,12 +268,13 @@ export function renderColourRulesPage(rules, { fonts, templateHtml }) {
     fontRegular: fonts.regular, fontSemiBold: fonts.semiBold,
     vividPink: paletteHex(rules, 'vivid-pink'), darkerPink: paletteHex(rules, 'darker-pink'),
     vividPink5: paletteHex(rules, 'vivid-pink-5'), vividPink30: paletteHex(rules, 'vivid-pink-30'), purple: paletteHex(rules, 'purple'),
+    answerVariables: answerPaletteVariables(rules), answerExamplesCss: ANSWER_EXAMPLES_CSS,
     contents: rules.sections.map(section => `<li><a href="#${section.id}">${number(section)}${escapeHtml(section.title)}</a></li>`).join(''),
     lede: markupToHtml(rules.lede),
     updated: longDate(rules.updated),
     glance: rules.glance.map(line => `<li>${markupToHtml(line)}</li>`).join(''),
     sections: rules.sections.map(section =>
-      `<h2 id="${section.id}">${number(section)}${escapeHtml(section.title)}</h2>\n${section.blocks.map(block => blockHtml(block, rules, parts)).join('\n')}`).join('\n'),
+      `<h2 id="${section.id}">${number(section)}${escapeHtml(section.title)}</h2>\n${section.blocks.map(block => blockHtml(block, rules, parts, { icon })).join('\n')}`).join('\n'),
     changes: rules.changes.map(change => `<li><span class="ver">${escapeHtml(change.version)}</span><span class="date">${escapeHtml(change.date)}</span><span>${escapeHtml(change.text)}</span></li>`).join(''),
   });
 }

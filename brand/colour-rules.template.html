@@ -18,6 +18,10 @@
 --grey-faint:#FAFAFA; /* ds-lint-allow: hex (palette token) */
 --swatch-edge:rgba(0,0,0,.16);
 --shadow:rgba(0,0,0,.12);
+{{answerVariables}} /* ds-lint-allow: hex (answer pair from the palette) */
+--ans-ink:var(--ink);--ans-ink-2:var(--ink-2);--ans-inverse:var(--page);--ans-page:var(--page);--ans-line:var(--line);
+--ans-dark:var(--ink);--ans-dark-raised:#303030;--ans-panel:#F7F7F7;--ans-neutral:#8A8A8A; /* ds-lint-allow: hex (grey 95, grey 20 and the chart neutral grey) */
+--ans-font:inherit;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:16px;color-scheme:light}
@@ -71,6 +75,7 @@ a{color:var(--ink)}
 .toc-wrap summary{display:none}
 .toc{margin:0}
 }
+{{answerExamplesCss}}
 @media (max-width:600px){h1{font-size:26px}th,td{padding-right:10px}table{font-size:14px}.changes li{grid-template-columns:32px 1fr}.changes li span:last-child{grid-column:1/-1}}
 </style></head><body><div class="layout">
 <details class="toc-wrap" id="toc"><summary>Contents</summary><nav aria-label="Contents"><ol class="toc">{{contents}}<li><a href="#changes">What changed</a></li></ol></nav></details>

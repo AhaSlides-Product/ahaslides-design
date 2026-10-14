@@ -106,7 +106,7 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
 
 Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
 
-> **Open decision — Pick Answer.** The "AhaSlides Chart Slides" mockup paints the correct bar `--aha-color-success` and the rest neutral, which contradicts the Job 1 rule below. `<aha-chart correct="…">` follows the mockup by default (`correct-style="fill"`); set `correct-style="indicator"` to follow this guide (✓ + bold label, palette fills) until design settles it.
+> **Pick Answer result reveal.** Colour rules 11.5 settle the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` already paints the correct mark and leaves the rest neutral (`correct-style="fill"`), but in `--aha-color-success` (the default ink) until it is rewired to the answer tokens.
 
 | Job | Layer | Colour source |
 | --- | --- | --- |
@@ -115,8 +115,9 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, St
 
 | Token | Where it goes |
 | --- | --- |
-| `colorSuccess` (#1A1A1A, colour rules) | ✓ icon, correct-answer badge, validation-passed border |
-| `colorError` (#1A1A1A, colour rules) | ✗ icon, incorrect-answer badge, destructive-action chip |
+| `colorSuccess` (#1A1A1A, colour rules) | ✓ icon, validation-passed border |
+| `colorError` (#1A1A1A, colour rules) | ✗ icon, destructive-action chip |
+| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc, row edge and tints, answers only (colour rules section 11) |
 | `colorWarning` | caution icon, "are you sure?" prompt |
 | `colorInfo` | informational badge |
 
@@ -126,9 +127,10 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, St
 - **Use the FUNCTION token, not a lookalike accent.** A bright accent that
   merely *looks* green (a teal such as `#20E8B5` as a "correct" tick) is wrong — it drifts per
   brand and usually fails contrast (~1.58:1 on white).
-- **The #1 mistake: applying state colours to the chart.** Painting the "correct" bar
-  green-success fights the deck's brand and conveys state *through* the chart. Move the green
-  to a **✓ icon** next to the bar; leave the bar in palette colours.
+- **The #1 mistake: applying state colours to the chart.** Painting a bar green or red
+  conveys state *through* the chart. The one exception is the correct column of a quiz result
+  reveal (colour rules 11.5); every other bar stays in palette colours, with a **✓ / ✗ disc**
+  beside its label.
 - **Job 2 ≠ any emphasis.** Poll-leader, leaderboard-winner, featured item are accents
   *without* a right/wrong axis — they stay in **palette** colours (bar AND icon). Don't tint
   a poll-leader bar with `colorSuccess`; it falsely implies "correct".

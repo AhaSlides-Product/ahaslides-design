@@ -38,7 +38,7 @@
     },
     {
       "surface": "A status message",
-      "useFor": "white, with an icon, clear wording and an outline or a black fill; never a red, yellow, green or blue tint",
+      "useFor": "white, with an icon, clear wording and an outline or a black fill; never a red, yellow, green or blue tint. The correct and wrong answer tints (colour rules section 11) mark an answer only, never a status",
       "example": "The DS alert for a failed import"
     },
     {
@@ -70,7 +70,7 @@
     { "rule": "Use Vivid Pink at 5% (--aha-bg-accent) for a hover or selected state, and for at most one highlighted panel per screen of the product app. A web page built from full-width sections (a help article, a sign-up or upgrade page) may use pale pink sections instead, under rules 3.2 to 3.5.", "ref": ["C3"], "source": ["3.2", "3.7"] },
     { "rule": "Use a black background (--aha-bg-dark) in two places only: full-screen presenting, and a video or image viewer.", "ref": ["C4"], "source": ["3.8"] },
     { "rule": "Build no dark mode: no theme switch, no dark theme class, no prefers-color-scheme: dark restyle. People who need a dark screen use their device or browser setting, and the screen must not break under it.", "ref": ["C4"], "source": ["3.9"] },
-    { "rule": "Never tint a surface red, yellow, green or blue to show danger, warning, success or information. A status surface stays white and carries its meaning with an icon, clear wording and an outline or a black fill.", "ref": ["C5"], "source": ["7.1", "7.2"] },
+    { "rule": "Never tint a surface red, yellow, green or blue to show danger, warning, success or information. A status surface stays white and carries its meaning with an icon, clear wording and an outline or a black fill. The correct and wrong answer tints are not status colours: they fill an answer row, a response box or a result banner or chip, and nothing else.", "ref": ["C5"], "source": ["7.1", "7.2", "11.4"] },
     { "rule": "Use no linear-, radial- or conic-gradient as a background or fill. The one exception is an AI feature: the gradient sits on the border (border-box) and the fill stays white (padding-box).", "ref": ["C6"], "source": ["3.10"] },
     { "rule": "Bind every non-white background to a DS token (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-accent, --aha-bg-dark), never a raw #hex, rgb() or hsl() literal, even when the literal is the right colour.", "ref": ["C7"], "source": [] },
     { "rule": "Use a Splash background only on an empty state or a hero area, never on a dense screen such as the editor. Take the file from the Background library, or build it for the exact frame with build-splash.mjs; never draw, place, stretch or recolour the hooks by hand.", "ref": ["C8"], "source": ["5.6", "5.9", "5.10", "5.11"] }
