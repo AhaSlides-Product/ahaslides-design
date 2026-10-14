@@ -33,7 +33,7 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
   <BellIcon />
 </AhaBadge>
 
-// a bare dot — status strong (default) · disabled · active
+// a bare dot — status default · disabled · active
 <AhaBadge dot status="active" />
 
 // a corner ribbon banner wrapping a card (placement start/end)

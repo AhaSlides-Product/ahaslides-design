@@ -12,7 +12,7 @@
   <aha-badge count="128" overflow-count="99">
     <aha-icon name="system-bell" size="24"></aha-icon>
   </aha-badge>
-  <!-- a bare dot: status strong (default) · disabled · active -->
+  <!-- a bare dot: status default · disabled · active -->
   <aha-badge dot status="active"></aha-badge>
 </div>
 

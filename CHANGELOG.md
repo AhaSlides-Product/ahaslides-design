@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.182.0 — 2026-10-14
 ### Changed
-- Badge dot: limited to three colours, `status="strong"` (default, `--aha-icon-strong` #1A1A1A), `"disabled"` (`--aha-icon-disabled` #B5B5B5) and `"active"` (`--aha-icon-active` #E70E68). The hollow ring, pink edge and pulse shapes are gone. The Dot section of the docs page shows the three plus a dot on a bell. Count bubble and ribbon colours are unchanged. (#244)
+- Badge dot: limited to three colours, `status="default"` (default, `--aha-icon-strong` #1A1A1A), `"disabled"` (`--aha-icon-disabled` #B5B5B5) and `"active"` (`--aha-icon-active` #E70E68). The hollow ring, pink edge and pulse shapes are gone. The Dot section of the docs page shows the three plus a dot on a bell. Count bubble and ribbon colours are unchanged. (#244)
 
 ### Removed
 - Badge standalone status label (`<aha-badge status="…" text="…">` with no count or dot), its docs "Status" section, snippets and contract rows. Use the Status badge component for a state label. (#244)
