@@ -2118,7 +2118,7 @@ function answerColoursSection(swatchGroup) {
   const sectionNumber = section.id.replace(/^s/, '');
   const intro = section.blocks.find(block => block.type === 'paragraph');
   const panelBody = (block) => {
-    if (block.type === 'rules') return `<ol class="answer-rules">${block.rules.map(rule => `<li id="answer-r${rule.id}"><a class="rule-id" href="brand-colour-rules.html#r${rule.id}">${rule.id}</a> ${markupToHtml(rule.text)}</li>`).join('')}</ol>`;
+    if (block.type === 'rules') return `<ol class="answer-rules">${block.rules.map(rule => `<li id="answer-r${rule.id}"><a class="rule-id" href="brand-colour-rules.html#r${rule.id}">${rule.id}</a> ${markupToHtml(rule.text).replace(/<button[^>]*data-copy="([^"]*)"[\s\S]*?<\/button>/g, '<code>$1</code>')}</li>`).join('')}</ol>`;
     throw new Error(`Colour page: no rendering for a "${block.type}" block inside a panel`);
   };
   const panels = section.blocks.filter(block => block.type === 'panel')
