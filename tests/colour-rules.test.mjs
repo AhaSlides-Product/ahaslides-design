@@ -210,5 +210,50 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
   assert.equal(feed.splash.files.length, backgrounds.length);
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
-  assert.equal(rules.changes[0].version, 'v11');
+  assert.equal(rules.changes[0].version, 'v12');
+});
+
+const flatten = (hex, share, base) => '#' + [1, 3, 5].map(index => Math.round(parseInt(hex.slice(index, index + 2), 16) * share + parseInt(base.slice(index, index + 2), 16) * (1 - share)).toString(16).padStart(2, '0').toUpperCase()).join('');
+const answerSectionOf = () => rules.sections.find(section => section.key === 'answers');
+
+test('the answer pair in the rules, the palette and the tokens is one set of values', () => {
+  const tokens = JSON.parse(read('tokens.canonical.json')).color.answer;
+  const rows = table('answer-colours').rows;
+  assert.deepEqual(Object.keys(tokens).filter(key => !key.startsWith('$')).sort(), ['correct', 'correctTint30', 'correctTint5', 'wrong', 'wrongTint30', 'wrongTint5']);
+  for (const kind of ['correct', 'wrong']) {
+    const colour = rules.palette.find(entry => entry.id === `answer-${kind}`);
+    assert.equal(tokens[kind], colour.hex);
+    const { light5, light30 } = colour.answerTints;
+    assert.deepEqual(Object.keys(colour.answerTints), ['light5', 'light30']);
+    assert.deepEqual([tokens[`${kind}Tint5`], tokens[`${kind}Tint30`]], [light5, light30]);
+    const channels = (hex) => [1, 3, 5].map(index => parseInt(hex.slice(index, index + 2), 16));
+    [[light5, 0.05], [light30, 0.3]].forEach(([tint, share]) => {
+      const expected = channels(flatten(colour.hex, share, '#FFFFFF'));
+      assert.ok(channels(tint).every((value, index) => Math.abs(value - expected[index]) <= 1), `${kind} ${tint} is ${share * 100}% on white`);
+    });
+    const row = rows.find(entry => entry[0].toLowerCase().startsWith(kind));
+    assert.deepEqual(row.slice(1), [colour.hex, light5, light30]);
+  }
+});
+
+test('the answer section sits before Still to decide, holds four rules and keeps every earlier rule id', () => {
+  assert.deepEqual(rules.sections.map(section => section.id).slice(-2), ['s11', 's12']);
+  assert.equal(answerSectionOf().id, 's11');
+  assert.equal(rules.sections.at(-1).key, 'open');
+  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 4 }, (_, index) => `11.${index + 1}`));
+  for (const [id, words] of [['1.1', 'section 11'], ['7.1', 'section 11'], ['8.5', 'section 11']]) assert.ok(ruleText(id).includes(words), id);
+  assert.deepEqual(rules.open, []);
+});
+
+test('section 11 keeps its rules in one closed panel, and the feeds keep every word', () => {
+  const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
+  const section = answerSectionOf();
+  const panels = section.blocks.filter(block => block.type === 'panel');
+  assert.deepEqual(panels.map(panel => panel.title), ['Rules']);
+  assert.ok(page.includes(`<details class="panel" id="${panels[0].id}"><summary>`));
+  assert.ok(!/<details class="panel"[^>]*\sopen/.test(page));
+  assert.equal(rules.sections.filter(entry => entry.blocks.some(block => block.type === 'panel')).length, 1);
+  const markdown = renderColourRulesMd(rules, { site: SITE, store, backgrounds });
+  for (const rule of ruleList.filter(entry => entry.section === '11')) assert.ok(markdown.includes(markupToText(rule.text)), rule.id);
+  assert.ok(!page.includes('class="ax-') && !markdown.includes('Table answer-contrast'));
 });
