@@ -248,6 +248,9 @@ test('every measured answer contrast is what the two colours give', () => {
     const truncated = Math.floor(contrastRatio(foreground, background) * 100) / 100;
     assert.equal(contrast, `${truncated.toFixed(2)} to 1`, pair);
   }
+  const knownFails = table('answer-contrast').rows.filter(([, , verdict]) => verdict.startsWith('Known fail')).length;
+  const words = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
+  assert.ok(ruleText('11.9').includes(`${words[knownFails]} places fall short`), `rule 11.9 names ${knownFails} known fails`);
 });
 
 test('the answer section sits before Still to decide and keeps every earlier rule id', () => {
