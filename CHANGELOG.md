@@ -14,8 +14,6 @@ The gate also rejects an unfilled `(#129)` placeholder in the top entry: link th
 ### Added        ← new component / prop / token / export
 ### Changed      ← behaviour or API change to something that already shipped
 ### Fixed        ← bug / gate / doc fix, no API change
-- Status badge alert style: the inset border is the same grey as emphasis (`--aha-border-strong`, was black `--aha-border-warning`); the warning icon stays the only Vivid Pink. (#244)
-
 ### Removed       ← a removed export / component / token
 - one short bullet per change, written for a consumer; link the real PR: (#123) — never a bare (#125)
 ```
@@ -38,6 +36,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Session chip: grey (`--aha-gray-30`, default text), was a Vivid Pink tint. (#244)
 - Count colour rule written into the Badge contract (spec, when-to-use, props, self-check; reaches `badge.agent.json`, `badge.md` and the page): every count is black by default (tabs, filters, inbox, totals); Vivid Pink (`status="primary"`) only for a new count that needs attention now (unread notifications on the bell, new responses since you last looked), at most one Vivid Pink count per screen. The default count colour is already black.
 - Status badge docs folded into the Badge page as its own section (all options, rules, examples, code). `status-badge/index.html` now redirects to `badge/index.html#status-badge`; `<aha-status-badge>`, its contract, feeds and API are unchanged.
+
+### Fixed
+- Status badge alert style: the inset border is the same grey as emphasis (`--aha-border-strong`, was black `--aha-border-warning`); the warning icon stays the only Vivid Pink. (#244)
 
 ### Removed
 - **Breaking:** Badge `tone` attribute (danger, success, positive, essential, pro, branding, primary-alt label chips) and chip `href` (clickable link chips), with their docs sections, snippets and contract rows. Use a plan chip or the Status badge component. (#244)
