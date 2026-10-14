@@ -28,6 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Image Action Button `variant="tertiary"`: no border or fill until hover, then the tertiary Button hover (Vivid Pink 5% fill, text-link-hover glyph). Option Row uses it for its per-option image (#249).
 - Alert `icon`: a named DS icon in place of the type's status glyph (#249).
 ### Changed
+- Alert dismiss runs once: a second click while it fades out is ignored, and the fallback timer is cleared once the fade ends (#249).
 - Counted Input and Counted Textarea counters show the characters left (36 for 24 of 60) at every size, as the settings lab does, instead of used/max (#249).
 - Number With Unit draws its error message with the shared `<aha-field-error icon>` (12px system-x-circle + the message), the same as Input and Counted Textarea, and links it through aria-describedby. The colour is unchanged (#249).
 - Mode Field is composed from DS components instead of its own buttons: `variant="radio"` (default) is the radio group (`<aha-radio variant="button">` in a role=radiogroup, regular 14/21, padding 0 16, hover = brand label with the border unchanged, arrow keys from the radio) and `variant="segmented"` is `<aha-segmented>`. The `seg-btn` part now names each `aha-radio` (#249).
