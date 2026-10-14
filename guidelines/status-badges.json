@@ -62,7 +62,7 @@
     {
       "ref": "--aha-gray-25",
       "as": "token",
-      "use": "the quiet background; --aha-bg-container with --aha-border-strong (emphasis) or --aha-border-warning (alert) for the bordered styles",
+      "use": "the quiet background; --aha-bg-container with --aha-border-strong for both bordered styles (emphasis and alert)",
       "status": "available"
     },
     {
@@ -101,7 +101,7 @@
     },
     {
       "id": "four-looks",
-      "rule": "A badge takes one of four styles: quiet (Gray 25, no border) for most states; emphasis (white, 1px grey inset border) for the live state and anything due now; alert (white, 1px black inset border, pink warning icon) for something the user must act on, such as overdue; plain (no box, Gray 80 regular text, optional icon) for information that needs no box. Pink appears only on the alert icon. No status gets a hue of its own: no green, red, amber or blue.",
+      "rule": "A badge takes one of four styles: quiet (Gray 25, no border) for most states; emphasis (white, 1px grey inset border) for the live state and anything due now; alert (white, 1px grey inset border as emphasis, pink warning icon) for something the user must act on, such as overdue; plain (no box, Gray 80 regular text, optional icon) for information that needs no box. Pink appears only on the alert icon. No status gets a hue of its own: no green, red, amber or blue.",
       "ref": [
         "STATUS-03"
       ]

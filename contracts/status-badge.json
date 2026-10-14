@@ -1,6 +1,7 @@
 {
   "name": "Status badge",
   "slug": "status-badge",
+  "mergedInto": "badge",
   "environment": [
     "product"
   ],
@@ -14,13 +15,12 @@
     "Built-in survey, progress and due states",
     "Dot only for published / live and closed"
   ],
-  "lead": "ONE custom element, <aha-status-badge>, for every badge that reports a state. The box never changes: 28px tall, 8px side padding, 6px radius, a 14px semibold label on a 28px line, a 6px gap, and a 16px icon or a 6px dot before the label. `look` is one of four styles: quiet (grey, no border) for most states; emphasis (white, grey inset border) for the live state and anything due now; alert (white, black inset border, a pink warning icon, the only pink on any badge) for something that needs action; plain (no box, secondary-grey regular text, optional icon) for information that needs no box. `status` is a built-in state that picks its own look and marker: draft (pencil), scheduled (calendar), archived (archive box), not-started (dashed circle), in-progress (half-dashed circle) and completed (check circle) are quiet with an icon; published, live and active are emphasis with a dark dot; closed and inactive are quiet with a light dot. A due state is a look plus an icon, not a status: overdue is alert, due today or soon is emphasis with system-clock, due in N days is plain, on time is plain with system-check, N days late is plain with system-clock-late. The dot is only for the published / live and closed lifecycle states; everything else uses an icon or no marker. The label is your slotted text and is always present; the marker is decorative. Shadow-DOM CSS on one persistent node, themed only by --aha-* tokens; role=\"status\" with an aria-label mirrored from the label.",
+  "lead": "ONE custom element, <aha-status-badge>, for every badge that reports a state. The box never changes: 28px tall, 8px side padding, 6px radius, a 14px semibold label on a 28px line, a 6px gap, and a 16px icon or a 6px dot before the label. `look` is one of four styles: quiet (grey, no border) for most states; emphasis (white, grey inset border) for the live state and anything due now; alert (white, grey inset border as emphasis, a pink warning icon, the only pink on any badge) for something that needs action; plain (no box, secondary-grey regular text, optional icon) for information that needs no box. `status` is a built-in state that picks its own look and marker: draft (pencil), scheduled (calendar), archived (archive box), not-started (dashed circle), in-progress (half-dashed circle) and completed (check circle) are quiet with an icon; published, live and active are emphasis with a dark dot; closed and inactive are quiet with a light dot. A due state is a look plus an icon, not a status: overdue is alert, due today or soon is emphasis with system-clock, due in N days is plain, on time is plain with system-check, N days late is plain with system-clock-late. The dot is only for the published / live and closed lifecycle states; everything else uses an icon or no marker. The label is your slotted text and is always present; the marker is decorative. Shadow-DOM CSS on one persistent node, themed only by --aha-* tokens; role=\"status\" with an aria-label mirrored from the label.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React and Vue set attributes on the custom element directly. Importing the element also registers <aha-icon>, which draws the icon marker. Defined once in @ahaslides-product/design.",
   "tokensUsed": [
     "gray-25",
     "bg-container",
     "border-strong",
-    "border-warning",
     "text-default",
     "gray-80",
     "icon-default",
@@ -43,7 +43,11 @@
     },
     {
       "label": "Marker",
-      "value": "a 16px registry icon in iconDefault #4A4A4A, or a 6 × 6 dot with 2px side margin, or none"
+      "value": "a 16px registry icon in iconDefault #4A4A4A, or a 6 × 6 dot with 2px side margin (4 × 4, no margin, at size sm), or none"
+    },
+    {
+      "label": "Size sm",
+      "value": "height 20 · padding 0 4 · radius xs 4 · label 12/16 regular 400 · gap 4 · 12px icon · plain look keeps no padding"
     },
     {
       "label": "Quiet",
@@ -55,7 +59,7 @@
     },
     {
       "label": "Alert",
-      "value": "background bgContainer #FFFFFF · inset 1px borderWarning #1A1A1A · icon system-warning-circle in iconActive #E70E68, the only pink on any badge"
+      "value": "background bgContainer #FFFFFF · inset 1px borderStrong #D4D4D4 · icon system-warning-circle in iconActive #E70E68, the only pink on any badge"
     },
     {
       "label": "Plain",
@@ -84,6 +88,12 @@
       "type": "draft | scheduled | published | live | active | closed | inactive | archived | not-started | in-progress | completed",
       "default": "draft",
       "desc": "A built-in state. It picks its own look and marker; see Survey and Progress in the spec"
+    },
+    {
+      "name": "size",
+      "type": "default | sm",
+      "default": "default",
+      "desc": "default is the 28px box. sm is 20px tall with 4px side padding, a 12px regular label, radius xs, a 12px icon and a 4px dot, the same as a small Badge"
     },
     {
       "name": "look",
@@ -136,7 +146,7 @@
       },
       {
         "what": "Badge",
-        "when": "a count bubble or notification dot on another element, a plan chip"
+        "when": "a count bubble or notification dot on another element, a plan badge"
       }
     ],
     "note": "The dot is only for the published / live and closed lifecycle states; every other state takes an icon or no marker, so a survey column can show Draft (pencil), Published (dot) and Closed (dot) together. Alert is the only look with pink, and only on its icon: keep it for something the user must act on (overdue). Keep the text label on every badge; the dot or icon is decorative and never the only signal. Set the style through status or look, never by restyling the part. The two colour custom properties exist so an app can keep a colour set it already owns inside the shared box; they are not a way to add a hue to a DS status.",

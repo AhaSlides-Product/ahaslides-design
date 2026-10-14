@@ -1,10 +1,11 @@
 import '@ahaslides-product/design/aha-badge';   // registers <aha-badge>
+import '@ahaslides-product/design/aha-paywall';
 import '@ahaslides-product/design/icons';       // registers <aha-icon>
 
 // Attributes only — no events — so React 18/19 can render the element directly.
 // Boolean attrs (dot/showZero) are the attribute PRESENCE, so spread them conditionally.
 function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ribbon, placement,
-                    tone, plan, cycle, rank, session, href, children }) {
+                    plan, cycle, session, kind, size, children }) {
   return (
     <aha-badge
       count={count}
@@ -13,12 +14,11 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
       text={text}
       color={color}
       placement={placement}
-      tone={tone}
       plan={plan}
       cycle={cycle}
-      rank={rank}
       session={session}
-      href={href}
+      kind={kind}
+      size={size}
       {...(dot ? { dot: '' } : {})}
       {...(showZero ? { 'show-zero': '' } : {})}
       {...(ribbon ? { ribbon: '' } : {})}
@@ -28,28 +28,27 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
   );
 }
 
+// New and Beta tags (size sm): <AhaBadge kind="new" /> · <AhaBadge kind="beta" />
+
 // count over a wrapped child
 <AhaBadge count={unread} overflowCount={99}>
   <BellIcon />
 </AhaBadge>
 
-// a standalone status badge — a semantic dot + label
-<AhaBadge status="processing" text="Generating" />
+// a bare dot — status default · disabled · active (a dot on a bell is always active)
+<AhaBadge dot status="active" />
 
 // a corner ribbon banner wrapping a card (placement start/end)
 <AhaBadge ribbon text="New">
   <TemplateCard />
 </AhaBadge>
 
-// a tinted TONE label chip
-<AhaBadge tone="essential">Essential</AhaBadge>
-
-// a PLAN preset chip (pro/enterprise show a crown; cycle appends the billing cycle)
+// a PLAN preset badge (default 28px, or size="sm" 20px; cycle appends the billing cycle)
 <AhaBadge plan="pro" cycle="yearly" />
+<AhaBadge plan="pro" size="sm" />
 
-// a leaderboard RANK chip + a SESSION chip
-<AhaBadge rank={1} />
+// a paid-feature marker: <aha-paywall> with no children is the Vivid Pink crown circle
+<aha-paywall feature-label="Custom logo" required-plan="pro" />
+
+// a SESSION badge (size sm by default)
 <AhaBadge session={3} />
-
-// CLICKABLE = a LINK (<a href>), NOT a button — navigates to upgrade, animates on hover
-<AhaBadge plan="pro" href="/billing/upgrade" />

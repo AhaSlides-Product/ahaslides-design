@@ -5,6 +5,7 @@
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';    // registers <aha-icon>
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-badge.js'; // registers <aha-badge>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js'; // registers <aha-paywall>
 </script>
 
 <div style="display:flex; gap:24px; align-items:center">
@@ -12,29 +13,26 @@
   <aha-badge count="128" overflow-count="99">
     <aha-icon name="system-bell" size="24"></aha-icon>
   </aha-badge>
-  <!-- a bare status dot -->
-  <aha-badge dot status="success"></aha-badge>
-  <!-- a standalone status: a semantic dot + a label -->
-  <aha-badge status="processing" text="Generating"></aha-badge>
+  <!-- a bare dot: status default · disabled · active (a dot on a bell is always active) -->
+  <aha-badge dot status="active"></aha-badge>
 </div>
 
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">
-  <!-- TONE — a filled/tinted label chip (danger·success·positive·essential·pro·branding·primary-alt) -->
-  <aha-badge tone="essential">Essential</aha-badge>
-  <aha-badge tone="pro">Pro</aha-badge>
-  <aha-badge tone="branding">New</aha-badge>
-
-  <!-- PLAN preset chips — pro/enterprise lead with a crown; `cycle` appends the billing cycle -->
+  <!-- PLAN preset badges — default size 28px; `size="sm"` is 20px; `cycle` appends the billing cycle -->
   <aha-badge plan="free"></aha-badge>
   <aha-badge plan="pro" cycle="yearly"></aha-badge>
+  <aha-badge plan="enterprise" size="sm"></aha-badge>
 
-  <!-- RANK (leaderboard) + SESSION -->
-  <aha-badge rank="1"></aha-badge>
+  <!-- SESSION badges are size sm unless `size="default"` -->
   <aha-badge session="3"></aha-badge>
 
-  <!-- CLICKABLE = a LINK (<a href>), never a <button>. Navigates to upgrade; animates on hover. -->
-  <aha-badge plan="pro" href="/billing/upgrade"></aha-badge>
+  <!-- NEW (Vivid Pink 5% fill, Darker Pink label) and BETA (grey) tags, size sm by default -->
+  <aha-badge kind="new"></aha-badge>
+  <aha-badge kind="beta"></aha-badge>
 </div>
+
+<!-- PAID feature marker — <aha-paywall> with no slot renders the Vivid Pink crown circle -->
+<aha-paywall feature-label="Custom logo" required-plan="pro"></aha-paywall>
 
 <!-- ribbon — a corner banner wrapping a card (placement end = top-right, default) -->
 <aha-badge ribbon text="New" style="display:inline-block; margin-top:24px">
