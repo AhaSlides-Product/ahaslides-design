@@ -31,7 +31,7 @@
   <aha-badge kind="beta"></aha-badge>
 </div>
 
-<!-- CORRECT / INCORRECT answer results (Report app) — answer colour at 5% fill, default-ink label, solid tick / cross icon; size sm by default -->
+<!-- CORRECT / INCORRECT answer results (Report app) — answer colour at 5% fill, default-ink label, tick / cross icon in the answer colour; size sm by default -->
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">
   <aha-badge kind="correct"></aha-badge>
   <aha-badge kind="incorrect"></aha-badge>

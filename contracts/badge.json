@@ -24,7 +24,7 @@
     { "label": "Plan badge", "value": "preset (free·edu·essential·pro·enterprise); size default: height 28 · radius sm 6 · padding 0 8 · label 14/20 semibold 600; size sm: height 20 · radius xs 4 · padding 0 4 · label 12 regular 400 · no icon; grey fill (gray-30), enterprise Vivid Pink 5% fill (bg-accent); cycle monthly/yearly" },
     { "label": "Session badge", "value": "\"Session N\" badge, size sm by default: grey fill (gray-30), default text; label from `session` / slotted text" },
     { "label": "New and Beta", "value": "size sm by default (20px · padding 0 4 · 12px label regular 400 · radius xs). New: bg-accent #E70E680D fill + text-link-hover #DB005B label (4.65:1, WebAIM Normal Text AA); Beta: grey fill (gray-30 #F1F1F1) + text-default #1A1A1A. Labels \"New\" and \"Beta\"" },
-    {"label": "Correct and incorrect", "value": "answer result badge for the Report app, size sm by default. Fill the answer colour at 5% (answer-correct-tint-5, answer-wrong-tint-5); label \"Correct\" / \"Incorrect\" in the default ink #1A1A1A (never green or red, rule 11.2); a solid tick circle (system-check-circle, answer-correct) or cross circle (system-x-circle, answer-wrong) before it, 3:1 or more on the fill. For a correct or wrong answer only (rule 11.1), never a status"},
+    {"label": "Correct and incorrect", "value": "answer result badge for the Report app, size sm by default. Fill the answer colour at 5% (answer-correct-tint-5, answer-wrong-tint-5); label \"Correct\" / \"Incorrect\" in the default ink #1A1A1A (never green or red, rule 11.2); a tick circle (system-check-circle, answer-correct colour) or cross circle (system-x-circle, answer-wrong colour) icon before it, 3:1 or more on the fill. For a correct or wrong answer only (rule 11.1), never a status"},
     { "label": "Status badge", "value": "<aha-status-badge> is shown with the badges and takes the same `size`: default 28px (padding 8, 14px semibold, radius sm, 16px icon) · sm 20px (padding 4, 12px regular 400, radius xs, 12px icon). Its own spec is in the Status badge section" },
     { "label": "Badge size", "value": "default 28px · 14px label semibold · radius sm · 16px icon · padding 8; sm 20px · 12px label regular 400 · radius xs · 12px icon · padding 4; plan defaults to default, session and New / Beta to sm" }
   ],
@@ -41,7 +41,7 @@
     { "name": "plan", "type": "free | edu | essential | pro | enterprise", "default": "—", "desc": "Plan preset badge; grey fill, enterprise on a Vivid Pink 5% fill; no icon. Size default unless `size` is set" },
     { "name": "cycle", "type": "monthly | yearly", "default": "—", "desc": "Appended to a plan badge's default label (e.g. \"Pro · Yearly\")" },
     { "name": "session", "type": "string", "default": "—", "desc": "Renders a \"Session N\" badge on a grey fill; the value is N (slotted content / `text` overrides the label). Size sm unless `size` is set" },
-    {"name": "kind", "type": "new | beta | correct | incorrect", "default": "—", "desc": "New tag: Vivid Pink 5% fill (bg-accent #E70E680D) with Darker Pink label (text-link-hover #DB005B, 4.65:1). Beta tag: grey fill (gray-30), default text; label \"New\" / \"Beta\"; size sm unless `size` is set. correct / incorrect: an answer result badge (answer colour at 5% fill, default-ink label, solid tick / cross circle icon); labels \"Correct\" / \"Incorrect\"; for answers only, never status"},
+    {"name": "kind", "type": "new | beta | correct | incorrect", "default": "—", "desc": "New tag: Vivid Pink 5% fill (bg-accent #E70E680D) with Darker Pink label (text-link-hover #DB005B, 4.65:1). Beta tag: grey fill (gray-30), default text; label \"New\" / \"Beta\"; size sm unless `size` is set. correct / incorrect: an answer result badge (answer colour at 5% fill, default-ink label, tick / cross circle icon in the answer colour); labels \"Correct\" / \"Incorrect\"; for answers only, never status"},
     { "name": "size", "type": "default | sm", "default": "default (plan) · sm (session, kind)", "desc": "Badge size: default is 28px tall with a 14px label and 16px icon; sm is 20px with 4px side padding, a 12px regular label and a 12px icon. A `dot` is 6px at default and 4px at sm. Also accepted by `<aha-status-badge>`" }
   ],
   "opinion": {
@@ -120,7 +120,7 @@
     { "label": "count default black #1A1A1A; Vivid Pink (status=primary) only for a new count needing attention now, at most one per screen", "verdict": "PASS" },
     { "label": "plan badge default 28px · 14px label · radius sm 6; size sm 20px · padding 4 · 12px label regular 400 · radius xs 4 · 12px icon", "verdict": "PASS" },
     { "label": "plan and session badges are grey (gray-30); enterprise on bg-accent; no crown on any plan badge; session is size sm; New is bg-accent with a text-link-hover label, Beta is grey", "verdict": "PASS" },
-    {"label": "correct and incorrect badges: answer colour at 5% fill, default-ink label, solid tick or cross circle icon; size sm by default; answers only", "verdict": "PASS"}
+    {"label": "correct and incorrect badges: answer colour at 5% fill, default-ink label, tick or cross circle icon in the answer colour; size sm by default; answers only", "verdict": "PASS"}
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",

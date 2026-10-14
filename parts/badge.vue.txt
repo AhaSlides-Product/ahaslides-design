@@ -38,7 +38,7 @@ const unread = ref(128);
   <aha-badge kind="new" />
   <aha-badge kind="beta" />
 
-  <!-- CORRECT / INCORRECT answer results (Report app): answer colour 5% fill, default-ink label, solid icon -->
+  <!-- CORRECT / INCORRECT answer results (Report app): answer colour 5% fill, default-ink label, tick / cross circle icon in the answer colour -->
   <aha-badge kind="correct" />
   <aha-badge kind="incorrect" />
 </template>
