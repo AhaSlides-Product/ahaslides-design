@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.181.1 — 2026-10-14
 ### Fixed
-- `aha-product-lockup` writes every asset URL as an inline `new URL('<literal>', import.meta.url)`, so rspack and webpack bundle the Splash and font files instead of throwing "Cannot find module" and stopping `@ahaslides-product/design/all` from registering. A new unit test fails on any non-literal `import.meta.url` in `lib/`. (#PRNUM)
+- `aha-product-lockup` writes every asset URL as an inline `new URL('<literal>', import.meta.url)`, so rspack and webpack bundle the Splash and font files instead of throwing "Cannot find module" and stopping `@ahaslides-product/design/all` from registering. A new unit test fails on any non-literal `import.meta.url` in `lib/`. (#246)
 
 ## 0.181.0 — 2026-10-14
 ### Added
