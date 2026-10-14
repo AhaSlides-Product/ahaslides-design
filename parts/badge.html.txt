@@ -12,7 +12,7 @@
   <aha-badge count="128" overflow-count="99">
     <aha-icon name="system-bell" size="24"></aha-icon>
   </aha-badge>
-  <!-- a bare dot: status default · disabled · active -->
+  <!-- a bare dot: status default · disabled · active (a dot on a bell is always active) -->
   <aha-badge dot status="active"></aha-badge>
 </div>
 
@@ -26,7 +26,7 @@
   <aha-badge rank="1"></aha-badge>
   <aha-badge session="3"></aha-badge>
 
-  <!-- NEW and BETA tags (one grey look each), size sm by default -->
+  <!-- NEW (Vivid Pink 5% fill, Darker Pink label) and BETA (grey) tags, size sm by default -->
   <aha-badge kind="new"></aha-badge>
   <aha-badge kind="beta"></aha-badge>
 </div>

@@ -15,7 +15,7 @@ const unread = ref(128);
     <aha-icon name="system-bell" size="24" />
   </aha-badge>
 
-  <!-- a bare dot — status default · disabled · active -->
+  <!-- a bare dot — status default · disabled · active (a dot on a bell is always active) -->
   <aha-badge dot status="active" />
 
   <!-- a corner ribbon banner wrapping a card (placement start/end) -->
@@ -31,7 +31,7 @@ const unread = ref(128);
   <aha-badge rank="1" />
   <aha-badge session="3" />
 
-  <!-- NEW and BETA tags, size sm by default -->
+  <!-- NEW (Vivid Pink 5% fill, Darker Pink label) and BETA (grey) tags, size sm by default -->
   <aha-badge kind="new" />
   <aha-badge kind="beta" />
 </template>
