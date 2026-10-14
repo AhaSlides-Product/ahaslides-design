@@ -155,6 +155,136 @@
         "id": 6,
         "remap": "identity — judge criterion ids equal the DS criterion ids (derived from expected_output)"
       }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this survey column. A dashboard table has one Status column. Its cells render `<aha-status-badge status=\"draft\" marker=\"dot\">{t('survey_status.draft')}</aha-status-badge>`, `<aha-status-badge status=\"published\">{t('survey_status.published')}</aha-status-badge>`, `<aha-status-badge status=\"closed\">{t('survey_status.closed')}</aha-status-badge>` and `<aha-status-badge status=\"archived\" marker=\"dot\">{t('survey_status.archived')}</aha-status-badge>`. Is the column correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6 — the dot is only for published / live and closed.",
+      "expected_output": "C6 FAILs: Draft and Archived are forced to a dot with `marker=\"dot\"`, but the dot belongs only to published / live and closed. Draft takes its pencil icon and Archived its archive-box icon. Fix: drop `marker=\"dot\"` from both so the built-in icons show. Published and Closed keep their dots. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C6 is marked FAIL",
+        "Identifies the dot on Draft and Archived",
+        "Recommends dropping marker=\"dot\" so the built-in icons show"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DS-authored for the DESY-181 styles, dot and due-state rules"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review these badges on an assignment card. The question counter renders `<aha-status-badge look=\"alert\">4/6</aha-status-badge>` and an overdue deadline renders `<aha-status-badge look=\"quiet\">{t('due_state.overdue', { count: 5 })}</aha-status-badge>`. Are these the right styles?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7 — quiet or plain for information that is not a status; overdue is alert.",
+      "expected_output": "C7 FAILs twice: a counter is not a status, so it takes the quiet (or plain) style, not alert; and an overdue deadline is the alert style (the warning icon comes with it), not quiet. Fix: `<aha-status-badge look=\"quiet\">4/6</aha-status-badge>` and `<aha-status-badge look=\"alert\">…</aha-status-badge>` for overdue. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C7 is marked FAIL",
+        "Says the counter needs the quiet or plain style, not alert",
+        "Says overdue takes the alert style"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DS-authored for the DESY-181 styles, dot and due-state rules"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this status badge. A course row shows progress with a registry icon and no text: `<aha-status-badge status=\"completed\"></aha-status-badge>`, relying on the check icon to say the course is done. Is this badge correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1 — an icon marker does not replace the text label.",
+      "expected_output": "C1 FAILs: the badge has an icon marker but no visible text label, so the state rests on the icon alone. The marker is decorative and the label is the source of truth. Fix: slot the localised label, `{t('progress.completed')}`. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Identifies the missing text label"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DS-authored for the marker, default badge and no-mixing rules"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review these badges. A learner table has a Progress column whose cells render `<aha-status-badge status=\"not-started\">{t('progress.not_started')}</aha-status-badge>`, `<aha-status-badge status=\"in-progress\">{t('progress.in_progress')}</aha-status-badge>` and `<aha-status-badge status=\"completed\">{t('progress.completed')}</aha-status-badge>`. A Due column renders `<aha-status-badge look=\"alert\">{t('due_state.overdue', { count })}</aha-status-badge>`, `<aha-status-badge look=\"emphasis\" icon=\"system-clock\">{t('due_state.today')}</aha-status-badge>`, `<aha-status-badge look=\"plain\">{t('due_state.in_days', { count })}</aha-status-badge>` and `<aha-status-badge look=\"plain\" icon=\"system-check\">{t('due_state.on_time')}</aha-status-badge>`, all from one mapping. A Slides column renders `<aha-status-badge look=\"quiet\">{done}/{total}</aha-status-badge>`. Nothing overrides the badge size or colour. Are these correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control for C1, C2, C5, C6, C7 — progress icons, due states in alert / emphasis / plain, a quiet counter.",
+      "expected_output": "All criteria pass: every badge is the DS element with a localised label; no dot appears outside published / live and closed; the due states use alert, emphasis with the clock and plain; the counter is quiet with no dot; colour comes from status and look. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "authored": "DS-authored for the DESY-181 styles, dot and due-state rules"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this survey list. Each row renders `<aha-status-badge status={survey.status}>{t(`survey_status.${survey.status}`)}</aha-status-badge>` where status is draft, scheduled, published, closed or archived, so the column shows the pencil, calendar and archive-box icons beside the dots on Published and Closed. Nothing overrides the badge. Is the list correct?",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control for C6 — icons and the lifecycle dots in one survey column is allowed.",
+      "expected_output": "All criteria pass: the dot appears only on Published and Closed, every other state uses its built-in icon, the labels come from i18n and nothing overrides the box. Mixing icons and dots in this column is correct under the dot rule. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "C6 is not marked FAIL",
+        "Does not ask to remove the icons or the dots"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {}
+      },
+      "source": {
+        "authored": "DS-authored for the DESY-181 styles, dot and due-state rules"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this badge. To make a published survey stand out, a screen renders `<aha-status-badge status=\"published\" style=\"--aha-status-badge-bg: var(--aha-bg-accent); --aha-status-badge-fg: var(--aha-text-link)\">{t('survey_status.published')}</aha-status-badge>`, a pink badge. Is this correct?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5 — pink only on the alert icon; the colour properties are not for DS statuses.",
+      "expected_output": "C5 FAILs: the two colour custom properties are only for a colour set an app already owns (Report results), never to tint a lifecycle status, and pink belongs only on the alert icon. Published is the emphasis style with a dark dot. Fix: remove the inline style and render `<aha-status-badge status=\"published\">`. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C5 is marked FAIL",
+        "Says pink is only for the alert icon or that the properties must not tint a DS status",
+        "Recommends removing the override"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "DS-authored for the DESY-181 styles, dot and due-state rules"
+      }
     }
   ]
 }

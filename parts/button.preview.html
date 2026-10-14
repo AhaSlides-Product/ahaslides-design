@@ -1,10 +1,3 @@
-<style>
-  .canvas-decks{ display:grid; gap:16px }
-  .canvas-deck-name{ font:600 14px/20px var(--aha-font-product); color:var(--aha-text-secondary,#4A4A4A); margin:0 0 8px }
-  .canvas-deck{ display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:60px 24px 24px; border-radius:var(--aha-radius-lg,12px) }
-  .canvas-spacer{ flex:1 1 0 }
-  .canvas-note{ font:14px/21px var(--aha-font-product); color:var(--aha-text-secondary,#4A4A4A); max-width:72ch; margin:12px 0 0 }
-</style>
 <div class="pad">
   <div class="lbl">Tones</div>
   <div class="row" style="flex-wrap:wrap">
@@ -55,51 +48,7 @@
     <aha-button icon-only variant="tertiary" size="xs" aria-label="Close extra small"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
   </div>
 
-  <div class="lbl">On the canvas: size lg, themed by applyCanvasDeck</div>
-  <div class="canvas-decks">
-    <div>
-      <div class="canvas-deck-name">Light deck · Vivid Pink accent, white label</div>
-      <div class="canvas-deck" data-canvas-deck data-accent="--aha-vivid-pink-100" data-ink="--aha-gray-100" data-background="--aha-white" style="background:var(--aha-white,#FFFFFF); color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)">
-      <aha-tooltip size="lg" text="Previous" shortcut="Shift+Enter" placement="top-start" open>
-        <aha-button variant="secondary-deck" size="lg" icon-only aria-label="Previous (Shift+Enter)"><aha-icon name="system-arrow-left" size="16" decorative></aha-icon></aha-button>
-      </aha-tooltip>
-      <aha-button variant="secondary-deck" size="lg" shortcut="V"><span slot="icon"><aha-icon name="system-eye-slash" size="16" decorative></aha-icon></span>Hide votes</aha-button>
-      <aha-button variant="tertiary-deck" size="lg" shortcut="S">Skip</aha-button>
-      <span class="canvas-spacer"></span>
-      <aha-button variant="primary" size="lg" shortcut="Enter">Next: Result</aha-button>
-      </div>
-    </div>
-    <div>
-      <div class="canvas-deck-name">Dark deck · pale pink accent, black label</div>
-      <div class="canvas-deck" data-canvas-deck data-accent="--aha-vivid-pink-30" data-ink="--aha-white" data-background="--aha-gray-100" style="background:var(--aha-black,#1A1A1A); color:var(--aha-white,#FFFFFF)">
-      <aha-tooltip size="lg" text="Previous" shortcut="Shift+Enter" placement="top-start" open>
-        <aha-button variant="secondary-deck" size="lg" icon-only aria-label="Previous (Shift+Enter)"><aha-icon name="system-arrow-left" size="16" decorative></aha-icon></aha-button>
-      </aha-tooltip>
-      <aha-button variant="secondary-deck" size="lg" shortcut="V"><span slot="icon"><aha-icon name="system-eye-slash" size="16" decorative></aha-icon></span>Hide votes</aha-button>
-      <aha-button variant="tertiary-deck" size="lg" shortcut="S">Skip</aha-button>
-      <span class="canvas-spacer"></span>
-      <aha-button variant="primary" size="lg" shortcut="Enter">Next: Result</aha-button>
-      </div>
-    </div>
-    <div>
-      <div class="canvas-deck-name">Image deck · no tertiary, Skip is a secondary</div>
-      <div class="canvas-deck" data-canvas-deck data-accent="--aha-vivid-pink-100" data-ink="--aha-gray-100" data-background="--aha-white" style="background:var(--aha-white,#FFFFFF) url(../backgrounds/splash-centre-white-16x9.svg) center / cover; color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)">
-      <aha-tooltip size="lg" text="Previous" shortcut="Shift+Enter" placement="top-start" open>
-        <aha-button variant="secondary-deck" size="lg" icon-only aria-label="Previous (Shift+Enter)"><aha-icon name="system-arrow-left" size="16" decorative></aha-icon></aha-button>
-      </aha-tooltip>
-      <aha-button variant="secondary-deck" size="lg" shortcut="V"><span slot="icon"><aha-icon name="system-eye-slash" size="16" decorative></aha-icon></span>Hide votes</aha-button>
-      <aha-button variant="secondary-deck" size="lg" shortcut="S">Skip</aha-button>
-      <span class="canvas-spacer"></span>
-      <aha-button variant="primary" size="lg" shortcut="Enter">Next: Result</aha-button>
-      </div>
-    </div>
-  </div>
-  <div class="row" data-canvas-deck data-accent="--aha-vivid-pink-100" data-ink="--aha-gray-100" data-background="--aha-white" style="align-items:center; flex-wrap:wrap; padding-top:12px">
-    <aha-button variant="primary" size="lg" shortcut="Mod+Enter" disabled>Save</aha-button>
-    <aha-button variant="secondary-deck" size="lg" shortcut="Esc" disabled>Discard</aha-button>
-    <aha-button variant="tertiary-deck" size="lg" shortcut="S" disabled>Skip</aha-button>
-  </div>
-  <p class="canvas-note">The chip is display only: 24 × 24, radius 4, a 14px / 400 key that follows the presenter's machine (⌘ on a Mac, Ctrl elsewhere). An icon-only control keeps the key in its <code>aria-label</code> and shows it in <code>&lt;aha-tooltip size="lg" shortcut&gt;</code>. Hover is a fill change only.</p>
+  <p class="lbl" style="text-transform:none; letter-spacing:0">Presenter controls drawn inside the slide canvas (size lg, applyCanvasDeck, shortcut chip) now live on the <a href="../canvas/index.html">Canvas Library › Components</a> page.</p>
 
   <div class="lbl">Close (tertiary icon-only, xs) — the dismiss ✕</div>
   <div style="display:flex; gap:8px; align-items:flex-start; max-width:360px; padding:12px 16px; border:1px solid var(--aha-border); border-radius:var(--aha-radius-default); font:14px/21px var(--aha-font-product)">
@@ -118,10 +67,4 @@
   import '../lib/icons.js';        // registers <aha-icon> so the icon-slot glyphs resolve from the DS library
   import '../lib/aha-alert.js';   // its closable ✕ is the xs tertiary icon-only button above
   import '../lib/aha-button.js';   // registers <aha-button> — the shipped primitive, byte-identical to what consumers get
-  import '../lib/aha-tooltip.js';
-  import { applyCanvasDeck } from '../lib/canvas-deck.js';
-  const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  for (const deck of document.querySelectorAll('[data-canvas-deck]')) {
-    applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
-  }
 </script>
