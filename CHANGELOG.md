@@ -29,6 +29,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Removed
 - Badge standalone status label (`<aha-badge status="…" text="…">` with no count or dot), its docs "Status" section, snippets and contract rows. Use the Status badge component for a state label. (#244)
 
+## 0.181.0 — 2026-10-14
+### Added
+- `<aha-status-badge look>` takes four styles: `quiet` (Gray 25, no border), `emphasis` (white, 1px `--aha-border-strong` inset border), `alert` (white, 1px `--aha-border-warning` inset border, a `system-warning-circle` icon in `--aha-icon-active`, the only pink on any badge) and `plain` (no box, Gray 80 regular text, optional icon). `look="default"` is accepted as a deprecated alias of `quiet`. (#240)
+- `<aha-status-badge>` takes `marker` (`dot`, `icon`, `none`) and `icon` (a registry name, drawn at 16px before the label). (#240)
+- New built-in statuses `scheduled` (quiet + calendar) and `live` (as published), and the progress statuses `not-started` (quiet + dashed circle), `in-progress` (quiet + half-dashed circle) and `completed` (quiet + check circle). Due states are a look and an icon, not new statuses: overdue `look="alert"`, due today `look="emphasis" icon="system-clock"`, due in N days `look="plain"`, on time `look="plain" icon="system-check"`, N days late `look="plain" icon="system-clock-late"`. (#240)
+- Four icons: `system-clock`, `system-clock-late`, `system-archive-box` and `system-circle-half-dashed`. (#240)
+- `--aha-status-badge-bg` and `--aha-status-badge-fg` let an app keep a colour set it already owns inside the shared box. The design system still ships no hue for status. (#240)
+### Changed
+- **Visible change for every `<aha-status-badge>`:** the box is now 28px tall with 8px side padding (was 10px), a 6px radius (was a full pill), a 14px semibold label (was 12px) and a 16px icon or a 6px dot. Published and active are the emphasis style with a dark dot (were white with black); closed is quiet with a light dot; draft is quiet with a pencil icon and archived quiet with an archive-box icon (both had a dot); inactive follows closed. Attribute names and the six existing `status` values are unchanged. Importing the element now also registers `<aha-icon>`. (#240)
+- Status badges guideline and judge: the dot is only for the published / live and closed lifecycle states, so one column may mix icons and dots (criterion C6); due states are badges in this family, and counters and types use the quiet or plain style (C7); C1, C2 and C5 describe `<aha-status-badge>` instead of the hand-built `aha-status-pill` markup, which still passes on existing screens. (#240)
+
 ## 0.180.0 — 2026-10-14
 ### Added
 - Canvas Library › Components: a new page (`canvas/index.html`), built like the Audience Library, for the in-canvas presenter controls: the light, dark and image deck demos (`<aha-button size="lg">`, `applyCanvasDeck`, the shortcut chip, `<aha-tooltip size="lg" shortcut>`), the Canvas rule from the Button spec, a copy-paste snippet and the one-tag `lib/canvas.js` box. (#243)

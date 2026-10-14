@@ -669,23 +669,23 @@
       "targets": [
         {
           "source": "guidelines/status-badges.json",
-          "use": "the status-pill pattern: dot + localised label, role=status, --{status} modifier colours"
+          "use": "the status badge rules: one box, four styles (quiet, emphasis, alert, plain), the three markers, the dot only for published / live and closed, due states, when not to use a badge"
         },
         {
           "source": "contracts/status-badge.json",
-          "use": "the DS status badge markup and status variants (C1, C2, C5)"
+          "use": "the DS status badge element: status, look, marker, icon and the two colour custom properties (C1, C2, C5, C6, C7)"
         }
       ],
       "criteria": [
         {
           "id": "C1",
-          "title": "The pill is a dot + a localised text label",
-          "test": "**Rule.** A status pill is a single inline element containing a **dot** (`aha-status-pill__dot`) carrying the state colour **and** the visible **text label**. The dot is decorative; the text is the source of truth."
+          "title": "The badge is a marker (dot, icon or none) + a localised text label",
+          "test": "**Rule.** A status badge is a single inline element with a visible **text label**, optionally led by one decorative marker: a 16px **icon** from the DS icon registry, a 6px **dot**, or **no marker**. The text is the source of truth. A badge with no text label fails (a bare dot or a bare icon), and so does a badge that shows a dot and an icon together."
         },
         {
           "id": "C2",
-          "title": "Markup uses the aha-status-pill / aha-status-pill--{status} convention",
-          "test": "**Rule.** The base class is `aha-status-pill` plus a **per-state modifier** `aha-status-pill--{status}`, and the dot is `aha-status-pill__dot`. The state name comes from the status enum."
+          "title": "Markup is the DS status badge, not an ad-hoc class family",
+          "test": "**Rule.** New work renders `<aha-status-badge>` with a `status` from the built-in enum or a `look` (`quiet`, `emphasis`, `alert`, `plain`; `default` is a deprecated alias of `quiet`), and leaves the box alone: no size, padding, radius or font override on the element or its part. Existing markup on the `aha-status-pill` / `aha-status-pill--{status}` / `aha-status-pill__dot` class convention still passes. A bespoke class family (`badge badge-green`), a restyled `<aha-tag>` or a hand-built span fails."
         },
         {
           "id": "C3",
@@ -699,8 +699,18 @@
         },
         {
           "id": "C5",
-          "title": "Colour comes from the --{status} modifier class, no inline hex",
-          "test": "**Rule.** The **modifier class** — not an inline style or prop — drives the pill and dot colour, and it resolves to **semantic tokens**. Every state's colour lives in one stylesheet on tokens; the visible label is never coloured by a hardcoded hex."
+          "title": "Colour comes from the status or look, no inline hex",
+          "test": "**Rule.** The `status` or `look` attribute (or, in existing markup, the `--{status}` modifier class) drives the badge and marker colour, and it resolves to **semantic tokens**. A status never gets a hue: no green, red, amber or blue badge, no pink anywhere but the alert icon, and no hardcoded hex on the label. The one exception is `--aha-status-badge-bg` with `--aha-status-badge-fg`, set once in a stylesheet for a colour set the app already owns and has had approved (the Report result badges); used to tint a lifecycle, progress or due state, it fails."
+        },
+        {
+          "id": "C6",
+          "title": "The dot only for published / live and closed",
+          "test": "**Rule.** The 6px dot marks only the **published / live** and **closed** lifecycle states (and `active` / `inactive`, which follow them): published, live and active on the emphasis style with a dark dot, closed and inactive on the quiet style with a light dot. Every other state takes an icon or no marker (Draft pencil, Scheduled calendar, Archived archive box, the three progress circles). One column may show Draft with its pencil beside Published with its dot. A dot on any other state fails: a dot on Draft, Archived, a progress state, a due state or a counter."
+        },
+        {
+          "id": "C7",
+          "title": "The right style for due states and non-status information",
+          "test": "**Rule.** A due state is a badge in this family, set with `look` and `icon`: overdue is **alert**; due today or due soon is **emphasis** with `system-clock`; due in N days is **plain** with no icon; on time is **plain** with `system-check`; N days late is **plain** with `system-clock-late`. Information that is not a status (a counter such as `4/6`, a slide or question type, Unanswered, Time out) uses the **quiet** or **plain** style, with or without an icon and never with a dot. A due state drawn as hand-coloured text or in the wrong style (overdue in quiet, due in N days in alert), a counter or type in emphasis or alert, or a counter with a dot fails."
         }
       ]
     },
