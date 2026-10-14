@@ -249,3 +249,9 @@ Matched to the live ahaslides.com at 1440px, 768px and 375px (columns, spacing, 
 35. The live keyboard focus is the browser's grey outline → the DS focus outline on every link and the logo.
 36. Webflow media queries (991, 767, 479px and a 1440px heading size) → the same widths as container queries on the footer, so the section also reflows inside a narrow docs frame.
 37. Live column placement at 991px and below is set per column by Webflow grid IDs → named column classes carry the same placement.
+38. The social and contact glyphs are Phosphor outline icons in `#8A8A8A` on live → email, WhatsApp and community use the DS `system-envelope`, `system-whatsapp-logo` and `system-users-three` in `--aha-icon-muted`; LinkedIn, YouTube, Facebook, Instagram and Reddit use the greyscale Logo library files, which are filled and darker than the live outlines (the DS has no outline brand glyphs for them).
+39. The award badges (three G2 and the Training Magazine Network winner) and the DMCA badge are third-party raster images; the section keeps the live absolute image URLs on ahaslides.com and does not host copies.
+40. Live bug: the DMCA badge links to the G2 reviews page; the section keeps the live link until Growth decides the right target.
+41. The icon links carry live aria-labels that begin "link to" (for example "link to AhaSlides LinkedIn channel"), which screen readers read after announcing a link; kept verbatim, Growth may shorten them. The community link drops the live `_gl` tracking query.
+42. Live icon links show no hover or focus state (the email glyph only changes an unused colour) → the icons also have none on hover, and take the DS focus outline on keyboard focus.
+43. The grey band `#F7F7F7`, the copyright grey `#667085` and the System status grey `#757575` → `--aha-bg-hover`, `--aha-gray-80` and `--aha-gray-80`; the band and copyright line sit outside Webflow's `<footer>` element on live and inside the footer here.
