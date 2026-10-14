@@ -42,8 +42,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Info Box is now a thin wrapper over Alert: its variants map to the Alert types, so it takes the Alert look (grey surface, no border, grey status glyph) and roles. Its API (`variant`, `icon`, `dismissible`, `dismiss`) is unchanged (#249).
 - Image Dropzone hover softens only the dashed edge to Vivid Pink 30% (vivid-pink-30); the fill and text stay (#249).
 ### Removed
-- Mode Field `variant="segmented"`: the mode control is always the Radio-Button-Group; a leftover `variant` attribute is ignored. No consumer repo used it (#249).
-- Numbered Item `variant="plain"`: the item is always the grey card; a leftover `variant` attribute is ignored. No consumer repo used it (#249).
+- Mode Field `variant="segmented"` (breaking): the mode control is always the Radio-Button-Group; a leftover `variant` attribute is ignored. No consumer repo used it (searched every repo in the fleet cache, including the four DS consumers) (#249).
+- Numbered Item `variant="plain"` (breaking): the item is always the grey card; a leftover `variant` attribute is ignored. No consumer repo used it (searched every repo in the fleet cache, including the four DS consumers) (#249).
 ### Fixed
 - Option Row no longer turns its text into "undefined" on the first keystroke: it read the textarea's native `input` event as well as the field's own, and the native one has no value. It now emits one `input` per keystroke (the field's own also leaked out, so listeners saw two). Question List had the same fault for its prompt and options, and no longer lets the inner fields' `change` escape as its own (#249).
 - Image Action Button filled state: the pencil overlay is now positioned on the button, so it fills the frame's inner box concentrically (it was offset by the 4px line-box gap under the inline host); the thumbnail and overlay corners follow the frame's inner radius (#249).

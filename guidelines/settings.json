@@ -160,7 +160,7 @@
     {
       "ref": "question-list",
       "as": "component",
-      "use": "QuestionList — editable list of collapsible questions (prompt field + OptionRow choices); composes NumberedItem/OptionRow",
+      "use": "QuestionList — editable list of collapsible questions (prompt field + OptionRow choices); composes Collapse, SettingRow, CountedInput, OptionRow and AddItemButton",
       "status": "available"
     },
     {

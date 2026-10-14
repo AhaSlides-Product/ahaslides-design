@@ -101,7 +101,7 @@ the library already defines.
 | **NumberWithUnit** | *digit input + hover stepper (clamped, maxDigits) + unit-in-full + optional error line* | **mapped** → `number-with-unit` |
 | **OptionRow** | *repeatable option row: drag handle, correct toggle, borderless textarea + counter, image, delete* | **mapped** → `option-row` |
 | **NumberedItem** | *numbered composite-item wrapper: chip + `<Label> N` header + hover delete + grey container* | **mapped** → `numbered-item` |
-| **QuestionList** | *collapsible questions (prompt + OptionRow choices); composes NumberedItem/OptionRow* | **mapped** → `question-list` |
+| **QuestionList** | *collapsible questions (prompt + OptionRow choices); composes Collapse, SettingRow, CountedInput, OptionRow and AddItemButton* | **mapped** → `question-list` |
 | **ImageDropzone** | *full-width settings-only image field; emits intents, host runs the upload modals* | **mapped** → `image-dropzone` |
 | **ImageActionButton** | *per-option image control (empty/loading/thumbnail + Change/Edit/Delete)* | **mapped** → `image-action-button` |
 | **InfoBox** | *settings callout drawn by the DS Alert (aha-alert)* | **mapped** → `info-box` |
