@@ -20,7 +20,7 @@
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
-    { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #999999" }
+    { "label": "Text", "value": "Plus Jakarta 14/21, letter-spacing 0.2px (paragraph token); counter 12/18, 0.3px (subtext token); placeholder #999999" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },

@@ -16,7 +16,7 @@
     { "label": "Sizes", "value": "default 40 · large 48 — the aha-input scale, all radius 8" },
     { "label": "Digit", "value": "fixed width 4ch, tabular-nums, 15px — never flex-grow" },
     { "label": "Order", "value": "field → stepper → unit (stepper sits LEFT of the unit); gaps field→stepper 6, stepper→unit 4" },
-    { "label": "Unit", "value": "14/21 #999999 (text-placeholder) inline suffix, rendered exactly as passed (the SHORT label, e.g. sec)" },
+    { "label": "Unit", "value": "14/21, letter-spacing 0.2px, #999999 (text-placeholder) inline suffix, rendered exactly as passed (the SHORT label, e.g. sec)" },
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },
