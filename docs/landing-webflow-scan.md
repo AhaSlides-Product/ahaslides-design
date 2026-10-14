@@ -240,3 +240,11 @@ continuing its numbering.
 Everything else the live site uses is already on the DS foundations, so the landing basics below
 bind to `--aha-*` tokens with no new brand source. Sizes, line-heights and letter-spacing for type
 are a genuine 1:1 match with the DS scale (see Type, above) — no action needed there.
+
+### Header (Webflow component Header, variant "Variant") — added with DESY-196
+22. Participant bar background `#161616` → DS `--aha-bg-dark` (black); bar height `52px` → DS `56px` minimum (`--aha-space-56`); join field fill `#ffffff14` → `--aha-bg-dark-raised`; the field radius `8px` and the Join button take `--aha-radius-default`.
+23. Nav link weight and size are set per element in Webflow (`Text Block 51/52/53`) → one DS link style: `--aha-size-default`, `--aha-weight-semibold`, hover `--aha-button-ghost-bg-hover` with `--aha-text-link-hover`.
+24. Log in (`btn is-secondary Size L`) and Sign up (`btn is-pink`) → the DS default and primary button tokens, pill radius, `--aha-control-height-button-lg`; focus is the DS focus outline, not the Webflow default.
+25. Mobile menu icon is three Webflow divs (`menu-icon_line-*`) → `<aha-icon>`; the DS has no menu (hamburger) glyph yet, so `system-list-bullet` stands in (DSN ticket).
+26. Webflow collapses the nav at the `medium` breakpoint (991px); the DS tablet width is 768px. The DS section collapses at 991px to match the live site; confirm with Growth whether it should follow the DS 768px tablet step.
+

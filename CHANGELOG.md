@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.184.0 — 2026-10-14
+### Added
+- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"): participant join bar, main navigation with Products, Solutions and Resources dropdowns, Pricing, Enterprise, the language switch, Log in and Sign up. Hamburger menu at 991px and below (dropdowns become an accordion). The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, every value is an `--aha-*` token. Webflow differences are listed in `docs/landing-webflow-scan.md` for the consumer to update. (#PR)
+
 ## 0.182.0 — 2026-10-14
 ### Added
 - `<aha-badge size="default" | "sm">` on plan and session badges. `default` is 28px with 8px side padding, a 14px label, radius sm and a 16px icon; `sm` is 20px with 4px side padding, a 12px regular (400) label, radius xs and a 12px icon. Plan defaults to `default`; session defaults to `sm`. (#244)
