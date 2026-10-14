@@ -31,6 +31,13 @@
   <aha-badge kind="beta"></aha-badge>
 </div>
 
+<!-- CORRECT / INCORRECT answer results (Report app) — answer colour at 5% fill, default-ink label, solid tick / cross icon; size sm by default -->
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">
+  <aha-badge kind="correct"></aha-badge>
+  <aha-badge kind="incorrect"></aha-badge>
+  <aha-badge kind="correct" size="default"></aha-badge>
+</div>
+
 <!-- PAID feature marker — <aha-paywall> with no slot renders the Vivid Pink crown circle -->
 <aha-paywall feature-label="Custom logo" required-plan="pro"></aha-paywall>
 

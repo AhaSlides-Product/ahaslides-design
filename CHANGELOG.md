@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.188.0 — 2026-10-14
+### Added
+- Correct and incorrect badges for the Report app: `<aha-badge kind="correct">` and `kind="incorrect"`, size sm by default and `size="default"` for the 28px box. The fill is the answer colour at 5% (`--aha-answer-correct-tint-5`, `--aha-answer-wrong-tint-5`), the label stays the default ink (rule 11.2), and a solid tick or cross circle icon (`system-check-circle`, `system-x-circle`) carries `--aha-answer-correct` and `--aha-answer-wrong` (rule 11.3). For a correct or wrong answer only (rule 11.1). Contract row, docs examples, html, React and Vue snippets and render probes on the Badge page. (#250)
+
 ## 0.183.0 — 2026-10-14
 ### Added
 - Correct and wrong answer colours: `--aha-answer-correct` (`#008A05`) and `--aha-answer-wrong` (`#C7401E`), each with a 5% and a 30% tint (`-tint-5`, `-tint-30`), at `color.answer.*` in the tokens. For marking an answer correct or wrong only; no component uses them yet. (#245)
