@@ -2126,8 +2126,8 @@ const ANTISLOP_LOOP = [
   'You are generating AhaSlides product UI by consuming this design system.',
   'Before you write a screen: (1) identify the surface(s) you are building;',
   "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
-  '(node screen-lint.mjs --surface=<product|canvas> <files>) to hard-fail the zero-interpretation',
-  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts), then the",
+  '(node screen-lint.mjs --surface=<product|canvas|audience> <files>) to hard-fail the zero-interpretation',
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface), then the",
   'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
@@ -2622,7 +2622,8 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
     `// ONE import registers the <aha-*> elements the ${surface} surface uses. Load the token layer separately:\n` +
     `//   <link rel="stylesheet" href=".../lib/tokens.css">   or   import '${PKGNAME}/tokens.css'\n` +
     entry.files.map(f => `import './${f}';`).join('\n') + '\n' +
-    (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : ''));
+    (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : '') +
+    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : ''));
   console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
 }
 

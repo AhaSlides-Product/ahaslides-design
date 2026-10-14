@@ -133,12 +133,26 @@ Read the list from the DS each time — surfaces get added.
    `<specific part> | AhaSlides`, brand last, updated on every client-side route change, The Splash
    files from `logo/favicon/` with `/favicon.ico` at the site root. Rules:
    `https://design.ahaslides.io/guidelines/page-title-favicon/page-title-favicon.md`.
+10. Presenter controls a slide type draws on its own canvas are `<aha-button size="lg">` (40px),
+    themed once with `applyCanvasDeck` from `lib/canvas.js` (deck accent primary, hover a fill
+    change only), never `size="xl"` or `::part` sizing. A labelled one carries its key in the
+    display-only `shortcut` attribute; an icon-only one sits in
+    `<aha-tooltip size="lg" text="Mute music" shortcut="M">` with `aria-label="Mute music (M)"`.
+    No `tertiary-deck` on a photographic deck. Detail in the `canvas` guideline.
+11. Actions on a slide type's audience phone are `<aha-audience-submit>` for the submit and
+    `<aha-button size="touch">` in `primary`, `secondary-deck` or `tertiary-deck` for the rest, from
+    `lib/audience.js`, never a raw `<button>`. Detail in the `audience` guideline.
 
 ## 4. Judge
 
 1. **Mechanical gate first** (when the package is installed):
-   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas> <files>`
-   — fix every HARD finding before judging.
+   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience> <files>`
+   — fix every HARD finding before judging. A slide type's `presenter.*` is `canvas`, its
+   `audience.*` is `audience` and its `settings.*` is `product`. On both slide surfaces a raw
+   `<button>` or `role="button"`, `<aha-button size="xl">`, sizing through `::part(button)` or an
+   inline style, and a `<kbd>` inside `<aha-button>` are HARD. A control the DS does not ship (a
+   draggable tile, a seek-bar grip) keeps its tag with `ds-lint-allow: raw-button (why)` on that
+   line; never use the marker to keep a hand-made action button.
 2. **Binary judge**, per surface: for every criterion, read its `test`, find the evidence in the
    code (`file:line`) and decide **PASS**, **FAIL**, or **N/A** (only when the criterion cannot
    apply to this code). No partial credit. **Burden of proof is on PASS** — a criterion you cannot
