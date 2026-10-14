@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   loadColourRules, loadBackgrounds, listRules, listNotes, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
-  renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE,
+  renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE, sectionBlocks,
 } from '../colour-rules.mjs';
 import { buildSplash, readyMadeSet, loadSplashRules, readIcon, largestHook } from '../build-splash.mjs';
 import { loadEnvironmentTable, environmentNames } from '../environments.mjs';
@@ -250,20 +250,20 @@ test('every measured answer contrast is what the two colours give', () => {
   }
   const knownFails = table('answer-contrast').rows.filter(([, , verdict]) => verdict.startsWith('Known fail')).length;
   const words = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
-  assert.ok(ruleText('11.9').includes(`${words[knownFails]} places fall short`), `rule 11.9 names ${knownFails} known fails`);
+  assert.ok(ruleText('11.5').includes(`${words[knownFails]} places fall short`), `rule 11.5 names ${knownFails} known fails`);
 });
 
 test('the answer section sits before Still to decide and keeps every earlier rule id', () => {
   assert.deepEqual(rules.sections.map(section => section.id).slice(-2), ['s11', 's12']);
   assert.equal(answerSectionOf().id, 's11');
   assert.equal(rules.sections.at(-1).key, 'open');
-  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 10 }, (_, index) => `11.${index + 1}`));
-  for (const [id, words] of [['1.1', 'section 11'], ['7.1', 'section 11'], ['8.5', 'rule 11.5']]) assert.ok(ruleText(id).includes(words), id);
+  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 6 }, (_, index) => `11.${index + 1}`));
+  for (const [id, words] of [['1.1', 'section 11'], ['7.1', 'section 11'], ['8.5', 'section 11']]) assert.ok(ruleText(id).includes(words), id);
 });
 
 test('the answer applications draw the three surfaces with a tick or a cross on every mark', () => {
   const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
-  const block = answerSectionOf().blocks.find(entry => entry.type === 'answer-examples');
+  const block = sectionBlocks(answerSectionOf()).find(entry => entry.type === 'answer-examples');
   assert.equal((page.match(/class="ax-stage /g) || []).length, block.presenting.length);
   assert.equal((page.match(/class="ax-phone /g) || []).length, block.audience.length * block.audienceDecks.length);
   assert.ok(page.includes('class="ax-report"') && page.includes('class="ax-table"'));
@@ -272,4 +272,22 @@ test('the answer applications draw the three surfaces with a tick or a cross on 
   assert.equal((page.match(/data-icon="system-(check|x)"/g) || []).length, discs);
   assert.ok(page.includes('--ans-correct:#008A05;') && page.includes('--ans-wrong-30-dark:#4E251B;'));
   assert.ok(!/class="ax-(label|count)"[^>]*style=/.test(page));
+});
+
+test('section 11 folds Rules, Applications and Measured contrast into closed panels, and the feeds keep every word', () => {
+  const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
+  const section = answerSectionOf();
+  const panels = section.blocks.filter(block => block.type === 'panel');
+  assert.deepEqual(panels.map(panel => panel.title), ['Rules', 'Applications', 'Measured contrast']);
+  for (const panel of panels) assert.ok(page.includes(`<details class="panel" id="${panel.id}"><summary>`), panel.id);
+  assert.ok(!/<details class="panel"[^>]*\sopen/.test(page));
+  assert.equal(rules.sections.filter(entry => entry.blocks.some(block => block.type === 'panel')).length, 1);
+  const examples = sectionBlocks(section).find(block => block.type === 'answer-examples');
+  const markdown = renderColourRulesMd(rules, { site: SITE, store, backgrounds });
+  for (const field of ['presentingText', 'audienceText', 'reportText']) {
+    assert.ok(markdown.includes(markupToText(examples[field])), field);
+    assert.ok(page.includes(markupToHtml(examples[field])), field);
+  }
+  assert.ok(examples.presentingText.includes('4.5 to 1') && examples.audienceText.includes('4.5 to 1'));
+  assert.ok(table('answer-contrast').rows.length > 0 && markdown.includes('Table answer-contrast'));
 });

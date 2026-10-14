@@ -53,11 +53,19 @@ export function markupToText(text) {
 
 const sectionNumber = (section) => section.id.replace(/^s/, '');
 
+/** A section's blocks in reading order, with each collapsed panel opened out into the blocks it holds. */
+export function sectionBlocks(section) {
+  const open = (blocks) => blocks.flatMap(block => (block.type === 'panel' ? open(block.blocks) : [block]));
+  return open(section.blocks);
+}
+
+const EXAMPLE_TEXT_FIELDS = ['presentingText', 'audienceText', 'reportText'];
+
 /** Every rule in reading order, each with the environments it applies to. */
 export function listRules(rules) {
   const list = [];
   for (const section of rules.sections) {
-    for (const block of section.blocks) {
+    for (const block of sectionBlocks(section)) {
       const inherited = block.environment || section.environment || rules.environment;
       const entries = block.type === 'rules' ? block.rules : (block.rule ? [block] : []);
       for (const entry of entries) {
@@ -72,7 +80,7 @@ export function listRules(rules) {
 }
 
 export function listTables(rules) {
-  return rules.sections.flatMap(section => section.blocks.filter(block => block.type === 'table').map(block => ({
+  return rules.sections.flatMap(section => sectionBlocks(section).filter(block => block.type === 'table').map(block => ({
     id: block.id, section: sectionNumber(section), sectionTitle: section.title,
     environment: block.environment || section.environment || rules.environment, origin: block.origin || 'rules page',
     columns: block.columns, rows: block.rows.map(row => row.map(markupToText)),
@@ -81,9 +89,11 @@ export function listTables(rules) {
 
 /** The explanatory paragraphs that are not rules, in reading order. */
 export function listNotes(rules) {
-  return rules.sections.flatMap(section => section.blocks.filter(block => block.type === 'paragraph' && !block.rule).map(block => ({
-    section: sectionNumber(section), sectionTitle: section.title, text: markupToText(block.text),
-  })));
+  return rules.sections.flatMap(section => sectionBlocks(section).flatMap(block => {
+    const texts = block.type === 'paragraph' && !block.rule ? [block.text]
+      : block.type === 'answer-examples' ? EXAMPLE_TEXT_FIELDS.map(field => block[field]).filter(Boolean) : [];
+    return texts.map(text => ({ section: sectionNumber(section), sectionTitle: section.title, text: markupToText(text) }));
+  }));
 }
 
 /** Rule id to the judge criteria that cite it, as "surface:C1". */
@@ -130,6 +140,10 @@ function blockHtml(block, rules, parts, options = {}) {
   if (block.type === 'table') return grid(block.columns, block.rows.map(row => row.map(markupToHtml)));
   if (block.type === 'palette') return grid(['Colour', 'Value', 'What it is for'], rules.palette.map(colour => [markupToHtml(colour.name), paletteValueCell(colour), markupToHtml(colour.role)]));
   if (block.type === 'answer-examples') return answerExamplesHtml(block, options);
+  if (block.type === 'panel') {
+    const caret = options.icon ? options.icon('system-caret-right', 16) : '';
+    return `<details class="panel" id="${escapeHtml(block.id)}"><summary><span class="panel-caret">${caret}</span>${escapeHtml(block.title)}</summary>\n<div class="panel-body">\n${block.blocks.map(inner => blockHtml(inner, rules, parts, options)).join('\n')}\n</div></details>`;
+  }
   if (block.type === 'open') {
     return rules.open.length
       ? `<ol>\n${rules.open.map(point => `<li id="${point.id}"><strong>${escapeHtml(point.title)}.</strong> ${markupToHtml(point.text)} Until it is settled: ${markupToHtml(point.interim)}</li>`).join('\n')}\n</ol>`
@@ -158,6 +172,7 @@ export function answerPaletteVariables(rules) {
 export const ANSWER_EXAMPLES_CSS = `
 .ax{margin:8px 0 16px;font-family:var(--ans-font)}
 .ax-h{font-size:16px;font-weight:600;margin:20px 0 8px}
+.ax-desc{font-size:14px;line-height:1.5;color:var(--ans-ink-2);margin:0 0 12px;max-width:80ch}
 .ax-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--ax-min,300px)),1fr));margin:0 0 8px}
 .ax-grid.is-stages{--ax-min:420px}
 .ax-grid.is-phones{--ax-min:220px}
@@ -218,6 +233,7 @@ export const ANSWER_EXAMPLES_CSS = `
 /** The applications of section 11: presenting, the audience phone and the report, as static markup. */
 export function answerExamplesHtml(block, { icon = () => '' } = {}) {
   const disc = (correct, size = '') => `<span class="ax-disc ${correct ? 'is-correct' : 'is-wrong'}${size ? ` is-${size}` : ''}">${icon(correct ? 'system-check' : 'system-x', size === 'small' ? 12 : 16)}</span>`;
+  const description = (text) => (text ? `<p class="ax-desc">${markupToHtml(text)}</p>` : '');
   const deckClass = (deck) => (deck === 'dark' ? 'ax-dark' : 'ax-light');
   const highest = Math.max(1, ...block.options.map(option => option.count));
   const answered = block.options.reduce((sum, option) => sum + option.count, 0);
@@ -248,10 +264,13 @@ export function answerExamplesHtml(block, { icon = () => '' } = {}) {
   const tableRows = report.questions.map(entry => `<tr><td>${escapeHtml(entry.question)}</td><td>${escapeHtml(entry.correctAnswer)}</td><td>${chip(!!entry.correct)}</td></tr>`).join('');
   return `<div class="ax" id="${escapeHtml(block.id)}">
 <h4 class="ax-h">Presenting: quiz result reveal</h4>
+${description(block.presentingText)}
 <div class="ax-grid is-stages">${block.presenting.map(stage).join('')}</div>
 <h4 class="ax-h">Audience phone, after the reveal</h4>
+${description(block.audienceText)}
 ${block.audienceDecks.map(deck => `<div class="ax-grid is-phones">${block.audience.map(state => phone(deck, state)).join('')}</div>`).join('\n')}
 <h4 class="ax-h">Report</h4>
+${description(block.reportText)}
 <figure class="ax-fig"><div class="ax-report"><div><p class="ax-report-name">${escapeHtml(report.participant)}</p><p class="ax-report-sub">${escapeHtml(report.summary)}</p></div>${cards}</div><figcaption>Participant report: each response with the correct answer beside it</figcaption></figure>
 <figure class="ax-fig"><div class="ax-report ax-table-wrap"><table class="ax-table"><thead><tr><th>Question</th><th>Correct answer</th><th>Result for ${escapeHtml(report.participant)}</th></tr></thead><tbody>${tableRows}</tbody></table></div><figcaption>Results table: one 30% chip per result</figcaption></figure>
 </div>`;

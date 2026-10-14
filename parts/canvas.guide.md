@@ -106,7 +106,7 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
 
 Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
 
-> **Pick Answer result reveal.** Colour rules 11.5 settle the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` already paints the correct mark and leaves the rest neutral (`correct-style="fill"`), but in `--aha-color-success` (the default ink) until it is rewired to the answer tokens.
+> **Pick Answer result reveal.** Colour rules section 11 settles the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` already paints the correct mark and leaves the rest neutral (`correct-style="fill"`), but in `--aha-color-success` (the default ink) until it is rewired to the answer tokens.
 
 | Job | Layer | Colour source |
 | --- | --- | --- |
@@ -129,7 +129,7 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, St
   brand and usually fails contrast (~1.58:1 on white).
 - **The #1 mistake: applying state colours to the chart.** Painting a bar green or red
   conveys state *through* the chart. The one exception is the correct column of a quiz result
-  reveal (colour rules 11.5); every other bar stays in palette colours, with a **✓ / ✗ disc**
+  reveal (colour rules section 11); every other bar stays in palette colours, with a **✓ / ✗ disc**
   beside its label.
 - **Job 2 ≠ any emphasis.** Poll-leader, leaderboard-winner, featured item are accents
   *without* a right/wrong axis — they stay in **palette** colours (bar AND icon). Don't tint

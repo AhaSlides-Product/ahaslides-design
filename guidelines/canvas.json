@@ -198,7 +198,7 @@
       ]
     },
     {
-      "rule": "Keep the two colour jobs separate: the chart/visualization layer (bar fills, ring segments, dots) pulls from the accent palette and NEVER carries state meaning; the state-indicator layer (✓/✗, status badge, border accent) is where correctness lives. The one exception is a quiz result reveal: the correct answer's column takes the correct green (--aha-answer-correct) and every other column stays the chart's neutral grey, never red (colour rules 11.5). No other bar is painted green or red.",
+      "rule": "Keep the two colour jobs separate: the chart/visualization layer (bar fills, ring segments, dots) pulls from the accent palette and NEVER carries state meaning; the state-indicator layer (✓/✗, status badge, border accent) is where correctness lives. The one exception is a quiz result reveal: the correct answer's column takes the correct green (--aha-answer-correct) and every other column stays the chart's neutral grey, never red (colour rules section 11). No other bar is painted green or red.",
       "ref": [
         "§2a",
         "C2"

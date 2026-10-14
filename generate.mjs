@@ -2083,6 +2083,7 @@ const ANSWER_COLOURS_CSS = `
   .answer-colours{--ans-ink:var(--aha-text-default);--ans-ink-2:var(--aha-text-secondary);--ans-inverse:var(--aha-text-inverse);--ans-page:var(--aha-bg-container);--ans-line:var(--aha-border-default);--ans-dark:var(--aha-bg-dark);--ans-dark-raised:var(--aha-bg-dark-raised);--ans-panel:var(--aha-gray-20);--ans-neutral:var(--aha-viz-neutral);--ans-font:var(--aha-font-product);${answerTokenEntries(TOK.color).map(([cssVar]) => `${cssVar.replace('--aha-answer-', '--ans-').replace('-tint-', '-')}:var(${cssVar});`).join('')}}
   .answer-colours ol.answer-rules{margin:0 0 12px;padding-left:0;list-style:none;font-size:var(--aha-size-l);line-height:1.5}
   .answer-colours ol.answer-rules li{margin-bottom:8px}
+  .answer-colours .answer-panels{display:flex;flex-direction:column;gap:12px;margin:16px 0 8px}
   .answer-colours .rule-id{font-family:Menlo,monospace;font-size:12px;color:var(--aha-text-secondary);margin-right:4px}
   .answer-colours table.answer-contrast{border-collapse:collapse;width:100%;font-size:14px;margin:0 0 12px}
   .answer-colours table.answer-contrast th,.answer-colours table.answer-contrast td{text-align:left;padding:8px 12px 8px 0;border-bottom:1px solid var(--aha-border-default);vertical-align:top}
@@ -2091,20 +2092,28 @@ const ANSWER_COLOURS_CSS = `
 function answerColoursSection(swatchGroup) {
   const section = answerSection(COLOUR_RULES);
   const sectionNumber = section.id.replace(/^s/, '');
-  const ruleBlocks = section.blocks.filter(block => block.type === 'rules').flatMap(block => block.rules);
-  const contrast = listTables(COLOUR_RULES).find(table => table.id === 'answer-contrast');
-  const examples = section.blocks.find(block => block.type === 'answer-examples');
   const intro = section.blocks.find(block => block.type === 'paragraph');
+  const icon = (name, size) => `<aha-icon name="${name}" size="${size}" decorative></aha-icon>`;
+  const panelBody = (block) => {
+    if (block.type === 'rules') return `<ol class="answer-rules">${block.rules.map(rule => `<li id="answer-r${rule.id}"><a class="rule-id" href="brand-colour-rules.html#r${rule.id}">${rule.id}</a> ${markupToHtml(rule.text)}</li>`).join('')}</ol>`;
+    if (block.type === 'paragraph') return `<p class="body">${markupToHtml(block.text)}</p>`;
+    if (block.type === 'answer-examples') return answerExamplesHtml(block, { icon });
+    if (block.type === 'table') {
+      const table = listTables(COLOUR_RULES).find(entry => entry.id === block.id);
+      return `<table class="answer-contrast"><thead><tr>${table.columns.map(column => `<th>${esc(column)}</th>`).join('')}</tr></thead><tbody>${table.rows.map(row => `<tr>${row.map(cell => `<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    }
+    throw new Error(`Colour page: no rendering for a "${block.type}" block inside a panel`);
+  };
+  const panels = section.blocks.filter(block => block.type === 'panel')
+    .map(panel => `<aha-collapse id="${panel.id}"><span slot="header">${esc(panel.title)}</span>${panel.blocks.map(panelBody).join('')}</aha-collapse>`).join('\n  ');
   return `<section class="answer-colours" id="answer-colours">
   <h2>Correct and wrong answers</h2>
   <p class="body">${markupToHtml(intro.text)} The rules are section ${sectionNumber} of the <a href="brand-colour-rules.html#${section.id}">Brand colour rules</a>; this page shows the tokens and how the three surfaces use them.</p>
   ${swatchGroup('Answer pair and tints (correct and wrong answers only)', answerTokenEntries(TOK.color))}
-  <h3 class="tok-h3">Rules</h3>
-  <ol class="answer-rules">${ruleBlocks.map(rule => `<li id="answer-r${rule.id}"><a class="rule-id" href="brand-colour-rules.html#r${rule.id}">${rule.id}</a> ${markupToHtml(rule.text)}</li>`).join('')}</ol>
-  <h3 class="tok-h3">Applications</h3>
-  ${answerExamplesHtml(examples, { icon: (name, size) => `<aha-icon name="${name}" size="${size}" decorative></aha-icon>` })}
-  <h3 class="tok-h3">Measured contrast</h3>
-  <table class="answer-contrast"><thead><tr>${contrast.columns.map(column => `<th>${esc(column)}</th>`).join('')}</tr></thead><tbody>${contrast.rows.map(row => `<tr>${row.map(cell => `<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table>
+  <div class="answer-panels">
+  ${panels}
+  </div>
+  <script type="module">import '../lib/aha-collapse.js';</script>
   </section>`;
 }
 
