@@ -160,7 +160,7 @@ export const ANSWER_EXAMPLES_CSS = `
 .ax-h{font-size:16px;font-weight:600;margin:20px 0 8px}
 .ax-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--ax-min,300px)),1fr));margin:0 0 8px}
 .ax-grid.is-stages{--ax-min:420px}
-.ax-grid.is-phones{--ax-min:200px}
+.ax-grid.is-phones{--ax-min:220px}
 .ax-fig{margin:0;min-width:0}
 .ax-fig figcaption{font-size:13px;color:var(--ans-ink-2);margin-top:6px}
 .ax-light{--ax-c5:var(--ans-correct-5);--ax-c30:var(--ans-correct-30);--ax-w5:var(--ans-wrong-5);--ax-w30:var(--ans-wrong-30);--ax-ink:var(--ans-ink);--ax-surface:var(--ans-page);--ax-panel:var(--ans-panel);--ax-line:var(--ans-line)}
@@ -193,7 +193,7 @@ export const ANSWER_EXAMPLES_CSS = `
 .ax-banner{display:flex;align-items:center;gap:10px;margin:auto -16px 0;padding:14px 16px;font-size:16px;font-weight:600}
 .ax-banner.is-correct{background:var(--ax-c30)}
 .ax-banner.is-wrong{background:var(--ax-w30)}
-.ax-banner .ax-points{margin-left:auto;font-size:14px;font-weight:400;font-variant-numeric:tabular-nums}
+.ax-banner .ax-points{margin-left:auto;font-size:14px;font-weight:400;font-variant-numeric:tabular-nums;white-space:nowrap}
 .ax-phone-end{margin-top:auto;height:16px}
 .ax-report{background:var(--ans-page);color:var(--ans-ink);border:1px solid var(--ans-line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
 .ax-report-name{font-size:18px;font-weight:600;margin:0}
