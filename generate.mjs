@@ -232,7 +232,6 @@ const COMPONENTS_CATALOG = [
 const PATTERNS_CATALOG = [
   { cat: 'AhaSlides surfaces', items: [
     { name: 'Paywall',        slug: 'paywall' },
-    { name: 'Status badge',   slug: 'status-badge' },
     { name: 'CSAT',           slug: 'csat' },
     { name: 'Screen heading', slug: 'screen-heading' },
     { name: 'Loader',         slug: 'aha-loader' },
@@ -649,14 +648,17 @@ function ahaBindPlayground(root){
     if(pg.dataset.bound) return; pg.dataset.bound='1';
     var demo=pg.closest('.demo');
     var target=demo && (demo.querySelector('[data-pg-target]')||demo.querySelector('.demo-stage [data-probe]'));
-    if(!target) return;
-    function apply(prop,val){ if(val==='__remove__') target.removeAttribute(prop); else target.setAttribute(prop,val); }
+    if(!target && !pg.querySelector('[data-targets]')) return;
+    function apply(prop,val,sel){
+      var list=sel?document.querySelectorAll(sel):[target];
+      list.forEach(function(t){ if(val==='__remove__') t.removeAttribute(prop); else t.setAttribute(prop,val); });
+    }
     pg.querySelectorAll('.aha-pg-opt').forEach(function(opt){
       opt.addEventListener('click',function(){
         var seg=opt.closest('.aha-pg-seg');
         seg.querySelectorAll('.aha-pg-opt').forEach(function(o){o.classList.remove('active');o.setAttribute('aria-checked','false');});
         opt.classList.add('active'); opt.setAttribute('aria-checked','true');
-        apply(opt.dataset.prop, opt.dataset.value);
+        apply(opt.dataset.prop, opt.dataset.value, opt.dataset.targets);
       });
     });
   });
@@ -1132,21 +1134,26 @@ function renderFeedPage(f, content) {
 // the attribute (data-prop) + value it applies to the demo's target element; PLAYGROUND_JS wires the
 // clicks. A null/undefined option value becomes the __remove__ sentinel (removeAttribute). Absent a
 // `playground` block, this renders nothing and the demo is the plain default stage.
-function playgroundBar(c) {
+function playgroundBar(c, group) {
   const pg = c.playground;
-  if (!pg || !Array.isArray(pg.controls) || !pg.controls.length) return '';
-  const rows = pg.controls.map((ctrl) => {
+  if (!pg || !Array.isArray(pg.controls)) return '';
+  const shown = pg.controls.filter((ctrl) => (group ? ctrl.group === group : !ctrl.group));
+  if (!shown.length) return '';
+  const rows = shown.map((ctrl) => {
     const opts = (ctrl.options || []).map((o, i) => {
       const raw = (o.value === null || o.value === undefined) ? '__remove__' : String(o.value);
       const active = ctrl.default !== undefined ? (String(o.value) === String(ctrl.default)) : i === 0;
       return `<button type="button" class="aha-pg-opt${active ? ' active' : ''}" role="radio" aria-checked="${active}"` +
-        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}">${esc(o.label)}</button>`;
+        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}"${ctrl.targets ? ` data-targets="${esc(ctrl.targets)}"` : ''}>${esc(o.label)}</button>`;
     }).join('');
     return `<div class="aha-pg-row"><span class="aha-pg-label">${esc(ctrl.label)}</span>` +
       `<div class="aha-pg-seg" role="radiogroup" aria-label="${esc(ctrl.label)}">${opts}</div></div>`;
   }).join('');
   return `<div class="aha-pg" data-pg>${rows}</div>`;
 }
+
+// A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
+const previewWithBars = (c) => part(c.preview).replace(/<!--pg:([\w-]+)-->/g, (_, group) => playgroundBar(c, group));
 
 const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
 
@@ -1185,9 +1192,30 @@ function renderChartsPage(c) {
   return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
 }
 
+function mergedSections(host) {
+  return contracts.filter(m => m.mergedInto === host.slug).map(m => `
+
+  <h2 id="${esc(m.slug)}">${esc(m.name)}</h2>
+  <p class="body">${esc(m.lead).replace(/`([^`]+)`/g, '<code>$1</code>')}</p>
+  <div class="demo">
+    ${playgroundBar(m)}
+    <div class="demo-stage">${part(m.preview)}</div>
+    ${codeWidget(m)}
+  </div>
+
+  <h3 id="${esc(m.slug)}-api">${esc(m.name)} API</h3>
+  ${propsTable(m.props)}
+
+  <h3 id="${esc(m.slug)}-when-to-use">${esc(m.name)}: when to use</h3>
+  ${opinionBlock(m.opinion)}${surfaceBlock(m.surfaces)}
+
+  <h3 id="${esc(m.slug)}-spec">${esc(m.name)} spec</h3>
+  <div class="spec-line">${specList(m.spec)}</div>`).join('');
+}
+
 function renderHtml(c) {
   if (c.docPage) return renderChartsPage(c);
-  const preview = part(c.preview);
+  const preview = previewWithBars(c);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
   const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
@@ -1195,6 +1223,7 @@ function renderHtml(c) {
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
+  ${c.pageToggle ? playgroundBar({ playground: c.pageToggle }) : ''}
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
   <h2>Examples</h2>
@@ -1212,7 +1241,7 @@ function renderHtml(c) {
   ${c.opinion ? `<h2>When to use</h2>${opinionBlock(c.opinion)}${surfaceBlock(c.surfaces)}` : ''}
 
   <h2>Spec</h2>
-  <div class="spec-line">${specList(c.spec)}</div>`;
+  <div class="spec-line">${specList(c.spec)}</div>${mergedSections(c)}`;
   return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
 }
 
@@ -1901,7 +1930,7 @@ function renderSettingsHub() {
     <p class="body">${esc(c.summary)}</p>
     <div class="demo">
       ${playgroundBar(c)}
-      <div class="demo-stage">${part(c.preview)}</div>
+      <div class="demo-stage">${previewWithBars(c)}</div>
       ${codeWidget(c)}
     </div>
     <h4>API</h4>
@@ -2616,7 +2645,7 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   ? JSON.parse(read(join(root, 'anti-slop', 'criteria.json')))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
-const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage);
+const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage && !c.mergedInto);
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
@@ -2826,7 +2855,8 @@ for (const c of contracts) {
     mkdirSync(join(OUT, dirname(c.docPage)), { recursive: true });
     writeFileSync(join(OUT, c.docPage), renderHtml(c));
     writeFileSync(join(d, 'index.html'), redirectStub('../' + c.docPage));
-  } else writeFileSync(join(d, 'index.html'), renderHtml(c));
+  } else if (c.mergedInto) writeFileSync(join(d, 'index.html'), redirectStub(`../${c.mergedInto}/index.html#${c.slug}`));
+  else writeFileSync(join(d, 'index.html'), renderHtml(c));
   if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);

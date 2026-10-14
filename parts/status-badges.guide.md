@@ -20,7 +20,7 @@ One box for every boxed badge: **28px** tall, **8px** side padding, radius **6px
 | --- | --- | --- | --- | --- |
 | **quiet** | most states, and information that is not a status | `--aha-gray-25` | none | `--aha-text-default` |
 | **emphasis** | the live state, and anything due now | `--aha-bg-container` | inset 1px `--aha-border-strong` | `--aha-text-default` |
-| **alert** | something the user must act on (overdue) | `--aha-bg-container` | inset 1px `--aha-border-warning` | `--aha-text-default`, warning icon in `--aha-icon-active` |
+| **alert** | something the user must act on (overdue) | `--aha-bg-container` | inset 1px `--aha-border-strong` (as emphasis) | `--aha-text-default`, warning icon in `--aha-icon-active` |
 | **plain** | information that needs no box | none, no padding | none | `--aha-gray-80`, regular 400 |
 
 Pink appears only on the **alert** icon. No status gets a hue of its own: no green, red,
