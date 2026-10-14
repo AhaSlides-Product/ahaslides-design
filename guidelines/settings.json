@@ -118,7 +118,7 @@
     {
       "ref": "mode-field",
       "as": "component",
-      "use": "ModeField — a labelled field whose input swaps with an inline exclusive mode control (outline radio group / segmented); only the active mode's body is live",
+      "use": "ModeField — a labelled field whose input swaps with an inline exclusive mode control (the DS Radio-Button-Group); only the active mode's body is live",
       "status": "available"
     },
     {

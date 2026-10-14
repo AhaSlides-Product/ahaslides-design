@@ -94,7 +94,7 @@ the library already defines.
 | **SubSettingGroup** | *sub-settings* rule — indent-only, hidden (not disabled) when the parent is off | convention |
 | **HelpTooltip** | `<aha-tooltip>` + `<aha-icon>` `?` glyph (the *help-glyph* rule) | **mapped** → `tooltip` |
 | **DropdownMenu** | `<aha-dropdown>` + `<aha-menu>` — themed action menu | **mapped** → `dropdown` |
-| **ModeField** | *label + inline exclusive mode control (DS radio group / segmented), body swaps in place* | **mapped** → `mode-field` |
+| **ModeField** | *label + inline exclusive mode control (the DS Radio-Button-Group), body swaps in place* | **mapped** → `mode-field` |
 | **CountedInput** | *single-line field + focus-only char counter (persistent sibling, no remount)* | **mapped** → `counted-input` |
 | **CountedTextarea** | *multi-line CountedInput; grows minRows–maxRows* | **mapped** → `counted-textarea` |
 | **CardSelect** | *single-select icon+label card grid* | **mapped** → `card-select` |
