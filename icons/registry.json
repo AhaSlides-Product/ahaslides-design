@@ -6,7 +6,7 @@
     "slidetype",
     "system"
   ],
-  "count": 309,
+  "count": 310,
   "icons": {
     "filetype-course": {
       "family": "filetype",
@@ -2871,6 +2871,20 @@
         "achievement",
         "prize",
         "winner"
+      ]
+    },
+    "system-menu": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M2 4H14\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2 8H14\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2 12H14\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "menu",
+        "hamburger",
+        "navigation",
+        "open menu",
+        "three lines",
+        "nav drawer"
       ]
     },
     "system-microphone": {

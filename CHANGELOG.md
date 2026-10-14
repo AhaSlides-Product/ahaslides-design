@@ -24,7 +24,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.184.0 — 2026-10-14
 ### Added
-- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"): participant join bar, main navigation with Products, Solutions and Resources dropdowns, Pricing, Enterprise, the language switch, Log in and Sign up. Hamburger menu at 991px and below (dropdowns become an accordion). The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, every value is an `--aha-*` token. Hover dropdowns stay open across the gap under a nav item, Escape and a click outside close the mobile menu (Escape returns focus to the menu button), and the language button's accessible name is "Language: EN". Webflow differences are listed in `docs/landing-webflow-scan.md` for the consumer to update. (#247)
+- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"), matched to the live ahaslides.com at 1440px and 390px: a dark participant join bar that scrolls away above a sticky navigation; Products, Solutions and Resources mega-menus that open on hover with a fade and slide (Products in three columns with a preview slot, Solutions with use cases and integration logos, Resources in two columns); Pricing, Enterprise, a language menu that opens on click, and Log in / Sign up. At 991px and below a hamburger drawer slides down and its menus become an accordion. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, logos come from the Logo library, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#247)
+- Icon `system-menu` (three lines), for a menu button. (#247)
+- Slack and Model Context Protocol (MCP) logos in the Logo library, in greyscale. (#247)
 
 ## 0.182.0 — 2026-10-14
 ### Added
