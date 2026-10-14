@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.189.1 — 2026-10-14
 ### Fixed
-- Button docs page: the playground controls drove the small Primary button in the Tones row, so choosing Danger turned it white and looked like a broken Primary. They now drive their own Live example button at the top of the examples, and the Tones row stays fixed. Choosing Danger, Positive or Primary alt shows a note, read from the contract, that each looks like Secondary or Primary on purpose (status carries no hue). No component change. (#PR)
+- Button docs page: the playground controls drove the small Primary button in the Tones row, so choosing Danger turned it white and looked like a broken Primary. They now drive their own Live example button at the top of the examples, and the Tones row stays fixed. Choosing Danger, Positive or Primary alt shows a note, read from the contract, that each looks like Secondary or Primary on purpose (status carries no hue). No component change. (#253)
 
 ## 0.189.0 — 2026-10-14
 ### Changed
