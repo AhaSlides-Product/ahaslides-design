@@ -23,16 +23,11 @@ const unread = ref(128);
     <div class="template-card">Quiz template</div>
   </aha-badge>
 
-  <!-- a tinted TONE label chip -->
-  <aha-badge tone="essential">Essential</aha-badge>
-
-  <!-- a PLAN preset chip (pro/enterprise show a crown; cycle appends the billing cycle) -->
+  <!-- a PLAN preset chip (default 28px, or size="sm" 22px; cycle appends the billing cycle) -->
   <aha-badge plan="pro" cycle="yearly" />
+  <aha-badge plan="pro" size="sm" />
 
-  <!-- a leaderboard RANK chip + a SESSION chip -->
+  <!-- a leaderboard RANK chip + a SESSION chip (both size sm by default) -->
   <aha-badge rank="1" />
   <aha-badge session="3" />
-
-  <!-- CLICKABLE = a LINK (<a href>), NOT a button — navigates to upgrade, animates on hover -->
-  <aha-badge plan="pro" href="/billing/upgrade" />
 </template>

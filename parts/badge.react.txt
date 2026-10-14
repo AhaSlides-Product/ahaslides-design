@@ -4,7 +4,7 @@ import '@ahaslides-product/design/icons';       // registers <aha-icon>
 // Attributes only — no events — so React 18/19 can render the element directly.
 // Boolean attrs (dot/showZero) are the attribute PRESENCE, so spread them conditionally.
 function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ribbon, placement,
-                    tone, plan, cycle, rank, session, href, children }) {
+                    plan, cycle, rank, session, size, children }) {
   return (
     <aha-badge
       count={count}
@@ -13,12 +13,11 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
       text={text}
       color={color}
       placement={placement}
-      tone={tone}
       plan={plan}
       cycle={cycle}
       rank={rank}
       session={session}
-      href={href}
+      size={size}
       {...(dot ? { dot: '' } : {})}
       {...(showZero ? { 'show-zero': '' } : {})}
       {...(ribbon ? { ribbon: '' } : {})}
@@ -41,15 +40,10 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
   <TemplateCard />
 </AhaBadge>
 
-// a tinted TONE label chip
-<AhaBadge tone="essential">Essential</AhaBadge>
-
-// a PLAN preset chip (pro/enterprise show a crown; cycle appends the billing cycle)
+// a PLAN preset chip (default 28px, or size="sm" 22px; cycle appends the billing cycle)
 <AhaBadge plan="pro" cycle="yearly" />
+<AhaBadge plan="pro" size="sm" />
 
-// a leaderboard RANK chip + a SESSION chip
+// a leaderboard RANK chip + a SESSION chip (both size sm by default)
 <AhaBadge rank={1} />
 <AhaBadge session={3} />
-
-// CLICKABLE = a LINK (<a href>), NOT a button — navigates to upgrade, animates on hover
-<AhaBadge plan="pro" href="/billing/upgrade" />

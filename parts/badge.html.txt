@@ -17,21 +17,14 @@
 </div>
 
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">
-  <!-- TONE — a filled/tinted label chip (danger·success·positive·essential·pro·branding·primary-alt) -->
-  <aha-badge tone="essential">Essential</aha-badge>
-  <aha-badge tone="pro">Pro</aha-badge>
-  <aha-badge tone="branding">New</aha-badge>
-
-  <!-- PLAN preset chips — pro/enterprise lead with a crown; `cycle` appends the billing cycle -->
+  <!-- PLAN preset chips — default size 28px; `size="sm"` is 22px; `cycle` appends the billing cycle -->
   <aha-badge plan="free"></aha-badge>
   <aha-badge plan="pro" cycle="yearly"></aha-badge>
+  <aha-badge plan="enterprise" size="sm"></aha-badge>
 
-  <!-- RANK (leaderboard) + SESSION -->
+  <!-- RANK (leaderboard) and SESSION chips are size sm unless `size="default"` -->
   <aha-badge rank="1"></aha-badge>
   <aha-badge session="3"></aha-badge>
-
-  <!-- CLICKABLE = a LINK (<a href>), never a <button>. Navigates to upgrade; animates on hover. -->
-  <aha-badge plan="pro" href="/billing/upgrade"></aha-badge>
 </div>
 
 <!-- ribbon — a corner banner wrapping a card (placement end = top-right, default) -->
