@@ -154,6 +154,8 @@
     "./aha-identity-strip": "./lib/aha-identity-strip.js",
     "./aha-swipe-card": "./lib/aha-swipe-card.js",
     "./audience-deck": "./lib/audience-deck.js",
+    "./canvas-deck": "./lib/canvas-deck.js",
+    "./shortcut-key": "./lib/shortcut-key.js",
     "./aha-badge": "./lib/aha-badge.js",
     "./aha-switch": "./lib/aha-switch.js",
     "./aha-tooltip": "./lib/aha-tooltip.js",

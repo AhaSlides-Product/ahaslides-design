@@ -34,7 +34,7 @@
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
     "judge": "{site}/anti-slop.md (surfaces audience and canvas)",
-    "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=canvas <files>",
+    "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=canvas <presenter files>, then the same command with --surface=audience <audience files>",
     "plugin": "ahaslides-design:aha-design",
     "owner": "Design system team (#design-system-agents)"
    }

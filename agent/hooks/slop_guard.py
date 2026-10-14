@@ -29,6 +29,7 @@ except Exception:  # never let a logging-import problem break a turn
     firing_log = None
 
 import legacy_vue
+import slide_type
 
 FRONTEND_EXT = re.compile(r"\.(tsx|jsx|ts|js|mjs|cjs|mts|cts|vue)$", re.IGNORECASE)
 HOOK_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -187,7 +188,7 @@ def collect_touched_files(payload, cwd):
         raw = _files_from_git(cwd)          # only when there is no transcript at all
     seen, out = set(), []
     for f in raw:
-        if not FRONTEND_EXT.search(f):
+        if not FRONTEND_EXT.search(f) and not slide_type.is_slide_type_file(os.path.abspath(f)):
             continue
         ap = os.path.abspath(f)
         if ap in seen or not os.path.isfile(ap):

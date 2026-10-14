@@ -1,0 +1,117 @@
+export const SLIDE_RULE_FIXTURES = [
+  {
+    rule: 'raw-button', severity: 'hard', surfaces: ['canvas', 'audience'],
+    fail: [
+      '<button type="button" class="next">Next</button>',
+      `row.innerHTML = '<button class="tile" data-tile="' + id + '">' + label + '</button>';`,
+      `var play = document.createElement('button');`,
+      `var play = element(doc, 'button', 'yq-play', 'play-test-id');`,
+      `var submit = el('button', { type: 'button', class: 'submit' }, [label]);`,
+      '<div class="tile" role="button" tabindex="0">Pick</div>',
+      `var head = el('div', { class: 'head', role: 'button', tabindex: '0' });`,
+      `body.setAttribute('role', 'button');`,
+    ],
+    pass: [
+      '<aha-button variant="primary" size="lg">Next</aha-button>',
+      `var next = el('aha-button', { variant: 'primary', size: 'lg' }, [label]);`,
+      `var inner = host.shadowRoot.querySelector('button');`,
+      `if (target.closest('button, aha-button, [role="button"], a[href]')) return;`,
+      `play.setAttribute('type', 'button');`,
+      '<aha-skeleton variant="button"></aha-skeleton>',
+      'aha-button, button { font: inherit }',
+      '// a raw <button> here would fail',
+      '<!-- <button>Old</button> -->',
+      `if (node.getAttribute('role') === 'button') return;`,
+      '<button class="tile" draggable="true">Paris</button> <!-- ds-lint-allow: raw-button (a draggable answer tile, the DS ships none) -->',
+    ],
+  },
+  {
+    rule: 'button-size-xl', severity: 'hard', surfaces: ['canvas', 'audience'],
+    fail: [
+      '<aha-button variant="primary" size="xl">Reveal</aha-button>',
+      '<aha-button variant="primary"\n  size="xl">Reveal</aha-button>',
+      `var button = el('aha-button', { variant: variant, size: 'xl', 'data-act': action }, [label]);`,
+      `var button = el('aha-button', {\n  variant: variant,\n  size: 'xl' }, [label]);`,
+      `button.setAttribute('size', 'xl');`,
+      '<aha-button @click="() => go()" size="xl">Reveal</aha-button>',
+      '<aha-button onClick={() => go()} size="xl">Reveal</aha-button>',
+    ],
+    pass: [
+      '<aha-button variant="primary" size="lg">Reveal</aha-button>',
+      '<aha-button variant="primary" size="touch" block>Submit</aha-button>',
+      `var button = el('aha-button', { variant: variant, size: 'lg' }, [label]);`,
+      '<aha-icon name="system-bell" size="24"></aha-icon>',
+      `button.setAttribute('size', 'lg');`,
+      '<aha-button-group size="xl"><aha-button size="lg">Next</aha-button></aha-button-group>',
+    ],
+  },
+  {
+    rule: 'button-hand-sizing', severity: 'hard', surfaces: ['canvas', 'audience'],
+    fail: [
+      'aha-button::part(button){ height:52px }',
+      '.controls aha-button::part(button) {\n  padding: 0 28px;\n}',
+      'aha-button::part(button)\n{\n  font-size: 18px;\n}',
+      '#next::part(button){ border-radius:12px }',
+      `style.textContent = 'aha-button::part(button){min-height:44px}';`,
+      '<aha-button size="lg" style="height:52px">Next</aha-button>',
+      `var next = el('aha-button', { size: 'lg', style: 'padding:0 28px' }, [label]);`,
+    ],
+    pass: [
+      '<aha-button size="lg" style="margin-inline-start:8px">Next</aha-button>',
+      'aha-button::part(button){ width:100% }',
+      'aha-button{ margin-top:16px }\n.title{ font-size:24px; padding:8px; height:40px }',
+      '.card::part(body){ padding:16px }',
+      '<div class="card" style="height:120px;padding:16px"></div>',
+      'aha-button::part(button){ line-height:1 }',
+    ],
+  },
+  {
+    rule: 'hand-made-key-chip', severity: 'hard', surfaces: ['canvas', 'audience'],
+    fail: [
+      '<aha-button variant="primary" size="lg">Next <kbd class="key">N</kbd></aha-button>',
+      '<aha-button variant="primary" size="lg">\n  Next\n  <kbd>N</kbd>\n</aha-button>',
+      `var button = el('aha-button', { variant: variant, size: 'lg' },\n  [label, ' ', el('kbd', { class: 'key', 'aria-hidden': 'true' }, [key])]);`,
+    ],
+    pass: [
+      '<aha-button variant="primary" size="lg" shortcut="N">Next</aha-button>',
+      '<aha-tooltip size="lg" text="Mute music" shortcut="M"><aha-button icon-only size="lg" aria-label="Mute music (M)"></aha-button></aha-tooltip>',
+      `var button = el('aha-button', { variant: variant, size: 'lg', shortcut: key }, [label]);`,
+      'kbd.key{ display:inline-grid }',
+      '<aha-button-group size="lg">\n</aha-button-group>\n<p>Press <kbd>N</kbd></p>',
+    ],
+  },
+  {
+    rule: 'standalone-key-chip', severity: 'warn', surfaces: ['canvas', 'audience'],
+    fail: [
+      '<p class="hint">Press <kbd>Space</kbd> to start</p>',
+      `var chip = el('kbd', { class: 'key' }, [key]);`,
+    ],
+    pass: [
+      '<p class="hint">Press Space to start</p>',
+      '<aha-button variant="primary" size="lg" shortcut="Space">Start</aha-button>',
+    ],
+  },
+  {
+    rule: 'audience-button-size', severity: 'warn', surfaces: ['audience'],
+    fail: [
+      '<aha-button variant="primary" size="lg">Send</aha-button>',
+      `var skip = el('aha-button', { variant: 'tertiary-deck', size: 'md' }, [label]);`,
+    ],
+    pass: [
+      '<aha-button variant="primary" size="touch" block>Send</aha-button>',
+      '<aha-audience-submit></aha-audience-submit>',
+    ],
+  },
+  {
+    rule: 'audience-button-variant', severity: 'warn', surfaces: ['audience'],
+    fail: [
+      '<aha-button variant="secondary" size="touch">Upload</aha-button>',
+      `var skip = el('aha-button', { variant: 'tertiary', size: 'touch' }, [label]);`,
+    ],
+    pass: [
+      '<aha-button variant="secondary-deck" size="touch">Upload</aha-button>',
+      '<aha-button variant="tertiary-deck" size="touch">Skip</aha-button>',
+      '<aha-button variant="primary" size="touch" block>Send</aha-button>',
+    ],
+  },
+];
