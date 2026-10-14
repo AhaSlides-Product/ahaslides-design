@@ -41,7 +41,7 @@
     { "name": "cycle", "type": "monthly | yearly", "default": "—", "desc": "Appended to a plan chip's default label (e.g. \"Pro · Yearly\")" },
     { "name": "rank", "type": "1 | 2 | 3 | 4", "default": "—", "desc": "Leaderboard rank chip with a leading system-medal glyph; size sm unless `size` is set" },
     { "name": "session", "type": "string", "default": "—", "desc": "Renders a \"Session N\" chip on a grey fill; the value is N (slotted content / `text` overrides the label). Size sm unless `size` is set" },
-    { "name": "kind", "type": "new | beta", "default": "—", "desc": "New or Beta tag. New is Vivid Pink with white text, Beta is grey; label \"New\" / \"Beta\"; size sm unless `size` is set" },
+    { "name": "kind", "type": "new | beta", "default": "—", "desc": "New or Beta tag, one grey look each (grey fill, default text); label \"New\" / \"Beta\"; size sm unless `size` is set" },
     { "name": "size", "type": "default | sm", "default": "default (plan) · sm (rank, session, kind)", "desc": "Chip size: default is 28px tall with a 14px label and 16px icon; sm is 20px with 4px side padding, a 12px regular label and a 12px icon. Also accepted by `<aha-status-badge>`" }
   ],
   "opinion": {
