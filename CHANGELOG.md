@@ -24,11 +24,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.180.0 — 2026-10-14
 ### Added
-- Canvas Library: a new top-nav page (`canvas/index.html`), built like the Audience Library, for the in-canvas presenter controls: the light, dark and image deck demos (`<aha-button size="lg">`, `applyCanvasDeck`, the shortcut chip, `<aha-tooltip size="lg" shortcut>`), the Canvas rule from the Button spec, a copy-paste snippet and the one-tag `lib/canvas.js` box. (#243)
+- Canvas Library › Components: a new page (`canvas/index.html`), built like the Audience Library, for the in-canvas presenter controls: the light, dark and image deck demos (`<aha-button size="lg">`, `applyCanvasDeck`, the shortcut chip, `<aha-tooltip size="lg" shortcut>`), the Canvas rule from the Button spec, a copy-paste snippet and the one-tag `lib/canvas.js` box. (#243)
 
 ### Changed
-- Docs header: one top-nav item, "Canvas Library", opens a two-link dropdown (Chart, then Components: the charts page and the canvas presenter-controls page) on hover, keyboard focus and click or tap (a disclosure button: Escape closes and returns focus, an outside click or focus leaving closes it). The item is active when either page is current; the page URLs are unchanged. (#243)
-- The Button page no longer carries the canvas deck demo; one line links to the Canvas Library. The Button contract's `Canvas` spec row moved to the new page and its `canvas presenter controls` usage row now points there. The canvas guideline's presenter-controls rule and `llms.txt` point to the new page. Docs search finds it under Canvas Library.
+- Docs header: one top-nav item, "Canvas Library", opens a two-link dropdown (Chart, then Components: the charts page and the canvas presenter-controls page, each page titled with its dropdown label) on hover, keyboard focus and click or tap (a disclosure button: Escape closes and returns focus, an outside click or focus leaving closes it). The item is active when either page is current; the page URLs are unchanged. (#243)
+- The Button page no longer carries the canvas deck demo; one line links to Canvas Library › Components. The Button contract's `Canvas` spec row moved to the new page and its `canvas presenter controls` usage row now points there. The canvas guideline's presenter-controls rule and `llms.txt` point to the new page. Docs search finds it as Components.
 
 ## 0.173.0 — 2026-10-13
 ### Added

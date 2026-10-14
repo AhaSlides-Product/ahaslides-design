@@ -281,7 +281,7 @@ let NAV_LANDING = {};   // top-nav → each area's landing page (set once contra
 /* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
    sidebar (Components shows only components, Foundations only tokens/icons, etc.). One area
    per screen keeps every sidebar short and relevant. */
-const NAV_GROUPS = [{ key: 'canvas-library', label: 'Canvas Library', members: ['charts', 'canvas'], memberLabels: { charts: 'Chart', canvas: 'Components' } }];
+const NAV_GROUPS = [{ key: 'canvas-library', label: 'Canvas Library', members: ['charts', 'canvas'] }];
 const SECTIONS = [
   { key: 'overview',    label: 'Overview' },
   { key: 'foundations', label: 'Foundations' },
@@ -289,8 +289,8 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
-  { key: 'canvas',      label: 'Canvas Library' },
-  { key: 'charts',      label: 'Charts' },
+  { key: 'canvas',      label: 'Components' },
+  { key: 'charts',      label: 'Chart' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'developers',  label: 'For developers' },
   { key: 'feeds',       label: 'Agent feeds' },
@@ -985,7 +985,7 @@ function topNav(base, section) {
     const id = `top-nav-${group.key}`;
     out.push(`<div class="nav-drop${members.some(m => m.key === section) ? ' active' : ''}">` +
       `<button class="nav-drop-btn" type="button" aria-expanded="false" aria-controls="${id}">${esc(group.label)}<aha-icon name="system-caret-down" size="12" decorative></aha-icon></button>` +
-      `<div class="nav-drop-panel" id="${id}" hidden>${members.map(m => link({ ...m, label: group.memberLabels?.[m.key] || m.label })).join('')}</div></div>`);
+      `<div class="nav-drop-panel" id="${id}" hidden>${members.map(m => link(m)).join('')}</div></div>`);
   }
   return `<nav class="top-nav">` + out.join('') + `</nav>`;
 }
@@ -2800,7 +2800,7 @@ const indexLines = [
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
-  `>   ${SITE}/canvas/index.html  Canvas Library — in-canvas presenter controls (<aha-button size="lg">, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
+  `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',

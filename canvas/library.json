@@ -1,5 +1,5 @@
 {
- "title": "Canvas Library",
+ "title": "Components",
  "rule": "Presenter controls drawn INSIDE the slide canvas are `<aha-button size=\"lg\">` (40px), themed once with `applyCanvasDeck` from `lib/canvas.js`. Size only through the `size` attribute and colour only through `applyCanvasDeck`: never `::part(button)` overrides, never a raw `<button>`. This applies to build-less Developer Platform slide types; a built plugin that declares manifest actions has them painted by the host control bar instead.",
  "why": "The canvas is a cross-origin iframe that cannot see the host theme, so the deck accent, label contrast, hover and pressed fills are all set on the element by `applyCanvasDeck`. These demos are the shipped `<aha-button>`, `<aha-tooltip>` and `applyCanvasDeck`, not mock-ups. Moved here from the Button page; the Button page keeps every other size and variant.",
  "sections": [
