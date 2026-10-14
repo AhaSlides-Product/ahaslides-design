@@ -12,10 +12,8 @@
   <aha-badge count="128" overflow-count="99">
     <aha-icon name="system-bell" size="24"></aha-icon>
   </aha-badge>
-  <!-- a bare status dot -->
-  <aha-badge dot status="success"></aha-badge>
-  <!-- a standalone status: a semantic dot + a label -->
-  <aha-badge status="processing" text="Generating"></aha-badge>
+  <!-- a bare dot: status strong (default) · disabled · active -->
+  <aha-badge dot status="active"></aha-badge>
 </div>
 
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">

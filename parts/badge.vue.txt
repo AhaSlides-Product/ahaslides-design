@@ -15,8 +15,8 @@ const unread = ref(128);
     <aha-icon name="system-bell" size="24" />
   </aha-badge>
 
-  <!-- a standalone status badge — a semantic dot + label -->
-  <aha-badge status="processing" text="Generating" />
+  <!-- a bare dot — status strong (default) · disabled · active -->
+  <aha-badge dot status="active" />
 
   <!-- a corner ribbon banner wrapping a card (placement start/end) -->
   <aha-badge ribbon text="New">
