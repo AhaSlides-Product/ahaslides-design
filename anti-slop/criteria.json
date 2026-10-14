@@ -41,13 +41,13 @@
         },
         {
           "id": "C6",
-          "title": "The dot only for published / live and closed",
-          "test": "**Rule.** The 6px dot marks only the **published / live** and **closed** lifecycle states (and `active` / `inactive`, which follow them): published, live and active on the emphasis style with a dark dot, closed and inactive on the quiet style with a light dot. Every other state takes an icon or no marker (Draft pencil, Scheduled calendar, Archived archive box, the three progress circles). One column may show Draft with its pencil beside Published with its dot. A dot on any other state fails: a dot on Draft, Archived, a progress state, a due state or a counter."
+          "title": "Empty ≠ error",
+          "test": "**Rule.** An empty state (\"nothing here yet\") is a success with no data — encouraging, with a **primary create action**, never an apology or a red alarm. A load **failure** is never disguised as emptiness (\"No presentations\" when the fetch actually errored hides the Retry the user needs)."
         },
         {
           "id": "C7",
-          "title": "The right style for due states and non-status information",
-          "test": "**Rule.** A due state is a badge in this family, set with `look` and `icon`: overdue is **alert**; due today or due soon is **emphasis** with `system-clock`; due in N days is **plain** with no icon; on time is **plain** with `system-check`; N days late is **plain** with `system-clock-late`. Information that is not a status (a counter such as `4/6`, a slide or question type, Unanswered, Time out) uses the **quiet** or **plain** style, with or without an icon and never with a dot. A due state drawn as hand-coloured text or in the wrong style (overdue in quiet, due in N days in alert), a counter or type in emphasis or alert, or a counter with a dot fails."
+          "title": "Right home & shape",
+          "test": "**Scope.** If the surface has **no** recovery-required message and **no** title+body message at all (e.g. a labels-only surface), C7 is **`N/A`** in full — not PASS."
         },
         {
           "id": "C8",
@@ -704,13 +704,13 @@
         },
         {
           "id": "C6",
-          "title": "One marker family per status dimension",
-          "test": "**Rule.** Inside one status dimension (one table column, one list, one card slot, one legend) every badge uses the same marker family: **dots only**, or **icons and no-marker badges only**. A dot badge beside an icon badge or beside a no-marker badge in the same dimension fails. Two different dimensions on one screen (a lifecycle column with dots and a progress column with icons) may differ."
+          "title": "The dot only for published / live and closed",
+          "test": "**Rule.** The 6px dot marks only the **published / live** and **closed** lifecycle states (and `active` / `inactive`, which follow them): published, live and active on the emphasis style with a dark dot, closed and inactive on the quiet style with a light dot. Every other state takes an icon or no marker (Draft pencil, Scheduled calendar, Archived archive box, the three progress circles). One column may show Draft with its pencil beside Published with its dot. A dot on any other state fails: a dot on Draft, Archived, a progress state, a due state or a counter."
         },
         {
           "id": "C7",
-          "title": "The right element for the information",
-          "test": "**Rule.** Information that is not a status (a counter such as `4/6`, a slide or question type, Unanswered, Time out) uses the **default** look, with or without an icon and never with a dot. A due date or deadline is **not a badge**: it is plain text, in the primary colour only when it needs attention (due soon, overdue) and not highlighted when on time. A counter or type dressed in a status look or given a dot fails, and so does a due date drawn as a badge."
+          "title": "The right style for due states and non-status information",
+          "test": "**Rule.** A due state is a badge in this family, set with `look` and `icon`: overdue is **alert**; due today or due soon is **emphasis** with `system-clock`; due in N days is **plain** with no icon; on time is **plain** with `system-check`; N days late is **plain** with `system-clock-late`. Information that is not a status (a counter such as `4/6`, a slide or question type, Unanswered, Time out) uses the **quiet** or **plain** style, with or without an icon and never with a dot. A due state drawn as hand-coloured text or in the wrong style (overdue in quiet, due in N days in alert), a counter or type in emphasis or alert, or a counter with a dot fails."
         }
       ]
     },
