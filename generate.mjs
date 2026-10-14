@@ -648,14 +648,17 @@ function ahaBindPlayground(root){
     if(pg.dataset.bound) return; pg.dataset.bound='1';
     var demo=pg.closest('.demo');
     var target=demo && (demo.querySelector('[data-pg-target]')||demo.querySelector('.demo-stage [data-probe]'));
-    if(!target) return;
-    function apply(prop,val){ if(val==='__remove__') target.removeAttribute(prop); else target.setAttribute(prop,val); }
+    if(!target && !pg.querySelector('[data-targets]')) return;
+    function apply(prop,val,sel){
+      var list=sel?document.querySelectorAll(sel):[target];
+      list.forEach(function(t){ if(val==='__remove__') t.removeAttribute(prop); else t.setAttribute(prop,val); });
+    }
     pg.querySelectorAll('.aha-pg-opt').forEach(function(opt){
       opt.addEventListener('click',function(){
         var seg=opt.closest('.aha-pg-seg');
         seg.querySelectorAll('.aha-pg-opt').forEach(function(o){o.classList.remove('active');o.setAttribute('aria-checked','false');});
         opt.classList.add('active'); opt.setAttribute('aria-checked','true');
-        apply(opt.dataset.prop, opt.dataset.value);
+        apply(opt.dataset.prop, opt.dataset.value, opt.dataset.targets);
       });
     });
   });
@@ -1139,7 +1142,7 @@ function playgroundBar(c) {
       const raw = (o.value === null || o.value === undefined) ? '__remove__' : String(o.value);
       const active = ctrl.default !== undefined ? (String(o.value) === String(ctrl.default)) : i === 0;
       return `<button type="button" class="aha-pg-opt${active ? ' active' : ''}" role="radio" aria-checked="${active}"` +
-        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}">${esc(o.label)}</button>`;
+        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}"${ctrl.targets ? ` data-targets="${esc(ctrl.targets)}"` : ''}>${esc(o.label)}</button>`;
     }).join('');
     return `<div class="aha-pg-row"><span class="aha-pg-label">${esc(ctrl.label)}</span>` +
       `<div class="aha-pg-seg" role="radiogroup" aria-label="${esc(ctrl.label)}">${opts}</div></div>`;
@@ -1215,6 +1218,7 @@ function renderHtml(c) {
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
+  ${c.pageToggle ? playgroundBar({ playground: c.pageToggle }) : ''}
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
   <h2>Examples</h2>

@@ -15,31 +15,51 @@
     <span style="display:inline-flex; align-items:center; gap:8px"><aha-badge dot status="active"></aha-badge>Active</span>
     <aha-badge dot status="active"><aha-icon name="system-bell" size="24"></aha-icon></aha-badge>
   </div>
-  <div class="lbl">Plan chips, default size</div>
+  <div class="lbl">Plan chips</div>
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
-    <aha-badge plan="free"></aha-badge>
-    <aha-badge plan="edu"></aha-badge>
-    <aha-badge plan="essential"></aha-badge>
-    <aha-badge data-probe-plan plan="pro"></aha-badge>
-    <aha-badge plan="pro" cycle="yearly"></aha-badge>
-    <aha-badge data-probe-enterprise plan="enterprise"></aha-badge>
-  </div>
-  <div class="lbl">Plan chips, size sm</div>
-  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
-    <aha-badge plan="free" size="sm"></aha-badge>
-    <aha-badge plan="edu" size="sm"></aha-badge>
-    <aha-badge plan="essential" size="sm"></aha-badge>
-    <aha-badge data-probe-plan-sm plan="pro" size="sm"></aha-badge>
-    <aha-badge plan="enterprise" size="sm"></aha-badge>
+    <aha-badge data-size-group size="default" plan="free"></aha-badge>
+    <aha-badge data-size-group size="default" plan="edu"></aha-badge>
+    <aha-badge data-size-group size="default" plan="essential"></aha-badge>
+    <aha-badge data-size-group size="default" data-probe-plan data-probe-plan-sm plan="pro"></aha-badge>
+    <aha-badge data-size-group size="default" plan="pro" cycle="yearly"></aha-badge>
+    <aha-badge data-size-group size="default" data-probe-enterprise plan="enterprise"></aha-badge>
   </div>
   <div class="lbl">Rank and session chips</div>
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
-    <aha-badge data-probe-rank rank="1"></aha-badge>
-    <aha-badge rank="2"></aha-badge>
-    <aha-badge rank="3"></aha-badge>
-    <aha-badge rank="4"></aha-badge>
-    <aha-badge data-probe-session session="3"></aha-badge>
-    <aha-badge rank="1" size="default"></aha-badge>
+    <aha-badge data-size-group size="default" data-probe-rank rank="1"></aha-badge>
+    <aha-badge data-size-group size="default" rank="2"></aha-badge>
+    <aha-badge data-size-group size="default" rank="3"></aha-badge>
+    <aha-badge data-size-group size="default" rank="4"></aha-badge>
+    <aha-badge data-size-group size="default" data-probe-session session="3"></aha-badge>
+  </div>
+  <div class="lbl">New and Beta</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-badge data-size-group size="default" data-probe-new kind="new"></aha-badge>
+    <aha-badge data-size-group size="default" kind="beta"></aha-badge>
+  </div>
+  <div class="lbl">Status badges</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-status-badge data-size-group size="default" look="quiet">Quiet</aha-status-badge>
+    <aha-status-badge data-size-group size="default" look="emphasis">Emphasis</aha-status-badge>
+    <aha-status-badge data-size-group size="default" look="alert">Alert</aha-status-badge>
+    <aha-status-badge data-size-group size="default" look="plain">Plain text</aha-status-badge>
+  </div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-status-badge data-size-group size="default" status="draft">Draft</aha-status-badge>
+    <aha-status-badge data-size-group size="default" status="scheduled">Scheduled</aha-status-badge>
+    <aha-status-badge data-size-group size="default" data-probe status="published">Published</aha-status-badge>
+    <aha-status-badge data-size-group size="default" status="closed">Closed</aha-status-badge>
+    <aha-status-badge data-size-group size="default" status="archived">Archived</aha-status-badge>
+    <aha-status-badge data-size-group size="default" status="not-started">Not started</aha-status-badge>
+    <aha-status-badge data-size-group size="default" status="in-progress">In progress</aha-status-badge>
+    <aha-status-badge data-size-group size="default" status="completed">Completed</aha-status-badge>
+  </div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <aha-status-badge data-size-group size="default" look="alert">5 days overdue</aha-status-badge>
+    <aha-status-badge data-size-group size="default" look="emphasis" icon="system-clock">Due today</aha-status-badge>
+    <aha-status-badge data-size-group size="default" look="plain">Due in 9 days</aha-status-badge>
+    <aha-status-badge data-size-group size="default" look="plain" icon="system-check">On time</aha-status-badge>
+    <aha-status-badge data-size-group size="default" look="plain" icon="system-clock-late">4 days late</aha-status-badge>
   </div>
   <div class="lbl">Ribbon</div>
   <div class="row" style="gap:32px; align-items:flex-start; flex-wrap:wrap">
@@ -63,5 +83,6 @@
      from contracts/badge.json → playground and drives the [data-probe] element's attributes live. -->
 <script type="module">
   import '../lib/icons.js';       // registers <aha-icon> so the wrapped bell glyph resolves from the DS library
+  import '../lib/aha-status-badge.js';
   import '../lib/aha-badge.js';   // registers <aha-badge> — the shipped primitive, byte-identical to what consumers get
 </script>

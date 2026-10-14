@@ -4,7 +4,7 @@ import '@ahaslides-product/design/icons';       // registers <aha-icon>
 // Attributes only — no events — so React 18/19 can render the element directly.
 // Boolean attrs (dot/showZero) are the attribute PRESENCE, so spread them conditionally.
 function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ribbon, placement,
-                    plan, cycle, rank, session, size, children }) {
+                    plan, cycle, rank, session, kind, size, children }) {
   return (
     <aha-badge
       count={count}
@@ -17,6 +17,7 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
       cycle={cycle}
       rank={rank}
       session={session}
+      kind={kind}
       size={size}
       {...(dot ? { dot: '' } : {})}
       {...(showZero ? { 'show-zero': '' } : {})}
@@ -26,6 +27,8 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
     </aha-badge>
   );
 }
+
+// New and Beta tags (size sm): <AhaBadge kind="new" /> · <AhaBadge kind="beta" />
 
 // count over a wrapped child
 <AhaBadge count={unread} overflowCount={99}>
@@ -40,7 +43,7 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
   <TemplateCard />
 </AhaBadge>
 
-// a PLAN preset chip (default 28px, or size="sm" 22px; cycle appends the billing cycle)
+// a PLAN preset chip (default 28px, or size="sm" 18px; cycle appends the billing cycle)
 <AhaBadge plan="pro" cycle="yearly" />
 <AhaBadge plan="pro" size="sm" />
 

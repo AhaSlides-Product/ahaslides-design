@@ -47,6 +47,10 @@
       "value": "a 16px registry icon in iconDefault #4A4A4A, or a 6 × 6 dot with 2px side margin, or none"
     },
     {
+      "label": "Size sm",
+      "value": "height 18 · padding 0 4 · radius xs 4 · label 12/16 regular 400 · gap 4 · 12px icon · plain look keeps no padding"
+    },
+    {
       "label": "Quiet",
       "value": "background Gray 25 #F3F3F3 · no border"
     },
@@ -85,6 +89,12 @@
       "type": "draft | scheduled | published | live | active | closed | inactive | archived | not-started | in-progress | completed",
       "default": "draft",
       "desc": "A built-in state. It picks its own look and marker; see Survey and Progress in the spec"
+    },
+    {
+      "name": "size",
+      "type": "default | sm",
+      "default": "default",
+      "desc": "default is the 28px box. sm is 18px tall with 4px side padding, a 12px regular label, radius xs and a 12px icon, the same as a small Badge chip"
     },
     {
       "name": "look",

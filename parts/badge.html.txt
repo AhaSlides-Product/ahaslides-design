@@ -17,7 +17,7 @@
 </div>
 
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:24px">
-  <!-- PLAN preset chips — default size 28px; `size="sm"` is 22px; `cycle` appends the billing cycle -->
+  <!-- PLAN preset chips — default size 28px; `size="sm"` is 18px; `cycle` appends the billing cycle -->
   <aha-badge plan="free"></aha-badge>
   <aha-badge plan="pro" cycle="yearly"></aha-badge>
   <aha-badge plan="enterprise" size="sm"></aha-badge>
@@ -25,6 +25,10 @@
   <!-- RANK (leaderboard) and SESSION chips are size sm unless `size="default"` -->
   <aha-badge rank="1"></aha-badge>
   <aha-badge session="3"></aha-badge>
+
+  <!-- NEW (Vivid Pink, white text) and BETA (grey) tags, size sm by default -->
+  <aha-badge kind="new"></aha-badge>
+  <aha-badge kind="beta"></aha-badge>
 </div>
 
 <!-- ribbon — a corner banner wrapping a card (placement end = top-right, default) -->
