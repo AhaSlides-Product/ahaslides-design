@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - `<aha-chart>` brand palette: Vivid Pink 30 (series 3) is flattened to an opaque 30% pink over white (`#F8B7D2`) where the chart resolves its series colours, so every mark, legend swatch, tooltip and word looks the same on a white, grey, Vivid Pink or dark background. The `viz.series.3` token stays `#E70E684D`. `palette="deck"` charts are unchanged. (#252)
 
+## 0.188.0 — 2026-10-14
+### Added
+- Correct and incorrect badges for the Report app: `<aha-badge kind="correct">` and `kind="incorrect"`, size sm by default and `size="default"` for the 28px box. The fill is the answer colour at 5% (`--aha-answer-correct-tint-5`, `--aha-answer-wrong-tint-5`), the label stays the default ink (rule 11.2), and a tick or cross circle icon (`system-check-circle`, `system-x-circle`) in `--aha-answer-correct` and `--aha-answer-wrong` (rule 11.3). For a correct or wrong answer only (rule 11.1). Contract row, docs examples, html, React and Vue snippets and render probes on the Badge page. (#250)
+
 ## 0.185.1 — 2026-10-14
 ### Fixed
 - `<aha-chart>` treemap chip and bell-curve average badge: the translucent series tint now sits on an opaque white base, so the label keeps its contrast on a Vivid Pink tile (it fell to about 3.86:1 in 0.185.0). (#251)
