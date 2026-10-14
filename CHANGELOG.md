@@ -22,9 +22,65 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.178.0 — 2026-10-12
+## 0.186.0 — 2026-10-12
 ### Fixed
 - Logo library: the PDF icon now fills its frame like the other brand logos instead of rendering about a quarter smaller. The Figma export's 2px padding is cropped with the viewBox; the path data is unchanged. (#181)
+
+## 0.183.0 — 2026-10-14
+### Added
+- Correct and wrong answer colours: `--aha-answer-correct` (`#008A05`) and `--aha-answer-wrong` (`#C7401E`), each with a 5% and a 30% tint (`-tint-5`, `-tint-30`), at `color.answer.*` in the tokens. For marking an answer correct or wrong only; no component uses them yet. (#245)
+- Brand colour rules section 11, Correct and wrong answers: four short rules (11.1 to 11.4) in a collapsed Rules panel, and the colour table. `<aha-collapse>` on the Colour page, a native disclosure on the Brand colour rules page; the agent feeds keep the full text. The Colour page shows the tokens and the same Rules panel. (#245)
+### Changed
+- Rules 1.1, 7.1 and 8.5, the glance line on status, the `colour` C1 and C5 and `background` C5 judge criteria, the Background pattern and the canvas and audience guides now say the answer pair is the one exception and is for answers only. A quiz result chart colours the correct column green (rule 11.3). Still to decide moves to section 12. No existing rule id changed. (#245)
+
+## 0.182.0 — 2026-10-14
+### Added
+- `<aha-badge size="default" | "sm">` on plan and session badges. `default` is 28px with 8px side padding, a 14px label, radius sm and a 16px icon; `sm` is 20px with 4px side padding, a 12px regular (400) label, radius xs and a 12px icon. Plan defaults to `default`; session defaults to `sm`. (#244)
+- `<aha-badge kind="new" | "beta">`: a New tag (Vivid Pink 5% fill `--aha-bg-accent`, label in Darker Pink `--aha-text-link-hover` #DB005B, 4.65:1) and a Beta tag (grey fill, default text), size sm by default. (#244)
+- `<aha-status-badge size="sm">`: the same 20px box as a small Badge, with a 4px dot (6px at the default size). The default stays 28px, so nothing changes for existing use. (#244)
+- Badge docs page: a Default / sm switch at the top changes every badge on the page and is the only toggle left at the top; the Count colour and Ribbon placement toggles sit in their own sections next to the badge they control. The Default badge section comes first, before Count; the Status badges section is one section with its four looks and an Examples group inside it. (#244)
+
+- Badge docs page: a Paid feature example (the crown mark alone, no text), the Paywall upgrade mark (16px Vivid Pink circle with the white crown, `<aha-paywall>` with no slotted child), reused rather than a new `<aha-badge>` preset. (#244)
+
+### Changed
+- Badge count `status="primary"` (Vivid Pink): the number is now `--aha-text-link-hover` #DB005B on a `--aha-bg-accent` #FEF3F7 fill (4.65:1, WebAIM Normal Text AA), was a white number on solid Vivid Pink. The default black count and the ribbon are unchanged. (#244)
+- **Breaking:** Badge dot: limited to three colours, `status="default"` (default, `--aha-icon-strong` #1A1A1A), `"disabled"` (`--aha-icon-disabled` #B5B5B5) and `"active"` (`--aha-icon-active` #E70E68); other dot `status` values no longer apply. The dot is 6×6px (was 8px), or 4×4px with `size="sm"`. The hollow ring, pink edge and pulse shapes are gone. The Dot section of the docs page shows the three. A dot on a notification icon (the bell) is always the active pink dot; default and disabled dots are for neutral marks next to text. Count bubble and ribbon colours are unchanged. (#244)
+- Plan badge (`<aha-badge plan>`): 28px tall, 14px / 600 label, radius `--aha-radius-sm` (6px, was a 22px pill), 8px side padding. Free, Edu, Essential and Pro are grey (`--aha-gray-30`, default text); Enterprise is on the Vivid Pink 5% fill (`--aha-bg-accent`). The crown on Pro and Enterprise is gone; no plan badge carries an icon. (#244)
+- Session badge: grey (`--aha-gray-30`, default text), was a Vivid Pink tint. (#244)
+- Count colour rule written into the Badge contract (spec, when-to-use, props, self-check; reaches `badge.agent.json`, `badge.md` and the page): every count is black by default (tabs, filters, inbox, totals); only `default` and `primary` are documented for counts (the page toggle is Default / Primary). The old count values `success`, `error`, `warning` and `default` stay accepted as deprecated aliases of black, and `processing` of primary; ribbon colours are unchanged. Vivid Pink (`status="primary"`) only for a new count that needs attention now (unread notifications on the bell, new responses since you last looked), at most one Vivid Pink count per screen. The default count colour is already black.
+- Status badge docs folded into the Badge page as its own section (all options, rules, examples, code). `status-badge/index.html` now redirects to `badge/index.html#status-badge`; `<aha-status-badge>`, its contract, feeds and API are unchanged.
+
+### Fixed
+- Badge preset chips: the visible side padding is exactly 8px (default) and 4px (sm); a 1px transparent border had made it 9px and 5px. (#244)
+- Status badge alert style: the inset border is the same grey as emphasis (`--aha-border-strong`, was black `--aha-border-warning`); the warning icon stays the only Vivid Pink. (#244)
+
+### Removed
+- **Breaking:** Badge `tone` attribute (danger, success, positive, essential, pro, branding, primary-alt label badges) and badge `href` (clickable link badges), with their docs sections, snippets and contract rows. Use a plan badge or the Status badge component. (#244)
+- **Breaking:** Badge `rank` preset (`<aha-badge rank="1" | "2" | "3" | "4">`, the leaderboard medal badge), with its docs section, snippets and contract rows. The ordinal badges of `<aha-rank-list>` are unchanged. (#244)
+- **Breaking:** Badge standalone status label (`<aha-badge status="…" text="…">` with no count or dot), its docs "Status" section, snippets and contract rows. Use the Status badge component for a state label. (#244)
+
+## 0.181.1 — 2026-10-14
+### Fixed
+- `aha-product-lockup` writes every asset URL as an inline `new URL('<literal>', import.meta.url)`, so rspack and webpack bundle the Splash and font files instead of throwing "Cannot find module" and stopping `@ahaslides-product/design/all` from registering. A new unit test fails on any non-literal `import.meta.url` in `lib/`. (#246)
+
+## 0.181.0 — 2026-10-14
+### Added
+- `<aha-status-badge look>` takes four styles: `quiet` (Gray 25, no border), `emphasis` (white, 1px `--aha-border-strong` inset border), `alert` (white, 1px `--aha-border-warning` inset border, a `system-warning-circle` icon in `--aha-icon-active`, the only pink on any badge) and `plain` (no box, Gray 80 regular text, optional icon). `look="default"` is accepted as a deprecated alias of `quiet`. (#240)
+- `<aha-status-badge>` takes `marker` (`dot`, `icon`, `none`) and `icon` (a registry name, drawn at 16px before the label). (#240)
+- New built-in statuses `scheduled` (quiet + calendar) and `live` (as published), and the progress statuses `not-started` (quiet + dashed circle), `in-progress` (quiet + half-dashed circle) and `completed` (quiet + check circle). Due states are a look and an icon, not new statuses: overdue `look="alert"`, due today `look="emphasis" icon="system-clock"`, due in N days `look="plain"`, on time `look="plain" icon="system-check"`, N days late `look="plain" icon="system-clock-late"`. (#240)
+- Four icons: `system-clock`, `system-clock-late`, `system-archive-box` and `system-circle-half-dashed`. (#240)
+- `--aha-status-badge-bg` and `--aha-status-badge-fg` let an app keep a colour set it already owns inside the shared box. The design system still ships no hue for status. (#240)
+### Changed
+- **Visible change for every `<aha-status-badge>`:** the box is now 28px tall with 8px side padding (was 10px), a 6px radius (was a full pill), a 14px semibold label (was 12px) and a 16px icon or a 6px dot. Published and active are the emphasis style with a dark dot (were white with black); closed is quiet with a light dot; draft is quiet with a pencil icon and archived quiet with an archive-box icon (both had a dot); inactive follows closed. Attribute names and the six existing `status` values are unchanged. Importing the element now also registers `<aha-icon>`. (#240)
+- Status badges guideline and judge: the dot is only for the published / live and closed lifecycle states, so one column may mix icons and dots (criterion C6); due states are badges in this family, and counters and types use the quiet or plain style (C7); C1, C2 and C5 describe `<aha-status-badge>` instead of the hand-built `aha-status-pill` markup, which still passes on existing screens. (#240)
+
+## 0.180.0 — 2026-10-14
+### Added
+- Canvas Library › Components: a new page (`canvas/index.html`), built like the Audience Library, for the in-canvas presenter controls: the light, dark and image deck demos (`<aha-button size="lg">`, `applyCanvasDeck`, the shortcut chip, `<aha-tooltip size="lg" shortcut>`), the Canvas rule from the Button spec, a copy-paste snippet and the one-tag `lib/canvas.js` box. (#243)
+
+### Changed
+- Docs header: one top-nav item, "Canvas Library", opens a two-link dropdown (Chart, then Components: the charts page and the canvas presenter-controls page, each page titled with its dropdown label) on hover, keyboard focus and click or tap (a disclosure button: Escape closes and returns focus, an outside click or focus leaving closes it). The item is active when either page is current; the page URLs are unchanged. (#243)
+- The Button page no longer carries the canvas deck demo; one line links to Canvas Library › Components. The Button contract's `Canvas` spec row moved to the new page and its `canvas presenter controls` usage row now points there. The canvas guideline's presenter-controls rule and `llms.txt` point to the new page. Docs search finds it as Components.
 
 ## 0.173.0 — 2026-10-13
 ### Added

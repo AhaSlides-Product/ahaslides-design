@@ -26,13 +26,14 @@ import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
-import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines } from './colour-rules.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
 const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
+const CANVAS_DIR = join(root, 'canvas');       // canvas library — in-canvas presenter controls, rendered as a first-class DS area (single scroll page)
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
 const OUT  = join(root, 'dist');
@@ -231,7 +232,6 @@ const COMPONENTS_CATALOG = [
 const PATTERNS_CATALOG = [
   { cat: 'AhaSlides surfaces', items: [
     { name: 'Paywall',        slug: 'paywall' },
-    { name: 'Status badge',   slug: 'status-badge' },
     { name: 'CSAT',           slug: 'csat' },
     { name: 'Screen heading', slug: 'screen-heading' },
     { name: 'Loader',         slug: 'aha-loader' },
@@ -272,12 +272,15 @@ let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / ca
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
 let MARKETING = [];         // loaded marketing sections — drives the Patterns → Marketing sections group + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
+let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
+let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
 
 /* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
    sidebar (Components shows only components, Foundations only tokens/icons, etc.). One area
    per screen keeps every sidebar short and relevant. */
+const NAV_GROUPS = [{ key: 'canvas-library', label: 'Canvas Library', members: ['charts', 'canvas'] }];
 const SECTIONS = [
   { key: 'overview',    label: 'Overview' },
   { key: 'foundations', label: 'Foundations' },
@@ -285,7 +288,8 @@ const SECTIONS = [
   { key: 'patterns',    label: 'Patterns' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
-  { key: 'charts',      label: 'Charts' },
+  { key: 'canvas',      label: 'Components' },
+  { key: 'charts',      label: 'Chart' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'developers',  label: 'For developers' },
   { key: 'feeds',       label: 'Agent feeds' },
@@ -301,6 +305,8 @@ const TOKEN_PAGES = [
   { slug: 'sizing',     label: 'Sizing' },
 ];
 const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // vividPink → vivid-pink, inkA10 → ink-a10
+const answerTokenEntries = (color) => Object.entries(color.answer).filter(([key]) => !key.startsWith('$'))
+  .map(([key, value]) => [`--aha-answer-${kebab(key).replace(/([a-z])(\d)/g, '$1-$2')}`, value]);
 function tokenVars(t) {
   const c = t.color, f = t.font, r = t.radius, P = c.primitives, b = c.button;
   const L = [];
@@ -329,6 +335,7 @@ function tokenVars(t) {
      or the shared --aha-btn-* seeds. This is a DEFINITION layer (the value SOURCE — not hex-scanned). */
   L.push(`--aha-button-primary-bg:var(--aha-color-primary); --aha-button-primary-bg-hover:var(--aha-color-primary-hover); --aha-button-primary-bg-press:var(--aha-color-primary-active); --aha-button-primary-text:var(--aha-btn-primary-fg); --aha-button-default-bg:var(--aha-white); --aha-button-default-text:var(--aha-text-default); --aha-button-default-border:var(--aha-gray-40); --aha-button-default-bg-hover:var(--aha-bg-accent); --aha-button-default-text-hover:var(--aha-text-link-hover); --aha-button-default-border-hover:var(--aha-color-primary); --aha-button-default-border-press:var(--aha-border-active); --aha-button-ghost-bg-hover:var(--aha-btn-tertiary-bg-hover); --aha-button-ghost-bg-press:var(--aha-btn-tertiary-bg-active); --aha-button-danger-bg:var(--aha-btn-danger-bg); --aha-button-danger-bg-hover:var(--aha-btn-danger-bg-hover); --aha-button-danger-bg-press:var(--aha-btn-danger-bg-press); --aha-button-danger-text:var(--aha-text-inverse); --aha-button-danger-ring:var(--aha-btn-danger-ring); --aha-button-positive-bg:var(--aha-btn-positive-bg); --aha-button-positive-bg-hover:var(--aha-btn-positive-bg-hover); --aha-button-positive-bg-press:var(--aha-btn-positive-bg-press); --aha-button-positive-text:var(--aha-btn-positive-fg); --aha-button-disabled-bg:var(--aha-gray-40); --aha-button-disabled-text:var(--aha-gray-60); --aha-button-focus-ring:var(--aha-focus-ring); --aha-button-focus-ring-success:var(--aha-btn-focus-ring-success); --aha-button-elevate-primary:var(--aha-btn-elevate-primary); --aha-button-elevate-primary-hover:var(--aha-btn-elevate-primary-hover); --aha-button-elevate-secondary:var(--aha-btn-elevate-secondary);`);
   L.push(Object.keys(c.alpha).map(k => `--aha-${kebab(k)}:${c.alpha[k]};`).join(' '));
+  L.push(answerTokenEntries(c).map(([name, value]) => `${name}:${value};`).join(' '));
   /* a deck chart swaps series for the deck palette and re-derives the ink mixes from the deck text colour inside the element */
   const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
   const v = c.viz, vz = t.viz;
@@ -388,6 +395,18 @@ a{color:var(--aha-color-primary)}
 .top-nav a{display:inline-flex;align-items:center;height:100%;font-size:14px;color:var(--aha-text-secondary);text-decoration:none;padding:0 14px;font-weight:500;border-bottom:2px solid transparent}
 .top-nav a:hover{color:var(--aha-color-primary)}
 .top-nav a.active{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
+.top-nav .nav-drop{position:relative;display:inline-flex;align-items:stretch;height:100%}
+.nav-drop-btn{display:inline-flex;align-items:center;gap:6px;height:100%;padding:0 14px;white-space:nowrap;flex:0 0 auto;border:0;border-bottom:2px solid transparent;background:transparent;font:inherit;font-size:14px;font-weight:500;color:var(--aha-text-secondary);cursor:pointer}
+.nav-drop-btn:hover,.nav-drop-btn[aria-expanded="true"]{color:var(--aha-color-primary)}
+.nav-drop-btn:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:-2px;border-radius:8px}
+.nav-drop-btn aha-icon{transition:transform var(--aha-motion-fast) var(--aha-ease-out)}
+.nav-drop-btn[aria-expanded="true"] aha-icon{transform:rotate(180deg)}
+.nav-drop.active .nav-drop-btn{color:var(--aha-color-primary);font-weight:600;border-bottom-color:var(--aha-color-primary)}
+.nav-drop-panel{position:fixed;top:60px;left:0;min-width:180px;padding:6px;background:#fff;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default,8px);box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:40;flex-direction:column}
+.nav-drop-panel:not([hidden]){display:flex}
+.top-nav .nav-drop-panel a{height:auto;padding:8px 12px;border-bottom:0;border-radius:var(--aha-radius-sm)}
+.top-nav .nav-drop-panel a:hover{background:var(--aha-bg-accent)}
+.top-nav .nav-drop-panel a.active{background:var(--aha-bg-accent)}
 .hmeta{flex:0 0 auto}
 .hmeta{font-size:12px;color:var(--aha-text-tertiary);display:flex;gap:14px;align-items:center}
 .hmeta .ver{font-family:Menlo,monospace;background:var(--aha-gray-20);border-radius:6px;padding:3px 9px}
@@ -556,6 +575,31 @@ const NAV_TOGGLE_JS = `
 })();
 `;
 
+const NAV_DROP_JS = `
+(function(){
+  if(window.__navDrop) return; window.__navDrop=true;
+  function parts(d){ return {btn:d.querySelector('.nav-drop-btn'), panel:d.querySelector('.nav-drop-panel')}; }
+  function setOpen(d,open){ var p=parts(d); if(!p.btn) return; p.btn.setAttribute('aria-expanded',open?'true':'false'); if(open){ p.panel.removeAttribute('hidden'); var r=p.btn.getBoundingClientRect(); p.panel.style.left=Math.max(8,Math.min(r.left,window.innerWidth-p.panel.offsetWidth-8))+'px'; } else p.panel.setAttribute('hidden',''); }
+  function isOpen(d){ var b=d.querySelector('.nav-drop-btn'); return !!b && b.getAttribute('aria-expanded')==='true'; }
+  function closeAll(except){ document.querySelectorAll('.nav-drop').forEach(function(d){ if(d!==except) setOpen(d,false); }); }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('.nav-drop-btn');
+    if(btn){ var d=btn.closest('.nav-drop'); var pinning=isOpen(d)&&d.__byHover; d.__byHover=false; closeAll(d); setOpen(d,pinning?true:!isOpen(d)); return; }
+    if(e.target.closest('.nav-drop-panel a')){ closeAll(); return; }
+    closeAll();
+  });
+  document.addEventListener('pointerover',function(e){ if(e.pointerType!=='mouse') return; var d=e.target.closest&&e.target.closest('.nav-drop'); if(d && !isOpen(d)){ closeAll(d); d.__byHover=true; setOpen(d,true); } });
+  document.addEventListener('pointerout',function(e){ if(e.pointerType!=='mouse') return; var d=e.target.closest&&e.target.closest('.nav-drop'); if(d && d.__byHover && !d.contains(e.relatedTarget)){ d.__byHover=false; setOpen(d,false); } });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    var d=document.querySelector('.nav-drop .nav-drop-btn[aria-expanded="true"]'); if(!d) return;
+    var drop=d.closest('.nav-drop'), inside=drop.contains(document.activeElement);
+    setOpen(drop,false); if(inside) d.focus();
+  });
+  document.addEventListener('focusin',function(e){ document.querySelectorAll('.nav-drop').forEach(function(d){ if(isOpen(d) && !d.contains(e.target)) setOpen(d,false); }); });
+})();
+`;
+
 // Bindable (idempotent) so it can re-run over just-swapped content after an in-app navigation.
 const WIDGET_JS = `
 function ahaBindWidgets(root){
@@ -607,14 +651,17 @@ function ahaBindPlayground(root){
     if(pg.dataset.bound) return; pg.dataset.bound='1';
     var demo=pg.closest('.demo');
     var target=demo && (demo.querySelector('[data-pg-target]')||demo.querySelector('.demo-stage [data-probe]'));
-    if(!target) return;
-    function apply(prop,val){ if(val==='__remove__') target.removeAttribute(prop); else target.setAttribute(prop,val); }
+    if(!target && !pg.querySelector('[data-targets]')) return;
+    function apply(prop,val,sel){
+      var list=sel?document.querySelectorAll(sel):[target];
+      list.forEach(function(t){ if(val==='__remove__') t.removeAttribute(prop); else t.setAttribute(prop,val); });
+    }
     pg.querySelectorAll('.aha-pg-opt').forEach(function(opt){
       opt.addEventListener('click',function(){
         var seg=opt.closest('.aha-pg-seg');
         seg.querySelectorAll('.aha-pg-opt').forEach(function(o){o.classList.remove('active');o.setAttribute('aria-checked','false');});
         opt.classList.add('active'); opt.setAttribute('aria-checked','true');
-        apply(opt.dataset.prop, opt.dataset.value);
+        apply(opt.dataset.prop, opt.dataset.value, opt.dataset.targets);
       });
     });
   });
@@ -930,12 +977,22 @@ const RAW_FEEDS = [
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
-  return `<nav class="top-nav">` + SECTIONS.map(s => {
-    if (s.key === 'guidelines' && !GUIDELINES.length) return '';
-    if (s.key === 'audience' && !AUDIENCE) return '';
-    const href = base + (NAV_LANDING[s.key] || 'index.html');
-    return `<a class="${section===s.key?'active':''}" href="${href}">${esc(s.label)}</a>`;
-  }).join('') + `</nav>`;
+  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB);
+  const link = s => `<a class="${section===s.key?'active':''}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
+  const out = [];
+  const grouped = new Set();
+  for (const s of SECTIONS) {
+    if (grouped.has(s.key) || !visible(s)) continue;
+    const group = NAV_GROUPS.find(g => g.members.includes(s.key));
+    if (!group) { out.push(link(s)); continue; }
+    const members = group.members.map(k => SECTIONS.find(x => x.key === k)).filter(m => m && visible(m));
+    members.forEach(m => grouped.add(m.key));
+    const id = `top-nav-${group.key}`;
+    out.push(`<div class="nav-drop${members.some(m => m.key === section) ? ' active' : ''}">` +
+      `<button class="nav-drop-btn" type="button" aria-expanded="false" aria-controls="${id}">${esc(group.label)}<aha-icon name="system-caret-down" size="12" decorative></aha-icon></button>` +
+      `<div class="nav-drop-panel" id="${id}" hidden>${members.map(m => link(m)).join('')}</div></div>`);
+  }
+  return `<nav class="top-nav">` + out.join('') + `</nav>`;
 }
 
 // Left sidebar — scoped to the CURRENT area only (empty on Overview, which is full-width).
@@ -1035,7 +1092,7 @@ ${fontPreloads(base)}
   <main class="doc-main"><div class="doc-main-inner">${anchorHeadings(main)}</div></main>
 </div>
 <script type="module">import '${base || './'}lib/icons.js';import '${base || './'}lib/aha-button.js';import '${base || './'}lib/aha-product-lockup.js';</script>
-<script>${SEARCH_JS}${NAV_TOGGLE_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
+<script>${SEARCH_JS}${NAV_TOGGLE_JS}${NAV_DROP_JS}${WIDGET_JS}${FEED_JS}${PLAYGROUND_JS}${PJAX_JS}</script>
 </body></html>`;
 }
 
@@ -1080,21 +1137,26 @@ function renderFeedPage(f, content) {
 // the attribute (data-prop) + value it applies to the demo's target element; PLAYGROUND_JS wires the
 // clicks. A null/undefined option value becomes the __remove__ sentinel (removeAttribute). Absent a
 // `playground` block, this renders nothing and the demo is the plain default stage.
-function playgroundBar(c) {
+function playgroundBar(c, group) {
   const pg = c.playground;
-  if (!pg || !Array.isArray(pg.controls) || !pg.controls.length) return '';
-  const rows = pg.controls.map((ctrl) => {
+  if (!pg || !Array.isArray(pg.controls)) return '';
+  const shown = pg.controls.filter((ctrl) => (group ? ctrl.group === group : !ctrl.group));
+  if (!shown.length) return '';
+  const rows = shown.map((ctrl) => {
     const opts = (ctrl.options || []).map((o, i) => {
       const raw = (o.value === null || o.value === undefined) ? '__remove__' : String(o.value);
       const active = ctrl.default !== undefined ? (String(o.value) === String(ctrl.default)) : i === 0;
       return `<button type="button" class="aha-pg-opt${active ? ' active' : ''}" role="radio" aria-checked="${active}"` +
-        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}">${esc(o.label)}</button>`;
+        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}"${ctrl.targets ? ` data-targets="${esc(ctrl.targets)}"` : ''}>${esc(o.label)}</button>`;
     }).join('');
     return `<div class="aha-pg-row"><span class="aha-pg-label">${esc(ctrl.label)}</span>` +
       `<div class="aha-pg-seg" role="radiogroup" aria-label="${esc(ctrl.label)}">${opts}</div></div>`;
   }).join('');
   return `<div class="aha-pg" data-pg>${rows}</div>`;
 }
+
+// A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
+const previewWithBars = (c) => part(c.preview).replace(/<!--pg:([\w-]+)-->/g, (_, group) => playgroundBar(c, group));
 
 const docPagePath = (c) => c.docPage || `${c.slug}/index.html`;
 
@@ -1133,9 +1195,30 @@ function renderChartsPage(c) {
   return docShell({ base: '../', active: 'charts', title: c.name, section: 'charts', main, extraCss: HUB_ANCHOR_CSS + '.hub-body h2,.hub-body .chart-type-title{scroll-margin-top:84px}', noSidebar: true });
 }
 
+function mergedSections(host) {
+  return contracts.filter(m => m.mergedInto === host.slug).map(m => `
+
+  <h2 id="${esc(m.slug)}">${esc(m.name)}</h2>
+  <p class="body">${esc(m.lead).replace(/`([^`]+)`/g, '<code>$1</code>')}</p>
+  <div class="demo">
+    ${playgroundBar(m)}
+    <div class="demo-stage">${part(m.preview)}</div>
+    ${codeWidget(m)}
+  </div>
+
+  <h3 id="${esc(m.slug)}-api">${esc(m.name)} API</h3>
+  ${propsTable(m.props)}
+
+  <h3 id="${esc(m.slug)}-when-to-use">${esc(m.name)}: when to use</h3>
+  ${opinionBlock(m.opinion)}${surfaceBlock(m.surfaces)}
+
+  <h3 id="${esc(m.slug)}-spec">${esc(m.name)} spec</h3>
+  <div class="spec-line">${specList(m.spec)}</div>`).join('');
+}
+
 function renderHtml(c) {
   if (c.docPage) return renderChartsPage(c);
-  const preview = part(c.preview);
+  const preview = previewWithBars(c);
   const isSettings = SETTINGS_SLUGS.has(c.slug);  // settings-panel family → its OWN Settings area
   const isPattern = !isSettings && PATTERN_SLUGS.has(c.slug);   // AhaSlides-composed → Patterns area
   const area = isSettings ? 'settings' : isPattern ? 'patterns' : 'components';
@@ -1143,6 +1226,7 @@ function renderHtml(c) {
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
+  ${c.pageToggle ? playgroundBar({ playground: c.pageToggle }) : ''}
   ${c.hubRef ? `<p class="hub-back">Also on the standalone <a href="../${esc(c.hubRef)}/index.html">Settings page</a> — the whole settings surface, including this component, inline on one page.</p>` : ''}
 
   <h2>Examples</h2>
@@ -1160,7 +1244,7 @@ function renderHtml(c) {
   ${c.opinion ? `<h2>When to use</h2>${opinionBlock(c.opinion)}${surfaceBlock(c.surfaces)}` : ''}
 
   <h2>Spec</h2>
-  <div class="spec-line">${specList(c.spec)}</div>`;
+  <div class="spec-line">${specList(c.spec)}</div>${mergedSections(c)}`;
   return docShell({ base: '../', active: c.slug, title: c.name, section: area, main });
 }
 
@@ -1412,6 +1496,7 @@ function surfaceCdnBox(surface) {
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
     ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -1500,6 +1585,56 @@ function renderAudienceLibrary() {
   </script>
   ${hubAnchorScript(anchorItems)}`;
   return docShell({ base: '../', active: 'audience', title: AUDIENCE.title, section: 'audience', main, extraCss: AUD_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+}
+
+/* ---- Canvas Library — a first-class top-level area, built like the Audience Library: ONE scroll page
+   rendered into docShell (noSidebar + the shared sticky Anchor), content is data (canvas/library.json).
+   Its demos ARE the shipped <aha-button> / <aha-tooltip> themed by applyCanvasDeck, not mock-ups. */
+function renderCanvasCard(sec) {
+  const rules = (sec.rules || []).map(r => `<dt>${esc(r.label)}</dt><dd>${audMd(r.value)}</dd>`).join('');
+  const code = sec.snippet ? `<div class="cl-code"><div class="code-panel feed"><div class="code-head"><div class="tabs"><span class="tab active">HTML</span></div><button class="copy" type="button">Copy</button></div><pre class="active">${esc(withCdnRef(sec.snippet))}</pre></div></div>` : '';
+  return `<section id="${esc(sec.name)}" class="card">
+  <header class="card-h">
+    <div class="card-title"><h2>${esc(sec.name)}</h2>${sec.kind ? `<span class="badge">${esc(sec.kind)}</span>` : ''}</div>
+    <p class="element">Use <code class="ic">${esc(sec.element)}</code></p>
+    <p class="what">${audMd(sec.what)}</p>
+    <dl class="callout">
+      <div class="use"><dt>Use when</dt><dd>${audMd(sec.useWhen)}</dd></div>
+      <div class="not"><dt>Not for</dt><dd>${audMd(sec.notFor)}</dd></div>
+    </dl>
+  </header>
+  <div class="cl-demo">${sec.demo}</div>
+  ${rules ? `<div class="cl-rules"><h3>Rules</h3><dl>${rules}</dl></div>` : ''}
+  ${code}
+</section>`;
+}
+function renderCanvasLibrary() {
+  const anchorItems = CANVAS_LIB.sections.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
+  const fallbackGroups = [{ cat: 'Canvas components', links: CANVAS_LIB.sections.map(s => ({ id: s.name, title: s.name })) }];
+  const main = `<div class="canvas-lib">
+    <header class="cl-head">
+      <h1>${esc(CANVAS_LIB.title)}</h1>
+      <p class="rule">${audMd(CANVAS_LIB.rule)}</p>
+      <p class="why">${audMd(CANVAS_LIB.why)}</p>
+      ${surfaceCdnBox('canvas')}
+    </header>
+    <div class="hub-layout">
+      ${hubAnchorAside(fallbackGroups)}
+      <div class="hub-body"><div class="cl-cards">${CANVAS_LIB.sections.map(renderCanvasCard).join('\n')}</div></div>
+    </div>
+  </div>
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyCanvasDeck } from '../lib/canvas-deck.js';
+    const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
+    }
+  </script>
+  ${hubAnchorScript(anchorItems)}`;
+  return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
 function renderMarketingHtml(b) {
@@ -1798,7 +1933,7 @@ function renderSettingsHub() {
     <p class="body">${esc(c.summary)}</p>
     <div class="demo">
       ${playgroundBar(c)}
-      <div class="demo-stage">${part(c.preview)}</div>
+      <div class="demo-stage">${previewWithBars(c)}</div>
       ${codeWidget(c)}
     </div>
     <h4>API</h4>
@@ -1903,6 +2038,7 @@ function renderDesignMd(t, cs) {
   const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
     ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
   const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
+  const answerTable = tbl(answerTokenEntries(c).map(([cssVar, value]) => [cssVar.replace(/^--aha-/, ''), value]));
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
 > Version ${PKG.version} · changelog (what changed per release): ${SITE}/CHANGELOG.md
@@ -1911,9 +2047,9 @@ function renderDesignMd(t, cs) {
 Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
 The page background is **white**; light grey is for surfaces inside or beside the white page (cards, sidebars, input fields, table headers, the editor workspace), never a whole page or a full-width section; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states plus at most one highlighted panel per screen; black backgrounds are for full-screen presenting and video or image viewers only, and there is no dark mode; no gradients on fills (AI-affordance border-only exception). Every colour and background rule, tagged by environment: ${SITE}/colour-rules.md.
 Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
-Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue.
+Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
-No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
+The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
 The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
@@ -1939,6 +2075,10 @@ ${tbl(icon)}
 ### Button
 ${tbl(btn)}
 
+### Correct and wrong answers (answers only)
+The tick or cross disc, a row edge and the correct chart column take the solid colour; areas take the 5% or 30% tint. Never status, alerts or decoration.
+${answerTable}
+
 ### Data visualisation (\`<aha-chart>\` brand palette)
 Series colours for charts on Report and other app screens. On the presenting/audience canvas a chart takes the deck palette instead (\`palette="deck"\`).
 ${tbl(viz)}
@@ -1960,6 +2100,38 @@ Composites (table, form, datepicker) = antd v6 (React) + ant-design-vue v4 (Vue)
 ## Components
 ${comps}
 `;
+}
+
+/* ===== Foundations · Colour, the correct and wrong answer section (rules from brand/colour-rules.json, values from the answer tokens) ===== */
+const registryGlyphSvg = (name, size) => {
+  const glyph = ICONS.icons[name];
+  if (!glyph) throw new Error(`no icon "${name}" in icons/registry.json`);
+  return `<svg viewBox="${glyph.viewBox}" width="${size}" height="${size}" aria-hidden="true" focusable="false">${glyph.body}</svg>`;
+};
+const ANSWER_COLOURS_CSS = `
+  .answer-colours ol.answer-rules{margin:0 0 12px;padding-left:0;list-style:none;font-size:var(--aha-size-l);line-height:1.5}
+  .answer-colours ol.answer-rules li{margin-bottom:8px}
+  .answer-colours .answer-panels{display:flex;flex-direction:column;gap:12px;margin:16px 0 8px}
+  .answer-colours .rule-id{font-family:Menlo,monospace;font-size:12px;color:var(--aha-text-secondary);margin-right:4px}`;
+function answerColoursSection(swatchGroup) {
+  const section = answerSection(COLOUR_RULES);
+  const sectionNumber = section.id.replace(/^s/, '');
+  const intro = section.blocks.find(block => block.type === 'paragraph');
+  const panelBody = (block) => {
+    if (block.type === 'rules') return `<ol class="answer-rules">${block.rules.map(rule => `<li id="answer-r${rule.id}"><a class="rule-id" href="brand-colour-rules.html#r${rule.id}">${rule.id}</a> ${markupToHtml(rule.text).replace(/<button[^>]*data-copy="([^"]*)"[\s\S]*?<\/button>/g, '<code>$1</code>')}</li>`).join('')}</ol>`;
+    throw new Error(`Colour page: no rendering for a "${block.type}" block inside a panel`);
+  };
+  const panels = section.blocks.filter(block => block.type === 'panel')
+    .map(panel => `<aha-collapse id="${panel.id}"><span slot="header">${esc(panel.title)}</span>${panel.blocks.map(panelBody).join('')}</aha-collapse>`).join('\n  ');
+  return `<section class="answer-colours" id="answer-colours">
+  <h2>Correct and wrong answers</h2>
+  <p class="body">${markupToHtml(intro.text)} The rules are section ${sectionNumber} of the <a href="brand-colour-rules.html#${section.id}">Brand colour rules</a>; this page shows the tokens.</p>
+  ${swatchGroup('Answer pair and tints (correct and wrong answers only)', answerTokenEntries(TOK.color))}
+  <div class="answer-panels">
+  ${panels}
+  </div>
+  <script type="module">import '../lib/aha-collapse.js';</script>
+  </section>`;
 }
 
 /* ===== Foundations · Design tokens (styled page, generated from tokens.canonical.json) ===== */
@@ -1987,11 +2159,11 @@ function renderTokenPage(pageSlug) {
   const gen = `<p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>`;
   const BODY = {
     colour: {
-      title: 'Colour', highlights: ["Vivid Pink, white, black and neutral greys are the whole palette", "Purple is the logo only", "Bind to a semantic --aha-* token, never a raw value"], lead: 'The whole palette is Vivid Pink, white, black and neutral greys, plus one purple for the logo. Semantic tokens alias into it. Never hardcode a value in a component — bind to a semantic <code>--aha-*</code> token.',
+      title: 'Colour', highlights: ["Vivid Pink, white, black and neutral greys are the whole palette", "Purple is the logo only; one green and one red mark a correct or wrong answer only", "Bind to a semantic --aha-* token, never a raw value"], lead: 'The whole palette is Vivid Pink, white, black and neutral greys, plus one purple for the logo and one green and one red for correct and wrong answers. Semantic tokens alias into it. Never hardcode a value in a component — bind to a semantic <code>--aha-*</code> token.',
       body: `
   <p class="body">These tokens follow the brand colour rules, which are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
   <h2>Palette</h2>
-  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. The one other pair, for correct and wrong answers only, is under <a href="#answer-colours">Correct and wrong answers</a>. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
   <p class="body">Black is <code>${P.black}</code>, the same value as grey 100 and the default ink: <code>--aha-black</code> is an alias of <code>--aha-gray-100</code>. A pure, zero-value black is never painted solid; it appears only as a transparency, for a shadow, a scrim or an ink alpha.</p>
   ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
@@ -2006,6 +2178,7 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
   ${swGroup('Data visualisation (chart series · aliases of the colour tokens above)', [...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, `color.viz.series.${k}`]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, `color.viz.tint.${k}`]), ['viz-ink', 'color.viz.ink'], ['viz-neutral', 'color.viz.neutral']]
     .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}
+  ${answerColoursSection(swGroup)}
   <section class="illustration-tints">
   <h2>Illustration tints</h2>
   <p class="body">Illustrations are drawn in one hue: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white, plus Darker Pink for the deepest accents, with white and the default ink for outlines and faces. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens, have no <code>--aha-*</code> variable and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles from the colour rules. The DS's other art follows the palette above: third-party logos are greyscale, file-type icons are one colour, and the AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks (<code>node recolour-art.mjs</code>).</p>
@@ -2063,7 +2236,7 @@ function renderTokenPage(pageSlug) {
   .ramp-cells{display:flex;flex:1 1 auto;gap:4px;flex-wrap:wrap}
   .ramp-cell{width:44px;text-align:center}
   .ramp-chip{height:34px;border-radius:6px;border:1px solid rgba(0,0,0,.06)}
-  .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}`;
+  .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}${pageSlug === 'colour' ? ANSWER_COLOURS_CSS : ''}`;
   return docShell({ base: '../', active: 'token:' + pageSlug, title: pg.title, section: 'foundations', main, extraCss });
 }
 
@@ -2504,6 +2677,8 @@ MARKETING = existsSync(MDIR)
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
 AUDIENCE = existsSync(join(ADIR, 'library.json')) ? JSON.parse(read(join(ADIR, 'library.json'))) : null;
+CANVAS_LIB = existsSync(join(CANVAS_DIR, 'library.json')) ? JSON.parse(read(join(CANVAS_DIR, 'library.json'))) : null;
+CANVAS_CSS = existsSync(join(CANVAS_DIR, 'canvas.css')) ? read(join(CANVAS_DIR, 'canvas.css')) : '';
 AUD_CSS = existsSync(join(ADIR, 'audience.css')) ? read(join(ADIR, 'audience.css')) : '';
 /* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
    source of truth the consumer feeds compile from. Absent-safe: no store → no feed. */
@@ -2511,7 +2686,7 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   ? JSON.parse(read(join(root, 'anti-slop', 'criteria.json')))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
-const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage);
+const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage && !c.mergedInto);
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
@@ -2521,6 +2696,7 @@ NAV_LANDING = {
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
+  canvas: (CANVAS_LIB ? 'canvas/index.html' : 'index.html'),
   charts: 'charts/index.html',
   developers: 'get-started/index.html',
   feeds: 'feeds/llms-txt.html',
@@ -2643,6 +2819,7 @@ writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
 writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
   fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
   templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
+  icon: registryGlyphSvg,
 }), { title: siteTitle('Brand colour rules', null, COLOUR_RULES_PAGE), base: '../' }));
 writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
 writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
@@ -2694,6 +2871,7 @@ const indexLines = [
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
+  `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
@@ -2719,7 +2897,8 @@ for (const c of contracts) {
     mkdirSync(join(OUT, dirname(c.docPage)), { recursive: true });
     writeFileSync(join(OUT, c.docPage), renderHtml(c));
     writeFileSync(join(d, 'index.html'), redirectStub('../' + c.docPage));
-  } else writeFileSync(join(d, 'index.html'), renderHtml(c));
+  } else if (c.mergedInto) writeFileSync(join(d, 'index.html'), redirectStub(`../${c.mergedInto}/index.html#${c.slug}`));
+  else writeFileSync(join(d, 'index.html'), renderHtml(c));
   if (c.conformancePart) writeFileSync(join(d, '_conformance.html'), renderConformanceHarness(c));
   const md = renderMd(c);
   writeFileSync(join(d, `${c.slug}.md`), md);
@@ -2777,6 +2956,12 @@ if (AUDIENCE) {
   mkdirSync(join(OUT, 'audience'), { recursive: true });
   writeFileSync(join(OUT, 'audience', 'index.html'), renderAudienceLibrary());
   console.log(`  ✓ audience library: audience/index.html (${AUDIENCE.sections.length} component sections)`);
+}
+/* canvas library — one first-class in-site page (canvas/index.html) under the DS shell */
+if (CANVAS_LIB) {
+  mkdirSync(join(OUT, 'canvas'), { recursive: true });
+  writeFileSync(join(OUT, 'canvas', 'index.html'), renderCanvasLibrary());
+  console.log(`  ✓ canvas library: canvas/index.html (${CANVAS_LIB.sections.length} sections)`);
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
 if (ANTISLOP) {

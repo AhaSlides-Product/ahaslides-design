@@ -138,12 +138,15 @@ The same two-jobs split as the canvas, with less theme forwarded.
 - **Job 2 — state indicator layer.** Submitted ✓, error ✗, correct / incorrect, warning,
   info must **not depend on the deck palette** and must **not** come from `--aha-*` vars.
   Bundle the function tokens into the plugin build from the design-system package, so the
-  audience sees the same success-green / error-red as the presenter canvas.
+  audience sees the same state colours as the presenter canvas. A correct or wrong answer
+  uses the bundled answer pair (`--aha-answer-correct`, `--aha-answer-wrong` and their tints,
+  colour rules section 11), for answers only.
 
 | Token | Where it goes |
 | --- | --- |
-| `colorSuccess` | ✓ icon, "submitted" badge, correct-answer indicator |
-| `colorError` | ✗ icon, validation error, incorrect-answer indicator, destructive |
+| `colorSuccess` | ✓ icon, "submitted" badge |
+| `colorError` | ✗ icon, validation error, destructive |
+| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc, row edge and tints, answers only (colour rules section 11) |
 | `colorWarning` | caution, "are you sure?" prompt body |
 | `colorInfo` | informational note |
 
@@ -288,8 +291,8 @@ it rebuilds the same spec:
    height, or move (no layout jump); lock it to prevent double-submit.
 3. **Host `stopSubmission`** → a **locked state**: lock icon + i18n "submission closed" label
    replacing the submit label; button stays present (no reflow) but uninteractive.
-4. **After submit completes** — scored quiz → a **circular badge** (green ✓ correct / red ✗
-   incorrect, using the bundled semantic colours); non-scored → fire `showToastSuccess(...)` and
+4. **After submit completes** — scored quiz → a **circular badge** (a white ✓ on the correct green / a white ✗
+   on the wrong red, from the bundled answer pair, colour rules section 11); non-scored → fire `showToastSuccess(...)` and
    transition to the plugin-rendered submitted / waiting state.
 
 **Secondary actions** (Skip, Start voting) use a **lower-contrast variant** (surface + border,
