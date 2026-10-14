@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.186.0 — 2026-10-14
+### Fixed
+- Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width. The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
+
 ## 0.183.0 — 2026-10-14
 ### Added
 - Correct and wrong answer colours: `--aha-answer-correct` (`#008A05`) and `--aha-answer-wrong` (`#C7401E`), each with a 5% and a 30% tint (`-tint-5`, `-tint-30`), at `color.answer.*` in the tokens. For marking an answer correct or wrong only; no component uses them yet. (#245)
