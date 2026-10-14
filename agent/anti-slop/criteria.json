@@ -468,9 +468,10 @@
           "title": "A status surface is not tinted",
           "source": [
             "7.1",
-            "7.2"
+            "7.2",
+            "11.3"
           ],
-          "test": "No surface is filled or tinted red, yellow, amber, green or blue to show danger, warning, success or information. A status surface stays white (--aha-bg-positive, --aha-bg-negative, --aha-bg-warning and --aha-bg-informative all resolve to white) and carries its meaning with an icon, clear wording and an outline or a black fill."
+          "test": "No surface is filled or tinted red, yellow, amber, green or blue to show danger, warning, success or information. A status surface stays white (--aha-bg-positive, --aha-bg-negative, --aha-bg-warning and --aha-bg-informative all resolve to white) and carries its meaning with an icon, clear wording and an outline or a black fill. The correct and wrong answer tints (--aha-answer-*, colour rules section 11) on an answer row, a response box or a result banner or chip mark an answer, not a status, and pass."
         },
         {
           "id": "C6",
@@ -522,9 +523,10 @@
             "9.1",
             "9.2",
             "9.3",
-            "9.4"
+            "9.4",
+            "11.1"
           ],
-          "test": "Every colour on UI we draw is Vivid Pink, Darker Pink, white, Vivid Pink at 5%, Vivid Pink at 30%, black or a grey, taken from an --aha-* token. Any other hue fails: purple, teal, blue, orange, a retired colour such as Radical Pink, or a near match of a palette colour. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not. The purple inside the logo file is the logo, not a UI colour. Which palette colour goes where is judged in C2 to C8, not here."
+          "test": "Every colour on UI we draw is Vivid Pink, Darker Pink, white, Vivid Pink at 5%, Vivid Pink at 30%, black or a grey, taken from an --aha-* token. Any other hue fails: purple, teal, blue, orange, a retired colour such as Radical Pink, or a near match of a palette colour. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not. The purple inside the logo file is the logo, not a UI colour. The correct green and wrong red (--aha-answer-* tokens) pass only where they mark a correct or wrong answer (colour rules section 11) and fail anywhere else. Which palette colour goes where is judged in C2 to C8, not here."
         },
         {
           "id": "C2",
@@ -562,9 +564,10 @@
             "7.1",
             "7.2",
             "7.3",
-            "8.5"
+            "8.5",
+            "11.1"
           ],
-          "test": "No red, yellow, amber, green or blue shows danger, warning, success or information, whether as text, an icon, a border or a dot. Status is shown with an icon, clear wording and an outline or a black fill. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow; never green and red. A tinted status background is judged on the background surface (C5 there), not here."
+          "test": "No red, yellow, amber, green or blue shows danger, warning, success or information, whether as text, an icon, a border or a dot. Status is shown with an icon, clear wording and an outline or a black fill. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow; never green and red. The one exception is a quiz answer: the correct green and wrong red (--aha-answer-*) mark a correct or wrong answer with a tick or cross disc (colour rules section 11) and pass; the same colours on a status, a toast, validation or a trend fail. A tinted status background is judged on the background surface (C5 there), not here."
         },
         {
           "id": "C6",

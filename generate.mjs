@@ -26,7 +26,7 @@ import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
-import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines } from './colour-rules.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
@@ -305,6 +305,8 @@ const TOKEN_PAGES = [
   { slug: 'sizing',     label: 'Sizing' },
 ];
 const kebab = (s) => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());   // vividPink → vivid-pink, inkA10 → ink-a10
+const answerTokenEntries = (color) => Object.entries(color.answer).filter(([key]) => !key.startsWith('$'))
+  .map(([key, value]) => [`--aha-answer-${kebab(key).replace(/([a-z])(\d)/g, '$1-$2')}`, value]);
 function tokenVars(t) {
   const c = t.color, f = t.font, r = t.radius, P = c.primitives, b = c.button;
   const L = [];
@@ -333,6 +335,7 @@ function tokenVars(t) {
      or the shared --aha-btn-* seeds. This is a DEFINITION layer (the value SOURCE — not hex-scanned). */
   L.push(`--aha-button-primary-bg:var(--aha-color-primary); --aha-button-primary-bg-hover:var(--aha-color-primary-hover); --aha-button-primary-bg-press:var(--aha-color-primary-active); --aha-button-primary-text:var(--aha-btn-primary-fg); --aha-button-default-bg:var(--aha-white); --aha-button-default-text:var(--aha-text-default); --aha-button-default-border:var(--aha-gray-40); --aha-button-default-bg-hover:var(--aha-bg-accent); --aha-button-default-text-hover:var(--aha-text-link-hover); --aha-button-default-border-hover:var(--aha-color-primary); --aha-button-default-border-press:var(--aha-border-active); --aha-button-ghost-bg-hover:var(--aha-btn-tertiary-bg-hover); --aha-button-ghost-bg-press:var(--aha-btn-tertiary-bg-active); --aha-button-danger-bg:var(--aha-btn-danger-bg); --aha-button-danger-bg-hover:var(--aha-btn-danger-bg-hover); --aha-button-danger-bg-press:var(--aha-btn-danger-bg-press); --aha-button-danger-text:var(--aha-text-inverse); --aha-button-danger-ring:var(--aha-btn-danger-ring); --aha-button-positive-bg:var(--aha-btn-positive-bg); --aha-button-positive-bg-hover:var(--aha-btn-positive-bg-hover); --aha-button-positive-bg-press:var(--aha-btn-positive-bg-press); --aha-button-positive-text:var(--aha-btn-positive-fg); --aha-button-disabled-bg:var(--aha-gray-40); --aha-button-disabled-text:var(--aha-gray-60); --aha-button-focus-ring:var(--aha-focus-ring); --aha-button-focus-ring-success:var(--aha-btn-focus-ring-success); --aha-button-elevate-primary:var(--aha-btn-elevate-primary); --aha-button-elevate-primary-hover:var(--aha-btn-elevate-primary-hover); --aha-button-elevate-secondary:var(--aha-btn-elevate-secondary);`);
   L.push(Object.keys(c.alpha).map(k => `--aha-${kebab(k)}:${c.alpha[k]};`).join(' '));
+  L.push(answerTokenEntries(c).map(([name, value]) => `${name}:${value};`).join(' '));
   /* a deck chart swaps series for the deck palette and re-derives the ink mixes from the deck text colour inside the element */
   const drop = (o) => Object.entries(o).filter(([k, v]) => !k.startsWith('$') && v !== null);
   const v = c.viz, vz = t.viz;
@@ -2035,6 +2038,7 @@ function renderDesignMd(t, cs) {
   const viz    = [['viz-ink', vizValue('color.viz.ink', c.viz.ink)], ['viz-ink-inverse', vizValue('color.viz.inkInverse', c.viz.inkInverse)], ['viz-neutral', vizValue('color.viz.neutral', c.viz.neutral)],
     ...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, vizValue(`color.viz.series.${k}`, c.viz.series[k])]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, vizValue(`color.viz.tint.${k}`, c.viz.tint[k])])];
   const comps = cs.map(x => `- **${x.name}** (${x.tier}) — ${x.summary}`).join('\n');
+  const answerTable = tbl(answerTokenEntries(c).map(([cssVar, value]) => [cssVar.replace(/^--aha-/, ''), value]));
   return `# AhaSlides Design System — design.md
 > Machine-readable visual language for AI design + code tools. Generated from tokens.canonical.json — do not edit by hand.
 > Version ${PKG.version} · changelog (what changed per release): ${SITE}/CHANGELOG.md
@@ -2043,9 +2047,9 @@ function renderDesignMd(t, cs) {
 Vivid Pink \`${c.primary}\` is the one primary colour (buttons, links, focus, the main chart series); Darker Pink \`${c.primaryHover}\` is hover and press; ink is warm gray \`${c.textDefault}\`.
 The page background is **white**; light grey is for surfaces inside or beside the white page (cards, sidebars, input fields, table headers, the editor workspace), never a whole page or a full-width section; Vivid Pink at 5% \`${c.bgAccent}\` is for hover and selected states plus at most one highlighted panel per screen; black backgrounds are for full-screen presenting and video or image viewers only, and there is no dark mode; no gradients on fills (AI-affordance border-only exception). Every colour and background rule, tagged by environment: ${SITE}/colour-rules.md.
 Pink text, links included, sits on white only (4.51:1); the secondary and tertiary Button label on its pale pink hover and active fill is Darker Pink (4.66:1): a component cannot see the surface it sits on, so on Vivid Pink at 5% or on grey the screen sets \`--aha-text-link\` and \`--aha-text-link-hover\` to the default ink \`${c.textDefault}\` on that container (both tokens cascade into Button \`link\`) and the link stays underlined (a Button \`text-link\` has no underline at rest, so that screen also sets \`--aha-text-link-decoration: underline\`); on a dark surface it sets them to white; on Vivid Pink, text is solid white. Links are Vivid Pink \`${c.textLink}\`, underlined at rest (Button \`text-link\` has no underline at rest and is underlined on hover, press and keyboard focus), Darker Pink \`${c.textLinkHover}\` on hover.
-Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue.
+Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
-No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
+The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
 The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
@@ -2071,6 +2075,10 @@ ${tbl(icon)}
 ### Button
 ${tbl(btn)}
 
+### Correct and wrong answers (answers only)
+The tick or cross disc, a row edge and the correct chart column take the solid colour; areas take the 5% or 30% tint. Never status, alerts or decoration.
+${answerTable}
+
 ### Data visualisation (\`<aha-chart>\` brand palette)
 Series colours for charts on Report and other app screens. On the presenting/audience canvas a chart takes the deck palette instead (\`palette="deck"\`).
 ${tbl(viz)}
@@ -2092,6 +2100,38 @@ Composites (table, form, datepicker) = antd v6 (React) + ant-design-vue v4 (Vue)
 ## Components
 ${comps}
 `;
+}
+
+/* ===== Foundations · Colour, the correct and wrong answer section (rules from brand/colour-rules.json, values from the answer tokens) ===== */
+const registryGlyphSvg = (name, size) => {
+  const glyph = ICONS.icons[name];
+  if (!glyph) throw new Error(`no icon "${name}" in icons/registry.json`);
+  return `<svg viewBox="${glyph.viewBox}" width="${size}" height="${size}" aria-hidden="true" focusable="false">${glyph.body}</svg>`;
+};
+const ANSWER_COLOURS_CSS = `
+  .answer-colours ol.answer-rules{margin:0 0 12px;padding-left:0;list-style:none;font-size:var(--aha-size-l);line-height:1.5}
+  .answer-colours ol.answer-rules li{margin-bottom:8px}
+  .answer-colours .answer-panels{display:flex;flex-direction:column;gap:12px;margin:16px 0 8px}
+  .answer-colours .rule-id{font-family:Menlo,monospace;font-size:12px;color:var(--aha-text-secondary);margin-right:4px}`;
+function answerColoursSection(swatchGroup) {
+  const section = answerSection(COLOUR_RULES);
+  const sectionNumber = section.id.replace(/^s/, '');
+  const intro = section.blocks.find(block => block.type === 'paragraph');
+  const panelBody = (block) => {
+    if (block.type === 'rules') return `<ol class="answer-rules">${block.rules.map(rule => `<li id="answer-r${rule.id}"><a class="rule-id" href="brand-colour-rules.html#r${rule.id}">${rule.id}</a> ${markupToHtml(rule.text).replace(/<button[^>]*data-copy="([^"]*)"[\s\S]*?<\/button>/g, '<code>$1</code>')}</li>`).join('')}</ol>`;
+    throw new Error(`Colour page: no rendering for a "${block.type}" block inside a panel`);
+  };
+  const panels = section.blocks.filter(block => block.type === 'panel')
+    .map(panel => `<aha-collapse id="${panel.id}"><span slot="header">${esc(panel.title)}</span>${panel.blocks.map(panelBody).join('')}</aha-collapse>`).join('\n  ');
+  return `<section class="answer-colours" id="answer-colours">
+  <h2>Correct and wrong answers</h2>
+  <p class="body">${markupToHtml(intro.text)} The rules are section ${sectionNumber} of the <a href="brand-colour-rules.html#${section.id}">Brand colour rules</a>; this page shows the tokens.</p>
+  ${swatchGroup('Answer pair and tints (correct and wrong answers only)', answerTokenEntries(TOK.color))}
+  <div class="answer-panels">
+  ${panels}
+  </div>
+  <script type="module">import '../lib/aha-collapse.js';</script>
+  </section>`;
 }
 
 /* ===== Foundations · Design tokens (styled page, generated from tokens.canonical.json) ===== */
@@ -2119,11 +2159,11 @@ function renderTokenPage(pageSlug) {
   const gen = `<p class="gen">◆ generated from tokens.canonical.json — do not edit by hand</p>`;
   const BODY = {
     colour: {
-      title: 'Colour', highlights: ["Vivid Pink, white, black and neutral greys are the whole palette", "Purple is the logo only", "Bind to a semantic --aha-* token, never a raw value"], lead: 'The whole palette is Vivid Pink, white, black and neutral greys, plus one purple for the logo. Semantic tokens alias into it. Never hardcode a value in a component — bind to a semantic <code>--aha-*</code> token.',
+      title: 'Colour', highlights: ["Vivid Pink, white, black and neutral greys are the whole palette", "Purple is the logo only; one green and one red mark a correct or wrong answer only", "Bind to a semantic --aha-* token, never a raw value"], lead: 'The whole palette is Vivid Pink, white, black and neutral greys, plus one purple for the logo and one green and one red for correct and wrong answers. Semantic tokens alias into it. Never hardcode a value in a component — bind to a semantic <code>--aha-*</code> token.',
       body: `
   <p class="body">These tokens follow the brand colour rules, which are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
   <h2>Palette</h2>
-  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are Vivid Pink at 5% and at 30% transparency (<code>#E70E680D</code>, <code>#E70E684D</code>), so they take the colour of the surface under them; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are Vivid Pink at 5% and at 30% transparency (<code>#E70E680D</code>, <code>#E70E684D</code>), so they take the colour of the surface under them; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. The one other pair, for correct and wrong answers only, is under <a href="#answer-colours">Correct and wrong answers</a>. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
   <p class="body">Black is <code>${P.black}</code>, the same value as grey 100 and the default ink: <code>--aha-black</code> is an alias of <code>--aha-gray-100</code>. A pure, zero-value black is never painted solid; it appears only as a transparency, for a shadow, a scrim or an ink alpha.</p>
   ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
@@ -2138,6 +2178,7 @@ function renderTokenPage(pageSlug) {
   ${swGroup('Button', [['primary',b.primaryBg],['primaryHover',b.primaryBgHover],['danger',b.dangerBg],['encourage',b.encourageBg],['disabledBg',b.disabledBg]])}
   ${swGroup('Data visualisation (chart series · aliases of the colour tokens above)', [...Object.keys(c.viz.series).map(k => [`viz-series-${k}`, `color.viz.series.${k}`]), ...Object.keys(c.viz.tint).map(k => [`viz-tint-${k}`, `color.viz.tint.${k}`]), ['viz-ink', 'color.viz.ink'], ['viz-neutral', 'color.viz.neutral']]
     .map(([name, path]) => [`--aha-${name} → ${aliasOf(path) ? aliasOf(path).cssVar : ''}`, path.split('.').reduce((at, step) => at[step], TOK)]))}
+  ${answerColoursSection(swGroup)}
   <section class="illustration-tints">
   <h2>Illustration tints</h2>
   <p class="body">Illustrations are drawn in one hue: Vivid Pink at 5, 10, 20, 30, 45, 60, 80 and 100% on white, plus Darker Pink for the deepest accents, with white and the default ink for outlines and faces. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens, have no <code>--aha-*</code> variable and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles from the colour rules. The DS's other art follows the palette above: third-party logos are greyscale, file-type icons are one colour, and the AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks (<code>node recolour-art.mjs</code>).</p>
@@ -2195,7 +2236,7 @@ function renderTokenPage(pageSlug) {
   .ramp-cells{display:flex;flex:1 1 auto;gap:4px;flex-wrap:wrap}
   .ramp-cell{width:44px;text-align:center}
   .ramp-chip{height:34px;border-radius:6px;border:1px solid rgba(0,0,0,.06)}
-  .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}`;
+  .ramp-k{font-size:10px;color:var(--aha-text-tertiary);margin-top:3px;font-family:Menlo,monospace}${pageSlug === 'colour' ? ANSWER_COLOURS_CSS : ''}`;
   return docShell({ base: '../', active: 'token:' + pageSlug, title: pg.title, section: 'foundations', main, extraCss });
 }
 
@@ -2778,6 +2819,7 @@ writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
 writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
   fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
   templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
+  icon: registryGlyphSvg,
 }), { title: siteTitle('Brand colour rules', null, COLOUR_RULES_PAGE), base: '../' }));
 writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
 writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
