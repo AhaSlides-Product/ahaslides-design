@@ -9,7 +9,7 @@
     <aha-badge data-probe count="5"></aha-badge>
     <aha-badge count="128" overflow-count="99"></aha-badge>
     <aha-badge count="0" show-zero></aha-badge>
-    <aha-badge count="9" status="primary"></aha-badge>
+    <aha-badge data-probe-pink count="9" status="primary"></aha-badge>
     <aha-badge count="12"><button style="padding:8px 14px; border:1px solid var(--aha-border-default,#E3E3E3); border-radius:var(--aha-radius-default,8px); background:#fff; font:inherit; cursor:pointer">Inbox</button></aha-badge>
     <aha-badge data-size-group size="default" dot status="active"><aha-icon name="system-bell" size="24"></aha-icon></aha-badge>
   </div>
@@ -32,6 +32,12 @@
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
     <aha-badge data-size-group size="default" data-probe-new kind="new"></aha-badge>
     <aha-badge data-size-group size="default" kind="beta"></aha-badge>
+  </div>
+  <div class="lbl">Paid feature</div>
+  <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
+    <span style="display:inline-flex; align-items:center; gap:8px; font-weight:600">
+      <aha-paywall feature-label="Custom logo" required-plan="pro"></aha-paywall>Custom logo
+    </span>
   </div>
   <div class="lbl">Status badges</div>
   <div class="row" style="gap:10px; align-items:center; flex-wrap:wrap">
@@ -84,5 +90,6 @@
 <script type="module">
   import '../lib/icons.js';       // registers <aha-icon> so the wrapped bell glyph resolves from the DS library
   import '../lib/aha-status-badge.js';
+  import '../lib/aha-paywall.js'; // the paid-feature crown marker
   import '../lib/aha-badge.js';   // registers <aha-badge> — the shipped primitive, byte-identical to what consumers get
 </script>

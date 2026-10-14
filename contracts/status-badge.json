@@ -59,7 +59,7 @@
     },
     {
       "label": "Alert",
-      "value": "background bgContainer #FFFFFF · inset 1px borderWarning #1A1A1A · icon system-warning-circle in iconActive #E70E68, the only pink on any badge"
+      "value": "background bgContainer #FFFFFF · inset 1px borderStrong #D4D4D4 · icon system-warning-circle in iconActive #E70E68, the only pink on any badge"
     },
     {
       "label": "Plain",
