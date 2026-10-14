@@ -3,24 +3,31 @@ import { t } from 'i18next';   // label comes from i18n, never a hardcoded strin
 
 // Attributes only — no events — so React 18/19 can render the element directly.
 
-// A built-in status picks its own look and marker.
+// A built-in status picks its own style and marker.
 function SurveyStatus({ status }) {
   return <aha-status-badge status={status}>{t(`survey_status.${status}`)}</aha-status-badge>;
 }
 
-// A state with no built-in status: map it to a look once, in one place.
-const MEMBER_LOOK = { invited: 'draft', joined: 'closed', removed: 'archived' };
-function MemberStatus({ state }) {
-  return <aha-status-badge look={MEMBER_LOOK[state]}>{t(`member_status.${state}`)}</aha-status-badge>;
+// A due state: map it to a style and an icon once, in one place.
+const DUE_STATE = {
+  overdue: { look: 'alert' },
+  due_today: { look: 'emphasis', icon: 'system-clock' },
+  due_in_days: { look: 'plain' },
+  on_time: { look: 'plain', icon: 'system-check' },
+  late: { look: 'plain', icon: 'system-clock-late' },
+};
+function DueState({ state, days }) {
+  const { look, icon } = DUE_STATE[state];
+  return <aha-status-badge look={look} icon={icon}>{t(`due_state.${state}`, { count: days })}</aha-status-badge>;
 }
 
-// Default badge: information that is not a status.
+// Information that is not a status: the quiet style.
 function SlideType({ icon, name }) {
-  return <aha-status-badge look="default" icon={icon}>{name}</aha-status-badge>;
+  return <aha-status-badge look="quiet" icon={icon}>{name}</aha-status-badge>;
 }
 
 // usage
 <SurveyStatus status={survey.status} />
 <SurveyStatus status="completed" />
-<MemberStatus state={member.state} />
+<DueState state="overdue" days={5} />
 <SlideType icon="slidetype-match-pair" name={t('slide_type.match_pair')} />

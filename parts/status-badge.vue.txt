@@ -6,17 +6,23 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { useI18n } from 'vue-i18n';   // label comes from i18n, never a hardcoded string
 const { t } = useI18n();
-defineProps({ status: String, memberState: String });
-const memberLook = { invited: 'draft', joined: 'closed', removed: 'archived' };
+defineProps({ status: String, dueState: String, days: Number });
+const dueStyle = {
+  overdue: { look: 'alert' },
+  due_today: { look: 'emphasis', icon: 'system-clock' },
+  due_in_days: { look: 'plain' },
+  on_time: { look: 'plain', icon: 'system-check' },
+  late: { look: 'plain', icon: 'system-clock-late' },
+};
 </script>
 
 <template>
-  <!-- a built-in status picks its own look and marker -->
+  <!-- a built-in status picks its own style and marker -->
   <aha-status-badge :status="status">{{ t(`survey_status.${status}`) }}</aha-status-badge>
 
-  <!-- a state with no built-in status: map it to a look -->
-  <aha-status-badge :look="memberLook[memberState]">{{ t(`member_status.${memberState}`) }}</aha-status-badge>
+  <!-- a due state: a look plus an icon -->
+  <aha-status-badge :look="dueStyle[dueState].look" :icon="dueStyle[dueState].icon">{{ t(`due_state.${dueState}`, { count: days }) }}</aha-status-badge>
 
-  <!-- default badge: information that is not a status -->
-  <aha-status-badge look="default" icon="slidetype-match-pair">{{ t('slide_type.match_pair') }}</aha-status-badge>
+  <!-- information that is not a status: the quiet style -->
+  <aha-status-badge look="quiet" icon="slidetype-match-pair">{{ t('slide_type.match_pair') }}</aha-status-badge>
 </template>

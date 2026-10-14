@@ -1,59 +1,78 @@
 <div class="pad">
-  <div class="lbl">Four looks, with a dot</div>
+  <div class="lbl">Playground: set status, look, marker and icon above</div>
   <div class="row">
-    <aha-status-badge data-probe status="published">Published</aha-status-badge>
+    <aha-status-badge data-pg-target status="published">Published</aha-status-badge>
+  </div>
+
+  <div class="lbl">Badge styles</div>
+  <div class="row">
+    <aha-status-badge look="quiet">Quiet</aha-status-badge>
+    <aha-status-badge look="emphasis">Emphasis</aha-status-badge>
+    <aha-status-badge look="alert">Alert</aha-status-badge>
+    <aha-status-badge look="plain">Plain text</aha-status-badge>
+  </div>
+
+  <div class="lbl">Survey</div>
+  <div class="row">
     <aha-status-badge status="draft">Draft</aha-status-badge>
+    <aha-status-badge status="scheduled">Scheduled</aha-status-badge>
+    <aha-status-badge data-probe status="published">Published</aha-status-badge>
     <aha-status-badge status="closed">Closed</aha-status-badge>
     <aha-status-badge status="archived">Archived</aha-status-badge>
   </div>
-  <div class="note">Active uses the published look and Inactive the archived look: <aha-status-badge status="active">Active</aha-status-badge> <aha-status-badge status="inactive">Inactive</aha-status-badge></div>
+  <div class="note">Live and Active take the published style, Inactive the closed style: <aha-status-badge status="live">Live</aha-status-badge> <aha-status-badge status="active">Active</aha-status-badge> <aha-status-badge status="inactive">Inactive</aha-status-badge></div>
 
-  <div class="lbl">Progress: an icon in place of the dot, or no marker</div>
+  <div class="lbl">Progress</div>
   <div class="row">
-    <aha-status-badge status="completed">Completed</aha-status-badge>
-    <aha-status-badge status="in-progress">In progress</aha-status-badge>
     <aha-status-badge status="not-started">Not started</aha-status-badge>
+    <aha-status-badge status="in-progress">In progress</aha-status-badge>
+    <aha-status-badge status="completed">Completed</aha-status-badge>
   </div>
 
-  <div class="lbl">Other states: pick a look</div>
+  <div class="lbl">Due state</div>
   <div class="row">
-    <aha-status-badge look="draft">Invited</aha-status-badge>
-    <aha-status-badge look="closed">Joined</aha-status-badge>
-    <aha-status-badge look="archived">Removed</aha-status-badge>
+    <aha-status-badge look="alert">5 days overdue</aha-status-badge>
+    <aha-status-badge look="emphasis" icon="system-clock">Due today</aha-status-badge>
+    <aha-status-badge look="plain">Due in 9 days</aha-status-badge>
   </div>
-
-  <div class="lbl">Default badge: information that is not a status</div>
   <div class="row">
-    <aha-status-badge look="default">4/6</aha-status-badge>
-    <aha-status-badge look="default" icon="slidetype-match-pair">Match pairs</aha-status-badge>
-    <aha-status-badge look="default" icon="system-circle-dashed">Unanswered</aha-status-badge>
-    <aha-status-badge look="default" icon="system-time-out">Time out</aha-status-badge>
+    <aha-status-badge look="plain" icon="system-check">On time</aha-status-badge>
+    <aha-status-badge look="plain" icon="system-clock-late">4 days late</aha-status-badge>
   </div>
 
-  <div class="lbl">App-supplied colours (not design system looks)</div>
-  <div class="note">The design system gives status no hue, so it ships no green, red or amber look and this page draws none. An app that already owns an approved result colour set (Report: Correct, Partially correct, Incorrect) keeps its colours and takes only the box, by setting two custom properties once in its own stylesheet:<br><code>.report-result--correct aha-status-badge { --aha-status-badge-bg: var(--report-correct-bg); --aha-status-badge-fg: var(--report-correct-fg) }</code><br>Then <code>&lt;aha-status-badge look="default" icon="system-check"&gt;Correct&lt;/aha-status-badge&gt;</code> renders in the same 22px box with the app's colours. Never use the two properties on a lifecycle or progress status.</div>
+  <div class="lbl">Other states and information: pick a style</div>
+  <div class="row">
+    <aha-status-badge look="quiet" icon="system-envelope">Invited</aha-status-badge>
+    <aha-status-badge look="quiet" icon="system-user-plus">Joined</aha-status-badge>
+    <aha-status-badge look="quiet">4/6</aha-status-badge>
+    <aha-status-badge look="quiet" icon="slidetype-match-pair">Match pairs</aha-status-badge>
+    <aha-status-badge look="quiet" icon="system-time-out">Time out</aha-status-badge>
+  </div>
 
-  <div class="lbl">One marker family per status dimension</div>
+  <div class="lbl">App-supplied colours (not design system styles)</div>
+  <div class="note">The design system gives status no hue, so it ships no green, red or amber style and this page draws none. An app that already owns an approved result colour set (Report: Correct, Partially correct, Incorrect) keeps its colours and takes only the box, by setting two custom properties once in its own stylesheet:<br><code>.report-result--correct aha-status-badge { --aha-status-badge-bg: var(--report-correct-bg); --aha-status-badge-fg: var(--report-correct-fg) }</code><br>Then <code>&lt;aha-status-badge look="quiet" icon="system-check"&gt;Correct&lt;/aha-status-badge&gt;</code> renders in the same 24px box with the app's colours. Never use the two properties on a lifecycle, progress or due state.</div>
+
+  <div class="lbl">The dot is for published / live and closed only</div>
   <div class="status-badge-pair">
     <div class="status-badge-case">
       <div class="status-badge-verdict"><aha-icon name="system-check" size="16" decorative></aha-icon>Do</div>
       <div class="stack">
-        <div><aha-status-badge status="completed">Completed</aha-status-badge></div>
-        <div><aha-status-badge status="in-progress">In progress</aha-status-badge></div>
-        <div><aha-status-badge status="not-started">Not started</aha-status-badge></div>
-        <div><aha-status-badge look="draft" marker="none">Abandoned</aha-status-badge></div>
+        <div><aha-status-badge status="draft">Draft</aha-status-badge></div>
+        <div><aha-status-badge status="published">Published</aha-status-badge></div>
+        <div><aha-status-badge status="closed">Closed</aha-status-badge></div>
+        <div><aha-status-badge status="archived">Archived</aha-status-badge></div>
       </div>
-      <p>One column, icons and no-marker badges only.</p>
+      <p>Dots on Published and Closed, icons on the rest.</p>
     </div>
     <div class="status-badge-case">
       <div class="status-badge-verdict"><aha-icon name="system-x" size="16" decorative></aha-icon>Don't</div>
       <div class="stack">
-        <div><aha-status-badge status="completed">Completed</aha-status-badge></div>
-        <div><aha-status-badge status="in-progress">In progress</aha-status-badge></div>
-        <div><aha-status-badge status="not-started">Not started</aha-status-badge></div>
-        <div><aha-status-badge look="draft">Abandoned</aha-status-badge></div>
+        <div><aha-status-badge status="draft" marker="dot">Draft</aha-status-badge></div>
+        <div><aha-status-badge status="published">Published</aha-status-badge></div>
+        <div><aha-status-badge status="closed">Closed</aha-status-badge></div>
+        <div><aha-status-badge status="archived" marker="dot">Archived</aha-status-badge></div>
       </div>
-      <p>The same column with a dot badge mixed in.</p>
+      <p>A dot on Draft and Archived, which take an icon.</p>
     </div>
   </div>
 </div>
