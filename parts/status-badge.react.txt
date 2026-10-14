@@ -1,10 +1,33 @@
-import '@ahaslides-product/design/aha-status-badge';   // registers <aha-status-badge>
+import '@ahaslides-product/design/aha-status-badge';   // registers <aha-status-badge> and <aha-icon>
 import { t } from 'i18next';   // label comes from i18n, never a hardcoded string
 
 // Attributes only — no events — so React 18/19 can render the element directly.
-function AhaStatusBadge({ status }) {
+
+// A built-in status picks its own style and marker.
+function SurveyStatus({ status }) {
   return <aha-status-badge status={status}>{t(`survey_status.${status}`)}</aha-status-badge>;
 }
 
+// A due state: map it to a style and an icon once, in one place.
+const DUE_STATE = {
+  overdue: { look: 'alert' },
+  due_today: { look: 'emphasis', icon: 'system-clock' },
+  due_in_days: { look: 'plain' },
+  on_time: { look: 'plain', icon: 'system-check' },
+  late: { look: 'plain', icon: 'system-clock-late' },
+};
+function DueState({ state, days }) {
+  const { look, icon } = DUE_STATE[state];
+  return <aha-status-badge look={look} icon={icon}>{t(`due_state.${state}`, { count: days })}</aha-status-badge>;
+}
+
+// Information that is not a status: the quiet style.
+function SlideType({ icon, name }) {
+  return <aha-status-badge look="quiet" icon={icon}>{name}</aha-status-badge>;
+}
+
 // usage
-<AhaStatusBadge status={survey.status} />
+<SurveyStatus status={survey.status} />
+<SurveyStatus status="completed" />
+<DueState state="overdue" days={5} />
+<SlideType icon="slidetype-match-pair" name={t('slide_type.match_pair')} />
