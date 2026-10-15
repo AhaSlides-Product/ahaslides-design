@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.212.0 — 2026-10-15
 ### Added
-- Marketing > Components > Cards: each of the eight card types now has its own live preview, labelled with the card name, above its Show code toggle. The whole-grid preview is unchanged. (#PRNUM)
+- Marketing > Components > Cards: each of the eight card types now has its own live preview, labelled with the card name, above its Show code toggle. The whole-grid preview is unchanged. (#272)
 
 ## 0.211.0 — 2026-10-15
 ### Changed
