@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.206.0 — 2026-10-15
+### Fixed
+- Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
+
 ## 0.204.0 — 2026-10-15
 ### Added
 - Marketing → Components → Cards: eight meaning cards for the marketing sites (Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card, Integration card), built on the Card anatomy with the marketing radius. Framework-free HTML and CSS bound to `--aha-*` tokens under the `aha-marketing-card` class with one `aha-marketing-card--<type>` modifier per card, one paste-and-run snippet per type plus the 3, 2 and 1 column grid (breaks at 991, 767 and 479px). Linked cards use one stretched link and lift on hover; Testimonial, Statistic and Step cards stay static. Images are neutral placeholders.
