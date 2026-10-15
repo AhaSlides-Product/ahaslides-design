@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.205.0 — 2026-10-15
+### Changed
+- Right splash (Brand colour rules 5.4, 5.7 and the layouts table): the icon is now 4.5 times the shorter side and grows in frames wider or taller than 16:9 like the centre splash (1.41 times at 32:9, 1.15 times at 21:9). The meeting point moves to 75% across and 55% down. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.right`. The six right files in the Background library are rebuilt. Rule 5.7 no longer says the right splash matches the PDF. Centre and minimal are unchanged. (#PR)
+
 ## 0.203.1 — 2026-10-15
 ### Fixed
 - Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#263)
