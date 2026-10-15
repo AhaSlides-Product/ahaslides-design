@@ -1680,26 +1680,20 @@ function marketingBreakpointPreview(b) {
       view.style.width=Math.ceil(width*scale)+2+'px';
       label.textContent=width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
     }
-    function measure(){
-      try{
-        var content=frame.contentDocument.getElementById('mbp-content');
-        contentHeight=Math.ceil(content.getBoundingClientRect().height);layout();
-      }catch(e){}
+    function onFrameHeight(e){
+      if(!root.isConnected){window.removeEventListener('message',onFrameHeight);return;}
+      if(e.source!==frame.contentWindow||!e.data||typeof e.data.mbpHeight!=='number')return;
+      contentHeight=e.data.mbpHeight;layout();
     }
+    window.addEventListener('message',onFrameHeight);
     function load(){
       var base=new URL('../../',location.href).href;
       var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
         '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
       var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
-      frame.addEventListener('mbp-ready',function(){
-        measure();
-        try{
-          var w=frame.contentWindow;
-          new w.ResizeObserver(measure).observe(frame.contentDocument.getElementById('mbp-content'));
-          w.document.fonts.ready.then(measure);
-        }catch(e){}
-      });
-      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>frameElement.dispatchEvent(new Event("mbp-ready"))</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      // The frame reports its own height because a sandboxed host gives it an opaque origin the parent cannot read.
+      var report='var c=document.getElementById("mbp-content");new ResizeObserver(function(){parent.postMessage({mbpHeight:Math.ceil(c.getBoundingClientRect().height)},"*")}).observe(c);';
+      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
     }
     seg.addEventListener('change',function(e){
       width=+e.detail.value;
