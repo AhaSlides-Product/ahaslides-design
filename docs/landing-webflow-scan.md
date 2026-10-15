@@ -241,6 +241,19 @@ Everything else the live site uses is already on the DS foundations, so the land
 bind to `--aha-*` tokens with no new brand source. Sizes, line-heights and letter-spacing for type
 are a genuine 1:1 match with the DS scale (see Type, above) — no action needed there.
 
+### Header (Webflow component Header, variant "Variant") — added with DESY-196
+Matched to the live ahaslides.com (1440px and 390px, every menu open). What the DS section still does differently, for Growth to align on Webflow:
+22. Third-party integration logos (Solutions → Integrations) are in full brand colour live → the DS shows them in greyscale from the Logo library, per colour rule 2.6 (customer and integration logos in one colour). Slack and Model Context Protocol were added to the Logo library for this.
+23. Weight 500 (medium) on the menu entries, the participant label and the Log in / Sign up labels → the DS type scale has 400 and 600 only, so these take `--aha-weight-regular`.
+24. Join bar text sizes `11px` (url, code field) and `13.6px` (Join) → `--aha-size-sm` (12px) and `--aha-size-default` (14px). Join button `#3A3A3A`, hover `#535353` and the field fill `#ffffff14` → `--aha-gray-90`, `--aha-gray-80` and `--aha-bg-dark-raised`; dropdown text greys `#757575` and `#1E293B` → `--aha-text-tertiary` / `--aha-gray-80` and `--aha-text-default`; panel border `#EAECF0` → `--aha-border-default`.
+25. Sign up press is purple `#61139B` with a lilac ring, and Log in press has a lilac ring → the DS primary press is Darker Pink and the ring is `--aha-focus-ring-soft`. The live code field and links show no keyboard focus → the DS focus outline on every control.
+26. The menu icon is three Webflow divs that morph into a cross → the new `system-menu` glyph and `system-x`, swapped without the morph.
+27. The Products preview plays a Webflow video per slide type → the DS section has a preview slot (a slide-type icon on the light pink fill) for the consumer's own media.
+28. Hidden live items (Quiz, Poll, Idea Board, View more in Interactive slides) are left out, since the live site does not show them.
+29. A second live variant (light join bar `#E4E9F6`, white field, grey menu text) is served to some visitor segments; the DS section matches the default dark variant.
+30. Live bug: on `www.ahaslides.com` the Plus Jakarta Sans files are fetched from `ahaslides.com` without an `Access-Control-Allow-Origin` header, so the browser blocks them and the page falls back to a system font. `ahaslides.com` (no www) loads them.
+31. Webflow collapses the nav at the `medium` breakpoint (991px), the join bar stacks at 479px and the side padding drops to 16px at 767px; the DS section uses the same widths.
+
 ### Footer (Webflow component Footer, Relume uui-footer06) — added with DESY-202
 Matched to the live ahaslides.com at 1440px, 768px and 375px (columns, spacing, type, hover, breakpoints at 991, 767 and 479px). What the DS section still does differently, for Growth to align on Webflow:
 32. The logo is a Webflow image of the Vivid Pink wordmark file (186 x 42px) → the DS `<aha-product-lockup>` (the Splash plus live type), at about 176 x 43px.
