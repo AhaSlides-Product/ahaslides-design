@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.205.0 — 2026-10-15
+## 0.211.0 — 2026-10-15
 ### Changed
 - Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#271)
 - Settings fields have no large size. `<aha-number-with-unit>` (settings only) drops its `size` attribute: `size="large"` now renders the 40px default. `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` keep `large`/`lg` for the audience field and other surfaces, but their docs no longer show a large example and say it never goes in a settings panel. (#271)
@@ -31,6 +31,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Settings rule `field-size-and-width` and judge criterion C19: default size, full width when stacked, counter inside the field shown on focus; the skill notes that an AntD or slide-type-creator `size="large"` field maps to the DS default. (#271)
 ### Fixed
 - The settings guideline described the CountedInput counter as a sibling beside the field; it is an overlay inside the field. `<aha-select>` (select field) now declares its environment. (#271)
+
+## 0.206.0 — 2026-10-15
+### Fixed
+- Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
 
 ## 0.204.0 — 2026-10-15
 ### Added
