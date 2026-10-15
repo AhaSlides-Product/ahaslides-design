@@ -1193,6 +1193,7 @@ function renderChartsPage(c) {
   const main = `
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
+  ${surfaceCdnBox('canvas')}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   <div class="hub-layout">
     ${hubAnchorAside(fallbackGroups)}
@@ -1499,11 +1500,11 @@ function surfaceCdnBox(surface) {
   const entry = SURFACE_ENTRIES[surface];
   if (!entry) return '';
   const tags = entry.files.map(f => '&lt;' + (f === 'icons.js' ? 'aha-icon' : f.replace(/\.js$/, '')) + '&gt;').join(' ');
-  return `<div class="note surface-cdn" style="margin:0 0 18px"><b>No build step? One tag for the whole ${esc(surface)} surface</b>
+  return `<div class="note surface-cdn" style="margin:0 0 18px"><b>${surface === 'canvas' ? 'No build step? One tag for the whole Canvas Library (chart and canvas components)' : `No build step? One tag for the whole ${esc(surface)} surface`}</b>
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
     ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
-    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -2929,7 +2930,7 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
-  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js, same CDN path and tag:`,
+  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, and applyCanvasDeck), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
