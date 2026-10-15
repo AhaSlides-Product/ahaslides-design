@@ -32,6 +32,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - The settings guideline described the CountedInput counter as a sibling beside the field; it is an overlay inside the field. `<aha-select>` (select field) now declares its environment. (#271)
 
+## 0.209.0 — 2026-10-15
+### Changed
+- Right splash (Brand colour rules 5.4, 5.7 and the layouts table): the icon is now 4.5 times the shorter side and grows in frames wider or taller than 16:9 like the centre splash (1.41 times at 32:9, 1.15 times at 21:9). The meeting point moves to 75% across and 55% down. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.right`. The six right files in the Background library are rebuilt. Rule 5.7 no longer says the right splash matches the PDF. Centre and minimal are unchanged. (#270)
+
 ## 0.206.0 — 2026-10-15
 ### Fixed
 - Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
