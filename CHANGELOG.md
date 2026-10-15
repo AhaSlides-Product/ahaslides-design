@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.192.0 — 2026-10-15
+### Added
+- Marketing section `Footer banner` (Patterns → Marketing sections, Webflow `card-based-section img-card-section`), matched to the live ahaslides.com word-cloud page at 1440px, 768px and 375px: the pale pink illustrated call-to-action card above the Footer with a centred heading and a Get started free button in the DS primary colours (Vivid Pink, `#DB005B` on hover, the DS focus outline). The card reflows at 991px and 479px, an optional paragraph slot covers the Enterprise variant, and an opt-in `aha-footer-banner--reveal` modifier reproduces the Compare page's scroll-in fade-up (skipped under reduced motion). Every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#257)
+
 ## 0.191.0 — 2026-10-14
 ### Added
 - Marketing section `Footer` (Patterns → Marketing sections, Webflow component Footer, built on Relume `uui-footer06`), matched to the live ahaslides.com at 1440px, 768px and 375px: the AhaSlides lockup above five link columns (Features, Resources, Integrations, Pricing, Company) with absolute ahaslides.com links. Links fade to Vivid Pink on hover over 0.3s and show the DS focus outline on keyboard focus. The columns reflow to three at 991px and below (Features spans two rows), spacing tightens at 767px, and at 479px there are two columns and a smaller lockup. Below the columns a grey band holds the four award badges (G2 and Training Magazine Network), eight contact and social icons, the System status link and the DMCA badge, then the copyright line; at 767px the band stacks and centres. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#254)
