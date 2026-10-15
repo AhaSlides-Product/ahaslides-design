@@ -28,6 +28,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Agent plugin: the `aha-design` skill description, the prompt mandate hook and the plugin description now send landing, pricing, blog and careers pages to `aha-design`; only brand voice, email, video and social / ads creative go to aha-marketing-skills. (#262)
 - Typography judge J7: the DS type scale governs every screen and website page; a landing-page hero takes a display role instead of being treated as a separate brand surface. The matching eval now expects J2 and J7 to fail and a display role as the fix. (#262)
 
+## 0.198.2 — 2026-10-15
+### Changed
+- Canvas Library: the Chart and Components pages show the same single CDN tag, `lib/canvas.js`, which registers `<aha-chart>` and the canvas controls. `lib/aha-chart.js` still works on its own. (#261)
+
 ## 0.198.1 — 2026-10-15
 ### Fixed
 - Marketing tab: the sidebar group heading reads "Sections" instead of repeating the tab name "Marketing". (#260)
