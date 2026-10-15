@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.198.1 — 2026-10-15
+### Fixed
+- Marketing tab: the sidebar group heading reads "Sections" instead of repeating the tab name "Marketing". (#PR)
+
 ## 0.198.0 — 2026-10-15
 ### Changed
 - Marketing sections move out of the Patterns sidebar into their own header tab, "Marketing", placed right after Patterns. The tab has its own sidebar and breadcrumb and opens on the first section. Docs search labels them Marketing. Page URLs (`marketing/<slug>/`) and the marketing feeds are unchanged. (#259)
