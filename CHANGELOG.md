@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.200.2 — 2026-10-15
 ### Changed
-- Marketing section pages (Marketing → every section) are shorter. The intro is one line, the first highlight. Paste-and-run HTML and Load the tokens once sit behind the docs' Show code toggle, and the remaining highlights move to a Details list at the end of the page. The paste-and-run code and the feeds are unchanged. (#PR)
+- Marketing section pages (Marketing → every section) are shorter. The intro is one line, the first highlight. Paste-and-run HTML and Load the tokens once sit behind the docs' Show code toggle, and the remaining highlights move to a Details list at the end of the page. The paste-and-run code and the feeds are unchanged. (#264)
 
 ## 0.200.0 — 2026-10-15
 ### Added
