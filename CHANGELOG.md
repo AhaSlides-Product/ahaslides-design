@@ -22,13 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.207.0 — 2026-10-15
+## 0.211.0 — 2026-10-15
 ### Changed
 - The design system covers every AhaSlides website: there is no separate marketing web surface. The `marketing-web` environment is renamed `web` ("Websites": landing, pricing, blog, careers and campaign pages) and now routes like `product`: owner the design system team (#design-system-agents), plugin `ahaslides-design:aha-design`, judge `anti-slop.md`, lint `screen-lint.mjs --surface=product`. Breaking for any item that declares `marketing-web`: declare `web` instead. Video and social / ads keep their own route. (#262)
 - Agent plugin: the `aha-design` skill description, the prompt mandate hook and the plugin description now send landing, pricing, blog and careers pages to `aha-design`; only brand voice, email, video and social / ads creative go to aha-marketing-skills. (#262)
 - Typography judge J7: the DS type scale governs every screen and website page; a landing-page hero takes a display role instead of being treated as a separate brand surface. The matching eval now expects J2 and J7 to fail and a display role as the fix. (#262)
 - Docs site: the "Marketing" header tab is renamed "Websites", matching the `web` environment; docs search labels those pages Websites too. The `marketing/` folder, its page URLs and the `marketing.*` feed names are unchanged. (#262)
 - The old `marketing-web` id is still accepted for one release as a deprecated alias of `web`: items that declare it validate and route as `web`, and `colour-rules.agent.json` `rulesByEnvironment['marketing-web']` mirrors `web`. It is not a sixth environment and is not listed in `llms.txt` Routes. (#262)
+
+## 0.209.0 — 2026-10-15
+### Changed
+- Right splash (Brand colour rules 5.4, 5.7 and the layouts table): the icon is now 4.5 times the shorter side and grows in frames wider or taller than 16:9 like the centre splash (1.41 times at 32:9, 1.15 times at 21:9). The meeting point moves to 75% across and 55% down. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.right`. The six right files in the Background library are rebuilt. Rule 5.7 no longer says the right splash matches the PDF. Centre and minimal are unchanged. (#270)
+
+## 0.206.0 — 2026-10-15
+### Fixed
+- Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
 
 ## 0.204.0 — 2026-10-15
 ### Added
