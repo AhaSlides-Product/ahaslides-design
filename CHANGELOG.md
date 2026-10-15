@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.204.0 — 2026-10-15
 ### Added
-- Marketing → Components → Cards: eight meaning cards for the marketing sites (Testimonial, Case study, Template, Info, Step, Stat, Article, Integration), built on the Card anatomy with the marketing radius. Framework-free HTML and CSS bound to `--aha-*` tokens, one paste-and-run snippet per type plus the 3, 2 and 1 column grid (breaks at 991, 767 and 479px). Linked cards use one stretched link and lift on hover; Testimonial, Stat and Step stay static. Images are neutral placeholders.
+- Marketing → Components → Cards: eight meaning cards for the marketing sites (Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card, Integration card), built on the Card anatomy with the marketing radius. Framework-free HTML and CSS bound to `--aha-*` tokens under the `aha-marketing-card` class with one `aha-marketing-card--<type>` modifier per card, one paste-and-run snippet per type plus the 3, 2 and 1 column grid (breaks at 991, 767 and 479px). Linked cards use one stretched link and lift on hover; Testimonial, Statistic and Step cards stay static. Images are neutral placeholders.
 ### Changed
 - The Marketing sidebar is split into Sections (Header, Hero, FAQ, Footer banner, Footer) and Components. Section pages are unchanged. (#269)
 

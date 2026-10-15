@@ -1487,7 +1487,7 @@ function composeMarketingComponent(b) {
   if (!b.snippets) return b;
   const grid = b.snippets.map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
   return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
-    html: `<section class="aha-mcards">\n  <ul class="aha-mcards__grid">\n${grid}\n  </ul>\n</section>` };
+    html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
 const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
 /* ---- Audience Library — a first-class top-level area. ONE scroll
