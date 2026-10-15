@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.197.2 — 2026-10-15
+### Fixed
+- Button docs page: the playground controls drove the small Primary button in the Tones row, so choosing Danger turned it white and looked like a broken Primary. They now drive their own Live example button at the top of the examples, and the Tones row stays fixed. Choosing Danger, Positive or Primary alt shows a note, read from the contract, that each looks like Secondary or Primary on purpose (status carries no hue). No component change. (#253)
+
 ## 0.197.1 — 2026-10-15
 ### Fixed
 - Marketing sections preview: with the Header's mobile drawer open at Phone 375, the preview frame no longer grows a step taller on every click or hover. Viewport-height elements such as the drawer are left out of the height measure, while their contents still count. (#258)

@@ -497,6 +497,8 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 .aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
 .aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
+.aha-pg-note{margin:0;font-size:13px;line-height:19px;color:var(--aha-text-secondary)}
+.aha-pg-note[hidden]{display:none}
 .aha-pg-opt:hover:not(.active){color:var(--aha-text-default)}
 .aha-pg-opt.active{color:var(--aha-text-default);background:var(--aha-bg-accent)}
 
@@ -663,6 +665,8 @@ function ahaBindPlayground(root){
         seg.querySelectorAll('.aha-pg-opt').forEach(function(o){o.classList.remove('active');o.setAttribute('aria-checked','false');});
         opt.classList.add('active'); opt.setAttribute('aria-checked','true');
         apply(opt.dataset.prop, opt.dataset.value, opt.dataset.targets);
+        var note=pg.querySelector('.aha-pg-note');
+        if(note){ var text=''; pg.querySelectorAll('.aha-pg-opt.active[data-note]').forEach(function(o){ text=o.dataset.note; }); note.textContent=text; note.hidden=!text; }
       });
     });
   });
@@ -1148,12 +1152,13 @@ function playgroundBar(c, group) {
       const raw = (o.value === null || o.value === undefined) ? '__remove__' : String(o.value);
       const active = ctrl.default !== undefined ? (String(o.value) === String(ctrl.default)) : i === 0;
       return `<button type="button" class="aha-pg-opt${active ? ' active' : ''}" role="radio" aria-checked="${active}"` +
-        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}"${ctrl.targets ? ` data-targets="${esc(ctrl.targets)}"` : ''}>${esc(o.label)}</button>`;
+        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}"${o.note ? ` data-note="${esc(o.note)}"` : ''}${ctrl.targets ? ` data-targets="${esc(ctrl.targets)}"` : ''}>${esc(o.label)}</button>`;
     }).join('');
     return `<div class="aha-pg-row"><span class="aha-pg-label">${esc(ctrl.label)}</span>` +
       `<div class="aha-pg-seg" role="radiogroup" aria-label="${esc(ctrl.label)}">${opts}</div></div>`;
   }).join('');
-  return `<div class="aha-pg" data-pg>${rows}</div>`;
+  const hasNotes = shown.some((ctrl) => (ctrl.options || []).some((o) => o.note));
+  return `<div class="aha-pg" data-pg>${rows}${hasNotes ? '<p class="aha-pg-note" role="status" hidden></p>' : ''}</div>`;
 }
 
 // A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
