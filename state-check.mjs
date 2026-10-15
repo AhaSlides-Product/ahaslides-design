@@ -156,7 +156,7 @@ function installProbe() {
     if (cs.outlineStyle === 'auto') marks.push({ r: 255, g: 255, b: 255, a: 1 }); // the UA ring is two-tone and getComputedStyle exposes only the dark one
     if (cs.boxShadow !== 'none') marks.push(...coloursIn(cs.boxShadow));
     const border = parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== 'none' ? cs.borderTopColor : '';
-    return { outline: cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0 ? cs.outlineColor + cs.outlineWidth : '', shadow: cs.boxShadow, border, background: cs.backgroundColor, marks, borderColour: parse(border) };
+    return { outline: cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0 ? cs.outlineColor + cs.outlineWidth : '', shadow: cs.boxShadow, border, borderWidth: cs.borderTopWidth, background: cs.backgroundColor, marks, borderColour: parse(border) };
   };
   /* Where a focus indicator can land: the control, the wrappers around it, or a part inside it. */
   const focusSurfaces = (el) => {
@@ -173,7 +173,7 @@ function installProbe() {
       if (!node.isConnected) continue;
       const after = paint(node);
       if (after.outline !== before.outline || after.shadow !== before.shadow) { changed = true; for (const c of after.marks) if (c.a > 0.02) best = Math.max(best, ratio(over(c, outside), outside)); }
-      if (after.border !== before.border && after.borderColour) { changed = true; best = Math.max(best, ratio(over(after.borderColour, outside), outside)); }
+      if ((after.border !== before.border || after.borderWidth !== before.borderWidth) && after.borderColour) { changed = true; best = Math.max(best, ratio(over(after.borderColour, outside), outside)); }
       if (after.background !== before.background) { changed = true; const fill = parse(after.background); if (fill) best = Math.max(best, ratio(over(fill, outside), outside)); }
     }
     return { changed, best };

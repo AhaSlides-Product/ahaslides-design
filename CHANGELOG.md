@@ -28,6 +28,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Image Action Button `variant="tertiary"`: no border or fill until hover, then the tertiary Button hover (Vivid Pink 5% fill, text-link-hover glyph). Option Row uses it for its per-option image (#249).
 - Alert `icon`: a named DS icon in place of the type's status glyph (#249).
 ### Changed
+- Secondary Button (and Danger, which renders as secondary) hover and active: the pale pink fill is now an inset tint over the button's own opaque fill (white), not a see-through fill, so the button no longer shows a non-white surface through it (an Option Row's hover delete over the row). The same fix is applied to Pagination's page and nav buttons, which use the same hover token. Components that alias or override the secondary tokens (Paywall plans button, Audience Image Upload buttons) keep their transparent rest fill and look unchanged (#249).
+- Option Row focus on a correct row is a single 2px answer-correct border (was a 1px border plus a 1px outline); the padding drops by 1px on focus so the row does not move (#249).
+- Numbered Item title is regular weight (400), was semibold (#249).
+- Question List question header takes the settings lab's look through the Collapse's `head` part: 14/22 regular on `--aha-gray-15`, 52px high, a hairline under it when open. Scoped to Question List; Collapse is unchanged (#249).
+- Setting Group: a group whose direct children are Option Rows sits them 8px apart (`--aha-space-8`), as the settings lab's answer list does, instead of the 24px between settings (#249).
 - Alert dismiss runs once: a second click while it fades out is ignored, and the fallback timer is cleared once the fade ends (#249).
 - Counted Input and Counted Textarea counters show the characters left (36 for 24 of 60) at every size, as the settings lab does, instead of used/max (#249).
 - Number With Unit draws its error message with the shared `<aha-field-error icon>` (12px system-x-circle + the message), the same as Input and Counted Textarea, and links it through aria-describedby. The colour is unchanged (#249).

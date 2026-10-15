@@ -64,7 +64,7 @@
     },
     {
       "label": "Focus",
-      "value": "focus-within → #E70E68 row border + soft 2px --aha-focus-ring-soft ring (a correct row keeps its 1px --aha-answer-correct border and adds a 1px --aha-answer-correct outline 2px outside it, 3:1 or more on the page), on the one persistent border"
+      "value": "focus-within → #E70E68 row border + soft 2px --aha-focus-ring-soft ring (a correct row draws a single 2px --aha-answer-correct border, with the padding trimmed by 1px so the row does not move, 3:1 or more on the page), on the one persistent border"
     }
   ],
   "props": [

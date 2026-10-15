@@ -26,7 +26,7 @@
     },
     {
       "label": "Question",
-      "value": "bordered DS Collapse, caret leading, header \"N. <prompt>\"; open state kept per question (`open` in the model; a new question opens)"
+      "value": "bordered DS Collapse, caret leading, header \"N. <prompt>\" (14 regular on --aha-gray-15); open state kept per question (`open` in the model; a new question opens)"
     },
     {
       "label": "Delete",
@@ -119,7 +119,7 @@
       }
     ],
     "note": "The add buttons span the full panel width (SETTINGS-31) — never hugged to one side. The \"N questions\" count is a total, never an \"X of Y\" (SETTINGS-36): the add buttons disable at max and the deletes at min. Composes SettingRow, Collapse, CountedInput, OptionRow and AddItemButton; it does not re-implement any of them.",
-    "dsv3": "COVERED — the settings-lab QuestionList mapped into the DS: an Ant Collapse per question in the lab, the DS Collapse here; the lab's SettingRow + Input prompt, OptionRow answers and default-Button adds are the DS SettingRow, CountedInput, OptionRow and AddItemButton. Two lab details stay the DS Collapse's own look: the lab header is 14 regular on a 2% grey fill, the DS header 15 semibold on white."
+    "dsv3": "COVERED — the settings-lab QuestionList mapped into the DS: an Ant Collapse per question in the lab, the DS Collapse here; the lab's SettingRow + Input prompt, OptionRow answers and default-Button adds are the DS SettingRow, CountedInput, OptionRow and AddItemButton. The question header takes the lab's look through the Collapse's `head` part, scoped to this list (the Collapse itself is unchanged): 14/22 regular on --aha-gray-15 (the lab's 2% grey fill), 52px high, a hairline under it when open."
   },
   "surfaces": [
     "editor",
