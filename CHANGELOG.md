@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.211.2 — 2026-10-15
+### Changed
+- Marketing pages: each Paste-and-run HTML, Load the tokens once and card-type block shows its one-line description and Show code on the same row; the button drops below the text on narrow screens. (#PR)
+
 ## 0.211.1 — 2026-10-15
 ### Changed
 - The Marketing sidebar lists Components above Sections, and the Marketing tab opens on the first component. (#273)
