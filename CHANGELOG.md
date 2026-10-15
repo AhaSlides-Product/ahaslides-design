@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Marketing > Components > Cards is now one block per card type: the card name, a live preview of that card at its real grid-column size (one cell of the 3 / 2 / 1 column grid, the other cells empty) with its own breakpoint switcher (Wide, Desktop, Tablet, Phone), then its Show code toggle (the card inside its grid wrapper). Each switcher resizes only its own preview. The page-top whole-grid preview and the "The whole grid" code section are gone; the Load the tokens once footer stays. (#272)
 
+## 0.213.1 — 2026-10-15
+### Changed
+- Marketing pages: each Paste-and-run HTML, Load the tokens once and card-type block shows its one-line description and Show code on the same row; the button drops below the text on narrow screens. (#274)
+
 ## 0.213.0 — 2026-10-15
 ### Added
 - Marketing section `Logos` (Patterns → Marketing sections, Webflow CMS collection list `div-block-250`), matched to the live ahaslides.com survey creator page at 1440px, 991px, 767px and 390px: a row of greyscale customer logos that slides left over 20s, linear and repeating, like the Webflow Infinite logo interaction, and stops under reduced motion. The loop shifts by one set plus the gap, so it restarts with no 40px jump (the live strip jumps), and the logos load eagerly so none is blank when it slides in. Below 768px the set grows to its content, so the logos no longer overlap the second copy (they do on live). The logos are not typed into the markup: the section renders them from `marketing/data/logos-cms.json`, the published CMS list with its source URL and fetch date. `generate.mjs` gains one optional step for marketing sections: a `dataFile` plus an `itemHtml` template expand `{{items}}` in the section HTML; sections without them are unchanged. (#267)

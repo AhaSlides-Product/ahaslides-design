@@ -1766,9 +1766,9 @@ const MARKETING_CARD_BREAKPOINT_SCRIPT = `<script type="module">
   })();
   </script>`;
 
-function marketingCodeToggle(file, code) {
+function marketingCodeToggle(file, code, lead = '') {
   return `<div class="code-tabs" data-open="false">
-    <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
+    <div class="demo-toolbar">${lead ? `<p class="body code-lead">${lead}</p>` : ''}<aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
       <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="snippet">${esc(file)}</button></div><button class="copy" type="button">Copy</button></div>
       <pre class="code snippet active">${esc(code)}</pre>
@@ -1788,17 +1788,16 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
-  <p class="body">Copy the whole block into any page (Webflow, WordPress, a static site). It reads only the shared <code>--aha-*</code> tokens.</p>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}`}
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
 
   <h2>Load the tokens once</h2>
-  <p class="body">Add this to the page <code>&lt;head&gt;</code> before the block.</p>
-  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`)}${details.length ? `
+  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
 
   <h2>Details</h2>
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}${MARKETING_BREAKPOINT_CSS}` });
+  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
