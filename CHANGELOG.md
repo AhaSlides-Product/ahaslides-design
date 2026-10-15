@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.193.0 — 2026-10-15
+### Added
+- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"), matched to the live ahaslides.com at 1440px and 390px: a dark participant join bar that scrolls away above a sticky navigation; Products, Solutions and Resources mega-menus that open on hover with a fade and slide (Products in three columns with a preview slot, Solutions with use cases and integration logos, Resources in two columns); Pricing, Enterprise, a language menu that opens on click, and Log in / Sign up. At 991px and below a hamburger drawer slides down and its menus become an accordion. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, logos come from the Logo library, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#247)
+- Icon `system-menu` (three lines), for a menu button. (#247)
+- Slack and Model Context Protocol (MCP) logos in the Logo library, in greyscale. (#247)
+
 ## 0.191.0 — 2026-10-14
 ### Added
 - Marketing section `Footer` (Patterns → Marketing sections, Webflow component Footer, built on Relume `uui-footer06`), matched to the live ahaslides.com at 1440px, 768px and 375px: the AhaSlides lockup above five link columns (Features, Resources, Integrations, Pricing, Company) with absolute ahaslides.com links. Links fade to Vivid Pink on hover over 0.3s and show the DS focus outline on keyboard focus. The columns reflow to three at 991px and below (Features spans two rows), spacing tightens at 767px, and at 479px there are two columns and a smaller lockup. Below the columns a grey band holds the four award badges (G2 and Training Magazine Network), eight contact and social icons, the System status link and the DMCA badge, then the copyright line; at 767px the band stacks and centres. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#254)
