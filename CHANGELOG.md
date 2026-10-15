@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.198.2 — 2026-10-15
+### Changed
+- Canvas Library: the Chart and Components pages show the same single CDN tag, `lib/canvas.js`, which registers `<aha-chart>` and the canvas controls. `lib/aha-chart.js` still works on its own. (#261)
+
 ## 0.198.1 — 2026-10-15
 ### Fixed
 - Marketing tab: the sidebar group heading reads "Sections" instead of repeating the tab name "Marketing". (#260)
