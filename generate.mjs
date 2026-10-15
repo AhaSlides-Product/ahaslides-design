@@ -32,7 +32,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
-const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under the Marketing sections tab
+const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under the Marketing tab
 const CANVAS_DIR = join(root, 'canvas');       // canvas library — in-canvas presenter controls, rendered as a first-class DS area (single scroll page)
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
@@ -270,7 +270,7 @@ const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
 let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / canvas) → { files, closure }
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
-let MARKETING = [];         // loaded marketing sections — drives the Marketing sections tab + pages
+let MARKETING = [];         // loaded marketing sections — drives the Marketing tab + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
 let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
@@ -286,7 +286,7 @@ const SECTIONS = [
   { key: 'foundations', label: 'Foundations' },
   { key: 'components',  label: 'Components' },
   { key: 'patterns',    label: 'Patterns' },
-  { key: 'marketing',   label: 'Marketing sections' },
+  { key: 'marketing',   label: 'Marketing' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
   { key: 'canvas',      label: 'Components' },
@@ -1477,7 +1477,7 @@ function surfaceChoiceTable(rows) {
    the block into Webflow/WordPress/a static page, and every value binds to an --aha-* token so the
    marketing site and the product app stay on one brand source.
    marketing/<slug>.json: { slug, name, summary, html, css }. ===== */
-const MARKETING_CAT = 'Marketing sections';
+const MARKETING_CAT = 'Marketing';
 const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -2747,7 +2747,7 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
-/* marketing sections — loaded before any page renders so the Marketing sections tab lists them everywhere.
+/* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
   ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
