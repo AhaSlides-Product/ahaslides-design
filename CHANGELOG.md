@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.211.1 — 2026-10-15
 ### Changed
-- The Marketing sidebar lists Components above Sections, and the Marketing tab opens on the first component. (#PR)
+- The Marketing sidebar lists Components above Sections, and the Marketing tab opens on the first component. (#273)
 
 ## 0.211.0 — 2026-10-15
 ### Changed
