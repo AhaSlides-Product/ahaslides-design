@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.200.4 — 2026-10-15
+### Fixed
+- Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#PR)
+
 ## 0.200.2 — 2026-10-15
 ### Changed
 - Marketing section pages (Marketing → every section) are shorter. The intro is one line, the first highlight. Paste-and-run HTML and Load the tokens once sit behind the docs' Show code toggle, and the remaining highlights move to a Details list at the end of the page. The paste-and-run code and the feeds are unchanged. (#264)
