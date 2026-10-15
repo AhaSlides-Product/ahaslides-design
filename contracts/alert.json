@@ -32,6 +32,7 @@
     { "name": "banner", "type": "boolean", "default": "false", "desc": "Full-width, square-cornered edge-to-edge page notice" },
     { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows the shared ✕ (tertiary icon-only <aha-button>, size xs) ✕ on the first line" },
     { "name": "hide-icon", "type": "boolean", "default": "false", "desc": "Suppresses the leading status icon (the showIcon toggle)" },
+    { "name": "icon", "type": "string", "default": "—", "desc": "A named DS icon in place of the type's status glyph (Info box passes its `icon` through)" },
     { "name": "slot=\"action\"", "type": "slot", "default": "—", "desc": "Trailing action — a button or link" },
     { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the banner is dismissed" }
   ],
