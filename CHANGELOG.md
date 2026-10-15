@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.198.2 — 2026-10-15
 ### Changed
-- Canvas Library: the Chart and Components pages show the same single CDN tag, `lib/canvas.js`, which registers `<aha-chart>` and the canvas controls. `lib/aha-chart.js` still works on its own. (#PR)
+- Canvas Library: the Chart and Components pages show the same single CDN tag, `lib/canvas.js`, which registers `<aha-chart>` and the canvas controls. `lib/aha-chart.js` still works on its own. (#261)
 
 ## 0.198.1 — 2026-10-15
 ### Fixed
