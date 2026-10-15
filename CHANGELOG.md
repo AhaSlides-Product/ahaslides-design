@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.197.0 — 2026-10-14
+## 0.197.0 — 2026-10-15
 ### Added
 - Image Dropzone draws its `hint` as a second line under the label (text-secondary, since the lab's #8A8A8A is 3.22:1 on the grey fill), as the settings lab shows "PNG, JPG, GIF, WebP"; the label itself is now text-default (#249).
 - Image Action Button `variant="tertiary"`: no border or fill until hover, then the tertiary Button hover (Vivid Pink 5% fill, text-link-hover glyph). Option Row uses it for its per-option image (#249).
