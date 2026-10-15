@@ -1,0 +1,58 @@
+{
+  "$comment": "Source of truth for the Logos section. The list is the published output of the Webflow CMS collection rendered in div.div-block-250 (collection-list-wrapper-29 / collection-item-26 / image-148) on sourceUrl, in prod order; the section renders it twice for the loop. Refresh by re-reading that block from sourceUrl and replacing items. Image URLs stay the live Webflow-hosted files.",
+  "sourceUrl": "https://ahaslides.com/product/free-survey-creator/",
+  "fetched": "2026-10-15",
+  "collection": "Webflow CMS collection list (customer logos)",
+  "items": [
+    {
+      "name": "Abu Dhabi University",
+      "alt": "Abu Dhabi University logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c8809f6fb6d2b4873eb3_689336be986fb627e68caa15_Untitled%2520design%2520(19).webp"
+    },
+    {
+      "name": "Airbus",
+      "alt": "Airbus logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c8809f6fb6d2b4873ec0_6a2e26ac3c44a0b4eebd8173_6895ac07305e3cea30214d04_Untitled%252520design%252520(36).webp"
+    },
+    {
+      "name": "Bend La Pine Schools",
+      "alt": "Bend La Pine Schools logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c87e9f6fb6d2b4873e4c_689584ddc6c3cf7a430e30e0_Untitled%2520design%2520(16).webp"
+    },
+    {
+      "name": "BMC",
+      "alt": "BMC logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c87e9f6fb6d2b4873e68_6a2e26ac3c44a0b4eebd816d_6895aa433fde277067c1fab6_Untitled%252520design%252520(24).webp"
+    },
+    {
+      "name": "Bosch",
+      "alt": "Bosch logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6a2e26ac3c44a0b4eebd8179_6847dbb1e074e971dfac58ab_2-1.png"
+    },
+    {
+      "name": "Criteo",
+      "alt": "Criteo logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c87e9f6fb6d2b4873e59_6895aa3585ff5a8db14283f4_Untitled%2520design%2520(22).webp"
+    },
+    {
+      "name": "Ferrero Rocher",
+      "alt": "Ferrero Rocher logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c87f9f6fb6d2b4873e92_6a2e26ad3c44a0b4eebd81a6_6895aea64d6347861b0b43a5_Untitled%252520design%252520(42).webp"
+    },
+    {
+      "name": "Intel",
+      "alt": "Intel logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c87e9f6fb6d2b4873e50_6a2e26ac3c44a0b4eebd8176_6895aa1cc7af4a9e0776ca89_Untitled%252520design%252520(25).webp"
+    },
+    {
+      "name": "Ivy Tech Community College",
+      "alt": "Ivy Tech Community College logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c8809f6fb6d2b4873ec8_689336fa5bdce88de55059bc_Untitled%2520design%2520(20).webp"
+    },
+    {
+      "name": "Le Quiz Show",
+      "alt": "Le Quiz Show logo",
+      "src": "https://ahaslides.com/webflow-assets/68479ad908e422dca6b269cb/6ac5c87e9f6fb6d2b4873e53_6a2e26ac3c44a0b4eebd8163_6895aa9ce541f77ab7af08f4_Untitled%252520design%252520(26).webp"
+    }
+  ]
+}
