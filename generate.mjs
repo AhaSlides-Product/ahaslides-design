@@ -32,7 +32,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
-const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
+const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under the Marketing sections tab
 const CANVAS_DIR = join(root, 'canvas');       // canvas library — in-canvas presenter controls, rendered as a first-class DS area (single scroll page)
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
@@ -270,7 +270,7 @@ const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
 let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / canvas) → { files, closure }
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
-let MARKETING = [];         // loaded marketing sections — drives the Patterns → Marketing sections group + pages
+let MARKETING = [];         // loaded marketing sections — drives the Marketing sections tab + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
 let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
@@ -286,6 +286,7 @@ const SECTIONS = [
   { key: 'foundations', label: 'Foundations' },
   { key: 'components',  label: 'Components' },
   { key: 'patterns',    label: 'Patterns' },
+  { key: 'marketing',   label: 'Marketing sections' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
   { key: 'canvas',      label: 'Components' },
@@ -982,7 +983,7 @@ const RAW_FEEDS = [
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
-  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB);
+  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB) && !(s.key === 'marketing' && !MARKETING.length);
   const link = s => `<a class="${section===s.key?'active':''}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
   const out = [];
   const grouped = new Set();
@@ -1027,8 +1028,8 @@ function sidebarNav(base, active, section) {
       }).join('');
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
-    if (section === 'patterns' && MARKETING.length) inner +=
-      `<div class="nav-group"><div class="nav-cat">${MARKETING_CAT}</div>` +
+  } else if (section === 'marketing') {
+    inner = `<div class="nav-group"><div class="nav-cat">${MARKETING_CAT}</div>` +
       MARKETING.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>`;
   } else if (section === 'settings') {
@@ -1736,7 +1737,7 @@ function renderMarketingHtml(b) {
     <div class="code-head"><div class="tabs"><span class="tab active">head</span></div><button class="copy" type="button">Copy</button></div>
     <pre class="active">${esc(`<link rel="stylesheet" href="${SITE}/variables.css">`)}</pre>
   </div>`;
-  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'patterns', main, extraCss: `
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 12px}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
@@ -1763,7 +1764,7 @@ function renderMarketingAgent(b) {
 }
 const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
 function renderMarketingLlms(blocks) {
-  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Patterns → ${MARKETING_CAT}). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
+  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (${MARKETING_CAT} tab). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
   for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
@@ -2746,8 +2747,8 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
-/* marketing sections — loaded before any page renders so the Patterns sidebar lists them everywhere.
-   Absent-safe: no marketing/ dir → no group/pages/feed. */
+/* marketing sections — loaded before any page renders so the Marketing sections tab lists them everywhere.
+   Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
   ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
@@ -2770,6 +2771,7 @@ NAV_LANDING = {
   foundations: `foundations/${TOKEN_PAGES[0].slug}.html`,
   components: (firstComponent ? `${firstComponent.slug}/index.html` : 'index.html'),
   patterns: (firstPattern ? `${firstPattern.slug}/index.html` : 'index.html'),
+  marketing: (MARKETING[0] ? `marketing/${MARKETING[0].slug}/index.html` : 'index.html'),
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
