@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.213.2 — 2026-10-15
 ### Changed
-- Marketing section previews sit in a fixed-height container (640px, or 70% of the screen height when that is smaller): a tall section scrolls inside it and a short one is centred, so switching width or opening a menu no longer moves the rest of the page. (#PR)
+- Marketing section previews sit in a fixed-height container (640px, or 70% of the screen height when that is smaller): a tall section scrolls inside it and a short one is centred, so switching width or opening a menu no longer moves the rest of the page. (#275)
 
 ## 0.213.0 — 2026-10-15
 ### Added
