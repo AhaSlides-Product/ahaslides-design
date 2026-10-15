@@ -1,6 +1,7 @@
 {
   "name": "Sub setting group",
   "slug": "sub-setting-group",
+  "environment": ["product"],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -24,7 +25,7 @@
   "opinion": {
     "whenToUse": [
       { "what": "Sub setting group", "when": "settings that only apply when a parent toggle is on — indent them under it and hide when off" },
-      { "what": "Setting group", "when": "a top-level titled cluster of settings (the 24/32/48 scale + optional header)" },
+      { "what": "Setting group", "when": "a top-level titled cluster of settings (the 24/24/48 scale + optional header)" },
       { "what": "a disabled row", "when": "the setting always shows but isn't currently changeable — dim it, don't nest it" }
     ],
     "note": "Use this only for genuinely dependent settings — ones that are meaningless until a parent is on. Keep the parent row and its sub-group inside the same setting group. Hide (not disable) the sub-settings when the parent is off, so the panel doesn't fill with dead controls. Never draw a left rail or box around the nest — the 24px indent + the 16px bind are the whole signal."

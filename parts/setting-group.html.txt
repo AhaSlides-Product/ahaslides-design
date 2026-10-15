@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-setting-group> is the SAME shared custom element React and Vue consume — here in its
-     native form. It BAKES IN the settings-panel spacing scale: rows 24px apart, groups 32px apart
+     native form. It BAKES IN the settings-panel spacing scale: rows 24px apart, groups 24px apart
      automatically, a danger zone 48px down — no dividers, no cards, white bg. Theming comes only
      from the --aha-* tokens in tokens.css. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">

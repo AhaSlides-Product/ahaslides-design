@@ -1233,14 +1233,14 @@
       "files": [],
       "label": "bad-example",
       "notes": "C13 list-wrapper mis-pick (AHAM-641) — the real This-or-That case that motivated the criterion: a multiple-question list must use QuestionList, not a hand-rolled NumberedItem+OptionRow accordion. Bad-example (before).",
-      "expected_output": "FAILs C13. The list items are QUESTIONS — a prompt plus a set of answer choices — so the correct wrapper is the shipped `QuestionList`, the collapsible question editor (prompt = SectionHeader + Input, choices = OptionRow, per-question tertiary delete, image-as-intent). This panel instead rebuilds that accordion by hand out of `NumberedItem` + `OptionRow` + a manual prompt Input and add/delete wiring — reinventing a component that already exists (also a CR reuse-over-rebuild miss). `NumberedItem` is for composite item-groups the creator counts by ordinal, not for a question+choices list (remember QuestionList *composes* NumberedItem, never the reverse). Fix: replace the whole hand-rolled block with `<QuestionList v-model=\"config.questions\" ... @image=\"...\" />`. Overall: NEEDS FIX",
+      "expected_output": "FAILs C13. The list items are QUESTIONS — a prompt plus a set of answer choices — so the correct wrapper is the shipped `QuestionList`, the collapsible question editor (prompt = SectionHeader + Input, choices = OptionRow, per-question tertiary delete, image-as-intent). This panel instead rebuilds that accordion by hand out of `NumberedItem` + `OptionRow` + a manual prompt Input and add/delete wiring — reinventing a component that already exists (also a CR reuse-over-rebuild miss). `NumberedItem` is for composite item-groups the creator counts by ordinal, not for a question+choices list (QuestionList is the shipped question editor, composed from Collapse and OptionRow; never rebuild it from NumberedItem). Fix: replace the whole hand-rolled block with `<QuestionList v-model=\"config.questions\" ... @image=\"...\" />`. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C13 is marked FAIL",
         "Identifies the items are questions (prompt + answer choices) so QuestionList is the correct wrapper",
         "Flags that NumberedItem + OptionRow hand-rebuilds the QuestionList accordion",
         "Fix replaces the block with QuestionList",
-        "Notes QuestionList composes NumberedItem, never the reverse"
+        "Notes QuestionList is the shipped question editor (it composes Collapse and OptionRow), never rebuilt from NumberedItem"
       ],
       "expected": {
         "overall": "NEEDS_FIX",

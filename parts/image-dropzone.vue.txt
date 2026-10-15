@@ -17,6 +17,7 @@ function onDelete() { bg.value = null; state.value = 'empty'; }
     :state="state"
     :src="bg || undefined"
     label="Add background image"
+    hint="PNG, JPG, GIF, WebP"
     @add="onAdd"
     @edit="openCropper"
     @delete="onDelete"
