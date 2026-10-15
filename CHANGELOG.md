@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.196.1 — 2026-10-15
 ### Fixed
-- Marketing sections preview: with the Header's mobile drawer open at Phone 375, the preview frame no longer grows a step taller on every click or hover. Viewport-height elements such as the drawer are left out of the height measure, while their contents still count. (#PR)
+- Marketing sections preview: with the Header's mobile drawer open at Phone 375, the preview frame no longer grows a step taller on every click or hover. Viewport-height elements such as the drawer are left out of the height measure, while their contents still count. (#258)
 
 ## 0.196.0 — 2026-10-15
 ### Added
