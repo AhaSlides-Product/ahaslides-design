@@ -32,7 +32,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
-const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under Patterns
+const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under the Marketing tab
 const CANVAS_DIR = join(root, 'canvas');       // canvas library — in-canvas presenter controls, rendered as a first-class DS area (single scroll page)
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
@@ -270,7 +270,7 @@ const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
 let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / canvas) → { files, closure }
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
-let MARKETING = [];         // loaded marketing sections — drives the Patterns → Marketing sections group + pages
+let MARKETING = [];         // loaded marketing sections — drives the Marketing tab + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
 let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
@@ -286,6 +286,7 @@ const SECTIONS = [
   { key: 'foundations', label: 'Foundations' },
   { key: 'components',  label: 'Components' },
   { key: 'patterns',    label: 'Patterns' },
+  { key: 'marketing',   label: 'Marketing' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
   { key: 'canvas',      label: 'Components' },
@@ -496,10 +497,13 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 
 /* ---- interactive playground (the "smart widget": explore variants, don't stack them) ---- */
 .aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;margin-bottom:12px;border-radius:8px;background:var(--aha-gray-20)}
+.aha-pg .ant-btn.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover,.aha-pg .ant-btn.ant-btn-default:not(:disabled):not(.ant-btn-disabled):active{color:var(--aha-text-default)}
 .aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
 .aha-pg-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
+.aha-pg-note{margin:0;font-size:13px;line-height:19px;color:var(--aha-text-secondary)}
+.aha-pg-note[hidden]{display:none}
 .aha-pg-opt:hover:not(.active){color:var(--aha-text-default)}
 .aha-pg-opt.active{color:var(--aha-text-default);background:var(--aha-bg-accent)}
 
@@ -666,6 +670,8 @@ function ahaBindPlayground(root){
         seg.querySelectorAll('.aha-pg-opt').forEach(function(o){o.classList.remove('active');o.setAttribute('aria-checked','false');});
         opt.classList.add('active'); opt.setAttribute('aria-checked','true');
         apply(opt.dataset.prop, opt.dataset.value, opt.dataset.targets);
+        var note=pg.querySelector('.aha-pg-note');
+        if(note){ var text=''; pg.querySelectorAll('.aha-pg-opt.active[data-note]').forEach(function(o){ text=o.dataset.note; }); note.textContent=text; note.hidden=!text; }
       });
     });
   });
@@ -981,7 +987,7 @@ const RAW_FEEDS = [
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
-  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB);
+  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB) && !(s.key === 'marketing' && !MARKETING.length);
   const link = s => `<a class="${section===s.key?'active':''}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
   const out = [];
   const grouped = new Set();
@@ -1026,10 +1032,11 @@ function sidebarNav(base, active, section) {
       }).join('');
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
-    if (section === 'patterns' && MARKETING.length) inner +=
-      `<div class="nav-group"><div class="nav-cat">${MARKETING_CAT}</div>` +
-      MARKETING.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
-      `</div>`;
+  } else if (section === 'marketing') {
+    const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
+      items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
+      `</div>` : '';
+    inner = marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT) + marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT);
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -1151,12 +1158,13 @@ function playgroundBar(c, group) {
       const raw = (o.value === null || o.value === undefined) ? '__remove__' : String(o.value);
       const active = ctrl.default !== undefined ? (String(o.value) === String(ctrl.default)) : i === 0;
       return `<button type="button" class="aha-pg-opt${active ? ' active' : ''}" role="radio" aria-checked="${active}"` +
-        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}"${ctrl.targets ? ` data-targets="${esc(ctrl.targets)}"` : ''}>${esc(o.label)}</button>`;
+        ` data-prop="${esc(ctrl.prop)}" data-value="${esc(raw)}"${o.note ? ` data-note="${esc(o.note)}"` : ''}${ctrl.targets ? ` data-targets="${esc(ctrl.targets)}"` : ''}>${esc(o.label)}</button>`;
     }).join('');
     return `<div class="aha-pg-row"><span class="aha-pg-label">${esc(ctrl.label)}</span>` +
       `<div class="aha-pg-seg" role="radiogroup" aria-label="${esc(ctrl.label)}">${opts}</div></div>`;
   }).join('');
-  return `<div class="aha-pg" data-pg>${rows}</div>`;
+  const hasNotes = shown.some((ctrl) => (ctrl.options || []).some((o) => o.note));
+  return `<div class="aha-pg" data-pg>${rows}${hasNotes ? '<p class="aha-pg-note" role="status" hidden></p>' : ''}</div>`;
 }
 
 // A preview places a grouped toggle bar next to the badge it controls with a `<!--pg:GROUP-->` marker.
@@ -1190,6 +1198,7 @@ function renderChartsPage(c) {
   const main = `
   <h1>${esc(c.name)}</h1>
   ${headline(c.highlights, esc(c.summary))}
+  ${surfaceCdnBox('canvas')}
   <!-- generated from contracts/${c.slug}.json + tokens.canonical.json — do not edit by hand -->
   <div class="hub-layout">
     ${hubAnchorAside(fallbackGroups)}
@@ -1474,7 +1483,16 @@ function surfaceChoiceTable(rows) {
    the block into Webflow/WordPress/a static page, and every value binds to an --aha-* token so the
    marketing site and the product app stay on one brand source.
    marketing/<slug>.json: { slug, name, summary, html, css }. ===== */
-const MARKETING_CAT = 'Marketing sections';
+const MARKETING_CAT = 'Sections';
+const MARKETING_COMPONENTS_CAT = 'Components';
+const isMarketingComponent = (b) => b.kind === 'component';
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n${card.html || ''}\n`;
+function composeMarketingComponent(b) {
+  if (!b.snippets) return b;
+  const grid = b.snippets.map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
+  return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
+    html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
+}
 const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -1496,11 +1514,11 @@ function surfaceCdnBox(surface) {
   const entry = SURFACE_ENTRIES[surface];
   if (!entry) return '';
   const tags = entry.files.map(f => '&lt;' + (f === 'icons.js' ? 'aha-icon' : f.replace(/\.js$/, '')) + '&gt;').join(' ');
-  return `<div class="note surface-cdn" style="margin:0 0 18px"><b>No build step? One tag for the whole ${esc(surface)} surface</b>
+  return `<div class="note surface-cdn" style="margin:0 0 18px"><b>${surface === 'canvas' ? 'No build step? One tag for the whole Canvas Library (chart and canvas components)' : `No build step? One tag for the whole ${esc(surface)} surface`}</b>
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
     ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
-    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -1632,7 +1650,7 @@ function renderCanvasLibrary() {
   <script type="module">
     import '../lib/all.js';
     import { applyCanvasDeck } from '../lib/canvas-deck.js';
-    const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
     for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
       applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
     }
@@ -1641,30 +1659,115 @@ function renderCanvasLibrary() {
   return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
+const MARKETING_WIDTHS = [
+  ['Wide', TOK.layout.contentMaxWidth],
+  ['Desktop', TOK.breakpoints.desktop],
+  ['Tablet', TOK.breakpoints.tablet],
+  ['Phone', TOK.breakpoints.phone],
+];
+const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js'];
+const MARKETING_BREAKPOINT_CSS = `
+.mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
+.mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
+.mbp-viewport{overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white)}
+.mbp-frame{display:block;border:0;background:var(--aha-white);transform-origin:0 0}`;
+function marketingBreakpointPreview(b) {
+  const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
+  return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-viewport"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
+  </div>
+  <script type="module">
+  import '../../lib/aha-segmented.js';
+  (function(){
+    var root=document.querySelector('.mbp');
+    if(!root)return;
+    var KEY='aha-marketing-preview-width';
+    var seg=root.querySelector('aha-segmented');
+    var frame=root.querySelector('.mbp-frame'),view=root.querySelector('.mbp-viewport'),label=root.querySelector('.mbp-label');
+    var widths=${JSON.stringify(MARKETING_WIDTHS.map(([, width]) => width))};
+    var width=+root.dataset.default;
+    try{var saved=+localStorage.getItem(KEY);if(widths.indexOf(saved)>-1)width=saved;}catch(e){}
+    seg.setAttribute('value',String(width));
+    var contentHeight=0;
+    function layout(){
+      var scale=Math.min(1,(root.clientWidth-2)/width);
+      frame.style.width=width+'px';
+      frame.style.height=contentHeight+'px';
+      frame.style.transform=scale<1?'scale('+scale+')':'none';
+      view.style.height=Math.ceil(contentHeight*scale)+2+'px';
+      view.style.width=Math.ceil(width*scale)+2+'px';
+      label.textContent=width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
+    }
+    function onFrameHeight(e){
+      if(!root.isConnected){window.removeEventListener('message',onFrameHeight);return;}
+      if(e.source!==frame.contentWindow||!e.data||typeof e.data.mbpHeight!=='number')return;
+      contentHeight=e.data.mbpHeight;layout();
+    }
+    window.addEventListener('message',onFrameHeight);
+    function load(){
+      var base=new URL('../../',location.href).href;
+      var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+        '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+      var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+      // The frame reports its own height (a sandboxed host gives it an opaque origin the parent cannot read); open menus are absolutely positioned, so it measures down to the lowest visible element, skipping viewport-height ones (a 100dvh drawer would grow with the frame).
+      var report='var c=document.getElementById("mbp-content"),last=-1;'+
+        'function send(){var h=c.getBoundingClientRect().height;c.querySelectorAll("*").forEach(function(e){var r=e.getBoundingClientRect();if(r.height&&Math.abs(r.height-innerHeight)>1&&r.bottom>h&&getComputedStyle(e).visibility==="visible")h=r.bottom});h=Math.ceil(h);if(h!==last){last=h;parent.postMessage({mbpHeight:h},"*")}}'+
+        'new ResizeObserver(send).observe(c);'+
+        '["click","mouseover","mouseout","focusin","transitionend","animationend"].forEach(function(t){document.addEventListener(t,function(){requestAnimationFrame(send)},true)});';
+      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+    }
+    seg.addEventListener('change',function(e){
+      width=+e.detail.value;
+      try{localStorage.setItem(KEY,String(width));}catch(err){}
+      layout();
+    });
+    new ResizeObserver(layout).observe(root);
+    load();
+  })();
+  </script>`;
+}
+
+function marketingCodeToggle(file, code) {
+  return `<div class="code-tabs" data-open="false">
+    <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
+    <div class="code-panel" hidden>
+      <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="snippet">${esc(file)}</button></div><button class="copy" type="button">Copy</button></div>
+      <pre class="code snippet active">${esc(code)}</pre>
+    </div></div>`;
+}
 function renderMarketingHtml(b) {
+  const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
-  ${headline(b.highlights, esc(b.summary))}
+  <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Preview</h2>
-  <div class="marketing-stage">${marketingSnippet(b)}</div>
+  <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
-  <h2>Paste-and-run HTML</h2>
-  <p class="body">Framework-free — copy the whole block into any page (Webflow, WordPress, a static site). It binds only to the shared <code>--aha-*</code> tokens, so load the token layer once on the page first and the block inherits the AhaSlides brand automatically.</p>
-  <div class="code-panel feed">
-    <div class="code-head"><div class="tabs"><span class="tab active">${esc(b.slug)}.html</span></div><button class="copy" type="button">Copy</button></div>
-    <pre class="active">${esc(marketingSnippet(b))}</pre>
-  </div>
+  ${b.snippets ? `<h2>Card types</h2>
+  <p class="body">Each type is a self-contained snippet: its styles plus one card. Paste it into any page, or use the grid above for the whole set.</p>
+  ${b.snippets.map(card => `<h3>${esc(card.name)}</h3>
+  <p class="body">${esc(card.summary)}</p>
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ')}
+
+  <h2>The whole grid</h2>
+  <p class="body">All eight types in the 3, 2 and 1 column grid.</p>
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}` : `<h2>Paste-and-run HTML</h2>
+  <p class="body">Copy the whole block into any page (Webflow, WordPress, a static site). It reads only the shared <code>--aha-*</code> tokens.</p>
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}`}
 
   <h2>Load the tokens once</h2>
-  <p class="body">Add this to your page <code>&lt;head&gt;</code> before the block — it defines every <code>--aha-*</code> custom property the block reads:</p>
-  <div class="code-panel feed">
-    <div class="code-head"><div class="tabs"><span class="tab active">head</span></div><button class="copy" type="button">Copy</button></div>
-    <pre class="active">${esc(`<link rel="stylesheet" href="${SITE}/variables.css">`)}</pre>
-  </div>`;
-  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'patterns', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}` });
+  <p class="body">Add this to the page <code>&lt;head&gt;</code> before the block.</p>
+  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`)}${details.length ? `
+
+  <h2>Details</h2>
+  <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
+  .marketing-stage{margin:0 0 12px}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
@@ -1690,7 +1793,7 @@ function renderMarketingAgent(b) {
 }
 const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
 function renderMarketingLlms(blocks) {
-  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Patterns → ${MARKETING_CAT}). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
+  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Marketing tab). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
   for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
@@ -2057,7 +2160,7 @@ The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour,
 The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
-White, black, Vivid Pink (\`5\` and \`30\` are the flat codes of Vivid Pink at 5% and at 30% on white; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
+White, black, Vivid Pink (\`5\` and \`30\` are Vivid Pink at 5% and at 30% transparency, #E70E680D and #E70E684D, so they take the colour of the surface under them; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
 ${primitiveLines}
 
 ## Colour — semantic tokens
@@ -2167,7 +2270,7 @@ function renderTokenPage(pageSlug) {
       body: `
   <p class="body">These tokens follow the brand colour rules, which are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
   <h2>Palette</h2>
-  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. The one other pair, for correct and wrong answers only, is under <a href="#answer-colours">Correct and wrong answers</a>. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are Vivid Pink at 5% and at 30% transparency (<code>#E70E680D</code>, <code>#E70E684D</code>), so they take the colour of the surface under them; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. The one other pair, for correct and wrong answers only, is under <a href="#answer-colours">Correct and wrong answers</a>. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
   <p class="body">Black is <code>${P.black}</code>, the same value as grey 100 and the default ink: <code>--aha-black</code> is an alias of <code>--aha-gray-100</code>. A pure, zero-value black is never painted solid; it appears only as a transparency, for a shadow, a scrim or an ink alpha.</p>
   ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
@@ -2175,7 +2278,7 @@ function renderTokenPage(pageSlug) {
   <h2>Semantic colour</h2>
   ${swGroup('Brand', [['primary',c.primary],['primaryHover',c.primaryHover],['primaryActive',c.primaryActive],['focus',c.focus]])}
   ${swGroup('Status', [['success',c.success],['warning',c.warning],['error',c.error],['info',c.info]])}
-  ${swGroup('Text', [['textDefault',c.textDefault],['textSecondary',c.textSecondary],['textTertiary',c.textTertiary],['textDisabled',c.textDisabled],['textLink',c.textLink],['textPositive',c.textPositive],['textNegative',c.textNegative],['textWarning',c.textWarning]])}
+  ${swGroup('Text', [['textDefault',c.textDefault],['textSecondary',c.textSecondary],['textTertiary',c.textTertiary],['textDisabled',c.textDisabled],['textInverse',c.textInverse],['textLink',c.textLink],['textPositive',c.textPositive],['textNegative',c.textNegative],['textWarning',c.textWarning]])}
   ${swGroup('Border', [['borderDefault',c.borderDefault],['borderSecondary',c.borderSecondary],['borderStrong',c.borderStrong],['borderHover',c.borderHover],['borderActive',c.borderActive],['checkboxBorder',c.checkboxBorder]])}
   ${swGroup('Background', [['bgLayout',c.bgLayout],['bgAccent',c.bgAccent],['bgInformative',c.bgInformative],['bgPositive',c.bgPositive],['bgNegative',c.bgNegative],['bgWarning',c.bgWarning],['bgDark',c.bgDark]])}
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
@@ -2226,7 +2329,7 @@ function renderTokenPage(pageSlug) {
   .tok-h3{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:18px 0 8px}
   .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-bottom:8px}
   .sw{border:1px solid var(--aha-split);border-radius:10px;overflow:hidden}
-  .sw .chip{height:54px}
+  .sw .chip{height:54px;border-bottom:1px solid var(--aha-split)}
   .sw .meta{padding:8px 11px}
   .sw .nm{font-size:13px;font-weight:600}
   .sw .hex{font-family:Menlo,monospace;font-size:11px;color:var(--aha-text-tertiary)}
@@ -2303,8 +2406,8 @@ const ANTISLOP_LOOP = [
   'You are generating AhaSlides product UI by consuming this design system.',
   'Before you write a screen: (1) identify the surface(s) you are building;',
   "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
-  '(node screen-lint.mjs --surface=<product|canvas|audience> <files>) to hard-fail the zero-interpretation',
-  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface), then the",
+  '(node screen-lint.mjs --surface=<product|canvas|audience|settings> <files>) to hard-fail the zero-interpretation',
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel), then the",
   'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
@@ -2673,10 +2776,10 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
-/* marketing sections — loaded before any page renders so the Patterns sidebar lists them everywhere.
-   Absent-safe: no marketing/ dir → no group/pages/feed. */
+/* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
+   Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -2697,6 +2800,7 @@ NAV_LANDING = {
   foundations: `foundations/${TOKEN_PAGES[0].slug}.html`,
   components: (firstComponent ? `${firstComponent.slug}/index.html` : 'index.html'),
   patterns: (firstPattern ? `${firstPattern.slug}/index.html` : 'index.html'),
+  marketing: (MARKETING.find(b => !isMarketingComponent(b)) ? `marketing/${MARKETING.find(b => !isMarketingComponent(b)).slug}/index.html` : 'index.html'),
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
@@ -2798,6 +2902,16 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
   console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
 }
 
+const settingsElementTags = [...SURFACE_ENTRIES.settings.closure]
+  .filter(f => ELEMENT_MODULES.includes(f))
+  .map(f => ({ 'icons.js': 'aha-icon', 'illustrations.js': 'aha-illustration' })[f] ?? f.replace(/\.js$/, ''))
+  .sort();
+writeFileSync(join(root, 'lib', 'settings-elements.js'),
+  `// ${PKGNAME}/settings — the <aha-*> tags lib/settings.js registers (generated by generate.mjs; do not edit by hand).\n` +
+  `// screen-lint --surface=settings rejects any other <aha-*> tag.\n` +
+  `export const SETTINGS_ELEMENTS = ${JSON.stringify(settingsElementTags, null, 2)};\n`);
+console.log(`  ✓ lib/settings-elements.js — ${settingsElementTags.length} registered settings tags`);
+
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
    GitHub Pages under the project path. Without this, lib/ isn't deployed and every
@@ -2854,7 +2968,7 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
-  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js, same CDN path and tag:`,
+  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, and applyCanvasDeck), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,

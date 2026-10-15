@@ -803,7 +803,7 @@
         {
           "id": "C13",
           "title": "List wrapper matches the list shape (questions → QuestionList, item-groups → NumberedItem)",
-          "test": "*(Slide-type config only.)* A repeatable settings list has **three** library wrappers, and the choice is fixed by the **shape of each item** — using the wrong one, or hand-rolling the accordion / number chip a shipped component already ships, is a FAIL (the list-shape sibling of C11's per-option-vs-standalone image choice): - **A flat set of answer choices for ONE question → `OptionRow`**. - **A list of QUESTIONS, each a prompt plus its own answer choices → `QuestionList`** (the collapsible question editor; it composes `NumberedItem` and `OptionRow`, never the reverse). - **A repeatable COMPOSITE item-group the creator counts by ordinal (a Card, a Round) → `NumberedItem`**. Also a FAIL: restyling or replacing the `NumberedItem` number chip — hiding or re-rendering it, or overriding the shadow part with `::part(chip)` (size, colour, ring, shadow) so it mirrors the canvas marker. The chip is the stock 22px muted-grey pill; the settings number is a plain ordinal and never mirrors the canvas marker. Drive it only through the real `n`, `label`, `variant`, `deletable` and `candelete` attributes."
+          "test": "*(Slide-type config only.)* A repeatable settings list has **three** library wrappers, and the choice is fixed by the **shape of each item** — using the wrong one, or hand-rolling the accordion / number chip a shipped component already ships, is a FAIL (the list-shape sibling of C11's per-option-vs-standalone image choice): - **A flat set of answer choices for ONE question → `OptionRow`**. - **A list of QUESTIONS, each a prompt plus its own answer choices → `QuestionList`** (the collapsible question editor; it composes `Collapse`, `SettingRow`, `CountedInput`, `OptionRow` and `AddItemButton`, never the reverse). - **A repeatable COMPOSITE item-group the creator counts by ordinal (a Card, a Round) → `NumberedItem`**. Also a FAIL: restyling or replacing the `NumberedItem` number chip — hiding or re-rendering it, or overriding the shadow part with `::part(chip)` (size, colour, ring, shadow) so it mirrors the canvas marker. The chip is the stock 22px muted-grey pill; the settings number is a plain ordinal and never mirrors the canvas marker. Drive it only through the real `n`, `label`, `deletable` and `candelete` attributes."
         },
         {
           "id": "C14",
@@ -824,6 +824,11 @@
           "id": "C17",
           "title": "Setting label weight and colour",
           "test": "A setting label (settings item / SettingRow / ModeField label) is regular 400 in primary text (`--aha-text-default` #1A1A1A). A label inside a sub-setting group is regular 400 in secondary text (`--aha-text-secondary` #4A4A4A). Sibling settings sit 24px apart. **FAIL** on a semibold setting label or a nested label in primary text."
+        },
+        {
+          "id": "C18",
+          "title": "Settings controls come from lib/settings.js",
+          "test": "Every control in the settings panel is an element that `lib/settings.js` registers (`aha-switch`, `aha-checkbox`, `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select`, `aha-segmented`, `aha-button`, `aha-option-row`, `aha-setting-row` and the rest of that entry). A raw `<button>`, `<input>`, `<select>`, `<textarea>` or `role=\"switch\"` element, a hand-built toggle, dropdown or option row, or an `<aha-*>` tag that `lib/settings.js` does not load fails. **FAIL** on any of them unless it is a control the DS does not ship, kept with `ds-lint-allow: raw-control (why)` and a reason that holds. The mechanical twin is `node screen-lint.mjs --surface=settings <files>`."
         }
       ]
     },

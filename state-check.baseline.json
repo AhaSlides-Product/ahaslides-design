@@ -63,12 +63,6 @@
    "contrast · active · aha-image » div.frame[role=button] “Preview: Deck cover”: text #FFFFFF on #949494 is 3.03:1, needs 4.5:1",
    "contrast · hover · aha-image » div.frame[role=button] “Preview: Deck cover”: text #FFFFFF on #949494 is 3.03:1, needs 4.5:1"
   ],
-  "image-dropzone": [
-   "contrast · active · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
-   "contrast · focus · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
-   "contrast · hover · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
-   "contrast · rest · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1"
-  ],
   "select": [
    "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
    "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
@@ -82,12 +76,6 @@
    "contrast · hover · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
    "contrast · rest · aha-select » button.trigger[type=button][role=combobox] “Pick a theme”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1",
    "contrast · rest · aha-select[status=error] » button.trigger[type=button][role=combobox] “Required”: text #999999 on #FFFFFF is 2.85:1, needs 4.5:1"
-  ],
-  "settings": [
-   "contrast · active · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
-   "contrast · focus · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
-   "contrast · hover · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1",
-   "contrast · rest · aha-image-dropzone » button.add[type=button] “Add background image”: text #8A8A8A on #F7F7F7 is 3.22:1, needs 4.5:1"
   ],
   "slider": [
    "focus · focus · div.ant-slider-handle[role=slider]: keyboard focus draws no outline, ring, border or fill change"

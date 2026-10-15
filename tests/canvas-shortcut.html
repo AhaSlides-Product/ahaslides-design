@@ -34,7 +34,7 @@
     const { applyCanvasDeck } = await import('../lib/canvas-deck.js');
     const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     applyCanvasDeck(document.querySelector('#canvas'), { accent: token('--aha-vivid-pink-100'), ink: token('--aha-gray-100'), background: token('--aha-white') });
-    applyCanvasDeck(document.querySelector('#dark-label'), { accent: token('--aha-vivid-pink-30') });
+    applyCanvasDeck(document.querySelector('#dark-label'), { accent: '#F8B7D2' });
     window.canvasFixtureReady = true;
   </script>
 </body>

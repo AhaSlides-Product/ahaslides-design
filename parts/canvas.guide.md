@@ -29,7 +29,7 @@ not "we chose".
 | **Framed** (`enableFullScreen: false`) | A "question + answer area" slide that should look like every built-in type. The host renders the **title**, **description**, and **question image**; your iframe fills the rest. |
 | **Full-canvas** (`enableFullScreen: true`) | A bespoke layout that owns the whole stage. The host hides its chrome (`xprops.fullCanvas = true`); **you** render the title/header yourself. |
 | **Presenter control bar** (NCB, outside the iframe) — built plugins | Slide-specific actions (Next / Summarise / Previous) on a built plugin. **Declared** in the manifest, painted by the host — never rendered in-canvas. |
-| **In-canvas controls** — Developer Platform | A build-less slide type (the presenter canvas loads `lib/canvas.js`; `audience.html` loads `lib/audience.js` and `settings.html` loads `lib/settings.js`, each a single tag: `<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js"></script>`) has no manifest actions: its controls render **inside** the canvas as `<aha-button size="lg">`, themed by `applyCanvasDeck`. |
+| **In-canvas controls** — Developer Platform | A build-less slide type (the presenter canvas loads `lib/canvas.js`; `audience.html` loads `lib/audience.js` and `settings.html` loads `lib/settings.js` and is linted with `screen-lint.mjs --surface=settings`, each a single tag: `<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js"></script>`) has no manifest actions: its controls render **inside** the canvas as `<aha-button size="lg">`, themed by `applyCanvasDeck`. |
 
 - **Never `enableFullScreen: true` + `enableQuestionTitle: true` together.** Full-canvas
   hides the host title bar, so the `enableQuestionTitle` value renders **nowhere** and
@@ -104,7 +104,7 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
 
 ### Two colour jobs — keep them separate
 
-Draw result charts with the DS **`<aha-chart palette="deck">`** (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
+Draw result charts with the DS **`<aha-chart palette="deck">`** (the same `lib/canvas.js` tag registers it, so one tag covers chart and canvas controls) (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
 
 > **Pick Answer result reveal.** Colour rules section 11 settles the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` already paints the correct mark and leaves the rest neutral (`correct-style="fill"`), but in `--aha-color-success` (the default ink) until it is rewired to the answer tokens.
 
