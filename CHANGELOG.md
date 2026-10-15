@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.211.1 — 2026-10-15
+### Changed
+- The Marketing sidebar lists Components above Sections, and the Marketing tab opens on the first component. (#273)
+
 ## 0.211.0 — 2026-10-15
 ### Changed
 - Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#271)
