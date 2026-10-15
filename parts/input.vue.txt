@@ -10,9 +10,8 @@ const email = ref('');
 </script>
 
 <template>
-  <!-- size: small | default | large  ·  status: error | warning  ·  prefix-icon / suffix / clearable -->
+  <!-- size: default only in a settings panel (never small or large)  ·  status: error | warning  ·  prefix-icon / suffix / clearable -->
   <aha-input
-    size="large"
     status="error"
     prefix-icon="system-envelope"
     clearable
