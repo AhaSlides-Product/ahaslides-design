@@ -255,3 +255,12 @@ Matched to the live ahaslides.com at 1440px, 768px and 375px (columns, spacing, 
 41. The icon links carry live aria-labels that begin "link to" (for example "link to AhaSlides LinkedIn channel"), which screen readers read after announcing a link; kept verbatim, Growth may shorten them. The community link drops the live `_gl` tracking query.
 42. Live icon links show no hover or focus state (the email glyph only changes an unused colour) → the icons also have none on hover, and take the DS focus outline on keyboard focus.
 43. The grey band `#F7F7F7`, the copyright grey `#667085` and the System status grey `#757575` → `--aha-bg-hover`, `--aha-gray-80` and `--aha-gray-80`; the band and copyright line sit outside Webflow's `<footer>` element on live and inside the footer here.
+
+### FAQ (Webflow component FAQ, Relume uui-faq01) — added with DESY-206
+Matched to the live ahaslides.com AI presentation maker page at 1440px, 768px and 375px (box geometry equal to the pixel at all three, breakpoints at 991, 767 and 479px, 24px type step at 1920px). What the DS section still does differently, for Growth to align on Webflow:
+44. Weight 500 (medium) on the question text → the DS type scale has 400 and 600 only; semibold keeps the same line breaks as live at 375px (regular wrapped one question differently), but reads slightly heavier.
+45. Blue-grey `#1E293B`, `#101828`, `#222B37`, `#EAECF0` and `#98A2B3` (heading, questions, answers, row border, plus/minus icon) → `--aha-text-default`, `--aha-border-default` and `--aha-icon-muted`; the DS greys are neutral.
+46. The 36px and 28px heading sizes are not on the DS size scale → `calc(--aha-size-h3 + --aha-space-4)` and `calc(--aha-size-h4 + --aha-space-4)`; the 1.4 mobile line height has no token and is written as a number.
+47. Live opens with Webflow IX2 on a bare div (not focusable, no ARIA, one shared `data-w-id` on all four rows) → real buttons with `aria-expanded`/`aria-controls`, a `role="region"` answer and a CSS-only height animation (grid rows 0fr to 1fr, 0.3s ease-out, same as the measured live motion); the plus-to-minus turn is a 90 degree rotation of the vertical bar over the same 0.3s.
+48. Live answer 4 is a `<p>` with a 24px line height while answers 1 to 3 are bare text at 28px; kept as live, Growth may unify.
+49. Webflow media queries (991, 767, 479px, and 1920px for the question size) → the same widths as container queries on the section.
