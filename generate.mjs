@@ -1638,6 +1638,77 @@ function renderCanvasLibrary() {
   return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
+const MARKETING_WIDTHS = [
+  ['Wide', TOK.layout.contentMaxWidth],
+  ['Desktop', TOK.breakpoints.desktop],
+  ['Tablet', TOK.breakpoints.tablet],
+  ['Phone', TOK.breakpoints.phone],
+];
+const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js'];
+const MARKETING_BREAKPOINT_CSS = `
+.mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
+.mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
+.mbp-viewport{overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white)}
+.mbp-frame{display:block;border:0;background:var(--aha-white);transform-origin:0 0}`;
+function marketingBreakpointPreview(b) {
+  const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
+  return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-viewport"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
+  </div>
+  <script type="module">
+  import '../../lib/aha-segmented.js';
+  (function(){
+    var root=document.querySelector('.mbp');
+    if(!root)return;
+    var KEY='aha-marketing-preview-width';
+    var seg=root.querySelector('aha-segmented');
+    var frame=root.querySelector('.mbp-frame'),view=root.querySelector('.mbp-viewport'),label=root.querySelector('.mbp-label');
+    var widths=${JSON.stringify(MARKETING_WIDTHS.map(([, width]) => width))};
+    var width=+root.dataset.default;
+    try{var saved=+localStorage.getItem(KEY);if(widths.indexOf(saved)>-1)width=saved;}catch(e){}
+    seg.setAttribute('value',String(width));
+    var contentHeight=0;
+    function layout(){
+      var scale=Math.min(1,(root.clientWidth-2)/width);
+      frame.style.width=width+'px';
+      frame.style.height=contentHeight+'px';
+      frame.style.transform=scale<1?'scale('+scale+')':'none';
+      view.style.height=Math.ceil(contentHeight*scale)+2+'px';
+      view.style.width=Math.ceil(width*scale)+2+'px';
+      label.textContent=width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
+    }
+    function onFrameHeight(e){
+      if(!root.isConnected){window.removeEventListener('message',onFrameHeight);return;}
+      if(e.source!==frame.contentWindow||!e.data||typeof e.data.mbpHeight!=='number')return;
+      contentHeight=e.data.mbpHeight;layout();
+    }
+    window.addEventListener('message',onFrameHeight);
+    function load(){
+      var base=new URL('../../',location.href).href;
+      var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+        '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+      var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+      // The frame reports its own height (a sandboxed host gives it an opaque origin the parent cannot read); open menus are absolutely positioned, so it measures down to the lowest visible element.
+      var report='var c=document.getElementById("mbp-content"),last=-1;'+
+        'function send(){var h=c.getBoundingClientRect().height;c.querySelectorAll("*").forEach(function(e){var r=e.getBoundingClientRect();if(r.height&&r.bottom>h&&getComputedStyle(e).visibility==="visible")h=r.bottom});h=Math.ceil(h);if(h!==last){last=h;parent.postMessage({mbpHeight:h},"*")}}'+
+        'new ResizeObserver(send).observe(c);'+
+        '["click","mouseover","mouseout","focusin","transitionend","animationend"].forEach(function(t){document.addEventListener(t,function(){requestAnimationFrame(send)},true)});';
+      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+    }
+    seg.addEventListener('change',function(e){
+      width=+e.detail.value;
+      try{localStorage.setItem(KEY,String(width));}catch(err){}
+      layout();
+    });
+    new ResizeObserver(layout).observe(root);
+    load();
+  })();
+  </script>`;
+}
+
 function renderMarketingHtml(b) {
   const main = `
   <h1>${esc(b.name)}</h1>
@@ -1645,7 +1716,7 @@ function renderMarketingHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Preview</h2>
-  <div class="marketing-stage">${marketingSnippet(b)}</div>
+  <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
   <p class="body">Framework-free — copy the whole block into any page (Webflow, WordPress, a static site). It binds only to the shared <code>--aha-*</code> tokens, so load the token layer once on the page first and the block inherits the AhaSlides brand automatically.</p>
@@ -1661,7 +1732,7 @@ function renderMarketingHtml(b) {
     <pre class="active">${esc(`<link rel="stylesheet" href="${SITE}/variables.css">`)}</pre>
   </div>`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'patterns', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}` });
+  .marketing-stage{margin:0 0 12px}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section

@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.195.0 — 2026-10-14
+## 0.197.0 — 2026-10-14
 ### Added
 - Image Dropzone draws its `hint` as a second line under the label (text-secondary, since the lab's #8A8A8A is 3.22:1 on the grey fill), as the settings lab shows "PNG, JPG, GIF, WebP"; the label itself is now text-default (#249).
 - Image Action Button `variant="tertiary"`: no border or fill until hover, then the tertiary Button hover (Vivid Pink 5% fill, text-link-hover glyph). Option Row uses it for its per-option image (#249).
@@ -56,9 +56,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Setting Row, Settings Item, Counted Input and Number With Unit now carry the paragraph letter-spacing (`--aha-letter-spacing-paragraph`, 0.2px) on the row label, the field text and the unit, and the subtext letter-spacing (0.3px) on the counter and the error message, as the settings lab does. The tokens already existed; the components did not use them (#249).
 - Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width (#249). The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
 
+## 0.196.0 — 2026-10-15
+### Added
+- Marketing sections preview (Patterns → Marketing sections, every page): a width switch above the preview ordered wide to narrow: Wide 1440, Desktop 1280, Tablet 768 and Phone 375, taken from the breakpoint and content-width tokens. The switch is the shared `aha-segmented`. The section renders in a frame at the chosen width, with the DS elements and Plus Jakarta Sans loaded, so media queries, container queries and `vw` sizes all respond as they would on a real page. Wider frames scale down to fit the docs column with a "1280 px · 56%" label, the choice is remembered across section pages, and arrow keys move within the switch. The paste-and-run code is unchanged. (#255)
+
 ## 0.194.0 — 2026-10-15
 ### Added
 - Marketing section `Footer banner` (Patterns → Marketing sections, Webflow `card-based-section img-card-section`), matched to the live ahaslides.com word-cloud page at 1440px, 768px and 375px: the pale pink illustrated call-to-action card above the Footer with a centred heading and a Get started free button in the DS primary colours (Vivid Pink, `#DB005B` on hover, the DS focus outline). The card reflows at 991px and 479px, an optional paragraph slot covers the Enterprise variant, and an opt-in `aha-footer-banner--reveal` modifier reproduces the Compare page's scroll-in fade-up (skipped under reduced motion). Every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#257)
+
 ## 0.193.0 — 2026-10-15
 ### Added
 - Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"), matched to the live ahaslides.com at 1440px and 390px: a dark participant join bar that scrolls away above a sticky navigation; Products, Solutions and Resources mega-menus that open on hover with a fade and slide (Products in three columns with a preview slot, Solutions with use cases and integration logos, Resources in two columns); Pricing, Enterprise, a language menu that opens on click, and Log in / Sign up. At 991px and below a hamburger drawer slides down and its menus become an accordion. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, logos come from the Logo library, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#247)
