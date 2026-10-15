@@ -213,6 +213,7 @@
   "system-magnifying-glass-text": ["search text", "find in text", "look up", "search results", "review", "lookup"],
   "system-magnifying-glass": ["search", "find", "look up", "zoom", "magnify", "explore"],
   "system-medal": ["medal", "award", "badge", "achievement", "prize", "winner"],
+  "system-menu": ["menu", "hamburger", "navigation", "open menu", "three lines", "nav drawer"],
   "system-microphone": ["microphone", "audio", "record", "voice", "speak", "mic"],
   "system-microsoft-excel-logo": ["excel", "microsoft", "spreadsheet", "export to excel", "xlsx", "office"],
   "system-minimise": ["minimise", "collapse", "hide", "dock", "lower", "send to bottom"],
