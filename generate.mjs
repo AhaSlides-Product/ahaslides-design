@@ -1760,7 +1760,7 @@ function renderMarketingHtml(b) {
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
-  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
