@@ -1726,6 +1726,37 @@ function marketingBreakpointPreview(b) {
   </script>`;
 }
 
+const MARKETING_CARD_PREVIEW_WIDTH = 380;
+const MARKETING_CARD_PREVIEW_CSS = `
+.mcp{margin:0 0 var(--aha-space-12);max-width:${MARKETING_CARD_PREVIEW_WIDTH + 2}px}
+.mcp-name{display:block;margin:0 0 var(--aha-space-4);font-size:var(--aha-size-default);font-weight:600;color:var(--aha-text-secondary)}
+.mcp-viewport{overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white)}
+.mcp-frame{display:block;width:100%;border:0;background:var(--aha-white)}`;
+function marketingCardPreview(b, card) {
+  return `<div class="mcp" data-card="${esc(card.slug)}">
+    <span class="mcp-name">${esc(card.name)}</span>
+    <div class="mcp-viewport"><iframe class="mcp-frame" title="${esc(card.name)} preview" scrolling="no"></iframe></div>
+    <template class="mcp-doc"><style>${tokenVars(TOK)}</style>${marketingCardSnippet(b, card)}</template>
+  </div>`;
+}
+const MARKETING_CARD_PREVIEW_SCRIPT = `<script>
+  (function(){
+    var base=new URL('../../',location.href).href;
+    var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+      '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+    var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+    var report='var c=document.getElementById("mcp-content"),last=-1;function send(){var h=Math.ceil(c.getBoundingClientRect().height);if(h!==last){last=h;parent.postMessage({mcpHeight:h,mcpCard:name},"*")}}new ResizeObserver(send).observe(c);';
+    var frames=[].slice.call(document.querySelectorAll('.mcp'));
+    window.addEventListener('message',function(e){
+      if(!e.data||typeof e.data.mcpHeight!=='number')return;
+      frames.forEach(function(root){var f=root.querySelector('.mcp-frame');if(f.contentWindow===e.source)f.style.height=e.data.mcpHeight+'px';});
+    });
+    frames.forEach(function(root){
+      root.querySelector('.mcp-frame').srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mcp-content">'+root.querySelector('.mcp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+    });
+  })();
+  </script>`;
+
 function marketingCodeToggle(file, code) {
   return `<div class="code-tabs" data-open="false">
     <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
@@ -1748,11 +1779,13 @@ function renderMarketingHtml(b) {
   <p class="body">Each type is a self-contained snippet: its styles plus one card. Paste it into any page, or use the grid above for the whole set.</p>
   ${b.snippets.map(card => `<h3>${esc(card.name)}</h3>
   <p class="body">${esc(card.summary)}</p>
+  ${marketingCardPreview(b, card)}
   ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ')}
 
   <h2>The whole grid</h2>
   <p class="body">All eight types in the 3, 2 and 1 column grid.</p>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}` : `<h2>Paste-and-run HTML</h2>
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}
+  ${MARKETING_CARD_PREVIEW_SCRIPT}` : `<h2>Paste-and-run HTML</h2>
   <p class="body">Copy the whole block into any page (Webflow, WordPress, a static site). It reads only the shared <code>--aha-*</code> tokens.</p>
   ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}`}
 
@@ -1763,7 +1796,7 @@ function renderMarketingHtml(b) {
   <h2>Details</h2>
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}${MARKETING_BREAKPOINT_CSS}` });
+  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}${MARKETING_BREAKPOINT_CSS}${b.snippets ? MARKETING_CARD_PREVIEW_CSS : ''}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
