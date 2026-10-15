@@ -33,8 +33,8 @@
      "{site}/colour-rules.md",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
-    "judge": "{site}/anti-slop.md (surfaces audience and canvas)",
-    "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=canvas <presenter files>, then the same command with --surface=audience <audience files>",
+    "judge": "{site}/anti-slop.md (surfaces audience, canvas and settings)",
+    "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=canvas <presenter files>, then the same command with --surface=audience <audience files> and --surface=settings <settings files>",
     "plugin": "ahaslides-design:aha-design",
     "owner": "Design system team (#design-system-agents)"
    }

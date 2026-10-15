@@ -6,7 +6,7 @@ replacement: a raw <button> / role="button" (rule raw-button) and <aha-button si
 (rule button-size-xl). The lint stays the authority and also covers ::part sizing and key chips.
 
 Where it applies: presenter.html, presenter.js, audience.html and audience.js that slide_type.py
-recognises as a slide type's files. Never: settings.* (product UI), a comment line, a line marked
+recognises as a slide type's files. Never: settings.* (screen-lint --surface=settings covers them), a comment line, a line marked
 `ds-lint-allow: raw-button (why)` (a control the DS does not ship, such as a draggable tile), and an
 edit that only keeps or moves controls already in the file. Fail-open: any error allows the write.
 """

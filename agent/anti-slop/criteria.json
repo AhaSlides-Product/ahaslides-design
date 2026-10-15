@@ -824,6 +824,11 @@
           "id": "C17",
           "title": "Setting label weight and colour",
           "test": "A setting label (settings item / SettingRow / ModeField label) is regular 400 in primary text (`--aha-text-default` #1A1A1A). A label inside a sub-setting group is regular 400 in secondary text (`--aha-text-secondary` #4A4A4A). Sibling settings sit 24px apart. **FAIL** on a semibold setting label or a nested label in primary text."
+        },
+        {
+          "id": "C18",
+          "title": "Settings controls come from lib/settings.js",
+          "test": "Every control in the settings panel is an element that `lib/settings.js` registers (`aha-switch`, `aha-checkbox`, `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select`, `aha-segmented`, `aha-button`, `aha-option-row`, `aha-setting-row` and the rest of that entry). A raw `<button>`, `<input>`, `<select>`, `<textarea>` or `role=\"switch\"` element, a hand-built toggle, dropdown or option row, or an `<aha-*>` tag that `lib/settings.js` does not load fails. **FAIL** on any of them unless it is a control the DS does not ship, kept with `ds-lint-allow: raw-control (why)` and a reason that holds. The mechanical twin is `node screen-lint.mjs --surface=settings <files>`."
         }
       ]
     },

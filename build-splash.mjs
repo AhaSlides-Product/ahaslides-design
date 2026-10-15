@@ -68,6 +68,12 @@ export function largestHook(hooks) {
   return hooks.reduce((largest, hook) => (area(hook) > area(largest) ? hook : largest));
 }
 
+function wideFrameGrowth(layout, width, height) {
+  if (!layout.wideFrameAspectThreshold) return 1;
+  const aspect = Math.max(width, height) / Math.min(width, height);
+  return aspect > layout.wideFrameAspectThreshold ? (aspect / layout.wideFrameAspectThreshold) ** layout.wideFrameFollow : 1;
+}
+
 function wholeIcon(hooks, colour, scale, meetingX, meetingY, meetingPoint) {
   const transform = `translate(${meetingX.toFixed(3)} ${meetingY.toFixed(3)}) scale(${scale.toFixed(6)}) translate(${(-meetingPoint.x).toFixed(1)} ${(-meetingPoint.y).toFixed(1)})`;
   return `<g fill="${colour}" transform="${transform}">${hooks.map(hook => `<path d="${hook}"/>`).join('')}</g>`;
@@ -96,7 +102,7 @@ export function buildSplash({ layout, surface, width, height, rules = loadSplash
   const { iconWidth, hooks } = readIcon(iconSvg);
   const splash = layout === 'minimal'
     ? minimalHooks(hooks, colours.hooks, width, height, geometry, iconWidth)
-    : wholeIcon(hooks, colours.hooks, geometry.iconWidthPerShorterSide * Math.min(width, height) / iconWidth,
+    : wholeIcon(hooks, colours.hooks, geometry.iconWidthPerShorterSide * wideFrameGrowth(geometry, width, height) * Math.min(width, height) / iconWidth,
       geometry.meetingPointAcross * width, geometry.meetingPointDown * height, rules.meetingPoint);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`
     + `<clipPath id="frame"><rect width="${width}" height="${height}"/></clipPath>`
