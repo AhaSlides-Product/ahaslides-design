@@ -22,9 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.200.4 — 2026-10-15
+## 0.206.0 — 2026-10-15
 ### Fixed
 - Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
+
+## 0.203.1 — 2026-10-15
+### Fixed
+- Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#263)
+
+## 0.203.0 — 2026-10-15
+### Changed
+- Centre splash (Brand colour rules 5.3, 5.7 and the layouts table): in frames wider or taller than 16:9 the icon grows by the square root of how far the frame goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times, and the top-right hook no longer dominates. The meeting point now sits 50% across and 55% down in every centre frame. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.centre`. The six centre files in the Background library are rebuilt. Right and minimal are unchanged. (#265)
+
+## 0.202.0 — 2026-10-15
+### Added
+- `screen-lint.mjs --surface=settings` for a slide type's settings panel. On top of the product checks it hard-fails a raw `<button>`, `<input>`, `<select>`, `<textarea>` or `role="switch"` (`raw-control`) and any `<aha-*>` tag that `lib/settings.js` does not register (`unregistered-element`). The allowed tags are generated from the settings entry into `lib/settings-elements.js`, so the list cannot drift. A control the DS does not ship keeps its tag with `ds-lint-allow: raw-control (why)`. The settings anti-slop judge gains C18, "Settings controls come from lib/settings.js". The canvas, audience and product surfaces are unchanged. (#268)
 
 ## 0.200.2 — 2026-10-15
 ### Changed

@@ -15,7 +15,7 @@ reads it, and hooks that force that skill into the work.
 | Make a code pattern route to a DS surface at write time | `agent/hooks/rules.json` (`surface`, `action`, `signature`, `message`) |
 | Route an impeccable anti-pattern to a DS surface | `agent/hooks/slop_rules.json` |
 | Change which surfaces the end-of-turn judge asks for | `FILE_SURFACE_HINTS` in `agent/hooks/design_judge_stop.py` |
-| Change which files count as a build-less slide type, or which hand-made controls are blocked in them | `agent/hooks/slide_type.py`, `agent/hooks/slide_control_guard.py` (the rules themselves are `lib/screen-lint-slide.js`) |
+| Change which files count as a build-less slide type, or which hand-made controls are blocked in them | `agent/hooks/slide_type.py`, `agent/hooks/slide_control_guard.py` (the canvas and audience rules are `lib/screen-lint-slide.js`; the settings rules are `lib/screen-lint-settings.js`, with the allowed tags generated into `lib/settings-elements.js`) |
 
 Never copy rule text into the plugin — a copy drifts from the DS. Messages in `rules.json` name
 the surface and the one thing the write got wrong; the criteria come from the DS at run time.

@@ -36,9 +36,9 @@
    "pink": { "background": "#E70E68", "hooks": "#DB005B" }
   },
   "layouts": {
-   "centre": { "iconWidthPerShorterSide": 4.5, "meetingPointAcross": 0.5, "meetingPointDown": 0.5 },
+   "centre": { "iconWidthPerShorterSide": 4.5, "wideFrameAspectThreshold": 1.7777777777777777, "wideFrameFollow": 0.5, "meetingPointAcross": 0.5, "meetingPointDown": 0.55 },
    "right": { "iconWidthPerShorterSide": 3.0, "meetingPointAcross": 0.79, "meetingPointDown": 0.5 },
-   "minimal": { "iconWidthPerLongerSide": 1.15, "bottomLeftOutsideLeftEdge": 0.0135, "bottomLeftRiseAboveBottomEdge": 0.193, "topRightOutsideRightEdge": 0.019, "topRightDropBelowTopEdge": 0.198 }
+   "minimal": { "iconWidthPerLongerSide": 1.15, "longerSideAtMostShorterSideTimes": 2, "bottomLeftOutsideLeftEdge": 0.0135, "bottomLeftRiseAboveBottomEdge": 0.193, "topRightOutsideRightEdge": 0.019, "topRightDropBelowTopEdge": 0.198 }
   },
   "frames": {
    "16x9": { "width": 1920, "height": 1080 },
@@ -143,19 +143,19 @@
     { "type": "rules", "rules": [
      { "id": "5.1", "text": "Colour: Vivid Pink at 5% on a white background, Darker Pink on a Vivid Pink background. All hooks are one colour." },
      { "id": "5.2", "text": "Three layouts only: centre, right and minimal." },
-     { "id": "5.3", "text": "**Centre splash.** Enlarge the whole icon until it is 4.5 times as wide as the frame's shorter side. Put the point where the four hooks meet at the centre of the frame." },
+     { "id": "5.3", "text": "**Centre splash.** Enlarge the whole icon until it is 4.5 times as wide as the frame's shorter side. In a frame wider or taller than 16:9 (or 9:16), grow it further by the square root of how far the frame's shape goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times. Put the point where the four hooks meet 50% of the way across and 55% of the way down the frame." },
      { "id": "5.4", "text": "**Right splash.** Enlarge the whole icon until it is 3.0 times as wide as the frame's shorter side. Put the meeting point 79% of the way across (29% of the width right of centre) and vertically centred." },
-     { "id": "5.5", "text": "**Minimal splash.** Two copies of the largest hook (the lower-left one in the icon), and nothing else. Size them as if the whole icon were 1.15 times as wide as the frame's longer side, so each hook is 0.73 of the longer side in length. Pin each to its own corner and measure every offset against the longer side. One is turned a quarter-turn anticlockwise and sits in the bottom-left corner, starting 1.35% outside the left edge and rising 19.3% above the bottom edge. The other is turned a quarter-turn clockwise and sits in the top-right corner, ending 1.9% outside the right edge and dropping 19.8% below the top edge. Each is cropped by the frame edge." },
+     { "id": "5.5", "text": "**Minimal splash.** Two copies of the largest hook (the lower-left one in the icon), and nothing else. Size them as if the whole icon were 1.15 times as wide as the frame's longer side, so each hook is 0.73 of the longer side in length. The longer side counts as at most twice the shorter side, so in a frame wider than 2:1 or taller than 1:2 the hooks keep the size and offsets they have at 2:1. Pin each to its own corner and measure every offset against that length. One is turned a quarter-turn anticlockwise and sits in the bottom-left corner, starting 1.35% outside the left edge and rising 19.3% above the bottom edge. The other is turned a quarter-turn clockwise and sits in the top-right corner, ending 1.9% outside the right edge and dropping 19.8% below the top edge. Each is cropped by the frame edge." },
      { "id": "5.6", "environment": ["product", "marketing-web", "video", "social-ads"], "text": "Use a splash background on a web page built from full-width sections, a hero area, an empty state, a social post or a slide. Never on a dense app screen such as the editor." },
-     { "id": "5.7", "text": "Centre and right zoom against the frame's shorter side, so the splash stays large in very wide or very tall frames and only parts of the curves show. On a 16:9 frame these figures match the PDF to within 0.5%." },
-     { "id": "5.8", "text": "Minimal zooms against the frame's longer side, so the two hooks stay in proportion in wide banners and tall stories alike." }
+     { "id": "5.7", "text": "Centre and right zoom against the frame's shorter side, so the splash stays large in very wide or very tall frames and only parts of the curves show. The centre splash also grows in frames wider or taller than 16:9, so the top-right hook does not dominate them. On a 16:9 frame the icon width matches the PDF to within 0.5%, and the meeting point sits 5% of the height lower than in the PDF." },
+     { "id": "5.8", "text": "Minimal zooms against the frame's longer side, counted as at most twice the shorter side. The two hooks stay in proportion in wide banners and tall stories alike, and in a banner wider than 2:1 (or taller than 1:2) they stay in their corners with the middle clear." }
     ] },
     { "type": "table", "id": "splash-layouts",
       "columns": ["Layout", "Icon width against the frame's shorter side", "Where the hooks' meeting point sits"],
       "rows": [
-       ["Centre", "450%", "50% across, 50% down"],
+       ["Centre", "450% from 16:9 to 9:16. Wider or taller frames grow it further: 1.41 times at 32:9 or 9:32, 1.15 times at 21:9 or 9:21", "50% across, 55% down"],
        ["Right", "300%", "79% across, 50% down"],
-       ["Minimal", "Not set against the shorter side: the icon would be 1.15 times the longer side, so each of the two hooks is 0.73 of the longer side in length", "Each hook is pinned to its own corner and every offset is a share of the longer side. Bottom-left hook: 1.35% outside the left edge, rising 19.3% above the bottom edge. Top-right hook: 1.9% outside the right edge, dropping 19.8% below the top edge. This works on any aspect ratio"]
+       ["Minimal", "Not set against the shorter side: the icon would be 1.15 times the longer side, so each of the two hooks is 0.73 of the longer side in length", "Each hook is pinned to its own corner and every offset is a share of the longer side. Bottom-left hook: 1.35% outside the left edge, rising 19.3% above the bottom edge. Top-right hook: 1.9% outside the right edge, dropping 19.8% below the top edge. The longer side counts as at most twice the shorter side, so in a frame wider than 2:1 or taller than 1:2 the hooks keep their 2:1 size and stay in their corners, with the middle clear. This works on any aspect ratio"]
       ] },
     { "type": "heading", "anchor": "splash-files", "text": "Ready-made files and the generator", "origin": "aha-marketing-backgrounds" },
     { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "The [Background library](backgrounds.html) holds the ready-made files: centre, right and minimal at 16:9, 1:1 and 9:16, each on white and on Vivid Pink. For any other size, build the file with the generator on that page." },
@@ -173,7 +173,7 @@
     { "type": "rules", "start": 17, "origin": "aha-marketing-backgrounds", "rules": [
      { "id": "5.17", "text": "Icon width, for centre and right, is the width of the splash icon's own 802-unit frame." },
      { "id": "5.18", "text": "The meeting point is the centre of the gap the four hooks surround: 414 across and 336 down in the icon's 802 by 788 frame." },
-     { "id": "5.19", "text": "Minimal is sized as if the whole icon were 1.15 times as wide as the frame's longer side (icon width is the 802-unit frame, as above), which makes each turned hook 0.73 of the longer side long. Every offset is a share of the longer side, never of the frame's height or width." }
+     { "id": "5.19", "text": "Minimal is sized as if the whole icon were 1.15 times as wide as the frame's longer side (icon width is the 802-unit frame, as above), which makes each turned hook 0.73 of the longer side long. Every offset is a share of the longer side, never of the frame's height or width. The longer side counts as at most twice the shorter side: a 1920 by 320 banner is laid out as if it were 320 high and 640 wide, so the hooks keep their 2:1 size and the middle stays clear." }
     ] }
    ]
   },
@@ -277,6 +277,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v13", "date": "15 Oct", "text": "Minimal splash: the longer side counts as at most twice the shorter side (rules 5.5, 5.8 and 5.19 and the layout table). In banners wider than 2:1 or taller than 1:2 the hooks keep their 2:1 size and stay in their corners with the middle clear. Frames between 1:2 and 2:1 and every ready-made file are unchanged. No rule id changed." },
   { "version": "v12", "date": "14 Oct", "text": "New section 11, Correct and wrong answers: one green and one red, with 5% and 30% tints, mark a correct or wrong answer and nothing else. Four short rules (11.1 to 11.4) in a collapsed Rules panel. Rules 1.1, 7.1 and 8.5 and the glance line on status now name that exception. Still to decide moves to section 12. No existing rule id changed." },
   { "version": "v11", "date": "13 Oct", "text": "Rules that scoped themselves by who makes a page or a layout now name the medium instead: a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The retired colours and the near matches (rule 1.3) are marked as applying everywhere, which rule 1.1 already required. No rule asks for anything new." },
   { "version": "v10", "date": "12 Oct", "text": "The rules now live as data in the design system, the one source for this page, the agent feed and the judge criteria. Added: applied usage per surface, splash files and the generator, no gradients, retired colours. Nothing is left under Still to decide. The minimal splash is two copies of the largest hook, sized as if the icon were 1.15 times the longer side (each hook 0.73 of it), each pinned to its own corner with offsets measured against the longer side, so it works on any aspect ratio. Colours are defined in RGB only. Every button and text link, on any surface, is the design system Button component, except the white primary button on Vivid Pink (rule 6.2), which keeps its own colours, hover and focus outline. No existing rule changed." },

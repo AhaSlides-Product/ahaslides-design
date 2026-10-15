@@ -68,6 +68,12 @@ export function largestHook(hooks) {
   return hooks.reduce((largest, hook) => (area(hook) > area(largest) ? hook : largest));
 }
 
+function wideFrameGrowth(layout, width, height) {
+  if (!layout.wideFrameAspectThreshold) return 1;
+  const aspect = Math.max(width, height) / Math.min(width, height);
+  return aspect > layout.wideFrameAspectThreshold ? (aspect / layout.wideFrameAspectThreshold) ** layout.wideFrameFollow : 1;
+}
+
 function wholeIcon(hooks, colour, scale, meetingX, meetingY, meetingPoint) {
   const transform = `translate(${meetingX.toFixed(3)} ${meetingY.toFixed(3)}) scale(${scale.toFixed(6)}) translate(${(-meetingPoint.x).toFixed(1)} ${(-meetingPoint.y).toFixed(1)})`;
   return `<g fill="${colour}" transform="${transform}">${hooks.map(hook => `<path d="${hook}"/>`).join('')}</g>`;
@@ -76,13 +82,13 @@ function wholeIcon(hooks, colour, scale, meetingX, meetingY, meetingPoint) {
 function minimalHooks(hooks, colour, width, height, layout, iconWidth) {
   const hook = largestHook(hooks);
   const { top, right } = pathBounds(hook);
-  const longerSide = Math.max(width, height);
-  const scale = layout.iconWidthPerLongerSide * longerSide / iconWidth;
+  const cappedLongerSide = Math.min(Math.max(width, height), layout.longerSideAtMostShorterSideTimes * Math.min(width, height));
+  const scale = layout.iconWidthPerLongerSide * cappedLongerSide / iconWidth;
   // rotate(-90) maps (x, y) to (y, -x); rotate(90) maps (x, y) to (-y, x).
-  const bottomLeftX = -layout.bottomLeftOutsideLeftEdge * longerSide - top * scale;
-  const bottomLeftY = height - layout.bottomLeftRiseAboveBottomEdge * longerSide + right * scale;
-  const topRightX = width + layout.topRightOutsideRightEdge * longerSide + top * scale;
-  const topRightY = layout.topRightDropBelowTopEdge * longerSide - right * scale;
+  const bottomLeftX = -layout.bottomLeftOutsideLeftEdge * cappedLongerSide - top * scale;
+  const bottomLeftY = height - layout.bottomLeftRiseAboveBottomEdge * cappedLongerSide + right * scale;
+  const topRightX = width + layout.topRightOutsideRightEdge * cappedLongerSide + top * scale;
+  const topRightY = layout.topRightDropBelowTopEdge * cappedLongerSide - right * scale;
   const bottomLeft = `translate(${bottomLeftX.toFixed(3)} ${bottomLeftY.toFixed(3)}) rotate(-90) scale(${scale.toFixed(6)})`;
   const topRight = `translate(${topRightX.toFixed(3)} ${topRightY.toFixed(3)}) rotate(90) scale(${scale.toFixed(6)})`;
   return `<g fill="${colour}"><path transform="${bottomLeft}" d="${hook}"/><path transform="${topRight}" d="${hook}"/></g>`;
@@ -96,7 +102,7 @@ export function buildSplash({ layout, surface, width, height, rules = loadSplash
   const { iconWidth, hooks } = readIcon(iconSvg);
   const splash = layout === 'minimal'
     ? minimalHooks(hooks, colours.hooks, width, height, geometry, iconWidth)
-    : wholeIcon(hooks, colours.hooks, geometry.iconWidthPerShorterSide * Math.min(width, height) / iconWidth,
+    : wholeIcon(hooks, colours.hooks, geometry.iconWidthPerShorterSide * wideFrameGrowth(geometry, width, height) * Math.min(width, height) / iconWidth,
       geometry.meetingPointAcross * width, geometry.meetingPointDown * height, rules.meetingPoint);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`
     + `<clipPath id="frame"><rect width="${width}" height="${height}"/></clipPath>`
