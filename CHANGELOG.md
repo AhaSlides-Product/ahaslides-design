@@ -22,9 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.212.0 — 2026-10-15
+## 0.214.0 — 2026-10-15
 ### Added
 - Marketing > Components > Cards is now one block per card type: the card name, a live preview of that card at its real grid-column size (one cell of the 3 / 2 / 1 column grid, the other cells empty) with its own breakpoint switcher (Wide, Desktop, Tablet, Phone), then its Show code toggle (the card inside its grid wrapper). Each switcher resizes only its own preview. The page-top whole-grid preview and the "The whole grid" code section are gone; the Load the tokens once footer stays. (#272)
+
+## 0.213.0 — 2026-10-15
+### Added
+- Marketing section `Logos` (Patterns → Marketing sections, Webflow CMS collection list `div-block-250`), matched to the live ahaslides.com survey creator page at 1440px, 991px, 767px and 390px: a row of greyscale customer logos that slides left over 20s, linear and repeating, like the Webflow Infinite logo interaction, and stops under reduced motion. The loop shifts by one set plus the gap, so it restarts with no 40px jump (the live strip jumps), and the logos load eagerly so none is blank when it slides in. Below 768px the set grows to its content, so the logos no longer overlap the second copy (they do on live). The logos are not typed into the markup: the section renders them from `marketing/data/logos-cms.json`, the published CMS list with its source URL and fetch date. `generate.mjs` gains one optional step for marketing sections: a `dataFile` plus an `itemHtml` template expand `{{items}}` in the section HTML; sections without them are unchanged. (#267)
+### Changed
+- Logos strip: the logos are about 25% larger than live at every width (80px to 100px wide at most, 110px to 138px at 1920px, 40px to 50px tall at 991px and below, 60px to 75px tall at 479px and below); the loop shift is unchanged. Growth to align the live site. (#267)
 
 ## 0.211.1 — 2026-10-15
 ### Changed
