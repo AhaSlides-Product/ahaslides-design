@@ -1673,7 +1673,7 @@ function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
-    <div class="mbp-viewport" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
+    <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
   </div>
   <script type="module">
