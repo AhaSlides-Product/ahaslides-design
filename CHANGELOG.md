@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.198.3 — 2026-10-15
 ### Fixed
-- Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#PR)
+- Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#263)
 
 ## 0.198.2 — 2026-10-15
 ### Changed
