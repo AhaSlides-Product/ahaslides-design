@@ -30,6 +30,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Docs site: the "Marketing" header tab is renamed "Websites", matching the `web` environment; docs search labels those pages Websites too. The `marketing/` folder, its page URLs and the `marketing.*` feed names are unchanged. (#262)
 - The old `marketing-web` id is still accepted for one release as a deprecated alias of `web`: items that declare it validate and route as `web`, and `colour-rules.agent.json` `rulesByEnvironment['marketing-web']` mirrors `web`. It is not a sixth environment and is not listed in `llms.txt` Routes. (#262)
 
+## 0.203.1 — 2026-10-15
+### Fixed
+- Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#263)
+
 ## 0.203.0 — 2026-10-15
 ### Changed
 - Centre splash (Brand colour rules 5.3, 5.7 and the layouts table): in frames wider or taller than 16:9 the icon grows by the square root of how far the frame goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times, and the top-right hook no longer dominates. The meeting point now sits 50% across and 55% down in every centre frame. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.centre`. The six centre files in the Background library are rebuilt. Right and minimal are unchanged. (#265)
