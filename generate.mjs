@@ -1638,6 +1638,88 @@ function renderCanvasLibrary() {
   return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
 }
 
+const MARKETING_WIDTHS = [
+  ['Phone', TOK.breakpoints.phone],
+  ['Tablet', TOK.breakpoints.tablet],
+  ['Desktop', TOK.breakpoints.desktop],
+  ['Wide', TOK.layout.contentMaxWidth],
+];
+const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
+const MARKETING_BREAKPOINT_CSS = `
+.mbp-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+.mbp-seg{display:inline-flex;flex-wrap:wrap;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
+.mbp-opt{font-family:var(--aha-font-product);font-size:13px;font-weight:600;color:var(--aha-text-secondary);background:transparent;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;transition:background .12s ease,color .12s ease}
+.mbp-opt:hover:not([aria-checked="true"]){color:var(--aha-text-default)}
+.mbp-opt[aria-checked="true"]{color:var(--aha-text-default);background:var(--aha-bg-accent)}
+.mbp-opt:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
+.mbp-opt small{font-weight:400;margin-left:4px;color:var(--aha-text-secondary)}
+.mbp-label{font-size:13px;color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
+.mbp-viewport{overflow:hidden;border:1px solid var(--aha-split);border-radius:8px;background:#fff}
+.mbp-frame{display:block;border:0;background:#fff;transform-origin:0 0}`;
+function marketingBreakpointPreview(b) {
+  const opts = MARKETING_WIDTHS.map(([label, width], i) => {
+    const on = width === MARKETING_DEFAULT_WIDTH;
+    return `<button type="button" class="mbp-opt" role="radio" aria-checked="${on}" tabindex="${on ? 0 : -1}" data-width="${width}">${esc(label)}<small>${width}</small></button>`;
+  }).join('');
+  return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><div class="mbp-seg" role="radiogroup" aria-label="Preview width">${opts}</div><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-viewport"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
+  </div>
+  <script>
+  (function(){
+    var root=document.currentScript.previousElementSibling;
+    if(!root||!root.classList.contains('mbp'))return;
+    var KEY='aha-marketing-preview-width';
+    var opts=[].slice.call(root.querySelectorAll('.mbp-opt'));
+    var frame=root.querySelector('.mbp-frame'),view=root.querySelector('.mbp-viewport'),label=root.querySelector('.mbp-label');
+    var widths=opts.map(function(o){return +o.dataset.width});
+    var width=+root.dataset.default;
+    try{var saved=+localStorage.getItem(KEY);if(widths.indexOf(saved)>-1)width=saved;}catch(e){}
+    var contentHeight=0;
+    function layout(){
+      var avail=view.parentNode.clientWidth;
+      var scale=Math.min(1,avail/width);
+      frame.style.width=width+'px';
+      frame.style.height=contentHeight+'px';
+      frame.style.transform=scale<1?'scale('+scale+')':'none';
+      view.style.height=Math.ceil(contentHeight*scale)+'px';
+      view.style.width=Math.ceil(width*scale)+2+'px';
+      label.textContent=width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
+    }
+    function measure(){
+      try{var d=frame.contentDocument;contentHeight=Math.ceil(d.documentElement.scrollHeight);layout();}catch(e){}
+    }
+    function load(){
+      frame.onload=function(){
+        measure();
+        try{new frame.contentWindow.ResizeObserver(measure).observe(frame.contentDocument.documentElement);}catch(e){}
+      };
+      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0}</style></head><body>'+root.querySelector('.mbp-doc').innerHTML+'</body></html>';
+    }
+    function select(o,focus){
+      width=+o.dataset.width;
+      opts.forEach(function(x){var on=x===o;x.setAttribute('aria-checked',on);x.tabIndex=on?0:-1;});
+      try{localStorage.setItem(KEY,String(width));}catch(e){}
+      if(focus)o.focus();
+      layout();setTimeout(measure,60);
+    }
+    opts.forEach(function(o,i){
+      o.addEventListener('click',function(){select(o,false)});
+      o.addEventListener('keydown',function(e){
+        var n={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];
+        if(e.key==='Home')n=-i;else if(e.key==='End')n=opts.length-1-i;
+        if(n===undefined)return;
+        e.preventDefault();select(opts[(i+n+opts.length)%opts.length],true);
+      });
+    });
+    opts.forEach(function(x){var on=+x.dataset.width===width;x.setAttribute('aria-checked',on);x.tabIndex=on?0:-1;});
+    window.addEventListener('resize',layout);
+    load();
+  })();
+  </script>`;
+}
+
 function renderMarketingHtml(b) {
   const main = `
   <h1>${esc(b.name)}</h1>
@@ -1645,7 +1727,7 @@ function renderMarketingHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Preview</h2>
-  <div class="marketing-stage">${marketingSnippet(b)}</div>
+  <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
   <p class="body">Framework-free — copy the whole block into any page (Webflow, WordPress, a static site). It binds only to the shared <code>--aha-*</code> tokens, so load the token layer once on the page first and the block inherits the AhaSlides brand automatically.</p>
@@ -1661,7 +1743,7 @@ function renderMarketingHtml(b) {
     <pre class="active">${esc(`<link rel="stylesheet" href="${SITE}/variables.css">`)}</pre>
   </div>`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'patterns', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}` });
+  .marketing-stage{margin:0 0 12px}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
