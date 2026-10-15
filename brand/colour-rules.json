@@ -173,7 +173,7 @@
     { "type": "rules", "start": 17, "origin": "aha-marketing-backgrounds", "rules": [
      { "id": "5.17", "text": "Icon width, for centre and right, is the width of the splash icon's own 802-unit frame." },
      { "id": "5.18", "text": "The meeting point is the centre of the gap the four hooks surround: 414 across and 336 down in the icon's 802 by 788 frame." },
-     { "id": "5.19", "text": "Minimal is sized as if the whole icon were 1.15 times as wide as the frame's longer side (icon width is the 802-unit frame, as above), which makes each turned hook 0.73 of the longer side long. Every offset is a share of the longer side, never of the frame's height or width. The longer side counts as at most twice the shorter side: a 1920 by 320 banner is laid out as if it were 640 high and 1280 wide, so the hooks keep their 2:1 size and the middle stays clear." }
+     { "id": "5.19", "text": "Minimal is sized as if the whole icon were 1.15 times as wide as the frame's longer side (icon width is the 802-unit frame, as above), which makes each turned hook 0.73 of the longer side long. Every offset is a share of the longer side, never of the frame's height or width. The longer side counts as at most twice the shorter side: a 1920 by 320 banner is laid out as if it were 320 high and 640 wide, so the hooks keep their 2:1 size and the middle stays clear." }
     ] }
    ]
   },
