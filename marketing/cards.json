@@ -1,0 +1,77 @@
+{
+  "slug": "cards",
+  "name": "Cards",
+  "kind": "component",
+  "environment": [
+    "marketing-web"
+  ],
+  "summary": "Eight meaning cards for the AhaSlides marketing sites (Webflow Cards), built on the Card anatomy (cover, title, body, actions) with the marketing radius: Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card and Integration card. Framework-free HTML and CSS, bound to the shared --aha-* tokens. Each type has its own copyable snippet; linked types use one stretched link over the whole card.",
+  "highlights": [
+    "Eight card types on one page, each with its own paste-and-run snippet",
+    "Built on the Card anatomy (cover, title, body, actions) with the marketing radius and marketing type scale; not the aha-card web component",
+    "Whole card is one link (stretched-link pattern) on Case study, Template, Feature, Article and Integration cards; Testimonial, Statistic and Step cards are static",
+    "Hover lift only on linked cards, a visible focus ring around the whole card, and no motion under reduced motion",
+    "16:9 template thumbnails, 3:2 case-study and article covers; neutral placeholders until a real image replaces the media block",
+    "Grid steps from three columns to two at 991px and to one at 767px; padding tightens at 479px",
+    "Every value is an --aha-* token"
+  ],
+  "baseCss": ".aha-marketing-cards{\n  container:aha-marketing-cards / inline-size;\n  background:var(--aha-white);\n  color:var(--aha-text-default);\n  font-family:var(--aha-font-product);\n}\n.aha-marketing-cards *{box-sizing:border-box}\n:where(.aha-marketing-card) h3,:where(.aha-marketing-card) p,:where(.aha-marketing-card) blockquote,:where(.aha-marketing-card) figure,figure:where(.aha-marketing-card){margin:0}\n:where(.aha-marketing-card) blockquote{padding:0}\n:where(.aha-marketing-cards) ol{margin:0;padding:0}\n.aha-marketing-cards__grid{\n  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));\n  gap:var(--aha-space-32);\n  max-width:72rem;margin:0 auto;\n  padding:var(--aha-space-64) var(--aha-space-24);\n  list-style:none;\n}\n.aha-marketing-card{\n  position:relative;\n  display:flex;flex-direction:column;\n  height:100%;\n  background:var(--aha-bg-container);\n  color:var(--aha-text-default);\n  font-family:var(--aha-font-product);\n  border:1px solid var(--aha-border-default);\n  border-radius:var(--aha-radius-marketing);\n  overflow:hidden;\n}\n.aha-marketing-card *{box-sizing:border-box}\n.aha-marketing-card__media{\n  display:flex;align-items:center;justify-content:center;\n  width:100%;\n  background:var(--aha-bg-container-secondary);\n  color:var(--aha-icon-muted);\n  overflow:hidden;\n}\n.aha-marketing-card__media--16x9{aspect-ratio:16 / 9}\n.aha-marketing-card__media--3x2{aspect-ratio:3 / 2}\n.aha-marketing-card__media img{display:block;width:100%;height:100%;object-fit:cover}\n.aha-marketing-card__body{\n  display:flex;flex-direction:column;flex:1;\n  gap:var(--aha-space-12);\n  padding:var(--aha-space-24);\n}\n.aha-marketing-card__eyebrow{\n  font-size:var(--aha-size-sm);\n  font-weight:var(--aha-weight-semibold);\n  letter-spacing:var(--aha-letter-spacing-subheadings);\n  text-transform:uppercase;\n  color:var(--aha-color-primary);\n}\n.aha-marketing-card__title{\n  font-size:var(--aha-size-xl);\n  font-weight:var(--aha-weight-semibold);\n  line-height:var(--aha-line-height-heading);\n  color:var(--aha-text-default);\n}\n.aha-marketing-card__text{\n  font-size:var(--aha-size-l);\n  line-height:var(--aha-line-height-body);\n  color:var(--aha-text-secondary);\n}\n.aha-marketing-card__meta{\n  font-size:var(--aha-size-default);\n  line-height:var(--aha-line-height-body);\n  color:var(--aha-text-tertiary);\n}\n.aha-marketing-card__more{\n  display:inline-flex;align-items:center;gap:var(--aha-space-8);\n  margin-top:auto;\n  font-size:var(--aha-size-default);\n  font-weight:var(--aha-weight-semibold);\n  color:var(--aha-text-default);\n}\n.aha-marketing-card__link{color:inherit;text-decoration:none}\n.aha-marketing-card__link::after{content:\"\";position:absolute;inset:0}\n.aha-marketing-card__link:focus-visible{outline:none}\n.aha-marketing-card:has(.aha-marketing-card__link:focus-visible){\n  outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2);\n}\n.aha-marketing-card--linked{\n  transition:transform var(--aha-motion-mid) var(--aha-ease-out),box-shadow var(--aha-motion-mid) var(--aha-ease-out),border-color var(--aha-motion-mid) var(--aha-ease-out);\n}\n.aha-marketing-card--linked:hover{\n  transform:translateY(calc(-1 * var(--aha-space-4)));\n  border-color:var(--aha-border-hover);\n  box-shadow:0 var(--aha-space-12) var(--aha-space-24) var(--aha-ink-a10);\n}\n.aha-marketing-card--linked:hover .aha-marketing-card__more{color:var(--aha-text-link-hover)}\n@media (prefers-reduced-motion:reduce){\n  .aha-marketing-card--linked{transition:none}\n  .aha-marketing-card--linked:hover{transform:none}\n}\n@container aha-marketing-cards (max-width:991px){\n  .aha-marketing-cards__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--aha-space-24)}\n}\n@container aha-marketing-cards (max-width:767px){\n  .aha-marketing-cards__grid{grid-template-columns:minmax(0,1fr);padding:var(--aha-space-48) var(--aha-space-24)}\n}\n@container aha-marketing-cards (max-width:479px){\n  .aha-marketing-cards__grid{padding:var(--aha-space-32) var(--aha-space-16)}\n  .aha-marketing-card__body{padding:var(--aha-space-20)}\n}\n",
+  "snippets": [
+    {
+      "slug": "testimonial",
+      "name": "Testimonial card",
+      "summary": "A customer quote with name, role and company, an optional star rating and an optional avatar. Static: nothing to click.",
+      "html": "<figure class=\"aha-marketing-card aha-marketing-card__body aha-marketing-card--testimonial\">\n  <p class=\"aha-marketing-card__rating\" role=\"img\" aria-label=\"Rated 5 out of 5\"><aha-icon name=\"system-star\" size=\"16\"></aha-icon><aha-icon name=\"system-star\" size=\"16\"></aha-icon><aha-icon name=\"system-star\" size=\"16\"></aha-icon><aha-icon name=\"system-star\" size=\"16\"></aha-icon><aha-icon name=\"system-star\" size=\"16\"></aha-icon></p>\n  <blockquote class=\"aha-marketing-card__quote\"><p>&ldquo;Our trainers stopped talking at the room and started talking with it. Attendance at the optional sessions went up within a month.&rdquo;</p></blockquote>\n  <figcaption class=\"aha-marketing-card__person\">\n    <span class=\"aha-marketing-card__avatar\" aria-hidden=\"true\">PR</span>\n    <span class=\"aha-marketing-card__person-text\"><span class=\"aha-marketing-card__name\">Priya Raman</span><span class=\"aha-marketing-card__meta\">Head of Learning, Northwind Academy</span></span>\n  </figcaption>\n</figure>",
+      "css": ".aha-marketing-card__rating{display:flex;gap:var(--aha-space-2);color:var(--aha-color-primary)}\n.aha-marketing-card__quote{\n  font-size:var(--aha-size-h6);\n  line-height:var(--aha-line-height-body);\n  color:var(--aha-text-default);\n}\n.aha-marketing-card--testimonial.aha-marketing-card__body{gap:var(--aha-space-20)}\n.aha-marketing-card__person{display:flex;align-items:center;gap:var(--aha-space-12);margin-top:auto}\n.aha-marketing-card__avatar{\n  display:flex;align-items:center;justify-content:center;flex:none;\n  width:var(--aha-space-44);height:var(--aha-space-44);\n  border-radius:var(--aha-radius-pill);\n  background:var(--aha-bg-accent);color:var(--aha-color-primary);\n  font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);\n}\n.aha-marketing-card__person-text{display:flex;flex-direction:column}\n.aha-marketing-card__name{font-size:var(--aha-size-l);font-weight:var(--aha-weight-semibold);color:var(--aha-text-default)}\n"
+    },
+    {
+      "slug": "case-study",
+      "name": "Case study card",
+      "summary": "A customer story: 3:2 cover, sector label, outcome headline, one-line summary and a read-more link. The whole card is the link.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--case-study\">\n  <div class=\"aha-marketing-card__media aha-marketing-card__media--3x2\" aria-hidden=\"true\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n  <div class=\"aha-marketing-card__body\">\n    <p class=\"aha-marketing-card__eyebrow\">Case study &middot; Higher education</p>\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#case-study\">How Harbourview University doubled lecture participation</a></h3>\n    <p class=\"aha-marketing-card__text\">Live polls turned a 300-seat hall into a conversation, and quiet students started answering.</p>\n    <span class=\"aha-marketing-card__more\">Read the story <aha-icon name=\"system-arrow-right\" size=\"16\"></aha-icon></span>\n  </div>\n</article>",
+      "css": ""
+    },
+    {
+      "slug": "template",
+      "name": "Template card",
+      "summary": "A ready-made presentation: 16:9 thumbnail, category, name and a slide count. The whole card is the link.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--template\">\n  <div class=\"aha-marketing-card__media aha-marketing-card__media--16x9\" aria-hidden=\"true\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n  <div class=\"aha-marketing-card__body\">\n    <p class=\"aha-marketing-card__eyebrow\">Icebreakers</p>\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#template\">Team icebreaker quiz</a></h3>\n    <p class=\"aha-marketing-card__meta\">12 slides &middot; 5 minutes</p>\n  </div>\n</article>",
+      "css": ""
+    },
+    {
+      "slug": "feature",
+      "name": "Feature card",
+      "summary": "A feature or benefit: an icon, a short title and a sentence. Link is optional; drop the link and the lift to make it static.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--feature\">\n  <div class=\"aha-marketing-card__body\">\n    <span class=\"aha-marketing-card__icon\" aria-hidden=\"true\"><aha-icon name=\"system-chat-circle\" size=\"24\"></aha-icon></span>\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#info\">Hear from everyone</a></h3>\n    <p class=\"aha-marketing-card__text\">Collect questions and votes from every phone in the room, not only the confident few.</p>\n    <span class=\"aha-marketing-card__more\">Learn more <aha-icon name=\"system-arrow-right\" size=\"16\"></aha-icon></span>\n  </div>\n</article>",
+      "css": ".aha-marketing-card__icon{\n  display:flex;align-items:center;justify-content:center;\n  width:var(--aha-space-48);height:var(--aha-space-48);\n  border-radius:var(--aha-radius-default);\n  background:var(--aha-bg-accent);color:var(--aha-color-primary);\n}\n"
+    },
+    {
+      "slug": "step",
+      "name": "Step card",
+      "summary": "One step of a how-it-works sequence: a number, a title and a sentence. Static.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--step\">\n  <div class=\"aha-marketing-card__body\">\n    <span class=\"aha-marketing-card__number\" aria-hidden=\"true\">1</span>\n    <h3 class=\"aha-marketing-card__title\"><span class=\"aha-marketing-card__visually-hidden\">Step 1: </span>Build your slides</h3>\n    <p class=\"aha-marketing-card__text\">Start from a template or write your own questions in minutes.</p>\n  </div>\n</article>",
+      "css": ".aha-marketing-card__number{\n  display:flex;align-items:center;justify-content:center;\n  width:var(--aha-space-48);height:var(--aha-space-48);\n  border-radius:var(--aha-radius-pill);\n  background:var(--aha-color-primary);color:var(--aha-text-inverse);\n  font-size:var(--aha-size-xl);font-weight:var(--aha-weight-semibold);\n}\n.aha-marketing-card__visually-hidden{\n  position:absolute;width:1px;height:1px;margin:-1px;padding:0;\n  overflow:hidden;clip-path:inset(50%);white-space:nowrap;\n}\n"
+    },
+    {
+      "slug": "statistic",
+      "name": "Statistic card",
+      "summary": "A big number with a label and a source line. Static.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--statistic\">\n  <div class=\"aha-marketing-card__body\">\n    <p class=\"aha-marketing-card__value\">3M+</p>\n    <h3 class=\"aha-marketing-card__title\">Presenters worldwide</h3>\n    <p class=\"aha-marketing-card__text\">From classrooms to company all-hands, in more than 200 countries.</p>\n  </div>\n</article>",
+      "css": ".aha-marketing-card__value{\n  font-family:var(--aha-font-display);\n  font-size:clamp(var(--aha-size-h2),5vw,var(--aha-size-h1));\n  font-weight:var(--aha-weight-semibold);\n  line-height:var(--aha-line-height-tight);\n  color:var(--aha-color-primary);\n}\n"
+    },
+    {
+      "slug": "article",
+      "name": "Article card",
+      "summary": "A blog post or resource: 3:2 image, topic, headline, excerpt and reading time. The whole card is the link.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--article\">\n  <div class=\"aha-marketing-card__media aha-marketing-card__media--3x2\" aria-hidden=\"true\"><aha-icon name=\"system-image-square\" size=\"32\"></aha-icon></div>\n  <div class=\"aha-marketing-card__body\">\n    <p class=\"aha-marketing-card__eyebrow\">Facilitation</p>\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#article\">Seven ways to open a workshop without a slide of rules</a></h3>\n    <p class=\"aha-marketing-card__text\">Warm-ups that get a quiet room talking in the first two minutes.</p>\n    <p class=\"aha-marketing-card__meta\">By Tom Okafor &middot; 6 min read</p>\n  </div>\n</article>",
+      "css": ""
+    },
+    {
+      "slug": "integration",
+      "name": "Integration card",
+      "summary": "A partner tool: logo, name and one line about what it does with AhaSlides. The whole card is the link.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--integration\">\n  <div class=\"aha-marketing-card__body\">\n    <img class=\"aha-marketing-card__logo\" src=\"https://design.ahaslides.io/logo/slack.svg\" alt=\"\" width=\"40\" height=\"40\">\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#integration\">Slack</a></h3>\n    <p class=\"aha-marketing-card__text\">Share a live poll link in any channel and see results without leaving the thread.</p>\n  </div>\n</article>",
+      "css": ".aha-marketing-card__logo{display:block;width:var(--aha-space-40);height:var(--aha-space-40);object-fit:contain}\n"
+    }
+  ]
+}

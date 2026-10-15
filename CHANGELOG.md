@@ -24,13 +24,23 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.205.0 — 2026-10-15
 ### Changed
-- Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#PRNUMBER)
-- Settings fields have no large size. `<aha-number-with-unit>` (settings only) drops its `size` attribute: `size="large"` now renders the 40px default. `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` keep `large`/`lg` for the audience field and other surfaces, but their docs no longer show a large example and say it never goes in a settings panel. (#PRNUMBER)
+- Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#271)
+- Settings fields have no large size. `<aha-number-with-unit>` (settings only) drops its `size` attribute: `size="large"` now renders the 40px default. `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` keep `large`/`lg` for the audience field and other surfaces, but their docs no longer show a large example and say it never goes in a settings panel. (#271)
 ### Added
-- `screen-lint --surface=settings` hard-fails `size="large"`/`"lg"` on a settings field (rule `field-size-large`, markup, factory, schema and `setAttribute` forms) and `maxlength` on `<aha-input>` (rule `input-maxlength`; use `<aha-counted-input>`, counter inside the field on focus). The plugin blocks both at write time in a slide type's `settings.*`. (#PRNUMBER)
-- Settings rule `field-size-and-width` and judge criterion C19: default size, full width when stacked, counter inside the field shown on focus; the skill notes that an AntD or slide-type-creator `size="large"` field maps to the DS default. (#PRNUMBER)
+- `screen-lint --surface=settings` hard-fails `size="large"`/`"lg"` on a settings field (rule `field-size-large`, markup, factory, schema and `setAttribute` forms) and `maxlength` on `<aha-input>` (rule `input-maxlength`; use `<aha-counted-input>`, counter inside the field on focus). The plugin blocks both at write time in a slide type's `settings.*`. (#271)
+- Settings rule `field-size-and-width` and judge criterion C19: default size, full width when stacked, counter inside the field shown on focus; the skill notes that an AntD or slide-type-creator `size="large"` field maps to the DS default. (#271)
 ### Fixed
-- The settings guideline described the CountedInput counter as a sibling beside the field; it is an overlay inside the field. `<aha-select>` (select field) now declares its environment. (#PRNUMBER)
+- The settings guideline described the CountedInput counter as a sibling beside the field; it is an overlay inside the field. `<aha-select>` (select field) now declares its environment. (#271)
+
+## 0.204.0 — 2026-10-15
+### Added
+- Marketing → Components → Cards: eight meaning cards for the marketing sites (Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card, Integration card), built on the Card anatomy with the marketing radius. Framework-free HTML and CSS bound to `--aha-*` tokens under the `aha-marketing-card` class with one `aha-marketing-card--<type>` modifier per card, one paste-and-run snippet per type plus the 3, 2 and 1 column grid (breaks at 991, 767 and 479px). Linked cards use one stretched link and lift on hover; Testimonial, Statistic and Step cards stay static. Images are neutral placeholders.
+### Changed
+- The Marketing sidebar is split into Sections (Header, Hero, FAQ, Footer banner, Footer) and Components. Section pages are unchanged. (#269)
+
+## 0.203.1 — 2026-10-15
+### Fixed
+- Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#263)
 
 ## 0.203.0 — 2026-10-15
 ### Changed
