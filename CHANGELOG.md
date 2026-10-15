@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.212.0 — 2026-10-15
 ### Added
-- Marketing > Components > Cards: each of the eight card types now has its own live preview, labelled with the card name, above its Show code toggle. The whole-grid preview is unchanged. (#272)
+- Marketing > Components > Cards is now one block per card type: the card name, a live preview of that card alone with its own breakpoint switcher (Wide, Desktop, Tablet, Phone), then its Show code toggle. Each switcher resizes only its own preview. The page-top whole-grid preview and the "The whole grid" code section are gone; the Load the tokens once footer stays. (#272)
 
 ## 0.211.0 — 2026-10-15
 ### Changed
