@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.190.0 — 2026-10-14
+## 0.192.0 — 2026-10-14
 ### Added
 - Image Dropzone draws its `hint` as a second line under the label (text-secondary, since the lab's #8A8A8A is 3.22:1 on the grey fill), as the settings lab shows "PNG, JPG, GIF, WebP"; the label itself is now text-default (#249).
 - Image Action Button `variant="tertiary"`: no border or fill until hover, then the tertiary Button hover (Vivid Pink 5% fill, text-link-hover glyph). Option Row uses it for its per-option image (#249).
@@ -50,6 +50,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Mode Field docs playground: its controls had no labels and drew empty pills (#249).
 - Setting Row, Settings Item, Counted Input and Number With Unit now carry the paragraph letter-spacing (`--aha-letter-spacing-paragraph`, 0.2px) on the row label, the field text and the unit, and the subtext letter-spacing (0.3px) on the counter and the error message, as the settings lab does. The tokens already existed; the components did not use them (#249).
 - Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width (#249). The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
+
+## 0.191.0 — 2026-10-14
+### Added
+- Marketing section `Footer` (Patterns → Marketing sections, Webflow component Footer, built on Relume `uui-footer06`), matched to the live ahaslides.com at 1440px, 768px and 375px: the AhaSlides lockup above five link columns (Features, Resources, Integrations, Pricing, Company) with absolute ahaslides.com links. Links fade to Vivid Pink on hover over 0.3s and show the DS focus outline on keyboard focus. The columns reflow to three at 991px and below (Features spans two rows), spacing tightens at 767px, and at 479px there are two columns and a smaller lockup. Below the columns a grey band holds the four award badges (G2 and Training Magazine Network), eight contact and social icons, the System status link and the DMCA badge, then the copyright line; at 767px the band stacks and centres. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#254)
+- Icons `system-linkedin-logo`, `system-facebook-logo`, `system-instagram-logo` and `system-reddit-logo`: single-colour outline brand glyphs (Phosphor) next to `system-whatsapp-logo`, for contact and social links. (#254)
 
 ## 0.189.0 — 2026-10-14
 ### Changed
