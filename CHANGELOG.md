@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.205.0 — 2026-10-15
+### Changed
+- Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#PRNUMBER)
+- Settings fields have no large size. `<aha-number-with-unit>` (settings only) drops its `size` attribute: `size="large"` now renders the 40px default. `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` keep `large`/`lg` for the audience field and other surfaces, but their docs no longer show a large example and say it never goes in a settings panel. (#PRNUMBER)
+### Added
+- `screen-lint --surface=settings` hard-fails `size="large"`/`"lg"` on a settings field (rule `field-size-large`, markup, factory, schema and `setAttribute` forms) and `maxlength` on `<aha-input>` (rule `input-maxlength`; use `<aha-counted-input>`, counter inside the field on focus). The plugin blocks both at write time in a slide type's `settings.*`. (#PRNUMBER)
+- Settings rule `field-size-and-width` and judge criterion C19: default size, full width when stacked, counter inside the field shown on focus; the skill notes that an AntD or slide-type-creator `size="large"` field maps to the DS default. (#PRNUMBER)
+### Fixed
+- The settings guideline described the CountedInput counter as a sibling beside the field; it is an overlay inside the field. `<aha-select>` (select field) now declares its environment. (#PRNUMBER)
+
 ## 0.203.0 — 2026-10-15
 ### Changed
 - Centre splash (Brand colour rules 5.3, 5.7 and the layouts table): in frames wider or taller than 16:9 the icon grows by the square root of how far the frame goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times, and the top-right hook no longer dominates. The meeting point now sits 50% across and 55% down in every centre frame. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.centre`. The six centre files in the Background library are rebuilt. Right and minimal are unchanged. (#265)

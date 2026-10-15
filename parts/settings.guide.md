@@ -73,6 +73,13 @@ A setting that only applies when a parent is on is **hidden when the parent is o
 - **Plan-gated:** stays **visible but locked** (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by the `paywall` guide).
 - **Danger zone:** dangerous/irreversible settings sit **last**, set apart by the largest gap (48). CTA is the **danger Button** (`colorError`, no hardcoded hex); red never on the label. Any irreversible action **requires a confirmation modal** (per the `overlays` guide) — never a bare toggle flip.
 
+## Fields: default size, full width when stacked, counter inside
+
+- **One size.** Every settings field (Input, CountedInput, CountedTextarea, NumberWithUnit, Select) is the default 40px size. Never `size="large"` or `"lg"`: 48px with 16px text is the audience phone field's size. Porting from AntD or slide-type-creator, their `size="large"` field maps to the DS default.
+- **Full width when stacked.** In a stacked row (label above) the field fills the panel width, also when it sits in a wrapper with helper text below it. A stacked SettingRow and the settings list's stacked item do this for every DS field; never give the field its own fixed width.
+- **Counter inside, on focus.** A capped field is `<aha-counted-input>` or `<aha-counted-textarea>`: the counter sits inside the field and shows only while it is focused. Never a counter beside or below the field, and never `maxlength` on a plain `<aha-input>`.
+- `screen-lint.mjs --surface=settings` hard-fails a large field (`field-size-large`) and `maxlength` on `<aha-input>` (`input-maxlength`); the judge checks the rest as C19.
+
 ## No empty height
 
 Every object occupies only its real content height. A container that renders nothing visible — an empty section, an empty list wrapper, an empty-body settings iframe — is removed or collapsed to zero, never left holding space. This is the top source of editor "mystery gaps".
@@ -95,7 +102,7 @@ the library already defines.
 | **HelpTooltip** | `<aha-tooltip>` + `<aha-icon>` `?` glyph (the *help-glyph* rule) | **mapped** → `tooltip` |
 | **DropdownMenu** | `<aha-dropdown>` + `<aha-menu>` — themed action menu | **mapped** → `dropdown` |
 | **ModeField** | *label + inline exclusive mode control (the DS Radio-Button-Group), body swaps in place* | **mapped** → `mode-field` |
-| **CountedInput** | *single-line field + focus-only char counter (persistent sibling, no remount)* | **mapped** → `counted-input` |
+| **CountedInput** | *single-line field + focus-only char counter (persistent overlay inside the field, no remount)* | **mapped** → `counted-input` |
 | **CountedTextarea** | *multi-line CountedInput; grows minRows–maxRows* | **mapped** → `counted-textarea` |
 | **CardSelect** | *single-select icon+label card grid* | **mapped** → `card-select` |
 | **NumberWithUnit** | *digit input + hover stepper (clamped, maxDigits) + unit-in-full + optional error line* | **mapped** → `number-with-unit` |

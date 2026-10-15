@@ -49,6 +49,41 @@ const FIXTURES = [
       '<aha-chart type="bar"></aha-chart> <!-- ds-lint-allow: unregistered-element (live preview in the panel) -->',
     ],
   },
+  {
+    rule: 'field-size-large',
+    fail: [
+      '<aha-number-with-unit size="large" unit="tries"></aha-number-with-unit>',
+      '<aha-counted-input slot="control" size="lg" maxlength="60"></aha-counted-input>',
+      '<aha-input size=large placeholder="e.g. Banana"></aha-input>',
+      '<aha-select size="large"></aha-select>',
+      '<aha-counted-textarea size="lg"></aha-counted-textarea>',
+      `var word = el('aha-counted-input', { size: 'large', maxlength: 60 });`,
+      `{ key: 'tries', label: 'Number of tries', control: { type: 'number-with-unit', size: 'lg' } },`,
+      `{ key: 'word', control: { type: 'input', "size": "large" } },`,
+    ],
+    pass: [
+      '<aha-number-with-unit unit="tries"></aha-number-with-unit>',
+      '<aha-counted-input size="small" maxlength="60"></aha-counted-input>',
+      '<aha-button size="lg">Add</aha-button>',
+      '<aha-segmented size="large"></aha-segmented>',
+      `var go = el('aha-button', { size: 'lg' });`,
+      '<!-- <aha-input size="large"> -->',
+      '<aha-input size="large"> <!-- ds-lint-allow: field (preview of the audience field) -->',
+    ],
+  },
+  {
+    rule: 'input-maxlength',
+    fail: [
+      '<aha-input slot="control" maxlength="60" placeholder="e.g. Banana"></aha-input>',
+      `var word = el('aha-input', { maxlength: 60 });`,
+      `{ key: 'word', control: { type: 'input', maxlength: 60 } },`,
+    ],
+    pass: [
+      '<aha-counted-input maxlength="60"></aha-counted-input>',
+      `var word = el('aha-counted-input', { maxlength: 60 });`,
+      '<aha-input placeholder="Title"></aha-input>',
+    ],
+  },
 ];
 
 for (const { rule, fail, pass } of FIXTURES) {
@@ -82,4 +117,28 @@ test('the product style checks still run on the settings surface', () => {
 
 test('a bare ds-lint-allow suppresses nothing on the settings surface', () => {
   assert.deepEqual(rulesOf('<input> <!-- ds-lint-allow -->').sort(), ['ds-lint-allow-bare', 'raw-control']);
+});
+
+test('a field tag split across lines is still checked', () => {
+  const source = '<aha-number-with-unit\n  unit="tries"\n  size="large"\n></aha-number-with-unit>\n<aha-input\n  maxlength="60">';
+  assert.deepEqual(rulesOf(source).sort(), ['field-size-large', 'input-maxlength']);
+  assert.deepEqual(findingsOf(source).map(f => f.line).sort(), [3, 6]);
+});
+
+test('a field held in a variable is checked when its size or cap is set later', () => {
+  const source = [
+    "const word = document.createElement('aha-input');",
+    "word.setAttribute('maxlength', '60');",
+    "const tries = el('aha-number-with-unit', { unit: 'tries' });",
+    "tries.setAttribute('size', 'lg');",
+    "const add = el('aha-button');",
+    "add.setAttribute('size', 'lg');",
+  ].join('\n');
+  assert.deepEqual(findingsOf(source).map(f => [f.rule, f.line]), [['input-maxlength', 2], ['field-size-large', 4]]);
+});
+
+test('the field rules never run on other surfaces', () => {
+  const source = '<aha-counted-input size="lg" maxlength="30"></aha-counted-input><aha-input maxlength="5">';
+  for (const surface of ['product', 'canvas', 'audience'])
+    assert.ok(!rulesOf(source, surface).some(rule => rule === 'field-size-large' || rule === 'input-maxlength'), surface);
 });

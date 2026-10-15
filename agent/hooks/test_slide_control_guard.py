@@ -119,6 +119,37 @@ class SlideControlGuardTest(unittest.TestCase):
                                   "content": DS_PAGE + '<button class="add">Add</button>'})
         self.assertEqual(code, 0)
 
+    def test_a_large_settings_field_is_blocked(self):
+        for snippet in ('<aha-number-with-unit size="large" unit="tries"></aha-number-with-unit>',
+                        '<aha-counted-input slot="control" size="lg" maxlength="60"></aha-counted-input>',
+                        "var word = el('aha-input', { size: 'large' });",
+                        "{ key: 'tries', control: { type: 'number-with-unit', size: 'lg' } },"):
+            code, err = self.run_guard({"file_path": self.slide_file("settings.html"), "content": DS_PAGE + snippet})
+            self.assertEqual(code, 2, snippet)
+            self.assertIn("[settings]", err)
+            self.assertIn("default 40px size", err)
+
+    def test_maxlength_on_aha_input_in_settings_is_blocked(self):
+        code, err = self.run_guard({"file_path": self.slide_file("settings.js"),
+                                    "content": '<aha-input slot="control" maxlength="60"></aha-input>'})
+        self.assertEqual(code, 2)
+        self.assertIn("<aha-counted-input", err)
+
+    def test_default_settings_fields_and_audience_sizes_pass(self):
+        code, _ = self.run_guard({"file_path": self.slide_file("settings.html"),
+                                  "content": DS_PAGE + '<aha-counted-input maxlength="60"></aha-counted-input>\n'
+                                             '<aha-number-with-unit unit="tries"></aha-number-with-unit>\n'
+                                             '<aha-button size="lg">Add</aha-button>'})
+        self.assertEqual(code, 0)
+        code, _ = self.run_guard({"file_path": self.slide_file("audience.html"),
+                                  "content": DS_PAGE + '<aha-counted-input size="lg" maxlength="30"></aha-counted-input>'})
+        self.assertEqual(code, 0)
+
+    def test_a_marked_large_settings_field_passes(self):
+        code, _ = self.run_guard({"file_path": self.slide_file("settings.html"),
+                                  "content": DS_PAGE + '<aha-input size="large"> <!-- ds-lint-allow: field (preview of the audience field) -->'})
+        self.assertEqual(code, 0)
+
     def test_an_unrelated_repo_with_the_same_file_names_is_left_alone(self):
         for relative in ("models/audience.js", "auth/presenter.js", "public/presenter.html"):
             path = os.path.join(self.root, relative)

@@ -124,7 +124,7 @@
     {
       "ref": "counted-input",
       "as": "component",
-      "use": "CountedInput — single-line field with a focus-only char counter (counter is a persistent sibling revealed via :focus-within, never a remount-on-focus)",
+      "use": "CountedInput — single-line field with a focus-only char counter (the counter is a persistent overlay INSIDE the field, revealed on focus, never a sibling beside the field and never remounted on focus)",
       "status": "available"
     },
     {
@@ -293,6 +293,15 @@
       "id": "control-placement",
       "rule": "A narrow control sits inline with its label (label left / control right); a wide control (textarea, wide select, radio group, image dropzone) drops below it. Never stack a narrow control or cram a wide one inline.",
       "ref": [
+        "SETTINGS-47"
+      ]
+    },
+    {
+      "id": "field-size-and-width",
+      "rule": "Every settings field (Input, CountedInput, CountedTextarea, NumberWithUnit, Select) is the default 40px size: never size large or lg, which belong to the audience field inside <aha-audience-field>. In a stacked row the field fills the panel width, also when it sits inside a wrapper with helper text; the setting row does this, so never set a fixed width on it. A field with a character cap is CountedInput or CountedTextarea, whose counter sits INSIDE the field and shows only on focus, never a counter beside or below the field and never maxlength on a plain Input. Porting from AntD or slide-type-creator: their size \"large\" field maps to the DS default, not to size large.",
+      "ref": [
+        "SETTINGS-21",
+        "SETTINGS-42",
         "SETTINGS-47"
       ]
     },

@@ -9,7 +9,7 @@ const answer = ref('');
 </script>
 
 <template>
-  <!-- size: small | default | large  ·  maxlength turns the focus-only counter on -->
+  <!-- size: small | default in a settings panel (large is the audience field's size)  ·  maxlength turns the focus-only counter on -->
   <aha-counted-input
     size="default"
     maxlength="80"

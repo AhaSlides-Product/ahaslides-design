@@ -829,6 +829,11 @@
           "id": "C18",
           "title": "Settings controls come from lib/settings.js",
           "test": "Every control in the settings panel is an element that `lib/settings.js` registers (`aha-switch`, `aha-checkbox`, `aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-select`, `aha-segmented`, `aha-button`, `aha-option-row`, `aha-setting-row` and the rest of that entry). A raw `<button>`, `<input>`, `<select>`, `<textarea>` or `role=\"switch\"` element, a hand-built toggle, dropdown or option row, or an `<aha-*>` tag that `lib/settings.js` does not load fails. **FAIL** on any of them unless it is a control the DS does not ship, kept with `ds-lint-allow: raw-control (why)` and a reason that holds. The mechanical twin is `node screen-lint.mjs --surface=settings <files>`."
+        },
+        {
+          "id": "C19",
+          "title": "Settings fields — default size, full width when stacked, counter inside on focus",
+          "test": "Every field in a settings panel (`aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-number-with-unit`, `aha-select`, or their React/Vue forms) is the **default 40px size**: `size=\"large\"` or `\"lg\"` (48px, 16px text) **fails** — that is the audience field's size, and an AntD or slide-type-creator `size=\"large\"` field maps to the DS default when ported. A field in a **stacked** row (label above) **fills the panel width**, also when it sits in a wrapper with helper text; a stacked field left at its 240px intrinsic width, with empty space to its right, fails. A field with a character cap shows its counter **inside the field, only while focused** (`aha-counted-input` / `aha-counted-textarea`); a counter beside or below the field, a counter that is always visible, or `maxlength` on a plain `aha-input` with a hand-made counter fails. **FAIL** on any of them. The mechanical twin for size and `maxlength` is `node screen-lint.mjs --surface=settings <files>` (rules `field-size-large`, `input-maxlength`); the width and counter placement are judged on the render."
         }
       ]
     },
