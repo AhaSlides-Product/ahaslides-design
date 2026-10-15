@@ -2797,7 +2797,7 @@ function renderLogoPage() {
   .brand-entry{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
   .brand-entry:hover{background:var(--aha-bg-accent)}
   .brand-entry:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
-  ${BRAND_LOGO_HOVER_CSS.replace(/\/\*[\s\S]*?\*\/\n/, '').replace(/\.brand-/g, '.brand-demo .brand-')}`;
+  ${BRAND_LOGO_HOVER_CSS.replace(/\/\*[\s\S]*?\*\/\n/, '')}`;
   return docShell({ base: '../', active: '__logo__', title: 'Logo library', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
