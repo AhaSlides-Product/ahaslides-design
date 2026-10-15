@@ -13,13 +13,16 @@
  *   node screen-lint.mjs --surface=product  <file ...>
  *   node screen-lint.mjs --surface=canvas   <file ...>      # a slide type's presenter stage
  *   node screen-lint.mjs --surface=audience <file ...>      # a slide type's audience phone
+ *   node screen-lint.mjs --surface=settings <file ...>      # a slide type's settings panel (lib/settings.js only)
  *   node screen-lint.mjs --self-test                       # dogfood: run over this repo's snippets
  *
  * --surface is REQUIRED and mirrors the judge's J0: you cannot grade a screen without first routing
  * its world. Product UI = fixed violet-on-white; Canvas/Audience = colour/font read from the deck at
  * runtime, so ANY hardcoded colour there is a defect. Both slide surfaces also hard-fail a hand-made
  * control (a raw <button>, size="xl", sizing through ::part or inline style, a <kbd> key chip inside
- * <aha-button>); only the canvas carries the 16px and viewport-unit font rules.
+ * <aha-button>); only the canvas carries the 16px and viewport-unit font rules. Settings is product UI
+ * (the product raw-hex and font-weight checks run) plus two hard rules: no raw <button>/<input>/<select>/<textarea>/role="switch",
+ * and no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js).
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
@@ -143,8 +146,8 @@ if (selfTest) {
 }
 
 /* ---- normal CLI ---- */
-if (!surface || !['product', 'canvas', 'audience'].includes(surface)) {
-  console.error('screen-lint: --surface=product|canvas|audience is REQUIRED (route the world first, like the judge J0).');
+if (!surface || !['product', 'canvas', 'audience', 'settings'].includes(surface)) {
+  console.error('screen-lint: --surface=product|canvas|audience|settings is REQUIRED (route the world first, like the judge J0).');
   process.exit(2);
 }
 if (!files.length) {
