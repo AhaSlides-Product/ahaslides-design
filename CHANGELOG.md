@@ -22,9 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.192.0 — 2026-10-15
+## 0.194.0 — 2026-10-15
 ### Added
 - Marketing section `Footer banner` (Patterns → Marketing sections, Webflow `card-based-section img-card-section`), matched to the live ahaslides.com word-cloud page at 1440px, 768px and 375px: the pale pink illustrated call-to-action card above the Footer with a centred heading and a Get started free button in the DS primary colours (Vivid Pink, `#DB005B` on hover, the DS focus outline). The card reflows at 991px and 479px, an optional paragraph slot covers the Enterprise variant, and an opt-in `aha-footer-banner--reveal` modifier reproduces the Compare page's scroll-in fade-up (skipped under reduced motion). Every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#257)
+## 0.193.0 — 2026-10-15
+### Added
+- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"), matched to the live ahaslides.com at 1440px and 390px: a dark participant join bar that scrolls away above a sticky navigation; Products, Solutions and Resources mega-menus that open on hover with a fade and slide (Products in three columns with a preview slot, Solutions with use cases and integration logos, Resources in two columns); Pricing, Enterprise, a language menu that opens on click, and Log in / Sign up. At 991px and below a hamburger drawer slides down and its menus become an accordion. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, logos come from the Logo library, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#247)
+- Icon `system-menu` (three lines), for a menu button. (#247)
+- Slack and Model Context Protocol (MCP) logos in the Logo library, in greyscale. (#247)
 
 ## 0.191.0 — 2026-10-14
 ### Added
