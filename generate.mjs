@@ -1666,13 +1666,14 @@ const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-butto
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
-.mbp-viewport{overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white)}
+.mbp-viewport{height:min(640px,70vh);display:flex;overflow:auto;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-bg-container-secondary)}
+.mbp-sizer{margin:auto;flex:none;overflow:hidden;background:var(--aha-white)}
 .mbp-frame{display:block;border:0;background:var(--aha-white);transform-origin:0 0}`;
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
-    <div class="mbp-viewport"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div>
+    <div class="mbp-viewport" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
   </div>
   <script type="module">
@@ -1682,19 +1683,21 @@ function marketingBreakpointPreview(b) {
     if(!root)return;
     var KEY='aha-marketing-preview-width';
     var seg=root.querySelector('aha-segmented');
-    var frame=root.querySelector('.mbp-frame'),view=root.querySelector('.mbp-viewport'),label=root.querySelector('.mbp-label');
+    var frame=root.querySelector('.mbp-frame'),view=root.querySelector('.mbp-viewport'),sizer=root.querySelector('.mbp-sizer'),label=root.querySelector('.mbp-label');
     var widths=${JSON.stringify(MARKETING_WIDTHS.map(([, width]) => width))};
     var width=+root.dataset.default;
     try{var saved=+localStorage.getItem(KEY);if(widths.indexOf(saved)>-1)width=saved;}catch(e){}
     seg.setAttribute('value',String(width));
     var contentHeight=0;
-    function layout(){
-      var scale=Math.min(1,(root.clientWidth-2)/width);
+    function layout(retried){
+      var available=view.clientWidth;
+      var scale=Math.min(1,available/width);
       frame.style.width=width+'px';
       frame.style.height=contentHeight+'px';
       frame.style.transform=scale<1?'scale('+scale+')':'none';
-      view.style.height=Math.ceil(contentHeight*scale)+2+'px';
-      view.style.width=Math.ceil(width*scale)+2+'px';
+      sizer.style.height=Math.ceil(contentHeight*scale)+'px';
+      sizer.style.width=Math.floor(width*scale)+'px';
+      if(!retried&&view.clientWidth!==available)return layout(true);
       label.textContent=width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
     }
     function onFrameHeight(e){
@@ -1720,7 +1723,7 @@ function marketingBreakpointPreview(b) {
       try{localStorage.setItem(KEY,String(width));}catch(err){}
       layout();
     });
-    new ResizeObserver(layout).observe(root);
+    new ResizeObserver(function(){layout()}).observe(root);
     load();
   })();
   </script>`;
