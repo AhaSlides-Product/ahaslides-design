@@ -27,6 +27,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - The design system covers every AhaSlides website: there is no separate marketing web surface. The `marketing-web` environment is renamed `web` ("Websites": landing, pricing, blog, careers and campaign pages) and now routes like `product`: owner the design system team (#design-system-agents), plugin `ahaslides-design:aha-design`, judge `anti-slop.md`, lint `screen-lint.mjs --surface=product`. Breaking for any item that declares `marketing-web`: declare `web` instead. Video and social / ads keep their own route. (#262)
 - Agent plugin: the `aha-design` skill description, the prompt mandate hook and the plugin description now send landing, pricing, blog and careers pages to `aha-design`; only brand voice, email, video and social / ads creative go to aha-marketing-skills. (#262)
 - Typography judge J7: the DS type scale governs every screen and website page; a landing-page hero takes a display role instead of being treated as a separate brand surface. The matching eval now expects J2 and J7 to fail and a display role as the fix. (#262)
+- Docs site: the "Marketing" header tab is renamed "Websites", matching the `web` environment; docs search labels those pages Websites too. The `marketing/` folder, its page URLs and the `marketing.*` feed names are unchanged. (#262)
 
 ## 0.198.2 — 2026-10-15
 ### Changed
