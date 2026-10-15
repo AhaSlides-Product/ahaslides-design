@@ -15,6 +15,8 @@ const FIXTURES = [
       '<input type="text" class="title">',
       '<select class="time"><option>10</option></select>',
       '<textarea rows="3"></textarea>',
+      '<input',
+      '<button',
       '<div role="switch" aria-checked="true"></div>',
       `var box = document.createElement('input');`,
       `var go = el('button', { class: 'go' }, [label]);`,

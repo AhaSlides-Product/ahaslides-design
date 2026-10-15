@@ -21,7 +21,7 @@
  * runtime, so ANY hardcoded colour there is a defect. Both slide surfaces also hard-fail a hand-made
  * control (a raw <button>, size="xl", sizing through ::part or inline style, a <kbd> key chip inside
  * <aha-button>); only the canvas carries the 16px and viewport-unit font rules. Settings is product UI
- * (the product checks run) plus two hard rules: no raw <button>/<input>/<select>/<textarea>/role="switch",
+ * (the product raw-hex and font-weight checks run) plus two hard rules: no raw <button>/<input>/<select>/<textarea>/role="switch",
  * and no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js).
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
