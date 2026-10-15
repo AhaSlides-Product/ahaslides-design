@@ -492,6 +492,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 
 /* ---- interactive playground (the "smart widget": explore variants, don't stack them) ---- */
 .aha-pg{display:flex;flex-direction:column;gap:10px;padding:13px 16px;margin-bottom:12px;border-radius:8px;background:var(--aha-gray-20)}
+.aha-pg .ant-btn.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover,.aha-pg .ant-btn.ant-btn-default:not(:disabled):not(.ant-btn-disabled):active{color:var(--aha-text-default)}
 .aha-pg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .aha-pg-label{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);min-width:62px}
 .aha-pg-seg{display:inline-flex;flex-wrap:wrap;max-width:100%;gap:2px;padding:3px;background:#fff;border:1px solid var(--aha-split);border-radius:8px}
@@ -1628,7 +1629,7 @@ function renderCanvasLibrary() {
   <script type="module">
     import '../lib/all.js';
     import { applyCanvasDeck } from '../lib/canvas-deck.js';
-    const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
     for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
       applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
     }
@@ -2053,7 +2054,7 @@ The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour,
 The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
-White, black, Vivid Pink (\`5\` and \`30\` are the flat codes of Vivid Pink at 5% and at 30% on white; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
+White, black, Vivid Pink (\`5\` and \`30\` are Vivid Pink at 5% and at 30% transparency, #E70E680D and #E70E684D, so they take the colour of the surface under them; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
 ${primitiveLines}
 
 ## Colour — semantic tokens
@@ -2163,7 +2164,7 @@ function renderTokenPage(pageSlug) {
       body: `
   <p class="body">These tokens follow the brand colour rules, which are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>
   <h2>Palette</h2>
-  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are the flat codes of Vivid Pink at 5% and at 30% on white; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. The one other pair, for correct and wrong answers only, is under <a href="#answer-colours">Correct and wrong answers</a>. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
+  <p class="body">Vivid Pink <code>5</code> and <code>30</code> are Vivid Pink at 5% and at 30% transparency (<code>#E70E680D</code>, <code>#E70E684D</code>), so they take the colour of the surface under them; <code>30</code> is for charts only. <code>logoPurple</code> is for the logo alone. The one other pair, for correct and wrong answers only, is under <a href="#answer-colours">Correct and wrong answers</a>. No other colour is a token: photos and customer or presenter content are exempt from the palette.</p>
   <p class="body">Black is <code>${P.black}</code>, the same value as grey 100 and the default ink: <code>--aha-black</code> is an alias of <code>--aha-gray-100</code>. A pure, zero-value black is never painted solid; it appears only as a transparency, for a shadow, a scrim or an ink alpha.</p>
   ${swGroup('Base', flatPrimitives.map(name => [name, P[name]]))}
   <div class="ramps">${primitives}</div>
@@ -2171,7 +2172,7 @@ function renderTokenPage(pageSlug) {
   <h2>Semantic colour</h2>
   ${swGroup('Brand', [['primary',c.primary],['primaryHover',c.primaryHover],['primaryActive',c.primaryActive],['focus',c.focus]])}
   ${swGroup('Status', [['success',c.success],['warning',c.warning],['error',c.error],['info',c.info]])}
-  ${swGroup('Text', [['textDefault',c.textDefault],['textSecondary',c.textSecondary],['textTertiary',c.textTertiary],['textDisabled',c.textDisabled],['textLink',c.textLink],['textPositive',c.textPositive],['textNegative',c.textNegative],['textWarning',c.textWarning]])}
+  ${swGroup('Text', [['textDefault',c.textDefault],['textSecondary',c.textSecondary],['textTertiary',c.textTertiary],['textDisabled',c.textDisabled],['textInverse',c.textInverse],['textLink',c.textLink],['textPositive',c.textPositive],['textNegative',c.textNegative],['textWarning',c.textWarning]])}
   ${swGroup('Border', [['borderDefault',c.borderDefault],['borderSecondary',c.borderSecondary],['borderStrong',c.borderStrong],['borderHover',c.borderHover],['borderActive',c.borderActive],['checkboxBorder',c.checkboxBorder]])}
   ${swGroup('Background', [['bgLayout',c.bgLayout],['bgAccent',c.bgAccent],['bgInformative',c.bgInformative],['bgPositive',c.bgPositive],['bgNegative',c.bgNegative],['bgWarning',c.bgWarning],['bgDark',c.bgDark]])}
   ${swGroup('Icon', [['iconDefault',c.iconDefault],['iconStrong',c.iconStrong],['iconMuted',c.iconMuted],['iconDisabled',c.iconDisabled],['iconActive',c.iconActive]])}
@@ -2222,7 +2223,7 @@ function renderTokenPage(pageSlug) {
   .tok-h3{font-size:var(--aha-size-default);line-height:var(--aha-space-20);font-weight:var(--aha-weight-semibold);color:var(--aha-text-secondary);margin:18px 0 8px}
   .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-bottom:8px}
   .sw{border:1px solid var(--aha-split);border-radius:10px;overflow:hidden}
-  .sw .chip{height:54px}
+  .sw .chip{height:54px;border-bottom:1px solid var(--aha-split)}
   .sw .meta{padding:8px 11px}
   .sw .nm{font-size:13px;font-weight:600}
   .sw .hex{font-family:Menlo,monospace;font-size:11px;color:var(--aha-text-tertiary)}
