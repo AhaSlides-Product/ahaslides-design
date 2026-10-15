@@ -104,6 +104,10 @@ Read the list from the DS each time — surfaces get added.
    Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
+   A third-party logo in any UI, website headers included, is the greyscale file at rest and its
+   original-colour file (`logo/original/<file>`) on hover and keyboard focus, with the tool's name
+   beside it (the Logo library has the copy-paste pattern); only a page listing other products
+   (Marketplace) shows brand colours at rest. Colour rule 2.6 has the detail.
    The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
    approved), never the logo file hand-set beside a text span; the header is judged on `app-shell` C1.

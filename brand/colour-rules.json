@@ -3,7 +3,7 @@
  "id": "colour-rules",
  "title": "AhaSlides visual identity: colour rules",
  "lede": "These rules replace the colour section of the current brand guidelines. Everything not mentioned here (the font, spacing, components, icons) stays as it is in the design system.",
- "updated": "2026-10-14",
+ "updated": "2026-10-15",
  "environment": ["product", "audience", "web", "video", "social-ads"],
  "glance": [
   "Vivid Pink (`#E70E68`) is the one primary colour. Purple is the logo only, plus one small playful touch on white.",
@@ -80,7 +80,7 @@
      { "id": "2.3", "text": "An all-pink logo on a white background is not allowed." },
      { "id": "2.4", "text": "The font is Plus Jakarta Sans, unchanged." },
      { "id": "2.5", "text": "Every product carries the AhaSlides brand: AhaSlides Livelify, AhaSlides Games, AhaSlides Learn, AhaSlides Docs." },
-     { "id": "2.6", "text": "Customer and integration logos (Zoom, Claude and others) are shown in one colour: greyscale or Vivid Pink, never in their own brand colours. On a Vivid Pink background they are white. One treatment per row of logos." },
+     { "id": "2.6", "text": "Third-party brand logos (Zoom, Google Slides, Slack and others) follow one rule in every interface, the presenter app and website headers and menus alike: dialogs, import sources, connect buttons, menus. At rest a logo is one colour, greyscale (white on a Vivid Pink background). On hover and keyboard focus it shows its own brand colours, fading in over a short transition, with no transition when reduced motion is on. Touch has no hover, so the tool's name always sits beside the logo. On a page that lists other products, such as the Marketplace or an integrations directory, the logos are the content and keep their own colours at rest, each in the DS white tile with a grey border, 32px at most, with the name beside it. A tool that is not available yet shows a greyscale logo and a Coming soon tag in black text with a Vivid Pink outline on white (`<aha-tag color=\"primary\" bordered>`). Brand colour never spreads beyond the logo: no brand-coloured buttons, tags, backgrounds or text. Customer logos in a Trusted by strip stay one colour, greyscale or Vivid Pink, one treatment per row. The original-colour files and the copy-paste hover pattern are in the Logo library." },
      { "id": "2.7", "text": "Purple appears in the logo. Outside it, purple may be used very sparingly for a dramatic or playful touch: one small decorative element per page, post or slide at most, on white only. It is never used for text people need to read, buttons, links, states, charts or backgrounds, and never in the product app. If unsure, leave it out." }
     ] }
    ]
@@ -222,7 +222,7 @@
      { "id": "9.1", "text": "Presenter and customer content: slides, uploaded images, their own themes." },
      { "id": "9.2", "text": "Photos." },
      { "id": "9.3", "text": "Official AhaSlides themes and palettes are not exempt. They follow these rules." },
-     { "id": "9.4", "text": "Our own illustrations, customer and integration logos and file-type icons are not exempt. They follow these rules." },
+     { "id": "9.4", "text": "Our own illustrations, customer and integration logos and file-type icons are not exempt. They follow these rules; logos follow rule 2.6." },
      { "id": "9.5", "origin": "aha-marketing-colors", "environment": ["product", "audience", "web", "video", "social-ads"], "text": "A real product screenshot placed in a design, such as a web page, a social post, an ad, a slide or a video, counts as product or customer content. Never recolour it to fit the palette." }
     ] }
    ]
@@ -277,6 +277,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v14", "date": "15 Oct", "text": "Rule 2.6, third-party logos: one colour at rest and their own colours on hover and keyboard focus, in every interface with no special case for website headers. Listing pages such as the Marketplace keep logos in their own colours as content; a tool not available yet is greyscale with a Coming soon tag; customer logo strips stay one colour." },
   { "version": "v13", "date": "15 Oct", "text": "Minimal splash: the longer side counts as at most twice the shorter side (rules 5.5, 5.8 and 5.19 and the layout table). In banners wider than 2:1 or taller than 1:2 the hooks keep their 2:1 size and stay in their corners with the middle clear. Frames between 1:2 and 2:1 and every ready-made file are unchanged. No rule id changed." },
   { "version": "v12", "date": "14 Oct", "text": "New section 11, Correct and wrong answers: one green and one red, with 5% and 30% tints, mark a correct or wrong answer and nothing else. Four short rules (11.1 to 11.4) in a collapsed Rules panel. Rules 1.1, 7.1 and 8.5 and the glance line on status now name that exception. Still to decide moves to section 12. No existing rule id changed." },
   { "version": "v11", "date": "13 Oct", "text": "Rules that scoped themselves by who makes a page or a layout now name the medium instead: a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The retired colours and the near matches (rule 1.3) are marked as applying everywhere, which rule 1.1 already required. No rule asks for anything new." },

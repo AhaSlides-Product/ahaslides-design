@@ -834,6 +834,18 @@ const repoChecks = [];
   rchk('the AhaSlides logo and The Splash use the logo purple and Vivid Pink only', offListOwnLogos.length === 0,
     `the pink hooks are Vivid Pink ${VIVID_PINK}, never Radical Pink #FF4081: ${offListOwnLogos.map(f => `logo/${f}`).join(', ')}`);
 
+  const originalColourDir = join(root, 'logo', 'original');
+  const originalColourFiles = existsSync(originalColourDir) ? readdirSync(originalColourDir).filter(f => f.endsWith('.svg')).map(f => `original/${f}`) : [];
+  const logoEntries = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
+  const declaredOriginals = logoEntries.filter(entry => entry.originalFile).map(entry => entry.originalFile);
+  const originalsUnpaired = [
+    ...declaredOriginals.filter(file => !originalColourFiles.includes(file)).map(file => `${file} is declared but missing`),
+    ...originalColourFiles.filter(file => !declaredOriginals.includes(file)).map(file => `${file} has no manifest entry`),
+    ...logoEntries.filter(entry => entry.originalFile && entry.originalFile !== `original/${entry.file}`).map(entry => `${entry.id}: originalFile must be original/${entry.file}`),
+  ];
+  rchk('every original-colour logo sits beside its one-colour file and is declared in logo/manifest.json', originalsUnpaired.length === 0,
+    `logo/original/<file> holds the brand's own colours for rule 2.6 and shares the one-colour file's name: ${originalsUnpaired.join(', ')}`);
+
   /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
      Each exemption names why the file has to spell out an off-list colour. */
   const OFF_LIST_SOURCE_EXEMPT = {
@@ -864,7 +876,7 @@ const repoChecks = [];
   const markSources = [...sourceFiles, 'audience/library.json'];
   const foreignMarks = markSources.flatMap(f => {
     const text = read(join(root, f));
-    const outsideLibrary = [...text.matchAll(/\blogo\/([\w.-]+\.(?:svg|png|jpe?g|webp|gif))/gi)].map(m => m[1]).filter(file => !logoFiles.includes(file));
+    const outsideLibrary = [...text.matchAll(/\blogo\/((?:original\/)?[\w.-]+\.(?:svg|png|jpe?g|webp|gif))/gi)].map(m => m[1]).filter(file => !logoFiles.includes(file) && !originalColourFiles.includes(file));
     const embedded = /data:image\/(?:png|jpe?g|webp|gif)|data:image\/svg\+xml;base64/i.test(text) ? ['an embedded image the colour scan cannot read'] : [];
     return [...new Set([...outsideLibrary, ...embedded])].map(what => `${f} (${what})`);
   });

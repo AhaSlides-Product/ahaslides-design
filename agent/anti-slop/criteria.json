@@ -582,14 +582,14 @@
         },
         {
           "id": "C7",
-          "title": "Logos and file-type icons are one colour",
+          "title": "Logos are one colour at rest; file-type icons are one colour",
           "source": [
             "2.1",
             "2.3",
             "2.6",
             "7.4"
           ],
-          "test": "A customer or integration logo is shown in one colour, greyscale or Vivid Pink (white on a Vivid Pink background), with one treatment per row of logos, never in its own brand colours. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
+          "test": "A third-party brand logo in any interface (presenter app, website header or menu, dialog, import source, connect button) is one colour at rest, greyscale (white on a Vivid Pink background), and shows its own brand colours only on hover and keyboard focus, from the Logo library's original-colour file, with the tool's name beside it. Brand colours at rest fail, except on a page that lists other products (Marketplace, an integrations directory), where each logo keeps its own colours in the DS white tile with a grey border, 32px at most, name beside it, and a tool not available yet is greyscale with a Coming soon tag (`<aha-tag color=\"primary\" bordered>`). Brand colour on anything beyond the logo (a button, tag, background or text) fails everywhere. Customer logos in a Trusted by strip are one colour, greyscale or Vivid Pink, one treatment per row. A file-type icon is one colour. The AhaSlides logo is the colour logo on white or the white logo on Vivid Pink, never an all-pink logo on white."
         },
         {
           "id": "C8",
