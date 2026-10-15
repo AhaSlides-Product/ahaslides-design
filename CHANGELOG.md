@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.198.1 — 2026-10-15
 ### Fixed
-- Marketing tab: the sidebar group heading reads "Sections" instead of repeating the tab name "Marketing". (#PR)
+- Marketing tab: the sidebar group heading reads "Sections" instead of repeating the tab name "Marketing". (#260)
 
 ## 0.198.0 — 2026-10-15
 ### Changed
