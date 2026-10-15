@@ -22,9 +22,130 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.186.0 — 2026-10-12
+## 0.211.0 — 2026-10-12
 ### Fixed
 - Logo library: the PDF icon now fills its frame like the other brand logos instead of rendering about a quarter smaller. The Figma export's 2px padding is cropped with the viewBox; the path data is unchanged. (#181)
+
+## 0.204.0 — 2026-10-15
+### Added
+- Marketing → Components → Cards: eight meaning cards for the marketing sites (Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card, Integration card), built on the Card anatomy with the marketing radius. Framework-free HTML and CSS bound to `--aha-*` tokens under the `aha-marketing-card` class with one `aha-marketing-card--<type>` modifier per card, one paste-and-run snippet per type plus the 3, 2 and 1 column grid (breaks at 991, 767 and 479px). Linked cards use one stretched link and lift on hover; Testimonial, Statistic and Step cards stay static. Images are neutral placeholders.
+### Changed
+- The Marketing sidebar is split into Sections (Header, Hero, FAQ, Footer banner, Footer) and Components. Section pages are unchanged. (#269)
+
+## 0.203.1 — 2026-10-15
+### Fixed
+- Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#263)
+
+## 0.203.0 — 2026-10-15
+### Changed
+- Centre splash (Brand colour rules 5.3, 5.7 and the layouts table): in frames wider or taller than 16:9 the icon grows by the square root of how far the frame goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times, and the top-right hook no longer dominates. The meeting point now sits 50% across and 55% down in every centre frame. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.centre`. The six centre files in the Background library are rebuilt. Right and minimal are unchanged. (#265)
+
+## 0.202.0 — 2026-10-15
+### Added
+- `screen-lint.mjs --surface=settings` for a slide type's settings panel. On top of the product checks it hard-fails a raw `<button>`, `<input>`, `<select>`, `<textarea>` or `role="switch"` (`raw-control`) and any `<aha-*>` tag that `lib/settings.js` does not register (`unregistered-element`). The allowed tags are generated from the settings entry into `lib/settings-elements.js`, so the list cannot drift. A control the DS does not ship keeps its tag with `ds-lint-allow: raw-control (why)`. The settings anti-slop judge gains C18, "Settings controls come from lib/settings.js". The canvas, audience and product surfaces are unchanged. (#268)
+
+## 0.200.2 — 2026-10-15
+### Changed
+- Marketing section pages (Marketing → every section) are shorter. The intro is one line, the first highlight. Paste-and-run HTML and Load the tokens once sit behind the docs' Show code toggle, and the remaining highlights move to a Details list at the end of the page. The paste-and-run code and the feeds are unchanged. (#264)
+
+## 0.200.0 — 2026-10-15
+### Added
+- Marketing section `FAQ` (Patterns → Marketing sections, Webflow component FAQ, built on Relume `uui-faq01`), matched to the live ahaslides.com AI presentation maker page at 1440px, 768px and 375px: a centred heading over four question rows. Each row is a real button with `aria-expanded` and `aria-controls`, so Tab, Enter and Space work and the DS focus outline shows; the answer opens over 0.3s ease-out (`--aha-motion-slow`, `--aha-ease-out`) and the plus turns into a minus. All rows start closed and any number can be open at once. The motion stops under reduced motion. Side padding steps to 64px at 991px and 32px at 479px, the heading and question type step down at 991px and 767px, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#256)
+
+## 0.198.2 — 2026-10-15
+### Changed
+- Canvas Library: the Chart and Components pages show the same single CDN tag, `lib/canvas.js`, which registers `<aha-chart>` and the canvas controls. `lib/aha-chart.js` still works on its own. (#261)
+
+## 0.198.1 — 2026-10-15
+### Fixed
+- Marketing tab: the sidebar group heading reads "Sections" instead of repeating the tab name "Marketing". (#260)
+
+## 0.198.0 — 2026-10-15
+### Changed
+- Marketing sections move out of the Patterns sidebar into their own header tab, "Marketing", placed right after Patterns. The tab has its own sidebar and breadcrumb and opens on the first section. Docs search labels them Marketing. Page URLs (`marketing/<slug>/`) and the marketing feeds are unchanged. (#259)
+
+## 0.197.2 — 2026-10-15
+### Fixed
+- Button docs page: the playground controls drove the small Primary button in the Tones row, so choosing Danger turned it white and looked like a broken Primary. They now drive their own Live example button at the top of the examples, and the Tones row stays fixed. Choosing Danger, Positive or Primary alt shows a note, read from the contract, that each looks like Secondary or Primary on purpose (status carries no hue). No component change. (#253)
+
+## 0.197.1 — 2026-10-15
+### Fixed
+- Marketing sections preview: with the Header's mobile drawer open at Phone 375, the preview frame no longer grows a step taller on every click or hover. Viewport-height elements such as the drawer are left out of the height measure, while their contents still count. (#258)
+
+## 0.197.0 — 2026-10-15
+### Added
+- Image Dropzone draws its `hint` as a second line under the label (text-secondary, since the lab's #8A8A8A is 3.22:1 on the grey fill), as the settings lab shows "PNG, JPG, GIF, WebP"; the label itself is now text-default (#249).
+- Image Action Button `variant="tertiary"`: no border or fill until hover, then the tertiary Button hover (Vivid Pink 5% fill, text-link-hover glyph). Option Row uses it for its per-option image (#249).
+- Alert `icon`: a named DS icon in place of the type's status glyph (#249).
+### Changed
+- Secondary Button (and Danger, which renders as secondary) hover and active: the pale pink fill is now an inset tint over the button's own opaque fill (white), not a see-through fill, so the button no longer shows a non-white surface through it (an Option Row's hover delete over the row). The same fix is applied to Pagination's page and nav buttons, which use the same hover token. Components that alias or override the secondary tokens (Paywall plans button, Audience Image Upload buttons) keep their transparent rest fill and look unchanged (#249).
+- Option Row focus on a correct row is a single 2px answer-correct border (was a 1px border plus a 1px outline); the padding drops by 1px on focus so the row does not move (#249).
+- Numbered Item title is regular weight (400), was semibold (#249).
+- Question List question header takes the settings lab's look through the Collapse's `head` part: 14/22 regular on `--aha-gray-15`, 52px high, a hairline under it when open. Scoped to Question List; Collapse is unchanged (#249).
+- Setting Group: a group whose direct children are Option Rows sits them 8px apart (`--aha-space-8`), as the settings lab's answer list does, instead of the 24px between settings (#249).
+- Alert dismiss runs once: a second click while it fades out is ignored, and the fallback timer is cleared once the fade ends (#249).
+- Counted Input and Counted Textarea counters show the characters left (36 for 24 of 60) at every size, as the settings lab does, instead of used/max (#249).
+- Number With Unit draws its error message with the shared `<aha-field-error icon>` (12px system-x-circle + the message), the same as Input and Counted Textarea, and links it through aria-describedby. The colour is unchanged (#249).
+- Mode Field is composed from DS components instead of its own buttons: its mode control is the Radio-Button-Group (`<aha-radio variant="button">` in a role=radiogroup, regular 14/21, padding 0 16, hover = brand label with the border unchanged, arrow keys from the radio), as on the Radio page. The `seg-btn` part now names each `aha-radio` (#249).
+- Add Item Button is the DS secondary Button (`<aha-button variant="secondary" size="md" block>`): solid 1px #E3E3E3 border, white fill, #1A1A1A 14/600 label, 36 high (was a 40px dashed row), with the Button's own hover, focus and disabled states (#249).
+- Option Row: every part (drag handle, toggle, text, image) is centred on the row's vertical middle, in a 44px row; the correct toggle has a 1px outline at rest (was 2px); the hover delete is the secondary small icon Button (28px, radius 4) with a "Delete" tooltip, centred on the top-right corner, as the settings lab draws it (#249).
+- Question List is laid out as the settings lab's: a Setting Row head with the "N questions" count, a bordered Collapse per question ("N. prompt" header, trash on its trailing edge), a "Question" field and "Options" rows inside, and full-width secondary "Add option" and "Add question" buttons. New `label`, `help` and `allowimage` attributes, and `open` per question in the model (#249).
+- Card Select hover and selected follow the checkable Tag at size large: hover moves only the border to Vivid Pink, selected is the Vivid Pink 5% fill (bg-accent) with a Vivid Pink border and a text-link-hover label (#DB005B; text-link #E70E68 is 4.16:1 on that fill) (#249).
+- Setting Group: groups sit 24px apart (was 32) and the header sits 8px above its rows (was 12), on the space tokens, as the settings lab does. The danger zone stays 48px (#249).
+- state-check allows the correct-answer green and its 5% and 30% tints (colour rule 11), so an answer row may carry them (#249).
+- Option Row correct state uses the answer colours of colour rule 11: an answer-correct edge over the answer-correct-tint-5 fill and the toggle filled answer-correct. Focused, a correct row keeps its 1px edge and adds a 1px answer-correct outline 2px outside it (3:1 or more on the page) (#249).
+- Info Box is now a thin wrapper over Alert: its variants map to the Alert types, so it takes the Alert look (grey surface, no border, grey status glyph) and roles. Its API (`variant`, `icon`, `dismissible`, `dismiss`) is unchanged (#249).
+- Image Dropzone hover softens only the dashed edge to Vivid Pink 30% (vivid-pink-30); the fill and text stay (#249).
+### Removed
+- Mode Field `variant="segmented"` (breaking): the mode control is always the Radio-Button-Group; a leftover `variant` attribute is ignored. No consumer repo used it (searched every repo in the fleet cache, including the four DS consumers) (#249).
+- Numbered Item `variant="plain"` (breaking): the item is always the grey card; a leftover `variant` attribute is ignored. No consumer repo used it (searched every repo in the fleet cache, including the four DS consumers) (#249).
+### Fixed
+- Option Row no longer turns its text into "undefined" on the first keystroke: it read the textarea's native `input` event as well as the field's own, and the native one has no value. It now emits one `input` per keystroke (the field's own also leaked out, so listeners saw two). Question List had the same fault for its prompt and options, and no longer lets the inner fields' `change` escape as its own (#249).
+- Image Action Button filled state: the pencil overlay is now positioned on the button, so it fills the frame's inner box concentrically (it was offset by the 4px line-box gap under the inline host); the thumbnail and overlay corners follow the frame's inner radius (#249).
+- Mode Field docs playground: its controls had no labels and drew empty pills (#249).
+- Setting Row, Settings Item, Counted Input and Number With Unit now carry the paragraph letter-spacing (`--aha-letter-spacing-paragraph`, 0.2px) on the row label, the field text and the unit, and the subtext letter-spacing (0.3px) on the counter and the error message, as the settings lab does. The tokens already existed; the components did not use them (#249).
+- Setting Row and Settings Item `layout="stack"`: the slotted control now fills the row width (#249). The DS text fields (`aha-input`, `aha-select`, `aha-counted-input`, `aha-counted-textarea`) ship a 240px default width and stayed at it inside a stacked row, where the settings lab shows them full width. The Setting Row contract already said "control full-width".
+
+## 0.196.0 — 2026-10-15
+### Added
+- Marketing sections preview (Patterns → Marketing sections, every page): a width switch above the preview ordered wide to narrow: Wide 1440, Desktop 1280, Tablet 768 and Phone 375, taken from the breakpoint and content-width tokens. The switch is the shared `aha-segmented`. The section renders in a frame at the chosen width, with the DS elements and Plus Jakarta Sans loaded, so media queries, container queries and `vw` sizes all respond as they would on a real page. Wider frames scale down to fit the docs column with a "1280 px · 56%" label, the choice is remembered across section pages, and arrow keys move within the switch. The paste-and-run code is unchanged. (#255)
+
+## 0.194.0 — 2026-10-15
+### Added
+- Marketing section `Footer banner` (Patterns → Marketing sections, Webflow `card-based-section img-card-section`), matched to the live ahaslides.com word-cloud page at 1440px, 768px and 375px: the pale pink illustrated call-to-action card above the Footer with a centred heading and a Get started free button in the DS primary colours (Vivid Pink, `#DB005B` on hover, the DS focus outline). The card reflows at 991px and 479px, an optional paragraph slot covers the Enterprise variant, and an opt-in `aha-footer-banner--reveal` modifier reproduces the Compare page's scroll-in fade-up (skipped under reduced motion). Every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#257)
+
+## 0.193.0 — 2026-10-15
+### Added
+- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"), matched to the live ahaslides.com at 1440px and 390px: a dark participant join bar that scrolls away above a sticky navigation; Products, Solutions and Resources mega-menus that open on hover with a fade and slide (Products in three columns with a preview slot, Solutions with use cases and integration logos, Resources in two columns); Pricing, Enterprise, a language menu that opens on click, and Log in / Sign up. At 991px and below a hamburger drawer slides down and its menus become an accordion. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, logos come from the Logo library, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#247)
+- Icon `system-menu` (three lines), for a menu button. (#247)
+- Slack and Model Context Protocol (MCP) logos in the Logo library, in greyscale. (#247)
+
+## 0.191.0 — 2026-10-14
+### Added
+- Marketing section `Footer` (Patterns → Marketing sections, Webflow component Footer, built on Relume `uui-footer06`), matched to the live ahaslides.com at 1440px, 768px and 375px: the AhaSlides lockup above five link columns (Features, Resources, Integrations, Pricing, Company) with absolute ahaslides.com links. Links fade to Vivid Pink on hover over 0.3s and show the DS focus outline on keyboard focus. The columns reflow to three at 991px and below (Features spans two rows), spacing tightens at 767px, and at 479px there are two columns and a smaller lockup. Below the columns a grey band holds the four award badges (G2 and Training Magazine Network), eight contact and social icons, the System status link and the DMCA badge, then the copyright line; at 767px the band stacks and centres. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#254)
+- Icons `system-linkedin-logo`, `system-facebook-logo`, `system-instagram-logo` and `system-reddit-logo`: single-colour outline brand glyphs (Phosphor) next to `system-whatsapp-logo`, for contact and social links. (#254)
+
+## 0.189.0 — 2026-10-14
+### Changed
+- `<aha-chart>` brand palette: Vivid Pink 30 (series 3) is flattened to an opaque 30% pink over white (`#F8B7D2`) where the chart resolves its series colours, so every mark, legend swatch, tooltip and word looks the same on a white, grey, Vivid Pink or dark background. The `viz.series.3` token stays `#E70E684D`. `palette="deck"` charts are unchanged. (#252)
+
+## 0.188.0 — 2026-10-14
+### Added
+- Correct and incorrect badges for the Report app: `<aha-badge kind="correct">` and `kind="incorrect"`, size sm by default and `size="default"` for the 28px box. The fill is the answer colour at 5% (`--aha-answer-correct-tint-5`, `--aha-answer-wrong-tint-5`), the label stays the default ink (rule 11.2), and a tick or cross circle icon (`system-check-circle`, `system-x-circle`) in `--aha-answer-correct` and `--aha-answer-wrong` (rule 11.3). For a correct or wrong answer only (rule 11.1). Contract row, docs examples, html, React and Vue snippets and render probes on the Badge page. (#250)
+
+## 0.185.1 — 2026-10-14
+### Fixed
+- `<aha-chart>` treemap chip and bell-curve average badge: the translucent series tint now sits on an opaque white base, so the label keeps its contrast on a Vivid Pink tile (it fell to about 3.86:1 in 0.185.0). (#251)
+
+## 0.185.0 — 2026-10-14
+### Changed
+- Vivid Pink 5 and Vivid Pink 30 are now the transparent values, `color.primitives.vividPink.5` `#E70E680D` and `.30` `#E70E684D`, not the flat `#FEF3F7` and `#F8B7D2`. `bgAccent`, `button.secondaryBgHover`, `button.tertiaryBgHover` and `button.tertiaryBgActive` alias the primitive, so there is one source. The tints now take the colour of the surface under them (a New badge on a hovered pink row stacks instead of vanishing); on white they look as before. Every `var(--aha-bg-accent,#FEF3F7)` fallback in `lib/`, the antd theme seeds and the contracts carry the transparent value, and contract `expect` colours read `rgba(231, 14, 104, 0.05)`. Illustration tints stay flat (illustrations are a separate palette), and deck-palette chart samples keep their flat customer colours. Twelve contracts now declare `environment`. (#248)
+- Colour page and `design.md`: Vivid Pink 5 and 30 are described as transparencies, not as flat codes on white. (#248)
+
+### Fixed
+- Translucent tints that float over other content now sit on an opaque white backing, so nothing shows through: `<aha-avatar>` ground (stacked groups overlap by 10px), the wrapped `<aha-badge>` count and dot (soft 5% count, 30% warning dot), the `<aha-badge ribbon>` fill, and the `<aha-image-action-button>` hover fill over an image. (#248)
+- Canvas Library dark-deck demo: its pale pink accent is a flat `#F8B7D2` (a customer deck colour, not the translucent token). `parseColour` (`lib/audience-deck.js`) accepts `#RRGGBBAA` and `#RGBA`, composited over white, so the transparent Vivid Pink tokens no longer fall back to white. Chart swatches (legend, tooltip, read-out rows) sit on an opaque container backing. On a grey playground surface the antd default button hover and active label is the default ink, not Darker Pink (4.35:1 there). (#248)
+- Colour page, Text group: `textInverse` (`--aha-text-inverse`, white) was missing from the swatches. It is listed after `textDisabled`, and every swatch chip has a bottom divider so a white chip is visible on the white page. (#248)
 
 ## 0.183.0 — 2026-10-14
 ### Added

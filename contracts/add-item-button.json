@@ -1,70 +1,201 @@
 {
   "name": "Add Item Button",
   "slug": "add-item-button",
+  "environment": [
+    "product",
+    "audience"
+  ],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-add-item-button",
-  "summary": "The full-width \"+ Add\" affordance that sits under a settings list (OptionRow / QuestionList) — a dashed, tertiary add row that appends a new item.",
-  "highlights": ["Full-width “+ Add” row under a settings list", "Dashed, tertiary styling", "Appends a new item to OptionRow or QuestionList"],
-  "lead": "ONE custom element — <aha-add-item-button> — defined once, imported unchanged by React and Vue. It is the subtle full-width add row beneath an editable list: a leading system-plus glyph + a label inside a dashed 1px border, radius 8, transparent/white fill, secondary-grey text. On hover the border + text tint toward brand and a faint accent fill fades in — animated on the persistent <button> node via the shared motion tokens (the subtree is never rebuilt on a state change, so the transition fires). Click emits a composed `add` event so the host can append an item; when the list hits its max count the host sets `disabled` → muted, no hover, aria-disabled. The `+` is decorative; the label carries the accessible name. Shadow-DOM CSS, themed only by --aha-* tokens.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
-  "tokensUsed": ["border", "border-disabled", "color-primary", "bg-container", "bg-accent", "text-secondary", "text-disabled", "focus-ring-soft"],
+  "summary": "The full-width \"+ Add\" affordance that sits under a settings list (OptionRow / QuestionList) — the DS secondary Button at full width, appending a new item.",
+  "highlights": [
+    "Full-width “+ Add” row under a settings list",
+    "The DS secondary Button, medium, full width",
+    "Appends a new item to OptionRow or QuestionList"
+  ],
+  "lead": "ONE custom element — <aha-add-item-button> — defined once, imported unchanged by React and Vue. It is the full-width add row beneath an editable list, and it IS the DS secondary Button (<aha-button variant=\"secondary\" size=\"md\" block>): white fill, 1px #E3E3E3 border, radius 8, 36 high, a leading system-plus glyph + the label in Plus Jakarta 14/600 default text. Hover, press, keyboard focus and disabled are the Button's own states, so the add row never drifts from the Button. Click emits a composed `add` event so the host can append an item; when the list hits its max count the host sets `disabled`. The `+` is decorative; the label carries the accessible name. Shadow-DOM CSS, themed only by --aha-* tokens.",
+  "codeNote": "Composes <aha-button variant=\"secondary\" size=\"md\" block> — no own button styling. React consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": [
+    "button-default-bg",
+    "button-default-border",
+    "button-default-text",
+    "button-default-bg-hover",
+    "button-default-border-hover",
+    "button-default-border-press",
+    "button-default-text-hover",
+    "button-elevate-secondary",
+    "button-disabled-bg",
+    "button-disabled-text",
+    "button-focus-ring",
+    "radius-default"
+  ],
   "spec": [
-    { "label": "Box", "value": "full width (100%) · height 40 · radius 8 · padding 0 12" },
-    { "label": "Border", "value": "1px dashed #E3E3E3 (rest)" },
-    { "label": "Content", "value": "centered — system-plus 16px + label, 8px gap" },
-    { "label": "Text", "value": "Plus Jakarta 14/600, #4A4A4A (secondary)" },
-    { "label": "Hover", "value": "border + text → #E70E68, #FEF3F7 fill (animated)" },
-    { "label": "Focus", "value": "#E70E68 border + 2px soft ring" },
-    { "label": "Disabled", "value": "#B5B5B5 text, #EBEBEB border, not-allowed, no hover, aria-disabled" }
+    {
+      "label": "Is",
+      "value": "the DS secondary Button — <aha-button variant=\"secondary\" size=\"md\" block>"
+    },
+    {
+      "label": "Box",
+      "value": "full width (100%) · height 36 · radius 8 · padding 0 16"
+    },
+    {
+      "label": "Rest",
+      "value": "#FFFFFF fill, 1px solid #E3E3E3 border, #1A1A1A label, subtle elevation"
+    },
+    {
+      "label": "Content",
+      "value": "centred — system-plus 16px + label, 8px gap, Plus Jakarta 14/600"
+    },
+    {
+      "label": "Hover / press",
+      "value": "the secondary Button hover: #E70E680D fill, #E70E68 border (#DB005B pressed), #DB005B label"
+    },
+    {
+      "label": "Focus",
+      "value": "the Button focus: 2px gap + 2px #E70E68 ring"
+    },
+    {
+      "label": "Disabled",
+      "value": "the Button disabled: #E3E3E3 fill and border, #B5B5B5 label, not-allowed, aria-disabled"
+    }
   ],
   "props": [
-    { "name": "label", "type": "string", "default": "Add", "desc": "The add-affordance text; carries the accessible name" },
-    { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive (e.g. at the max item count); muted, no hover, sets aria-disabled" },
-    { "name": "add", "type": "CustomEvent<{}>", "default": "—", "desc": "Composed event fired on click when enabled — the host appends a new item" }
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Add",
+      "desc": "The add-affordance text; carries the accessible name"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Non-interactive (e.g. at the max item count); muted, no hover, sets aria-disabled"
+    },
+    {
+      "name": "add",
+      "type": "CustomEvent<{}>",
+      "default": "—",
+      "desc": "Composed event fired on click when enabled — the host appends a new item"
+    }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Add Item Button", "when": "append a new row to an editable settings list — options, questions, list items" },
-      { "what": "Button (tertiary)", "when": "a standalone action that isn't 'add another row to this list'" }
+      {
+        "what": "Add Item Button",
+        "when": "append a new row to an editable settings list — options, questions, list items"
+      },
+      {
+        "what": "Button (secondary)",
+        "when": "a standalone action that isn't 'add another row to this list'"
+      }
     ],
     "note": "Place it directly under the list it grows, full-width so it reads as part of the stack. Label it with the item noun — 'Add option', 'Add question' — not a bare 'Add' when the context needs it. Disable (don't hide) it at the max count so the ceiling stays discoverable; pair with a tooltip or helper line explaining the limit.",
-    "dsv3": "COVERED — the DS V3 settings option-list 'Add' row (§10 of the settings pattern): a full-width dashed tertiary affordance under OptionRow / QuestionList lists. Dashed border + text bind to the DS `border` / `text-secondary` tokens; the hover tint binds to `color-primary` + `bg-accent`; radius 8 on-scale. Motion + focus ring on the persistent button node."
+    "dsv3": "COVERED — the settings option-list 'Add' row: the DS secondary Button at full width under OptionRow / QuestionList lists, matching the settings lab's Add question button (36 high, 1px #E3E3E3, 14/600)."
   },
-  "surfaces": ["editor", "settings", "dashboard"],
-  "reuse": { "entry": "./aha-add-item-button", "registers": "aha-add-item-button", "exportsNamed": ["AhaAddItemButton", "defineAhaAddItemButton"] },
+  "surfaces": [
+    "editor",
+    "settings",
+    "dashboard"
+  ],
+  "reuse": {
+    "entry": "./aha-add-item-button",
+    "registers": "aha-add-item-button",
+    "exportsNamed": [
+      "AhaAddItemButton",
+      "defineAhaAddItemButton"
+    ]
+  },
   "snippets": [
-    { "key": "html", "label": "HTML", "file": "add-item-button.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding." },
-    { "key": "react", "label": "React", "file": "add-item-button.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "add-item-button.vue.txt" }
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "add-item-button.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step. The fast path for vibe-coding."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "add-item-button.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "add-item-button.vue.txt"
+    }
   ],
   "preview": "add-item-button.preview.html",
   "playground": {
     "controls": [
-      { "prop": "label", "label": "Label", "default": "Add option", "options": [
-        { "label": "Add option", "value": "Add option" },
-        { "label": "Add question", "value": "Add question" },
-        { "label": "Add", "value": "Add" }
-      ] },
-      { "prop": "disabled", "label": "Disabled", "default": "off", "options": [
-        { "label": "Off", "value": null },
-        { "label": "On", "value": "" }
-      ] }
+      {
+        "prop": "label",
+        "label": "Label",
+        "default": "Add option",
+        "options": [
+          {
+            "label": "Add option",
+            "value": "Add option"
+          },
+          {
+            "label": "Add question",
+            "value": "Add question"
+          },
+          {
+            "label": "Add",
+            "value": "Add"
+          }
+        ]
+      },
+      {
+        "prop": "disabled",
+        "label": "Disabled",
+        "default": "off",
+        "options": [
+          {
+            "label": "Off",
+            "value": null
+          },
+          {
+            "label": "On",
+            "value": ""
+          }
+        ]
+      }
     ]
   },
   "selfCheck": [
-    { "label": "full width (100%) · height 40 · radius 8", "verdict": "PASS" },
-    { "label": "1px dashed #E3E3E3 rest border", "verdict": "PASS" },
-    { "label": "text #4A4A4A (secondary) · leading system-plus glyph", "verdict": "PASS" },
-    { "label": "hover border+text → #E70E68 + #FEF3F7 fill (animated on persistent node)", "verdict": "PASS" },
-    { "label": "disabled #B5B5B5 text, not-allowed, aria-disabled", "verdict": "PASS" }
+    {
+      "label": "composes <aha-button variant=\"secondary\" size=\"md\" block> — no hand-rolled button look",
+      "verdict": "PASS"
+    },
+    {
+      "label": "full width (100%) · height 36 · radius 8 · 1px solid #E3E3E3",
+      "verdict": "PASS"
+    },
+    {
+      "label": "label #1A1A1A 14/600 · leading system-plus glyph",
+      "verdict": "PASS"
+    },
+    {
+      "label": "hover, press, focus and disabled are the secondary Button's own states",
+      "verdict": "PASS"
+    }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-add-item-button[data-probe]') && document.querySelector('aha-add-item-button[data-probe]').shadowRoot && document.querySelector('aha-add-item-button[data-probe]').shadowRoot.querySelector('button'))",
+    "ready": "!!(document.querySelector('aha-add-item-button[data-probe]') && document.querySelector('aha-add-item-button[data-probe]').shadowRoot && document.querySelector('aha-add-item-button[data-probe]').shadowRoot.querySelector('aha-button') && document.querySelector('aha-add-item-button[data-probe]').shadowRoot.querySelector('aha-button').shadowRoot)",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-add-item-button[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('button');var s=b?getComputedStyle(b):null;return{width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,border:s?s.borderTopColor:null,borderStyle:s?s.borderTopStyle:null,color:s?s.color:null};})()",
-    "expect": { "width": "260px", "height": "40px", "radius": "8px", "border": "rgb(227, 227, 227)", "borderStyle": "dashed", "color": "rgb(74, 74, 74)" }
+    "measure": "(function(){var el=document.querySelector('aha-add-item-button[data-probe]');var r=el&&el.shadowRoot;var a=r&&r.querySelector('aha-button');var b=a&&a.shadowRoot&&a.shadowRoot.querySelector('button');var s=b?getComputedStyle(b):null;return{width:s?s.width:null,height:s?s.height:null,radius:s?s.borderTopLeftRadius:null,border:s?s.borderTopColor:null,borderStyle:s?s.borderTopStyle:null,color:s?s.color:null};})()",
+    "expect": {
+      "width": "260px",
+      "height": "36px",
+      "radius": "8px",
+      "border": "rgb(227, 227, 227)",
+      "borderStyle": "solid",
+      "color": "rgb(26, 26, 26)"
+    }
   }
 }

@@ -8,7 +8,7 @@
   "element": "aha-number-with-unit",
   "summary": "A fixed-width digit input with the unit written IN FULL inline (rendered exactly as passed — \"seconds\", \"points\" — muted grey), a hover ▲/▼ stepper, a hard digit cap, clamp-on-change, and an error line — the settings field for a number that carries a unit.",
   "highlights": ["Fixed-width digit input with the unit written in full, muted grey", "Hover stepper, hard digit cap, clamp-on-change, error line", "Settings field for a number that carries a unit"],
-  "lead": "ONE custom element — <aha-number-with-unit> — for a number that carries a UNIT: a duration, points, a per-item count (SETTINGS-45). The unit is written IN FULL INSIDE the field as an inline suffix — rendered exactly as passed (`seconds`, `points`), muted grey via --aha-text-tertiary, never truncated to a short label — so it never reads as a selectable box beside the input. A hover-revealed ▲/▼ tertiary stepper nudges the value; a hard digit cap (`maxdigits`, default 4 — a 5th keystroke is ignored) and clamp-to-min/max on change AND blur keep it valid without deliberate misuse; an `errormessage` prop draws a red border/ring and a message line below. The host is the accessible spinbutton (role=\"spinbutton\", aria-valuenow/min/max, ArrowUp/Down + PageUp/Down). Shadow-DOM CSS, themed only by --aha-* tokens; motion on persistent nodes. Zero drift — the same element in React and Vue.",
+  "lead": "ONE custom element — <aha-number-with-unit> — for a number that carries a UNIT: a duration, points, a per-item count (SETTINGS-45). The unit is written IN FULL INSIDE the field as an inline suffix — rendered exactly as passed (`seconds`, `points`), muted grey via --aha-text-tertiary, never truncated to a short label — so it never reads as a selectable box beside the input. A hover-revealed ▲/▼ tertiary stepper nudges the value; a hard digit cap (`maxdigits`, default 4 — a 5th keystroke is ignored) and clamp-to-min/max on change AND blur keep it valid without deliberate misuse; an `errormessage` prop draws the error border/ring and the shared field error below (a 12px system-x-circle glyph + the message, the same <aha-field-error icon> as Input and Counted textarea). The host is the accessible spinbutton (role=\"spinbutton\", aria-valuenow/min/max, ArrowUp/Down + PageUp/Down). Shadow-DOM CSS, themed only by --aha-* tokens; motion on persistent nodes. Zero drift — the same element in React and Vue.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["border-default", "color-primary", "focus-ring-soft", "bg-container", "bg-container-disabled", "bg-accent", "text-default", "text-placeholder", "text-disabled", "icon-muted", "radius-default", "radius-xs", "border-error", "color-error", "border-disabled"],
   "spec": [
@@ -16,12 +16,12 @@
     { "label": "Sizes", "value": "default 40 · large 48 — the aha-input scale, all radius 8" },
     { "label": "Digit", "value": "fixed width 4ch, tabular-nums, 15px — never flex-grow" },
     { "label": "Order", "value": "field → stepper → unit (stepper sits LEFT of the unit); gaps field→stepper 6, stepper→unit 4" },
-    { "label": "Unit", "value": "14/21 #999999 (text-placeholder) inline suffix, rendered exactly as passed (the SHORT label, e.g. sec)" },
+    { "label": "Unit", "value": "14/21, letter-spacing 0.2px, #999999 (text-placeholder) inline suffix, rendered exactly as passed (the SHORT label, e.g. sec)" },
     { "label": "Stepper", "value": "▲/▼ tertiary (system-caret-up/down), revealed on hover/focus; disabled at min/max" },
     { "label": "Digit cap", "value": "maxDigits (default 4) — a keystroke past the cap is dropped; numeric only" },
     { "label": "Clamp", "value": "value clamps to min/max on change AND blur (immediate fallback)" },
     { "label": "Rest border", "value": "1px #E3E3E3 (border-default)" },
-    { "label": "Error", "value": "#1A1A1A border + ring + a 12/18 #1A1A1A message line below; sets aria-invalid" },
+    { "label": "Error", "value": "#1A1A1A border + ring + the shared field error below: 12×12 system-x-circle + the message at 12/18, #1A1A1A (text-negative); sets aria-invalid and links the message through aria-describedby" },
     { "label": "Focus", "value": "#E70E68 border + soft 2px ring (focus-ring-soft, 30% #E70E68) (persistent wrapper); hover #E70E68 border" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" }
   ],
@@ -33,7 +33,7 @@
     { "name": "step", "type": "number", "default": "1", "desc": "Stepper / arrow-key increment" },
     { "name": "maxdigits", "type": "number", "default": "4", "desc": "Hard digit cap — a keystroke past this many digits is ignored" },
     { "name": "size", "type": "default | large", "default": "default", "desc": "Control height — default 40 · large 48 (same as aha-input); radius stays 8" },
-    { "name": "errormessage", "type": "string", "default": "—", "desc": "Presence draws the red border/ring and the message line below" },
+    { "name": "errormessage", "type": "string", "default": "—", "desc": "Presence draws the error border/ring and the field error below (error glyph + message)" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "change", "type": "CustomEvent<{value}>", "default": "—", "desc": "Composed event on commit / stepper / arrow; read e.detail.value (clamped number)" }
   ],

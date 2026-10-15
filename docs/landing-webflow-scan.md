@@ -6,7 +6,7 @@
 >
 > **Status (0.68.0): the Landing tab is gone.** This audit is kept as the Webflow-to-update record;
 > it is not a docs-site page. The two marketing-only sections, **Hero** and **Section container**,
-> now live under **Patterns → Marketing sections** (source: `marketing/<slug>.json`). The landing
+> now live under the **Marketing** tab (source: `marketing/<slug>.json`). The landing
 > Button, Link, Fonts, Spacing and Grid blocks were removed as duplicates of Components/Foundations;
 > they remain in git history at `v0.67.0` under `landing/`.
 >
@@ -240,3 +240,51 @@ continuing its numbering.
 Everything else the live site uses is already on the DS foundations, so the landing basics below
 bind to `--aha-*` tokens with no new brand source. Sizes, line-heights and letter-spacing for type
 are a genuine 1:1 match with the DS scale (see Type, above) — no action needed there.
+
+### Header (Webflow component Header, variant "Variant") — added with DESY-196
+Matched to the live ahaslides.com (1440px and 390px, every menu open). What the DS section still does differently, for Growth to align on Webflow:
+22. Third-party integration logos (Solutions → Integrations) are in full brand colour live → the DS shows them in greyscale from the Logo library, per colour rule 2.6 (customer and integration logos in one colour). Slack and Model Context Protocol were added to the Logo library for this.
+23. Weight 500 (medium) on the menu entries, the participant label and the Log in / Sign up labels → the DS type scale has 400 and 600 only, so these take `--aha-weight-regular`.
+24. Join bar text sizes `11px` (url, code field) and `13.6px` (Join) → `--aha-size-sm` (12px) and `--aha-size-default` (14px). Join button `#3A3A3A`, hover `#535353` and the field fill `#ffffff14` → `--aha-gray-90`, `--aha-gray-80` and `--aha-bg-dark-raised`; dropdown text greys `#757575` and `#1E293B` → `--aha-text-tertiary` / `--aha-gray-80` and `--aha-text-default`; panel border `#EAECF0` → `--aha-border-default`.
+25. Sign up press is purple `#61139B` with a lilac ring, and Log in press has a lilac ring → the DS primary press is Darker Pink and the ring is `--aha-focus-ring-soft`. The live code field and links show no keyboard focus → the DS focus outline on every control.
+26. The menu icon is three Webflow divs that morph into a cross → the new `system-menu` glyph and `system-x`, swapped without the morph.
+27. The Products preview plays a Webflow video per slide type → the DS section has a preview slot (a slide-type icon on the light pink fill) for the consumer's own media.
+28. Hidden live items (Quiz, Poll, Idea Board, View more in Interactive slides) are left out, since the live site does not show them.
+29. A second live variant (light join bar `#E4E9F6`, white field, grey menu text) is served to some visitor segments; the DS section matches the default dark variant.
+30. Live bug: on `www.ahaslides.com` the Plus Jakarta Sans files are fetched from `ahaslides.com` without an `Access-Control-Allow-Origin` header, so the browser blocks them and the page falls back to a system font. `ahaslides.com` (no www) loads them.
+31. Webflow collapses the nav at the `medium` breakpoint (991px), the join bar stacks at 479px and the side padding drops to 16px at 767px; the DS section uses the same widths.
+
+### Footer (Webflow component Footer, Relume uui-footer06) — added with DESY-202
+Matched to the live ahaslides.com at 1440px, 768px and 375px (columns, spacing, type, hover, breakpoints at 991, 767 and 479px). What the DS section still does differently, for Growth to align on Webflow:
+32. The logo is a Webflow image of the Vivid Pink wordmark file (186 x 42px) → the DS `<aha-product-lockup>` (the Splash plus live type), at about 176 x 43px.
+33. Weight 500 (medium) on the column headings → the DS type scale has 400 and 600 only, so they take `--aha-weight-regular`.
+34. Greys `#757575` (links, and headings at 1440px and up), `#1A1A2E` (headings below 1440px) and the footer border `#D4D4D4` → `--aha-gray-80`, `--aha-text-default` and `--aha-border-strong`. The link hover `#E70E68` is `--aha-color-primary`, the same colour.
+35. The live keyboard focus is the browser's grey outline → the DS focus outline on every link and the logo.
+36. Webflow media queries (991, 767, 479px and a 1440px heading size) → the same widths as container queries on the footer, so the section also reflows inside a narrow docs frame.
+37. Live column placement at 991px and below is set per column by Webflow grid IDs → named column classes carry the same placement.
+38. The social and contact glyphs are Phosphor outline icons in `#8A8A8A` on live → all eight are `<aha-icon>` outlines in `--aha-icon-muted`: `system-envelope`, `system-whatsapp-logo`, `system-users-three`, `slidetype-youtube`, and the new `system-linkedin-logo`, `-facebook-logo`, `-instagram-logo`, `-reddit-logo` (the live Phosphor paths, DSN-933). Resolved except the DS envelope draws its diagonal creases, the DS WhatsApp phone is drawn slightly differently, and the DS strokes are 2px at 24px where live is about 2.25px.
+39. The award badges (three G2 and the Training Magazine Network winner) and the DMCA badge are third-party raster images; the section keeps the live absolute image URLs on ahaslides.com and does not host copies.
+40. Live bug: the DMCA badge links to the G2 reviews page; the section keeps the live link until Growth decides the right target.
+41. The icon links carry live aria-labels that begin "link to" (for example "link to AhaSlides LinkedIn channel"), which screen readers read after announcing a link; kept verbatim, Growth may shorten them. The community link drops the live `_gl` tracking query.
+42. Live icon links show no hover or focus state (the email glyph only changes an unused colour) → the icons also have none on hover, and take the DS focus outline on keyboard focus.
+43. The grey band `#F7F7F7`, the copyright grey `#667085` and the System status grey `#757575` → `--aha-bg-hover`, `--aha-gray-80` and `--aha-gray-80`; the band and copyright line sit outside Webflow's `<footer>` element on live and inside the footer here.
+
+### Footer banner (Webflow `.section-container > .card-based-section.img-card-section`) — added with DESY-205
+The pre-footer call-to-action card, matched to the live word-cloud page (https://ahaslides.com/slide-types/word-cloud/, the same Webflow element as on /features/ and /compare/) at 1440px, 768px and 375px: card position and size, padding, radius, background art, heading and button measure the same bar the scrollbar width. What the DS section still does differently, for Growth to align on Webflow:
+44. The card background is a Webflow-hosted 1920 x 1080 PNG (`bg-pink.png`, a pale pink with a large curve) → the section keeps the live absolute image URL on ahaslides.com and does not host a copy; the DS has no pink illustration asset for it (not a DS gap to fill: it is third-party-style page art).
+45. The heading is `#11011F` at weight 600 with a 129% line height → `--aha-text-default` (`#1A1A1A`) and `--aha-line-height-heading` (130%, 52px vs 51.6px at 40px).
+46. The button is a Webflow `a.btn.is-pink` at 18px weight 500 (400 at 479px and below) → an anchor in the same 40px box styled from the DS primary button tokens at weight 400 (the DS scale has 400 and 600). `<aha-button>` has no link form, so the section does not nest it inside an `<a>`.
+47. The button rest shadow `0 2px 5px rgba(0,0,0,.2)` → `--aha-button-elevate-primary` (`0 2px 0 rgba(0,0,0,.04)`), the DS primary button elevation. The label, fill `#E70E68` and the 0.2s hover fade to `#DB005B` already match.
+48. Live press and keyboard-focus turn the button purple (`#5715A0` with a purple ring, a copy-paste from the old purple button) → the DS press colour `--aha-button-primary-bg-press` and the DS focus outline.
+49. Live breakpoints are media queries (991, 479px) → the same widths as container queries on the section: padding 96/64px becomes 96/32px at 479px, the card padding 64/0px becomes 32/64px and the heading 40px becomes 32px at 991px.
+50. The scroll-in reveal (a Webflow interaction: the heading fades up from 10% below over 0.5s, the card fades in 0.3s later) exists on /compare/ only; the word-cloud and features pages show the card at rest → an opt-in `aha-footer-banner--reveal` modifier plus a small inline script reproduces it, once, and is skipped under `prefers-reduced-motion`. Webflow's exact trigger offset is not published; the script fires when 20% of the section is visible.
+51. The Enterprise variant adds a paragraph between heading and button ("Talk to our experts" button) → an optional `aha-footer-banner__text` slot (20px, centred); copy and link stay per-page content.
+
+### FAQ (Webflow component FAQ, Relume uui-faq01) — added with DESY-206
+Matched to the live ahaslides.com AI presentation maker page at 1440px, 768px and 375px (box geometry equal to the pixel at all three, breakpoints at 991, 767 and 479px, 24px type step at 1920px). What the DS section still does differently, for Growth to align on Webflow:
+52. Weight 500 (medium) on the question text → the DS type scale has 400 and 600 only; semibold keeps the same line breaks as live at 375px (regular wrapped one question differently), but reads slightly heavier.
+53. Blue-grey `#1E293B`, `#101828`, `#222B37`, `#EAECF0` and `#98A2B3` (heading, questions, answers, row border, plus/minus icon) → `--aha-text-default`, `--aha-border-default` and `--aha-icon-muted`; the DS greys are neutral.
+54. The 36px and 28px heading sizes are not on the DS size scale → `calc(--aha-size-h3 + --aha-space-4)` and `calc(--aha-size-h4 + --aha-space-4)`; the 1.4 mobile line height has no token and is written as a number.
+55. Live opens with Webflow IX2 on a bare div (not focusable, no ARIA, one shared `data-w-id` on all four rows) → real buttons with `aria-expanded`/`aria-controls`, a `role="region"` answer and a CSS-only height animation (grid rows 0fr to 1fr, 0.3s ease-out, same as the measured live motion); the plus-to-minus turn is a 90 degree rotation of the vertical bar over the same 0.3s.
+56. Live answer 4 is a `<p>` with a 24px line height while answers 1 to 3 are bare text at 28px; kept as live, Growth may unify.
+57. Webflow media queries (991, 767, 479px, and 1920px for the question size) → the same widths as container queries on the section.

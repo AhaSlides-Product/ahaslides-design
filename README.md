@@ -100,7 +100,7 @@ It's **additive** — bundled apps should keep importing per-element (above) so 
 tree-shake out; `all.js` intentionally pulls the whole set.
 
 Only need one surface? Each has its own entry with just the elements it uses (plus the shared controls such as
-`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`.
+`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls and any `<aha-*>` tag `lib/settings.js` does not register.
 In npm: `@ahaslides-product/design/audience`, `/settings`, `/canvas`.
 
 ### Agent feeds — hosted, self-describing

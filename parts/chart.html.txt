@@ -4,7 +4,7 @@
      palette="brand" (default) on app screens like Report; palette="deck" + colors + ink on the presenting canvas. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-chart.js';   // registers <aha-chart>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';   // registers <aha-chart> and the canvas controls
 
   // Live results: set .data again whenever votes arrive — bars grow and re-rank, and a polite
   // screen-reader announcement summarises the change.

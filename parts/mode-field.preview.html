@@ -1,19 +1,10 @@
 <div class="pad">
-  <div class="lbl">Radio variant (default)</div>
+  <div class="lbl">The mode control is the DS Radio-Button-Group (as on the Radio page)</div>
   <div class="row" style="display:block; max-width:420px">
     <aha-mode-field data-probe label="Results" value="auto" help="Choose when the results chart appears to the audience."
       options='[{"value":"auto","label":"Automatic"},{"value":"manual","label":"Manual"}]'>
       <div data-mode="auto">Results appear automatically when everyone has answered.</div>
       <div data-mode="manual">You reveal results with the "Show results" button.</div>
-    </aha-mode-field>
-  </div>
-
-  <div class="lbl">variant="segmented" — the neutral grey segmented control (the alternative look)</div>
-  <div class="row" style="display:block; max-width:420px">
-    <aha-mode-field variant="segmented" label="Points" value="fixed"
-      options='[{"value":"fixed","label":"Fixed"},{"value":"speed","label":"Speed"}]'>
-      <div data-mode="fixed">Everyone scores the same for a correct answer.</div>
-      <div data-mode="speed">Faster correct answers score more.</div>
     </aha-mode-field>
   </div>
 

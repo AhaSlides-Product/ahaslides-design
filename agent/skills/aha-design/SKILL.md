@@ -146,9 +146,13 @@ Read the list from the DS each time — surfaces get added.
 ## 4. Judge
 
 1. **Mechanical gate first** (when the package is installed):
-   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience> <files>`
+   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings> <files>`
    — fix every HARD finding before judging. A slide type's `presenter.*` is `canvas`, its
-   `audience.*` is `audience` and its `settings.*` is `product`. On both slide surfaces a raw
+   `audience.*` is `audience` and its `settings.*` is `settings`. On `settings`, a raw `<button>`,
+   `<input>`, `<select>`, `<textarea>` or `role="switch"`, and any `<aha-*>` tag `lib/settings.js` does not
+   register, are HARD: the panel is built from the elements that one entry loads. A control the DS
+   does not ship keeps its tag with `ds-lint-allow: raw-control (why)` (or `unregistered-element`).
+   On both slide surfaces a raw
    `<button>` or `role="button"`, `<aha-button size="xl">`, sizing through `::part(button)` or an
    inline style, and a `<kbd>` inside `<aha-button>` are HARD. A control the DS does not ship (a
    draggable tile, a seek-bar grip) keeps its tag with `ds-lint-allow: raw-button (why)` on that
