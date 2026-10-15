@@ -9,7 +9,7 @@ const seen = ref(false);
 </script>
 
 <template>
-  <!-- bespoke callout (NOT Ant Alert); @dismiss fires after the box fades out -->
+  <!-- drawn by the DS <aha-alert>; @dismiss fires after the box fades out -->
   <aha-info-box
     v-if="!seen"
     variant="warning"

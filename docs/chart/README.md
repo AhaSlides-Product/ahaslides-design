@@ -13,6 +13,8 @@ Live examples, the playground and the "Choosing a chart" guide are on the hosted
 
 ## Quick start (copy, paste, open in a browser)
 
+`lib/canvas.js` is the one CDN tag for the whole Canvas Library: it registers `<aha-chart>` and the canvas controls. An app screen that needs only the chart can still load `lib/aha-chart.js` alone.
+
 Save this as `index.html`:
 
 ```html
@@ -22,8 +24,8 @@ Save this as `index.html`:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>aha-chart quick start</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.70.0/lib/tokens.css">
-  <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.70.0/lib/aha-chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.198.2/lib/tokens.css">
+  <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.198.2/lib/canvas.js"></script>
 </head>
 <body style="max-width: 720px; margin: 2rem auto; font-family: sans-serif">
   <aha-chart type="bar" sort="desc" label="Q4 priorities"
@@ -53,7 +55,7 @@ If you prefer to import in your own script (for example to set data from JavaScr
 <aha-chart id="results" type="column" label="Votes"></aha-chart>
 
 <script type="module">
-  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.70.0/lib/aha-chart.js';
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.198.2/lib/canvas.js';
 
   document.getElementById('results').data = [
     { label: 'Yes', value: 42 },

@@ -1,68 +1,176 @@
 {
   "name": "Info box",
   "slug": "info-box",
+  "environment": [
+    "product"
+  ],
   "group": "Settings",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-info-box",
-  "summary": "A settings-only tinted callout in four tones (information / success / warning / error), optionally dismissible — a bespoke component, not Ant Alert.",
-  "highlights": ["Settings-only tinted callout", "Four tones: information, success, warning, error", "Optionally dismissible; not Ant Alert"],
-  "lead": "ONE custom element — <aha-info-box> — the settings-panel callout. Four tones (information / success / warning / error), each with its own tinted background, border and leading glyph, and an optional dismiss control. It is a status region (role=\"status\") so assistive tech announces it. Dismiss fades the box out on a PERSISTENT node (opacity + a class toggle, never a subtree rebuild) and emits `dismiss`; the host owns any persisted \"don't show again\" state. The glyph is summoned by name via <aha-icon> — never an inline svg. Bespoke by design — NOT Ant Alert. Shadow-DOM CSS, themed only by --aha-* tokens.",
-  "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
-  "tokensUsed": ["bg-informative", "border-info", "color-info", "bg-positive", "border-success", "color-success", "bg-warning-subtle", "border-warning", "color-warning", "bg-negative", "border-error", "color-error", "text-default", "icon-muted", "bg-hover", "radius-default", "radius-sm"],
+  "summary": "The settings callout in four tones (information / success / warning / error), optionally dismissible — a thin wrapper that draws the DS Alert.",
+  "highlights": [
+    "Settings callout drawn by the DS Alert",
+    "Four tones: information, success, warning, error",
+    "Optionally dismissible"
+  ],
+  "lead": "ONE custom element — <aha-info-box> — the settings-panel callout, composed from the DS <aha-alert>. Its settings API maps onto the Alert: `variant` information / success / warning / error → the Alert `type` (info / success / warning / error), `icon` → the Alert `icon`, `dismissible` → the Alert `closable`. So it has the Alert's look (grey #F3F3F3 surface, no border, #4A4A4A status glyph), its roles (role=alert for warning and error, role=status otherwise) and its leave animation. Dismissing hides the info box (the same nodes stay in place, so un-hiding shows it again) and emits `dismiss`; the host owns any persisted \"don't show again\" state. New code can use <aha-alert> directly.",
+  "codeNote": "A thin wrapper over <aha-alert>: same element in React and Vue. React (< 19) via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
+  "tokensUsed": [
+    "gray-25",
+    "icon-default",
+    "text-default",
+    "radius-default"
+  ],
   "spec": [
-    { "label": "Box", "value": "padding 12 16 · radius 8 · 1px tinted border + tinted fill per tone" },
-    { "label": "Information", "value": "#FFFFFF fill · #1A1A1A border · #1A1A1A glyph (system-info)" },
-    { "label": "Success", "value": "#FFFFFF fill · #1A1A1A border · #1A1A1A glyph (system-check-circle)" },
-    { "label": "Warning", "value": "#FFFFFF fill · #1A1A1A border/glyph (system-warning-circle)" },
-    { "label": "Error", "value": "#FFFFFF fill · #1A1A1A border/glyph (system-x-circle)" },
-    { "label": "Dismiss", "value": "optional shared ✕ (tertiary icon-only <aha-button>, size xs; 20 × 20, 16px system-x) top-pinned to the first line: hit area 15px from the right edge and 11px from the top; fades out on a persistent node, emits `dismiss`" },
-    { "label": "Text", "value": "Plus Jakarta 14/21 #1A1A1A" }
+    {
+      "label": "Drawn by",
+      "value": "<aha-alert> — variant information/success/warning/error → type info/success/warning/error"
+    },
+    {
+      "label": "Box",
+      "value": "the Alert: padding 10 14 · radius 8 · no border · #F3F3F3 fill (gray-25) for every tone"
+    },
+    {
+      "label": "Glyph",
+      "value": "the Alert status glyph, 16px #4A4A4A: system-info · system-check-circle · system-warning-circle · system-x-circle; `icon` overrides it"
+    },
+    {
+      "label": "Dismiss",
+      "value": "optional shared ✕ (the Alert closable: tertiary icon-only <aha-button>, size xs) on the first line; fades out, then the box is hidden and emits `dismiss`"
+    },
+    {
+      "label": "Text",
+      "value": "Plus Jakarta 14/21 #1A1A1A"
+    }
   ],
   "props": [
-    { "name": "variant", "type": "information | success | warning | error", "default": "information", "desc": "The tone — sets fill, border and leading glyph" },
-    { "name": "icon", "type": "string", "default": "—", "desc": "Override the tone's default glyph with a named DS icon" },
-    { "name": "dismissible", "type": "boolean", "default": "false", "desc": "Show the ✕ dismiss control" },
-    { "name": "dismiss", "type": "CustomEvent", "default": "—", "desc": "Composed event after the box fades out" }
+    {
+      "name": "variant",
+      "type": "information | success | warning | error",
+      "default": "information",
+      "desc": "The tone — maps to the Alert type (information → info), which sets the glyph and role"
+    },
+    {
+      "name": "icon",
+      "type": "string",
+      "default": "—",
+      "desc": "Override the tone's default glyph with a named DS icon (passed to the Alert icon)"
+    },
+    {
+      "name": "dismissible",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Show the ✕ dismiss control (the Alert closable)"
+    },
+    {
+      "name": "dismiss",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "Composed event after the box fades out and is hidden"
+    }
   ],
   "opinion": {
     "whenToUse": [
-      { "what": "Info box", "when": "a settings-panel callout explaining a state or a consequence in place" },
-      { "what": "Help text", "when": "a one-line must-see consequence attached to a single setting (≤90 chars) — not a box" },
-      { "what": "Tooltip", "when": "secondary what/why/how elaboration on a ? glyph" }
+      {
+        "what": "Info box",
+        "when": "a settings-panel callout explaining a state or a consequence in place (same as Alert, with the settings API)"
+      },
+      {
+        "what": "Help text",
+        "when": "a one-line must-see consequence attached to a single setting (≤90 chars) — not a box"
+      },
+      {
+        "what": "Tooltip",
+        "when": "secondary what/why/how elaboration on a ? glyph"
+      }
     ],
-    "note": "Bespoke, NOT Ant Alert — Alert renders outside the DS theme. Keep callouts rare: most explanation is a ? tooltip or nothing (SETTINGS-28). Use error/warning for a consequence, not decoration.",
-    "dsv3": "COVERED — the settings-lab InfoBox control mapped into the DS. The four tinted tones reuse the DS V3 semantic bg/border/colour tokens; the settings-only callout shape + dismiss are the addition. Deliberately bespoke (not Ant Alert), which does not consume the DS theme."
+    "note": "Drawn by the DS Alert; reach for <aha-alert> directly in new code. Keep callouts rare: most explanation is a ? tooltip or nothing (SETTINGS-28). Use error/warning for a consequence, not decoration.",
+    "dsv3": "COVERED — the settings-lab InfoBox control mapped onto the DS Alert (<aha-alert>), which owns the surface, glyphs, roles and dismiss; the info box keeps the settings API (variant, icon, dismissible, dismiss)."
   },
-  "surfaces": ["editor", "settings"],
-  "reuse": { "entry": "./aha-info-box", "registers": "aha-info-box", "exportsNamed": ["AhaInfoBox", "defineAhaInfoBox"] },
+  "surfaces": [
+    "editor",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-info-box",
+    "registers": "aha-info-box",
+    "exportsNamed": [
+      "AhaInfoBox",
+      "defineAhaInfoBox"
+    ]
+  },
   "snippets": [
-    { "key": "html", "label": "HTML", "file": "info-box.html.txt", "runnable": "paste-and-run", "note": "The native form — a web component in an HTML file renders on open, no build step." },
-    { "key": "react", "label": "React", "file": "info-box.react.txt" },
-    { "key": "vue", "label": "Vue 3", "file": "info-box.vue.txt" }
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "info-box.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "info-box.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "info-box.vue.txt"
+    }
   ],
   "preview": "info-box.preview.html",
   "playground": {
     "controls": [
-      { "prop": "variant", "label": "Tone", "default": "information", "options": [
-        { "label": "Information", "value": "information" },
-        { "label": "Success", "value": "success" },
-        { "label": "Warning", "value": "warning" },
-        { "label": "Error", "value": "error" }
-      ] }
+      {
+        "prop": "variant",
+        "label": "Tone",
+        "default": "information",
+        "options": [
+          {
+            "label": "Information",
+            "value": "information"
+          },
+          {
+            "label": "Success",
+            "value": "success"
+          },
+          {
+            "label": "Warning",
+            "value": "warning"
+          },
+          {
+            "label": "Error",
+            "value": "error"
+          }
+        ]
+      }
     ]
   },
   "selfCheck": [
-    { "label": "four tones, each tinted fill + border + glyph on-palette", "verdict": "PASS" },
-    { "label": "role=status; glyph by name via <aha-icon> (no inline svg)", "verdict": "PASS" },
-    { "label": "dismiss fades out on a persistent node (transition fires), emits dismiss", "verdict": "PASS" },
-    { "label": "bespoke — not Ant Alert", "verdict": "PASS" }
+    {
+      "label": "composed from <aha-alert>; the four tones map to Alert types",
+      "verdict": "PASS"
+    },
+    {
+      "label": "glyph by name via the Alert (no inline svg); role from the Alert",
+      "verdict": "PASS"
+    },
+    {
+      "label": "dismiss fades out on the Alert's persistent node, then hides the box and emits dismiss",
+      "verdict": "PASS"
+    }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
-    "ready": "!!(document.querySelector('aha-info-box[data-probe]') && document.querySelector('aha-info-box[data-probe]').shadowRoot && document.querySelector('aha-info-box[data-probe]').shadowRoot.querySelector('.box'))",
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the <aha-alert> the info box draws.",
+    "ready": "!!(document.querySelector('aha-info-box[data-probe]') && document.querySelector('aha-info-box[data-probe]').shadowRoot && document.querySelector('aha-info-box[data-probe]').shadowRoot.querySelector('aha-alert') && document.querySelector('aha-info-box[data-probe]').shadowRoot.querySelector('aha-alert').shadowRoot && document.querySelector('aha-info-box[data-probe]').shadowRoot.querySelector('aha-alert').shadowRoot.querySelector('.alert'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-info-box[data-probe]');var r=el&&el.shadowRoot;var b=r&&r.querySelector('.box');var t=r&&r.querySelector('.text');var bs=b?getComputedStyle(b):null;var ts=t?getComputedStyle(t):null;return{bg:bs?bs.backgroundColor:null,border:bs?bs.borderTopColor:null,radius:bs?bs.borderTopLeftRadius:null,fontSize:ts?ts.fontSize:null};})()",
-    "expect": { "bg": "rgb(255, 255, 255)", "border": "rgb(26, 26, 26)", "radius": "8px", "fontSize": "14px" }
+    "measure": "(function(){var el=document.querySelector('aha-info-box[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('aha-alert');var b=a&&a.shadowRoot&&a.shadowRoot.querySelector('.alert');var bs=b?getComputedStyle(b):null;return{bg:bs?bs.backgroundColor:null,radius:bs?bs.borderTopLeftRadius:null,fontSize:bs?bs.fontSize:null,type:a?a.getAttribute('type'):null};})()",
+    "expect": {
+      "bg": "rgb(243, 243, 243)",
+      "radius": "8px",
+      "fontSize": "14px",
+      "type": "error"
+    }
   }
 }

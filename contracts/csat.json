@@ -14,8 +14,8 @@
   "spec": [
     { "label": "Layout", "value": "borderless single row (28px high): 12px #616161 prompt, 4px gap, then 28×28 borderless thumb buttons with 16px #4A4A4A icons, 2px apart (--aha-space-2); opt-in `layout=\"stacked\"` puts the prompt on the top line and the buttons on the line below, both left-aligned (2px between the lines)" },
     { "label": "Rest", "value": "icon #4A4A4A" },
-    { "label": "Hover", "value": "ghost fill #FEF3F7 · icon #1A1A1A text-default (motion tokens) · tooltip Good / Not good / Feedback (above by default, below with `tooltip-placement=\"bottom\"`)" },
-    { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #FEF3F7 (bg-accent) · icon #1A1A1A (text-default) · aria-pressed synced; hover keeps the selected look" },
+    { "label": "Hover", "value": "ghost fill #E70E680D · icon #1A1A1A text-default (motion tokens) · tooltip Good / Not good / Feedback (above by default, below with `tooltip-placement=\"bottom\"`)" },
+    { "label": "Selected", "value": "the presenter's antd tertiary active state — fill #E70E680D (bg-accent) · icon #1A1A1A (text-default) · aria-pressed synced; hover keeps the selected look" },
     { "label": "Rating toggle", "value": "once rated both thumbs stay visible and the chosen one shows the active state; clicking the other thumb switches the rating (`rate` fires with the new value); clicking the chosen thumb again un-rates — `value` is removed and `rate` fires with rating null" },
     { "label": "Thumbs-up", "value": "rates instantly — reflects value='up', keeps the thumbs-down visible, emits `rate`" },
     { "label": "Thumbs-down", "value": "registers value='down' + emits `rate`, keeps the thumbs-up visible, then opens a feedback popover (shared <aha-popover>, role=dialog · Esc/outside-click close) anchored to the thumbs group and always fully visible (end-aligned by default, start-aligned with `feedback-placement=\"start\"`; it flips above the thumbs when the CSAT sits at the bottom of the viewport, stays inside the side edges, and renders in the browser top layer, so no overflow, transform or contain:paint ancestor clips it and no sidebar or toast covers it) — a 20px X whose hover is a rounded square (6px radius) (closes only, never submits, keeps the down rating), an <aha-counted-textarea> (2000 characters, placeholder How can we improve? Let us know!, focused on open) and a secondary Send button that stays disabled until text is typed; after Send it closes and does not re-open on thumbs-down until the rating changes again; the heading is optional (`feedback-prompt`, none by default)" },
@@ -66,7 +66,7 @@
   "selfCheck": [
     { "label": "borderless single row · 12px #616161 prompt · 28×28 thumb buttons with 16px #4A4A4A icons · no chrome (single row by default; layout=stacked is the opt-in two-line form)", "verdict": "PASS" },
     { "label": "hover fills ghost + recolours the icon text-default (motion tokens) · Good / Not good / Feedback tooltips", "verdict": "PASS" },
-    { "label": "selected = antd tertiary active (fill #FEF3F7 · icon #1A1A1A) · aria-pressed synced · the other thumb stays visible and switches the rating; re-click un-rates", "verdict": "PASS" },
+    { "label": "selected = antd tertiary active (fill #E70E680D · icon #1A1A1A) · aria-pressed synced · the other thumb stays visible and switches the rating; re-click un-rates", "verdict": "PASS" },
     { "label": "thumbs-up rates instantly · thumbs-down opens the feedback popover (shared <aha-popover>, textarea focused; not re-opened after Send until re-rated)", "verdict": "PASS" },
     { "label": "down thumb carries aria-haspopup=dialog · aria-expanded mirrors the popover", "verdict": "PASS" },
     { "label": "feedback popover: the shared ✕ (tertiary icon-only <aha-button> xs) closes only · <aha-counted-textarea> · secondary Send disabled until text; submit emits `feedback` and clears the field", "verdict": "PASS" },
