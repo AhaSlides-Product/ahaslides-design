@@ -69,12 +69,16 @@ test('the Splash prose states the same figures the generator reads', () => {
   assert.ok(ruleText('5.4').includes(`${right.iconWidthPerShorterSide.toFixed(1)} times`));
   assert.ok(ruleText('5.4').includes(`${right.meetingPointAcross * 100}% of the way across`));
   assert.ok(ruleText('5.5').includes(`${minimal.iconWidthPerLongerSide} times`));
+  const percent = (share) => `${Number((share * 100).toFixed(2))}%`;
   const [centreRow, rightRow, minimalRow] = table('splash-layouts').rows;
-  assert.equal(centreRow[1], `${centre.iconWidthPerShorterSide * 100}%`);
+  assert.ok(centreRow[1].startsWith(`${centre.iconWidthPerShorterSide * 100}%`));
+  assert.equal(centreRow[2], `${percent(centre.meetingPointAcross)} across, ${percent(centre.meetingPointDown)} down`);
+  assert.ok(ruleText('5.3').includes(`${percent(centre.meetingPointAcross)} of the way across and ${percent(centre.meetingPointDown)} of the way down`));
+  assert.equal(centre.wideFrameAspectThreshold, 16 / 9);
+  assert.equal(centre.wideFrameFollow, 0.5);
   assert.equal(rightRow[1], `${right.iconWidthPerShorterSide * 100}%`);
   assert.ok(rightRow[2].startsWith(`${right.meetingPointAcross * 100}% across`));
   assert.ok(minimalRow[1].includes(`${minimal.iconWidthPerLongerSide} times the longer side`));
-  const percent = (share) => `${Number((share * 100).toFixed(2))}%`;
   for (const share of [minimal.bottomLeftOutsideLeftEdge, minimal.bottomLeftRiseAboveBottomEdge, minimal.topRightOutsideRightEdge, minimal.topRightDropBelowTopEdge]) {
     assert.ok(minimalRow[2].includes(percent(share)) && ruleText('5.5').includes(percent(share)), percent(share));
   }
@@ -82,6 +86,21 @@ test('the Splash prose states the same figures the generator reads', () => {
   assert.ok(ruleText('5.1').includes('Vivid Pink at 5% on a white background, Darker Pink on a Vivid Pink background'));
   const hex = (id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
   assert.deepEqual(rules.splash.surfaces, { white: { background: hex('white'), hooks: hex('vivid-pink-5') }, pink: { background: hex('vivid-pink'), hooks: hex('darker-pink') } });
+});
+
+test('the centre splash grows by the square root of the aspect beyond 16:9, wide or tall', () => {
+  const iconWidthOf = (width, height) => {
+    const svg = buildSplash({ layout: 'centre', surface: 'white', width, height });
+    const scale = Number(svg.match(/scale\(([\d.]+)\)/)[1]);
+    return scale * readIcon(readFileSync(new URL('../logo/thesplash.svg', import.meta.url), 'utf8')).iconWidth;
+  };
+  const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.01, `${actual} vs ${expected}`);
+  near(iconWidthOf(3840, 1080), 4.5 * 1080 * Math.SQRT2);
+  near(iconWidthOf(1080, 3840), 4.5 * 1080 * Math.SQRT2);
+  near(iconWidthOf(2520, 1080), 4.5 * 1080 * Math.sqrt((21 / 9) / (16 / 9)));
+  near(iconWidthOf(1920, 1080), 4.5 * 1080);
+  near(iconWidthOf(1080, 1920), 4.5 * 1080);
+  near(iconWidthOf(1080, 1080), 4.5 * 1080);
 });
 
 function outlinePoints(pathData) {
@@ -145,6 +164,7 @@ test('the centre and right Splash put the whole icon where the approved social p
     const [across, down, scale, offsetX, offsetY] = svg.match(/<g fill="[^"]+" transform="translate\(([-\d.]+) ([-\d.]+)\) scale\(([\d.]+)\) translate\(([-\d.]+) ([-\d.]+)\)"/).slice(1).map(Number);
     const generated = boxOf(points, [scale, 0, 0, scale, across + scale * offsetX, down + scale * offsetY]);
     const expected = boxOf(points, matrix);
+    if (layout === 'centre') { const shift = (rules.splash.layouts.centre.meetingPointDown - 0.5) * height; expected[1] += shift; expected[3] += shift; }
     const shorterSide = Math.min(width, height);
     generated.forEach((edge, side) => { assert.ok(Math.abs(edge - expected[side]) <= 0.02 * shorterSide, `${layout} ${width}x${height} edge ${side}: ${edge} against ${expected[side]}`); });
   }
