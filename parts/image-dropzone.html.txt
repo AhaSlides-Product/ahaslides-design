@@ -8,7 +8,7 @@
 </script>
 
 <div style="max-width:420px">
-  <aha-image-dropzone id="bg" state="empty" label="Add background image"></aha-image-dropzone>
+  <aha-image-dropzone id="bg" state="empty" label="Add background image" hint="PNG, JPG, GIF, WebP"></aha-image-dropzone>
 </div>
 
 <script type="module">

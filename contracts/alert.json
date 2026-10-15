@@ -1,6 +1,7 @@
 {
   "name": "Alert",
   "slug": "alert",
+  "environment": ["product", "audience"],
   "group": "Feedback",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -17,7 +18,7 @@
     { "label": "Success", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
     { "label": "Warning", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
     { "label": "Error", "value": "bg gray-25 #F3F3F3, no border, icon-default #4A4A4A" },
-    { "label": "Branding", "value": "bg-accent #FEF3F7, no border, icon/text color-primary #E70E68" },
+    { "label": "Branding", "value": "bg-accent #E70E680D, no border, icon/text color-primary #E70E68" },
     { "label": "Small", "value": "padding 6 10 · gap 8 · 13px text · 16px glyph" },
     { "label": "Banner", "value": "full-width, square (radius 0), no border" },
     { "label": "Action", "value": "trailing slot=\"action\" for a button/link" },
@@ -31,6 +32,7 @@
     { "name": "banner", "type": "boolean", "default": "false", "desc": "Full-width, square-cornered edge-to-edge page notice" },
     { "name": "closable", "type": "boolean", "default": "false", "desc": "Shows the shared ✕ (tertiary icon-only <aha-button>, size xs) ✕ on the first line" },
     { "name": "hide-icon", "type": "boolean", "default": "false", "desc": "Suppresses the leading status icon (the showIcon toggle)" },
+    { "name": "icon", "type": "string", "default": "—", "desc": "A named DS icon in place of the type's status glyph (Info box passes its `icon` through)" },
     { "name": "slot=\"action\"", "type": "slot", "default": "—", "desc": "Trailing action — a button or link" },
     { "name": "close", "type": "CustomEvent", "default": "—", "desc": "Composed event when the banner is dismissed" }
   ],
@@ -77,7 +79,7 @@
   "selfCheck": [
     { "label": "radius 8 · no border on any type", "verdict": "PASS" },
     { "label": "info bg gray-25 #F3F3F3 / no border / icon-default #4A4A4A", "verdict": "PASS" },
-    { "label": "branding bg #FEF3F7 / no border / color-primary glyph", "verdict": "PASS" },
+    { "label": "branding bg #E70E680D / no border / color-primary glyph", "verdict": "PASS" },
     { "label": "small compacts padding; banner squares the corners", "verdict": "PASS" },
     { "label": "status glyph via <aha-icon> by name; trailing action slot", "verdict": "PASS" },
     { "label": "closable animates out on a persistent node + emits composed close", "verdict": "PASS" }
@@ -87,6 +89,6 @@
     "ready": "!!(document.querySelector('aha-alert[data-probe]') && document.querySelector('aha-alert[data-probe]').shadowRoot && document.querySelector('aha-alert[data-probe]').shadowRoot.querySelector('.alert') && document.querySelector('aha-alert[type=\"branding\"]') && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot && document.querySelector('aha-alert[type=\"branding\"]').shadowRoot.querySelector('.alert'))",
     "singleUI": true,
     "measure": "(function(){var el=document.querySelector('aha-alert[data-probe]');var a=el&&el.shadowRoot&&el.shadowRoot.querySelector('.alert');var s=a?getComputedStyle(a):null;var be=document.querySelector('aha-alert[type=\"branding\"]');var ba=be&&be.shadowRoot&&be.shadowRoot.querySelector('.alert');var bs=ba?getComputedStyle(ba):null;return{bg:s?s.backgroundColor:null,borderWidth:s?s.borderTopWidth:null,radius:s?s.borderTopLeftRadius:null,color:s?s.color:null,padTop:s?s.paddingTop:null,brandBg:bs?bs.backgroundColor:null,brandBorderWidth:bs?bs.borderTopWidth:null};})()",
-    "expect": { "bg": "rgb(243, 243, 243)", "borderWidth": "0px", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgb(254, 243, 247)", "brandBorderWidth": "0px" }
+    "expect": { "bg": "rgb(243, 243, 243)", "borderWidth": "0px", "radius": "8px", "color": "rgb(26, 26, 26)", "padTop": "10px", "brandBg": "rgba(231, 14, 104, 0.05)", "brandBorderWidth": "0px" }
   }
 }

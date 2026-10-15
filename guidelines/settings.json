@@ -1,6 +1,7 @@
 {
   "name": "Settings",
   "slug": "settings",
+  "environment": ["product"],
   "hub": "settings",
   "kind": "guideline",
   "group": "Patterns",
@@ -117,7 +118,7 @@
     {
       "ref": "mode-field",
       "as": "component",
-      "use": "ModeField — a labelled field whose input swaps with an inline exclusive mode control (outline radio group / segmented); only the active mode's body is live",
+      "use": "ModeField — a labelled field whose input swaps with an inline exclusive mode control (the DS Radio-Button-Group); only the active mode's body is live",
       "status": "available"
     },
     {
@@ -159,7 +160,7 @@
     {
       "ref": "question-list",
       "as": "component",
-      "use": "QuestionList — editable list of collapsible questions (prompt field + OptionRow choices); composes NumberedItem/OptionRow",
+      "use": "QuestionList — editable list of collapsible questions (prompt field + OptionRow choices); composes Collapse, SettingRow, CountedInput, OptionRow and AddItemButton",
       "status": "available"
     },
     {
@@ -177,7 +178,7 @@
     {
       "ref": "info-box",
       "as": "component",
-      "use": "InfoBox — settings-only tinted callout (information/success/warning/error), optionally dismissible with persisted state; bespoke, not Ant Alert",
+      "use": "InfoBox — settings callout (information/success/warning/error) drawn by the DS Alert (aha-alert), optionally dismissible with persisted state",
       "status": "available"
     }
   ],
