@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-image-dropzone> directly.
 // It emits intents; the host owns the modals — drive state/src from your upload flow.
-function AhaImageDropzone({ state, src, label, disabled, onAdd, onChange, onEdit, onDelete }) {
+function AhaImageDropzone({ state, src, label, hint, disabled, onAdd, onChange, onEdit, onDelete }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -17,6 +17,7 @@ function AhaImageDropzone({ state, src, label, disabled, onAdd, onChange, onEdit
       state={state || 'empty'}
       {...(src ? { src } : {})}
       {...(label ? { label } : {})}
+      {...(hint ? { hint } : {})}
       {...(disabled ? { disabled: '' } : {})}
     />
   );
@@ -27,6 +28,7 @@ function AhaImageDropzone({ state, src, label, disabled, onAdd, onChange, onEdit
   state={bg ? 'filled' : 'empty'}
   src={bg}
   label="Add background image"
+  hint="PNG, JPG, GIF, WebP"
   onAdd={openUploader}
   onDelete={() => setBg(null)}
 />

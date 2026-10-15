@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-numbered-item> directly.
 // The item's fields are the children; onDelete fires when the hover trash is pressed.
-function AhaNumberedItem({ n, label, variant, deletable, canDelete, onDelete, children }) {
+function AhaNumberedItem({ n, label, deletable, canDelete, onDelete, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -16,7 +16,6 @@ function AhaNumberedItem({ n, label, variant, deletable, canDelete, onDelete, ch
       ref={ref}
       n={String(n)}
       label={label}
-      {...(variant ? { variant } : {})}
       {...(deletable ? { deletable: '' } : {})}
       {...(canDelete === false ? { candelete: 'false' } : {})}
     >{children}</aha-numbered-item>

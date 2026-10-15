@@ -13,6 +13,7 @@ const quiz = ref([
 <template>
   <!-- questions bound as a PROPERTY; @change returns the full edited model -->
   <aha-question-list
+    label="Questions"
     min="1"
     max="10"
     minoptions="2"

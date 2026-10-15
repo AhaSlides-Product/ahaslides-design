@@ -1,6 +1,6 @@
 <!-- Paste-and-run: save as .html and open in a browser. No build step.
      <aha-info-box> is the SAME shared custom element React and Vue consume — here in its native form.
-     Theming comes only from the --aha-* tokens in tokens.css. Bespoke, NOT Ant Alert. The dismiss ✕ (the shared tertiary icon-only <aha-button>, size xs)
+     Theming comes only from the --aha-* tokens in tokens.css. Drawn by the DS <aha-alert>. The dismiss ✕ (the shared tertiary icon-only <aha-button>, size xs)
      fades the box out and emits `dismiss` — the host owns any "don't show again" state. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
