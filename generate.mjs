@@ -1767,7 +1767,7 @@ function renderMarketingHtml(b) {
   <h2>Details</h2>
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}${MARKETING_BREAKPOINT_CSS}` });
+  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section

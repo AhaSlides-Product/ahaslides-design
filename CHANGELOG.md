@@ -22,10 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.209.0 — 2026-10-14
+## 0.209.0 — 2026-10-15
 ### Fixed
 - CSAT: the question uses the DS secondary text colour (#4A4A4A, was #616161), so it matches the grey text of the card around it. Its sizes, gaps and line heights are DS tokens, and the keyboard focus ring uses the DS focus-ring token.
 - Background task: "Try again" is a primary button on every failed or offline card (Export failed and Import failed were secondary). (#185)
+
+## 0.206.0 — 2026-10-15
+### Fixed
+- Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
 
 ## 0.204.0 — 2026-10-15
 ### Added
