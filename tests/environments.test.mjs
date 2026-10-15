@@ -20,7 +20,7 @@ const memoryReader = (files) => ({
 const itemsFrom = (files) => collectItems(table, memoryReader(files));
 
 test('the table is the closed list of five environments, each with a complete route', () => {
-  assert.deepEqual(environmentNames(table), ['product', 'audience', 'marketing-web', 'video', 'social-ads']);
+  assert.deepEqual(environmentNames(table), ['product', 'audience', 'web', 'video', 'social-ads']);
   for (const [name, environment] of Object.entries(table.environments)) {
     assert.ok(environment.label && environment.summary, name);
     assert.deepEqual(Object.keys(environment.route), ['guidelines', 'judge', 'lint', 'plugin', 'owner'], name);
@@ -137,7 +137,7 @@ test('route scan reports missing, unknown and folder mismatches without failing'
     'contracts/plain.json': { slug: 'plain' },
     'contracts/ad.json': { slug: 'ad', environment: ['social-ads'] },
     'marketing/promo.json': { slug: 'promo', environment: ['tv'] },
-    'marketing/hero.json': { slug: 'hero', environment: ['marketing-web'] },
+    'marketing/hero.json': { slug: 'hero', environment: ['web'] },
   }));
   assert.deepEqual(report.counts, { items: 4, missing: 1, unknown: 1, folderMismatch: 1 });
   assert.equal(report.folderMismatch[0].id, 'contract:ad');

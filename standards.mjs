@@ -928,7 +928,7 @@ const repoChecks = [];
     existsSync(bundled) && read(bundled) === read(join(root, 'anti-slop', 'criteria.json')),
     'run npm run generate — it rewrites agent/anti-slop/criteria.json from the store; commit the result');
 }
-/* ===== environment — every contract, guideline and marketing or brand asset names the environment(s) it
+/* ===== environment — every contract, guideline, website section and brand asset names the environment(s) it
    serves, so an agent can pick its route from llms.txt. Items that predate the rule sit in a baseline that
    only shrinks; the base branch (CI's pull request base, else the local merge-base with origin/master)
    tells a changed item from an untouched one. */

@@ -27,7 +27,12 @@ class ProductLockupMandateTest(unittest.TestCase):
     def test_a_microsite_prompt_gets_the_digest(self):
         context = run_mandate("build the careers microsite")
         self.assertIn("Loop:", context)
-        self.assertIn("marketing surface", context)
+
+    def test_a_landing_page_prompt_is_covered_by_the_design_system(self):
+        context = run_mandate("build the new pricing landing page")
+        self.assertIn("Loop:", context)
+        self.assertIn("no separate marketing web surface", context)
+        self.assertNotIn("aha-marketing-skills, not this", context)
 
 
 if __name__ == "__main__":

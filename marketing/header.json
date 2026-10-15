@@ -2,7 +2,7 @@
   "slug": "header",
   "name": "Header",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "The AhaSlides marketing site header (Webflow component Header, variant name \"Variant\"), matched to the live ahaslides.com: a dark participant join bar that scrolls away above a sticky white navigation with Products, Solutions and Resources mega-menus that open on hover, Pricing, Enterprise, the language menu and Log in / Sign up, collapsing to a hamburger drawer at 991px and below. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [

@@ -45,11 +45,11 @@ A red gate means the work isn't done. **Fix it — don't work around it.** To ad
 
 ## Environments and routes
 
-Every contract, guideline and marketing or brand asset declares `"environment"`: one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`. Each environment has one route (guidelines, judge, lint, plugin, owner), defined once in `environments.json` and printed in `llms.txt` → **Routes**; every generated feed opens with a three-line route header pointing there (a `route` key in JSON feeds). Pick the environment first, then follow its route.
+Every contract, guideline, website section and brand asset declares `"environment"`: one or more of `product`, `audience`, `web`, `video`, `social-ads`. Each environment has one route (guidelines, judge, lint, plugin, owner), defined once in `environments.json` and printed in `llms.txt` → **Routes**; every generated feed opens with a three-line route header pointing there (a `route` key in JSON feeds). Pick the environment first, then follow its route.
 
 - **Gate:** `standards.mjs` fails a new or changed item with no environment or an unknown one. Older items wait in `environments.baseline.json`, which may only shrink. A pull request touching `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/`, `backgrounds/` or `illustrations/` also needs an `Environment: <names>` line in its body matching the changed items (`.github/scripts/pr-environment.mjs`, in CI).
 - **Add an environment or an item folder:** edit `environments.json` only (an entry under `environments`, or a line under `sources` + `declarationPaths`). Recipe in `CONTRIBUTING.md` → Environment.
-- **Marketing, video and social** content is approved by its own `aha-mkt` skill; the DS only requires the environment. `npm run route-scan` reports mismatches without blocking.
+- **Every website is DS work.** `web` (landing, pricing, blog, careers pages and the `marketing/` section library) has the same owner, judge and lint as `product`: there is no separate marketing web surface. Only **video and social** content is approved by its own `aha-mkt` skill; the DS only requires the environment. `npm run route-scan` reports mismatches without blocking.
 
 ## Claude Code: the DS agent plugin
 

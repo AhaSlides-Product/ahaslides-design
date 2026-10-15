@@ -264,8 +264,8 @@
         },
         {
           "id": "J7",
-          "title": "In scope — product UI, not marketing/brand",
-          "test": "The scale governs in-app product UI (presenter, audience, editor, dashboard); a marketing/brand surface (landing, blog, email, social graphic) is not forced onto it, and vice versa."
+          "title": "In scope — every AhaSlides screen and website page",
+          "test": "The scale governs every AhaSlides screen and website page: the product apps (presenter, audience, editor, dashboard), docs and internal tools, and every web page (landing, pricing, blog, careers). A web page is never treated as a separate brand surface with its own type; a hero headline takes a display role. Only email, social graphics, video and print creative sit outside the scale."
         }
       ]
     },
