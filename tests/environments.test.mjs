@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  loadEnvironmentTable, environmentNames, fileSystemReader, collectItems, environmentProblem, evaluateEnvironmentGate,
+  loadEnvironmentTable, environmentNames, canonicalEnvironment, fileSystemReader, collectItems, environmentProblem, evaluateEnvironmentGate,
   declaredEnvironments, checkPullRequestDeclaration, withRouteHeader, routeLines, ENVIRONMENT_BASELINE_FILE,
 } from '../environments.mjs';
 import { scanRoutes } from '../route-scan.mjs';
@@ -52,6 +52,15 @@ test('every item in the repo is collected, and the baseline names only items sti
   const missing = new Set(items.filter(item => environmentProblem(item, table) === 'missing').map(item => item.id));
   assert.deepEqual(baseline.filter(id => !missing.has(id)), []);
   assert.deepEqual([...baseline].sort(), baseline);
+});
+
+test('the deprecated marketing-web id validates and routes as web', () => {
+  assert.equal(canonicalEnvironment('marketing-web'), 'web');
+  assert.equal(canonicalEnvironment('product'), 'product');
+  assert.equal(environmentProblem({ environment: ['marketing-web'] }, table), null);
+  const [item] = collectItems({ sources: [{ kind: 'contract', file: 'x.json', list: 'items', key: 'slug' }] }, { read: () => JSON.stringify({ items: [{ slug: 'a', environment: ['marketing-web', 'web', 'product'] }] }) });
+  assert.deepEqual(item.environment, ['web', 'product']);
+  assert.deepEqual(environmentNames(table).includes('marketing-web'), false);
 });
 
 test('environment must be a non-empty list of known names', () => {

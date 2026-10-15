@@ -10,6 +10,14 @@ export function loadEnvironmentTable(root) {
   return JSON.parse(readFileSync(join(root, ENVIRONMENT_TABLE_FILE), 'utf8'));
 }
 
+export const DEPRECATED_ENVIRONMENT_ALIASES = { 'marketing-web': 'web' };
+
+export function canonicalEnvironment(name) {
+  return typeof name === 'string' && Object.hasOwn(DEPRECATED_ENVIRONMENT_ALIASES, name) ? DEPRECATED_ENVIRONMENT_ALIASES[name] : name;
+}
+
+const canonicalEnvironments = (value) => Array.isArray(value) ? [...new Set(value.map(canonicalEnvironment))] : value;
+
 export function environmentNames(table) {
   return Object.keys(table.environments);
 }
@@ -40,7 +48,7 @@ export function collectItems(table, reader) {
     for (const { path, content } of entries) {
       if (!content || typeof content !== 'object') continue;
       const key = content[source.key] ?? path;
-      items.push({ id: `${source.kind}:${key}`, kind: source.kind, key, path, environment: content.environment, content, source });
+      items.push({ id: `${source.kind}:${key}`, kind: source.kind, key, path, environment: canonicalEnvironments(content.environment), content, source });
     }
   }
   return items;
@@ -49,7 +57,7 @@ export function collectItems(table, reader) {
 export function environmentProblem(item, table) {
   const value = item.environment;
   if (value === undefined || (Array.isArray(value) && value.length === 0)) return 'missing';
-  if (!Array.isArray(value) || value.some(name => typeof name !== 'string' || !(name in table.environments))) return 'unknown';
+  if (!Array.isArray(value) || value.some(name => typeof name !== 'string' || !(canonicalEnvironment(name) in table.environments))) return 'unknown';
   return null;
 }
 
@@ -94,7 +102,7 @@ export function evaluateEnvironmentGate({ table, items, baseline, baseItems = nu
 export function declaredEnvironments(pullRequestBody) {
   const line = String(pullRequestBody || '').match(/^[ \t*_>-]*Environment[*_]*:(.*)$/mi);
   if (!line) return null;
-  return [...new Set(line[1].replace(/[`*_]/g, '').split(/[\s,]+/).filter(Boolean).map(name => name.toLowerCase()))];
+  return [...new Set(line[1].replace(/[`*_]/g, '').split(/[\s,]+/).filter(Boolean).map(name => canonicalEnvironment(name.toLowerCase())))];
 }
 
 export function checkPullRequestDeclaration({ table, body, changedFiles, changedItems }) {

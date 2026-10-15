@@ -209,6 +209,7 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.deepEqual(rules.open, []);
   assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
   assert.equal(feed.splash.files.length, backgrounds.length);
+  assert.ok(feed.rulesByEnvironment['marketing-web'].join() === feed.rulesByEnvironment.web.join());
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
   assert.equal(rules.changes[0].version, 'v12');
 });

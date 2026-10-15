@@ -2,6 +2,12 @@
    the human page, the agent feeds and the Background library page. No rule text is authored here. */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { DEPRECATED_ENVIRONMENT_ALIASES } from './environments.mjs';
+
+const withDeprecatedAliases = (byEnvironment) => ({
+  ...byEnvironment,
+  ...Object.fromEntries(Object.entries(DEPRECATED_ENVIRONMENT_ALIASES).map(([oldName, name]) => [oldName, byEnvironment[name]])),
+});
 
 export const COLOUR_RULES_FILE = 'brand/colour-rules.json';
 export const COLOUR_RULES_TEMPLATE_FILE = 'brand/colour-rules.template.html';
@@ -191,7 +197,7 @@ export function renderColourRulesAgent(rules, { site, store, backgrounds }) {
     judge: { product: judge, audience: judge, web: judge, video: 'the aha-mkt skill', 'social-ads': 'the aha-mkt skill' },
     palette: rules.palette.map(colour => ({ ...colour, name: markupToText(colour.name), role: markupToText(colour.role), ...(colour.tintsAfter ? { tintsAfter: markupToText(colour.tintsAfter) } : {}) })),
     glance: rules.glance.map(markupToText),
-    rulesByEnvironment: Object.fromEntries(rules.environment.map(name => [name, ruleList.filter(rule => rule.environment.includes(name)).map(rule => rule.id)])),
+    rulesByEnvironment: withDeprecatedAliases(Object.fromEntries(rules.environment.map(name => [name, ruleList.filter(rule => rule.environment.includes(name)).map(rule => rule.id)]))),
     rules: ruleList,
     notes: listNotes(rules),
     tables: listTables(rules),
