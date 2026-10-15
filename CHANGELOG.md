@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.198.3 — 2026-10-15
+## 0.200.1 — 2026-10-15
 ### Fixed
 - Minimal splash: the longer side counts as at most twice the shorter side, so in very wide or tall frames (a 6:1 web hero) the hooks keep their 2:1 size and stay in their corners instead of crossing the middle. Frames between 1:2 and 2:1 and all ready-made backgrounds are unchanged. (#263)
+
+## 0.200.0 — 2026-10-15
+### Added
+- Marketing section `FAQ` (Patterns → Marketing sections, Webflow component FAQ, built on Relume `uui-faq01`), matched to the live ahaslides.com AI presentation maker page at 1440px, 768px and 375px: a centred heading over four question rows. Each row is a real button with `aria-expanded` and `aria-controls`, so Tab, Enter and Space work and the DS focus outline shows; the answer opens over 0.3s ease-out (`--aha-motion-slow`, `--aha-ease-out`) and the plus turns into a minus. All rows start closed and any number can be open at once. The motion stops under reduced motion. Side padding steps to 64px at 991px and 32px at 479px, the heading and question type step down at 991px and 767px, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#256)
 
 ## 0.198.2 — 2026-10-15
 ### Changed
