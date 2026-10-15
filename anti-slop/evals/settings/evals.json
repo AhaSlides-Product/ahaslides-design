@@ -1785,6 +1785,30 @@
         "authored": "ahaslides-design",
         "why": "DESY-215: positive control for C19"
       }
+    },
+    {
+      "id": 77,
+      "prompt": "Review the settings panel of a Quiz slide type (settings.html, built from lib/settings.js):\n\n```html\n<aha-setting-row label=\"Question limit\" help=\"Longest question.\">\n  <aha-counted-input slot=\"control\" size=\"small\" maxlength=\"120\"></aha-counted-input>\n</aha-setting-row>\n<aha-setting-row label=\"Time limit\" help=\"Seconds per question.\">\n  <aha-number-with-unit slot=\"control\" size=\"sm\" value=\"20\" unit=\"seconds\"></aha-number-with-unit>\n</aha-setting-row>\n```\nOn screen both fields are shorter than the other fields in the panel (32px and 24px) to save room.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "BAD control for C19, size facet: a small settings field. The default size is the only size a settings panel uses.",
+      "expected_output": "FAILs C19. Settings fields are the default 40px size only: size=\"small\" and size=\"sm\" make a dense field that does not match the rest of the panel, and an AntD or slide-type-creator small field maps to the DS default when ported. Fix: drop both size attributes. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C19 is marked FAIL",
+        "Names the small field size",
+        "Asks for the default size, not another size"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-215: a settings panel never takes a small field"
+      }
     }
   ]
 }

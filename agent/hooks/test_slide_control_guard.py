@@ -119,8 +119,11 @@ class SlideControlGuardTest(unittest.TestCase):
                                   "content": DS_PAGE + '<button class="add">Add</button>'})
         self.assertEqual(code, 0)
 
-    def test_a_large_settings_field_is_blocked(self):
-        for snippet in ('<aha-number-with-unit size="large" unit="tries"></aha-number-with-unit>',
+    def test_a_small_or_large_settings_field_is_blocked(self):
+        for snippet in ('<aha-input size="small" placeholder="Small"></aha-input>',
+                        '<aha-counted-input slot="control" size="sm" maxlength="60"></aha-counted-input>',
+                        "var word = el('aha-select', { size: 'small' });",
+                        '<aha-number-with-unit size="large" unit="tries"></aha-number-with-unit>',
                         '<aha-counted-input slot="control" size="lg" maxlength="60"></aha-counted-input>',
                         "var word = el('aha-input', { size: 'large' });",
                         "{ key: 'tries', control: { type: 'number-with-unit', size: 'lg' } },"):

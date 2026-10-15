@@ -75,10 +75,10 @@ A setting that only applies when a parent is on is **hidden when the parent is o
 
 ## Fields: default size, full width when stacked, counter inside
 
-- **One size.** Every settings field (Input, CountedInput, CountedTextarea, NumberWithUnit, Select) is the default 40px size. Never `size="large"` or `"lg"`: 48px with 16px text is the audience phone field's size. Porting from AntD or slide-type-creator, their `size="large"` field maps to the DS default.
+- **One size.** Every settings field (Input, CountedInput, CountedTextarea, NumberWithUnit, Select) is the default 40px size. Never `size="small"`, `"sm"`, `"large"` or `"lg"`: no small field and no dense row in a settings panel, and 48px with 16px text is the audience phone field's size. Porting from AntD or slide-type-creator, their `size="large"` or `size="small"` field maps to the DS default.
 - **Full width when stacked.** In a stacked row (label above) the field fills the panel width, also when it sits in a wrapper with helper text below it. A stacked SettingRow and the settings list's stacked item do this for every DS field; never give the field its own fixed width.
 - **Counter inside, on focus.** A capped field is `<aha-counted-input>` or `<aha-counted-textarea>`: the counter sits inside the field and shows only while it is focused. Never a counter beside or below the field, and never `maxlength` on a plain `<aha-input>`.
-- `screen-lint.mjs --surface=settings` hard-fails a large field (`field-size-large`) and `maxlength` on `<aha-input>` (`input-maxlength`); the judge checks the rest as C19.
+- `screen-lint.mjs --surface=settings` hard-fails a small or large field (`field-size`) and `maxlength` on `<aha-input>` (`input-maxlength`); the judge checks the rest as C19.
 
 ## No empty height
 

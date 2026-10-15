@@ -8,7 +8,7 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';   // registers <aha-input>
 </script>
 
-<!-- size: small | default (never large in a settings panel)   ·   status: error | warning   ·   disabled / readonly -->
+<!-- size: default only in a settings panel (never small or large)   ·   status: error | warning   ·   disabled / readonly -->
 <aha-input id="ws" placeholder="Workspace name" value="AhaSlides"></aha-input>
 
 <!-- affixes: a leading prefix icon, a trailing suffix text, a clear ✕, a password reveal -->

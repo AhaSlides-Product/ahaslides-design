@@ -3,7 +3,7 @@
 On a slide type's presenter canvas and audience phone every control is a design-system element, so
 this stops, at write time, the two things the DS screen-lint hard-fails that have a one-for-one
 replacement: a raw <button> / role="button" (rule raw-button) and <aha-button size="xl">
-(rule button-size-xl). In its settings panel it stops a large settings field (rule field-size-large)
+(rule button-size-xl). In its settings panel it stops a small or large settings field (rule field-size)
 and maxlength on <aha-input> (rule input-maxlength). The lint stays the authority and also covers
 ::part sizing, key chips and the other settings rules.
 
@@ -32,9 +32,9 @@ SIZE_XL = re.compile(
     re.IGNORECASE)
 SETTINGS_FIELD = r"aha-(?:input|counted-input|counted-textarea|number-with-unit|select)"
 FIELD_REFERENCE = r"[\"'](?:aha-)?(?:input|counted-input|counted-textarea|number-with-unit|select)[\"']"
-FIELD_SIZE_LARGE = re.compile(
-    r"<" + SETTINGS_FIELD + r"(?![\w-])(?:\"[^\"]*\"|'[^']*'|=>|[^>\"'])*?(?<![\w-])size\s*=\s*\\?[\"']?(?:large|lg)\b"
-    r"|" + FIELD_REFERENCE + r".*(?<![\w$-])[\"']?size[\"']?\s*:\s*[\"'](?:large|lg)[\"']",
+FIELD_SIZE = re.compile(
+    r"<" + SETTINGS_FIELD + r"(?![\w-])(?:\"[^\"]*\"|'[^']*'|=>|[^>\"'])*?(?<![\w-])size\s*=\s*\\?[\"']?(?:large|lg|small|sm)\b"
+    r"|" + FIELD_REFERENCE + r".*(?<![\w$-])[\"']?size[\"']?\s*:\s*[\"'](?:large|lg|small|sm)[\"']",
     re.IGNORECASE)
 INPUT_MAXLENGTH = re.compile(
     r"<aha-input(?![\w-])(?:\"[^\"]*\"|'[^']*'|=>|[^>\"'])*?(?<![\w-])maxlength\s*="
@@ -42,7 +42,7 @@ INPUT_MAXLENGTH = re.compile(
     re.IGNORECASE)
 COMMENT_LINE = re.compile(r"^\s*(?://|/\*|\*(?:\s|/|$)|<!--)")
 ALLOW_BUTTON = re.compile(r"ds-lint-allow:\s*[a-z, -]*\bbutton\b", re.IGNORECASE)
-ALLOW_FIELD = re.compile(r"ds-lint-allow:\s*[a-z, -]*\b(?:field|field-size-large|input-maxlength)\b", re.IGNORECASE)
+ALLOW_FIELD = re.compile(r"ds-lint-allow:\s*[a-z, -]*\b(?:field|field-size|input-maxlength)\b", re.IGNORECASE)
 
 REPLACEMENT = {
     "canvas": "in-canvas presenter controls are <aha-button size=\"lg\"> from lib/canvas.js, themed by "
@@ -64,9 +64,9 @@ def _count(pattern, text, honour_marker, marker=ALLOW_BUTTON):
 
 def _settings_problems(before, after, name):
     problems = []
-    if _count(FIELD_SIZE_LARGE, after, True, ALLOW_FIELD) > _count(FIELD_SIZE_LARGE, before, True, ALLOW_FIELD):
-        problems.append("a large settings field in " + name + ": every settings field (input, counted input or "
-                        "textarea, number with unit, select) is the default 40px size; drop size=\"large\" / \"lg\" "
+    if _count(FIELD_SIZE, after, True, ALLOW_FIELD) > _count(FIELD_SIZE, before, True, ALLOW_FIELD):
+        problems.append("a small or large settings field in " + name + ": every settings field (input, counted input or "
+                        "textarea, number with unit, select) is the default 40px size; drop size=\"small\" / \"large\" / \"lg\" / \"sm\" "
                         "(settings C19).")
     if _count(INPUT_MAXLENGTH, after, True, ALLOW_FIELD) > _count(INPUT_MAXLENGTH, before, True, ALLOW_FIELD):
         problems.append("maxlength on <aha-input> in " + name + ": use <aha-counted-input maxlength=\"…\">, whose "

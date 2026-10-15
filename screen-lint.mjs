@@ -23,7 +23,7 @@
  * <aha-button>); only the canvas carries the 16px and viewport-unit font rules. Settings is product UI
  * (the product raw-hex and font-weight checks run) plus four hard rules: no raw <button>/<input>/<select>/<textarea>/role="switch",
  * no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js),
- * no size="large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
+ * no size="small"/"sm"/"large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
  * no maxlength on <aha-input> (a capped field is <aha-counted-input>, counter inside the field).
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —

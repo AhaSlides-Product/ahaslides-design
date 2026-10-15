@@ -13,7 +13,7 @@
   "tokensUsed": ["border-default", "color-primary", "focus-ring-soft", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-placeholder", "text-disabled", "radius-default", "border-error", "color-error", "border-disabled"],
   "spec": [
     { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12 · 240 wide, full width in a stacked setting row" },
-    { "label": "Sizes", "value": "settings panel: default 40 (small 32 for a dense row) · large 48 and touch 56 are audience-field sizes only (inside <aha-audience-field>), never in a settings panel · all radius 8" },
+    { "label": "Sizes", "value": "settings panel: default 40 only, no small and no dense row · large 48 and touch 56 are audience-field sizes only (inside <aha-audience-field>), never in a settings panel · all radius 8" },
     { "label": "Rest border", "value": "1px #E3E3E3 (border-default)" },
     { "label": "Focus", "value": "#E70E68 border + soft 2px ring (focus-ring-soft, 30% #E70E68) (on the persistent wrapper); hover #E70E68 border" },
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay inside the field, right 12; opacity 0 at rest → 1 on focus; counts the characters left (36 for 24 of 60), as the settings lab does; at size touch 12/12" },
@@ -28,7 +28,7 @@
     { "name": "type", "type": "text | number", "default": "text", "desc": "number gives a numeric field (numeric keypad on a phone); pair with maxlength=\"none\"" },
     { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name, forwarded to the inner field (a placeholder is not a label); <aha-audience-field> sets it from its label" },
     { "name": "maxlength", "type": "number", "default": "100", "desc": "Character cap (settings-lab default 100); drives the focus-only counter (shows the characters left). Pass `none` to drop the cap and hide the counter" },
-    { "name": "size", "type": "small | default | large | touch", "default": "default", "desc": "Control height — small 32 · default 40 · large 48 with 16px text on a 24px line · touch 56 (16px text, 16px side padding); radius stays 8. A settings panel uses default (or small): large and touch belong to the audience field inside <aha-audience-field>, and screen-lint --surface=settings rejects them" },
+    { "name": "size", "type": "small | default | large | touch", "default": "default", "desc": "Control height — small 32 · default 40 · large 48 with 16px text on a 24px line · touch 56 (16px text, 16px side padding); radius stays 8. A settings panel uses default only: small is for other surfaces, large and touch belong to the audience field inside <aha-audience-field>, and screen-lint --surface=settings rejects small and large" },
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
@@ -54,10 +54,6 @@
   "preview": "counted-input.preview.html",
   "playground": {
     "controls": [
-      { "prop": "size", "label": "Size", "default": "default", "options": [
-        { "label": "Small", "value": "small" },
-        { "label": "Default", "value": "default" }
-      ] },
       { "prop": "maxlength", "label": "Max length", "default": "100", "options": [
         { "label": "40", "value": "40" },
         { "label": "100", "value": "100" },
@@ -70,7 +66,7 @@
     ]
   },
   "selfCheck": [
-    { "label": "height 40 (default) · small 32 · radius 8 — no large field in a settings panel", "verdict": "PASS" },
+    { "label": "height 40 (default) · radius 8 — no small or large field in a settings panel", "verdict": "PASS" },
     { "label": "counter hidden at rest, revealed on focus (opacity), overlay inside the field", "verdict": "PASS" },
     { "label": "counter space reserved — revealing it does not shift the text", "verdict": "PASS" },
     { "label": "focus #E70E68 border + soft ring (persistent wrapper)", "verdict": "PASS" },

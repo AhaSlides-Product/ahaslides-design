@@ -3,7 +3,7 @@ import '@ahaslides-product/design/aha-input'; // registers <aha-input>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-input> directly.
-// size: 'small' | 'default' (never 'large' in a settings panel)  ·  status: 'error' | 'warning'
+// size: 'default' only in a settings panel (never 'small' or 'large')  ·  status: 'error' | 'warning'
 function AhaInput({ value, placeholder, type, size, status, disabled, readOnly,
                     prefixIcon, suffix, clearable, onChange }) {
   const ref = useRef();

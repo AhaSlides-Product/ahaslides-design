@@ -129,8 +129,8 @@ Read the list from the DS each time — surfaces get added.
 8. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
    24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
    no toggle, switch, input, select or button in a group header. Settings fields are the default
-   40px size, never `size="large"` / `"lg"` (porting from AntD or slide-type-creator: their
-   `size="large"` field maps to the DS default), fill the width of a stacked row, and a capped field
+   40px size only, never `size="small"` / `"sm"` / `"large"` / `"lg"` (porting from AntD or
+   slide-type-creator: their `size="large"` or `size="small"` field maps to the DS default), fill the width of a stacked row, and a capped field
    is `<aha-counted-input>` / `<aha-counted-textarea>` with the counter inside, shown on focus, never
    `maxlength` on `<aha-input>` with a counter beside it.
 9. Any new page, route, site or app shell sets its own document `<title>` and the one favicon set:

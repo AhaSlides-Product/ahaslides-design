@@ -38,7 +38,7 @@
     },
     {
       "label": "Size",
-      "value": "small 32 · default 40 · large 48; a settings panel uses default (or small): large is for other product surfaces and the audience field, and screen-lint --surface=settings rejects it"
+      "value": "small 32 · default 40 · large 48; a settings panel uses default only: small and large are for other product surfaces (large also the audience field), and screen-lint --surface=settings rejects both"
     },
     {
       "label": "Focus",
@@ -84,7 +84,7 @@
       "name": "size",
       "type": "small | default | large",
       "default": "default",
-      "desc": "Control height 32 / 40 / 48. Never large in a settings panel: large is the audience field's size (inside <aha-audience-field>)"
+      "desc": "Control height 32 / 40 / 48. Never small or large in a settings panel (default only); large is the audience field's size (inside <aha-audience-field>)"
     },
     {
       "name": "status",
@@ -183,21 +183,6 @@
   "preview": "select-field.preview.html",
   "playground": {
     "controls": [
-      {
-        "prop": "size",
-        "label": "Size",
-        "default": "default",
-        "options": [
-          {
-            "label": "Small",
-            "value": "small"
-          },
-          {
-            "label": "Default",
-            "value": "__remove__"
-          }
-        ]
-      },
       {
         "prop": "status",
         "label": "Status",

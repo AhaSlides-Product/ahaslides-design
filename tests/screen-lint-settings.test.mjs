@@ -50,7 +50,7 @@ const FIXTURES = [
     ],
   },
   {
-    rule: 'field-size-large',
+    rule: 'field-size',
     fail: [
       '<aha-number-with-unit size="large" unit="tries"></aha-number-with-unit>',
       '<aha-counted-input slot="control" size="lg" maxlength="60"></aha-counted-input>',
@@ -63,7 +63,8 @@ const FIXTURES = [
     ],
     pass: [
       '<aha-number-with-unit unit="tries"></aha-number-with-unit>',
-      '<aha-counted-input size="small" maxlength="60"></aha-counted-input>',
+      '<aha-counted-input maxlength="60"></aha-counted-input>',
+      '<aha-button size="small">Add</aha-button>',
       '<aha-button size="lg">Add</aha-button>',
       '<aha-segmented size="large"></aha-segmented>',
       `var go = el('aha-button', { size: 'lg' });`,
@@ -121,7 +122,7 @@ test('a bare ds-lint-allow suppresses nothing on the settings surface', () => {
 
 test('a field tag split across lines is still checked', () => {
   const source = '<aha-number-with-unit\n  unit="tries"\n  size="large"\n></aha-number-with-unit>\n<aha-input\n  maxlength="60">';
-  assert.deepEqual(rulesOf(source).sort(), ['field-size-large', 'input-maxlength']);
+  assert.deepEqual(rulesOf(source).sort(), ['field-size', 'input-maxlength']);
   assert.deepEqual(findingsOf(source).map(f => f.line).sort(), [3, 6]);
 });
 
@@ -131,14 +132,16 @@ test('a field held in a variable is checked when its size or cap is set later', 
     "word.setAttribute('maxlength', '60');",
     "const tries = el('aha-number-with-unit', { unit: 'tries' });",
     "tries.setAttribute('size', 'lg');",
+    "const note = el('aha-counted-textarea');",
+    "note.setAttribute('size', 'small');",
     "const add = el('aha-button');",
     "add.setAttribute('size', 'lg');",
   ].join('\n');
-  assert.deepEqual(findingsOf(source).map(f => [f.rule, f.line]), [['input-maxlength', 2], ['field-size-large', 4]]);
+  assert.deepEqual(findingsOf(source).map(f => [f.rule, f.line]), [['input-maxlength', 2], ['field-size', 4], ['field-size', 6]]);
 });
 
 test('the field rules never run on other surfaces', () => {
   const source = '<aha-counted-input size="lg" maxlength="30"></aha-counted-input><aha-input maxlength="5">';
   for (const surface of ['product', 'canvas', 'audience'])
-    assert.ok(!rulesOf(source, surface).some(rule => rule === 'field-size-large' || rule === 'input-maxlength'), surface);
+    assert.ok(!rulesOf(source, surface).some(rule => rule === 'field-size' || rule === 'input-maxlength'), surface);
 });
