@@ -1029,9 +1029,10 @@ function sidebarNav(base, active, section) {
       return `<div class="nav-group"><div class="nav-cat">${esc(g.cat)}</div>${items}</div>`;
     }).join('');
   } else if (section === 'marketing') {
-    inner = `<div class="nav-group"><div class="nav-cat">${MARKETING_CAT}</div>` +
-      MARKETING.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
-      `</div>`;
+    const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
+      items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
+      `</div>` : '';
+    inner = marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT) + marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT);
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -1479,6 +1480,15 @@ function surfaceChoiceTable(rows) {
    marketing site and the product app stay on one brand source.
    marketing/<slug>.json: { slug, name, summary, html, css }. ===== */
 const MARKETING_CAT = 'Sections';
+const MARKETING_COMPONENTS_CAT = 'Components';
+const isMarketingComponent = (b) => b.kind === 'component';
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n${card.html || ''}\n`;
+function composeMarketingComponent(b) {
+  if (!b.snippets) return b;
+  const grid = b.snippets.map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
+  return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
+    html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
+}
 const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -1734,9 +1744,17 @@ function renderMarketingHtml(b) {
   <h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
-  <h2>Paste-and-run HTML</h2>
+  ${b.snippets ? `<h2>Card types</h2>
+  <p class="body">Each type is a self-contained snippet: its styles plus one card. Paste it into any page, or use the grid above for the whole set.</p>
+  ${b.snippets.map(card => `<h3>${esc(card.name)}</h3>
+  <p class="body">${esc(card.summary)}</p>
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ')}
+
+  <h2>The whole grid</h2>
+  <p class="body">All eight types in the 3, 2 and 1 column grid.</p>
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}` : `<h2>Paste-and-run HTML</h2>
   <p class="body">Copy the whole block into any page (Webflow, WordPress, a static site). It reads only the shared <code>--aha-*</code> tokens.</p>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}`}
 
   <h2>Load the tokens once</h2>
   <p class="body">Add this to the page <code>&lt;head&gt;</code> before the block.</p>
@@ -2757,7 +2775,7 @@ GUIDELINES = existsSync(GDIR)
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -2778,7 +2796,7 @@ NAV_LANDING = {
   foundations: `foundations/${TOKEN_PAGES[0].slug}.html`,
   components: (firstComponent ? `${firstComponent.slug}/index.html` : 'index.html'),
   patterns: (firstPattern ? `${firstPattern.slug}/index.html` : 'index.html'),
-  marketing: (MARKETING[0] ? `marketing/${MARKETING[0].slug}/index.html` : 'index.html'),
+  marketing: (MARKETING.find(b => !isMarketingComponent(b)) ? `marketing/${MARKETING.find(b => !isMarketingComponent(b)).slug}/index.html` : 'index.html'),
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
