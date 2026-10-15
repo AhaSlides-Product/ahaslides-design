@@ -1639,10 +1639,10 @@ function renderCanvasLibrary() {
 }
 
 const MARKETING_WIDTHS = [
-  ['Phone', TOK.breakpoints.phone],
-  ['Tablet', TOK.breakpoints.tablet],
-  ['Desktop', TOK.breakpoints.desktop],
   ['Wide', TOK.layout.contentMaxWidth],
+  ['Desktop', TOK.breakpoints.desktop],
+  ['Tablet', TOK.breakpoints.tablet],
+  ['Phone', TOK.breakpoints.phone],
 ];
 const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
 const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js'];
@@ -1691,8 +1691,11 @@ function marketingBreakpointPreview(b) {
       var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
         '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
       var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
-      // The frame reports its own height because a sandboxed host gives it an opaque origin the parent cannot read.
-      var report='var c=document.getElementById("mbp-content");new ResizeObserver(function(){parent.postMessage({mbpHeight:Math.ceil(c.getBoundingClientRect().height)},"*")}).observe(c);';
+      // The frame reports its own height (a sandboxed host gives it an opaque origin the parent cannot read); open menus are absolutely positioned, so it measures down to the lowest visible element.
+      var report='var c=document.getElementById("mbp-content"),last=-1;'+
+        'function send(){var h=c.getBoundingClientRect().height;c.querySelectorAll("*").forEach(function(e){var r=e.getBoundingClientRect();if(r.height&&r.bottom>h&&getComputedStyle(e).visibility==="visible")h=r.bottom});h=Math.ceil(h);if(h!==last){last=h;parent.postMessage({mbpHeight:h},"*")}}'+
+        'new ResizeObserver(send).observe(c);'+
+        '["click","mouseover","mouseout","focusin","transitionend","animationend"].forEach(function(t){document.addEventListener(t,function(){requestAnimationFrame(send)},true)});';
       frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
     }
     seg.addEventListener('change',function(e){

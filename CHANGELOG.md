@@ -22,9 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.192.0 — 2026-10-15
+## 0.196.0 — 2026-10-15
 ### Added
-- Marketing sections preview (Patterns → Marketing sections, every page): a width switch above the preview with Phone 375, Tablet 768, Desktop 1280 and Wide 1440, taken from the breakpoint and content-width tokens. The switch is the shared `aha-segmented`. The section renders in a frame at the chosen width, with the DS elements and Plus Jakarta Sans loaded, so media queries, container queries and `vw` sizes all respond as they would on a real page. Wider frames scale down to fit the docs column with a "1280 px · 56%" label, the choice is remembered across section pages, and arrow keys move within the switch. The paste-and-run code is unchanged. (#255)
+- Marketing sections preview (Patterns → Marketing sections, every page): a width switch above the preview ordered wide to narrow: Wide 1440, Desktop 1280, Tablet 768 and Phone 375, taken from the breakpoint and content-width tokens. The switch is the shared `aha-segmented`. The section renders in a frame at the chosen width, with the DS elements and Plus Jakarta Sans loaded, so media queries, container queries and `vw` sizes all respond as they would on a real page. Wider frames scale down to fit the docs column with a "1280 px · 56%" label, the choice is remembered across section pages, and arrow keys move within the switch. The paste-and-run code is unchanged. (#255)
+## 0.193.0 — 2026-10-15
+### Added
+- Marketing section `Header` (Patterns → Marketing sections, Webflow component Header, variant name "Variant"), matched to the live ahaslides.com at 1440px and 390px: a dark participant join bar that scrolls away above a sticky navigation; Products, Solutions and Resources mega-menus that open on hover with a fade and slide (Products in three columns with a preview slot, Solutions with use cases and integration logos, Resources in two columns); Pricing, Enterprise, a language menu that opens on click, and Log in / Sign up. At 991px and below a hamburger drawer slides down and its menus become an accordion. The brand mark is `<aha-product-lockup>`, icons are `<aha-icon>` by name, logos come from the Logo library, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#247)
+- Icon `system-menu` (three lines), for a menu button. (#247)
+- Slack and Model Context Protocol (MCP) logos in the Logo library, in greyscale. (#247)
 
 ## 0.191.0 — 2026-10-14
 ### Added
