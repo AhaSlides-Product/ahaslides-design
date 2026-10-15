@@ -37,6 +37,7 @@ const AREAS = {
   foundations: { type: 'foundation', label: 'Foundations' },
   components: { type: 'component', label: 'Components' },
   patterns: { type: 'component', label: 'Patterns' },
+  marketing: { type: 'component', label: 'Marketing' },
   settings: { type: 'component', label: 'Settings' },
   audience: { type: 'audience', label: 'Audience Library' },
   canvas: { type: 'component', label: 'Components' },

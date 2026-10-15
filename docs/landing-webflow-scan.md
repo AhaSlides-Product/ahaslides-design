@@ -6,7 +6,7 @@
 >
 > **Status (0.68.0): the Landing tab is gone.** This audit is kept as the Webflow-to-update record;
 > it is not a docs-site page. The two marketing-only sections, **Hero** and **Section container**,
-> now live under **Patterns → Marketing sections** (source: `marketing/<slug>.json`). The landing
+> now live under the **Marketing** tab (source: `marketing/<slug>.json`). The landing
 > Button, Link, Fonts, Spacing and Grid blocks were removed as duplicates of Components/Foundations;
 > they remain in git history at `v0.67.0` under `landing/`.
 >
