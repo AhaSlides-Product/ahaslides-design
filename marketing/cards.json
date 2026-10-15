@@ -3,7 +3,7 @@
   "name": "Cards",
   "kind": "component",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "Eight meaning cards for the AhaSlides marketing sites (Webflow Cards), built on the Card anatomy (cover, title, body, actions) with the marketing radius: Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card and Integration card. Framework-free HTML and CSS, bound to the shared --aha-* tokens. Each type has its own copyable snippet; linked types use one stretched link over the whole card.",
   "highlights": [
