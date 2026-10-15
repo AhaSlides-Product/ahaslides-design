@@ -2748,10 +2748,16 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
+function expandMarketingData(b) {
+  if (!b.dataFile) return b;
+  const data = JSON.parse(read(join(MDIR, b.dataFile)));
+  const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
+  return { ...b, html: b.html.replaceAll('{{items}}', items) };
+}
 /* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */

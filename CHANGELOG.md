@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.201.0 — 2026-10-15
+### Added
+- Marketing section `Logos` (Patterns → Marketing sections, Webflow CMS collection list `div-block-250`), matched to the live ahaslides.com survey creator page at 1440px, 991px, 767px and 390px: a row of greyscale customer logos that slides left over 20s, linear and repeating, like the Webflow Infinite logo interaction, and stops under reduced motion. The logos are not typed into the markup: the section renders them from `marketing/data/logos-cms.json`, the published CMS list with its source URL and fetch date. `generate.mjs` gains one optional step for marketing sections: a `dataFile` plus an `itemHtml` template expand `{{items}}` in the section HTML; sections without them are unchanged. (#PR)
+
 ## 0.200.0 — 2026-10-15
 ### Added
 - Marketing section `FAQ` (Patterns → Marketing sections, Webflow component FAQ, built on Relume `uui-faq01`), matched to the live ahaslides.com AI presentation maker page at 1440px, 768px and 375px: a centred heading over four question rows. Each row is a real button with `aria-expanded` and `aria-controls`, so Tab, Enter and Space work and the DS focus outline shows; the answer opens over 0.3s ease-out (`--aha-motion-slow`, `--aha-ease-out`) and the plus turns into a minus. All rows start closed and any number can be open at once. The motion stops under reduced motion. Side padding steps to 64px at 991px and 32px at 479px, the heading and question type step down at 991px and 767px, and every value is an `--aha-*` token. Where the DS still differs from Webflow is listed in `docs/landing-webflow-scan.md`. (#256)

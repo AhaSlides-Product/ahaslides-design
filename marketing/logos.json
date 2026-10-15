@@ -1,0 +1,19 @@
+{
+  "slug": "logos",
+  "name": "Logos",
+  "environment": [
+    "marketing-web"
+  ],
+  "summary": "The AhaSlides marketing site customer logo strip (Webflow CMS collection list div-block-250, seen under the main content of the survey creator page), matched to the live ahaslides.com: a row of greyscale customer logos that loops left across the page. The logos are not typed into the markup; they come from marketing/data/logos-cms.json, the published CMS list recorded with its source URL and fetch date. Framework-free and bound to the shared --aha-* tokens.",
+  "highlights": [
+    "Webflow section Logos (CMS collection list, 10 customer logos in prod order), matched to the live ahaslides.com at 1440px, 991px, 767px and 390px",
+    "Logo list rendered from marketing/data/logos-cms.json (name, image URL, order), not hand-typed; the list is shown twice so the loop has no gap",
+    "Slides left over 20s, linear, repeating, as the Webflow Infinite logo interaction does; stops under reduced motion",
+    "Logos are greyscale (saturate 0); 80px wide at most, 110px at 1920px; 40px tall at 991px and below, 60px tall at 479px and below",
+    "Second copy of the list is hidden from assistive technology; the strip has no hover or click behaviour, as on live"
+  ],
+  "dataFile": "data/logos-cms.json",
+  "itemHtml": "<li class=\"aha-logos__item\"><img class=\"aha-logos__image\" loading=\"lazy\" src=\"{{src}}\" alt=\"{{alt}}\"></li>",
+  "html": "<section class=\"aha-logos\" aria-label=\"Customer logos\">\n  <div class=\"aha-logos__track\">\n    <ul class=\"aha-logos__set\">{{items}}</ul>\n    <ul class=\"aha-logos__set\" aria-hidden=\"true\">{{items}}</ul>\n  </div>\n</section>",
+  "css": ".aha-logos{\n  container:aha-logos / inline-size;\n  background:var(--aha-white);\n  font-family:var(--aha-font-product);\n}\n.aha-logos *{box-sizing:border-box}\n.aha-logos__track{\n  display:flex;align-items:center;justify-content:flex-start;\n  gap:240px;width:100%;min-width:100%;\n  padding:var(--aha-space-32) 0;\n  position:relative;overflow:hidden;\n}\n.aha-logos__set{\n  display:flex;justify-content:space-between;gap:var(--aha-space-32);\n  width:100%;min-width:100%;margin:0 0 0 -200px;padding:0;\n  list-style:none;\n  animation:aha-logos-loop 20s linear infinite;\n}\n.aha-logos__item{display:flex;justify-content:space-between;align-items:stretch}\n.aha-logos__image{\n  display:inline-block;vertical-align:middle;\n  max-width:80px;\n  filter:saturate(0);\n}\n@keyframes aha-logos-loop{\n  from{transform:translateX(0)}\n  to{transform:translateX(-100%)}\n}\n@media (prefers-reduced-motion:reduce){\n  .aha-logos__set{animation:none}\n}\n@container aha-logos (width >= 1920px){\n  .aha-logos__image{max-width:110px}\n}\n@container aha-logos (max-width:991px){\n  .aha-logos__image{height:40px}\n}\n@container aha-logos (max-width:479px){\n  .aha-logos__image{max-width:none;height:60px}\n}"
+}
