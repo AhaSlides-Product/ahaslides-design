@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.211.2 — 2026-10-15
 ### Changed
-- Marketing pages: each Paste-and-run HTML, Load the tokens once and card-type block shows its one-line description and Show code on the same row; the button drops below the text on narrow screens. (#PR)
+- Marketing pages: each Paste-and-run HTML, Load the tokens once and card-type block shows its one-line description and Show code on the same row; the button drops below the text on narrow screens. (#274)
 
 ## 0.211.1 — 2026-10-15
 ### Changed
