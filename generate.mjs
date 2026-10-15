@@ -1691,15 +1691,15 @@ function marketingBreakpointPreview(b) {
       var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
         '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
       var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
-      frame.onload=function(){
+      frame.addEventListener('mbp-ready',function(){
         measure();
         try{
           var w=frame.contentWindow;
           new w.ResizeObserver(measure).observe(frame.contentDocument.getElementById('mbp-content'));
           w.document.fonts.ready.then(measure);
         }catch(e){}
-      };
-      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      });
+      frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>frameElement.dispatchEvent(new Event("mbp-ready"))</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
     }
     seg.addEventListener('change',function(e){
       width=+e.detail.value;
