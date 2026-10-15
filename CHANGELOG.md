@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.192.0 — 2026-10-15
 ### Added
-- Marketing sections preview (Patterns → Marketing sections, every page): a width switch above the preview with Phone 375, Tablet 768, Desktop 1280 and Wide 1440, taken from the breakpoint and content-width tokens. The section renders in a frame at the chosen width, so media queries, container queries and `vw` sizes all respond as they would on a real page. Wider frames scale down to fit the docs column with a "1280 px · 56%" label, the choice is remembered across section pages, and arrow keys move within the switch. The paste-and-run code is unchanged. (#PR)
+- Marketing sections preview (Patterns → Marketing sections, every page): a width switch above the preview with Phone 375, Tablet 768, Desktop 1280 and Wide 1440, taken from the breakpoint and content-width tokens. The section renders in a frame at the chosen width, so media queries, container queries and `vw` sizes all respond as they would on a real page. Wider frames scale down to fit the docs column with a "1280 px · 56%" label, the choice is remembered across section pages, and arrow keys move within the switch. The paste-and-run code is unchanged. (#255)
 
 ## 0.191.0 — 2026-10-14
 ### Added
