@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.202.0 — 2026-10-15
+### Added
+- `screen-lint.mjs --surface=settings` for a slide type's settings panel. On top of the product checks it hard-fails a raw `<button>`, `<input>`, `<select>`, `<textarea>` or `role="switch"` (`raw-control`) and any `<aha-*>` tag that `lib/settings.js` does not register (`unregistered-element`). The allowed tags are generated from the settings entry into `lib/settings-elements.js`, so the list cannot drift. A control the DS does not ship keeps its tag with `ds-lint-allow: raw-control (why)`. The settings anti-slop judge gains C18, "Settings controls come from lib/settings.js". The canvas, audience and product surfaces are unchanged. (#129)
+
 ## 0.200.2 — 2026-10-15
 ### Changed
 - Marketing section pages (Marketing → every section) are shorter. The intro is one line, the first highlight. Paste-and-run HTML and Load the tokens once sit behind the docs' Show code toggle, and the remaining highlights move to a Details list at the end of the page. The paste-and-run code and the feeds are unchanged. (#264)
