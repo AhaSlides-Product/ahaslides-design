@@ -1482,7 +1482,7 @@ function surfaceChoiceTable(rows) {
 const MARKETING_CAT = 'Sections';
 const MARKETING_COMPONENTS_CAT = 'Components';
 const isMarketingComponent = (b) => b.kind === 'component';
-const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n${card.html || ''}\n`;
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n    <li>\n${(card.html || '').split('\n').map(line => '      ' + line).join('\n')}\n    </li>\n  </ul>\n</section>\n`;
 function composeMarketingComponent(b) {
   if (!b.snippets) return b;
   const grid = b.snippets.map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
