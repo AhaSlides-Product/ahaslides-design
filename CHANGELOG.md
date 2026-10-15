@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.197.1 — 2026-10-15
+### Fixed
+- Marketing sections preview: with the Header's mobile drawer open at Phone 375, the preview frame no longer grows a step taller on every click or hover. Viewport-height elements such as the drawer are left out of the height measure, while their contents still count. (#258)
+
 ## 0.197.0 — 2026-10-15
 ### Added
 - Image Dropzone draws its `hint` as a second line under the label (text-secondary, since the lab's #8A8A8A is 3.22:1 on the grey fill), as the settings lab shows "PNG, JPG, GIF, WebP"; the label itself is now text-default (#249).
