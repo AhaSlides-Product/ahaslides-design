@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.198.0 — 2026-10-15
 ### Changed
-- Marketing sections move out of the Patterns sidebar into their own header tab, "Marketing sections", placed right after Patterns. The tab has its own sidebar and breadcrumb and opens on the first section. Page URLs (`marketing/<slug>/`) and the marketing feeds are unchanged. (#PR)
+- Marketing sections move out of the Patterns sidebar into their own header tab, "Marketing sections", placed right after Patterns. The tab has its own sidebar and breadcrumb and opens on the first section. Page URLs (`marketing/<slug>/`) and the marketing feeds are unchanged. (#259)
 
 ## 0.197.2 — 2026-10-15
 ### Fixed
