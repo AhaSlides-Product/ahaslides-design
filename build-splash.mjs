@@ -76,7 +76,7 @@ function wholeIcon(hooks, colour, scale, meetingX, meetingY, meetingPoint) {
 function minimalHooks(hooks, colour, width, height, layout, iconWidth) {
   const hook = largestHook(hooks);
   const { top, right } = pathBounds(hook);
-  const longerSide = Math.max(width, height);
+  const longerSide = Math.min(Math.max(width, height), layout.longerSideAtMostShorterSideTimes * Math.min(width, height));
   const scale = layout.iconWidthPerLongerSide * longerSide / iconWidth;
   // rotate(-90) maps (x, y) to (y, -x); rotate(90) maps (x, y) to (-y, x).
   const bottomLeftX = -layout.bottomLeftOutsideLeftEdge * longerSide - top * scale;
