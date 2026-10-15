@@ -297,3 +297,4 @@ Matched to the live ahaslides.com survey creator page (https://ahaslides.com/pro
 61. Live renders the list twice as two collection lists with identical alt text → the second copy is `aria-hidden`, so a screen reader reads the logos once; the list is a real `ul` with `li` items and the section carries `aria-label="Customer logos"`.
 62. Live has no hover, focus or click behaviour on the logos → none added.
 63. Webflow media queries (1920px, 991px, 479px) → the same widths as container queries on the section. Live also carries `.homev4` variants of the strip, positioned absolutely inside the home hero, which are not part of this section.
+64. Live switches to 110px logos at a 1920px viewport (a media query); the DS keys it on the section's own width, so a 1920px browser window with a 15px scrollbar (section 1905px wide) still shows 80px logos, while a 1920px frame without a scrollbar, such as the docs preview, matches live.
