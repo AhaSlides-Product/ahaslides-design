@@ -22,9 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.205.0 — 2026-10-15
+## 0.209.0 — 2026-10-15
 ### Changed
 - Right splash (Brand colour rules 5.4, 5.7 and the layouts table): the icon is now 4.5 times the shorter side and grows in frames wider or taller than 16:9 like the centre splash (1.41 times at 32:9, 1.15 times at 21:9). The meeting point moves to 75% across and 55% down. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.right`. The six right files in the Background library are rebuilt. Rule 5.7 no longer says the right splash matches the PDF. Centre and minimal are unchanged. (#270)
+
+## 0.206.0 — 2026-10-15
+### Fixed
+- Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
+
+## 0.204.0 — 2026-10-15
+### Added
+- Marketing → Components → Cards: eight meaning cards for the marketing sites (Testimonial card, Case study card, Template card, Feature card, Step card, Statistic card, Article card, Integration card), built on the Card anatomy with the marketing radius. Framework-free HTML and CSS bound to `--aha-*` tokens under the `aha-marketing-card` class with one `aha-marketing-card--<type>` modifier per card, one paste-and-run snippet per type plus the 3, 2 and 1 column grid (breaks at 991, 767 and 479px). Linked cards use one stretched link and lift on hover; Testimonial, Statistic and Step cards stay static. Images are neutral placeholders.
+### Changed
+- The Marketing sidebar is split into Sections (Header, Hero, FAQ, Footer banner, Footer) and Components. Section pages are unchanged. (#269)
 
 ## 0.203.1 — 2026-10-15
 ### Fixed
