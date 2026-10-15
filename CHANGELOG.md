@@ -28,6 +28,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - The Marketing sidebar is split into Sections (Header, Hero, FAQ, Footer banner, Footer) and Components. Section pages are unchanged. (#269)
 
+## 0.203.0 — 2026-10-15
+### Changed
+- Centre splash (Brand colour rules 5.3, 5.7 and the layouts table): in frames wider or taller than 16:9 the icon grows by the square root of how far the frame goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times, and the top-right hook no longer dominates. The meeting point now sits 50% across and 55% down in every centre frame. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.centre`. The six centre files in the Background library are rebuilt. Right and minimal are unchanged. (#265)
+
 ## 0.202.0 — 2026-10-15
 ### Added
 - `screen-lint.mjs --surface=settings` for a slide type's settings panel. On top of the product checks it hard-fails a raw `<button>`, `<input>`, `<select>`, `<textarea>` or `role="switch"` (`raw-control`) and any `<aha-*>` tag that `lib/settings.js` does not register (`unregistered-element`). The allowed tags are generated from the settings entry into `lib/settings-elements.js`, so the list cannot drift. A control the DS does not ship keeps its tag with `ds-lint-allow: raw-control (why)`. The settings anti-slop judge gains C18, "Settings controls come from lib/settings.js". The canvas, audience and product surfaces are unchanged. (#268)
