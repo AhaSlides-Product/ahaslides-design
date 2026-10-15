@@ -83,6 +83,8 @@ test('the Splash prose states the same figures the generator reads', () => {
     assert.ok(minimalRow[2].includes(percent(share)) && ruleText('5.5').includes(percent(share)), percent(share));
   }
   assert.ok(ruleText('5.19').includes(`${minimal.iconWidthPerLongerSide} times`));
+  for (const text of [ruleText('5.5'), ruleText('5.8'), ruleText('5.19'), minimalRow[1] + minimalRow[2]]) assert.ok(text.includes('at most twice the shorter side') || text.includes('2:1'), text.slice(0, 40));
+  assert.equal(minimal.longerSideAtMostShorterSideTimes, 2);
   assert.ok(ruleText('5.1').includes('Vivid Pink at 5% on a white background, Darker Pink on a Vivid Pink background'));
   const hex = (id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
   assert.deepEqual(rules.splash.surfaces, { white: { background: hex('white'), hooks: hex('vivid-pink-5') }, pink: { background: hex('vivid-pink'), hooks: hex('darker-pink') } });
@@ -131,7 +133,7 @@ const boxOf = (points, [a, b, c, d, e, f]) => {
 
 test('the minimal Splash puts each hook where the approved demo puts it, on every frame shape', () => {
   const hookPoints = outlinePoints(largestHook(readIcon(read(rules.splash.icon)).hooks));
-  const frames = [[1600, 900], [1500, 500], [1080, 1350], [1080, 1920], [1080, 1080], [1920, 1080]];
+  const frames = [[1600, 900], [1000, 500], [1080, 1350], [1080, 1920], [1080, 1080], [1920, 1080]];
   for (const [width, height] of frames) {
     const longerSide = Math.max(width, height), unit = longerSide / 1600;
     const demoBoxes = [
@@ -147,6 +149,24 @@ test('the minimal Splash puts each hook where the approved demo puts it, on ever
     generated.forEach((box, hook) => box.forEach((edge, side) => {
       assert.ok(Math.abs(edge - demoBoxes[hook][side]) <= 0.01 * longerSide, `${width}x${height} hook ${hook} edge ${side}`);
     }));
+  }
+});
+
+test('a very wide or tall frame lays the minimal hooks out as for twice its shorter side', () => {
+  const hookPlacements = (svg) => [...svg.matchAll(/translate\(([-\d.]+) ([-\d.]+)\) rotate\((-?90)\) scale\(([\d.]+)\)/g)].map(match => match.slice(1, 5).join(' '));
+  const sameHooks = (wide, reference) => assert.deepEqual(hookPlacements(buildSplash({ layout: 'minimal', surface: 'pink', ...wide })).map(placement => placement.split(' ')[3]), hookPlacements(buildSplash({ layout: 'minimal', surface: 'pink', ...reference })).map(placement => placement.split(' ')[3]));
+  sameHooks({ width: 1920, height: 320 }, { width: 640, height: 320 });
+  sameHooks({ width: 320, height: 1920 }, { width: 320, height: 640 });
+  const banner = hookPlacements(buildSplash({ layout: 'minimal', surface: 'pink', width: 1920, height: 320 }));
+  const reference = hookPlacements(buildSplash({ layout: 'minimal', surface: 'pink', width: 640, height: 320 }));
+  const bannerBottomLeft = banner[0].split(' ').map(Number), referenceBottomLeft = reference[0].split(' ').map(Number);
+  assert.equal(bannerBottomLeft[0], referenceBottomLeft[0]);
+  assert.equal(bannerBottomLeft[1], referenceBottomLeft[1]);
+});
+
+test('the ready-made backgrounds are unchanged by the cap', () => {
+  for (const { file, layout, surface, width, height } of readyMadeSet()) {
+    assert.equal(buildSplash({ layout, surface, width, height }), read(`backgrounds/${file}`), file);
   }
 });
 
@@ -230,7 +250,7 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
   assert.equal(feed.splash.files.length, backgrounds.length);
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
-  assert.equal(rules.changes[0].version, 'v12');
+  assert.equal(rules.changes[0].version, 'v13');
 });
 
 const flatten = (hex, share, base) => '#' + [1, 3, 5].map(index => Math.round(parseInt(hex.slice(index, index + 2), 16) * share + parseInt(base.slice(index, index + 2), 16) * (1 - share)).toString(16).padStart(2, '0').toUpperCase()).join('');
