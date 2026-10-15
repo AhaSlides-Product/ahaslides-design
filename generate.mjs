@@ -1032,7 +1032,7 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    inner = marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT) + marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT);
+    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -2796,13 +2796,14 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
 const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage && !c.mergedInto);
+const firstMarketingItem = MARKETING.find(isMarketingComponent) || MARKETING[0];
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
   foundations: `foundations/${TOKEN_PAGES[0].slug}.html`,
   components: (firstComponent ? `${firstComponent.slug}/index.html` : 'index.html'),
   patterns: (firstPattern ? `${firstPattern.slug}/index.html` : 'index.html'),
-  marketing: (MARKETING.find(b => !isMarketingComponent(b)) ? `marketing/${MARKETING.find(b => !isMarketingComponent(b)).slug}/index.html` : 'index.html'),
+  marketing: (firstMarketingItem ? `marketing/${firstMarketingItem.slug}/index.html` : 'index.html'),
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),

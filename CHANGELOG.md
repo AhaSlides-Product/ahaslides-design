@@ -28,6 +28,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Logos strip: the logos are about 25% larger than live at every width (80px to 100px wide at most, 110px to 138px at 1920px, 40px to 50px tall at 991px and below, 60px to 75px tall at 479px and below); the loop shift is unchanged. Growth to align the live site. (#267)
 
+## 0.211.1 — 2026-10-15
+### Changed
+- The Marketing sidebar lists Components above Sections, and the Marketing tab opens on the first component. (#273)
+
 ## 0.211.0 — 2026-10-15
 ### Changed
 - Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#271)
