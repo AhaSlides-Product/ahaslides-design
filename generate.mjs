@@ -1672,8 +1672,7 @@ function marketingBreakpointPreview(b) {
     seg.setAttribute('value',String(width));
     var contentHeight=0;
     function layout(){
-      var avail=root.clientWidth;
-      var scale=Math.min(1,avail/width);
+      var scale=Math.min(1,(root.clientWidth-2)/width);
       frame.style.width=width+'px';
       frame.style.height=contentHeight+'px';
       frame.style.transform=scale<1?'scale('+scale+')':'none';
@@ -1705,9 +1704,9 @@ function marketingBreakpointPreview(b) {
     seg.addEventListener('change',function(e){
       width=+e.detail.value;
       try{localStorage.setItem(KEY,String(width));}catch(err){}
-      layout();setTimeout(measure,60);
+      layout();
     });
-    window.addEventListener('resize',layout);
+    new ResizeObserver(layout).observe(root);
     load();
   })();
   </script>`;
