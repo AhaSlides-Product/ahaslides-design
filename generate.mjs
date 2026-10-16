@@ -1493,6 +1493,16 @@ const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || 
 const marketingPreviewSnippet = (b) => b.variants
   ? `<style>\n${b.css || ''}\n</style>\n${b.variants.map(v => v.html).join('\n<div style="height:var(--aha-space-24);background:var(--aha-white)"></div>\n')}\n`
   : marketingSnippet(b);
+const marketingFeatureCardCss = () => {
+  const cards = JSON.parse(read(join(MDIR, 'cards.json')));
+  return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
+};
+const marketingLayoutSnippet = (b, layout) => `<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`;
+function composeMarketingLayouts(b) {
+  if (!b.layouts) return b;
+  return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
+    html: b.layouts.map(layout => layout.html).join('\n') };
+}
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
    the DS top-nav + scoped sidebar like every other area. Content is data
@@ -1740,7 +1750,75 @@ function marketingCodeToggle(file, code, lead = '') {
       <pre class="code snippet active">${esc(code)}</pre>
     </div></div>`;
 }
+function marketingLayoutPreview(b, layout, index) {
+  const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
+  return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingLayoutSnippet(b, layout)}</template>
+  </div>`;
+}
+const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
+  import '../../lib/aha-segmented.js';
+  (function(){
+    var base=new URL('../../',location.href).href;
+    var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+      '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+    var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+    var report='var c=document.getElementById("mbp-content"),last=-1;function send(){var h=Math.ceil(c.getBoundingClientRect().height);if(h!==last){last=h;parent.postMessage({mbpHeight:h},"*")}}new ResizeObserver(send).observe(c);'+
+      '["click","mouseover","mouseout","focusin","transitionend","animationend"].forEach(function(t){document.addEventListener(t,function(){requestAnimationFrame(send)},true)});';
+    var previews=[].slice.call(document.querySelectorAll('.mfv')).map(function(root){
+      var p={root:root,seg:root.querySelector('aha-segmented'),frame:root.querySelector('.mbp-frame'),view:root.querySelector('.mbp-viewport'),sizer:root.querySelector('.mbp-sizer'),label:root.querySelector('.mbp-label'),width:+root.dataset.default,contentHeight:0};
+      p.layout=function(retried){
+        var available=p.view.clientWidth;
+        var scale=Math.min(1,available/p.width);
+        p.frame.style.width=p.width+'px';
+        p.frame.style.height=p.contentHeight+'px';
+        p.frame.style.transform=scale<1?'scale('+scale+')':'none';
+        p.sizer.style.height=Math.ceil(p.contentHeight*scale)+'px';
+        p.sizer.style.width=Math.floor(p.width*scale)+'px';
+        if(!retried&&p.view.clientWidth!==available)return p.layout(true);
+        p.label.textContent=p.width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
+      };
+      p.seg.addEventListener('change',function(e){p.width=+e.detail.value;p.layout();});
+      new ResizeObserver(function(){p.layout()}).observe(root);
+      p.frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      return p;
+    });
+    window.addEventListener('message',function(e){
+      if(!e.data||typeof e.data.mbpHeight!=='number')return;
+      previews.forEach(function(p){if(p.frame.contentWindow===e.source){p.contentHeight=e.data.mbpHeight;p.layout();}});
+    });
+  })();
+  </script>`;
+function renderMarketingLayoutsHtml(b) {
+  const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
+  const main = `
+  <h1>${esc(b.name)}</h1>
+  <p class="subtitle">${esc(intro)}</p>
+  <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
+
+  <h2>Which is which</h2>
+  <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
+
+${b.layouts.map((layout, index) => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+  <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
+  <div class="marketing-stage">${marketingLayoutPreview(b, layout, index)}</div>
+  ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
+
+  <h2>Load the tokens once</h2>
+  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
+
+  <h2>Details</h2>
+  <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
+  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+}
 function renderMarketingHtml(b) {
+  if (b.layouts) return renderMarketingLayoutsHtml(b);
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
@@ -2791,7 +2869,7 @@ function expandMarketingData(b) {
 /* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(composeMarketingLayouts).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
