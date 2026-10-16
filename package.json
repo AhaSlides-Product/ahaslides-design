@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.217.0",
+  "version": "0.235.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -76,6 +76,7 @@
     "./lib/aha-list.js",
     "./lib/aha-collapse.js",
     "./lib/aha-descriptions.js",
+    "./lib/aha-stat-tile.js",
     "./lib/aha-statistic.js",
     "./lib/aha-empty.js",
     "./lib/aha-image.js",
@@ -180,6 +181,7 @@
     "./aha-radio": "./lib/aha-radio.js",
     "./input-number-theme": "./lib/input-number-theme.js",
     "./textarea-theme": "./lib/textarea-theme.js",
+    "./textarea-counted.css": "./lib/textarea-counted.css",
     "./autocomplete-theme": "./lib/autocomplete-theme.js",
     "./time-picker-theme": "./lib/time-picker-theme.js",
     "./slider-theme": "./lib/slider-theme.js",
@@ -195,6 +197,8 @@
     "./aha-list": "./lib/aha-list.js",
     "./aha-collapse": "./lib/aha-collapse.js",
     "./aha-descriptions": "./lib/aha-descriptions.js",
+    "./aha-stat-tile": "./lib/aha-stat-tile.js",
+    "./static-icons/*": "./lib/static-icons/*",
     "./aha-statistic": "./lib/aha-statistic.js",
     "./aha-empty": "./lib/aha-empty.js",
     "./aha-image": "./lib/aha-image.js",
@@ -260,6 +264,7 @@
     "fonts/",
     "icons/svg/",
     "logo/",
+    "marketing-assets/",
     "backgrounds/",
     "brand/colour-rules.json",
     "build-splash.mjs",
@@ -274,8 +279,9 @@
   "scripts": {
     "new:component": "node scaffold.mjs",
     "icons": "node build-icons.mjs",
+    "static-icons": "node build-static-icons.mjs",
     "illustrations": "node build-illustrations.mjs",
-    "generate": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
+    "generate": "node build-icons.mjs && node build-static-icons.mjs && node build-illustrations.mjs && node generate.mjs",
     "standards": "node standards.mjs",
     "qa": "node qa.mjs",
     "lint:screen": "node screen-lint.mjs",
@@ -286,8 +292,8 @@
     "icon-duplicates": "node icon-similarity.mjs",
     "splash": "node build-splash.mjs",
     "evals:anti-slop": "node anti-slop/evals-harness.mjs",
-    "build": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs",
-    "check": "node build-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node screen-lint.mjs --self-test && node --test tests/*.test.mjs && node qa.mjs"
+    "build": "node build-icons.mjs && node build-static-icons.mjs && node build-illustrations.mjs && node generate.mjs",
+    "check": "node build-icons.mjs && node build-static-icons.mjs && node build-illustrations.mjs && node generate.mjs && node standards.mjs && node screen-lint.mjs --self-test && node --test tests/*.test.mjs && node qa.mjs"
   },
   "peerDependencies": {
     "react": ">=18"
