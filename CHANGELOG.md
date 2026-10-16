@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.220.2 — 2026-10-16
 ### Fixed
-- **`<aha-chart>` column values no longer sit on the reference line.** When a value label's box would cross an OKR target or Average line, the label moves inside the top of its bar in whichever ink reads on that fill (or just beyond the line when the bar is too short), so the number stays readable. Negative columns mirror this; the line type is untouched. A new "Value on the line" case on the chart page and a `tests/column-reference-labels.test.mjs` contract check that no value label box intersects the line or its label. (#PRNUM)
+- **`<aha-chart>` column values no longer sit on the reference line.** When a value label's box would cross an OKR target or Average line, the label moves inside the top of its bar in whichever ink reads on that fill (or just beyond the line when the bar is too short), so the number stays readable. Negative columns mirror this; the line type is untouched. A new "Value on the line" case on the chart page and a `tests/column-reference-labels.test.mjs` contract check that no value label box intersects the line or its label. (#282)
 
 ## 0.220.1 — 2026-10-16
 ### Fixed
