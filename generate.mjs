@@ -1490,6 +1490,9 @@ function composeMarketingComponent(b) {
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
 const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
+const marketingPreviewSnippet = (b) => b.variants
+  ? `<style>\n${b.css || ''}\n</style>\n${b.variants.map(v => v.html).join('\n<div style="height:var(--aha-space-24);background:var(--aha-white)"></div>\n')}\n`
+  : marketingSnippet(b);
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
    the DS top-nav + scoped sidebar like every other area. Content is data
@@ -1674,7 +1677,7 @@ function marketingBreakpointPreview(b) {
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewSnippet(b)}</template>
   </div>
   <script type="module">
   import '../../lib/aha-segmented.js';
@@ -1756,7 +1759,12 @@ function renderMarketingHtml(b) {
   ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'All eight types in the 3, 2 and 1 column grid.')}` : `<h2>Paste-and-run HTML</h2>
   ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
 
-  <h2>Load the tokens once</h2>
+  ${b.variants ? `<h2>Variants</h2>
+  <p class="body">Each variant is the same block with its modifiers set. The paste-and-run HTML above is the first one.</p>
+  ${b.variants.map(v => `<h3>${esc(v.name)}</h3>
+  ${marketingCodeToggle(`${b.slug}-${v.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.html`, `<style>\n${b.css || ''}\n</style>\n${v.html}\n`, esc(v.summary))}`).join('\n  ')}
+
+  ` : ''}<h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
 
   <h2>Details</h2>
@@ -1785,6 +1793,7 @@ function renderMarketingAgent(b) {
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     html: b.html || '', css: b.css || '',
+    ...(b.variants ? { variants: b.variants.map(v => ({ name: v.name, summary: v.summary, html: v.html })) } : {}),
   }, null, 2) + '\n';
 }
 const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
