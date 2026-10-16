@@ -176,8 +176,7 @@ def usability_enabled():
 
 
 def with_usability(criteria):
-    """The criteria with the usability surface guaranteed present: an installed
-    package older than the surface falls back to the plugin's own copy."""
+    # An installed package older than the usability surface lacks it; borrow the plugin's copy.
     try:
         if not criteria or USABILITY_SURFACE in criteria["surfaces"]:
             return criteria
