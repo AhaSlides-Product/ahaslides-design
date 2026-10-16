@@ -248,7 +248,7 @@
       "prompt": "Review a read-only report page that a report routine publishes (a weekly dashboard opened from a Slack link, never operated): a row of six <aha-stat-tile look=\"accent\"> number plates in <aha-grid min=\"160px\">, two <aha-chart> charts (a line and a column with a reference line), and an HTML table whose rows alternate white and var(--aha-bg-container-secondary) with 1px dividers and a black semibold header over a 2px Vivid Pink rule. It reflows at 390 px with no horizontal scroll.",
       "files": [],
       "label": "good-control",
-      "notes": "Control: a report page is not a product screen; rule 3.11 allows its pale pink rows and plates.",
+      "notes": "Control: a report page is not a product screen; rule 3.11 allows its light grey zebra rows and pale pink plates.",
       "expected_output": "C1 and C3 PASS: a report page is a report (environment report-image), where light grey zebra rows and any number of Vivid Pink at 5% plates pass under rule 3.11 and rules 3.2 and 3.7 do not apply. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP"

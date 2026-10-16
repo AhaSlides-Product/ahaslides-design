@@ -29,7 +29,7 @@ Reports are their own environment in the colour rules, `report-image` (Reports: 
 | --- | --- |
 | Plate cards in Vivid Pink at 5% | 3.11 |
 | Zebra rows in white and light grey `#F7F7F7`, never pale pink | 3.11, 3.6 |
-| Text on the plate card and on a pink row is black, never pink | 6.5 |
+| Text on the plate card and on a zebra row is black, never pink | 6.5 |
 | A rise is black with an up arrow; a fall is white on a black pill with a down arrow | 7.3, 8.5 |
 | Series colours run Vivid Pink, black, Vivid Pink at 30%, light grey | 8.1 to 8.3 |
 | Each line has its own marker shape, so the chart reads in black and white | 8.4 |
@@ -127,7 +127,7 @@ end of a title, and no all-caps labels.
 | Part | Spec |
 | --- | --- |
 | Rows | zebra, alternating white and light grey (`#F7F7F7`, `--aha-bg-container-secondary`), starting white; never pale pink |
-| Dividers | 1px `--aha-border-default` (`#E3E3E3`) under every row, kept on the pink rows |
+| Dividers | 1px `--aha-border-default` (`#E3E3E3`) under every row, kept on the grey rows |
 | Header | labels in black semibold 14 px over a **2px Vivid Pink** rule; no fill |
 | Figures | black, tabular numerals, aligned right; formats as in C8 |
 | Text | black 400, aligned left; long text wraps, never truncated |
