@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.220.2 — 2026-10-16
+### Fixed
+- **`<aha-chart>` column values no longer sit on the reference line.** When a value label's box would cross an OKR target or Average line, the label moves inside the top of its bar in whichever ink reads on that fill (or just beyond the line when the bar is too short), so the number stays readable. Negative columns mirror this; the line type is untouched. A new "Value on the line" case on the chart page and a `tests/column-reference-labels.test.mjs` contract check that no value label box intersects the line or its label. (#282)
+
 ## 0.220.1 — 2026-10-16
 ### Fixed
 - **`screen-lint` and the judge no longer flag the Skeleton loading shimmer as a gradient fill.** A `linear-gradient` whose stops are only the neutral skeleton greys (`--aha-bg-hover`, `--aha-bg-container-secondary`, `--aha-split`, or their `#F7F7F7` / `#F1F1F1` values), in a rule that sets an `animation` swept by a `background-position` keyframe, is the DS Skeleton's sanctioned loading animation, so `lib/aha-card.js` and `lib/aha-statistic.js` pass unchanged and consumers vendoring them can drop their `ds-lint-allow` lines. Any static grey gradient, and any gradient with a coloured stop, still fails. No component's look changes; rule 3.10, the Background guideline and the judge criterion state the exception (#281)
