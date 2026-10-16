@@ -6,9 +6,13 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-chart",
-  "summary": "The AhaSlides chart library — one framework-free <aha-chart> for all 11 result charts (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map), in the brand palette on app screens or the deck palette on the presenting canvas.",
-  "highlights": ["One framework-free <aha-chart> for all 11 result charts", "Bar, column, stacked, donut, radial, tree map, quadrant, bell curve, radar, word cloud, mind map", "Brand palette on app screens, deck palette on the canvas"],
-  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used: bar, column, stacked, donut (and pie), radial, treemap, quadrant, bell (answer distribution), radar, wordcloud and mindmap. Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background. Every variant of the reference mockup is an attribute or an `options` key: Poll, Pick Answer (`correct`) and Ranking (`sort=\"desc\"`), images on bar/column options, count / % / both, pagination (`page-size`), donut vs pie and callout / legend labels, the word-cloud shapes, image masks, rotation, colour modes and duplicate merging, the radar forms, grids, scales and eight entrance effects, the bell-curve statistics, and an editable mind map. With 0 responses every bar and column shows a short coloured stub at its starting point — no placeholder bars — and donut, pie and tree map also show one short text, \"No responses yet\", in the chart's own ink, centred in the plot. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion; `replay()` re-runs the entrance), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
+  "summary": "The AhaSlides chart library — one framework-free <aha-chart> for all 12 result and data charts (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map, Line), in the brand palette on app screens or the deck palette on the presenting canvas.",
+  "highlights": [
+    "One framework-free <aha-chart> for all 12 result and data charts",
+    "Bar, column (with negatives and a reference line), stacked, donut, radial, tree map, quadrant, bell curve, radar, word cloud, mind map, line",
+    "Brand palette on app screens, deck palette on the canvas"
+  ],
+  "lead": "ONE custom element — <aha-chart type=\"…\"> — draws every result chart with the same look wherever it is used: bar, column, stacked, donut (and pie), radial, treemap, quadrant, bell (answer distribution), radar, wordcloud, mindmap and line (1 to 4 series over time, with end-value labels and an optional twin axis). Where it lives decides its colours: palette=\"brand\" (default) for Report and any other app screen uses the --aha-viz-* brand chart palette; palette=\"deck\" on the presenting / audience canvas takes the deck's presentationColorPalette (`colors`) and text colour (`ink`), and derives any ink that sits on a fill from that fill's contrast. The chart never paints a background. Every variant of the reference mockup is an attribute or an `options` key: Poll, Pick Answer (`correct`) and Ranking (`sort=\"desc\"`), images on bar/column options, count / % / both, pagination (`page-size`), donut vs pie and callout / legend labels, the word-cloud shapes, image masks, rotation, colour modes and duplicate merging, the radar forms, grids, scales and eight entrance effects, the bell-curve statistics, an editable mind map, negative columns below a zero baseline and a dashed reference line on a column chart, and line gaps, end labels and twin axes. With 0 responses every bar and column shows a short coloured stub at its starting point — no placeholder bars — and donut, pie and tree map also show one short text, \"No responses yet\", in the chart's own ink, centred in the plot. Live data animates in place (marks grow, resize and re-rank on the --aha-motion-viz-* tokens; off under reduced motion; `replay()` re-runs the entrance), and every chart ships a text summary, a visually hidden data table and a polite live-region announcement when its data changes. Built-in copy follows `locale`, numbers use Intl for that locale, and the Presenter app can pass its own translations through `strings`.",
   "codeNote": "Set `data` (and `options`) as properties for live results — re-setting them animates the change; the `data` / `options` attributes take the same JSON for static pages. Interactive charts emit `wordcloud-hide` (a presenter hid words) and `mindmap-change` (an idea was added or renamed; detail.tree is the new tree). Result charts on app screens use this, not @ant-design/plots.",
   "tokensUsed": [
     "viz-ink",
@@ -98,7 +102,7 @@
   "spec": [
     {
       "label": "Types",
-      "value": "bar · column · stacked · donut (variant donut | pie) · radial · treemap · quadrant · bell · radar · wordcloud · mindmap"
+      "value": "bar · column · stacked · donut (variant donut | pie) · radial · treemap · quadrant · bell · radar · wordcloud · mindmap · line"
     },
     {
       "label": "Palette",
@@ -115,6 +119,14 @@
     {
       "label": "Column",
       "value": "plot 260 (+100 with images) · column ≤96 wide · gap 28 (20 past 6, 8 under 480) · label clamps to 5 lines · turns into bars when a label can't fit its slot in 4 lines · min height --aha-viz-column-min-height 16"
+    },
+    {
+      "label": "Column · negatives and reference",
+      "value": "any negative value or options.reference switches the column chart to a zero baseline: the baseline is a 1px --aha-border-strong rule, a positive column grows up from it with its top corners rounded and its value above, a negative column grows down with its bottom corners rounded and its value below, all in the first series colour when any value is negative (direction by position and shape, never hue) · reference {value, label}: a 1px dashed --aha-text-secondary line across the plot with the label and value at its right end, in a right gutter the columns never enter; when the label would take more than 30% of the width it moves to a key above the plot (a dashed swatch and the text, ending in an ellipsis) · once signed, the chart stays signed, so live data crossing zero animates in place · on a narrow chart the column labels end in an ellipsis · columns stay columns in this mode (no fall-back to bars), images and Pick Answer are not drawn"
+    },
+    {
+      "label": "Line",
+      "value": "1 to 4 series in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey; a fifth is dropped) · 2.5px straight segments; null (or a missing value) breaks the line and a lone point keeps its marker · each series has its own marker shape (circle, square, triangle, diamond), drawn only at labelled ticks and the last point · y axis starts at zero (options.zero=false to fit the data) with 3 to 6 nice divisions (the count near the height-based target that wastes the least span, so a top value of 50 reads 0 to 50), grid --aha-border-default and the zero / base line --aha-border-strong · x labels thin out to every Nth period, counted back from the latest so the last period is always labelled · end-value labels (14px semibold ink) at the right; labels that would overlap are pushed apart as a group around their points and joined by a 1.25px leader in the series colour · twin axis: series with axis:'right' scale to a right axis with the same divisions, and the legend names each series' axis (left axis) / (right axis); end labels sit outside the right-axis ticks · format number | compact (12K, 1.3M) | percent (whole %, values as fractions), rightFormat for the right axis · legend above the plot when there is more than one series or a twin axis · hover shows a dashed guide and every series' value for that period · a single period sits at the right edge beside its end label · new data morphs the existing lines to the new values (same periods), anything else redraws"
     },
     {
       "label": "Pick Answer",
@@ -152,7 +164,7 @@
   "props": [
     {
       "name": "type",
-      "type": "'bar' | 'column' | 'stacked' | 'donut' | 'radial' | 'treemap' | 'quadrant' | 'bell' | 'radar' | 'wordcloud' | 'mindmap'",
+      "type": "'bar' | 'column' | 'stacked' | 'donut' | 'radial' | 'treemap' | 'quadrant' | 'bell' | 'radar' | 'wordcloud' | 'mindmap' | 'line'",
       "default": "bar",
       "desc": "Chart type"
     },
@@ -160,13 +172,13 @@
       "name": "data",
       "type": "property or JSON attribute",
       "default": "—",
-      "desc": "bar/column: [{label?, value, image?, correct?}] (label may be omitted when image is set; screen readers and tooltips then say \"Option N\") · donut/radial/treemap: [{label, value}] · wordcloud: [{label, value}] or [strings] · stacked: {series, rows:[{label, values}]} · bell: {scale, anchors, series:[{label, counts}]} · radar: {dimensions, scale, subjects:[{label, scores, responses}], people} · quadrant: {x, y, zones, groups, points:[{label, x, y, group}]} · mindmap: {label, children}"
+      "desc": "bar/column: [{label?, value, image?, correct?}] (column: a negative value draws below the zero baseline) (label may be omitted when image is set; screen readers and tooltips then say \"Option N\") · donut/radial/treemap: [{label, value}] · wordcloud: [{label, value}] or [strings] · stacked: {series, rows:[{label, values}]} · bell: {scale, anchors, series:[{label, counts}]} · radar: {dimensions, scale, subjects:[{label, scores, responses}], people} · quadrant: {x, y, zones, groups, points:[{label, x, y, group}]} · mindmap: {label, children} · line: {labels:[periods], series:[{label, values:[number | null], axis?: 'left' | 'right'}]} (1 to 4 series; null breaks the line)"
     },
     {
       "name": "options",
       "type": "object property or JSON attribute",
       "default": "chartOptionDefaults[type]",
-      "desc": "Type-specific settings — donut {variant, labels, maxSize} · radial/quadrant {maxSize} · treemap {height} · bell {height, show*} · radar {height, form, grid, rings, scoreStyle, reveal, pace, show*, hollowCentre} · wordcloud {height, shape, maskSrc, rotation, colour, fontScale, removable, showTooltip, showCounts, group, foldDiacritics, maxWords} · mindmap {pageSize, maxDepth, maxBranches, editable}"
+      "desc": "Type-specific settings — donut {variant, labels, maxSize} · radial/quadrant {maxSize} · treemap {height} · bell {height, show*} · radar {height, form, grid, rings, scoreStyle, reveal, pace, show*, hollowCentre} · wordcloud {height, shape, maskSrc, rotation, colour, fontScale, removable, showTooltip, showCounts, group, foldDiacritics, maxWords} · mindmap {pageSize, maxDepth, maxBranches, editable} · column {reference: {value, label}} (a dashed reference line, label at the right end) · line {height, endLabels, format, rightFormat, zero} (format: number | compact | percent)"
     },
     {
       "name": "palette",
@@ -289,11 +301,11 @@
       },
       {
         "what": "Chart type: bar",
-        "when": "type=\"bar\" — compare counts across categorical options: long labels, many options (no cap unless max-items is set; extras fold into \"Other (n)\"), ranking (sort=\"desc\" adds rank numbers), image options, Pick Answer with several options. Serves Poll and Ranking. Not for part-to-whole of one question (use donut) or a time series (use @ant-design/plots)."
+        "when": "type=\"bar\" — compare counts across categorical options: long labels, many options (no cap unless max-items is set; extras fold into \"Other (n)\"), ranking (sort=\"desc\" adds rank numbers), image options, Pick Answer with several options. Serves Poll and Ranking. Not for part-to-whole of one question (use donut) or a time series (use line)."
       },
       {
         "what": "Chart type: column",
-        "when": "type=\"column\" — the same comparison for a few short options (Poll, Pick Answer correct reveal). It turns into bars on its own when the labels do not fit the width, so choose bar directly for long labels or many options. Not for part-to-whole (use donut)."
+        "when": "type=\"column\" — the same comparison for a few short options (Poll, Pick Answer correct reveal). It turns into bars on its own when the labels do not fit the width, so choose bar directly for long labels or many options. Not for part-to-whole (use donut). Negative values draw below a zero baseline (net change, gain and loss); options.reference adds a dashed target or average line."
       },
       {
         "what": "Chart type: stacked",
@@ -332,12 +344,16 @@
         "when": "type=\"mindmap\" — grouped or hierarchical ideas as a tree of labels (default up to 5 levels and 6 branches). Serves Brainstorm and Mind map. Not for quantities (use bar or donut)."
       },
       {
+        "what": "Chart type: line",
+        "when": "type=\"line\" — how 1 to 4 figures moved over time (weekly sign-ups, monthly usage); null marks a period with no data and breaks the line. Put a series on axis:'right' only when its unit differs (a rate beside a count); the legend then names each series' axis. Not for a handful of categories (use column) or a single figure against the last period (use a Stat tile)."
+      },
+      {
         "what": "Statistic",
-        "when": "a single headline number, not a distribution"
+        "when": "a single headline number, not a distribution (Stat tile when it is compared with the previous period)"
       },
       {
         "what": "@ant-design/plots",
-        "when": "a chart type <aha-chart> does not ship (line/area/time series)"
+        "when": "a chart type <aha-chart> does not ship (area, scatter, dual-series bars)"
       }
     ],
     "note": "Never hand-roll result bars with divs or pull a chart engine into the slide canvas: the look, the empty/overflow states and the accessibility layer live here once. Pick Answer follows the mockup by default (correct mark filled with --aha-color-success, the rest neutral, plus a ✓ on the label); set correct-style=\"indicator\" where the canvas guide's Job 1 / Job 2 split applies (palette-coloured marks, ✓ only). The --aha-viz-* values are lifted from the PRO38-69 mockup and are expected to be refined by a token owner; change the tokens, never the element. Start from the chart type's default snippet (`typeDefaults`, one per type) and only ADD attributes or options — never strip or override its data shape: the default is the minimal markup that already has the full intended behaviour (entrance animation, live-update motion, tooltip, legend, empty state, text summary, hidden data table and live-region announcement) with no opt-in attribute. A few things are opt-in only and must be set explicitly: ranking (sort=\"desc\"), Pick Answer (correct), pagination (page-size), highlight-top, log-scale, bell grid / % axis / mean line / step labels, radar data table / scale ticks / hollow centre, word cloud counts / diacritic folding / shapes / rotation / masks, and an editable mind map.",
@@ -347,6 +363,10 @@
     "dashboard",
     "audience",
     "editor"
+  ],
+  "environment": [
+    "product",
+    "audience"
   ],
   "reuse": {
     "entry": "./aha-chart",
@@ -430,7 +450,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "all 11 types and every mockup variant (images, modes, pagination, shapes, forms, effects)",
+      "label": "all 12 types and every mockup variant (images, modes, pagination, shapes, forms, effects, negative columns, reference line, line gaps, end labels, twin axis)",
       "verdict": "PASS"
     },
     {
@@ -520,6 +540,11 @@
       "type": "mindmap",
       "title": "Mind map",
       "file": "chart.default.mindmap.html.txt"
+    },
+    {
+      "type": "line",
+      "title": "Line",
+      "file": "chart.default.line.html.txt"
     }
   ]
 }

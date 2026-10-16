@@ -1,0 +1,333 @@
+{
+  "surface": "report-images",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.report-images",
+  "portedFrom": null,
+  "authoredNote": "DS-authored from the surface's criteria and guidelines/report-images.json; the aha-design plugin has no report-images judge.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this weekly report PNG. A 2,400 × 1,350 line chart exported at 2x on white with a 24 px margin, titled Weekly sign-ups, last 12 weeks. Two series in Vivid Pink and black, Plus Jakarta Sans 400 ticks and 600 end labels; the end labels 1,905 and 1,880 sit apart, joined to their lines by short leaders. Gridlines on 5 round steps from 0, x labels every other week ending on the latest, a gap in week 6 breaks the pink line. Below it, a second PNG with a row of three number plates: Vivid Pink at 5% cards with a pink top bar, black values, Up 1,460 (13%) in black with the up arrow from lib/static-icons/ink/16/system-arrow-up.svg, and a fall in a black pill with the white down arrow. File sizes 180 KB and 90 KB.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets all.",
+      "expected_output": "Every criterion the case touches passes. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C2": "PASS",
+          "C4": "PASS",
+          "C6": "PASS",
+          "C8": "PASS",
+          "C9": "PASS",
+          "C12": "PASS",
+          "C13": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this export table PNG. Rows alternate white and #FEF3F7 with 1px #E3E3E3 dividers kept; header labels black semibold over a 2px Vivid Pink rule; figures black tabular and right-aligned (12K, 1.3M, 46%); names left-aligned, including Nguyễn Thị Hương rendered through a Noto Sans fallback. Title: Top courses, September.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets all.",
+      "expected_output": "The static table follows C11 and the formats and title rules. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C8": "PASS",
+          "C9": "PASS",
+          "C10": "PASS",
+          "C11": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this report PNG: a 600 × 340 chart exported at 1x with 9 px tick labels, three charts side by side in one image, 3.2 MB.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C1.",
+      "expected_output": "C1 FAILs: 1x export, text below 12 px, three charts in one image and over 1 MB. Fix: export each chart at 2x on its own. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this chart PNG rendered by matplotlib with its default DejaVu Sans font; the title is bold 700.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C2.",
+      "expected_output": "C2 FAILs: DejaVu Sans instead of Plus Jakarta Sans, and a 700 weight. Fix: load the DS font files and use 400 and 600 only. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C2": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this breakdown PNG: seven sources drawn in seven colours (pink, black, pink 30%, grey, teal, orange, blue), with Other first in pink.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C3.",
+      "expected_output": "C3 FAILs: more than four colours and Other first in pink. Fix: top three plus Other in light grey, last. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this line chart PNG: three series end within 2 px of each other and their end labels 1,905, 1,890 and 1,880 print on top of each other; the grey series has no label.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C4.",
+      "expected_output": "C4 FAILs: overlapping end labels and an unlabelled grey line. Fix: push the labels apart with leaders in the series colours. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C4": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this twin-axis line chart PNG: Sessions on the left axis in thousands, Conversion on the right axis in percent; the legend reads only Sessions and Conversion.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C5.",
+      "expected_output": "C5 FAILs: the legend does not say which axis each series reads on. Fix: Sessions (left axis), Conversion (right axis). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this line chart PNG: two weeks with no data are plotted as 0, so the line dives to the axis and back.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C6.",
+      "expected_output": "C6 FAILs: missing periods drawn as zero. Fix: break the line at the gap. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this line chart PNG: the Courses series is genuinely 0 for five weeks in a row while a source was paused; the line runs flat along the axis with no note.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7.",
+      "expected_output": "C7 FAILs: a real zero run with no note reads as missing data. Fix: add a secondary note such as No courses from 3 Sep to 1 Oct. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this chart PNG: nine y ticks labelled 12,345.67 and 24,691.34, x labels rotated 45 degrees and overlapping, end labels shown as 46.23%.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C8.",
+      "expected_output": "C8 FAILs: too many ticks on unround steps, overlapping x labels, unrounded formats. Fix: 3 to 6 round divisions, K/M and whole percentages, thinned labels. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C8": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this chart PNG titled WEEKLY SIGN-UPS — LAST 12 WEEKS.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C9.",
+      "expected_output": "C9 FAILs: all caps and an em dash. Fix: Weekly sign-ups, last 12 weeks. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this table PNG: a learner name shows as Nguy□n Th□ H□ơng, and rises are typed as the ▲ character in the font.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C10.",
+      "expected_output": "C10 FAILs: missing glyphs and a font-character arrow. Fix: a fallback font for Vietnamese and the static arrow files. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C10": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review this table PNG: plain white rows, no striping, a grey filled header with grey text, and vertical rules between columns.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C11.",
+      "expected_output": "C11 FAILs: no zebra rows, a grey header fill and vertical rules. Fix: white and #FEF3F7 rows, black semibold header over a 2px Vivid Pink rule. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C11": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 14,
+      "prompt": "Review this KPI plate PNG: grey cards with a drop shadow, the change +13% in green and -8% in red, with no arrows.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C12.",
+      "expected_output": "C12 FAILs: no brand colour, a shadow, status hues and no arrows. Fix: Vivid Pink at 5% card with a pink top bar, black rise with the up arrow, white on a black pill with the down arrow. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C12": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    },
+    {
+      "id": 15,
+      "prompt": "Review this report PNG: the rise and fall marks are hand-drawn matplotlib triangles, and pending sources show an hourglass emoji.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C13.",
+      "expected_output": "C13 FAILs: drawn shapes and an emoji instead of the static glyph files. Fix: system-arrow-up, system-arrow-down and system-hourglass-high from lib/static-icons. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C13": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin report-images judge dataset exists"
+      }
+    }
+  ]
+}

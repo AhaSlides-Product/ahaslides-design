@@ -3,8 +3,8 @@
  "id": "colour-rules",
  "title": "AhaSlides visual identity: colour rules",
  "lede": "These rules replace the colour section of the current brand guidelines. Everything not mentioned here (the font, spacing, components, icons) stays as it is in the design system.",
- "updated": "2026-10-14",
- "environment": ["product", "audience", "marketing-web", "video", "social-ads"],
+ "updated": "2026-10-16",
+ "environment": ["product", "audience", "marketing-web", "video", "social-ads", "report-image"],
  "glance": [
   "Vivid Pink (`#E70E68`) is the one primary colour. Purple is the logo only, plus one small playful touch on white.",
   "Page backgrounds are white, and the first screen is white. Two coloured sections never sit next to each other, and at most two of them are Vivid Pink.",
@@ -100,7 +100,8 @@
      { "id": "3.7", "environment": ["product"], "text": "In the product app, Vivid Pink at 5% is for hover and selected states, plus at most one highlighted panel per screen." },
      { "id": "3.8", "environment": ["product", "audience", "marketing-web"], "text": "Black backgrounds are allowed in two places only: full-screen presenting, and video or image viewers." },
      { "id": "3.9", "environment": ["product", "audience", "marketing-web"], "text": "There is no dark mode. People who need a dark screen use their device or browser setting, and our pages must not break under it." },
-     { "id": "3.10", "origin": "aha-marketing-colors and the design system Background pattern", "environment": ["product", "audience", "marketing-web"], "text": "No gradient is used as a background or a fill. The product app has one exception: on an AI feature the gradient sits on the border only, and the fill stays white." }
+     { "id": "3.10", "origin": "aha-marketing-colors and the design system Background pattern", "environment": ["product", "audience", "marketing-web"], "text": "No gradient is used as a background or a fill. The product app has one exception: on an AI feature the gradient sits on the border only, and the fill stays white." },
+     { "id": "3.11", "origin": "Requested by Dave Bui (DESY-220): colour in report tables and number plates", "environment": ["report-image"], "text": "In static report images (charts, tables and number plates rendered to PNG for Slack, email or an export), table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar. Rules 3.2 and 3.7 do not apply there. Text stays black (6.5), and a rise or fall is shown as in 7.3." }
     ] }
    ]
   },
@@ -277,6 +278,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v14", "date": "16 Oct", "text": "New environment report-image, for charts, tables and number plates rendered to PNG for Slack, email or an export. New rule 3.11: in those images table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar; rules 3.2 and 3.7 do not apply there. Requested by Dave Bui. No existing rule id changed." },
   { "version": "v13", "date": "15 Oct", "text": "Minimal splash: the longer side counts as at most twice the shorter side (rules 5.5, 5.8 and 5.19 and the layout table). In banners wider than 2:1 or taller than 1:2 the hooks keep their 2:1 size and stay in their corners with the middle clear. Frames between 1:2 and 2:1 and every ready-made file are unchanged. No rule id changed." },
   { "version": "v12", "date": "14 Oct", "text": "New section 11, Correct and wrong answers: one green and one red, with 5% and 30% tints, mark a correct or wrong answer and nothing else. Four short rules (11.1 to 11.4) in a collapsed Rules panel. Rules 1.1, 7.1 and 8.5 and the glance line on status now name that exception. Still to decide moves to section 12. No existing rule id changed." },
   { "version": "v11", "date": "13 Oct", "text": "Rules that scoped themselves by who makes a page or a layout now name the medium instead: a web page built from full-width sections, a social post, an ad, a slide, print or video. Section 3 opens with how to tell such a page from a screen of the product app. The retired colours and the near matches (rule 1.3) are marked as applying everywhere, which rule 1.1 already required. No rule asks for anything new." },
