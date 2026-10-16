@@ -10,8 +10,13 @@
   <div style="width:1248px"><aha-chart id="average" type="column" label="Monthly revenue" options='{"reference":{"value":21,"label":"Average"}}' data='[{"label":"May","value":24},{"label":"Jun","value":19},{"label":"Jul","value":27},{"label":"Aug","value":15},{"label":"Sep","value":30},{"label":"Oct","value":22}]'></aha-chart></div>
   <div style="width:358px"><aha-chart id="phone" type="column" label="Monthly revenue" options='{"reference":{"value":21,"label":"Average"}}' data='[{"label":"May","value":24},{"label":"Jun","value":19},{"label":"Jul","value":27},{"label":"Aug","value":15},{"label":"Sep","value":30},{"label":"Oct","value":22}]'></aha-chart></div>
   <div style="width:1248px"><aha-chart id="negative" type="column" label="Net new" options='{"reference":{"value":-4,"label":"Floor"}}' data='[{"label":"Jan","value":-2},{"label":"Feb","value":-9},{"label":"Mar","value":12},{"label":"Apr","value":-6},{"label":"May","value":8}]'></aha-chart></div>
+  <div style="width:1248px"><aha-chart id="nrr" type="column" label="Net revenue retention change" options='{"reference":{"value":-1,"label":"Average"}}' data='[{"label":"Q1","value":2.4},{"label":"Q2","value":-1.2},{"label":"Q3","value":3.1},{"label":"Q4","value":-3.6},{"label":"Q1","value":1.8},{"label":"Q2","value":-0.4}]'></aha-chart></div>
+  <div style="width:358px"><aha-chart id="narrow" type="column" label="Weekly" options='{"reference":{"value":20,"label":"OKR"}}' data='[{"label":"1","value":17},{"label":"2","value":18},{"label":"3","value":19},{"label":"4","value":24},{"label":"5","value":14},{"label":"6","value":21},{"label":"7","value":16}]'></aha-chart></div>
+  <div style="width:358px"><aha-chart id="narrowdecimal" type="column" label="Change" options='{"reference":{"value":-1,"label":"Avg"}}' data='[{"label":"A","value":-1.2},{"label":"B","value":2.4},{"label":"C","value":-3.6},{"label":"D","value":1.8},{"label":"E","value":-0.4},{"label":"F","value":3.1}]'></aha-chart></div>
   <script type="module">
     await import('../lib/aha-chart.js');
+    const { inkWithBestContrast } = await import('../lib/aha-chart.js');
+    window.inkWithBestContrast = inkWithBestContrast;
     window.columnFixtureReady = true;
   </script>
 </body>
