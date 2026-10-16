@@ -76,8 +76,11 @@ test('the Splash prose states the same figures the generator reads', () => {
   assert.ok(ruleText('5.3').includes(`${percent(centre.meetingPointAcross)} of the way across and ${percent(centre.meetingPointDown)} of the way down`));
   assert.equal(centre.wideFrameAspectThreshold, 16 / 9);
   assert.equal(centre.wideFrameFollow, 0.5);
-  assert.equal(rightRow[1], `${right.iconWidthPerShorterSide * 100}%`);
-  assert.ok(rightRow[2].startsWith(`${right.meetingPointAcross * 100}% across`));
+  assert.ok(rightRow[1].startsWith(`${right.iconWidthPerShorterSide * 100}%`));
+  assert.equal(rightRow[2], `${percent(right.meetingPointAcross)} across, ${percent(right.meetingPointDown)} down`);
+  assert.ok(ruleText('5.4').includes(`${percent(right.meetingPointDown)} of the way down`));
+  assert.equal(right.wideFrameAspectThreshold, 16 / 9);
+  assert.equal(right.wideFrameFollow, 0.5);
   assert.ok(minimalRow[1].includes(`${minimal.iconWidthPerLongerSide} times the longer side`));
   for (const share of [minimal.bottomLeftOutsideLeftEdge, minimal.bottomLeftRiseAboveBottomEdge, minimal.topRightOutsideRightEdge, minimal.topRightDropBelowTopEdge]) {
     assert.ok(minimalRow[2].includes(percent(share)) && ruleText('5.5').includes(percent(share)), percent(share));
@@ -88,6 +91,21 @@ test('the Splash prose states the same figures the generator reads', () => {
   assert.ok(ruleText('5.1').includes('Vivid Pink at 5% on a white background, Darker Pink on a Vivid Pink background'));
   const hex = (id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
   assert.deepEqual(rules.splash.surfaces, { white: { background: hex('white'), hooks: hex('vivid-pink-5') }, pink: { background: hex('vivid-pink'), hooks: hex('darker-pink') } });
+});
+
+test('the right splash is 4.5 times the shorter side, grows past 16:9 and meets at 75% across, 55% down', () => {
+  const placement = (width, height) => {
+    const svg = buildSplash({ layout: 'right', surface: 'white', width, height });
+    return Number(svg.match(/scale\(([\d.]+)\)/)[1]) * readIcon(readFileSync(new URL('../logo/thesplash.svg', import.meta.url), 'utf8')).iconWidth;
+  };
+  const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.01, `${actual} vs ${expected}`);
+  near(placement(3840, 1080), 4.5 * 1080 * Math.SQRT2);
+  near(placement(1080, 3840), 4.5 * 1080 * Math.SQRT2);
+  near(placement(2520, 1080), 4.5 * 1080 * Math.sqrt((21 / 9) / (16 / 9)));
+  near(placement(1920, 1080), 4.5 * 1080);
+  near(placement(1080, 1080), 4.5 * 1080);
+  const { right } = rules.splash.layouts;
+  assert.deepEqual([right.meetingPointAcross, right.meetingPointDown], [0.75, 0.55]);
 });
 
 test('the centre splash grows by the square root of the aspect beyond 16:9, wide or tall', () => {
@@ -170,14 +188,12 @@ test('the ready-made backgrounds are unchanged by the cap', () => {
   }
 });
 
-test('the centre and right Splash put the whole icon where the approved social posts put it', () => {
+test('the centre Splash puts the whole icon where the approved social posts put it', () => {
   const { hooks } = readIcon(read(rules.splash.icon));
   const points = hooks.flatMap(hook => outlinePoints(hook));
   const references = [
     ['centre', 100, 100, [0.56110, 0, 0, 0.55738, -182.406, -137.278]],
     ['centre', 160, 90, [0.50499, 0, 0, 0.50164, -129.166, -123.550]],
-    ['right', 80, 100, [0.29925, 0, 0, 0.29727, -60.430, -49.882]],
-    ['right', 100, 100, [0.37406, 0, 0, 0.37158, -75.538, -74.852]],
   ];
   for (const [layout, width, height, matrix] of references) {
     const svg = buildSplash({ layout, surface: 'pink', width, height });

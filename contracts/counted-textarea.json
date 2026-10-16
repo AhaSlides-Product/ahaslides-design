@@ -12,7 +12,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. Defined once in @ahaslides-product/design.",
   "tokensUsed": ["border-default", "border-hover", "color-primary", "focus-ring-soft", "bg-container", "bg-container-secondary", "bg-container-disabled", "text-default", "text-tertiary", "text-placeholder", "text-disabled", "radius-default", "border-error", "color-error", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "radius 8 · padding 6 12 · resize off" },
+    { "label": "Box", "value": "radius 8 · padding 6 12 · resize off · 240 wide, full width in a stacked setting row" },
     { "label": "Autogrow", "value": "minrows (default 2) → maxrows (default 5); beyond maxrows scrolls internally, never grows unbounded" },
     { "label": "Rest border", "value": "1px #E3E3E3 (border-default)" },
     { "label": "Focus", "value": "#E70E68 (color-primary) border + soft 2px ring (focus-ring-soft, 30% #E70E68); hover #E70E68 border" },
@@ -30,7 +30,7 @@
     { "name": "maxlength", "type": "number", "default": "150", "desc": "Character cap (settings-lab default 150); drives the focus-only counter (shows the characters left). Pass `none` to drop the cap and hide the counter" },
     { "name": "minrows", "type": "number", "default": "2", "desc": "Rows shown at rest — the field never shrinks below this" },
     { "name": "maxrows", "type": "number", "default": "5", "desc": "Rows the field grows to before it scrolls internally instead of growing" },
-    { "name": "size", "type": "default | large | touch", "default": "default", "desc": "large sets 16px text on a 24px line and nothing else (no fixed height: the box still autogrows between minrows and maxrows); touch is a 16px-text phone field: 16px text, padding 12 16, radius 8" },
+    { "name": "size", "type": "default | large | touch", "default": "default", "desc": "large sets 16px text on a 24px line and nothing else (no fixed height: the box still autogrows between minrows and maxrows); touch is a 16px-text phone field: 16px text, padding 12 16, radius 8. Both are audience-field sizes (inside <aha-audience-field>): a settings panel uses default, and screen-lint --surface=settings rejects large" },
     { "name": "status", "type": "default | error", "default": "default", "desc": "Error recolours the border + ring and sets aria-invalid" },
     { "name": "error-message", "type": "string", "default": "—", "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the control through aria-describedby (aria-invalid is set by status=\"error\")" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },

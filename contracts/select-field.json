@@ -2,11 +2,19 @@
   "name": "Select field",
   "slug": "select-field",
   "group": "Data entry",
+  "environment": [
+    "product",
+    "audience"
+  ],
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
   "element": "aha-select",
   "summary": "Pick one value from a short, known set — a lightweight native-select-backed field that embeds anywhere.",
-  "highlights": ["Pick one value from a short, known set", "Lightweight native-select-backed field", "Embeds anywhere"],
+  "highlights": [
+    "Pick one value from a short, known set",
+    "Lightweight native-select-backed field",
+    "Embeds anywhere"
+  ],
   "lead": "ONE custom element — <aha-select> — defined once, imported unchanged by React and Vue. It is the LEAF counterpart to the composite Select: instead of a popup + virtualised list, it is a styled control backed by a NATIVE <select>, so it inherits the OS keyboard model, focus and a11y for free — no custom listbox, no roving to hand-roll. CSS lives in the shadow DOM, so both frameworks render byte-identical pixels; theming comes only from --aha-* tokens. Use it to pick one value from a short set and — crucially — to embed a select in a shadow-DOM row (aha-settings-list's control.type \"select\"), where the composite can't reach. The open dropdown is a fully THEMED role=\"listbox\" popup (DS surface, radius 8, elevation shadow, brand-tinted hover + a check on the selected option) — not the browser's native <select> list; it's an accessible combobox (Arrow/Home/End, typeahead, Enter/Escape, outside-click).",
   "tokensUsed": [
     "color-primary",
@@ -30,7 +38,7 @@
     },
     {
       "label": "Size",
-      "value": "small 32 · default 40 · large 48"
+      "value": "small 32 · default 40 · large 48; a settings panel uses default only: small and large are for other product surfaces (large also the audience field), and screen-lint --surface=settings rejects both"
     },
     {
       "label": "Focus",
@@ -76,7 +84,7 @@
       "name": "size",
       "type": "small | default | large",
       "default": "default",
-      "desc": "Control height 32 / 40 / 48"
+      "desc": "Control height 32 / 40 / 48. Never small or large in a settings panel (default only); large is the audience field's size (inside <aha-audience-field>)"
     },
     {
       "name": "status",
@@ -175,25 +183,6 @@
   "preview": "select-field.preview.html",
   "playground": {
     "controls": [
-      {
-        "prop": "size",
-        "label": "Size",
-        "default": "default",
-        "options": [
-          {
-            "label": "Small",
-            "value": "small"
-          },
-          {
-            "label": "Default",
-            "value": "__remove__"
-          },
-          {
-            "label": "Large",
-            "value": "large"
-          }
-        ]
-      },
       {
         "prop": "status",
         "label": "Status",
