@@ -310,6 +310,86 @@
       "photographer": "Aleks Dorohovich",
       "licence": "Unsplash License (served by Lorem Picsum)",
       "fetched": "2026-10-16"
+    },
+    {
+      "file": "backdrop-night-sky.webp",
+      "kind": "backdrop",
+      "description": "1600 px wide crop of the starry sky, no pink, behind the Glassmorphic cards",
+      "sourceUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+      "sourcePage": "https://unsplash.com/photos/d120267933ba",
+      "licence": "Unsplash License (free to use, no attribution required)",
+      "fetched": "2026-10-16",
+      "note": "Cropped to the upper right of the photo and recompressed as webp."
+    },
+    {
+      "file": "logo-airbus.webp",
+      "kind": "logo",
+      "description": "Company logo trimmed to its visible bounds (no padding), 128 px tall",
+      "sourceUrl": "marketing/data/logos-cms.json",
+      "sourcePage": "https://ahaslides.com/product/free-survey-creator/",
+      "licence": "Airbus trademark, shown as a customer logo as on ahaslides.com",
+      "fetched": "2026-10-16",
+      "note": "Trimmed copy of the live Webflow logo so width auto and a fixed height give every logo the same left edge."
+    },
+    {
+      "file": "logo-bosch.webp",
+      "kind": "logo",
+      "description": "Company logo trimmed to its visible bounds (no padding), 128 px tall",
+      "sourceUrl": "marketing/data/logos-cms.json",
+      "sourcePage": "https://ahaslides.com/product/free-survey-creator/",
+      "licence": "Bosch trademark, shown as a customer logo as on ahaslides.com",
+      "fetched": "2026-10-16",
+      "note": "Trimmed copy of the live Webflow logo so width auto and a fixed height give every logo the same left edge."
+    },
+    {
+      "file": "logo-intel.webp",
+      "kind": "logo",
+      "description": "Company logo trimmed to its visible bounds (no padding), 128 px tall",
+      "sourceUrl": "marketing/data/logos-cms.json",
+      "sourcePage": "https://ahaslides.com/product/free-survey-creator/",
+      "licence": "Intel trademark, shown as a customer logo as on ahaslides.com",
+      "fetched": "2026-10-16",
+      "note": "Trimmed copy of the live Webflow logo so width auto and a fixed height give every logo the same left edge."
+    },
+    {
+      "file": "logo-criteo.webp",
+      "kind": "logo",
+      "description": "Company logo trimmed to its visible bounds (no padding), 128 px tall",
+      "sourceUrl": "marketing/data/logos-cms.json",
+      "sourcePage": "https://ahaslides.com/product/free-survey-creator/",
+      "licence": "Criteo trademark, shown as a customer logo as on ahaslides.com",
+      "fetched": "2026-10-16",
+      "note": "Trimmed copy of the live Webflow logo so width auto and a fixed height give every logo the same left edge."
+    },
+    {
+      "file": "logo-bmc.webp",
+      "kind": "logo",
+      "description": "Company logo trimmed to its visible bounds (no padding), 128 px tall",
+      "sourceUrl": "marketing/data/logos-cms.json",
+      "sourcePage": "https://ahaslides.com/product/free-survey-creator/",
+      "licence": "BMC trademark, shown as a customer logo as on ahaslides.com",
+      "fetched": "2026-10-16",
+      "note": "Trimmed copy of the live Webflow logo so width auto and a fixed height give every logo the same left edge."
+    },
+    {
+      "file": "logo-ferrero-rocher.webp",
+      "kind": "logo",
+      "description": "Company logo trimmed to its visible bounds (no padding), 128 px tall",
+      "sourceUrl": "marketing/data/logos-cms.json",
+      "sourcePage": "https://ahaslides.com/product/free-survey-creator/",
+      "licence": "Ferrero Rocher trademark, shown as a customer logo as on ahaslides.com",
+      "fetched": "2026-10-16",
+      "note": "Trimmed copy of the live Webflow logo so width auto and a fixed height give every logo the same left edge."
+    },
+    {
+      "file": "logo-abu-dhabi-university.webp",
+      "kind": "logo",
+      "description": "Company logo trimmed to its visible bounds (no padding), 128 px tall",
+      "sourceUrl": "marketing/data/logos-cms.json",
+      "sourcePage": "https://ahaslides.com/product/free-survey-creator/",
+      "licence": "Abu Dhabi University trademark, shown as a customer logo as on ahaslides.com",
+      "fetched": "2026-10-16",
+      "note": "Trimmed copy of the live Webflow logo so width auto and a fixed height give every logo the same left edge."
     }
   ]
 }
