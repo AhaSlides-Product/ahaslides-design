@@ -16,6 +16,7 @@
   "tokensUsed": [
     "bg-accent",
     "bg-container",
+    "bg-dark",
     "color-primary",
     "border-default",
     "text-default",
