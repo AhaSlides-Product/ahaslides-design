@@ -29,6 +29,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - **`<aha-chart type="column">` labels no longer collapse to "1…" on a phone.** On a signed column chart (negative values or a reference line), labels that do not fit their columns on two lines stay on one line and show every Nth label, counted back from the latest, which is always labelled; values that would touch step down to 14px, then 12px; and dense charts keep the 8px phone gap, so 12 columns stay columns at 390px. Wide charts are unchanged (#PR)
 - **`screen-lint` no longer flags a one-colour gradient as `gradient-fill`.** A gradient whose stops are all the same colour (the `linear-gradient(tint, tint), white` idiom that lays a translucent tint flat over white) is a flat fill, so `lib/aha-chart.js` passes unchanged and consumers can drop their `ds-lint-allow` line; any gradient that changes colour still fails (#PR)
 
+## 0.216.0 — 2026-10-16
+### Added
+- **Counted Textarea variant (React antd v6 and Vue ant-design-vue v4).** The character count now sits inside the field, bottom-right, and shows the characters left (193 for 7 of 200) only while the field is focused, like `<aha-counted-textarea>`; the field reserves a 22px bottom gutter so revealing it never shifts text, resize is off and the count stops at 0. Opt in with `className="aha-textarea-counted"`, `showCount={{ formatter: textareaRemainingCount }}` and `import '@ahaslides-product/design/textarea-counted.css'`; the plain Textarea is unchanged. New exports `textareaRemainingCount`, `textareaCountedClassName` and `textarea-counted.css`. (#278)
+
 ## 0.215.1 — 2026-10-16
 ### Fixed
 - **`<aha-stat-tile>` keeps a very long value inside the card.** The value now shrinks (32px down to 12px) to fit the tile's inner width, so a figure such as 1,234,567,890 or $1,234,567.89 no longer spills past the card edge in a 160px or 240px tile, and it never breaks mid-number; short values keep 32px wherever they fit. (#277)

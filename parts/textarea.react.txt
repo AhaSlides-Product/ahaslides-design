@@ -1,5 +1,6 @@
 import { ConfigProvider, Input } from 'antd';   // antd v6
-import { textareaTheme } from '@ahaslides-product/design/textarea-theme';
+import { textareaTheme, textareaRemainingCount } from '@ahaslides-product/design/textarea-theme';
+import '@ahaslides-product/design/textarea-counted.css';
 
 const { TextArea } = Input;
 
@@ -11,7 +12,8 @@ const { TextArea } = Input;
     size="middle"
     status={hasError ? 'error' : undefined}
     autoSize={{ minRows: 3, maxRows: 6 }}
-    showCount
+    className="aha-textarea-counted"
+    showCount={{ formatter: textareaRemainingCount }}
     maxLength={200}
     onChange={(e) => setText(e.target.value)}
     style={{ width: 340 }}
@@ -22,4 +24,5 @@ const { TextArea } = Input;
   <TextArea disabled placeholder="Disabled" style={{ width: 340 }} />
 </ConfigProvider>
 // One shared textareaTheme → the DS V3 look; size/status/disabled/readOnly all inherit it.
-// autoSize grows with content, showCount surfaces the cap.
+// Counted variant: the count of characters LEFT sits inside the field (focus only); autoSize grows it, resize is off.
+// Drop className + showCount for the plain Textarea.
