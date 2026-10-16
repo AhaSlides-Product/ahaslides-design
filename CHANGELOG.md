@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.224.0 — 2026-10-16
 ### Added
-- Marketing → Sections → `Header section` group: 30 page-header sections, each its own page with its own name, preview and code panel. Three layouts (centred, left, space between) × five contents (plain, buttons, search, tabs, email) × two surfaces (white, and Vivid Pink named `Header Pink …`), e.g. `Header Centred`, `Header Left Search`, `Header Pink Space Between Email`. Rebuilt from layout ideas only in DS tokens and the DS button, input and tab styles (no third-party code, text or assets); on Vivid Pink the text is solid white, the primary button is white with a Vivid Pink label and the lines are Darker Pink. No new tokens, colours or components. Revert: delete the 30 `marketing/header-*.json` files (all slugs start `header-` and end in a layout, e.g. `header-pink-left-tabs`). (#PRNUM)
+- Marketing → Sections → `Header section` group: 30 page-header sections, each its own page with its own name, preview and code panel. Three layouts (centred, left, space between) × five contents (plain, buttons, search, tabs, email) × two surfaces (white, and Vivid Pink named `Header Pink …`), e.g. `Header Centred`, `Header Left Search`, `Header Pink Space Between Email`. Rebuilt from layout ideas only in DS tokens and the DS button, input and tab styles (no third-party code, text or assets); on Vivid Pink the text is solid white, the primary button is white with a Vivid Pink label and the lines are Darker Pink. No new tokens, colours or components. Revert: delete the 30 `marketing/header-*.json` files (all slugs start `header-` and end in a layout, e.g. `header-pink-left-tabs`). (#287)
 
 ## 0.222.0 — 2026-10-16
 ### Changed
