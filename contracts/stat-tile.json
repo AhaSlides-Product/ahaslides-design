@@ -1,0 +1,225 @@
+{
+  "name": "Stat tile",
+  "slug": "stat-tile",
+  "group": "Data display",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-stat-tile",
+  "summary": "A KPI stat tile: one headline figure, its change against the previous period as an absolute number and a percent, and a comparison caption, on a flat Vivid Pink at 5% card with a Vivid Pink top bar.",
+  "highlights": [
+    "Large semibold value, change as absolute and percent",
+    "Rise in black with an up arrow, fall in a black pill with a down arrow",
+    "1 to 6 tiles per row, wrapping on narrow screens"
+  ],
+  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a whole percent of the previous value (<1% for a tiny change, never a misleading 0%) (whole percentage points for `format=\"percent\"`: 3 pts, 1 pt, <1 pt for a non-zero change under one point), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a report (a static report image, or a read-only report page a report routine publishes) it is the number plate colour rule 3.11 gives, on every tile. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. The change is computed in the element, so every consumer rounds and words it the same way.",
+  "tokensUsed": [
+    "bg-accent",
+    "bg-container",
+    "bg-dark",
+    "color-primary",
+    "border-default",
+    "text-default",
+    "text-secondary",
+    "text-inverse",
+    "radius-default",
+    "radius-pill",
+    "size-default",
+    "size-h3",
+    "weight-regular",
+    "weight-semibold",
+    "space-4",
+    "space-6",
+    "space-8",
+    "space-16",
+    "space-20",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Card",
+      "value": "flat, radius 8, padding 20/20/16, white with a 1px #E3E3E3 border and a 4px Vivid Pink top bar; accent look Vivid Pink at 5% (#E70E680D, #FEF3F7 on white) with the same bar"
+    },
+    {
+      "label": "Label",
+      "value": "14/1.5 Regular #1A1A1A (text on Vivid Pink at 5% is black, colour rule 6.5)"
+    },
+    {
+      "label": "Value",
+      "value": "32/1.2 SemiBold #1A1A1A (shrinks to fit the tile's inner width, down to 12px, so a long figure never overflows or breaks mid-number), tabular figures; format number (grouped), compact (12.5K, 1.3M) or percent (whole %)"
+    },
+    {
+      "label": "Change",
+      "value": "14/1.5 SemiBold, absolute + percent of the previous value, e.g. 1,460 (13%), whole percent, <1% for a change under 1%; a percent value shows whole percentage points (3 pts, 1 pt, <1 pt for a non-zero change under one point), never a decimal or -0 (report images guideline C8). Rise: black with system-arrow-up 16. Fall: white on a #1A1A1A pill with system-arrow-down 16. No change: the flat label, no arrow"
+    },
+    {
+      "label": "Caption",
+      "value": "14/1.5 Regular #4A4A4A after the change, names the comparison (vs previous week)"
+    },
+    {
+      "label": "Row",
+      "value": "1 to 6 tiles in <aha-grid min=\"160px\" gap=\"middle\">, 16px gap; tracks are at least 160px, so the row wraps to fewer columns as the container narrows"
+    }
+  ],
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "The metric name, sentence case"
+    },
+    {
+      "name": "value",
+      "type": "number | string",
+      "default": "—",
+      "desc": "The current figure. A non-numeric value is shown as given and no change is computed"
+    },
+    {
+      "name": "previous",
+      "type": "number",
+      "default": "—",
+      "desc": "The figure for the previous period. Omit it to show the value alone"
+    },
+    {
+      "name": "caption",
+      "type": "string",
+      "default": "—",
+      "desc": "The comparison, shown after the change in secondary text (vs previous week)"
+    },
+    {
+      "name": "format",
+      "type": "number | compact | percent",
+      "default": "number",
+      "desc": "number groups thousands; compact gives 12.5K / 1.3M; percent reads the value as a fraction (0.46 → 46%) and shows the change in percentage points"
+    },
+    {
+      "name": "look",
+      "type": "plain | accent",
+      "default": "plain",
+      "desc": "plain: white card with a border. accent: Vivid Pink at 5% card, for every tile in a report, image or read-only report page (colour rule 3.11), or the one highlighted panel colour rule 3.7 allows on an app screen"
+    },
+    {
+      "name": "locale",
+      "type": "BCP 47 tag",
+      "default": "page lang",
+      "desc": "Number formatting locale"
+    },
+    {
+      "name": "rise-label · fall-label · flat-label · points-label",
+      "type": "string",
+      "default": "Up · Down · No change · pts",
+      "desc": "Copy for screen readers (rise, fall), the no-change text and the percentage-point unit; pass translations here"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Stat tile",
+        "when": "a KPI with a comparison against the previous period, on a dashboard, a report screen, a report page or a report image"
+      },
+      {
+        "what": "Statistic",
+        "when": "a bare headline number with no previous period to compare against, inline in a panel"
+      },
+      {
+        "what": "Chart (line)",
+        "when": "how a figure moved over many periods, not just against the last one"
+      }
+    ],
+    "note": "Name the metric in sentence case and always say what the change is compared with in the caption. Direction is shape, not hue: never tint a tile, the value or the change green or red. Leave the tile white on an app screen; use look=\"accent\" only for the one highlighted panel (colour rule 3.7), or on every tile of a report, image or read-only report page (colour rule 3.11). Keep a row to 6 tiles at most."
+  },
+  "surfaces": [
+    "dashboard",
+    "report",
+    "admin",
+    "tools"
+  ],
+  "environment": [
+    "product"
+  ],
+  "reuse": {
+    "entry": "./aha-stat-tile",
+    "registers": "aha-stat-tile",
+    "exportsNamed": [
+      "AhaStatTile",
+      "defineAhaStatTile"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "stat-tile.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "stat-tile.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "stat-tile.vue.txt"
+    }
+  ],
+  "preview": "stat-tile.preview.html",
+  "playground": {
+    "controls": [
+      {
+        "prop": "look",
+        "label": "Look",
+        "default": null,
+        "options": [
+          {
+            "label": "Plain",
+            "value": null
+          },
+          {
+            "label": "Accent",
+            "value": "accent"
+          }
+        ]
+      }
+    ]
+  },
+  "selfCheck": [
+    {
+      "label": "value 32/1.2 SemiBold black, label black on the white card (pale pink with look=accent)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "change shows absolute and whole percent (<1% for a tiny change); whole percentage points for a percent value (<1 pt under one point)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "rise black + up arrow, fall white on a black pill + down arrow, no status hue",
+      "verdict": "PASS"
+    },
+    {
+      "label": "flat card, radius 8, Vivid Pink top bar, no shadow",
+      "verdict": "PASS"
+    },
+    {
+      "label": "1 to 6 per row via aha-grid min=160px, wrapping to fewer columns as the row narrows (2 per row at 390px)",
+      "verdict": "PASS"
+    }
+  ],
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] tile is a rise in the default look: white card, Vivid Pink top bar, 32px semibold black value, black change with an up arrow.",
+    "ready": "!!(function(){var el=document.querySelector('aha-stat-tile[data-probe]');return el&&el.shadowRoot&&el.shadowRoot.querySelector('.change aha-icon');})()",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-stat-tile[data-probe]').shadowRoot;var tile=getComputedStyle(r.querySelector('.tile'));var value=getComputedStyle(r.querySelector('.value'));var change=r.querySelector('.change');return{tileBg:tile.backgroundColor,tileRadius:tile.borderTopLeftRadius,valueColor:value.color,valueSize:value.fontSize,valueWeight:value.fontWeight,changeColor:getComputedStyle(change).color,changeText:change.textContent.trim(),glyph:change.querySelector('aha-icon').getAttribute('name')};})()",
+    "expect": {
+      "tileBg": "rgb(255, 255, 255)",
+      "tileRadius": "8px",
+      "valueColor": "rgb(26, 26, 26)",
+      "valueSize": "32px",
+      "valueWeight": "600",
+      "changeColor": "rgb(26, 26, 26)",
+      "changeText": "Up 1,460 (13%)",
+      "glyph": "system-arrow-up"
+    }
+  }
+}

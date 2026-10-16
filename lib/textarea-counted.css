@@ -1,0 +1,36 @@
+/* Counted Textarea: the remaining-character count sits INSIDE the field, bottom-right, and shows only
+   while the field is focused. Same values as <aha-counted-textarea>. Add the class `aha-textarea-counted`
+   to an antd v6 (React) or ant-design-vue v4 Input.TextArea that has showCount + maxLength. */
+
+.aha-textarea-counted { position: relative; }
+
+/* React: antd v6 wraps the field in an affix wrapper that carries the border */
+.aha-textarea-counted.ant-input-textarea-affix-wrapper textarea.ant-input { padding-bottom: 22px; resize: none; }
+.aha-textarea-counted.ant-input-textarea-affix-wrapper .ant-input-suffix {
+  position: absolute; right: 12px; bottom: 6px; margin: 0; padding: 0; pointer-events: none;
+}
+.aha-textarea-counted.ant-input-textarea-affix-wrapper .ant-input-data-count {
+  position: static; margin: 0; padding-left: 6px;
+  font-size: 12px; line-height: 18px; color: var(--aha-text-tertiary, #8A8A8A);
+  background: var(--aha-bg-container, #FFFFFF);
+  opacity: 0; transition: opacity var(--aha-motion-fast, .1s) var(--aha-ease-out, cubic-bezier(0.215, 0.61, 0.355, 1));
+}
+.aha-textarea-counted.ant-input-textarea-affix-wrapper:focus-within .ant-input-data-count { opacity: 1; }
+.aha-textarea-counted.ant-input-textarea-affix-wrapper.ant-input-affix-wrapper-disabled .ant-input-data-count { background: var(--aha-bg-container-disabled, #F1F1F1); }
+.aha-textarea-counted.ant-input-textarea-affix-wrapper:has(textarea[readonly]) .ant-input-data-count { background: var(--aha-bg-container-secondary, #F7F7F7); }
+
+/* Vue: ant-design-vue v4 paints the count from the wrapper's data-count attribute */
+.aha-textarea-counted.ant-input-textarea-show-count:not(.ant-input-textarea-affix-wrapper) textarea.ant-input { padding-bottom: 22px; resize: none; }
+.aha-textarea-counted.ant-input-textarea-show-count:not(.ant-input-textarea-affix-wrapper)::after {
+  content: attr(data-count); position: absolute; float: none; right: 12px; bottom: 6px; margin: 0; padding-left: 6px;
+  font-size: 12px; line-height: 18px; color: var(--aha-text-tertiary, #8A8A8A);
+  background: var(--aha-bg-container, #FFFFFF); pointer-events: none;
+  opacity: 0; transition: opacity var(--aha-motion-fast, .1s) var(--aha-ease-out, cubic-bezier(0.215, 0.61, 0.355, 1));
+}
+.aha-textarea-counted.ant-input-textarea-show-count:not(.ant-input-textarea-affix-wrapper):focus-within::after { opacity: 1; }
+.aha-textarea-counted.ant-input-textarea-show-count:not(.ant-input-textarea-affix-wrapper):has(textarea:disabled)::after { background: var(--aha-bg-container-disabled, #F1F1F1); }
+.aha-textarea-counted.ant-input-textarea-show-count:not(.ant-input-textarea-affix-wrapper):has(textarea[readonly])::after { background: var(--aha-bg-container-secondary, #F7F7F7); }
+
+@media (prefers-reduced-motion: reduce) {
+  .aha-textarea-counted .ant-input-data-count, .aha-textarea-counted::after { transition: none; }
+}
