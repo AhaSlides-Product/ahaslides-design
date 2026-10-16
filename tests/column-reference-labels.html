@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Column values beside a reference line</title>
+</head>
+<body>
+  <div style="width:1248px"><aha-chart id="okr" type="column" label="Self-served per week" options='{"reference":{"value":22,"label":"OKR target"}}' data='[{"label":"3 Aug","value":14},{"label":"10 Aug","value":17},{"label":"17 Aug","value":20},{"label":"24 Aug","value":25},{"label":"31 Aug","value":12},{"label":"7 Sep","value":18}]'></aha-chart></div>
+  <div style="width:1248px"><aha-chart id="average" type="column" label="Monthly revenue" options='{"reference":{"value":21,"label":"Average"}}' data='[{"label":"May","value":24},{"label":"Jun","value":19},{"label":"Jul","value":27},{"label":"Aug","value":15},{"label":"Sep","value":30},{"label":"Oct","value":22}]'></aha-chart></div>
+  <div style="width:358px"><aha-chart id="phone" type="column" label="Monthly revenue" options='{"reference":{"value":21,"label":"Average"}}' data='[{"label":"May","value":24},{"label":"Jun","value":19},{"label":"Jul","value":27},{"label":"Aug","value":15},{"label":"Sep","value":30},{"label":"Oct","value":22}]'></aha-chart></div>
+  <div style="width:1248px"><aha-chart id="negative" type="column" label="Net new" options='{"reference":{"value":-4,"label":"Floor"}}' data='[{"label":"Jan","value":-2},{"label":"Feb","value":-9},{"label":"Mar","value":12},{"label":"Apr","value":-6},{"label":"May","value":8}]'></aha-chart></div>
+  <script type="module">
+    await import('../lib/aha-chart.js');
+    window.columnFixtureReady = true;
+  </script>
+</body>
+</html>

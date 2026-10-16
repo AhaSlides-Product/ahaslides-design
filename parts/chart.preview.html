@@ -108,6 +108,7 @@
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Dark deck</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Negative values</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Reference line</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Value on the line</button>
     </div>
     <div class="chart-case">
       <div class="lbl">Poll</div>
@@ -170,6 +171,11 @@
       <div class="lbl">Reference line on a poll</div>
       <aha-chart type="column" label="Column" options='{"reference":{"value":15.5,"label":"Average"}}'
         data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">A value that would sit on the reference line moves inside its bar</div>
+      <aha-chart type="column" label="Self-served per week" options='{"reference":{"value":22,"label":"OKR target"}}'
+        data='[{"label":"3 Aug","value":14},{"label":"10 Aug","value":17},{"label":"17 Aug","value":20},{"label":"24 Aug","value":25},{"label":"31 Aug","value":12},{"label":"7 Sep","value":18}]'></aha-chart>
     </div>
   </section>
 
