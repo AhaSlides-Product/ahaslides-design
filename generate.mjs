@@ -1674,7 +1674,7 @@ const MARKETING_WIDTHS = [
   ['Phone', TOK.breakpoints.phone],
 ];
 const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
-const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js'];
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-avatar.js', 'aha-rate.js'];
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
@@ -1806,6 +1806,11 @@ ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
+
+${b.composedOf ? `
+  <h2 id="composed-of">Composed of</h2>
+  <p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
+  ${composedOfTable(b.composedOf)}` : ''}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
