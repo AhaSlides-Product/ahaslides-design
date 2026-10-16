@@ -59,7 +59,7 @@ const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return
 /* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
    URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
 const LIVE_SITE = 'https://design.ahaslides.io';
-const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`);
+const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`).replaceAll(`${LIVE_SITE}/marketing-assets/`, `${SITE}/marketing-assets/`);
 const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
@@ -1490,7 +1490,7 @@ function composeMarketingComponent(b) {
   return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
-const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
+const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`);
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
    the DS top-nav + scoped sidebar like every other area. Content is data
@@ -2929,6 +2929,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+cpSync(join(root, 'marketing-assets'), join(OUT, 'marketing-assets'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
 

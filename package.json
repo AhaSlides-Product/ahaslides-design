@@ -264,6 +264,7 @@
     "fonts/",
     "icons/svg/",
     "logo/",
+    "marketing-assets/",
     "backgrounds/",
     "brand/colour-rules.json",
     "build-splash.mjs",
