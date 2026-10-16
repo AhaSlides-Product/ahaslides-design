@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.220.4 — 2026-10-16
+### Fixed
+- **`<aha-chart>` column values moved inside a bar now read at 4.5:1 and stay within the bar.** The ink is whichever of the chart ink and solid white has the higher contrast ratio on the bar fill (`readableInkOn` assumed pure black, which left `#1A1A1A` at 3.86:1 on Vivid Pink); Vivid Pink always takes solid white (colour rule 6.4). A label is only placed inside when its text and padding fit the bar width, otherwise it sits just beyond the reference line. New "Signed decimals on the line" case on the chart page and tests at 358 px with two-digit and signed decimal values. (#PRNUM)
+
 ## 0.220.3 — 2026-10-16
 ### Fixed
 - **`<aha-stat-tile>` shows whole numbers in its change.** A percentage-point change was one decimal ("0.3 pts"); it now rounds to whole points ("3 pts", singular "1 pt", "<1 pt" for a non-zero change under one point, arrow direction kept), and a relative change under 1% reads "<1%" instead of a decimal, as the Report images guideline (C8) requires. An unchanged value still reads "No change", never "0" or "-0". A new "Whole percentage points" demo on the stat tile page and `tests/stat-tile-whole-points.test.mjs` cover it. (#283)

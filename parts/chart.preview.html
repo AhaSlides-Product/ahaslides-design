@@ -109,6 +109,7 @@
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Negative values</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Reference line</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Value on the line</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Signed decimals on the line</button>
     </div>
     <div class="chart-case">
       <div class="lbl">Poll</div>
@@ -176,6 +177,11 @@
       <div class="lbl">A value that would sit on the reference line moves inside its bar</div>
       <aha-chart type="column" label="Self-served per week" options='{"reference":{"value":22,"label":"OKR target"}}'
         data='[{"label":"3 Aug","value":14},{"label":"10 Aug","value":17},{"label":"17 Aug","value":20},{"label":"24 Aug","value":25},{"label":"31 Aug","value":12},{"label":"7 Sep","value":18}]'></aha-chart>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">A value too wide for its bar goes beyond the line instead of spilling out of the bar</div>
+      <aha-chart type="column" label="Net revenue retention change" options='{"reference":{"value":-1,"label":"Average"}}'
+        data='[{"label":"Q1","value":2.4},{"label":"Q2","value":-1.2},{"label":"Q3","value":3.1},{"label":"Q4","value":-3.6},{"label":"Q1","value":1.8},{"label":"Q2","value":-0.4}]'></aha-chart>
     </div>
   </section>
 
