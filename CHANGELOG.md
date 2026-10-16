@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.222.0 — 2026-10-16
+### Changed
+- Marketing → Sections: the four heroes are now four separate sections, each with its own name, nav entry, preview and code panel: `Hero Pink`, `Hero Pink Vertical`, `Hero Pale Pink` and `Hero Pale Pink Vertical` (replacing the single `Hero banner` page), listed together under a new left-nav group `Header section` (an optional `group` field on a marketing section; sections without it stay where they were). Markup, styles and tokens are identical to 0.221.0; the old `Hero` section is unchanged. The `variants` option added to `generate.mjs` in 0.221.0 is removed (nothing else used it). The image slot in each hero is a real `<img>` (with alt text) pointing at a new DS placeholder image, `marketing-assets/image-placeholder.svg` (served at `/marketing-assets/image-placeholder.svg`, published in the package), not a div. `generate.mjs` copies the folder to the site and points a section's placeholder URL at the build being previewed. Revert: restore `marketing/hero-banner.json` and the `variants` branches in `generate.mjs`, delete the four new JSON files and `marketing-assets/`. (#285)
+
 ## 0.221.1 — 2026-10-16
 ### Fixed
 - **`<aha-chart>` column values moved inside a bar now read at 4.5:1 and stay within the bar.** The ink is whichever of the chart ink and solid white has the higher contrast ratio on the bar fill (`readableInkOn` assumed pure black, which left `#1A1A1A` at 3.86:1 on Vivid Pink); Vivid Pink always takes solid white (colour rule 6.4). A label is only placed inside when its text and padding fit the bar width, otherwise it sits just beyond the reference line. New "Signed decimals on the line" case on the chart page and tests at 358 px with two-digit and signed decimal values. (#284)
