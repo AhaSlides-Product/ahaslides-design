@@ -1,6 +1,7 @@
 {
   "slug": "hero-pink",
   "name": "Hero Pink",
+  "group": "Header section",
   "environment": [
     "marketing-web"
   ],

@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.222.0 — 2026-10-16
 ### Changed
-- Marketing → Sections: the four heroes are now four separate sections, each with its own name, nav entry, preview and code panel: `Hero Pink`, `Hero Pink Vertical`, `Hero Pale Pink` and `Hero Pale Pink Vertical` (replacing the single `Hero banner` page). Markup, styles and tokens are identical to 0.221.0; the old `Hero` section is unchanged. The `variants` option added to `generate.mjs` in 0.221.0 is removed (nothing else used it). Revert: restore `marketing/hero-banner.json` and the `variants` branches in `generate.mjs`, delete the four new JSON files. (#285)
+- Marketing → Sections: the four heroes are now four separate sections, each with its own name, nav entry, preview and code panel: `Hero Pink`, `Hero Pink Vertical`, `Hero Pale Pink` and `Hero Pale Pink Vertical` (replacing the single `Hero banner` page), listed together under a new left-nav group `Header section` (an optional `group` field on a marketing section; sections without it stay where they were). Markup, styles and tokens are identical to 0.221.0; the old `Hero` section is unchanged. The `variants` option added to `generate.mjs` in 0.221.0 is removed (nothing else used it). Revert: restore `marketing/hero-banner.json` and the `variants` branches in `generate.mjs`, delete the four new JSON files. (#285)
 
 ## 0.221.0 — 2026-10-16
 ### Added

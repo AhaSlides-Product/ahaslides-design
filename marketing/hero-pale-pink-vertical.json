@@ -1,6 +1,7 @@
 {
   "slug": "hero-pale-pink-vertical",
   "name": "Hero Pale Pink Vertical",
+  "group": "Header section",
   "environment": [
     "marketing-web"
   ],

@@ -1032,7 +1032,8 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
+    const marketingGroups = [...new Set(MARKETING.filter(b => b.group).map(b => b.group))];
+    inner = marketingNav(MARKETING.filter(b => isMarketingComponent(b) && !b.group), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b) && !b.group), MARKETING_CAT) + marketingGroups.map(g => marketingNav(MARKETING.filter(b => b.group === g), esc(g))).join('');
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
