@@ -162,7 +162,8 @@ def surfaces_for(files, criteria=None):
 
 USABILITY_SURFACE = "usability"
 USABILITY_DISABLE_ENV = "AHA_DESIGN_USABILITY_DISABLE"
-FLOW_FILE_NAME = re.compile(r"page|screen|view|modal|dialog|drawer|form|wizard|step|flow")
+FLOW_FILE_WORD = re.compile(r"(?<![a-z])(page|screen|view|modal|dialog|drawer|form|wizard|step|flow)s?(?![a-z])")
+CAMEL_CASE_BOUNDARY = re.compile(r"([a-z0-9])([A-Z])")
 FLOW_RENDER_LINE = (
     "Usability tier 2 - a file below looks like a new or reshaped screen, dialog, form or flow: "
     "judge U1, U3, U5 and U9 from a rendered screenshot (fleet-browser, or the Storybook / DS preview "
@@ -192,7 +193,7 @@ def with_usability(criteria):
 
 
 def flow_files(files):
-    return [f for f in files if FLOW_FILE_NAME.search(f.lower())]
+    return [f for f in files if FLOW_FILE_WORD.search(CAMEL_CASE_BOUNDARY.sub(r"\1-\2", f).lower())]
 
 
 def seen_key(files):

@@ -105,6 +105,11 @@ class Usability(unittest.TestCase):
                                         "src/Badge.tsx"]),
                          ["src/pages/Home.tsx", "src/SignupForm.vue"])
 
+    def test_flow_files_ignore_words_that_only_contain_a_flow_word(self):
+        self.assertEqual(dj.flow_files(["src/utils/formatDate.ts", "src/platform.ts", "src/Preview.tsx",
+                                        "src/Stepper.vue", "src/EditDialog.vue"]),
+                         ["src/EditDialog.vue"])
+
     def test_with_usability_fills_in_from_the_plugin_copy(self):
         merged = dj.with_usability(CRITERIA)
         self.assertEqual(len(merged["surfaces"]["usability"]), 10)
