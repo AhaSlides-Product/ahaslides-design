@@ -1750,7 +1750,7 @@ function marketingCodeToggle(file, code, lead = '') {
       <pre class="code snippet active">${esc(code)}</pre>
     </div></div>`;
 }
-function marketingLayoutPreview(b, layout, index) {
+function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
@@ -1802,9 +1802,9 @@ function renderMarketingLayoutsHtml(b) {
   <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
   <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
 
-${b.layouts.map((layout, index) => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
-  <div class="marketing-stage">${marketingLayoutPreview(b, layout, index)}</div>
+  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
 
