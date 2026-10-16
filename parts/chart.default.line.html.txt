@@ -1,0 +1,2 @@
+<aha-chart type="line" label="Weekly sign-ups"
+  data='{"labels":["1 Sep","8 Sep","15 Sep","22 Sep","29 Sep","6 Oct","13 Oct","20 Oct"],"series":[{"label":"Sign-ups","values":[1200,1320,1280,1500,1610,1580,1720,1690]},{"label":"Activated","values":[800,900,950,1100,1190,1300,1400,1420]}]}'></aha-chart>

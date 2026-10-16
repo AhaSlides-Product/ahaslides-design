@@ -109,7 +109,7 @@ Read the list from the DS each time — surfaces get added.
    approved), never the logo file hand-set beside a text span; this holds even on a marketing page,
    and the header is judged on `app-shell` C1.
 5. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
-   radar, word cloud, mind map) is `<aha-chart>` from the DS: read
+   radar, word cloud, mind map, line) is `<aha-chart>` from the DS: read
    `https://design.ahaslides.io/chart.agent.json` first, use
    `palette="brand"` on app screens and `palette="deck"` on the presenting / audience canvas. Never
    a hand-rolled SVG, another chart library or a generic dataviz skill. Only a type `<aha-chart>`

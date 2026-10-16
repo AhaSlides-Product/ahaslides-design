@@ -1,0 +1,27 @@
+import '@ahaslides-product/design/aha-grid';      // registers <aha-grid>
+import '@ahaslides-product/design/aha-stat-tile'; // registers <aha-stat-tile> (+ <aha-icon>)
+
+// The custom element renders its own shadow DOM; React just passes attributes.
+function KpiRow({ tiles }) {
+  return (
+    <aha-grid min="160px" gap="middle">
+      {tiles.map((tile) => (
+        <aha-stat-tile
+          key={tile.label}
+          label={tile.label}
+          value={tile.value}
+          previous={tile.previous}
+          caption={tile.caption}
+          {...(tile.format ? { format: tile.format } : {})}
+        />
+      ))}
+    </aha-grid>
+  );
+}
+
+// usage
+<KpiRow tiles={[
+  { label: 'Weekly active users', value: 12480, previous: 11020, caption: 'vs previous week' },
+  { label: 'New sign-ups', value: 1730, previous: 2040, caption: 'vs previous week' },
+  { label: 'Activation rate', value: 0.46, previous: 0.41, format: 'percent', caption: 'vs previous week' },
+]} />

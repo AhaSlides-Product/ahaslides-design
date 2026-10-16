@@ -1,0 +1,62 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+
+globalThis.HTMLElement = class {};
+globalThis.document = { documentElement: { lang: 'en' } };
+const { AhaStatTile } = await import('../lib/aha-stat-tile.js');
+
+const change = (attributes) => {
+  const tile = Object.create(AhaStatTile.prototype);
+  tile.getAttribute = (name) => (name in attributes ? attributes[name] : null);
+  return tile.change();
+};
+const points = (value, previous) => change({ value: String(value), previous: String(previous), format: 'percent' });
+
+test('a rise under one point reads <1 pt and keeps its direction', () => {
+  assert.deepEqual(points(0.453, 0.45), { direction: 'rise', text: '<1 pt' });
+});
+test('a fall under one point reads <1 pt and keeps its direction', () => {
+  assert.deepEqual(points(0.447, 0.45), { direction: 'fall', text: '<1 pt' });
+});
+test('1.4 points rounds to a singular 1 pt', () => {
+  assert.equal(points(0.464, 0.45).text, '1 pt');
+});
+test('2.6 points rounds up to 3 pts', () => {
+  assert.equal(points(0.476, 0.45).text, '3 pts');
+});
+test('an unchanged percent value has no change', () => {
+  assert.deepEqual(points(0.45, 0.45), { direction: 'flat', text: 'No change' });
+});
+test('a fall of several points is whole and never negative or zero-padded', () => {
+  const result = points(0.41, 0.46);
+  assert.deepEqual(result, { direction: 'fall', text: '5 pts' });
+  assert.doesNotMatch(result.text, /-|\./);
+});
+test('a custom points label is used as given', () => {
+  assert.equal(change({ value: '0.5', previous: '0.4', format: 'percent', 'points-label': 'điểm' }).text, '10 điểm');
+});
+test('a small relative change reads <1%, never a decimal', () => {
+  assert.equal(change({ value: '2400010', previous: '2400000' }).text, '10 (<1%)');
+  assert.equal(change({ value: '1004', previous: '1000' }).text, '4 (<1%)');
+  assert.equal(change({ value: '1460', previous: '1290' }).text, '170 (13%)');
+});
+test('0.5 and 0.99 points read <1 pt, not 1 pt', () => {
+  assert.equal(points(0.455, 0.45).text, '<1 pt');
+  assert.equal(points(0.4599, 0.45).text, '<1 pt');
+});
+test('a fall of 0.7 points reads <1 pt with a fall direction', () => {
+  assert.deepEqual(points(0.443, 0.45), { direction: 'fall', text: '<1 pt' });
+});
+test('a relative change of 0.5% to 0.99% reads <1%', () => {
+  assert.equal(change({ value: '1007', previous: '1000' }).text, '7 (<1%)');
+  assert.equal(change({ value: '1010', previous: '1000' }).text, '10 (1%)');
+});
+test('an exact 1 point change survives floating point error', () => {
+  assert.equal(points(0.29, 0.28).text, '1 pt');
+  assert.equal(points(0.28, 0.29).text, '1 pt');
+});
+test('an exact 1% relative change survives floating point error', () => {
+  assert.equal(change({ value: '1.01', previous: '1' }).text, '0.01 (1%)');
+  assert.equal(change({ value: '0.29', previous: '0.28' }).text, '0.01 (4%)');
+  assert.equal(change({ value: '2.02', previous: '2' }).text, '0.02 (1%)');
+});

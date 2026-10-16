@@ -1,6 +1,6 @@
 # `<aha-chart>` — the AhaSlides chart library
 
-One framework-free web component that draws eleven kinds of result chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud and mind map.
+One framework-free web component that draws twelve kinds of result and data chart: bar, column, stacked bar, donut and pie, radial, tree map, quadrant, bell curve, radar, word cloud, mind map and line.
 
 Live examples, the playground and the "Choosing a chart" guide are on the hosted **[Charts tab](https://design.ahaslides.io/charts/index.html)**.
 
@@ -104,8 +104,8 @@ Pick the type from the shape of the data. Types that fold extras into "Other (n)
 
 | Type | Use it for | Serves | Not for |
 |---|---|---|---|
-| `bar` | Counts across categorical options: long labels, many options, ranking (`sort="desc"`), image options | Poll, Ranking, Pick Answer | Part-to-whole of one question (donut); time series (`@ant-design/plots`) |
-| `column` | The same comparison with a few short options; turns into bars when the labels do not fit | Poll, Pick Answer correct reveal | Long labels or many options (bar); part-to-whole (donut) |
+| `bar` | Counts across categorical options: long labels, many options, ranking (`sort="desc"`), image options | Poll, Ranking, Pick Answer | Part-to-whole of one question (donut); time series (line) |
+| `column` | The same comparison with a few short options; turns into bars when the labels do not fit. Negative values (net change) draw below a zero baseline, and `options.reference` adds a dashed target or average line | Poll, Pick Answer correct reveal, reports | Long labels or many options (bar); part-to-whole (donut) |
 | `stacked` | Composition of several groups or statements side by side, each row split by the same series (up to 6) | Grouped results | A single question (donut) |
 | `donut` / pie | Part-to-whole of one question with few categories (up to 6; `variant: 'pie'` for no centre hole) | Poll, Split the points | Many slices or close values (bar) |
 | `radial` | A few shares or percentages shown compactly as rings (up to 6) | Split the points | Many items or exact comparison (bar) |
@@ -115,12 +115,13 @@ Pick the type from the shape of the data. Types that fold extras into "Other (n)
 | `radar` | Several criteria on the same scale (5, 10 or 100), comparing the profile of one or a few subjects | Rating scale | Criteria on unrelated scales (bar) |
 | `wordcloud` | Frequency of short free-text answers (up to 120 words, duplicates merged) | Word cloud | Exact counts (bar) |
 | `mindmap` | Grouped or hierarchical ideas (default 5 levels, 6 branches) | Brainstorm, Mind map | Quantities (bar, donut) |
+| `line` | How 1 to 4 figures moved over time, with end-value labels; a gap breaks the line; an optional right axis for a series in another unit | Reports, dashboards | A few categories (column); one figure against the last period (Stat tile) |
 
-A single headline number is a `Statistic`, and a time series, line or area chart is `@ant-design/plots` (`<aha-chart>` does not draw them).
+A single headline number is a `Statistic` (a `Stat tile` when it is compared with the previous period). A time series is `type="line"`; an area or scatter chart is `@ant-design/plots` (`<aha-chart>` does not draw them).
 
 ## Default snippet per type
 
-Every chart type has one default snippet: the minimal `<aha-chart type="…">` markup and data shape that already renders the full intended look and behaviour (entrance animation, live-update motion, tooltip, auto legend, empty state, text summary, hidden data table, live-region announcement) with no opt-in attribute. Start from it and only add attributes or `options`; never strip behaviour from it. The 11 snippets are in `contracts/chart.json` (`typeDefaults`) and each type's "Show code" on the Charts page.
+Every chart type has one default snippet: the minimal `<aha-chart type="…">` markup and data shape that already renders the full intended look and behaviour (entrance animation, live-update motion, tooltip, auto legend, empty state, text summary, hidden data table, live-region announcement) with no opt-in attribute. Start from it and only add attributes or `options`; never strip behaviour from it. The 12 snippets are in `contracts/chart.json` (`typeDefaults`) and each type's "Show code" on the Charts page.
 
 Opt-in only (off until you set it): ranking (`sort="desc"`), Pick Answer (`correct`), `page-size`, `highlight-top`, `log-scale`, bell `showGrid` / `showYAxis` / `showMeanLine` / `showStepLabels`, radar `showTable` / `showScaleTicks` / `hollowCentre`, word cloud `showCounts` / `foldDiacritics` / `shape` / `rotation` / `maskSrc`, and an editable mind map (`editable`).
 
@@ -142,6 +143,20 @@ chart.data = [
 - When `label` is omitted, screen readers and tooltips say "Option N".
 - A `column` chart turns into bars when its labels cannot fit.
 - With zero responses, every bar keeps its track and shows a short coloured stub at its start.
+
+#### Negative values and a reference line (`column`)
+
+```html
+<aha-chart type="column" label="Net new teams"
+  options='{"reference":{"value":300,"label":"Target"}}'
+  data='[{"label":"Jan","value":520},{"label":"Feb","value":-180},{"label":"Mar","value":310}]'></aha-chart>
+```
+
+- A negative `value`, or `options.reference`, puts the column chart on a zero baseline (a 1px `--aha-border-strong` rule). Positive columns grow up from it with their value above; negative columns grow down with their value below and their rounded corners at the bottom. Direction is shown by position and shape: every column takes the first series colour, whichever way it points.
+- `reference: { value, label }` draws a 1px dashed line in `--aha-text-secondary` across the plot, with the label and value at its right end in a gutter the columns never enter. When the label would take more than 30% of the width, as on a phone, it moves to a key above the plot instead.
+- Column labels that do not fit their columns on two lines, as on a phone or with many periods, stay on one line and show every second, third or Nth label, counted back from the latest period so it is always labelled. A label never ends in an ellipsis. A value label never overlaps another bar or label: values step down to 14px, then 12px, and if they still collide only the clear ones are shown, counted back from the latest.
+- Once a column chart has gone signed it stays signed, so live data that crosses zero animates in place rather than redrawing.
+- In this mode the chart stays in columns (it does not turn into bars), and images and Pick Answer marks are not drawn.
 
 ### `stacked`
 
@@ -238,13 +253,34 @@ chart.options = { editable: true };
 
 A balanced two-sided layout (one-sided, then an outline when narrow). Options: `pageSize` (ideas shown before a "+N ideas" pager), `maxDepth` (default 5), `maxBranches` (default 6), `editable` (let people add and rename ideas).
 
+### `line`
+
+```js
+chart.data = {
+  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+  series: [
+    { label: 'Sessions', values: [42000, 45000, null, 44000, 39000] },     // null breaks the line
+    { label: 'Conversion', values: [0.031, 0.034, 0.036, 0.033, 0.03], axis: 'right' },
+  ],
+};
+chart.options = { format: 'compact', rightFormat: 'percent' };
+```
+
+- 1 to 4 series, coloured in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey). A fifth series is dropped.
+- `null` or a missing value breaks the line; a point with no neighbour keeps its marker so it still shows.
+- Each series has its own marker shape (circle, square, triangle, diamond), drawn only at labelled ticks and at its last point, so the chart reads in black and white.
+- The x labels thin out to every Nth period, counted back from the latest, so the last period is always labelled.
+- End-value labels sit at the right. Labels that would overlap are pushed apart as a group around their points, and a short leader in the series colour joins each moved label to its line.
+- `axis: 'right'` on a series adds a right axis with the same grid lines; the legend then names each series' axis, "(left axis)" or "(right axis)".
+- Options: `height` (280), `endLabels` (true), `format` (`number`, `compact` for 12K and 1.3M, `percent` for whole percentages of values given as fractions), `rightFormat` (the right axis; defaults to `format`), `zero` (true: the y axis starts at zero; false fits the data).
+
 ## Attributes
 
 All attributes are optional except that charts need `data`.
 
 | Attribute | Values | Default | What it does |
 |---|---|---|---|
-| `type` | the 11 types above | `bar` | Chart type. |
+| `type` | the 12 types above | `bar` | Chart type. |
 | `data` | JSON | none | The data. Also available as the `data` property. |
 | `options` | JSON object | `chartOptionDefaults[type]` | Type-specific settings. Also a property. |
 | `palette` | `brand`, `deck` | `brand` | Colour source. See [Palettes](#palettes). |
@@ -295,7 +331,7 @@ console.log(chartOptionDefaults.wordcloud);
 //   removable: true, showTooltip: true, showCounts: false, group: true, foldDiacritics: false, maxWords: 120 }
 ```
 
-Types with defaults: `donut`, `radial`, `treemap`, `quadrant`, `bell`, `radar`, `wordcloud`, `mindmap`.
+Types with defaults: `donut`, `radial`, `treemap`, `quadrant`, `bell`, `radar`, `wordcloud`, `mindmap`, `line`.
 
 ## Palettes
 

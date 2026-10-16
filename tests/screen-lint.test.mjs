@@ -152,3 +152,55 @@ test('the hand-set lockup rule is suppressed with a reason', () => {
   const source = '<header><img src="/logo/thesplash.svg" alt=""></header> <!-- ds-lint-allow: lockup (logo gallery tile) -->';
   assert.deepEqual(rulesOf(source), []);
 });
+
+test('a gradient whose stops are all one colour is a flat layer, not a gradient', () => {
+  for (const source of [
+    '<div style="background: linear-gradient(var(--_c), var(--_c)), var(--aha-bg-container, #FFFFFF)"></div>',
+    '<div style="background: linear-gradient(to right, rgba(231, 14, 104, .05) 0%, rgba(231, 14, 104, .05) 100%)"></div>',
+    '<div style="background-image: radial-gradient(circle at center, var(--tint), var(--tint))"></div>',
+  ]) assert.ok(!rulesOf(source).includes('gradient-fill'), source);
+});
+
+test('a gradient that changes colour still fails, even beside a flat layer', () => {
+  for (const source of [
+    '<div style="background: linear-gradient(var(--a), var(--b))"></div>',
+    '<div style="background: linear-gradient(90deg, red 0%, red 50%, blue 100%)"></div>',
+    '<div style="background: linear-gradient(var(--c), var(--c)), radial-gradient(white, black)"></div>',
+    '<div style="background: conic-gradient(from 90deg, #fff, #000)"></div>',
+  ]) assert.ok(rulesOf(source).includes('gradient-fill'), source);
+});
+
+test('lib/aha-chart.js passes screen-lint with no allow marker', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const source = await readFile(new URL('../lib/aha-chart.js', import.meta.url), 'utf8');
+  assert.ok(!/ds-lint-allow:[^(]*gradient/.test(source));
+  assert.deepEqual(lintHtml(source, { surface: 'product' }).findings.filter(f => f.severity === 'hard'), []);
+});
+
+const shimmerCss = (stops, animated = true) => `<style>
+  .sk-bar{ height:14px;
+    background:linear-gradient(90deg, ${stops});
+    background-size:400% 100%;${animated ? ' animation:sk-sweep 1.4s linear infinite' : ''} }
+  @keyframes sk-sweep{ 0%{ background-position:100% 0 } 100%{ background-position:0 0 } }
+</style>`;
+const skeletonStops = 'var(--aha-bg-hover,#F7F7F7) 25%, var(--aha-split,#F1F1F1) 37%, var(--aha-bg-hover,#F7F7F7) 63%';
+
+test('the animated grey skeleton shimmer passes the gradient rule', () => {
+  assert.ok(!rulesOf(shimmerCss(skeletonStops)).includes('gradient-fill'));
+  assert.ok(!rulesOf(shimmerCss('#F7F7F7 25%, #F1F1F1 37%, #F7F7F7 63%')).includes('gradient-fill'));
+});
+
+test('a static grey gradient and a coloured shimmer still fail the gradient rule', () => {
+  assert.ok(rulesOf(shimmerCss(skeletonStops, false)).includes('gradient-fill'));
+  assert.ok(rulesOf(shimmerCss('#F7F7F7 25%, #FFC0D9 37%, #F7F7F7 63%')).includes('gradient-fill'));
+  assert.ok(rulesOf(shimmerCss('var(--aha-bg-hover,#F7F7F7), var(--aha-bg-accent,#FDE7F0)')).includes('gradient-fill'));
+});
+
+test('the DS skeleton components pass screen-lint with no gradient allow marker', async () => {
+  const { readFile } = await import('node:fs/promises');
+  for (const name of ['aha-card', 'aha-statistic', 'aha-skeleton', 'aha-image', 'aha-list']) {
+    const source = await readFile(new URL(`../lib/${name}.js`, import.meta.url), 'utf8');
+    assert.ok(!/ds-lint-allow:[^(]*gradient/.test(source), name);
+    assert.ok(!lintHtml(source, { surface: 'product' }).findings.some(f => f.rule === 'gradient-fill'), name);
+  }
+});
