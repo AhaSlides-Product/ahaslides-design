@@ -67,9 +67,9 @@ for (const id of charts) {
 test('every brand series colour gets an ink at 4.5:1, and Vivid Pink gets solid white', { skip }, async () => {
   const fills = ['rgb(231, 14, 104)', 'rgb(0, 0, 0)', 'rgb(248, 183, 210)', 'rgb(168, 168, 168)'];
   const inks = await evaluateInPage(fixture, `(${JSON.stringify(fills)}).map((fill) => window.inkWithBestContrast(fill, 'rgb(26, 26, 26)'))`, { readyExpr: '!!window.columnFixtureReady', timeout: 45000 });
-  assert.equal(inks[0], '#FFFFFF');
+  assert.match(inks[0], /^var\(--aha-viz-ink-inverse/);
   fills.forEach((fill, index) => {
-    const ink = inks[index] === '#FFFFFF' ? 'rgb(255, 255, 255)' : inks[index];
+    const ink = inks[index].startsWith('var(') ? 'rgb(255, 255, 255)' : inks[index];
     assert.ok(contrast(ink, fill) >= 4.5, `${fill} with ${inks[index]}`);
   });
 });
