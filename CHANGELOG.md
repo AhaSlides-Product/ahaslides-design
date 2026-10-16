@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.215.1 — 2026-10-16
+### Fixed
+- **`<aha-stat-tile>` keeps a very long value inside the card.** The value now shrinks (32px down to 12px) to fit the tile's inner width, so a figure such as 1,234,567,890 or $1,234,567.89 no longer spills past the card edge in a 160px or 240px tile, and it never breaks mid-number; short values keep 32px wherever they fit. (#PR)
+
 ## 0.215.0 — 2026-10-16
 ### Added
 - **`<aha-chart type="line">`** for 1 to 4 series over time, in the chart colour order: end-value labels that never overlap (pushed apart, with a short leader in the series colour), one marker shape per series at labelled ticks and the last point, `null` breaking the line, x labels thinned back from the latest period, and an optional right axis (`axis: 'right'`) whose legend names each series' axis, with the end labels outside its ticks. Live data morphs the existing lines to the new values, and the axis picks the division count that wastes the least span (a top value of 50 reads 0 to 50). Options `height`, `endLabels`, `format` (number, compact, percent), `rightFormat`, `zero` (DSN-943) (#276)

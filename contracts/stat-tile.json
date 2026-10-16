@@ -46,7 +46,7 @@
     },
     {
       "label": "Value",
-      "value": "32/1.2 SemiBold #1A1A1A (24 in a tile narrower than 210px, so a long figure never overflows), tabular figures; format number (grouped), compact (12.5K, 1.3M) or percent (whole %)"
+      "value": "32/1.2 SemiBold #1A1A1A (shrinks to fit the tile's inner width, down to 12px, so a long figure never overflows or breaks mid-number), tabular figures; format number (grouped), compact (12.5K, 1.3M) or percent (whole %)"
     },
     {
       "label": "Change",
