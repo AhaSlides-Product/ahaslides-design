@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.221.0 — 2026-10-16
+### Added
+- Marketing section `Hero banner` (Marketing → Sections), logged from the Webflow components Hero Pink and Hero Pink Vertical (Top sections): a Vivid Pink section with Darker Pink Splash hooks, white headline and body, a white Get started button and a white image card, with the image beside the copy or under centred copy (`--vertical`). Each layout also has a pale pink version (`--pale`: Vivid Pink at 5% surface, black text, the DS primary button, hooks in Vivid Pink at 5%), so one block gives four combinations. The existing `Hero` section is unchanged. Rule 3.5 (the first screen is white) clashes with a coloured hero; the clash is logged in `docs/landing-webflow-scan.md` and the colour rules are not edited. `generate.mjs` gains one optional step for marketing sections: a `variants` list shows every variant in the preview and adds a code panel for each; sections without it are unchanged. Revert: delete `marketing/hero-banner.json` and the `variants` branches in `generate.mjs`. (#280)
+
 ## 0.220.3 — 2026-10-16
 ### Fixed
 - **`<aha-stat-tile>` shows whole numbers in its change.** A percentage-point change was one decimal ("0.3 pts"); it now rounds to whole points ("3 pts", singular "1 pt", "<1 pt" for a non-zero change under one point, arrow direction kept), and a relative change under 1% reads "<1%" instead of a decimal, as the Report images guideline (C8) requires. An unchanged value still reads "No change", never "0" or "-0". A new "Whole percentage points" demo on the stat tile page and `tests/stat-tile-whole-points.test.mjs` cover it. (#283)
