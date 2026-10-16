@@ -91,7 +91,7 @@
   },
   "report-image": {
    "label": "Reports: static images and read-only report pages",
-   "summary": "A report, in either of its two forms, which look the same: charts, tables, number plates and KPI tiles rendered once to a PNG for Slack, email or an export, where nothing can be hovered, zoomed or opened, so every value is written on the image; or a read-only report page (a dashboard) that a report routine publishes, opened from a link to be read and never operated, built with <aha-chart>, <aha-stat-tile look=\"accent\"> and zebra tables. Not a screen of the product app: its Report screens stay product.",
+   "summary": "A report, in either of its two forms, which look the same: charts, tables, number plates and KPI tiles rendered once to a PNG for Slack, email or an export, where nothing can be hovered, zoomed or opened, so every value is written on the image; or a read-only report page (a dashboard) that a report routine publishes, opened from a link to be read and never operated, built with <aha-chart>, <aha-stat-tile look=\"accent\"> plates and light grey zebra tables. Not a screen of the product app: its Report screens stay product.",
    "route": {
     "guidelines": [
      "{site}/guidelines/report-images/report-images.md",

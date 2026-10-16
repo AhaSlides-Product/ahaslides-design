@@ -34,7 +34,7 @@
     },
     {
       "id": 2,
-      "prompt": "Review this export table PNG. Rows alternate white and #FEF3F7 with 1px #E3E3E3 dividers kept; header labels black semibold over a 2px Vivid Pink rule; figures black tabular and right-aligned (12K, 1.3M, 46%); names left-aligned, including Nguyễn Thị Hương rendered through a Noto Sans fallback. Title: Top courses, September.",
+      "prompt": "Review this export table PNG. Rows alternate white and light grey #F7F7F7 with 1px #E3E3E3 dividers kept; header labels black semibold over a 2px Vivid Pink rule; figures black tabular and right-aligned (12K, 1.3M, 46%); names left-aligned, including Nguyễn Thị Hương rendered through a Noto Sans fallback. Title: Top courses, September.",
       "files": [],
       "label": "good-control",
       "notes": "Targets all.",
@@ -272,7 +272,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C11.",
-      "expected_output": "C11 FAILs: no zebra rows, a grey header fill and vertical rules. Fix: white and #FEF3F7 rows, black semibold header over a 2px Vivid Pink rule. Overall: NEEDS FIX.",
+      "expected_output": "C11 FAILs: no zebra rows, a grey header fill and vertical rules. Fix: white and light grey #F7F7F7 rows, black semibold header over a 2px Vivid Pink rule. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -331,11 +331,11 @@
     },
     {
       "id": 16,
-      "prompt": "Review a read-only report page that a report routine publishes (a weekly dashboard opened from a Slack link, never operated): a row of six <aha-stat-tile look=\"accent\"> number plates in <aha-grid min=\"160px\">, two <aha-chart> charts (a line and a column with a reference line), and an HTML table whose rows alternate white and var(--aha-bg-accent) with 1px dividers and a black semibold header over a 2px Vivid Pink rule. It reflows at 390 px with no horizontal scroll.",
+      "prompt": "Review a read-only report page that a report routine publishes (a weekly dashboard opened from a Slack link, never operated): a row of six <aha-stat-tile look=\"accent\"> number plates in <aha-grid min=\"160px\">, two <aha-chart> charts (a line and a column with a reference line), and an HTML table whose rows alternate white and var(--aha-bg-container-secondary) with 1px dividers and a black semibold header over a 2px Vivid Pink rule. It reflows at 390 px with no horizontal scroll.",
       "files": [],
       "label": "good-control",
       "notes": "Control: a report page takes the same colour as the report image (rule 3.11).",
-      "expected_output": "C11 and C12 PASS: a report page is a report, so zebra rows and pale pink plates are required, any number of plates. C1 PASSes: the page reflows at 390 px. Overall: OK TO SHIP.",
+      "expected_output": "C11 and C12 PASS: a report page is a report, so light grey zebra rows and pale pink plates are required, any number of plates. C1 PASSes: the page reflows at 390 px. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP"
       ],
@@ -358,7 +358,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C11 and C12 on a report page.",
-      "expected_output": "C11 FAILs: a report table needs zebra rows. C12 FAILs: a report plate is Vivid Pink at 5% (look=\"accent\"). Fix: zebra rows and look=\"accent\" on every tile, so the page matches the report image. Overall: NEEDS FIX.",
+      "expected_output": "C11 FAILs: a report table needs white and light grey zebra rows. C12 FAILs: a report plate is Vivid Pink at 5% (look=\"accent\"). Fix: light grey zebra rows and look=\"accent\" on every tile, so the page matches the report image. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -372,6 +372,27 @@
       "source": {
         "authored": "ahaslides-design",
         "why": "colour rule 3.11 extended to read-only report pages (DESY-220)"
+      }
+    },
+    {
+      "id": 18,
+      "prompt": "Review a report table PNG whose rows alternate white and Vivid Pink at 5% (#FEF3F7), with 1px dividers and a black semibold header over a 2px Vivid Pink rule.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C11: pale pink is not a table row colour.",
+      "expected_output": "C11 FAILs: report zebra rows are white and light grey #F7F7F7, never pale pink. Fix: var(--aha-bg-container-secondary) on the even rows. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C11": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "report table zebra rows are light grey, not pale pink (Dave Bui, DESY-220)"
       }
     }
   ]

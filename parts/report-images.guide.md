@@ -23,11 +23,12 @@ falls), the Charts page for the live `<aha-chart>` line and column, the Stat til
 
 ## Colour: rule 3.11
 
-Reports are their own environment in the colour rules, `report-image` (Reports: static images and read-only report pages). Rule 3.11, asked for by Dave Bui, gives them their colour: table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar, as many as the report needs. The same report looks the same as an image and as a page. Rules 3.2 and 3.7, which keep pale pink to section-built web pages, hover and selected states and one highlighted panel, do not apply in a report. Every other colour rule still holds:
+Reports are their own environment in the colour rules, `report-image` (Reports: static images and read-only report pages). Rule 3.11, asked for by Dave Bui, gives them their colour: number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar, as many as the report needs, and table rows alternate white and light grey, the light grey rule 3.6 allows for table surfaces. Pale pink is never used for table rows: too much of it was too much (Dave Bui). The same report looks the same as an image and as a page. Rules 3.2 and 3.7, which keep pale pink to section-built web pages, hover and selected states and one highlighted panel, do not apply in a report. Every other colour rule still holds:
 
 | Choice | Rule |
 | --- | --- |
-| Zebra rows and plate cards in Vivid Pink at 5% | 3.11 |
+| Plate cards in Vivid Pink at 5% | 3.11 |
+| Zebra rows in white and light grey `#F7F7F7`, never pale pink | 3.11, 3.6 |
 | Text on the plate card and on a pink row is black, never pink | 6.5 |
 | A rise is black with an up arrow; a fall is white on a black pill with a down arrow | 7.3, 8.5 |
 | Series colours run Vivid Pink, black, Vivid Pink at 30%, light grey | 8.1 to 8.3 |
@@ -125,7 +126,7 @@ end of a title, and no all-caps labels.
 
 | Part | Spec |
 | --- | --- |
-| Rows | zebra, alternating white and Vivid Pink at 5% (`#FEF3F7` on white), starting white |
+| Rows | zebra, alternating white and light grey (`#F7F7F7`, `--aha-bg-container-secondary`), starting white; never pale pink |
 | Dividers | 1px `--aha-border-default` (`#E3E3E3`) under every row, kept on the pink rows |
 | Header | labels in black semibold 14 px over a **2px Vivid Pink** rule; no fill |
 | Figures | black, tabular numerals, aligned right; formats as in C8 |
@@ -139,7 +140,7 @@ zebra's job while people work in it. Do not add zebra rows to an app screen, and
 them from a report, whether it is posted as an image or opened as a page.
 
 On a report page, the zebra is a plain HTML `<table>` styled with tokens:
-`tbody tr:nth-child(even) td { background: var(--aha-bg-accent) }`, dividers in
+`tbody tr:nth-child(even) td { background: var(--aha-bg-container-secondary) }`, dividers in
 `--aha-border-default`, the header rule `2px solid var(--aha-color-primary)`.
 
 ## Number plates and KPI tiles (C12)
@@ -200,6 +201,6 @@ drawn by hand.
 - End labels on every line, never overlapping; gaps break the line; zero runs carry a note
 - A twin axis is named in the legend; 3 to 6 round divisions; K, M and whole-percent formats
 - Sentence-case titles with no em or en dashes
-- Tables: zebra rows, dividers, black semibold header over a 2px Vivid Pink rule
+- Tables: white and light grey zebra rows (never pink), dividers, black semibold header over a 2px Vivid Pink rule
 - Plates: Vivid Pink at 5% card (`<aha-stat-tile look="accent">` on a page), pink top bar, black text, rise and fall by shape
 - Every status mark is a DS glyph: `<aha-icon>` on a page, a file from `lib/static-icons` in an image

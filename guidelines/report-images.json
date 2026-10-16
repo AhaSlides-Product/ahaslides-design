@@ -10,11 +10,11 @@
   "summary": "How to build a report, as a static image (a PNG for Slack, email or an export) or as a read-only report page a report routine publishes, so both forms look the same: size and density, type, series order and the top 3 plus Other rule, end labels, twin-axis legends, gaps, notes on real zero runs, tick density and number formats, titles, missing glyphs, and the report table and number plate looks.",
   "highlights": [
     "The DS chart rules, plus what a still image cannot do",
-    "Report tables: zebra rows, in an image and on a report page alike",
+    "Report tables: white and light grey zebra rows, in an image and on a report page alike",
     "Number plates and KPI tiles: Vivid Pink at 5% card, black text, pink top bar, as many as the report needs",
     "Status glyphs: lib/static-icons in an image, <aha-icon> on a page, never drawn"
   ],
-  "lead": "A report comes in two forms that look the same. A report image is a chart, table, number plate or KPI tile rendered once to a PNG and posted to Slack, an email or an export. A report page is a read-only page (a dashboard) that a report routine publishes: people open it from a link to read it, and never operate it. Both follow the same rules as the live DS elements (<aha-chart>, <aha-stat-tile>, the colour rules), and colour rule 3.11 gives both their colour: zebra table rows and pale pink number plates. One difference drives the image rules: nobody can hover, zoom or read a tooltip on an image, so every value a reader needs is written on it and every glyph is a file from the DS, because a renderer that cannot run <aha-icon> cannot draw one either. A screen of the product app, including its Report screens, is not a report page: it keeps plain table rows and white tiles.",
+  "lead": "A report comes in two forms that look the same. A report image is a chart, table, number plate or KPI tile rendered once to a PNG and posted to Slack, an email or an export. A report page is a read-only page (a dashboard) that a report routine publishes: people open it from a link to read it, and never operate it. Both follow the same rules as the live DS elements (<aha-chart>, <aha-stat-tile>, the colour rules), and colour rule 3.11 gives both their colour: pale pink number plates, and white and light grey zebra table rows. One difference drives the image rules: nobody can hover, zoom or read a tooltip on an image, so every value a reader needs is written on it and every glyph is a file from the DS, because a renderer that cannot run <aha-icon> cannot draw one either. A screen of the product app, including its Report screens, is not a report page: it keeps plain table rows and white tiles.",
   "skillRef": {
     "build": "DS guideline — guidelines/report-images.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: report-images)",
@@ -59,7 +59,13 @@
     {
       "ref": "--aha-bg-accent",
       "as": "token",
-      "use": "Vivid Pink at 5% (#E70E680D, flat on white #FEF3F7): zebra rows and the number plate card",
+      "use": "Vivid Pink at 5% (#E70E680D, flat on white #FEF3F7): the number plate card only, never a table row",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-bg-container-secondary",
+      "as": "token",
+      "use": "light grey #F7F7F7: the zebra rows of a report table (colour rules 3.6 and 3.11)",
       "status": "available"
     },
     {
@@ -166,7 +172,7 @@
     },
     {
       "id": "static-table",
-      "rule": "A table in a report, image or page, has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7) with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This is colour rule 3.11 and applies to reports only: a table on a screen of the product app keeps plain rows, because people work in it with a hover highlight; a report is read, not worked in.",
+      "rule": "A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary, the light grey rule 3.6 allows for table surfaces), never pale pink, with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This is colour rule 3.11 and applies to reports only: a table on a screen of the product app keeps plain rows, because people work in it with a hover highlight; a report is read, not worked in.",
       "ref": [
         "C11"
       ]
@@ -212,7 +218,7 @@
       "verdict": "N/A — per report"
     },
     {
-      "label": "tables, in an image and on a page: zebra white and #FEF3F7, dividers, black semibold header over a 2px Vivid Pink rule",
+      "label": "tables, in an image and on a page: zebra white and light grey #F7F7F7 (never pink), dividers, black semibold header over a 2px Vivid Pink rule",
       "verdict": "N/A — per report"
     },
     {

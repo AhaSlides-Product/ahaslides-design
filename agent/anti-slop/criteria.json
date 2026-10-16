@@ -300,7 +300,7 @@
         {
           "id": "C2",
           "title": "The look is theme-driven — no per-table styling",
-          "test": "The look comes from the theme (components.Table), not the call site — a per-table bordered, size, rowClassName zebra, inline header/cell style or ad-hoc container styling fails. A report (the report-image environment: a static report image, or a read-only report page a report routine publishes) is judged on the report-images surface (C11) instead, where zebra rows are required (colour rule 3.11)."
+          "test": "The look comes from the theme (components.Table), not the call site — a per-table bordered, size, rowClassName zebra, inline header/cell style or ad-hoc container styling fails. A report (the report-image environment: a static report image, or a read-only report page a report routine publishes) is judged on the report-images surface (C11) instead, where white and light grey zebra rows are required (colour rule 3.11)."
         },
         {
           "id": "C3",
@@ -310,7 +310,7 @@
         {
           "id": "C4",
           "title": "Body has horizontal dividers only — no zebra, no vertical grid lines",
-          "test": "Rows are separated by horizontal dividers only (the border token) — no zebra striping, no vertical cell borders (bordered). A report (the report-image environment: a static report image, or a read-only report page a report routine publishes) is judged on the report-images surface (C11) instead, where zebra rows are required (colour rule 3.11)."
+          "test": "Rows are separated by horizontal dividers only (the border token) — no zebra striping, no vertical cell borders (bordered). A report (the report-image environment: a static report image, or a read-only report page a report routine publishes) is judged on the report-images surface (C11) instead, where white and light grey zebra rows are required (colour rule 3.11)."
         },
         {
           "id": "C5",
@@ -436,15 +436,16 @@
             "9.3",
             "3.11"
           ],
-          "test": "The page background and every neutral container (card body, panel, modal and drawer body, table and list row, tab panel) is white or unset (--aha-bg-container), unless it is one of the non-white surfaces judged in C2 to C4: light grey inside or beside the page, Vivid Pink at 5% as a state fill or the one highlighted panel, or black for presenting and viewers. Any other colour on a surface we draw fails here: a brand, pastel or purple fill, a panel painted Vivid Pink, a tint added for emphasis. Misplaced grey, pale pink or black is judged under C2, C3 or C4 and is not flagged again here. In a report (a static report image, or a read-only report page a report routine publishes; environment report-image), zebra table rows and number plates in Vivid Pink at 5% pass under rule 3.11. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not."
+          "test": "The page background and every neutral container (card body, panel, modal and drawer body, table and list row, tab panel) is white or unset (--aha-bg-container), unless it is one of the non-white surfaces judged in C2 to C4: light grey inside or beside the page, Vivid Pink at 5% as a state fill or the one highlighted panel, or black for presenting and viewers. Any other colour on a surface we draw fails here: a brand, pastel or purple fill, a panel painted Vivid Pink, a tint added for emphasis. Misplaced grey, pale pink or black is judged under C2, C3 or C4 and is not flagged again here. In a report (a static report image, or a read-only report page a report routine publishes; environment report-image), number plates in Vivid Pink at 5% and white and light grey zebra table rows pass under rule 3.11; pale pink table rows fail. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not."
         },
         {
           "id": "C2",
           "title": "Light grey sits only inside or beside the white page",
           "source": [
-            "3.6"
+            "3.6",
+            "3.11"
           ],
-          "test": "Light grey (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-container-disabled) is used only on a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the editor workspace around the slide, or a hovered or disabled control. Grey as the background of a whole page, of the layout body behind the content, or of a full-width section fails."
+          "test": "Light grey (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-container-disabled) is used only on a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the zebra rows of a report table (rule 3.11), the editor workspace around the slide, or a hovered or disabled control. Grey as the background of a whole page, of the layout body behind the content, or of a full-width section fails."
         },
         {
           "id": "C3",
@@ -454,7 +455,7 @@
             "3.7",
             "3.11"
           ],
-          "test": "Vivid Pink at 5% (--aha-bg-accent) fills a hover or selected state, and at most one highlighted panel on a screen. A second pale pink panel on the same screen, or pale pink as the background of a page or of a full-width section on a screen of the product app, fails. A web page built from full-width sections, wherever it lives (a help article, a sign-up or upgrade page), may use pale pink sections under rules 3.2 to 3.5: they never sit next to each other, and a full white section sits between them. The fill a DS component ships with (a tag, a badge, a selected card) comes from its contract and is not counted as a panel. A report (a static report image, or a read-only report page a report routine publishes; environment report-image) is not a screen of the product app: its zebra table rows and its number plates (<aha-stat-tile look=\"accent\">, any number of them) in Vivid Pink at 5% pass under rule 3.11, where 3.2 and 3.7 do not apply. A Report screen inside the product app is still judged as a product screen."
+          "test": "Vivid Pink at 5% (--aha-bg-accent) fills a hover or selected state, and at most one highlighted panel on a screen. A second pale pink panel on the same screen, or pale pink as the background of a page or of a full-width section on a screen of the product app, fails. A web page built from full-width sections, wherever it lives (a help article, a sign-up or upgrade page), may use pale pink sections under rules 3.2 to 3.5: they never sit next to each other, and a full white section sits between them. The fill a DS component ships with (a tag, a badge, a selected card) comes from its contract and is not counted as a panel. A report (a static report image, or a read-only report page a report routine publishes; environment report-image) is not a screen of the product app: its number plates (<aha-stat-tile look=\"accent\">, any number of them) in Vivid Pink at 5% pass under rule 3.11, where 3.2 and 3.7 do not apply; its table rows are white and light grey, and pale pink table rows fail. A Report screen inside the product app is still judged as a product screen."
         },
         {
           "id": "C4",
@@ -1356,7 +1357,7 @@
         },
         {
           "source": "brand/colour-rules.json",
-          "use": "rule 3.11 (zebra rows and pale pink plates in reports, image and page alike), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
+          "use": "rule 3.11 (light grey zebra rows and pale pink plates in reports, image and page alike), 3.6 (light grey for table surfaces), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
         }
       ],
       "criteria": [
@@ -1413,7 +1414,7 @@
         {
           "id": "C11",
           "title": "Report tables: zebra rows, dividers, pink header rule",
-          "test": "**Rule.** A table in a report, image or page, has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7), 1px #E3E3E3 dividers under every row, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, grey or pink-filled headers, pink text, vertical rules or coloured status cells fail. Tables on screens of the product app, its Report screens included, are judged on the table surface instead and keep plain rows. (Colour rule 3.11.)"
+          "test": "**Rule.** A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary), 1px #E3E3E3 dividers under every row, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, pale pink (Vivid Pink at 5%) rows, grey or pink-filled headers, pink text, vertical rules or coloured status cells fail. Tables on screens of the product app, its Report screens included, are judged on the table surface instead and keep plain rows. (Colour rules 3.11 and 3.6.)"
         },
         {
           "id": "C12",
