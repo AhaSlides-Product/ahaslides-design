@@ -482,7 +482,7 @@
           "source": [
             "3.10"
           ],
-          "test": "No linear-, radial- or conic-gradient is used as a background or fill. The one exception is an AI feature, where the gradient sits on the border (border-box) and the padding-box fill stays white."
+          "test": "No linear-, radial- or conic-gradient is used as a background or fill. The one exception is an AI feature, where the gradient sits on the border (border-box) and the padding-box fill stays white. The animated Skeleton shimmer between only --aha-bg-hover, --aha-bg-container-secondary and --aha-split is not a gradient fill."
         },
         {
           "id": "C7",

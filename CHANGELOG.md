@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.220.1 — 2026-10-16
+### Fixed
+- **`screen-lint` and the judge no longer flag the Skeleton loading shimmer as a gradient fill.** A `linear-gradient` whose stops are only the neutral skeleton greys (`--aha-bg-hover`, `--aha-bg-container-secondary`, `--aha-split`, or their `#F7F7F7` / `#F1F1F1` values), in a rule that sets an `animation` swept by a `background-position` keyframe, is the DS Skeleton's sanctioned loading animation, so `lib/aha-card.js` and `lib/aha-statistic.js` pass unchanged and consumers vendoring them can drop their `ds-lint-allow` lines. Any static grey gradient, and any gradient with a coloured stop, still fails. No component's look changes; rule 3.10, the Background guideline and the judge criterion state the exception (#281)
+
 ## 0.220.0 — 2026-10-16
 ### Changed
 - **Colour rules v15: rule 3.11 covers reports, not only images**, asked for by Dave Bui. A read-only report page that a report routine publishes (a dashboard opened from a link, never operated) looks the same as the static image of the same report: Vivid Pink at 5% number plates (`<aha-stat-tile look="accent">`, as many as the report needs) and table rows that alternate white and light grey `#F7F7F7` (`--aha-bg-container-secondary`, the light grey rule 3.6 allows for table surfaces). Report zebra rows were Vivid Pink at 5% in 0.215.0 and are light grey now: too much pale pink, Dave said. The `report-image` environment keeps its name and is now labelled "Reports: static images and read-only report pages"; the Report images guideline becomes "Report images and pages" (same URL), and the judge passes a report page with accent tiles and light grey zebra rows on the `background`, `table` and `report-images` surfaces and fails pale pink table rows (6 new eval cases). Screens of the product app, its Report screens included, are unchanged (rules 3.2 and 3.7) (#279)
