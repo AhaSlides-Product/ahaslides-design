@@ -1032,7 +1032,7 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    inner = marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT) + marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT);
+    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -1666,13 +1666,14 @@ const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-butto
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
-.mbp-viewport{overflow:hidden;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-white)}
+.mbp-viewport{height:min(640px,70vh);display:flex;overflow:auto;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-bg-container-secondary)}
+.mbp-sizer{margin:auto;flex:none;overflow:hidden;background:var(--aha-white)}
 .mbp-frame{display:block;border:0;background:var(--aha-white);transform-origin:0 0}`;
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
-    <div class="mbp-viewport"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div>
+    <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
   </div>
   <script type="module">
@@ -1682,19 +1683,21 @@ function marketingBreakpointPreview(b) {
     if(!root)return;
     var KEY='aha-marketing-preview-width';
     var seg=root.querySelector('aha-segmented');
-    var frame=root.querySelector('.mbp-frame'),view=root.querySelector('.mbp-viewport'),label=root.querySelector('.mbp-label');
+    var frame=root.querySelector('.mbp-frame'),view=root.querySelector('.mbp-viewport'),sizer=root.querySelector('.mbp-sizer'),label=root.querySelector('.mbp-label');
     var widths=${JSON.stringify(MARKETING_WIDTHS.map(([, width]) => width))};
     var width=+root.dataset.default;
     try{var saved=+localStorage.getItem(KEY);if(widths.indexOf(saved)>-1)width=saved;}catch(e){}
     seg.setAttribute('value',String(width));
     var contentHeight=0;
-    function layout(){
-      var scale=Math.min(1,(root.clientWidth-2)/width);
+    function layout(retried){
+      var available=view.clientWidth;
+      var scale=Math.min(1,available/width);
       frame.style.width=width+'px';
       frame.style.height=contentHeight+'px';
       frame.style.transform=scale<1?'scale('+scale+')':'none';
-      view.style.height=Math.ceil(contentHeight*scale)+2+'px';
-      view.style.width=Math.ceil(width*scale)+2+'px';
+      sizer.style.height=Math.ceil(contentHeight*scale)+'px';
+      sizer.style.width=Math.floor(width*scale)+'px';
+      if(!retried&&view.clientWidth!==available)return layout(true);
       label.textContent=width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
     }
     function onFrameHeight(e){
@@ -1720,15 +1723,15 @@ function marketingBreakpointPreview(b) {
       try{localStorage.setItem(KEY,String(width));}catch(err){}
       layout();
     });
-    new ResizeObserver(layout).observe(root);
+    new ResizeObserver(function(){layout()}).observe(root);
     load();
   })();
   </script>`;
 }
 
-function marketingCodeToggle(file, code) {
+function marketingCodeToggle(file, code, lead = '') {
   return `<div class="code-tabs" data-open="false">
-    <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
+    <div class="demo-toolbar">${lead ? `<p class="body code-lead">${lead}</p>` : ''}<aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
       <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="snippet">${esc(file)}</button></div><button class="copy" type="button">Copy</button></div>
       <pre class="code snippet active">${esc(code)}</pre>
@@ -1747,23 +1750,20 @@ function renderMarketingHtml(b) {
   ${b.snippets ? `<h2>Card types</h2>
   <p class="body">Each type is a self-contained snippet: its styles plus one card. Paste it into any page, or use the grid above for the whole set.</p>
   ${b.snippets.map(card => `<h3>${esc(card.name)}</h3>
-  <p class="body">${esc(card.summary)}</p>
-  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ')}
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card), esc(card.summary))}`).join('\n  ')}
 
   <h2>The whole grid</h2>
-  <p class="body">All eight types in the 3, 2 and 1 column grid.</p>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}` : `<h2>Paste-and-run HTML</h2>
-  <p class="body">Copy the whole block into any page (Webflow, WordPress, a static site). It reads only the shared <code>--aha-*</code> tokens.</p>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b))}`}
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'All eight types in the 3, 2 and 1 column grid.')}` : `<h2>Paste-and-run HTML</h2>
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
 
   <h2>Load the tokens once</h2>
-  <p class="body">Add this to the page <code>&lt;head&gt;</code> before the block.</p>
-  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`)}${details.length ? `
+  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
 
   <h2>Details</h2>
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}${MARKETING_BREAKPOINT_CSS}` });
+  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
@@ -2772,10 +2772,16 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
+function expandMarketingData(b) {
+  if (!b.dataFile) return b;
+  const data = JSON.parse(read(join(MDIR, b.dataFile)));
+  const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
+  return { ...b, html: b.html.replaceAll('{{items}}', items) };
+}
 /* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -2790,13 +2796,14 @@ const ANTISLOP = existsSync(join(root, 'anti-slop', 'criteria.json'))
   : null;
 /* top-nav landing per area — each tab opens that area's first real page */
 const firstComponent = contracts.find(c => !PATTERN_SLUGS.has(c.slug) && !SETTINGS_SLUGS.has(c.slug) && !c.docPage && !c.mergedInto);
+const firstMarketingItem = MARKETING.find(isMarketingComponent) || MARKETING[0];
 const firstPattern = PATTERNS_CATALOG.flatMap(g => g.items).find(it => LIVE.has(it.slug));
 NAV_LANDING = {
   overview: 'index.html',
   foundations: `foundations/${TOKEN_PAGES[0].slug}.html`,
   components: (firstComponent ? `${firstComponent.slug}/index.html` : 'index.html'),
   patterns: (firstPattern ? `${firstPattern.slug}/index.html` : 'index.html'),
-  marketing: (MARKETING.find(b => !isMarketingComponent(b)) ? `marketing/${MARKETING.find(b => !isMarketingComponent(b)).slug}/index.html` : 'index.html'),
+  marketing: (firstMarketingItem ? `marketing/${firstMarketingItem.slug}/index.html` : 'index.html'),
   settings: 'settings/index.html',
   guidelines: (GUIDELINES[0] ? `guidelines/${GUIDELINES[0].slug}/index.html` : 'index.html'),
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),

@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-number-with-unit> directly.
 // e.detail.value is the clamped number; the unit is written inline IN FULL — rendered exactly as passed ("seconds").
-function AhaNumberWithUnit({ value, unit, min, max, step, maxDigits, size, errorMessage, disabled, onChange }) {
+function AhaNumberWithUnit({ value, unit, min, max, step, maxDigits, errorMessage, disabled, onChange }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -21,7 +21,6 @@ function AhaNumberWithUnit({ value, unit, min, max, step, maxDigits, size, error
       {...(max != null ? { max: String(max) } : {})}
       {...(step != null ? { step: String(step) } : {})}
       {...(maxDigits ? { maxdigits: String(maxDigits) } : {})}
-      {...(size ? { size } : {})}
       {...(errorMessage ? { errormessage: errorMessage } : {})}
     />
   );
