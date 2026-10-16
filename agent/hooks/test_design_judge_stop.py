@@ -99,6 +99,29 @@ class FrontendGate(unittest.TestCase):
             self.assertFalse(dj.is_frontend_repo(root))
 
 
+class Usability(unittest.TestCase):
+    def test_flow_files_match_screen_like_names_only(self):
+        self.assertEqual(dj.flow_files(["src/Button.tsx", "src/pages/Home.tsx", "src/SignupForm.vue",
+                                        "src/Badge.tsx"]),
+                         ["src/pages/Home.tsx", "src/SignupForm.vue"])
+
+    def test_with_usability_fills_in_from_the_plugin_copy(self):
+        merged = dj.with_usability(CRITERIA)
+        self.assertEqual(len(merged["surfaces"]["usability"]), 10)
+        self.assertNotIn("usability", CRITERIA["surfaces"])
+
+    def test_with_usability_keeps_the_package_surface_when_present(self):
+        own = {"source": "x", "surfaces": {"usability": [{"id": "U1", "title": "t", "test": ""}]}}
+        self.assertIs(dj.with_usability(own), own)
+
+    def test_with_usability_passes_none_through(self):
+        self.assertIsNone(dj.with_usability(None))
+
+    def test_render_block_without_criteria_still_asks_for_usability(self):
+        out = json.loads(dj.render_block(["src/Card.tsx"], ["usability"], None, True))
+        self.assertIn("Usability review", out["reason"])
+
+
 class SeenCache(unittest.TestCase):
     def test_round_trip_and_stability(self):
         with tempfile.TemporaryDirectory() as root:
@@ -181,6 +204,33 @@ class MainEndToEnd(unittest.TestCase):
             self.assertIn("src/Card.tsx", out["reason"])
             self.assertIn("background: C1 White by default", out["reason"])
             self.assertIn("source: file", out["reason"])
+
+    def _card_run(self, name, env=None):
+        with tempfile.TemporaryDirectory() as root:
+            self._git_repo(root)
+            os.makedirs(os.path.join(root, "src"))
+            open(os.path.join(root, "src", name), "w").close()
+            p = self._run(dj.HOOK_DIR, {"cwd": root, "session_id": "s1"}, env=env)
+            self.assertEqual(p.returncode, 0)
+            return json.loads(p.stdout)["reason"]
+
+    def test_usability_review_is_added_at_tier_1(self):
+        reason = self._card_run("Card.tsx")
+        self.assertIn("usability: U1 ", reason)
+        self.assertIn("U10 ", reason)
+        self.assertIn("Usability review", reason)
+        self.assertNotIn("tier 2", reason)
+
+    def test_new_screen_file_adds_the_tier_2_line(self):
+        reason = self._card_run("ExportDialog.tsx")
+        self.assertIn("Usability tier 2", reason)
+        self.assertIn("U1, U3, U5 and U9", reason)
+        self.assertIn("src/ExportDialog.tsx", reason)
+
+    def test_usability_opt_out_keeps_the_ds_judge(self):
+        reason = self._card_run("ExportDialog.tsx", env={"AHA_DESIGN_USABILITY_DISABLE": "1"})
+        self.assertIn("background: C1 White by default", reason)
+        self.assertNotIn("usability", reason.lower().replace("aha_design_usability_disable", ""))
 
     def _slide_repo(self, root):
         subprocess.run(["git", "-C", root, "init", "-q"], check=True)

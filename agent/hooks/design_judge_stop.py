@@ -160,6 +160,41 @@ def surfaces_for(files, criteria=None):
     return sorted(surfaces)
 
 
+USABILITY_SURFACE = "usability"
+USABILITY_DISABLE_ENV = "AHA_DESIGN_USABILITY_DISABLE"
+FLOW_FILE_NAME = re.compile(r"page|screen|view|modal|dialog|drawer|form|wizard|step|flow")
+FLOW_RENDER_LINE = (
+    "Usability tier 2 - a file below looks like a new or reshaped screen, dialog, form or flow: "
+    "judge U1, U3, U5 and U9 from a rendered screenshot (fleet-browser, or the Storybook / DS preview "
+    "when the app cannot boot), covering the loading, error, cancel and empty states."
+)
+
+
+def usability_enabled():
+    return os.environ.get(USABILITY_DISABLE_ENV) != "1"
+
+
+def with_usability(criteria):
+    """The criteria with the usability surface guaranteed present: an installed
+    package older than the surface falls back to the plugin's own copy."""
+    try:
+        if not criteria or USABILITY_SURFACE in criteria["surfaces"]:
+            return criteria
+        bundled = ds_criteria._from_plugin()
+        if bundled and USABILITY_SURFACE in bundled["surfaces"]:
+            merged = dict(criteria)
+            merged["surfaces"] = dict(criteria["surfaces"])
+            merged["surfaces"][USABILITY_SURFACE] = bundled["surfaces"][USABILITY_SURFACE]
+            return merged
+    except Exception:
+        pass
+    return criteria
+
+
+def flow_files(files):
+    return [f for f in files if FLOW_FILE_NAME.search(f.lower())]
+
+
 def seen_key(files):
     joined = "\n".join(sorted(files))
     return hashlib.sha1(joined.encode("utf-8")).hexdigest()[:16]
@@ -197,7 +232,7 @@ def save_seen(path, session_id, keys):
         pass
 
 
-def render_block(files, surfaces, criteria):
+def render_block(files, surfaces, criteria, usability=False):
     lines = [
         "aha-design judge trigger — you changed frontend UI files this turn but "
         "did not judge them against the AhaSlides design system. Before finishing, "
@@ -218,11 +253,23 @@ def render_block(files, surfaces, criteria):
         lines.append("Surfaces: {}. The DS criteria could not be read here — fetch {} "
                      "and judge against it; do not judge from memory.".format(
                          ", ".join(surfaces), ds_criteria.ANTI_SLOP_MD_URL))
+    if usability:
+        lines += [
+            "",
+            "Usability review (Nielsen Norman Group heuristics, surface `usability`, tier 1): judge U1-U10 "
+            "from the diff in the same pass, PASS / FAIL / N/A with one line of evidence each (N/A is "
+            "expected on a small edit); fix every FAIL; a FAIL that needs a product decision becomes a "
+            "question to the human. Put the 10-row table in the PR body and one line in the reply.",
+        ]
+        flows = flow_files(files)
+        if flows:
+            lines.append(FLOW_RENDER_LINE + " Files: " + ", ".join(flows) + ".")
     lines += [
         "",
         "Add further surfaces where the change touches them (a settings panel -> settings, "
         "an overlay -> overlays, UI copy -> ux-writing). "
-        "Set AHA_DESIGN_JUDGE_DISABLE=1 to skip this trigger.",
+        "Set AHA_DESIGN_JUDGE_DISABLE=1 to skip this trigger"
+        + (", AHA_DESIGN_USABILITY_DISABLE=1 to skip only the usability review." if usability else "."),
     ]
     return json.dumps({"decision": "block", "reason": "\n".join(lines)})
 
@@ -258,11 +305,16 @@ def main():
     seen.add(key)
     save_seen(seen_path, session_id, seen)
     criteria = ds_criteria.load(cwd)
+    usability = usability_enabled()
+    if usability:
+        criteria = with_usability(criteria)
     slide_files = [f for f in files if f in slide_files]
     app_files = [f for f in files if f not in slide_files]
     surfaces = sorted(set(surfaces_for(app_files, criteria) if app_files else [])
                       | {slide_type.surface_for(f) for f in slide_files})
-    print(render_block(files, surfaces, criteria))
+    if usability:
+        surfaces = sorted(set(surfaces) | {USABILITY_SURFACE})
+    print(render_block(files, surfaces, criteria, usability))
     source = criteria["source"] if criteria else "none"
     _log("block", "{}_files;criteria={}".format(len(files), source), session_id)
     return 0
