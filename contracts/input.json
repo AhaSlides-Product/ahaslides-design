@@ -12,8 +12,8 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-tertiary", "text-disabled", "radius-default", "radius-sm", "focus-ring-soft", "border-error", "color-error", "border-warning", "color-warning", "border-disabled"],
   "spec": [
-    { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12" },
-    { "label": "Sizes", "value": "small 24 · default 40 · large 48 — all radius 8" },
+    { "label": "Box", "value": "height 40 (default) · radius 8 · padding 0 12 · 240 wide, full width in a stacked setting row" },
+    { "label": "Sizes", "value": "small 24 · default 40 · large 48 — all radius 8; a settings panel uses default only: small and large are for other product surfaces (large also the audience field), and screen-lint --surface=settings rejects both" },
     { "label": "Rest border", "value": "1px #E3E3E3" },
     { "label": "Hover border", "value": "#E70E68 (color-primary)" },
     { "label": "Focus", "value": "#E70E68 border + 2px #E70E68@30% ring (on the persistent wrapper)" },
@@ -30,7 +30,7 @@
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Hint shown when empty" },
     { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name, forwarded to the inner field (a placeholder is not a label); <aha-audience-field> sets it from its label" },
     { "name": "type", "type": "text | number | email | password | search", "default": "text", "desc": "Native input type; password adds a reveal (eye) toggle" },
-    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 40 · large 48 with 16px text on a 24px line (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases)" },
+    { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 40 · large 48 with 16px text on a 24px line (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases). Never small or large in a settings panel (default only)" },
     { "name": "status", "type": "default | error | warning", "default": "default", "desc": "Border + ring recolour; error also sets aria-invalid (legacy `invalid` boolean = status error)" },
     { "name": "error-message", "type": "string", "default": "—", "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the control through aria-describedby (aria-invalid is set by status=\"error\")" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
@@ -61,11 +61,6 @@
   "preview": "input.preview.html",
   "playground": {
     "controls": [
-      { "prop": "size", "label": "Size", "default": "default", "options": [
-        { "label": "Small", "value": "small" },
-        { "label": "Default", "value": "default" },
-        { "label": "Large", "value": "large" }
-      ] },
       { "prop": "status", "label": "Status", "default": "error", "options": [
         { "label": "Default", "value": null },
         { "label": "Error", "value": "error" },

@@ -22,9 +22,45 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.208.0 — 2026-10-15
+## 0.216.0 — 2026-10-16
 ### Added
 - Icon library page: sizes are named XS 12px, S 16px, M 24px and L 32px (the DS had no icon size names), the Stroke by size demo shows one glyph per size across the full content width, and a size switcher beside the family chips redraws every tile at the chosen size so the stroke rule can be previewed on all icons. The icon contract and preview name the sizes the same way. (#222)
+
+## 0.213.2 — 2026-10-15
+### Changed
+- Marketing section previews sit in a fixed-height container (640px, or 70% of the screen height when that is smaller): a tall section scrolls inside it and a short one is centred, so switching width or opening a menu no longer moves the rest of the page. (#275)
+
+## 0.213.1 — 2026-10-15
+### Changed
+- Marketing pages: each Paste-and-run HTML, Load the tokens once and card-type block shows its one-line description and Show code on the same row; the button drops below the text on narrow screens. (#274)
+
+## 0.213.0 — 2026-10-15
+### Added
+- Marketing section `Logos` (Patterns → Marketing sections, Webflow CMS collection list `div-block-250`), matched to the live ahaslides.com survey creator page at 1440px, 991px, 767px and 390px: a row of greyscale customer logos that slides left over 20s, linear and repeating, like the Webflow Infinite logo interaction, and stops under reduced motion. The loop shifts by one set plus the gap, so it restarts with no 40px jump (the live strip jumps), and the logos load eagerly so none is blank when it slides in. Below 768px the set grows to its content, so the logos no longer overlap the second copy (they do on live). The logos are not typed into the markup: the section renders them from `marketing/data/logos-cms.json`, the published CMS list with its source URL and fetch date. `generate.mjs` gains one optional step for marketing sections: a `dataFile` plus an `itemHtml` template expand `{{items}}` in the section HTML; sections without them are unchanged. (#267)
+### Changed
+- Logos strip: the logos are about 25% larger than live at every width (80px to 100px wide at most, 110px to 138px at 1920px, 40px to 50px tall at 991px and below, 60px to 75px tall at 479px and below); the loop shift is unchanged. Growth to align the live site. (#267)
+
+## 0.211.1 — 2026-10-15
+### Changed
+- The Marketing sidebar lists Components above Sections, and the Marketing tab opens on the first component. (#273)
+
+## 0.211.0 — 2026-10-15
+### Changed
+- Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#271)
+- Settings fields have one size, the 40px default: no small and no large. `<aha-number-with-unit>` (settings only) drops its `size` attribute: `size="large"` now renders the 40px default. `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` keep `small` and `large`/`lg` for the audience field and other surfaces, but the Input, Counted input and Select field pages no longer show a small or large example (their size playground control is gone) and say a settings panel uses the default only. The AntD Select page is unchanged. (#271)
+### Added
+- `screen-lint --surface=settings` hard-fails `size="small"`/`"sm"`/`"large"`/`"lg"` on a settings field (rule `field-size`, markup, factory, schema and `setAttribute` forms) and `maxlength` on `<aha-input>` (rule `input-maxlength`; use `<aha-counted-input>`, counter inside the field on focus). The plugin blocks both at write time in a slide type's `settings.*`. (#271)
+- Settings rule `field-size-and-width` and judge criterion C19: default size only, full width when stacked, counter inside the field shown on focus; the skill notes that an AntD or slide-type-creator `size="large"` field maps to the DS default, as does a `size="small"` one. (#271)
+### Fixed
+- The settings guideline described the CountedInput counter as a sibling beside the field; it is an overlay inside the field. `<aha-select>` (select field) now declares its environment. (#271)
+
+## 0.209.0 — 2026-10-15
+### Changed
+- Right splash (Brand colour rules 5.4, 5.7 and the layouts table): the icon is now 4.5 times the shorter side and grows in frames wider or taller than 16:9 like the centre splash (1.41 times at 32:9, 1.15 times at 21:9). The meeting point moves to 75% across and 55% down. New `wideFrameAspectThreshold` and `wideFrameFollow` fields on `splash.layouts.right`. The six right files in the Background library are rebuilt. Rule 5.7 no longer says the right splash matches the PDF. Centre and minimal are unchanged. (#270)
+
+## 0.206.0 — 2026-10-15
+### Fixed
+- Marketing section pages: an opened Show code block is capped at 70% of the screen height again and scrolls inside, as the code blocks did before 0.200.2. (#266)
 
 ## 0.204.0 — 2026-10-15
 ### Added

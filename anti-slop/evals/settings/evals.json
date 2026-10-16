@@ -1738,6 +1738,77 @@
         "authored": "ahaslides-design",
         "why": "AHAM-1833: no case made C17 fire"
       }
+    },
+    {
+      "id": 75,
+      "prompt": "Review the settings panel of a Missing Letters slide type (settings.html, built from lib/settings.js):\n\n```html\n<aha-setting-row label=\"Word or phrase\" help=\"The word the audience guesses.\" layout=\"stack\">\n  <div slot=\"control\" class=\"word\">\n    <aha-input size=\"large\" maxlength=\"60\" placeholder=\"e.g. Banana\"></aha-input>\n    <span class=\"count\">60</span>\n  </div>\n</aha-setting-row>\n<aha-setting-row label=\"Number of tries\" help=\"Wrong guesses allowed.\">\n  <aha-number-with-unit slot=\"control\" size=\"large\" value=\"3\" unit=\"tries\"></aha-number-with-unit>\n</aha-setting-row>\n\n<style>.word{ display:flex; align-items:center; gap:24px }</style>\n```\nOn screen the word field is 48px tall and 240px wide with \"60\" floating to its right, always visible; the tries field is 48px tall.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "BAD control for C19, all three facets: large fields, a stacked field not filling the width, a counter beside the field.",
+      "expected_output": "FAILs C19. Settings fields are the default 40px size, so size=\"large\" on the word and tries fields is wrong (large is the audience phone field's size; an AntD \"large\" maps to the DS default). The stacked word field stops at 240px instead of filling the panel width, and its counter is a hand-made sibling beside the field, always visible; a capped field is <aha-counted-input maxlength=\"60\"> with the counter inside, shown on focus. Fix: drop both size attributes, replace the wrapper, aha-input and span with <aha-counted-input slot=\"control\" maxlength=\"60\">. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C19 is marked FAIL",
+        "Names the large field size",
+        "Names the counter outside the field or maxlength on aha-input",
+        "Names the stacked field not filling the width"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-215: Missing Letters shipped large settings fields and an outside counter"
+      }
+    },
+    {
+      "id": 76,
+      "prompt": "Review the settings panel of a Missing Letters slide type (settings.html, built from lib/settings.js):\n\n```html\n<aha-setting-row label=\"Word or phrase\" help=\"The word the audience guesses.\" layout=\"stack\">\n  <aha-counted-input slot=\"control\" maxlength=\"60\" placeholder=\"e.g. Banana\"></aha-counted-input>\n</aha-setting-row>\n<aha-setting-row label=\"Number of tries\" help=\"Wrong guesses allowed.\">\n  <aha-number-with-unit slot=\"control\" value=\"3\" unit=\"tries\"></aha-number-with-unit>\n</aha-setting-row>\n```\nOn screen both fields are 40px tall, the word field fills the panel width, and its counter shows inside the field only while it is focused.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Positive control for C19: default size, stacked field full width, counter inside on focus.",
+      "expected_output": "PASSES C19. Both fields are the default 40px size, the stacked word field fills the panel width, and the counter sits inside the field and shows only on focus. Overall OK TO SHIP.",
+      "assertions": [
+        "C19 is marked PASS",
+        "Does not ask for a large field"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C19": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-215: positive control for C19"
+      }
+    },
+    {
+      "id": 77,
+      "prompt": "Review the settings panel of a Quiz slide type (settings.html, built from lib/settings.js):\n\n```html\n<aha-setting-row label=\"Question limit\" help=\"Longest question.\">\n  <aha-counted-input slot=\"control\" size=\"small\" maxlength=\"120\"></aha-counted-input>\n</aha-setting-row>\n<aha-setting-row label=\"Time limit\" help=\"Seconds per question.\">\n  <aha-number-with-unit slot=\"control\" size=\"sm\" value=\"20\" unit=\"seconds\"></aha-number-with-unit>\n</aha-setting-row>\n```\nOn screen both fields are shorter than the other fields in the panel (32px and 24px) to save room.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "BAD control for C19, size facet: a small settings field. The default size is the only size a settings panel uses.",
+      "expected_output": "FAILs C19. Settings fields are the default 40px size only: size=\"small\" and size=\"sm\" make a dense field that does not match the rest of the panel, and an AntD or slide-type-creator small field maps to the DS default when ported. Fix: drop both size attributes. Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C19 is marked FAIL",
+        "Names the small field size",
+        "Asks for the default size, not another size"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-215: a settings panel never takes a small field"
+      }
     }
   ]
 }

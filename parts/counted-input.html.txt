@@ -10,8 +10,7 @@
 <!-- maxlength turns the focus-only counter on (shows the characters left) -->
 <aha-counted-input id="opt" maxlength="80" value="Paris" placeholder="Option text"></aha-counted-input>
 
-<!-- size: small | default | large   ·   status: error   ·   disabled / readonly -->
-<aha-counted-input size="large" maxlength="40" placeholder="Large"></aha-counted-input>
+<!-- size: default only in a settings panel (large is the audience field's size)   ·   status: error   ·   disabled / readonly -->
 <aha-counted-input status="error" maxlength="80" value="Too long" placeholder="Answer"></aha-counted-input>
 
 <script>
