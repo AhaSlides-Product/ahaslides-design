@@ -51,3 +51,12 @@ test('a relative change of 0.5% to 0.99% reads <1%', () => {
   assert.equal(change({ value: '1007', previous: '1000' }).text, '7 (<1%)');
   assert.equal(change({ value: '1010', previous: '1000' }).text, '10 (1%)');
 });
+test('an exact 1 point change survives floating point error', () => {
+  assert.equal(points(0.29, 0.28).text, '1 pt');
+  assert.equal(points(0.28, 0.29).text, '1 pt');
+});
+test('an exact 1% relative change survives floating point error', () => {
+  assert.equal(change({ value: '1.01', previous: '1' }).text, '0.01 (1%)');
+  assert.equal(change({ value: '0.29', previous: '0.28' }).text, '0.01 (4%)');
+  assert.equal(change({ value: '2.02', previous: '2' }).text, '0.02 (1%)');
+});
