@@ -40,3 +40,14 @@ test('a small relative change reads <1%, never a decimal', () => {
   assert.equal(change({ value: '1004', previous: '1000' }).text, '4 (<1%)');
   assert.equal(change({ value: '1460', previous: '1290' }).text, '170 (13%)');
 });
+test('0.5 and 0.99 points read <1 pt, not 1 pt', () => {
+  assert.equal(points(0.455, 0.45).text, '<1 pt');
+  assert.equal(points(0.4599, 0.45).text, '<1 pt');
+});
+test('a fall of 0.7 points reads <1 pt with a fall direction', () => {
+  assert.deepEqual(points(0.443, 0.45), { direction: 'fall', text: '<1 pt' });
+});
+test('a relative change of 0.5% to 0.99% reads <1%', () => {
+  assert.equal(change({ value: '1007', previous: '1000' }).text, '7 (<1%)');
+  assert.equal(change({ value: '1010', previous: '1000' }).text, '10 (1%)');
+});

@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.220.3 — 2026-10-16
 ### Fixed
-- **`<aha-stat-tile>` shows whole numbers in its change.** A percentage-point change was one decimal ("0.3 pts"); it now rounds to whole points ("3 pts", singular "1 pt", "<1 pt" for a non-zero change under one point, arrow direction kept), and a relative change under 0.5% reads "<1%" instead of a decimal, as the Report images guideline (C8) requires. An unchanged value still reads "No change", never "0" or "-0". A new "Whole percentage points" demo on the stat tile page and `tests/stat-tile-whole-points.test.mjs` cover it. (#283)
+- **`<aha-stat-tile>` shows whole numbers in its change.** A percentage-point change was one decimal ("0.3 pts"); it now rounds to whole points ("3 pts", singular "1 pt", "<1 pt" for a non-zero change under one point, arrow direction kept), and a relative change under 1% reads "<1%" instead of a decimal, as the Report images guideline (C8) requires. An unchanged value still reads "No change", never "0" or "-0". A new "Whole percentage points" demo on the stat tile page and `tests/stat-tile-whole-points.test.mjs` cover it. (#283)
 
 ## 0.220.2 — 2026-10-16
 ### Fixed

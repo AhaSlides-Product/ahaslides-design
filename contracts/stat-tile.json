@@ -50,7 +50,7 @@
     },
     {
       "label": "Change",
-      "value": "14/1.5 SemiBold, absolute + percent of the previous value, e.g. 1,460 (13%), whole percent, <1% for a change under 0.5%; a percent value shows whole percentage points (3 pts, 1 pt, <1 pt for a non-zero change under one point), never a decimal or -0 (report images guideline C8). Rise: black with system-arrow-up 16. Fall: white on a #1A1A1A pill with system-arrow-down 16. No change: the flat label, no arrow"
+      "value": "14/1.5 SemiBold, absolute + percent of the previous value, e.g. 1,460 (13%), whole percent, <1% for a change under 1%; a percent value shows whole percentage points (3 pts, 1 pt, <1 pt for a non-zero change under one point), never a decimal or -0 (report images guideline C8). Rise: black with system-arrow-up 16. Fall: white on a #1A1A1A pill with system-arrow-down 16. No change: the flat label, no arrow"
     },
     {
       "label": "Caption",
