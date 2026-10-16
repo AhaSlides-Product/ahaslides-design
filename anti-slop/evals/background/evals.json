@@ -242,6 +242,49 @@
         "authored": "ahaslides-design",
         "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
       }
+    },
+    {
+      "id": 12,
+      "prompt": "Review a read-only report page that a report routine publishes (a weekly dashboard opened from a Slack link, never operated): a row of six <aha-stat-tile look=\"accent\"> number plates in <aha-grid min=\"160px\">, two <aha-chart> charts (a line and a column with a reference line), and an HTML table whose rows alternate white and var(--aha-bg-accent) with 1px dividers and a black semibold header over a 2px Vivid Pink rule. It reflows at 390 px with no horizontal scroll.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: a report page is not a product screen; rule 3.11 allows its pale pink rows and plates.",
+      "expected_output": "C1 and C3 PASS: a report page is a report (environment report-image), where zebra rows and any number of Vivid Pink at 5% plates pass under rule 3.11 and rules 3.2 and 3.7 do not apply. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C3": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "colour rule 3.11 extended to read-only report pages (DESY-220)"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review the Report screen inside the presenter app (people filter and sort responses there) where the KPI cards are all <aha-stat-tile look=\"accent\"> and the response table has zebra rows in var(--aha-bg-accent).",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Contrast: a product Report screen is not a report page; 3.7 still applies.",
+      "expected_output": "C3 FAILs: this is a screen of the product app, so Vivid Pink at 5% is for hover, selected and one highlighted panel; rule 3.11 covers report images and read-only report pages only. Fix: white tiles (look=\"plain\", at most one accent panel) and plain table rows. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "colour rule 3.11 extended to read-only report pages (DESY-220)"
+      }
     }
   ]
 }

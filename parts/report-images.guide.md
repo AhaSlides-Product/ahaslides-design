@@ -1,21 +1,29 @@
-# Report images — composition guide
+# Report images and pages — composition guide
 
-A **report image** is a chart, a table, a number plate or a KPI tile rendered once to a PNG
-and posted to Slack, an email or an export. It follows the same rules as the live DS
-elements, `<aha-chart>` and `<aha-stat-tile>`, and the colour rules. What changes is that
-nobody can hover, zoom, open a tooltip or switch a series off. Three things follow from that:
+A **report** comes in two forms that look the same:
 
-- **Every value a reader needs is written on the image**: end labels on lines, values on columns, the change on every plate.
-- **Rows are told apart by striping.** An in-app table has a hover highlight that tracks the reader's row; an image has none, so a table in an image gets zebra rows and an in-app table does not. (C11)
-- **Every glyph is a file from the DS.** A renderer that cannot run `<aha-icon>` takes the status glyphs from `lib/static-icons`, never a drawn shape or an emoji. (C13)
+- a **report image**: a chart, a table, a number plate or a KPI tile rendered once to a PNG and posted to Slack, an email or an export;
+- a **report page**: a read-only page (a dashboard) that a report routine publishes. People open it from a link to read it; they never operate it.
+
+Both follow the same rules as the live DS elements, `<aha-chart>` and `<aha-stat-tile>`, and the
+colour rules. A report page is built from those elements; a report image copies them. What an
+image changes is that nobody can hover, zoom, open a tooltip or switch a series off. Three things
+follow:
+
+- **Every value a reader needs is written down**: end labels on lines, values on columns, the change on every plate. A report page keeps them too, so it reads the same as its image.
+- **Rows are told apart by striping.** A table in a report, image or page, gets zebra rows: a report is read, not worked in. A table on a screen of the product app keeps plain rows, because people work in it with a hover highlight. (C11)
+- **Every glyph is a DS glyph.** A report page calls `<aha-icon>`; a renderer that cannot run it takes the same glyphs from `lib/static-icons`, never a drawn shape or an emoji. (C13)
+
+A screen of the product app, including its Report screens, is not a report page: it keeps the
+product rules (plain rows, white tiles, pale pink only for hover, selected and one highlighted panel).
 
 Companion guides: the colour rules (chart colours, text on Vivid Pink at 5%, rises and
 falls), the Charts page for the live `<aha-chart>` line and column, the Stat tile page for
-`<aha-stat-tile>`, and the Table page for in-app tables.
+`<aha-stat-tile>`, and the Table page for tables in the product app.
 
 ## Colour: rule 3.11
 
-Report images are their own environment in the colour rules, `report-image`. Rule 3.11, asked for by Dave Bui, gives them their colour: table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar. Rules 3.2 and 3.7, which keep pale pink to section-built web pages, hover and selected states and one highlighted panel, do not apply in an image. Every other colour rule still holds:
+Reports are their own environment in the colour rules, `report-image` (Reports: static images and read-only report pages). Rule 3.11, asked for by Dave Bui, gives them their colour: table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar, as many as the report needs. The same report looks the same as an image and as a page. Rules 3.2 and 3.7, which keep pale pink to section-built web pages, hover and selected states and one highlighted panel, do not apply in a report. Every other colour rule still holds:
 
 | Choice | Rule |
 | --- | --- |
@@ -25,9 +33,11 @@ Report images are their own environment in the colour rules, `report-image`. Rul
 | Series colours run Vivid Pink, black, Vivid Pink at 30%, light grey | 8.1 to 8.3 |
 | Each line has its own marker shape, so the chart reads in black and white | 8.4 |
 
-On an app screen the same pale pink is not free: the live `<aha-stat-tile>` is white (`look="plain"`) by default, and `look="accent"` is for the one highlighted panel rule 3.7 allows.
+On a screen of the product app the same pale pink is not free: the live `<aha-stat-tile>` is white (`look="plain"`) by default, and `look="accent"` is for the one highlighted panel rule 3.7 allows. On a report page every plate is `look="accent"`.
 
 ## Size and density (C1)
+
+### Report images
 
 | | At 1x | Exported at 2x |
 | --- | --- | --- |
@@ -39,6 +49,14 @@ On an app screen the same pale pink is not free: the live `<aha-stat-tile>` is w
 
 One chart, table or plate row per image, on a white background, and under **1 MB** so Slack
 shows the preview inline. Several of them make several images, posted together.
+
+### Report pages
+
+A report page is a white page with the same text sizes (12 px smallest, 14 px for labels, values
+and table text). It holds as many charts, tables and plate rows as the report needs, and reflows
+from a 360 px phone up with no horizontal scroll: plates in `<aha-grid min="160px" gap="middle">`,
+charts at full width (`<aha-chart>` thins its x labels on a phone, counting back from the latest
+period), and a wide table as the one thing that may scroll sideways. Check it at 390 and 1280 px.
 
 ## Type (C2)
 
@@ -100,10 +118,10 @@ is `<aha-chart type="column">` with a negative value or `options.reference`.
 ## Titles (C9)
 
 Sentence case, saying what and when: `Weekly sign-ups, last 12 weeks`. No em or en dashes
-anywhere on the image: use a comma, or "to" for a range (`3 to 9 Oct`). No full stop at the
+anywhere in the report: use a comma, or "to" for a range (`3 to 9 Oct`). No full stop at the
 end of a title, and no all-caps labels.
 
-## Static tables (C11)
+## Report tables (C11)
 
 | Part | Spec |
 | --- | --- |
@@ -115,13 +133,19 @@ end of a title, and no all-caps labels.
 | Row height | 36 px at 1x, 12 px side padding |
 | Not allowed | vertical rules, coloured status cells, a grey header fill |
 
-Zebra rows are for images only. An in-app table (`ConfigProvider theme={tableTheme}`) keeps plain rows: it
-has a hover highlight that does the zebra's job. Do not add zebra rows to an app screen, and
-do not drop them from an image.
+Zebra rows are for reports, image and page alike. A table on a screen of the product app
+(`ConfigProvider theme={tableTheme}`) keeps plain rows: it has a hover highlight that does the
+zebra's job while people work in it. Do not add zebra rows to an app screen, and do not drop
+them from a report, whether it is posted as an image or opened as a page.
+
+On a report page, the zebra is a plain HTML `<table>` styled with tokens:
+`tbody tr:nth-child(even) td { background: var(--aha-bg-accent) }`, dividers in
+`--aha-border-default`, the header rule `2px solid var(--aha-color-primary)`.
 
 ## Number plates and KPI tiles (C12)
 
-A number plate is the static form of `<aha-stat-tile look="accent">`, drawn to the same spec:
+On a report page a number plate is `<aha-stat-tile look="accent">`, one per KPI, as many as the
+report needs. In an image it is drawn to the same spec:
 
 | Part | Spec at 1x |
 | --- | --- |
@@ -136,11 +160,12 @@ A number plate is the static form of `<aha-stat-tile look="accent">`, drawn to t
 | Caption | 14 px, 400, `--aha-text-secondary` (`#4A4A4A`), after the change: `vs previous week` |
 | Row | 1 to 6 plates per row, 16 px apart, equal widths, at least 200 px each; more plates wrap to a second row |
 
-On an app screen the same tile is the live element, white by default: `<aha-stat-tile label="Weekly active users" value="12480" previous="11020" caption="vs previous week">`, laid out in `<aha-grid min="160px" gap="middle">` so the row wraps to fewer columns on a narrow screen (Stat tile page).
+On a screen of the product app the same tile is white by default: `<aha-stat-tile label="Weekly active users" value="12480" previous="11020" caption="vs previous week">`, laid out in `<aha-grid min="160px" gap="middle">` so the row wraps to fewer columns on a narrow screen (Stat tile page).
 
-## Static status glyphs (C13)
+## Status glyphs (C13)
 
-Single-colour SVG files, generated from the icon registry under the same names, with the
+On a report page, call the glyph with `<aha-icon name="…" size="16">`. In an image, take the
+single-colour SVG files, generated from the icon registry under the same names, with the
 colour baked in (a PNG renderer cannot resolve `currentColor`) and the stroke drawn at the
 width `<aha-icon>` uses at that size.
 
@@ -166,14 +191,15 @@ width `<aha-icon>` uses at that size.
 A glyph that is not in the set is added to `build-static-icons.mjs` from the registry, never
 drawn by hand.
 
-## Before you post
+## Before you post or publish
 
-- 2x export, text at least 12 px at 1x, white background, under 1 MB
+- Image: 2x export, text at least 12 px at 1x, white background, under 1 MB
+- Page: white, reflows from 360 px with no horizontal scroll, checked at 390 and 1280 px
 - Plus Jakarta Sans 400 and 600 only; a fallback font for any script in the data
 - Series in the chart order; top 3 plus Other past four parts
 - End labels on every line, never overlapping; gaps break the line; zero runs carry a note
 - A twin axis is named in the legend; 3 to 6 round divisions; K, M and whole-percent formats
 - Sentence-case titles with no em or en dashes
 - Tables: zebra rows, dividers, black semibold header over a 2px Vivid Pink rule
-- Plates: Vivid Pink at 5% card, pink top bar, black text, rise and fall by shape
-- Every status mark is a file from `lib/static-icons`
+- Plates: Vivid Pink at 5% card (`<aha-stat-tile look="accent">` on a page), pink top bar, black text, rise and fall by shape
+- Every status mark is a DS glyph: `<aha-icon>` on a page, a file from `lib/static-icons` in an image

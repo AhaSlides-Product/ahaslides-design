@@ -154,6 +154,7 @@ chart.data = [
 
 - A negative `value`, or `options.reference`, puts the column chart on a zero baseline (a 1px `--aha-border-strong` rule). Positive columns grow up from it with their value above; negative columns grow down with their value below and their rounded corners at the bottom. Direction is shown by position and shape: every column takes the first series colour, whichever way it points.
 - `reference: { value, label }` draws a 1px dashed line in `--aha-text-secondary` across the plot, with the label and value at its right end in a gutter the columns never enter. When the label would take more than 30% of the width, as on a phone, it moves to a key above the plot instead.
+- Column labels that do not fit their columns on two lines, as on a phone or with many periods, stay on one line and show every second, third or Nth label, counted back from the latest period so it is always labelled. A label never ends in an ellipsis. Values that would touch step down to 14px, then 12px.
 - Once a column chart has gone signed it stays signed, so live data that crosses zero animates in place rather than redrawing.
 - In this mode the chart stays in columns (it does not turn into bars), and images and Pick Answer marks are not drawn.
 

@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.220.0 — 2026-10-16
+### Changed
+- **Colour rules v15: rule 3.11 covers reports, not only images**, asked for by Dave Bui. A read-only report page that a report routine publishes (a dashboard opened from a link, never operated) takes the same zebra table rows and Vivid Pink at 5% number plates (`<aha-stat-tile look="accent">`, as many as the report needs) as the static image of the same report. The `report-image` environment keeps its name and is now labelled "Reports: static images and read-only report pages"; the Report images guideline becomes "Report images and pages" (same URL), and the judge passes a report page with accent tiles and zebra rows on the `background`, `table` and `report-images` surfaces (5 new eval cases). Screens of the product app, its Report screens included, are unchanged (rules 3.2 and 3.7) (#PR)
+### Fixed
+- **`<aha-chart type="column">` labels no longer collapse to "1…" on a phone.** On a signed column chart (negative values or a reference line), labels that do not fit their columns on two lines stay on one line and show every Nth label, counted back from the latest, which is always labelled; values that would touch step down to 14px, then 12px; and dense charts keep the 8px phone gap, so 12 columns stay columns at 390px. Wide charts are unchanged (#PR)
+- **`screen-lint` no longer flags a one-colour gradient as `gradient-fill`.** A gradient whose stops are all the same colour (the `linear-gradient(tint, tint), white` idiom that lays a translucent tint flat over white) is a flat fill, so `lib/aha-chart.js` passes unchanged and consumers can drop their `ds-lint-allow` line; any gradient that changes colour still fails (#PR)
+
 ## 0.215.1 — 2026-10-16
 ### Fixed
 - **`<aha-stat-tile>` keeps a very long value inside the card.** The value now shrinks (32px down to 12px) to fit the tile's inner width, so a figure such as 1,234,567,890 or $1,234,567.89 no longer spills past the card edge in a 160px or 240px tile, and it never breaks mid-number; short values keep 32px wherever they fit. (#277)

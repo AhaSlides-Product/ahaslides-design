@@ -328,6 +328,51 @@
         "authored": "ahaslides-design",
         "why": "no plugin report-images judge dataset exists"
       }
+    },
+    {
+      "id": 16,
+      "prompt": "Review a read-only report page that a report routine publishes (a weekly dashboard opened from a Slack link, never operated): a row of six <aha-stat-tile look=\"accent\"> number plates in <aha-grid min=\"160px\">, two <aha-chart> charts (a line and a column with a reference line), and an HTML table whose rows alternate white and var(--aha-bg-accent) with 1px dividers and a black semibold header over a 2px Vivid Pink rule. It reflows at 390 px with no horizontal scroll.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: a report page takes the same colour as the report image (rule 3.11).",
+      "expected_output": "C11 and C12 PASS: a report page is a report, so zebra rows and pale pink plates are required, any number of plates. C1 PASSes: the page reflows at 390 px. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS",
+          "C11": "PASS",
+          "C12": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "colour rule 3.11 extended to read-only report pages (DESY-220)"
+      }
+    },
+    {
+      "id": 17,
+      "prompt": "Review a read-only report page a report routine publishes: its KPI tiles are plain white <aha-stat-tile> and its table has plain white rows with dividers only, to look like an app screen.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C11 and C12 on a report page.",
+      "expected_output": "C11 FAILs: a report table needs zebra rows. C12 FAILs: a report plate is Vivid Pink at 5% (look=\"accent\"). Fix: zebra rows and look=\"accent\" on every tile, so the page matches the report image. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C11": "FAIL",
+          "C12": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "colour rule 3.11 extended to read-only report pages (DESY-220)"
+      }
     }
   ]
 }
