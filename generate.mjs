@@ -1490,9 +1490,12 @@ function composeMarketingComponent(b) {
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
 const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
-const marketingPreviewSnippet = (b) => b.variants
-  ? `<style>\n${b.css || ''}\n</style>\n${b.variants.map(v => v.html).join('\n<div style="height:var(--aha-space-24);background:var(--aha-white)"></div>\n')}\n`
-  : marketingSnippet(b);
+const marketingPreviewSnippet = (b) => {
+  const snippet = b.variants
+    ? `<style>\n${b.css || ''}\n</style>\n${b.variants.map(v => v.html).join('\n<div style="height:var(--aha-space-24);background:var(--aha-white)"></div>\n')}\n`
+    : marketingSnippet(b);
+  return b.imagePath ? snippet.replaceAll(`${SITE}/marketing/`, '../').replaceAll(`${SITE}/logo/`, '../../logo/') : snippet;
+};
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
    the DS top-nav + scoped sidebar like every other area. Content is data
@@ -2788,10 +2791,15 @@ function expandMarketingData(b) {
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
   return { ...b, html: b.html.replaceAll('{{items}}', items) };
 }
+const expandMarketingAssets = (b) => {
+  if (!b.imagePath) return b;
+  const resolve = (text) => typeof text === 'string' ? text.replaceAll('{{images}}', `${SITE}/marketing/${b.imagePath}`).replaceAll('{{logos}}', `${SITE}/logo`) : text;
+  return { ...b, html: resolve(b.html), variants: b.variants?.map(v => ({ ...v, html: resolve(v.html) })) };
+};
 /* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -2939,6 +2947,7 @@ cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
+if (existsSync(join(MDIR, 'images'))) cpSync(join(MDIR, 'images'), join(OUT, 'marketing', 'images'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
