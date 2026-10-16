@@ -1334,6 +1334,96 @@
           "test": "App screens such as Report use `palette=\"brand\"` (the default); the presenting or audience canvas uses `palette=\"deck\"` with the deck's `colors` and `ink`. A canvas chart left on the brand palette, or an app-screen chart painted with hand-picked series colours, fails."
         }
       ]
+    },
+    "report-images": {
+      "surface": "report images",
+      "origin": "authored",
+      "skillRef": null,
+      "targets": [
+        {
+          "source": "guidelines/report-images.json",
+          "use": "the static image rules: size, type, series order, end labels, twin axes, gaps, zero runs, ticks and formats, titles, missing glyphs, static tables, number plates and static glyphs"
+        },
+        {
+          "source": "contracts/chart.json",
+          "use": "the live line and column geometry a static chart copies (end labels, twin axis, gaps, negatives, reference line)"
+        },
+        {
+          "source": "contracts/stat-tile.json",
+          "use": "the KPI tile a number plate mirrors (C12)"
+        },
+        {
+          "source": "brand/colour-rules.json",
+          "use": "the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Size and density: 2x export, readable text, one subject per image, under 1 MB",
+          "test": "**Rule.** A report image is drawn at 2x (a full-width chart is 1,200 × 675 px at 1x, exported at 2,400 × 1,350), with text no smaller than 12 px at 1x for ticks and notes and 14 px for labels, values and table text, a 24 px white margin, one chart, table or plate row per image, and a file under 1 MB. A 1x export that blurs in Slack, 9 px tick labels, three charts crammed into one PNG, or a 3 MB file fails."
+        },
+        {
+          "id": "C2",
+          "title": "Type: Plus Jakarta Sans, 400 and 600 only",
+          "test": "**Rule.** All text is Plus Jakarta Sans from the DS font files, in weight 400 (ticks, captions, notes, table text) or 600 (titles, values, end labels, table headers). DejaVu Sans, Arial or a renderer default, a bold 700, a light 300 or a second typeface fails."
+        },
+        {
+          "id": "C3",
+          "title": "Series follow the chart order; past four parts, the top 3 plus Other",
+          "test": "**Rule.** Series are coloured in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. A fifth colour, a palette in another order, Other placed first or in pink, or two Other slots (a source Other beside the folded one) fails."
+        },
+        {
+          "id": "C4",
+          "title": "Every line carries a non-overlapping end-value label",
+          "test": "**Rule.** Each line shows its latest value at its right end, formatted like its axis. Labels never overlap one another or a line end: when two would touch they are pushed apart and joined to their lines by a short leader in the series colour. A line with no end label, two labels printed on top of each other, or a moved label with no leader fails. A line in Vivid Pink at 30% or grey without its value written fails (colour rule 8.3)."
+        },
+        {
+          "id": "C5",
+          "title": "A twin axis is named in the legend",
+          "test": "**Rule.** A right axis is used only for a series in a different unit, shares the left axis's grid lines, and the legend names each series' axis (Sessions (left axis), Conversion (right axis)). A twin-axis chart whose legend does not say which series reads on which axis, or a right axis for a series in the same unit, fails."
+        },
+        {
+          "id": "C6",
+          "title": "A missing period breaks the line",
+          "test": "**Rule.** A period with no data breaks the line: it is never plotted as zero and never bridged by a segment, and a point with no neighbour keeps its marker. A line that drops to zero for missing data, or draws straight across a gap, fails."
+        },
+        {
+          "id": "C7",
+          "title": "A real run of zeros carries a note",
+          "test": "**Rule.** When a series is really zero for three or more periods in a row (not missing), a short note in secondary text on the chart says so, such as No sessions from 3 to 9 Oct. A flat zero run with no note, which a reader cannot tell from missing data, fails."
+        },
+        {
+          "id": "C8",
+          "title": "Tick density and number formats",
+          "test": "**Rule.** The y axis has 3 to 6 divisions on round steps and starts at zero for counts; x labels never overlap and the latest period is always labelled; values of 1,000 and above are written with K or M and at most one decimal (12K, 1.3M); percentages are whole (46%); the axis, the end labels and any table use the same format. Overlapping or rotated x labels, 9 y ticks, 12,345.67 on an axis, 46.23% or a format that differs between axis and labels fails."
+        },
+        {
+          "id": "C9",
+          "title": "Sentence-case titles with no em or en dashes",
+          "test": "**Rule.** Titles and labels are sentence case and say what and when (Weekly sign-ups, last 12 weeks). No em dash or en dash appears anywhere on the image; a range uses to (3 to 9 Oct) and a pause uses a comma. Title Case, ALL CAPS, an em or en dash, or a title ending in a full stop fails."
+        },
+        {
+          "id": "C10",
+          "title": "No missing glyphs; marks are DS files, not font characters",
+          "test": "**Rule.** Every character renders: the renderer has a fallback font for the scripts the data can hold, so a Vietnamese or accented name never shows as empty boxes. Arrows and status marks are drawn from lib/static-icons, not typed as ▲ ▼ ✓ characters or emoji. A tofu box, a missing accent or a font-character arrow fails."
+        },
+        {
+          "id": "C11",
+          "title": "Static tables: zebra rows, dividers, pink header rule",
+          "test": "**Rule.** A table in an image has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7), 1px #E3E3E3 dividers under every row, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, grey or pink-filled headers, pink text, vertical rules or coloured status cells fail. In-app tables are judged on the table surface instead and keep plain rows."
+        },
+        {
+          "id": "C12",
+          "title": "Number plates: Vivid Pink at 5% card, black text, direction by shape",
+          "test": "**Rule.** A number plate (the static KPI tile) is a flat Vivid Pink at 5% card with a 4px Vivid Pink top bar and 8px corners, black label (400) and value (600), the change as an absolute number and a whole percent, and the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. A grey or white-only plate with no brand colour, pink text on the card, a green or red change, a change with no arrow, or a drop shadow fails. A plate on an image that already has a pink highlighted panel may use the plain look (white, 1px border, pink top bar)."
+        },
+        {
+          "id": "C13",
+          "title": "Status glyphs come from lib/static-icons",
+          "test": "**Rule.** Every status mark in an image (rise, fall, no change, warning, pending, progress) is a file from lib/static-icons, called by its registry name, at 12, 16, 24 or 32 px, in ink or white. A drawn triangle or circle, an emoji, an icon from another set or a recoloured glyph fails."
+        }
+      ]
     }
   }
 }

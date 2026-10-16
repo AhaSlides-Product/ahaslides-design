@@ -106,6 +106,8 @@
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Long label → bars</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Log scale</button>
       <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Dark deck</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Negative values</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Reference line</button>
     </div>
     <div class="chart-case">
       <div class="lbl">Poll</div>
@@ -158,8 +160,16 @@
       <aha-chart type="column" palette="deck" colors="#E70E68,#FFFFFF,#F8B7D2,#A8A8A8" ink="var(--aha-text-inverse)" label="Column"
         data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
     </div>
-
-  
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Negative values below a zero baseline, with a reference line</div>
+      <aha-chart type="column" label="Net new teams" options='{"reference":{"value":300,"label":"Target"}}'
+        data='[{"label":"Jan","value":520},{"label":"Feb","value":-180},{"label":"Mar","value":310},{"label":"Apr","value":-420},{"label":"May","value":640}]'></aha-chart>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Reference line on a poll</div>
+      <aha-chart type="column" label="Column" options='{"reference":{"value":15.5,"label":"Average"}}'
+        data='[{"label":"Sydney","value":22},{"label":"Canberra","value":29},{"label":"Melbourne","value":9},{"label":"Perth","value":2}]'></aha-chart>
     </div>
   </section>
 
@@ -432,6 +442,42 @@
       <div class="lbl">No ideas yet</div>
       <aha-chart type="mindmap" label="Mind map"
         data='{"label":"Livelier meetings","children":[]}'></aha-chart>
+    </div>
+  </section>
+
+  <section class="chart-type" aria-labelledby="chart-type-line">
+    <h3 class="chart-type-title" id="chart-type-line">Line</h3>
+    <div class="aha-pg-seg chart-case-switch" role="radiogroup" aria-label="Line cases">
+      <button type="button" class="aha-pg-opt active" role="radio" aria-checked="true" tabindex="0">Two series</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Four series · gaps</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Twin axis</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">Long series</button>
+      <button type="button" class="aha-pg-opt" role="radio" aria-checked="false" tabindex="-1">No data</button>
+    </div>
+    <div class="chart-case">
+      <div class="lbl">Two series whose end values sit close: the labels part and a leader joins each to its line</div>
+      <aha-chart type="line" label="Weekly sign-ups"
+        data='{"labels":["1 Sep","8 Sep","15 Sep","22 Sep","29 Sep","6 Oct","13 Oct","20 Oct"],"series":[{"label":"Sign-ups","values":[1200,1320,1280,1500,1610,1580,1720,1690]},{"label":"Activated","values":[800,900,950,1100,1190,1300,1400,1680]}]}'></aha-chart>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Four series in the chart order, compact numbers, a gap that breaks the line and a lone point</div>
+      <aha-chart type="line" label="Monthly items created" options='{"format":"compact"}'
+        data='{"labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],"series":[{"label":"Presentations","values":[120000,132000,null,150000,161000,158000,172000,169000]},{"label":"Surveys","values":[50000,60000,65000,70000,72000,80000,90000,95000]},{"label":"Courses","values":[20000,22000,25000,24000,30000,32000,35000,41000]},{"label":"Docs","values":[5000,8000,12000,null,null,20000,null,26000]}]}'></aha-chart>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">Twin axis: the legend names each series' axis</div>
+      <aha-chart type="line" label="Sessions and conversion" options='{"format":"compact","rightFormat":"percent"}'
+        data='{"labels":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],"series":[{"label":"Sessions","values":[42000,45000,47000,44000,39000,18000,15000]},{"label":"Conversion","axis":"right","values":[0.031,0.034,0.036,0.033,0.03,0.022,0.02]}]}'></aha-chart>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">26 weeks: the x labels thin out, counted back from the latest week, and markers sit only on labelled weeks</div>
+      <aha-chart type="line" label="Active teams"
+        data='{"labels":["W1","W2","W3","W4","W5","W6","W7","W8","W9","W10","W11","W12","W13","W14","W15","W16","W17","W18","W19","W20","W21","W22","W23","W24","W25","W26"],"series":[{"label":"Active teams","values":[410,420,415,432,440,455,470,468,480,495,500,512,520,515,530,545,560,552,570,585,590,604,615,612,630,642]}]}'></aha-chart>
+    </div>
+    <div class="chart-case" hidden>
+      <div class="lbl">No data yet</div>
+      <aha-chart type="line" label="Line"
+        data='{"labels":["Jan","Feb","Mar"],"series":[{"label":"Sign-ups","values":[null,null,null]}]}'></aha-chart>
     </div>
   </section>
 </div>

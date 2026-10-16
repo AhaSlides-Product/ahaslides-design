@@ -1,0 +1,226 @@
+{
+  "name": "Report images",
+  "slug": "report-images",
+  "kind": "guideline",
+  "environment": [
+    "product"
+  ],
+  "group": "Patterns",
+  "badge": "pattern — composition guide",
+  "summary": "How to render a chart, a table, a number plate or a KPI tile as a static image (a PNG for Slack, email or an export): size and density, type, series order and the top 3 plus Other rule, end labels, twin-axis legends, gaps, notes on real zero runs, tick density and number formats, titles, missing glyphs, and the static table and plate looks.",
+  "highlights": [
+    "The DS chart rules, plus what a still image cannot do",
+    "Static tables: zebra rows, because an image has no hover",
+    "Number plates and KPI tiles: Vivid Pink at 5% card, black text, pink top bar",
+    "Status glyphs come from lib/static-icons, never drawn"
+  ],
+  "lead": "A report image is a chart, table, number plate or KPI tile rendered once to a PNG and posted to Slack, an email or an export. It follows the same rules as the live DS elements (<aha-chart>, <aha-stat-tile>, the colour rules) with one difference that drives the rest: nobody can hover, zoom or read a tooltip. So every value a reader needs is written on the image, rows are told apart by zebra striping instead of a hover highlight, and every glyph is a file from the DS, because a renderer that cannot run <aha-icon> cannot draw one either.",
+  "skillRef": {
+    "build": "DS guideline — guidelines/report-images.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: report-images)",
+    "note": "The DS owns this ruleset. The live elements it mirrors are <aha-chart> (contracts/chart.json) and <aha-stat-tile> (contracts/stat-tile.json); the static glyphs are lib/static-icons (build-static-icons.mjs); the judge criteria and evals live in anti-slop/."
+  },
+  "surfaces": [
+    "report",
+    "tools",
+    "admin"
+  ],
+  "composedOf": [
+    {
+      "ref": "chart",
+      "as": "component",
+      "use": "the live twin of a static chart: line (end labels, gaps, twin axis), column (negatives, reference line) and the four chart colours in order",
+      "status": "available"
+    },
+    {
+      "ref": "stat-tile",
+      "as": "component",
+      "use": "the live twin of a number plate: value, change as absolute and percent, comparison caption, rise and fall by shape",
+      "status": "available"
+    },
+    {
+      "ref": "grid",
+      "as": "component",
+      "use": "lays 1 to 6 live stat tiles in a row that wraps on narrow screens (<aha-grid columns=\"N\" responsive>)",
+      "status": "available"
+    },
+    {
+      "ref": "table",
+      "as": "component",
+      "use": "the contrast target: an in-app table keeps no zebra rows, because its rows have a hover highlight",
+      "status": "available"
+    },
+    {
+      "ref": "icon",
+      "as": "component",
+      "use": "the registry the static glyphs are exported from, under the same names (lib/static-icons)",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-bg-accent",
+      "as": "token",
+      "use": "Vivid Pink at 5% (#E70E680D, flat on white #FEF3F7): zebra rows and the plate card",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-color-primary",
+      "as": "token",
+      "use": "Vivid Pink: the 2px table header rule, the plate top bar and the first chart series",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-text-default",
+      "as": "token",
+      "use": "black: all text and figures, rises, and the fall pill",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-text-secondary",
+      "as": "token",
+      "use": "the comparison caption, notes and the reference line",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-border-default",
+      "as": "token",
+      "use": "table row dividers and chart grid lines",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-font-product",
+      "as": "token",
+      "use": "Plus Jakarta Sans, 400 and 600 only",
+      "status": "available"
+    }
+  ],
+  "rules": [
+    {
+      "id": "size-density",
+      "rule": "Draw at 2x: a full-width chart is 1,200 by 675 px at 1x and exported at 2,400 by 1,350. Keep text at least 12 px at 1x (ticks, notes) and 14 px for labels and values, a 24 px margin on a white background, one chart, table or plate row per image, and the file under 1 MB so Slack shows the preview.",
+      "ref": [
+        "C1"
+      ]
+    },
+    {
+      "id": "type",
+      "rule": "Plus Jakarta Sans only, from the bundled font files, in two weights: 400 for ticks, captions, notes and table text; 600 for titles, values, end labels and table headers.",
+      "ref": [
+        "C2"
+      ]
+    },
+    {
+      "id": "series-order",
+      "rule": "Colour series in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. Never more than four colours.",
+      "ref": [
+        "C3"
+      ]
+    },
+    {
+      "id": "end-labels",
+      "rule": "Every line carries its latest value at its right end, formatted like its axis. Labels never overlap: when two would touch, push them apart and join each to its line with a short leader in the series colour. A series in Vivid Pink at 30% or grey is always labelled (colour rule 8.3).",
+      "ref": [
+        "C4"
+      ]
+    },
+    {
+      "id": "twin-axis",
+      "rule": "Add a right axis only when a series has a different unit (a rate beside a count). Both axes share the grid lines, and the legend names each series' axis: Sessions (left axis), Conversion (right axis).",
+      "ref": [
+        "C5"
+      ]
+    },
+    {
+      "id": "gaps",
+      "rule": "A missing period breaks the line. Never draw it as zero and never join across it; a point with no neighbour keeps its marker so it still shows.",
+      "ref": [
+        "C6"
+      ]
+    },
+    {
+      "id": "zero-runs",
+      "rule": "When a series is really zero for three or more periods in a row (not missing), add a short note on the chart in secondary text, such as No sessions from 3 to 9 Oct, so the flat run is not read as missing data.",
+      "ref": [
+        "C7"
+      ]
+    },
+    {
+      "id": "ticks-formats",
+      "rule": "Use 3 to 6 y-axis divisions on round steps, starting at zero for counts. Thin the x labels until none overlap, counting back from the latest period so it is always labelled. Write 1,000 and above as K or M with at most one decimal (12K, 1.3M), percentages as whole numbers (46%), and use the same format on the axis, the labels and any table.",
+      "ref": [
+        "C8"
+      ]
+    },
+    {
+      "id": "titles",
+      "rule": "Titles are sentence case and say what and when (Weekly sign-ups, last 12 weeks). No em or en dashes anywhere on the image: use a comma, or to for a range (3 to 9 Oct). No full stop at the end of a title.",
+      "ref": [
+        "C9"
+      ]
+    },
+    {
+      "id": "missing-glyph",
+      "rule": "Every character renders. Set a fallback font that covers every script the data can hold (Noto Sans for Vietnamese and other diacritics), so a name never turns into empty boxes; draw arrows and status marks from lib/static-icons, never from font characters or emoji.",
+      "ref": [
+        "C10"
+      ]
+    },
+    {
+      "id": "static-table",
+      "rule": "A table in an image has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7) with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This applies to images only: an in-app table keeps plain rows, because its rows have a hover highlight and an image has none.",
+      "ref": [
+        "C11"
+      ]
+    },
+    {
+      "id": "plates",
+      "rule": "A number plate (the static KPI tile) is a flat card in Vivid Pink at 5% with a 4px Vivid Pink top bar and 8px corners: the label in black 400, the value in black 600, the change as an absolute number and a whole percent, then the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. No green, red or other status colour, and no shadow.",
+      "ref": [
+        "C12"
+      ]
+    },
+    {
+      "id": "static-glyphs",
+      "rule": "Status marks in an image are the SVG files in lib/static-icons, called by their registry names (system-arrow-up, system-arrow-down, system-warning-circle, system-hourglass-high …) at 12, 16, 24 or 32 px, in ink or white. Never draw a triangle, a circle or an emoji in their place.",
+      "ref": [
+        "C13"
+      ]
+    }
+  ],
+  "selfCheck": [
+    {
+      "label": "2x export, text at least 12 px at 1x, white background, under 1 MB",
+      "verdict": "N/A — per-image"
+    },
+    {
+      "label": "Plus Jakarta Sans 400 and 600 only; fallback font for missing glyphs",
+      "verdict": "N/A — per-image"
+    },
+    {
+      "label": "series in the chart order; top 3 plus Other past four parts",
+      "verdict": "N/A — per-image"
+    },
+    {
+      "label": "end labels on every line, never overlapping; gaps break the line; zero runs carry a note",
+      "verdict": "N/A — per-image"
+    },
+    {
+      "label": "twin axis named in the legend; 3 to 6 round divisions; K, M and whole % formats",
+      "verdict": "N/A — per-image"
+    },
+    {
+      "label": "sentence-case titles with no em or en dashes",
+      "verdict": "N/A — per-image"
+    },
+    {
+      "label": "tables: zebra white and #FEF3F7, dividers, black semibold header over a 2px Vivid Pink rule",
+      "verdict": "N/A — per-image"
+    },
+    {
+      "label": "plates: Vivid Pink at 5% card, pink top bar, black text, rise and fall by shape; glyphs from lib/static-icons",
+      "verdict": "N/A — per-image"
+    }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only guideline. The live elements it mirrors ship as <aha-chart> and <aha-stat-tile>; the static glyphs ship as files in lib/static-icons, generated by build-static-icons.mjs and checked by its test.",
+  "guide": "report-images.guide.md"
+}

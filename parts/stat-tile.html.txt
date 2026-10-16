@@ -1,0 +1,14 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-stat-tile> is the SAME shared custom element React and Vue consume. Theming comes only
+     from the --aha-* tokens in tokens.css. Lay 1–6 tiles in a row with <aha-grid columns="N" responsive>. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-grid.js';       // registers <aha-grid>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-stat-tile.js';  // registers <aha-stat-tile> (+ <aha-icon>)
+</script>
+
+<aha-grid columns="3" responsive gap="middle">
+  <aha-stat-tile label="Weekly active users" value="12480" previous="11020" caption="vs previous week"></aha-stat-tile>
+  <aha-stat-tile label="New sign-ups" value="1730" previous="2040" caption="vs previous week"></aha-stat-tile>
+  <aha-stat-tile label="Activation rate" value="0.46" previous="0.41" format="percent" caption="vs previous week"></aha-stat-tile>
+</aha-grid>
