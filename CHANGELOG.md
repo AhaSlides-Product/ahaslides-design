@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.216.0 — 2026-10-16
 ### Added
-- **Counted Textarea variant (React antd v6 and Vue ant-design-vue v4).** The character count now sits inside the field, bottom-right, and shows the characters left (193 for 7 of 200) only while the field is focused, like `<aha-counted-textarea>`; the field reserves a 22px bottom gutter so revealing it never shifts text, resize is off and the count stops at 0. Opt in with `className="aha-textarea-counted"`, `showCount={{ formatter: textareaRemainingCount }}` and `import '@ahaslides-product/design/textarea-counted.css'`; the plain Textarea is unchanged. New exports `textareaRemainingCount`, `textareaCountedClassName` and `textarea-counted.css`. (#PRNUM)
+- **Counted Textarea variant (React antd v6 and Vue ant-design-vue v4).** The character count now sits inside the field, bottom-right, and shows the characters left (193 for 7 of 200) only while the field is focused, like `<aha-counted-textarea>`; the field reserves a 22px bottom gutter so revealing it never shifts text, resize is off and the count stops at 0. Opt in with `className="aha-textarea-counted"`, `showCount={{ formatter: textareaRemainingCount }}` and `import '@ahaslides-product/design/textarea-counted.css'`; the plain Textarea is unchanged. New exports `textareaRemainingCount`, `textareaCountedClassName` and `textarea-counted.css`. (#278)
 
 ## 0.215.1 — 2026-10-16
 ### Fixed
