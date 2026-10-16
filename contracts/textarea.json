@@ -2,11 +2,12 @@
   "name": "Textarea",
   "slug": "textarea",
   "group": "Data entry",
+  "environment": ["product", "audience"],
   "tier": "composite-antd",
   "badge": "composite — antd wrappers",
-  "summary": "Enter multi-line free text — descriptions, messages, notes — with autosize and char count, rendered through the shared Textarea.",
-  "highlights": ["Multi-line free text", "For descriptions, messages and notes", "Autosize and character count"],
-  "lead": "Textarea rides on Ant's Input.TextArea for autosize, char-count and form integration: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared textareaTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "summary": "Enter multi-line free text — descriptions, messages, notes — with autosize and an in-field remaining-character count, rendered through the shared Textarea.",
+  "highlights": ["Multi-line free text", "For descriptions, messages and notes", "Autosize and an in-field remaining count"],
+  "lead": "Textarea rides on Ant's Input.TextArea for autosize, the counted variant and form integration: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared textareaTheme. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorBorder", "colorTextPlaceholder", "Input.activeBorderColor", "Input.hoverBorderColor"],
   "spec": [
     { "label": "Box", "value": "radius 8 · 1px #E3E3E3 border · padding 4 11" },
@@ -14,6 +15,7 @@
     { "label": "Focus", "value": "brand #E70E68 border" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #8A8A8A" },
     { "label": "Sizing", "value": "rows or autoSize={{minRows,maxRows}}" },
+    { "label": "Counted variant", "value": "remaining characters (193 for 7 of 200) inside the field, bottom-right 12/6 · 12/18 #8A8A8A · focus only · 22px bottom gutter · no resize · hard cap at maxLength" },
     { "label": "Size", "value": "small · default · large (control height 24/40/48)" },
     { "label": "Status", "value": "error #1A1A1A · warning #1A1A1A border" },
     { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A" }
@@ -28,8 +30,8 @@
     { "name": "placeholder", "type": "string", "default": "—", "desc": "Empty-state hint (#8A8A8A)" },
     { "name": "rows", "type": "number", "default": "—", "desc": "Fixed visible rows" },
     { "name": "autoSize", "type": "boolean | { minRows, maxRows }", "default": "false", "desc": "Grow with content between bounds" },
-    { "name": "maxLength", "type": "number", "default": "—", "desc": "Cap length; pair with showCount" },
-    { "name": "showCount", "type": "boolean", "default": "false", "desc": "Show the character counter" },
+    { "name": "maxLength", "type": "number", "default": "—", "desc": "Cap length; the counted variant stops at 0 left" },
+    { "name": "showCount", "type": "{ formatter: textareaRemainingCount }", "default": "false", "desc": "Counted variant: pass with className=\"aha-textarea-counted\" and import textarea-counted.css; shows characters left inside the field, on focus" },
     { "name": "onChange", "type": "(e) => void", "default": "—", "desc": "Fires on each change; read e.target.value" }
   ],
   "opinion": {
@@ -38,11 +40,11 @@
       { "what": "Input", "when": "short single-line text — a name, a title, a search term" },
       { "what": "Select", "when": "one value from a known set — don't make the user type it" }
     ],
-    "note": "Prefer autoSize with a minRows/maxRows band so the field grows with content but never dominates the layout. Pair maxLength with showCount so the limit is visible, not a surprise on submit.",
+    "note": "Prefer autoSize with a minRows/maxRows band so the field grows with content but never dominates the layout. For a capped field use the counted variant (maxLength plus the remaining-count formatter): the count sits inside the field and appears on focus, so the limit is visible without a line below the field.",
     "dsv3": "COVERED — antd v6 Input.TextArea themed by textareaTheme; matrix: size {small,middle(default),large} × status {none,error,warning} × extras {autoSize,showCount+maxLength,disabled,readOnly}, placeholder throughout. Sizes map to control heights 24/40/48 and status to #1A1A1A/#1A1A1A borders (measured inp|{sm,md,lg}|{rest,focus,disabled,error}); verified via Figma search_design_system against the DS V3 Textarea + Form-Item/Textarea set (fileKey MwjvUjVI0HnfwD9EwPXRAy)."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
-  "reuse": { "entry": "./textarea-theme", "exportsNamed": ["textareaTheme"] },
+  "reuse": { "entry": "./textarea-theme", "exportsNamed": ["textareaTheme", "textareaRemainingCount", "textareaCountedClassName"] },
   "snippets": [
     { "key": "html", "label": "HTML", "file": "textarea.html.txt", "runnable": "paste-and-run", "note": "Composite has no framework-free element, so its paste-and-run form is a CDN-React page — React + antd load from a CDN and mount on open, consuming the same shared textareaTheme. No build step." },
     { "key": "react", "label": "React", "file": "textarea.react.txt" },
@@ -54,7 +56,8 @@
     { "label": "box radius 8 · #E3E3E3 border", "verdict": "PASS" },
     { "label": "hover border color-primary", "verdict": "PASS" },
     { "label": "focus border brand", "verdict": "PASS" },
-    { "label": "placeholder #8A8A8A", "verdict": "PASS" }
+    { "label": "placeholder #8A8A8A", "verdict": "PASS" },
+    { "label": "counted: remaining count inside the field, focus only, no resize", "verdict": "PASS" }
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Composite shown as a CDN-React page mounted at #react-root; the measure reads the real antd v6 TextArea bound to textareaTheme.",

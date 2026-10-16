@@ -4,6 +4,7 @@
      live React state (Size / Status / Extras), so the full DS V3 matrix is explorable — the
      default render (default size · no status · autosize, at rest) is what conformance measures. -->
 <script type="module">import '../lib/icons.js'; import '../lib/aha-field-error.js';</script>
+<link rel="stylesheet" href="../lib/textarea-counted.css">
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -56,8 +57,12 @@ function Demo() {
     readOnly: extra === 'readOnly',
     style: { width: 340 },
   };
-  if (extra === 'count') { props.showCount = true; props.maxLength = 200; props.rows = 3; }
-  else { props.autoSize = { minRows: 3, maxRows: 6 }; }
+  if (extra === 'count') {
+    props.showCount = { formatter: ({ count, maxLength }) => Math.max(0, maxLength - count) };
+    props.maxLength = 200; props.className = 'aha-textarea-counted';
+    props.autoSize = { minRows: 3, maxRows: 6 }; props.defaultValue = 'Seven c';
+  }
+  if (extra !== 'count') { props.autoSize = { minRows: 3, maxRows: 6 }; }
   if (extra === 'readOnly') props.defaultValue = 'Read-only content — the field shows but cannot be edited.';
   return (
     <div style={{ maxWidth: 620 }}>
@@ -68,7 +73,7 @@ function Demo() {
         <Seg label="Status" value={status} onChange={setStatus}
           options={[{ label: 'None', value: '' }, { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' }]} />
         <Seg label="Extras" value={extra} onChange={setExtra}
-          options={[{ label: 'Auto-size', value: 'autosize' }, { label: 'Count', value: 'count' }, { label: 'Disabled', value: 'disabled' }, { label: 'Read-only', value: 'readOnly' }]} />
+          options={[{ label: 'Auto-size', value: 'autosize' }, { label: 'Counted', value: 'count' }, { label: 'Disabled', value: 'disabled' }, { label: 'Read-only', value: 'readOnly' }]} />
       </div>
       <TextArea {...props} />
       <div className="lbl" style={{ margin: '22px 0 8px' }}>Error · aha-field-error below the field</div>

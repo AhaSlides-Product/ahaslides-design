@@ -59,7 +59,7 @@ const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return
 /* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
    URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
 const LIVE_SITE = 'https://design.ahaslides.io';
-const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`);
+const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`).replaceAll(`${LIVE_SITE}/marketing-assets/`, `${SITE}/marketing-assets/`);
 const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
@@ -1032,7 +1032,8 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
+    const marketingGroups = [...new Set(MARKETING.filter(b => b.group).map(b => b.group))];
+    inner = marketingNav(MARKETING.filter(b => isMarketingComponent(b) && !b.group), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b) && !b.group), MARKETING_CAT) + marketingGroups.map(g => marketingNav(MARKETING.filter(b => b.group === g), esc(g))).join('');
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -1489,7 +1490,17 @@ function composeMarketingComponent(b) {
   return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
-const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
+const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`);
+const marketingFeatureCardCss = () => {
+  const cards = JSON.parse(read(join(MDIR, 'cards.json')));
+  return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
+};
+const marketingLayoutSnippet = (b, layout) => `<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`;
+function composeMarketingLayouts(b) {
+  if (!b.layouts) return b;
+  return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
+    html: b.layouts.map(layout => layout.html).join('\n') };
+}
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
    the DS top-nav + scoped sidebar like every other area. Content is data
@@ -1737,7 +1748,75 @@ function marketingCodeToggle(file, code, lead = '') {
       <pre class="code snippet active">${esc(code)}</pre>
     </div></div>`;
 }
+function marketingLayoutPreview(b, layout) {
+  const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
+  return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingLayoutSnippet(b, layout)}</template>
+  </div>`;
+}
+const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
+  import '../../lib/aha-segmented.js';
+  (function(){
+    var base=new URL('../../',location.href).href;
+    var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+      '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+    var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+    var report='var c=document.getElementById("mbp-content"),last=-1;function send(){var h=Math.ceil(c.getBoundingClientRect().height);if(h!==last){last=h;parent.postMessage({mbpHeight:h},"*")}}new ResizeObserver(send).observe(c);'+
+      '["click","mouseover","mouseout","focusin","transitionend","animationend"].forEach(function(t){document.addEventListener(t,function(){requestAnimationFrame(send)},true)});';
+    var previews=[].slice.call(document.querySelectorAll('.mfv')).map(function(root){
+      var p={root:root,seg:root.querySelector('aha-segmented'),frame:root.querySelector('.mbp-frame'),view:root.querySelector('.mbp-viewport'),sizer:root.querySelector('.mbp-sizer'),label:root.querySelector('.mbp-label'),width:+root.dataset.default,contentHeight:0};
+      p.layout=function(retried){
+        var available=p.view.clientWidth;
+        var scale=Math.min(1,available/p.width);
+        p.frame.style.width=p.width+'px';
+        p.frame.style.height=p.contentHeight+'px';
+        p.frame.style.transform=scale<1?'scale('+scale+')':'none';
+        p.sizer.style.height=Math.ceil(p.contentHeight*scale)+'px';
+        p.sizer.style.width=Math.floor(p.width*scale)+'px';
+        if(!retried&&p.view.clientWidth!==available)return p.layout(true);
+        p.label.textContent=p.width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
+      };
+      p.seg.addEventListener('change',function(e){p.width=+e.detail.value;p.layout();});
+      new ResizeObserver(function(){p.layout()}).observe(root);
+      p.frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      return p;
+    });
+    window.addEventListener('message',function(e){
+      if(!e.data||typeof e.data.mbpHeight!=='number')return;
+      previews.forEach(function(p){if(p.frame.contentWindow===e.source){p.contentHeight=e.data.mbpHeight;p.layout();}});
+    });
+  })();
+  </script>`;
+function renderMarketingLayoutsHtml(b) {
+  const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
+  const main = `
+  <h1>${esc(b.name)}</h1>
+  <p class="subtitle">${esc(intro)}</p>
+  <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
+
+  <h2>Which is which</h2>
+  <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
+
+${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
+  <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
+  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
+  ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
+
+  <h2>Load the tokens once</h2>
+  ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
+
+  <h2>Details</h2>
+  <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
+  return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
+  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+}
 function renderMarketingHtml(b) {
+  if (b.layouts) return renderMarketingLayoutsHtml(b);
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
   <h1>${esc(b.name)}</h1>
@@ -2741,6 +2820,7 @@ function renderIconsLlms() {
   s += '- size: 12 | 16 | 24 | 32 (only); the runtime draws the paired stroke: 12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px. Colour follows currentColor — set it on the wrapper.\n';
   s += '- omit `label` and add `decorative` for an icon that only repeats adjacent text.\n';
   s += '- filled/active state → pick the `-filled` asset (e.g. system-bookmark-simple-filled).\n\n';
+  s += `Static images (a report PNG for Slack, email or an export) cannot run <aha-icon>: take the status glyphs as single-colour SVG files, same names, from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (ink: ink #1A1A1A or white; size 12, 16, 24, 32; the list is lib/static-icons/manifest.json). Rules: ${SITE}/guidelines/report-images/report-images.md\n\n`;
   s += `Search before you draw: find a glyph by what it means ("help" → system-question, "delete" → system-trash) in "Find by meaning" below, with \`npm run icon-search <words>\` (in an app: \`node node_modules/@ahaslides-product/design/icon-search.mjs <words>\`) or at ${SITE}/icons/index.html?q=<words>. Add a glyph to the DS only when nothing fits; a new glyph that looks nearly identical to an existing one fails the build.\n\n`;
   for (const fam of ICONS.families) s += `## ${fam} (${(byFam[fam] || []).length})\n${(byFam[fam] || []).sort().join(', ')}\n\n`;
   s += '## Find by meaning\n';
@@ -2781,7 +2861,7 @@ function expandMarketingData(b) {
 /* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(composeMarketingLayouts).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -2927,6 +3007,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+cpSync(join(root, 'marketing-assets'), join(OUT, 'marketing-assets'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
 
@@ -2975,6 +3056,7 @@ const indexLines = [
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
+  `> Reports, as static images (charts, tables, number plates and KPI tiles rendered to PNG for Slack, email or an export) or as read-only report pages a report routine publishes: follow ${SITE}/guidelines/report-images/report-images.md (light grey zebra tables, <aha-stat-tile look="accent"> plates, colour rule 3.11); in an image, take status glyphs as single-colour SVG from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (registry names; ink or white; 12, 16, 24, 32).`,
   `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale (one colour, per the colour rules).`,
   `> Page title and favicon: every page, route, site and app sets its own document <title> as "<specific part> | AhaSlides" (brand last, one " | " separator; a named site ends "| AhaSlides <Site name>"; only the marketing home page is brand-first) and links the one favicon set, The Splash in ${SITE}/logo/favicon/, with /favicon.ico answering at the site root. Rules: ${SITE}/guidelines/page-title-favicon/page-title-favicon.md`,
   `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers or marketing-style page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
