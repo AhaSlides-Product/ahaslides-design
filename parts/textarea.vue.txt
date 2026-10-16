@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import { ConfigProvider, Input } from 'ant-design-vue';   // ant-design-vue v4
-import { textareaTheme } from '@ahaslides-product/design/textarea-theme';
+import { textareaTheme, textareaRemainingCount } from '@ahaslides-product/design/textarea-theme';
+import '@ahaslides-product/design/textarea-counted.css';
 
 const Textarea = Input.TextArea;
 const text = ref('');
 const hasError = ref(false);
+const showCount = { formatter: textareaRemainingCount };
 </script>
 
 <template>
@@ -18,7 +20,8 @@ const hasError = ref(false);
       size="middle"
       :status="hasError ? 'error' : undefined"
       :auto-size="{ minRows: 3, maxRows: 6 }"
-      show-count
+      class="aha-textarea-counted"
+      :show-count="showCount"
       :maxlength="200"
       style="width: 340px"
     />

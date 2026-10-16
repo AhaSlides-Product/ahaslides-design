@@ -88,11 +88,27 @@
     "plugin": "aha-mkt",
     "owner": "Marketing"
    }
+  },
+  "report-image": {
+   "label": "Reports: static images and read-only report pages",
+   "summary": "A report, in either of its two forms, which look the same: charts, tables, number plates and KPI tiles rendered once to a PNG for Slack, email or an export, where nothing can be hovered, zoomed or opened, so every value is written on the image; or a read-only report page (a dashboard) that a report routine publishes, opened from a link to be read and never operated, built with <aha-chart>, <aha-stat-tile look=\"accent\"> plates and light grey zebra tables. Not a screen of the product app: its Report screens stay product.",
+   "route": {
+    "guidelines": [
+     "{site}/guidelines/report-images/report-images.md",
+     "{site}/colour-rules.md",
+     "{site}/charts/index.html",
+     "{site}/stat-tile/index.html"
+    ],
+    "judge": "{site}/anti-slop.md (surfaces report-images, charts and colour; an image is judged on the rendered PNG, a report page on its screenshot at 390 and 1280 px)",
+    "lint": "an image has nothing mechanical: judge the rendered PNG on the report-images criteria; a report page, and any HTML screenshotted into an image, runs node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=product <files>",
+    "plugin": "ahaslides-design:aha-design",
+    "owner": "Design system team (#design-system-agents)"
+   }
   }
  },
  "sources": [
   { "kind": "contract", "folder": "contracts", "key": "slug", "folderEnvironments": ["product", "audience"] },
-  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience"] },
+  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience", "report-image"] },
   { "kind": "marketing", "folder": "marketing", "key": "slug", "folderEnvironments": ["marketing-web", "video", "social-ads"] },
   { "kind": "logo", "file": "logo/manifest.json", "list": "logos", "key": "id" },
   { "kind": "brand", "file": "brand/manifest.json", "list": "assets", "key": "id" },
