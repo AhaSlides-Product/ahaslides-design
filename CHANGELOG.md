@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.211.0 — 2026-10-15
+## 0.215.0 — 2026-10-16
 ### Added
 - Logo library: each third-party brand logo fetched from theSVG now also ships in its original colours at `logo/original/<file>`, beside the one-colour file (`originalFile` in `logo/manifest.json`; PDF has no original source and has none). The Foundations → Logo library page shows both files on every brand tile and gives the hover and focus pattern as copy-paste HTML and CSS. `recolour-art.mjs` leaves `logo/original/` alone, and `standards.mjs` checks that every original sits beside its one-colour file and is declared. The Model Context Protocol original is its mark in black, as the source file is the white mark for dark backgrounds. (#262)
 ### Changed
@@ -32,6 +32,34 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Typography judge J7: the DS type scale governs every screen and website page; a landing-page hero takes a display role instead of being treated as a separate brand surface. The matching eval now expects J2 and J7 to fail and a display role as the fix. (#262)
 - Docs site: the "Marketing" header tab is renamed "Websites", matching the `web` environment; docs search labels those pages Websites too. The `marketing/` folder, its page URLs and the `marketing.*` feed names are unchanged. (#262)
 - The old `marketing-web` id is still accepted for one release as a deprecated alias of `web`: items that declare it validate and route as `web`, and `colour-rules.agent.json` `rulesByEnvironment['marketing-web']` mirrors `web`. It is not a sixth environment and is not listed in `llms.txt` Routes. (#262)
+
+## 0.213.2 — 2026-10-15
+### Changed
+- Marketing section previews sit in a fixed-height container (640px, or 70% of the screen height when that is smaller): a tall section scrolls inside it and a short one is centred, so switching width or opening a menu no longer moves the rest of the page. (#275)
+
+## 0.213.1 — 2026-10-15
+### Changed
+- Marketing pages: each Paste-and-run HTML, Load the tokens once and card-type block shows its one-line description and Show code on the same row; the button drops below the text on narrow screens. (#274)
+
+## 0.213.0 — 2026-10-15
+### Added
+- Marketing section `Logos` (Patterns → Marketing sections, Webflow CMS collection list `div-block-250`), matched to the live ahaslides.com survey creator page at 1440px, 991px, 767px and 390px: a row of greyscale customer logos that slides left over 20s, linear and repeating, like the Webflow Infinite logo interaction, and stops under reduced motion. The loop shifts by one set plus the gap, so it restarts with no 40px jump (the live strip jumps), and the logos load eagerly so none is blank when it slides in. Below 768px the set grows to its content, so the logos no longer overlap the second copy (they do on live). The logos are not typed into the markup: the section renders them from `marketing/data/logos-cms.json`, the published CMS list with its source URL and fetch date. `generate.mjs` gains one optional step for marketing sections: a `dataFile` plus an `itemHtml` template expand `{{items}}` in the section HTML; sections without them are unchanged. (#267)
+### Changed
+- Logos strip: the logos are about 25% larger than live at every width (80px to 100px wide at most, 110px to 138px at 1920px, 40px to 50px tall at 991px and below, 60px to 75px tall at 479px and below); the loop shift is unchanged. Growth to align the live site. (#267)
+
+## 0.211.1 — 2026-10-15
+### Changed
+- The Marketing sidebar lists Components above Sections, and the Marketing tab opens on the first component. (#273)
+
+## 0.211.0 — 2026-10-15
+### Changed
+- Settings fields fill a stacked row: `<aha-setting-row layout="stack">` and the settings list's stacked item make every DS field in the control slot (input, counted input and textarea, number with unit, select) full width, also when the field sits inside a wrapper with helper text. Inline rows are unchanged (fields keep their 240px width). The fields read a new inherited `--aha-field-width` (fallback 240px). (#271)
+- Settings fields have one size, the 40px default: no small and no large. `<aha-number-with-unit>` (settings only) drops its `size` attribute: `size="large"` now renders the 40px default. `<aha-input>`, `<aha-counted-input>`, `<aha-counted-textarea>` and `<aha-select>` keep `small` and `large`/`lg` for the audience field and other surfaces, but the Input, Counted input and Select field pages no longer show a small or large example (their size playground control is gone) and say a settings panel uses the default only. The AntD Select page is unchanged. (#271)
+### Added
+- `screen-lint --surface=settings` hard-fails `size="small"`/`"sm"`/`"large"`/`"lg"` on a settings field (rule `field-size`, markup, factory, schema and `setAttribute` forms) and `maxlength` on `<aha-input>` (rule `input-maxlength`; use `<aha-counted-input>`, counter inside the field on focus). The plugin blocks both at write time in a slide type's `settings.*`. (#271)
+- Settings rule `field-size-and-width` and judge criterion C19: default size only, full width when stacked, counter inside the field shown on focus; the skill notes that an AntD or slide-type-creator `size="large"` field maps to the DS default, as does a `size="small"` one. (#271)
+### Fixed
+- The settings guideline described the CountedInput counter as a sibling beside the field; it is an overlay inside the field. `<aha-select>` (select field) now declares its environment. (#271)
 
 ## 0.209.0 — 2026-10-15
 ### Changed
