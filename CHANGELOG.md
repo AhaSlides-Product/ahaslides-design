@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.231.0 — 2026-10-16
 ### Changed
-- Marketing → Sections: the site navbar is now its own `Navigation` page (`marketing/navigation.json`, one layout, `Site navbar`); the `Header` page keeps the four Hero Pink banners, the fourteen heroes and the six page headers (twenty-four layouts) and its summary and highlights no longer mention the navbar. The navbar's HTML, CSS and `aha-header__*` classes are byte-identical, so pasted code keeps working. The old `marketing/header/` URL stays valid and now shows the heroes. No new tokens, colours or components. Environment: marketing-web. Revert: delete `marketing/navigation.json` and move its `Site navbar` layout back to the front of `marketing/header.json`. (#PR)
+- Marketing → Sections: the site navbar is now its own `Navigation` page (`marketing/navigation.json`, one layout, `Site navbar`); the `Header` page keeps the four Hero Pink banners, the fourteen heroes and the six page headers (twenty-four layouts) and its summary and highlights no longer mention the navbar. The navbar's HTML, CSS and `aha-header__*` classes are byte-identical, so pasted code keeps working. The old `marketing/header/` URL stays valid and now shows the heroes. No new tokens, colours or components. Environment: marketing-web. Revert: delete `marketing/navigation.json` and move its `Site navbar` layout back to the front of `marketing/header.json`. (#292)
 
 ## 0.229.0 — 2026-10-16
 ### Changed
