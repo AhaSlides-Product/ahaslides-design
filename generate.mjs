@@ -59,7 +59,7 @@ const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return
 /* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
    URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
 const LIVE_SITE = 'https://design.ahaslides.io';
-const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`);
+const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`).replaceAll(`${LIVE_SITE}/marketing-assets/`, `${SITE}/marketing-assets/`);
 const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
@@ -1032,7 +1032,8 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
+    const marketingGroups = [...new Set(MARKETING.filter(b => b.group).map(b => b.group))];
+    inner = marketingNav(MARKETING.filter(b => isMarketingComponent(b) && !b.group), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b) && !b.group), MARKETING_CAT) + marketingGroups.map(g => marketingNav(MARKETING.filter(b => b.group === g), esc(g))).join('');
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -1489,15 +1490,12 @@ function composeMarketingComponent(b) {
   return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
-const marketingSnippet = (b) => `<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`;
-const marketingPreviewSnippet = (b) => b.variants
-  ? `<style>\n${b.css || ''}\n</style>\n${b.variants.map(v => v.html).join('\n<div style="height:var(--aha-space-24);background:var(--aha-white)"></div>\n')}\n`
-  : marketingSnippet(b);
+const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`);
 const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
   return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
 };
-const marketingLayoutSnippet = (b, layout) => `<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`;
+const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
@@ -1687,7 +1685,7 @@ function marketingBreakpointPreview(b) {
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewSnippet(b)}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
   </div>
   <script type="module">
   import '../../lib/aha-segmented.js';
@@ -1799,8 +1797,8 @@ function renderMarketingLayoutsHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Which is which</h2>
-  <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
+  <p class="body">Each section copies the layout of one Untitled UI ${esc(b.name.toLowerCase())} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-${esc(b.slug)}--${esc(layout.slug)}</code></li>`).join('')}</ul>
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
@@ -1834,15 +1832,10 @@ function renderMarketingHtml(b) {
   ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card), esc(card.summary))}`).join('\n  ')}
 
   <h2>The whole grid</h2>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'All eight types in the 3, 2 and 1 column grid.')}` : `<h2>Paste-and-run HTML</h2>
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), `All ${b.snippets.length} types in the 3, 2 and 1 column grid.`)}` : `<h2>Paste-and-run HTML</h2>
   ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
 
-  ${b.variants ? `<h2>Variants</h2>
-  <p class="body">Each variant is the same block with its modifiers set. The paste-and-run HTML above is the first one.</p>
-  ${b.variants.map(v => `<h3>${esc(v.name)}</h3>
-  ${marketingCodeToggle(`${b.slug}-${v.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.html`, `<style>\n${b.css || ''}\n</style>\n${v.html}\n`, esc(v.summary))}`).join('\n  ')}
-
-  ` : ''}<h2>Load the tokens once</h2>
+  <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
 
   <h2>Details</h2>
@@ -1871,7 +1864,6 @@ function renderMarketingAgent(b) {
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     html: b.html || '', css: b.css || '',
-    ...(b.variants ? { variants: b.variants.map(v => ({ name: v.name, summary: v.summary, html: v.html })) } : {}),
   }, null, 2) + '\n';
 }
 const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
@@ -3022,6 +3014,7 @@ cpSync(join(root, 'lib'), join(OUT, 'lib'), { recursive: true });
    component previews — silently falls back to -apple-system instead of the brand face. */
 cpSync(join(root, 'fonts'), join(OUT, 'fonts'), { recursive: true });
 cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
+cpSync(join(root, 'marketing-assets'), join(OUT, 'marketing-assets'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
 
