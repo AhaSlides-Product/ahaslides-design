@@ -22,6 +22,9 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.221.1 — 2026-10-16
+### Fixed
+- **`<aha-chart>` column values moved inside a bar now read at 4.5:1 and stay within the bar.** The ink is whichever of the chart ink and solid white has the higher contrast ratio on the bar fill (`readableInkOn` assumed pure black, which left `#1A1A1A` at 3.86:1 on Vivid Pink); Vivid Pink always takes solid white (colour rule 6.4). A label is only placed inside when its text and padding fit the bar width, otherwise it sits just beyond the reference line. New "Signed decimals on the line" case on the chart page and tests at 358 px with two-digit and signed decimal values. (#284)
 ## 0.221.0 — 2026-10-16
 ### Added
 - Marketing section `Hero banner` (Marketing → Sections), logged from the Webflow components Hero Pink and Hero Pink Vertical (Top sections): a Vivid Pink section with Darker Pink Splash hooks, white headline and body, a white Get started button and a white image card, with the image beside the copy or under centred copy (`--vertical`). Each layout also has a pale pink version (`--pale`: Vivid Pink at 5% surface, black text, the DS primary button, hooks in Vivid Pink at 5%), so one block gives four combinations. The existing `Hero` section is unchanged. Rule 3.5 (the first screen is white) clashes with a coloured hero; the clash is logged in `docs/landing-webflow-scan.md` and the colour rules are not edited. `generate.mjs` gains one optional step for marketing sections: a `variants` list shows every variant in the preview and adds a code panel for each; sections without it are unchanged. Revert: delete `marketing/hero-banner.json` and the `variants` branches in `generate.mjs`. (#280)
