@@ -1,5 +1,5 @@
 {
-  "name": "Report images",
+  "name": "Report images and pages",
   "slug": "report-images",
   "kind": "guideline",
   "environment": [
@@ -7,18 +7,18 @@
   ],
   "group": "Patterns",
   "badge": "pattern — composition guide",
-  "summary": "How to render a chart, a table, a number plate or a KPI tile as a static image (a PNG for Slack, email or an export): size and density, type, series order and the top 3 plus Other rule, end labels, twin-axis legends, gaps, notes on real zero runs, tick density and number formats, titles, missing glyphs, and the static table and plate looks.",
+  "summary": "How to build a report, as a static image (a PNG for Slack, email or an export) or as a read-only report page a report routine publishes, so both forms look the same: size and density, type, series order and the top 3 plus Other rule, end labels, twin-axis legends, gaps, notes on real zero runs, tick density and number formats, titles, missing glyphs, and the report table and number plate looks.",
   "highlights": [
     "The DS chart rules, plus what a still image cannot do",
-    "Static tables: zebra rows, because an image has no hover",
-    "Number plates and KPI tiles: Vivid Pink at 5% card, black text, pink top bar",
-    "Status glyphs come from lib/static-icons, never drawn"
+    "Report tables: white and light grey zebra rows, in an image and on a report page alike",
+    "Number plates and KPI tiles: Vivid Pink at 5% card, black text, pink top bar, as many as the report needs",
+    "Status glyphs: lib/static-icons in an image, <aha-icon> on a page, never drawn"
   ],
-  "lead": "A report image is a chart, table, number plate or KPI tile rendered once to a PNG and posted to Slack, an email or an export. It follows the same rules as the live DS elements (<aha-chart>, <aha-stat-tile>, the colour rules) with one difference that drives the rest: nobody can hover, zoom or read a tooltip. So every value a reader needs is written on the image, rows are told apart by zebra striping instead of a hover highlight, and every glyph is a file from the DS, because a renderer that cannot run <aha-icon> cannot draw one either.",
+  "lead": "A report comes in two forms that look the same. A report image is a chart, table, number plate or KPI tile rendered once to a PNG and posted to Slack, an email or an export. A report page is a read-only page (a dashboard) that a report routine publishes: people open it from a link to read it, and never operate it. Both follow the same rules as the live DS elements (<aha-chart>, <aha-stat-tile>, the colour rules), and colour rule 3.11 gives both their colour: pale pink number plates, and white and light grey zebra table rows. One difference drives the image rules: nobody can hover, zoom or read a tooltip on an image, so every value a reader needs is written on it and every glyph is a file from the DS, because a renderer that cannot run <aha-icon> cannot draw one either. A screen of the product app, including its Report screens, is not a report page: it keeps plain table rows and white tiles.",
   "skillRef": {
     "build": "DS guideline — guidelines/report-images.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: report-images)",
-    "note": "The DS owns this ruleset. The live elements it mirrors are <aha-chart> (contracts/chart.json) and <aha-stat-tile> (contracts/stat-tile.json); the static glyphs are lib/static-icons (build-static-icons.mjs); the judge criteria and evals live in anti-slop/."
+    "note": "The DS owns this ruleset. A report page builds with the live elements <aha-chart> (contracts/chart.json) and <aha-stat-tile look=\"accent\"> (contracts/stat-tile.json); a report image copies them, with the static glyphs from lib/static-icons (build-static-icons.mjs); the judge criteria and evals live in anti-slop/."
   },
   "surfaces": [
     "report",
@@ -29,37 +29,43 @@
     {
       "ref": "chart",
       "as": "component",
-      "use": "the live twin of a static chart: line (end labels, gaps, twin axis), column (negatives, reference line) and the four chart colours in order",
+      "use": "the chart on a report page, and the live twin a static chart copies: line (end labels, gaps, twin axis), column (negatives, reference line) and the four chart colours in order",
       "status": "available"
     },
     {
       "ref": "stat-tile",
       "as": "component",
-      "use": "the live twin of a number plate (look=\"accent\"): value, change as absolute and percent, comparison caption, rise and fall by shape",
+      "use": "the number plate: <aha-stat-tile look=\"accent\"> on a report page, drawn to the same spec in an image (value, change as absolute and percent, comparison caption, rise and fall by shape)",
       "status": "available"
     },
     {
       "ref": "grid",
       "as": "component",
-      "use": "lays live stat tiles in a row that wraps to fewer columns as the screen narrows (<aha-grid min=\"160px\">)",
+      "use": "lays stat tiles on a report page in a row that wraps to fewer columns as the screen narrows (<aha-grid min=\"160px\">)",
       "status": "available"
     },
     {
       "ref": "table",
       "as": "component",
-      "use": "the contrast target: an in-app table keeps no zebra rows, because its rows have a hover highlight",
+      "use": "the contrast target: a table on a screen of the product app keeps no zebra rows, because people work in it with a hover highlight",
       "status": "available"
     },
     {
       "ref": "icon",
       "as": "component",
-      "use": "the registry the static glyphs are exported from, under the same names (lib/static-icons)",
+      "use": "status glyphs: <aha-icon> on a report page; in an image, the same glyphs exported under the same names (lib/static-icons)",
       "status": "available"
     },
     {
       "ref": "--aha-bg-accent",
       "as": "token",
-      "use": "Vivid Pink at 5% (#E70E680D, flat on white #FEF3F7): zebra rows and the plate card",
+      "use": "Vivid Pink at 5% (#E70E680D, flat on white #FEF3F7): the number plate card only, never a table row",
+      "status": "available"
+    },
+    {
+      "ref": "--aha-bg-container-secondary",
+      "as": "token",
+      "use": "light grey #F7F7F7: the zebra rows of a report table (colour rules 3.6 and 3.11)",
       "status": "available"
     },
     {
@@ -96,7 +102,7 @@
   "rules": [
     {
       "id": "size-density",
-      "rule": "Draw at 2x: a full-width chart is 1,200 by 675 px at 1x and exported at 2,400 by 1,350. Keep text at least 12 px at 1x (ticks, notes) and 14 px for labels and values, a 24 px margin on a white background, one chart, table or plate row per image, and the file under 1 MB so Slack shows the preview.",
+      "rule": "An image is drawn at 2x: a full-width chart is 1,200 by 675 px at 1x and exported at 2,400 by 1,350. Keep text at least 12 px at 1x (ticks, notes) and 14 px for labels and values, a 24 px margin on a white background, one chart, table or plate row per image, and the file under 1 MB so Slack shows the preview. A report page is a white page that reflows from a 360 px phone up with no horizontal scroll, the same text sizes, and as many charts, tables and plate rows as the report needs.",
       "ref": [
         "C1"
       ]
@@ -166,21 +172,21 @@
     },
     {
       "id": "static-table",
-      "rule": "A table in an image has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7) with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This is colour rule 3.11 and applies to images only: an in-app table keeps plain rows, because its rows have a hover highlight and an image has none.",
+      "rule": "A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary, the light grey rule 3.6 allows for table surfaces), never pale pink, with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This is colour rule 3.11 and applies to reports only: a table on a screen of the product app keeps plain rows, because people work in it with a hover highlight; a report is read, not worked in.",
       "ref": [
         "C11"
       ]
     },
     {
       "id": "plates",
-      "rule": "A number plate (the static KPI tile) is a flat card in Vivid Pink at 5% with a 4px Vivid Pink top bar and 8px corners: the label in black 400, the value in black 600, the change as an absolute number and a whole percent, then the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. No green, red or other status colour, and no shadow. Colour rule 3.11 allows the pale pink card in an image.",
+      "rule": "A number plate (the KPI tile) is a flat card in Vivid Pink at 5% with a 4px Vivid Pink top bar and 8px corners: the label in black 400, the value in black 600, the change as an absolute number and a whole percent, then the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. No green, red or other status colour, and no shadow. On a report page it is <aha-stat-tile look=\"accent\">, as many as the report needs; in an image it is drawn to the same spec. Colour rule 3.11 allows the pale pink card in both.",
       "ref": [
         "C12"
       ]
     },
     {
       "id": "static-glyphs",
-      "rule": "Status marks in an image are the SVG files in lib/static-icons, called by their registry names (system-arrow-up, system-arrow-down, system-warning-circle, system-hourglass-high …) at 12, 16, 24 or 32 px, in ink or white. Never draw a triangle, a circle or an emoji in their place.",
+      "rule": "Status marks are DS glyphs called by their registry names (system-arrow-up, system-arrow-down, system-warning-circle, system-hourglass-high …) at 12, 16, 24 or 32 px, in ink or white: <aha-icon> on a report page, the SVG files in lib/static-icons in an image. Never draw a triangle, a circle or an emoji in their place.",
       "ref": [
         "C13"
       ]
@@ -188,39 +194,39 @@
   ],
   "selfCheck": [
     {
-      "label": "2x export, text at least 12 px at 1x, white background, under 1 MB",
-      "verdict": "N/A — per-image"
+      "label": "image: 2x export, text at least 12 px at 1x, white background, under 1 MB; page: reflows from 360 px with no horizontal scroll",
+      "verdict": "N/A — per report"
     },
     {
       "label": "Plus Jakarta Sans 400 and 600 only; fallback font for missing glyphs",
-      "verdict": "N/A — per-image"
+      "verdict": "N/A — per report"
     },
     {
       "label": "series in the chart order; top 3 plus Other past four parts",
-      "verdict": "N/A — per-image"
+      "verdict": "N/A — per report"
     },
     {
       "label": "end labels on every line, never overlapping; gaps break the line; zero runs carry a note",
-      "verdict": "N/A — per-image"
+      "verdict": "N/A — per report"
     },
     {
       "label": "twin axis named in the legend; 3 to 6 round divisions; K, M and whole % formats",
-      "verdict": "N/A — per-image"
+      "verdict": "N/A — per report"
     },
     {
       "label": "sentence-case titles with no em or en dashes",
-      "verdict": "N/A — per-image"
+      "verdict": "N/A — per report"
     },
     {
-      "label": "tables: zebra white and #FEF3F7, dividers, black semibold header over a 2px Vivid Pink rule",
-      "verdict": "N/A — per-image"
+      "label": "tables, in an image and on a page: zebra white and light grey #F7F7F7 (never pink), dividers, black semibold header over a 2px Vivid Pink rule",
+      "verdict": "N/A — per report"
     },
     {
-      "label": "plates: Vivid Pink at 5% card, pink top bar, black text, rise and fall by shape; glyphs from lib/static-icons",
-      "verdict": "N/A — per-image"
+      "label": "plates: Vivid Pink at 5% card (<aha-stat-tile look=\"accent\"> on a page), pink top bar, black text, rise and fall by shape; glyphs from the DS",
+      "verdict": "N/A — per report"
     }
   ],
   "reuse": null,
-  "reuseNote": "Doc-only guideline. The live elements it mirrors ship as <aha-chart> and <aha-stat-tile>; the static glyphs ship as files in lib/static-icons, generated by build-static-icons.mjs and checked by its test.",
+  "reuseNote": "Doc-only guideline. A report page uses the live elements <aha-chart> and <aha-stat-tile look=\"accent\">; a report image copies them, with the static glyphs that ship as files in lib/static-icons, generated by build-static-icons.mjs and checked by its test.",
   "guide": "report-images.guide.md"
 }

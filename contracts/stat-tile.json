@@ -11,7 +11,7 @@
     "Rise in black with an up arrow, fall in a black pill with a down arrow",
     "1 to 6 tiles per row, wrapping on narrow screens"
   ],
-  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a percent of the previous value (never a misleading 0%) (percentage points for `format=\"percent\"`), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a static report image it is the number plate colour rule 3.11 gives. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
+  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a percent of the previous value (never a misleading 0%) (percentage points for `format=\"percent\"`), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a report (a static report image, or a read-only report page a report routine publishes) it is the number plate colour rule 3.11 gives, on every tile. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. The change is computed in the element, so every consumer rounds and words it the same way.",
   "tokensUsed": [
     "bg-accent",
@@ -96,7 +96,7 @@
       "name": "look",
       "type": "plain | accent",
       "default": "plain",
-      "desc": "plain: white card with a border. accent: Vivid Pink at 5% card, for a static report image (colour rule 3.11) or the one highlighted panel colour rule 3.7 allows on an app screen"
+      "desc": "plain: white card with a border. accent: Vivid Pink at 5% card, for every tile in a report, image or read-only report page (colour rule 3.11), or the one highlighted panel colour rule 3.7 allows on an app screen"
     },
     {
       "name": "locale",
@@ -115,7 +115,7 @@
     "whenToUse": [
       {
         "what": "Stat tile",
-        "when": "a KPI with a comparison against the previous period, on a dashboard, a report screen or a report image"
+        "when": "a KPI with a comparison against the previous period, on a dashboard, a report screen, a report page or a report image"
       },
       {
         "what": "Statistic",
@@ -126,7 +126,7 @@
         "when": "how a figure moved over many periods, not just against the last one"
       }
     ],
-    "note": "Name the metric in sentence case and always say what the change is compared with in the caption. Direction is shape, not hue: never tint a tile, the value or the change green or red. Leave the tile white on an app screen; use look=\"accent\" only for the one highlighted panel (colour rule 3.7) or in a static report image (colour rule 3.11). Keep a row to 6 tiles at most."
+    "note": "Name the metric in sentence case and always say what the change is compared with in the caption. Direction is shape, not hue: never tint a tile, the value or the change green or red. Leave the tile white on an app screen; use look=\"accent\" only for the one highlighted panel (colour rule 3.7), or on every tile of a report, image or read-only report page (colour rule 3.11). Keep a row to 6 tiles at most."
   },
   "surfaces": [
     "dashboard",
