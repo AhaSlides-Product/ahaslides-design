@@ -62,16 +62,6 @@
       "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
     },
     {
-      "file": "person-04.webp",
-      "kind": "person",
-      "description": "4:5 portrait, 600 px wide",
-      "sourceUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
       "file": "avatar-04.webp",
       "kind": "avatar",
       "description": "128 px square crop of the same photo",
@@ -112,26 +102,6 @@
       "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
     },
     {
-      "file": "avatar-06.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "person-07.webp",
-      "kind": "person",
-      "description": "4:5 portrait, 600 px wide",
-      "sourceUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
       "file": "avatar-07.webp",
       "kind": "avatar",
       "description": "128 px square crop of the same photo",
@@ -145,16 +115,6 @@
       "file": "person-08.webp",
       "kind": "person",
       "description": "4:5 portrait, 600 px wide",
-      "sourceUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "avatar-08.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
       "sourceUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
       "sourcePage": "https://unsplash.com/s/photos/portrait",
       "licence": "Unsplash License (free to use, no attribution required)",
@@ -212,29 +172,9 @@
       "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
     },
     {
-      "file": "avatar-11.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1463453091185-61582044d556",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
       "file": "person-12.webp",
       "kind": "person",
       "description": "4:5 portrait, 600 px wide",
-      "sourceUrl": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
-      "file": "avatar-12.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
       "sourceUrl": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce",
       "sourcePage": "https://unsplash.com/s/photos/portrait",
       "licence": "Unsplash License (free to use, no attribution required)",
@@ -272,16 +212,6 @@
       "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
     },
     {
-      "file": "avatar-14.webp",
-      "kind": "avatar",
-      "description": "128 px square crop of the same photo",
-      "sourceUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-      "sourcePage": "https://unsplash.com/s/photos/portrait",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Stock portrait of a model; the name and quote shown with it in the section are fictional."
-    },
-    {
       "file": "cover-workspace.webp",
       "kind": "cover",
       "description": "3:2 scene, 720 px wide",
@@ -310,16 +240,6 @@
       "photographer": "Aleks Dorohovich",
       "licence": "Unsplash License (served by Lorem Picsum)",
       "fetched": "2026-10-16"
-    },
-    {
-      "file": "backdrop-night-sky.webp",
-      "kind": "backdrop",
-      "description": "1600 px wide crop of the starry sky, no pink, behind the Glassmorphic cards",
-      "sourceUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba",
-      "sourcePage": "https://unsplash.com/photos/d120267933ba",
-      "licence": "Unsplash License (free to use, no attribution required)",
-      "fetched": "2026-10-16",
-      "note": "Cropped to the upper right of the photo and recompressed as webp."
     },
     {
       "file": "logo-airbus.webp",
