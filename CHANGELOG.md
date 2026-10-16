@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.222.0 — 2026-10-16
+### Changed
+- Marketing → Sections: the four heroes are now four separate sections, each with its own name, nav entry, preview and code panel: `Hero Pink`, `Hero Pink Vertical`, `Hero Pale Pink` and `Hero Pale Pink Vertical` (replacing the single `Hero banner` page). Markup, styles and tokens are identical to 0.221.0; the old `Hero` section is unchanged. The `variants` option added to `generate.mjs` in 0.221.0 is removed (nothing else used it). Revert: restore `marketing/hero-banner.json` and the `variants` branches in `generate.mjs`, delete the four new JSON files. (#285)
+
 ## 0.221.0 — 2026-10-16
 ### Added
 - Marketing section `Hero banner` (Marketing → Sections), logged from the Webflow components Hero Pink and Hero Pink Vertical (Top sections): a Vivid Pink section with Darker Pink Splash hooks, white headline and body, a white Get started button and a white image card, with the image beside the copy or under centred copy (`--vertical`). Each layout also has a pale pink version (`--pale`: Vivid Pink at 5% surface, black text, the DS primary button, hooks in Vivid Pink at 5%), so one block gives four combinations. The existing `Hero` section is unchanged. Rule 3.5 (the first screen is white) clashes with a coloured hero; the clash is logged in `docs/landing-webflow-scan.md` and the colour rules are not edited. `generate.mjs` gains one optional step for marketing sections: a `variants` list shows every variant in the preview and adds a code panel for each; sections without it are unchanged. Revert: delete `marketing/hero-banner.json` and the `variants` branches in `generate.mjs`. (#280)
