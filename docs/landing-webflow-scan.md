@@ -311,3 +311,13 @@ Read through the Webflow Designer API on the production site (6 instances of Her
 72. Webflow media queries (991px, 767px, 479px) → container queries on the section at 991px and 479px (767px has no change on these components except a 1rem gap, folded into the 991px layout).
 73. Left out, as off by default in Webflow: the second button, the G2 rating row (avatar, stars, "4.8 Based on 1000 reviews") and, on the vertical component, the breadcrumb (origin, delineator, current page). Each is a boolean prop, so Growth keeps them in Webflow; adding them to the DS needs the requester's call.
 74. The headline is an `h1` in both components, as in Webflow; a page with a second hero should demote it.
+
+### Pricing (Untitled UI pricing sections, for the Webflow Pricing page) — added with DESY-229
+75. Untitled UI dark and purple surfaces (Primary dark badge, the Most popular banner, the Large table 02 outline) → Vivid Pink surfaces (`--aha-color-primary`, `--aha-bg-accent`); there is no dark marketing surface in the colour rules.
+76. Untitled UI's green ticks → the DS check glyph (`system-check`) in Vivid Pink, and dashes → `system-minus`, so the table meaning is carried by shape plus hidden text, not colour; the colour rules give status no green.
+77. The hand-drawn curved "Most popular!" arrow → a Vivid Pink label with the DS `system-arrow-down` glyph (the DS has no curved arrow; logged as a missing asset).
+78. Untitled UI's Monthly/Annual switch → the DS Segmented control with the DS Tag for "Save 33%"; Yearly is selected first. Layouts that have no toggle in Untitled UI (Simple cards 01, 02, 04 and Featured cards) get one so every layout can show both prices.
+79. The plan card in every layout is the new Pricing card of the Cards page (marketing radius, `--aha-*` tokens); Untitled UI shadows, radii, greys and Inter type are not carried over.
+80. Phones: Untitled UI scrolls the comparison table sideways; the DS stacks it (plan blocks, then each feature row lists every plan's value with its name), keeping the plan header sticky from tablet width up.
+81. The Large table 02 slider multiplies the per-user prices; Untitled UI's slider is a static decoration.
+82. Plan names, prices (Free $0, Essential $8 yearly or $12 monthly, Pro $16 or $24, Enterprise custom), periods and features are sample content for Growth to replace in Webflow.
