@@ -24,6 +24,16 @@
   </aha-grid>
 </div>
 
+<div class="pad">
+  <div class="lbl">Whole percentage points: 3 pts, 1 pt, and &lt;1 pt for a change under one point (report images guideline C8)</div>
+  <aha-grid min="160px" gap="middle">
+    <aha-stat-tile label="Activation rate" value="0.476" previous="0.45" format="percent" caption="vs previous week"></aha-stat-tile>
+    <aha-stat-tile label="Completion rate" value="0.464" previous="0.45" format="percent" caption="vs previous week"></aha-stat-tile>
+    <aha-stat-tile label="Churn" value="0.297" previous="0.3" format="percent" caption="vs previous month"></aha-stat-tile>
+    <aha-stat-tile label="Retention" value="0.51" previous="0.51" format="percent" caption="vs previous month"></aha-stat-tile>
+  </aha-grid>
+</div>
+
 <!-- Imports the REAL shipped element (../lib/aha-stat-tile.js) — no inlined copy, so the preview can never drift from lib/. -->
 <script type="module">
   import '../lib/aha-grid.js';

@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.220.3 — 2026-10-16
+### Fixed
+- **`<aha-stat-tile>` shows whole numbers in its change.** A percentage-point change was one decimal ("0.3 pts"); it now rounds to whole points ("3 pts", singular "1 pt", "<1 pt" for a non-zero change under one point, arrow direction kept), and a relative change under 1% reads "<1%" instead of a decimal, as the Report images guideline (C8) requires. An unchanged value still reads "No change", never "0" or "-0". A new "Whole percentage points" demo on the stat tile page and `tests/stat-tile-whole-points.test.mjs` cover it. (#283)
+
 ## 0.220.2 — 2026-10-16
 ### Fixed
 - **`<aha-chart>` column values no longer sit on the reference line.** When a value label's box would cross an OKR target or Average line, the label moves inside the top of its bar in whichever ink reads on that fill (or just beyond the line when the bar is too short), so the number stays readable. Negative columns mirror this; the line type is untouched. A new "Value on the line" case on the chart page and a `tests/column-reference-labels.test.mjs` contract check that no value label box intersects the line or its label. (#282)
