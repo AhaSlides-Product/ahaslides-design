@@ -1,6 +1,6 @@
 ---
 name: aha-design
-description: "Build or review AhaSlides product UI against the AhaSlides design system (@ahaslides-product/design) — the one source of truth for components, tokens, composition guidelines and the binary anti-slop judge criteria. Reads the DS from the installed npm package when the repo has it, else from its hosted feeds (llms.txt, anti-slop.agent.json, guidelines, per-component agent.json), then runs the build -> judge -> fix loop: pick the DS surface(s), read their rules and criteria, build with DS components and tokens, run the DS mechanical gate, judge every criterion PASS/FAIL, fix every FAIL, re-judge. Use whenever an agent designs, plans, builds, edits or reviews an AhaSlides functional / application surface — the product apps (presenter, editor, dashboard, settings, audience, slide-type canvas), docs / help-centre UI, internal tools, admin / back-office, ops consoles: a screen, page, component, form, table / data grid, chart / graph / data-viz / results visualisation (bar, column, donut, radar, word cloud, treemap), modal / drawer / popover, toast / alert, status badge, icon, paywall / upsell, settings modal / drawer / panel / page (course, presentation or account settings, preferences, options dialog), empty / error state, typography, colour or background, or in-app UI copy and casing. Also for 'review / judge / audit this UI', 'does this follow our design system', 'is this table / modal correct', or a self-check after building. Do NOT trigger for marketing / brand surfaces (landing pages, public pricing page, blog, email, social, ads, key art, brand voice) — that is aha-marketing-skills; for UI/UX design user research lookups (what users have said about a feature) — that is aha-uiux-user-research; or for backend, data, CLI or analytics work with no UI. In a legacy Vue 2 project (the nearest package.json declares vue 2.x, e.g. the presenter and audience apps) it applies to NEW screens, components and features only, built with the DS web components and never the old storybook kit; existing screens are left untouched unless the task asks to change them."
+description: "Build or review any AhaSlides website or product UI against the AhaSlides design system (@ahaslides-product/design) — the one source of truth for components, tokens, composition guidelines and the binary anti-slop judge criteria. Reads the DS from the installed npm package when the repo has it, else from its hosted feeds (llms.txt, anti-slop.agent.json, guidelines, per-component agent.json), then runs the build -> judge -> fix loop: pick the DS surface(s), read their rules and criteria, build with DS components and tokens, run the DS mechanical gate, judge every criterion PASS/FAIL, fix every FAIL, re-judge. Use whenever an agent designs, plans, builds, edits or reviews any AhaSlides website or app — every website page (landing pages, pricing, blog, careers, campaign pages), the product apps (presenter, editor, dashboard, settings, audience, slide-type canvas), docs / help-centre UI, internal tools, admin / back-office, ops consoles: a screen, page, component, form, table / data grid, chart / graph / data-viz / results visualisation (bar, column, donut, radar, word cloud, treemap), modal / drawer / popover, toast / alert, status badge, icon, paywall / upsell, settings modal / drawer / panel / page (course, presentation or account settings, preferences, options dialog), empty / error state, typography, colour or background, or in-app UI copy and casing. Also for 'review / judge / audit this UI', 'does this follow our design system', 'is this table / modal correct', or a self-check after building. There is no separate marketing web surface: one DS covers every website, and a page can serve marketing and usability at once. Do NOT trigger for brand voice, email, video or social / ads creative and key art — that is aha-marketing-skills; for UI/UX design user research lookups (what users have said about a feature) — that is aha-uiux-user-research; or for backend, data, CLI or analytics work with no UI. In a legacy Vue 2 project (the nearest package.json declares vue 2.x, e.g. the presenter and audience apps) it applies to NEW screens, components and features only, built with the DS web components and never the old storybook kit; existing screens are left untouched unless the task asks to change them."
 ---
 
 # Building and judging AhaSlides UI with the design system
@@ -66,11 +66,11 @@ never a frozen snapshot.
 
 ## 2. Pick the environment, then the surface(s)
 
-Every DS item names its environment (`product`, `audience`, `marketing-web`, `video`,
+Every DS item names its environment (`product`, `audience`, `web`, `video`,
 `social-ads`); each one's route (guidelines, judge, lint, plugin, owner) is in `llms.txt` →
-**Routes**, from `environments.json` in the package. This skill covers `product` and
-`audience`. A `marketing-web`, `video` or `social-ads` task follows its own route (the `aha-mkt`
-skill), not this loop.
+**Routes**, from `environments.json` in the package. This skill covers `product`,
+`audience` and `web` (every website page: landing, pricing, blog, careers). A `video` or
+`social-ads` task follows its own route (the `aha-mkt` skill), not this loop.
 
 The surface keys are the keys of `surfaces` in `criteria.json` (e.g. `table`, `overlays`,
 `feedback`, `settings`, `icons`, `typography`, `ux-writing`, `canvas`, `audience`, `app-shell`).
@@ -104,10 +104,13 @@ Read the list from the DS each time — surfaces get added.
    Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
-   The top-left brand of any site, microsite, docs site, careers or marketing-style page, internal
+   A third-party logo in any UI, website headers included, is the greyscale file at rest and its
+   original-colour file (`logo/original/<file>`) on hover and keyboard focus, with the tool's name
+   beside it (the Logo library has the copy-paste pattern); only a page listing other products
+   (Marketplace) shows brand colours at rest. Colour rule 2.6 has the detail.
+   The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
-   approved), never the logo file hand-set beside a text span; this holds even on a marketing page,
-   and the header is judged on `app-shell` C1.
+   approved), never the logo file hand-set beside a text span; the header is judged on `app-shell` C1.
 5. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
    radar, word cloud, mind map) is `<aha-chart>` from the DS: read
    `https://design.ahaslides.io/chart.agent.json` first, use

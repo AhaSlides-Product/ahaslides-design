@@ -82,13 +82,13 @@ When a component needs a glyph, search the library by what it means — `npm run
 
 ## Environment — every item declares one (enforced)
 
-Every contract, guideline, marketing section and brand or logo asset carries `"environment": [...]`: one or more of `product`, `audience`, `marketing-web`, `video`, `social-ads`. It tells an agent which route to follow (guidelines, judge, lint, plugin, owner), printed per environment in `llms.txt` → **Routes**. The one table is `environments.json`.
+Every contract, guideline, website section and brand or logo asset carries `"environment": [...]`: one or more of `product`, `audience`, `web`, `video`, `social-ads`. It tells an agent which route to follow (guidelines, judge, lint, plugin, owner), printed per environment in `llms.txt` → **Routes**. The one table is `environments.json`.
 
 - **New or changed item without a known environment → `standards.mjs` fails.** Items that shipped before the rule are listed in `environments.baseline.json`; touching one means declaring its environment and dropping it from the list (`node standards.mjs --update-baseline`). The list may only shrink: CI fails a pull request that adds to it.
 - **The pull request body declares it too.** A pull request that changes `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/`, `backgrounds/` or `illustrations/` needs a line `Environment: <names>` (the template has it), equal to the environments of the items it adds or changes. CI's standards job checks it, and re-runs when you edit the body.
 - **Add an environment:** one entry under `environments` in `environments.json` (`label`, `summary`, `route` with `guidelines`, `judge`, `lint`, `plugin`, `owner`; `{site}` is the docs host). No code changes: the gate, the routes, the feed headers and the scan all read the table.
 - **Add an item folder** (a `video/` folder, say): one line under `sources` — `folder` + `key` for one item per JSON file, or `file` + `list` + `key` for a manifest array — with `folderEnvironments` (what the folder serves) and its path in `declarationPaths`.
-- **Marketing, video and social contributors are not blocked beyond declaring the environment:** their own `aha-mkt` skill approves the content. `npm run route-scan` (report only, always exits 0) lists items with no environment, an unknown one, or one their folder does not serve, for a routine to follow up.
+- **Website sections are DS work like any component:** `web` items are judged and linted as `product` is. **Video and social contributors are not blocked beyond declaring the environment:** their own `aha-mkt` skill approves the content. `npm run route-scan` (report only, always exits 0) lists items with no environment, an unknown one, or one their folder does not serve, for a routine to follow up.
 
 ## Contributing a pattern (composition guide)
 
