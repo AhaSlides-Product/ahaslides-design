@@ -181,6 +181,7 @@
     "./aha-radio": "./lib/aha-radio.js",
     "./input-number-theme": "./lib/input-number-theme.js",
     "./textarea-theme": "./lib/textarea-theme.js",
+    "./textarea-counted.css": "./lib/textarea-counted.css",
     "./autocomplete-theme": "./lib/autocomplete-theme.js",
     "./time-picker-theme": "./lib/time-picker-theme.js",
     "./slider-theme": "./lib/slider-theme.js",
