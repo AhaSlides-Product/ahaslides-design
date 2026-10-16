@@ -64,12 +64,19 @@ for (const id of charts) {
   });
 }
 
-test('every brand series colour gets an ink at 4.5:1, and Vivid Pink gets solid white', { skip }, async () => {
-  const fills = ['rgb(231, 14, 104)', 'rgb(0, 0, 0)', 'rgb(248, 183, 210)', 'rgb(168, 168, 168)'];
+test('every palette fill, alpha ones included, gets an ink at 4.5:1 over white, or none', { skip }, async () => {
+  const fills = ['rgb(231, 14, 104)', 'rgb(0, 0, 0)', 'rgba(231, 14, 104, 0.3)', 'rgb(168, 168, 168)', 'rgba(231, 14, 104, 0.05)', 'rgba(0, 0, 0, 0.5)'];
   const inks = await evaluateInPage(fixture, `(${JSON.stringify(fills)}).map((fill) => window.inkWithBestContrast(fill, 'rgb(26, 26, 26)'))`, { readyExpr: '!!window.columnFixtureReady', timeout: 45000 });
   assert.match(inks[0], /^var\(--aha-viz-ink-inverse/);
+  const flatten = (colour) => {
+    const [red, green, blue, alpha = 1] = colour.match(/[\d.]+/g).map(Number);
+    return `rgb(${[red, green, blue].map((channel) => channel * alpha + 255 * (1 - alpha)).join(', ')})`;
+  };
   fills.forEach((fill, index) => {
+    if (inks[index] === null) return;
     const ink = inks[index].startsWith('var(') ? 'rgb(255, 255, 255)' : inks[index];
-    assert.ok(contrast(ink, fill) >= 4.5, `${fill} with ${inks[index]}`);
+    assert.ok(contrast(ink, flatten(fill)) >= 4.5, `${fill} with ${inks[index]}`);
   });
+  assert.ok(inks.some((ink, index) => ink !== null && fills[index].includes('0.3')), 'the 30% pink fill gets an ink that reads');
+  assert.equal(inks[5], null, 'a fill no ink reaches 4.5:1 on gets none, so the label goes outside the bar');
 });
