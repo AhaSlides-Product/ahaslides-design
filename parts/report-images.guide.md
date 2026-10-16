@@ -13,22 +13,19 @@ Companion guides: the colour rules (chart colours, text on Vivid Pink at 5%, ris
 falls), the Charts page for the live `<aha-chart>` line and column, the Stat tile page for
 `<aha-stat-tile>`, and the Table page for in-app tables.
 
-## Colour: how this sits inside the rules
+## Colour: rule 3.11
 
-Nothing here changes a colour rule; the static looks are the closest compliant reading of them.
+Report images are their own environment in the colour rules, `report-image`. Rule 3.11, asked for by Dave Bui, gives them their colour: table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar. Rules 3.2 and 3.7, which keep pale pink to section-built web pages, hover and selected states and one highlighted panel, do not apply in an image. Every other colour rule still holds:
 
-| Choice | Rule it follows |
+| Choice | Rule |
 | --- | --- |
-| A report image counts as **one screen**. Its row of plates is the screen's one highlighted panel in Vivid Pink at 5%. | 3.7: Vivid Pink at 5% is for hover and selected states, plus at most one highlighted panel per screen |
-| Zebra rows in Vivid Pink at 5% stand in for the hover state an image cannot show. | 3.7: hover and selected states |
-| Text on the plate card and on a pink row is **black**, never pink. | 6.5: text on Vivid Pink at 5% is black |
-| A rise is black with an up arrow; a fall is white on a black pill with a down arrow. | 7.3, 8.5: no green or red for up and down |
-| Series colours run Vivid Pink, black, Vivid Pink at 30%, light grey. | 8.1 to 8.3 |
-| Each line has its own marker shape. | 8.4: the chart still reads in black and white |
+| Zebra rows and plate cards in Vivid Pink at 5% | 3.11 |
+| Text on the plate card and on a pink row is black, never pink | 6.5 |
+| A rise is black with an up arrow; a fall is white on a black pill with a down arrow | 7.3, 8.5 |
+| Series colours run Vivid Pink, black, Vivid Pink at 30%, light grey | 8.1 to 8.3 |
+| Each line has its own marker shape, so the chart reads in black and white | 8.4 |
 
-An image that already carries a pink highlighted panel of its own (a callout box, say) uses
-the **plain** plate look instead: white with a 1px `--aha-border-default` border and the same
-pink top bar.
+On an app screen the same pale pink is not free: the live `<aha-stat-tile>` is white (`look="plain"`) by default, and `look="accent"` is for the one highlighted panel rule 3.7 allows.
 
 ## Size and density (C1)
 
@@ -124,7 +121,7 @@ do not drop them from an image.
 
 ## Number plates and KPI tiles (C12)
 
-A number plate is the static form of `<aha-stat-tile>`, drawn to the same spec:
+A number plate is the static form of `<aha-stat-tile look="accent">`, drawn to the same spec:
 
 | Part | Spec at 1x |
 | --- | --- |
@@ -139,7 +136,7 @@ A number plate is the static form of `<aha-stat-tile>`, drawn to the same spec:
 | Caption | 14 px, 400, `--aha-text-secondary` (`#4A4A4A`), after the change: `vs previous week` |
 | Row | 1 to 6 plates per row, 16 px apart, equal widths, at least 200 px each; more plates wrap to a second row |
 
-On an app screen the same tile is the live element: `<aha-stat-tile label="Weekly active users" value="12480" previous="11020" caption="vs previous week">`, laid out 1 to 6 to a row in `<aha-grid columns="N" responsive gap="middle">` (Stat tile page).
+On an app screen the same tile is the live element, white by default: `<aha-stat-tile label="Weekly active users" value="12480" previous="11020" caption="vs previous week">`, laid out in `<aha-grid min="160px" gap="middle">` so the row wraps to fewer columns on a narrow screen (Stat tile page).
 
 ## Static status glyphs (C13)
 

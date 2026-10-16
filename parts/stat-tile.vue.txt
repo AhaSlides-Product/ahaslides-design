@@ -5,7 +5,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 
 // Component.vue
 <template>
-  <aha-grid columns="3" responsive gap="middle">
+  <aha-grid min="160px" gap="middle">
     <aha-stat-tile label="Weekly active users" value="12480" previous="11020" caption="vs previous week" />
     <aha-stat-tile label="New sign-ups" value="1730" previous="2040" caption="vs previous week" />
     <aha-stat-tile label="Activation rate" value="0.46" previous="0.41" format="percent" caption="vs previous week" />

@@ -1354,7 +1354,7 @@
         },
         {
           "source": "brand/colour-rules.json",
-          "use": "the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
+          "use": "rule 3.11 (zebra rows and pale pink plates in images), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
         }
       ],
       "criteria": [
@@ -1411,12 +1411,12 @@
         {
           "id": "C11",
           "title": "Static tables: zebra rows, dividers, pink header rule",
-          "test": "**Rule.** A table in an image has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7), 1px #E3E3E3 dividers under every row, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, grey or pink-filled headers, pink text, vertical rules or coloured status cells fail. In-app tables are judged on the table surface instead and keep plain rows."
+          "test": "**Rule.** A table in an image has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7), 1px #E3E3E3 dividers under every row, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, grey or pink-filled headers, pink text, vertical rules or coloured status cells fail. In-app tables are judged on the table surface instead and keep plain rows. (Colour rule 3.11.)"
         },
         {
           "id": "C12",
           "title": "Number plates: Vivid Pink at 5% card, black text, direction by shape",
-          "test": "**Rule.** A number plate (the static KPI tile) is a flat Vivid Pink at 5% card with a 4px Vivid Pink top bar and 8px corners, black label (400) and value (600), the change as an absolute number and a whole percent, and the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. A grey or white-only plate with no brand colour, pink text on the card, a green or red change, a change with no arrow, or a drop shadow fails. A plate on an image that already has a pink highlighted panel may use the plain look (white, 1px border, pink top bar)."
+          "test": "**Rule.** A number plate (the static KPI tile) is a flat Vivid Pink at 5% card with a 4px Vivid Pink top bar and 8px corners, black label (400) and value (600), the change as an absolute number and a whole percent, and the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. A grey or white-only plate with no brand colour, pink text on the card, a green or red change, a change with no arrow, or a drop shadow fails. (Colour rule 3.11.)"
         },
         {
           "id": "C13",

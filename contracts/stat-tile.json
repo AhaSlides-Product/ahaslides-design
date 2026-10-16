@@ -11,7 +11,7 @@
     "Rise in black with an up arrow, fall in a black pill with a down arrow",
     "1 to 6 tiles per row, wrapping on narrow screens"
   ],
-  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a whole percent of the previous value (percentage points for `format=\"percent\"`), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat: Vivid Pink at 5% with a 4px Vivid Pink top bar and black text (`look=\"accent\"`), or white with a border (`look=\"plain\"`). One KPI row counts as the screen's one highlighted panel (colour rule 3.7); use the plain look when the screen already has one. Lay 1 to 6 tiles in a row with <aha-grid columns=\"N\" responsive>, which wraps them on narrow screens. The same look renders into a static report image; see the Report images guideline.",
+  "lead": "ONE custom element — <aha-stat-tile> — defined once, imported unchanged by React and Vue. Give it `value` and `previous` and it works out the change: the absolute difference and a percent of the previous value (never a misleading 0%) (percentage points for `format=\"percent\"`), followed by the `caption` that names the comparison. A rise is plain black with an up arrow; a fall is white on a black pill with a down arrow (colour rule 7.3), so direction never depends on a status hue. The card is flat with a 4px Vivid Pink top bar and black text: white with a border by default (`look=\"plain\"`), or Vivid Pink at 5% (`look=\"accent\"`). On an app screen the accent look is only for the one highlighted panel colour rule 3.7 allows; in a static report image it is the number plate colour rule 3.11 gives. Lay 1 to 6 tiles in a row with <aha-grid min=\"160px\" gap=\"middle\">, which wraps them to fewer columns as the row narrows. See the Report images guideline for the static form.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. The change is computed in the element, so every consumer rounds and words it the same way.",
   "tokensUsed": [
     "bg-accent",
@@ -38,7 +38,7 @@
   "spec": [
     {
       "label": "Card",
-      "value": "flat, radius 8, padding 20/20/16, Vivid Pink at 5% (#E70E680D, #FEF3F7 on white) with a 4px Vivid Pink top bar; plain look white with a 1px #E3E3E3 border and the same bar"
+      "value": "flat, radius 8, padding 20/20/16, white with a 1px #E3E3E3 border and a 4px Vivid Pink top bar; accent look Vivid Pink at 5% (#E70E680D, #FEF3F7 on white) with the same bar"
     },
     {
       "label": "Label",
@@ -46,11 +46,11 @@
     },
     {
       "label": "Value",
-      "value": "32/1.2 SemiBold #1A1A1A, tabular figures; format number (grouped), compact (12.5K, 1.3M) or percent (whole %)"
+      "value": "32/1.2 SemiBold #1A1A1A (24 in a tile narrower than 210px, so a long figure never overflows), tabular figures; format number (grouped), compact (12.5K, 1.3M) or percent (whole %)"
     },
     {
       "label": "Change",
-      "value": "14/1.5 SemiBold, absolute + whole percent of the previous value, e.g. 1,460 (13%); percentage points for a percent value. Rise: black with system-arrow-up 16. Fall: white on a #1A1A1A pill with system-arrow-down 16. No change: the flat label, no arrow"
+      "value": "14/1.5 SemiBold, absolute + percent of the previous value, e.g. 1,460 (13%), whole above 0.5%, one decimal below it, <0.1% for a smaller change; percentage points for a percent value. Rise: black with system-arrow-up 16. Fall: white on a #1A1A1A pill with system-arrow-down 16. No change: the flat label, no arrow"
     },
     {
       "label": "Caption",
@@ -58,7 +58,7 @@
     },
     {
       "label": "Row",
-      "value": "1 to 6 tiles in <aha-grid columns=\"N\" responsive gap=\"middle\">, 16px gap, wrapping as the container narrows"
+      "value": "1 to 6 tiles in <aha-grid min=\"160px\" gap=\"middle\">, 16px gap; tracks are at least 160px, so the row wraps to fewer columns as the container narrows"
     }
   ],
   "props": [
@@ -94,9 +94,9 @@
     },
     {
       "name": "look",
-      "type": "accent | plain",
-      "default": "accent",
-      "desc": "accent: Vivid Pink at 5% card. plain: white card with a border, for a screen that already has its one highlighted panel"
+      "type": "plain | accent",
+      "default": "plain",
+      "desc": "plain: white card with a border. accent: Vivid Pink at 5% card, for a static report image (colour rule 3.11) or the one highlighted panel colour rule 3.7 allows on an app screen"
     },
     {
       "name": "locale",
@@ -126,7 +126,7 @@
         "when": "how a figure moved over many periods, not just against the last one"
       }
     ],
-    "note": "Name the metric in sentence case and always say what the change is compared with in the caption. Direction is shape, not hue: never tint a tile, the value or the change green or red. One KPI row is the screen's one highlighted panel; if the screen already has another, use look=\"plain\". Keep a row to 6 tiles at most."
+    "note": "Name the metric in sentence case and always say what the change is compared with in the caption. Direction is shape, not hue: never tint a tile, the value or the change green or red. Leave the tile white on an app screen; use look=\"accent\" only for the one highlighted panel (colour rule 3.7) or in a static report image (colour rule 3.11). Keep a row to 6 tiles at most."
   },
   "surfaces": [
     "dashboard",
@@ -173,12 +173,12 @@
         "default": null,
         "options": [
           {
-            "label": "Accent",
+            "label": "Plain",
             "value": null
           },
           {
-            "label": "Plain",
-            "value": "plain"
+            "label": "Accent",
+            "value": "accent"
           }
         ]
       }
@@ -186,11 +186,11 @@
   },
   "selfCheck": [
     {
-      "label": "value 32/1.2 SemiBold black, label black on the pale pink card",
+      "label": "value 32/1.2 SemiBold black, label black on the white card (pale pink with look=accent)",
       "verdict": "PASS"
     },
     {
-      "label": "change shows absolute and whole percent; percentage points for a percent value",
+      "label": "change shows absolute and percent (0.4%, <0.1% for a tiny change); percentage points for a percent value",
       "verdict": "PASS"
     },
     {
@@ -202,17 +202,17 @@
       "verdict": "PASS"
     },
     {
-      "label": "1 to 6 per row via aha-grid responsive, wraps at 360px",
+      "label": "1 to 6 per row via aha-grid min=160px, wrapping to fewer columns as the row narrows (2 per row at 390px)",
       "verdict": "PASS"
     }
   ],
   "conformance": {
-    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] tile is a rise: pale pink card, Vivid Pink top bar, 32px semibold black value, black change with an up arrow.",
+    "$about": "Measured by qa.mjs against the RENDERED UI. The [data-probe] tile is a rise in the default look: white card, Vivid Pink top bar, 32px semibold black value, black change with an up arrow.",
     "ready": "!!(function(){var el=document.querySelector('aha-stat-tile[data-probe]');return el&&el.shadowRoot&&el.shadowRoot.querySelector('.change aha-icon');})()",
     "singleUI": true,
     "measure": "(function(){var r=document.querySelector('aha-stat-tile[data-probe]').shadowRoot;var tile=getComputedStyle(r.querySelector('.tile'));var value=getComputedStyle(r.querySelector('.value'));var change=r.querySelector('.change');return{tileBg:tile.backgroundColor,tileRadius:tile.borderTopLeftRadius,valueColor:value.color,valueSize:value.fontSize,valueWeight:value.fontWeight,changeColor:getComputedStyle(change).color,changeText:change.textContent.trim(),glyph:change.querySelector('aha-icon').getAttribute('name')};})()",
     "expect": {
-      "tileBg": "rgba(231, 14, 104, 0.05)",
+      "tileBg": "rgb(255, 255, 255)",
       "tileRadius": "8px",
       "valueColor": "rgb(26, 26, 26)",
       "valueSize": "32px",

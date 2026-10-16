@@ -3,7 +3,7 @@
   "slug": "report-images",
   "kind": "guideline",
   "environment": [
-    "product"
+    "report-image"
   ],
   "group": "Patterns",
   "badge": "pattern — composition guide",
@@ -35,13 +35,13 @@
     {
       "ref": "stat-tile",
       "as": "component",
-      "use": "the live twin of a number plate: value, change as absolute and percent, comparison caption, rise and fall by shape",
+      "use": "the live twin of a number plate (look=\"accent\"): value, change as absolute and percent, comparison caption, rise and fall by shape",
       "status": "available"
     },
     {
       "ref": "grid",
       "as": "component",
-      "use": "lays 1 to 6 live stat tiles in a row that wraps on narrow screens (<aha-grid columns=\"N\" responsive>)",
+      "use": "lays live stat tiles in a row that wraps to fewer columns as the screen narrows (<aha-grid min=\"160px\">)",
       "status": "available"
     },
     {
@@ -166,14 +166,14 @@
     },
     {
       "id": "static-table",
-      "rule": "A table in an image has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7) with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This applies to images only: an in-app table keeps plain rows, because its rows have a hover highlight and an image has none.",
+      "rule": "A table in an image has zebra rows alternating white and Vivid Pink at 5% (#FEF3F7) with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This is colour rule 3.11 and applies to images only: an in-app table keeps plain rows, because its rows have a hover highlight and an image has none.",
       "ref": [
         "C11"
       ]
     },
     {
       "id": "plates",
-      "rule": "A number plate (the static KPI tile) is a flat card in Vivid Pink at 5% with a 4px Vivid Pink top bar and 8px corners: the label in black 400, the value in black 600, the change as an absolute number and a whole percent, then the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. No green, red or other status colour, and no shadow.",
+      "rule": "A number plate (the static KPI tile) is a flat card in Vivid Pink at 5% with a 4px Vivid Pink top bar and 8px corners: the label in black 400, the value in black 600, the change as an absolute number and a whole percent, then the comparison caption in secondary text. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. No green, red or other status colour, and no shadow. Colour rule 3.11 allows the pale pink card in an image.",
       "ref": [
         "C12"
       ]

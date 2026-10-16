@@ -4,7 +4,7 @@ import '@ahaslides-product/design/aha-stat-tile'; // registers <aha-stat-tile> (
 // The custom element renders its own shadow DOM; React just passes attributes.
 function KpiRow({ tiles }) {
   return (
-    <aha-grid columns={String(Math.min(tiles.length, 6))} responsive="" gap="middle">
+    <aha-grid min="160px" gap="middle">
       {tiles.map((tile) => (
         <aha-stat-tile
           key={tile.label}

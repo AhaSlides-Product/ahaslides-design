@@ -266,7 +266,8 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
   assert.equal(feed.splash.files.length, backgrounds.length);
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
-  assert.equal(rules.changes[0].version, 'v13');
+  assert.ok(feed.rulesByEnvironment['report-image'].includes('3.11') && !feed.rulesByEnvironment.product.includes('3.11'));
+  assert.equal(rules.changes[0].version, 'v14');
 });
 
 const flatten = (hex, share, base) => '#' + [1, 3, 5].map(index => Math.round(parseInt(hex.slice(index, index + 2), 16) * share + parseInt(base.slice(index, index + 2), 16) * (1 - share)).toString(16).padStart(2, '0').toUpperCase()).join('');

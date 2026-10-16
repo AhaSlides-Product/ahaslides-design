@@ -88,11 +88,27 @@
     "plugin": "aha-mkt",
     "owner": "Marketing"
    }
+  },
+  "report-image": {
+   "label": "Static report images",
+   "summary": "Charts, tables, number plates and KPI tiles rendered once to a PNG for Slack, email or an export: no hover, zoom or tooltip, so every value is written on the image.",
+   "route": {
+    "guidelines": [
+     "{site}/guidelines/report-images/report-images.md",
+     "{site}/colour-rules.md",
+     "{site}/charts/index.html",
+     "{site}/stat-tile/index.html"
+    ],
+    "judge": "{site}/anti-slop.md (surfaces report-images, charts and colour, judged on the rendered PNG)",
+    "lint": "nothing mechanical for a PNG: judge the rendered image on the report-images criteria; an HTML page that is screenshotted into the image runs node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=product <files>",
+    "plugin": "ahaslides-design:aha-design",
+    "owner": "Design system team (#design-system-agents)"
+   }
   }
  },
  "sources": [
   { "kind": "contract", "folder": "contracts", "key": "slug", "folderEnvironments": ["product", "audience"] },
-  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience"] },
+  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience", "report-image"] },
   { "kind": "marketing", "folder": "marketing", "key": "slug", "folderEnvironments": ["marketing-web", "video", "social-ads"] },
   { "kind": "logo", "file": "logo/manifest.json", "list": "logos", "key": "id" },
   { "kind": "brand", "file": "brand/manifest.json", "list": "assets", "key": "id" },
