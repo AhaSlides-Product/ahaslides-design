@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.256.0 — 2026-10-18
 ### Changed
-- Motion rules define "respect prefers-reduced-motion": the device setting is always followed, a presenter setting may only reduce further, and under reduce movement is removed (fade or instant passes, so a snap is judged only at the default setting); results also show a static end state; C22 and C34 judge it (#PR)
+- Motion rules define "respect prefers-reduced-motion": the device setting is always followed, a presenter setting may only reduce further, and under reduce movement is removed (fade or instant passes, so a snap is judged only at the default setting); results also show a static end state; C22 and C34 judge it (#295)
 - Holds (dwell) get no `--aha-dwell-*` tokens: each is a named per-slide constant and is never shortened under reduce
 
 ## 0.255.0 — 2026-10-18
