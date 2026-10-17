@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scale slider</title>
+</head>
+<body>
+  <aha-scale-slider id="min-slider" min="1" max="5" value="1" low-label="1" high-label="5"></aha-scale-slider>
+  <aha-scale-slider id="max-slider" min="1" max="5" value="5" low-label="1" high-label="5"></aha-scale-slider>
+  <aha-scale-slider id="different-labels-slider" min="1" max="5" value="5" low-label="Never" high-label="Always"></aha-scale-slider>
+  <script type="module">
+    await import('../lib/aha-scale-slider.js');
+    await customElements.whenDefined('aha-scale-slider');
+    window.scaleSliderFixtureReady = !!document.querySelector('#min-slider').shadowRoot?.querySelector('input');
+  </script>
+</body>
+</html>
