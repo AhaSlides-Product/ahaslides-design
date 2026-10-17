@@ -29,6 +29,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Background task: the bar is now the DS `<aha-progress size="small">` in its running state (6px, grey track, DS fill and motion, stripes kept); offline turns it grey and still. The card binds to DS tokens throughout: heading in text-default, description and caption in text-secondary, radius-lg, the floating shadow, the space, size, line-height and motion tokens. The private `--aha-toast-*` custom properties are removed; they were never documented API. (#184)
 
+## 0.244.0 — 2026-10-15
+### Added
+- Marketing > Components > Cards is now one block per card type: the card name, a live preview of that card at its real grid-column size (one cell of the 3 / 2 / 1 column grid, the other cells empty) with its own breakpoint switcher (Wide, Desktop, Tablet, Phone), then its Show code toggle (the card inside its grid wrapper). Each switcher resizes only its own preview. The page-top whole-grid preview and the "The whole grid" code section are gone; the Load the tokens once footer stays. (#272)
+
 ## 0.237.0 — 2026-10-16
 ### Added
 - Usability review (Nielsen Norman Group's 10 heuristics) on top of the anti-slop judge: new `usability` surface (U1 to U10) in `anti-slop/criteria.json`, a "Usability review" section in the `aha-design` skill (tier 1 from the diff on every UI change, tier 2 from a rendered screenshot only for a new or reshaped screen, dialog, form or flow), and the Stop hook adds the surface to every judged UI change. `AHA_DESIGN_USABILITY_DISABLE=1` switches only this review off. (#293)
