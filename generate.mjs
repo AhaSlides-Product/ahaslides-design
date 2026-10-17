@@ -1495,7 +1495,7 @@ const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
   return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
 };
-const marketingLayoutSnippet = (b, layout) => `<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`;
+const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
@@ -1840,8 +1840,8 @@ function renderMarketingLayoutsHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Which is which</h2>
-  <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
+  <p class="body">Each section copies the layout of one Untitled UI ${esc(b.slug === 'features' ? 'features' : 'metrics')} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>${esc(layout.classes || 'aha-features--' + layout.slug)}</code></li>`).join('')}</ul>
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
@@ -1855,7 +1855,7 @@ ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h
   <h2>Details</h2>
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingHtml(b) {
