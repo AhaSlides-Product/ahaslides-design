@@ -184,7 +184,7 @@
       "sourceUrl": "https://thesvg.org/icons/slack/default.svg",
       "sourcePage": "https://thesvg.org/icon/slack",
       "fetched": "2026-10-14",
-      "usedIn": "marketing/header.json (Solutions → Integrations)",
+      "usedIn": "marketing/navigation.json (Solutions → Integrations)",
       "section": "Integrations",
       "environment": [
         "marketing-web"
@@ -198,7 +198,7 @@
       "sourceUrl": "https://thesvg.org/icons/model-context-protocol/default.svg",
       "sourcePage": "https://thesvg.org/icon/model-context-protocol",
       "fetched": "2026-10-14",
-      "usedIn": "marketing/header.json (Solutions → Integrations)",
+      "usedIn": "marketing/navigation.json (Solutions → Integrations)",
       "section": "Integrations",
       "environment": [
         "marketing-web"
