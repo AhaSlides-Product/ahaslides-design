@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.242.0 — 2026-10-16
+## 0.253.0 — 2026-10-16
 ### Changed
 - Marketing → Sections: the buttons in `Hero`, the four header heroes (`Hero Pink`, `Hero Pink Vertical`, `Hero Pale Pink`, `Hero Pale Pink Vertical`) and `Features` now copy the Button contract's xl size per state: 52px high (`height`, line-height 1, no wrap), radius `--aha-radius-lg` instead of the pill (the header heroes were radius 8), primary elevate shadow and press colours, a 2px `--aha-bg-base` gap plus a 4px `--aha-button-focus-ring` focus ring, secondary with the elevate-secondary shadow, an inset pale-pink fill on hover and press and the contract's border-hover and border-press colours, and no press lift (the `translateY(1px)` is gone). The transition is on background, border-colour, shadow and colour only, and off under reduced motion. The white button on the pink header heroes keeps its colours: only shape and states change, and its focus ring stays white on the pink surface. ([#291](https://github.com/AhaSlides-Product/ahaslides-design/pull/291))
+
+## 0.244.0 — 2026-10-15
+### Added
+- Marketing > Components > Cards is now one block per card type: the card name, a live preview of that card at its real grid-column size (one cell of the 3 / 2 / 1 column grid, the other cells empty) with its own breakpoint switcher (Wide, Desktop, Tablet, Phone), then its Show code toggle (the card inside its grid wrapper). Each switcher resizes only its own preview. The page-top whole-grid preview and the "The whole grid" code section are gone; the Load the tokens once footer stays. (#272)
 
 ## 0.237.0 — 2026-10-16
 ### Added
