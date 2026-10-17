@@ -11,7 +11,7 @@
   <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; padding:8px 0 24px">
     <aha-background-task heading="Quarterly review.pptx" value="58" caption="23/40 slides imported"><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon>
       <div slot="footer">
-        <span style="color:var(--aha-toast-ink-soft,#4A4A4A); display:block; margin-bottom:var(--aha-space-12)">Cancel import? The 23 slides already created will be kept in your deck.</span>
+        <span style="color:var(--aha-text-secondary); display:block; margin-bottom:var(--aha-space-12)">Cancel import? The 23 slides already created will be kept in your deck.</span>
         <div style="display:flex; justify-content:flex-end; gap:var(--aha-space-8)"><aha-button variant="secondary" size="sm">Cancel import</aha-button><aha-button variant="primary" size="sm">Keep waiting</aha-button></div>
       </div>
     </aha-background-task>
@@ -29,7 +29,7 @@
     <aha-background-task heading="Quarterly review.xlsx" no-percentage caption="Generating report…"><aha-icon slot="icon" name="system-file-xls" size="24" decorative></aha-icon></aha-background-task>
     <aha-background-task state="success" heading="Quarterly review.pdf" description="Download didn’t start?" rating-source="export_pdf"><aha-icon slot="icon" name="system-file-pdf" size="24" decorative></aha-icon><a slot="link" href="#" role="button">Retry</a></aha-background-task>
     <aha-background-task state="error" heading="Export failed" description="Couldn’t create your PDF."><aha-icon slot="icon" name="system-file-pdf" size="24" decorative></aha-icon>
-      <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="secondary" size="sm">Try again</aha-button></div>
+      <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="primary" size="sm">Try again</aha-button></div>
     </aha-background-task>
   </div>
   <div class="lbl">Long translations: the inline link wraps with the description (French, German, Vietnamese, Russian)</div>
@@ -56,12 +56,12 @@
     <aha-background-task state="offline" heading="Connection lost" description="Waiting to reconnect…" value="58">
       <aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon>
       <div slot="footer">
-        <span style="color:var(--aha-toast-ink-soft,#4A4A4A); display:block; margin-bottom:var(--aha-space-12)">23/40 slides imported so far</span>
+        <span style="color:var(--aha-text-secondary); display:block; margin-bottom:var(--aha-space-12)">23/40 slides imported so far</span>
         <div style="display:flex; justify-content:flex-end; gap:var(--aha-space-8)"><aha-button variant="secondary" size="sm">Cancel import</aha-button><aha-button variant="primary" size="sm">Try again</aha-button></div>
       </div>
     </aha-background-task>
     <aha-background-task state="error" heading="Import failed" description="Couldn’t import your file."><aha-icon slot="icon" name="system-file-ppt" size="24" decorative></aha-icon>
-      <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="secondary" size="sm">Try again</aha-button></div>
+      <div slot="footer" style="display:flex; justify-content:flex-end"><aha-button variant="primary" size="sm">Try again</aha-button></div>
     </aha-background-task>
   </div>
 </div>

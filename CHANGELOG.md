@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.246.0 — 2026-10-16
+### Fixed
+- CSAT: the question uses the DS secondary text colour (#4A4A4A, was #616161), so it matches the grey text of the card around it. Its sizes, gaps and line heights are DS tokens, and the keyboard focus ring uses the DS focus-ring token.
+- Background task: "Try again" is a primary button on every failed or offline card (Export failed and Import failed were secondary). (#185)
+
 ## 0.244.0 — 2026-10-15
 ### Added
 - Marketing > Components > Cards is now one block per card type: the card name, a live preview of that card at its real grid-column size (one cell of the 3 / 2 / 1 column grid, the other cells empty) with its own breakpoint switcher (Wide, Desktop, Tablet, Phone), then its Show code toggle (the card inside its grid wrapper). Each switcher resizes only its own preview. The page-top whole-grid preview and the "The whole grid" code section are gone; the Load the tokens once footer stays. (#272)
