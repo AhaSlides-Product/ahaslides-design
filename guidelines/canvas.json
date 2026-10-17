@@ -296,7 +296,7 @@
       ]
     },
     {
-      "rule": "Don't depend on fast or subtle motion to convey meaning.",
+      "rule": "Don't depend on fast or subtle motion to convey meaning; show every result as a static end state too.",
       "ref": [
         "§3",
         "C10"
@@ -442,7 +442,7 @@
       ]
     },
     {
-      "rule": "Every interactive state on the canvas (hover, selected, expanded, revealed) animates with --aha-motion-* durations and --aha-ease-* curves on a PERSISTENT node — patch the DOM (toggle a class or attribute, update text) instead of rebuilding with innerHTML on each update, which kills the transition. Respect prefers-reduced-motion.",
+      "rule": "Every interactive state on the canvas (hover, selected, expanded, revealed) animates with --aha-motion-* durations and --aha-ease-* curves on a PERSISTENT node — patch the DOM (toggle a class or attribute, update text) instead of rebuilding with innerHTML on each update, which kills the transition. Honour prefers-reduced-motion: the device setting is always followed; a presenter setting may only reduce motion further, never force full motion on a device set to reduce. Under reduce, remove movement (transforms, position or size animation, scroll, parallax, zoom, loops, auto-play); opacity and colour changes may stay at or below --aha-motion-fast, or become instant, so a snap passes. Every result also shows as a static end state (text, mark, position). A hold (dwell) is content pacing, not a token: declare each once as a named constant per slide type (e.g. MATCHUP_HOLD_MS = 800), and under reduce keep it the same length or longer.",
       "ref": [
         "§3",
         "C22"

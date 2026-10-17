@@ -609,7 +609,7 @@
     },
     {
       "id": "no-motion-meaning",
-      "rule": "Don't use motion alone to convey meaning — it's lost on bad connections and for prefers-reduced-motion users.",
+      "rule": "Don't use motion alone to convey meaning — it's lost on bad connections and for prefers-reduced-motion users; every result also shows as a static end state.",
       "ref": [
         "§8"
       ]
@@ -677,7 +677,7 @@
     },
     {
       "id": "motion-persistent-nodes",
-      "rule": "Every interactive state (hover, selected, pressed, expanded) animates with --aha-motion-* durations and --aha-ease-* curves on a PERSISTENT node — patch the DOM (toggle a class or attribute) instead of rebuilding with innerHTML on each update, which kills the transition. Respect prefers-reduced-motion; motion never carries meaning alone.",
+      "rule": "Every interactive state (hover, selected, pressed, expanded) animates with --aha-motion-* durations and --aha-ease-* curves on a PERSISTENT node — patch the DOM (toggle a class or attribute) instead of rebuilding with innerHTML on each update, which kills the transition. Honour prefers-reduced-motion: the device setting alone decides on the audience screen, always followed. Under reduce, remove movement (transforms, position or size animation, scroll, parallax, zoom, loops, auto-play); opacity and colour changes may stay at or below --aha-motion-fast, or become instant, so a snap passes. Every result also shows as a static end state (text, mark, position).",
       "ref": [
         "C34",
         "§4"

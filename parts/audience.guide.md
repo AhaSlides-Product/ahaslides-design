@@ -257,7 +257,7 @@ legitimately changes content height, but avoid layout jumps >16px between adjace
 **Every interactive state animates** (C34): hover, selected, pressed and expanded transition with
 `--aha-motion-*` durations and `--aha-ease-*` curves on a **persistent** node. Keep the option
 nodes and toggle a class; rebuilding the list with `innerHTML =` on every tap gives each node a
-fresh start, so the transition never fires. Honour `prefers-reduced-motion`.
+fresh start, so the transition never fires. Honour `prefers-reduced-motion` (device setting only): under reduce remove movement; a fade or an instant change passes.
 
 ## The standard submit button — one spec
 
@@ -353,7 +353,7 @@ Owned by the host; don't render them and don't assume they're broken if you can'
   verified on **both** light and dark decks.
 - **Focus visible** — keyboard users on tablets / laptops still join; don't remove the ring
   without replacing it.
-- **No motion to convey meaning** — lost on bad connections and for `prefers-reduced-motion`.
+- **No motion to convey meaning** — lost on bad connections and for `prefers-reduced-motion`; show a static end state too.
 - **Non-colour cue** paired with every colour-bearing signal — prefer an icon (✓ / ✗) over a
   verbose word chip; compact and language-neutral.
 - **Honest chart geometry** — reserve a fixed-width slot on every row for a sometimes-present

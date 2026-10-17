@@ -1106,7 +1106,7 @@
         {
           "id": "C22",
           "title": "Interactive states animate with motion tokens on persistent nodes",
-          "test": "Every hover, selected, expanded or revealed state transitions with `--aha-motion-*` durations and `--aha-ease-*` curves (no bare `.2s` literals), declared on nodes that persist across updates. FAIL when interactive states snap (no transition at all), or when the view is rebuilt with `innerHTML =` / `replaceChildren()` on each state change so the transition can never fire."
+          "test": "Every hover, selected, expanded or revealed state transitions with `--aha-motion-*` durations and `--aha-ease-*` curves (no bare `.2s` literals), declared on nodes that persist across updates. FAIL when interactive states snap (no transition at all) at the default (no-preference) setting, or when the view is rebuilt with `innerHTML =` / `replaceChildren()` on each state change so the transition can never fire. Under `prefers-reduced-motion: reduce` the device setting must be honoured (a presenter setting may only reduce further, never force full motion): FAIL while any movement remains (transform, position or size animation, scroll, parallax, zoom, loop, auto-play); PASS when states fade (at or below `--aha-motion-fast`) or change instantly. FAIL when a result is conveyed by motion alone with no static end state. A hold (dwell) is a named per-slide constant, not a bare literal, and is not shortened under reduce."
         },
         {
           "id": "C23",
@@ -1306,7 +1306,7 @@
         {
           "id": "C34",
           "title": "Interactive states animate with motion tokens on persistent nodes",
-          "test": "Hover, selected, pressed and expanded states transition with `--aha-motion-*` durations and `--aha-ease-*` curves on nodes that persist. FAIL when states snap with no transition, use a bare duration literal, or when the screen is rebuilt with `innerHTML =` on each change so the transition never fires."
+          "test": "Hover, selected, pressed and expanded states transition with `--aha-motion-*` durations and `--aha-ease-*` curves on nodes that persist. FAIL when states snap with no transition at the default (no-preference) setting, use a bare duration literal, or when the screen is rebuilt with `innerHTML =` on each change so the transition never fires. Under `prefers-reduced-motion: reduce` only the device setting applies (no presenter override): FAIL while any movement remains (transform, position or size animation, scroll, zoom, loop, auto-play); PASS when states fade (at or below `--aha-motion-fast`) or change instantly. FAIL when a result is conveyed by motion alone with no static end state."
         },
         {
           "id": "C35",
