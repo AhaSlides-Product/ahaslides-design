@@ -22,11 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.224.0 — 2026-10-16
+## 0.239.0 — 2026-10-16
 ### Added
 - Marketing section `Pricing` (Marketing → Sections) and a new `Pricing card` type on the Marketing Cards page, in the layouts of the Untitled UI pricing sections the marketing team picked (layout only; no Untitled UI image or art). The Pricing card (plan name, optional Most popular DS Tag, price and period, billing line, feature list, buttons) is one Cards type on the Card anatomy with the marketing radius and `--aha-*` tokens, with style modifiers (featured in Vivid Pink, centred, wide, gray, tint, badge, dot, accent line, icon offset, banner, callout, plan icon, second button). The Pricing page adds ten section layouts around it: Simple cards (icon, callout, features, wide), Featured cards (icon, callout, offset icon, benefits) and Large table (plain, and with a highlighted plan and a team-size slider), plus a gallery of the twelve single-plan Untitled UI styles as options of the one card. Plan buttons are the DS Button, tags the DS Tag, the billing toggle the DS Segmented control (DS Switch for the Abstract angles style) with a DS Tag for "Save 33%", Yearly selected first and only where the Untitled UI original has a toggle; comparison tables are semantic `table`s with DS Table values, a help DS Tooltip on each row, check and minus icons with hidden text, and one block per plan on phones, as in Untitled UI. Untitled UI dark surfaces are Vivid Pink surfaces (logged in `docs/landing-webflow-scan.md`). `generate.mjs` gains one optional step for marketing sections: `includeCards` prepends the named Cards snippets' CSS to the section; sections without it are unchanged, and the frame preview imports the Segmented, Tag, Switch and Tooltip components. Revert: delete `marketing/pricing.json`, the `pricing` snippet in `marketing/cards.json` and the `includeCards` step in `generate.mjs`. (#288)
 ### Changed
 - `aha-switch` and `aha-segmented` forward a host `aria-label` to their inner `role="switch"` and `role="tablist"`, so a billing switch or toggle has an accessible name. No change when the attribute is absent. (#288)
+
+## 0.237.0 — 2026-10-16
+### Added
+- Usability review (Nielsen Norman Group's 10 heuristics) on top of the anti-slop judge: new `usability` surface (U1 to U10) in `anti-slop/criteria.json`, a "Usability review" section in the `aha-design` skill (tier 1 from the diff on every UI change, tier 2 from a rendered screenshot only for a new or reshaped screen, dialog, form or flow), and the Stop hook adds the surface to every judged UI change. `AHA_DESIGN_USABILITY_DISABLE=1` switches only this review off. (#293)
 
 ## 0.223.0 — 2026-10-16
 ### Added

@@ -3072,6 +3072,7 @@ const indexLines = [
   `>   run the binary judge for your surface — build → self-judge (PASS/FAIL each) → fix → repeat.`,
   `>   ${SITE}/anti-slop.md         the anti-slop loop + per-surface rules (read FIRST)`,
   `>   ${SITE}/anti-slop.agent.json machine feed: loop + per-surface { rules, criteria, selfCheck }`,
+  `>   Usability: every UI change is also judged on surface "usability" (U1-U10, the Nielsen Norman Group heuristics) — see "Usability review" in the aha-design skill.`,
   '>',
   '> Feeds (absolute URLs, fetch directly):',
   `>   ${SITE}/llms.txt          this index`,
