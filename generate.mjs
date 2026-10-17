@@ -1673,7 +1673,7 @@ const MARKETING_WIDTHS = [
   ['Phone', TOK.breakpoints.phone],
 ];
 const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
-const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js'];
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-segmented.js', 'aha-tag.js', 'aha-switch.js', 'aha-tooltip.js'];
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
@@ -1797,8 +1797,8 @@ function renderMarketingLayoutsHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Which is which</h2>
-  <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
+  <p class="body">Each section copies the layout of one Untitled UI ${esc(b.name.toLowerCase())} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-${esc(b.slug)}--${esc(layout.slug)}</code></li>`).join('')}</ul>
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
@@ -1832,7 +1832,7 @@ function renderMarketingHtml(b) {
   ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card), esc(card.summary))}`).join('\n  ')}
 
   <h2>The whole grid</h2>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'All eight types in the 3, 2 and 1 column grid.')}` : `<h2>Paste-and-run HTML</h2>
+  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), `All ${b.snippets.length} types in the 3, 2 and 1 column grid.`)}` : `<h2>Paste-and-run HTML</h2>
   ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
 
   <h2>Load the tokens once</h2>
@@ -2852,7 +2852,14 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
-function expandMarketingData(b) {
+function includeMarketingCards(b) {
+  if (!b.includeCards) return b;
+  const cards = JSON.parse(read(join(MDIR, 'cards.json')));
+  const cardCss = (cards.baseCss || '') + b.includeCards.map(slug => cards.snippets.find(card => card.slug === slug)?.css || '').join('');
+  return { ...b, baseCss: cardCss + (b.baseCss || ''), css: cardCss + (b.css || '') };
+}
+function expandMarketingData(rawSection) {
+  const b = includeMarketingCards(rawSection);
   if (!b.dataFile) return b;
   const data = JSON.parse(read(join(MDIR, b.dataFile)));
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
