@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.255.0 — 2026-10-18
 ### Fixed
-- `aha-scale-slider`: the thumb's hover ring only shows under `(hover: hover) and (pointer: fine)`, so a tap-then-stick hover on a touch screen no longer paints a ring clipped flat at the min/max ends; the keyboard focus indicator is unaffected. The live readout no longer repeats an end label that is just the value's own text (`5` instead of `5: 5`); a label that differs from the value still shows (`5: Always`). (#PLACEHOLDER)
+- `aha-scale-slider`: the thumb's hover ring only shows under `(hover: hover) and (pointer: fine)`, so a tap-then-stick hover on a touch screen no longer paints a ring clipped flat at the min/max ends; the keyboard focus indicator is unaffected. The live readout no longer repeats an end label that is just the value's own text (`5` instead of `5: 5`); a label that differs from the value still shows (`5: Always`). (#294)
 
 ## 0.244.0 — 2026-10-15
 ### Added
