@@ -1483,7 +1483,7 @@ function surfaceChoiceTable(rows) {
 const MARKETING_CAT = 'Sections';
 const MARKETING_COMPONENTS_CAT = 'Components';
 const isMarketingComponent = (b) => b.kind === 'component';
-const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n${card.html || ''}\n`;
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n    <li>\n${(card.html || '').split('\n').map(line => '      ' + line).join('\n')}\n    </li>\n  </ul>\n</section>\n`;
 function composeMarketingComponent(b) {
   if (!b.snippets) return b;
   const grid = b.snippets.map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
@@ -1679,6 +1679,7 @@ const MARKETING_BREAKPOINT_CSS = `
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
 .mbp-viewport{height:min(640px,70vh);display:flex;overflow:auto;border:1px solid var(--aha-split);border-radius:var(--aha-radius-default);background:var(--aha-bg-container-secondary)}
 .mbp-sizer{margin:auto;flex:none;overflow:hidden;background:var(--aha-white)}
+.mbc .mbp-viewport{height:auto}
 .mbp-frame{display:block;border:0;background:var(--aha-white);transform-origin:0 0}`;
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
@@ -1739,6 +1740,48 @@ function marketingBreakpointPreview(b) {
   })();
   </script>`;
 }
+
+function marketingCardBreakpointPreview(b, card) {
+  const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
+  return `<div class="mbc" data-default="${MARKETING_DEFAULT_WIDTH}">
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(card.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(card.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(card.name)} preview" scrolling="no"></iframe></div></div>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingCardSnippet(b, card)}</template>
+  </div>`;
+}
+const MARKETING_CARD_BREAKPOINT_SCRIPT = `<script type="module">
+  import '../../lib/aha-segmented.js';
+  (function(){
+    var base=new URL('../../',location.href).href;
+    var fonts='@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-Regular.woff2") format("woff2")}'+
+      '@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:local("Plus Jakarta Sans"),url("'+base+'fonts/PlusJakartaSans-SemiBold.woff2") format("woff2")}';
+    var imports=${JSON.stringify(MARKETING_FRAME_MODULES)}.map(function(f){return "import '"+base+"lib/"+f+"';"}).join('');
+    var report='var c=document.getElementById("mbp-content"),last=-1;function send(){var h=Math.ceil(c.getBoundingClientRect().height);if(h!==last){last=h;parent.postMessage({mbpHeight:h},"*")}}new ResizeObserver(send).observe(c);'+
+      '["click","mouseover","mouseout","focusin","transitionend","animationend"].forEach(function(t){document.addEventListener(t,function(){requestAnimationFrame(send)},true)});';
+    var previews=[].slice.call(document.querySelectorAll('.mbc')).map(function(root){
+      var p={root:root,seg:root.querySelector('aha-segmented'),frame:root.querySelector('.mbp-frame'),view:root.querySelector('.mbp-viewport'),sizer:root.querySelector('.mbp-sizer'),label:root.querySelector('.mbp-label'),width:+root.dataset.default,contentHeight:0};
+      p.layout=function(retried){
+        var available=p.view.clientWidth;
+        var scale=Math.min(1,available/p.width);
+        p.frame.style.width=p.width+'px';
+        p.frame.style.height=p.contentHeight+'px';
+        p.frame.style.transform=scale<1?'scale('+scale+')':'none';
+        p.sizer.style.height=Math.ceil(p.contentHeight*scale)+'px';
+        p.sizer.style.width=Math.floor(p.width*scale)+'px';
+        if(!retried&&p.view.clientWidth!==available)return p.layout(true);
+        p.label.textContent=p.width+' px'+(scale<1?' · '+Math.round(scale*100)+'%':'');
+      };
+      p.seg.addEventListener('change',function(e){p.width=+e.detail.value;p.layout();});
+      new ResizeObserver(function(){p.layout()}).observe(root);
+      p.frame.srcdoc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+fonts+'html,body{margin:0}body{font-family:var(--aha-font-product)}</style></head><body><div id="mbp-content">'+root.querySelector('.mbp-doc').innerHTML+'</div><scr'+'ipt>'+report+'</scr'+'ipt><scr'+'ipt type="module">'+imports+'</scr'+'ipt></body></html>';
+      return p;
+    });
+    window.addEventListener('message',function(e){
+      if(!e.data||typeof e.data.mbpHeight!=='number')return;
+      previews.forEach(function(p){if(p.frame.contentWindow===e.source){p.contentHeight=e.data.mbpHeight;p.layout();}});
+    });
+  })();
+  </script>`;
 
 function marketingCodeToggle(file, code, lead = '') {
   return `<div class="code-tabs" data-open="false">
@@ -1823,16 +1866,13 @@ function renderMarketingHtml(b) {
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-  <h2>Preview</h2>
+${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
+  <p class="body">${esc(card.summary)}</p>
+  ${marketingCardBreakpointPreview(b, card)}
+  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
-  ${b.snippets ? `<h2>Card types</h2>
-  <p class="body">Each type is a self-contained snippet: its styles plus one card. Paste it into any page, or use the grid above for the whole set.</p>
-  ${b.snippets.map(card => `<h3>${esc(card.name)}</h3>
-  ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card), esc(card.summary))}`).join('\n  ')}
-
-  <h2>The whole grid</h2>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'All eight types in the 3, 2 and 1 column grid.')}` : `<h2>Paste-and-run HTML</h2>
+  <h2>Paste-and-run HTML</h2>
   ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
 
   <h2>Load the tokens once</h2>
