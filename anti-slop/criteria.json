@@ -1427,6 +1427,69 @@
           "test": "**Rule.** Every status mark in a report (rise, fall, no change, warning, pending, progress) is a DS glyph called by its registry name, at 12, 16, 24 or 32 px, in ink or white: <aha-icon> on a report page, a file from lib/static-icons in an image. A drawn triangle or circle, an emoji, an icon from another set or a recoloured glyph fails."
         }
       ]
+    },
+    "usability": {
+      "surface": "usability",
+      "origin": "authored",
+      "skillRef": null,
+      "targets": [
+        {
+          "source": "tokens.canonical.json",
+          "use": "the DS tokens and components a screen must reuse (U4); the Nielsen Norman Group heuristics are at https://www.nngroup.com/articles/ten-usability-heuristics/"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "U1",
+          "title": "Visibility of system status",
+          "test": "Every action and wait shows the system's state in the UI: loading, saving, progress, success, error, and the current location or selection. Evidence: a loading/pending state for each async call, and visible feedback after each action. N/A when the change has no async work, action or navigation (a colour, spacing or label edit)."
+        },
+        {
+          "id": "U2",
+          "title": "Match between the system and the real world",
+          "test": "Words, icons and order use the user's language and real-world conventions, not internal or technical terms (no ids, enum names or API vocabulary on screen); information appears in a natural, logical order. N/A when the change adds no visible text, icon or ordering."
+        },
+        {
+          "id": "U3",
+          "title": "User control and freedom",
+          "test": "A user who acts by mistake can leave: cancel, close, undo or back on every dialog, form, multi-step flow and destructive action, with a clear exit that does not lose their work unasked. N/A when the change adds no dialog, flow or reversible action."
+        },
+        {
+          "id": "U4",
+          "title": "Consistency and standards",
+          "test": "The same thing looks and behaves the same way: DS components, tokens and platform conventions, with one term per concept across the screen and its neighbours. A bespoke control where the DS ships one fails. N/A when the change touches no visible element."
+        },
+        {
+          "id": "U5",
+          "title": "Error prevention",
+          "test": "The design stops the error before it happens: constraints, sensible defaults, inline validation, a confirmation or undo for destructive or irreversible actions, and no submit that can be sent in a known-invalid state. N/A when the change has no input, destructive action or irreversible step."
+        },
+        {
+          "id": "U6",
+          "title": "Recognition rather than recall",
+          "test": "Options, actions and context are visible or one step away; the user is never asked to remember a value from another screen or step. Labels persist (no placeholder-only fields), and the current state is shown. N/A when the change adds no input, choice or multi-step context."
+        },
+        {
+          "id": "U7",
+          "title": "Flexibility and efficiency of use",
+          "test": "Frequent tasks are quick for experts and clear for novices: sensible defaults, keyboard access and shortcuts, bulk or repeat actions where the task repeats. N/A when the change adds no task a user repeats."
+        },
+        {
+          "id": "U8",
+          "title": "Aesthetic and minimalist design",
+          "test": "Each screen carries only what the task needs: one clear primary action, no competing or decorative content, and hierarchy that puts the important thing first. Extra information fails unless it earns its place. N/A when the change adds no content or controls."
+        },
+        {
+          "id": "U9",
+          "title": "Help users recognise, diagnose, and recover from errors",
+          "test": "An error is in plain language, says what went wrong and offers a way back (retry, fix the field, contact), placed at the point of the problem and not by colour alone. N/A when the change has no error path; an error state that is missing where one can occur is a FAIL."
+        },
+        {
+          "id": "U10",
+          "title": "Help and documentation",
+          "test": "Anything not self-evident has help at the point of use: a hint, tooltip, empty-state guidance or a link to docs, short and task-focused. N/A when the screen is self-evident or the change adds no unfamiliar concept."
+        }
+      ]
     }
   }
 }
