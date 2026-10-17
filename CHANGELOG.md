@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.237.0 — 2026-10-16
+## 0.248.0 — 2026-10-16
 ### Fixed
 - Logo library: the PDF icon now fills its frame like the other brand logos instead of rendering about a quarter smaller. The Figma export's 2px padding is cropped with the viewBox; the path data is unchanged. (#181)
+
+## 0.237.0 — 2026-10-16
+### Added
+- Usability review (Nielsen Norman Group's 10 heuristics) on top of the anti-slop judge: new `usability` surface (U1 to U10) in `anti-slop/criteria.json`, a "Usability review" section in the `aha-design` skill (tier 1 from the diff on every UI change, tier 2 from a rendered screenshot only for a new or reshaped screen, dialog, form or flow), and the Stop hook adds the surface to every judged UI change. `AHA_DESIGN_USABILITY_DISABLE=1` switches only this review off. (#293)
 
 ## 0.223.0 — 2026-10-16
 ### Added
