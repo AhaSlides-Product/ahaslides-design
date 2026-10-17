@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.230.0 — 2026-10-16
+## 0.242.0 — 2026-10-16
 ### Changed
 - Marketing → Sections: the buttons in `Hero`, the four header heroes (`Hero Pink`, `Hero Pink Vertical`, `Hero Pale Pink`, `Hero Pale Pink Vertical`) and `Features` now copy the Button contract's xl size per state: 52px high (`height`, line-height 1, no wrap), radius `--aha-radius-lg` instead of the pill (the header heroes were radius 8), primary elevate shadow and press colours, a 2px `--aha-bg-base` gap plus a 4px `--aha-button-focus-ring` focus ring, secondary with the elevate-secondary shadow, an inset pale-pink fill on hover and press and the contract's border-hover and border-press colours, and no press lift (the `translateY(1px)` is gone). The transition is on background, border-colour, shadow and colour only, and off under reduced motion. The white button on the pink header heroes keeps its colours: only shape and states change, and its focus ring stays white on the pink surface. ([#291](https://github.com/AhaSlides-Product/ahaslides-design/pull/291))
+
+## 0.237.0 — 2026-10-16
+### Added
+- Usability review (Nielsen Norman Group's 10 heuristics) on top of the anti-slop judge: new `usability` surface (U1 to U10) in `anti-slop/criteria.json`, a "Usability review" section in the `aha-design` skill (tier 1 from the diff on every UI change, tier 2 from a rendered screenshot only for a new or reshaped screen, dialog, form or flow), and the Stop hook adds the surface to every judged UI change. `AHA_DESIGN_USABILITY_DISABLE=1` switches only this review off. (#293)
 
 ## 0.223.0 — 2026-10-16
 ### Added
