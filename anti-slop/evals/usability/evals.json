@@ -1,0 +1,134 @@
+{
+  "surface": "usability",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.usability",
+  "portedFrom": null,
+  "authoredNote": "DS-authored from the surface's criteria (the Nielsen Norman Group heuristics); the aha-design plugin has no usability judge.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this change. A new Export dialog starts a report download that takes several seconds. The Export button calls the API and does nothing visible until the file arrives; there is no spinner, no disabled state and no success message. It is built from DS components.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets U1",
+      "expected_output": "U1 FAILs: the long action gives no status. Fix: a pending state on the button and a success or failure message. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "U1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this change. A new three-step 'Invite your team' wizard opens in a modal with no close icon and no Cancel or Back button; the only way out is to finish the last step. It uses DS components and tokens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets U3",
+      "expected_output": "U3 FAILs: the flow has no exit. Fix: a close control, a Cancel action and Back on steps two and three. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "U3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this change. A 'Delete presentation' button in a row menu deletes the presentation on a single click with no confirmation and no undo. It uses DS components and tokens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets U5",
+      "expected_output": "U5 FAILs: an irreversible action is one click with no confirmation or undo. Fix: a confirmation dialog naming the presentation, or an undo toast. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "U5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this change. When saving a settings form fails, the form shows the text 'Error 500' in a red banner at the top of the page with no retry and no mention of which setting failed. It uses DS components and tokens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets U9",
+      "expected_output": "U9 FAILs: the error gives a code, not a plain-language cause, and no way back. Fix: say what failed and offer Retry. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "U9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this change. A new sign-up form uses placeholder text as the only label for each field; once the user types, the label is gone. It uses DS components and tokens.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets U6",
+      "expected_output": "U6 FAILs: the label disappears on input so the user must remember what each field is. Fix: a persistent label above each field. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "U6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this change. The only edit renames a button label from 'Save' to 'Save changes' and adds no screen, state, input or flow. It uses DS components and tokens. Judge the usability surface from the diff.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Targets U4 (DS components kept); the other rows are N/A and not pinned.",
+      "expected_output": "U4 PASSes: the label edit keeps the DS Button. U1, U3, U5 and U9 are N/A: a label edit adds no async work, flow, destructive action or error path. No FAIL. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "U4": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "no plugin usability judge dataset exists"
+      }
+    }
+  ]
+}

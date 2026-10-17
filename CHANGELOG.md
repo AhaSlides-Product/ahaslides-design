@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.234.0 — 2026-10-16
+## 0.245.0 — 2026-10-16
 ### Added
 - Icon library page: sizes are named XS 12px, S 16px, M 24px and L 32px (the DS had no icon size names), the Stroke by size demo shows one glyph per size across the full content width, and a size switcher beside the family chips redraws every tile at the chosen size so the stroke rule can be previewed on all icons. The icon contract and preview name the sizes the same way. (#222)
+
+## 0.237.0 — 2026-10-16
+### Added
+- Usability review (Nielsen Norman Group's 10 heuristics) on top of the anti-slop judge: new `usability` surface (U1 to U10) in `anti-slop/criteria.json`, a "Usability review" section in the `aha-design` skill (tier 1 from the diff on every UI change, tier 2 from a rendered screenshot only for a new or reshaped screen, dialog, form or flow), and the Stop hook adds the surface to every judged UI change. `AHA_DESIGN_USABILITY_DISABLE=1` switches only this review off. (#293)
 
 ## 0.223.0 — 2026-10-16
 ### Added
