@@ -1490,6 +1490,7 @@ function composeMarketingComponent(b) {
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
 const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`);
+const marketingPreviewAssets = (b, snippet) => b.imagePath ? snippet.replaceAll(`${SITE}/marketing/`, '../').replaceAll(`${SITE}/logo/`, '../../logo/') : snippet;
 const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
   return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
@@ -1672,7 +1673,7 @@ const MARKETING_WIDTHS = [
   ['Phone', TOK.breakpoints.phone],
 ];
 const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
-const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-segmented.js', 'aha-tag.js', 'aha-switch.js', 'aha-tooltip.js'];
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-segmented.js', 'aha-tag.js', 'aha-switch.js', 'aha-tooltip.js', 'aha-avatar.js', 'aha-rate.js'];
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
@@ -1795,7 +1796,7 @@ function marketingLayoutPreview(b, layout) {
   return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
     <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingLayoutSnippet(b, layout)}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
   </div>`;
 }
 const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
@@ -1839,14 +1840,19 @@ function renderMarketingLayoutsHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Which is which</h2>
-  <p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || `aha-${b.slug}--${layout.slug}`)}</code></li>`).join('')}</ul>
+  <p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code></li>`).join('')}</ul>
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
+
+${b.composedOf ? `
+  <h2 id="composed-of">Composed of</h2>
+  <p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
+  ${composedOfTable(b.composedOf)}` : ''}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
@@ -2904,10 +2910,15 @@ function expandMarketingData(rawSection) {
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
   return { ...b, html: b.html.replaceAll('{{items}}', items) };
 }
+const expandMarketingAssets = (b) => {
+  if (!b.imagePath) return b;
+  const resolve = (text) => typeof text === 'string' ? text.replaceAll('{{images}}', `${SITE}/marketing/${b.imagePath}`).replaceAll('{{logos}}', `${SITE}/logo`) : text;
+  return { ...b, html: resolve(b.html), layouts: b.layouts?.map(layout => ({ ...layout, html: resolve(layout.html) })) };
+};
 /* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(composeMarketingLayouts).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -3056,6 +3067,7 @@ cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
 cpSync(join(root, 'marketing-assets'), join(OUT, 'marketing-assets'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
+if (existsSync(join(MDIR, 'images'))) cpSync(join(MDIR, 'images'), join(OUT, 'marketing', 'images'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
