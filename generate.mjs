@@ -1495,7 +1495,7 @@ const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
   return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
 };
-const marketingLayoutSnippet = (b, layout) => `<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`;
+const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
@@ -1860,7 +1860,7 @@ ${b.composedOf ? `
   <h2>Details</h2>
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingHtml(b) {
