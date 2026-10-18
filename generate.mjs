@@ -1032,8 +1032,7 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    const marketingGroups = [...new Set(MARKETING.filter(b => b.group).map(b => b.group))];
-    inner = marketingNav(MARKETING.filter(b => isMarketingComponent(b) && !b.group), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b) && !b.group), MARKETING_CAT) + marketingGroups.map(g => marketingNav(MARKETING.filter(b => b.group === g), esc(g))).join('');
+    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -1495,7 +1494,7 @@ const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
   return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
 };
-const marketingLayoutSnippet = (b, layout) => `<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`;
+const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
@@ -1673,7 +1672,7 @@ const MARKETING_WIDTHS = [
   ['Phone', TOK.breakpoints.phone],
 ];
 const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
-const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js'];
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-segmented.js', 'aha-tag.js', 'aha-switch.js', 'aha-tooltip.js'];
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
@@ -1840,11 +1839,11 @@ function renderMarketingLayoutsHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
   <h2>Which is which</h2>
-  <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
+  <p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || `aha-${b.slug}--${layout.slug}`)}</code></li>`).join('')}</ul>
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
-  <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
+  <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
@@ -1855,7 +1854,7 @@ ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h
   <h2>Details</h2>
   <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingHtml(b) {
@@ -2892,7 +2891,14 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
-function expandMarketingData(b) {
+function includeMarketingCards(b) {
+  if (!b.includeCards) return b;
+  const cards = JSON.parse(read(join(MDIR, 'cards.json')));
+  const cardCss = (cards.baseCss || '') + b.includeCards.map(slug => cards.snippets.find(card => card.slug === slug)?.css || '').join('');
+  return { ...b, baseCss: cardCss + (b.baseCss || ''), css: cardCss + (b.css || '') };
+}
+function expandMarketingData(rawSection) {
+  const b = includeMarketingCards(rawSection);
   if (!b.dataFile) return b;
   const data = JSON.parse(read(join(MDIR, b.dataFile)));
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
