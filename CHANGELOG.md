@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.249.0 — 2026-10-16
+## 0.257.0 — 2026-10-18
 ### Changed
 - Marketing → Sections → `Header` is now one section with twenty-five layouts, each with its own name, labelled preview and paste-and-run code (the Features pattern): `Site navbar` (the existing header, unchanged), the four Hero Pink banners (`Hero Pink`, `Hero Pink Vertical`, `Hero Pale Pink`, `Hero Pale Pink Vertical`), fourteen heroes (`Hero split image 01`, `03`, `05`, `Hero split form 01`, `Hero screen mockup 01` to `05`, `Hero iPhone mockup 03`, `Hero color card 04`, `Hero card mockup 07`, `08` and `Hero simple text 01`) and six page headers (`Header centered`, `Header left tabs`, `Header centered brand`, `Header left brand`, `Header left tabs brand`, `Header space between buttons brand`; "brand" is our Vivid Pink surface). The heroes and headers are rebuilt from layout only, in DS tokens and the DS button and input styles (no third-party code, text or assets). Every picture, screenshot and phone or card visual is a real `<img>` of the DS placeholder image (`marketing-assets/image-placeholder.svg`), cropped to its slot by CSS; nothing is drawn in HTML. Dropped because the DS has no equivalent: avatar stacks, star ratings, logo rows, the grid and dot backdrops, and the decorative arrows. Each layout's classes are scoped to it (`aha-header-section-<layout>`), so any of them can share a page. They replace the separate `Header section` nav group and its four Hero Pink pages; the optional `group` field on a marketing section (0.222.0) is removed, as nothing else used it. `generate.mjs` lets a `layouts` entry carry an optional `class` and no `reference`; Features renders byte-identically. No new tokens, colours or components. Revert: restore `marketing/header.json` and the four `marketing/hero-*pink*.json` files and the `group` branch of the Marketing nav in `generate.mjs` from before this change. (#287)
+
+## 0.255.0 — 2026-10-18
+### Fixed
+- `aha-scale-slider`: the thumb's hover ring only shows under `(hover: hover) and (pointer: fine)`, so a tap-then-stick hover on a touch screen no longer paints a ring clipped flat at the min/max ends; the keyboard focus indicator is unaffected. The live readout no longer repeats an end label that is just the value's own text (`5` instead of `5: 5`); a label that differs from the value still shows (`5: Always`). (#294)
 
 ## 0.244.0 — 2026-10-15
 ### Added
