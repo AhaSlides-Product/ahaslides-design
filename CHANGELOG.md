@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.261.0 — 2026-10-18
+## 0.263.0 — 2026-10-18
 ### Changed
 - Marketing → Sections: the site navbar is now its own `Navigation` page (`marketing/navigation.json`, one layout, `Site navbar`); the `Header` page keeps the four Hero Pink banners, the fourteen heroes and the six page headers (twenty-four layouts) and its summary and highlights no longer mention the navbar. The navbar's HTML, CSS and `aha-header__*` classes are byte-identical, so pasted code keeps working. The old `marketing/header/` URL stays valid and now shows the heroes. No new tokens, colours or components. Environment: marketing-web. Revert: delete `marketing/navigation.json` and move its `Site navbar` layout back to the front of `marketing/header.json`. (#292)
+
+## 0.261.0 — 2026-10-18
+### Added
+- Marketing section `Numbers` (Marketing → Sections), logged from the Webflow Numbers sections: five layouts, each with its own labelled preview and paste-and-run snippet, in the layouts of the Untitled UI metrics sections the marketing team picked (layout only; no Untitled UI photo or asset). Simple with actions 01 (header and buttons across the top, four numbers in a row), Simple with actions 02 (header and buttons beside a two-by-two grid with an icon), Simple centred text (centred icon and header, three numbers split by dividers), Split image 02 (picture beside a two-by-two grid) and Split image 02 brand (the same on the brand band). Every value is a DS token or the value an existing DS component ships. A number is the Statistic card's (display font, `--aha-size-h2` to `--aha-size-h1`, semibold, primary colour, the card's title and text). The buttons are the Button contract's xl size, state for state (52 high, `--aha-radius-lg`, 16px semibold, the primary and secondary hover, press and focus-ring values, no lift). The icon is the Feature card's (48px, `--aha-radius-default`, 24px glyph). The brand band is the Hero banner's solid Vivid Pink with its white text. The picture is the DS image placeholder (4:3, as in the Hero banner) in a card: pale pink on white and white on Vivid Pink, per colour rule 4.7. Classes are `aha-numbers` plus one `aha-numbers--<layout>` modifier, each section is a container-query block (991, 767 and 479 px). `generate.mjs` reuses the marketing `layouts` branch (its `layoutsIntro` names the Untitled UI metrics family, each layout names its `class`), plus one small change: a layout snippet points the placeholder image at the build. Revert: delete `marketing/numbers.json`; the snippet change is inert for the other sections. (#289)
 
 ## 0.259.0 — 2026-10-18
 ### Changed
