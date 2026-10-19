@@ -24,11 +24,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.269.0 — 2026-10-19
 ### Added
-- Info message under Input, Textarea and InputNumber: help text that is not an error (for example `3 of 10 rows`). Text only, 12/18 in `--aha-text-tertiary`, in the error slot with the same 4px gap; the border is unchanged and the field is not `aria-invalid`. Input takes `info-message`; Textarea and InputNumber take a sibling `<aha-field-error tone="info" message="…">`. The consumer passes the string, the DS computes nothing, and an error message replaces it, never stacked (#PR)
-- `@ahaslides-product/design/input-number.css`: InputNumber now copies Number with unit on antd v6 and ant-design-vue v4. A tertiary ▲/▼ stepper (`system-caret-up/down`) appears on hover or focus, 6px after the digits; `addonAfter` is the muted inline unit (14/21, `--aha-text-placeholder`) 4px after the stepper, inside the field, and `addonBefore` is the same muted text leading (#PR)
+- Info message under Input, Textarea and InputNumber: help text that is not an error (for example `3 of 10 rows`). Text only, 12/18 in `--aha-text-tertiary`, in the error slot with the same 4px gap; the border is unchanged and the field is not `aria-invalid`. Input takes `info-message`; Textarea and InputNumber take a sibling `<aha-field-error tone="info" message="…">`. The consumer passes the string, the DS computes nothing, and an error message replaces it, never stacked (#299)
+- `@ahaslides-product/design/input-number.css`: InputNumber now copies Number with unit on antd v6 and ant-design-vue v4. A tertiary ▲/▼ stepper (`system-caret-up/down`) appears on hover or focus, 6px after the digits; `addonAfter` is the muted inline unit (14/21, `--aha-text-placeholder`) 4px after the stepper, inside the field, and `addonBefore` is the same muted text leading (#299)
 ### Changed
-- Field error glyph is now `system-warning-circle` (was `system-x-circle`) on Input, Select, Counted input, Counted textarea, Textarea, InputNumber, Number with unit and the antd Form error text (#PR)
-- Error and warning are merged on Input, Textarea and InputNumber: `status="error"` is the one invalid state. `status="warning"` stays as a deprecated alias that renders and behaves as error on Input and Counted textarea (including `aria-invalid` and the error message); on the antd Textarea and InputNumber themes it already renders identically, as both colour tokens are `#1A1A1A` (#PR)
+- Field error glyph is now `system-warning-circle` (was `system-x-circle`) on Input, Select, Counted input, Counted textarea, Textarea, InputNumber, Number with unit and the antd Form error text (#299)
+- Error and warning are merged on Input, Textarea and InputNumber: `status="error"` is the one invalid state. `status="warning"` stays as a deprecated alias that renders and behaves as error on Input and Counted textarea (including `aria-invalid` and the error message); on the antd Textarea and InputNumber themes it already renders identically, as both colour tokens are `#1A1A1A` (#299)
 
 ## 0.268.0 — 2026-10-19
 ### Added
