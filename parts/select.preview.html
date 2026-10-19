@@ -5,6 +5,11 @@
      explorable — the default render (default size · no status · single · clearable) is what
      conformance measures (a value-bearing .ant-select-content + a .ant-select-placeholder). -->
 <script type="module">import '../lib/icons.js'; import '../lib/aha-field-error.js';</script>
+<style>
+.ant-select .ant-select-suffix, .ant-select .ant-select-arrow { color: #8A8A8A; }
+.ant-select .ant-select-suffix aha-icon, .ant-select .ant-select-arrow aha-icon { transition: transform .2s cubic-bezier(0.645,0.045,0.355,1); }
+.ant-select.ant-select-open .ant-select-suffix aha-icon, .ant-select.ant-select-open .ant-select-arrow aha-icon { transform: rotate(180deg); }
+</style>
 <div id="react-root" class="pad"></div>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -74,6 +79,7 @@ function Demo() {
   const common = {
     size, status, mode: antMode, allowClear: clearable, disabled,
     showSearch: true, options: S.options, style: { width: 260 },
+    suffixIcon: <aha-icon name="system-caret-down" size="16"></aha-icon>,
   };
 
   return (
@@ -106,7 +112,7 @@ function Demo() {
       </Field>
       {/* Loading (async options) is part of the matrix but orthogonal to the axes above. */}
       <Field label="Loading">
-        <Select showSearch loading size={size} status={status} placeholder="Fetching…" options={[]} style={{ width: 260 }} />
+        <Select showSearch loading suffixIcon={<aha-icon name="system-caret-down" size="16"></aha-icon>} size={size} status={status} placeholder="Fetching…" options={[]} style={{ width: 260 }} />
       </Field>
     </div>
   );
