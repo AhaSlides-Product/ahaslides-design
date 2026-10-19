@@ -1,0 +1,74 @@
+/* InputNumber: the Number with unit look on antd v6 (React) and ant-design-vue v4 (Vue). A tertiary caret
+   stepper appears on hover/focus, 6px after the digits; addonAfter is the muted inline unit 4px after the
+   stepper, and addonBefore is the same muted text leading, both inside the field's border. A field with addons fills its container's width. Import this file
+   next to the input-number theme. */
+
+:root:root .ant-input-number { --aha-caret-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10L8 5L13 10'/%3E%3C/svg%3E"); --aha-caret-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 6L8 11L3 6'/%3E%3C/svg%3E"); }
+
+/* the field: digits, then the stepper, inside one row */
+:root:root .ant-input-number { display: inline-flex !important; align-items: center; padding: 0 8px 0 12px; }
+:root:root .ant-input-number .ant-input-number-input { flex: 1 1 auto; min-width: 0; padding: 0; height: 100%; }
+:root:root .ant-input-number .ant-input-number-input-wrap { flex: 1 1 auto; order: 1; min-width: 0; height: 100%; }
+
+/* stepper column (React: actions, Vue: handler-wrap) */
+:root:root .ant-input-number .ant-input-number-actions,
+:root:root .ant-input-number .ant-input-number-handler-wrap {
+  position: static; order: 2; flex: 0 0 auto; display: flex; flex-direction: column; width: 18px; height: auto; margin: 0 0 0 6px;
+  border: 0; background: transparent; opacity: 0; transition: opacity var(--aha-motion-fast, .1s) var(--aha-ease-out, cubic-bezier(0.215, 0.61, 0.355, 1));
+}
+:root:root .ant-input-number:hover .ant-input-number-actions, :root:root .ant-input-number:focus-within .ant-input-number-actions,
+:root:root .ant-input-number:hover .ant-input-number-handler-wrap, :root:root .ant-input-number:focus-within .ant-input-number-handler-wrap,
+:root:root .ant-space-compact:hover > .ant-input-number .ant-input-number-actions, :root:root .ant-input-number-group-wrapper:hover .ant-input-number-handler-wrap { opacity: 1; }
+:root:root .ant-input-number .ant-input-number-action, :root:root .ant-input-number .ant-input-number-handler {
+  position: static; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 18px; height: 14px; min-height: 0;
+  margin: 0; padding: 0; border: 0; border-radius: var(--aha-radius-xs, 4px); background: transparent;
+  color: var(--aha-icon-muted, #8A8A8A); transition: color var(--aha-motion-fast, .1s) var(--aha-ease-out, cubic-bezier(0.215, 0.61, 0.355, 1)), background var(--aha-motion-fast, .1s) var(--aha-ease-out, cubic-bezier(0.215, 0.61, 0.355, 1));
+}
+:root:root .ant-input-number .ant-input-number-action:hover, :root:root .ant-input-number .ant-input-number-handler:hover {
+  height: 14px; color: var(--aha-text-default, #1A1A1A); background: var(--aha-bg-accent, #E70E680D);
+}
+:root:root .ant-input-number .ant-input-number-action .anticon, :root:root .ant-input-number .ant-input-number-handler .anticon { position: static; margin: 0; width: 12px; height: 12px; font-size: 12px; line-height: 12px; }
+:root:root .ant-input-number .ant-input-number-action .anticon svg, :root:root .ant-input-number .ant-input-number-handler .anticon svg { display: none; }
+:root:root .ant-input-number .ant-input-number-action .anticon::after, :root:root .ant-input-number .ant-input-number-handler .anticon::after {
+  content: ""; display: block; width: 12px; height: 12px; background: currentColor;
+  -webkit-mask: var(--aha-caret-down) center / 12px 12px no-repeat; mask: var(--aha-caret-down) center / 12px 12px no-repeat;
+}
+:root:root .ant-input-number .ant-input-number-action-up .anticon::after, :root:root .ant-input-number .ant-input-number-handler-up .anticon::after {
+  -webkit-mask-image: var(--aha-caret-up); mask-image: var(--aha-caret-up);
+}
+:root:root .ant-input-number .ant-input-number-action-disabled, :root:root .ant-input-number .ant-input-number-handler-down-disabled, :root:root .ant-input-number .ant-input-number-handler-up-disabled { color: var(--aha-text-disabled, #B5B5B5); background: transparent; }
+
+:root:root .ant-input-number-affix-wrapper { display: inline-flex !important; align-items: center; box-sizing: border-box; height: 40px; }
+:root:root .ant-input-number-affix-wrapper > .ant-input-number { flex: 1 1 auto; min-width: 0; height: 100%; padding: 0 8px 0 4px; border: 0; background: transparent; box-shadow: none; }
+:root:root .ant-input-number-affix-wrapper .ant-input-number-prefix { margin-inline-end: 0; }
+
+/* addonBefore / addonAfter: muted inline text inside one bordered field (React: Space.Compact, Vue: group wrapper) */
+:root:root .ant-space-compact:has(> .ant-input-number-addon), :root:root .ant-input-number-group-wrapper {
+  box-sizing: border-box; display: flex; align-items: center; height: 40px; padding: 0 8px 0 12px;
+  background: var(--aha-bg-container, #FFFFFF); border: 1px solid var(--aha-border-default, #E3E3E3); border-radius: var(--aha-radius-default, 8px);
+  transition: border-color var(--aha-motion-mid, .2s) var(--aha-ease-in-out, cubic-bezier(0.645, 0.045, 0.355, 1)), box-shadow var(--aha-motion-mid, .2s) var(--aha-ease-in-out, cubic-bezier(0.645, 0.045, 0.355, 1));
+}
+:root:root .ant-input-number-group-wrapper .ant-input-number-wrapper { display: flex; align-items: center; width: 100%; height: 100%; }
+:root:root .ant-space-compact:has(> .ant-input-number-addon):hover, :root:root .ant-input-number-group-wrapper:hover { border-color: var(--aha-color-primary, #E70E68); }
+:root:root .ant-space-compact:has(> .ant-input-number-addon):focus-within, :root:root .ant-input-number-group-wrapper:focus-within {
+  border-color: var(--aha-color-primary, #E70E68); box-shadow: 0 0 0 2px var(--aha-focus-ring-soft, rgba(231, 14, 104, .3));
+}
+:root:root .ant-space-compact:has(> .ant-input-number-addon):has(.ant-input-number-status-error), :root:root .ant-input-number-group-wrapper:has(.ant-input-number-status-error),
+:root:root .ant-space-compact:has(> .ant-input-number-addon):has(.ant-input-number-status-warning), :root:root .ant-input-number-group-wrapper:has(.ant-input-number-status-warning) { border-color: var(--aha-border-error, #1A1A1A); }
+:root:root .ant-space-compact:has(> .ant-input-number-addon):has(.ant-input-number-status-error):focus-within, :root:root .ant-input-number-group-wrapper:has(.ant-input-number-status-error):focus-within,
+:root:root .ant-space-compact:has(> .ant-input-number-addon):has(.ant-input-number-status-warning):focus-within, :root:root .ant-input-number-group-wrapper:has(.ant-input-number-status-warning):focus-within { box-shadow: 0 0 0 2px var(--aha-border-error, #1A1A1A); }
+:root:root .ant-space-compact:has(> .ant-input-number-addon) > .ant-input-number, :root:root .ant-input-number-group-wrapper .ant-input-number {
+  flex: 1 1 0; width: 0; min-width: 4ch; height: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+:root:root .ant-input-number-group-wrapper .ant-input-number-wrapper > .ant-input-number { border: 0; border-radius: 0; }
+:root:root .ant-input-number-addon, :root:root .ant-input-number-group-addon {
+  flex: 0 0 auto; width: auto; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+  font-size: 14px; line-height: 21px; letter-spacing: var(--aha-letter-spacing-paragraph, 0.2px); color: var(--aha-text-placeholder, #999999);
+  white-space: nowrap; user-select: none;
+}
+:root:root .ant-input-number-addon:last-child, :root:root .ant-input-number-group-addon:last-child { margin-left: 4px; }
+:root:root .ant-input-number-addon:first-child, :root:root .ant-input-number-group-addon:first-child { margin-right: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root:root .ant-input-number .ant-input-number-actions, :root:root .ant-input-number .ant-input-number-handler-wrap, :root:root .ant-input-number .ant-input-number-action, :root:root .ant-input-number .ant-input-number-handler { transition: none; }
+}

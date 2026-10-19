@@ -47,7 +47,7 @@ function Seg({ label, value, onChange, options }) {
 
 function Demo() {
   const [size, setSize] = useState('middle');    // small · middle (default) · large
-  const [status, setStatus] = useState('');       // '' · error · warning
+  const [status, setStatus] = useState('');       // '' · error
   const [extra, setExtra] = useState('autosize'); // autosize · count · disabled · readOnly
   const props = {
     placeholder: 'Describe your event',
@@ -71,11 +71,14 @@ function Demo() {
         <Seg label="Size" value={size} onChange={setSize}
           options={[{ label: 'Small', value: 'small' }, { label: 'Default', value: 'middle' }, { label: 'Large', value: 'large' }]} />
         <Seg label="Status" value={status} onChange={setStatus}
-          options={[{ label: 'None', value: '' }, { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' }]} />
+          options={[{ label: 'None', value: '' }, { label: 'Error', value: 'error' }]} />
         <Seg label="Extras" value={extra} onChange={setExtra}
           options={[{ label: 'Auto-size', value: 'autosize' }, { label: 'Counted', value: 'count' }, { label: 'Disabled', value: 'disabled' }, { label: 'Read-only', value: 'readOnly' }]} />
       </div>
       <TextArea {...props} />
+      <div className="lbl" style={{ margin: '22px 0 8px' }}>Info · row count the consumer passes</div>
+      <TextArea placeholder="One item per row" size={size} defaultValue={'one\ntwo\nthree'} autoSize={{ minRows: 3, maxRows: 6 }} aria-describedby="textarea-info" style={{ width: 340 }} />
+      <aha-field-error id="textarea-info" tone="info" message="3 of 10 rows" style={{ width: 340 }}></aha-field-error>
       <div className="lbl" style={{ margin: '22px 0 8px' }}>Error · aha-field-error below the field</div>
       <TextArea placeholder="Describe your event" size={size} status="error" autoSize={{ minRows: 3, maxRows: 6 }}
         aria-invalid="true" aria-describedby="textarea-error" style={{ width: 340 }} />

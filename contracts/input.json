@@ -6,9 +6,9 @@
   "badge": "shared Lit web component",
   "environment": ["product", "audience"],
   "element": "aha-input",
-  "summary": "A single-line text field — names, search, numbers, short free text — with sizes, error/warning status, affixes, a clear circled ✕ and a password reveal.",
+  "summary": "A single-line text field — names, search, numbers, short free text — with sizes, error status, affixes, a clear circled ✕ and a password reveal.",
   "highlights": ["Single-line text field", "Sizes, error and warning status, affixes", "Clear button and password reveal"],
-  "lead": "ONE custom element — <aha-input> — defined once, imported unchanged by React and Vue. The DS V3 Input is a family, not a bare box: three sizes (small · default · large), three statuses (default · error · warning — border + ring recolour), disabled + readonly, and affixes — a leading `prefix-icon`/`prefix` and trailing `suffix-icon`/`suffix` (icon by name or text), a `clearable` circled ✕ (a tertiary icon-only <aha-button>) that wipes the value, and a password reveal toggle. The focus ring lives on a persistent wrapper node and animates via the shared motion tokens — a class toggles, the subtree is never rebuilt on a state change. Shadow-DOM CSS, themed only by --aha-* tokens; it emits composed `input` / `change` / `clear` events. Zero drift — the same element, not two look-alikes.",
+  "lead": "ONE custom element — <aha-input> — defined once, imported unchanged by React and Vue. The DS V3 Input is a family, not a bare box: three sizes (small · default · large), two statuses (default · error — border + ring recolour; `warning` is a deprecated alias that renders as error), disabled + readonly, and affixes — a leading `prefix-icon`/`prefix` and trailing `suffix-icon`/`suffix` (icon by name or text), a `clearable` circled ✕ (a tertiary icon-only <aha-button>) that wipes the value, and a password reveal toggle. The focus ring lives on a persistent wrapper node and animates via the shared motion tokens — a class toggles, the subtree is never rebuilt on a state change. Shadow-DOM CSS, themed only by --aha-* tokens; it emits composed `input` / `change` / `clear` events. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "border-hover", "color-primary", "bg-container", "bg-container-secondary", "bg-container-disabled", "bg-hover", "text-default", "text-tertiary", "text-disabled", "radius-default", "radius-sm", "focus-ring-soft", "border-error", "color-error", "border-warning", "color-warning", "border-disabled"],
   "spec": [
@@ -18,8 +18,9 @@
     { "label": "Hover border", "value": "#E70E68 (color-primary)" },
     { "label": "Focus", "value": "#E70E68 border + 2px #E70E68@30% ring (on the persistent wrapper)" },
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
-    { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
-    { "label": "Warning", "value": "#1A1A1A border + warning-tinted ring" },
+    { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
+    { "label": "Info message", "value": "below the field, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-tertiary; border unchanged, no aria-invalid; replaced by the error message while status is error" },
+    { "label": "Warning", "value": "deprecated alias: renders exactly as error" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Readonly", "value": "#F7F7F7 fill, still selectable" },
     { "label": "Affixes", "value": "prefix/suffix icon (by name) or text; clearable circled ✕ (a tertiary icon-only <aha-button>: 16px system-x-circle, 28px target — 20px in the small input); password reveal (eye)" },
@@ -31,7 +32,8 @@
     { "name": "aria-label", "type": "string", "default": "—", "desc": "Accessible name, forwarded to the inner field (a placeholder is not a label); <aha-audience-field> sets it from its label" },
     { "name": "type", "type": "text | number | email | password | search", "default": "text", "desc": "Native input type; password adds a reveal (eye) toggle" },
     { "name": "size", "type": "small | default | large", "default": "default", "desc": "Control height — small 24 · default 40 · large 48 with 16px text on a 24px line (DS V3 field scale); radius stays 8 (sm/md/lg accepted as aliases). Never small or large in a settings panel (default only)" },
-    { "name": "status", "type": "default | error | warning", "default": "default", "desc": "Border + ring recolour; error also sets aria-invalid (legacy `invalid` boolean = status error)" },
+    { "name": "status", "type": "default | error | warning", "default": "default", "desc": "Border + ring recolour; error also sets aria-invalid (legacy `invalid` boolean = status error). `warning` is a deprecated alias that renders and behaves as error" },
+    { "name": "info-message", "type": "string", "default": "—", "desc": "Help text below the field, e.g. `3 of 10 rows` or `Use 8 or more characters`. Text only, tertiary colour, linked through aria-describedby; the border is unchanged. The consumer writes the string, the DS computes nothing. Shown only while there is no error message" },
     { "name": "error-message", "type": "string", "default": "—", "desc": "Message shown below the field while status is error: a 12px error glyph + the text at --aha-size-sm, rendered by an internal <aha-field-error icon> and linked to the control through aria-describedby (aria-invalid is set by status=\"error\")" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; grey fill" },
     { "name": "readonly", "type": "boolean", "default": "false", "desc": "Selectable but not editable; secondary fill" },
@@ -64,7 +66,7 @@
       { "prop": "status", "label": "Status", "default": "error", "options": [
         { "label": "Default", "value": null },
         { "label": "Error", "value": "error" },
-        { "label": "Warning", "value": "warning" }
+        { "label": "Warning (deprecated alias of error)", "value": "warning" }
       ] },
       { "prop": "prefix-icon", "label": "Prefix", "default": "none", "options": [
         { "label": "None", "value": null },
@@ -82,7 +84,7 @@
     { "label": "height 40 (default) · small 24 · large 48 · radius 8", "verdict": "PASS" },
     { "label": "rest border #E3E3E3", "verdict": "PASS" },
     { "label": "focus #E70E68 border + ring (persistent wrapper)", "verdict": "PASS" },
-    { "label": "error #1A1A1A border + aria-invalid; warning #1A1A1A border", "verdict": "PASS" },
+    { "label": "error #1A1A1A border + aria-invalid; warning renders as error", "verdict": "PASS" },
     { "label": "prefix/suffix affix, clearable ✕, password reveal render", "verdict": "PASS" },
     { "label": "placeholder #8A8A8A 14/21", "verdict": "PASS" }
   ],
