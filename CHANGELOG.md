@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.274.0 — 2026-10-20
+### Changed
+- Option row → keyboard: the hover-revealed delete button is no longer a tab stop, so Tab goes from one row's text field straight to the next row's field. Backspace in an empty field of a row that can be deleted (`candelete` not `false`) is the keyboard delete: it emits the same `delete` event and the field declares `aria-keyshortcuts="Backspace"`. The Delete tooltip now reads "Delete (Backspace when empty)". `delete` now carries `detail.source`: `"keyboard"` for Backspace, `"pointer"` for a click, so a host can move focus to the previous row's field after a keyboard delete. Mouse behaviour, the event name and `candelete` are unchanged. (#PRNUM)
+
 ## 0.272.2 — 2026-10-19
 ### Changed
 - Select → caret: the composite Select now shows the same `<aha-icon name="system-caret-down" size="16">` as Select field (passed as `suffixIcon`, #8A8A8A) and flips up while open. `select-theme` exports `selectCaretCss` for the colour and flip; with a custom `suffixIcon` antd no longer swaps in its magnifier while searching. All four Select code flavours and the preview use it. (#301)
