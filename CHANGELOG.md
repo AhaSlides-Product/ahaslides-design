@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing → Sections → Header: a White / Vivid Pink switch beside the width switch on each layout (Hero Pink and Hero Pale Pink families: Vivid Pink / Pale Pink), driven by a per-layout `states` list in `marketing/header.json`. `generate.mjs` renders the switch only for a layout with more than one state, so every other marketing page is unchanged.
 
 ### Changed
-- Header → Hero Pink and Hero Pink Vertical: on the Vivid Pink state the image no longer sits in a white card with 12px padding; it keeps its own rounded corners. Dropped at the requester's request. Colour rule 4.7 (a white card on a Vivid Pink surface) is not edited and needs its owner's call; the Pale Pink state keeps the card.
+- Header → every layout, every state: no image has a white or framed border any more. The white 12px card behind the image on Hero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical is gone, as are the padded, bordered frames on Hero Screen Mockup 01 and 03; each image keeps its own `--aha-radius-xl` corners and sits straight on the section surface. The dead `__card` rules on the image-only layouts are deleted. The sign-up form card on Hero Split Form 01 is kept (it holds a form, not an image). Colour rule 4.7 now reads "The key visual image sits directly on the surface with no white card, border or frame around it." (#300)
 
 ### Fixed
 - Header → Hero Split Form 01, Vivid Pink state: the buttons inside the white sign-up card took the on-pink styling (white on white). They now keep the standard primary and secondary styling.
