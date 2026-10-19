@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.266.0 — 2026-10-19
+### Added
+- Icon library: five reveal-pattern glyphs, drawn in the DS for the Radar slide's settings panel: `system-reveal-bloom` (arrows outward from the centre of a star), `system-reveal-pinwheel` (the bloom star with a clockwise arc arrow), `system-reveal-radar-sweep` (a hexagon with a sweeping hand and a filled sector), `system-reveal-vortex` (arrows inward with a clockwise arc arrow) and `system-reveal-crystallise` (arrows inward to the centre of a snowflake). Stroke-only on the 16px grid with the runtime's paired widths, `currentColor`, three or more meaning words each. The registry now holds 310 names (305 glyph files plus 5 aliases). Revert: delete the five `icons/svg/system/system-reveal-*.svg` files and their `icons/meaning.json` lines, restore the 305 count, re-run `node build-icons.mjs`. (#NNN)
+
 ## 0.265.0 — 2026-10-18
 ### Changed
 - Marketing → Sections: the site navbar is now its own `Navigation` page (`marketing/navigation.json`, one layout, `Site navbar`); the `Header` page keeps the four Hero Pink banners, the fourteen heroes and the six page headers (twenty-four layouts) and its summary and highlights no longer mention the navbar. The navbar's HTML, CSS and `aha-header__*` classes are byte-identical, so pasted code keeps working. The old `marketing/header/` URL stays valid and now shows the heroes. No new tokens, colours or components. Environment: marketing-web. Revert: delete `marketing/navigation.json` and move its `Site navbar` layout back to the front of `marketing/header.json`. (#292)
