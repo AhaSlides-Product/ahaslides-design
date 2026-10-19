@@ -63,6 +63,9 @@
 :root:root .ant-input-number-addon:last-child, :root:root .ant-input-number-group-addon:last-child { margin-left: 4px; }
 :root:root .ant-input-number-addon:first-child, :root:root .ant-input-number-group-addon:first-child { margin-right: 4px; }
 
+:root:root .ant-input-number-affix-wrapper-sm, :root:root .ant-input-number-group-wrapper-sm, :root:root .ant-space-compact:has(> .ant-input-number-addon):has(> .ant-input-number-sm) { height: 24px; }
+:root:root .ant-input-number-affix-wrapper-lg, :root:root .ant-input-number-group-wrapper-lg, :root:root .ant-space-compact:has(> .ant-input-number-addon):has(> .ant-input-number-lg) { height: 48px; }
+
 /* the disabled and read-only field has no stepper to reveal */
 :root:root .ant-input-number-disabled .ant-input-number-actions, :root:root .ant-input-number-disabled .ant-input-number-handler-wrap,
 :root:root .ant-input-number-readonly .ant-input-number-actions, :root:root .ant-input-number-readonly .ant-input-number-handler-wrap { display: none; }
