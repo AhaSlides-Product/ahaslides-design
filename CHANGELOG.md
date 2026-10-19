@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.272.3 — 2026-10-20
+### Fixed
+- Icon library: the clockwise arc arrow on `system-reveal-pinwheel` and `system-reveal-vortex` is redrawn. It is now a shorter, symmetric arc (79° sweep, x 4.5 to 11.5) that stays inside the frame and at least 1.1px clear of the diagonal arrows at 16px (was 0.6px, and its top was clipped by the frame edge). Its head is a solid right-angle wedge on the arc's end tangent, the same head as the glyph's other arrows. Names are unchanged, so consumers only bump the pin. Revert: restore the two SVG files from 0.272.2 and re-run `node build-icons.mjs`. (#NNN)
+
 ## 0.272.2 — 2026-10-19
 ### Changed
 - Select → caret: the composite Select now shows the same `<aha-icon name="system-caret-down" size="16">` as Select field (passed as `suffixIcon`, #8A8A8A) and flips up while open. `select-theme` exports `selectCaretCss` for the colour and flip; with a custom `suffixIcon` antd no longer swaps in its magnifier while searching. All four Select code flavours and the preview use it. (#301)
