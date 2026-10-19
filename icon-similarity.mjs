@@ -23,6 +23,8 @@ export const DUPLICATE_THRESHOLD = 0.86;
 export const DUPLICATE_BASELINE_FILE = 'icon-duplicates.baseline.json';
 export const DUPLICATE_BASELINE_ABOUT = 'Near-identical icon pairs that shipped before the near-duplicate gate. They are listed for a person to decide on (keep both, merge, or remove one); standards.mjs fails a pair that is not listed, and fails when this list grows or names a pair that is no longer near-identical. Shrink it with node icon-similarity.mjs --update-baseline.';
 
+export const INTENTIONAL_PAIRS_FILE = 'icon-duplicates.intentional.json';
+
 const GRID = 32;
 const SUPERSAMPLE = 3;
 const SAMPLES = GRID * SUPERSAMPLE;
@@ -385,8 +387,28 @@ export function closestIcons(candidate, drawings, limit = 8) {
 }
 
 /* baseBaseline is null when no base branch can be read: the growth check then waits for CI. */
-export function evaluateDuplicateGate({ pairs, baseline, baseBaseline = null, unreadable = [] }) {
+export function evaluateIntentionalPairs(pairs, intentional) {
   const failures = [];
+  const found = new Set(pairs.map(entry => entry.pair));
+  const exempt = new Set();
+  for (const { first, second, reason } of intentional) {
+    const key = pairKey(first, second);
+    if (typeof reason !== 'string' || !reason.trim()) failures.push(`${INTENTIONAL_PAIRS_FILE}: ${key} needs a written reason`);
+    else if (!found.has(key)) failures.push(`${INTENTIONAL_PAIRS_FILE} lists ${key}, which is no longer near-identical or no longer exists — remove the entry`);
+    else exempt.add(key);
+  }
+  return { failures, exempt };
+}
+
+export function readIntentionalPairs(root) {
+  const path = join(root, INTENTIONAL_PAIRS_FILE);
+  return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')).pairs : [];
+}
+
+export function evaluateDuplicateGate({ pairs: allPairs, baseline, baseBaseline = null, unreadable = [], intentional = [] }) {
+  const { failures: intentionalFailures, exempt } = evaluateIntentionalPairs(allPairs, intentional);
+  const pairs = allPairs.filter(entry => !exempt.has(entry.pair));
+  const failures = [...intentionalFailures];
   const listed = new Set(baseline);
   const found = new Set(pairs.map(entry => entry.pair));
   for (const entry of pairs) {

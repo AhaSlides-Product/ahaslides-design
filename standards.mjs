@@ -29,7 +29,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
-import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, evaluateDuplicateGate } from './icon-similarity.mjs';
+import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, readIntentionalPairs, evaluateDuplicateGate } from './icon-similarity.mjs';
 import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -995,6 +995,7 @@ const repoChecks = [];
     pairs: nearDuplicatePairs(drawings),
     baseline,
     baseBaseline,
+    intentional: readIntentionalPairs(root),
     unreadable: Object.keys(drawings).filter(name => !drawings[name]),
   });
   if (UPDATE_BASELINE) writeFileSync(join(root, DUPLICATE_BASELINE_FILE), JSON.stringify({ $about: DUPLICATE_BASELINE_ABOUT, threshold: DUPLICATE_THRESHOLD, pairs: nextBaseline }, null, 1) + '\n');
