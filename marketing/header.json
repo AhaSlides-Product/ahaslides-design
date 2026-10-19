@@ -6,7 +6,7 @@
   ],
   "summary": "Header sections for the AhaSlides marketing sites: four Hero Pink banners, fourteen heroes and six page headers, each layout with its own name, preview and paste-and-run code.",
   "highlights": [
-    "Twenty-four layouts on one page: the Hero Pink banners, the heroes and the page headers, each with its own labelled preview and code"
+    "Twenty-four layouts on one page: the Hero Pink banners, the heroes and the page headers, each with its own labelled preview and code", "An optional G2 reviews row (avatars, five stars, 4.8 and the review count), off by default, on the 17 layouts whose copy block holds the buttons; a G2 reviews switch next to the width and surface switches shows it on the preview"
   ],
   "layoutsIntro": "Each layout is its own block: the class names below are scoped per layout, so any number of them can sit in one page.",
   "guidance": {
@@ -27,7 +27,7 @@
       },
       {
         "title": "Above the fold",
-        "text": "The headline, the button and the visual are visible without scrolling at 1280 by 720 and on mobile. Use a real AhaSlides screenshot, not a stock photo. The badge slot carries proof, such as a G2 rating, or news, not decoration."
+        "text": "The headline, the button and the visual are visible without scrolling at 1280 by 720 and on mobile. Use a real AhaSlides screenshot, not a stock photo. The badge slot carries news or a short label, not decoration. For proof, turn on the optional G2 reviews row (avatars, stars and the 4.8 rating), which sits under the button on 17 of the layouts and is off by default."
       },
       {
         "title": "Colour",
@@ -62,7 +62,10 @@
           "label": "Pale Pink",
           "modifier": "pale"
         }
-      ]
+      ],
+      "reviews": {
+        "css": ".aha-header-section-hero-pink{--aha-header-section-hero-pink-reviews-star:var(--aha-white)}\n.aha-header-section-hero-pink--pale{--aha-header-section-hero-pink-reviews-star:var(--aha-color-primary)}"
+      }
     },
     {
       "slug": "hero-pink-vertical",
@@ -82,7 +85,10 @@
           "label": "Pale Pink",
           "modifier": "pale"
         }
-      ]
+      ],
+      "reviews": {
+        "css": ".aha-header-section-hero-pink-vertical{--aha-header-section-hero-pink-vertical-reviews-star:var(--aha-white)}\n.aha-header-section-hero-pink-vertical--pale{--aha-header-section-hero-pink-vertical-reviews-star:var(--aha-color-primary)}"
+      }
     },
     {
       "slug": "hero-pale-pink",
@@ -102,7 +108,10 @@
           "modifier": "pale",
           "default": true
         }
-      ]
+      ],
+      "reviews": {
+        "css": ".aha-header-section-hero-pale-pink{--aha-header-section-hero-pale-pink-reviews-star:var(--aha-white)}\n.aha-header-section-hero-pale-pink--pale{--aha-header-section-hero-pale-pink-reviews-star:var(--aha-color-primary)}"
+      }
     },
     {
       "slug": "hero-pale-pink-vertical",
@@ -122,7 +131,10 @@
           "modifier": "pale",
           "default": true
         }
-      ]
+      ],
+      "reviews": {
+        "css": ".aha-header-section-hero-pale-pink-vertical{--aha-header-section-hero-pale-pink-vertical-reviews-star:var(--aha-white)}\n.aha-header-section-hero-pale-pink-vertical--pale{--aha-header-section-hero-pale-pink-vertical-reviews-star:var(--aha-color-primary)}"
+      }
     },
     {
       "slug": "hero-split-image-01",
@@ -142,7 +154,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-split-image-03",
@@ -162,7 +175,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-split-image-05",
@@ -182,7 +196,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-split-form-01",
@@ -222,7 +237,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-screen-mockup-02",
@@ -242,7 +258,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-screen-mockup-03",
@@ -262,7 +279,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-screen-mockup-04",
@@ -282,7 +300,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-screen-mockup-05",
@@ -302,7 +321,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-iphone-mockup-03",
@@ -322,7 +342,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-color-card-04",
@@ -342,7 +363,8 @@
           "modifier": "brand",
           "default": true
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-card-mockup-07",
@@ -362,7 +384,8 @@
           "modifier": "brand",
           "default": true
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-card-mockup-08",
@@ -382,7 +405,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "hero-simple-text-01",
@@ -402,7 +426,8 @@
           "label": "Vivid Pink",
           "modifier": "brand"
         }
-      ]
+      ],
+      "reviews": {}
     },
     {
       "slug": "header-centre",
@@ -524,5 +549,38 @@
         }
       ]
     }
-  ]
+  ],
+  "reviews": {
+    "label": "G2 reviews",
+    "source": "G2",
+    "rating": "4.8",
+    "text": "Based on 1000 reviews",
+    "accessibleLabel": "Rated 4.8 out of 5 on G2, based on 1000 reviews",
+    "insertInto": "the last child of the layout's copy block (.{{c}}__copy)",
+    "avatars": [
+      {
+        "file": "avatar-01.webp",
+        "name": "Maya Torres"
+      },
+      {
+        "file": "avatar-02.webp",
+        "name": "Arjun Mehta"
+      },
+      {
+        "file": "avatar-03.webp",
+        "name": "Freya Lindqvist"
+      },
+      {
+        "file": "avatar-04.webp",
+        "name": "Marco Bellini"
+      },
+      {
+        "file": "avatar-05.webp",
+        "name": "Elena Voss"
+      }
+    ],
+    "avatarHtml": "<aha-avatar src=\"{{site}}/marketing/images/testimonials/{{file}}\" name=\"{{name}}\" size=\"32\"></aha-avatar>",
+    "html": "<div class=\"{{c}}__reviews\">\n  <span class=\"{{c}}__reviews-label\">{{accessibleLabel}}</span>\n  <aha-avatar-group aria-hidden=\"true\">{{avatars}}</aha-avatar-group>\n  <div class=\"{{c}}__reviews-detail\" aria-hidden=\"true\">\n    <aha-rate class=\"{{c}}__reviews-stars\" value=\"{{rating}}\" size=\"sm\" readonly precision=\"exact\"></aha-rate>\n    <span class=\"{{c}}__reviews-line\"><span class=\"{{c}}__reviews-score\">{{rating}}</span><span>{{text}}</span></span>\n  </div>\n</div>",
+    "css": ".{{c}}__reviews{display:flex;flex-wrap:wrap;align-items:center;gap:var(--aha-space-16);margin-top:var(--aha-space-24)}\n.{{c}}__reviews-label{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.{{c}}__reviews-detail{display:flex;flex-direction:column;align-items:flex-start;gap:var(--aha-space-4)}\n.{{c}}__reviews-stars{color:var(--{{c}}-reviews-star,var(--{{c}}-eyebrow))}\n.{{c}}__reviews-line{display:flex;flex-wrap:wrap;gap:var(--aha-space-4);font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);letter-spacing:var(--aha-letter-spacing-paragraph);color:var(--{{c}}-ink-secondary,var(--{{c}}-ink))}\n.{{c}}__reviews-score{font-weight:var(--aha-weight-semibold);color:var(--{{c}}-ink)}\n:is(.{{c}}__centred,.{{c}}--vertical) .{{c}}__reviews{justify-content:center}\n:is(.{{c}}__centred,.{{c}}--vertical) .{{c}}__reviews-detail{align-items:center}"
+  }
 }
