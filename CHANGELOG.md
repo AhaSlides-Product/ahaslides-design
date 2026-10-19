@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.272.1 — 2026-10-19
 ### Fixed
-- `aha-setting-row`: the "?" help bubble opens below the trigger and fits inside the viewport (start- or end-aligned, wrapping when narrow), so it no longer clips inside a 320 to 383px settings iframe. Slides can drop the `placement="bottom-start"` patch. (#NNN)
-- `aha-option-row`: the inner field's `input` listener ignores any event whose `detail.value` is not a string, so the `value` attribute can never become "undefined" and plain-DOM hosts need no MutationObserver workaround. (#NNN)
+- `aha-setting-row`: the "?" help bubble opens below the trigger and fits inside the viewport (start- or end-aligned, wrapping when narrow), so it no longer clips inside a 320 to 383px settings iframe. Slides can drop the `placement="bottom-start"` patch. (#303)
+- `aha-option-row`: the inner field's `input` listener ignores any event whose `detail.value` is not a string, so the `value` attribute can never become "undefined" and plain-DOM hosts need no MutationObserver workaround. (#303)
 
 ## 0.271.0 — 2026-10-19
 ### Added
