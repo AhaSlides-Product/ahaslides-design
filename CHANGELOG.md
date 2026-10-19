@@ -22,13 +22,23 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.272.0 — 2026-10-19
+## 0.273.0 — 2026-10-19
 ### Added
 - Marketing → Sections → Header: an optional G2 reviews row on the 17 layouts whose copy block holds the buttons (Hero Pink, Hero Pink Vertical, Hero Pale Pink, Hero Pale Pink Vertical, Hero Split Image 01, 03 and 05, Hero Screen Mockup 01 to 05, Hero iPhone Mockup 03, Hero Color Card 04, Hero Card Mockup 07 and 08, Hero Simple Text 01). It is five avatars (`aha-avatar-group`), five stars (`aha-rate`, filled to 4.8) and "4.8 Based on 1000 reviews", with a visually hidden label, readable on White, Pale Pink and Vivid Pink. It is off by default: the layout code leaves it out. Hero Split Form 01 (the button sits in the sign-up card) and the six page headers (no button in the copy block) do not get it. (#302)
 - Marketing → Sections → Header: a "G2 reviews: Off / On" switch beside the width and surface switches on each layout that has the row. `generate.mjs` gains one generic step: any `marketing/*.json` may carry a block-level `reviews` template and a per-layout `reviews` key. The md and agent.json feeds describe the row and how to turn it on. Other marketing pages are byte-identical. (#302)
 
 ### Changed
 - Header guidance "Above the fold": the badge slot no longer carries a G2 rating; it points to the G2 reviews row instead. (#302)
+
+## 0.272.2 — 2026-10-19
+### Changed
+- Select → caret: the composite Select now shows the same `<aha-icon name="system-caret-down" size="16">` as Select field (passed as `suffixIcon`, #8A8A8A) and flips up while open. `select-theme` exports `selectCaretCss` for the colour and flip; with a custom `suffixIcon` antd no longer swaps in its magnifier while searching. All four Select code flavours and the preview use it. (#301)
+- Select field → dropdown: option rows now match Select (40px, 9px 12px padding, 14/22), the popup sits 4px below the control, and the hover and keyboard-active row is #F7F7F7 (`--aha-bg-hover`) instead of the brand tint, which was also the only state it had; hover had no style before. Both popups now use radius 8: Select's was antd's derived 10, off the radius scale (`borderRadiusLG: 8` in `selectTheme`, which also keeps the large control at 8). The selected row now matches Select too: #E70E680D background (`--aha-bg-accent`) with a #E70E68 semibold label, and the check is gone. (#301)
+
+## 0.272.1 — 2026-10-19
+### Fixed
+- `aha-setting-row`: the "?" help bubble opens below the trigger and fits inside the viewport (start- or end-aligned, wrapping when narrow), so it no longer clips inside a 320 to 383px settings iframe. Slides can drop the `placement="bottom-start"` patch. (#303)
+- `aha-option-row`: the inner field's `input` listener ignores any event whose `detail.value` is not a string, so the `value` attribute can never become "undefined" and plain-DOM hosts need no MutationObserver workaround. (#303)
 
 ## 0.271.0 — 2026-10-19
 ### Added
