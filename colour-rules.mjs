@@ -247,7 +247,7 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
 export function colourRulesIndexLines(site, backgrounds) {
   return [
     `>   ${site}/${COLOUR_RULES_PAGE}  brand colour rules, the human page — the AhaSlides visual identity colour and background rules (palette, backgrounds, splash layouts, buttons and text, status, charts, what is still open); the token reference is foundations/colour.html`,
-    `>   ${site}/colour-rules.md   the same rules for agents, each tagged with its environment (product, audience, web, video, social-ads) and the judge criteria that check it; machine form at ${site}/colour-rules.agent.json. The page and both feeds are generated from one file, ${COLOUR_RULES_FILE}`,
+    `>   ${site}/colour-rules.md   the same rules for agents, each tagged with its environment (product, audience, web, video, social-ads, report-image) and the judge criteria that check it; machine form at ${site}/colour-rules.agent.json. The page and both feeds are generated from one file, ${COLOUR_RULES_FILE}`,
     `>   ${site}/${BACKGROUND_LIBRARY_PAGE}  background library — the ${backgrounds.length} ready-made Splash backgrounds (centre, right and minimal, on white and on Vivid Pink, at 16:9, 1:1 and 9:16); files at ${site}/backgrounds/<file>.svg, index at ${site}/${BACKGROUNDS_MANIFEST_FILE}; any other size is built with build-splash.mjs from the real splash icon, never redrawn, stretched or recoloured`,
   ];
 }

@@ -82,7 +82,7 @@ When a component needs a glyph, search the library by what it means — `npm run
 
 ## Environment — every item declares one (enforced)
 
-Every contract, guideline, website section and brand or logo asset carries `"environment": [...]`: one or more of `product`, `audience`, `web`, `video`, `social-ads`. It tells an agent which route to follow (guidelines, judge, lint, plugin, owner), printed per environment in `llms.txt` → **Routes**. The one table is `environments.json`.
+Every contract, guideline, marketing section and brand or logo asset carries `"environment": [...]`: one or more of `product`, `audience`, `web`, `video`, `social-ads`, `report-image`. It tells an agent which route to follow (guidelines, judge, lint, plugin, owner), printed per environment in `llms.txt` → **Routes**. The one table is `environments.json`.
 
 - **New or changed item without a known environment → `standards.mjs` fails.** Items that shipped before the rule are listed in `environments.baseline.json`; touching one means declaring its environment and dropping it from the list (`node standards.mjs --update-baseline`). The list may only shrink: CI fails a pull request that adds to it.
 - **The pull request body declares it too.** A pull request that changes `contracts/`, `guidelines/`, `marketing/`, `brand/`, `logo/`, `backgrounds/` or `illustrations/` needs a line `Environment: <names>` (the template has it), equal to the environments of the items it adds or changes. CI's standards job checks it, and re-runs when you edit the body.

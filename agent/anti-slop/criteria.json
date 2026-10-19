@@ -300,7 +300,7 @@
         {
           "id": "C2",
           "title": "The look is theme-driven — no per-table styling",
-          "test": "The look comes from the theme (components.Table), not the call site — a per-table bordered, size, rowClassName zebra, inline header/cell style or ad-hoc container styling fails."
+          "test": "The look comes from the theme (components.Table), not the call site — a per-table bordered, size, rowClassName zebra, inline header/cell style or ad-hoc container styling fails. A report (the report-image environment: a static report image, or a read-only report page a report routine publishes) is judged on the report-images surface (C11) instead, where white and light grey zebra rows are required (colour rule 3.11)."
         },
         {
           "id": "C3",
@@ -310,7 +310,7 @@
         {
           "id": "C4",
           "title": "Body has horizontal dividers only — no zebra, no vertical grid lines",
-          "test": "Rows are separated by horizontal dividers only (the border token) — no zebra striping, no vertical cell borders (bordered)."
+          "test": "Rows are separated by horizontal dividers only (the border token) — no zebra striping, no vertical cell borders (bordered). A report (the report-image environment: a static report image, or a read-only report page a report routine publishes) is judged on the report-images surface (C11) instead, where white and light grey zebra rows are required (colour rule 3.11)."
         },
         {
           "id": "C5",
@@ -433,26 +433,29 @@
             "3.1",
             "9.1",
             "9.2",
-            "9.3"
+            "9.3",
+            "3.11"
           ],
-          "test": "The page background and every neutral container (card body, panel, modal and drawer body, table and list row, tab panel) is white or unset (--aha-bg-container), unless it is one of the non-white surfaces judged in C2 to C4: light grey inside or beside the page, Vivid Pink at 5% as a state fill or the one highlighted panel, or black for presenting and viewers. Any other colour on a surface we draw fails here: a brand, pastel or purple fill, a panel painted Vivid Pink, a tint added for emphasis. Misplaced grey, pale pink or black is judged under C2, C3 or C4 and is not flagged again here. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not."
+          "test": "The page background and every neutral container (card body, panel, modal and drawer body, table and list row, tab panel) is white or unset (--aha-bg-container), unless it is one of the non-white surfaces judged in C2 to C4: light grey inside or beside the page, Vivid Pink at 5% as a state fill or the one highlighted panel, or black for presenting and viewers. Any other colour on a surface we draw fails here: a brand, pastel or purple fill, a panel painted Vivid Pink, a tint added for emphasis. Misplaced grey, pale pink or black is judged under C2, C3 or C4 and is not flagged again here. In a report (a static report image, or a read-only report page a report routine publishes; environment report-image), number plates in Vivid Pink at 5% and white and light grey zebra table rows pass under rule 3.11; pale pink table rows fail. Presenter and customer content (a slide, an uploaded image, a presenter's own theme) and photos are exempt; an official AhaSlides theme is not."
         },
         {
           "id": "C2",
           "title": "Light grey sits only inside or beside the white page",
           "source": [
-            "3.6"
+            "3.6",
+            "3.11"
           ],
-          "test": "Light grey (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-container-disabled) is used only on a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the editor workspace around the slide, or a hovered or disabled control. Grey as the background of a whole page, of the layout body behind the content, or of a full-width section fails."
+          "test": "Light grey (--aha-bg-layout, --aha-bg-container-secondary, --aha-bg-hover, --aha-bg-container-disabled) is used only on a surface that sits inside or beside the white page: a card, a sidebar, an input field, a table header, the zebra rows of a report table (rule 3.11), the editor workspace around the slide, or a hovered or disabled control. Grey as the background of a whole page, of the layout body behind the content, or of a full-width section fails."
         },
         {
           "id": "C3",
           "title": "Vivid Pink at 5% is a state fill, plus at most one highlighted panel per screen",
           "source": [
             "3.2",
-            "3.7"
+            "3.7",
+            "3.11"
           ],
-          "test": "Vivid Pink at 5% (--aha-bg-accent) fills a hover or selected state, and at most one highlighted panel on a screen. A second pale pink panel on the same screen, or pale pink as the background of a page or of a full-width section on a screen of the product app, fails. A web page built from full-width sections, wherever it lives (a help article, a sign-up or upgrade page), may use pale pink sections under rules 3.2 to 3.5: they never sit next to each other, and a full white section sits between them. The fill a DS component ships with (a tag, a badge, a selected card) comes from its contract and is not counted as a panel."
+          "test": "Vivid Pink at 5% (--aha-bg-accent) fills a hover or selected state, and at most one highlighted panel on a screen. A second pale pink panel on the same screen, or pale pink as the background of a page or of a full-width section on a screen of the product app, fails. A web page built from full-width sections, wherever it lives (a help article, a sign-up or upgrade page), may use pale pink sections under rules 3.2 to 3.5: they never sit next to each other, and a full white section sits between them. The fill a DS component ships with (a tag, a badge, a selected card) comes from its contract and is not counted as a panel. A report (a static report image, or a read-only report page a report routine publishes; environment report-image) is not a screen of the product app: its number plates (<aha-stat-tile look=\"accent\">, any number of them) in Vivid Pink at 5% pass under rule 3.11, where 3.2 and 3.7 do not apply; its table rows are white and light grey, and pale pink table rows fail. A Report screen inside the product app is still judged as a product screen."
         },
         {
           "id": "C4",
@@ -479,7 +482,7 @@
           "source": [
             "3.10"
           ],
-          "test": "No linear-, radial- or conic-gradient is used as a background or fill. The one exception is an AI feature, where the gradient sits on the border (border-box) and the padding-box fill stays white."
+          "test": "No linear-, radial- or conic-gradient is used as a background or fill. The one exception is an AI feature, where the gradient sits on the border (border-box) and the padding-box fill stays white. The animated Skeleton shimmer between only --aha-bg-hover, --aha-bg-container-secondary and --aha-split is not a gradient fill."
         },
         {
           "id": "C7",
@@ -1332,6 +1335,159 @@
           "id": "C2",
           "title": "<aha-chart> uses the palette for its surface",
           "test": "App screens such as Report use `palette=\"brand\"` (the default); the presenting or audience canvas uses `palette=\"deck\"` with the deck's `colors` and `ink`. A canvas chart left on the brand palette, or an app-screen chart painted with hand-picked series colours, fails."
+        }
+      ]
+    },
+    "report-images": {
+      "surface": "reports (static report images and read-only report pages)",
+      "origin": "authored",
+      "skillRef": null,
+      "targets": [
+        {
+          "source": "guidelines/report-images.json",
+          "use": "the report rules for images and report pages: size, type, series order, end labels, twin axes, gaps, zero runs, ticks and formats, titles, missing glyphs, report tables, number plates and glyphs"
+        },
+        {
+          "source": "contracts/chart.json",
+          "use": "the chart a report page uses and a static chart copies: line and column geometry (end labels, twin axis, gaps, negatives, reference line, x labels thinned on a phone)"
+        },
+        {
+          "source": "contracts/stat-tile.json",
+          "use": "the number plate: <aha-stat-tile look=\"accent\"> on a report page, drawn to the same spec in an image (C12)"
+        },
+        {
+          "source": "brand/colour-rules.json",
+          "use": "rule 3.11 (light grey zebra rows and pale pink plates in reports, image and page alike), 3.6 (light grey for table surfaces), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "title": "Size and density: an image is a 2x export under 1 MB; a page reflows from 360 px",
+          "test": "**Rule.** A report image is drawn at 2x (a full-width chart is 1,200 × 675 px at 1x, exported at 2,400 × 1,350), with text no smaller than 12 px at 1x for ticks and notes and 14 px for labels, values and table text, a 24 px white margin, one chart, table or plate row per image, and a file under 1 MB. A 1x export that blurs in Slack, 9 px tick labels, three charts crammed into one PNG, or a 3 MB file fails. A report page is white, uses the same text sizes, may hold many charts, tables and plate rows, and reflows from a 360 px phone with no horizontal page scroll (only a wide table may scroll sideways); a page that overflows at 390 px, or x labels cut to one character, fails."
+        },
+        {
+          "id": "C2",
+          "title": "Type: Plus Jakarta Sans, 400 and 600 only",
+          "test": "**Rule.** All text is Plus Jakarta Sans from the DS font files, in weight 400 (ticks, captions, notes, table text) or 600 (titles, values, end labels, table headers). DejaVu Sans, Arial or a renderer default, a bold 700, a light 300 or a second typeface fails."
+        },
+        {
+          "id": "C3",
+          "title": "Series follow the chart order; past four parts, the top 3 plus Other",
+          "test": "**Rule.** Series are coloured in the chart order (Vivid Pink, black, Vivid Pink at 30%, light grey #A8A8A8), the main series first. A breakdown with more than four parts shows the top three by value and folds the rest into Other, in light grey and last. A fifth colour, a palette in another order, Other placed first or in pink, or two Other slots (a source Other beside the folded one) fails."
+        },
+        {
+          "id": "C4",
+          "title": "Every line carries a non-overlapping end-value label",
+          "test": "**Rule.** Each line shows its latest value at its right end, formatted like its axis. Labels never overlap one another or a line end: when two would touch they are pushed apart and joined to their lines by a short leader in the series colour. A line with no end label, two labels printed on top of each other, or a moved label with no leader fails. A line in Vivid Pink at 30% or grey without its value written fails (colour rule 8.3)."
+        },
+        {
+          "id": "C5",
+          "title": "A twin axis is named in the legend",
+          "test": "**Rule.** A right axis is used only for a series in a different unit, shares the left axis's grid lines, and the legend names each series' axis (Sessions (left axis), Conversion (right axis)). A twin-axis chart whose legend does not say which series reads on which axis, or a right axis for a series in the same unit, fails."
+        },
+        {
+          "id": "C6",
+          "title": "A missing period breaks the line",
+          "test": "**Rule.** A period with no data breaks the line: it is never plotted as zero and never bridged by a segment, and a point with no neighbour keeps its marker. A line that drops to zero for missing data, or draws straight across a gap, fails."
+        },
+        {
+          "id": "C7",
+          "title": "A real run of zeros carries a note",
+          "test": "**Rule.** When a series is really zero for three or more periods in a row (not missing), a short note in secondary text on the chart says so, such as No sessions from 3 to 9 Oct. A flat zero run with no note, which a reader cannot tell from missing data, fails."
+        },
+        {
+          "id": "C8",
+          "title": "Tick density and number formats",
+          "test": "**Rule.** The y axis has 3 to 6 divisions on round steps and starts at zero for counts; x labels never overlap and the latest period is always labelled; values of 1,000 and above are written with K or M and at most one decimal (12K, 1.3M); percentages are whole (46%); the axis, the end labels and any table use the same format. Overlapping or rotated x labels, 9 y ticks, 12,345.67 on an axis, 46.23% or a format that differs between axis and labels fails."
+        },
+        {
+          "id": "C9",
+          "title": "Sentence-case titles with no em or en dashes",
+          "test": "**Rule.** Titles and labels are sentence case and say what and when (Weekly sign-ups, last 12 weeks). No em dash or en dash appears anywhere on the image; a range uses to (3 to 9 Oct) and a pause uses a comma. Title Case, ALL CAPS, an em or en dash, or a title ending in a full stop fails."
+        },
+        {
+          "id": "C10",
+          "title": "No missing glyphs; marks are DS files, not font characters",
+          "test": "**Rule.** Every character renders: the renderer has a fallback font for the scripts the data can hold, so a Vietnamese or accented name never shows as empty boxes. Arrows and status marks are DS glyphs (<aha-icon> on a report page, lib/static-icons in an image), not typed as ▲ ▼ ✓ characters or emoji. A tofu box, a missing accent or a font-character arrow fails."
+        },
+        {
+          "id": "C11",
+          "title": "Report tables: zebra rows, dividers, pink header rule",
+          "test": "**Rule.** A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary), 1px #E3E3E3 dividers under every row, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, pale pink (Vivid Pink at 5%) rows, grey or pink-filled headers, pink text, vertical rules or coloured status cells fail. Tables on screens of the product app, its Report screens included, are judged on the table surface instead and keep plain rows. (Colour rules 3.11 and 3.6.)"
+        },
+        {
+          "id": "C12",
+          "title": "Number plates: Vivid Pink at 5% card, black text, direction by shape",
+          "test": "**Rule.** A number plate (the KPI tile) is a flat Vivid Pink at 5% card with a 4px Vivid Pink top bar and 8px corners, black label (400) and value (600), the change as an absolute number and a whole percent, and the comparison caption in secondary text: <aha-stat-tile look=\"accent\"> on a report page, any number of them, and the same spec drawn in an image. A rise is black with the up arrow; a fall is white on a black pill with the down arrow. A grey or white-only plate with no brand colour, pink text on the card, a green or red change, a change with no arrow, or a drop shadow fails. (Colour rule 3.11.)"
+        },
+        {
+          "id": "C13",
+          "title": "Status glyphs come from the DS: <aha-icon> on a page, lib/static-icons in an image",
+          "test": "**Rule.** Every status mark in a report (rise, fall, no change, warning, pending, progress) is a DS glyph called by its registry name, at 12, 16, 24 or 32 px, in ink or white: <aha-icon> on a report page, a file from lib/static-icons in an image. A drawn triangle or circle, an emoji, an icon from another set or a recoloured glyph fails."
+        }
+      ]
+    },
+    "usability": {
+      "surface": "usability",
+      "origin": "authored",
+      "skillRef": null,
+      "targets": [
+        {
+          "source": "tokens.canonical.json",
+          "use": "the DS tokens and components a screen must reuse (U4); the Nielsen Norman Group heuristics are at https://www.nngroup.com/articles/ten-usability-heuristics/"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "U1",
+          "title": "Visibility of system status",
+          "test": "Every action and wait shows the system's state in the UI: loading, saving, progress, success, error, and the current location or selection. Evidence: a loading/pending state for each async call, and visible feedback after each action. N/A when the change has no async work, action or navigation (a colour, spacing or label edit)."
+        },
+        {
+          "id": "U2",
+          "title": "Match between the system and the real world",
+          "test": "Words, icons and order use the user's language and real-world conventions, not internal or technical terms (no ids, enum names or API vocabulary on screen); information appears in a natural, logical order. N/A when the change adds no visible text, icon or ordering."
+        },
+        {
+          "id": "U3",
+          "title": "User control and freedom",
+          "test": "A user who acts by mistake can leave: cancel, close, undo or back on every dialog, form, multi-step flow and destructive action, with a clear exit that does not lose their work unasked. N/A when the change adds no dialog, flow or reversible action."
+        },
+        {
+          "id": "U4",
+          "title": "Consistency and standards",
+          "test": "The same thing looks and behaves the same way: DS components, tokens and platform conventions, with one term per concept across the screen and its neighbours. A bespoke control where the DS ships one fails. N/A when the change touches no visible element."
+        },
+        {
+          "id": "U5",
+          "title": "Error prevention",
+          "test": "The design stops the error before it happens: constraints, sensible defaults, inline validation, a confirmation or undo for destructive or irreversible actions, and no submit that can be sent in a known-invalid state. N/A when the change has no input, destructive action or irreversible step."
+        },
+        {
+          "id": "U6",
+          "title": "Recognition rather than recall",
+          "test": "Options, actions and context are visible or one step away; the user is never asked to remember a value from another screen or step. Labels persist (no placeholder-only fields), and the current state is shown. N/A when the change adds no input, choice or multi-step context."
+        },
+        {
+          "id": "U7",
+          "title": "Flexibility and efficiency of use",
+          "test": "Frequent tasks are quick for experts and clear for novices: sensible defaults, keyboard access and shortcuts, bulk or repeat actions where the task repeats. N/A when the change adds no task a user repeats."
+        },
+        {
+          "id": "U8",
+          "title": "Aesthetic and minimalist design",
+          "test": "Each screen carries only what the task needs: one clear primary action, no competing or decorative content, and hierarchy that puts the important thing first. Extra information fails unless it earns its place. N/A when the change adds no content or controls."
+        },
+        {
+          "id": "U9",
+          "title": "Help users recognise, diagnose, and recover from errors",
+          "test": "An error is in plain language, says what went wrong and offers a way back (retry, fix the field, contact), placed at the point of the problem and not by colour alone. N/A when the change has no error path; an error state that is missing where one can occur is a FAIL."
+        },
+        {
+          "id": "U10",
+          "title": "Help and documentation",
+          "test": "Anything not self-evident has help at the point of use: a hint, tooltip, empty-state guidance or a link to docs, short and task-focused. N/A when the screen is self-evident or the change adds no unfamiliar concept."
         }
       ]
     }

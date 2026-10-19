@@ -19,8 +19,8 @@ const memoryReader = (files) => ({
 });
 const itemsFrom = (files) => collectItems(table, memoryReader(files));
 
-test('the table is the closed list of five environments, each with a complete route', () => {
-  assert.deepEqual(environmentNames(table), ['product', 'audience', 'web', 'video', 'social-ads']);
+test('the table is the closed list of six environments, each with a complete route', () => {
+  assert.deepEqual(environmentNames(table), ['product', 'audience', 'web', 'video', 'social-ads', 'report-image']);
   for (const [name, environment] of Object.entries(table.environments)) {
     assert.ok(environment.label && environment.summary, name);
     assert.deepEqual(Object.keys(environment.route), ['guidelines', 'judge', 'lint', 'plugin', 'owner'], name);
@@ -40,7 +40,7 @@ test('a new environment is data only: it reaches the llms.txt routes and the hea
   const lines = routeLines(wider, SITE).join('\n');
   assert.match(lines, /### print — Print/);
   assert.match(lines, /- guidelines: https:\/\/design\.example\/print\.md/);
-  assert.match(withRouteHeader('design.md', '# x\n', SITE, wider), /social-ads, print\)/);
+  assert.match(withRouteHeader('design.md', '# x\n', SITE, wider), /social-ads, report-image, print\)/);
 });
 
 test('every item in the repo is collected, and the baseline names only items still missing an environment', () => {

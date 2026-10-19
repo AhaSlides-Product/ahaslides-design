@@ -233,6 +233,27 @@
         "id": 9,
         "remap": "identity — judge criterion ids equal the DS criterion ids"
       }
+    },
+    {
+      "id": 10,
+      "prompt": "Review the table on a read-only report page that a report routine publishes (a weekly dashboard opened from a link): a plain HTML table whose rows alternate white and var(--aha-bg-container-secondary), with 1px dividers and a black semibold header over a 2px Vivid Pink rule.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: a report table is judged on report-images C11, not table C4.",
+      "expected_output": "C4 PASSes: a report is judged on the report-images surface (C11), where white and light grey zebra rows are required by colour rule 3.11. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C4": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "colour rule 3.11 extended to read-only report pages (DESY-220)"
+      }
     }
   ]
 }

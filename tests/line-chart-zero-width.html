@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Line chart at zero width</title>
+</head>
+<body>
+  <div style="display:none"><aha-chart id="hidden" type="line" label="Hidden" data='{"labels":["Mon","Tue"],"series":[{"label":"Sign-ups","values":[1,2]}]}'></aha-chart></div>
+  <aha-chart id="no-labels" type="line" label="No periods" data='{"labels":[],"series":[{"label":"Sign-ups","values":[]}]}'></aha-chart>
+  <div style="width:600px"><aha-chart id="live" type="line" label="Live" data='{"labels":["Mon","Tue","Wed"],"series":[{"label":"Sign-ups","values":[10,20,30]}]}'></aha-chart></div>
+  <script type="module">
+    await import('../lib/aha-chart.js');
+    window.lineFixtureReady = true;
+  </script>
+</body>
+</html>
