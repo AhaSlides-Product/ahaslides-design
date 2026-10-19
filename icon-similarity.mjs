@@ -386,7 +386,6 @@ export function closestIcons(candidate, drawings, limit = 8) {
     .sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
-/* baseBaseline is null when no base branch can be read: the growth check then waits for CI. */
 export function evaluateIntentionalPairs(pairs, intentional) {
   const failures = [];
   const found = new Set(pairs.map(entry => entry.pair));
@@ -405,6 +404,7 @@ export function readIntentionalPairs(root) {
   return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')).pairs : [];
 }
 
+/* baseBaseline is null when no base branch can be read: the growth check then waits for CI. */
 export function evaluateDuplicateGate({ pairs: allPairs, baseline, baseBaseline = null, unreadable = [], intentional = [] }) {
   const { failures: intentionalFailures, exempt } = evaluateIntentionalPairs(allPairs, intentional);
   const pairs = allPairs.filter(entry => !exempt.has(entry.pair));
