@@ -2,7 +2,7 @@
   "slug": "testimonials",
   "name": "Testimonials",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "The AhaSlides marketing site testimonial sections, in the layouts of the Untitled UI testimonial sections the marketing team picked (layout only; no Untitled UI photo or asset): Simple centred (3), Simple left aligned, Split image (3), Card, Card split image, Case study cards and Abstract image. Every placeholder is a real image file; every value comes from a DS token, component or marketing section (Cards, Features, Logos), and what the DS does not yet define is listed under Composed of as missing. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [

@@ -22,10 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.270.1 — 2026-10-19
+## 0.271.1 — 2026-10-19
 ### Changed
 - Select → caret: the composite Select now shows the same `<aha-icon name="system-caret-down" size="16">` as Select field (passed as `suffixIcon`, #8A8A8A) and flips up while open. `select-theme` exports `selectCaretCss` for the colour and flip; with a custom `suffixIcon` antd no longer swaps in its magnifier while searching. All four Select code flavours and the preview use it. (#301)
 - Select field → dropdown: option rows now match Select (40px, 9px 12px padding, 14/22), the popup sits 4px below the control, and the hover and keyboard-active row is #F7F7F7 (`--aha-bg-hover`) instead of the brand tint, which was also the only state it had; hover had no style before. The selected row now matches Select too: #E70E680D background (`--aha-bg-accent`) with a #E70E68 semibold label, and the check is gone. (#301)
+
+## 0.271.0 — 2026-10-19
+### Added
+- Logo library: each third-party brand logo fetched from theSVG now also ships in its original colours at `logo/original/<file>`, beside the one-colour file (`originalFile` in `logo/manifest.json`; PDF has no original source and has none). The Foundations → Logo library page shows both files on every brand tile and gives the hover and focus pattern as copy-paste HTML and CSS. `recolour-art.mjs` leaves `logo/original/` alone, and `standards.mjs` checks that every original sits beside its one-colour file and is declared. The Model Context Protocol original is its mark in black, as the source file is the white mark for dark backgrounds. (#262)
+### Changed
+- Colour rule 2.6, third-party logos: in every interface, the presenter app and website headers and menus alike, a brand logo is one colour at rest and shows its own colours on hover and keyboard focus (a short fade, none under reduced motion), with the tool's name always beside it. A page that lists other products (Marketplace, integrations directory) keeps logos in their own colours at rest as content, in the DS white tile with a grey border, 32px at most; a tool not available yet is greyscale with a Coming soon tag (`<aha-tag color="primary" bordered>`). Brand colour never spreads beyond the logo. Customer logo strips stay one colour. Judge criterion C7, rule 9.4, the colour eval set (case 7 reworded, cases 11 and 12 added), AGENTS.md, PRINCIPLES.md, the `aha-design` skill and `llms.txt` say the same. (#262)
+- The design system covers every AhaSlides website: there is no separate marketing web surface. The `marketing-web` environment is renamed `web` ("Websites": landing, pricing, blog, careers and campaign pages) and now routes like `product`: owner the design system team (#design-system-agents), plugin `ahaslides-design:aha-design`, judge `anti-slop.md`, lint `screen-lint.mjs --surface=product`. Breaking for any item that declares `marketing-web`: declare `web` instead. Video and social / ads keep their own route. (#262)
+- Agent plugin: the `aha-design` skill description, the prompt mandate hook and the plugin description now send landing, pricing, blog and careers pages to `aha-design`; only brand voice, email, video and social / ads creative go to aha-marketing-skills. (#262)
+- Typography judge J7: the DS type scale governs every screen and website page; a landing-page hero takes a display role instead of being treated as a separate brand surface. The matching eval now expects J2 and J7 to fail and a display role as the fix. (#262)
+- Docs site: the "Marketing" header tab is renamed "Websites", matching the `web` environment; docs search labels those pages Websites too. The `marketing/` folder, its page URLs and the `marketing.*` feed names are unchanged. (#262)
+- The old `marketing-web` id is still accepted for one release as a deprecated alias of `web`: items that declare it validate and route as `web`, and `colour-rules.agent.json` `rulesByEnvironment['marketing-web']` mirrors `web`. It is not a sixth environment and is not listed in `llms.txt` Routes. (#262)
 
 ## 0.270.0 — 2026-10-19
 ### Added

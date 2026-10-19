@@ -2,7 +2,7 @@
   "slug": "features",
   "name": "Features",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "Eleven features sections for the AhaSlides marketing sites (Webflow Features), in the layouts of the Untitled UI features sections the marketing team picked: alternating rows, an icon grid, icon lists with a photo or a video, icon cards, icons around a phone or a results screenshot, and tabs with screenshots. Framework-free HTML and CSS, bound to the shared --aha-* tokens and built from values the Hero, Cards, Hero banner, FAQ and Footer banner sections already ship. Every picture is a neutral image slot to swap for a real image.",
   "highlights": [

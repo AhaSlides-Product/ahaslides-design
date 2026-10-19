@@ -2,7 +2,7 @@
   "slug": "footer-banner",
   "name": "Footer banner",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "The AhaSlides marketing site pre-footer call-to-action card (Webflow section-container > card-based-section img-card-section), matched to the live ahaslides.com: a pale pink illustrated card with a centred heading and a Get started free button, directly above the Footer. An optional paragraph sits between the heading and the button (the Enterprise variant), and an optional scroll-in reveal reproduces the fade-up used on the Compare page. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [

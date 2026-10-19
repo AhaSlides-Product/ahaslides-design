@@ -2,7 +2,7 @@
   "slug": "navigation",
   "name": "Navigation",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "Navigation for the AhaSlides marketing sites: the site navbar, a dark participant join bar that scrolls away above a sticky white navigation with mega-menus, collapsing to a hamburger drawer at 991px and below.",
   "highlights": [

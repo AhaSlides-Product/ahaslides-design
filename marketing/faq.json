@@ -2,7 +2,7 @@
   "slug": "faq",
   "name": "FAQ",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "The AhaSlides marketing site FAQ (Webflow component FAQ, built on Relume uui-faq01), matched to the live ahaslides.com AI presentation maker page: a heading over four question rows, each a button that opens its answer with a 0.3s height animation and a plus that turns into a minus. Several rows can be open at once. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [
