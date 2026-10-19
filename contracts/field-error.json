@@ -12,6 +12,7 @@
   "codeNote": "Same element, same shadow-DOM CSS → identical render. Pass the TRANSLATED string as `message`; the DS does not own i18n keys. The input owns its half of the wiring: aria-invalid + aria-describedby=\"<error id>\". A DS <aha-input> does both for you — status=\"error\" sets aria-invalid and it forwards its aria-describedby to the inner field.",
   "tokensUsed": [
     "text-negative",
+    "text-secondary",
     "space-4",
     "motion-mid",
     "ease-out",
@@ -54,7 +55,7 @@
       "name": "tone",
       "type": "'info'",
       "default": "—",
-      "desc": "`info` turns the row into muted help text: no glyph, --aha-text-tertiary, same slot and 4px gap, no error semantics (the field is not aria-invalid). Used for `info-message` on aha-input and beside antd Input number and Textarea; an error message replaces it, never stacked"
+      "desc": "`info` turns the row into muted help text: no glyph, --aha-text-secondary, same slot and 4px gap, no error semantics (the field is not aria-invalid). Used for `info-message` on aha-input and beside antd Input number and Textarea; an error message replaces it, never stacked"
     },
     {
       "name": "message",

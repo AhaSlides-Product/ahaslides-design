@@ -18,14 +18,14 @@
     { "label": "Counted variant", "value": "remaining characters (193 for 7 of 200) inside the field, bottom-right 12/6 · 12/18 #8A8A8A · focus only · 22px bottom gutter · no resize · hard cap at maxLength" },
     { "label": "Size", "value": "small · default · large (control height 24/40/48)" },
     { "label": "Status", "value": "error #1A1A1A border (warning is a deprecated alias that renders as error)" },
-    { "label": "Info message", "value": "<aha-field-error tone=\"info\"> below the control, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-tertiary, e.g. a row count (`3 of 10 rows`) the consumer writes; border unchanged, no aria-invalid; replaced by the error message while status is error" },
+    { "label": "Info message", "value": "<aha-field-error tone=\"info\"> below the control, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-secondary, e.g. a row count (`3 of 10 rows`) the consumer writes; border unchanged, no aria-invalid; replaced by the error message while status is error" },
     { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A" }
   ],
   "props": [
     { "name": "value", "type": "string", "default": "\"\"", "desc": "Controlled text value" },
     { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Control height / padding: small 24, default 40, large 48" },
     { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — recolours the border; `warning` is a deprecated alias that renders as error" },
-    { "name": "info message", "type": "<aha-field-error tone=\"info\">", "default": "—", "desc": "Help text below the control, e.g. `3 of 10 rows`: a sibling <aha-field-error tone=\"info\" message=\"…\"> (text only, --aha-text-tertiary, 12/18) with aria-describedby on the field. The consumer passes the string; the DS computes nothing. The border is unchanged and the field is not aria-invalid. Swap in the error message while status is error — never show both" },
+    { "name": "info message", "type": "<aha-field-error tone=\"info\">", "default": "—", "desc": "Help text below the control, e.g. `3 of 10 rows`: a sibling <aha-field-error tone=\"info\" message=\"…\"> (text only, --aha-text-secondary, 12/18) with aria-describedby on the field. The consumer passes the string; the DS computes nothing. The border is unchanged and the field is not aria-invalid. Swap in the error message while status is error — never show both" },
     { "name": "error message", "type": "<aha-field-error icon>", "default": "—", "desc": "Pair status=\"error\" with a sibling <aha-field-error icon message=\"…\"> below the control (12px glyph + --aha-size-sm text) and set aria-invalid=\"true\" + aria-describedby=\"<error id>\" on the control" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Non-interactive; greyed fill" },
     { "name": "readOnly", "type": "boolean", "default": "false", "desc": "Shows value but blocks editing" },

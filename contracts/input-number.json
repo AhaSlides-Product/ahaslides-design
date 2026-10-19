@@ -16,7 +16,7 @@
     { "label": "Focus", "value": "brand #E70E68 border" },
     { "label": "Status", "value": "error #1A1A1A (warning is a deprecated alias that renders as error)" },
     { "label": "Error message", "value": "<aha-field-error icon> below the control, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A" },
-    { "label": "Info message", "value": "<aha-field-error tone=\"info\"> below the control, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-tertiary; border unchanged, no aria-invalid; replaced by the error message while status is error" },
+    { "label": "Info message", "value": "<aha-field-error tone=\"info\"> below the control, 4px gap · text only at --aha-size-sm 12/18 · --aha-text-secondary; border unchanged, no aria-invalid; replaced by the error message while status is error" },
     { "label": "Steppers", "value": "tertiary ▲/▼ (system-caret-up/down) revealed on hover/focus, 6px after the digits; keyboard ↑ ↓; toggle via controls. Import input-number.css" },
     { "label": "Unit / prefix", "value": "addonAfter is the muted inline unit (14/21, 0.2px, --aha-text-placeholder) 4px after the stepper, inside the field; addonBefore is the same muted text leading. Same as Number with unit" },
     { "label": "Placeholder", "value": "#8A8A8A" }
@@ -25,7 +25,7 @@
     { "name": "value", "type": "number", "default": "—", "desc": "Controlled numeric value" },
     { "name": "size", "type": "'small' | 'middle' | 'large'", "default": "'middle'", "desc": "Field height: small 24 · default 40 · large 48" },
     { "name": "status", "type": "'error' | 'warning'", "default": "—", "desc": "Validation state — coloured border; `warning` is a deprecated alias that renders as error" },
-    { "name": "info message", "type": "<aha-field-error tone=\"info\">", "default": "—", "desc": "Help text below the control, e.g. `Up to 100 guests`: a sibling <aha-field-error tone=\"info\" message=\"…\"> (text only, --aha-text-tertiary, 12/18) with aria-describedby on the field. The consumer passes the string; the DS computes nothing. The border is unchanged and the field is not aria-invalid. Swap in the error message while status is error — never show both" },
+    { "name": "info message", "type": "<aha-field-error tone=\"info\">", "default": "—", "desc": "Help text below the control, e.g. `Up to 100 guests`: a sibling <aha-field-error tone=\"info\" message=\"…\"> (text only, --aha-text-secondary, 12/18) with aria-describedby on the field. The consumer passes the string; the DS computes nothing. The border is unchanged and the field is not aria-invalid. Swap in the error message while status is error — never show both" },
     { "name": "error message", "type": "<aha-field-error icon>", "default": "—", "desc": "Pair status=\"error\" with a sibling <aha-field-error icon message=\"…\"> below the control (12px glyph + --aha-size-sm text) and set aria-invalid=\"true\" + aria-describedby=\"<error id>\" on the control" },
     { "name": "min", "type": "number", "default": "-Infinity", "desc": "Lower bound" },
     { "name": "max", "type": "number", "default": "Infinity", "desc": "Upper bound" },
