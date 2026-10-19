@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.274.0 — 2026-10-20
 ### Changed
-- Option row → keyboard: the hover-revealed delete button is no longer a tab stop, so Tab goes from one row's text field straight to the next row's field. Backspace in an empty field of a row that can be deleted (`candelete` not `false`) is the keyboard delete: it emits the same `delete` event and the field declares `aria-keyshortcuts="Backspace"`. The Delete tooltip now reads "Delete (Backspace when empty)". `delete` now carries `detail.source`: `"keyboard"` for Backspace, `"pointer"` for a click, so a host can move focus to the previous row's field after a keyboard delete. Mouse behaviour, the event name and `candelete` are unchanged. (#PRNUM)
+- Option row → keyboard: the hover-revealed delete button is no longer a tab stop, so Tab goes from one row's text field straight to the next row's field. Backspace in an empty field of a row that can be deleted (`candelete` not `false`) is the keyboard delete: it emits the same `delete` event and the field declares `aria-keyshortcuts="Backspace"`. The Delete tooltip now reads "Delete (Backspace when empty)". `delete` now carries `detail.source`: `"keyboard"` for Backspace, `"pointer"` for a click, so a host can move focus to the previous row's field after a keyboard delete. Mouse behaviour, the event name and `candelete` are unchanged. (#305)
 
 ## 0.272.2 — 2026-10-19
 ### Changed
