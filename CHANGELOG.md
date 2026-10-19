@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.272.1 — 2026-10-19
+### Fixed
+- `aha-setting-row`: the "?" help bubble opens below the trigger and fits inside the viewport (start- or end-aligned, wrapping when narrow), so it no longer clips inside a 320 to 383px settings iframe. Slides can drop the `placement="bottom-start"` patch. (#NNN)
+- `aha-option-row`: the inner field's `input` listener ignores any event whose `detail.value` is not a string, so the `value` attribute can never become "undefined" and plain-DOM hosts need no MutationObserver workaround. (#NNN)
+
 ## 0.271.0 — 2026-10-19
 ### Added
 - Logo library: each third-party brand logo fetched from theSVG now also ships in its original colours at `logo/original/<file>`, beside the one-colour file (`originalFile` in `logo/manifest.json`; PDF has no original source and has none). The Foundations → Logo library page shows both files on every brand tile and gives the hover and focus pattern as copy-paste HTML and CSS. `recolour-art.mjs` leaves `logo/original/` alone, and `standards.mjs` checks that every original sits beside its one-colour file and is declared. The Model Context Protocol original is its mark in black, as the source file is the white mark for dark backgrounds. (#262)
