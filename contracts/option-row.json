@@ -144,7 +144,13 @@
       "name": "input / correct-change / delete",
       "type": "CustomEvent",
       "default": "—",
-      "desc": "Composed events; image-add/change/edit/delete are forwarded from the image control. `delete` carries detail.source: \"keyboard\" when Backspace was pressed in an empty field, \"pointer\" when the delete button was clicked; after a \"keyboard\" delete the host should move focus to the previous row's field"
+      "desc": "Composed events; image-add/change/edit/delete are forwarded from the image control. `delete` carries detail.source: \"keyboard\" when Backspace was pressed in an empty field, \"pointer\" when the delete button was clicked; after a \"keyboard\" delete the host should call previousRow.focus()"
+    },
+    {
+      "name": "focus(options)",
+      "type": "method",
+      "default": "—",
+      "desc": "Focuses the row's own text field, so a host can move focus without reaching through shadow roots; options is passed to HTMLElement.focus"
     }
   ],
   "opinion": {
@@ -158,7 +164,7 @@
         "when": "a repeatable COMPOSITE item with its own body of fields (a Question)"
       }
     ],
-    "note": "The row is the one border; the field inside is borderless — never a box-in-a-box (SETTINGS-34). The drag handle lives INSIDE the border and only when order matters (SETTINGS-39). The delete is hover-only, so it is not a tab stop: Tab moves field to field, and Backspace in an empty field is the keyboard delete (`delete` with detail.source \"keyboard\"; the host moves focus to the previous row). It disables (not hides) at the minimum count (SETTINGS-23). No \"X of Y\" counter — the +Add disables at max and delete at min (SETTINGS-36).",
+    "note": "The row is the one border; the field inside is borderless — never a box-in-a-box (SETTINGS-34). The drag handle lives INSIDE the border and only when order matters (SETTINGS-39). The delete is hover-only, so it is not a tab stop: Tab moves field to field, and Backspace in an empty field is the keyboard delete (`delete` with detail.source \"keyboard\"; the host calls previousRow.focus()). It disables (not hides) at the minimum count (SETTINGS-23). No \"X of Y\" counter — the +Add disables at max and delete at min (SETTINGS-36).",
     "dsv3": "COVERED — the settings-lab OptionRow control mapped into the DS. It composes the DS borderless field, checkbox and image control into the reference option-row anatomy (SETTINGS-20/34/23/39)."
   },
   "surfaces": [

@@ -20,6 +20,6 @@
 
 <script>
   document.getElementById('a').addEventListener('input', (e) => console.log('text:', e.detail.value));
-  document.getElementById('a').addEventListener('delete', (e) => console.log('delete from:', e.detail.source));   // 'keyboard' | 'pointer'
+  document.getElementById('a').addEventListener('delete', (e) => console.log('delete from:', e.detail.source));   // 'keyboard' | 'pointer'; after 'keyboard', call previousRow.focus()
   document.getElementById('a').addEventListener('correct-change', (e) => console.log('correct:', e.detail.correct));
 </script>

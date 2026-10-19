@@ -30,7 +30,7 @@ function AhaOptionRow({ value, maxLength, orderable, correctable, correct, check
 }
 
 // usage — one per option; disable delete at the minimum count. onDelete gets 'keyboard' (Backspace in an empty
-// field) or 'pointer' (the delete button): after a 'keyboard' delete, focus the previous row's field.
+// field) or 'pointer' (the delete button): after a 'keyboard' delete, call previousRow.focus().
 {options.map((o, i) => (
   <AhaOptionRow key={o.id} value={o.text} maxLength={80} orderable correctable image
     checkboxShape="circle" correct={o.correct} canDelete={options.length > 2}

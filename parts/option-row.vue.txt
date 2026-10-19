@@ -6,7 +6,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const options = ref([{ id: 1, text: 'Paris', correct: true }, { id: 2, text: 'London', correct: false }]);
-// source is 'keyboard' (Backspace in an empty field) or 'pointer' (the delete button): after a 'keyboard' delete, focus the previous row's field
+// source is 'keyboard' (Backspace in an empty field) or 'pointer' (the delete button): after a 'keyboard' delete, call previousRow.focus()
 function remove(i, source) { options.value.splice(i, 1); }
 </script>
 

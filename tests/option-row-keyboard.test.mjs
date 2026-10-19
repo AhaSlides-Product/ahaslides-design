@@ -65,3 +65,37 @@ test('the field declares the Backspace shortcut and the tooltip names it, only w
     c: { shortcut: null, tip: 'Delete' },
   });
 });
+
+test('focus() puts focus in the row\'s own text field', { skip }, async () => {
+  const result = await run(`
+    const b = row('b');
+    b.focus();
+    return { focusedRow: document.activeElement === b, inField: b.shadowRoot.querySelector('.field').shadowRoot.activeElement === textarea(b) };`);
+  assert.deepEqual(result, { focusedRow: true, inField: true });
+});
+
+test('question list: Backspace on an empty option moves focus to the previous option; a pointer delete leaves focus alone', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'option-row-keyboard-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body>
+<aha-question-list id="list" questions='[{"prompt":"Q","options":[{"text":"A"},{"text":"B"},{"text":"C"},{"text":""},{"text":""}]}]'></aha-question-list>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-question-list'); await new Promise((r) => requestAnimationFrame(r)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const list = document.getElementById('list');
+    const rows = () => [...list.shadowRoot.querySelectorAll('.list > .question')[0].querySelectorAll('aha-option-row')];
+    const area = (r) => r.shadowRoot.querySelector('.field').shadowRoot.querySelector('textarea');
+    const backspace = (r) => area(r).dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace', bubbles: true, composed: true, cancelable: true }));
+    const focusedIndex = () => rows().findIndex((r) => r.shadowRoot.querySelector('.field').shadowRoot.activeElement === area(r));
+    backspace(rows()[4]);
+    const afterLast = { count: rows().length, focused: focusedIndex() };
+    backspace(rows()[3]);
+    const afterMiddle = { count: rows().length, focused: focusedIndex() };
+    rows()[0].shadowRoot.querySelector('.delete-button').shadowRoot.querySelector('button').click();
+    const afterPointer = { count: rows().length, focused: focusedIndex() };
+    return { afterLast, afterMiddle, afterPointer };
+  })()`, { readyExpr: '!!window.ready' });
+  assert.deepEqual(result, {
+    afterLast: { count: 4, focused: 3 },
+    afterMiddle: { count: 3, focused: 2 },
+    afterPointer: { count: 2, focused: -1 },
+  });
+});
