@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.271.1 — 2026-10-19
 ### Changed
 - Select → caret: the composite Select now shows the same `<aha-icon name="system-caret-down" size="16">` as Select field (passed as `suffixIcon`, #8A8A8A) and flips up while open. `select-theme` exports `selectCaretCss` for the colour and flip; with a custom `suffixIcon` antd no longer swaps in its magnifier while searching. All four Select code flavours and the preview use it. (#301)
-- Select field → dropdown: option rows now match Select (40px, 9px 12px padding, 14/22), the popup sits 4px below the control, and the hover and keyboard-active row is #F7F7F7 (`--aha-bg-hover`) instead of the brand tint, which was also the only state it had; hover had no style before. The selected row now matches Select too: #E70E680D background (`--aha-bg-accent`) with a #E70E68 semibold label, and the check is gone. (#301)
+- Select field → dropdown: option rows now match Select (40px, 9px 12px padding, 14/22), the popup sits 4px below the control, and the hover and keyboard-active row is #F7F7F7 (`--aha-bg-hover`) instead of the brand tint, which was also the only state it had; hover had no style before. Both popups now use radius 8: Select's was antd's derived 10, off the radius scale (`borderRadiusLG: 8` in `selectTheme`, which also keeps the large control at 8). The selected row now matches Select too: #E70E680D background (`--aha-bg-accent`) with a #E70E68 semibold label, and the check is gone. (#301)
 
 ## 0.271.0 — 2026-10-19
 ### Added
