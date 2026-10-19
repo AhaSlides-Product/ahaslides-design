@@ -2,7 +2,7 @@
   "slug": "logos",
   "name": "Logos",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "The AhaSlides marketing site customer logo strip (Webflow CMS collection list div-block-250, seen under the main content of the survey creator page), matched to the live ahaslides.com: a row of greyscale customer logos that loops left across the page. The logos are not typed into the markup; they come from marketing/data/logos-cms.json, the published CMS list recorded with its source URL and fetch date. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [

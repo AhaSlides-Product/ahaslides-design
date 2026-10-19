@@ -2,7 +2,7 @@
   "slug": "header",
   "name": "Header",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "Header sections for the AhaSlides marketing sites: four Hero Pink banners, fourteen heroes and six page headers, each layout with its own name, preview and paste-and-run code.",
   "highlights": [

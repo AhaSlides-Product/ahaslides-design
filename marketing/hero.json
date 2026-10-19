@@ -1,9 +1,7 @@
 {
   "slug": "hero",
   "name": "Hero",
-  "environment": [
-    "marketing-web"
-  ],
+  "environment": ["web"],
   "summary": "A marketing hero for the AhaSlides landing sites: eyebrow, headline, lead, two calls to action and a live-poll product mock. Framework-free and bound entirely to the shared --aha-* tokens.",
   "highlights": [
     "Marketing hero for the AhaSlides landing sites",
