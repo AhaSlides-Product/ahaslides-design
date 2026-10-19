@@ -1791,10 +1791,17 @@ function marketingCodeToggle(file, code, lead = '') {
       <pre class="code snippet active">${esc(code)}</pre>
     </div></div>`;
 }
+const marketingHasStates = (layout) => layout.states?.length > 1;
+function marketingStateSwitch(layout) {
+  if (!marketingHasStates(layout)) return '';
+  const options = JSON.stringify(layout.states.map(state => ({ value: state.modifier, label: state.label })));
+  const initial = (layout.states.find(state => state.default) || layout.states[0]).modifier;
+  return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(layout.class)}" data-modifiers="${esc(JSON.stringify(layout.states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
+}
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
   </div>`;
@@ -1832,6 +1839,40 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
+  (function(){
+    function carriers(doc,prefix,modifiers){
+      var found=[];
+      doc.querySelectorAll('[class*="'+prefix+'"]').forEach(function(el){
+        [].slice.call(el.classList).forEach(function(token){
+          modifiers.forEach(function(modifier){
+            var suffix='--'+modifier;
+            if(token.indexOf(prefix)===0&&token.slice(-suffix.length)===suffix)found.push({el:el,prefix:token.slice(0,-suffix.length)});
+          });
+        });
+      });
+      if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
+      return found;
+    }
+    document.querySelectorAll('.mfv').forEach(function(root){
+      var seg=root.querySelector('.mbp-state');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),prefix=seg.dataset.class,modifiers=JSON.parse(seg.dataset.modifiers),current=seg.getAttribute('value'),found=null;
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        found=found||carriers(doc,prefix,modifiers);
+        found.forEach(function(carrier){
+          modifiers.forEach(function(modifier){carrier.el.classList.remove(carrier.prefix+'--'+modifier);});
+          if(current)carrier.el.classList.add(carrier.prefix+'--'+current);
+        });
+      }
+      frame.addEventListener('load',function(){found=null;apply();});
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
 const marketingGuidanceHtml = (b) => b.guidance ? `  <h2 id="guidance">${esc(b.guidance.title)}</h2>
   ${b.guidance.intro ? `<p class="body">${esc(b.guidance.intro)}</p>` : ''}
   <ol class="highlights">${b.guidance.points.map(point => `<li><b>${esc(point.title)}</b>: ${esc(point.text)}</li>`).join('')}</ol>
@@ -1853,7 +1894,7 @@ ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(marketingHasStates) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}
 
 ${b.composedOf ? `
   <h2 id="composed-of">Composed of</h2>
