@@ -19,7 +19,7 @@ export function readIcon(iconSvg) {
   const viewBox = iconSvg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
   const hooks = [...iconSvg.matchAll(/<path d="([^"]+)"/g)].map(match => match[1]);
   if (!viewBox || hooks.length !== 4) throw new Error('expected the four-hook splash icon');
-  return { iconWidth: Number(viewBox[1]), hooks };
+  return { iconWidth: Number(viewBox[1]), iconHeight: Number(viewBox[2]), hooks };
 }
 
 function cubicExtrema(p0, p1, p2, p3) {
@@ -114,8 +114,7 @@ export function buildSplash({ layout, surface, width, height, rules = loadSplash
 export function buildSplashIcon({ surface, rules = loadSplashRules(), iconSvg = readFileSync(join(root, rules.icon), 'utf8') }) {
   const colours = rules.surfaces[surface];
   if (!colours) throw new Error(`surface is one of ${Object.keys(rules.surfaces).join(', ')}`);
-  const { hooks } = readIcon(iconSvg);
-  const [, width, height] = iconSvg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  const { iconWidth: width, iconHeight: height, hooks } = readIcon(iconSvg);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="${colours.hooks}">${hooks.map(hook => `<path d="${hook}"/>`).join('')}</svg>\n`;
 }
 

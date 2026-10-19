@@ -1832,9 +1832,10 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
-const marketingGuidanceHtml = (b) => b.guidance ? `<h2 id="guidance">${esc(b.guidance.title)}</h2>
+const marketingGuidanceHtml = (b) => b.guidance ? `  <h2 id="guidance">${esc(b.guidance.title)}</h2>
   ${b.guidance.intro ? `<p class="body">${esc(b.guidance.intro)}</p>` : ''}
   <ol class="highlights">${b.guidance.points.map(point => `<li><b>${esc(point.title)}</b>: ${esc(point.text)}</li>`).join('')}</ol>
+
 ` : '';
 const marketingGuidanceMd = (b) => b.guidance ? `\n## ${b.guidance.title}\n${b.guidance.intro ? b.guidance.intro + '\n' : ''}\n${b.guidance.points.map((point, index) => `${index + 1}. **${point.title}**: ${point.text}`).join('\n')}\n` : '';
 function renderMarketingLayoutsHtml(b) {
@@ -1844,15 +1845,13 @@ function renderMarketingLayoutsHtml(b) {
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-  ${marketingGuidanceHtml(b)}
-  <h2>Which is which</h2>
+${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
   <p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
   <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
-  ${layout.useFor ? `<p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>` : ''}
-  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
+${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
 
