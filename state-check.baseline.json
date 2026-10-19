@@ -7,10 +7,6 @@
   "audience-submit": [
    "contrast · hover · aha-audience-submit » aha-button[variant=primary][size=touch] » button: text #FFFFFF on #EB327F is 3.97:1, needs 4.5:1"
   ],
-  "autocomplete": [
-   "contrast · focus · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1",
-   "contrast · rest · button.ant-select-clear[type=button] “Clear”: icon #BFBFBF on #FFFFFF is 1.83:1, needs 3:1"
-  ],
   "chart": [
    "contrast · active · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Flexible: 16 submissions, 5%. Pr”: text #F8B7D2 on #E3E3E3 is 1.29:1, needs 3:1",
    "contrast · active · aha-chart[type=wordcloud][role=figure] » span.word.is-removable[role=listitem] “Together: 40 submissions, 13%. P”: text #A8A8A8 on #E3E3E3 is 1.85:1, needs 3:1",
