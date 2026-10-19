@@ -1,16 +1,11 @@
-/* InputNumber: the Number with unit look on antd v6 (React) and ant-design-vue v4 (Vue). A tertiary caret
-   stepper appears on hover/focus, 6px after the digits; addonAfter is the muted inline unit 4px after the
-   stepper, and addonBefore is the same muted text leading, both inside the field's border. A field with addons fills its container's width. Import this file
-   next to the input-number theme. */
+/* Number with unit look for antd v6 and ant-design-vue v4 InputNumber; import next to the input-number theme. */
 
 :root:root .ant-input-number { --aha-caret-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10L8 5L13 10'/%3E%3C/svg%3E"); --aha-caret-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 6L8 11L3 6'/%3E%3C/svg%3E"); }
 
-/* the field: digits, then the stepper, inside one row */
 :root:root .ant-input-number { display: inline-flex !important; align-items: center; padding: 0 8px 0 12px; }
 :root:root .ant-input-number .ant-input-number-input { flex: 1 1 auto; min-width: 0; padding: 0; height: 100%; }
 :root:root .ant-input-number .ant-input-number-input-wrap { flex: 1 1 auto; order: 1; min-width: 0; height: 100%; }
 
-/* stepper column (React: actions, Vue: handler-wrap) */
 :root:root .ant-input-number .ant-input-number-actions,
 :root:root .ant-input-number .ant-input-number-handler-wrap {
   position: static; order: 2; flex: 0 0 auto; display: flex; flex-direction: column; width: 18px; height: auto; margin: 0 0 0 6px;
@@ -42,7 +37,6 @@
 :root:root .ant-input-number-affix-wrapper > .ant-input-number { flex: 1 1 auto; min-width: 0; height: 100%; padding: 0 8px 0 4px; border: 0; background: transparent; box-shadow: none; }
 :root:root .ant-input-number-affix-wrapper .ant-input-number-prefix { margin-inline-end: 0; }
 
-/* addonBefore / addonAfter: muted inline text inside one bordered field (React: Space.Compact, Vue: group wrapper) */
 :root:root .ant-space-compact:has(> .ant-input-number-addon), :root:root .ant-input-number-group-wrapper {
   box-sizing: border-box; display: flex; align-items: center; height: 40px; padding: 0 8px 0 12px;
   background: var(--aha-bg-container, #FFFFFF); border: 1px solid var(--aha-border-default, #E3E3E3); border-radius: var(--aha-radius-default, 8px);
@@ -68,6 +62,10 @@
 }
 :root:root .ant-input-number-addon:last-child, :root:root .ant-input-number-group-addon:last-child { margin-left: 4px; }
 :root:root .ant-input-number-addon:first-child, :root:root .ant-input-number-group-addon:first-child { margin-right: 4px; }
+
+/* the disabled and read-only field has no stepper to reveal */
+:root:root .ant-input-number-disabled .ant-input-number-actions, :root:root .ant-input-number-disabled .ant-input-number-handler-wrap,
+:root:root .ant-input-number-readonly .ant-input-number-actions, :root:root .ant-input-number-readonly .ant-input-number-handler-wrap { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   :root:root .ant-input-number .ant-input-number-actions, :root:root .ant-input-number .ant-input-number-handler-wrap, :root:root .ant-input-number .ant-input-number-action, :root:root .ant-input-number .ant-input-number-handler { transition: none; }
