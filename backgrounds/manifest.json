@@ -1,5 +1,5 @@
 {
- "$comment": "Source of truth for backgrounds/. Every file is built by build-splash.mjs from logo/thesplash.svg with the geometry and colours in brand/colour-rules.json (splash); none is drawn or edited by hand. Each entry records the command that builds it and the date, and the aha-claude-plugins file it replaced (byte-identical at sourceCommit). Rebuild with node build-splash.mjs --all; tests/colour-rules.test.mjs fails when a file no longer matches the generator.",
+ "$comment": "Source of truth for backgrounds/. Every file is built by build-splash.mjs from logo/thesplash.svg with the geometry and colours in brand/colour-rules.json (splash); none is drawn or edited by hand. Each entry records the command that builds it and the date, and the aha-claude-plugins file it replaced (byte-identical at sourceCommit). Rebuild with node build-splash.mjs --all; tests/colour-rules.test.mjs fails when a file no longer matches the generator. icons lists the single-colour splash icon files that a CSS-sized splash layer references: the four real hooks in the surface's hook colour, sized by the layer's own frame, never scaled from a ready-made file.",
  "backgrounds": [
   {
    "id": "splash-centre-white-16x9",
@@ -374,6 +374,40 @@
    "height": 1920,
    "source": "node build-splash.mjs --all",
    "builtOn": "2026-10-13",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  }
+ ],
+ "icons": [
+  {
+   "id": "splash-icon-white",
+   "name": "Splash icon in pale pink hooks",
+   "file": "splash-icon-white.svg",
+   "surface": "white",
+   "width": 802,
+   "height": 788,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-19",
+   "environment": [
+    "product",
+    "marketing-web",
+    "video",
+    "social-ads"
+   ]
+  },
+  {
+   "id": "splash-icon-pink",
+   "name": "Splash icon in Darker Pink hooks",
+   "file": "splash-icon-pink.svg",
+   "surface": "pink",
+   "width": 802,
+   "height": 788,
+   "source": "node build-splash.mjs --all",
+   "builtOn": "2026-10-19",
    "environment": [
     "product",
     "marketing-web",

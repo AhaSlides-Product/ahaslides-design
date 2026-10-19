@@ -130,7 +130,7 @@
       ] },
     { "type": "rules", "start": 6, "origin": "aha-marketing-colors", "environment": ["marketing-web", "video", "social-ads"], "rules": [
      { "id": "4.6", "text": "A tag or label is Vivid Pink with white text on a white surface, and white with Vivid Pink text on a Vivid Pink surface." },
-     { "id": "4.7", "text": "The key visual sits in a contrasting card: a white card on a Vivid Pink surface; a pale pink or Vivid Pink card on a white surface." },
+     { "id": "4.7", "text": "The key visual image sits directly on the surface with no white card, border or frame around it." },
      { "id": "4.8", "text": "A photo of a person sits inside a solid Vivid Pink disc or over the Splash hooks." },
      { "id": "4.9", "origin": "aha-marketing-backgrounds", "text": "Vary a deck by alternating white and Vivid Pink surfaces, never by adding a colour." }
     ] }
