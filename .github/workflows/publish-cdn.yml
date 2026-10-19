@@ -1,15 +1,13 @@
 name: publish-cdn
 
-# Mirrors the browser files (lib/ plus the fonts/ and logo/ folders lib/ loads by ../ URL) to the
-# AhaSlides public bucket, served by CloudFront, so a page can load the design system from a CDN
-# we own and invalidate instead of jsDelivr, whose @latest some providers keep stale for a day:
+# Mirrors the browser files to the AhaSlides public bucket behind CloudFront, a CDN we can
+# invalidate, because jsDelivr providers can keep serving a stale @latest for a day after a purge:
 #
 #   https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/canvas.js       5-minute cache
 #   https://assets-cdn-public.ahaslides.com/ahaslides-design/<version>/lib/canvas.js    immutable
 #
-# Same bucket, distribution and secrets as aha-slide-plugin's build-standalone-cdn.yml.
-# Every lib/ change ships with a version bump (standards.mjs), so a push to master is a release.
-# Manual re-publish / backfill: run this workflow via workflow_dispatch on master.
+# fonts/ and logo/ ship too: lib/aha-product-lockup.js loads them by ../ URL.
+# Manual re-publish: run this workflow via workflow_dispatch on master.
 
 on:
   push:
@@ -23,10 +21,10 @@ on:
 permissions:
   contents: read
 
-# Only the newest run may write latest/: an older run finishing last would regress it.
+# A cancelled run would leave latest/ half-synced and uninvalidated, so runs queue instead.
 concurrency:
   group: publish-cdn
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   BUCKET: public.ahaslides.com
@@ -42,29 +40,36 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-1
     steps:
-      - name: Check for the AWS secrets
-        id: secrets
-        run: |
-          if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
-            echo "::warning::AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY are not set on this repo, so nothing was published to ${PUBLIC_BASE}. An org admin must share the aha-slide-plugin CDN secrets with ahaslides-design."
-            echo "present=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "present=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - uses: actions/checkout@v4
-        if: steps.secrets.outputs.present == 'true'
 
       - name: Upload to the public bucket
-        if: steps.secrets.outputs.present == 'true'
         run: |
           set -euo pipefail
-          VERSION=$(node -p "require('./package.json').version")
+          if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+            echo "::error::AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY are not available to this repo. An org admin must share the aha-slide-plugin CDN secrets with ahaslides-design."
+            exit 1
+          fi
+          VERSION=$(jq -r .version package.json)
+
+          # Browsers refuse an ES module served with a guessed MIME type, so each type is set explicitly.
+          sync_folder() {
+            local source="$1" target="$2" cache_control="$3"; shift 3
+            for pair in "js:text/javascript; charset=utf-8" "css:text/css; charset=utf-8" \
+                        "svg:image/svg+xml" "woff2:font/woff2" "json:application/json" "png:image/png" "ico:image/x-icon"; do
+              aws s3 sync "$source" "$target" "$@" --exclude "*" --include "*.${pair%%:*}" \
+                --content-type "${pair#*:}" --cache-control "$cache_control"
+            done
+          }
+
+          if aws s3 ls "s3://${BUCKET}/${PREFIX}/${VERSION}/lib/canvas.js" > /dev/null; then
+            echo "${VERSION}/ already published; leaving the immutable copy as it is."
+          else
+            for DIR in lib fonts logo; do
+              sync_folder "$DIR" "s3://${BUCKET}/${PREFIX}/${VERSION}/${DIR}" "public, max-age=31536000, immutable"
+            done
+          fi
           for DIR in lib fonts logo; do
-            aws s3 sync "$DIR" "s3://${BUCKET}/${PREFIX}/${VERSION}/${DIR}" \
-              --cache-control "public, max-age=31536000, immutable"
-            aws s3 sync "$DIR" "s3://${BUCKET}/${PREFIX}/latest/${DIR}" --delete \
-              --cache-control "public, max-age=300, s-maxage=300"
+            sync_folder "$DIR" "s3://${BUCKET}/${PREFIX}/latest/${DIR}" "public, max-age=300, s-maxage=300" --delete
           done
           aws cloudfront create-invalidation \
             --distribution-id "$DISTRIBUTION_ID" \
@@ -77,19 +82,19 @@ jobs:
             echo "- immutable: ${PUBLIC_BASE}/${PREFIX}/${VERSION}/lib/canvas.js"
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Verify the CDN serves this version
-        if: steps.secrets.outputs.present == 'true'
+      - name: Verify the CDN serves this commit
         run: |
           set -euo pipefail
           for FILE in lib/tokens.css lib/canvas.js lib/settings.js lib/audience.js; do
-            for i in 1 2 3 4 5; do
-              if curl -fsS "${PUBLIC_BASE}/${PREFIX}/latest/${FILE}" | cmp -s - "$FILE"; then
+            for attempt in 1 2 3 4 5; do
+              if curl -fsS "${PUBLIC_BASE}/${PREFIX}/latest/${FILE}?v=${GITHUB_SHA}" | cmp -s - "$FILE"; then
                 echo "latest/${FILE} matches."
                 continue 2
               fi
-              echo "latest/${FILE} not updated yet (attempt $i), retrying in 20s"
+              echo "latest/${FILE} not updated yet (attempt $attempt), retrying in 20s"
               sleep 20
             done
             echo "::error::${PUBLIC_BASE}/${PREFIX}/latest/${FILE} does not match this commit after the invalidation."
             exit 1
           done
+          curl -fsSI "${PUBLIC_BASE}/${PREFIX}/latest/lib/canvas.js?v=${GITHUB_SHA}" | grep -i '^content-type: text/javascript'
