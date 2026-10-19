@@ -394,7 +394,7 @@
    "builtOn": "2026-10-19",
    "environment": [
     "product",
-    "marketing-web",
+    "web",
     "video",
     "social-ads"
    ]
@@ -410,7 +410,7 @@
    "builtOn": "2026-10-19",
    "environment": [
     "product",
-    "marketing-web",
+    "web",
     "video",
     "social-ads"
    ]
