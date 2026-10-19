@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.272.3 — 2026-10-20
 ### Fixed
-- Icon library: the clockwise arc arrow on `system-reveal-pinwheel` and `system-reveal-vortex` is redrawn. It is now a shorter, symmetric arc (79° sweep, x 4.5 to 11.5) that stays inside the frame and at least 1.1px clear of the diagonal arrows at 16px (was 0.6px, and its top was clipped by the frame edge). Its head is a solid right-angle wedge on the arc's end tangent, the same head as the glyph's other arrows. Names are unchanged, so consumers only bump the pin. Revert: restore the two SVG files from 0.272.2 and re-run `node build-icons.mjs`. (#NNN)
+- Icon library: the clockwise arc arrow on `system-reveal-pinwheel` and `system-reveal-vortex` is redrawn. It is now a shorter, symmetric arc (79° sweep, x 4.5 to 11.5) that stays inside the frame and at least 1.1px clear of the diagonal arrows at 16px (was 0.6px, and its top was clipped by the frame edge). Its head is a solid right-angle wedge on the arc's end tangent, the same head as the glyph's other arrows. Names are unchanged, so consumers only bump the pin. Revert: restore the two SVG files from 0.272.2 and re-run `node build-icons.mjs`. (#304)
 
 ## 0.272.2 — 2026-10-19
 ### Changed
