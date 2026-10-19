@@ -2,7 +2,9 @@
 
 :root:root .ant-input-number { --aha-caret-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10L8 5L13 10'/%3E%3C/svg%3E"); --aha-caret-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 6L8 11L3 6'/%3E%3C/svg%3E"); }
 
-:root:root .ant-input-number { display: inline-flex !important; align-items: center; padding: 0 8px 0 12px; }
+:root:root .ant-input-number { display: inline-flex !important; align-items: center; box-sizing: border-box; height: 40px; padding: 0 8px 0 12px; }
+:root:root .ant-input-number-sm { height: 24px; }
+:root:root .ant-input-number-lg { height: 48px; }
 :root:root .ant-input-number .ant-input-number-input { flex: 1 1 auto; min-width: 0; padding: 0; height: 100%; }
 :root:root .ant-input-number .ant-input-number-input-wrap { flex: 1 1 auto; order: 1; min-width: 0; height: 100%; }
 
