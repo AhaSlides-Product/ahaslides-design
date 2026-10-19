@@ -24,11 +24,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.272.0 — 2026-10-19
 ### Added
-- Marketing → Sections → Header: an optional G2 reviews row on the 17 layouts whose copy block holds the buttons (Hero Pink, Hero Pink Vertical, Hero Pale Pink, Hero Pale Pink Vertical, Hero Split Image 01, 03 and 05, Hero Screen Mockup 01 to 05, Hero iPhone Mockup 03, Hero Color Card 04, Hero Card Mockup 07 and 08, Hero Simple Text 01). It is five avatars (`aha-avatar-group`), five stars (`aha-rate`, filled to 4.8) and "4.8 Based on 1000 reviews", with a visually hidden label, readable on White, Pale Pink and Vivid Pink. It is off by default: the layout code leaves it out. Hero Split Form 01 (the button sits in the sign-up card) and the six page headers (no button in the copy block) do not get it. (#NNN)
-- Marketing → Sections → Header: a "G2 reviews: Off / On" switch beside the width and surface switches on each layout that has the row. `generate.mjs` gains one generic step: any `marketing/*.json` may carry a block-level `reviews` template and a per-layout `reviews` key. The md and agent.json feeds describe the row and how to turn it on. Other marketing pages are byte-identical. (#NNN)
+- Marketing → Sections → Header: an optional G2 reviews row on the 17 layouts whose copy block holds the buttons (Hero Pink, Hero Pink Vertical, Hero Pale Pink, Hero Pale Pink Vertical, Hero Split Image 01, 03 and 05, Hero Screen Mockup 01 to 05, Hero iPhone Mockup 03, Hero Color Card 04, Hero Card Mockup 07 and 08, Hero Simple Text 01). It is five avatars (`aha-avatar-group`), five stars (`aha-rate`, filled to 4.8) and "4.8 Based on 1000 reviews", with a visually hidden label, readable on White, Pale Pink and Vivid Pink. It is off by default: the layout code leaves it out. Hero Split Form 01 (the button sits in the sign-up card) and the six page headers (no button in the copy block) do not get it. (#302)
+- Marketing → Sections → Header: a "G2 reviews: Off / On" switch beside the width and surface switches on each layout that has the row. `generate.mjs` gains one generic step: any `marketing/*.json` may carry a block-level `reviews` template and a per-layout `reviews` key. The md and agent.json feeds describe the row and how to turn it on. Other marketing pages are byte-identical. (#302)
 
 ### Changed
-- Header guidance "Above the fold": the badge slot no longer carries a G2 rating; it points to the G2 reviews row instead. (#NNN)
+- Header guidance "Above the fold": the badge slot no longer carries a G2 rating; it points to the G2 reviews row instead. (#302)
 
 ## 0.270.0 — 2026-10-19
 ### Added
