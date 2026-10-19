@@ -110,6 +110,19 @@ export function buildSplash({ layout, surface, width, height, rules = loadSplash
     + `<g clip-path="url(#frame)">${splash}</g></svg>\n`;
 }
 
+/** Returns the SVG text of the splash icon alone, its four hooks in one colour of the surface, for CSS-sized splash layers. */
+export function buildSplashIcon({ surface, rules = loadSplashRules(), iconSvg = readFileSync(join(root, rules.icon), 'utf8') }) {
+  const colours = rules.surfaces[surface];
+  if (!colours) throw new Error(`surface is one of ${Object.keys(rules.surfaces).join(', ')}`);
+  const { hooks } = readIcon(iconSvg);
+  const [, width, height] = iconSvg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="${colours.hooks}">${hooks.map(hook => `<path d="${hook}"/>`).join('')}</svg>\n`;
+}
+
+export function iconSet(rules = loadSplashRules()) {
+  return Object.keys(rules.surfaces).map(surface => ({ file: `splash-icon-${surface}.svg`, surface }));
+}
+
 /** The ready-made set: every layout on every surface. */
 export function readyMadeSet(rules = loadSplashRules()) {
   const files = [];
@@ -135,7 +148,8 @@ function main(argv) {
     const outputDirectory = resolve(options.all === true ? join(root, 'backgrounds') : options.all);
     mkdirSync(outputDirectory, { recursive: true });
     for (const entry of readyMadeSet(rules)) writeFileSync(join(outputDirectory, entry.file), buildSplash({ ...entry, rules }));
-    console.log(`built ${readyMadeSet(rules).length} Splash backgrounds in ${outputDirectory}`);
+    for (const entry of iconSet(rules)) writeFileSync(join(outputDirectory, entry.file), buildSplashIcon({ ...entry, rules }));
+    console.log(`built ${readyMadeSet(rules).length} Splash backgrounds and ${iconSet(rules).length} splash icons in ${outputDirectory}`);
     return 0;
   }
   const width = Number(options.width), height = Number(options.height);

@@ -1901,7 +1901,7 @@ function renderMarketingMd(b) {
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${b.layouts ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
