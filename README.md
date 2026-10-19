@@ -57,7 +57,7 @@ npm i @ahaslides-product/design
 
 ```js
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer — once, at the app root
-import '@ahaslides-product/design/icons';               // registers <aha-icon> (305 names, call by name)
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (310 names, call by name)
 import { ICON_NAMES } from '@ahaslides-product/design/icons';   // discover valid names
 import '@ahaslides-product/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
 import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared Table theme
@@ -214,7 +214,7 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 
 ## Status
 
-Proven end-to-end and QA-green: **Icon** (305 registry names: 300 glyph files, 264 imported from Figma DS V3 and 36 Phosphor file glyphs, plus 5 back-compat aliases; call-by-name via
+Proven end-to-end and QA-green: **Icon** (310 registry names: 305 glyph files, 264 imported from Figma DS V3, 36 Phosphor file glyphs and 5 drawn reveal glyphs, plus 5 back-compat aliases; call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 

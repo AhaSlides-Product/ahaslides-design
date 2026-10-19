@@ -6,7 +6,7 @@
     "slidetype",
     "system"
   ],
-  "count": 314,
+  "count": 319,
   "icons": {
     "filetype-course": {
       "family": "filetype",
@@ -3526,6 +3526,76 @@
         "controller",
         "presenter remote",
         "control"
+      ]
+    },
+    "system-reveal-bloom": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M10.5 5.5L12.5 3.5M10.5 10.5L12.5 12.5M5.5 10.5L3.5 12.5M5.5 5.5L3.5 3.5\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M11 2L14 2L14 5ZM11 14L14 14L14 11ZM5 14L2 14L2 11ZM5 2L2 2L2 5ZM8 7L9 7.5L9 8.5L8 9L7 8.5L7 7.5Z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "bloom",
+        "reveal",
+        "expand",
+        "grow",
+        "outward",
+        "burst"
+      ]
+    },
+    "system-reveal-crystallise": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M14 2L12 4M14 14L12 12M2 14L4 12M2 2L4 4\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M13.5 5.5L10.5 5.5L10.5 2.5ZM13.5 10.5L10.5 10.5L10.5 13.5ZM2.5 10.5L5.5 10.5L5.5 13.5ZM2.5 5.5L5.5 5.5L5.5 2.5Z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "crystallise",
+        "reveal",
+        "collapse",
+        "inward",
+        "gather",
+        "snowflake"
+      ]
+    },
+    "system-reveal-pinwheel": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.86 3.7A7.5 7.5 0 0 1 12.19 1.78M10 7.5L11.5 6M10 11.5L11.5 13M6 11.5L4.5 13M6 7.5L4.5 6\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12.42 0.73L13.19 2.45L11.3 2.39ZM10.5 5L12.5 5L12.5 7ZM10.5 14L12.5 14L12.5 12ZM5.5 14L3.5 14L3.5 12ZM5.5 5L3.5 5L3.5 7ZM8 8.5L9 9L9 10L8 10.5L7 10L7 9Z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "pinwheel",
+        "reveal",
+        "spin",
+        "rotate",
+        "turn",
+        "outward"
+      ]
+    },
+    "system-reveal-radar-sweep": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M8 8L8 1.5L13.63 4.75Z\" fill=\"currentColor\" fill-opacity=\"0.2\"/><path d=\"M8 1.5L13.63 4.75L13.63 11.25L8 14.5L2.37 11.25L2.37 4.75Z\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M8 8L12.33 5.5\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"8\" cy=\"8\" r=\"0.4\" fill=\"currentColor\" stroke=\"currentColor\"/>",
+      "recolorable": true,
+      "meaning": [
+        "radar",
+        "reveal",
+        "sweep",
+        "scan",
+        "clock",
+        "hand"
+      ]
+    },
+    "system-reveal-vortex": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M1.86 3.7A7.5 7.5 0 0 1 12.19 1.78M12.5 5L11 6.5M12.5 14L11 12.5M3.5 14L5 12.5M3.5 5L5 6.5\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12.42 0.73L13.19 2.45L11.3 2.39ZM12 7.5L10 7.5L10 5.5ZM12 11.5L10 11.5L10 13.5ZM4 11.5L6 11.5L6 13.5ZM4 7.5L6 7.5L6 5.5Z\" fill=\"currentColor\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "vortex",
+        "reveal",
+        "swirl",
+        "spiral",
+        "inward",
+        "rotate"
       ]
     },
     "system-rows": {

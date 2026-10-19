@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.266.0 — 2026-10-19
+## 0.269.0 — 2026-10-19
 ### Added
 - The browser files (`lib/`, plus the `fonts/` and `logo/` folders `lib/` loads) are also published to the AhaSlides CDN on every release: `https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/<file>` (5-minute cache, invalidated on each release) and `https://assets-cdn-public.ahaslides.com/ahaslides-design/<version>/lib/<file>` (immutable). The files are byte-identical to jsDelivr's, so a page can switch hosts by changing the base URL only. jsDelivr keeps working unchanged. New workflow `.github/workflows/publish-cdn.yml` (same bucket, CloudFront distribution and AWS secrets as aha-slide-plugin's standalone SDK); `workflow_dispatch` re-publishes. Revert: delete the workflow. (#297)
+
+## 0.268.0 — 2026-10-19
+### Added
+- Icon library: five reveal-pattern glyphs, drawn in the DS for the Radar slide's settings panel, as four diagonal arrows with solid wedge heads on the 16px grid (straight vertices on the 0.5 grid): `system-reveal-bloom` (four arrows outward from a solid hub), `system-reveal-pinwheel` (an X of outward arrows with a hub under a clockwise arc arrow), `system-reveal-radar-sweep` (a hexagon with a sweeping hand and a filled sector), `system-reveal-vortex` (four inward wedges under a clockwise arc arrow) and `system-reveal-crystallise` (four arrows inward to the centre). Wedge heads are filled paths with the stroke on top, as in `system-info`; `currentColor`, three or more meaning words each. The registry now holds 310 names (305 glyph files plus 5 aliases). `aha-card-select` icon-only mode now shows each card's label as an `<aha-tooltip>` bubble (the shared tooltip look), on mouse hover and keyboard `:focus-visible` only, never on a tap or pointer focus. The native `title` is dropped in that layout so the browser draws no second tooltip; `aria-label` stays. The bubble opens above the card, flips below near the top of the viewport and aligns to the grid edge near a side. The labelled layout is unchanged. Revert: delete the five `icons/svg/system/system-reveal-*.svg` files and their `icons/meaning.json` lines, restore the 305 count, re-run `node build-icons.mjs`; for the tooltip, revert `lib/aha-card-select.js` and delete `tests/card-select-tooltip.*`. (#296)
 
 ## 0.265.0 — 2026-10-18
 ### Changed
