@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.270.0 — 2026-10-19
 ### Added
-- Marketing → Sections → Header: a "Choosing a header" block (one goal and one primary button, layout by page goal, copy, above the fold, colour rule 3.5, one h1, measuring) and a "Use for" line on each of the 24 layouts. `generate.mjs` gains one generic step: any `marketing/*.json` may carry a page-level `guidance` block (`title`, `intro`, `points`) and a `useFor` line per layout, rendered on its docs page and added to its `.md` and `.agent.json` feeds; sections without them are unchanged. Environment: marketing-web. Revert: delete `guidance` and the `useFor` lines from `marketing/header.json` and the three `guidance`/`useFor` branches in `generate.mjs`. (#NNN)
+- Marketing → Sections → Header: a "Choosing a header" block (one goal and one primary button, layout by page goal, copy, above the fold, colour rule 3.5, one h1, measuring) and a "Use for" line on each of the 24 layouts. `generate.mjs` gains one generic step: any `marketing/*.json` may carry a page-level `guidance` block (`title`, `intro`, `points`) and a `useFor` line per layout, rendered on its docs page and added to its `.md` and `.agent.json` feeds; sections without them are unchanged. Environment: marketing-web. Revert: delete `guidance` and the `useFor` lines from `marketing/header.json` and the three `guidance`/`useFor` branches in `generate.mjs`. (#300)
 
 ## 0.268.0 — 2026-10-19
 ### Added
