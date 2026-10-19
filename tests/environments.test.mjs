@@ -46,7 +46,7 @@ test('a new environment is data only: it reaches the llms.txt routes and the hea
 test('every item in the repo is collected, and the baseline names only items still missing an environment', () => {
   const items = collectItems(table, fileSystemReader(root));
   assert.ok(items.some(item => item.id === 'contract:button'));
-  assert.ok(items.some(item => item.id === 'marketing:hero'));
+  assert.ok(items.some(item => item.id === 'marketing:header'));
   assert.ok(items.some(item => item.id === 'brand:visual-identity-colour-rules'));
   const baseline = JSON.parse(readFileSync(join(root, ENVIRONMENT_BASELINE_FILE), 'utf8')).missing;
   const missing = new Set(items.filter(item => environmentProblem(item, table) === 'missing').map(item => item.id));
@@ -137,7 +137,7 @@ test('route scan reports missing, unknown and folder mismatches without failing'
     'contracts/plain.json': { slug: 'plain' },
     'contracts/ad.json': { slug: 'ad', environment: ['social-ads'] },
     'marketing/promo.json': { slug: 'promo', environment: ['tv'] },
-    'marketing/hero.json': { slug: 'hero', environment: ['marketing-web'] },
+    'marketing/header.json': { slug: 'header', environment: ['marketing-web'] },
   }));
   assert.deepEqual(report.counts, { items: 4, missing: 1, unknown: 1, folderMismatch: 1 });
   assert.equal(report.folderMismatch[0].id, 'contract:ad');

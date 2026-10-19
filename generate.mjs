@@ -1919,8 +1919,7 @@ function renderMarketingLlms(blocks) {
 }
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
 const LANDING_REDIRECTS = {
-  '': 'marketing/hero/index.html',
-  hero: 'marketing/hero/index.html',
+  '': 'marketing/header/index.html',
   button: 'button/index.html',
   link: 'button/index.html',
   fonts: 'foundations/typography.html',
