@@ -59,7 +59,7 @@ const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return
 /* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
    URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
 const LIVE_SITE = 'https://design.ahaslides.io';
-const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`).replaceAll(`${LIVE_SITE}/marketing-assets/`, `${SITE}/marketing-assets/`);
+const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`).replaceAll(`${LIVE_SITE}/marketing-assets/`, `${SITE}/marketing-assets/`).replaceAll(`${LIVE_SITE}/backgrounds/`, `${SITE}/backgrounds/`);
 const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
