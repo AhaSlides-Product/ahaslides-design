@@ -7,7 +7,7 @@ import {
   loadColourRules, loadBackgrounds, listRules, listNotes, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
   renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE,
 } from '../colour-rules.mjs';
-import { buildSplash, readyMadeSet, loadSplashRules, readIcon, largestHook } from '../build-splash.mjs';
+import { buildSplash, buildSplashIcon, iconSet, readyMadeSet, loadSplashRules, readIcon, largestHook } from '../build-splash.mjs';
 import { loadEnvironmentTable, environmentNames } from '../environments.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -209,7 +209,11 @@ test('the centre Splash puts the whole icon where the approved social posts put 
 test('every ready-made background is exactly what the generator builds, and the manifest lists them all', () => {
   const splashRules = loadSplashRules();
   const set = readyMadeSet(splashRules);
-  assert.deepEqual(set.map(entry => entry.file).sort(), readdirSync(join(root, 'backgrounds')).filter(file => file.endsWith('.svg')).sort());
+  const icons = iconSet(splashRules);
+  assert.deepEqual([...set, ...icons].map(entry => entry.file).sort(), readdirSync(join(root, 'backgrounds')).filter(file => file.endsWith('.svg')).sort());
+  for (const entry of icons) assert.equal(read(`backgrounds/${entry.file}`), buildSplashIcon({ ...entry, rules: splashRules }), entry.file);
+  const manifestIcons = JSON.parse(read('backgrounds/manifest.json')).icons;
+  assert.deepEqual(manifestIcons.map(entry => `${entry.id}.svg`).sort(), icons.map(entry => entry.file).sort());
   assert.deepEqual(backgrounds.map(entry => entry.file).sort(), set.map(entry => entry.file).sort());
   for (const entry of set) assert.equal(read(`backgrounds/${entry.file}`), buildSplash({ ...entry, rules: splashRules }), entry.file);
   for (const entry of backgrounds) {
@@ -224,6 +228,9 @@ test('a Splash background keeps the hooks of the icon and only moves them', () =
   const { hooks } = readIcon(read(rules.splash.icon));
   const svg = buildSplash({ layout: 'right', surface: 'pink', width: 1200, height: 628 });
   for (const hook of hooks) assert.ok(svg.includes(`d="${hook}"`));
+  const icon = buildSplashIcon({ surface: 'pink', rules: rules.splash });
+  for (const hook of hooks) assert.ok(icon.includes(`d="${hook}"`));
+  assert.match(icon, /fill="#DB005B"/);
   assert.match(svg, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="1200" height="628"/);
   assert.throws(() => buildSplash({ layout: 'corner', surface: 'pink', width: 10, height: 10 }), /layout is one of/);
 });
