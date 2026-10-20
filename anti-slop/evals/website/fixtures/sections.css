@@ -796,6 +796,153 @@
 @container aha-faq (max-width:479px){
   .aha-faq__inner{--aha-faq-gutter:var(--aha-space-32)}
 }
+.aha-marketing-cards{
+  container:aha-marketing-cards / inline-size;
+  background:var(--aha-white);
+  color:var(--aha-text-default);
+  font-family:var(--aha-font-product);
+}
+.aha-marketing-cards *{box-sizing:border-box}
+:where(.aha-marketing-card) h3,:where(.aha-marketing-card) p,:where(.aha-marketing-card) blockquote,:where(.aha-marketing-card) figure,figure:where(.aha-marketing-card){margin:0}
+:where(.aha-marketing-card) blockquote{padding:0}
+:where(.aha-marketing-cards) ol{margin:0;padding:0}
+.aha-marketing-cards__grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--aha-space-32);
+  max-width:72rem;margin:0 auto;
+  padding:var(--aha-space-64) var(--aha-space-24);
+  list-style:none;
+}
+.aha-marketing-card{
+  position:relative;
+  display:flex;flex-direction:column;
+  height:100%;
+  background:var(--aha-bg-container);
+  color:var(--aha-text-default);
+  font-family:var(--aha-font-product);
+  border:1px solid var(--aha-border-default);
+  border-radius:var(--aha-radius-marketing);
+  overflow:hidden;
+}
+.aha-marketing-card *{box-sizing:border-box}
+.aha-marketing-card__media{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;
+  background:var(--aha-bg-container-secondary);
+  color:var(--aha-icon-muted);
+  overflow:hidden;
+}
+.aha-marketing-card__media--16x9{aspect-ratio:16 / 9}
+.aha-marketing-card__media--3x2{aspect-ratio:3 / 2}
+.aha-marketing-card__media img{display:block;width:100%;height:100%;object-fit:cover}
+.aha-marketing-card__body{
+  display:flex;flex-direction:column;flex:1;
+  gap:var(--aha-space-12);
+  padding:var(--aha-space-24);
+}
+.aha-marketing-card__eyebrow{
+  font-size:var(--aha-size-sm);
+  font-weight:var(--aha-weight-semibold);
+  letter-spacing:var(--aha-letter-spacing-subheadings);
+  text-transform:uppercase;
+  color:var(--aha-color-primary);
+}
+.aha-marketing-card__title{
+  font-size:var(--aha-size-xl);
+  font-weight:var(--aha-weight-semibold);
+  line-height:var(--aha-line-height-heading);
+  color:var(--aha-text-default);
+}
+.aha-marketing-card__text{
+  font-size:var(--aha-size-l);
+  line-height:var(--aha-line-height-body);
+  color:var(--aha-text-secondary);
+}
+.aha-marketing-card__meta{
+  font-size:var(--aha-size-default);
+  line-height:var(--aha-line-height-body);
+  color:var(--aha-text-tertiary);
+}
+.aha-marketing-card__more{
+  display:inline-flex;align-items:center;gap:var(--aha-space-8);
+  margin-top:auto;
+  font-size:var(--aha-size-default);
+  font-weight:var(--aha-weight-semibold);
+  color:var(--aha-text-default);
+}
+.aha-marketing-card__link{color:inherit;text-decoration:none}
+.aha-marketing-card__link::after{content:"";position:absolute;inset:0}
+.aha-marketing-card__link:focus-visible{outline:none}
+.aha-marketing-card:has(.aha-marketing-card__link:focus-visible){
+  outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2);
+}
+.aha-marketing-card--linked{
+  transition:transform var(--aha-motion-mid) var(--aha-ease-out),box-shadow var(--aha-motion-mid) var(--aha-ease-out),border-color var(--aha-motion-mid) var(--aha-ease-out);
+}
+.aha-marketing-card--linked:hover{
+  transform:translateY(calc(-1 * var(--aha-space-4)));
+  border-color:var(--aha-border-hover);
+  box-shadow:0 var(--aha-space-12) var(--aha-space-24) var(--aha-ink-a10);
+}
+.aha-marketing-card--linked:hover .aha-marketing-card__more{color:var(--aha-text-link-hover)}
+@media (prefers-reduced-motion:reduce){
+  .aha-marketing-card--linked{transition:none}
+  .aha-marketing-card--linked:hover{transform:none}
+}
+@container aha-marketing-cards (max-width:991px){
+  .aha-marketing-cards__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--aha-space-24)}
+}
+@container aha-marketing-cards (max-width:767px){
+  .aha-marketing-cards__grid{grid-template-columns:minmax(0,1fr);padding:var(--aha-space-48) var(--aha-space-24)}
+}
+@container aha-marketing-cards (max-width:479px){
+  .aha-marketing-cards__grid{padding:var(--aha-space-32) var(--aha-space-16)}
+  .aha-marketing-card__body{padding:var(--aha-space-20)}
+}
+.aha-marketing-card--pricing{overflow:visible}
+.aha-marketing-card--pricing .aha-marketing-card__body{gap:var(--aha-space-24);padding:var(--aha-space-32)}
+.aha-marketing-card__head{display:flex;flex-direction:column;gap:var(--aha-space-12)}
+.aha-marketing-card__head-row{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--aha-space-24)}
+.aha-marketing-card__plan-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--aha-space-8)}
+.aha-marketing-card__plan{font-size:var(--aha-size-xl);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-heading);color:var(--aha-text-default)}
+.aha-marketing-card__plan-icon{display:flex;flex:none;align-items:center;justify-content:center;width:var(--aha-space-48);height:var(--aha-space-48);border-radius:var(--aha-radius-default);background:var(--aha-bg-accent);color:var(--aha-color-primary)}
+.aha-marketing-card__price{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--aha-space-8)}
+.aha-marketing-card__amount{font-family:var(--aha-font-display);font-size:var(--aha-size-h2);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-tight);letter-spacing:var(--aha-letter-spacing-headlines);color:var(--aha-text-default)}
+.aha-marketing-card__period{font-size:var(--aha-size-l);color:var(--aha-text-secondary)}
+.aha-marketing-card__billing{font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);color:var(--aha-text-tertiary)}
+.aha-marketing-card__features-title{font-size:var(--aha-size-sm);font-weight:var(--aha-weight-semibold);letter-spacing:var(--aha-letter-spacing-subheadings);text-transform:uppercase;color:var(--aha-text-default)}
+.aha-marketing-card__features-lead{margin-top:var(--aha-space-4);font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary)}
+.aha-marketing-card__features{display:flex;flex-direction:column;gap:var(--aha-space-12);margin:0;padding:0;list-style:none}
+.aha-marketing-card__feature{display:flex;align-items:flex-start;gap:var(--aha-space-12);font-size:var(--aha-size-l);line-height:var(--aha-line-height-body);color:var(--aha-text-secondary)}
+.aha-marketing-card__feature aha-icon{flex:none;margin-top:var(--aha-space-2);color:var(--aha-color-primary)}
+.aha-marketing-card__actions{display:flex;flex-direction:column;gap:var(--aha-space-12)}
+.aha-marketing-card__foot{display:flex;flex-direction:column;gap:var(--aha-space-12);padding:var(--aha-space-24) var(--aha-space-32);border-top:1px solid var(--aha-border-default);background:var(--aha-bg-container-secondary);border-radius:0 0 var(--aha-radius-marketing) var(--aha-radius-marketing)}
+.aha-marketing-card--pricing.aha-marketing-card--featured{border-color:var(--aha-color-primary);box-shadow:0 var(--aha-space-12) var(--aha-space-24) var(--aha-ink-a10)}
+.aha-marketing-card--centered .aha-marketing-card__head,.aha-marketing-card--centered .aha-marketing-card__price{align-items:center;justify-content:center;text-align:center}
+.aha-marketing-card--centered .aha-marketing-card__plan-row{justify-content:center}
+.aha-marketing-card--gray{background:var(--aha-bg-container-secondary)}
+.aha-marketing-card--gray .aha-marketing-card__foot{background:transparent}
+.aha-marketing-card--tint{border-color:transparent;background:var(--aha-bg-accent)}
+.aha-marketing-card--tint .aha-marketing-card__foot{border-top:0;background:transparent}
+.aha-marketing-card--accent-line::before{content:"";position:absolute;inset:0 0 auto 0;height:var(--aha-space-4);border-radius:var(--aha-radius-marketing) var(--aha-radius-marketing) 0 0;background:var(--aha-color-primary)}
+.aha-marketing-card--badge .aha-marketing-card__plan{display:inline-flex;align-items:center;gap:var(--aha-space-6);padding:var(--aha-space-2) var(--aha-space-12);border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-pill);background:var(--aha-gray-30);font-size:var(--aha-size-default)}
+.aha-marketing-card--dot .aha-marketing-card__plan::before{content:"";width:var(--aha-space-6);height:var(--aha-space-6);border-radius:var(--aha-radius-pill);background:var(--aha-color-primary)}
+.aha-marketing-card--icon-offset{margin-top:var(--aha-space-24)}
+.aha-marketing-card--icon-offset .aha-marketing-card__body{padding-top:var(--aha-space-48)}
+.aha-marketing-card--icon-offset .aha-marketing-card__plan-icon{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);border:1px solid var(--aha-border-default);border-radius:var(--aha-radius-lg);background:var(--aha-white);color:var(--aha-icon-strong);box-shadow:0 var(--aha-space-2) var(--aha-space-4) var(--aha-ink-a10)}
+.aha-marketing-card__banner{display:flex;justify-content:center;padding:var(--aha-space-8) var(--aha-space-16);border-radius:var(--aha-radius-marketing) var(--aha-radius-marketing) 0 0;background:var(--aha-color-primary);color:var(--aha-text-inverse);font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold)}
+.aha-marketing-card__callout{position:absolute;right:var(--aha-space-24);bottom:100%;display:flex;align-items:center;gap:var(--aha-space-4);padding-bottom:var(--aha-space-4);font-size:var(--aha-size-default);font-weight:var(--aha-weight-semibold);color:var(--aha-color-primary)}
+.aha-marketing-card--wide .aha-marketing-card__price{flex-wrap:nowrap}
+.aha-marketing-card--wide .aha-marketing-card__head-row>.aha-marketing-card__head:last-child{flex:none;align-items:flex-end}
+.aha-marketing-card--wide .aha-marketing-card__features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--aha-space-12) var(--aha-space-24)}
+@container (max-width:767px){
+  .aha-marketing-card--wide .aha-marketing-card__features{grid-template-columns:minmax(0,1fr)}
+  .aha-marketing-card--wide .aha-marketing-card__head-row{flex-direction:column;gap:var(--aha-space-16)}
+}
+@container (max-width:479px){
+  .aha-marketing-card--pricing .aha-marketing-card__body{padding:var(--aha-space-24) var(--aha-space-20)}
+  .aha-marketing-card__foot{padding:var(--aha-space-20)}
+}
 .aha-pricing{
   container:aha-pricing / inline-size;
   position:relative;

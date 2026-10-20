@@ -9,9 +9,8 @@
 <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.277.0/lib/all.js"></script>
 <style>
 .page-band-accent{background:var(--aha-bg-accent)}
-.aha-features__grid{display:grid;grid-template-columns:repeat(3,360px)}
-.aha-features__row:nth-child(2){flex-direction:column-reverse}
-.aha-features__row:nth-child(1){flex-direction:column}
+.aha-features--icon-grid .aha-features__grid{display:grid;grid-template-columns:repeat(3,360px)}
+@media (max-width:767px){.aha-features--alternating-screenshots .aha-features__row:nth-child(2) .aha-features__visual{order:-1}}
 @media (max-width:767px){.aha-hero__cta{height:var(--aha-control-height-button-sm)}}
 </style>
 </head>
