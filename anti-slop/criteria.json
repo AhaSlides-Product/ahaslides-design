@@ -1490,6 +1490,76 @@
           "test": "Anything not self-evident has help at the point of use: a hint, tooltip, empty-state guidance or a link to docs, short and task-focused. N/A when the screen is self-evident or the change adds no unfamiliar concept."
         }
       ]
+    },
+    "website": {
+      "surface": "website",
+      "origin": "authored",
+      "skillRef": null,
+      "targets": [
+        {
+          "source": "guidelines/website.json",
+          "use": "the website composition pattern: which sections a page is built from, their rhythm and widths, hierarchy, backgrounds, imagery, header, responsive and motion rules"
+        },
+        {
+          "source": "marketing",
+          "use": "the DS Marketing section library every band of a page comes from, with the padding, widths and breakpoints each section ships"
+        },
+        {
+          "source": "brand/colour-rules.json",
+          "use": "the web background rules W5 cites by id (3.2 to 3.5, 3.8, 3.10) and the primary-button rules W4 cites (6.1, 6.2)"
+        },
+        {
+          "source": "icons/registry.json",
+          "use": "the icon names <aha-icon> may draw (W6)"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "W1",
+          "title": "Every band is a DS Marketing section",
+          "test": "Each full-width band of the page (site header, hero, features, numbers, logos, testimonials, pricing, FAQ, closing banner, footer) is a DS Marketing section (Navigation, Header or Hero, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner, Footer, with Cards inside a section): its root class and markup are the section's snippet, with only copy, images and the layout choice changed. A band built by hand (its own classes, its own grid, a restyled copy of a section) fails, whatever it looks like; the fix is the matching section, or a DSN ticket for a missing one. N/A when the change is a single section on its own, not a page."
+        },
+        {
+          "id": "W2",
+          "title": "Sections keep their shipped rhythm",
+          "test": "Every section keeps the padding it ships and never overrides it: Features, Numbers, Pricing and Testimonials ship --aha-space-96 vertical and --aha-space-64 side on desktop, --aha-space-48 / --aha-space-24 at 767 px and below, --aha-space-32 / --aha-space-16 at 479 px and below; Hero (a fluid clamp), Logos (32 px vertical) and FAQ (its own gutter variable) ship different padding and keep that. Sections sit flush. An overridden section padding, a raw px padding added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
+        },
+        {
+          "id": "W3",
+          "title": "Content width is capped and measured",
+          "test": "Section content is capped at 1280 px and centred; a section heading block stays within 720 px and its lead text within 44ch, as the sections ship. Content stretched to the full viewport width, a lead paragraph wider than 44ch, or a container cap raised or removed fails. N/A when the page has no section with a heading or lead text."
+        },
+        {
+          "id": "W4",
+          "title": "One H1, one primary action per section, the hero's action repeated",
+          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rules 6.1 and 6.2); no more than two buttons sit side by side, a primary and a secondary. When the page has a closing Footer banner it repeats the hero's primary call to action. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action fails. N/A for the closing-action part when the page has no closing banner."
+        },
+        {
+          "id": "W5",
+          "title": "Band backgrounds follow the colour rules",
+          "test": "Band backgrounds follow brand/colour-rules.json 3.2 to 3.5, 3.8 and 3.10: white by default; coloured bands are Vivid Pink or pale pink (--aha-bg-accent); the hero may be Vivid Pink #E70E68 (rule 3.5), with the body then alternating white and pale pink starting with white; a full white section always sits between two coloured bands; at most two Vivid Pink bands, a Vivid Pink hero being one; no black band; no gradient. Two coloured bands touching, a third Vivid Pink band, a Darker Pink hero background (Darker Pink is only the Splash hooks on Vivid Pink, rule 5.1), or a full-width light grey band fails: light grey belongs to cards inside a section. N/A when every band is white."
+        },
+        {
+          "id": "W6",
+          "title": "Imagery is real and icons come from the registry",
+          "test": "Every picture is an <img> with meaningful alt text (or alt=\"\" when decorative) showing a product screenshot, a committed photo, or the DS placeholder marketing-assets/image-placeholder.svg. Stock clip art, emoji used as icons, gradient blobs, glassmorphism (backdrop-filter blur panels), decorative 3D shapes, a CSS-drawn picture standing in for an image, and any icon not drawn by <aha-icon name> from the registry fail. N/A when the page has no pictures and no icons."
+        },
+        {
+          "id": "W7",
+          "title": "The site header is the Navigation section with the product lockup",
+          "test": "The page's site header is the DS Navigation section, so its brand is <aha-product-lockup> (the app-shell surface's C1 holds the brand rule itself). A hand-built header, a logo file next to a text span, or a letter tile in its place fails. N/A when the page is embedded with no site header of its own (an in-product help or upgrade page under the app's own header)."
+        },
+        {
+          "id": "W8",
+          "title": "Responsive at 1440, 768 and 375",
+          "test": "The page is checked at 1440, 768 and 375 px wide with no horizontal scroll at any of them; multi-column sections stack to one column; a stacked image sits on the same side of its text (above or below) in every section; calls to action keep the xl button height the sections ship and nothing tappable is under 24 by 24 px. A fixed width or min-width that overflows a phone, a section that stays multi-column at 375 px, images flipping above and below text from section to section, or a shrunken call to action fails. N/A only when the judge has nothing that sets layout (copy-only change)."
+        },
+        {
+          "id": "W9",
+          "title": "Motion is gentle and optional",
+          "test": "Motion is limited to hover transitions and at most a gentle fade or slide on reveal, timed with --aha-motion-* and --aha-ease-* tokens, and switched off under prefers-reduced-motion: reduce. The Logos strip's shipped loop, which stops under reduced motion, passes. Parallax, scroll-jacking, an autoplaying carousel or video, looping decorative animation, a bare duration literal, or motion with no reduced-motion fallback fails. N/A when the page has no motion."
+        }
+      ]
     }
   }
 }

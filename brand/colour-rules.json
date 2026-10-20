@@ -7,7 +7,7 @@
  "environment": ["product", "audience", "web", "video", "social-ads", "report-image"],
  "glance": [
   "Vivid Pink (`#E70E68`) is the one primary colour. Purple is the logo only, plus one small playful touch on white.",
-  "Page backgrounds are white, and the first screen is white. Two coloured sections never sit next to each other, and at most two of them are Vivid Pink.",
+  "Page backgrounds are white, and the first screen is white; a web page built from full-width sections may open with a Vivid Pink hero. Two coloured sections never sit next to each other, and at most two of them are Vivid Pink.",
   "Social, ads, slides, print and video use white or Vivid Pink backgrounds. Nothing else.",
   "Splash backgrounds come in three layouts only: centre, right and minimal.",
   "Pink text is for white only. On Vivid Pink at 5% or on grey, text is black. On Vivid Pink, text is solid white.",
@@ -102,7 +102,7 @@
      { "id": "3.2", "environment": ["product", "web"], "text": "There are two kinds of coloured section: a **Vivid Pink section** and a **pale pink section** (Vivid Pink at 5%). Pale pink sections and boxes are for web pages built from full-width sections, not for screens of the product app." },
      { "id": "3.3", "environment": ["product", "web"], "text": "Two coloured sections, of either kind, never sit next to each other. A full white section always sits between them; white padding alone does not count." },
      { "id": "3.4", "environment": ["product", "web"], "text": "A page has at most two Vivid Pink sections. Pale pink sections have no limit beyond the rule above." },
-     { "id": "3.5", "environment": ["product", "web"], "text": "The first screen is white." },
+     { "id": "3.5", "origin": "Requested in DESY-266: a Vivid Pink hero for impact on website pages, then a body that alternates white and pale pink", "environment": ["product", "web"], "text": "The first screen is white. The one exception is a web page built from full-width sections: its hero may be a Vivid Pink section (with the Darker Pink Splash of rule 5.1 and the Vivid Pink surface usage below). That hero is one of the two Vivid Pink sections of rule 3.4, and rule 3.3 still holds, so a full white section follows it and the body alternates white and pale pink from there. Screens of the product app keep a white first screen." },
      { "id": "3.6", "environment": ["product"], "text": "In the product app, light grey is allowed for surfaces that sit inside or beside the white page: cards, sidebars, input fields, table headers and the editor workspace around the slide. Grey is never the background of a whole page or a full-width section." },
      { "id": "3.7", "environment": ["product"], "text": "In the product app, Vivid Pink at 5% is for hover and selected states, plus at most one highlighted panel per screen." },
      { "id": "3.8", "environment": ["product", "audience", "web"], "text": "Black backgrounds are allowed in two places only: full-screen presenting, and video or image viewers." },
@@ -288,6 +288,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v17", "date": "20 Oct", "text": "Rule 3.5 keeps the white first screen for the product app and allows a web page built from full-width sections to open with a Vivid Pink hero, which counts as one of the two Vivid Pink sections and is followed by a full white section. Requested in DESY-266. No rule id changed." },
   { "version": "v16", "date": "19 Oct", "text": "Rule 2.6, third-party logos: one colour at rest and their own colours on hover and keyboard focus, in every interface with no special case for website headers. Listing pages such as the Marketplace keep logos in their own colours as content; a tool not available yet is greyscale with a Coming soon tag; customer logo strips stay one colour." },
   { "version": "v15", "date": "16 Oct", "text": "Rule 3.11 and the report-image environment now cover reports, not only images: a read-only report page that a report routine publishes (a dashboard opened from a link) looks the same as the static image of the same report, with as many pale pink number plates as the report needs. Report table zebra rows are now white and light grey, the light grey rule 3.6 allows for table surfaces, not pale pink. Requested by Dave Bui. Screens of the product app, including its Report screens, are unchanged. No rule id changed." },
   { "version": "v14", "date": "16 Oct", "text": "New environment report-image, for charts, tables and number plates rendered to PNG for Slack, email or an export. New rule 3.11: in those images table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar; rules 3.2 and 3.7 do not apply there. Requested by Dave Bui. No existing rule id changed." },
