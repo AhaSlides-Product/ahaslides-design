@@ -89,7 +89,7 @@
     {
       "ref": "--aha-border-default",
       "as": "token",
-      "use": "table row dividers and chart grid lines",
+      "use": "chart grid lines (report tables have no row dividers)",
       "status": "available"
     },
     {
