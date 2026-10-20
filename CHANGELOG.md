@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.288.0 — 2026-10-20
 ### Added
 - Websites → Features: every layout has two backgrounds, White (the default, unchanged) and Accent. Add `aha-features--accent` to the section to lay the pale pink `--aha-bg-accent` over white; the icon squares and check marks turn white and keep their pink glyph; cards stay white with their pink icon tile. The docs page gets a White / Accent switch and a code tab for each, plus a "Choosing a background" note: never place an Accent section next to another coloured section. The switch is an opt-in `states` key in `marketing/<page>.json`, off for every other marketing page. (#309)
-- Websites → Features: two new layouts, Feature card row with 3 cards and with 4 cards: a header above one horizontal row of the same DS Feature card as Icon cards, stacking to one column at 767 px (the 4-card row goes through two columns at 991 px). Both support the White and Accent backgrounds. Revert: remove the two `icon-cards-row-*` entries from `marketing/features.json`. (#309)
+- Websites → Features: a new layout, Feature card row with 3 cards: a header above one horizontal row of the same DS Feature card as Icon cards, stacking to one column at 767 px. For a row of four, use Icon cards. It supports the White and Accent backgrounds. Revert: remove the `icon-cards-row-3` entry from `marketing/features.json`. (#309)
 
 ## 0.286.0 — 2026-10-20
 ### Changed
