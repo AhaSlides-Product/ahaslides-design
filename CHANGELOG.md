@@ -22,9 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.277.0 — 2026-10-20
+## 0.280.0 — 2026-10-20
 ### Added
 - Websites → Features: every layout has two backgrounds, White (the default, unchanged) and Accent. Add `aha-features--accent` to the section to lay the pale pink `--aha-bg-accent` over white; the icon squares and check marks turn white and keep their pink glyph; cards stay white with their pink icon tile. The docs page gets a White / Accent switch and a code tab for each, plus a "Choosing a background" note: never place an Accent section next to another coloured section. The switch is an opt-in `states` key in `marketing/<page>.json`, off for every other marketing page. (#309)
+
+## 0.278.0 — 2026-10-20
+### Added
+- `screen-lint` hard-fails two misuses of the answer colours (colour rules section 11): `answer-colour-text` (11.2) when an `--aha-answer-*` token is a text colour (`color`, `-webkit-text-fill-color`, `caret-color`, a JS style object key, or a Tailwind `text-[…]` / `caret-[…]` value), and `answer-colour-context` (11.1) when one is used where nothing in the rule's selector, the element's attributes or the style object's line names an answer, a correct or wrong mark or a result (`correct`, `wrong`, `incorrect`, `answer`, `result`, `tick`, `cross`, `reveal`, `verdict`, `score`). Rules 11.3 and 11.4 stay with the judge. Opt out per line with `ds-lint-allow: answer-colour (why)`. Revert: delete `lib/screen-lint-answer.js` and its three hook lines in `lib/screen-lint.js`. (#307)
+
+## 0.277.0 — 2026-10-20
+### Changed
+- Marketing section `Footer banner` is now a Vivid Pink card on the centre Splash background (Darker Pink hooks) with a white heading, white optional paragraph and a white Get started free button with Vivid Pink text, replacing the pale pink Webflow `bg-pink.png` illustration (no image URL left). Button hover, press and focus states are the Hero Pink ones; the section around the card stays white. (#308)
 
 ## 0.274.1 — 2026-10-20
 ### Changed
