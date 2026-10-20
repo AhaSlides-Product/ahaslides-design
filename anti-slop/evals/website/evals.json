@@ -10,6 +10,9 @@
       "files": [
         {
           "path": "fixtures/pass-landing-page/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "good-control",
@@ -43,6 +46,9 @@
       "files": [
         {
           "path": "fixtures/pass-pricing-page/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "good-control",
@@ -72,6 +78,9 @@
       "files": [
         {
           "path": "fixtures/fail-w1-hand-rolled-band/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -99,6 +108,9 @@
       "files": [
         {
           "path": "fixtures/fail-w2-section-gaps/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -125,6 +137,9 @@
       "files": [
         {
           "path": "fixtures/fail-w3-full-width/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -151,6 +166,9 @@
       "files": [
         {
           "path": "fixtures/fail-w4-hierarchy/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -177,6 +195,9 @@
       "files": [
         {
           "path": "fixtures/fail-w5-backgrounds/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -204,6 +225,9 @@
       "files": [
         {
           "path": "fixtures/fail-w6-imagery/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -230,6 +254,9 @@
       "files": [
         {
           "path": "fixtures/fail-w7-hand-set-brand/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -257,6 +284,9 @@
       "files": [
         {
           "path": "fixtures/fail-w8-overflow/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
@@ -283,6 +313,9 @@
       "files": [
         {
           "path": "fixtures/fail-w9-motion/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",

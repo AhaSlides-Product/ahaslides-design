@@ -5,36 +5,219 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Live polls for teams | AhaSlides</title>
 <link rel="stylesheet" href="https://design.ahaslides.io/variables.css">
-<link rel="stylesheet" href="sections.css">
+<link rel="stylesheet" href="../sections.css">
 <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.277.0/lib/all.js"></script>
 <style>
+.page-band-accent{background:var(--aha-bg-accent)}
 .aha-features__inner{max-width:none}
 .aha-features__header,.aha-features__lead{max-width:none}
 </style>
 </head>
 <body>
-<header class="aha-header__nav">
-  <div class="aha-header__bar">
-    <a class="aha-header__brand" href="/" aria-label="AhaSlides home"><aha-product-lockup size="24"></aha-product-lockup></a>
-    <button class="aha-header__toggle" type="button" aria-expanded="false" aria-controls="aha-header-menu" aria-label="Open menu">
-      <aha-icon class="aha-header__toggle-open" name="system-menu" size="32"></aha-icon>
-      <aha-icon class="aha-header__toggle-close" name="system-x" size="24"></aha-icon>
-    </button>
-    <div class="aha-header__drawer">
-      <div class="aha-header__menu" id="aha-header-menu">
-        <nav class="aha-header__links" aria-label="Main">
-          <a class="aha-header__link" href="/features">Features</a>
-          <a class="aha-header__link" href="/pricing">Pricing</a>
-          <a class="aha-header__link" href="/templates">Templates</a>
-        </nav>
-        <div class="aha-header__actions">
-          <a class="aha-header__button aha-header__button--ghost" href="/login">Log in</a>
-          <a class="aha-header__button" href="/signup">Sign up free</a>
+<div class="aha-header" data-menu="closed">
+  <div class="aha-header__join">
+    <label class="aha-header__join-label" for="aha-header-code">Are you a participant?</label>
+    <form class="aha-header__join-form" action="#">
+      <span class="aha-header__join-url">ahaslides.com/</span>
+      <input class="aha-header__join-input" id="aha-header-code" name="access-code" type="text" placeholder="ENTER CODE..." autocomplete="off" spellcheck="false">
+      <button class="aha-header__join-button" type="submit">Join</button>
+    </form>
+  </div>
+  <header class="aha-header__nav">
+    <div class="aha-header__bar">
+      <a class="aha-header__brand" href="#" aria-label="AhaSlides home"><aha-product-lockup size="24"></aha-product-lockup></a>
+      <button class="aha-header__toggle" type="button" aria-expanded="false" aria-controls="aha-header-menu" aria-label="Open menu">
+        <aha-icon class="aha-header__toggle-open" name="system-menu" size="32"></aha-icon>
+        <aha-icon class="aha-header__toggle-close" name="system-x" size="24"></aha-icon>
+      </button>
+      <div class="aha-header__drawer">
+        <div class="aha-header__menu" id="aha-header-menu">
+          <nav class="aha-header__links" aria-label="Main">
+            <div class="aha-header__item">
+              <button class="aha-header__link" type="button" aria-expanded="false">Products<aha-icon class="aha-header__chevron" name="system-caret-down" size="16"></aha-icon></button>
+              <div class="aha-header__panel aha-header__panel--products">
+                <div class="aha-header__section">
+                  <p class="aha-header__label">Products</p>
+                  <a class="aha-header__entry" href="#">Quiz generator</a>
+                  <a class="aha-header__entry" href="#">Poll maker</a>
+                  <a class="aha-header__entry" href="#">AI presentation maker</a>
+                  <a class="aha-header__entry" href="#">Survey creator</a>
+                </div>
+                <div class="aha-header__divider"></div>
+                <div class="aha-header__section">
+                  <p class="aha-header__label">Features</p>
+                  <a class="aha-header__entry" href="#">Remote control</a>
+                  <a class="aha-header__entry" href="#">Report &amp; analytics</a>
+                  <a class="aha-header__entry" href="#">PowerPoint add-in</a>
+                  <a class="aha-header__entry" href="#">Integrations</a>
+                </div>
+                <div class="aha-header__divider"></div>
+                <div class="aha-header__section aha-header__section--slides">
+                  <p class="aha-header__label">Interactive slides</p>
+                  <a class="aha-header__entry" href="#" data-preview="slidetype-word-cloud">Word Cloud</a>
+                  <a class="aha-header__entry" href="#" data-preview="slidetype-qa">Q&amp;A</a>
+                  <a class="aha-header__entry" href="#" data-preview="slidetype-spinner-wheel">Spinner Wheel</a>
+                  <a class="aha-header__entry" href="#" data-preview="slidetype-pin-on-image">Pin on image</a>
+                  <a class="aha-header__entry" href="#" data-preview="slidetype-ranking">Ranking</a>
+                </div>
+                <div class="aha-header__preview" aria-hidden="true"><aha-icon name="slidetype-word-cloud" size="32"></aha-icon></div>
+              </div>
+            </div>
+            <div class="aha-header__item">
+              <button class="aha-header__link" type="button" aria-expanded="false">Solutions<aha-icon class="aha-header__chevron" name="system-caret-down" size="16"></aha-icon></button>
+              <div class="aha-header__panel aha-header__panel--solutions">
+                <div class="aha-header__section">
+                  <p class="aha-header__label">Use cases</p>
+                  <div class="aha-header__grid">
+                    <a class="aha-header__entry" href="#">Classroom education</a>
+                    <a class="aha-header__entry" href="#">Training &amp; workshop</a>
+                    <a class="aha-header__entry" href="#">Webinars &amp; virtual events</a>
+                    <a class="aha-header__entry" href="#">Staff onboarding</a>
+                    <a class="aha-header__entry" href="#">Events &amp; conferences</a>
+                    <a class="aha-header__entry" href="#">Business meetings</a>
+                    <a class="aha-header__entry" href="#">Sales &amp; consulting</a>
+                    <a class="aha-header__entry" href="#">Employee engagement</a>
+                    <a class="aha-header__entry" href="#">Assessment</a>
+                    <a class="aha-header__entry" href="#">Service feedback</a>
+                  </div>
+                </div>
+                <div class="aha-header__section">
+                  <p class="aha-header__label">Integrations</p>
+                  <div class="aha-header__grid">
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/microsoft-powerpoint.svg" alt=""></span>PowerPoint add-in</a>
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/microsoft-teams.svg" alt=""></span>MS Teams</a>
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/zoom.svg" alt=""></span>Zoom</a>
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/google-slides.svg" alt=""></span>Google Slides</a>
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/slack.svg" alt=""></span>Slack</a>
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/google-drive.svg" alt=""></span>Google Drive</a>
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/chatgpt.svg" alt=""></span>ChatGPT</a>
+                    <a class="aha-header__entry aha-header__entry--app" href="#"><span class="aha-header__app"><img src="https://design.ahaslides.io/logo/model-context-protocol.svg" alt=""></span>MCP Server</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="aha-header__item">
+              <button class="aha-header__link" type="button" aria-expanded="false">Resources<aha-icon class="aha-header__chevron" name="system-caret-down" size="16"></aha-icon></button>
+              <div class="aha-header__panel aha-header__panel--resources">
+                <div class="aha-header__grid">
+                  <a class="aha-header__entry" href="#">Blog</a>
+                  <a class="aha-header__entry" href="#">Templates</a>
+                  <a class="aha-header__entry" href="#">Upcoming events</a>
+                  <a class="aha-header__entry" href="#">Customer stories</a>
+                  <a class="aha-header__entry" href="#">Help centre</a>
+                  <a class="aha-header__entry" href="#">Webinars</a>
+                  <a class="aha-header__entry" href="#">Integrations</a>
+                  <a class="aha-header__entry" href="#">Product updates</a>
+                </div>
+              </div>
+            </div>
+            <a class="aha-header__link" href="#">Pricing</a>
+            <a class="aha-header__link" href="#">Enterprise</a>
+          </nav>
+          <div class="aha-header__actions">
+            <div class="aha-header__item aha-header__item--language" data-trigger="click">
+              <button class="aha-header__language" type="button" aria-expanded="false" aria-label="Language: EN"><aha-icon name="system-globe-simple" size="16"></aha-icon>EN</button>
+              <div class="aha-header__languages">
+                <a class="aha-header__language-entry" href="#" aria-current="true">English</a>
+                <a class="aha-header__language-entry" href="#">Deutsch</a>
+                <a class="aha-header__language-entry" href="#">Espa&ntilde;ol</a>
+                <a class="aha-header__language-entry" href="#">Fran&ccedil;ais</a>
+                <a class="aha-header__language-entry" href="#">&#26085;&#26412;&#35486;</a>
+                <a class="aha-header__language-entry" href="#">Portugu&ecirc;s</a>
+                <a class="aha-header__language-entry" href="#">Ti&#7871;ng Vi&#7879;t</a>
+                <a class="aha-header__language-entry" href="#">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</a>
+                <a class="aha-header__language-entry" href="#">&#20013;&#25991;</a>
+              </div>
+            </div>
+            <div class="aha-header__buttons">
+              <a class="aha-header__button" href="#">Log in</a>
+              <a class="aha-header__button aha-header__button--primary" href="#">Sign up</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
+</div>
+<script>
+document.querySelectorAll('.aha-header').forEach(function (root) {
+  var toggle = root.querySelector('.aha-header__toggle');
+  var join = root.querySelector('.aha-header__join');
+  var preview = root.querySelector('.aha-header__preview aha-icon');
+  var compactWidth = 991;
+  var edgeGap = 16;
+  function isCompact() { return root.clientWidth <= compactWidth; }
+  function keepPanelInside(item) {
+    var panel = item.querySelector('.aha-header__panel');
+    if (!panel || isCompact()) return;
+    panel.style.insetInlineStart = '';
+    panel.style.maxWidth = (root.clientWidth - 2 * edgeGap) + 'px';
+    var bounds = root.getBoundingClientRect();
+    var rect = panel.getBoundingClientRect();
+    var shift = Math.max(rect.right - (bounds.right - edgeGap), 0);
+    shift = Math.min(shift, rect.left - (bounds.left + edgeGap));
+    if (shift > 0) panel.style.insetInlineStart = (panel.offsetLeft - shift) + 'px';
+  }
+  function setOpen(item, open) {
+    item.classList.toggle('is-open', open);
+    item.firstElementChild.setAttribute('aria-expanded', String(open));
+    if (open) keepPanelInside(item);
+  }
+  function closeAll(except) {
+    root.querySelectorAll('.aha-header__item.is-open').forEach(function (item) {
+      if (item !== except) setOpen(item, false);
+    });
+  }
+  function setMenu(open) {
+    root.dataset.menu = open ? 'open' : 'closed';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (!open) closeAll();
+  }
+  function stickBelowJoinBar() { root.style.top = -join.offsetHeight + 'px'; }
+  if (window.ResizeObserver) new ResizeObserver(stickBelowJoinBar).observe(join);
+  stickBelowJoinBar();
+  root.querySelector('.aha-header__join-form').addEventListener('submit', function (event) { event.preventDefault(); });
+  toggle.addEventListener('click', function () { setMenu(root.dataset.menu !== 'open'); });
+  root.querySelectorAll('.aha-header__item').forEach(function (item) {
+    var trigger = item.firstElementChild;
+    var hoverable = item.dataset.trigger !== 'click';
+    trigger.addEventListener('click', function () {
+      var open = !item.classList.contains('is-open');
+      closeAll(item);
+      setOpen(item, open);
+    });
+    item.addEventListener('pointerenter', function (event) {
+      if (!hoverable || event.pointerType !== 'mouse' || isCompact()) return;
+      closeAll(item);
+      setOpen(item, true);
+    });
+    item.addEventListener('pointerleave', function (event) {
+      if (!hoverable || event.pointerType !== 'mouse' || isCompact()) return;
+      setOpen(item, false);
+    });
+    item.addEventListener('focusout', function (event) {
+      if (event.relatedTarget && !isCompact() && item.classList.contains('is-open') && !item.contains(event.relatedTarget)) setOpen(item, false);
+    });
+  });
+  root.querySelectorAll('[data-preview]').forEach(function (entry) {
+    entry.addEventListener('pointerenter', function () { preview.setAttribute('name', entry.dataset.preview); });
+  });
+  root.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape') return;
+    var openItem = root.querySelector('.aha-header__item.is-open');
+    closeAll();
+    if (openItem) { openItem.firstElementChild.focus(); return; }
+    if (root.dataset.menu === 'open') { setMenu(false); toggle.focus(); }
+  });
+  document.addEventListener('click', function (event) {
+    if (root.contains(event.target)) return;
+    if (root.dataset.menu !== 'open' && !root.querySelector('.aha-header__item.is-open')) return;
+    closeAll();
+    setMenu(false);
+  });
+});
+</script>
 <main>
 <section class="aha-hero">
   <div class="aha-hero__wrap">
@@ -85,7 +268,7 @@
     </ul>
   </div>
 </section>
-<section class="aha-features aha-features--icon-grid aha-features--accent">
+<section class="aha-features aha-features--icon-grid page-band-accent">
   <div class="aha-features__inner">
     <div class="aha-features__header aha-features__header--center">
       <h2 class="aha-features__title">Built for every kind of room</h2>
