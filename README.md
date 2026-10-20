@@ -57,7 +57,7 @@ npm i @ahaslides-product/design
 
 ```js
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer — once, at the app root
-import '@ahaslides-product/design/icons';               // registers <aha-icon> (305 names, call by name)
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (310 names, call by name)
 import { ICON_NAMES } from '@ahaslides-product/design/icons';   // discover valid names
 import '@ahaslides-product/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
 import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared Table theme
@@ -179,6 +179,8 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a
 line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
 suppresses nothing and is reported as a `ds-lint-allow-bare` warning.
 
+**Answer colours** — `answer-colour-text` (an `--aha-answer-*` token as a text colour) and `answer-colour-context` (one on an element or rule whose selector, attributes or style key name no answer, correct or wrong mark or result) hard-fail, per colour rules 11.2 and 11.1. Opt-out group: `answer-colour`.
+
 **Slide surfaces** — `canvas` and `audience` also hard-fail a hand-made control: a raw `<button>` or
 `role="button"` (`raw-button`), `<aha-button size="xl">` (`button-size-xl`), height, padding,
 font-size or radius set through `::part(button)` or an inline style on `<aha-button>`
@@ -214,7 +216,7 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 
 ## Status
 
-Proven end-to-end and QA-green: **Icon** (305 registry names: 300 glyph files, 264 imported from Figma DS V3 and 36 Phosphor file glyphs, plus 5 back-compat aliases; call-by-name via
+Proven end-to-end and QA-green: **Icon** (310 registry names: 305 glyph files, 264 imported from Figma DS V3, 36 Phosphor file glyphs and 5 drawn reveal glyphs, plus 5 back-compat aliases; call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 

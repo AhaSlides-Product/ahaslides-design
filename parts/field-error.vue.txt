@@ -17,3 +17,7 @@ const error = computed(() => touched.value && !/.+@.+\..+/.test(email.value)
     :aria-invalid="error ? 'true' : undefined" aria-describedby="email-error" />
   <aha-field-error id="email-error" :message="error" />
 </template>
+
+<!-- icon: the error under a DS input. tone="info": help text, not an error (no aria-invalid). -->
+<aha-field-error v-if="error" id="notes-error" icon :message="error" />
+<aha-field-error v-else id="notes-help" tone="info" :message="`${rows} of 10 rows`" />

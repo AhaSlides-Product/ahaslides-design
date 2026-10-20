@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="-4 -4 128 128" role="img" aria-label="Reveal icon">
+<path d="M60 18L60 44" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<path d="M50.6 28.7L60 44L69.4 28.7" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M96.4 39L73.9 52" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<path d="M82.4 36.2L73.9 52L91.9 52.5" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M96.4 81L73.9 68" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<path d="M91.9 67.5L73.9 68L82.4 83.8" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M60 102L60 76" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<path d="M69.4 91.3L60 76L50.6 91.3" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M23.6 81L46.1 68" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<path d="M37.6 83.8L46.1 68L28.1 67.5" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M23.6 39L46.1 52" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<path d="M28.1 52.5L46.1 52L37.6 36.2" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<circle cx="60" cy="60" r="4" fill="#4A4A4A"/>
+<path d="M7.2 38.6A57 57 0 0 1 112.8 38.6" stroke="#4A4A4A" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M98.4 27.9L112.8 38.6L115.8 20.9" stroke="#4A4A4A" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

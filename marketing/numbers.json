@@ -2,7 +2,7 @@
   "slug": "numbers",
   "name": "Numbers",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "Five numbers sections for the AhaSlides marketing sites (Webflow Numbers), in the layouts of the Untitled UI metrics sections the marketing team picked: simple with actions in a row and with icons, centred text with dividers, and a split with an image slot, also on the brand band. Framework-free HTML and CSS bound to the shared --aha-* tokens, built from values the Hero, Statistic card, Hero banner and Button contract already ship.",
   "highlights": [

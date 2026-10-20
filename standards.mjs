@@ -29,7 +29,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { ART_SOURCES, ILLUSTRATION_TINTS, coloursInSvg, recolourSvg } from './recolour-art.mjs';
 import { FROZEN_SNAPSHOT, validateEvalSets, selfTest as evalHarnessSelfTest } from './anti-slop/evals-harness.mjs';
-import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, evaluateDuplicateGate } from './icon-similarity.mjs';
+import { DUPLICATE_BASELINE_FILE, DUPLICATE_BASELINE_ABOUT, DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, nearDuplicatePairs, readDuplicateBaseline, readIntentionalPairs, evaluateDuplicateGate } from './icon-similarity.mjs';
 import { ENVIRONMENT_TABLE_FILE, ENVIRONMENT_BASELINE_FILE, ENVIRONMENT_BASELINE_ABOUT, loadEnvironmentTable, fileSystemReader, gitReader, collectItems, evaluateEnvironmentGate } from './environments.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -558,7 +558,7 @@ const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [
 const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
 const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
-const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json|brand\/colour-rules\.json)$/;
+const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|marketing|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json|brand\/colour-rules\.json)$/;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -683,7 +683,7 @@ if (ANTISLOP) {
     for (const t of targets)
       achk(`surface "${key}": target "${t?.source}" is a live DS source`,
         LIVE_TARGET_SOURCE.test(t?.source) && existsSync(join(root, t.source)) && !!t.use,
-        'targets name a DS contract / tokens.canonical.json / icons/registry.json / guideline / brand/colour-rules.json that exists, with a use');
+        'targets name a DS contract / tokens.canonical.json / icons/registry.json / marketing / guideline / brand/colour-rules.json that exists, with a use');
     for (const c of (s.criteria || []))
       achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(`${c.title} ${c.test}`),
         'the test cites a plugin snapshot (contract.json / typography.json / review.html / references/) — point it at the DS contract or tokens');
@@ -834,6 +834,18 @@ const repoChecks = [];
   rchk('the AhaSlides logo and The Splash use the logo purple and Vivid Pink only', offListOwnLogos.length === 0,
     `the pink hooks are Vivid Pink ${VIVID_PINK}, never Radical Pink #FF4081: ${offListOwnLogos.map(f => `logo/${f}`).join(', ')}`);
 
+  const originalColourDir = join(root, 'logo', 'original');
+  const originalColourFiles = existsSync(originalColourDir) ? readdirSync(originalColourDir).filter(f => f.endsWith('.svg')).map(f => `original/${f}`) : [];
+  const logoEntries = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
+  const declaredOriginals = logoEntries.filter(entry => entry.originalFile).map(entry => entry.originalFile);
+  const originalsUnpaired = [
+    ...declaredOriginals.filter(file => !originalColourFiles.includes(file)).map(file => `${file} is declared but missing`),
+    ...originalColourFiles.filter(file => !declaredOriginals.includes(file)).map(file => `${file} has no manifest entry`),
+    ...logoEntries.filter(entry => entry.originalFile && entry.originalFile !== `original/${entry.file}`).map(entry => `${entry.id}: originalFile must be original/${entry.file}`),
+  ];
+  rchk('every original-colour logo sits beside its one-colour file and is declared in logo/manifest.json', originalsUnpaired.length === 0,
+    `logo/original/<file> holds the brand's own colours for rule 2.6 and shares the one-colour file's name: ${originalsUnpaired.join(', ')}`);
+
   /* A demo teaches by example, so a placeholder cover or a sample deck accent is held to the list too.
      Each exemption names why the file has to spell out an off-list colour. */
   const OFF_LIST_SOURCE_EXEMPT = {
@@ -864,7 +876,7 @@ const repoChecks = [];
   const markSources = [...sourceFiles, 'audience/library.json'];
   const foreignMarks = markSources.flatMap(f => {
     const text = read(join(root, f));
-    const outsideLibrary = [...text.matchAll(/\blogo\/([\w.-]+\.(?:svg|png|jpe?g|webp|gif))/gi)].map(m => m[1]).filter(file => !logoFiles.includes(file));
+    const outsideLibrary = [...text.matchAll(/\blogo\/((?:original\/)?[\w.-]+\.(?:svg|png|jpe?g|webp|gif))/gi)].map(m => m[1]).filter(file => !logoFiles.includes(file) && !originalColourFiles.includes(file));
     const embedded = /data:image\/(?:png|jpe?g|webp|gif)|data:image\/svg\+xml;base64/i.test(text) ? ['an embedded image the colour scan cannot read'] : [];
     return [...new Set([...outsideLibrary, ...embedded])].map(what => `${f} (${what})`);
   });
@@ -928,7 +940,7 @@ const repoChecks = [];
     existsSync(bundled) && read(bundled) === read(join(root, 'anti-slop', 'criteria.json')),
     'run npm run generate — it rewrites agent/anti-slop/criteria.json from the store; commit the result');
 }
-/* ===== environment — every contract, guideline and marketing or brand asset names the environment(s) it
+/* ===== environment — every contract, guideline, website section and brand asset names the environment(s) it
    serves, so an agent can pick its route from llms.txt. Items that predate the rule sit in a baseline that
    only shrinks; the base branch (CI's pull request base, else the local merge-base with origin/master)
    tells a changed item from an untouched one. */
@@ -983,6 +995,7 @@ const repoChecks = [];
     pairs: nearDuplicatePairs(drawings),
     baseline,
     baseBaseline,
+    intentional: readIntentionalPairs(root),
     unreadable: Object.keys(drawings).filter(name => !drawings[name]),
   });
   if (UPDATE_BASELINE) writeFileSync(join(root, DUPLICATE_BASELINE_FILE), JSON.stringify({ $about: DUPLICATE_BASELINE_ABOUT, threshold: DUPLICATE_THRESHOLD, pairs: nextBaseline }, null, 1) + '\n');
