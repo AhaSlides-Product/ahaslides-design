@@ -29,6 +29,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Colour rule 3.5 keeps the white first screen for the product app and now lets a web page built from full-width sections open with a Vivid Pink hero (the Hero Pink header layout, Darker Pink Splash hooks per rule 5.1). That hero is one of the two Vivid Pink sections of rule 3.4; the body then alternates white and pale pink (Vivid Pink at 5%) starting with white, so rule 3.3 holds. Website guideline rule W5, the `website` W5 criterion and the Header colour guidance say the same; the eval fixtures now open with the pink hero, and a new bad example (a Darker Pink hero) joins the touching-bands and grey-band ones. Revert: restore rule 3.5, W5 and the fixtures from git. (#310)
 
+## 0.282.1 — 2026-10-20
+### Changed
+- Canvas judge C5 and C18, the Canvas guideline and the canvas guide no longer tell a builder to put a scrim, chip, caption bar or card behind text. C5 keeps its contrast axis everywhere, including text over a deck background image (WCAG AA against the real composited background); a low-contrast fix is a `textColour` or photo that clears the floor, not a backing layer. C18's ban on a slide-wide scrim is unchanged. Canvas evals 5 (contrast axis restored, neutral fix), 59, 1171, 1198 and the C18 good control re-worded to match (#311).
+
 ## 0.282.0 — 2026-10-20
 ### Added
 - The browser files (`lib/`, plus the `fonts/` and `logo/` folders `lib/` loads) are also published to the AhaSlides CDN on every release: `https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/<file>` (5-minute cache, invalidated on each release) and `https://assets-cdn-public.ahaslides.com/ahaslides-design/<version>/lib/<file>` (immutable). The files are byte-identical to jsDelivr's, so a page can switch hosts by changing the base URL only. jsDelivr keeps working unchanged. New workflow `.github/workflows/publish-cdn.yml` (same bucket, CloudFront distribution and AWS secrets as aha-slide-plugin's standalone SDK); `workflow_dispatch` re-publishes. Revert: delete the workflow. (#297)
