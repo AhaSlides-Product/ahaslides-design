@@ -1,0 +1,84 @@
+{
+  "name": "Website",
+  "slug": "website",
+  "kind": "guideline",
+  "group": "Patterns",
+  "badge": "pattern — whole-page composition",
+  "environment": ["web"],
+  "summary": "How a whole AhaSlides website page is put together from the DS Marketing sections: every band is a shipped section, the sections keep the spacing and widths they ship with, the page has one H1 and one primary action per section, backgrounds follow the colour rules, imagery is real, the header is the product lockup, and the page is checked at three widths with only gentle motion. Each rule names the section, token or rule it comes from and the website judge criterion that checks it.",
+  "highlights": [
+    "Every band is a DS Marketing section; a missing one is a DSN ticket, never hand-rolled",
+    "Sections keep their shipped rhythm: 96/64 px padding on desktop, 48/24 at 767 px, 32/16 at 479 px",
+    "One H1, one primary action per section, the hero's call to action repeated at the end",
+    "Checked at 1440, 768 and 375 px with no sideways scroll; motion is a gentle reveal at most"
+  ],
+  "whenToRead": "Read before building, redesigning or reviewing any website page made of full-width sections: a landing, pricing, blog, careers, campaign or help page, on the public site or inside the product.",
+  "lead": "The Marketing section library gives you the bands; this pattern is how they go together into one page. It adds no new values: every number below is one the shipped sections already use (marketing/*.json), and colour and background come from the colour rules (brand/colour-rules.json, section 3), cited by id and not restated. Typography, UX writing, the page title and favicon, and the logo each keep their own guideline; judge a page on `website` plus `colour`, `background`, `typography` and `ux-writing`.",
+  "skillRef": {
+    "build": "DS guideline — guidelines/website.json",
+    "judge": "DS anti-slop feed — anti-slop.md (surface: website)",
+    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W9). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
+  },
+  "surfaces": ["landing page", "pricing page", "blog and article page", "careers page", "campaign page", "help article", "sign-up or upgrade page"],
+  "surfaceChoice": [
+    {
+      "surface": "Top of the page",
+      "useFor": "the Navigation section (site header with <aha-product-lockup>), then one Header section: the page's only H1 and its primary call to action",
+      "example": "Navigation, then a centred Header with Get started and Book a demo"
+    },
+    {
+      "surface": "The body of the page",
+      "useFor": "Features, Numbers, Logos, Testimonials, Pricing and FAQ sections, in the order the story needs, each on its own band",
+      "example": "Features alternating rows, then Logos, then Testimonials, then FAQ"
+    },
+    {
+      "surface": "The end of the page",
+      "useFor": "the Footer banner, which repeats the hero's primary call to action, then the Footer",
+      "example": "Footer banner Get started, then the Footer"
+    },
+    {
+      "surface": "A band the library does not have",
+      "useFor": "a DSN ticket for the missing section; never a hand-rolled band on the page",
+      "example": "A comparison table section: file it, and ship the page without it or with an existing section"
+    }
+  ],
+  "composedOf": [
+    { "ref": "product-lockup", "as": "component", "use": "the brand in the site header, as the Navigation section ships it", "status": "available" },
+    { "ref": "button", "as": "component", "use": "the primary and secondary call to action, at the xl height the sections ship", "status": "available" },
+    { "ref": "icon", "as": "component", "use": "every icon on the page, by registry name", "status": "available" },
+    { "ref": "--aha-space-96", "as": "token", "use": "the vertical padding of a section on desktop", "status": "available" },
+    { "ref": "--aha-space-64", "as": "token", "use": "the side padding of a section on desktop, and the gap under a section heading", "status": "available" },
+    { "ref": "--aha-space-48", "as": "token", "use": "the vertical padding of a section at 767 px and below", "status": "available" },
+    { "ref": "--aha-space-32", "as": "token", "use": "the vertical padding of a section at 479 px and below", "status": "available" },
+    { "ref": "--aha-space-24", "as": "token", "use": "the side padding of a section at 767 px and below", "status": "available" },
+    { "ref": "--aha-space-16", "as": "token", "use": "the side padding of a section at 479 px and below", "status": "available" },
+    { "ref": "--aha-bg-accent", "as": "token", "use": "the pale pink (Vivid Pink at 5%) band, under colour rules 3.2 to 3.4", "status": "available" },
+    { "ref": "--aha-motion-mid", "as": "token", "use": "the duration of a hover or reveal transition", "status": "available" },
+    { "ref": "--aha-ease-out", "as": "token", "use": "the curve of a reveal", "status": "available" }
+  ],
+  "componentBacklog": "No missing components. A band the Marketing library does not ship yet is a DSN ticket; add the section there before a page needs it.",
+  "rules": [
+    { "rule": "Build every band of the page from a DS Marketing section: Navigation, Header, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner and Footer (Cards inside a section). Paste the section's snippet and change its copy, images and layout choice, never its structure or values. A band the library lacks is a DSN ticket, never a hand-rolled section on the page.", "ref": ["W1"], "source": ["marketing/*.json — the Websites tab"] },
+    { "rule": "Keep the section rhythm the sections ship: vertical padding `--aha-space-96` and side padding `--aha-space-64` on desktop, `--aha-space-48` / `--aha-space-24` at 767 px and below, `--aha-space-32` / `--aha-space-16` at 479 px and below. Sections sit flush; add no margin, spacer or divider between them.", "ref": ["W2"], "source": ["marketing/features.json", "marketing/numbers.json", "marketing/pricing.json", "marketing/testimonials.json — __inner padding and their 767 px and 479 px container rules"] },
+    { "rule": "Cap section content at 1280 px, centred. Keep a section heading block to 720 px and its lead text to 44ch, as the sections ship them; never stretch body copy across the full width.", "ref": ["W3"], "source": ["marketing/features.json", "marketing/testimonials.json", "marketing/pricing.json — __inner max-width 1280px, __header 720px, __lead 44ch"] },
+    { "rule": "Give the page one H1, in the Header section at its display size. Each section has at most one primary button (colour rules 6.1 and 6.2); at most two buttons sit side by side, a primary and a secondary. The closing Footer banner repeats the hero's primary call to action.", "ref": ["W4"], "source": ["marketing/hero.json and marketing/header.json — the h1 and the primary + ghost pair", "marketing/footer-banner.json", "brand/colour-rules.json 6.1 and 6.2 (the primary button)"] },
+    { "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: white by default, coloured bands are Vivid Pink or pale pink (`--aha-bg-accent`), a full white section always between two coloured bands, at most two Vivid Pink bands, the first screen white, no black band and no gradient. Light grey belongs to cards inside a section (the Cards gray variant), never a full band: no section ships one.", "ref": ["W5"], "source": ["brand/colour-rules.json 3.2, 3.3, 3.4, 3.5, 3.8, 3.10", "marketing/features.json White / Accent", "marketing/cards.json --gray"] },
+    { "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo with its licence in the manifest, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. No stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.", "ref": ["W6"], "source": ["marketing-assets/image-placeholder.svg", "marketing/numbers.json and marketing/testimonials.json image slots", "icons/registry.json"] },
+    { "rule": "Use the Navigation section for the site header, so the brand is `<aha-product-lockup>`; the app-shell guideline's C1 owns that rule and is not repeated here.", "ref": ["W7"], "source": ["marketing/navigation.json", "guidelines/app-shell.json C1"] },
+    { "rule": "Check the page at 1440, 768 and 375 px: no horizontal scroll at any width, multi-column sections stack to one column, and a stacked image sits on the same side of its text (above or below) in every section of the page. Calls to action keep the xl button height the sections ship; nothing you can tap is smaller than 24 by 24 px.", "ref": ["W8"], "source": ["the sections' 991, 767 and 479 px container rules", "--aha-control-height-button-xl", "AGENTS.md responsive rule (24 px target)"] },
+    { "rule": "Keep motion to what the sections ship: hover transitions and at most a gentle fade or slide on reveal, timed with `--aha-motion-*` and `--aha-ease-*`, and none under `prefers-reduced-motion: reduce`. No parallax, no scroll-jacking, no autoplaying carousel or video; the Logos strip's shipped loop, which stops under reduced motion, is the one continuous motion allowed.", "ref": ["W9"], "source": ["marketing/footer-banner.json reveal", "every section's prefers-reduced-motion block", "marketing/features.json — the video variant never autoplays", "marketing/testimonials.json — carousels never autoplay", "marketing/logos.json — the loop and its reduced-motion stop"] }
+  ],
+  "reuse": null,
+  "reuseNote": "Doc-only pattern: the DS ships the sections, not a page wrapper. A page is the sections' snippets pasted in order on one page that loads variables.css once; this pattern is the conventions plus the binary criteria (anti-slop/criteria.json, surfaces.website) a builder self-judges against.",
+  "selfCheck": [
+    { "label": "every band is a DS Marketing section, none hand-rolled", "verdict": "consumer self-judges (W1)" },
+    { "label": "sections keep their shipped padding at each width, with nothing between them", "verdict": "consumer self-judges (W2)" },
+    { "label": "content capped at 1280 px; heading block 720 px; lead text 44ch", "verdict": "consumer self-judges (W3)" },
+    { "label": "one H1; one primary button per section; at most two buttons side by side; hero CTA repeated at the end", "verdict": "consumer self-judges (W4)" },
+    { "label": "band backgrounds follow colour rules 3.2 to 3.5, 3.8 and 3.10; no grey band", "verdict": "consumer self-judges (W5)" },
+    { "label": "real images with alt text or the DS placeholder; registry icons; no clip art, emoji icons, blobs or glass", "verdict": "consumer self-judges (W6)" },
+    { "label": "the site header is the Navigation section with <aha-product-lockup>", "verdict": "consumer self-judges (W7)" },
+    { "label": "no horizontal scroll at 1440, 768 and 375 px; consistent stacking; targets at least 24 px", "verdict": "consumer self-judges (W8)" },
+    { "label": "motion only on hover and a gentle reveal, off under reduced motion; no parallax or autoplay", "verdict": "consumer self-judges (W9)" }
+  ]
+}

@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.279.0 — 2026-10-20
+### Added
+- Guideline `Website` (Patterns, environment `web`): how a whole website page is composed from the Marketing sections. Nine rules, each citing the section, token or colour rule it comes from: every band is a DS section (a missing one is a DSN ticket), the shipped rhythm (96/64 px, 48/24 at 767 px, 32/16 at 479 px) with nothing between sections, 1280 px content and 720 px / 44ch heading blocks, one H1 and one primary action per section with the hero's call to action repeated at the end, band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10, real images and registry icons, the Navigation header with `<aha-product-lockup>`, checks at 1440, 768 and 375 px, and gentle motion only. (#PR)
+- Anti-slop surface `website` (W1 to W9) with its eval set (2 good controls, 9 bad examples on page fixtures). The `web` route lists the guideline and judges every website page on `website`, `colour` and `background`; the `aha-design` skill picks `website` for any web page. Anti-slop targets may now name the Marketing library (`marketing`, published as `marketing.llms.txt`). (#PR)
+
 ## 0.277.0 — 2026-10-20
 ### Changed
 - Marketing section `Footer banner` is now a Vivid Pink card on the centre Splash background (Darker Pink hooks) with a white heading, white optional paragraph and a white Get started free button with Vivid Pink text, replacing the pale pink Webflow `bg-pink.png` illustration (no image URL left). Button hover, press and focus states are the Hero Pink ones; the section around the card stays white. (#308)

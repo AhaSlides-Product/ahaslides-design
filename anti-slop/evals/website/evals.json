@@ -1,0 +1,307 @@
+{
+  "surface": "website",
+  "judgedAgainst": "anti-slop/criteria.json surfaces.website",
+  "portedFrom": null,
+  "authoredNote": "DS-authored with the website surface (W1 to W9) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this landing page for live polls (Page.html). It is checked at 1440, 768 and 375 px with no horizontal scroll, and the images are the DS placeholder until screenshots land. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/pass-landing-page/Page.html"
+        }
+      ],
+      "label": "good-control",
+      "notes": "Good control: the reference page. Guards against over-firing on a page assembled exactly from the sections.",
+      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; one H1 in the hero, a primary and a ghost button, the Footer banner repeats Get started free; the only coloured bands are the pale pink icon grid and the Vivid Pink footer banner, each with white around it; placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; no motion beyond the sections. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "No criterion is marked FAIL"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "W1": "PASS",
+          "W2": "PASS",
+          "W3": "PASS",
+          "W4": "PASS",
+          "W5": "PASS",
+          "W6": "PASS",
+          "W7": "PASS",
+          "W9": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "Review this pricing page (Page.html). It is checked at 1440, 768 and 375 px with no horizontal scroll. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/pass-pricing-page/Page.html"
+        }
+      ],
+      "label": "good-control",
+      "notes": "Good control at the W5 boundary: two Vivid Pink bands is the allowed maximum; must not be flagged as too many.",
+      "expected_output": "A pale pink icon-grid band and two Vivid Pink Footer banner bands, each with a full white section on both sides, and the first screen white: within colour rules 3.3 and 3.4 (at most two Vivid Pink). Each banner has one call to action, and the closing banner repeats Get started free. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP",
+        "W5 is not FAIL for two separated Vivid Pink bands"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "W1": "PASS",
+          "W4": "PASS",
+          "W5": "PASS",
+          "W7": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w1-hand-rolled-band/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W1: a token-bound but hand-built band.",
+      "expected_output": "W1 FAILs: the testimonials band is a hand-rolled .quotes-strip with its own grid and cards, not the DS Testimonials section, even though it uses tokens. Fix: paste the Testimonials section snippet (or file a DSN ticket if no layout fits). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W1 is marked FAIL",
+        "Names the .quotes-strip band"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w2-section-gaps/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W2: added inter-section margin and an overridden section padding.",
+      "expected_output": "W2 FAILs: the page adds a 64 px margin between every section and overrides the Features padding to 40/16 on desktop, breaking the shipped 96/64 rhythm. Fix: delete both rules so sections sit flush with their own padding. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W2 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W2": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w3-full-width/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W3: width caps removed.",
+      "expected_output": "W3 FAILs: the Features section removes its 1280 px cap and the 720 px / 44ch limits on the heading block and lead, so copy runs the full viewport width. Fix: delete the overrides. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W3 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W3": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 6,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w4-hierarchy/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W4: hierarchy and call-to-action discipline.",
+      "expected_output": "W4 FAILs: there are two H1s (hero and Features title), the hero has four buttons in a row including a second primary (Talk to sales), and the closing banner asks for a newsletter sign-up instead of repeating Get started free. Fix: make the Features title an h2, keep Get started free plus one secondary in the hero, and repeat Get started free in the Footer banner. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W4 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W4": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 7,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w5-backgrounds/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W5: adjacent coloured bands and a grey band.",
+      "expected_output": "W5 FAILs: three coloured bands sit next to each other (pale pink Features, pale pink Logos, pale pink icon grid) with no white section between them (rule 3.3), and the Testimonials band is a full-width light grey band. Fix: return Features and Logos to white and the Testimonials band to white. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W5 is marked FAIL",
+        "Cites colour rule 3.3"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 8,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w6-imagery/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W6: AI-slop imagery.",
+      "expected_output": "W6 FAILs: the hero picture is a blurred blob behind a glassmorphism card holding 3D rocket clip art with no alt text, and the Features rows use emoji instead of registry icons. Fix: an <img> of a product screenshot or the DS placeholder with alt text, and <aha-icon> by name. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W6 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W6": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 9,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w7-hand-set-brand/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W7: hand-set lockup in the Navigation section.",
+      "expected_output": "W7 FAILs: the site header brand is The Splash file hand-set next to a text span, not <aha-product-lockup>. Fix: restore the Navigation section brand slot to <aha-product-lockup size=\"24\">. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W7 is marked FAIL",
+        "Recommends <aha-product-lockup>"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W7": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 10,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w8-overflow/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W8: overflow, inconsistent stacking and shrunken calls to action.",
+      "expected_output": "W8 FAILs: the icon grid is three fixed 360 px columns (1080 px plus gaps) that never stack, so it scrolls sideways at 768 and 375 px; the Features rows stack the image below the text in one row and above it in the next; and the hero calls to action shrink to the small button height on phones. Fix: drop the overrides so the section's container rules stack it and keep the xl height. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W8 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W8": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w9-motion/Page.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W9: parallax and autoplay.",
+      "expected_output": "W9 FAILs: the hero image is parallax-scrolled on every scroll event, the testimonial quote autoplays every 3 seconds, the transition uses a bare 600ms ease, and none of it stops under prefers-reduced-motion. Fix: remove the parallax and the autoplay; keep the Testimonials section's own arrows and dots. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W9 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    }
+  ]
+}
