@@ -8,7 +8,7 @@
    "template": "colour-rules.template.html",
    "page": "foundations/brand-colour-rules.html",
    "feeds": ["colour-rules.md", "colour-rules.agent.json"],
-   "environment": ["product", "audience", "marketing-web", "video", "social-ads", "report-image"]
+   "environment": ["product", "audience", "web", "video", "social-ads", "report-image"]
   }
  ]
 }

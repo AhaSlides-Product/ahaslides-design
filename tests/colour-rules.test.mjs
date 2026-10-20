@@ -7,7 +7,7 @@ import {
   loadColourRules, loadBackgrounds, listRules, listNotes, listTables, judgeCriteriaByRule, markupToHtml, markupToText,
   renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, COLOUR_RULES_TEMPLATE_FILE,
 } from '../colour-rules.mjs';
-import { buildSplash, readyMadeSet, loadSplashRules, readIcon, largestHook } from '../build-splash.mjs';
+import { buildSplash, buildSplashIcon, iconSet, readyMadeSet, loadSplashRules, readIcon, largestHook } from '../build-splash.mjs';
 import { loadEnvironmentTable, environmentNames } from '../environments.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -32,12 +32,12 @@ test('every rule has a unique id inside its section and names known environments
   for (const name of known) assert.ok(ruleList.some(rule => rule.environment.includes(name)), name);
 });
 
-test('the product app rules reach product and the coloured-section rules reach product and marketing-web', () => {
+test('the product app rules reach product and the coloured-section rules reach product and web', () => {
   const environmentOf = (id) => ruleList.find(rule => rule.id === id).environment;
   assert.deepEqual(environmentOf('3.6'), ['product']);
   assert.deepEqual(environmentOf('3.7'), ['product']);
-  for (const id of ['3.2', '3.3', '3.4', '3.5']) assert.deepEqual(environmentOf(id), ['product', 'marketing-web']);
-  assert.deepEqual(environmentOf('9.5'), ['product', 'audience', 'marketing-web', 'video', 'social-ads']);
+  for (const id of ['3.2', '3.3', '3.4', '3.5']) assert.deepEqual(environmentOf(id), ['product', 'web']);
+  assert.deepEqual(environmentOf('9.5'), ['product', 'audience', 'web', 'video', 'social-ads']);
   assert.ok(environmentOf('4.1').includes('video') && environmentOf('4.1').includes('social-ads'));
 });
 
@@ -46,7 +46,7 @@ test('no rule text names marketing as a surface: every rule says which medium it
   const offending = JSON.stringify(rules, readerFacing).match(/[^"]*marketing[^"]*/gi) || [];
   assert.deepEqual(offending, []);
   for (const feed of [renderColourRulesMd(rules, { site: SITE, store, backgrounds }), JSON.stringify(JSON.parse(read('guidelines/background.json')).lead)]) {
-    assert.deepEqual(feed.replace(/marketing-web|aha-marketing-[a-z-]+/g, '').match(/marketing/gi) || [], []);
+    assert.deepEqual(feed.replace(/aha-marketing-[a-z-]+/g, '').match(/marketing/gi) || [], []);
   }
 });
 
@@ -209,7 +209,11 @@ test('the centre Splash puts the whole icon where the approved social posts put 
 test('every ready-made background is exactly what the generator builds, and the manifest lists them all', () => {
   const splashRules = loadSplashRules();
   const set = readyMadeSet(splashRules);
-  assert.deepEqual(set.map(entry => entry.file).sort(), readdirSync(join(root, 'backgrounds')).filter(file => file.endsWith('.svg')).sort());
+  const icons = iconSet(splashRules);
+  assert.deepEqual([...set, ...icons].map(entry => entry.file).sort(), readdirSync(join(root, 'backgrounds')).filter(file => file.endsWith('.svg')).sort());
+  for (const entry of icons) assert.equal(read(`backgrounds/${entry.file}`), buildSplashIcon({ ...entry, rules: splashRules }), entry.file);
+  const manifestIcons = JSON.parse(read('backgrounds/manifest.json')).icons;
+  assert.deepEqual(manifestIcons.map(entry => `${entry.id}.svg`).sort(), icons.map(entry => entry.file).sort());
   assert.deepEqual(backgrounds.map(entry => entry.file).sort(), set.map(entry => entry.file).sort());
   for (const entry of set) assert.equal(read(`backgrounds/${entry.file}`), buildSplash({ ...entry, rules: splashRules }), entry.file);
   for (const entry of backgrounds) {
@@ -224,6 +228,9 @@ test('a Splash background keeps the hooks of the icon and only moves them', () =
   const { hooks } = readIcon(read(rules.splash.icon));
   const svg = buildSplash({ layout: 'right', surface: 'pink', width: 1200, height: 628 });
   for (const hook of hooks) assert.ok(svg.includes(`d="${hook}"`));
+  const icon = buildSplashIcon({ surface: 'pink', rules: rules.splash });
+  for (const hook of hooks) assert.ok(icon.includes(`d="${hook}"`));
+  assert.match(icon, /fill="#DB005B"/);
   assert.match(svg, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="1200" height="628"/);
   assert.throws(() => buildSplash({ layout: 'corner', surface: 'pink', width: 10, height: 10 }), /layout is one of/);
 });
@@ -265,9 +272,10 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.deepEqual(rules.open, []);
   assert.ok(page.includes('Nothing open.') && feed.open.length === 0);
   assert.equal(feed.splash.files.length, backgrounds.length);
+  assert.ok(feed.rulesByEnvironment['marketing-web'].join() === feed.rulesByEnvironment.web.join());
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
   assert.ok(feed.rulesByEnvironment['report-image'].includes('3.11') && !feed.rulesByEnvironment.product.includes('3.11'));
-  assert.equal(rules.changes[0].version, 'v15');
+  assert.equal(rules.changes[0].version, 'v16');
   const reportRule = rules.sections.flatMap(section => section.blocks || []).flatMap(block => block.rules || []).find(rule => rule.id === '3.11').text;
   assert.match(reportRule, /read-only report page/);
   assert.match(reportRule, /table rows alternate white and light grey/);
@@ -316,4 +324,17 @@ test('section 11 keeps its rules in one closed panel, and the feeds keep every w
   const markdown = renderColourRulesMd(rules, { site: SITE, store, backgrounds });
   for (const rule of ruleList.filter(entry => entry.section === '11')) assert.ok(markdown.includes(markupToText(rule.text)), rule.id);
   assert.ok(!page.includes('class="ax-') && !markdown.includes('Table answer-contrast'));
+});
+
+test('the Splash CSS recipe carries the generator figures and the 802-unit frame basis is in rules 5.3 and 5.4', () => {
+  const recipe = rules.splash.cssRecipe.join('\n');
+  const { centre, right } = rules.splash.layouts;
+  const { x, y } = rules.splash.meetingPoint;
+  const icon = readIcon(readFileSync(new URL('../logo/thesplash.svg', import.meta.url), 'utf8'));
+  assert.ok(recipe.includes(`calc(${centre.iconWidthPerShorterSide}*min(100cqw,100cqh)`));
+  assert.ok(recipe.includes(`9/16`) && Math.abs(16 / 9 - centre.wideFrameAspectThreshold) < 1e-9 && centre.wideFrameFollow === 0.5);
+  assert.ok(recipe.includes(`*${(x / icon.iconWidth).toFixed(6)}`) && recipe.includes(`*${(y / icon.iconWidth).toFixed(6)}`));
+  assert.ok(recipe.includes(`${Math.round(centre.meetingPointDown * 100)}cqh`) && centre.meetingPointDown === right.meetingPointDown);
+  assert.ok(recipe.includes('@supports'));
+  for (const id of ['5.3', '5.4']) assert.ok(ruleText(id).includes('802-unit frame') && ruleText(id).includes('4.104'), id);
 });

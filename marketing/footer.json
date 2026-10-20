@@ -2,7 +2,7 @@
   "slug": "footer",
   "name": "Footer",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "summary": "The AhaSlides marketing site footer (Webflow component Footer, built on Relume uui-footer06), matched to the live ahaslides.com: the AhaSlides lockup above five link columns (Features, Resources, Integrations, Pricing, Company), then a grey band with the award badges, eight contact and social icons, the System status link and the DMCA badge, and the copyright line. The columns reflow to three at 991px and below and two at 479px, and the band stacks and centres at 767px and 479px. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [

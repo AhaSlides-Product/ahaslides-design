@@ -22,7 +22,7 @@
   ],
   "props": [
     { "name": "label", "type": "string", "default": "—", "desc": "The setting name — a noun phrase in sentence case" },
-    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (system-question glyph) after the label; the tooltip carries the text" },
+    { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (system-question glyph) after the label; the tooltip carries the text. The bubble opens below the \"?\", aligned to its start or end edge (whichever has more room) and wraps to stay inside the viewport, so it never clips in a narrow settings iframe" },
     { "name": "layout", "type": "inline | stack", "default": "inline", "desc": "inline: label-left / control-right (space-between). stack: label above, control full-width — for a wide control" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims the label to text-disabled and sets aria-disabled; the slotted control disables itself on its own element" },
     { "name": "control", "type": "slot", "default": "—", "desc": "The DS control (slot=\"control\") — an existing element like <aha-switch> / <aha-checkbox> / <aha-input>; reuse, never a re-implemented control" }

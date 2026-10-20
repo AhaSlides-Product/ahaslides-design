@@ -11,7 +11,7 @@ function AhaOptionRow({ value, maxLength, orderable, correctable, correct, check
     if (correct) el.setAttribute('correct', ''); else el.removeAttribute('correct');
     const hi = (e) => onInput?.(e.detail.value);
     const hc = (e) => onCorrect?.(e.detail.correct);
-    const hd = () => onDelete?.();
+    const hd = (e) => onDelete?.(e.detail.source);
     el.addEventListener('input', hi); el.addEventListener('correct-change', hc); el.addEventListener('delete', hd);
     return () => { el.removeEventListener('input', hi); el.removeEventListener('correct-change', hc); el.removeEventListener('delete', hd); };
   });
@@ -29,9 +29,10 @@ function AhaOptionRow({ value, maxLength, orderable, correctable, correct, check
   );
 }
 
-// usage — one per option; disable delete at the minimum count
+// usage — one per option; disable delete at the minimum count. onDelete gets 'keyboard' (Backspace in an empty
+// field) or 'pointer' (the delete button): after a 'keyboard' delete, call previousRow.focus().
 {options.map((o, i) => (
   <AhaOptionRow key={o.id} value={o.text} maxLength={80} orderable correctable image
     checkboxShape="circle" correct={o.correct} canDelete={options.length > 2}
-    onInput={(v) => update(i, v)} onCorrect={(c) => setCorrect(i, c)} onDelete={() => remove(i)} />
+    onInput={(v) => update(i, v)} onCorrect={(c) => setCorrect(i, c)} onDelete={(source) => remove(i, source)} />
 ))}
