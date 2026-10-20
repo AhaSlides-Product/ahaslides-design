@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.286.0 — 2026-10-20
 ### Changed
-- Report tables (a report image or a read-only report page) keep the white and light grey zebra rows but drop the horizontal row dividers; the zebra already separates the rows and the lines only added clutter. Updated colour rule 3.11 (changelog v18), the report-images guideline and guide, and the C11 criterion and its evals. Screens of the product app (table surface C4) keep their dividers and plain rows. Requested by Dave Bui. (#NNN)
+- Report tables (a report image or a read-only report page) keep the white and light grey zebra rows but drop the horizontal row dividers; the zebra already separates the rows and the lines only added clutter. Updated colour rule 3.11 (changelog v18), the report-images guideline and guide, and the C11 criterion and its evals. Screens of the product app (table surface C4) keep their dividers and plain rows. Requested by Dave Bui. (#313)
 
 ## 0.284.0 — 2026-10-20
 ### Changed
