@@ -1413,8 +1413,8 @@
         },
         {
           "id": "C11",
-          "title": "Report tables: zebra rows, dividers, pink header rule",
-          "test": "**Rule.** A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary), 1px #E3E3E3 dividers under every row, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, pale pink (Vivid Pink at 5%) rows, grey or pink-filled headers, pink text, vertical rules or coloured status cells fail. Tables on screens of the product app, its Report screens included, are judged on the table surface instead and keep plain rows. (Colour rules 3.11 and 3.6.)"
+          "title": "Report tables: zebra rows, no dividers, pink header rule",
+          "test": "**Rule.** A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary) and no horizontal row dividers, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left. Plain white rows with no striping, pale pink (Vivid Pink at 5%) rows, grey or pink-filled headers, pink text, horizontal row dividers, vertical rules or coloured status cells fail. Tables on screens of the product app, its Report screens included, are judged on the table surface instead and keep plain rows. (Colour rules 3.11 and 3.6.)"
         },
         {
           "id": "C12",
