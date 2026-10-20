@@ -236,7 +236,7 @@
       ]
     },
     {
-      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage). On a busy photo, protect the text with a scrim BOUNDED to that text (a chip or caption bar behind the line), never a slide-wide panel on a framed slide. Go higher when you can.",
+      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage). This includes text over a deck background image: if it falls below the floor, pick a textColour or photo that clears it. Never add a slide-wide panel on a framed slide. Go higher when you can.",
       "ref": [
         "§3",
         "C10",
@@ -288,7 +288,7 @@
       ]
     },
     {
-      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); a dashed empty state is 1px. Fix a marginal contrast check at the bar or a bounded scrim, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
+      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); a dashed empty state is 1px. Fix a marginal contrast check on a solid fill, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
       "ref": [
         "§3",
         "C10",
@@ -310,7 +310,7 @@
       ]
     },
     {
-      "rule": "A FRAMED slide's root element must stay transparent in every display mode and let the deck theme (baseColour/backgroundImage the host composites behind it) show through — it must not render its own title (the host draws it) nor paint a slide-wide background/backdrop/scrim. The only opaque fill it may paint is a surface bounded to its content (a card, chip, caption bar).",
+      "rule": "A FRAMED slide's root element must stay transparent in every display mode and let the deck theme (baseColour/backgroundImage the host composites behind it) show through — it must not render its own title (the host draws it) nor paint a slide-wide background/backdrop/scrim. The only opaque fill it may paint is a surface bounded to its content (a card, a chip).",
       "ref": [
         "§4",
         "C3"
@@ -427,7 +427,7 @@
       ]
     },
     {
-      "rule": "A FRAMED slide over a photo background (slide.backgroundImage set) keeps the deck showing: no slide-wide scrim, panel or backdrop behind the whole answer area. Only bounded surfaces — cards, chips, a caption bar behind one line of text — may be opaque.",
+      "rule": "A FRAMED slide over a photo background (slide.backgroundImage set) keeps the deck showing: no slide-wide scrim, panel or backdrop behind the whole answer area. Only bounded surfaces such as cards may be opaque; text over the photo needs no backing.",
       "ref": [
         "§4",
         "C3",
