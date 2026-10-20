@@ -19,7 +19,7 @@
     { "label": "Counter", "value": "12/18 #8A8A8A, overlay bottom-right; opacity 0 at rest → 1 on focus; 22px bottom gutter reserved; counts the characters left (126 for 24 of 150), as the settings lab does; at size touch 12/12 on no fill, a 16px gutter" },
     { "label": "Reveal", "value": "focus-only (:host([_focused][_counted])) — hidden at rest; space always reserved (no shift)" },
     { "label": "Error", "value": "#1A1A1A border + error-tinted ring; sets aria-invalid" },
-    { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-x-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
+    { "label": "Error message", "value": "below the field, 4px gap · 12×12 system-warning-circle + text at --aha-size-sm 12/18 · #1A1A1A (text-negative)" },
     { "label": "Disabled", "value": "#F1F1F1 fill, #EBEBEB border, not-allowed" },
     { "label": "Text", "value": "Plus Jakarta 14/21; placeholder #999999" }
   ],

@@ -16,7 +16,8 @@
   const { TextArea } = Input;
 
   // size: 'small' | 'middle' (default) | 'large' → control height 24 / 32 / 40
-  // status: 'error' | 'warning' → recolours the border for validation
+  // status: 'error' → recolours the border for validation ('warning' is a deprecated alias that renders as error)
+  // Info help text: <aha-field-error tone="info" message="3 of 10 rows"> below the field — muted, text only; the consumer writes the string
   createRoot(document.getElementById('root')).render(
     h(ConfigProvider, { theme: textareaTheme },
       h('div', { style: { display: 'grid', gap: 12, width: 340 } },

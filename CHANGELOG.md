@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.281.0 — 2026-10-19
+### Added
+- Info message under Input, Textarea and InputNumber: help text that is not an error (for example `3 of 10 rows`). Text only, 12/18 in `--aha-text-secondary`, in the error slot with the same 4px gap; the border is unchanged and the field is not `aria-invalid`. Input takes `info-message`; Textarea and InputNumber take a sibling `<aha-field-error tone="info" message="…">`. The consumer passes the string, the DS computes nothing, and an error message replaces it, never stacked (#299)
+- `@ahaslides-product/design/input-number.css`: InputNumber now copies Number with unit on antd v6 and ant-design-vue v4. A tertiary ▲/▼ stepper (`system-caret-up/down`) appears on hover or focus, 6px after the digits; `addonAfter` is the muted inline unit (14/21, `--aha-text-placeholder`) 4px after the stepper, inside the field, and `addonBefore` is the same muted text leading (#299)
+### Changed
+- Field error docs page: demos and snippets for the `icon` variant (under DS inputs) and `tone="info"` (help text), each labelled by when to use it; the default variant is labelled as the hand-built form and respondent one. No change to `aha-field-error.js` (#299)
+- Field error glyph is now `system-warning-circle` (was `system-x-circle`) on Input, Select, Counted input, Counted textarea, Textarea, InputNumber, Number with unit and the antd Form error text (#299)
+- Error and warning are merged on Input, Textarea and InputNumber: `status="error"` is the one invalid state. `status="warning"` stays as a deprecated alias that renders and behaves as error on Input and Counted textarea (including `aria-invalid` and the error message); on the antd Textarea and InputNumber themes it already renders identically, as both colour tokens are `#1A1A1A` (#299)
+
 ## 0.278.1 — 2026-10-20
 ### Changed
 - Colour rules 5.3 and 5.4 (centre and right splash) now state the size basis in the rule itself: the icon's own 802-unit frame (the full 802 by 788 canvas of `logo/thesplash.svg`, margins included) is 4.5 times the shorter side, and a copy cropped to the hooks must be sized by its width over 802, so a hooks-only bounding box (731.4 units, 91.2%) is 4.104 times the shorter side, never 4.5. Both rules had left this to a note on the meeting point, and one port applied 4.5 to a cropped file and came out 9% too big.
