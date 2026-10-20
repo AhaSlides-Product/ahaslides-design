@@ -84,6 +84,8 @@ Read the list from the DS each time — surfaces get added.
   image action button / dropzone), so do not reach for a generic component.
 - A product-app screen (React / AntD, or the DS web components) is always judged on
   `background` and `component-standard`, plus every surface it touches.
+- A website page (environment `web`: landing, pricing, blog, careers, campaign or help page built
+  from full-width sections) is always judged on `website`, plus `colour` and every surface it touches.
 - UI copy or labels changed → add `ux-writing`.
 - Any colour chosen or changed (a fill, text or link colour, a status, a chart series, a logo or
   file-type icon, a border or shadow) → add `colour`. Its rules, and the background rules, live once
@@ -154,7 +156,7 @@ Read the list from the DS each time — surfaces get added.
 
 1. **Mechanical gate first** (when the package is installed):
    `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings> <files>`
-   — fix every HARD finding before judging. A slide type's `presenter.*` is `canvas`, its
+   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark or a result, is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
    `audience.*` is `audience` and its `settings.*` is `settings`. On `settings`, a raw `<button>`,
    `<input>`, `<select>`, `<textarea>` or `role="switch"`, and any `<aha-*>` tag `lib/settings.js` does not
    register, are HARD: the panel is built from the elements that one entry loads. A control the DS

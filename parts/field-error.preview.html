@@ -1,9 +1,21 @@
 <div class="pad">
-  <div class="lbl">Form variant (a11y FieldError) — &lt;aha-input status="error"&gt; sets aria-invalid and forwards aria-describedby to its field</div>
+  <div class="lbl">Default (14/22, no glyph) — hand-built forms and respondent screens. &lt;aha-input status="error"&gt; sets aria-invalid and forwards aria-describedby to its field</div>
   <div style="display:flex; flex-direction:column; gap:4px; max-width:360px">
     <span style="font-size:14px; line-height:22px; font-weight:600; color:var(--aha-text-default)">Email</span>
     <aha-input id="fe-email" status="error" value="name@" aria-describedby="fe-email-error"></aha-input>
     <aha-field-error data-probe id="fe-email-error" message="Enter an email address, like name@example.com"></aha-field-error>
+  </div>
+  <div class="lbl" style="margin-top:24px">icon (12/18 + warning glyph) — the error under DS inputs: Input, Textarea, Select, Number with unit use it for you</div>
+  <div style="display:flex; flex-direction:column; gap:4px; max-width:360px">
+    <span style="font-size:14px; line-height:22px; font-weight:600; color:var(--aha-text-default)">Email</span>
+    <aha-input id="fe-icon" status="error" value="name@" aria-describedby="fe-icon-error"></aha-input>
+    <aha-field-error id="fe-icon-error" icon message="Enter an email address, like name@example.com"></aha-field-error>
+  </div>
+  <div class="lbl" style="margin-top:24px">tone="info" (12/18, --aha-text-secondary, no glyph) — help text that is not an error; the field is not aria-invalid</div>
+  <div style="display:flex; flex-direction:column; gap:4px; max-width:360px">
+    <span style="font-size:14px; line-height:22px; font-weight:600; color:var(--aha-text-default)">Notes</span>
+    <aha-input id="fe-info" value="Row one" aria-describedby="fe-info-help"></aha-input>
+    <aha-field-error id="fe-info-help" tone="info" message="3 of 10 rows"></aha-field-error>
   </div>
   <div class="lbl" style="margin-top:24px">Empty message — renders nothing (the node stays for aria-describedby)</div>
   <div style="display:flex; flex-direction:column; gap:4px; max-width:360px">

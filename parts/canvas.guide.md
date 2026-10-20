@@ -39,11 +39,11 @@ not "we chose".
 - **A framed slide's root stays transparent** — it must not render its own title (the host
   draws it) nor paint a slide-wide background/backdrop/scrim; let the deck theme show
   through. The only opaque fill it may paint is a surface **bounded to its content** (a
-  card, a chip, a caption bar).
+  card, a chip).
 - **A framed slide on a photo deck still keeps the deck showing.** When `slide.backgroundImage`
   is set, do not add a scrim, panel or backdrop behind the whole answer board. Cards are
-  already bounded; a free-floating line of text that lacks contrast gets a small scrim
-  **chip** sized to that line (C18).
+  already bounded; text sits directly on the photo in the deck's `textColour` and needs no
+  scrim, chip or caption bar behind it (C18).
 - **A full-canvas slide MUST render `slideProps.title`** (`slideProps.value?.title ?? ''`)
   — the host hides its title bar, so rendering only per-item prompts/labels silently drops
   the presenter's title.
@@ -172,8 +172,9 @@ seat** — the same bar applies to the small editor preview.
 
 - **Contrast:** WCAG AA floor — **4.5:1 for text, 3:1 for large text and meaningful
   shapes** — checked against the **real composited background** (`baseColour` blended with
-  `backgroundImage`). On a busy photo, put a scrim **bounded to the text** (a chip or caption
-  bar), never a slide-wide panel on a framed slide. Go higher when you can.
+  `backgroundImage`). This includes text over a deck
+  background image: if it falls below the floor, pick a `textColour` or photo that clears it.
+  Never add a slide-wide panel on a framed slide. Go higher when you can.
   - **A slide-painted surface re-anchors the check** against that composited surface. Two
     traps: a **translucent tint** is not a contrast guarantee (only an opaque surface is);
     and any **fixed-colour mark** on it (a semantic `✓`/`✗` token, a palette accent, a
@@ -219,7 +220,7 @@ seat** — the same bar applies to the small editor preview.
   A bounded white card: **1px `--aha-border-default`** (#E3E3E3). A chip: **1.5px** neutral. A
   deck-owned (transparent) surface: a 1px theme-aware hairline
   `color-mix(in srgb, currentColor 10%, transparent)`. Dashed empty states: 1px (C20). Fix a marginal
-  contrast check at the bar or the scrim, not with a darker border. Pick the palette shade
+  contrast check on a solid fill, not with a darker border. Pick the palette shade
   (saturated on light themes, the lighter sibling on dark themes) that actually clears the
   floor on the current background.
 - **Motion:** don't depend on fast or subtle motion to convey meaning — but every

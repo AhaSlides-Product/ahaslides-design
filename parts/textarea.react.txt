@@ -1,12 +1,13 @@
 import { ConfigProvider, Input } from 'antd';   // antd v6
 import { textareaTheme, textareaRemainingCount } from '@ahaslides-product/design/textarea-theme';
 import '@ahaslides-product/design/textarea-counted.css';
+import '@ahaslides-product/design/aha-field-error';   // registers <aha-field-error>
 
 const { TextArea } = Input;
 
 <ConfigProvider theme={textareaTheme}>
   {/* size: 'small' | 'middle' (default) | 'large' → control height 24 / 32 / 40 */}
-  {/* status: 'error' | 'warning' → recolours the border for validation */}
+  {/* status: 'error' → recolours the border for validation ('warning' is a deprecated alias that renders as error) */}
   <TextArea
     placeholder="Describe your event"
     size="middle"
@@ -18,6 +19,10 @@ const { TextArea } = Input;
     onChange={(e) => setText(e.target.value)}
     style={{ width: 340 }}
   />
+
+  {/* Info help text: muted, text only, below the field; the consumer writes the string (a row count here). Swap in the error row while status is error. */}
+  <TextArea aria-describedby="rows-help" defaultValue={'one\ntwo\nthree'} autoSize={{ minRows: 3, maxRows: 6 }} style={{ width: 340 }} />
+  <aha-field-error id="rows-help" tone="info" message="3 of 10 rows" style={{ width: 340 }}></aha-field-error>
 
   {/* Non-editable states inherit the same theme */}
   <TextArea readOnly value="Read-only content" style={{ width: 340 }} />

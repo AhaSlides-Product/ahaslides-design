@@ -558,7 +558,7 @@ const TAG_TO_SLUG = new Map(contracts.filter(c => c.reuse?.registers).map(c => [
 const ANTISLOP_PATH = join(root, 'anti-slop', 'criteria.json');
 const ANTISLOP = existsSync(ANTISLOP_PATH) ? JSON.parse(read(ANTISLOP_PATH)) : null;
 const JUDGE_CRITERION_ID = /^[A-Z]\d+$/;
-const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json|brand\/colour-rules\.json)$/;
+const LIVE_TARGET_SOURCE = /^(tokens\.canonical\.json|contracts|marketing|icons\/registry\.json|contracts\/[a-z0-9-]+\.json|guidelines\/[a-z0-9-]+\.json|brand\/colour-rules\.json)$/;
 const guidelines = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f))))
   : [];
@@ -683,7 +683,7 @@ if (ANTISLOP) {
     for (const t of targets)
       achk(`surface "${key}": target "${t?.source}" is a live DS source`,
         LIVE_TARGET_SOURCE.test(t?.source) && existsSync(join(root, t.source)) && !!t.use,
-        'targets name a DS contract / tokens.canonical.json / icons/registry.json / guideline / brand/colour-rules.json that exists, with a use');
+        'targets name a DS contract / tokens.canonical.json / icons/registry.json / marketing / guideline / brand/colour-rules.json that exists, with a use');
     for (const c of (s.criteria || []))
       achk(`surface "${key}": ${c.id} judges against the live DS, not a frozen snapshot`, !FROZEN_SNAPSHOT.test(`${c.title} ${c.test}`),
         'the test cites a plugin snapshot (contract.json / typography.json / review.html / references/) — point it at the DS contract or tokens');

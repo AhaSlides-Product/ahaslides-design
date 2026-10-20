@@ -275,7 +275,7 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.ok(feed.rulesByEnvironment['marketing-web'].join() === feed.rulesByEnvironment.web.join());
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
   assert.ok(feed.rulesByEnvironment['report-image'].includes('3.11') && !feed.rulesByEnvironment.product.includes('3.11'));
-  assert.equal(rules.changes[0].version, 'v16');
+  assert.equal(rules.changes[0].version, 'v17');
   const reportRule = rules.sections.flatMap(section => section.blocks || []).flatMap(block => block.rules || []).find(rule => rule.id === '3.11').text;
   assert.match(reportRule, /read-only report page/);
   assert.match(reportRule, /table rows alternate white and light grey/);
@@ -324,4 +324,17 @@ test('section 11 keeps its rules in one closed panel, and the feeds keep every w
   const markdown = renderColourRulesMd(rules, { site: SITE, store, backgrounds });
   for (const rule of ruleList.filter(entry => entry.section === '11')) assert.ok(markdown.includes(markupToText(rule.text)), rule.id);
   assert.ok(!page.includes('class="ax-') && !markdown.includes('Table answer-contrast'));
+});
+
+test('the Splash CSS recipe carries the generator figures and the 802-unit frame basis is in rules 5.3 and 5.4', () => {
+  const recipe = rules.splash.cssRecipe.join('\n');
+  const { centre, right } = rules.splash.layouts;
+  const { x, y } = rules.splash.meetingPoint;
+  const icon = readIcon(readFileSync(new URL('../logo/thesplash.svg', import.meta.url), 'utf8'));
+  assert.ok(recipe.includes(`calc(${centre.iconWidthPerShorterSide}*min(100cqw,100cqh)`));
+  assert.ok(recipe.includes(`9/16`) && Math.abs(16 / 9 - centre.wideFrameAspectThreshold) < 1e-9 && centre.wideFrameFollow === 0.5);
+  assert.ok(recipe.includes(`*${(x / icon.iconWidth).toFixed(6)}`) && recipe.includes(`*${(y / icon.iconWidth).toFixed(6)}`));
+  assert.ok(recipe.includes(`${Math.round(centre.meetingPointDown * 100)}cqh`) && centre.meetingPointDown === right.meetingPointDown);
+  assert.ok(recipe.includes('@supports'));
+  for (const id of ['5.3', '5.4']) assert.ok(ruleText(id).includes('802-unit frame') && ruleText(id).includes('4.104'), id);
 });

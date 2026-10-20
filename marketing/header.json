@@ -31,7 +31,7 @@
       },
       {
         "title": "Colour",
-        "text": "Colour rule 3.5 says the first screen is white, and the Vivid Pink layouts break it. Until the rules owner decides, prefer the white or Pale Pink versions at the top of a page. Never place a pink section next to another coloured one. A Vivid Pink header always carries the DS Splash background (right when the copy is on the left, centre when it is centred or fills the width), never a flat pink fill or hand-drawn hooks."
+        "text": "Colour rule 3.5 keeps the first screen of a product-app screen white, but a web page built from full-width sections may open with a Vivid Pink header (it is one of the two Vivid Pink sections of rule 3.4). Follow it with a full white section, never another coloured one. A Vivid Pink header always carries the DS Splash background (right when the copy is on the left, centre when it is centred or fills the width), never a flat pink fill or hand-drawn hooks."
       },
       {
         "title": "One H1 per page",

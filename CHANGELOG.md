@@ -22,13 +22,55 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.275.0 — 2026-10-20
+## 0.286.0 — 2026-10-20
 ### Added
 - Marketing → Sections → Header: an optional G2 reviews row on the 17 layouts whose copy block holds the buttons (Hero Pink, Hero Pink Vertical, Hero Pale Pink, Hero Pale Pink Vertical, Hero Split Image 01, 03 and 05, Hero Screen Mockup 01 to 05, Hero iPhone Mockup 03, Hero Color Card 04, Hero Card Mockup 07 and 08, Hero Simple Text 01). It is five avatars (`aha-avatar-group`), five stars (`aha-rate`, filled to 4.8) and "4.8 Based on 1000 reviews", with a visually hidden label, readable on White, Pale Pink and Vivid Pink. It is off by default: the layout code leaves it out. Hero Split Form 01 (the button sits in the sign-up card) and the six page headers (no button in the copy block) do not get it. (#302)
 - Marketing → Sections → Header: a "G2 reviews: Off / On" switch beside the width and surface switches on each layout that has the row. `generate.mjs` gains one generic step: any `marketing/*.json` may carry a block-level `reviews` template and a per-layout `reviews` key. The md and agent.json feeds describe the row and how to turn it on. Other marketing pages are byte-identical. (#302)
 
 ### Changed
 - Header guidance "Above the fold": the badge slot no longer carries a G2 rating; it points to the G2 reviews row instead. (#302)
+
+## 0.284.0 — 2026-10-20
+### Changed
+- Bar chart: the value column is now as wide as the widest final value in the chart (measured on data change, resize and font load, never on the count-up text), right-aligned, so every track still ends at the same x and the widest value sits one 12 px gap from the bar end. It was a fixed 100 px column, which left a large gap before short values such as `0`. The unused `--aha-viz-value-width` token (`viz.valueWidth`) is removed; nothing else read it. The gap between bar items goes from 24 to 32 px (`--aha-viz-bar-gap`, `viz.barGap`) and the label-to-bar gap from 8 to 4 px (bar chart only), so each label reads as belonging to the bar below it, not the one above; an image thumbnail, sized as bar + label gap + one label line, shrinks by the same 4 px, and the chart contract now says so. Revert: restore the token and the fixed `min-width` on `.bar-line .value`, `viz.barGap` space-24 and the 8 px label gap. (#312)
+
+## 0.283.0 — 2026-10-20
+### Added
+- Guideline `Website` (Patterns, environment `web`): how a whole website page is composed from the Marketing sections. Nine rules, each citing the section, token or colour rule it comes from: every band is a DS section (a missing one is a DSN ticket), the padding each section ships, never overridden (96/64 px, 48/24 at 767 px, 32/16 at 479 px for Features, Numbers, Pricing and Testimonials; Hero, Logos and FAQ keep their own), with nothing between sections, 1280 px content and 720 px / 44ch heading blocks, one H1 and one primary action per section with the hero's call to action repeated at the end, band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10 (a pale band is a page-level `background: var(--aha-bg-accent)`), real images and registry icons, the Navigation header with `<aha-product-lockup>`, checks at 1440, 768 and 375 px, and gentle motion only. (#310)
+- Anti-slop surface `website` (W1 to W9) with its eval set (2 good controls, 10 bad examples on page fixtures, one shared `sections.css` built from the Marketing section CSS and the shipped Navigation markup). The `web` route lists the guideline and judges every website page on `website`, `colour` and `background`; the `aha-design` skill picks `website` for any web page. Anti-slop targets may now name the Marketing library (`marketing`, published as `marketing.llms.txt`). (#310)
+### Changed
+- Colour rule 3.5 keeps the white first screen for the product app and now lets a web page built from full-width sections open with a Vivid Pink hero (the Hero Pink header layout, Darker Pink Splash hooks per rule 5.1). That hero is one of the two Vivid Pink sections of rule 3.4; the body then alternates white and pale pink (Vivid Pink at 5%) starting with white, so rule 3.3 holds. Website guideline rule W5, the `website` W5 criterion and the Header colour guidance say the same; the eval fixtures now open with the pink hero, and a new bad example (a Darker Pink hero) joins the touching-bands and grey-band ones. Revert: restore rule 3.5, W5 and the fixtures from git. (#310)
+
+## 0.282.1 — 2026-10-20
+### Changed
+- Canvas judge C5 and C18, the Canvas guideline and the canvas guide no longer tell a builder to put a scrim, chip, caption bar or card behind text. C5 keeps its contrast axis everywhere, including text over a deck background image (WCAG AA against the real composited background); a low-contrast fix is a `textColour` or photo that clears the floor, not a backing layer. C18's ban on a slide-wide scrim is unchanged. Canvas evals 5 (contrast axis restored, neutral fix), 59, 1171, 1198 and the C18 good control re-worded to match (#311).
+
+## 0.282.0 — 2026-10-20
+### Added
+- The browser files (`lib/`, plus the `fonts/` and `logo/` folders `lib/` loads) are also published to the AhaSlides CDN on every release: `https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/<file>` (5-minute cache, invalidated on each release) and `https://assets-cdn-public.ahaslides.com/ahaslides-design/<version>/lib/<file>` (immutable). The files are byte-identical to jsDelivr's, so a page can switch hosts by changing the base URL only. jsDelivr keeps working unchanged. New workflow `.github/workflows/publish-cdn.yml` (same bucket, CloudFront distribution and AWS secrets as aha-slide-plugin's standalone SDK); `workflow_dispatch` re-publishes. Revert: delete the workflow. (#297)
+
+## 0.281.0 — 2026-10-19
+### Added
+- Info message under Input, Textarea and InputNumber: help text that is not an error (for example `3 of 10 rows`). Text only, 12/18 in `--aha-text-secondary`, in the error slot with the same 4px gap; the border is unchanged and the field is not `aria-invalid`. Input takes `info-message`; Textarea and InputNumber take a sibling `<aha-field-error tone="info" message="…">`. The consumer passes the string, the DS computes nothing, and an error message replaces it, never stacked (#299)
+- `@ahaslides-product/design/input-number.css`: InputNumber now copies Number with unit on antd v6 and ant-design-vue v4. A tertiary ▲/▼ stepper (`system-caret-up/down`) appears on hover or focus, 6px after the digits; `addonAfter` is the muted inline unit (14/21, `--aha-text-placeholder`) 4px after the stepper, inside the field, and `addonBefore` is the same muted text leading (#299)
+### Changed
+- Field error docs page: demos and snippets for the `icon` variant (under DS inputs) and `tone="info"` (help text), each labelled by when to use it; the default variant is labelled as the hand-built form and respondent one. No change to `aha-field-error.js` (#299)
+- Field error glyph is now `system-warning-circle` (was `system-x-circle`) on Input, Select, Counted input, Counted textarea, Textarea, InputNumber, Number with unit and the antd Form error text (#299)
+- Error and warning are merged on Input, Textarea and InputNumber: `status="error"` is the one invalid state. `status="warning"` stays as a deprecated alias that renders and behaves as error on Input and Counted textarea (including `aria-invalid` and the error message); on the antd Textarea and InputNumber themes it already renders identically, as both colour tokens are `#1A1A1A` (#299)
+
+## 0.278.1 — 2026-10-20
+### Changed
+- Colour rules 5.3 and 5.4 (centre and right splash) now state the size basis in the rule itself: the icon's own 802-unit frame (the full 802 by 788 canvas of `logo/thesplash.svg`, margins included) is 4.5 times the shorter side, and a copy cropped to the hooks must be sized by its width over 802, so a hooks-only bounding box (731.4 units, 91.2%) is 4.104 times the shorter side, never 4.5. Both rules had left this to a note on the meeting point, and one port applied 4.5 to a cropped file and came out 9% too big.
+- Colour rules section 5 gains "Centre and right in CSS": one copy-paste container-query block (`splash.cssRecipe` in `brand/colour-rules.json`) for the full icon, 4.5 times `min(100cqw, 100cqh)`, meeting point 414 / 802 and 336 / 802 of the icon width from its left and top, 55% down, growing by the square root of the aspect past 16:9 or 9:16 inside `@supports` (older browsers keep the base size), with `--splash-across` set to `.5` (centre) or `.75` (right). Rendered at 16:9, 21:9, 9:16 and 32:9 it differs from `build-splash.mjs` in under 0.01% of pixels. The block is also in `colour-rules.md` and the `splash` object of `colour-rules.agent.json`. A `css-recipe` block type in `colour-rules.mjs` renders it, and a test keeps its figures tied to the generator's. (#306)
+Revert: restore rules 5.3 and 5.4 from git and delete `splash.cssRecipe`, the `css-recipe` block and heading in section 5, the `css-recipe` branch and "Splash in CSS" markdown in `colour-rules.mjs`, the `pre` rule in the template and the new test.
+
+## 0.278.0 — 2026-10-20
+### Added
+- `screen-lint` hard-fails two misuses of the answer colours (colour rules section 11): `answer-colour-text` (11.2) when an `--aha-answer-*` token is a text colour (`color`, `-webkit-text-fill-color`, `caret-color`, a JS style object key, or a Tailwind `text-[…]` / `caret-[…]` value), and `answer-colour-context` (11.1) when one is used where nothing in the rule's selector, the element's attributes or the style object's line names an answer, a correct or wrong mark or a result (`correct`, `wrong`, `incorrect`, `answer`, `result`, `tick`, `cross`, `reveal`, `verdict`, `score`). Rules 11.3 and 11.4 stay with the judge. Opt out per line with `ds-lint-allow: answer-colour (why)`. Revert: delete `lib/screen-lint-answer.js` and its three hook lines in `lib/screen-lint.js`. (#307)
+
+## 0.277.0 — 2026-10-20
+### Changed
+- Marketing section `Footer banner` is now a Vivid Pink card on the centre Splash background (Darker Pink hooks) with a white heading, white optional paragraph and a white Get started free button with Vivid Pink text, replacing the pale pink Webflow `bg-pink.png` illustration (no image URL left). Button hover, press and focus states are the Hero Pink ones; the section around the card stays white. (#308)
 
 ## 0.274.1 — 2026-10-20
 ### Changed

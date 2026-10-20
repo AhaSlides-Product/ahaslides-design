@@ -7,7 +7,7 @@
  "environment": ["product", "audience", "web", "video", "social-ads", "report-image"],
  "glance": [
   "Vivid Pink (`#E70E68`) is the one primary colour. Purple is the logo only, plus one small playful touch on white.",
-  "Page backgrounds are white, and the first screen is white. Two coloured sections never sit next to each other, and at most two of them are Vivid Pink.",
+  "Page backgrounds are white, and the first screen is white; a web page built from full-width sections may open with a Vivid Pink hero. Two coloured sections never sit next to each other, and at most two of them are Vivid Pink.",
   "Social, ads, slides, print and video use white or Vivid Pink backgrounds. Nothing else.",
   "Splash backgrounds come in three layouts only: centre, right and minimal.",
   "Pink text is for white only. On Vivid Pink at 5% or on grey, text is black. On Vivid Pink, text is solid white.",
@@ -31,6 +31,13 @@
   "$about": "Geometry and colours of a Splash background. build-splash.mjs reads every figure from here; the prose in section 5 states the same figures and tests/colour-rules.test.mjs fails when the two disagree.",
   "icon": "logo/thesplash.svg",
   "meetingPoint": { "x": 414, "y": 336, "note": "the centre of the gap the four hooks surround, in the icon's own 802 by 788 frame" },
+  "cssRecipe": [
+    ".splash{position:absolute;inset:0;overflow:hidden;container-type:size;pointer-events:none;--splash-across:.5;--splash-width:calc(4.5*min(100cqw,100cqh))}",
+    "@supports (width:calc(1px*sqrt(4)*tan(atan2(1px,1px)))){",
+    "  .splash{--splash-width:calc(4.5*min(100cqw,100cqh)*sqrt(max(1,tan(atan2(100cqw,100cqh))*9/16,9/16/tan(atan2(100cqw,100cqh)))))}",
+    "}",
+    ".splash>img{position:absolute;display:block;max-width:none;height:auto;width:var(--splash-width);left:calc(var(--splash-across)*100cqw - var(--splash-width)*0.516209);top:calc(55cqh - var(--splash-width)*0.418953)}"
+  ],
   "surfaces": {
    "white": { "background": "#FFFFFF", "hooks": "#FEF3F7" },
    "pink": { "background": "#E70E68", "hooks": "#DB005B" }
@@ -95,7 +102,7 @@
      { "id": "3.2", "environment": ["product", "web"], "text": "There are two kinds of coloured section: a **Vivid Pink section** and a **pale pink section** (Vivid Pink at 5%). Pale pink sections and boxes are for web pages built from full-width sections, not for screens of the product app." },
      { "id": "3.3", "environment": ["product", "web"], "text": "Two coloured sections, of either kind, never sit next to each other. A full white section always sits between them; white padding alone does not count." },
      { "id": "3.4", "environment": ["product", "web"], "text": "A page has at most two Vivid Pink sections. Pale pink sections have no limit beyond the rule above." },
-     { "id": "3.5", "environment": ["product", "web"], "text": "The first screen is white." },
+     { "id": "3.5", "origin": "Requested in DESY-266: a Vivid Pink hero for impact on website pages, then a body that alternates white and pale pink", "environment": ["product", "web"], "text": "The first screen is white. The one exception is a web page built from full-width sections: its hero may be a Vivid Pink section (with the Darker Pink Splash of rule 5.1 and the Vivid Pink surface usage below). That hero is one of the two Vivid Pink sections of rule 3.4, and rule 3.3 still holds, so a full white section follows it and the body alternates white and pale pink from there. Screens of the product app keep a white first screen." },
      { "id": "3.6", "environment": ["product"], "text": "In the product app, light grey is allowed for surfaces that sit inside or beside the white page: cards, sidebars, input fields, table headers and the editor workspace around the slide. Grey is never the background of a whole page or a full-width section." },
      { "id": "3.7", "environment": ["product"], "text": "In the product app, Vivid Pink at 5% is for hover and selected states, plus at most one highlighted panel per screen." },
      { "id": "3.8", "environment": ["product", "audience", "web"], "text": "Black backgrounds are allowed in two places only: full-screen presenting, and video or image viewers." },
@@ -144,8 +151,8 @@
     { "type": "rules", "rules": [
      { "id": "5.1", "text": "Colour: Vivid Pink at 5% on a white background, Darker Pink on a Vivid Pink background. All hooks are one colour." },
      { "id": "5.2", "text": "Three layouts only: centre, right and minimal." },
-     { "id": "5.3", "text": "**Centre splash.** Enlarge the whole icon until it is 4.5 times as wide as the frame's shorter side. In a frame wider or taller than 16:9 (or 9:16), grow it further by the square root of how far the frame's shape goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times. Put the point where the four hooks meet 50% of the way across and 55% of the way down the frame." },
-     { "id": "5.4", "text": "**Right splash.** Enlarge the whole icon until it is 4.5 times as wide as the frame's shorter side. In a frame wider or taller than 16:9 (or 9:16), grow it further by the square root of how far the frame's shape goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times. Put the meeting point 75% of the way across (25% of the width right of centre) and 55% of the way down the frame." },
+     { "id": "5.3", "text": "**Centre splash.** Enlarge the whole icon until its 802-unit frame is 4.5 times as wide as the frame's shorter side. Width means the icon's own 802-unit frame, the full 802 by 788 canvas of `logo/thesplash.svg` with its empty margins, not the width of the hooks. A copy cropped to the hooks is narrower than that frame, so size it to 4.5 times the shorter side times its width divided by 802: a copy cropped to the hooks' bounding box (731.4 units, 91.2% of the frame) is 4.104 times the shorter side, never 4.5. In a frame wider or taller than 16:9 (or 9:16), grow it further by the square root of how far the frame's shape goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times. Put the point where the four hooks meet 50% of the way across and 55% of the way down the frame." },
+     { "id": "5.4", "text": "**Right splash.** Enlarge the whole icon until its 802-unit frame is 4.5 times as wide as the frame's shorter side. Width means the icon's own 802-unit frame, the full 802 by 788 canvas of `logo/thesplash.svg` with its empty margins, not the width of the hooks. A copy cropped to the hooks is narrower than that frame, so size it to 4.5 times the shorter side times its width divided by 802: a copy cropped to the hooks' bounding box (731.4 units, 91.2% of the frame) is 4.104 times the shorter side, never 4.5. In a frame wider or taller than 16:9 (or 9:16), grow it further by the square root of how far the frame's shape goes past 16:9, so a 32:9 frame gets 1.41 times the size and a 21:9 frame 1.15 times. Put the meeting point 75% of the way across (25% of the width right of centre) and 55% of the way down the frame." },
      { "id": "5.5", "text": "**Minimal splash.** Two copies of the largest hook (the lower-left one in the icon), and nothing else. Size them as if the whole icon were 1.15 times as wide as the frame's longer side, so each hook is 0.73 of the longer side in length. The longer side counts as at most twice the shorter side, so in a frame wider than 2:1 or taller than 1:2 the hooks keep the size and offsets they have at 2:1. Pin each to its own corner and measure every offset against that length. One is turned a quarter-turn anticlockwise and sits in the bottom-left corner, starting 1.35% outside the left edge and rising 19.3% above the bottom edge. The other is turned a quarter-turn clockwise and sits in the top-right corner, ending 1.9% outside the right edge and dropping 19.8% below the top edge. Each is cropped by the frame edge." },
      { "id": "5.6", "environment": ["product", "web", "video", "social-ads"], "text": "Use a splash background on a web page built from full-width sections, a hero area, an empty state, a social post or a slide. Never on a dense app screen such as the editor." },
      { "id": "5.7", "text": "Centre and right zoom against the frame's shorter side, so the splash stays large in very wide or very tall frames and only parts of the curves show. Both also grow in frames wider or taller than 16:9, so the top-right hook does not dominate them. On a 16:9 frame the centre icon width matches the PDF to within 0.5%, and its meeting point sits 5% of the height lower than in the PDF. The right splash no longer follows the PDF: it is 4.5 times the shorter side where the PDF is 3.0, and its meeting point is 75% across and 55% down." },
@@ -189,6 +196,9 @@
      { "id": "6.5", "text": "Text and links on Vivid Pink at 5% or on grey are black. Pink text there is too faint to pass accessibility." },
      { "id": "6.6", "text": "Pink text is allowed on white only." }
     ] },
+    { "type": "heading", "anchor": "splash-css", "text": "Centre and right in CSS", "origin": "aha-marketing-backgrounds" },
+    { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "Copy this block to draw centre or right in a page instead of exporting a file. It uses the full 802 by 788 icon, `backgrounds/splash-icon-pink.svg` or its white twin, never a cropped copy, and sits in a layer that fills the section. Set `--splash-across` to `.5` for centre or `.75` for right. Browsers without `sqrt()`, `tan()` and `atan2()` keep the base size of 4.5 times the shorter side, which is exact at 16:9 and 9:16." },
+    { "type": "css-recipe" },
     { "type": "paragraph", "text": "Every button and text link, in any medium (an app screen, a web page, an email, an ad or a slide), is the design system [Button](../button/index.html) component. The one exception is the primary button on a Vivid Pink background (rule 6.2): white with a Vivid Pink label, gaining a shadow on hover, with a 2px solid white focus outline 2px away from the button." }
    ]
   },
@@ -278,6 +288,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v17", "date": "20 Oct", "text": "Rule 3.5 keeps the white first screen for the product app and allows a web page built from full-width sections to open with a Vivid Pink hero, which counts as one of the two Vivid Pink sections and is followed by a full white section. Requested in DESY-266. No rule id changed." },
   { "version": "v16", "date": "19 Oct", "text": "Rule 2.6, third-party logos: one colour at rest and their own colours on hover and keyboard focus, in every interface with no special case for website headers. Listing pages such as the Marketplace keep logos in their own colours as content; a tool not available yet is greyscale with a Coming soon tag; customer logo strips stay one colour." },
   { "version": "v15", "date": "16 Oct", "text": "Rule 3.11 and the report-image environment now cover reports, not only images: a read-only report page that a report routine publishes (a dashboard opened from a link) looks the same as the static image of the same report, with as many pale pink number plates as the report needs. Report table zebra rows are now white and light grey, the light grey rule 3.6 allows for table surfaces, not pale pink. Requested by Dave Bui. Screens of the product app, including its Report screens, are unchanged. No rule id changed." },
   { "version": "v14", "date": "16 Oct", "text": "New environment report-image, for charts, tables and number plates rendered to PNG for Slack, email or an export. New rule 3.11: in those images table rows alternate white and Vivid Pink at 5%, and number plates sit on Vivid Pink at 5% with black text and a Vivid Pink top bar; rules 3.2 and 3.7 do not apply there. Requested by Dave Bui. No existing rule id changed." },
