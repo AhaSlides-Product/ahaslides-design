@@ -16,6 +16,7 @@ on:
       - 'lib/**'
       - 'fonts/**'
       - 'logo/**'
+      - 'package.json'
   workflow_dispatch:
 
 permissions:
