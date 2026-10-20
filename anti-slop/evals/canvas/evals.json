@@ -111,15 +111,15 @@
     },
     {
       "id": 5,
-      "prompt": "Review this slide canvas for legibility. Title uses white text `color: #FFFFFF` directly over `background-image: url('/assets/quiz-bg.jpg'); background-size: cover;` with no scrim, card, or defensive layer. Entry labels are sized `text-[2.5vh]` with no floor. Does this pass WCAG AA and readability?",
+      "prompt": "Review this slide canvas for legibility. Title uses white text `color: #FFFFFF` directly over `background-image: url('/assets/quiz-bg.jpg'); background-size: cover;`. Entry labels are sized `text-[2.5vh]` with no floor. Does this pass WCAG AA and readability?",
       "files": [],
       "label": "bad-example",
-      "notes": "C5 — no scrim over photo (contrast) + vh-sized type with no floor (size)",
-      "expected_output": "C5 (Legible against the REAL background — contrast AND size) FAILs on both axes. Contrast: white text sits directly on a photo background with no scrim/card/opaque container, so composited contrast over busy image regions can drop to ~2.8:1, below the 4.5:1 floor — and with no defensive layer it can't be verified, so burden of proof fails. Size: text-[2.5vh] resolves against the small preview/iframe viewport (computing to ~12.4px on the reference stage) with no floor, so it collapses below the ~16px legibility tripwire. Fix: add a translucent scrim (baseColour at ~60% opacity) or a card behind the text to guarantee contrast, and size type with clamp() (e.g. clamp(16px, 2.2vh, 24px)) so it can't drop below the legibility floor. Overall: NEEDS FIX",
+      "notes": "C5 — vh-sized type with no floor (size); text directly on the photo is not a contrast failure",
+      "expected_output": "C5 (Legible against the REAL background — contrast AND size) FAILs on the size axis only. Contrast: text sits directly on a deck background image, which is exempt — no scrim, card or opaque container is required behind it. Size: text-[2.5vh] resolves against the small preview/iframe viewport (computing to ~12.4px on the reference stage) with no floor, so it collapses below the ~16px legibility tripwire. Fix: size type with clamp() (e.g. clamp(16px, 2.2vh, 24px)) so it can't drop below the legibility floor. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C5 is marked FAIL",
-        "Flags missing scrim over the photo background (contrast axis)",
+        "Does not fail the white text sitting directly on the photo background",
         "Flags text-[2.5vh] with no floor collapsing below legibility (size axis)"
       ],
       "expected": {
@@ -1657,12 +1657,12 @@
       "files": [],
       "label": "bad-example",
       "notes": "C18 bad — Team Retro D7.",
-      "expected_output": "C18 FAILs. A framed slide must keep the deck showing; the scrim paints one opaque panel behind the entire answer area whenever a photo is set. Drop the board-wide panel; the white cards are already bounded surfaces, and any free-floating line of text that lacks contrast gets a small bounded scrim chip. Overall: NEEDS FIX",
+      "expected_output": "C18 FAILs. A framed slide must keep the deck showing; the scrim paints one opaque panel behind the entire answer area whenever a photo is set. Drop the board-wide panel; the white cards are already bounded surfaces, and free-floating text sits directly on the photo with no backing. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C18 is marked FAIL",
         "Identifies the slide-wide scrim on a framed photo deck",
-        "Allows bounded surfaces (cards, a chip behind one line) to stay opaque"
+        "Allows bounded surfaces such as cards to stay opaque"
       ],
       "expected": {
         "overall": "NEEDS_FIX",

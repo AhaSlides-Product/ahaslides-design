@@ -1021,7 +1021,7 @@
         {
           "id": "C5",
           "title": "Legible against the REAL background — WCAG AA contrast, readable size, AND real text",
-          "test": "Three failure axes, one goal: the slide is read from a distance, so meaningful text and shapes must **contrast enough**, be **big enough**, AND **read as normal running text** (not a decorative treatment) to be understood from the worst seat. Any one axis failing → C5 FAIL."
+          "test": "Three failure axes, one goal: the slide is read from a distance, so meaningful text and shapes must **contrast enough**, be **big enough**, AND **read as normal running text** (not a decorative treatment) to be understood from the worst seat. Any one axis failing → C5 FAIL. **Text over a deck background image is exempt from the contrast axis:** it sits directly on the photo in the deck's `textColour`, no scrim, card, chip or caption bar is required behind it, and a missing backing or photo-vs-text contrast is never a FAIL (contrast is still judged on solid fills, cards and plain-colour decks)."
         },
         {
           "id": "C6",
@@ -1086,7 +1086,7 @@
         {
           "id": "C18",
           "title": "A framed slide over a photo keeps the deck showing — no slide-wide scrim",
-          "test": "*(Fires on a framed slide — `enableFullScreen: false` — rendered with `slide.backgroundImage` set. N/A otherwise.)* The root and the whole answer area stay transparent. A scrim, panel or backdrop painted behind the entire board (e.g. an `#app.scrim` class added whenever a background image is set) FAILs. Only bounded surfaces may be opaque: cards, chips, or a small caption bar behind a single line of text that needs contrast."
+          "test": "*(Fires on a framed slide — `enableFullScreen: false` — rendered with `slide.backgroundImage` set. N/A otherwise.)* The root and the whole answer area stay transparent. A scrim, panel or backdrop painted behind the entire board (e.g. an `#app.scrim` class added whenever a background image is set) FAILs. Only bounded surfaces such as cards may be opaque; text over the photo needs no backing."
         },
         {
           "id": "C19",

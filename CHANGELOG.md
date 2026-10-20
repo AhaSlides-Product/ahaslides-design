@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.282.1 — 2026-10-20
+### Changed
+- Canvas judge C5 and C18, the Canvas guideline and the canvas guide no longer require a backing behind text over a deck background image. Text sits directly on the photo in the deck's `textColour`; no scrim, card, chip or caption bar is needed, and a judge must not FAIL for photo-vs-text contrast or a missing backing (PRNUM). Contrast on solid fills, cards and plain-colour decks, the type-size floor and the ban on a slide-wide scrim are unchanged. Canvas evals 5 and 59 updated to match.
+
 ## 0.282.0 — 2026-10-20
 ### Added
 - The browser files (`lib/`, plus the `fonts/` and `logo/` folders `lib/` loads) are also published to the AhaSlides CDN on every release: `https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/<file>` (5-minute cache, invalidated on each release) and `https://assets-cdn-public.ahaslides.com/ahaslides-design/<version>/lib/<file>` (immutable). The files are byte-identical to jsDelivr's, so a page can switch hosts by changing the base URL only. jsDelivr keeps working unchanged. New workflow `.github/workflows/publish-cdn.yml` (same bucket, CloudFront distribution and AWS secrets as aha-slide-plugin's standalone SDK); `workflow_dispatch` re-publishes. Revert: delete the workflow. (#297)
