@@ -1,5 +1,6 @@
 import { ConfigProvider, Select } from 'antd';   // antd v6
-import { selectTheme } from '@ahaslides-product/design/select-theme';
+import '@ahaslides-product/design/icons';        // <aha-icon> — the caret
+import { selectTheme, selectCaretCss } from '@ahaslides-product/design/select-theme';
 
 const options = [
   { value: 'poll',      label: 'Poll' },
@@ -9,7 +10,9 @@ const options = [
 ];
 
 <ConfigProvider theme={selectTheme}>
+  <style>{selectCaretCss}</style>            {/* caret colour + flip while open — inject once */}
   <Select
+    suffixIcon={<aha-icon name="system-caret-down" size="16" />}   // same caret as Select field
     showSearch
     size="default"                          // small | default | large → 24 / 32 / 40
     status={error ? 'error' : undefined}    // 'error' | 'warning' for validation

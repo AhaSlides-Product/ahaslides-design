@@ -2,7 +2,7 @@
   "slug": "pricing",
   "name": "Pricing",
   "environment": [
-    "marketing-web"
+    "web"
   ],
   "includeCards": [
     "pricing"
