@@ -1354,7 +1354,7 @@
       ],
       "label": "good-control",
       "notes": "C5 pure-ink/legibility axis AFTER — reuses the canonical all-criteria-pass fixture (case 11/35) so the target passes without over-firing any other criterion.",
-      "expected_output": "C5 (Legible against the real background) PASSes. Ink tracks xprops.slide.textColour on a transparent stage with a scrim over background images, text sits at fixed-px roles at/above the 16px floor, and no label sits under-contrast on a fill. Overall: OK TO SHIP",
+      "expected_output": "C5 (Legible against the real background) PASSes. Ink tracks xprops.slide.textColour on a transparent stage, text directly on any background image, text sits at fixed-px roles at/above the 16px floor, and no label sits under-contrast on a fill. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C5 is marked PASS",
