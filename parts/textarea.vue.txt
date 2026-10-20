@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { ConfigProvider, Input } from 'ant-design-vue';   // ant-design-vue v4
 import { textareaTheme, textareaRemainingCount } from '@ahaslides-product/design/textarea-theme';
 import '@ahaslides-product/design/textarea-counted.css';
+import '@ahaslides-product/design/aha-field-error';   // registers <aha-field-error>
 
 const Textarea = Input.TextArea;
 const text = ref('');
@@ -13,7 +14,7 @@ const showCount = { formatter: textareaRemainingCount };
 <template>
   <a-config-provider :theme="textareaTheme">
     <!-- size: 'small' | 'middle' (default) | 'large' → control height 24 / 32 / 40 -->
-    <!-- status: 'error' | 'warning' → recolours the border for validation -->
+    <!-- status: 'error' → recolours the border for validation ('warning' is a deprecated alias that renders as error) -->
     <Textarea
       v-model:value="text"
       placeholder="Describe your event"
