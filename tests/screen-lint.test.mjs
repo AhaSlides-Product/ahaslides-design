@@ -213,7 +213,7 @@ test('a green Save button background fails the answer-colour context rule', () =
   assert.deepEqual(answerRulesOf(source), ['answer-colour-context']);
 });
 
-test('green text fails both answer-colour rules', () => {
+test('green text on an answer element fails only the text rule', () => {
   const source = '<span class="answer-label" style="color: var(--aha-answer-correct)">Paris</span>';
   assert.deepEqual(answerRulesOf(source), ['answer-colour-text']);
 });
@@ -258,4 +258,20 @@ test('the answer-colour rules are suppressed with a reason and not by another ru
 
 test('a comment that mentions an answer token is ignored', () => {
   assert.deepEqual(answerRulesOf('/* colour: var(--aha-answer-correct) is the tick */'), []);
+});
+
+test('the answer marker is found in a selector list and in an open tag spread over lines', () => {
+  assert.deepEqual(answerRulesOf('.answer-row,\n.other {\n  background: var(--aha-answer-correct);\n}'), []);
+  assert.deepEqual(answerRulesOf('<div class="answer-row"\n  :style="{ background: \'var(--aha-answer-correct)\' }">'), []);
+  assert.deepEqual(answerRulesOf('<div class="save"\n  :style="{ background: \'var(--aha-answer-correct)\' }">'), ['answer-colour-context']);
+});
+
+test('"across", "ticket" and "crossword" are not answer markers', () => {
+  for (const name of ['across-panel', 'ticket', 'crossword'])
+    assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), ['answer-colour-context'], name);
+});
+
+test('a Tailwind answer background needs an answer class on the element', () => {
+  assert.deepEqual(answerRulesOf('<div class="correct bg-[var(--aha-answer-correct)]">'), []);
+  assert.deepEqual(answerRulesOf('<div class="p-2 bg-[var(--aha-answer-correct)]">'), ['answer-colour-context']);
 });
