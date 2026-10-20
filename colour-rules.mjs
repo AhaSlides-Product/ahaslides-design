@@ -141,6 +141,7 @@ function blockHtml(block, rules, parts, options = {}) {
   if (block.type === 'heading') return `<h3 id="${block.anchor}"${block.origin ? ' class="sub"' : ''}>${escapeHtml(block.text)}</h3>`;
   if (block.type === 'rules') return `<ol${block.start ? ` start="${block.start}"` : ''}>\n${block.rules.map(rule => `<li id="r${rule.id}">${markupToHtml(rule.text)}</li>`).join('\n')}\n</ol>`;
   if (block.type === 'table') return grid(block.columns, block.rows.map(row => row.map(markupToHtml)));
+  if (block.type === 'css-recipe') return `<pre><code>${escapeHtml(rules.splash.cssRecipe.join('\n'))}</code></pre>`;
   if (block.type === 'palette') return grid(['Colour', 'Value', 'What it is for'], rules.palette.map(colour => [markupToHtml(colour.name), paletteValueCell(colour), markupToHtml(colour.role)]));
   if (block.type === 'panel') {
     const caret = options.icon ? options.icon('system-caret-right', 16) : '';
@@ -238,6 +239,7 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
       md += `Table ${table.id} ${tag(table.environment)}\n\n| ${table.columns.join(' | ')} |\n|${table.columns.map(() => '---').join('|')}|\n${table.rows.map(row => `| ${row.join(' | ')} |`).join('\n')}\n\n`;
     }
   }
+  md += `## Splash in CSS\n\nCentre and right, drawn in CSS with the full 802 by 788 icon; set --splash-across to .5 (centre) or .75 (right).\n\n\`\`\`css\n${rules.splash.cssRecipe.join('\n')}\n\`\`\`\n\n`;
   md += `## Splash background files\n\nLibrary page: ${site}/${BACKGROUND_LIBRARY_PAGE} · index: ${site}/${BACKGROUNDS_MANIFEST_FILE}\n\n${backgrounds.map(entry => `- ${entry.name} (${entry.width} by ${entry.height}): ${backgroundUrl(site, entry)}`).join('\n')}\n\nAny other size: \`${GENERATOR_COMMAND}\`\n\n`;
   md += `## Still to decide\n\n${rules.open.length ? rules.open.map(point => `- ${point.id} ${tag(point.environment)} ${point.title}. ${markupToText(point.text)} Until it is settled: ${markupToText(point.interim)}`).join('\n') : 'Nothing open.'}\n\n`;
   md += `## What changed\n\n${rules.changes.map(change => `- ${change.version} (${change.date}): ${change.text}`).join('\n')}\n`;
