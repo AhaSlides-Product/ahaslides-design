@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.286.0 — 2026-10-20
+### Changed
+- Report tables (a report image or a read-only report page) keep the white and light grey zebra rows but drop the horizontal row dividers; the zebra already separates the rows and the lines only added clutter. Updated colour rule 3.11 (changelog v18), the report-images guideline and guide, and the C11 criterion and its evals. Screens of the product app (table surface C4) keep their dividers and plain rows. Requested by Dave Bui. (#313)
+
 ## 0.284.0 — 2026-10-20
 ### Changed
 - Bar chart: the value column is now as wide as the widest final value in the chart (measured on data change, resize and font load, never on the count-up text), right-aligned, so every track still ends at the same x and the widest value sits one 12 px gap from the bar end. It was a fixed 100 px column, which left a large gap before short values such as `0`. The unused `--aha-viz-value-width` token (`viz.valueWidth`) is removed; nothing else read it. The gap between bar items goes from 24 to 32 px (`--aha-viz-bar-gap`, `viz.barGap`) and the label-to-bar gap from 8 to 4 px (bar chart only), so each label reads as belonging to the bar below it, not the one above; an image thumbnail, sized as bar + label gap + one label line, shrinks by the same 4 px, and the chart contract now says so. Revert: restore the token and the fixed `min-width` on `.bar-line .value`, `viz.barGap` space-24 and the 8 px label gap. (#312)
