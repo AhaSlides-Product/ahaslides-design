@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.282.1 — 2026-10-20
 ### Changed
-- Canvas judge C5 and C18, the Canvas guideline and the canvas guide no longer require a backing behind text over a deck background image. Text sits directly on the photo in the deck's `textColour`; no scrim, card, chip or caption bar is needed, and a judge must not FAIL for photo-vs-text contrast or a missing backing (#311). Contrast on solid fills, cards and plain-colour decks, the type-size floor and the ban on a slide-wide scrim are unchanged. Canvas evals 5 and 59 updated to match.
+- Canvas judge C5 and C18, the Canvas guideline and the canvas guide no longer tell a builder to put a scrim, chip, caption bar or card behind text. C5 keeps its contrast axis everywhere, including text over a deck background image (WCAG AA against the real composited background); a low-contrast fix is a `textColour` or photo that clears the floor, not a backing layer. C18's ban on a slide-wide scrim is unchanged. Canvas evals 5 (contrast axis restored, neutral fix), 59, 1171, 1198 and the C18 good control re-worded to match (#311).
 
 ## 0.282.0 — 2026-10-20
 ### Added

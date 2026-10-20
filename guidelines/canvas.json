@@ -236,7 +236,7 @@
       ]
     },
     {
-      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage). Text sitting directly on a deck background image is exempt: it takes the deck's textColour with no scrim, chip or caption bar behind it, and is never failed for photo-vs-text contrast. Never add a slide-wide panel on a framed slide. Go higher when you can.",
+      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage). This includes text over a deck background image: if it falls below the floor, pick a textColour or photo that clears it. Never add a slide-wide panel on a framed slide. Go higher when you can.",
       "ref": [
         "§3",
         "C10",

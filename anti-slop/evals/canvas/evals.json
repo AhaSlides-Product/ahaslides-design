@@ -114,12 +114,12 @@
       "prompt": "Review this slide canvas for legibility. Title uses white text `color: #FFFFFF` directly over `background-image: url('/assets/quiz-bg.jpg'); background-size: cover;`. Entry labels are sized `text-[2.5vh]` with no floor. Does this pass WCAG AA and readability?",
       "files": [],
       "label": "bad-example",
-      "notes": "C5 — vh-sized type with no floor (size); text directly on the photo is not a contrast failure",
-      "expected_output": "C5 (Legible against the REAL background — contrast AND size) FAILs on the size axis only. Contrast: text sits directly on a deck background image, which is exempt — no scrim, card or opaque container is required behind it. Size: text-[2.5vh] resolves against the small preview/iframe viewport (computing to ~12.4px on the reference stage) with no floor, so it collapses below the ~16px legibility tripwire. Fix: size type with clamp() (e.g. clamp(16px, 2.2vh, 24px)) so it can't drop below the legibility floor. Overall: NEEDS FIX",
+      "notes": "C5 — white text on a photo with no verified contrast (contrast) + vh-sized type with no floor (size)",
+      "expected_output": "C5 (Legible against the REAL background — contrast AND size) FAILs on both axes. Contrast: white text sits directly on a photo background, so composited contrast over bright image regions can drop to ~2.8:1, below the 4.5:1 floor, and it cannot be verified as passing. Fix: choose a textColour or photo that clears 4.5:1 against the real composited background. Size: text-[2.5vh] resolves against the small preview/iframe viewport (computing to ~12.4px on the reference stage) with no floor, so it collapses below the ~16px legibility tripwire. Also size type with clamp() (e.g. clamp(16px, 2.2vh, 24px)) so it can't drop below the legibility floor. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C5 is marked FAIL",
-        "Does not fail the white text sitting directly on the photo background",
+        "Flags white text on the photo background as not clearing the 4.5:1 floor (contrast axis)",
         "Flags text-[2.5vh] with no floor collapsing below legibility (size axis)"
       ],
       "expected": {
@@ -1168,7 +1168,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "C7 — framed slide paints its own full-bleed opaque background, hiding the deck theme (AHAM-617)",
-      "expected_output": "C7 (Framed vs full-canvas chosen intentionally in the manifest) FAILs. The manifest declares the slide FRAMED (enableFullScreen: false), so the host composites the chosen deck theme (baseColour / backgroundImage) behind the iframe — but the canvas paints its own full-bleed opaque background on the root (a solid #1B1036 stage colour + a blurred-photo backdrop + a whole-slide scrim), which occludes the deck theme. The slide then looks the same dark box on every theme the presenter picks. A framed canvas root must stay transparent in every mode and let the deck background show through; only a full-canvas slide may own its whole background, and even then it must derive from the deck theme, not a fixed colour. Note it passes C5 vacuously (text is legible against the opaque stage) — the defect is the framed-background contract, which only C7 catches. Fix: remove the root background paint (stage colour, blurred backdrop, whole-slide scrim) so the root is transparent; keep opaque fills only on content-bounded surfaces (a caption bar riding on a photo). Overall: NEEDS FIX",
+      "expected_output": "C7 (Framed vs full-canvas chosen intentionally in the manifest) FAILs. The manifest declares the slide FRAMED (enableFullScreen: false), so the host composites the chosen deck theme (baseColour / backgroundImage) behind the iframe — but the canvas paints its own full-bleed opaque background on the root (a solid #1B1036 stage colour + a blurred-photo backdrop + a whole-slide scrim), which occludes the deck theme. The slide then looks the same dark box on every theme the presenter picks. A framed canvas root must stay transparent in every mode and let the deck background show through; only a full-canvas slide may own its whole background, and even then it must derive from the deck theme, not a fixed colour. Note it passes C5 vacuously (text is legible against the opaque stage) — the defect is the framed-background contract, which only C7 catches. Fix: remove the root background paint (stage colour, blurred backdrop, whole-slide scrim) so the root is transparent; keep opaque fills only on content-bounded surfaces (a card riding on a photo). Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C7 is marked FAIL",
@@ -1191,15 +1191,15 @@
     },
     {
       "id": 42,
-      "prompt": "Review this slide's framing and background. The plugin manifest declares \"setting\": { \"enableFullScreen\": false } (framed). ImageShowCanvas.vue's root is <div :style=\"{ color: slideProps.textColour ?? ahaBrand.space }\"> with no background paint on the root; the only opaque surface is a caption bar that rides on top of an uploaded photo. Is the framed-vs-full-canvas implementation correct?",
+      "prompt": "Review this slide's framing and background. The plugin manifest declares \"setting\": { \"enableFullScreen\": false } (framed). ImageShowCanvas.vue's root is <div :style=\"{ color: slideProps.textColour ?? ahaBrand.space }\"> with no background paint on the root; the only opaque surface is a bounded card that rides on top of an uploaded photo. Is the framed-vs-full-canvas implementation correct?",
       "files": [],
       "label": "good-control",
-      "notes": "C7 — framed slide keeps a transparent root; opaque paint only on a content-bounded caption bar",
-      "expected_output": "C7 (Framed vs full-canvas chosen intentionally in the manifest) PASSes. The manifest declares the slide FRAMED and the canvas leaves its root transparent, so the deck theme the host composites behind the iframe shows straight through and the slide follows whatever theme the presenter chose. The only opaque fill is a content-bounded surface (a caption bar riding on a photo), which is allowed — it is not the slide-wide root. Overall: PASS (on this criterion).",
+      "notes": "C7 — framed slide keeps a transparent root; opaque paint only on a content-bounded card",
+      "expected_output": "C7 (Framed vs full-canvas chosen intentionally in the manifest) PASSes. The manifest declares the slide FRAMED and the canvas leaves its root transparent, so the deck theme the host composites behind the iframe shows straight through and the slide follows whatever theme the presenter chose. The only opaque fill is a content-bounded surface (a card riding on a photo), which is allowed — it is not the slide-wide root. Overall: PASS (on this criterion).",
       "assertions": [
         "C7 is marked PASS",
         "Confirms the framed root is transparent so the deck theme shows through",
-        "Accepts the content-bounded caption bar as an allowed opaque surface"
+        "Accepts the content-bounded card as an allowed opaque surface"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",
@@ -1354,7 +1354,7 @@
       ],
       "label": "good-control",
       "notes": "C5 pure-ink/legibility axis AFTER — reuses the canonical all-criteria-pass fixture (case 11/35) so the target passes without over-firing any other criterion.",
-      "expected_output": "C5 (Legible against the real background) PASSes. Ink tracks xprops.slide.textColour on a transparent stage, text directly on any background image, text sits at fixed-px roles at/above the 16px floor, and no label sits under-contrast on a fill. Overall: OK TO SHIP",
+      "expected_output": "C5 (Legible against the real background) PASSes. Ink tracks xprops.slide.textColour on a transparent stage, text sits at fixed-px roles at/above the 16px floor, and no label sits under-contrast on a fill. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C5 is marked PASS",
@@ -1677,15 +1677,15 @@
     },
     {
       "id": 60,
-      "prompt": "Review this framed slide (manifest `enableFullScreen: false`) on a photo deck. The root stays transparent, so the photo shows through. Each idea card is a white bounded card, and the one free-floating hint line sits in a small chip `background: rgba(0,0,0,.55); border-radius: 8px; padding: 4px 8px` sized to the text. Is the background handling correct?",
+      "prompt": "Review this framed slide (manifest `enableFullScreen: false`) on a photo deck. The root stays transparent, so the photo shows through. Each idea card is a white bounded card, and the one free-floating hint line sits directly on the photo. Is the background handling correct?",
       "files": [],
       "label": "good-control",
       "notes": "C18 good control.",
-      "expected_output": "C18 PASSes. Nothing paints across the whole board; the opaque fills are bounded to the cards and to the one hint line. Overall: OK TO SHIP",
+      "expected_output": "C18 PASSes. Nothing paints across the whole board; the only opaque fills are the bounded cards. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C18 is marked PASS",
-        "Accepts a bounded scrim chip behind a single line"
+        "Accepts bounded cards as opaque surfaces"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",

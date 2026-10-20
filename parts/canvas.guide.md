@@ -172,10 +172,9 @@ seat** — the same bar applies to the small editor preview.
 
 - **Contrast:** WCAG AA floor — **4.5:1 for text, 3:1 for large text and meaningful
   shapes** — checked against the **real composited background** (`baseColour` blended with
-  `backgroundImage`). Text sitting directly on a
-  deck background image is exempt: it takes the deck's `textColour` with no scrim, chip or
-  caption bar behind it, and is never failed for photo-vs-text contrast. Never add a
-  slide-wide panel on a framed slide. Go higher when you can.
+  `backgroundImage`). This includes text over a deck
+  background image: if it falls below the floor, pick a `textColour` or photo that clears it.
+  Never add a slide-wide panel on a framed slide. Go higher when you can.
   - **A slide-painted surface re-anchors the check** against that composited surface. Two
     traps: a **translucent tint** is not a contrast guarantee (only an opaque surface is);
     and any **fixed-colour mark** on it (a semantic `✓`/`✗` token, a palette accent, a

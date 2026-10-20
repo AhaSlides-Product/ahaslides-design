@@ -1021,7 +1021,7 @@
         {
           "id": "C5",
           "title": "Legible against the REAL background — WCAG AA contrast, readable size, AND real text",
-          "test": "Three failure axes, one goal: the slide is read from a distance, so meaningful text and shapes must **contrast enough**, be **big enough**, AND **read as normal running text** (not a decorative treatment) to be understood from the worst seat. Any one axis failing → C5 FAIL. **Text over a deck background image is exempt from the contrast axis:** it sits directly on the photo in the deck's `textColour`, no scrim, card, chip or caption bar is required behind it, and a missing backing or photo-vs-text contrast is never a FAIL (contrast is still judged on solid fills, cards and plain-colour decks)."
+          "test": "Three failure axes, one goal: the slide is read from a distance, so meaningful text and shapes must **contrast enough**, be **big enough**, AND **read as normal running text** (not a decorative treatment) to be understood from the worst seat. Any one axis failing → C5 FAIL. Contrast is judged against the real composited background, including text over a deck background image; if it falls below the floor, fix it with a `textColour` or photo that clears the floor, not by adding a layer behind the text."
         },
         {
           "id": "C6",
