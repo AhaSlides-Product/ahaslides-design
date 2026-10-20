@@ -156,7 +156,7 @@ Read the list from the DS each time — surfaces get added.
 
 1. **Mechanical gate first** (when the package is installed):
    `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings> <files>`
-   — fix every HARD finding before judging. A slide type's `presenter.*` is `canvas`, its
+   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark or a result, is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
    `audience.*` is `audience` and its `settings.*` is `settings`. On `settings`, a raw `<button>`,
    `<input>`, `<select>`, `<textarea>` or `role="switch"`, and any `<aha-*>` tag `lib/settings.js` does not
    register, are HARD: the panel is built from the elements that one entry loads. A control the DS
