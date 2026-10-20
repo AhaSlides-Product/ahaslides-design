@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.284.0 — 2026-10-20
+### Changed
+- Bar chart: the value column is now as wide as the widest final value in the chart (measured on data change, resize and font load, never on the count-up text), right-aligned, so every track still ends at the same x and the widest value sits one 12 px gap from the bar end. It was a fixed 100 px column, which left a large gap before short values such as `0`. The unused `--aha-viz-value-width` token (`viz.valueWidth`) is removed; nothing else read it. The gap between bar items goes from 24 to 32 px (`--aha-viz-bar-gap`, `viz.barGap`) and the label-to-bar gap from 8 to 4 px (bar chart only), so each label reads as belonging to the bar below it, not the one above. Revert: restore the token and the fixed `min-width` on `.bar-line .value`, `viz.barGap` space-24 and the 8 px label gap. (#312)
+
 ## 0.283.0 — 2026-10-20
 ### Added
 - Guideline `Website` (Patterns, environment `web`): how a whole website page is composed from the Marketing sections. Nine rules, each citing the section, token or colour rule it comes from: every band is a DS section (a missing one is a DSN ticket), the padding each section ships, never overridden (96/64 px, 48/24 at 767 px, 32/16 at 479 px for Features, Numbers, Pricing and Testimonials; Hero, Logos and FAQ keep their own), with nothing between sections, 1280 px content and 720 px / 44ch heading blocks, one H1 and one primary action per section with the hero's call to action repeated at the end, band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10 (a pale band is a page-level `background: var(--aha-bg-accent)`), real images and registry icons, the Navigation header with `<aha-product-lockup>`, checks at 1440, 768 and 375 px, and gentle motion only. (#310)
