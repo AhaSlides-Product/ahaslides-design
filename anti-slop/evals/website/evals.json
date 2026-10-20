@@ -16,8 +16,8 @@
         }
       ],
       "label": "good-control",
-      "notes": "Good control: the reference page. Guards against over-firing on a page assembled exactly from the sections.",
-      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; one H1 in the hero, a primary and a ghost button, the Footer banner repeats Get started free; the only coloured bands are the pale pink icon grid and the Vivid Pink footer banner, each with white around it; placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; no motion beyond the sections. Overall: OK TO SHIP.",
+      "notes": "Good control: the reference page, a Vivid Pink hero then a white and pale pink body. Guards against over-firing on a page assembled exactly from the sections.",
+      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; the hero is the Hero Pink header (Vivid Pink with the Darker Pink Splash, white heading, white button) with one H1 and the Footer banner repeating Get started free; after it the body alternates white (Logos), pale pink (Features), white (Testimonials), pale pink (icon grid), white (FAQ), so no two coloured bands touch, and the only other Vivid Pink band is the footer banner, after a white FAQ (two Vivid Pink bands in all); placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; no motion beyond the sections. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "No criterion is marked FAIL"
@@ -52,8 +52,8 @@
         }
       ],
       "label": "good-control",
-      "notes": "Good control at the W5 boundary: two Vivid Pink bands is the allowed maximum; must not be flagged as too many.",
-      "expected_output": "A pale pink icon-grid band and two Vivid Pink Footer banner bands, each with a full white section on both sides, and the first screen white: within colour rules 3.3 and 3.4 (at most two Vivid Pink). Each banner has one call to action, and the closing banner repeats Get started free. Overall: OK TO SHIP.",
+      "notes": "Good control at the W5 boundary: a Vivid Pink hero plus a Vivid Pink footer banner is the allowed maximum of two; must not be flagged as too many.",
+      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 allows on a web page. Each banner has one call to action, and the closing banner repeats Get started free. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "W5 is not FAIL for two separated Vivid Pink bands"
@@ -201,8 +201,8 @@
         }
       ],
       "label": "bad-example",
-      "notes": "Targets W5: adjacent coloured bands and a grey band.",
-      "expected_output": "W5 FAILs: three coloured bands sit next to each other (pale pink Features, pale pink Logos, pale pink icon grid) with no white section between them (rule 3.3), and the Testimonials band is a full-width light grey band. Fix: return Features and Logos to white and the Testimonials band to white. Overall: NEEDS FIX.",
+      "notes": "Targets W5: a Vivid Pink hero touching a pale band, adjacent coloured bands and a grey band.",
+      "expected_output": "W5 FAILs: the Vivid Pink hero is followed directly by a pale pink Features band, and the pale pink Logos and icon-grid bands also sit next to each other with no full white section between them (rule 3.3); the Testimonials band is a full-width light grey band. Fix: put a white band after the hero, return Logos to white and the Testimonials band to white. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W5 is marked FAIL",
@@ -329,6 +329,36 @@
         "overall": "NEEDS_FIX",
         "criteria": {
           "W9": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w5-darker-pink-hero/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W5: a Darker Pink hero background, with the body otherwise correct.",
+      "expected_output": "W5 FAILs: the hero surface is overridden to Darker Pink #DB005B. The hero may be Vivid Pink #E70E68 (rule 3.5); Darker Pink is only the Splash hooks on it (rule 5.1). Fix: remove the surface override so the hero is Vivid Pink. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W5 is marked FAIL",
+        "Cites colour rule 5.1"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W5": "FAIL"
         }
       },
       "source": {
