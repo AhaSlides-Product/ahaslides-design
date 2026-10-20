@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.282.0 — 2026-10-20
+### Added
+- The browser files (`lib/`, plus the `fonts/` and `logo/` folders `lib/` loads) are also published to the AhaSlides CDN on every release: `https://assets-cdn-public.ahaslides.com/ahaslides-design/latest/lib/<file>` (5-minute cache, invalidated on each release) and `https://assets-cdn-public.ahaslides.com/ahaslides-design/<version>/lib/<file>` (immutable). The files are byte-identical to jsDelivr's, so a page can switch hosts by changing the base URL only. jsDelivr keeps working unchanged. New workflow `.github/workflows/publish-cdn.yml` (same bucket, CloudFront distribution and AWS secrets as aha-slide-plugin's standalone SDK); `workflow_dispatch` re-publishes. Revert: delete the workflow. (#297)
+
 ## 0.281.0 — 2026-10-19
 ### Added
 - Info message under Input, Textarea and InputNumber: help text that is not an error (for example `3 of 10 rows`). Text only, 12/18 in `--aha-text-secondary`, in the error slot with the same 4px gap; the border is unchanged and the field is not `aria-invalid`. Input takes `info-message`; Textarea and InputNumber take a sibling `<aha-field-error tone="info" message="…">`. The consumer passes the string, the DS computes nothing, and an error message replaces it, never stacked (#299)
