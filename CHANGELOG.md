@@ -22,11 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.277.1 — 2026-10-20
+## 0.278.1 — 2026-10-20
 ### Changed
 - Colour rules 5.3 and 5.4 (centre and right splash) now state the size basis in the rule itself: the icon's own 802-unit frame (the full 802 by 788 canvas of `logo/thesplash.svg`, margins included) is 4.5 times the shorter side, and a copy cropped to the hooks must be sized by its width over 802, so a hooks-only bounding box (731.4 units, 91.2%) is 4.104 times the shorter side, never 4.5. Both rules had left this to a note on the meeting point, and one port applied 4.5 to a cropped file and came out 9% too big.
 - Colour rules section 5 gains "Centre and right in CSS": one copy-paste container-query block (`splash.cssRecipe` in `brand/colour-rules.json`) for the full icon, 4.5 times `min(100cqw, 100cqh)`, meeting point 414 / 802 and 336 / 802 of the icon width from its left and top, 55% down, growing by the square root of the aspect past 16:9 or 9:16 inside `@supports` (older browsers keep the base size), with `--splash-across` set to `.5` (centre) or `.75` (right). Rendered at 16:9, 21:9, 9:16 and 32:9 it differs from `build-splash.mjs` in under 0.01% of pixels. The block is also in `colour-rules.md` and the `splash` object of `colour-rules.agent.json`. A `css-recipe` block type in `colour-rules.mjs` renders it, and a test keeps its figures tied to the generator's. (#306)
 Revert: restore rules 5.3 and 5.4 from git and delete `splash.cssRecipe`, the `css-recipe` block and heading in section 5, the `css-recipe` branch and "Splash in CSS" markdown in `colour-rules.mjs`, the `pre` rule in the template and the new test.
+
+## 0.278.0 — 2026-10-20
+### Added
+- `screen-lint` hard-fails two misuses of the answer colours (colour rules section 11): `answer-colour-text` (11.2) when an `--aha-answer-*` token is a text colour (`color`, `-webkit-text-fill-color`, `caret-color`, a JS style object key, or a Tailwind `text-[…]` / `caret-[…]` value), and `answer-colour-context` (11.1) when one is used where nothing in the rule's selector, the element's attributes or the style object's line names an answer, a correct or wrong mark or a result (`correct`, `wrong`, `incorrect`, `answer`, `result`, `tick`, `cross`, `reveal`, `verdict`, `score`). Rules 11.3 and 11.4 stay with the judge. Opt out per line with `ds-lint-allow: answer-colour (why)`. Revert: delete `lib/screen-lint-answer.js` and its three hook lines in `lib/screen-lint.js`. (#307)
 
 ## 0.277.0 — 2026-10-20
 ### Changed
