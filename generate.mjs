@@ -2596,6 +2596,7 @@ const ANTISLOP_LOOP = [
 function antiSlopTargetUrl(source) {
   if (source === 'tokens.canonical.json') return `${SITE}/design.md`;
   if (source === 'contracts') return `${SITE}/llms.txt`;
+  if (source === 'marketing') return `${SITE}/marketing.llms.txt`;
   if (source === 'icons/registry.json') return `${SITE}/icons.agent.json`;
   let m = source.match(/^contracts\/([a-z0-9-]+)\.json$/);
   if (m) return `${SITE}/${m[1]}.agent.json`;

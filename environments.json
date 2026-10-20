@@ -45,6 +45,7 @@
    "route": {
     "guidelines": [
      "{site}/marketing.llms.txt",
+     "{site}/guidelines/website/website.md",
      "{site}/guidelines.llms.txt",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
@@ -54,7 +55,7 @@
      "{site}/foundations/logo.html",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
-    "judge": "{site}/anti-slop.md (every surface the page touches, plus colour and background)",
+    "judge": "{site}/anti-slop.md (every surface the page touches, plus website, colour and background)",
     "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=product <files>",
     "plugin": "ahaslides-design:aha-design",
     "owner": "Design system team (#design-system-agents)"
@@ -111,7 +112,7 @@
  },
  "sources": [
   { "kind": "contract", "folder": "contracts", "key": "slug", "folderEnvironments": ["product", "audience"] },
-  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience", "report-image"] },
+  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience", "web", "report-image"] },
   { "kind": "marketing", "folder": "marketing", "key": "slug", "folderEnvironments": ["web", "video", "social-ads"] },
   { "kind": "logo", "file": "logo/manifest.json", "list": "logos", "key": "id" },
   { "kind": "brand", "file": "brand/manifest.json", "list": "assets", "key": "id" },

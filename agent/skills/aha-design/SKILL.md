@@ -84,6 +84,8 @@ Read the list from the DS each time — surfaces get added.
   image action button / dropzone), so do not reach for a generic component.
 - A product-app screen (React / AntD, or the DS web components) is always judged on
   `background` and `component-standard`, plus every surface it touches.
+- A website page (environment `web`: landing, pricing, blog, careers, campaign or help page built
+  from full-width sections) is always judged on `website`, plus `colour` and every surface it touches.
 - UI copy or labels changed → add `ux-writing`.
 - Any colour chosen or changed (a fill, text or link colour, a status, a chart series, a logo or
   file-type icon, a border or shadow) → add `colour`. Its rules, and the background rules, live once
