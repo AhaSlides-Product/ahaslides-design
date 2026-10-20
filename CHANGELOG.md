@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.288.0 — 2026-10-20
+### Added
+- Websites → Features: every layout has two backgrounds, White (the default, unchanged) and Accent. Add `aha-features--accent` to the section to lay the pale pink `--aha-bg-accent` over white; the icon squares and check marks turn white and keep their pink glyph; cards stay white with their pink icon tile. The docs page gets a White / Accent switch and a code tab for each, plus a "Choosing a background" note: never place an Accent section next to another coloured section. The switch is an opt-in `states` key in `marketing/<page>.json`, off for every other marketing page. (#309)
+
 ## 0.286.0 — 2026-10-20
 ### Changed
 - Report tables (a report image or a read-only report page) keep the white and light grey zebra rows but drop the horizontal row dividers; the zebra already separates the rows and the lines only added clutter. Updated colour rule 3.11 (changelog v18), the report-images guideline and guide, and the C11 criterion and its evals. Screens of the product app (table surface C4) keep their dividers and plain rows. Requested by Dave Bui. (#313)

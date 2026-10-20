@@ -1783,25 +1783,36 @@ const MARKETING_CARD_BREAKPOINT_SCRIPT = `<script type="module">
   })();
   </script>`;
 
-function marketingCodeToggle(file, code, lead = '') {
+function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
+  const tabs = extraPanes.length ? [{ key: 'snippet', label: file, code }, ...extraPanes] : [{ key: 'snippet', label: file, code }];
   return `<div class="code-tabs" data-open="false">
     <div class="demo-toolbar">${lead ? `<p class="body code-lead">${lead}</p>` : ''}<aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
-      <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="snippet">${esc(file)}</button></div><button class="copy" type="button">Copy</button></div>
-      <pre class="code snippet active">${esc(code)}</pre>
+      <div class="code-head"><div class="tabs">${tabs.map((tab, index) => `<button class="tab${index === 0 ? ' active' : ''}" type="button" data-f="${tab.key}">${esc(tab.label)}</button>`).join('')}</div><button class="copy" type="button">Copy</button></div>
+      ${tabs.map((tab, index) => `<pre class="code ${tab.key}${index === 0 ? ' active' : ''}">${esc(tab.code)}</pre>`).join('\n      ')}
     </div></div>`;
 }
-const marketingHasStates = (layout) => layout.states?.length > 1;
-function marketingStateSwitch(layout) {
-  if (!marketingHasStates(layout)) return '';
-  const options = JSON.stringify(layout.states.map(state => ({ value: state.modifier, label: state.label })));
-  const initial = (layout.states.find(state => state.default) || layout.states[0]).modifier;
-  return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(layout.class)}" data-modifiers="${esc(JSON.stringify(layout.states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
+const marketingLayoutStates = (b, layout) => layout.states || b.states;
+const marketingLayoutStateClass = (b, layout) => layout.class || b.stateClass;
+const marketingHasStates = (b, layout) => marketingLayoutStates(b, layout)?.length > 1;
+function marketingStateSwitch(b, layout) {
+  if (!marketingHasStates(b, layout)) return '';
+  const states = marketingLayoutStates(b, layout);
+  const options = JSON.stringify(states.map(state => ({ value: state.modifier, label: state.label })));
+  const initial = (states.find(state => state.default) || states[0]).modifier;
+  return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
+const marketingStatePanes = (b, layout, snippet) => {
+  if (!b.states || !marketingHasStates(b, layout)) return [];
+  const stateClass = marketingLayoutStateClass(b, layout);
+  const rootClass = new RegExp(`class="([^"]*\\b${stateClass}\\b[^"]*)"`);
+  return b.states.filter(state => state.modifier).map(state => ({ key: `state-${state.modifier}`, label: state.label,
+    code: snippet.replace(rootClass, `class="$1 ${stateClass}--${state.modifier}"`) }));
+};
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(layout)}<span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
   </div>`;
@@ -1893,8 +1904,8 @@ ${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(marketingHasStates) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}
+  ${marketingCodeToggle(marketingHasStates(b, layout) && b.states ? b.states.find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}
 
 ${b.composedOf ? `
   <h2 id="composed-of">Composed of</h2>
