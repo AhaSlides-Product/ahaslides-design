@@ -119,7 +119,7 @@
       "name": "expand",
       "type": "CustomEvent<{id, source}>",
       "default": "—",
-      "desc": "expandable only: More or the picture of a row was pressed; detail.id is the option id and detail.source is more or image. It never moves the row. Open <aha-bottom-sheet> in response"
+      "desc": "expandable only: More or the picture of a row was pressed; detail.id is the option id and detail.source is more or image. It never moves the row. Open <aha-audience-modal> (type details) in response"
     }
   ],
   "opinion": {

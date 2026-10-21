@@ -118,6 +118,7 @@
     "./lib/aha-error-page.js",
     "./lib/aha-stepper.js",
     "./lib/aha-autocomplete.js",
+    "./lib/aha-audience-modal.js",
     "./lib/aha-bottom-sheet.js",
     "./lib/expandable-option.js"
   ],
@@ -125,6 +126,7 @@
   "jsdelivr": "./lib/all.js",
   "browser": "./lib/all.js",
   "exports": {
+    "./aha-audience-modal": "./lib/aha-audience-modal.js",
     "./aha-bottom-sheet": "./lib/aha-bottom-sheet.js",
     "./aha-status-icon": "./lib/aha-status-icon.js",
     "./all": "./lib/all.js",
