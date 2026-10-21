@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for marketing/images/testimonials/. Every placeholder image in the Testimonials section is a real photo file listed here with its source URL, licence and fetch date. The people are stock models: names, roles, companies and quotes in the section are fictional. Refresh by re-fetching sourceUrl and re-cropping (avatars: square crop around the face, 128 px; portraits: 4:5, 600 px wide; webp quality 72-80).",
+  "$comment": "Source of truth for marketing/images/testimonials/. Every placeholder image in the Testimonials section is a real photo file listed here with its source URL, licence and fetch date. The people in avatar-01 to avatar-05, person-08 and the case study covers are stock models: their names, roles, companies and quotes in the section are fictional. The avatar-quote-* files are real AhaSlides customers shown with their own quotes from ahaslides.com. Refresh by re-fetching sourceUrl and re-cropping (avatars: square crop around the face, 128 px; portraits: 4:5, 600 px wide; webp quality 72-80).",
   "images": [
     {
       "file": "avatar-01.webp",
