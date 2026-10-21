@@ -30,7 +30,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 - Marketing → Cards: `.aha-marketing-cards` is transparent in every section, not only `aha-features--accent`; inside a Features section `.aha-marketing-cards__grid` drops its 64px padding and 72rem cap.
-- Websites → Website composition: rule W5 now names the pale pink band as the `aha-features--accent` class, never an inline `background: var(--aha-bg-accent)` style. Revert: remove the new classes, rule W10 and criterion W10; the previous Cards and Features CSS is restored by reverting this change. (#PR)
+- Websites → Website composition: rule W5 now names the pale pink band as the `aha-features--accent` class, never an inline `background: var(--aha-bg-accent)` style. Revert: remove the new classes, rule W10 and criterion W10; the previous Cards and Features CSS is restored by reverting this change. (#318)
 
 ## 0.293.0 — 2026-10-21
 ### Added
