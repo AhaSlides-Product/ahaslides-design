@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.313.0 — 2026-10-21
+## 0.314.0 — 2026-10-21
 ### Added
 - Websites → Website composition: three global rules and criteria, W11 balanced grids (a card or feature grid never leaves an empty column slot; the column count follows the item count), W12 no layout fatigue (at most 3 alternating rows in a section, never two alternating sections back to back, steps use the Steps row, neighbouring sections change layout) and W13 Testimonials and FAQ are the current DS sections pasted unchanged. Three new failing eval pages and `tests/website-composition.test.mjs`; the pass pages now use the current Testimonials and FAQ. Revert: remove W11 to W13, the three eval pages and the grid block at the end of the Cards and Features CSS; no existing class changed (#321)
 - Marketing → Cards, Features and Numbers: the Cards grid, the Features icon grid and the Numbers stats (centred layout; the 4-up row at 3 stats) balance by item count with no modifier. At 992px and wider: 1 item is one centred column, 2 items 2 columns, 4 items 2 by 2, 5 or more 3 columns with the short last row centred; at 768 to 991px a lone last card is centred. The image-led grid and the Steps row are untouched. Environment: marketing-web
@@ -33,6 +33,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing → every section follows the W14 type ramp by default: no section sets `--aha-font-display` (Nunito, which the DS never loads) any more, so the Hero title, every section h2, the alternating row titles, Numbers and Statistic card values and the Pricing card amount inherit Plus Jakarta Sans; section h2s use line-height heading (1.3) and FAQ and Footer banner titles step 40/32/24 px like the rest (FAQ was 36/28); Testimonials quote text in every layout is the lead size, regular (the large 32 px and the 18 px semibold Quote cards styles are gone; `--large` and `--card` stay in the markup with no type of their own); image-led card titles and FAQ questions are 20 px at every width (were 24 px, and FAQ 18 to 24 px); alternating row titles are 24 px (were 32); the Pricing benefit list is 20 px title and 16 px text (was 16 and 14); Numbers and Footer banner leads use the lead size. Environment: marketing-web (#321)
 - Websites → Website composition: rule and criterion W5 say the section directly after the Logos strip (the customer logos band) is always full white, never the pale pink accent or another tint.
 - Websites → Website composition: rule and criterion W6 use the Vivid Pink frame for any portrait image (taller than wide), even alone or when every image is the same size, and when a section holds more than one image of differing size or ratio; a landscape or square image, alone or among others of the same size, fills its container with no frame. New Features layout "Alternating with portrait screenshots" and Cards snippet "Portrait pictures, framed". Never crop a screenshot and one ratio per section stay. The "Alternating with screenshots" layout and the image-led Cards grids now show fill; the pink-frame examples show mixed sizes. Revert: remove the `--fill` classes, the new layout and snippets and restore the previous W6 text; no existing class changed
+
+## 0.312.0 — 2026-10-21
+### Removed
+- Marketing → FAQ: the Accent background and its White / Accent switch. The FAQ always sits on white; the `aha-faq--accent` class is gone, so remove it from any page that added it (#330).
 
 ## 0.310.1 — 2026-10-21
 ### Fixed

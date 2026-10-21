@@ -1257,5 +1257,4 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   .aha-faq__title{font-size:var(--aha-size-h4)}
   .aha-faq__inner{--aha-faq-gutter:var(--aha-space-32)}
 }
-.aha-faq--accent{box-shadow:inset 0 0 0 100vmax var(--aha-bg-accent)}
 
