@@ -2022,13 +2022,17 @@ function renderMarketingLlms(blocks) {
 }
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
 const LANDING_REDIRECTS = {
-  '': 'marketing/hero/index.html',
-  hero: 'marketing/hero/index.html',
+  '': 'marketing/header/index.html',
+  hero: 'marketing/header/index.html',
   button: 'button/index.html',
   link: 'button/index.html',
   fonts: 'foundations/typography.html',
   spacing: 'foundations/spacing.html',
   grid: 'grid/index.html',
+};
+const MARKETING_REDIRECTS = {
+  features: '../header/index.html',
+  numbers: '../header/index.html',
 };
 const redirectStub = (target) => `<!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <title>${esc(documentTitle({ site: SITE_NAME, page: 'Page moved' }))}</title>
@@ -3383,6 +3387,10 @@ if (MARKETING.length) {
 for (const [slug, target] of Object.entries(LANDING_REDIRECTS)) {
   const d = join(OUT, 'landing', slug); mkdirSync(d, { recursive: true });
   writeFileSync(join(d, 'index.html'), redirectStub((slug ? '../../' : '../') + target));
+}
+for (const [slug, target] of Object.entries(MARKETING_REDIRECTS)) {
+  const d = join(OUT, 'marketing', slug); mkdirSync(d, { recursive: true });
+  writeFileSync(join(d, 'index.html'), redirectStub(target));
 }
 /* audience library — one first-class in-site page (audience/index.html) under the DS shell */
 if (AUDIENCE) {

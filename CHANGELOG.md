@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.291.0 — 2026-10-21
+### Removed
+- Marketing → Sections: the standalone `Features` and `Numbers` pages are removed (`marketing/features.json`, `marketing/numbers.json`, their nav entries and generated pages). The old `marketing/features/` and `marketing/numbers/` URLs now forward to the `Header` page (new `MARKETING_REDIRECTS` in `generate.mjs`). Website guideline rules W1 to W5 and their anti-slop criteria no longer name the two sections, with no rule value changed; the Testimonials section states its own frame values (1280 wide, padding 96/64, 48/24, 32/16) instead of pointing at Features. No tokens, colours or components change. Revert: restore `marketing/features.json` and `marketing/numbers.json` from git history, the Features/Numbers wording in `marketing/testimonials.json`, `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`, and delete `MARKETING_REDIRECTS` in `generate.mjs`. (#PR)
+
 ## 0.290.0 — 2026-10-21
 ### Added
 - Marketing → Sections → Header: an optional G2 reviews row on the 17 layouts whose copy block holds the buttons (Hero Pink, Hero Pink Vertical, Hero Pale Pink, Hero Pale Pink Vertical, Hero Split Image 01, 03 and 05, Hero Screen Mockup 01 to 05, Hero iPhone Mockup 03, Hero Color Card 04, Hero Card Mockup 07 and 08, Hero Simple Text 01). It is five avatars (`aha-avatar-group`), five stars (`aha-rate`, filled to 4.8) and "4.8 Based on 1000 reviews", with a visually hidden label, readable on White, Pale Pink and Vivid Pink. It is off by default: the layout code leaves it out. Hero Split Form 01 (the button sits in the sign-up card) and the six page headers (no button in the copy block) do not get it. (#302)
@@ -33,6 +37,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.289.0 — 2026-10-21
 ### Changed
 - Icon library: `system-reveal-pinwheel` and `system-reveal-vortex` are redrawn as Bloom wedge (Variant 2), picked from a proposal because the previous pair looked identical to each other at 16–24px and read denser than Bloom, Radar sweep and Crystallise in the same row. Pinwheel is a solid hub with four arrows pointing outward and a clockwise arc above; Vortex is an open 270° clockwise ring with three arrows pointing inward to a centre dot. Names, wrapper attributes and colour are unchanged. The redraw no longer reads as near-identical (about 31% overlap, under the 86% near-duplicate threshold), so `icon-duplicates.intentional.json`'s Pinwheel/Vortex exemption is removed — the pair stands on its own in the near-duplicate gate like every other icon. (#314)
+
+## 0.287.0 — 2026-10-19
+### Removed
+- Marketing → Sections: the standalone `Hero` page is removed (`marketing/hero.json`, its nav entry and generated page). The hero layouts on the `Header` page are unchanged. The old `landing/` and `landing/hero` stubs now forward to the `Header` page. No tokens, colours or components change. Revert: restore `marketing/hero.json` and point the `''` and `hero` entries of `LANDING_REDIRECTS` in `generate.mjs` back at `marketing/hero/index.html`. (#298)
 
 ## 0.286.0 — 2026-10-20
 ### Changed

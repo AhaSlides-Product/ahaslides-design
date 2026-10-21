@@ -1517,12 +1517,12 @@
         {
           "id": "W1",
           "title": "Every band is a DS Marketing section",
-          "test": "Each full-width band of the page (site header, hero, features, numbers, logos, testimonials, pricing, FAQ, closing banner, footer) is a DS Marketing section (Navigation, Header or Hero, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner, Footer, with Cards inside a section): its root class and markup are the section's snippet, with only copy, images and the layout choice changed. A band built by hand (its own classes, its own grid, a restyled copy of a section) fails, whatever it looks like; the fix is the matching section, or a DSN ticket for a missing one. N/A when the change is a single section on its own, not a page."
+          "test": "Each full-width band of the page (site header, hero, logos, testimonials, pricing, FAQ, closing banner, footer) is a DS Marketing section (Navigation, Header, Logos, Testimonials, Pricing, FAQ, Footer banner, Footer, with Cards inside a section): its root class and markup are the section's snippet, with only copy, images and the layout choice changed. A band built by hand (its own classes, its own grid, a restyled copy of a section) fails, whatever it looks like; the fix is the matching section, or a DSN ticket for a missing one. N/A when the change is a single section on its own, not a page."
         },
         {
           "id": "W2",
           "title": "Sections keep their shipped rhythm",
-          "test": "Every section keeps the padding it ships and never overrides it: Features, Numbers, Pricing and Testimonials ship --aha-space-96 vertical and --aha-space-64 side on desktop, --aha-space-48 / --aha-space-24 at 767 px and below, --aha-space-32 / --aha-space-16 at 479 px and below; Hero (a fluid clamp), Logos (32 px vertical) and FAQ (its own gutter variable) ship different padding and keep that. Sections sit flush. An overridden section padding, a raw px padding added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
+          "test": "Every section keeps the padding it ships and never overrides it: Pricing and Testimonials ship --aha-space-96 vertical and --aha-space-64 side on desktop, --aha-space-48 / --aha-space-24 at 767 px and below, --aha-space-32 / --aha-space-16 at 479 px and below; Hero (a fluid clamp), Logos (32 px vertical) and FAQ (its own gutter variable) ship different padding and keep that. Sections sit flush. An overridden section padding, a raw px padding added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
         },
         {
           "id": "W3",

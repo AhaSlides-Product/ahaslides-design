@@ -5,8 +5,9 @@
 > were removed in 0.140.0, so every colour row needs a re-scan against Vivid Pink before it is acted on.
 >
 > **Status (0.68.0): the Landing tab is gone.** This audit is kept as the Webflow-to-update record;
-> it is not a docs-site page. The two marketing-only sections, **Hero** and **Section container**,
-> now live under the **Marketing** tab (source: `marketing/<slug>.json`). The landing
+> it is not a docs-site page. The marketing-only **Section container** now lives under the
+> **Marketing** tab (source: `marketing/<slug>.json`); the standalone **Hero** page was removed in
+> 0.287.0 and the hero layouts live on the Marketing **Header** page. The landing
 > Button, Link, Fonts, Spacing and Grid blocks were removed as duplicates of Components/Foundations;
 > they remain in git history at `v0.67.0` under `landing/`.
 >
@@ -114,7 +115,7 @@ plus every `bg-purple`/`x-compact-section`/`x-section` band on the page for the 
 | Dark band | not present on the current live homepage variant — no section on the page uses a dark/inverse background | `.aha-section--dark{background:var(--aha-bg-dark);color:var(--aha-icon-inverse)}` | **no live counterpart to check** — kept as a DS-provided variant (a high-contrast closing band is a reasonable marketing pattern even where this particular page doesn't use one yet); not a delta since there is no live value to disagree with |
 | Section title font (h2 in the block's markup) | n/a — the live page's own headings all render in the body face, `"Plus Jakarta Sans"` (see Type, above; item 15 in Webflow-to-update) | was `--aha-font-display` (Nunito) | **DS-internal bug, fixed this round** — the locked round-3 Fonts decision reserves `--aha-font-display` for Display/H1 only; H2/H3 stay on the body face (the former `landing/fonts.json` (removed in 0.68.0) `.aha-type__h2` carries no family override). `section-container.json` predates that decision (written in round 5 of PRO38-14, before the round-3 Fonts deep pass) and still forced its `<h2>` title onto the display face. Removed the override so the title inherits `--aha-font-product` from `.aha-section`, matching `fonts.json`'s own H2 treatment. |
 | Section title line-height | n/a (see Type, above: heading-large `129%` &asymp; DS `--aha-line-height-heading` `1.3`) | was `--aha-line-height-tight` (`1.2`, the H1/Display line-height) | **DS-internal bug, fixed this round** — same drift as the font-family: the title is an H2, so it should carry `--aha-line-height-heading` (`1.3`, what `fonts.json`'s `.aha-type__h2` uses), not the tighter H1/Display value. Corrected. |
-| Section eyebrow/lead type | eyebrow: size-sm/semibold/uppercase/primary-colour; lead: size-l/body line-height/secondary colour | unchanged, already token-bound and matching the `hero.json` eyebrow/lead treatment | **match** — no change |
+| Section eyebrow/lead type | eyebrow: size-sm/semibold/uppercase/primary-colour; lead: size-l/body line-height/secondary colour | unchanged, already token-bound and matching the `header.json` hero eyebrow/lead treatment | **match** — no change |
 
 **Verdict: the block already matched the live geometry (max-width, padding cap, soft-band colour) with
 no drift; the two genuine findings were internal** — a stale font-family/line-height pair left over from

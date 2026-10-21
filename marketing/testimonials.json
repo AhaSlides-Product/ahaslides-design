@@ -4,14 +4,14 @@
   "environment": [
     "web"
   ],
-  "summary": "The AhaSlides marketing site testimonial sections, in the layouts of the Untitled UI testimonial sections the marketing team picked (layout only; no Untitled UI photo or asset): Simple centred (3), Simple left aligned, Split image (3), Card, Card split image, Case study cards and Abstract image. Every placeholder is a real image file; every value comes from a DS token, component or marketing section (Cards, Features, Logos), and what the DS does not yet define is listed under Composed of as missing. Framework-free and bound to the shared --aha-* tokens.",
+  "summary": "The AhaSlides marketing site testimonial sections, in the layouts of the Untitled UI testimonial sections the marketing team picked (layout only; no Untitled UI photo or asset): Simple centred (3), Simple left aligned, Split image (3), Card, Card split image, Case study cards and Abstract image. Every placeholder is a real image file; every value comes from a DS token, component or marketing section (Cards, Logos), and what the DS does not yet define is listed under Composed of as missing. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [
     "Eleven layouts, each with its own labelled preview and paste-and-run snippet",
     "Every placeholder (customer photos, split photo, collage, case study covers) is an <img> pointing at a real image file with alt text, and every avatar is <aha-avatar> with a photo src, never a drawn box or initials; the files and their sources are listed in marketing/images/testimonials/manifest.json",
-    "Rating is <aha-rate readonly size=\"sm\">, avatars are <aha-avatar> (default 40, large 64), arrows are <aha-button variant=\"secondary\" icon-only>; quote, name and role styles are the Testimonial card of the Cards page, the case study cards are its Case study card, and the section frame, header block and photo ratios are the Features section's",
+    "Rating is <aha-rate readonly size=\"sm\">, avatars are <aha-avatar> (default 40, large 64), arrows are <aha-button variant=\"secondary\" icon-only>; quote, name and role styles are the Testimonial card of the Cards page, the case study cards are its Case study card, and the section frame (1280 wide, padding 96/64, 48/24, 32/16), header block and photo ratios are this section's own",
     "Carousel layouts are a native scroll-snap track with the DS secondary icon-only button for arrows and the Carousel dot values (16 by 4 rest dot in grey 70, 28 wide Vivid Pink active dot, gap 8); no autoplay, the track is focusable and scrolls with the arrow keys, and the small script only moves the track",
     "Company logos are trimmed copies of the Logos section data (marketing/data/logos-cms.json), kept in greyscale, all rendered at one fixed height with width auto, so every logo shares the same left edge and optical size",
-    "Each section is a container-query block stepping down at 991, 767 and 479px, with the Features section padding at each step"
+    "Each section is a container-query block stepping down at 991, 767 and 479px, with this section's padding at each step"
   ],
   "imagePath": "images/testimonials",
   "layoutKind": "testimonial",
@@ -135,12 +135,6 @@
       "ref": "marketing/cards.json",
       "as": "marketing section",
       "use": "Testimonial card type (quote, name, role, person row) and Case study card anatomy (cover 3:2, body, stretched link, hover lift)",
-      "status": "available"
-    },
-    {
-      "ref": "marketing/features.json",
-      "as": "marketing section",
-      "use": "Section frame (1280 wide, padding 96/64, 48/24, 32/16), header block, split grid, photo ratios",
       "status": "available"
     },
     {
