@@ -9,6 +9,7 @@ const criteria = readJson('anti-slop/criteria.json').surfaces.website.criteria;
 const agentCriteria = readJson('agent/anti-slop/criteria.json').surfaces.website.criteria;
 const evals = readJson('anti-slop/evals/website/evals.json').evals;
 const cardsCss = readJson('marketing/cards.json').baseCss;
+const numbersCss = readJson('marketing/numbers.json').baseCss;
 const featuresCss = readJson('marketing/features.json').baseCss;
 
 for (const id of ['W11', 'W12', 'W13']) {
@@ -36,4 +37,10 @@ test('the Cards grid and the Features icon grid balance by item count', () => {
 
 test('the Steps row and the image-led grid keep their own layout', () => {
   assert.match(cardsCss, /\.aha-marketing-cards__grid:not\(\.aha-marketing-cards__grid--image-led\):not\(\.aha-marketing-cards__grid--row\):has/);
+});
+
+test('the Numbers centred stats balance by item count', () => {
+  assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(2\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(numbersCss, /\.aha-numbers--centred \.aha-numbers__stats:has\(>:nth-child\(4\):last-child\)\{grid-template-columns:repeat\(2,/);
+  assert.match(numbersCss, /:nth-child\(3n\+2\):last-child:nth-child\(n\+5\)\)>:last-child\{grid-column:4 \/ span 2\}/);
 });

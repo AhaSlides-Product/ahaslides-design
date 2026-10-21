@@ -1567,7 +1567,7 @@
         {
           "id": "W11",
           "title": "Card and feature grids are balanced",
-          "test": "A card or feature grid has no empty column slot and is not off-centre: the column count follows the item count (1 item one centred column, 2 items 2 columns, 3 items 3, 4 items 2 by 2, 5 or more 3 columns with the short last row centred). The shipped Cards grid and Features icon grid do this by default. Two cards in a 3-column grid with an empty third slot, 4 items as 3 plus 1, a last row pinned to the left, or a `grid-template-columns` override that leaves a gap fails. N/A when the page has no card or feature grid."
+          "test": "A card or feature grid has no empty column slot and is not off-centre: the column count follows the item count (1 item one centred column, 2 items 2 columns, 3 items 3, 4 items 2 by 2, 5 or more 3 columns with the short last row centred). The shipped Cards grid, Features icon grid and Numbers stats do this by default; 2 stats in a 3-column row, or a page-only override to fix it, fails. Two cards in a 3-column grid with an empty third slot, 4 items as 3 plus 1, a last row pinned to the left, or a `grid-template-columns` override that leaves a gap fails. N/A when the page has no card, feature or stats grid."
         },
         {
           "id": "W12",
