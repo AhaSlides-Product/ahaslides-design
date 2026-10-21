@@ -39,6 +39,27 @@ A single-block panel growing past 8–10 settings is a signal to re-group or spl
 7. **A tooltip is a backup, never the crutch.** If the label only makes sense after reading its tooltip, rewrite the label. A tooltip adds the why or an edge case, never the meaning (UXW-9).
 8. **One term per concept** across the surface and its learner-facing side. If the trainer sets "Complete module condition", the learner view and reports do not call the same thing "pass mark".
 
+### Worked examples
+
+Real labels from the e-learning editor. "Keep" rows already pass and show what good looks like.
+
+| Today | Rule-compliant label | Why |
+| --- | --- | --- |
+| Pass mark | Complete module condition | Rule 1: a term borrowed from exams, not what the trainer is setting |
+| Opening (module group header) | When the module opens | Rule 3: lone abstract noun |
+| Completion (module group header) | When the module is complete | Rule 3: lone abstract noun |
+| Completion (course settings tab) | Course completion | Rule 3: says which object |
+| Tracking (LMS export) | When the LMS marks it complete | Rule 7: the label only made sense with its intro line |
+| LMS key | LMS name in reports | Rule 1: "key" is a system term; the field names the LMS in the report |
+| Reporting options (group header) | What is sent to AhaSlides | Rule 3: "options" hides what the group controls |
+| Report to the LMS as: Completed / Passed | Completed (learner finished) / Passed (learner reached the score) | Rule 6: each option states its outcome |
+| Module score: "Pass mark 80%" (learner side) | Score needed to complete: 80% | Rule 8: the trainer side calls it "Complete module condition" |
+| Signer (certificate) | Signature | Rule 5: the term people know |
+| Team name (certificate) | Organisation name on certificate | Rule 4: which team, and where it shows |
+| Who can open this course | Keep | States the outcome; a question label is fine when it is the clearest form |
+| Minimum correct answers + % | Keep | Plain words, unit in the control (rule 6); the tooltip adds only the edge case (rule 7) |
+| Minimum learning time | Keep | Plain words; the tooltip adds that idle time is not counted, the why, not the meaning |
+
 **Self-check before shipping.** Write every label in a table: `label | "Changing this …" sentence | tooltip (if any)`. If the sentence needs words the label lacks, the label is missing them. Put that table in the PR body or preview of any settings build, so the requester reviews all wording in one place instead of guessing from screenshots. Judged by C20.
 
 Rationale: plain language, one term per concept and labels that let people anticipate what happens are the common ground of Shopify Polaris content fundamentals (polaris-react.shopify.com/content/fundamentals) and Microsoft's app-settings guidelines (learn.microsoft.com/en-us/windows/apps/design/app-settings/guidelines-for-app-settings); essential meaning never lives only in a tooltip (UXW-9).

@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.321.0 — 2026-10-21
 ### Added
-- Settings: new rule "Labels: say what the setting does" and judge criterion C20 "Labels are self-explanatory". A first-time reader of only the label can say what changes; no coined term or lone abstract noun ("Opening", "Mode"), the conventional term, the unit in the label, one term per concept, and a `label | "Changing this …" sentence | tooltip` table in the PR. UXW-10 points every form label at it. Eight new C20 evals (#336).
+- Settings: new rule "Labels: say what the setting does" and judge criterion C20 "Labels are self-explanatory". A first-time reader of only the label can say what changes; no coined term or lone abstract noun ("Opening", "Mode"), the conventional term, the unit in the label, one term per concept, and a `label | "Changing this …" sentence | tooltip` table in the PR. A worked-examples table of 14 real e-learning labels (before, after, which rule). UXW-10 points every form label at it. Eight new C20 evals (#336).
 
 ### Changed
 - Settings C1 and the settings guide: "short noun phrase" becomes "clear noun phrase". Clear beats short (#336).
