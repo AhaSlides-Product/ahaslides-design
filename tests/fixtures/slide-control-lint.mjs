@@ -96,10 +96,14 @@ export const SLIDE_RULE_FIXTURES = [
     fail: [
       '<aha-button variant="primary" size="lg">Send</aha-button>',
       `var skip = el('aha-button', { variant: 'tertiary-deck', size: 'md' }, [label]);`,
+      '<aha-button variant="secondary-deck" size="md" icon-only aria-label="Close">x</aha-button>',
+      '<aha-button variant="tertiary-deck" size="sm" icon-only aria-label="Close">x</aha-button>',
     ],
     pass: [
       '<aha-button variant="primary" size="touch" block>Send</aha-button>',
       '<aha-audience-submit></aha-audience-submit>',
+      '<aha-button variant="tertiary-deck" size="md" icon-only sheet aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>',
+      `var close = el('aha-button', { variant: 'tertiary-deck', size: 'md', 'icon-only': '', 'aria-label': 'Close' }, [glyph]);`,
     ],
   },
   {

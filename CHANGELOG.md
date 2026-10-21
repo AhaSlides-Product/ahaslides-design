@@ -22,12 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.305.0 — 2026-10-21
+## 0.308.0 — 2026-10-21
 ### Added
 - Question list: header slots keyed by question id — `start-<id>`, `marker-<id>` (in place of the number), `before-<id>`, `after-<id>` and `end-<id>`, each taking any number of children — and a per-question `status: { message, tone }` supporting line (FieldError) under the header, with a warning or error border on the card (#325).
 ### Changed
 - Question list: the header prompt wraps to at most two lines, and the delete is OptionRow's — secondary small icon Button on the card's top-right corner, revealed on hover or keyboard focus and a Tab stop with the DS focus ring (was an always-visible tertiary trash) (#325).
 - Option row: the delete is now a Tab stop (after the field, skipped when disabled), revealed when the row or the delete has keyboard focus; hover look and Backspace-when-empty unchanged (#325).
+
+## 0.306.0 — 2026-10-21
+### Added
+- Audience → Close: a ✕ for a modal, sheet or overlay on the audience phone, `<aha-button variant="tertiary-deck" size="md" icon-only aria-label="Close">` with the 16px `system-x`. Drawn 36 × 36 (the foundation md icon-only square) instead of the 48 × 48 touch icon-only, with an invisible 44 × 44 hit area so the touch floor still holds; no other button changes. New `sheet` attribute for a white modal or sheet: the glyph is muted grey (`--aha-icon-muted`, 3.45:1 on white) and text-default on hover and press, because the deck ink can be white. Actions (Skip, Back, Remove) stay size touch. (#317)
+### Fixed
+- Audience → SubmittedCard: the check pip no longer sits on a grey square (the 10% deck-ink wash behind the glyph is removed), and the check is 32px, the size of the WaitingForHost hourglass. (#317)
 
 ## 0.303.0 — 2026-10-21
 ### Added
