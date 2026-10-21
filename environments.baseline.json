@@ -3,7 +3,6 @@
  "missing": [
   "contract:aha-loader",
   "contract:answer-list",
-  "contract:answer-option",
   "contract:audience-chip",
   "contract:audience-image-upload",
   "contract:audience-submit",

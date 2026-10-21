@@ -22,6 +22,14 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.295.0 — 2026-10-21
+### Added
+- `<aha-bottom-sheet>`: an audience sheet that slides up to show one option in full, picture on top and the whole text below. It scrolls when long and closes on the backdrop, the close button, Escape and a swipe down; focus is trapped inside and returned to the opener (#PRNUM)
+- `<aha-answer-option expandable>`: a long-text variant. The label clamps to 4 lines with More inside the card, the picture moves to the right and shows a dark overlay with an expand arrow on hover. More and the picture emit `expand` (#PRNUM)
+
+### Fixed
+- `<aha-chart>`: the hover panel that shows a full label is wider (up to 480px or 90% of the chart) and now stays inside the viewport or iframe on every side, flipping above or below the pointer and shifting sideways (#PRNUM)
+
 ## 0.293.0 — 2026-10-21
 ### Added
 - Marketing → Sections → Testimonials: a "Quote cards" layout cloned from the "What our users say" section of the ahaslides.com slide-type pages. A centred heading and lead on the pale pink band (`--aha-bg-accent`), then three equal white cards with the quote at the top and the avatar, name and role pinned to the bottom, stacking to one column at 767px. Three customer avatars are added to `marketing/images/testimonials/` and listed in its manifest. (#316)
