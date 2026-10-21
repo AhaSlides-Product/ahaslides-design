@@ -1805,11 +1805,16 @@ function marketingStateSwitch(b, layout) {
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
 const marketingStatePanes = (b, layout, snippet) => {
-  if (!b.states || !marketingHasStates(b, layout)) return [];
+  const states = marketingLayoutStates(b, layout);
+  if (!states || !marketingHasStates(b, layout)) return [];
   const stateClass = marketingLayoutStateClass(b, layout);
   const rootClass = new RegExp(`class="([^"]*\\b${stateClass}\\b[^"]*)"`);
-  return b.states.filter(state => state.modifier).map(state => ({ key: `state-${state.modifier}`, label: state.label,
-    code: snippet.replace(rootClass, `class="$1 ${stateClass}--${state.modifier}"`) }));
+  const otherModifiers = (modifier) => states.filter(state => state.modifier && state.modifier !== modifier).map(state => `\\s*\\b${stateClass}--${state.modifier}\\b`);
+  return states.filter(state => state.modifier).map(state => {
+    const stripOthers = new RegExp(otherModifiers(state.modifier).join('|') || '(?!)', 'g');
+    return { key: `state-${state.modifier}`, label: state.label,
+      code: snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`) };
+  });
 };
 function marketingReviewsFor(b, layout) {
   const reviews = b.reviews;
@@ -1948,7 +1953,7 @@ ${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) && b.states ? b.states.find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
 ${b.composedOf ? `
