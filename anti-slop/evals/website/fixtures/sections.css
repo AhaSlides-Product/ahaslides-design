@@ -868,6 +868,7 @@
 @container aha-footer-banner (max-width:479px){
   .aha-footer-banner__title{font-size:var(--aha-size-h4)}
   .aha-footer-banner__inner{padding-left:var(--aha-space-32);padding-right:var(--aha-space-32)}
+  .aha-footer-banner__card{padding-left:var(--aha-space-32);padding-right:var(--aha-space-32)}
 }
 .aha-footer-banner--reveal.is-armed .aha-footer-banner__card{opacity:0}
 .aha-footer-banner--reveal.is-armed .aha-footer-banner__title{opacity:0;transform:translateY(10%)}
