@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.304.0 — 2026-10-21
 ### Fixed
-- Marketing → Header, Hero color card 04: the Accent switch now tints the card (the section surface of that layout) instead of leaving it white.
+- Marketing → Header, Hero color card 04: the Accent switch now tints the card (the section surface of that layout) instead of leaving it white.  (#326)
 
 ## 0.303.0 — 2026-10-21
 ### Added
