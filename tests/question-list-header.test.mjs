@@ -69,7 +69,7 @@ test('header slots are keyed per question; the marker slot keeps a "Question N" 
   });
 });
 
-test('delete is hidden at rest, revealed on hover only like OptionRow, and is not a Tab stop', { skip }, async () => {
+test('delete is hidden at rest, revealed on hover or keyboard focus like OptionRow, and is a Tab stop', { skip }, async () => {
   const file = join(mkdtempSync(join(tmpdir(), 'question-list-delete-')), 'page.html');
   writeFileSync(file, `<!doctype html><body style="width:420px;margin:40px">
 <aha-question-list id="list" min="1" questions='[{"id":"q1","prompt":"First","options":[{"text":"A"},{"text":"B"}]},{"id":"q2","prompt":"Second","options":[{"text":"A"},{"text":"B"}]}]'></aha-question-list>
@@ -93,9 +93,15 @@ test('delete is hidden at rest, revealed on hover only like OptionRow, and is no
     await read(command, "document.getElementById('list').shadowRoot.querySelector('.question aha-collapse').shadowRoot.querySelector('button').focus()");
     await read(command, settle);
     out.headerFocus = await read(command, opacity);
+    await read(command, "document.getElementById('list').shadowRoot.querySelector('.question .delete aha-button').shadowRoot.querySelector('button').focus()");
+    await read(command, settle);
+    out.deleteFocus = await read(command, opacity);
+    out.deleteReached = await read(command, "document.getElementById('list').shadowRoot.activeElement === document.getElementById('list').shadowRoot.querySelector('.question .delete aha-button')");
+    await read(command, "(() => { window.seen = []; document.getElementById('list').addEventListener('change', () => window.seen.push(1)); document.getElementById('list').shadowRoot.querySelector('.question .delete aha-button').shadowRoot.querySelector('button').click(); })()");
+    out.countAfterDelete = await read(command, "document.getElementById('list').shadowRoot.querySelectorAll('.question').length");
     return out;
   }, { readyExpr: '!!window.ready' });
-  assert.deepEqual(result, { tabIndex: -1, rest: '0', hover: '1', afterLeave: '0', headerFocus: '0' });
+  assert.deepEqual(result, { tabIndex: 0, rest: '0', hover: '1', afterLeave: '0', headerFocus: '1', deleteFocus: '1', deleteReached: true, countAfterDelete: 1 });
 });
 
 test('warning and error cards recolour the border with the status tokens; info and none keep the default', { skip }, async () => {
