@@ -15,7 +15,7 @@ const scenarios = String.raw`(async () => {
   const bordered = document.getElementById('bordered');
   const closed = document.getElementById('closed');
 
-  await wait(600);
+  await wait(50);
   out.ghostClip = overflowOf(ghost, '.clip');
   out.borderedClip = overflowOf(bordered, '.clip');
   out.borderedPanel = overflowOf(bordered, '.panel');
@@ -52,7 +52,10 @@ const evaluate = (command, expression) =>
   command('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }).then((r) => r.result.value);
 
 test('with reduced motion, open content may overflow at once', { skip }, async () => {
-  const result = await withPage(fixture, (command) => evaluate(command, scenarios), { readyExpr: '!!window.collapseFixtureReady' });
+  const result = await withPage(fixture, async (command) => {
+    await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+    return evaluate(command, scenarios);
+  }, { readyExpr: '!!window.collapseFixtureReady' });
   assert.equal(result.ghostClip, 'visible');
   assert.equal(result.borderedClip, 'visible');
   assert.equal(result.borderedPanel, 'visible');
