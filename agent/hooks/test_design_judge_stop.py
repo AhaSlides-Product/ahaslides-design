@@ -264,6 +264,14 @@ class MainEndToEnd(unittest.TestCase):
             for surface in ("canvas", "audience", "settings"):
                 self.assertIn("- {}: ".format(surface), out["reason"])
             self.assertNotIn("- background: ", out["reason"])
+            self.assertIn("label self-check table", out["reason"])
+            self.assertIn("settings-design", out["reason"])
+
+    def test_a_settings_app_file_asks_for_the_label_table(self):
+        self.assertIn("label self-check table", self._card_run("CourseSettings.tsx"))
+
+    def test_other_files_do_not_ask_for_the_label_table(self):
+        self.assertNotIn("label self-check table", self._card_run("Card.tsx"))
 
     def test_same_named_files_outside_a_slide_type_stay_silent(self):
         with tempfile.TemporaryDirectory() as root:

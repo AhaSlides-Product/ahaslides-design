@@ -152,8 +152,14 @@
     {
       "ref": "modal",
       "as": "component",
-      "use": "any modal interaction via the host's openPluginModal bottom-sheet — host paints the chrome, you fill the body",
+      "use": "a modal the host paints outside the iframe via openPluginModal (the host's own bottom sheet chrome, you fill the body); a modal inside the iframe is <aha-audience-modal>",
       "status": "missing"
+    },
+    {
+      "ref": "audience-modal",
+      "as": "component",
+      "use": "a modal inside the iframe — <aha-audience-modal>: option details (from an expandable option), an action, or a confirmation; no backdrop, actions pinned and stacked full width",
+      "status": "available"
     },
     {
       "ref": "skeleton",
@@ -222,7 +228,7 @@
       "status": "available"
     }
   ],
-  "entryExtras": ["bottom-sheet", "option-modal", "counted-input", "field-error", "loader", "select"],
+  "entryExtras": ["bottom-sheet", "counted-input", "field-error", "loader", "select"],
   "componentBacklog": "composedOf marks 7 items this pattern leans on that the DS does not ship — the four semantic-state tokens (colorSuccess/Error/Warning/Info, which plugins bundle from the design-system package rather than read as --aha-* vars because no host CSS var crosses the iframe), plus toast, modal and skeleton (the first two are painted by the host outside the iframe). Radio, slider, textarea and the shared instruction now ship as the audience elements. Per the charter, a pattern leaning on a missing component is a signal to add it HERE.",
   "rules": [
     {

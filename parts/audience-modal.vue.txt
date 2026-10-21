@@ -1,0 +1,21 @@
+<script setup>
+import '@ahaslides-product/design/aha-audience-modal';
+import '@ahaslides-product/design/aha-button';
+import '@ahaslides-product/design/aha-audience-field';
+import '@ahaslides-product/design/aha-counted-input';
+import { ref } from 'vue';
+const open = ref(false);
+const emit = defineEmits(['rename']);
+const name = ref('');
+</script>
+
+<template>
+  <aha-button variant="secondary-deck" size="touch" @click="open = true">Change your name</aha-button>
+  <aha-audience-modal type="action" heading="Change your display name" :open="open || null"
+    @action="emit('rename', name)" @close="open = false">
+    <aha-audience-field label="Display name">
+      <aha-counted-input size="lg" maxlength="30" :value="name" @input="name = $event.detail.value"></aha-counted-input>
+    </aha-audience-field>
+    <aha-button slot="actions" data-action="save" variant="primary" size="touch">Save name</aha-button>
+  </aha-audience-modal>
+</template>

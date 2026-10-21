@@ -932,9 +932,9 @@ const repoChecks = [];
   const plugin = readJson('agent/.claude-plugin/plugin.json');
   rchk(`agent plugin version ${plugin?.version} matches package.json ${PKG.version}`, plugin?.name === 'ahaslides-design' && plugin?.version === PKG.version,
     `bump agent/.claude-plugin/plugin.json "version" to ${PKG.version} — the plugin releases with the package`);
-  rchk('agent plugin ships the aha-design skill and its hooks',
-    existsSync(join(root, 'agent', 'skills', 'aha-design', 'SKILL.md')) && existsSync(join(root, 'agent', 'hooks', 'hooks.json')),
-    'agent/skills/aha-design/SKILL.md and agent/hooks/hooks.json must exist');
+  rchk('agent plugin ships the aha-design and settings-design skills and their hooks',
+    ['aha-design', 'settings-design'].every(skill => existsSync(join(root, 'agent', 'skills', skill, 'SKILL.md'))) && existsSync(join(root, 'agent', 'hooks', 'hooks.json')),
+    'agent/skills/aha-design/SKILL.md, agent/skills/settings-design/SKILL.md and agent/hooks/hooks.json must exist');
   const bundled = join(root, 'agent', 'anti-slop', 'criteria.json');
   rchk('agent plugin criteria copy equals anti-slop/criteria.json',
     existsSync(bundled) && read(bundled) === read(join(root, 'anti-slop', 'criteria.json')),

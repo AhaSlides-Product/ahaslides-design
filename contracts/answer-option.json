@@ -125,7 +125,7 @@
       "name": "expand",
       "type": "CustomEvent",
       "default": "—",
-      "desc": "expandable only: More or the picture was pressed; detail.source is more or image. It never picks the row. Open <aha-option-modal> in response"
+      "desc": "expandable only: More or the picture was pressed; detail.source is more or image. It never picks the row. Open <aha-audience-modal> (type details) in response"
     }
   ],
   "opinion": {
@@ -139,7 +139,7 @@
         "when": "an ordinary list: it repeats this row and owns the gap, selection and counts"
       },
       {
-        "what": "Answer option expandable + Option modal",
+        "what": "Answer option expandable + Audience modal",
         "when": "option text or pictures can be long: show 4 lines in the row and the whole option in the modal"
       }
     ],

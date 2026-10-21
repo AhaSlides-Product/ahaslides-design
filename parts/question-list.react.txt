@@ -29,6 +29,6 @@ function AhaQuestionList({ questions, label, help, min, max, minOptions, maxOpti
 
 // usage
 <AhaQuestionList questions={quiz} label="Questions" min={1} max={10} minOptions={2} maxOptions={6} onChange={setQuiz}>
-  {/* header slots: start-<id>, marker-<id> (replaces the number), before-<id>, after-<id> and end-<id>; any number of children each */}
+  {/* header slots: start-<id>, marker-<id> (replaces the number), before-<id>, after-<id> and end-<id>; any number of children each; body-<id> takes interactive children inside the open question */}
   <aha-tag slot="before-q1">00:23</aha-tag>
 </AhaQuestionList>

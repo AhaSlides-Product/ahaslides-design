@@ -127,3 +127,55 @@ test('warning and error cards recolour the border with the status tokens; info a
   assert.equal(result.warningToken, true);
   assert.equal(result.errorToken, true);
 });
+
+test('body-<id> slot: interactive, inert for the collapse, above the Question row, follows its id', { skip }, async () => {
+  const result = await run(`
+    const list = document.getElementById('list');
+    const input = document.createElement('input');
+    input.id = 'time'; input.slot = 'body-q1';
+    const stale = document.createElement('input');
+    stale.slot = 'body-gone';
+    list.append(input, stale);
+    await frame();
+    const cards = () => [...list.shadowRoot.querySelectorAll('.question')];
+    const collapse = () => cards()[0].querySelector('aha-collapse');
+    const holder = (i) => cards()[i].querySelector('.body-slot');
+    const out = {};
+    out.filled = [holder(0).hasAttribute('data-filled'), holder(1).hasAttribute('data-filled')];
+    out.closedHidden = getComputedStyle(holder(0)).visibility;
+    collapse().shadowRoot.querySelector('button').click();
+    await frame();
+    out.opened = collapse().hasAttribute('open');
+    out.openVisible = getComputedStyle(holder(0)).visibility;
+    const fields = holder(0).parentElement;
+    out.firstInFields = fields.firstElementChild === holder(0);
+    out.aboveQuestionRow = input.getBoundingClientRect().bottom <= fields.querySelector('aha-setting-row').getBoundingClientRect().top;
+    out.staleAssigned = stale.assignedSlot;
+    let hostEvents = 0;
+    list.addEventListener('input', () => hostEvents++);
+    input.focus();
+    out.focused = document.activeElement === input;
+    input.click();
+    for (const key of ['Enter', ' ']) input.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, composed: true }));
+    input.value = '1:05';
+    input.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    await frame();
+    out.stillOpen = collapse().hasAttribute('open');
+    out.hostSawInput = hostEvents;
+    const model = list.questions;
+    model.reverse(); list.questions = model;
+    await frame();
+    out.afterReorder = [input.assignedSlot && input.assignedSlot.closest(".question") === cards()[3], input.isConnected];
+    model.push({ id: 'q5', options: [{}, {}] }); list.questions = model;
+    await frame();
+    out.afterAdd = input.assignedSlot !== null;
+    list.questions = model.filter((q) => q.id !== 'q1');
+    await frame();
+    out.afterDelete = input.assignedSlot;
+    return out;
+  `);
+  assert.deepEqual(result, {
+    filled: [true, false], closedHidden: 'hidden', opened: true, openVisible: 'visible', firstInFields: true, aboveQuestionRow: true, staleAssigned: null,
+    focused: true, stillOpen: true, hostSawInput: 1, afterReorder: [true, true], afterAdd: true, afterDelete: null,
+  });
+});
