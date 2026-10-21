@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.317.0 — 2026-10-21
 ### Added
-- Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets the form it sits in (#332).
+- Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets its form; the Button is now form-associated, and Enter in a text field of the form submits it, as with a native submit button (not while the Button is disabled or loading) (#332).
 - screen-lint: the `hand-rolled-button` rule hard-fails on every surface a button the screen draws itself (a `button` / `btn` / `cta` class, `<button>`, `[role=button]` or link painted with a fill and a button shape, or state fills) and any restyle of `<aha-button>` (a colour, fill, border, shadow, height or `:hover` / `:active` / `:focus` rule on it, its `::part` or a `--aha-button-*` token); only layout may be set on it. Opt-out: `ds-lint-allow: hand-rolled-button (why)` (#332).
 - Websites → Website composition: rule and criterion W15 "Every button is the DS Button, never restyled", with a failing eval of the games.ahaslides.com header case; aha-design skill rule 12 (#332).
 ### Changed
