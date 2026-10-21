@@ -29,7 +29,7 @@
     },
     {
       "label": "Pip",
-      "value": "a 24px square wash of the ink at 10% holding a glyph in the muted ink, 65% (system-check-circle by default); or a 96px image, radius 8"
+      "value": "a 24px glyph in the muted ink, 65% (system-check-circle by default), no background; or a 96px image, radius 8"
     },
     {
       "label": "Text",
