@@ -1,10 +1,4 @@
 {
  "$about": "Near-identical icon pairs that are deliberately kept, each with the written reason. Only an exact listed pair is exempt from the near-duplicate gate; standards.mjs fails an entry with no reason, or whose pair is no longer near-identical or no longer exists. Unlike icon-duplicates.baseline.json this list is not a shrink-only backlog: adding a pair needs a reviewer to accept the reason.",
- "pairs": [
-  {
-   "first": "system-reveal-pinwheel",
-   "second": "system-reveal-vortex",
-   "reason": "Gen3's own matched out/in pair, copied 1:1 from the Radar slide: direction differs by the spokes and the centre dot."
-  }
- ]
+ "pairs": []
 }
