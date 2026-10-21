@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.325.1 — 2026-10-21
 ### Fixed
-- Audience library: every example is in English. The answer list, rank list, text fields, slider, chips, image upload and audience modal demos had Vietnamese labels, options and placeholders. (#NNN)
+- Audience library: every example is in English. The answer list, rank list, text fields, slider, chips, image upload and audience modal demos had Vietnamese labels, options and placeholders. (#339)
 
 ## 0.325.0 — 2026-10-21
 ### Added
