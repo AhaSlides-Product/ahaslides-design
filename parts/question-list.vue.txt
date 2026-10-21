@@ -6,7 +6,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <script setup>
 import { ref } from 'vue';
 const quiz = ref([
-  { id: 'q1', prompt: 'Capital of France?', options: [{ id: 'o1', text: 'Paris', correct: true }, { id: 'o2', text: 'London' }] },
+  { id: 'q1', prompt: 'Capital of France?', status: { message: 'Only 2s after Q1.', tone: 'warning' }, options: [{ id: 'o1', text: 'Paris', correct: true }, { id: 'o2', text: 'London' }] },
 ]);
 </script>
 
@@ -20,5 +20,8 @@ const quiz = ref([
     maxoptions="6"
     :questions.prop="quiz"
     @change="quiz = $event.detail.questions"
-  />
+  >
+    <!-- header slots: before-<id> / after-<id> beside the prompt, marker-<id> in place of the number -->
+    <aha-tag slot="before-q1">00:23</aha-tag>
+  </aha-question-list>
 </template>

@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-question-list> directly.
 // questions is a PROPERTY (the model); onChange gives the full edited model back.
-function AhaQuestionList({ questions, label, help, min, max, minOptions, maxOptions, allowImage, disabled, onChange }) {
+function AhaQuestionList({ questions, label, help, min, max, minOptions, maxOptions, allowImage, disabled, onChange, children }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -23,9 +23,12 @@ function AhaQuestionList({ questions, label, help, min, max, minOptions, maxOpti
       {...(maxOptions != null ? { maxoptions: String(maxOptions) } : {})}
       {...(allowImage ? { allowimage: '' } : {})}
       {...(disabled ? { disabled: '' } : {})}
-    />
+    >{children}</aha-question-list>
   );
 }
 
 // usage
-<AhaQuestionList questions={quiz} label="Questions" min={1} max={10} minOptions={2} maxOptions={6} onChange={setQuiz} />
+<AhaQuestionList questions={quiz} label="Questions" min={1} max={10} minOptions={2} maxOptions={6} onChange={setQuiz}>
+  {/* header slots: before-<id> / after-<id> beside the prompt, marker-<id> in place of the number */}
+  <aha-tag slot="before-q1">00:23</aha-tag>
+</AhaQuestionList>
