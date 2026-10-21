@@ -22,9 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.304.0 — 2026-10-21
+## 0.307.0 — 2026-10-21
 ### Added
 - `aha-option-row`: the drag handle is now an opt-in keyboard-operable reorder grip. Set `reorderable` (alongside `orderable`, on a non-`disabled` row) to make the handle a tab stop that emits composed `reorder-move` (`detail.direction` "up"/"down") on ArrowUp/ArrowDown, and composed `reorder-grab` (`detail.{pointerId,clientX,clientY}`) on pointerdown; the row never reorders itself — a host reorders its list and calls the new `focusHandle()` to restore focus after moving the row element. Without `reorderable` the handle is unchanged (decorative, no tab stop, no events). (#327)
+
+## 0.306.0 — 2026-10-21
+### Added
+- Audience → Close: a ✕ for a modal, sheet or overlay on the audience phone, `<aha-button variant="tertiary-deck" size="md" icon-only aria-label="Close">` with the 16px `system-x`. Drawn 36 × 36 (the foundation md icon-only square) instead of the 48 × 48 touch icon-only, with an invisible 44 × 44 hit area so the touch floor still holds; no other button changes. New `sheet` attribute for a white modal or sheet: the glyph is muted grey (`--aha-icon-muted`, 3.45:1 on white) and text-default on hover and press, because the deck ink can be white. Actions (Skip, Back, Remove) stay size touch. (#317)
+### Fixed
+- Audience → SubmittedCard: the check pip no longer sits on a grey square (the 10% deck-ink wash behind the glyph is removed), and the check is 32px, the size of the WaitingForHost hourglass. (#317)
 
 ## 0.303.0 — 2026-10-21
 ### Added
