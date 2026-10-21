@@ -28,3 +28,7 @@ test('the image-led grid collapses to one column on the viewport, not the contai
   const css = readJson('marketing/cards.json').baseCss;
   assert.match(css, /@media \(max-width:767px\)\{\s*\.aha-marketing-cards__grid--image-led\{grid-template-columns:minmax\(0,1fr\)/);
 });
+
+test('the feature card in the image-led grid is stretched, not centred, once it stacks on a phone', () => {
+  assert.match(readJson('marketing/cards.json').baseCss, /nth-last-child\(odd\) \.aha-marketing-card\{display:flex;align-items:stretch\}/);
+});
