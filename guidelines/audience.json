@@ -587,6 +587,13 @@
       ]
     },
     {
+      "id": "close-button",
+      "rule": "A modal, sheet or overlay on the audience phone closes with the DS close ✕: <aha-button variant=\"tertiary-deck\" size=\"md\" icon-only aria-label=\"Close\"> with the 16px system-x (36 x 36 drawn, an invisible 44 x 44 hit area; add `sheet` on a white surface for the muted grey glyph). Never the 48px touch icon-only for a ✕, and never a hand-rolled one; actions (Skip, Back, Remove) stay size touch.",
+      "ref": [
+        "§8"
+      ]
+    },
+    {
       "id": "touch-targets",
       "rule": "Touch targets are roughly finger-sized (~44–48px, iOS 44pt / Android 48dp) as a recommended range; leave ≥8px between tappables to avoid mis-taps.",
       "ref": [
