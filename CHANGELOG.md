@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.300.1 — 2026-10-21
+### Changed
+- Marketing → Cards: in the Steps row the optional 3:2 image now sits below the text (number, title, sentence, then image) ([#324](https://github.com/AhaSlides-Product/ahaslides-design/pull/324)).
+
 ## 0.300.0 — 2026-10-21
 ### Added
 - Marketing → Cards: a steps row. `aha-marketing-cards__grid--row` lays three Step cards in one horizontal row (three across, `--aha-space-24` gap, one column below 768px, no two-column step), with a three-card example (Build your slides, Share the code, See every answer) beside the Step card. Each card in the row takes an optional 3:2 image above the number (an `<img>` in the card media block, filling it); drop the block for a text-only row. The Step card and every other card are unchanged ([#323](https://github.com/AhaSlides-Product/ahaslides-design/pull/323)).
