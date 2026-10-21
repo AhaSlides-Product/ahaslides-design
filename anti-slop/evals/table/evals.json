@@ -236,7 +236,7 @@
     },
     {
       "id": 10,
-      "prompt": "Review the table on a read-only report page that a report routine publishes (a weekly dashboard opened from a link): a plain HTML table whose rows alternate white and var(--aha-bg-container-secondary), with 1px dividers and a black semibold header over a 2px Vivid Pink rule.",
+      "prompt": "Review the table on a read-only report page that a report routine publishes (a weekly dashboard opened from a link): a plain HTML table whose rows alternate white and var(--aha-bg-container-secondary), with no row dividers and a black semibold header over a 2px Vivid Pink rule.",
       "files": [],
       "label": "good-control",
       "notes": "Control: a report table is judged on report-images C11, not table C4.",
