@@ -34,6 +34,10 @@ const FAIL = {
   'a .aha-button class restyled': style('.aha-button{box-shadow:none}'),
   'a --aha-button-* token redefined': style('.header{--aha-button-default-bg-hover:var(--aha-gray-10)}'),
   'a selector list that ends on a button class': style('.a,\n.b .x-btn{background:red;border-radius:4px}'),
+  'a camelCase button class': style('.signupButton{background:red;border-radius:4px}'),
+  'a grey hover nested under the button class': style('.aha-header__button{ &:hover{background:var(--aha-gray-10)} }'),
+  'a nested button rule that also holds a nested state': style('.btn{background:red;border-radius:4px; &:hover{background:blue}}'),
+  'a button rule in minified CSS': style('.x{color:red}.btn{background:red;border-radius:4px}'),
 };
 
 const PASS = {
@@ -47,6 +51,11 @@ const PASS = {
   'the DS markup': '<aha-button variant="secondary" size="lg" href="/login">Log in</aha-button><aha-button variant="primary" size="lg" href="/signup">Sign up</aha-button>',
   'an opted-out control the DS does not ship': style('.seek-grip{background:var(--aha-white);border-radius:50%} /* ds-lint-allow: hand-rolled-button (seek-bar grip, no DS control) */'),
   'an opted-out token re-theme': style('.brand aha-button{--aha-button-primary-bg:var(--aha-white)} /* ds-lint-allow: hand-rolled-button (no on-brand variant yet) */'),
+  'a buttons group container': style('.btn-group{display:flex;gap:8px;background:var(--aha-white);padding:4px}'),
+  'a button wrapper': style('.button-wrapper{background:var(--aha-white);padding:8px}'),
+  'a CTA section band': style('.cta-section{background:var(--aha-gray-10);padding:64px 0}'),
+  'a nested rule that is not a button': style('.card{background:var(--aha-white); & .title{color:var(--aha-text-default)}}'),
+  'a brace inside a comment': style('/* .x-btn{background:red;border-radius:4px} */ .y{color:red}'),
   'the DS token sheet vendored as-is': style(':root{--aha-button-primary-bg:var(--aha-color-primary);--aha-button-default-bg:var(--aha-white)}'),
 };
 
@@ -63,6 +72,15 @@ test('hand-rolled-button runs on every surface', () => {
 test('hand-rolled-button reports the line the rule starts on', () => {
   const finding = lintHtml(style('.x{}\n.signup-btn{\n  background:red;\n  border-radius:4px;\n}'), { surface: 'product' }).findings.find((item) => item.rule === 'hand-rolled-button');
   assert.equal(finding.line, 3);
+});
+
+test('hand-rolled-button stays linear on a large stylesheet', () => {
+  const sheet = '.a{color:var(--aha-text-default)}\n.b > .c{margin:0}\n'.repeat(40000);
+  const started = performance.now();
+  lintHtml(style(sheet), { surface: 'product' });
+  const unclosed = '.a{'.repeat(100000);
+  lintHtml(style(unclosed), { surface: 'product' });
+  assert.ok(performance.now() - started < 10000, `${Math.round(performance.now() - started)}ms`);
 });
 
 test('a bare ds-lint-allow does not silence hand-rolled-button', () => {
