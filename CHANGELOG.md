@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.300.1 — 2026-10-21
 ### Changed
-- Marketing → Cards: in the Steps row the optional 3:2 image now sits below the text (number, title, sentence, then image) (#PR).
+- Marketing → Cards: in the Steps row the optional 3:2 image now sits below the text (number, title, sentence, then image) ([#324](https://github.com/AhaSlides-Product/ahaslides-design/pull/324)).
 
 ## 0.300.0 — 2026-10-21
 ### Added
