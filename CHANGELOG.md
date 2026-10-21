@@ -31,7 +31,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing Navigation, Header (all layouts), Features, Numbers and Footer banner draw every button with `<aha-button variant size>` (Log in secondary, Sign up primary, Join `type="submit"`), and their own button CSS (`aha-header__button`, `aha-header__join-button`, `aha-header-section-*__button` / `__cta`, `aha-features__button`, `aha-numbers__button`, `aha-footer-banner__cta`) is removed. The label is now the Button's semibold; on a Vivid Pink surface the Button is made white through the `--aha-button-*` tokens, marked `ds-lint-allow: hand-rolled-button`, until the Button has an on-brand variant. Revert: revert this change; the bespoke classes come back with it (#332).
 ### Fixed
 - Button: a submit or reset `<aha-button>` defers the form action with `setTimeout`, so a click listener on the host that calls `preventDefault()` cancels it for a real mouse click too.
-- screen-lint: `hand-rolled-button` no longer flags a decorative `::before` / `::after` underline on a link, nor hyphenated names such as `a-card` and `aha-button-group`. (#332)
+- screen-lint: `hand-rolled-button` no longer flags a decorative `::before` / `::after` underline on a link, nor hyphenated names such as `a-card` and `aha-button-group`, nor a link whose class names a container (`a.card` with a fill and radius), nor any `::before` / `::after` rule such as `.btn::after`. (#332)
 
 ## 0.325.1 — 2026-10-21
 ### Fixed

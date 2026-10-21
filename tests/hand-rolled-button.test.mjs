@@ -60,6 +60,8 @@ const PASS = {
   'a nested rule that is not a button': style('.card{background:var(--aha-white); & .title{color:var(--aha-text-default)}}'),
   'a decorative underline drawn on a link ::after': style('.nav a::after{content:"";background:var(--aha-color-primary);height:2px;border-radius:1px}'),
   'a decorative underline drawn on a link :before': style('a:before{content:"";background:currentColor;height:1px;box-shadow:none}'),
+  'a clickable card link with a fill and radius': style('a.card{background:var(--aha-white);border-radius:var(--aha-radius-lg);padding:16px}'),
+  'a decorative underline on a button-named class': style('.btn::after{content:"";background:var(--aha-color-primary);height:2px}'),
   'a hyphenated custom element a-card': style('a-card{background:var(--aha-white);border-radius:var(--aha-radius-lg);height:200px}'),
   'the aha-button-group tag': style('aha-button-group{background:var(--aha-white);padding:8px;border-radius:8px;height:48px}'),
   'a brace inside a comment': style('/* .x-btn{background:red;border-radius:4px} */ .y{color:red}'),
