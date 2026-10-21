@@ -197,6 +197,8 @@ const COMPONENTS_CATALOG = [
     { name: 'Badge',        slug: 'badge' },
     { name: 'Tag',          slug: 'tag' },
     { name: 'Status icon',  slug: 'status-icon' },
+    { name: 'Canvas count', slug: 'canvas-count' },
+    { name: 'Canvas status', slug: 'canvas-status' },
     { name: 'Tooltip',      slug: 'tooltip' },
     { name: 'Popover',      slug: 'popover' },
     { name: 'Tabs',         slug: 'tabs' },
@@ -1677,7 +1679,7 @@ function renderCanvasLibrary() {
     import { applyCanvasDeck } from '../lib/canvas-deck.js';
     const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
     for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
-      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background), image: 'image' in deck.dataset });
     }
   </script>
   ${hubAnchorScript(anchorItems)}`;
