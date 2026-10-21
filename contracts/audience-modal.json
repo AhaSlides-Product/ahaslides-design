@@ -1,0 +1,236 @@
+{
+  "name": "Audience modal",
+  "slug": "audience-modal",
+  "group": "Audience",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-audience-modal",
+  "environment": [
+    "audience"
+  ],
+  "summary": "The audience phone's modal, the mobile twin of the DS Modal: one centred card for option details, an action or a confirmation, with no dark backdrop so nothing is cut off inside an iframe.",
+  "highlights": [
+    "Three types: details, action, confirmation",
+    "Pinned actions, stacked full width on a phone",
+    "No backdrop, iframe safe, close event with a returnValue"
+  ],
+  "lead": "ONE custom element, <aha-audience-modal>, for every modal on the audience phone of a slide type (a cross-origin iframe on the Developer Platform). It follows the DS Modal's two types, Action and Confirmation, and adds Details for showing one option in full. A backdrop is cut off at the iframe edge, so the card carries a 1px border and a soft shadow instead, and an invisible layer catches a tap outside it. Framework-free, loaded by URL from the version-pinned CDN with tokens.css.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical. React (< 19) binds events through a ref; Vue binds the custom element natively. <aha-bottom-sheet> is a deprecated alias of the same element.",
+  "tokensUsed": [
+    "bg-elevated",
+    "text-default",
+    "border-default",
+    "radius-default",
+    "size-h6",
+    "space-8",
+    "space-16",
+    "space-24",
+    "motion-mid",
+    "ease-out"
+  ],
+  "spec": [
+    {
+      "label": "Card",
+      "value": "white, 1px border, radius 8, shadow 0 8 24 ink at 30%, up to 480 wide, never taller than its container minus a 16px gutter; no backdrop"
+    },
+    {
+      "label": "Header",
+      "value": "heading 18 SemiBold, line height 1.3, 24 from the left edge; the close ✕ is the audience Close button (36 x 36 drawn, 44 x 44 hit area) 8 from the top right corner"
+    },
+    {
+      "label": "Body",
+      "value": "16 / 24 text, 24 side padding, scrolls inside the card when it is tall; details keep the option's line breaks and show the picture above the text"
+    },
+    {
+      "label": "Actions",
+      "value": "slot=\"actions\", 8 apart, 24 side and bottom padding, pinned below the body; stacked full width with the first on top below a 400px card, one row with the first rightmost from 400px"
+    },
+    {
+      "label": "Types",
+      "value": "details (✕, no heading) · action (heading + ✕) · confirmation (heading as a question + one line, no ✕, alertdialog)"
+    },
+    {
+      "label": "Dismiss",
+      "value": "✕, Escape and a tap outside close it with `dismiss`; `destructive` ignores the tap outside"
+    },
+    {
+      "label": "Motion",
+      "value": "fades and scales in from 96% over motion-mid with ease-out; just appears under reduced motion"
+    }
+  ],
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows the modal. Removing it closes the modal with `dismiss`"
+    },
+    {
+      "name": "type",
+      "type": "'details' | 'action' | 'confirmation'",
+      "default": "details",
+      "desc": "details shows one option in full; action is a task surface; confirmation is a yes/no decision, announced as an alertdialog, with no ✕, focusing its first non-danger action on open"
+    },
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "—",
+      "desc": "The title; names the dialog. A confirmation's heading is a question (\"Leave the quiz?\")"
+    },
+    {
+      "name": "destructive",
+      "type": "boolean",
+      "default": "false",
+      "desc": "A destructive confirmation: a tap outside does nothing, so a stray tap cannot decide; Escape and the buttons still work"
+    },
+    {
+      "name": "(slot)",
+      "type": "content",
+      "default": "—",
+      "desc": "The body: the full option text, a form, or the confirmation's one line"
+    },
+    {
+      "name": "actions (slot)",
+      "type": "<aha-button data-action>",
+      "default": "—",
+      "desc": "The buttons, primary first: `variant=\"primary\" size=\"touch\"`, `secondary-deck` or `danger`. A tap on one with `data-action` emits `action` and closes with that value"
+    },
+    {
+      "name": "image",
+      "type": "url",
+      "default": "—",
+      "desc": "details: the picture above the text"
+    },
+    {
+      "name": "image-alt",
+      "type": "string",
+      "default": "\"\"",
+      "desc": "details: the picture's text alternative"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "the heading, else Option details",
+      "desc": "Translated dialog name when there is no heading"
+    },
+    {
+      "name": "close-label",
+      "type": "string",
+      "default": "Close",
+      "desc": "Translated name of the ✕"
+    },
+    {
+      "name": "contained",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Centred inside the nearest positioned ancestor (a phone frame in docs) instead of the viewport"
+    },
+    {
+      "name": "inline",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Drawn in the page flow, for docs"
+    },
+    {
+      "name": "show()",
+      "type": "() => Promise<string>",
+      "default": "—",
+      "desc": "Opens it; resolves with the returnValue it closes with"
+    },
+    {
+      "name": "close(value)",
+      "type": "(value = 'dismiss') => void",
+      "default": "—",
+      "desc": "Closes it with that returnValue; call it after an async action you held open with preventDefault()"
+    },
+    {
+      "name": "returnValue",
+      "type": "string",
+      "default": "\"\"",
+      "desc": "The `data-action` value it closed with, or `dismiss`"
+    },
+    {
+      "name": "action",
+      "type": "CustomEvent<{action}>",
+      "default": "—",
+      "desc": "Cancelable: a `data-action` button was tapped. preventDefault() keeps the modal open (busy state, inline error), then call close(action)"
+    },
+    {
+      "name": "close",
+      "type": "CustomEvent<{returnValue}>",
+      "default": "—",
+      "desc": "Fires after every close, whichever way it closed; detail.returnValue says which"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Audience modal, details",
+        "when": "an option is too long for its row or its picture should be seen larger: open it from the `expand` event of <aha-answer-option expandable> or <aha-rank-list expandable>"
+      },
+      {
+        "what": "Audience modal, action",
+        "when": "a short task the participant starts on purpose: change a display name, pick one of a few actions"
+      },
+      {
+        "what": "Audience modal, confirmation",
+        "when": "an answer or exit that cannot be undone needs a yes or no first"
+      },
+      {
+        "what": "DS Modal",
+        "when": "app screens, never the audience phone: it is antd with a full-screen mask"
+      }
+    ],
+    "note": "Name every button for its action (\"Send answer\", \"Leave quiz\", never OK). One primary per modal. A destructive confirmation sets `destructive`, makes the safe choice the primary and puts the destructive action on `variant=\"danger\"` (status carries no hue, so danger draws like secondary). For an async action call preventDefault() on `action`, set `loading` on the button, await, then close(action), or keep the modal open and show the error inline. Never open a modal from a pick, and never stack a second one for an error. Call `applyDeck(root, xprops.slide)` from `audience-deck` once so the primary button takes the deck accent."
+  },
+  "surfaces": [
+    "audience"
+  ],
+  "reuse": {
+    "entry": "./aha-audience-modal",
+    "registers": "aha-audience-modal",
+    "exportsNamed": [
+      "AhaAudienceModal",
+      "defineAhaAudienceModal"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "audience-modal.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a version-pinned CDN import and plain HTML, for a build-less slide page."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "audience-modal.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "audience-modal.vue.txt"
+    }
+  ],
+  "preview": "audience-modal.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the inline examples with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-audience-modal[data-probe]')&&document.querySelector('aha-audience-modal[data-probe]').shadowRoot&&document.querySelector('aha-audience-modal[type=confirmation]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-audience-modal[data-probe]');var r=el.shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var p=cs(r.querySelector('.panel'));var t=cs(r.querySelector('.title'));var a=cs(r.querySelector('.actions'));var c=document.querySelector('aha-audience-modal[type=confirmation]').shadowRoot;return{surface:p.backgroundColor,edge:p.borderTopColor,ink:t.color,radius:p.borderTopLeftRadius,border:p.borderTopWidth,titleSize:t.fontSize,titleWeight:t.fontWeight,actionsDirection:a.flexDirection,actionsGap:a.rowGap,confirmationClose:cs(c.querySelector('.close')).display,confirmationRole:c.querySelector('.panel').getAttribute('role')};})()",
+    "expect": {
+      "surface": "rgb(255, 255, 255)",
+      "edge": "rgb(227, 227, 227)",
+      "ink": "rgb(26, 26, 26)",
+      "radius": "8px",
+      "border": "1px",
+      "titleSize": "18px",
+      "titleWeight": "600",
+      "actionsDirection": "column",
+      "actionsGap": "8px",
+      "confirmationClose": "none",
+      "confirmationRole": "alertdialog"
+    }
+  }
+}

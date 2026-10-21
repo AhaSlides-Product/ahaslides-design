@@ -6,6 +6,7 @@
   ],
   "summary": "The AhaSlides marketing site customer logo strip (Webflow CMS collection list div-block-250, seen under the main content of the survey creator page), matched to the live ahaslides.com: a row of greyscale customer logos that loops left across the page. The logos are not typed into the markup; they come from marketing/data/logos-cms.json, the published CMS list recorded with its source URL and fetch date. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [
+    "Placement: on a page the Logos strip is always the band directly below the hero, never later in the page (Website composition rule and criterion W1)",
     "Customer logo strip from the Webflow CMS, greyscale and looping left, matched to the live ahaslides.com at 1440px, 991px, 767px and 390px",
     "Two backgrounds: White (the default) and Accent, the pale pink bgAccent surface laid over white by adding aha-logos--accent to the section; nothing in the section is pink-tinted, so no other change is needed",
     "Logo list rendered from marketing/data/logos-cms.json (name, image URL, order), not hand-typed; the list is shown twice so the loop has no gap; images load eagerly so no logo is blank when it slides in",

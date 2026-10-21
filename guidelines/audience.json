@@ -152,8 +152,14 @@
     {
       "ref": "modal",
       "as": "component",
-      "use": "any modal interaction via the host's openPluginModal bottom-sheet — host paints the chrome, you fill the body",
+      "use": "a modal the host paints outside the iframe via openPluginModal (the host's own bottom sheet chrome, you fill the body); a modal inside the iframe is <aha-audience-modal>",
       "status": "missing"
+    },
+    {
+      "ref": "audience-modal",
+      "as": "component",
+      "use": "a modal inside the iframe — <aha-audience-modal>: option details (from an expandable option), an action, or a confirmation; no backdrop, actions pinned and stacked full width",
+      "status": "available"
     },
     {
       "ref": "skeleton",
@@ -544,7 +550,7 @@
     },
     {
       "id": "use-host-utilities",
-      "rule": "Use the host utilities rather than reinventing them in-iframe: showToast* for transient feedback/errors, openPluginModal/closePluginModal for modals (host paints chrome, you fill the body), onSubmitButtonHeightChange for the sticky pill, scrollTo/getWindowHeight for positioning. Lean toward the utility so it stays consistent and host-evolvable.",
+      "rule": "Use the host utilities rather than reinventing them in-iframe: showToast* for transient feedback/errors, openPluginModal/closePluginModal for a modal the host paints (you fill the body) and <aha-audience-modal> for a modal inside the iframe, never a hand-built overlay, onSubmitButtonHeightChange for the sticky pill, scrollTo/getWindowHeight for positioning. Lean toward the utility so it stays consistent and host-evolvable.",
       "ref": [
         "C20-util",
         "§6"
