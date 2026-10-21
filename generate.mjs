@@ -1686,7 +1686,7 @@ const MARKETING_BREAKPOINT_CSS = `
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
   </div>
@@ -1795,7 +1795,7 @@ function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
     </div></div>`;
 }
 const marketingLayoutStates = (b, layout) => layout.states || b.states;
-const marketingLayoutStateClass = (b, layout) => layout.class || b.stateClass;
+const marketingLayoutStateClass = (b, layout) => layout.stateClass || layout.class || b.stateClass;
 const marketingHasStates = (b, layout) => marketingLayoutStates(b, layout)?.length > 1;
 function marketingStateSwitch(b, layout) {
   if (!marketingHasStates(b, layout)) return '';
@@ -1880,7 +1880,7 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
       if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
       return found;
     }
-    document.querySelectorAll('.mfv').forEach(function(root){
+    document.querySelectorAll('.mfv,.mbp').forEach(function(root){
       var seg=root.querySelector('.mbp-state');
       if(!seg)return;
       var frame=root.querySelector('.mbp-frame'),prefix=seg.dataset.class,modifiers=JSON.parse(seg.dataset.modifiers),current=seg.getAttribute('value'),found=null;
@@ -1980,7 +1980,7 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
+  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', marketingStatePanes(b, b, marketingSnippet(b)))}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}`}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
