@@ -31,7 +31,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.319.0 — 2026-10-21
 ### Added
-- Question list: a body slot `body-<id>` puts interactive light-DOM content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the "Question" row. Children stay focusable; clicks, keys and edits in the slot never toggle the collapse; a closed question hides it; it follows its question by id across reorder, add and delete. Native `input` / `change` events from slotted children now reach the list's host (the list's own `change` still carries `detail.questions`). Revert: remove the `.body-slot` holder, its CSS and the `slotted('body-slot', …)` call in `lib/aha-question-list.js`, and restore the `stopPropagation` guard to unconditional. (#335)
+- Question list: a body slot `body-<id>` puts interactive light-DOM content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the "Question" row. Children stay focusable; clicks, keys and edits in the slot never toggle the collapse; a closed question hides it; it follows its question by id across reorder, add and delete. Native `input` / `change` events from slotted children now reach the list's host (the list's own `change` still carries `detail.questions`). Revert: remove the `.body-slot` holder, its CSS and the `slotted('body-slot', …)` call in `lib/aha-question-list.js`, and restore the `stopPropagation` guard to unconditional. (#336)
 
 ## 0.315.0 — 2026-10-21
 ### Removed
