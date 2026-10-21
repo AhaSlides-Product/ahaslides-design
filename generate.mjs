@@ -2055,8 +2055,8 @@ function renderMarketingLlms(blocks) {
 }
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
 const LANDING_REDIRECTS = {
-  '': 'marketing/hero/index.html',
-  hero: 'marketing/hero/index.html',
+  '': 'marketing/header/index.html',
+  hero: 'marketing/header/index.html',
   button: 'button/index.html',
   link: 'button/index.html',
   fonts: 'foundations/typography.html',
@@ -3161,7 +3161,7 @@ if (GUIDELINES.length) {
 }
 if (MARKETING.length) {
   RAW_FEEDS.push(
-    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
+    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Header) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
     { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
