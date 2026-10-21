@@ -50,6 +50,10 @@
     {
       "label": "Drag",
       "value": "the row follows the finger; siblings slide out of its way (FLIP, motion tokens); no motion under reduced motion"
+    },
+    {
+      "label": "Long text (expandable)",
+      "value": "the same long-text treatment as the answer option: the label clamps to 4 lines, More is a Button link (size sm, underlined, in the deck ink) inside the row only when the text is cut, the 44 picture stays on the left of the text with an expand overlay on hover, and the move buttons and grip keep their place; a one-line option lines up with a default row"
     }
   ],
   "props": [
@@ -96,10 +100,28 @@
       "desc": "Locks the list"
     },
     {
+      "name": "expandable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The long-text variant: each label clamps to 4 lines with a More link when it is cut, and the picture gets an expand overlay. More and the picture emit expand"
+    },
+    {
+      "name": "more-label / expand-label",
+      "type": "string",
+      "default": "More / View full option",
+      "desc": "Translated More link and picture button name (expandable)"
+    },
+    {
       "name": "change",
       "type": "CustomEvent<{value}>",
       "default": "—",
       "desc": "Fires on every move with the new order"
+    },
+    {
+      "name": "expand",
+      "type": "CustomEvent<{id, source}>",
+      "default": "—",
+      "desc": "expandable only: More or the picture of a row was pressed; detail.id is the option id and detail.source is more or image. It never moves the row. Open <aha-bottom-sheet> in response"
     }
   ],
   "opinion": {
@@ -116,6 +138,9 @@
     "note": "The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
   },
   "surfaces": [
+    "audience"
+  ],
+  "environment": [
     "audience"
   ],
   "reuse": {

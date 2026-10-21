@@ -43,7 +43,7 @@
     },
     {
       "label": "Close",
-      "value": "tertiary icon-only xs button top right; also Escape and a swipe down (past 96px or a quick flick)"
+      "value": "the audience close button (tertiary-deck icon-only md with the sheet muted glyph, 16 system-x) top right; it needs the Button tertiary-deck md icon-only variant from pull request 317; also Escape and a swipe down (past 96px or a quick flick)"
     },
     {
       "label": "Focus",

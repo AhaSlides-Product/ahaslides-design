@@ -18,6 +18,8 @@
     "url": "https://github.com/AhaSlides-Product/ahaslides-design/issues"
   },
   "sideEffects": [
+    "./lib/aha-bottom-sheet.js",
+    "./lib/expandable-option.js",
     "*.css",
     "./lib/all.js",
     "./lib/audience.js",
@@ -123,6 +125,7 @@
   "jsdelivr": "./lib/all.js",
   "browser": "./lib/all.js",
   "exports": {
+    "./aha-bottom-sheet": "./lib/aha-bottom-sheet.js",
     "./aha-status-icon": "./lib/aha-status-icon.js",
     "./all": "./lib/all.js",
     "./audience": "./lib/audience.js",
