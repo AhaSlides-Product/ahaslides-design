@@ -746,7 +746,7 @@
         {
           "id": "C1",
           "title": "Setting names are clear noun phrases",
-          "test": "Every setting name is a clear noun phrase naming what it controls, with no filler leading verb (\"Enable\", \"Allow\", \"Turn on\", \"Show\", \"Toggle\") and no trailing-sentence description. Clear beats short: never cut the word that carries the meaning. Group headers are noun phrases in sentence case with no colon or trailing punctuation."
+          "test": "Every setting name is a clear noun phrase (or a short when/who/what clause such as \"When the module opens\") naming what it controls, with no filler leading verb (\"Enable\", \"Allow\", \"Turn on\", \"Show\", \"Toggle\") and no trailing-sentence description. Clear beats short: never cut the word that carries the meaning. Group headers are noun phrases or short when/who/what clauses in sentence case with no colon or trailing punctuation."
         },
         {
           "id": "C2",

@@ -21,7 +21,7 @@ A single-block panel growing past 8–10 settings is a signal to re-group or spl
 
 ## Name and control
 
-- **Name = clear noun phrase.** No filler leading verb. "Progress bar", not "Show progress bar". The control already says on/off; the label names what is acted on. Clear beats short: see "Labels: say what the setting does" below. (Narrow exception: a manual/automatic *mode* toggle may keep its verb — "Show results manually".)
+- **Name = clear noun phrase**, or a short when/who/what clause when that is clearer ("When the module opens", "Who can open this course"). No filler leading verb. "Progress bar", not "Show progress bar". The control already says on/off; the label names what is acted on. Clear beats short: see "Labels: say what the setting does" below. (Narrow exception: a manual/automatic *mode* toggle may keep its verb — "Show results manually".)
 - **No decorative leading icon.** Panel icons are functional only — drag handle, image, delete, `?` help. A trophy on "Leaderboard" is decorative and comes out, however on-topic.
 - **Toggle vs checkbox:** toggle when the change takes effect immediately; checkbox when options are saved together or express consent. **Never mix the two in one group.**
 - **Placement:** narrow control inline (label left, control right); wide control (textarea, wide select, radio group, image dropzone) drops below the label.
@@ -94,7 +94,7 @@ Hierarchy comes from the gap size, on the `--aha-size*` scale — monotonic so w
 
 - **Never a divider line** between settings, groups, or the danger zone — more distance means a wider gap.
 - **Never a card/tinted/bordered container** around plain settings or a lone toggle; a filled box signals a *selectable* object. Reserve it for real selectable items and the repeatable composite-item wrapper.
-- **Group shape:** 2–6 settings; header is a 1–3 word noun phrase, sentence case, no colon; **only the header carries weight — semibold (600)** (the `SectionHeader` weight), member/single-control labels regular (400) in primary text (`--aha-text-default` #1A1A1A). A group title is for a real group of two or more settings — never over a single field or a single list.
+- **Group shape:** 2–6 settings; header is a noun phrase or a short when/who/what clause (2–6 words, clear before short; never a lone abstract noun such as "Completion"), sentence case, no colon; **only the header carries weight — semibold (600)** (the `SectionHeader` weight), member/single-control labels regular (400) in primary text (`--aha-text-default` #1A1A1A). A group title is for a real group of two or more settings — never over a single field or a single list.
 - **No control in a group header.** No toggle, switch, input, select or button in the header or its action slot; a control is a settings item (label left, control right). Plain text such as a count may stay.
 - **Order:** most-used first; a dependent sub-setting directly under its parent; dangerous last.
 

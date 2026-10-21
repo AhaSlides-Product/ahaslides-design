@@ -187,7 +187,7 @@
   "rules": [
     {
       "id": "name-is-noun",
-      "rule": "Setting name is a clear noun phrase — no filler leading verb (Enable/Allow/Show/Turn on). The control communicates the action; the label names what is acted on. Clear beats short.",
+      "rule": "Setting name is a clear noun phrase, or a short when/who/what clause when that is clearer — no filler leading verb (Enable/Allow/Show/Turn on). The control communicates the action; the label names what is acted on. Clear beats short.",
       "ref": [
         "SETTINGS-01",
         "SETTINGS-40"
@@ -242,7 +242,7 @@
     },
     {
       "id": "group-shape",
-      "rule": "A group has 2–6 settings. Header is a 1–3 word noun phrase, sentence case, no colon. Only the group header carries weight — semibold (600, the SectionHeader weight), and only over a real group of two or more settings, never over a single field or a single list; member/single-control labels are regular weight (400) in primary text (#1A1A1A), and regular 400 in secondary text (#4A4A4A) inside a sub-setting group.",
+      "rule": "A group has 2–6 settings. Header is a noun phrase or a short when/who/what clause (2–6 words, clear before short; never a lone abstract noun), sentence case, no colon. Only the group header carries weight — semibold (600, the SectionHeader weight), and only over a real group of two or more settings, never over a single field or a single list; member/single-control labels are regular weight (400) in primary text (#1A1A1A), and regular 400 in secondary text (#4A4A4A) inside a sub-setting group.",
       "ref": [
         "SETTINGS-05",
         "SETTINGS-06",
