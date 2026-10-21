@@ -745,8 +745,8 @@
       "criteria": [
         {
           "id": "C1",
-          "title": "Setting names are noun phrases",
-          "test": "Every setting name is a short noun phrase with no leading verb (\"Enable\", \"Allow\", \"Turn on\", \"Show\", \"Toggle\") and no trailing-sentence description. Group headers are noun phrases in sentence case with no colon or trailing punctuation."
+          "title": "Setting names are clear noun phrases",
+          "test": "Every setting name is a clear noun phrase naming what it controls, with no filler leading verb (\"Enable\", \"Allow\", \"Turn on\", \"Show\", \"Toggle\") and no trailing-sentence description. Clear beats short: never cut the word that carries the meaning. Group headers are noun phrases in sentence case with no colon or trailing punctuation."
         },
         {
           "id": "C2",
@@ -837,6 +837,11 @@
           "id": "C19",
           "title": "Settings fields — default size, full width when stacked, counter inside on focus",
           "test": "Every field in a settings panel (`aha-input`, `aha-counted-input`, `aha-counted-textarea`, `aha-number-with-unit`, `aha-select`, or their React/Vue forms) is the **default 40px size**, the only size a settings panel uses: `size=\"large\"` or `\"lg\"` (48px, 16px text, the audience field's size) **fails**, and so does `size=\"small\"` or `\"sm\"` (32px or 24px); an AntD or slide-type-creator `size=\"large\"` or `\"small\"` field maps to the DS default when ported. A field in a **stacked** row (label above) **fills the panel width**, also when it sits in a wrapper with helper text; a stacked field left at its 240px intrinsic width, with empty space to its right, fails. A field with a character cap shows its counter **inside the field, only while focused** (`aha-counted-input` / `aha-counted-textarea`); a counter beside or below the field, a counter that is always visible, or `maxlength` on a plain `aha-input` with a hand-made counter fails. **FAIL** on any of them. The mechanical twin for size and `maxlength` is `node screen-lint.mjs --surface=settings <files>` (rules `field-size`, `input-maxlength`); the width and counter placement are judged on the render."
+        },
+        {
+          "id": "C20",
+          "title": "Labels are self-explanatory",
+          "test": "Read only the label, group header or option text, with no tooltip, help text or screenshot of the result. **FAIL** if any of them needs that extra context to be understood, is a coined term, a metaphor or a lone abstract noun (\"Opening\", \"Completion\", \"Behaviour\", \"Mode\", \"Display\", \"General options\"), or names a different concept than the same thing elsewhere on the surface or its learner-facing side. **PASS** otherwise. Fix: name the function in the words users already use, with the object and the moment (\"When the module opens\", \"Complete module condition\", \"Signature\")."
         }
       ]
     },

@@ -138,6 +138,7 @@ Read the list from the DS each time — surfaces get added.
    slide-type-creator: their `size="large"` or `size="small"` field maps to the DS default), fill the width of a stacked row, and a capped field
    is `<aha-counted-input>` / `<aha-counted-textarea>` with the counter inside, shown on focus, never
    `maxlength` on `<aha-input>` with a counter beside it.
+   Labels pass a first-time read with no tooltip: name the function in users' words (clear before short), no coined term or lone abstract noun ("Opening", "Mode"), unit in the label, one term per concept. Before shipping, list every label as `label | "Changing this …" sentence | tooltip` in the PR (judge criterion C20).
 9. Any new page, route, site or app shell sets its own document `<title>` and the one favicon set:
    `<specific part> | AhaSlides`, brand last, updated on every client-side route change, The Splash
    files from `logo/favicon/` with `/favicon.ico` at the site root. Rules:

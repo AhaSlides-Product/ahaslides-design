@@ -187,10 +187,18 @@
   "rules": [
     {
       "id": "name-is-noun",
-      "rule": "Setting name is a short noun phrase — no leading verb (Enable/Allow/Show/Turn on). The control communicates the action; the label names what is acted on.",
+      "rule": "Setting name is a clear noun phrase — no filler leading verb (Enable/Allow/Show/Turn on). The control communicates the action; the label names what is acted on. Clear beats short.",
       "ref": [
         "SETTINGS-01",
         "SETTINGS-40"
+      ]
+    },
+    {
+      "id": "labels-say-what-the-setting-does",
+      "rule": "A first-time reader of only the label (no tooltip, no help text) can say what changes when they change it. Name the function in the words users already use, not a coined term, metaphor or jargon (\"Pass mark\" becomes \"Complete module condition\"). Clear before short: cut filler, never the word that carries the meaning. No lone abstract noun as a label or group header (\"Opening\", \"Completion\", \"Behaviour\", \"Mode\", \"Display\", \"General options\"): say the object and the moment (\"When the module opens\"). Say which object and where it shows when ambiguous (\"Organisation name on certificate\", not \"Team name\"). Use the conventional term (\"Signature\", not \"Signer\"). Options state their outcome; a number field carries its unit (\"Correct answers needed (%)\"). A tooltip adds the why, never the meaning. One term per concept across the surface and its learner-facing side. Self-check: list every label | \"Changing this …\" sentence | tooltip, and put the table in the PR or preview.",
+      "ref": [
+        "SETTINGS-01",
+        "UXW-10"
       ]
     },
     {
@@ -317,7 +325,11 @@
   "reuseNote": "Doc-only pattern — ships no composition wrapper from this repo. The canonical composed settings controls live in slide-type-creator's @/iframe/settings library (ui-standard.json → settingsLibrary is their source of truth); parts/settings.guide.md carries the explicit, one-per-component mapping from each library control to its DS form (a DS contract, a documented convention, or a tracked backlog gap in composedOf). As each backlog control graduates into this DS it gets a contract + reuse block and is gated like a composite; when the DS ships it, flip its composedOf entry from missing→available and move the mapping row to 'mapped'.",
   "selfCheck": [
     {
-      "label": "names are noun phrases, no leading verb",
+      "label": "names are clear noun phrases, no filler leading verb",
+      "verdict": "N/A — per-surface"
+    },
+    {
+      "label": "every label understood without its tooltip; no coined term or lone abstract noun (label | \"Changing this …\" table in the PR)",
       "verdict": "N/A — per-surface"
     },
     {

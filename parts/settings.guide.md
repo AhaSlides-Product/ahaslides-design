@@ -21,10 +21,27 @@ A single-block panel growing past 8–10 settings is a signal to re-group or spl
 
 ## Name and control
 
-- **Name = short noun phrase.** No leading verb. "Progress bar", not "Show progress bar". The control already says on/off; the label names what is acted on. (Narrow exception: a manual/automatic *mode* toggle may keep its verb — "Show results manually".)
+- **Name = clear noun phrase.** No filler leading verb. "Progress bar", not "Show progress bar". The control already says on/off; the label names what is acted on. Clear beats short: see "Labels: say what the setting does" below. (Narrow exception: a manual/automatic *mode* toggle may keep its verb — "Show results manually".)
 - **No decorative leading icon.** Panel icons are functional only — drag handle, image, delete, `?` help. A trophy on "Leaderboard" is decorative and comes out, however on-topic.
 - **Toggle vs checkbox:** toggle when the change takes effect immediately; checkbox when options are saved together or express consent. **Never mix the two in one group.**
 - **Placement:** narrow control inline (label left, control right); wide control (textarea, wide select, radio group, image dropzone) drops below the label.
+
+## Labels: say what the setting does
+
+**The test.** Someone opening this panel for the first time reads only the label (no tooltip, no help text) and can say what changes when they change it. If they have to guess, the label fails. Clear beats short, every time.
+
+1. **Name the function in the words users already use**, not a coined term, a metaphor or domain jargon. "Pass mark" becomes "Complete module condition".
+2. **Clear before short.** 2 to 6 words is fine. Cut filler (the, a, your, Enable, Allow, Show), never the word that carries the meaning.
+3. **No lone abstract noun** as a setting label or group header that hides what it controls: "Opening", "Completion", "Behaviour", "Mode", "Display", "General options". Say the object and the moment: "Opening" becomes "When the module opens"; "Completion" becomes "When the module is complete".
+4. **Say which object and where it shows** when that is ambiguous. "Team name" (which team? where does it appear?) becomes "Organisation name on certificate".
+5. **Use the conventional term** people know from other products, not an internal or invented one. "Signer" becomes "Signature".
+6. **Options and values meet the same test.** Each option states its outcome ("After the previous module is passed"), and a number field carries its unit in the label or the control ("Correct answers needed (%)").
+7. **A tooltip is a backup, never the crutch.** If the label only makes sense after reading its tooltip, rewrite the label. A tooltip adds the why or an edge case, never the meaning (UXW-9).
+8. **One term per concept** across the surface and its learner-facing side. If the trainer sets "Complete module condition", the learner view and reports do not call the same thing "pass mark".
+
+**Self-check before shipping.** Write every label in a table: `label | "Changing this …" sentence | tooltip (if any)`. If the sentence needs words the label lacks, the label is missing them. Put that table in the PR body or preview of any settings build, so the requester reviews all wording in one place instead of guessing from screenshots. Judged by C20.
+
+Rationale: plain language, one term per concept and labels that let people anticipate what happens are the common ground of Shopify Polaris content fundamentals (polaris-react.shopify.com/content/fundamentals) and Microsoft's app-settings guidelines (learn.microsoft.com/en-us/windows/apps/design/app-settings/guidelines-for-app-settings); essential meaning never lives only in a tooltip (UXW-9).
 
 ## Explanation: name → tooltip → help text
 
