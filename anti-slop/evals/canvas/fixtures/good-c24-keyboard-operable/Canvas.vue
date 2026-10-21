@@ -5,10 +5,10 @@
   - Every dot is a <button> in reading order with a visible :focus-visible ring; its
     label shows on :hover AND :focus-visible.
   - Each reorder card is focusable: Space picks it up, ArrowUp/ArrowDown move it,
-    Space/Enter drops it, Esc cancels; the new position is announced in a live
-    region. The drag stays as a pointer shortcut, not the only way.
-  - Nothing traps focus, and the keydown handlers only act while a card is picked
-    up, so ArrowRight/ArrowLeft/PageDown/PageUp/Space still reach the deck.
+    Space/Enter drops it, Esc returns it to where it started, and leaving the card
+    drops it; each move is announced in a live region.
+  - Nothing traps focus. A card claims Space and ArrowUp/ArrowDown only while the
+    presenter has it focused; ArrowRight/ArrowLeft/PageDown/PageUp always reach the deck.
 
   Colour/font come from xprops (C1 clean). Expected: C24 PASS.
 -->
@@ -28,11 +28,12 @@ const responses = [
 
 const cards = ref(['Plan', 'Build', 'Review', 'Ship'])
 const held = ref(-1)
+let origin = -1
 const announcement = ref('')
 
 function onCardKey(e: KeyboardEvent, i: number) {
   if (held.value < 0) {
-    if (e.key === ' ') { held.value = i; announcement.value = `${cards.value[i]} picked up, position ${i + 1}`; e.preventDefault(); e.stopPropagation() }
+    if (e.key === ' ') { held.value = i; origin = i; announcement.value = `${cards.value[i]} picked up, position ${i + 1}`; e.preventDefault(); e.stopPropagation() }
     return
   }
   if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
@@ -44,7 +45,13 @@ function onCardKey(e: KeyboardEvent, i: number) {
       announcement.value = `${moved} moved to position ${to + 1}`
     }
     e.preventDefault(); e.stopPropagation()
-  } else if (e.key === ' ' || e.key === 'Enter' || e.key === 'Escape') {
+  } else if (e.key === 'Escape') {
+    const [moved] = cards.value.splice(held.value, 1)
+    cards.value.splice(origin, 0, moved)
+    announcement.value = `${moved} returned to position ${origin + 1}`
+    held.value = -1
+    e.preventDefault(); e.stopPropagation()
+  } else if (e.key === ' ' || e.key === 'Enter') {
     announcement.value = `${cards.value[held.value]} dropped at position ${held.value + 1}`
     held.value = -1
     e.preventDefault(); e.stopPropagation()
@@ -60,6 +67,7 @@ function onCardKey(e: KeyboardEvent, i: number) {
         :key="r.id"
         type="button"
         class="dot"
+        :aria-label="r.text"
         :style="{ left: r.x + '%', top: r.y + '%' }"
       >
         <span class="mark" aria-hidden="true">{{ r.id }}</span>
@@ -75,6 +83,7 @@ function onCardKey(e: KeyboardEvent, i: number) {
         tabindex="0"
         :aria-label="`${card}, position ${i + 1} of ${cards.length}. Space to pick up.`"
         @keydown="onCardKey($event, i)"
+        @focusout="held = -1"
       >
         {{ card }}
       </li>

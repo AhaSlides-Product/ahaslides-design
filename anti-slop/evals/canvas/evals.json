@@ -2022,7 +2022,7 @@
       ],
       "label": "good-control",
       "notes": "C24 good-control - focusable dots with a focus-visible reveal, a keyboard reorder alongside the drag, no trap, deck keys left alone.",
-      "expected_output": "C24 PASSes. Every dot is a button in reading order with a visible focus ring and its label shows on :hover and :focus-visible. Each card is focusable and reorders with Space, ArrowUp/ArrowDown and Enter/Esc with a live-region announcement. The key handler only acts while a card is picked up, so ArrowRight/ArrowLeft/PageDown/PageUp/Space still reach the deck. Overall: OK TO SHIP",
+      "expected_output": "C24 PASSes. Every dot is a button in reading order with a visible focus ring and its label shows on :hover and :focus-visible. Each dot button is named by its response text. Each card is focusable and reorders with Space to pick up, ArrowUp/ArrowDown to move, Space/Enter to drop and Esc to return it to its start, with a live-region announcement; moving focus away drops it. A card claims Space and ArrowUp/ArrowDown only while focused (sub-rule e), so ArrowRight/ArrowLeft/PageDown/PageUp still reach the deck. Overall: OK TO SHIP",
       "assertions": [
         "C24 is marked PASS",
         "Recognises the dots are focusable and reveal on focus",
