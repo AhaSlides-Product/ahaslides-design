@@ -493,6 +493,36 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 17,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w1-logos-mid-page/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The Logos strip sits after the alternating Features section instead of directly below the hero.",
+      "expected_output": "W1 FAILs: the Logos strip is placed after the Features section, not directly below the hero. Fix: move the Logos section to sit directly after the hero. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W1 is marked FAIL",
+        "Names the Logos strip placed below the Features section"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }

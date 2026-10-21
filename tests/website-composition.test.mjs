@@ -34,6 +34,20 @@ for (const id of ['W11', 'W12', 'W13', 'W14']) {
   });
 }
 
+test('W1 puts the Logos strip directly below the hero, and the pass pages do', () => {
+  for (const list of [criteria, agentCriteria]) {
+    assert.match(list.find((criterion) => criterion.id === 'W1').test, /Logos strip is always the band directly below the hero/);
+  }
+  const failing = evals.find((entry) => entry.expected.criteria.W1 === 'FAIL' && entry.files[0].path.includes('logos-mid-page'));
+  assert.ok(failing, 'eval with Logos placed mid-page');
+  const order = (path) => [...readFileSync(new URL(`../anti-slop/evals/website/${path}`, import.meta.url), 'utf8').matchAll(/^<section class="(aha-[a-z-]+)/gm)].map((match) => match[1]);
+  for (const entry of evals.filter((item) => item.label === 'good-control')) {
+    const sections = order(entry.files[0].path);
+    if (sections.includes('aha-logos')) assert.equal(sections.indexOf('aha-logos'), 1);
+  }
+  assert.notEqual(order(failing.files[0].path).indexOf('aha-logos'), 1);
+});
+
 test('the Cards grid and the Features icon grid balance by item count', () => {
   for (const css of [cardsCss, featuresCss]) {
     assert.match(css, /:has\(>:first-child:last-child\)\{grid-template-columns:minmax\(0,36rem\)/);
