@@ -29,14 +29,20 @@ async function run(body) {
   })()`, { readyExpr: '!!window.ready' });
 }
 
-test('the delete button is not a tab stop but still deletes on click, with a pointer source', { skip }, async () => {
+test('the delete button is a Tab stop (skipped when disabled), is revealed on focus and deletes on click, with a pointer source', { skip }, async () => {
   const result = await run(`
     const a = row('a');
     const seen = deletes(a);
     const button = a.shadowRoot.querySelector('.delete-button');
     button.shadowRoot.querySelector('button').click();
-    return { tabIndex: button.shadowRoot.querySelector('button').tabIndex, seen };`);
-  assert.deepEqual(result, { tabIndex: -1, seen: [{ source: 'pointer' }] });
+    const inner = button.shadowRoot.querySelector('button');
+    const reveal = () => getComputedStyle(a.shadowRoot.querySelector('.delete')).opacity;
+    const rest = reveal();
+    inner.focus();
+    const focused = { reached: a.shadowRoot.activeElement === button, opacity: reveal() };
+    const locked = row('c').shadowRoot.querySelector('.delete-button').shadowRoot.querySelector('button');
+    return { tabIndex: inner.tabIndex, rest, focused, seen, lockedDisabled: locked.disabled };`);
+  assert.deepEqual(result, { tabIndex: 0, rest: '0', focused: { reached: true, opacity: '1' }, seen: [{ source: 'pointer' }], lockedDisabled: true });
 });
 
 test('Backspace in an empty field deletes with a keyboard source; text, modifiers, composition and candelete=false do not', { skip }, async () => {
