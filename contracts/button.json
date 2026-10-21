@@ -42,6 +42,8 @@
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "non-interactive; grey fill" },
     { "name": "loading", "type": "boolean", "default": "false", "desc": "shows a spinner, blocks clicks" },
     { "name": "block", "type": "boolean", "default": "false", "desc": "full-width" },
+    { "name": "href", "type": "string (URL)", "default": "—", "desc": "renders the button as a link (<a part=\"button\">) with the same look in every variant and size: a navigation call to action such as Log in, Sign up or Get started is <aha-button href> rather than a styled <a>. target and rel are forwarded with it. Ignored while disabled, which renders the disabled button" },
+    { "name": "type", "type": "button | submit", "default": "button", "desc": "submit submits the button's closest <form> through requestSubmit(), so validation and the submit event run as for a native submit button" },
     { "name": "iconOnly", "type": "boolean (attr icon-only)", "default": "false", "desc": "square, label-less; requires aria-label" },
     { "name": "icon", "type": "slot", "default": "—", "desc": "leading glyph via <span slot=\"icon\">; for icon-only, the glyph is the default child" },
     { "name": "shortcut", "type": "string", "default": "—", "desc": "display-only keyboard chip after the label: \"M\", \"Esc\", \"Enter\", \"Shift+Enter\", \"Mod+Enter\" (Mod = ⌘ on a Mac, Ctrl elsewhere). Binds no key; aria-hidden, so put the key in the name too (aria-label=\"Save (Ctrl+Enter)\" where the label alone does not say it). Not drawn on icon-only: give its aha-tooltip the shortcut. Updates in place when changed" },

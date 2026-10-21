@@ -7,7 +7,7 @@ const style = source.slice(source.indexOf('const STYLE'), source.indexOf('const 
 const declarationOf = (property) => style.match(new RegExp(`(?<![-\\w])${property}:([^;}]+)`))?.[1].trim();
 
 const transitionedProperties = declarationOf('transition-property').split(',').map((name) => name.trim());
-const stateRules = style.split('\n').filter((line) => /button:(hover|active|focus-visible)\b/.test(line));
+const stateRules = style.split('\n').filter((line) => /(?:button|:is\(button,a\)):(hover|active|focus-visible)\b/.test(line));
 const changedByStates = new Set(
   stateRules.flatMap((rule) => [...rule.slice(rule.indexOf('{') + 1).matchAll(/(?:^|[;\s{])([a-z-]+):/g)].map((match) => match[1])),
 );

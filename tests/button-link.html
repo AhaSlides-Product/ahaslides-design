@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button as link and submit</title>
+</head>
+<body>
+  <aha-button id="button" variant="primary" size="lg">Sign up</aha-button>
+  <aha-button id="link" variant="primary" size="lg" href="/signup" target="_blank" rel="noopener">Sign up</aha-button>
+  <aha-button id="secondary-button" variant="secondary" size="lg">Log in</aha-button>
+  <aha-button id="secondary-link" variant="secondary" size="lg" href="/login">Log in</aha-button>
+  <aha-button id="disabled-link" variant="primary" href="/signup" disabled>Sign up</aha-button>
+  <form id="form"><input name="email" value="a@b.co"><aha-button id="submit" variant="primary" type="submit">Join</aha-button></form>
+  <script type="module">
+    await import('../lib/aha-button.js');
+    await customElements.whenDefined('aha-button');
+    window.submitted = 0;
+    document.querySelector('#form').addEventListener('submit', (event) => { event.preventDefault(); window.submitted += 1; });
+    window.buttonLinkFixtureReady = !!document.querySelector('#link').shadowRoot?.querySelector('[part=button]');
+  </script>
+</body>
+</html>

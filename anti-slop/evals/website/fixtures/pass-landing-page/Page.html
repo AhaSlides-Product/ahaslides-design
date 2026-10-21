@@ -6,7 +6,7 @@
 <title>Live polls for teams | AhaSlides</title>
 <link rel="stylesheet" href="https://design.ahaslides.io/variables.css">
 <link rel="stylesheet" href="../sections.css">
-<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.277.0/lib/all.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@v0.314.0/lib/all.js"></script>
 <style>.page-band-accent{background:var(--aha-bg-accent)}</style>
 </head>
 <body>
@@ -16,7 +16,7 @@
     <form class="aha-header__join-form" action="#">
       <span class="aha-header__join-url">ahaslides.com/</span>
       <input class="aha-header__join-input" id="aha-header-code" name="access-code" type="text" placeholder="ENTER CODE..." autocomplete="off" spellcheck="false">
-      <button class="aha-header__join-button" type="submit">Join</button>
+      <aha-button variant="secondary" size="sm" type="submit">Join</aha-button>
     </form>
   </div>
   <header class="aha-header__nav">
@@ -126,8 +126,8 @@
               </div>
             </div>
             <div class="aha-header__buttons">
-              <a class="aha-header__button" href="#">Log in</a>
-              <a class="aha-header__button aha-header__button--primary" href="#">Sign up</a>
+              <aha-button variant="secondary" size="lg" href="#">Log in</aha-button>
+              <aha-button variant="primary" size="lg" href="#">Sign up</aha-button>
             </div>
           </div>
         </div>
@@ -221,7 +221,7 @@ document.querySelectorAll('.aha-header').forEach(function (root) {
     <div class="aha-header-section-hero-pink__copy">
       <h1 class="aha-header-section-hero-pink__title">Polls your team will actually answer</h1>
       <p class="aha-header-section-hero-pink__text">Ask a question, share a link and watch the answers come in live, in any meeting.</p>
-      <a class="aha-header-section-hero-pink__cta" href="/signup">Get started free</a>
+      <aha-button variant="primary" size="xl" href="/signup">Get started free</aha-button>
     </div>
     <div class="aha-header-section-hero-pink__media">
       <img class="aha-header-section-hero-pink__image" src="marketing-assets/image-placeholder.svg" alt="A live poll with answers updating in real time" width="800" height="600">
@@ -303,7 +303,7 @@ document.querySelectorAll('.aha-header').forEach(function (root) {
   <div class="aha-footer-banner__inner">
     <div class="aha-footer-banner__card">
       <h2 class="aha-footer-banner__title">Hear from everyone in your next meeting</h2>
-      <a class="aha-footer-banner__cta" href="/signup">Get started free</a>
+      <aha-button variant="primary" size="lg" href="/signup">Get started free</aha-button>
     </div>
   </div>
 </section>

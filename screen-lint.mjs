@@ -25,6 +25,10 @@
  * no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js),
  * no size="small"/"sm"/"large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
  * no maxlength on <aha-input> (a capped field is <aha-counted-input>, counter inside the field).
+ * Every surface hard-fails a hand-drawn button: hand-rolled-button (a .x__button / .btn / .x__cta class,
+ * a bare button selector or [role=button] that paints background, border, colour or shadow) and
+ * restyled-button (CSS that re-colours, re-hovers, re-borders or re-sizes <aha-button> from outside;
+ * theme it through --aha-button-* tokens on a container). Group name: button-style.
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
@@ -111,9 +115,10 @@ function run(fileList, surf) {
 
 async function slideRuleSelfTest() {
   const { SLIDE_RULE_FIXTURES } = await import('./tests/fixtures/slide-control-lint.mjs');
+  const { BUTTON_STYLE_RULE_FIXTURES } = await import('./tests/fixtures/button-style-lint.mjs');
   let broken = 0;
-  console.log('=== SCREEN-LINT · slide-surface rule fixtures ===\n');
-  for (const { rule, severity, surfaces, fail, pass } of SLIDE_RULE_FIXTURES)
+  console.log('=== SCREEN-LINT · slide-surface and button-style rule fixtures ===\n');
+  for (const { rule, severity, surfaces, fail, pass } of [...SLIDE_RULE_FIXTURES, ...BUTTON_STYLE_RULE_FIXTURES])
     for (const surface of surfaces) {
       const hitsOf = (source) => lintHtml(source, { surface }).findings.filter(f => f.rule === rule);
       const missed = fail.filter(source => { const hits = hitsOf(source); return !hits.length || hits.some(f => f.severity !== severity); });

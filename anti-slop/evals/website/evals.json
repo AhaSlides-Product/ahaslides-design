@@ -2,7 +2,7 @@
   "surface": "website",
   "judgedAgainst": "anti-slop/criteria.json surfaces.website",
   "portedFrom": null,
-  "authoredNote": "DS-authored with the website surface (W1 to W9) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "authoredNote": "DS-authored with the website surface (W1 to W11) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
   "evals": [
     {
       "id": 1,
@@ -32,7 +32,8 @@
           "W5": "PASS",
           "W6": "PASS",
           "W7": "PASS",
-          "W9": "PASS"
+          "W9": "PASS",
+          "W11": "PASS"
         }
       },
       "source": {
@@ -64,7 +65,8 @@
           "W1": "PASS",
           "W4": "PASS",
           "W5": "PASS",
-          "W7": "PASS"
+          "W7": "PASS",
+          "W11": "PASS"
         }
       },
       "source": {
@@ -291,7 +293,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W8: overflow, inconsistent stacking and shrunken calls to action.",
-      "expected_output": "W8 FAILs: the icon grid is three fixed 360 px columns (1080 px plus gaps) that never stack, so it scrolls sideways at 768 and 375 px; the Features rows stack the image below the text in one row and above it in the next; and the hero calls to action shrink to the small button height on phones. Fix: drop the overrides so the section's container rules stack it and keep the xl height. Overall: NEEDS FIX.",
+      "expected_output": "W8 FAILs: the icon grid is three fixed 360 px columns (1080 px plus gaps) that never stack, so it scrolls sideways at 768 and 375 px; the Features rows stack the image below the text in one row and above it in the next; and the hero calls to action are size=\"sm\" buttons instead of the xl the hero ships. Fix: drop the overrides so the section's container rules stack it, and set the hero buttons back to size=\"xl\". Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W8 is marked FAIL"
@@ -364,6 +366,35 @@
       "source": {
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review this landing page for live polls (Page.html). It is checked at 1440, 768 and 375 px with no horizontal scroll, and the images are the DS placeholder until screenshots land. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w11-hand-rolled-buttons/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The reference landing page with the Navigation Log in / Sign up drawn as links with their own .aha-header__button CSS and a grey hover, and a grey hover forced onto the hero's <aha-button>: a vendored header that never used the DS Button.",
+      "expected_output": "W11 FAILs: Log in and Sign up are <a class=\"aha-header__button\"> links painted by the page's own CSS (border, background, colour) with a grey :hover, not <aha-button>, and .aha-header-section-hero-pink aha-button:hover re-colours the DS Button from outside. screen-lint reports hand-rolled-button and restyled-button. Fix: <aha-button variant=\"secondary\" size=\"lg\" href> for Log in, <aha-button variant=\"primary\" size=\"lg\" href> for Sign up, and drop the hover overrides. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W11 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W11": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "the vendored Navigation case that hand-drew Log in / Sign up and greyed their hover"
       }
     }
   ]
