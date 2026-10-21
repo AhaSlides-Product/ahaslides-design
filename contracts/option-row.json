@@ -56,7 +56,7 @@
     },
     {
       "label": "Delete",
-      "value": "<aha-button variant=secondary size=sm icon-only> (28, radius 4, white, 1px #E3E3E3, #1A1A1A glyph; the secondary hover) centred on the top-right corner (-14px), hover-only, disabled (not hidden) at min (candelete=false); not a tab stop — Tab goes from one row's field to the next, and Backspace in an EMPTY field deletes the row (the tooltip reads \"Delete (Backspace when empty)\")"
+      "value": "<aha-button variant=secondary size=sm icon-only> (28, radius 4, white, 1px #E3E3E3, #1A1A1A glyph; the secondary hover) centred on the top-right corner (-14px), revealed on hover or keyboard focus, disabled (not hidden) at min (candelete=false); a Tab stop after the row's field (a disabled delete is skipped), and Backspace in an EMPTY field deletes the row (the tooltip reads \"Delete (Backspace when empty)\")"
     },
     {
       "label": "Hover",
@@ -164,7 +164,7 @@
         "when": "a repeatable COMPOSITE item with its own body of fields (a Question)"
       }
     ],
-    "note": "The row is the one border; the field inside is borderless — never a box-in-a-box (SETTINGS-34). The drag handle lives INSIDE the border and only when order matters (SETTINGS-39). The delete is hover-only, so it is not a tab stop: Tab moves field to field, and Backspace in an empty field is the keyboard delete (`delete` with detail.source \"keyboard\"; the host calls previousRow.focus()). It disables (not hides) at the minimum count (SETTINGS-23). No \"X of Y\" counter — the +Add disables at max and delete at min (SETTINGS-36).",
+    "note": "The row is the one border; the field inside is borderless — never a box-in-a-box (SETTINGS-34). The drag handle lives INSIDE the border and only when order matters (SETTINGS-39). The delete is revealed on hover and whenever the row or the delete has focus, and is a Tab stop after the field (skipped when disabled); Backspace in an empty field is the quick keyboard delete (`delete` with detail.source \"keyboard\"; the host calls previousRow.focus()). It disables (not hides) at the minimum count (SETTINGS-23). No \"X of Y\" counter — the +Add disables at max and delete at min (SETTINGS-36).",
     "dsv3": "COVERED — the settings-lab OptionRow control mapped into the DS. It composes the DS borderless field, checkbox and image control into the reference option-row anatomy (SETTINGS-20/34/23/39)."
   },
   "surfaces": [
@@ -273,7 +273,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "delete is the secondary small icon Button centred on the top-right corner, hover-only, disabled (not hidden) at min (SETTINGS-23)",
+      "label": "delete is the secondary small icon Button centred on the top-right corner, revealed on hover or keyboard focus, disabled (not hidden) at min (SETTINGS-23)",
       "verdict": "PASS"
     },
     {
@@ -289,7 +289,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "delete is not a tab stop; Backspace in an empty field of a deletable row emits delete with detail.source keyboard (aria-keyshortcuts on the field, shortcut in the tooltip)",
+      "label": "delete is a Tab stop (Enter / Space deletes, disabled is skipped); Backspace in an empty field of a deletable row emits delete with detail.source keyboard (aria-keyshortcuts on the field, shortcut in the tooltip)",
       "verdict": "PASS"
     },
     {
