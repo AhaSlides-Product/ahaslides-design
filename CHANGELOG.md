@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.311.0 — 2026-10-21
+## 0.313.0 — 2026-10-21
 ### Removed
 - Marketing → Sections: the standalone `Hero` page is removed (`marketing/hero.json`, its nav entry and generated page). The hero layouts on the `Header` page are unchanged. The old `landing/` and `landing/hero` stubs now forward to the `Header` page. No tokens, colours or components change. Revert: restore `marketing/hero.json` and point the `''` and `hero` entries of `LANDING_REDIRECTS` in `generate.mjs` back at `marketing/hero/index.html`. (#298)
+
+## 0.310.1 — 2026-10-21
+### Fixed
+- Marketing Footer banner: on a phone (479px and below) the card's left and right padding is 32px, equal to top and bottom (was 64px); tablet unchanged (#329).
 
 ## 0.309.0 — 2026-10-21
 ### Added
