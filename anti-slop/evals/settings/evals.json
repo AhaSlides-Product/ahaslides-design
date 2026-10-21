@@ -1809,6 +1809,76 @@
         "authored": "ahaslides-design",
         "why": "DESY-215: a settings panel never takes a small field"
       }
+    },
+    {
+      "id": 78,
+      "prompt": "Review the settings panel of an eLearning module:\n\n```html\n<aha-section-header>Opening</aha-section-header>\n<aha-setting-row label=\"Opening\"><aha-select slot=\"control\"></aha-select></aha-setting-row>\n<aha-section-header>Completion</aha-section-header>\n<aha-setting-row label=\"Pass mark\"><aha-number-with-unit slot=\"control\" value=\"80\" unit=\"%\"></aha-number-with-unit></aha-setting-row>\n```\nThe requester had to open each option to learn what Opening, Completion and Pass mark change.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "BAD for C20: lone abstract nouns as group headers and a coined term as a label. Real labels from a course-settings build.",
+      "expected_output": "FAILs C20. \"Opening\" and \"Completion\" are lone abstract nouns that hide what they control, and \"Pass mark\" is a coined term the requester had to decode. Fix: \"When the module opens\", \"When the module is complete\", \"Complete module condition\". Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C20 is marked FAIL",
+        "Names Opening, Completion or Pass mark as the failing label",
+        "Proposes a label that names the object and the moment"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C20": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-297: settings labels say what the setting does"
+      }
+    },
+    {
+      "id": 79,
+      "prompt": "Review the certificate settings of an eLearning course:\n\n```html\n<aha-setting-row label=\"Team name\"></aha-setting-row>\n<aha-setting-row label=\"Signer\"></aha-setting-row>\n```\nThe tooltips explain that Team name is printed on the certificate and Signer is the signature image.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "BAD for C20: an ambiguous object (which team, shown where) and an invented term for a conventional one, both rescued only by a tooltip.",
+      "expected_output": "FAILs C20. \"Team name\" does not say which team or where it appears, and \"Signer\" is an invented term for what other products call a signature; both need their tooltip to be understood. Fix: \"Organisation name on certificate\" and \"Signature\". Overall NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX (not OK TO SHIP)",
+        "C20 is marked FAIL",
+        "Says the labels depend on their tooltips",
+        "Uses the conventional term (Signature) and names what appears and where"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C20": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-297: settings labels say what the setting does"
+      }
+    },
+    {
+      "id": 80,
+      "prompt": "Review the settings panel of an eLearning module:\n\n```html\n<aha-section-header>When the module opens</aha-section-header>\n<aha-setting-row label=\"Opens after\"><aha-select slot=\"control\" value=\"After the previous module is passed\"></aha-select></aha-setting-row>\n<aha-section-header>When the module is complete</aha-section-header>\n<aha-setting-row label=\"Complete module condition\"></aha-setting-row>\n<aha-setting-row label=\"Correct answers needed (%)\"><aha-number-with-unit slot=\"control\" value=\"80\" unit=\"%\"></aha-number-with-unit></aha-setting-row>\n<aha-setting-row label=\"Organisation name on certificate\"></aha-setting-row>\n<aha-setting-row label=\"Signature\"></aha-setting-row>\n```\nNo setting has a tooltip. The learner view also says \"Complete module condition\".",
+      "files": [],
+      "label": "good-control",
+      "notes": "GOOD control for C20: labels and options state their outcome, units are in the label, one term per concept.",
+      "expected_output": "PASSes C20. Every header, label and option is understood without a tooltip, names the object and the moment, carries its unit, and uses one term across the trainer and learner views.",
+      "assertions": [
+        "C20 is marked PASS",
+        "Does not ask for tooltips to explain the labels"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C20": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-297: settings labels say what the setting does"
+      }
     }
   ]
 }
