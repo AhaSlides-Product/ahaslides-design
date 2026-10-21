@@ -1537,12 +1537,12 @@
         {
           "id": "W5",
           "title": "Band backgrounds follow the colour rules",
-          "test": "Band backgrounds follow brand/colour-rules.json 3.2 to 3.5, 3.8 and 3.10: white by default; coloured bands are Vivid Pink or pale pink (--aha-bg-accent); the hero may be Vivid Pink #E70E68 (rule 3.5), with the body then alternating white and pale pink starting with white; a full white section always sits between two coloured bands; at most two Vivid Pink bands, a Vivid Pink hero being one; no black band; no gradient. Two coloured bands touching, a third Vivid Pink band, a Darker Pink hero background (Darker Pink is only the Splash hooks on Vivid Pink, rule 5.1), or a full-width light grey band fails: light grey belongs to cards inside a section. N/A when every band is white."
+          "test": "Band backgrounds follow brand/colour-rules.json 3.2 to 3.5, 3.8 and 3.10: white by default; coloured bands are Vivid Pink or pale pink (a Features section with the aha-features--accent class, never an inline background: var(--aha-bg-accent) style); the hero may be Vivid Pink #E70E68 (rule 3.5), with the body then alternating white and pale pink starting with white; a full white section always sits between two coloured bands; at most two Vivid Pink bands, a Vivid Pink hero being one; no black band; no gradient. Two coloured bands touching, a third Vivid Pink band, a Darker Pink hero background (Darker Pink is only the Splash hooks on Vivid Pink, rule 5.1), an inline --aha-bg-accent background on a section, or a full-width light grey band fails: light grey belongs to cards inside a section. N/A when every band is white."
         },
         {
           "id": "W6",
           "title": "Imagery is real and icons come from the registry",
-          "test": "Every picture is an <img> with meaningful alt text (or alt=\"\" when decorative) showing a product screenshot, a committed photo, or the DS placeholder marketing-assets/image-placeholder.svg. Stock clip art, emoji used as icons, gradient blobs, glassmorphism (backdrop-filter blur panels), decorative 3D shapes, a CSS-drawn picture standing in for an image, and any icon not drawn by <aha-icon name> from the registry fail. N/A when the page has no pictures and no icons."
+          "test": "Every picture is an <img> with meaningful alt text (or alt=\"\" when decorative) showing a product screenshot, a committed photo, or the DS placeholder marketing-assets/image-placeholder.svg. Stock clip art, emoji used as icons, gradient blobs, glassmorphism (backdrop-filter blur panels), decorative 3D shapes, a CSS-drawn picture standing in for an image, a screenshot cropped by object-fit: cover (a screenshot, or an asset whose ratio differs from its frame or that fades into a white card, sits contained with an even inset in the Vivid Pink frame, aha-features__photo--pink-frame or aha-marketing-card__media--pink-frame), frames of different ratios in one section, and any icon not drawn by <aha-icon name> from the registry fail. N/A when the page has no pictures and no icons."
         },
         {
           "id": "W7",
@@ -1558,6 +1558,11 @@
           "id": "W9",
           "title": "Motion is gentle and optional",
           "test": "Motion is limited to hover transitions and at most a gentle fade or slide on reveal, timed with --aha-motion-* and --aha-ease-* tokens, and switched off under prefers-reduced-motion: reduce. The Logos strip's shipped loop, which stops under reduced motion, passes. Parallax, scroll-jacking, an autoplaying carousel or video, looping decorative animation, a bare duration literal, or motion with no reduced-motion fallback fails. N/A when the page has no motion."
+        },
+        {
+          "id": "W10",
+          "title": "Image-led sections show every image large and whole",
+          "test": "A section where readers compare the pictures (themes, templates, slide types) is image-led: it uses the Cards aha-marketing-cards__grid--image-led layout, with at most 2 columns on desktop so every image is at least half the content width, 4 items as 2 by 2, an odd count with the first item as a wide feature card (image two thirds, title beside it), and 1 column below 768 px, and no image is cropped. A text-led section (steps, benefits, use cases) keeps 3 or 4 columns. Pictures to compare in 3 or 4 columns, an image under half the content width, or a cropped image in an image-led section fails. N/A when no section compares pictures."
         }
       ]
     }

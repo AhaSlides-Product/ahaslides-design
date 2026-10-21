@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.294.0 — 2026-10-21
+### Added
+- Marketing → Features and Cards: a Vivid Pink image frame for screenshots and assets whose ratio differs from their slot, or that are light enough to fade into a white card. Add `aha-features__photo--pink-frame` (4:3 rows) or `aha-marketing-card__media--pink-frame` (3:2 cards): the picture is contained, never cropped, with an even inset on `--aha-vivid-pink-100` and the centre Splash from the Background library behind it (its CSS recipe, unchanged). Photos that fill the slot keep `object-fit: cover`. The Features "Alternating with screenshots" layout now uses it, and Cards gets a framed Template card.
+- Marketing → Cards: an image-led grid layout, `aha-marketing-cards__grid--image-led`, for sections where readers compare the pictures: two columns at most on desktop, so every image is at least half the content width; four items make a 2 by 2 grid; an odd count makes the first item a wide feature card (image two thirds, title beside it); one column below 768px (a viewport `@media`, not a container query). Text-led sections keep three or four columns.
+- Websites → Website composition: rule W10 and criterion W10 ("In an image-led section, is every image at least half the content width and uncropped?"), and the never-crop-a-screenshot and one-frame-ratio-per-section rule with the Vivid Pink frame added to W6.
+
+### Changed
+- Marketing → Cards: `.aha-marketing-cards` is transparent in every section, not only `aha-features--accent`; inside a Features section `.aha-marketing-cards__grid` drops its 64px padding and 72rem cap.
+- Websites → Website composition: rule W5 now names the pale pink band as the `aha-features--accent` class, never an inline `background: var(--aha-bg-accent)` style. Revert: remove the new classes, rule W10 and criterion W10; the previous Cards and Features CSS is restored by reverting this change. (#318)
+
 ## 0.293.0 — 2026-10-21
 ### Added
 - Marketing → Sections → Testimonials: a "Quote cards" layout cloned from the "What our users say" section of the ahaslides.com slide-type pages. A centred heading and lead on the pale pink band (`--aha-bg-accent`), then three equal white cards with the quote at the top and the avatar, name and role pinned to the bottom, stacking to one column at 767px. Three customer avatars are added to `marketing/images/testimonials/` and listed in its manifest. (#316)
