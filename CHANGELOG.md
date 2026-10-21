@@ -22,13 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.317.0 — 2026-10-21
+## 0.320.0 — 2026-10-21
 ### Added
 - Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets its form; the Button is now form-associated, and Enter in a text field of the form submits it, as with a native submit button (not while the Button is disabled or loading) (#332).
 - screen-lint: the `hand-rolled-button` rule hard-fails on every surface a button the screen draws itself (a `button` / `btn` / `cta` class, `<button>`, `[role=button]` or link painted with a fill and a button shape, or state fills) and any restyle of `<aha-button>` (a colour, fill, border, shadow, height or `:hover` / `:active` / `:focus` rule on it, its `::part` or a `--aha-button-*` token); only layout may be set on it. Opt-out: `ds-lint-allow: hand-rolled-button (why)` (#332).
 - Websites → Website composition: rule and criterion W15 "Every button is the DS Button, never restyled", with a failing eval of the games.ahaslides.com header case; aha-design skill rule 12 (#332).
 ### Changed
 - Marketing Navigation, Header (all layouts), Features, Numbers and Footer banner draw every button with `<aha-button variant size>` (Log in secondary, Sign up primary, Join `type="submit"`), and their own button CSS (`aha-header__button`, `aha-header__join-button`, `aha-header-section-*__button` / `__cta`, `aha-features__button`, `aha-numbers__button`, `aha-footer-banner__cta`) is removed. The label is now the Button's semibold; on a Vivid Pink surface the Button is made white through the `--aha-button-*` tokens, marked `ds-lint-allow: hand-rolled-button`, until the Button has an on-brand variant. Revert: revert this change; the bespoke classes come back with it (#332).
+
+## 0.319.0 — 2026-10-21
+### Added
+- Question list: a body slot `body-<id>` puts interactive light-DOM content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the "Question" row. Children stay focusable; clicks, keys and edits in the slot never toggle the collapse; a closed question hides it; it follows its question by id across reorder, add and delete. Native `input` / `change` events from slotted children now reach the list's host (the list's own `change` still carries `detail.questions`). Revert: remove the `.body-slot` holder, its CSS and the `slotted('body-slot', …)` call in `lib/aha-question-list.js`, and restore the `stopPropagation` guard to unconditional. (#335)
 
 ## 0.315.0 — 2026-10-21
 ### Removed
