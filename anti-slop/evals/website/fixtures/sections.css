@@ -349,8 +349,8 @@
 .aha-hero__bar:last-child{margin-bottom:0}
 .aha-hero__bar-top{display:flex;justify-content:space-between;gap:var(--aha-space-12);margin:0 0 var(--aha-space-6);font-size:var(--aha-size-default);color:var(--aha-text-secondary)}
 .aha-hero__bar-top b{color:var(--aha-text-default);font-weight:var(--aha-weight-semibold)}
-.aha-hero__track{height:var(--aha-space-12);border-radius:50%;background:var(--aha-bg-accent);overflow:hidden}
-.aha-hero__fill{height:100%;border-radius:50%;background:var(--aha-color-primary)}
+.aha-hero__track{height:var(--aha-space-12);border-radius:var(--aha-radius-xs);background:var(--aha-bg-accent);overflow:hidden}
+.aha-hero__fill{height:100%;border-radius:var(--aha-radius-xs);background:var(--aha-color-primary)}
 .aha-hero__fill--soft{background:var(--aha-vivid-pink-30)}
 .aha-features{
   container:aha-features / inline-size;
