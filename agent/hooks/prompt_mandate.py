@@ -37,6 +37,7 @@ except Exception:  # never let a logging-import problem break a prompt
 
 import ds_criteria
 import legacy_vue
+import settings_skill
 
 # Broad on purpose — the digest is a helpful add, and a borderline false positive
 # just means a bit of extra context, never a block. Includes VI design terms.
@@ -89,6 +90,15 @@ LOCKUP = (
     "header is the DS <aha-product-lockup product=\"<name>\"> (The Splash + AhaSlides + "
     "the product name; no product attribute when no name is approved). Never hand-set "
     "it from the logo file and a text span. Spec: " + ds_criteria.FEED_SITE + "/product-lockup/index.html"
+)
+
+SETTINGS_MANDATE = (
+    "[aha-design] Settings design task (a settings panel, page, modal or drawer, a slide type's "
+    "settings.* panel or config, preferences, an options dialog, or adding, naming or labelling a "
+    "setting or toggle): load the `" + settings_skill.SKILL + "` skill BEFORE planning or writing "
+    "anything, no exception. It is the one runbook for settings: hub control table, label rule, "
+    "the label self-check table, grouping, screen-lint --surface=settings, the settings judge. "
+    "Writes to settings UI are blocked until it is loaded. If this is not settings UI, ignore this line."
 )
 
 LOOP = (
@@ -164,6 +174,8 @@ def main():
         ui = bool(UI_SIGNAL.search(prompt)) or _has_frontend_project(cwd)
     except Exception:
         ui = False
+    if settings_skill.prompt_signal(prompt):
+        context += "\n" + SETTINGS_MANDATE
     criteria_source = ""
     if ui:
         criteria = ds_criteria.load(cwd)
