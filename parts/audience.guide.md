@@ -154,7 +154,7 @@ The same two-jobs split as the canvas, with less theme forwarded.
   `colorWarning`, `colorInfo` are the semantic functions (all the default ink #1A1A1A under the colour rules; the glyph and wording carry the meaning). A bright accent
   that merely *looks* green/red (a teal such as `#20E8B5` as a tick) is wrong and fails contrast
   (~1.58:1 on white). On a dark deck the dark
-  status glyph fails, so put it on a **bounded light fill** or use a white glyph on a black pill.
+  status glyph fails, so put it on a **bounded light fill** or use a white glyph on a black chip.
 - **`textColour` is for text, not borders.** Bind body text to `xprops.slide.textColour`.
   Derive hairlines from `color-mix(in srgb, currentColor 10%, transparent)`, never from
   `textColour` directly.
@@ -207,8 +207,8 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
   tint with genuinely high-contrast ink and clear hierarchy — not one hue at two brightnesses.
 - **Corner radius on the DS scale.** Cards and panels **12px** (`--aha-radius-lg`, the DS card);
   option tiles, inputs and the submit button **8px**; nothing rectangular above 12px — including
-  the OUTER wrapper, not just the tiles inside. 16 / 24px read toy-like. Intentionally circular elements (pills, chips, badges, avatars, dots,
-  progress tracks) stay fully rounded.
+  the OUTER wrapper, not just the tiles inside. 16 / 24px read toy-like. There is no pill shape: true circles (avatars, dots, radio marks,
+  slider thumbs) are round at 50%, while chips, badges and progress tracks stay on the radius scale.
 - **No extra-bold weight.** Text uses weight **400 or 600 only** (the standard submit button is
   600). No 700 / 800 / 900.
 
@@ -271,7 +271,7 @@ it rebuilds the same spec:
 
 - **Full-width** block, fills the answer area.
 - **Height** ~44–48px (the touch-target range).
-- **Soft rounded corners** 8px (`--aha-radius-default`) — no sharp 0px, no pill unless that's the deck style.
+- **Soft rounded corners** 8px (`--aha-radius-default`) — no sharp 0px and no pill shape.
 - **Background** = the deck's first palette colour `xprops.presentationColorPalette[0]` (or a
   `presentationLighterColorPalette` shade). **Never hard-code a brand colour, never leave a bare
   `type="primary"` on the fixed purple** (AHAM-701).
