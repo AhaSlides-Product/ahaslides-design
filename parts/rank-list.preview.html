@@ -7,17 +7,17 @@
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <aha-rank-list group-label="Order by size" options='[{"id":"j","label":"Jupiter"},{"id":"e","label":"Earth"},{"id":"m","label":"Mars"}]'></aha-rank-list>
   </div>
-  <div class="lbl">Long text and picture (expandable): 4 lines, More, picture on the left; press More or the picture to open the sheet</div>
+  <div class="lbl">Long text and picture (expandable): 4 lines, More, picture on the left; press More or the picture to open the modal</div>
   <div class="row aud-dark" style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px;box-sizing:border-box;padding:var(--aha-space-16);background:var(--aha-bg-dark);border-radius:var(--aha-radius-lg)">
     <aha-rank-list expandable id="long-rank" group-label="Order by length"></aha-rank-list>
   </div>
-  <aha-bottom-sheet inline id="rank-sheet" style="display:block;max-width:420px"></aha-bottom-sheet>
+  <aha-audience-modal inline id="rank-sheet" style="display:block;max-width:420px"></aha-audience-modal>
 </div>
 
 <!-- Imports the REAL shipped element, so the preview can never drift from lib/ and qa measures what consumers get. -->
 <script type="module">
   import '../lib/aha-rank-list.js';   // registers <aha-rank-list>
-  import '../lib/aha-bottom-sheet.js';   // registers <aha-bottom-sheet>
+  import '../lib/aha-audience-modal.js';   // registers <aha-audience-modal>
   import { applyDeck } from '../lib/audience-deck.js';
   for (const deck of document.querySelectorAll('.aud-dark')) applyDeck(deck, { textColour: '#FFFFFF', presentationColorPalette: ['#E70E68'] });
   const picture = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23E70E68' fill-opacity='.15'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%23E70E68'/%3E%3Crect x='120' y='210' width='160' height='24' rx='12' fill='%231A1A1A' fill-opacity='.7'/%3E%3C/svg%3E";

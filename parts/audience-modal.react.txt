@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-audience-modal';
+import '@ahaslides-product/design/aha-button';
+import { useRef } from 'react';
+
+export function SendAnswer({ onSend }) {
+  const modal = useRef(null);
+  const confirmAndSend = async () => {
+    if (await modal.current.show() === 'send') onSend();
+  };
+  return (
+    <>
+      <aha-button variant="primary" size="touch" onClick={confirmAndSend}>Send answer</aha-button>
+      <aha-audience-modal ref={modal} type="confirmation" heading="Send your answer?">
+        You cannot change it after you send it.
+        <aha-button slot="actions" data-action="send" variant="primary" size="touch">Send answer</aha-button>
+        <aha-button slot="actions" data-action="cancel" variant="secondary-deck" size="touch">Not yet</aha-button>
+      </aha-audience-modal>
+    </>
+  );
+}
