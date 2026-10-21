@@ -42,6 +42,10 @@
     {
       "label": "Helper",
       "value": "answerOptionState({quizStatus, answered, revealed, awaitingReveal, selected, correct}) → {visible, interactive, dimmed, tone, verdict, mine}"
+    },
+    {
+      "label": "Long text (expandable)",
+      "value": "label clamps to 4 lines; More is a Button link (size sm, underlined, in the deck ink) under the text inside the card, only when the text is cut; the 44 picture stays on the left of the text exactly as on a default row (same size, 12 gap, 8 radius) and a 50% black overlay with a 24 expand arrow shows on hover and keyboard focus; a one-line option lines up pixel for pixel with a default row"
     }
   ],
   "props": [
@@ -67,7 +71,13 @@
       "name": "image",
       "type": "url",
       "default": "—",
-      "desc": "A picture shown in full (contain): a thumbnail before the label, or a full tile with no label"
+      "desc": "A picture that fills its slot (cover): a thumbnail before the label, or a full tile with no label"
+    },
+    {
+      "name": "expandable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "The long-text variant: the label clamps to 4 lines, a More link (Button link) sits inside the card when the text is cut, the picture stays on the left with a dark expand overlay on hover"
     },
     {
       "name": "selected / correct",
@@ -104,6 +114,18 @@
       "type": "CustomEvent",
       "default": "—",
       "desc": "Fires when tapped (or Enter / Space) while the row is open"
+    },
+    {
+      "name": "more-label / expand-label",
+      "type": "string",
+      "default": "More / View full option",
+      "desc": "Translated More link and picture button name (expandable)"
+    },
+    {
+      "name": "expand",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "expandable only: More or the picture was pressed; detail.source is more or image. It never picks the row. Open <aha-bottom-sheet> in response"
     }
   ],
   "opinion": {
@@ -115,6 +137,10 @@
       {
         "what": "Answer list",
         "when": "an ordinary list: it repeats this row and owns the gap, selection and counts"
+      },
+      {
+        "what": "Answer option expandable + Bottom sheet",
+        "when": "option text or pictures can be long: show 4 lines in the row and the whole option in the sheet"
       }
     ],
     "note": "Lobby, Rule and Countdown render no options at all: the row hides itself before quiz-status 4. The deck colours arrive as data in a cross-origin iframe, so call `applyDeck(root, xprops.slide)` from `audience-deck` once (or set `ink` / `accent` on the element). Every audience element inherits the deck font."
@@ -163,5 +189,8 @@
       "labelWeight": "600",
       "control": "rgb(231, 14, 104)"
     }
-  }
+  },
+  "environment": [
+    "audience"
+  ]
 }

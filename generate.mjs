@@ -1611,6 +1611,21 @@ function renderAudienceLibrary() {
     for (const deck of document.querySelectorAll('.audience-lib .deck.light')) applyDeck(deck, { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
     for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FAFAFA', presentationColorPalette: ['#E70E68'] });
     for (const timer of document.querySelectorAll('.audience-lib .demo-countdown')) timer.setAttribute('ends-at', String(Date.now() + 37000));
+    const demoPicture = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23E70E68' fill-opacity='.15'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%23E70E68'/%3E%3Crect x='120' y='210' width='160' height='24' rx='12' fill='%231A1A1A' fill-opacity='.7'/%3E%3C/svg%3E";
+    const demoLongText = Array(24).fill('Thứ Hai').join(' ');
+    for (const rank of document.querySelectorAll('.audience-lib [data-demo-rank]')) rank.options = [
+      { id: 'a', label: demoLongText, image: demoPicture },
+      { id: 'b', label: 'Phương án ngắn' },
+      { id: 'c', label: 'Ngắn có ảnh', image: demoPicture },
+    ];
+    for (const trigger of document.querySelectorAll('.audience-lib [expandable]')) trigger.addEventListener('expand', (event) => {
+      const sheet = trigger.closest('.demo-phone').querySelector('[data-demo-sheet]');
+      const option = trigger.options && trigger.options.find((candidate) => candidate.id === event.detail.id);
+      sheet.textContent = option ? option.label : trigger.textContent;
+      const image = option ? option.image : trigger.getAttribute('image');
+      if (image) sheet.setAttribute('image', image); else sheet.removeAttribute('image');
+      sheet.setAttribute('open', '');
+    });
     for (const upload of document.querySelectorAll('.audience-lib .demo-upload')) upload.uploadImage = () => new Promise((resolve) => setTimeout(() => resolve({ url: '../logo/thesplash.svg', path: 'demo' }), 600));
     for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
   </script>

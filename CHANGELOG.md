@@ -22,9 +22,30 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.308.0 — 2026-10-21
+### Added
+- `aha-option-row`: the drag handle is now an opt-in keyboard-operable reorder grip. Set `reorderable` (alongside `orderable`, on a non-`disabled` row) to make the handle a tab stop that emits composed `reorder-move` (`detail.direction` "up"/"down") on ArrowUp/ArrowDown, `reorder-grab` (`detail.{pointerId,clientX,clientY}`) on pointerdown, and `reorder-activate` (no detail) on Enter/Space; the row never reorders itself — a host reorders its list and calls the new `focusHandle()` to restore focus after moving the row element. Without `reorderable` the handle is unchanged (decorative, no tab stop, no events). (#327)
+
 ## 0.307.0 — 2026-10-21
 ### Added
-- `aha-option-row`: the drag handle is now an opt-in keyboard-operable reorder grip. Set `reorderable` (alongside `orderable`, on a non-`disabled` row) to make the handle a tab stop that emits composed `reorder-move` (`detail.direction` "up"/"down") on ArrowUp/ArrowDown, and composed `reorder-grab` (`detail.{pointerId,clientX,clientY}`) on pointerdown; the row never reorders itself — a host reorders its list and calls the new `focusHandle()` to restore focus after moving the row element. Without `reorderable` the handle is unchanged (decorative, no tab stop, no events). (#327)
+- `<aha-bottom-sheet>`: an audience sheet that slides up to show one option in full, picture on top and the whole text below. It scrolls when long and closes on the backdrop, the close button, Escape and a swipe down; focus is trapped inside and returned to the opener. The close button is the audience close button (tertiary-deck icon-only md), which needs #317 to draw as designed (#319)
+- `<aha-answer-option expandable>`: a long-text variant. The label clamps to 4 lines with More (a Button link in the deck ink) inside the card, the picture stays on the left like a default row and shows a dark overlay with an expand arrow on hover, and a one-line option lines up with a default row. More and the picture emit `expand` (#319)
+
+- `<aha-rank-list expandable>`: the same long-text treatment for ranking rows: clamped label, More, picture on the left with the expand overlay, and an `expand` event (`detail.id`, `detail.source`) to open `<aha-bottom-sheet>`. Docs show a long option with a picture (#319)
+
+### Changed
+- `<aha-bottom-sheet>`: the top corners use the 8px radius (`--aha-radius-default`), and a new `contained` attribute slides the sheet up inside the nearest positioned ancestor instead of the viewport (#319)
+- `<aha-answer-list expandable>`: forwards `expandable` to every row and re-emits `expand` with `detail.id` and `detail.source`, so the list gets More and the picture tap like a single `<aha-answer-option>` (#319)
+- Audience library: the AnswerOption, AnswerOption List, Bottom sheet and DraggableOptions demos show the long-text rows inside a 360 by 640 phone frame; More or the picture slides the sheet up from the bottom of that frame over a backdrop (#319)
+- Audience library: Bottom sheet is an Audience library entry only (no standalone component page); AnswerOption and DraggableOptions show the long-text and picture case beside their demos, with More and the picture opening the sheet; the BottomSheet demo shows a picture on top (#319)
+
+### Fixed
+- `<aha-rank-list>`: the end padding of a row is halved to 8px, so the drag handle sits closer to the edge (#319)
+- Audience library: the light and dark deck columns shrink with the card, so a phone-frame demo is no longer cut off on the dark side (#319)
+- `<aha-answer-option>`: the revealed tick and cross, and the correct / incorrect ring, use `--aha-answer-correct` and `--aha-answer-wrong` instead of the ink, so they read in light and dark decks (#319)
+- `<aha-answer-option>` and `<aha-rank-list>`: the picture always fills its slot (cover, no slot background) whatever its ratio; long rank rows get equal top and bottom padding; the rank order badge steps down from 28px to 24px (12px numeral) (#319)
+- `<aha-answer-option>` and `<aha-rank-list>`: a long text option centres its control, picture and badge vertically in the card instead of pinning them to the top (#319)
+- `<aha-chart>`: the hover panel that shows a full label is wider (up to 480px or 90% of the chart) and now stays inside the viewport or iframe on every side, flipping above or below the pointer and shifting sideways (#319)
 
 ## 0.306.0 — 2026-10-21
 ### Added
