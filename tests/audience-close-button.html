@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audience close button</title>
+<style>body{ margin:0; padding:40px; font-family:sans-serif } .row{ display:flex; gap:40px; align-items:center }</style>
+</head>
+<body>
+  <div class="row">
+    <aha-button id="close" variant="tertiary-deck" size="md" icon-only aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="sheet" variant="tertiary-deck" size="md" icon-only sheet aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="touch" variant="tertiary-deck" size="touch" icon-only aria-label="Remove"><aha-icon name="system-trash" size="16" decorative></aha-icon></aha-button>
+    <aha-button id="foundation" variant="tertiary" size="md" icon-only aria-label="More"><aha-icon name="system-gear" size="16" decorative></aha-icon></aha-button>
+  </div>
+  <script type="module">
+    await import('../lib/aha-button.js');
+    await import('../lib/icons.js');
+    await customElements.whenDefined('aha-button');
+    window.audienceCloseFixtureReady = [...document.querySelectorAll('aha-button')].every((button) => button.shadowRoot?.querySelector('button'));
+  </script>
+</body>
+</html>

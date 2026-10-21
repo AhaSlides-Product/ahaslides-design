@@ -150,7 +150,7 @@ Read the list from the DS each time — surfaces get added.
     No `tertiary-deck` on a photographic deck. Detail in the `canvas` guideline.
 11. Actions on a slide type's audience phone are `<aha-audience-submit>` for the submit and
     `<aha-button size="touch">` in `primary`, `secondary-deck` or `tertiary-deck` for the rest, from
-    `lib/audience.js`, never a raw `<button>`. Detail in the `audience` guideline.
+    `lib/audience.js`, never a raw `<button>`. A modal or sheet closes with the ✕ `<aha-button variant="tertiary-deck" size="md" icon-only>` (36px drawn, 44px hit area, `sheet` on white), not the 48px icon-only. Detail in the `audience` guideline.
 
 ## 4. Judge
 

@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.304.0 — 2026-10-21
+## 0.307.0 — 2026-10-21
 ### Added
 - `<aha-bottom-sheet>`: an audience sheet that slides up to show one option in full, picture on top and the whole text below. It scrolls when long and closes on the backdrop, the close button, Escape and a swipe down; focus is trapped inside and returned to the opener. The close button is the audience close button (tertiary-deck icon-only md), which needs #317 to draw as designed (#319)
 - `<aha-answer-option expandable>`: a long-text variant. The label clamps to 4 lines with More (a Button link in the deck ink) inside the card, the picture stays on the left like a default row and shows a dark overlay with an expand arrow on hover, and a one-line option lines up with a default row. More and the picture emit `expand` (#319)
@@ -42,6 +42,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-answer-option>` and `<aha-rank-list>`: the picture always fills its slot (cover, no slot background) whatever its ratio; long rank rows get equal top and bottom padding; the rank order badge steps down from 28px to 24px (12px numeral) (#319)
 - `<aha-answer-option>` and `<aha-rank-list>`: a long text option centres its control, picture and badge vertically in the card instead of pinning them to the top (#319)
 - `<aha-chart>`: the hover panel that shows a full label is wider (up to 480px or 90% of the chart) and now stays inside the viewport or iframe on every side, flipping above or below the pointer and shifting sideways (#319)
+
+## 0.306.0 — 2026-10-21
+### Added
+- Audience → Close: a ✕ for a modal, sheet or overlay on the audience phone, `<aha-button variant="tertiary-deck" size="md" icon-only aria-label="Close">` with the 16px `system-x`. Drawn 36 × 36 (the foundation md icon-only square) instead of the 48 × 48 touch icon-only, with an invisible 44 × 44 hit area so the touch floor still holds; no other button changes. New `sheet` attribute for a white modal or sheet: the glyph is muted grey (`--aha-icon-muted`, 3.45:1 on white) and text-default on hover and press, because the deck ink can be white. Actions (Skip, Back, Remove) stay size touch. (#317)
+### Fixed
+- Audience → SubmittedCard: the check pip no longer sits on a grey square (the 10% deck-ink wash behind the glyph is removed), and the check is 32px, the size of the WaitingForHost hourglass. (#317)
 
 ## 0.303.0 — 2026-10-21
 ### Added
