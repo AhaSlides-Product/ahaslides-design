@@ -13,7 +13,7 @@
   Colour/font come from xprops (C1 clean). Expected: C24 PASS.
 -->
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { usePresenterPlugin } from '@aha/ui'
 
 const { slideProps, presentationProps } = usePresenterPlugin()
@@ -31,7 +31,12 @@ const held = ref(-1)
 let origin = -1
 const announcement = ref('')
 
+function onCardBlur(e: FocusEvent) {
+  if (e.relatedTarget) held.value = -1
+}
+
 function onCardKey(e: KeyboardEvent, i: number) {
+  const list = (e.currentTarget as HTMLElement).parentElement
   if (held.value < 0) {
     if (e.key === ' ') { held.value = i; origin = i; announcement.value = `${cards.value[i]} picked up, position ${i + 1}`; e.preventDefault(); e.stopPropagation() }
     return
@@ -42,6 +47,7 @@ function onCardKey(e: KeyboardEvent, i: number) {
       const [moved] = cards.value.splice(held.value, 1)
       cards.value.splice(to, 0, moved)
       held.value = to
+      nextTick(() => (list?.children[to] as HTMLElement).focus())
       announcement.value = `${moved} moved to position ${to + 1}`
     }
     e.preventDefault(); e.stopPropagation()
@@ -49,6 +55,8 @@ function onCardKey(e: KeyboardEvent, i: number) {
     const [moved] = cards.value.splice(held.value, 1)
     cards.value.splice(origin, 0, moved)
     announcement.value = `${moved} returned to position ${origin + 1}`
+    const returnedTo = origin
+    nextTick(() => (list?.children[returnedTo] as HTMLElement).focus())
     held.value = -1
     e.preventDefault(); e.stopPropagation()
   } else if (e.key === ' ' || e.key === 'Enter') {
@@ -83,7 +91,7 @@ function onCardKey(e: KeyboardEvent, i: number) {
         tabindex="0"
         :aria-label="`${card}, position ${i + 1} of ${cards.length}. Space to pick up.`"
         @keydown="onCardKey($event, i)"
-        @focusout="held = -1"
+        @focusout="onCardBlur"
       >
         {{ card }}
       </li>
