@@ -33,5 +33,6 @@ function activate(i) {}
     @correct-change="o.correct = $event.detail.correct"
     @delete="remove(i, $event.detail.source)"
     @reorder-move="move(i, $event.detail.direction)"
+    @reorder-activate="activate(i)"
   />
 </template>
