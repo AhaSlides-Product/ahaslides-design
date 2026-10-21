@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.300.0 — 2026-10-21
+### Added
+- Marketing → Cards: a steps row. `aha-marketing-cards__grid--row` lays three Step cards in one horizontal row (three across, `--aha-space-24` gap, one column below 768px, no two-column step), with a three-card example (Build your slides, Share the code, See every answer) beside the Step card. Each card in the row takes an optional 3:2 image above the number (an `<img>` in the card media block, filling it); drop the block for a text-only row. The Step card and every other card are unchanged ([#323](https://github.com/AhaSlides-Product/ahaslides-design/pull/323)).
+
 ## 0.294.1 — 2026-10-21
 ### Fixed
 - Collapse: content of an open panel can now overflow it, so a `?` help tooltip, a select dropdown or a popover inside an open `aha-collapse` (ghost or bordered) is no longer clipped. The body is still clipped while it animates open or closed, and reduced motion lifts the clip at once. (#320)
