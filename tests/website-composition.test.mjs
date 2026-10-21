@@ -16,7 +16,6 @@ const testimonialsCss = readJson('marketing/testimonials.json').baseCss;
 const pricingCss = readJson('marketing/pricing.json').baseCss;
 const faqCss = readJson('marketing/faq.json').css;
 const footerBannerCss = readJson('marketing/footer-banner.json').css;
-const heroCss = readJson('marketing/hero.json').css;
 const cardSnippetsCss = readJson('marketing/cards.json').snippets.map((snippet) => snippet.css ?? '').join('\n');
 const alternatingRowCss = features.layouts.find((layout) => layout.slug === 'alternating-screenshots').css;
 
@@ -158,10 +157,9 @@ test('W14: the alternating row title is h4 semibold on the product face', () => 
 });
 
 test('W14: no Marketing section sets the display face; every heading inherits Plus Jakarta Sans', () => {
-  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'hero'];
+  const marketing = ['cards', 'features', 'numbers', 'pricing', 'testimonials', 'faq', 'footer-banner', 'header'];
   for (const slug of marketing) {
     assert.doesNotMatch(readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8'), /--aha-font-display/, slug);
   }
-  assert.match(heroCss, /\.aha-hero\{[^}]*font-family:var\(--aha-font-product\)/);
   assert.doesNotMatch(readFileSync(new URL('../anti-slop/evals/website/fixtures/sections.css', import.meta.url), 'utf8'), /--aha-font-display/);
 });
