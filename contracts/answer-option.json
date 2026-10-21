@@ -125,7 +125,7 @@
       "name": "expand",
       "type": "CustomEvent",
       "default": "—",
-      "desc": "expandable only: More or the picture was pressed; detail.source is more or image. It never picks the row. Open <aha-bottom-sheet> in response"
+      "desc": "expandable only: More or the picture was pressed; detail.source is more or image. It never picks the row. Open <aha-option-modal> in response"
     }
   ],
   "opinion": {

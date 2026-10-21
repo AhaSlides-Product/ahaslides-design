@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.318.0 — 2026-10-21
+### Changed
+- Audience: the option detail is now `<aha-option-modal>` (`@ahaslides-product/design/aha-option-modal`), a centred modal card instead of a bottom sheet that slid up from the screen edge. It has no dark backdrop and no swipe-to-dismiss, so nothing is cut off inside an iframe; the card has a 1px border and a soft shadow, scrolls inside when tall, and closes on the close button, Escape and a tap outside it. `<aha-bottom-sheet>` stays registered as a deprecated alias of the same element, so 0.307.0 consumers keep working. Revert: restore `lib/aha-bottom-sheet.js` from 0.317.0 and drop the new module (#NNN).
+
 ## 0.315.0 — 2026-10-21
 ### Removed
 - Marketing → Sections: the standalone `Hero` page is removed (`marketing/hero.json`, its nav entry and generated page). The hero layouts on the `Header` page are unchanged. The old `landing/` and `landing/hero` stubs now forward to the `Header` page. No tokens, colours or components change. Revert: restore `marketing/hero.json` and point the `''` and `hero` entries of `LANDING_REDIRECTS` in `generate.mjs` back at `marketing/hero/index.html`. (#298)

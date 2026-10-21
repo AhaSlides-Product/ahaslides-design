@@ -1619,12 +1619,12 @@ function renderAudienceLibrary() {
       { id: 'c', label: 'Ngắn có ảnh', image: demoPicture },
     ];
     for (const trigger of document.querySelectorAll('.audience-lib [expandable]')) trigger.addEventListener('expand', (event) => {
-      const sheet = trigger.closest('.demo-phone').querySelector('[data-demo-sheet]');
+      const modal = trigger.closest('.demo-phone').querySelector('[data-demo-modal]');
       const option = trigger.options && trigger.options.find((candidate) => candidate.id === event.detail.id);
-      sheet.textContent = option ? option.label : trigger.textContent;
+      modal.textContent = option ? option.label : trigger.textContent;
       const image = option ? option.image : trigger.getAttribute('image');
-      if (image) sheet.setAttribute('image', image); else sheet.removeAttribute('image');
-      sheet.setAttribute('open', '');
+      if (image) modal.setAttribute('image', image); else modal.removeAttribute('image');
+      modal.setAttribute('open', '');
     });
     for (const upload of document.querySelectorAll('.audience-lib .demo-upload')) upload.uploadImage = () => new Promise((resolve) => setTimeout(() => resolve({ url: '../logo/thesplash.svg', path: 'demo' }), 600));
     for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
