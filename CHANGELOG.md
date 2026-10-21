@@ -31,6 +31,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
 - `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
 
+## 0.325.1 — 2026-10-21
+### Fixed
+- Audience library: every example is in English. The answer list, rank list, text fields, slider, chips, image upload and audience modal demos had Vietnamese labels, options and placeholders. (#339)
+
 ## 0.325.0 — 2026-10-21
 ### Added
 - Audience: `<aha-audience-modal>` (`@ahaslides-product/design/aha-audience-modal`), the audience phone's modal and the mobile twin of the DS Modal, with its own contract and docs page. One centred card in three types: `details` (one option in full, the default, opened from an expandable option), `action` (a heading, a task and its actions) and `confirmation` (a question, one line and two named answers, announced as an alertdialog, no close button, focus on its first non-`danger` action when it opens). Buttons in `slot="actions"` stay pinned below the scrolling body, stacked full width on a phone and in one row from a 400px card. A tap on a button with `data-action` emits a cancelable `action` event and closes with that value; every close fires `close` with `detail.returnValue` (`dismiss` for the close button, Escape or a tap outside), and `show()` returns a promise of it. `destructive` ignores the tap outside. It has no dark backdrop and no swipe to dismiss, so nothing is cut off inside an iframe: the card has a 1px border and a soft shadow, and closes on a tap outside it through an invisible layer. Audience library: the Modal card shows all three types in a phone frame, opened by a tap.
