@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.316.0 — 2026-10-21
+### Added
+- Button: `href` renders `<aha-button>` as a link with the same look (`target` and `rel` pass through; a disabled button stays a `<button>`), and `type="submit"` submits the closest form, so a navigation call to action or a form's submit never needs a hand-drawn button (#129).
+- screen-lint: `hand-rolled-button` (an `__button` / `__cta` / `btn` class, a bare `button` or `[role=button]` selector that paints background, border or colour, hover rules included) and `restyled-button` (CSS that re-colours, re-borders or re-sizes `<aha-button>` from outside), HARD on every surface; group name `button-style`. Anti-slop website criterion W11 "Every button is the DS Button" with a bad-example eval, and the rule in the `aha-design` skill (#129).
+### Changed
+- Marketing Navigation (Log in, Sign up, Join), Header, Hero, Features, Numbers and Footer banner draw every button with `<aha-button>` at the size the section ships; the Vivid Pink bands theme it through `--aha-button-*` tokens. The `__button` / `__cta` classes and their CSS are gone: re-paste the snippet, and swap any copied `<a class="…__button">` for `<aha-button href>` (#129).
+
 ## 0.314.0 — 2026-10-21
 ### Removed
 - Marketing Features: the Icon list with video, Icon list with wide photo and Alternating with photos layouts, with the classes only they used (`aha-features__band`, `__frame--video`, `__play`, `__checks`, `__check`, `__photo--16x9` and others); the page now lists nine layouts (#331).

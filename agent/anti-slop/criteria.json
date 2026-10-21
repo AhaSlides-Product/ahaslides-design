@@ -1563,6 +1563,11 @@
           "id": "W10",
           "title": "Image-led sections show every image large and whole",
           "test": "A section where readers compare the pictures (themes, templates, slide types) is image-led: it uses the Cards aha-marketing-cards__grid--image-led layout, with at most 2 columns on desktop so every image is at least half the content width, 4 items as 2 by 2, an odd count with the first item as a wide feature card (image two thirds, title beside it), and 1 column below 768 px, and no image is cropped. A text-led section (steps, benefits, use cases) keeps 3 or 4 columns. Pictures to compare in 3 or 4 columns, an image under half the content width, or a cropped image in an image-led section fails. N/A when no section compares pictures."
+        },
+        {
+          "id": "W11",
+          "title": "Every button is the DS Button",
+          "test": "Every button and call to action on the page, the Navigation Log in, Sign up and Join included, is <aha-button variant size> (href for a link, type=\"submit\" in a form), at the size its section ships, and a coloured band themes it only through --aha-button-* tokens set on a container. A link or button drawn with its own classes (an __button, __cta or btn class that paints background, border or colour), a :hover or :active rule that re-colours a button, or CSS that re-colours, re-borders or re-sizes <aha-button> from outside fails; screen-lint reports these as hand-rolled-button and restyled-button. N/A when the page has no buttons."
         }
       ]
     }
