@@ -35,5 +35,15 @@ class ProductLockupMandateTest(unittest.TestCase):
         self.assertNotIn("aha-marketing-skills, not this", context)
 
 
+class SettingsSkillMandateTest(unittest.TestCase):
+    def test_a_settings_prompt_requires_the_settings_design_skill(self):
+        context = run_mandate("add a toggle to the course settings panel")
+        self.assertIn("ahaslides-design:settings-design", context)
+        self.assertIn("no exception", context)
+
+    def test_other_prompts_do_not_carry_the_settings_line(self):
+        self.assertNotIn("settings-design", run_mandate("build the new pricing landing page"))
+
+
 if __name__ == "__main__":
     unittest.main()

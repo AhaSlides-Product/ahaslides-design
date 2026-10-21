@@ -25,12 +25,21 @@
     <input id="disabled-button-email" name="email" type="email" value="ada@example.com">
     <aha-button variant="primary" type="submit" disabled>Join</aha-button>
   </form>
+  <form id="click-prevented">
+    <input id="click-prevented-name" name="name" value="Ada">
+    <aha-button id="click-prevented-button" variant="primary" type="submit">Join</aha-button>
+  </form>
+  <form id="click-allowed">
+    <input id="click-allowed-name" name="name" value="Ada">
+    <aha-button id="click-allowed-button" variant="primary" type="submit">Join</aha-button>
+  </form>
   <script type="module">
     window.submitCounts = {};
     for (const form of document.forms) {
       window.submitCounts[form.id] = 0;
       form.addEventListener('submit', (event) => { event.preventDefault(); window.submitCounts[form.id] += 1; });
     }
+    document.getElementById('click-prevented-button').addEventListener('click', (event) => event.preventDefault());
     await import('../lib/aha-button.js');
     await customElements.whenDefined('aha-button');
     window.enterSubmitFixtureReady = true;

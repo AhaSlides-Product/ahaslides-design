@@ -19,6 +19,10 @@ test('Enter in a field submits the form of an <aha-button type="submit"> once, a
     await pressEnterIn('one-field-email');
     await pressEnterIn('required-empty-name');
     await pressEnterIn('disabled-button-name');
+    for (const id of ['click-prevented-button', 'click-allowed-button']) {
+      await command('Runtime.evaluate', { expression: `document.getElementById('${id}').shadowRoot.querySelector('button').click()` });
+    }
+    await command('Runtime.evaluate', { expression: 'new Promise((resolve) => setTimeout(resolve, 50))', awaitPromise: true });
     const read = await command('Runtime.evaluate', { expression: 'JSON.stringify(window.submitCounts)', returnByValue: true, awaitPromise: true });
     return JSON.parse(read.result.value);
   }, { readyExpr: '!!window.enterSubmitFixtureReady' });
@@ -26,4 +30,6 @@ test('Enter in a field submits the form of an <aha-button type="submit"> once, a
   assert.equal(counts['one-field'], 1, 'one field: Enter submits once, not again through the browser');
   assert.equal(counts['required-empty'], 0, 'an empty required field blocks the submit');
   assert.equal(counts['disabled-button'], 0, 'a disabled button blocks the submit');
+  assert.equal(counts['click-prevented'], 0, 'preventDefault in a click listener on the host stops the submit');
+  assert.equal(counts['click-allowed'], 1, 'a click submits once');
 });

@@ -53,6 +53,8 @@ const PASS = {
   'an opted-out control the DS does not ship': style('.seek-grip{background:var(--aha-white);border-radius:50%} /* ds-lint-allow: hand-rolled-button (seek-bar grip, no DS control) */'),
   'an opted-out token re-theme': style('.brand aha-button{--aha-button-primary-bg:var(--aha-white)} /* ds-lint-allow: hand-rolled-button (no on-brand variant yet) */'),
   'a buttons group container': style('.btn-group{display:flex;gap:8px;background:var(--aha-white);padding:4px}'),
+  'a cta content panel': style('.cta-content{background:var(--aha-white);padding:48px;border-radius:24px}'),
+  'a button label': style('.btn-label{color:var(--aha-text-primary);padding:0 4px}'),
   'a button wrapper': style('.button-wrapper{background:var(--aha-white);padding:8px}'),
   'a CTA section band': style('.cta-section{background:var(--aha-gray-10);padding:64px 0}'),
   'a nested rule that is not a button': style('.card{background:var(--aha-white); & .title{color:var(--aha-text-default)}}'),
