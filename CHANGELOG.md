@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.294.1 — 2026-10-21
+### Fixed
+- Collapse: content of an open panel can now overflow it, so a `?` help tooltip, a select dropdown or a popover inside an open `aha-collapse` (ghost or bordered) is no longer clipped. The body is still clipped while it animates open or closed, and reduced motion lifts the clip at once. (#NNN)
+
 ## 0.294.0 — 2026-10-21
 ### Added
 - Marketing → Features and Cards: a Vivid Pink image frame for screenshots and assets whose ratio differs from their slot, or that are light enough to fade into a white card. Add `aha-features__photo--pink-frame` (4:3 rows) or `aha-marketing-card__media--pink-frame` (3:2 cards): the picture is contained, never cropped, with an even inset on `--aha-vivid-pink-100` and the centre Splash from the Background library behind it (its CSS recipe, unchanged). Photos that fill the slot keep `object-fit: cover`. The Features "Alternating with screenshots" layout now uses it, and Cards gets a framed Template card.
