@@ -24,11 +24,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.295.0 — 2026-10-21
 ### Added
-- `<aha-bottom-sheet>`: an audience sheet that slides up to show one option in full, picture on top and the whole text below. It scrolls when long and closes on the backdrop, the close button, Escape and a swipe down; focus is trapped inside and returned to the opener (#PRNUM)
-- `<aha-answer-option expandable>`: a long-text variant. The label clamps to 4 lines with More inside the card, the picture moves to the right and shows a dark overlay with an expand arrow on hover. More and the picture emit `expand` (#PRNUM)
+- `<aha-bottom-sheet>`: an audience sheet that slides up to show one option in full, picture on top and the whole text below. It scrolls when long and closes on the backdrop, the close button, Escape and a swipe down; focus is trapped inside and returned to the opener (#319)
+- `<aha-answer-option expandable>`: a long-text variant. The label clamps to 4 lines with More inside the card, the picture moves to the right and shows a dark overlay with an expand arrow on hover. More and the picture emit `expand` (#319)
 
 ### Fixed
-- `<aha-chart>`: the hover panel that shows a full label is wider (up to 480px or 90% of the chart) and now stays inside the viewport or iframe on every side, flipping above or below the pointer and shifting sideways (#PRNUM)
+- `<aha-chart>`: the hover panel that shows a full label is wider (up to 480px or 90% of the chart) and now stays inside the viewport or iframe on every side, flipping above or below the pointer and shifting sideways (#319)
 
 ## 0.293.0 — 2026-10-21
 ### Added
