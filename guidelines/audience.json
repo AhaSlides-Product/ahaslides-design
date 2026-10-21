@@ -550,7 +550,7 @@
     },
     {
       "id": "use-host-utilities",
-      "rule": "Use the host utilities rather than reinventing them in-iframe: showToast* for transient feedback/errors, openPluginModal/closePluginModal for modals (host paints chrome, you fill the body), onSubmitButtonHeightChange for the sticky pill, scrollTo/getWindowHeight for positioning. Lean toward the utility so it stays consistent and host-evolvable.",
+      "rule": "Use the host utilities rather than reinventing them in-iframe: showToast* for transient feedback/errors, openPluginModal/closePluginModal for a modal the host paints (you fill the body) and <aha-audience-modal> for a modal inside the iframe, never a hand-built overlay, onSubmitButtonHeightChange for the sticky pill, scrollTo/getWindowHeight for positioning. Lean toward the utility so it stays consistent and host-evolvable.",
       "ref": [
         "C20-util",
         "§6"
