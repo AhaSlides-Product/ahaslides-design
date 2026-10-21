@@ -523,6 +523,36 @@
         "authored": "ahaslides-design",
         "why": "DS-authored with the website surface; no plugin judge dataset exists"
       }
+    },
+    {
+      "id": 18,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w10-templates-two-columns/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W10: four Template cards sit in the 2-column image-led grid (2 by 2) instead of the 3 by n templates grid.",
+      "expected_output": "W10 FAILs: the templates are a 2 by 2 image-led grid. Templates are always 3 columns at desktop (aha-marketing-cards__grid--templates), n full rows of 3, so the section needs a multiple of 3 templates (add two or drop one). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W10 is marked FAIL",
+        "Names the 2 by 2 templates grid"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W10": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
     }
   ]
 }

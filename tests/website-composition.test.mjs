@@ -47,6 +47,19 @@ test('W1 puts the Logos strip directly below the hero, and the pass pages do', (
   assert.notEqual(order(failing.files[0].path).indexOf('aha-logos'), 1);
 });
 
+test('templates are a 3 by n grid on desktop and skip count balancing', () => {
+  for (const list of [criteria, agentCriteria]) {
+    assert.match(list.find((criterion) => criterion.id === 'W10').test, /Templates are the exception[^.]*always 3 columns at 992 px and wider/);
+    assert.doesNotMatch(list.find((criterion) => criterion.id === 'W10').test, /\(themes, templates/);
+  }
+  const balancing = cardsCss.slice(cardsCss.indexOf('(min-width:992px){'), cardsCss.indexOf('(min-width:768px) and (max-width:991px)'));
+  assert.ok(balancing.includes(':not(.aha-marketing-cards__grid--templates)'));
+  assert.ok(!/\.aha-marketing-cards__grid--templates\{[^}]*grid-template-columns:repeat\(2/.test(cardsCss));
+  const failing = evals.find((entry) => entry.expected.criteria.W10 === 'FAIL' && entry.files[0].path.includes('templates-two-columns'));
+  assert.ok(failing, 'eval with templates in 2 columns');
+  assert.match(readFileSync(new URL(`../anti-slop/evals/website/${failing.files[0].path}`, import.meta.url), 'utf8'), /grid--image-led/);
+});
+
 test('the Cards grid and the Features icon grid balance by item count', () => {
   for (const css of [cardsCss, featuresCss]) {
     assert.match(css, /:has\(>:first-child:last-child\)\{grid-template-columns:minmax\(0,36rem\)/);
