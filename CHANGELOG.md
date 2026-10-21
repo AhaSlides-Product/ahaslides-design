@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.310.1 — 2026-10-21
 ### Fixed
-- Marketing Footer banner: on a phone (479px and below) the card's left and right padding is 32px, equal to top and bottom (was 64px); tablet unchanged (#PRNUM).
+- Marketing Footer banner: on a phone (479px and below) the card's left and right padding is 32px, equal to top and bottom (was 64px); tablet unchanged (#329).
 
 ## 0.309.0 — 2026-10-21
 ### Added
