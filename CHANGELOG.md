@@ -24,9 +24,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.302.0 — 2026-10-21
 ### Added
-- Question list: header slots keyed by question id — `before-<id>` and `after-<id>` either side of the prompt, `marker-<id>` in place of the number — and a per-question `status: { message, tone }` supporting line (FieldError) under the header (#325).
+- Question list: header slots keyed by question id — `start-<id>`, `marker-<id>` (in place of the number), `before-<id>`, `after-<id>` and `end-<id>`, each taking any number of children — and a per-question `status: { message, tone }` supporting line (FieldError) under the header, with a warning or error border on the card (#325).
 ### Changed
 - Question list: the header prompt wraps to at most two lines, and the delete is OptionRow's — secondary small icon Button on the card's top-right corner, shown only on hover and not a Tab stop (was an always-visible tertiary trash) (#325).
+
+## 0.300.1 — 2026-10-21
+### Changed
+- Marketing → Cards: in the Steps row the optional 3:2 image now sits below the text (number, title, sentence, then image) ([#324](https://github.com/AhaSlides-Product/ahaslides-design/pull/324)).
 
 ## 0.300.0 — 2026-10-21
 ### Added

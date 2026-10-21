@@ -2,8 +2,9 @@
      <aha-question-list> is the SAME shared custom element React and Vue consume — here in its native
      form. It COMPOSES DS components: a SettingRow head with the count, a Collapse per question
      (prompt CountedInput + OptionRow choices + Add option), and the full-width Add question button.
-     Header slots (before-<id>, after-<id>, marker-<id>) take your own non-interactive content; a
-     question's `status` adds a supporting line under its header. Theming comes only from the --aha-* tokens in tokens.css. Open a question with its caret. -->
+     Header slots (start-, marker-, before-, after-, end-<id>) take any number of your own non-interactive
+     elements; a question's `status` adds a supporting line under its header, and a warning or error tone
+     also recolours its border. Theming comes only from the --aha-* tokens in tokens.css. Open a question with its caret. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';
@@ -14,6 +15,7 @@
   <aha-question-list id="quiz" label="Questions" help="Each question runs as its own round." min="1" max="10" minoptions="2" maxoptions="6" allowimage>
     <aha-tag slot="before-q1">00:23</aha-tag>
     <aha-tag slot="before-q2">00:25</aha-tag>
+    <aha-tag slot="end-q2" color="warning">Overlap</aha-tag>
   </aha-question-list>
 </div>
 
