@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.292.0 — 2026-10-21
 ### Added
-- Marketing → Sections → Testimonials: a "Quote cards" layout cloned from the "What our users say" section of the ahaslides.com slide-type pages. A centred heading and lead on the pale pink band (`--aha-bg-accent`), then three equal white cards with the quote at the top and the avatar, name and role pinned to the bottom, stacking to one column at 767px. Three customer avatars are added to `marketing/images/testimonials/` and listed in its manifest. (#NNN)
+- Marketing → Sections → Testimonials: a "Quote cards" layout cloned from the "What our users say" section of the ahaslides.com slide-type pages. A centred heading and lead on the pale pink band (`--aha-bg-accent`), then three equal white cards with the quote at the top and the avatar, name and role pinned to the bottom, stacking to one column at 767px. Three customer avatars are added to `marketing/images/testimonials/` and listed in its manifest. (#316)
 
 ### Removed
-- Marketing → Sections → Testimonials: the layouts Simple centred 01 to 03, Split image 01 to 03, Card, Card split image and Abstract image, with the CSS only they used (single, caption, logos row, split, panel, media, overlay, collage, dots) and the 19 images only they used. The page now keeps Simple left aligned, Case study cards and the new Quote cards. (#NNN)
+- Marketing → Sections → Testimonials: the layouts Simple centred 01 to 03, Split image 01 to 03, Card, Card split image and Abstract image, with the CSS only they used (single, caption, logos row, split, panel, media, overlay, collage, dots) and the 19 images only they used. The page now keeps Simple left aligned, Case study cards and the new Quote cards. (#316)
 
 ## 0.290.0 — 2026-10-21
 ### Added
