@@ -91,13 +91,13 @@
       "name": "Deck containers and modals",
       "element": "--aha-deck-container-* · --aha-deck-modal-*",
       "kind": "Tokens",
-      "what": "The one container model for every rounded rectangle on the canvas, written by applyCanvasDeck so it resolves for white and black ink: fill, 1px stroke, a dashed 1px stroke for an empty slot only, radius lg 12 / sm 8, padding sm 12 / md 20 / lg 32. A canvas modal (the presenter leaderboard popup) is a large container on the modal fill over the modal backdrop.",
+      "what": "The one container model for every rounded rectangle on the canvas, written by applyCanvasDeck so it resolves for white and black ink: fill, a 1px stroke on the large container (the count container draws none), a dashed 1px stroke for an empty slot only, radius lg 12 / sm 8, padding sm 12 / md 20 / lg 32. A canvas modal (the presenter leaderboard popup) is a large container on the modal fill over the modal backdrop.",
       "useWhen": "any panel, card, counter or modal drawn inside the slide canvas",
       "notFor": "app screens outside the canvas (they use the product surfaces) and the audience phone (applyDeck).",
       "rules": [
         {
           "label": "Container",
-          "value": "`--aha-deck-container-fill` (the ink at 8% on a solid deck, the frosted surface on a photo deck), `-stroke` (the ink at 20%, 1px), `-stroke-empty` (the ink at 24%, 1px dashed, an empty slot only), `-radius-lg` 12 / `-radius-sm` 8, `-padding-sm` 12 / `-md` 20 / `-lg` 32. Every size draws the same 1px stroke; a dimmed container (a wrong option once the answer is revealed) dims its stroke with its content instead of keeping it at full strength"
+          "value": "`--aha-deck-container-fill` (the ink at 8% on a solid deck, the frosted surface on a photo deck), `-stroke` (the ink at 20%, 1px), `-stroke-empty` (the ink at 24%, 1px dashed, an empty slot only), `-radius-lg` 12 / `-radius-sm` 8, `-padding-sm` 12 / `-md` 20 / `-lg` 32. The large container draws the 1px stroke (the small count container draws none); a dimmed container (a wrong option once the answer is revealed) dims its stroke with its content instead of keeping it at full strength"
         },
         {
           "label": "Modal",
