@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.304.0 — 2026-10-21
+### Added
+- `aha-option-row`: the drag handle is now an opt-in keyboard-operable reorder grip. Set `reorderable` (alongside `orderable`, on a non-`disabled` row) to make the handle a tab stop that emits composed `reorder-move` (`detail.direction` "up"/"down") on ArrowUp/ArrowDown, and composed `reorder-grab` (`detail.{pointerId,clientX,clientY}`) on pointerdown; the row never reorders itself — a host reorders its list and calls the new `focusHandle()` to restore focus after moving the row element. Without `reorderable` the handle is unchanged (decorative, no tab stop, no events). (#PR)
+
 ## 0.303.0 — 2026-10-21
 ### Added
 - Marketing → Testimonials, Pricing, Numbers, Header, FAQ, Logos and Hero: every section now has the same White / Accent background switch as Features. Add the section's `--accent` class (for example `aha-testimonials--accent`, or the layout's own `--accent` class on a Header layout) to lay the pale pink bgAccent surface over white. The pale pink icon squares and picture card in Numbers and the progress track in Hero turn white on Accent so they stay visible; plan cards, tables and testimonial cards stay white. The Hero Pink, Hero Pale Pink and brand Header layouts, the Pricing plan card styles gallery and the Numbers brand band have no switch because they are already coloured surfaces. Footer, Footer banner, Cards and Navigation are not full-width sections on a white page, so they have none. (#322)
