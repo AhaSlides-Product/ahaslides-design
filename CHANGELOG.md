@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.318.0 — 2026-10-21
 ### Changed
-- Audience: the option detail is now `<aha-option-modal>` (`@ahaslides-product/design/aha-option-modal`), a centred modal card instead of a bottom sheet that slid up from the screen edge. It has no dark backdrop and no swipe-to-dismiss, so nothing is cut off inside an iframe; the card has a 1px border and a soft shadow, scrolls inside when tall, and closes on the close button, Escape and a tap outside it. `<aha-bottom-sheet>` stays registered as a deprecated alias of the same element, so 0.307.0 consumers keep working. Revert: restore `lib/aha-bottom-sheet.js` from 0.317.0 and drop the new module (#NNN).
+- Audience: the option detail is now `<aha-option-modal>` (`@ahaslides-product/design/aha-option-modal`), a centred modal card instead of a bottom sheet that slid up from the screen edge. It has no dark backdrop and no swipe-to-dismiss, so nothing is cut off inside an iframe; the card has a 1px border and a soft shadow, scrolls inside when tall, and closes on the close button, Escape and a tap outside it. `<aha-bottom-sheet>` stays registered as a deprecated alias of the same element, so 0.307.0 consumers keep working. Revert: restore `lib/aha-bottom-sheet.js` from 0.317.0 and drop the new module (#334).
 
 ## 0.315.0 — 2026-10-21
 ### Removed
