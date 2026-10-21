@@ -190,6 +190,18 @@ tag with `ds-lint-allow: raw-button (why)`. Lint a slide type's `presenter.*` as
 `audience.*` as `audience` and its `settings.*` as `product`; the 16px and viewport-unit font rules
 are canvas only.
 
+**One button** — on every surface `hand-rolled-button` hard-fails a button the screen draws itself:
+a CSS rule on a `button`, `[role=button]`, `input[type=submit]` or a class named `button` / `btn` /
+`cta` that paints a fill plus a button shape (border, radius, shadow, height, padding), or a
+fill/border/shadow on its `:hover` / `:active` / `:focus`; a link given a fill plus a radius,
+shadow or height; and any restyling of the DS Button: a colour, fill, border, shadow, height,
+padding or type rule, or any `:hover` / `:active` / `:focus` rule, on `aha-button`,
+`aha-button::part(…)` or `.aha-button`, and a redefined `--aha-button-*` token. Header and CTA
+buttons in vendored marketing blocks are `<aha-button variant size>` with `href` for a link and
+`type="submit"` in a form; only layout (`margin`, `flex`, `width`, `order`, `align-self`) may be set
+on it. A plain text link, a hover colour on a link and an icon-only reset (`background:none`) pass.
+A control the DS does not ship keeps its CSS with `ds-lint-allow: hand-rolled-button (why)`.
+
 ## Commands
 
 ```bash

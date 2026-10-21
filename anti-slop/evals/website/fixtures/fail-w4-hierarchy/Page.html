@@ -16,7 +16,7 @@
     <form class="aha-header__join-form" action="#">
       <span class="aha-header__join-url">ahaslides.com/</span>
       <input class="aha-header__join-input" id="aha-header-code" name="access-code" type="text" placeholder="ENTER CODE..." autocomplete="off" spellcheck="false">
-      <button class="aha-header__join-button" type="submit">Join</button>
+      <aha-button variant="secondary" size="sm" type="submit">Join</aha-button>
     </form>
   </div>
   <header class="aha-header__nav">
@@ -126,8 +126,8 @@
               </div>
             </div>
             <div class="aha-header__buttons">
-              <a class="aha-header__button" href="#">Log in</a>
-              <a class="aha-header__button aha-header__button--primary" href="#">Sign up</a>
+              <aha-button variant="secondary" size="lg" href="#">Log in</aha-button>
+              <aha-button variant="primary" size="lg" href="#">Sign up</aha-button>
             </div>
           </div>
         </div>
@@ -222,10 +222,10 @@ document.querySelectorAll('.aha-header').forEach(function (root) {
       <h1 class="aha-hero__title">Polls your team will actually answer</h1>
       <p class="aha-hero__lead">Ask a question, share a link and watch the answers come in live, in any meeting.</p>
       <div class="aha-hero__actions">
-        <a class="aha-hero__cta" href="/signup">Get started free</a>
-        <a class="aha-hero__cta aha-hero__cta--ghost" href="/demo">Book a demo</a>
-        <a class="aha-hero__cta aha-hero__cta--ghost" href="/video">Watch the video</a>
-        <a class="aha-hero__cta" href="/sales">Talk to sales</a>
+        <aha-button variant="primary" size="xl" href="/signup">Get started free</aha-button>
+        <aha-button variant="primary" size="xl" href="/demo">Book a demo</aha-button>
+        <aha-button variant="primary" size="xl" href="/video">Watch the video</aha-button>
+        <aha-button variant="primary" size="xl" href="/sales">Talk to sales</aha-button>
       </div>
     </div>
     <img class="aha-hero__media" src="marketing-assets/image-placeholder.svg" alt="A live poll with answers updating in real time">
@@ -306,7 +306,7 @@ document.querySelectorAll('.aha-header').forEach(function (root) {
   <div class="aha-footer-banner__inner">
     <div class="aha-footer-banner__card">
       <h2 class="aha-footer-banner__title">Hear from everyone in your next meeting</h2>
-      <a class="aha-footer-banner__cta" href="/newsletter">Subscribe to our newsletter</a>
+      <aha-button variant="primary" size="lg" href="/newsletter">Subscribe to our newsletter</aha-button>
     </div>
   </div>
 </section>

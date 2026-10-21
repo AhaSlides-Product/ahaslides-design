@@ -2663,7 +2663,7 @@ const ANTISLOP_LOOP = [
   'Before you write a screen: (1) identify the surface(s) you are building;',
   "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
   '(node screen-lint.mjs --surface=<product|canvas|audience|settings> <files>) to hard-fail the zero-interpretation',
-  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel), then the",
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-rolled or restyled button on any surface, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel), then the",
   'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');

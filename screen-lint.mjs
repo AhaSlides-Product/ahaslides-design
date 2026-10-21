@@ -25,6 +25,10 @@
  * no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js),
  * no size="small"/"sm"/"large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
  * no maxlength on <aha-input> (a capped field is <aha-counted-input>, counter inside the field).
+ * Every surface hard-fails hand-rolled-button (lib/screen-lint-button.js): CSS that draws its own button
+ * (a button / btn / cta class, <button>, [role=button] or link given a fill and a button shape, or
+ * state fills) and any restyle of <aha-button> (colour, fill, border, shadow, size, state rules,
+ * ::part, a --aha-button-* token). Only layout may be set on <aha-button>.
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
