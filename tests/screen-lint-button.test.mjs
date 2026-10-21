@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { lintHtml } from '../lib/screen-lint.js';
+import { buttonStyleFindingsByLine } from '../lib/screen-lint-button.js';
 import { BUTTON_STYLE_RULE_FIXTURES } from './fixtures/button-style-lint.mjs';
 
 const findingsOf = (source, surface = 'product') => lintHtml(source, { surface }).findings;
@@ -54,4 +55,14 @@ test('the button-style group name silences both rules', () => {
 test('the button-style rule module touches no node built-ins', async () => {
   const source = await readFile(new URL('../lib/screen-lint-button.js', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /node:|process\.|console\./);
+});
+
+for (const [name, source] of [
+  ['100 KB of markup with no braces', '<p>' + 'a'.repeat(100_000) + '</p>'],
+  ['an unterminated /* comment', '/*' + 'a/*'.repeat(40_000)],
+  ['an unterminated <!-- comment', '<!--'.repeat(30_000)],
+]) test(`the button-style rules lint ${name} in linear time`, () => {
+  const started = performance.now();
+  assert.equal(buttonStyleFindingsByLine(source).size, 0);
+  assert.ok(performance.now() - started < 1000, `took ${Math.round(performance.now() - started)} ms`);
 });
