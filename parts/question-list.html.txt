@@ -3,7 +3,7 @@
      form. It COMPOSES DS components: a SettingRow head with the count, a Collapse per question
      (prompt CountedInput + OptionRow choices + Add option), and the full-width Add question button.
      Header slots (start-, marker-, before-, after-, end-<id>) take any number of your own non-interactive
-     elements; a question's `status` adds a supporting line under its header, and a warning or error tone
+     elements, and body-<id> takes interactive ones (a time input, say) inside the open question above its "Question" row; a question's `status` adds a supporting line under its header, and a warning or error tone
      also recolours its border. Theming comes only from the --aha-* tokens in tokens.css. Open a question with its caret. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
