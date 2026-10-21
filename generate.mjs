@@ -1482,10 +1482,12 @@ function surfaceChoiceTable(rows) {
 const MARKETING_CAT = 'Sections';
 const MARKETING_COMPONENTS_CAT = 'Components';
 const isMarketingComponent = (b) => b.kind === 'component';
-const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n    <li>\n${(card.html || '').split('\n').map(line => '      ' + line).join('\n')}\n    </li>\n  </ul>\n</section>\n`;
+const marketingCardItems = (card) => String(card.html || '').split('\n<!-- next -->\n').map(html => `    <li>\n${html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
+const marketingCardGridClass = (card) => 'aha-marketing-cards__grid' + (card.gridClass ? ' ' + card.gridClass : '');
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="${marketingCardGridClass(card)}">\n${marketingCardItems(card)}\n  </ul>\n</section>\n`;
 function composeMarketingComponent(b) {
   if (!b.snippets) return b;
-  const grid = b.snippets.map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
+  const grid = b.snippets.filter(card => !card.demo).map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
   return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
@@ -1609,6 +1611,21 @@ function renderAudienceLibrary() {
     for (const deck of document.querySelectorAll('.audience-lib .deck.light')) applyDeck(deck, { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
     for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FAFAFA', presentationColorPalette: ['#E70E68'] });
     for (const timer of document.querySelectorAll('.audience-lib .demo-countdown')) timer.setAttribute('ends-at', String(Date.now() + 37000));
+    const demoPicture = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23E70E68' fill-opacity='.15'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%23E70E68'/%3E%3Crect x='120' y='210' width='160' height='24' rx='12' fill='%231A1A1A' fill-opacity='.7'/%3E%3C/svg%3E";
+    const demoLongText = Array(24).fill('Thứ Hai').join(' ');
+    for (const rank of document.querySelectorAll('.audience-lib [data-demo-rank]')) rank.options = [
+      { id: 'a', label: demoLongText, image: demoPicture },
+      { id: 'b', label: 'Phương án ngắn' },
+      { id: 'c', label: 'Ngắn có ảnh', image: demoPicture },
+    ];
+    for (const trigger of document.querySelectorAll('.audience-lib [expandable]')) trigger.addEventListener('expand', (event) => {
+      const sheet = trigger.closest('.demo-phone').querySelector('[data-demo-sheet]');
+      const option = trigger.options && trigger.options.find((candidate) => candidate.id === event.detail.id);
+      sheet.textContent = option ? option.label : trigger.textContent;
+      const image = option ? option.image : trigger.getAttribute('image');
+      if (image) sheet.setAttribute('image', image); else sheet.removeAttribute('image');
+      sheet.setAttribute('open', '');
+    });
     for (const upload of document.querySelectorAll('.audience-lib .demo-upload')) upload.uploadImage = () => new Promise((resolve) => setTimeout(() => resolve({ url: '../logo/thesplash.svg', path: 'demo' }), 600));
     for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
   </script>
@@ -1684,7 +1701,7 @@ const MARKETING_BREAKPOINT_CSS = `
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
   </div>
@@ -1783,25 +1800,54 @@ const MARKETING_CARD_BREAKPOINT_SCRIPT = `<script type="module">
   })();
   </script>`;
 
-function marketingCodeToggle(file, code, lead = '') {
+function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
+  const tabs = extraPanes.length ? [{ key: 'snippet', label: file, code }, ...extraPanes] : [{ key: 'snippet', label: file, code }];
   return `<div class="code-tabs" data-open="false">
     <div class="demo-toolbar">${lead ? `<p class="body code-lead">${lead}</p>` : ''}<aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
-      <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="snippet">${esc(file)}</button></div><button class="copy" type="button">Copy</button></div>
-      <pre class="code snippet active">${esc(code)}</pre>
+      <div class="code-head"><div class="tabs">${tabs.map((tab, index) => `<button class="tab${index === 0 ? ' active' : ''}" type="button" data-f="${tab.key}">${esc(tab.label)}</button>`).join('')}</div><button class="copy" type="button">Copy</button></div>
+      ${tabs.map((tab, index) => `<pre class="code ${tab.key}${index === 0 ? ' active' : ''}">${esc(tab.code)}</pre>`).join('\n      ')}
     </div></div>`;
 }
-const marketingHasStates = (layout) => layout.states?.length > 1;
-function marketingStateSwitch(layout) {
-  if (!marketingHasStates(layout)) return '';
-  const options = JSON.stringify(layout.states.map(state => ({ value: state.modifier, label: state.label })));
-  const initial = (layout.states.find(state => state.default) || layout.states[0]).modifier;
-  return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(layout.class)}" data-modifiers="${esc(JSON.stringify(layout.states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
+const marketingLayoutStates = (b, layout) => layout.states || b.states;
+const marketingLayoutStateClass = (b, layout) => layout.stateClass || layout.class || b.stateClass;
+const marketingHasStates = (b, layout) => marketingLayoutStates(b, layout)?.length > 1;
+function marketingStateSwitch(b, layout) {
+  if (!marketingHasStates(b, layout)) return '';
+  const states = marketingLayoutStates(b, layout);
+  const options = JSON.stringify(states.map(state => ({ value: state.modifier, label: state.label })));
+  const initial = (states.find(state => state.default) || states[0]).modifier;
+  return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
+}
+const marketingStatePanes = (b, layout, snippet) => {
+  const states = marketingLayoutStates(b, layout);
+  if (!states || !marketingHasStates(b, layout)) return [];
+  const stateClass = marketingLayoutStateClass(b, layout);
+  const rootClass = new RegExp(`class="([^"]*\\b${stateClass}\\b[^"]*)"`);
+  const otherModifiers = (modifier) => states.filter(state => state.modifier && state.modifier !== modifier).map(state => `\\s*\\b${stateClass}--${state.modifier}\\b`);
+  return states.filter(state => state.modifier).map(state => {
+    const stripOthers = new RegExp(otherModifiers(state.modifier).join('|') || '(?!)', 'g');
+    return { key: `state-${state.modifier}`, label: state.label,
+      code: snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`) };
+  });
+};
+function marketingReviewsFor(b, layout) {
+  const reviews = b.reviews;
+  if (!reviews || !layout.reviews) return null;
+  const avatars = reviews.avatars.map(avatar => reviews.avatarHtml.replaceAll('{{file}}', esc(avatar.file)).replaceAll('{{name}}', esc(avatar.name))).join('');
+  const fill = (text) => text.replaceAll('{{avatars}}', avatars).replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
+  return { html: fill(reviews.html), css: fill(reviews.css) + (layout.reviews.css ? '\n' + layout.reviews.css : ''), insertInto: `.${layout.class}__copy` };
+}
+function marketingReviewsSwitch(b, layout) {
+  const reviews = marketingReviewsFor(b, layout);
+  if (!reviews) return '';
+  const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
+  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="off" data-insert-into="${esc(reviews.insertInto)}" data-html="${esc(reviews.html)}" data-css="${esc(reviews.css)}"></aha-segmented>`;
 }
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(layout)}<span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}${marketingReviewsSwitch(b, layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
   </div>`;
@@ -1854,7 +1900,7 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
       if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
       return found;
     }
-    document.querySelectorAll('.mfv').forEach(function(root){
+    document.querySelectorAll('.mfv,.mbp').forEach(function(root){
       var seg=root.querySelector('.mbp-state');
       if(!seg)return;
       var frame=root.querySelector('.mbp-frame'),prefix=seg.dataset.class,modifiers=JSON.parse(seg.dataset.modifiers),current=seg.getAttribute('value'),found=null;
@@ -1868,6 +1914,35 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
         });
       }
       frame.addEventListener('load',function(){found=null;apply();});
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
+const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv').forEach(function(root){
+      var seg=root.querySelector('.mbp-reviews');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),current=seg.getAttribute('value');
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        doc.querySelectorAll('[data-mbp-reviews]').forEach(function(node){node.remove();});
+        if(current!=='on')return;
+        var host=doc.querySelector(seg.dataset.insertInto);
+        if(!host)return;
+        var style=doc.createElement('style');
+        style.setAttribute('data-mbp-reviews','');
+        style.textContent=seg.dataset.css;
+        doc.head.appendChild(style);
+        var holder=doc.createElement('div');
+        holder.innerHTML=seg.dataset.html;
+        var row=holder.firstElementChild;
+        row.setAttribute('data-mbp-reviews','');
+        host.appendChild(row);
+      }
+      frame.addEventListener('load',apply);
       seg.addEventListener('change',function(e){current=e.detail.value;apply();});
       apply();
     });
@@ -1893,8 +1968,8 @@ ${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(marketingHasStates) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
 ${b.composedOf ? `
   <h2 id="composed-of">Composed of</h2>
@@ -1925,7 +2000,7 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
+  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', marketingStatePanes(b, b, marketingSnippet(b)))}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}`}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
@@ -1936,12 +2011,17 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
+function marketingReviewsMd(b) {
+  if (!b.reviews) return '';
+  const withRow = b.layouts.filter(layout => layout.reviews);
+  return `\n## ${b.reviews.label} row (optional, off by default)\nAn optional ${b.reviews.source} rating row: five avatars, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above leaves it out. To turn it on, append the row below as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}, and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
+}
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -1957,6 +2037,13 @@ function renderMarketingAgent(b) {
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     ...(b.guidance ? { guidance: b.guidance } : {}),
     ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
+    ...(b.reviews ? { reviews: {
+      label: b.reviews.label, source: b.reviews.source, defaultState: 'off', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
+      howToTurnOn: `Append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class. Off by default: the layout html and css leave it out.`,
+      html: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).html,
+      css: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).css,
+      layouts: b.layouts.filter(layout => layout.reviews).map(layout => ({ slug: layout.slug, class: layout.class, insertInto: `.${layout.class}__copy`, ...(layout.reviews.css ? { css: layout.reviews.css } : {}) })),
+    } } : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
@@ -3074,7 +3161,7 @@ if (GUIDELINES.length) {
 }
 if (MARKETING.length) {
   RAW_FEEDS.push(
-    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
+    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Header) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
     { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
