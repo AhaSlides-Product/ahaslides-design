@@ -35,6 +35,10 @@
       "value": "system-drag, FIRST child inside the border; shown only when order matters (orderable)"
     },
     {
+      "label": "Reorder",
+      "value": "opt-in reorderable makes the handle a tab stop (role=button) that reorders by pointer (reorder-grab on pointerdown) or keyboard (ArrowUp/ArrowDown emit reorder-move; Enter/Space activate the same way as a click); the host drives the move and calls row.focusHandle() to restore focus — the handle never moves the row itself"
+    },
+    {
       "label": "Text",
       "value": "borderless counted textarea — focus-only counter, wraps, scrolls beyond ~4 lines (SETTINGS-21)"
     },
@@ -93,6 +97,12 @@
       "desc": "Show the drag handle (order carries meaning) — omit for an unordered set (SETTINGS-39)"
     },
     {
+      "name": "reorderable",
+      "type": "boolean",
+      "default": "false",
+      "desc": "With orderable (and not disabled), makes the drag handle a tab stop that reorders by pointer or keyboard — the host wires both and moves the row itself; emits reorder-move / reorder-grab"
+    },
+    {
       "name": "correctable",
       "type": "boolean",
       "default": "false",
@@ -147,10 +157,22 @@
       "desc": "Composed events; image-add/change/edit/delete are forwarded from the image control. `delete` carries detail.source: \"keyboard\" when Backspace was pressed in an empty field, \"pointer\" when the delete button was clicked; after a \"keyboard\" delete the host should call previousRow.focus()"
     },
     {
+      "name": "reorder-move / reorder-grab",
+      "type": "CustomEvent",
+      "default": "—",
+      "desc": "Composed events from the reorderable drag handle; the row never moves itself. reorder-move fires on ArrowUp/ArrowDown on the focused handle, detail.direction \"up\" | \"down\" — after the host moves the row element, call row.focusHandle() to put focus back on its handle. reorder-grab fires on pointerdown on the handle, detail.{pointerId, clientX, clientY} — the host calls setPointerCapture on the row element and drives the drag itself"
+    },
+    {
       "name": "focus(options)",
       "type": "method",
       "default": "—",
       "desc": "Focuses the row's own text field, so a host can move focus without reaching through shadow roots; options is passed to HTMLElement.focus"
+    },
+    {
+      "name": "focusHandle()",
+      "type": "method",
+      "default": "—",
+      "desc": "Focuses the row's drag handle — call after the host moves the row element on a keyboard reorder-move, to put focus back on the handle"
     }
   ],
   "opinion": {

@@ -70,6 +70,33 @@ test('pointerdown on the handle emits reorder-grab with pointer details and leav
   assert.deepEqual(result, { seen: [{ pointerId: 7, clientX: 12, clientY: 34 }], fieldFocused: false });
 });
 
+test('Enter/Space on the handle trigger a click, only when reorderable and not disabled', { skip }, async () => {
+  const result = await run(`
+    const press = (r, key) => {
+      const event = new KeyboardEvent('keydown', { key, bubbles: true, composed: true, cancelable: true });
+      handle(r).dispatchEvent(event);
+      return event.defaultPrevented;
+    };
+    const seen = (r) => { const out = []; handle(r).addEventListener('click', () => out.push(1)); return out; };
+    const plain = row('plain'), rr = row('r'), d = row('d');
+    const seenPlain = seen(plain), seenR = seen(rr), seenD = seen(d);
+    const preventedPlain = press(plain, 'Enter');
+    const preventedEnter = press(rr, 'Enter');
+    const preventedSpace = press(rr, ' ');
+    const preventedD = press(d, 'Enter');
+    return { preventedPlain, preventedEnter, preventedSpace, preventedD, seenPlain, seenR, seenD };`);
+  assert.deepEqual(result, {
+    preventedPlain: false, preventedEnter: true, preventedSpace: true, preventedD: false,
+    seenPlain: [], seenR: [1, 1], seenD: [],
+  });
+});
+
+test('the reorderable handle sets touch-action:none so touch dragging does not also scroll the page', { skip }, async () => {
+  const result = await run(`
+    return { touchAction: getComputedStyle(handle(row('r'))).touchAction };`);
+  assert.deepEqual(result, { touchAction: 'none' });
+});
+
 test('focusHandle() focuses the row\'s handle', { skip }, async () => {
   const result = await run(`
     const rr = row('r');

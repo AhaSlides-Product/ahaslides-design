@@ -8,6 +8,9 @@ import { ref } from 'vue';
 const options = ref([{ id: 1, text: 'Paris', correct: true }, { id: 2, text: 'London', correct: false }]);
 // source is 'keyboard' (Backspace in an empty field) or 'pointer' (the delete button): after a 'keyboard' delete, call previousRow.focus()
 function remove(i, source) { options.value.splice(i, 1); }
+// reorderable makes the drag handle a tab stop; the row never moves itself. direction is 'up' | 'down' from
+// ArrowUp/ArrowDown on the focused handle — move the row, then call the row element's focusHandle() to restore focus.
+function move(i, direction) { /* swap options.value[i] with its neighbour, then e.target.focusHandle() */ }
 </script>
 
 <template>
@@ -16,6 +19,7 @@ function remove(i, source) { options.value.splice(i, 1); }
     v-for="(o, i) in options"
     :key="o.id"
     orderable
+    reorderable
     correctable
     image
     checkboxshape="circle"
@@ -26,5 +30,6 @@ function remove(i, source) { options.value.splice(i, 1); }
     @input="o.text = $event.detail.value"
     @correct-change="o.correct = $event.detail.correct"
     @delete="remove(i, $event.detail.source)"
+    @reorder-move="move(i, $event.detail.direction)"
   />
 </template>
