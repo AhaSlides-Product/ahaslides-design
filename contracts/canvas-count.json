@@ -16,10 +16,10 @@
   "summary": "The answer count on a slide canvas: how many answered correctly and incorrectly (✓ 12 · ✗ 3), or how many answered with no verdict, in one small deck container.",
   "highlights": [
     "Correct / incorrect count, or answered only",
-    "48px deck container: fill, 1px stroke, radius 8, frosted on photo decks",
+    "48px deck container: fill, no stroke, radius 8, frosted on photo decks",
     "Inked by applyCanvasDeck, so it reads on white and black ink"
   ],
-  "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a green check disc, the count and a person glyph, a divider, a red cross disc, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -stroke / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
+  "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a green check disc, the count and a person glyph, a divider, a red cross disc, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
   "tokensUsed": [
     "text-default",
@@ -37,7 +37,7 @@
   "spec": [
     {
       "label": "Container",
-      "value": "48px tall, radius 8 (--aha-deck-container-radius-sm), padding 12 / 20 / 12 / 12 (sm on the disc side, md on the glyph side; md both sides when answered only), --aha-deck-container-fill with a 1px inset --aha-deck-container-stroke, backdrop blur --aha-blur-md"
+      "value": "48px tall, radius 8 (--aha-deck-container-radius-sm), padding 12 / 20 / 12 / 12 (sm on the disc side, md on the glyph side; md both sides when answered only), --aha-deck-container-fill with no stroke, backdrop blur --aha-blur-md"
     },
     {
       "label": "Verdict",
@@ -53,7 +53,7 @@
     },
     {
       "label": "Deck",
-      "value": "solid deck: the ink at 8% fill, 20% stroke; photo deck (applyCanvasDeck image: true): the opposite of the ink at 80% (white under black ink, near-black under white ink)"
+      "value": "solid deck: the ink at 8% fill, no stroke; photo deck (applyCanvasDeck image: true): the opposite of the ink at 80% (white under black ink, near-black under white ink)"
     }
   ],
   "props": [
@@ -97,7 +97,7 @@
         "when": "while answers are still coming in: the status line and \"8 of 24 answered\" as free-floating text"
       }
     ],
-    "note": "Never rebuild it as a hand-rolled pill: the deck container set keeps every count on every slide type the same size, radius and stroke. Never colour the container with the accent; the only colour is the two verdict discs."
+    "note": "Never rebuild it as a hand-rolled pill: the deck container set keeps every count on every slide type the same size, radius and fill. Never colour the container with the accent; the only colour is the two verdict discs."
   },
   "a11y": {
     "role": "role=\"group\" with an accessible name that states the whole count; the visual parts are aria-hidden so each number is read once",
@@ -149,7 +149,7 @@
   },
   "selfCheck": [
     {
-      "label": "container from the deck container set (fill, 1px stroke, radius 8, padding sm / md)",
+      "label": "container from the deck container set (fill, no stroke, radius 8, padding sm / md)",
       "verdict": "PASS"
     },
     {

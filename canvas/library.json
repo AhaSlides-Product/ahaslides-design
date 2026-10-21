@@ -29,7 +29,7 @@
       "rules": [
         {
           "label": "Container",
-          "value": "the deck container set, small: 48px tall, radius 8 (`--aha-deck-container-radius-sm`), padding 12 on the disc side and 20 on the glyph side (`-padding-sm` / `-padding-md`), `--aha-deck-container-fill` with a 1px `--aha-deck-container-stroke`. On a solid deck the fill is the ink at 8%; on a photo deck (`applyCanvasDeck({ image: true })`) it is the frosted opposite of the ink at 80%"
+          "value": "the deck container set, small: 48px tall, radius 8 (`--aha-deck-container-radius-sm`), padding 12 on the disc side and 20 on the glyph side (`-padding-sm` / `-padding-md`), `--aha-deck-container-fill` and no stroke (a count is a small readout, so a line round it only adds weight). On a solid deck the fill is the ink at 8%; on a photo deck (`applyCanvasDeck({ image: true })`) it is the frosted opposite of the ink at 80%"
         },
         {
           "label": "Colour",
@@ -97,11 +97,11 @@
       "rules": [
         {
           "label": "Container",
-          "value": "`--aha-deck-container-fill` (the ink at 8% on a solid deck, the frosted surface on a photo deck), `-stroke` (the ink at 20%, 1px), `-stroke-empty` (the ink at 24%, 1px dashed, an empty slot only), `-radius-lg` 12 / `-radius-sm` 8, `-padding-sm` 12 / `-md` 20 / `-lg` 32"
+          "value": "`--aha-deck-container-fill` (the ink at 8% on a solid deck, the frosted surface on a photo deck), `-stroke` (the ink at 20%, 1px), `-stroke-empty` (the ink at 24%, 1px dashed, an empty slot only), `-radius-lg` 12 / `-radius-sm` 8, `-padding-sm` 12 / `-md` 20 / `-lg` 32. Every size draws the same 1px stroke; a dimmed container (a wrong option once the answer is revealed) dims its stroke with its content instead of keeping it at full strength"
         },
         {
           "label": "Modal",
-          "value": "panel `--aha-deck-modal-fill` (the opposite of the ink at 80%: white under black ink, near-black under white ink) with `backdrop-filter: blur(var(--aha-blur-md))`, `-container-stroke`, `-container-radius-lg`, `-container-padding-lg`; behind it `--aha-deck-modal-backdrop` (black 40%). Matches the presenter leaderboard popup: white 80% with dark text on a light deck, dark 80% with white text on a dark one"
+          "value": "panel `--aha-deck-modal-fill` (the opposite of the ink at 92%: white under black ink, Deep Space under white ink, so the slide behind barely shows) with `backdrop-filter: blur(var(--aha-blur-md))`, `-container-stroke`, `-container-radius-lg`, `-container-padding-lg`; behind it `--aha-deck-modal-backdrop` (black 40%). Close to the presenter leaderboard popup: white 80% with dark text on a light deck, black 75% with white text on a dark one"
         },
         {
           "label": "Ink ladder",
