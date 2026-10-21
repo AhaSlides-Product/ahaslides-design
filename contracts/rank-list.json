@@ -35,7 +35,7 @@
   "spec": [
     {
       "label": "Row",
-      "value": "the answer row's surface: min-height 56, padding 4/16, radius 8, frosted, 1px ink hairline; 16px label at weight 400; an option image as a 44px thumbnail (radius 8); a 16px margin above and below the list"
+      "value": "the answer row's surface: min-height 56, padding 4 top and bottom, 16 at the start, 8 at the end, radius 8, frosted, 1px ink hairline; 16px label at weight 400; an option image as a 44px thumbnail (radius 8); a 16px margin above and below the list"
     },
     {
       "label": "Badge",

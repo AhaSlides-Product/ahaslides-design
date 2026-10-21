@@ -30,7 +30,7 @@
 .audience-lib .replaces code{font-family:var(--aha-font-mono);color:var(--aha-text-primary-ink);background:none;padding:0}
 
 /* light / dark deck demos */
-.audience-lib .decks{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--aha-border-secondary)}
+.audience-lib .decks{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--aha-border-secondary)}
 .audience-lib .deck{padding:var(--aha-space-24);display:flex;flex-direction:column;gap:var(--aha-space-12)}
 .audience-lib .deck.light{background:var(--aha-white)}
 .audience-lib .deck.dark{background:var(--aha-bg-dark)}
