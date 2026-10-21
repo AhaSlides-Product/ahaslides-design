@@ -38,6 +38,9 @@ const FAIL = {
   'a camelCase button class': style('.signupButton{background:red;border-radius:4px}'),
   'a grey hover nested under the button class': style('.aha-header__button{ &:hover{background:var(--aha-gray-10)} }'),
   'a nested button rule that also holds a nested state': style('.btn{background:red;border-radius:4px; &:hover{background:blue}}'),
+  'a filled hero link': style('a.hero-link{background:var(--aha-color-primary);border-radius:var(--aha-radius-default);padding:12px 24px}'),
+  'a filled link named as a box': style('a.signup-box{background:var(--aha-color-primary);border-radius:var(--aha-radius-default)}'),
+  'a filled header link': style('.nav a.header-link{background:var(--aha-white);box-shadow:var(--aha-shadow-sm)}'),
   'a button rule in minified CSS': style('.x{color:red}.btn{background:red;border-radius:4px}'),
 };
 
@@ -62,6 +65,7 @@ const PASS = {
   'a decorative underline drawn on a link :before': style('a:before{content:"";background:currentColor;height:1px;box-shadow:none}'),
   'a clickable card link with a fill and radius': style('a.card{background:var(--aha-white);border-radius:var(--aha-radius-lg);padding:16px}'),
   'a decorative underline on a button-named class': style('.btn::after{content:"";background:var(--aha-color-primary);height:2px}'),
+  'a clickable product tile link': style('a.product-tile{background:var(--aha-white);border-radius:var(--aha-radius-lg);box-shadow:var(--aha-shadow-sm)}'),
   'a hyphenated custom element a-card': style('a-card{background:var(--aha-white);border-radius:var(--aha-radius-lg);height:200px}'),
   'the aha-button-group tag': style('aha-button-group{background:var(--aha-white);padding:8px;border-radius:8px;height:48px}'),
   'a brace inside a comment': style('/* .x-btn{background:red;border-radius:4px} */ .y{color:red}'),
