@@ -1798,10 +1798,23 @@ function marketingStateSwitch(layout) {
   const initial = (layout.states.find(state => state.default) || layout.states[0]).modifier;
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(layout.class)}" data-modifiers="${esc(JSON.stringify(layout.states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
+function marketingReviewsFor(b, layout) {
+  const reviews = b.reviews;
+  if (!reviews || !layout.reviews) return null;
+  const avatars = reviews.avatars.map(avatar => reviews.avatarHtml.replaceAll('{{file}}', esc(avatar.file)).replaceAll('{{name}}', esc(avatar.name))).join('');
+  const fill = (text) => text.replaceAll('{{avatars}}', avatars).replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
+  return { html: fill(reviews.html), css: fill(reviews.css) + (layout.reviews.css ? '\n' + layout.reviews.css : ''), insertInto: `.${layout.class}__copy` };
+}
+function marketingReviewsSwitch(b, layout) {
+  const reviews = marketingReviewsFor(b, layout);
+  if (!reviews) return '';
+  const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
+  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="off" data-insert-into="${esc(reviews.insertInto)}" data-html="${esc(reviews.html)}" data-css="${esc(reviews.css)}"></aha-segmented>`;
+}
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(layout)}<span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(layout)}${marketingReviewsSwitch(b, layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
   </div>`;
@@ -1873,6 +1886,35 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv').forEach(function(root){
+      var seg=root.querySelector('.mbp-reviews');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),current=seg.getAttribute('value');
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        doc.querySelectorAll('[data-mbp-reviews]').forEach(function(node){node.remove();});
+        if(current!=='on')return;
+        var host=doc.querySelector(seg.dataset.insertInto);
+        if(!host)return;
+        var style=doc.createElement('style');
+        style.setAttribute('data-mbp-reviews','');
+        style.textContent=seg.dataset.css;
+        doc.head.appendChild(style);
+        var holder=doc.createElement('div');
+        holder.innerHTML=seg.dataset.html;
+        var row=holder.firstElementChild;
+        row.setAttribute('data-mbp-reviews','');
+        host.appendChild(row);
+      }
+      frame.addEventListener('load',apply);
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
 const marketingGuidanceHtml = (b) => b.guidance ? `  <h2 id="guidance">${esc(b.guidance.title)}</h2>
   ${b.guidance.intro ? `<p class="body">${esc(b.guidance.intro)}</p>` : ''}
   <ol class="highlights">${b.guidance.points.map(point => `<li><b>${esc(point.title)}</b>: ${esc(point.text)}</li>`).join('')}</ol>
@@ -1894,7 +1936,7 @@ ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(marketingHasStates) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(marketingHasStates) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
 ${b.composedOf ? `
   <h2 id="composed-of">Composed of</h2>
@@ -1936,12 +1978,17 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
+function marketingReviewsMd(b) {
+  if (!b.reviews) return '';
+  const withRow = b.layouts.filter(layout => layout.reviews);
+  return `\n## ${b.reviews.label} row (optional, off by default)\nAn optional ${b.reviews.source} rating row: five avatars, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above leaves it out. To turn it on, append the row below as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}, and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
+}
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -1957,6 +2004,13 @@ function renderMarketingAgent(b) {
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
     ...(b.guidance ? { guidance: b.guidance } : {}),
     ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
+    ...(b.reviews ? { reviews: {
+      label: b.reviews.label, source: b.reviews.source, defaultState: 'off', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
+      howToTurnOn: `Append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class. Off by default: the layout html and css leave it out.`,
+      html: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).html,
+      css: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).css,
+      layouts: b.layouts.filter(layout => layout.reviews).map(layout => ({ slug: layout.slug, class: layout.class, insertInto: `.${layout.class}__copy`, ...(layout.reviews.css ? { css: layout.reviews.css } : {}) })),
+    } } : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
