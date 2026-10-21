@@ -69,7 +69,7 @@
       "name": "type",
       "type": "'details' | 'action' | 'confirmation'",
       "default": "details",
-      "desc": "details shows one option in full; action is a task surface; confirmation is a yes/no decision, announced as an alertdialog, with no ✕"
+      "desc": "details shows one option in full; action is a task surface; confirmation is a yes/no decision, announced as an alertdialog, with no ✕, focusing its first non-danger action on open"
     },
     {
       "name": "heading",
