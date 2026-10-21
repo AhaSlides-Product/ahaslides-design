@@ -3,7 +3,7 @@
 > Distilled from the retired `aha-design-canvas` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, the §1–§9 sections, and the canonical `good-fill-in-the-blanks`
 > fixture; the design system now OWNS this build ruleset (this guide is its single
-> source of truth). The judge, its criteria (C1..C22), and the eval harness stay in the
+> source of truth). The judge, its criteria (C1..C24), and the eval harness stay in the
 > skill. When the two ever disagree, this guide wins.
 
 The canvas is the **visual surface** of a slide type — what the audience and presenter
@@ -398,6 +398,27 @@ settings popover) owns those affordances — skipping any is a defect.
 (The buttons above still come from the component library per §5 — the affordance rules are
 additive, not a licence to hand-roll the element.)
 
+## Keyboard-only operation — every presenter interaction (C24)
+
+Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse,
+no-touch operation. C10 above covers the chips, tooltips and focus-trap of controls you
+render; this is the reachability test for **every** interaction, in Standard and Immersive
+UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.
+
+- **a. Reachable and operable.** Each control is in the Tab order in a sensible (reading)
+  order, shows a visible focus ring, and activates with `Enter`/`Space`, a declared shortcut,
+  or a host-painted action. A `<div>` with a click handler is not a control: use a `<button>`.
+- **b. Hover is also focus.** Anything revealed on hover (a result-dot label on a 2x2
+  matrix, a tooltip, a highlight) shows on `:focus-visible` too, and the element is focusable.
+- **c. Pointer gestures have a keyboard alternative.** A drag, draw or swipe also works with
+  arrow keys, Move up / Move down buttons, or Space to pick up and drop (announce the new
+  position in a live region).
+- **d. No keyboard trap.** Tab always leaves the canvas controls; a modal's contained Tab
+  cycle exits with `Esc` or a Close control (C10a).
+- **e. Deck keys stay the deck's.** Never swallow `ArrowRight`/`ArrowLeft`, `PageDown`/`PageUp`
+  or `Space` with a blanket `keydown` handler. Claim one only to advance a build step through
+  the SDK, or while a widget the presenter focused owns it.
+
 ## Language
 
 Display in the **presentation's language**, not a fixed one. The plugin runs its own i18n
@@ -417,4 +438,4 @@ live in the DS `canvas` guide. Self-check any built canvas with
 the DS anti-slop judge (`canvas` surface) — it emits a binary PASS/FAIL across the same contracts
 (theme tokens, semantic state colours, NCB control bar, WCAG, non-colour cues,
 framed-vs-full-canvas, the full-canvas host title, the on-canvas size floor, i18n,
-keyboard-shortcut affordances) — and fix every FAIL before declaring the work `OK TO SHIP`.*
+keyboard-shortcut affordances, keyboard-only operation) — and fix every FAIL before declaring the work `OK TO SHIP`.*
