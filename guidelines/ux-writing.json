@@ -1,6 +1,7 @@
 {
   "name": "UX writing",
   "slug": "ux-writing",
+  "environment": ["product", "audience"],
   "kind": "guideline",
   "group": "Patterns",
   "badge": "pattern — composition guide",
@@ -10,7 +11,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/ux-writing.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: ux-writing)",
-    "note": "This guide is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-9 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, onboarding, and confirmation copy are stubbed there and land here as they're written."
+    "note": "This guide is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-10 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, onboarding, and confirmation copy are stubbed there and land here as they're written."
   },
   "surfaces": [
     "editor",
@@ -176,6 +177,13 @@
       "rule": "A tooltip carries ONE idea in plain text: lead with what the control does or why it matters, in one sentence of about 80 to 120 characters in English (translations run 30 to 40% longer, so leave headroom). Don't restate the visible label. No headers, bullets, multiple paragraphs, or HTML-rich content: that belongs in help text, a popover, or docs. A tooltip is never the only home for essential or consequential information (it is unavailable on touch). Sentence case and no dash punctuation still apply. \"Covers quiz sound effects only, not the lobby music.\" not \"This doesn't control the quiz lobby music, which plays by default. Use the volume control while presenting to mute it, or replace it under Background music.\"",
       "ref": [
         "UXW-9"
+      ]
+    },
+    {
+      "id": "labels-name-the-function",
+      "rule": "Every form and field label, option and group header names what it does in the words users already use: no coined term, metaphor or lone abstract noun (\"Mode\", \"Display\"), and the conventional term over an invented one (\"Signature\", not \"Signer\"). Clear beats short. Depth and the self-check table are in the settings guideline rule labels-say-what-the-setting-does.",
+      "ref": [
+        "UXW-10"
       ]
     }
   ],

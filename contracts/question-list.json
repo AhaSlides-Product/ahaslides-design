@@ -8,14 +8,14 @@
   "tier": "leaf-lit",
   "badge": "shared Lit web component — composite",
   "element": "aha-question-list",
-  "summary": "An editable list of collapsible questions laid out as the settings lab's QuestionList — a SettingRow head with the question count, a Collapse per question (prompt field plus OptionRow choices), and full-width secondary Add option / Add question buttons (SETTINGS-31/36).",
+  "summary": "An editable list of collapsible questions laid out as the settings lab's QuestionList — a SettingRow head with the question count, a Collapse per question (header slots, an interactive body slot, optional status line, prompt field plus OptionRow choices), and full-width secondary Add option / Add question buttons (SETTINGS-31/36).",
   "highlights": [
     "Editable list of collapsible questions",
-    "A Collapse per question: “N. prompt” header, prompt field, OptionRow choices",
+    "A Collapse per question: “N. prompt” header with before / after / marker slots and an optional status line, prompt field, OptionRow choices",
     "Full-width secondary “Add option” and “Add question”"
   ],
-  "lead": "ONE custom element — <aha-question-list> — the composite settings surface for an editable list of questions (SETTINGS-31/36), laid out as the settings lab's QuestionList and composed only from DS components. The head is a SettingRow: the list label (with an optional \"?\" help) LEFT and the \"N questions\" count RIGHT. Each question is a bordered DS Collapse whose header reads \"N. <prompt>\" (\"Untitled question\" while empty) with a tertiary small trash Button and a \"Delete question\" tooltip on its trailing edge; inside, a stacked SettingRow \"Question\" over a CountedInput, then a stacked SettingRow \"Options\" over the question's OptionRows (drag handle, correct toggle, optional image with `allowimage`) and a full-width \"Add option\" AddItemButton. A full-width \"Add question\" AddItemButton sits under the list. Limits: the add buttons disable at `max` / `maxoptions`, the deletes at `min` / `minoptions` (SETTINGS-36). Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `change` CustomEvent<{questions}> on every edit.",
-  "codeNote": "A composite element that COMPOSES DS components — SettingRow, Collapse, CountedInput, OptionRow, AddItemButton, Button and Tooltip — never re-implementing them. Set the model as a property (`el.questions = [...]`) or a JSON attribute. React (< 19) via a thin ref wrapper; Vue binds natively.",
+  "lead": "ONE custom element — <aha-question-list> — the composite settings surface for an editable list of questions (SETTINGS-31/36), laid out as the settings lab's QuestionList and composed only from DS components. The head is a SettingRow: the list label (with an optional \"?\" help) LEFT and the \"N questions\" count RIGHT. Each question is a bordered DS Collapse whose header reads \"N. <prompt>\" (\"Untitled question\" while empty) wrapping to at most two lines (then an ellipsis), with header slots at five positions (`start-<id>` after the caret, `marker-<id>` in place of the number, `before-<id>` / `after-<id>` either side of the prompt, `end-<id>` at the trailing edge), a `body-<id>` slot for interactive content above the \"Question\" row of the open body, an optional status line under the header (a warning or error tone also recolours the card border), and a secondary small trash Button with a \"Delete question\" tooltip centred on the card's top-right corner, revealed on hover or keyboard focus and a Tab stop, exactly like OptionRow's delete; inside, a stacked SettingRow \"Question\" over a CountedInput, then a stacked SettingRow \"Options\" over the question's OptionRows (drag handle, correct toggle, optional image with `allowimage`) and a full-width \"Add option\" AddItemButton. A full-width \"Add question\" AddItemButton sits under the list. Limits: the add buttons disable at `max` / `maxoptions`, the deletes at `min` / `minoptions` (SETTINGS-36). Shadow-DOM CSS, themed only by --aha-* tokens. Emits composed `change` CustomEvent<{questions}> on every edit.",
+  "codeNote": "A composite element that COMPOSES DS components — SettingRow, Collapse, CountedInput, OptionRow, AddItemButton, FieldError, Button and Tooltip — never re-implementing them. Set the model as a property (`el.questions = [...]`) or a JSON attribute. React (< 19) via a thin ref wrapper; Vue binds natively. Header slots are light-DOM children keyed by question id (`<aha-tag slot=\"before-q1\">00:23</aha-tag>`); put only non-interactive content there, since the header is a button. Interactive content goes in the body slot `body-<id>` (open question body, above the \"Question\" row).",
   "tokensUsed": [
     "text-secondary"
   ],
@@ -26,11 +26,23 @@
     },
     {
       "label": "Question",
-      "value": "bordered DS Collapse, caret leading, header \"N. <prompt>\" (14 regular on --aha-gray-15); open state kept per question (`open` in the model; a new question opens)"
+      "value": "bordered DS Collapse, caret leading, header \"N. <prompt>\" (14 regular on --aha-gray-15), the prompt wrapping to at most two lines, then an ellipsis; open state kept per question (`open` in the model; a new question opens)"
+    },
+    {
+      "label": "Header slots",
+      "value": "`start-<id>` (right after the caret), `marker-<id>` (replaces the \"N.\" number; hidden \"Question N\" name kept), `before-<id>` / `after-<id>` (either side of the prompt), `end-<id>` (trailing edge); any number of children per slot, 6px apart, items top-aligned to the first line, slotted items never shrink, the prompt wraps to two lines then ellipsises"
+    },
+    {
+      "label": "Body slot",
+      "value": "`body-<id>`: interactive light-DOM children in the open body of question `<id>`, above the \"Question\" row; clicks, keys and edits there never toggle the collapse; hidden (not focusable) while closed; follows the question by id"
+    },
+    {
+      "label": "Status",
+      "value": "`status: { message, tone }` renders a FieldError under the header row, collapsed and open: info = muted text, warning = glyph + secondary grey, error = glyph + default text. Warning and error also recolour the card border (--aha-border-warning / --aha-border-error, same 1px width; the DS status tokens carry no hue); info does not. Hooks: `data-tone` and part `question-warning` / `question-error`"
     },
     {
       "label": "Delete",
-      "value": "tertiary small icon Button (28, system-trash) with a \"Delete question\" tooltip on the header's trailing edge; disabled at min"
+      "value": "secondary small icon Button (28, system-trash) with a \"Delete question\" tooltip, centred on the card's top-right corner (-14px), hidden until the question is hovered or has focus (or the button itself is focused), exactly OptionRow's delete: same position, 0.1s opacity transition, a Tab stop that Enter / Space activates; disabled at min"
     },
     {
       "label": "Body",
@@ -48,9 +60,45 @@
   "props": [
     {
       "name": "questions",
-      "type": "Array<{id,prompt,open?,options:[{id,text,correct}]}>",
+      "type": "Array<{id,prompt,open?,status?:{message,tone},options:[{id,text,correct}]}>",
       "default": "[]",
-      "desc": "The model; set as a property or a JSON attribute. `open` starts that question expanded"
+      "desc": "The model; set as a property or a JSON attribute. `open` starts that question expanded; `status` adds the supporting line (tone info | warning | error, default info)"
+    },
+    {
+      "name": "slot=\"start-<id>\"",
+      "type": "light-DOM nodes",
+      "default": "—",
+      "desc": "Content right after the caret of question `<id>`, before the number; never shrinks"
+    },
+    {
+      "name": "slot=\"marker-<id>\"",
+      "type": "light-DOM nodes",
+      "default": "—",
+      "desc": "Replaces the \"N.\" number of question `<id>` (an Icon, say); the header keeps a hidden \"Question N\" name"
+    },
+    {
+      "name": "slot=\"before-<id>\"",
+      "type": "light-DOM nodes",
+      "default": "—",
+      "desc": "Content before the prompt of question `<id>` (a Tag with the time, say); never shrinks"
+    },
+    {
+      "name": "slot=\"after-<id>\"",
+      "type": "light-DOM nodes",
+      "default": "—",
+      "desc": "Content after the prompt of question `<id>`; never shrinks"
+    },
+    {
+      "name": "slot=\"end-<id>\"",
+      "type": "light-DOM nodes",
+      "default": "—",
+      "desc": "Content at the trailing edge of the header of question `<id>`; never shrinks. Every slot takes any number of children"
+    },
+    {
+      "name": "slot=\"body-<id>\"",
+      "type": "light-DOM nodes",
+      "default": "—",
+      "desc": "INTERACTIVE content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the \"Question\" row. Focusable and clickable; clicks, keys and edits in it never toggle the collapse. Hidden while the question is closed; follows its question by id across reorder, add and delete, and an id with no question renders nothing"
     },
     {
       "name": "label",
@@ -118,7 +166,7 @@
         "when": "a flat list of options for ONE question — compose OptionRow directly"
       }
     ],
-    "note": "The add buttons span the full panel width (SETTINGS-31) — never hugged to one side. The \"N questions\" count is a total, never an \"X of Y\" (SETTINGS-36): the add buttons disable at max and the deletes at min. Composes SettingRow, Collapse, CountedInput, OptionRow and AddItemButton; it does not re-implement any of them.",
+    "note": "The add buttons span the full panel width (SETTINGS-31) — never hugged to one side. The \"N questions\" count is a total, never an \"X of Y\" (SETTINGS-36): the add buttons disable at max and the deletes at min. Header slots take non-interactive content only (the header is a button; use `body-<id>` for interactive content), and the status line is for state, not validation of the prompt field. Composes SettingRow, Collapse, CountedInput, OptionRow, AddItemButton and FieldError; it does not re-implement any of them.",
     "dsv3": "COVERED — the settings-lab QuestionList mapped into the DS: an Ant Collapse per question in the lab, the DS Collapse here; the lab's SettingRow + Input prompt, OptionRow answers and default-Button adds are the DS SettingRow, CountedInput, OptionRow and AddItemButton. The question header takes the lab's look through the Collapse's `head` part, scoped to this list (the Collapse itself is unchanged): 14/22 regular on --aha-gray-15 (the lab's 2% grey fill), 52px high, a hairline under it when open."
   },
   "surfaces": [
@@ -162,7 +210,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "each question is a DS Collapse with an \"N. prompt\" header and a tertiary trash on the trailing edge",
+      "label": "each question is a DS Collapse with an \"N. prompt\" header, header slots at every position, an optional status line with a warning / error border, and a secondary trash revealed on hover, as OptionRow's",
       "verdict": "PASS"
     },
     {
@@ -174,7 +222,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "composes SettingRow, Collapse, CountedInput, OptionRow, AddItemButton — no re-implementation",
+      "label": "composes SettingRow, Collapse, CountedInput, OptionRow, AddItemButton, FieldError — no re-implementation",
       "verdict": "PASS"
     }
   ],

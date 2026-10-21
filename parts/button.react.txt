@@ -34,6 +34,15 @@ export function Notice({ children, onDismiss }) {
   );
 }
 
+// Audience close (✕): tertiary-deck icon-only md, 36 x 36 drawn with a 44 x 44 hit area; `sheet` on a white modal.
+export function AudienceModalClose({ onClose }) {
+  return (
+    <aha-button variant="tertiary-deck" size="md" icon-only="" sheet="" aria-label="Close" onClick={onClose}>
+      <aha-icon name="system-x" size="16" decorative="" />
+    </aha-button>
+  );
+}
+
 export function SaveBar({ onSave, saving }) {
   return (
     <div style={{ display: 'flex', gap: 8 }}>
