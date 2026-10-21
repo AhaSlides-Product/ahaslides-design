@@ -71,7 +71,7 @@
       "name": "image",
       "type": "url",
       "default": "—",
-      "desc": "A picture shown in full (contain): a thumbnail before the label, or a full tile with no label"
+      "desc": "A picture that fills its slot (cover): a thumbnail before the label, or a full tile with no label"
     },
     {
       "name": "expandable",

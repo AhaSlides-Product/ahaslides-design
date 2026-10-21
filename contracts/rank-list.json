@@ -41,7 +41,7 @@
     },
     {
       "label": "Badge",
-      "value": "28px circle in the deck accent, white 14px semibold numeral, renumbers live"
+      "value": "24px circle in the deck accent, white 12px semibold numeral, renumbers live"
     },
     {
       "label": "Move",

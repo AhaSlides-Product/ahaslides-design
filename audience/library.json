@@ -58,7 +58,7 @@
    "name": "DraggableOptions",
    "element": "<aha-rank-list>",
    "kind": "Input",
-   "what": "A reorderable list: \"put the options in the correct order\". Each row wears the answer row's frosted surface and ink edge plus a live ordinal badge; the participant reorders by dragging a row or with its up and down buttons. `value` is the ordered id array. An option's image is shown IN FULL (contain, never cropped).",
+   "what": "A reorderable list: \"put the options in the correct order\". Each row wears the answer row's frosted surface and ink edge plus a live ordinal badge; the participant reorders by dragging a row or with its up and down buttons. `value` is the ordered id array. An option's image fills its slot (cover).",
    "useWhen": "The answer IS an ordering — ranking, sequencing, \"sort these\". The model you submit is the order itself, not a pick.",
    "notFor": "Choosing option(s) from a set: that is `<aha-answer-list>` (single or multiple). Ordering is a different answer shape.",
    "replaces": null,
