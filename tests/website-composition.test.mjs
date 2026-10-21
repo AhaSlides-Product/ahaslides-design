@@ -19,7 +19,7 @@ const footerBannerCss = readJson('marketing/footer-banner.json').css;
 const cardSnippetsCss = readJson('marketing/cards.json').snippets.map((snippet) => snippet.css ?? '').join('\n');
 const alternatingRowCss = features.layouts.find((layout) => layout.slug === 'alternating-screenshots').css;
 
-for (const id of ['W11', 'W12', 'W13', 'W14']) {
+for (const id of ['W11', 'W12', 'W13', 'W14', 'W15']) {
   test(`${id} has a guideline rule, a criterion, a synced copy and a failing eval`, () => {
     assert.ok(guideline.rules.some((rule) => rule.ref.includes(id)), 'guideline rule');
     assert.ok(criteria.some((criterion) => criterion.id === id), 'criterion');
@@ -58,6 +58,23 @@ test('templates are a 3 by n grid on desktop and skip count balancing', () => {
   const failing = evals.find((entry) => entry.expected.criteria.W10 === 'FAIL' && entry.files[0].path.includes('templates-two-columns'));
   assert.ok(failing, 'eval with templates in 2 columns');
   assert.match(readFileSync(new URL(`../anti-slop/evals/website/${failing.files[0].path}`, import.meta.url), 'utf8'), /grid--image-led/);
+});
+
+test('W15: every content card link opens in a new tab with noopener and hidden text, calls to action do not', () => {
+  const linkClasses = ['aha-marketing-card__link', 'aha-testimonials__link', 'aha-features__more'];
+  for (const slug of ['cards', 'testimonials', 'features']) {
+    const raw = readFileSync(new URL(`../marketing/${slug}.json`, import.meta.url), 'utf8');
+    const links = linkClasses.flatMap((name) => [...raw.matchAll(new RegExp(`<a class=\\\\"${name}\\\\"[^>]*>`, 'g'))].map((match) => match[0]));
+    for (const link of links) assert.match(link, /target=\\"_blank\\" rel=\\"noopener\\"/, link);
+    assert.doesNotMatch(raw, /(aha-features__button|aha-header-button)[^>]*target=/);
+  }
+  assert.match(testimonialsCss, /aha-testimonials__visually-hidden/);
+  assert.match(featuresCss, /aha-features__visually-hidden/);
+  assert.match(cardsCss, /aha-marketing-card__visually-hidden/);
+  const failing = evals.find((entry) => entry.expected.criteria.W15 === 'FAIL');
+  const page = readFileSync(new URL(`../anti-slop/evals/website/${failing.files[0].path}`, import.meta.url), 'utf8');
+  assert.match(page, /aha-marketing-card__link" href="#t">/);
+  assert.doesNotMatch(page, /target="_blank"/);
 });
 
 test('the Cards grid and the Features icon grid balance by item count', () => {

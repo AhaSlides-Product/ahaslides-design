@@ -36,7 +36,8 @@
           "W11": "PASS",
           "W12": "PASS",
           "W13": "PASS",
-          "W14": "PASS"
+          "W14": "PASS",
+          "W15": "PASS"
         }
       },
       "source": {
@@ -72,7 +73,8 @@
           "W11": "PASS",
           "W12": "PASS",
           "W13": "PASS",
-          "W14": "PASS"
+          "W14": "PASS",
+          "W15": "PASS"
         }
       },
       "source": {
@@ -547,6 +549,36 @@
         "overall": "NEEDS_FIX",
         "criteria": {
           "W10": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 19,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w15-cards-same-tab/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W15: three Template cards (a correct 3 by n grid) whose links open in the same tab.",
+      "expected_output": "W15 FAILs: the Template card links have no target=\"_blank\" rel=\"noopener\" and no visually-hidden new-tab text. Fix: open content card links in a new tab; the Sign up buttons stay in the same tab. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W15 is marked FAIL",
+        "Names the Template card links"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W15": "FAIL"
         }
       },
       "source": {
