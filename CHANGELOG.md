@@ -22,10 +22,22 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.288.0 — 2026-10-20
+## 0.292.0 — 2026-10-21
 ### Added
 - Websites → Features: every layout has two backgrounds, White (the default, unchanged) and Accent. Add `aha-features--accent` to the section to lay the pale pink `--aha-bg-accent` over white; the icon squares and check marks turn white and keep their pink glyph; cards stay white with their pink icon tile. The docs page gets a White / Accent switch and a code tab for each, plus a "Choosing a background" note: never place an Accent section next to another coloured section. The switch is an opt-in `states` key in `marketing/<page>.json`, off for every other marketing page. (#309)
 - Websites → Features: a new layout, Feature card row with 3 cards: a header above one horizontal row of the same DS Feature card as Icon cards, stacking to one column at 767 px. For a row of four, use Icon cards. It supports the White and Accent backgrounds. Revert: remove the `icon-cards-row-3` entry from `marketing/features.json`. (#309)
+
+## 0.290.0 — 2026-10-21
+### Added
+- Marketing → Sections → Header: an optional G2 reviews row on the 17 layouts whose copy block holds the buttons (Hero Pink, Hero Pink Vertical, Hero Pale Pink, Hero Pale Pink Vertical, Hero Split Image 01, 03 and 05, Hero Screen Mockup 01 to 05, Hero iPhone Mockup 03, Hero Color Card 04, Hero Card Mockup 07 and 08, Hero Simple Text 01). It is five avatars (`aha-avatar-group`), five stars (`aha-rate`, filled to 4.8) and "4.8 Based on 1000 reviews", with a visually hidden label, readable on White, Pale Pink and Vivid Pink. It is off by default: the layout code leaves it out. Hero Split Form 01 (the button sits in the sign-up card) and the six page headers (no button in the copy block) do not get it. (#302)
+- Marketing → Sections → Header: a "G2 reviews: Off / On" switch beside the width and surface switches on each layout that has the row. `generate.mjs` gains one generic step: any `marketing/*.json` may carry a block-level `reviews` template and a per-layout `reviews` key. The md and agent.json feeds describe the row and how to turn it on. Other marketing pages are byte-identical. (#302)
+
+### Changed
+- Header guidance "Above the fold": the badge slot no longer carries a G2 rating; it points to the G2 reviews row instead. (#302)
+
+## 0.289.0 — 2026-10-21
+### Changed
+- Icon library: `system-reveal-pinwheel` and `system-reveal-vortex` are redrawn as Bloom wedge (Variant 2), picked from a proposal because the previous pair looked identical to each other at 16–24px and read denser than Bloom, Radar sweep and Crystallise in the same row. Pinwheel is a solid hub with four arrows pointing outward and a clockwise arc above; Vortex is an open 270° clockwise ring with three arrows pointing inward to a centre dot. Names, wrapper attributes and colour are unchanged. The redraw no longer reads as near-identical (about 31% overlap, under the 86% near-duplicate threshold), so `icon-duplicates.intentional.json`'s Pinwheel/Vortex exemption is removed — the pair stands on its own in the near-duplicate gate like every other icon. (#314)
 
 ## 0.286.0 — 2026-10-20
 ### Changed
