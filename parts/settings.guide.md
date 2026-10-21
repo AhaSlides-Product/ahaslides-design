@@ -1,5 +1,7 @@
 # Settings — composition guide
 
+**Agents: run the `settings-design` skill (mandatory)** — `ahaslides-design:settings-design`, the one runbook for any settings UI.
+
 > Distilled from the retired `aha-design-settings` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, and all 52 `SETTINGS-xx` assertions; this guide is the shippable
 > checklist. When the two ever disagree, this guide wins.
