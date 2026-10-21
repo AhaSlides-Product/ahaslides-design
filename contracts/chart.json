@@ -110,7 +110,7 @@
     },
     {
       "label": "Ink",
-      "value": "ink → text-default · secondary → text-secondary · tertiary → text-tertiary · axis → border-strong · grid → border · track → border-secondary · hover → bg-hover · pressed → border · mark outline → ink-a10 · tooltip → bg-dark + text-inverse · on a deck the same roles are re-derived from the deck ink (76 / 54 / 26 / 12 / 7 / 10 / 8 / 16 % mixes)"
+      "value": "ink → text-default · secondary → text-secondary · tertiary → text-tertiary · axis → border-strong · grid → border · track → border-secondary · hover → bg-hover · pressed → border · mark outline → ink-a10 · tooltip → bg-dark + text-inverse · on a deck the same roles are re-derived from the deck ink (76 / 54 / 24 / 12 / 8 / 12 / 12 / 16 % mixes)"
     },
     {
       "label": "Bar",
