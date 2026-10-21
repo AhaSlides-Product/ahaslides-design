@@ -70,14 +70,14 @@ test('pointerdown on the handle emits reorder-grab with pointer details and leav
   assert.deepEqual(result, { seen: [{ pointerId: 7, clientX: 12, clientY: 34 }], fieldFocused: false });
 });
 
-test('Enter/Space on the handle trigger a click, only when reorderable and not disabled', { skip }, async () => {
+test('Enter/Space on the handle emit reorder-activate, only when reorderable and not disabled', { skip }, async () => {
   const result = await run(`
     const press = (r, key) => {
       const event = new KeyboardEvent('keydown', { key, bubbles: true, composed: true, cancelable: true });
       handle(r).dispatchEvent(event);
       return event.defaultPrevented;
     };
-    const seen = (r) => { const out = []; handle(r).addEventListener('click', () => out.push(1)); return out; };
+    const seen = (r) => { const out = []; r.addEventListener('reorder-activate', () => out.push(1)); return out; };
     const plain = row('plain'), rr = row('r'), d = row('d');
     const seenPlain = seen(plain), seenR = seen(rr), seenD = seen(d);
     const preventedPlain = press(plain, 'Enter');

@@ -11,6 +11,8 @@ function remove(i, source) { options.value.splice(i, 1); }
 // reorderable makes the drag handle a tab stop; the row never moves itself. direction is 'up' | 'down' from
 // ArrowUp/ArrowDown on the focused handle — move the row, then call the row element's focusHandle() to restore focus.
 function move(i, direction) { /* swap options.value[i] with its neighbour, then e.target.focusHandle() */ }
+// Enter/Space on the focused handle: the host decides what activating the grip should do.
+function activate(i) {}
 </script>
 
 <template>

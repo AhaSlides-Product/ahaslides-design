@@ -4,7 +4,7 @@
      toggle (circle | square). Theming comes only from the --aha-* tokens in tokens.css. Hover a row to
      reveal its delete (top-right); from the keyboard, Backspace in an empty field deletes the row (Tab skips the
      delete button). Add reorderable to make the drag handle itself a tab stop that reorders by pointer or
-     keyboard — the row never moves itself; the host listens for reorder-move / reorder-grab and drives it. -->
+     keyboard — the row never moves itself; the host listens for reorder-move / reorder-grab / reorder-activate and drives it. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-option-row.js';   // registers <aha-option-row>
@@ -27,4 +27,6 @@
   document.getElementById('a').addEventListener('reorder-move', (e) => console.log('move', e.detail.direction, '— then row.focusHandle()'));
   // pointerdown on the handle: the host calls row.setPointerCapture(e.detail.pointerId) and drives the drag.
   document.getElementById('a').addEventListener('reorder-grab', (e) => console.log('grab at', e.detail.clientX, e.detail.clientY));
+  // Enter/Space on the focused handle: the host decides what activating the grip should do.
+  document.getElementById('a').addEventListener('reorder-activate', () => console.log('activate'));
 </script>

@@ -36,7 +36,7 @@
     },
     {
       "label": "Reorder",
-      "value": "opt-in reorderable makes the handle a tab stop (role=button) that reorders by pointer (reorder-grab on pointerdown) or keyboard (ArrowUp/ArrowDown emit reorder-move; Enter/Space activate the same way as a click); the host drives the move and calls row.focusHandle() to restore focus — the handle never moves the row itself"
+      "value": "opt-in reorderable makes the handle a tab stop (role=button) that reorders by pointer (reorder-grab on pointerdown) or keyboard (ArrowUp/ArrowDown emit reorder-move; Enter/Space emit reorder-activate); the host drives the move and calls row.focusHandle() to restore focus — the handle never moves the row itself"
     },
     {
       "label": "Text",
@@ -100,7 +100,7 @@
       "name": "reorderable",
       "type": "boolean",
       "default": "false",
-      "desc": "With orderable (and not disabled), makes the drag handle a tab stop that reorders by pointer or keyboard — the host wires both and moves the row itself; emits reorder-move / reorder-grab"
+      "desc": "With orderable (and not disabled), makes the drag handle a tab stop that reorders by pointer or keyboard — the host wires both and moves the row itself; emits reorder-move / reorder-grab / reorder-activate"
     },
     {
       "name": "correctable",
@@ -157,10 +157,10 @@
       "desc": "Composed events; image-add/change/edit/delete are forwarded from the image control. `delete` carries detail.source: \"keyboard\" when Backspace was pressed in an empty field, \"pointer\" when the delete button was clicked; after a \"keyboard\" delete the host should call previousRow.focus()"
     },
     {
-      "name": "reorder-move / reorder-grab",
+      "name": "reorder-move / reorder-grab / reorder-activate",
       "type": "CustomEvent",
       "default": "—",
-      "desc": "Composed events from the reorderable drag handle; the row never moves itself. reorder-move fires on ArrowUp/ArrowDown on the focused handle, detail.direction \"up\" | \"down\" — after the host moves the row element, call row.focusHandle() to put focus back on its handle. reorder-grab fires on pointerdown on the handle, detail.{pointerId, clientX, clientY} — the host calls setPointerCapture on the row element and drives the drag itself"
+      "desc": "Composed events from the reorderable drag handle; the row never moves itself. reorder-move fires on ArrowUp/ArrowDown on the focused handle, detail.direction \"up\" | \"down\" — after the host moves the row element, call row.focusHandle() to put focus back on its handle. reorder-grab fires on pointerdown on the handle, detail.{pointerId, clientX, clientY} — the host calls setPointerCapture on the row element and drives the drag itself. reorder-activate fires on Enter/Space on the focused handle (no detail) — the host decides what activating the grip (rather than arrow-moving it) should do"
     },
     {
       "name": "focus(options)",

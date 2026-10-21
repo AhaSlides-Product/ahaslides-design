@@ -2,9 +2,9 @@ import '@ahaslides-product/design/aha-option-row'; // registers <aha-option-row>
 import { useRef, useEffect } from 'react';
 
 // React 18 needs a thin wrapper; React 19 can use <aha-option-row> directly.
-// Composes DS leaves; forwards input / correct-change / delete / reorder-move / reorder-grab (+ the image
-// control's intents). reorderable makes the drag handle a tab stop — the row never moves itself, the host does.
-function AhaOptionRow({ value, maxLength, orderable, reorderable, correctable, correct, checkboxShape, singleLine, image, canDelete, onInput, onCorrect, onDelete, onReorderMove, onReorderGrab }) {
+// Composes DS leaves; forwards input / correct-change / delete / reorder-move / reorder-grab / reorder-activate
+// (+ the image control's intents). reorderable makes the drag handle a tab stop — the row never moves itself, the host does.
+function AhaOptionRow({ value, maxLength, orderable, reorderable, correctable, correct, checkboxShape, singleLine, image, canDelete, onInput, onCorrect, onDelete, onReorderMove, onReorderGrab, onReorderActivate }) {
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -15,11 +15,12 @@ function AhaOptionRow({ value, maxLength, orderable, reorderable, correctable, c
     const hd = (e) => onDelete?.(e.detail.source);
     const hm = (e) => onReorderMove?.(e.detail.direction);
     const hg = (e) => onReorderGrab?.(e.detail);
+    const ha = () => onReorderActivate?.();
     el.addEventListener('input', hi); el.addEventListener('correct-change', hc); el.addEventListener('delete', hd);
-    el.addEventListener('reorder-move', hm); el.addEventListener('reorder-grab', hg);
+    el.addEventListener('reorder-move', hm); el.addEventListener('reorder-grab', hg); el.addEventListener('reorder-activate', ha);
     return () => {
       el.removeEventListener('input', hi); el.removeEventListener('correct-change', hc); el.removeEventListener('delete', hd);
-      el.removeEventListener('reorder-move', hm); el.removeEventListener('reorder-grab', hg);
+      el.removeEventListener('reorder-move', hm); el.removeEventListener('reorder-grab', hg); el.removeEventListener('reorder-activate', ha);
     };
   });
   return (
