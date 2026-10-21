@@ -29,6 +29,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Websites → Website composition: rule and criterion W6 now use the Vivid Pink frame only when a section holds more than one image and the images differ in size or ratio; a single image, or images of the same size, fill their container with no frame. Never crop a screenshot and one ratio per section stay. The "Alternating with screenshots" layout and the image-led Cards grids now show fill; the pink-frame examples show mixed sizes. Revert: remove the `--fill` classes, the new layout and snippets and restore the previous W6 text; no existing class changed
 
+## 0.294.1 — 2026-10-21
+### Fixed
+- Collapse: content of an open panel can now overflow it, so a `?` help tooltip, a select dropdown or a popover inside an open `aha-collapse` (ghost or bordered) is no longer clipped. The body is still clipped while it animates open or closed, and reduced motion lifts the clip at once. (#320)
+
 ## 0.294.0 — 2026-10-21
 ### Added
 - Marketing → Features and Cards: a Vivid Pink image frame for screenshots and assets whose ratio differs from their slot, or that are light enough to fade into a white card. Add `aha-features__photo--pink-frame` (4:3 rows) or `aha-marketing-card__media--pink-frame` (3:2 cards): the picture is contained, never cropped, with an even inset on `--aha-vivid-pink-100` and the centre Splash from the Background library behind it (its CSS recipe, unchanged). Photos that fill the slot keep `object-fit: cover`. The Features "Alternating with screenshots" layout now uses it, and Cards gets a framed Template card.
