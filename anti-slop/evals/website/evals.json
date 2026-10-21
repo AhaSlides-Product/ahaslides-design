@@ -2,7 +2,7 @@
   "surface": "website",
   "judgedAgainst": "anti-slop/criteria.json surfaces.website",
   "portedFrom": null,
-  "authoredNote": "DS-authored with the website surface (W1 to W10 and W15) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "authoredNote": "DS-authored with the website surface (W1 to W14 and W16) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
   "evals": [
     {
       "id": 1,
@@ -33,7 +33,12 @@
           "W6": "PASS",
           "W7": "PASS",
           "W9": "PASS",
-          "W15": "PASS"
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS",
+          "W14": "PASS",
+          "W15": "PASS",
+          "W16": "PASS"
         }
       },
       "source": {
@@ -66,7 +71,12 @@
           "W4": "PASS",
           "W5": "PASS",
           "W7": "PASS",
-          "W15": "PASS"
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS",
+          "W14": "PASS",
+          "W15": "PASS",
+          "W16": "PASS"
         }
       },
       "source": {
@@ -373,24 +383,234 @@
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {
-          "path": "fixtures/fail-w15-hand-rolled-button/Page.html"
+          "path": "fixtures/fail-w11-unbalanced-grid/Page.html"
         },
         {
           "path": "fixtures/sections.css"
         }
       ],
       "label": "bad-example",
-      "notes": "Targets W15: the games.ahaslides.com case, header Log in / Sign up drawn with the page's own button classes and a grey hover, and a re-hovered DS Button.",
-      "expected_output": "W15 FAILs: Log in and Sign up are <a class=\"site-header__button\"> links painted as buttons by the page's own CSS (fill, border, radius, height) with a grey :hover, instead of <aha-button variant=\"secondary\" size=\"lg\" href> and <aha-button variant=\"primary\" size=\"lg\" href>; and the hero call to action re-hovers the DS Button through aha-button::part(button):hover. screen-lint reports both as hand-rolled-button. Fix: use the Navigation section's <aha-button> markup and delete the button CSS. Overall: NEEDS FIX.",
+      "notes": "The icon grid holds 2 items but the page forces 3 columns, so the third slot is empty and the pair sits left (the grid-override in the page style).",
+      "expected_output": "The icon grid holds 2 items but the page forces 3 columns, so the third slot is empty and the pair sits left (the grid-override in the page style). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W11 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W11": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 14,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w12-layout-fatigue/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Three alternating-row Features sections run back to back, 6 zig-zag rows in a run, and the same layout repeats between neighbours.",
+      "expected_output": "Three alternating-row Features sections run back to back, 6 zig-zag rows in a run, and the same layout repeats between neighbours. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W12 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W12": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 15,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w13-old-testimonials-faq/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The testimonials band is the retired centred-01 copy and the FAQ is a hand-built list without the aha-faq__trigger buttons, aria-expanded or plus/minus icon, not the current DS sections.",
+      "expected_output": "The testimonials band is the retired centred-01 copy and the FAQ is a hand-built list without the aha-faq__trigger buttons, aria-expanded or plus/minus icon, not the current DS sections. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W13 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W13": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 16,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w14-mixed-type-ramp/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The page restyles text roles section by section: the Testimonials h2 is in Nunito (--aha-font-display) while every other h2 is Plus Jakarta Sans, the FAQ h2 drops to --aha-size-h3 so h2 sizes differ, the Quote cards text sits at --aha-size-h4 semibold (a heading size), and the icon-grid item titles are --aha-size-h4 regular while every other item title is --aha-size-xl semibold.",
+      "expected_output": "The page restyles text roles section by section: the Testimonials h2 is in Nunito (--aha-font-display) while every other h2 is Plus Jakarta Sans, the FAQ h2 drops to --aha-size-h3 so h2 sizes differ, the Quote cards text sits at --aha-size-h4 semibold (a heading size), and the icon-grid item titles are --aha-size-h4 regular while every other item title is --aha-size-xl semibold. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W14 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W14": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 17,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w1-logos-mid-page/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The Logos strip sits after the alternating Features section instead of directly below the hero.",
+      "expected_output": "W1 FAILs: the Logos strip is placed after the Features section, not directly below the hero. Fix: move the Logos section to sit directly after the hero. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W1 is marked FAIL",
+        "Names the Logos strip placed below the Features section"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 18,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w10-templates-two-columns/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W10: four Template cards sit in the 2-column image-led grid (2 by 2) instead of the 3 by n templates grid.",
+      "expected_output": "W10 FAILs: the templates are a 2 by 2 image-led grid. Templates are always 3 columns at desktop (aha-marketing-cards__grid--templates), n full rows of 3, so the section needs a multiple of 3 templates (add two or drop one). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W10 is marked FAIL",
+        "Names the 2 by 2 templates grid"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W10": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 19,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w15-cards-same-tab/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W15: three Template cards (a correct 3 by n grid) whose links open in the same tab.",
+      "expected_output": "W15 FAILs: the Template card links have no target=\"_blank\" rel=\"noopener\" and no visually-hidden new-tab text. Fix: open content card links in a new tab; the Sign up buttons stay in the same tab. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W15 is marked FAIL",
-        "Names <aha-button> as the fix"
+        "Names the Template card links"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
         "criteria": {
           "W15": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 20,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w16-hand-rolled-button/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W16: the games.ahaslides.com case, header Log in / Sign up drawn with the page's own button classes and a grey hover, and a re-hovered DS Button.",
+      "expected_output": "W16 FAILs: Log in and Sign up are <a class=\"site-header__button\"> links painted as buttons by the page's own CSS (fill, border, radius, height) with a grey :hover, instead of <aha-button variant=\"secondary\" size=\"lg\" href> and <aha-button variant=\"primary\" size=\"lg\" href>; and the hero call to action re-hovers the DS Button through aha-button::part(button):hover. screen-lint reports both as hand-rolled-button. Fix: use the Navigation section's <aha-button> markup and delete the button CSS. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W16 is marked FAIL",
+        "Names <aha-button> as the fix"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W16": "FAIL"
         }
       },
       "source": {

@@ -20,7 +20,13 @@ test('Enter in a field submits the form of an <aha-button type="submit"> once, a
     await pressEnterIn('required-empty-name');
     await pressEnterIn('disabled-button-name');
     for (const id of ['click-prevented-button', 'click-allowed-button']) {
-      await command('Runtime.evaluate', { expression: `document.getElementById('${id}').shadowRoot.querySelector('button').click()` });
+      const located = await command('Runtime.evaluate', {
+        expression: `(() => { const el = document.getElementById('${id}'); el.scrollIntoView({ block: 'center' }); const box = el.getBoundingClientRect(); return JSON.stringify({ x: box.x + box.width / 2, y: box.y + box.height / 2 }); })()`,
+        returnByValue: true,
+      });
+      const { x, y } = JSON.parse(located.result.value);
+      await command('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', buttons: 1, clickCount: 1 });
+      await command('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', buttons: 0, clickCount: 1 });
     }
     await command('Runtime.evaluate', { expression: 'new Promise((resolve) => setTimeout(resolve, 50))', awaitPromise: true });
     const read = await command('Runtime.evaluate', { expression: 'JSON.stringify(window.submitCounts)', returnByValue: true, awaitPromise: true });
@@ -30,6 +36,6 @@ test('Enter in a field submits the form of an <aha-button type="submit"> once, a
   assert.equal(counts['one-field'], 1, 'one field: Enter submits once, not again through the browser');
   assert.equal(counts['required-empty'], 0, 'an empty required field blocks the submit');
   assert.equal(counts['disabled-button'], 0, 'a disabled button blocks the submit');
-  assert.equal(counts['click-prevented'], 0, 'preventDefault in a click listener on the host stops the submit');
-  assert.equal(counts['click-allowed'], 1, 'a click submits once');
+  assert.equal(counts['click-prevented'], 0, 'a real click cancelled by a host listener does not submit');
+  assert.equal(counts['click-allowed'], 1, 'a real click submits once');
 });

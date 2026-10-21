@@ -32,3 +32,23 @@ test('the image-led grid collapses to one column on the viewport, not the contai
 test('the feature card in the image-led grid is stretched, not centred, once it stacks on a phone', () => {
   assert.match(readJson('marketing/cards.json').baseCss, /nth-last-child\(odd\) \.aha-marketing-card\{display:flex;align-items:stretch\}/);
 });
+
+const imageMarkup = () => [
+  ...readJson('marketing/features.json').layouts.map(layout => [layout.slug, layout.html]),
+  ...readJson('marketing/cards.json').snippets.map(snippet => [snippet.slug, snippet.html]),
+];
+
+test('a portrait placeholder is always inside a Vivid Pink frame, never a fill slot', () => {
+  for (const [slug, html] of imageMarkup()) {
+    for (const part of html.split(/<!-- next -->|<li class="aha-features__row">/)) {
+      if (!part.includes('image-placeholder-tall.svg')) continue;
+      assert.ok(part.includes('pink-frame'), `${slug}: portrait image not framed`);
+      assert.ok(!part.includes('--fill'), `${slug}: portrait image fills its slot`);
+    }
+  }
+});
+
+test('the portrait examples exist in Features and Cards', () => {
+  assert.ok(readJson('marketing/features.json').layouts.some(layout => layout.slug === 'alternating-portrait-screenshots'));
+  assert.ok(readJson('marketing/cards.json').snippets.some(snippet => snippet.slug === 'portrait-row'));
+});
