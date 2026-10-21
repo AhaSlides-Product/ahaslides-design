@@ -33,6 +33,7 @@ const FAIL = {
   'aha-button part re-hovered': style('aha-button::part(button):hover{background:var(--aha-gray-10)}'),
   'a .aha-button class restyled': style('.aha-button{box-shadow:none}'),
   'a --aha-button-* token redefined': style('.header{--aha-button-default-bg-hover:var(--aha-gray-10)}'),
+  'a token redefined under a themed root': style(':root[data-theme="dark"] .header{--aha-button-default-bg:var(--aha-gray-90)}'),
   'a selector list that ends on a button class': style('.a,\n.b .x-btn{background:red;border-radius:4px}'),
   'a camelCase button class': style('.signupButton{background:red;border-radius:4px}'),
   'a grey hover nested under the button class': style('.aha-header__button{ &:hover{background:var(--aha-gray-10)} }'),
@@ -57,6 +58,8 @@ const PASS = {
   'a nested rule that is not a button': style('.card{background:var(--aha-white); & .title{color:var(--aha-text-default)}}'),
   'a brace inside a comment': style('/* .x-btn{background:red;border-radius:4px} */ .y{color:red}'),
   'the DS token sheet vendored as-is': style(':root{--aha-button-primary-bg:var(--aha-color-primary);--aha-button-default-bg:var(--aha-white)}'),
+  'a theme-scoped token sheet': style(':root[data-theme="dark"]{--aha-button-default-bg:var(--aha-gray-90)} :root.dark{--aha-button-default-bg:var(--aha-gray-90)} :host(.dark){--aha-button-default-bg:var(--aha-gray-90)}'),
+  'a token sheet inside @media': style('@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--aha-button-default-bg:var(--aha-gray-90)}}'),
 };
 
 for (const [name, source] of Object.entries(FAIL))
