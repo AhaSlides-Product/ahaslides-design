@@ -1,5 +1,7 @@
 # Settings — composition guide
 
+**Agents: run the `settings-design` skill (mandatory)** — `ahaslides-design:settings-design`, the one runbook for any settings UI.
+
 > Distilled from the retired `aha-design-settings` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, and all 52 `SETTINGS-xx` assertions; this guide is the shippable
 > checklist. When the two ever disagree, this guide wins.
@@ -21,10 +23,48 @@ A single-block panel growing past 8–10 settings is a signal to re-group or spl
 
 ## Name and control
 
-- **Name = short noun phrase.** No leading verb. "Progress bar", not "Show progress bar". The control already says on/off; the label names what is acted on. (Narrow exception: a manual/automatic *mode* toggle may keep its verb — "Show results manually".)
+- **Name = clear noun phrase**, or a short when/who/what clause when that is clearer ("When the module opens", "Who can open this course"). No filler leading verb. "Progress bar", not "Show progress bar". The control already says on/off; the label names what is acted on. Clear beats short: see "Labels: say what the setting does" below. (Narrow exception: a manual/automatic *mode* toggle may keep its verb — "Show results manually".)
 - **No decorative leading icon.** Panel icons are functional only — drag handle, image, delete, `?` help. A trophy on "Leaderboard" is decorative and comes out, however on-topic.
 - **Toggle vs checkbox:** toggle when the change takes effect immediately; checkbox when options are saved together or express consent. **Never mix the two in one group.**
 - **Placement:** narrow control inline (label left, control right); wide control (textarea, wide select, radio group, image dropzone) drops below the label.
+
+## Labels: say what the setting does
+
+**The test.** Someone opening this panel for the first time reads only the label (no tooltip, no help text) and can say what changes when they change it. If they have to guess, the label fails. Clear beats short, every time.
+
+1. **Name the function in the words users already use**, not a coined term, a metaphor or domain jargon. "Pass mark" becomes "Complete module condition".
+2. **Clear before short.** 2 to 6 words is fine. Cut filler (the, a, your, Enable, Allow, Show), never the word that carries the meaning.
+3. **No lone abstract noun** as a setting label or group header that hides what it controls: "Opening", "Completion", "Behaviour", "Mode", "Display", "General options". Say the object and the moment: "Opening" becomes "When the module opens"; "Completion" becomes "When the module is complete".
+4. **Say which object and where it shows** when that is ambiguous. "Team name" (which team? where does it appear?) becomes "Organisation name on certificate".
+5. **Use the conventional term** people know from other products, not an internal or invented one. "Signer" becomes "Signature".
+6. **Options and values meet the same test.** Each option states its outcome ("After the previous module is passed"), and a number field carries its unit in the label or the control ("Correct answers needed (%)").
+7. **A tooltip is a backup, never the crutch.** If the label only makes sense after reading its tooltip, rewrite the label. A tooltip adds the why or an edge case, never the meaning (UXW-9).
+8. **One term per concept** across the surface and its learner-facing side. If the trainer sets "Complete module condition", the learner view and reports do not call the same thing "pass mark".
+
+### Worked examples
+
+Real labels from the e-learning editor. "Keep" rows already pass and show what good looks like.
+
+| Today | Rule-compliant label | Why |
+| --- | --- | --- |
+| Pass mark | Complete module condition | Rule 1: a term borrowed from exams, not what the trainer is setting |
+| Opening (module group header) | When the module opens | Rule 3: lone abstract noun |
+| Completion (module group header) | When the module is complete | Rule 3: lone abstract noun |
+| Completion (course settings tab) | Course completion | Rule 3: says which object |
+| Tracking (LMS export) | When the LMS marks it complete | Rule 7: the label only made sense with its intro line |
+| LMS key | LMS name in reports | Rule 1: "key" is a system term; the field names the LMS in the report |
+| Reporting options (group header) | What is sent to AhaSlides | Rule 3: "options" hides what the group controls |
+| Report to the LMS as: Completed / Passed | Completed (learner finished) / Passed (learner reached the score) | Rule 6: each option states its outcome |
+| Module score: "Pass mark 80%" (learner side) | Score needed to complete: 80% | Rule 8: the trainer side calls it "Complete module condition" |
+| Signer (certificate) | Signature | Rule 5: the term people know |
+| Team name (certificate) | Organisation name on certificate | Rule 4: which team, and where it shows |
+| Who can open this course | Keep | States the outcome; a question label is fine when it is the clearest form |
+| Minimum correct answers + % | Keep | Plain words, unit in the control (rule 6); the tooltip adds only the edge case (rule 7) |
+| Minimum learning time | Keep | Plain words; the tooltip adds that idle time is not counted, the why, not the meaning |
+
+**Self-check before shipping.** Write every label in a table: `label | "Changing this …" sentence | tooltip (if any)`. If the sentence needs words the label lacks, the label is missing them. Put that table in the PR body or preview of any settings build, so the requester reviews all wording in one place instead of guessing from screenshots. Judged by C20.
+
+Rationale: plain language, one term per concept and labels that let people anticipate what happens are the common ground of Shopify Polaris content fundamentals (polaris-react.shopify.com/content/fundamentals) and Microsoft's app-settings guidelines (learn.microsoft.com/en-us/windows/apps/design/app-settings/guidelines-for-app-settings); essential meaning never lives only in a tooltip (UXW-9).
 
 ## Explanation: name → tooltip → help text
 
@@ -56,7 +96,7 @@ Hierarchy comes from the gap size, on the `--aha-size*` scale — monotonic so w
 
 - **Never a divider line** between settings, groups, or the danger zone — more distance means a wider gap.
 - **Never a card/tinted/bordered container** around plain settings or a lone toggle; a filled box signals a *selectable* object. Reserve it for real selectable items and the repeatable composite-item wrapper.
-- **Group shape:** 2–6 settings; header is a 1–3 word noun phrase, sentence case, no colon; **only the header carries weight — semibold (600)** (the `SectionHeader` weight), member/single-control labels regular (400) in primary text (`--aha-text-default` #1A1A1A). A group title is for a real group of two or more settings — never over a single field or a single list.
+- **Group shape:** 2–6 settings; header is a noun phrase or a short when/who/what clause (2–6 words, clear before short; never a lone abstract noun such as "Completion"), sentence case, no colon; **only the header carries weight — semibold (600)** (the `SectionHeader` weight), member/single-control labels regular (400) in primary text (`--aha-text-default` #1A1A1A). A group title is for a real group of two or more settings — never over a single field or a single list.
 - **No control in a group header.** No toggle, switch, input, select or button in the header or its action slot; a control is a settings item (label left, control right). Plain text such as a count may stay.
 - **Order:** most-used first; a dependent sub-setting directly under its parent; dangerous last.
 

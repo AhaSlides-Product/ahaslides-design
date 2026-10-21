@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.321.0 — 2026-10-21
+### Added
+- Settings: new rule "Labels: say what the setting does" and judge criterion C20 "Labels are self-explanatory". A first-time reader of only the label can say what changes; no coined term or lone abstract noun ("Opening", "Mode"), the conventional term, the unit in the label, one term per concept, and a `label | "Changing this …" sentence | tooltip` table in the PR. A worked-examples table of 14 real e-learning labels (before, after, which rule). UXW-10 points every form label at it. Eight new C20 evals (#336).
+- Agent plugin: a second skill, `ahaslides-design:settings-design`, the one mandatory runbook for any settings UI (settings panel, page, modal or drawer, a slide type's `settings.*` panel, preferences, an options dialog). It sequences the work and points at the DS sources: hub control table, label rule, the required `label | "Changing this …" sentence | tooltip` table, grouping, `screen-lint --surface=settings`, the settings judge. The settings lines in `aha-design` move into it and `aha-design` routes there (#336).
+- Agent plugin enforcement, no exception: the prompt hook adds a "load settings-design first" line on any settings prompt; the write guard blocks a Write or Edit to settings UI (a slide type's `settings.*` file, or a file routed to the `settings` surface) until the session has loaded the skill (fail-open without a transcript; `AHA_DESIGN_SETTINGS_SKILL_DISABLE=1` turns off only this block); the end-of-turn judge asks for the label table when a settings file changed (#336).
+
+### Changed
+- Settings C1, the settings guide and the group rule: "short noun phrase" becomes "clear noun phrase", and a name or group header may be a short when/who/what clause ("When the module opens", "Who can open this course") when that is clearer. Group headers go from 1–3 words to 2–6, so the old rules no longer contradict the new label rule (#336).
+
 ## 0.319.0 — 2026-10-21
 ### Added
 - Question list: a body slot `body-<id>` puts interactive light-DOM content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the "Question" row. Children stay focusable; clicks, keys and edits in the slot never toggle the collapse; a closed question hides it; it follows its question by id across reorder, add and delete. Native `input` / `change` events from slotted children now reach the list's host (the list's own `change` still carries `detail.questions`). Revert: remove the `.body-slot` holder, its CSS and the `slotted('body-slot', …)` call in `lib/aha-question-list.js`, and restore the `stopPropagation` guard to unconditional. (#335)
