@@ -1517,7 +1517,7 @@
         {
           "id": "W1",
           "title": "Every band is a DS Marketing section",
-          "test": "Each full-width band of the page (site header, hero, features, numbers, logos, testimonials, pricing, FAQ, closing banner, footer) is a DS Marketing section (Navigation, Header or Hero, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner, Footer, with Cards inside a section): its root class and markup are the section's snippet, with only copy, images and the layout choice changed. A band built by hand (its own classes, its own grid, a restyled copy of a section) fails, whatever it looks like; the fix is the matching section, or a DSN ticket for a missing one. N/A when the change is a single section on its own, not a page."
+          "test": "Each full-width band of the page (site header, hero, features, numbers, logos, testimonials, pricing, FAQ, closing banner, footer) is a DS Marketing section (Navigation, Header, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner, Footer, with Cards inside a section): its root class and markup are the section's snippet, with only copy, images and the layout choice changed. A band built by hand (its own classes, its own grid, a restyled copy of a section) fails, whatever it looks like; the fix is the matching section, or a DSN ticket for a missing one. N/A when the change is a single section on its own, not a page."
         },
         {
           "id": "W2",

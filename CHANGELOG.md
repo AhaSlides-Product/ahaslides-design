@@ -27,7 +27,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Button: `href` renders `<aha-button>` as a link with the same look (`target` and `rel` pass through; a disabled button stays a `<button>`), and `type="submit"` submits the closest form, so a navigation call to action or a form's submit never needs a hand-drawn button (#333).
 - screen-lint: `hand-rolled-button` (an `__button` / `__cta` / `btn` class, a bare `button` or `[role=button]` selector that paints background, border or colour, hover rules included) and `restyled-button` (CSS that re-colours, re-borders or re-sizes `<aha-button>` from outside), HARD on every surface; group name `button-style`. Anti-slop website criterion W11 "Every button is the DS Button" with a bad-example eval, and the rule in the `aha-design` skill (#333).
 ### Changed
-- Marketing Navigation (Log in, Sign up, Join), Header, Hero, Features, Numbers and Footer banner draw every button with `<aha-button>` at the size the section ships; the Vivid Pink bands theme it through `--aha-button-*` tokens. The `__button` / `__cta` classes and their CSS are gone: re-paste the snippet, and swap any copied `<a class="…__button">` for `<aha-button href>` (#333).
+- Marketing Navigation (Log in, Sign up, Join), Header, Features, Numbers and Footer banner draw every button with `<aha-button>` at the size the section ships; the Vivid Pink bands theme it through `--aha-button-*` tokens. The `__button` / `__cta` classes and their CSS are gone: re-paste the snippet, and swap any copied `<a class="…__button">` for `<aha-button href>` (#333).
+
+## 0.315.0 — 2026-10-21
+### Removed
+- Marketing → Sections: the standalone `Hero` page is removed (`marketing/hero.json`, its nav entry and generated page). The hero layouts on the `Header` page are unchanged. The old `landing/` and `landing/hero` stubs now forward to the `Header` page. No tokens, colours or components change. Revert: restore `marketing/hero.json` and point the `''` and `hero` entries of `LANDING_REDIRECTS` in `generate.mjs` back at `marketing/hero/index.html`. (#298)
 
 ## 0.314.0 — 2026-10-21
 ### Removed
