@@ -53,12 +53,12 @@ test('header slots are keyed per question; the marker slot keeps a "Question N" 
       nameVisible: getComputedStyle(holder(1, 'marker').querySelector('.name')).display,
       nameHiddenWhenNumber: getComputedStyle(holder(0, 'marker').querySelector('.name')).display,
       statusCount: list.shadowRoot.querySelectorAll('aha-field-error').length,
-      promptClamp: getComputedStyle(holder(0, 'prompt')).webkitLineClamp,
+      promptClamp: getComputedStyle(holder(0, 'prompt')).webkitLineClamp + '/' + getComputedStyle(holder(0, 'prompt')).whiteSpace,
     };
   `);
   assert.deepEqual(result, {
     beforeQ1: true, afterQ1: true, beforeQ2: false, markerQ1Filled: false, markerQ2Filled: true,
-    tagAssignedTo: 'before-q1', nameVisible: 'block', nameHiddenWhenNumber: 'none', statusCount: 2, promptClamp: '2',
+    tagAssignedTo: 'before-q1', nameVisible: 'block', nameHiddenWhenNumber: 'none', statusCount: 2, promptClamp: '2/normal',
   });
 });
 
