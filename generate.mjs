@@ -1619,7 +1619,7 @@ function renderAudienceLibrary() {
       { id: 'c', label: 'Ngắn có ảnh', image: demoPicture },
     ];
     for (const trigger of document.querySelectorAll('.audience-lib [expandable]')) trigger.addEventListener('expand', (event) => {
-      const sheet = trigger.closest('.deck-body').querySelector('[data-demo-sheet]');
+      const sheet = trigger.closest('.demo-phone').querySelector('[data-demo-sheet]');
       const option = trigger.options && trigger.options.find((candidate) => candidate.id === event.detail.id);
       sheet.textContent = option ? option.label : trigger.textContent;
       const image = option ? option.image : trigger.getAttribute('image');
