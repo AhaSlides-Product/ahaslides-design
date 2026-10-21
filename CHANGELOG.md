@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.315.0 — 2026-10-21
+### Removed
+- Marketing → Sections: the standalone `Hero` page is removed (`marketing/hero.json`, its nav entry and generated page). The hero layouts on the `Header` page are unchanged. The old `landing/` and `landing/hero` stubs now forward to the `Header` page. No tokens, colours or components change. Revert: restore `marketing/hero.json` and point the `''` and `hero` entries of `LANDING_REDIRECTS` in `generate.mjs` back at `marketing/hero/index.html`. (#298)
+
 ## 0.314.0 — 2026-10-21
 ### Removed
 - Marketing Features: the Icon list with video, Icon list with wide photo and Alternating with photos layouts, with the classes only they used (`aha-features__band`, `__frame--video`, `__play`, `__checks`, `__check`, `__photo--16x9` and others); the page now lists nine layouts (#331).
