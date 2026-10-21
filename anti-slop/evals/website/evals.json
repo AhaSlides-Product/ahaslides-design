@@ -2,7 +2,7 @@
   "surface": "website",
   "judgedAgainst": "anti-slop/criteria.json surfaces.website",
   "portedFrom": null,
-  "authoredNote": "DS-authored with the website surface (W1 to W13) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "authoredNote": "DS-authored with the website surface (W1 to W14) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
   "evals": [
     {
       "id": 1,
@@ -35,7 +35,8 @@
           "W9": "PASS",
           "W11": "PASS",
           "W12": "PASS",
-          "W13": "PASS"
+          "W13": "PASS",
+          "W14": "PASS"
         }
       },
       "source": {
@@ -70,7 +71,8 @@
           "W7": "PASS",
           "W11": "PASS",
           "W12": "PASS",
-          "W13": "PASS"
+          "W13": "PASS",
+          "W14": "PASS"
         }
       },
       "source": {
@@ -455,6 +457,36 @@
         "criteria": {
           "W1": "PASS",
           "W13": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 16,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w14-mixed-type-ramp/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The page restyles text roles section by section: the Testimonials h2 is in Nunito (--aha-font-display) while every other h2 is Plus Jakarta Sans, the FAQ h2 drops to --aha-size-h3 so h2 sizes differ, the Quote cards text sits at --aha-size-h4 semibold (a heading size), and the icon-grid item titles are --aha-size-h4 regular while every other item title is --aha-size-xl semibold.",
+      "expected_output": "The page restyles text roles section by section: the Testimonials h2 is in Nunito (--aha-font-display) while every other h2 is Plus Jakarta Sans, the FAQ h2 drops to --aha-size-h3 so h2 sizes differ, the Quote cards text sits at --aha-size-h4 semibold (a heading size), and the icon-grid item titles are --aha-size-h4 regular while every other item title is --aha-size-xl semibold. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W14 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W14": "FAIL"
         }
       },
       "source": {
