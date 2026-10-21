@@ -22,11 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.301.0 — 2026-10-21
+## 0.302.0 — 2026-10-21
 ### Added
-- Question list: header slots keyed by question id — `before-<id>` and `after-<id>` either side of the prompt, `marker-<id>` in place of the number — and a per-question `status: { message, tone }` supporting line (FieldError) under the header (#PR).
+- Question list: header slots keyed by question id — `before-<id>` and `after-<id>` either side of the prompt, `marker-<id>` in place of the number — and a per-question `status: { message, tone }` supporting line (FieldError) under the header (#325).
 ### Changed
-- Question list: the header prompt wraps to at most two lines, and the delete is OptionRow's — secondary small icon Button on the card's top-right corner, shown only on hover and not a Tab stop (was an always-visible tertiary trash).
+- Question list: the header prompt wraps to at most two lines, and the delete is OptionRow's — secondary small icon Button on the card's top-right corner, shown only on hover and not a Tab stop (was an always-visible tertiary trash) (#325).
 
 ## 0.300.0 — 2026-10-21
 ### Added
