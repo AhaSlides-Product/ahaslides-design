@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.289.0 — 2026-10-21
 ### Changed
-- Icon library: `system-reveal-pinwheel` and `system-reveal-vortex` are redrawn as Bloom wedge (Variant 2), picked from a proposal because the previous pair looked identical to each other at 16–24px and read denser than Bloom, Radar sweep and Crystallise in the same row. Pinwheel is a solid hub with four arrows pointing outward and a clockwise arc above; Vortex is an open 270° clockwise ring with three arrows pointing inward to a centre dot. Names, wrapper attributes and colour are unchanged. The redraw no longer reads as near-identical (about 31% overlap, under the 86% near-duplicate threshold), so `icon-duplicates.intentional.json`'s Pinwheel/Vortex exemption is removed — the pair stands on its own in the near-duplicate gate like every other icon. (#PR)
+- Icon library: `system-reveal-pinwheel` and `system-reveal-vortex` are redrawn as Bloom wedge (Variant 2), picked from a proposal because the previous pair looked identical to each other at 16–24px and read denser than Bloom, Radar sweep and Crystallise in the same row. Pinwheel is a solid hub with four arrows pointing outward and a clockwise arc above; Vortex is an open 270° clockwise ring with three arrows pointing inward to a centre dot. Names, wrapper attributes and colour are unchanged. The redraw no longer reads as near-identical (about 31% overlap, under the 86% near-duplicate threshold), so `icon-duplicates.intentional.json`'s Pinwheel/Vortex exemption is removed — the pair stands on its own in the near-duplicate gate like every other icon. (#314)
 
 ## 0.286.0 — 2026-10-20
 ### Changed
