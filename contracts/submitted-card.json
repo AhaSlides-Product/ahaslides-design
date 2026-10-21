@@ -5,6 +5,7 @@
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-submitted-card",
+  "environment": ["audience"],
   "summary": "The calm \"submitted, waiting for the reveal\" card: the frosted deck surface with the ink hairline, a round pip (or the picked option's image), a heading and a muted subtitle.",
   "highlights": [
     "Post-submit waiting state",
@@ -29,7 +30,7 @@
     },
     {
       "label": "Pip",
-      "value": "a 24px glyph in the muted ink, 65% (system-check-circle by default), no background; or a 96px image, radius 8"
+      "value": "a 32px glyph in the muted ink, 65% (system-check-circle by default), no background; or a 96px image, radius 8"
     },
     {
       "label": "Text",
@@ -122,7 +123,7 @@
       "padding": "20px",
       "ink": "rgb(26, 26, 26)",
       "headingSize": "16px",
-      "pip": "24px"
+      "pip": "32px"
     }
   }
 }
