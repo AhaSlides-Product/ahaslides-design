@@ -2,7 +2,7 @@
   "surface": "website",
   "judgedAgainst": "anti-slop/criteria.json surfaces.website",
   "portedFrom": null,
-  "authoredNote": "DS-authored with the website surface (W1 to W9) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "authoredNote": "DS-authored with the website surface (W1 to W13) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
   "evals": [
     {
       "id": 1,
@@ -32,7 +32,10 @@
           "W5": "PASS",
           "W6": "PASS",
           "W7": "PASS",
-          "W9": "PASS"
+          "W9": "PASS",
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS"
         }
       },
       "source": {
@@ -64,7 +67,10 @@
           "W1": "PASS",
           "W4": "PASS",
           "W5": "PASS",
-          "W7": "PASS"
+          "W7": "PASS",
+          "W11": "PASS",
+          "W12": "PASS",
+          "W13": "PASS"
         }
       },
       "source": {
@@ -359,6 +365,96 @@
         "overall": "NEEDS_FIX",
         "criteria": {
           "W5": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 13,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w11-unbalanced-grid/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The icon grid holds 2 items but the page forces 3 columns, so the third slot is empty and the pair sits left (the grid-override in the page style).",
+      "expected_output": "The icon grid holds 2 items but the page forces 3 columns, so the third slot is empty and the pair sits left (the grid-override in the page style). Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W11 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W11": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 14,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w12-layout-fatigue/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Three alternating-row Features sections run back to back, 6 zig-zag rows in a run, and the same layout repeats between neighbours.",
+      "expected_output": "Three alternating-row Features sections run back to back, 6 zig-zag rows in a run, and the same layout repeats between neighbours. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W12 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W12": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 15,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w13-old-testimonials-faq/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "The testimonials band is the retired centred-01 copy and the FAQ is a hand-built list without the aha-faq__trigger buttons, aria-expanded or plus/minus icon, not the current DS sections.",
+      "expected_output": "The testimonials band is the retired centred-01 copy and the FAQ is a hand-built list without the aha-faq__trigger buttons, aria-expanded or plus/minus icon, not the current DS sections. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W13 is marked FAIL"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W1": "PASS",
+          "W13": "FAIL"
         }
       },
       "source": {

@@ -3,7 +3,6 @@
  "missing": [
   "contract:aha-loader",
   "contract:answer-list",
-  "contract:answer-option",
   "contract:audience-chip",
   "contract:audience-image-upload",
   "contract:audience-submit",
@@ -35,7 +34,6 @@
   "contract:progress",
   "contract:progressbar",
   "contract:qr-code",
-  "contract:rank-list",
   "contract:rate",
   "contract:result",
   "contract:scale-slider",
@@ -49,7 +47,6 @@
   "contract:status-icon",
   "contract:stepper",
   "contract:steps",
-  "contract:submitted-card",
   "contract:swipe-card",
   "contract:switch",
   "contract:table",

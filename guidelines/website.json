@@ -7,8 +7,8 @@
   "environment": ["web"],
   "summary": "How a whole AhaSlides website page is put together from the DS Marketing sections: every band is a shipped section, the sections keep the spacing and widths they ship with, the page has one H1 and one primary action per section, backgrounds follow the colour rules, imagery is real, the header is the product lockup, and the page is checked at three widths with only gentle motion. Each rule names the section, token or rule it comes from and the website judge criterion that checks it.",
   "highlights": [
-    "Every band is a DS Marketing section; a missing one is a DSN ticket, never hand-rolled",
-    "Sections keep their shipped rhythm: 96/64 px padding on desktop, 48/24 at 767 px, 32/16 at 479 px",
+    "Every band is a DS Marketing section; a missing one is a DSN ticket, never hand-rolled; Testimonials and FAQ are pasted unchanged",
+    "Sections keep their shipped rhythm: 96/64 px padding on desktop, 48/24 at 767 px, 32/16 at 479 px; grids are balanced and layouts vary, at most 3 alternating rows",
     "One H1, one primary action per section, the hero's call to action repeated at the end",
     "Checked at 1440, 768 and 375 px with no sideways scroll; motion is a gentle reveal at most"
   ],
@@ -17,7 +17,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/website.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: website)",
-    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W9). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
+    "note": "The enforceable criteria are anti-slop/criteria.json surfaces.website (W1 to W13). Each rule below names its source (`source`): a Marketing section, a token or a colour rule."
   },
   "surfaces": ["landing page", "pricing page", "blog and article page", "careers page", "campaign page", "help article", "sign-up or upgrade page"],
   "surfaceChoice": [
@@ -67,7 +67,10 @@
     { "rule": "Use the Navigation section for the site header, so the brand is `<aha-product-lockup>`; the app-shell guideline's C1 owns that rule and is not repeated here.", "ref": ["W7"], "source": ["marketing/navigation.json", "guidelines/app-shell.json C1"] },
     { "rule": "Check the page at 1440, 768 and 375 px: no horizontal scroll at any width, multi-column sections stack to one column, and a stacked image sits on the same side of its text (above or below) in every section of the page. Calls to action keep the xl button height the sections ship; nothing you can tap is smaller than 24 by 24 px.", "ref": ["W8"], "source": ["the sections' 991, 767 and 479 px container rules", "--aha-control-height-button-xl", "AGENTS.md responsive rule (24 px target)"] },
     { "rule": "Keep motion to what the sections ship: hover transitions and at most a gentle fade or slide on reveal, timed with `--aha-motion-*` and `--aha-ease-*`, and none under `prefers-reduced-motion: reduce`. No parallax, no scroll-jacking, no autoplaying carousel or video; the Logos strip's shipped loop, which stops under reduced motion, is the one continuous motion allowed.", "ref": ["W9"], "source": ["marketing/footer-banner.json reveal", "every section's prefers-reduced-motion block", "marketing/features.json — the video variant never autoplays", "marketing/testimonials.json — carousels never autoplay", "marketing/logos.json — the loop and its reduced-motion stop"] },
-    { "rule": "Decide each section as text-led or image-led from its job. Image-led means readers compare the pictures (themes, templates, slide types): use the Cards `aha-marketing-cards__grid--image-led` layout, at most 2 columns on desktop so every image is at least half the content width, 4 items as 2 by 2, an odd count with the first item as a wide feature card (image two thirds, title beside it), and 1 column below 768 px. Text-led means the words carry it (steps, benefits, use cases) and keeps 3 or 4 columns. Cards inside a section are transparent and add no padding or max-width of their own.", "ref": ["W10"], "source": ["marketing/cards.json — the image-led grid and the transparent cards band", "marketing/features.json — `.aha-features .aha-marketing-cards__grid` drops the grid's padding and cap"] }
+    { "rule": "Decide each section as text-led or image-led from its job. Image-led means readers compare the pictures (themes, templates, slide types): use the Cards `aha-marketing-cards__grid--image-led` layout, at most 2 columns on desktop so every image is at least half the content width, 4 items as 2 by 2, an odd count with the first item as a wide feature card (image two thirds, title beside it), and 1 column below 768 px. Text-led means the words carry it (steps, benefits, use cases) and follows W11 for its column count. Cards inside a section are transparent and add no padding or max-width of their own.", "ref": ["W10"], "source": ["marketing/cards.json — the image-led grid and the transparent cards band", "marketing/features.json — `.aha-features .aha-marketing-cards__grid` drops the grid's padding and cap"] },
+    { "rule": "Balanced grids: a card or feature grid never leaves an empty column slot or sits off-centre. The column count follows the item count: 1 item is one centred column, 2 items are 2 columns, 3 are 3, 4 are 2 by 2, and 5 or more are 3 columns with a short last row centred. The Cards grid and the Features icon grid do this by default at 992 px and wider, and centre a lone last card at 768 to 991 px; never override `grid-template-columns` to leave a gap.", "ref": ["W11"], "source": ["marketing/cards.json — the balanced Cards grid", "marketing/features.json — the balanced Features icon grid"] },
+    { "rule": "No layout fatigue: a section shows at most 3 alternating image/text rows, and two alternating-row sections never sit back to back (a fourth row or a second alternating section becomes Cards, an icon grid or Tabs). Numbered steps use the Steps row (Cards `aha-marketing-cards__grid--row`), never alternating rows. Consecutive sections change layout: no two neighbouring sections share the same layout.", "ref": ["W12"], "source": ["marketing/cards.json — the Steps row (`aha-marketing-cards__grid--row`)", "marketing/features.json — the alternating, icon grid and Tabs layouts"] },
+    { "rule": "Testimonials and FAQ use the current DS sections verbatim: paste a Testimonials layout (Simple left aligned, Case study cards or Quote cards) and the FAQ section (marketing/faq.json) with their markup and CSS unchanged, changing only copy and images. Never a hand-built, older or look-alike copy (`aha-testimonials--centered-01`, an FAQ without `aha-faq__trigger` buttons with `aria-expanded` and the plus/minus icon, a hand-made accordion).", "ref": ["W13"], "source": ["marketing/testimonials.json — the three layouts", "marketing/faq.json — the FAQ section"] }
   ],
   "reuse": null,
   "reuseNote": "Doc-only pattern: the DS ships the sections, not a page wrapper. A page is the sections' snippets pasted in order on one page that loads variables.css once; this pattern is the conventions plus the binary criteria (anti-slop/criteria.json, surfaces.website) a builder self-judges against.",
@@ -81,6 +84,9 @@
     { "label": "the site header is the Navigation section with <aha-product-lockup>", "verdict": "consumer self-judges (W7)" },
     { "label": "no horizontal scroll at 1440, 768 and 375 px; consistent stacking; targets at least 24 px", "verdict": "consumer self-judges (W8)" },
     { "label": "motion only on hover and a gentle reveal, off under reduced motion; no parallax or autoplay", "verdict": "consumer self-judges (W9)" },
-    { "label": "in an image-led section, every image is at least half the content width and uncropped", "verdict": "consumer self-judges (W10)" }
+    { "label": "in an image-led section, every image is at least half the content width and uncropped", "verdict": "consumer self-judges (W10)" },
+    { "label": "card and feature grids have no empty slot and are centred; column count follows the item count", "verdict": "consumer self-judges (W11)" },
+    { "label": "at most 3 alternating rows in a section, never two alternating sections in a row, steps use the Steps row, neighbouring sections change layout", "verdict": "consumer self-judges (W12)" },
+    { "label": "Testimonials and FAQ are the current DS sections, pasted unchanged", "verdict": "consumer self-judges (W13)" }
   ]
 }

@@ -222,7 +222,7 @@
       "status": "available"
     }
   ],
-  "entryExtras": ["counted-input", "field-error", "loader", "select"],
+  "entryExtras": ["bottom-sheet", "counted-input", "field-error", "loader", "select"],
   "componentBacklog": "composedOf marks 7 items this pattern leans on that the DS does not ship — the four semantic-state tokens (colorSuccess/Error/Warning/Info, which plugins bundle from the design-system package rather than read as --aha-* vars because no host CSS var crosses the iframe), plus toast, modal and skeleton (the first two are painted by the host outside the iframe). Radio, slider, textarea and the shared instruction now ship as the audience elements. Per the charter, a pattern leaning on a missing component is a signal to add it HERE.",
   "rules": [
     {
@@ -584,6 +584,13 @@
       "ref": [
         "§7",
         "§9"
+      ]
+    },
+    {
+      "id": "close-button",
+      "rule": "A modal, sheet or overlay on the audience phone closes with the DS close ✕: <aha-button variant=\"tertiary-deck\" size=\"md\" icon-only aria-label=\"Close\"> with the 16px system-x (36 x 36 drawn, an invisible 44 x 44 hit area; add `sheet` on a white surface for the muted grey glyph). Never the 48px touch icon-only for a ✕, and never a hand-rolled one; actions (Skip, Back, Remove) stay size touch.",
+      "ref": [
+        "§8"
       ]
     },
     {

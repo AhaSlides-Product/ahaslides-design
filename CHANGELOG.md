@@ -22,13 +22,68 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.298.0 — 2026-10-21
+## 0.310.0 — 2026-10-21
 ### Added
+- Websites → Website composition: three global rules and criteria, W11 balanced grids (a card or feature grid never leaves an empty column slot; the column count follows the item count), W12 no layout fatigue (at most 3 alternating rows in a section, never two alternating sections back to back, steps use the Steps row, neighbouring sections change layout) and W13 Testimonials and FAQ are the current DS sections pasted unchanged. Three new failing eval pages and `tests/website-composition.test.mjs`; the pass pages now use the current Testimonials and FAQ. Revert: remove W11 to W13, the three eval pages and the grid block at the end of the Cards and Features CSS; no existing class changed (#321)
+- Marketing → Cards and Features: the Cards grid and the Features icon grid balance by item count with no modifier. At 992px and wider: 1 item is one centred column, 2 items 2 columns, 4 items 2 by 2, 5 or more 3 columns with the short last row centred; at 768 to 991px a lone last card is centred. The image-led grid and the Steps row are untouched. Environment: marketing-web
 - Marketing → Features and Cards: `aha-features__photo--fill` and `aha-marketing-card__media--fill`. The image fills its container edge to edge at its own ratio (the slot takes the image's ratio), so a same-size image needs no crop and no frame. New Features layout "Alternating with mixed-size screenshots", Cards snippets "Use-case row, images fill" and "Mixed-size row with a Vivid Pink frame", and two placeholders, `marketing-assets/image-placeholder-wide.svg` (16:9) and `image-placeholder-tall.svg` (3:4). Environment: marketing-web (#321)
 
 ### Changed
 - Websites → Website composition: rule and criterion W5 say the section directly after the Logos strip (the customer logos band) is always full white, never the pale pink accent or another tint.
 - Websites → Website composition: rule and criterion W6 use the Vivid Pink frame for any portrait image (taller than wide), even alone or when every image is the same size, and when a section holds more than one image of differing size or ratio; a landscape or square image, alone or among others of the same size, fills its container with no frame. New Features layout "Alternating with portrait screenshots" and Cards snippet "Portrait pictures, framed". Never crop a screenshot and one ratio per section stay. The "Alternating with screenshots" layout and the image-led Cards grids now show fill; the pink-frame examples show mixed sizes. Revert: remove the `--fill` classes, the new layout and snippets and restore the previous W6 text; no existing class changed
+
+## 0.309.0 — 2026-10-21
+### Added
+- `aha-option-row`: the drag handle is now an opt-in keyboard-operable reorder grip. Set `reorderable` (alongside `orderable`, on a non-`disabled` row) to make the handle a tab stop that emits composed `reorder-move` (`detail.direction` "up"/"down") on ArrowUp/ArrowDown, `reorder-grab` (`detail.{pointerId,clientX,clientY}`) on pointerdown, and `reorder-activate` (no detail) on Enter/Space; the row never reorders itself — a host reorders its list and calls the new `focusHandle()` to restore focus after moving the row element. Without `reorderable` the handle is unchanged (decorative, no tab stop, no events). (#327)
+
+## 0.308.0 — 2026-10-21
+### Added
+- Question list: header slots keyed by question id — `start-<id>`, `marker-<id>` (in place of the number), `before-<id>`, `after-<id>` and `end-<id>`, each taking any number of children — and a per-question `status: { message, tone }` supporting line (FieldError) under the header, with a warning or error border on the card (#325).
+### Changed
+- Question list: the header prompt wraps to at most two lines, and the delete is OptionRow's — secondary small icon Button on the card's top-right corner, revealed on hover or keyboard focus and a Tab stop with the DS focus ring (was an always-visible tertiary trash) (#325).
+- Option row: the delete is now a Tab stop (after the field, skipped when disabled), revealed when the row or the delete has keyboard focus; hover look and Backspace-when-empty unchanged (#325).
+
+## 0.307.0 — 2026-10-21
+### Added
+- `<aha-bottom-sheet>`: an audience sheet that slides up to show one option in full, picture on top and the whole text below. It scrolls when long and closes on the backdrop, the close button, Escape and a swipe down; focus is trapped inside and returned to the opener. The close button is the audience close button (tertiary-deck icon-only md), which needs #317 to draw as designed (#319)
+- `<aha-answer-option expandable>`: a long-text variant. The label clamps to 4 lines with More (a Button link in the deck ink) inside the card, the picture stays on the left like a default row and shows a dark overlay with an expand arrow on hover, and a one-line option lines up with a default row. More and the picture emit `expand` (#319)
+
+- `<aha-rank-list expandable>`: the same long-text treatment for ranking rows: clamped label, More, picture on the left with the expand overlay, and an `expand` event (`detail.id`, `detail.source`) to open `<aha-bottom-sheet>`. Docs show a long option with a picture (#319)
+
+### Changed
+- `<aha-bottom-sheet>`: the top corners use the 8px radius (`--aha-radius-default`), and a new `contained` attribute slides the sheet up inside the nearest positioned ancestor instead of the viewport (#319)
+- `<aha-answer-list expandable>`: forwards `expandable` to every row and re-emits `expand` with `detail.id` and `detail.source`, so the list gets More and the picture tap like a single `<aha-answer-option>` (#319)
+- Audience library: the AnswerOption, AnswerOption List, Bottom sheet and DraggableOptions demos show the long-text rows inside a 360 by 640 phone frame; More or the picture slides the sheet up from the bottom of that frame over a backdrop (#319)
+- Audience library: Bottom sheet is an Audience library entry only (no standalone component page); AnswerOption and DraggableOptions show the long-text and picture case beside their demos, with More and the picture opening the sheet; the BottomSheet demo shows a picture on top (#319)
+
+### Fixed
+- `<aha-rank-list>`: the end padding of a row is halved to 8px, so the drag handle sits closer to the edge (#319)
+- Audience library: the light and dark deck columns shrink with the card, so a phone-frame demo is no longer cut off on the dark side (#319)
+- `<aha-answer-option>`: the revealed tick and cross, and the correct / incorrect ring, use `--aha-answer-correct` and `--aha-answer-wrong` instead of the ink, so they read in light and dark decks (#319)
+- `<aha-answer-option>` and `<aha-rank-list>`: the picture always fills its slot (cover, no slot background) whatever its ratio; long rank rows get equal top and bottom padding; the rank order badge steps down from 28px to 24px (12px numeral) (#319)
+- `<aha-answer-option>` and `<aha-rank-list>`: a long text option centres its control, picture and badge vertically in the card instead of pinning them to the top (#319)
+- `<aha-chart>`: the hover panel that shows a full label is wider (up to 480px or 90% of the chart) and now stays inside the viewport or iframe on every side, flipping above or below the pointer and shifting sideways (#319)
+
+## 0.306.0 — 2026-10-21
+### Added
+- Audience → Close: a ✕ for a modal, sheet or overlay on the audience phone, `<aha-button variant="tertiary-deck" size="md" icon-only aria-label="Close">` with the 16px `system-x`. Drawn 36 × 36 (the foundation md icon-only square) instead of the 48 × 48 touch icon-only, with an invisible 44 × 44 hit area so the touch floor still holds; no other button changes. New `sheet` attribute for a white modal or sheet: the glyph is muted grey (`--aha-icon-muted`, 3.45:1 on white) and text-default on hover and press, because the deck ink can be white. Actions (Skip, Back, Remove) stay size touch. (#317)
+### Fixed
+- Audience → SubmittedCard: the check pip no longer sits on a grey square (the 10% deck-ink wash behind the glyph is removed), and the check is 32px, the size of the WaitingForHost hourglass. (#317)
+
+## 0.303.0 — 2026-10-21
+### Added
+- Marketing → Testimonials, Pricing, Numbers, Header, FAQ, Logos and Hero: every section now has the same White / Accent background switch as Features. Add the section's `--accent` class (for example `aha-testimonials--accent`, or the layout's own `--accent` class on a Header layout) to lay the pale pink bgAccent surface over white. The pale pink icon squares and picture card in Numbers and the progress track in Hero turn white on Accent so they stay visible; plan cards, tables and testimonial cards stay white. The Hero Pink, Hero Pale Pink and brand Header layouts, the Pricing plan card styles gallery and the Numbers brand band have no switch because they are already coloured surfaces. Footer, Footer banner, Cards and Navigation are not full-width sections on a white page, so they have none. (#322)
+
+### Changed
+- Marketing → Testimonials: the Quote cards layout is now white by default, with the pale pink band as its Accent state, like every other section.
+
+## 0.300.1 — 2026-10-21
+### Changed
+- Marketing → Cards: in the Steps row the optional 3:2 image now sits below the text (number, title, sentence, then image) ([#324](https://github.com/AhaSlides-Product/ahaslides-design/pull/324)).
+
+## 0.300.0 — 2026-10-21
+### Added
+- Marketing → Cards: a steps row. `aha-marketing-cards__grid--row` lays three Step cards in one horizontal row (three across, `--aha-space-24` gap, one column below 768px, no two-column step), with a three-card example (Build your slides, Share the code, See every answer) beside the Step card. Each card in the row takes an optional 3:2 image above the number (an `<img>` in the card media block, filling it); drop the block for a text-only row. The Step card and every other card are unchanged ([#323](https://github.com/AhaSlides-Product/ahaslides-design/pull/323)).
 
 ## 0.294.1 — 2026-10-21
 ### Fixed
