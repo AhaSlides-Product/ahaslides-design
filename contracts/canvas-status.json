@@ -13,34 +13,23 @@
       "defineAhaCanvasStatus"
     ]
   },
-  "summary": "The status line and response count on a slide canvas (Waiting for answers… · 8 of 24 answered) as one component: free-floating deck text, no fill on any deck.",
+  "summary": "The status line on a slide canvas (Waiting for answers…) as one component: free-floating deck text, no fill on any deck.",
   "highlights": [
-    "Status line over the response count, centred",
+    "Status line, centred",
     "Free-floating text in the deck ink, no backing even on photo decks",
-    "A polite live region that announces each new count once"
+    "A polite live region"
   ],
-  "lead": "ONE custom element — <aha-canvas-status> — for the waiting state many slide types show on the presenter canvas before the result: a status line in the deck ink at 76% and, under it, a people glyph and \"8 of 24 answered\" in the deck ink. It carries no fill or stroke, so it sits straight on the deck, a photo deck included. Text and counts are attributes; pass translated strings in the product.",
+  "lead": "ONE custom element — <aha-canvas-status> — for the waiting state many slide types show on the presenter canvas before the result: a status line in the deck ink at 76%. It carries no fill or stroke, so it sits straight on the deck, a photo deck included. The text is an attribute; pass a translated string in the product. The number of responses is not part of it.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
   "tokensUsed": [
     "text-default",
-    "space-4",
-    "space-12",
     "font-product",
-    "weight-regular",
-    "weight-semibold"
+    "weight-regular"
   ],
   "spec": [
     {
       "label": "Status line",
       "value": "18px / 400 (the canvas body size), --aha-deck-ink-secondary (the deck ink at 76%); `text=\"\"` hides it"
-    },
-    {
-      "label": "Count",
-      "value": "system-users 24 · 4px · \"8 of 24 answered\" 20px / 600, tabular figures, in the deck ink; hidden while `answered` is unset"
-    },
-    {
-      "label": "Layout",
-      "value": "column, centred, 12px between line and count"
     },
     {
       "label": "Backing",
@@ -53,43 +42,25 @@
       "type": "string",
       "default": "\"Waiting for answers…\"",
       "desc": "The status line; an empty string hides it"
-    },
-    {
-      "name": "answered",
-      "type": "number",
-      "default": "—",
-      "desc": "How many answered; unset hides the count"
-    },
-    {
-      "name": "total",
-      "type": "number",
-      "default": "—",
-      "desc": "How many can answer; with it the count reads \"8 of 24 answered\", without it \"8 answered\""
-    },
-    {
-      "name": "count-text",
-      "type": "string",
-      "default": "built from answered / total (English)",
-      "desc": "Replaces the count sentence; pass a translated string in the product"
     }
   ],
   "opinion": {
     "whenToUse": [
       {
         "what": "Canvas status",
-        "when": "while answers come in on the presenter canvas: what is happening and how many answered"
+        "when": "while answers come in on the presenter canvas: what is happening"
       },
       {
         "what": "Canvas count",
         "when": "once there is a result to count: correct / incorrect, or answered next to the result"
       }
     ],
-    "note": "Keep it to the line and the count. It is text on the deck, so never put it in a card or behind a scrim: on a photo deck the deck's own text treatment carries it, as it carries the slide title."
+    "note": "Keep it to the line. It is text on the deck, so never put it in a card or behind a scrim: on a photo deck the deck's own text treatment carries it, as it carries the slide title."
   },
   "a11y": {
-    "role": "role=\"status\" with aria-live=\"polite\"; the glyph is decorative",
+    "role": "role=\"status\" with aria-live=\"polite\"",
     "keyboard": "static (nothing to focus)",
-    "note": "Updates change the text of persistent nodes, so a screen reader hears each new count once and nothing is re-announced on unrelated renders."
+    "note": "Updates change the text of a persistent node, so a screen reader hears each new line once and nothing is re-announced on unrelated renders."
   },
   "surfaces": [
     "presenter"
@@ -119,18 +90,15 @@
   "preview": "canvas-status.preview.html",
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI. The probe sits on a white stage with no deck applied, so every value is its DS fallback.",
-    "ready": "!!(document.querySelector('aha-canvas-status[data-probe]') && document.querySelector('aha-canvas-status[data-probe]').shadowRoot && document.querySelector('aha-canvas-status[data-probe]').shadowRoot.querySelector('.count-text'))",
+    "ready": "!!(document.querySelector('aha-canvas-status[data-probe]') && document.querySelector('aha-canvas-status[data-probe]').shadowRoot && document.querySelector('aha-canvas-status[data-probe]').shadowRoot.querySelector('.line'))",
     "singleUI": true,
-    "measure": "(function(){var r=document.querySelector('aha-canvas-status[data-probe]').shadowRoot;var l=getComputedStyle(r.querySelector('.line'));var c=getComputedStyle(r.querySelector('.count'));var s=getComputedStyle(r.querySelector('.status'));return{lineSize:l.fontSize,countSize:c.fontSize,countWeight:c.fontWeight,countColor:c.color,gap:s.rowGap,background:s.backgroundColor,role:r.querySelector('.status').getAttribute('role'),countText:r.querySelector('.count-text').textContent};})()",
+    "measure": "(function(){var r=document.querySelector('aha-canvas-status[data-probe]').shadowRoot;var l=getComputedStyle(r.querySelector('.line'));var s=getComputedStyle(r.querySelector('.status'));return{lineSize:l.fontSize,lineWeight:l.fontWeight,background:s.backgroundColor,role:r.querySelector('.status').getAttribute('role'),lineText:r.querySelector('.line').textContent};})()",
     "expect": {
       "lineSize": "18px",
-      "countSize": "20px",
-      "countWeight": "600",
-      "countColor": "rgb(26, 26, 26)",
-      "gap": "12px",
+      "lineWeight": "400",
       "background": "rgba(0, 0, 0, 0)",
       "role": "status",
-      "countText": "8 of 24 answered"
+      "lineText": "Waiting for answers…"
     }
   },
   "selfCheck": [
@@ -139,41 +107,13 @@
       "verdict": "PASS"
     },
     {
-      "label": "line in the deck ink at 76%, count in the deck ink",
+      "label": "line in the deck ink at 76%",
       "verdict": "PASS"
     },
     {
-      "label": "polite live region updated on persistent nodes",
+      "label": "polite live region updated on a persistent node",
       "verdict": "PASS"
     }
   ],
-  "composedOf": [
-    {
-      "component": "aha-icon",
-      "status": "shipped"
-    },
-    {
-      "icon": "system-users",
-      "status": "shipped"
-    }
-  ],
-  "playground": {
-    "controls": [
-      {
-        "prop": "total",
-        "label": "Total",
-        "default": "24",
-        "options": [
-          {
-            "label": "24",
-            "value": "24"
-          },
-          {
-            "label": "None",
-            "value": "__remove__"
-          }
-        ]
-      }
-    ]
-  }
+  "composedOf": []
 }
