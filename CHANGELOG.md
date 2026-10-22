@@ -22,9 +22,9 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.344.0 — 2026-10-22
+## 0.349.0 — 2026-10-22
 ### Added
-- Website Social proofs page with one block, Badges: the award row from the live footer (three G2 Best Software 2026 badges and the Training Magazine Network Choice Awards 2026 badge, 80px wide, 12px gap, same links, labels and alt text), rendered from `marketing/data/social-proofs-badges.json` with unaltered committed images in `marketing/images/social-proofs/`, so a yearly refresh is a data edit. `generate.mjs` gains an opt-in per-layout `dataFile` (`expandMarketingLayoutData`), unused by every other page. Websites → Header: the G2 reviews row now shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. Layouts without `reviews` are unchanged. `marketing/footer.json` is unchanged. Revert: delete `marketing/social-proofs.json`, `marketing/data/social-proofs-badges.json` and `marketing/images/social-proofs/`; remove `expandMarketingLayoutData` and `bakeMarketingReviews` from `generate.mjs`; restore the `reviews` object and its highlight and guidance lines in `marketing/header.json` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)
+- Websites → Header: the G2 reviews row shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. The row is baked into the layout before the section html and css are composed, so the paste-and-run code, `header.md` and the agent feed carry it. Layouts without `reviews` are unchanged. Revert: restore the previous `reviews` object, highlight and guidance line in `marketing/header.json`, remove `bakeMarketingReviews` from `generate.mjs` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)
 
 ## 0.343.0 — 2026-10-22
 ### Added

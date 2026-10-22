@@ -3152,17 +3152,6 @@ function expandMarketingData(rawSection) {
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
   return { ...b, html: b.html.replaceAll('{{items}}', items) };
 }
-function expandMarketingLayoutData(rawSection) {
-  if (!rawSection.layouts?.some(layout => layout.dataFile)) return rawSection;
-  const layouts = rawSection.layouts.map(layout => {
-    if (!layout.dataFile) return layout;
-    const data = JSON.parse(read(join(MDIR, layout.dataFile)));
-    const items = data.items.map(item => layout.itemHtml.replace(/\{\{#(\w+)\}\}(.*?)\{\{\/\1\}\}/g, (_, key, inner) => item[key] ? inner : '').replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
-    const html = layout.html.replaceAll('{{items}}', items).replace(/\{\{(\w+)\}\}/g, (match, key) => typeof data[key] === 'string' ? esc(data[key]) : match);
-    return { ...layout, html };
-  });
-  return { ...rawSection, layouts };
-}
 const expandMarketingAssets = (b) => {
   if (!b.imagePath) return b;
   const resolve = (text) => typeof text === 'string' ? text.replaceAll('{{images}}', `${SITE}/marketing/${b.imagePath}`).replaceAll('{{logos}}', `${SITE}/logo`) : text;
@@ -3171,7 +3160,7 @@ const expandMarketingAssets = (b) => {
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingLayoutData).map(bakeMarketingReviews).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
