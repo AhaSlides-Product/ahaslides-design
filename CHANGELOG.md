@@ -22,9 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.354.2 — 2026-10-22
+## 0.356.0 — 2026-10-22
+### Removed
+- Canvas status: the response count line (people glyph and "8 of 24 answered") is gone, along with the `answered`, `total` and `count-text` attributes; `<aha-canvas-status>` now shows only the status line. Consumers passing those attributes no longer see a count. Docs section renamed "Status line"; contract, canvas guideline and snippets updated. (#356)
 ### Changed
-- Canvas count: the count is 16px / 600 (was 20px) and the rest steps down with it. The container is 40px tall (was 48), the verdict disc 20px with a 12px check or cross (was 24 with 16), the person glyph stays 16, padding is 8 on the disc side and 16 on the glyph side (was 12 / 20; `--aha-space-8` / `--aha-space-16` instead of the deck container padding), 6px inside a part and 8px between parts (was 8 / 12). Radius, fill, blur and deck inking are unchanged; no API change. (#PR)
+- Canvas count: the count is 16px / 600 (was 20px) and the rest steps down with it. The container is 40px tall (was 48), the verdict disc 20px with a 12px check or cross (was 24 with 16), the person glyph stays 16, padding is 8 on the disc side and 16 on the glyph side (was 12 / 20; `--aha-space-8` / `--aha-space-16` instead of the deck container padding), 6px inside a part and 8px between parts (was 8 / 12). Radius, fill, blur and deck inking are unchanged; no API change. (#356)
 
 ## 0.354.1 — 2026-10-22
 ### Fixed

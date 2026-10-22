@@ -44,28 +44,28 @@
       "snippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css\">\n<script type=\"module\">\n  import { applyCanvasDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';\n  applyCanvasDeck(document.documentElement, { ink: xprops.slide.textColour, image: Boolean(xprops.slide.backgroundImage) });\n</script>\n\n<aha-canvas-count correct=\"12\" wrong=\"3\"></aha-canvas-count>\n<aha-canvas-count answered=\"24\"></aha-canvas-count>"
     },
     {
-      "name": "Status line and response count",
+      "name": "Status line",
       "element": "<aha-canvas-status>",
       "kind": "In-canvas",
-      "what": "The waiting state as one component: the status line (\"Waiting for answers…\") over a people glyph and \"8 of 24 answered\". Free-floating deck text: no fill, stroke or scrim on any deck, photo decks included.",
-      "useWhen": "answers are still coming in on the presenter canvas and the slide shows what is happening and how many answered",
+      "what": "The waiting state as one component: the status line (\"Waiting for answers…\"). Free-floating deck text: no fill, stroke or scrim on any deck, photo decks included.",
+      "useWhen": "answers are still coming in on the presenter canvas and the slide shows what is happening",
       "notFor": "a result count (use the count above) and any text that needs a backing to read: fix the deck, not the component.",
       "rules": [
         {
           "label": "Type",
-          "value": "line 18px / 400 in `--aha-deck-ink-secondary` (the ink at 76%); count 20px / 600 in the deck ink with `system-users` 24; 12px between them, centred"
+          "value": "line 18px / 400 in `--aha-deck-ink-secondary` (the ink at 76%), centred"
         },
         {
           "label": "Text",
-          "value": "`text` replaces the line (`text=\"\"` hides it); `answered` + `total` build \"8 of 24 answered\", `count-text` replaces it with a translated sentence"
+          "value": "`text` replaces the line (`text=\"\"` hides it); pass a translated sentence in the product"
         },
         {
           "label": "Live region",
-          "value": "`role=\"status\"`, polite; each change updates persistent nodes, so the new count is announced once"
+          "value": "`role=\"status\"`, polite; each change updates persistent nodes, so a new line is announced once"
         }
       ],
-      "demo": "  <div class=\"canvas-decks\">\n    <div>\n      <div class=\"canvas-deck-name\">Light deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" style=\"background:var(--aha-white,#FFFFFF); color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-canvas-status answered=\"8\" total=\"24\" style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Dark deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-gray-100\" style=\"background:var(--aha-black,#1A1A1A); color:var(--aha-white,#FFFFFF)\">\n        <aha-canvas-status answered=\"8\" total=\"24\" style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" data-image style=\"background:var(--aha-white,#FFFFFF) url(../backgrounds/splash-centre-white-16x9.svg) center / cover; color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-canvas-status answered=\"8\" total=\"24\" style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-vivid-pink-100\" data-image style=\"background:var(--aha-vivid-pink-100,#E70E68) url(../backgrounds/splash-centre-pink-16x9.svg) center / cover; color:var(--aha-white,#FFFFFF)\">\n        <aha-canvas-status answered=\"8\" total=\"24\" style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n  </div>",
-      "snippet": "<aha-canvas-status answered=\"8\" total=\"24\"></aha-canvas-status>\n<aha-canvas-status text=\"Voting is open\" answered=\"8\" count-text=\"8 votes\"></aha-canvas-status>"
+      "demo": "  <div class=\"canvas-decks\">\n    <div>\n      <div class=\"canvas-deck-name\">Light deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" style=\"background:var(--aha-white,#FFFFFF); color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-canvas-status style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Dark deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-gray-100\" style=\"background:var(--aha-black,#1A1A1A); color:var(--aha-white,#FFFFFF)\">\n        <aha-canvas-status style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" data-image style=\"background:var(--aha-white,#FFFFFF) url(../backgrounds/splash-centre-white-16x9.svg) center / cover; color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-canvas-status style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-vivid-pink-100\" data-image style=\"background:var(--aha-vivid-pink-100,#E70E68) url(../backgrounds/splash-centre-pink-16x9.svg) center / cover; color:var(--aha-white,#FFFFFF)\">\n        <aha-canvas-status style=\"flex:1 1 auto\"></aha-canvas-status>\n      </div>\n    </div>\n  </div>",
+      "snippet": "<aha-canvas-status></aha-canvas-status>\n<aha-canvas-status text=\"Voting is open\"></aha-canvas-status>"
     },
     {
       "name": "Stepper",

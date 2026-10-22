@@ -68,7 +68,7 @@
     {
       "ref": "canvas-status",
       "as": "component",
-      "use": "the status line and response count (Waiting for answers… · 8 of 24 answered) — <aha-canvas-status answered total>, free-floating deck text with no fill on any deck",
+      "use": "the status line (Waiting for answers…) — <aha-canvas-status>, free-floating deck text with no fill on any deck",
       "status": "available"
     },
     {

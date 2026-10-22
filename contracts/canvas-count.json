@@ -94,7 +94,7 @@
       },
       {
         "what": "Canvas status",
-        "when": "while answers are still coming in: the status line and \"8 of 24 answered\" as free-floating text"
+        "when": "while answers are still coming in: the status line as free-floating text"
       }
     ],
     "note": "Never rebuild it as a hand-rolled pill: the deck container set keeps every count on every slide type the same size, radius and fill. Never colour the container with the accent; the only colour is the two verdict discs."
