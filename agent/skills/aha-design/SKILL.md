@@ -145,7 +145,10 @@ Read the list from the DS each time — surfaces get added.
 11. Actions on a slide type's audience phone are `<aha-audience-submit>` for the submit and
     `<aha-button size="touch">` in `primary`, `secondary-deck` or `tertiary-deck` for the rest, from
     `lib/audience.js`, never a raw `<button>`. A modal or sheet closes with the ✕ `<aha-button variant="tertiary-deck" size="md" icon-only>` (36px drawn, 44px hit area, `sheet` on white), not the 48px icon-only. Detail in the `audience` guideline.
-12. Any element you hand-build on the slide canvas (or the audience phone) calls `applyCanvasDeck`
+12. Every button is `<aha-button>`, header and CTA buttons in vendored marketing blocks included
+    (`href` for a link, `type="submit"` in a form). Never restyle, re-colour or re-hover a DS
+    component; only layout may be set on it. The `hand-rolled-button` lint enforces it.
+13. Any element you hand-build on the slide canvas (or the audience phone) calls `applyCanvasDeck`
     (canvas) or `applyDeck` (audience) once on the root and paints only with `--aha-deck-*` tokens,
     plus `--aha-answer-correct` / `--aha-answer-wrong` on a verdict mark. Never mix your own shade of
     `xprops.slide.textColour` (`color-mix`, an opacity on the ink), never use a product colour token

@@ -323,7 +323,8 @@
       "source": [
         "marketing/testimonials.json — person, person-text, quote and the quote-cards subgrid"
       ]
-    }
+    },
+    { "rule": "Draw every button with `<aha-button>`: the Navigation Log in (secondary) and Sign up (primary), the Join button and every header, section and footer banner call to action, with `href` for a link and `type=\"submit\"` in a form, as the sections ship them. Never restyle, re-colour or re-hover a DS component: the page's own CSS sets only layout on `<aha-button>` (margin, flex, width, order, align-self), never a colour, fill, border, shadow, height or state rule, `::part` or `--aha-button-*` token. A button look the DS lacks is a gap to raise, not CSS to write. `screen-lint` hard-fails it as `hand-rolled-button`.", "ref": ["W16"], "source": ["contracts/button.json — href and type", "marketing/navigation.json", "lib/screen-lint-button.js"] }
   ],
   "reuse": null,
   "reuseNote": "Doc-only pattern: the DS ships the sections, not a page wrapper. A page is the sections' snippets pasted in order on one page that loads variables.css once; this pattern is the conventions plus the binary criteria (anti-slop/criteria.json, surfaces.website) a builder self-judges against.",
@@ -399,6 +400,7 @@
     {
       "label": "testimonial avatar, name, role and quote left aligned; author rows on one baseline across cards",
       "verdict": "consumer self-judges (W19)"
-    }
+    },
+    { "label": "every button is <aha-button> with no colour, size or hover CSS of its own", "verdict": "screen-lint hand-rolled-button (W16)" }
   ]
 }
