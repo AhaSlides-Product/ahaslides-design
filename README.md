@@ -100,7 +100,7 @@ It's **additive** — bundled apps should keep importing per-element (above) so 
 tree-shake out; `all.js` intentionally pulls the whole set.
 
 Only need one surface? Each has its own entry with just the elements it uses (plus the shared controls such as
-`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`).
+`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`). A whole website page is checked with `node screen-lint.mjs --surface=website <files>`: the product rules, the Marketing sections' own `min-width` breakpoints accepted in `@container`/`@media` conditions, a second `<h1>` and an `<img>` without alt hard-fail.
 In npm: `@ahaslides-product/design/audience`, `/settings`, `/canvas`.
 
 ### Agent feeds — hosted, self-describing
