@@ -90,17 +90,9 @@
     {
       "slug": "integration",
       "name": "Integration card",
-      "summary": "A partner tool in a listing of integrations: its logo in its own colours in a white tile with a grey border (32px), the name beside it, and one line about what it does with AhaSlides. The whole card is the link.",
-      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--integration\">\n  <div class=\"aha-marketing-card__body\">\n    <div class=\"aha-marketing-card__app\">\n      <span class=\"aha-marketing-card__logo\"><img src=\"https://design.ahaslides.io/logo/original/slack.svg\" alt=\"\" width=\"24\" height=\"24\"></span>\n      <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#integration\" target=\"_blank\" rel=\"noopener\">Slack<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n    </div>\n    <p class=\"aha-marketing-card__text\">Share a live poll link in any channel and see results without leaving the thread.</p>\n  </div>\n</article>",
-      "css": ".aha-marketing-card__app{display:flex;align-items:center;gap:var(--aha-space-12)}\n.aha-marketing-card__logo{\n  display:inline-flex;align-items:center;justify-content:center;flex:none;\n  width:var(--aha-space-32);height:var(--aha-space-32);\n  border:1px solid var(--aha-border-strong);border-radius:var(--aha-radius-xs);\n  background:var(--aha-white);\n}\n.aha-marketing-card__logo img{display:block;width:var(--aha-space-24);height:var(--aha-space-24);object-fit:contain}\n.aha-marketing-card__app .aha-marketing-card__title{flex:1;min-width:0}\n"
-    },
-    {
-      "slug": "integration-coming-soon",
-      "name": "Integration card, not available yet",
-      "summary": "A tool that is not available yet: the greyscale logo in the same tile, the name beside it and a Coming soon tag (<aha-tag color=\"primary\" bordered>). Nothing to click, so the card is static.",
-      "html": "<article class=\"aha-marketing-card aha-marketing-card--integration\">\n  <div class=\"aha-marketing-card__body\">\n    <div class=\"aha-marketing-card__app\">\n      <span class=\"aha-marketing-card__logo\"><img src=\"https://design.ahaslides.io/logo/microsoft-teams.svg\" alt=\"\" width=\"24\" height=\"24\"></span>\n      <h3 class=\"aha-marketing-card__title\">Microsoft Teams</h3>\n      <aha-tag color=\"primary\" bordered>Coming soon</aha-tag>\n    </div>\n    <p class=\"aha-marketing-card__text\">Run a poll from a Teams meeting without leaving the call.</p>\n  </div>\n</article>",
-      "css": ".aha-marketing-card__app{display:flex;align-items:center;gap:var(--aha-space-12)}\n.aha-marketing-card__logo{\n  display:inline-flex;align-items:center;justify-content:center;flex:none;\n  width:var(--aha-space-32);height:var(--aha-space-32);\n  border:1px solid var(--aha-border-strong);border-radius:var(--aha-radius-xs);\n  background:var(--aha-white);\n}\n.aha-marketing-card__logo img{display:block;width:var(--aha-space-24);height:var(--aha-space-24);object-fit:contain}\n.aha-marketing-card__app .aha-marketing-card__title{flex:1;min-width:0}\n",
-      "demo": true
+      "summary": "A partner tool: logo, name and one line about what it does with AhaSlides. The whole card is the link.",
+      "html": "<article class=\"aha-marketing-card aha-marketing-card--linked aha-marketing-card--integration\">\n  <div class=\"aha-marketing-card__body\">\n    <img class=\"aha-marketing-card__logo\" src=\"https://design.ahaslides.io/logo/slack.svg\" alt=\"\" width=\"40\" height=\"40\">\n    <h3 class=\"aha-marketing-card__title\"><a class=\"aha-marketing-card__link\" href=\"#integration\" target=\"_blank\" rel=\"noopener\">Slack<span class=\"aha-marketing-card__visually-hidden\"> (opens in a new tab)</span></a></h3>\n    <p class=\"aha-marketing-card__text\">Share a live poll link in any channel and see results without leaving the thread.</p>\n  </div>\n</article>",
+      "css": ".aha-marketing-card__logo{display:block;width:var(--aha-space-40);height:var(--aha-space-40);object-fit:contain}\n"
     },
     {
       "slug": "pricing",

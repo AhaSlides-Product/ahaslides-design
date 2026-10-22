@@ -132,7 +132,7 @@
 .aha-header__app{
   position:relative;flex:none;
   width:var(--aha-space-36);height:var(--aha-space-36);
-  border:1px solid var(--aha-border-strong);border-radius:var(--aha-radius-xs);
+  border-radius:var(--aha-radius-xs);
   background:var(--aha-white);color:var(--aha-text-default);
 }
 .aha-header__app img{

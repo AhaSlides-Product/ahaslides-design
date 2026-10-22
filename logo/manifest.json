@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; each Brands file is the current SVG from its sourceUrl (thesvg.org, or a Design System V3 Figma export) on the recorded date, mapped to greyscale (never darker than black #1A1A1A) by recolour-art.mjs (third-party logos are one colour under the colour rules). usedIn lists where stpancras-presenter-app renders the brand. Each fetched Brands file is also kept unchanged in logo/original/ (originalFile): shown on hover, keyboard focus and listing pages under colour rule 2.6, and never recoloured. Refresh by re-fetching sourceUrl into both, then run node recolour-art.mjs.",
+  "$comment": "Source of truth for logo/. AhaSlides logos come from aha-claude-plugins; each Brands file is the current SVG from its sourceUrl (thesvg.org, a Design System V3 Figma export, or the vendor's own brand page or site, as sourceNote says) on the recorded date, mapped to greyscale (never darker than black #1A1A1A) by recolour-art.mjs (third-party logos are one colour under the colour rules). usedIn lists where stpancras-presenter-app renders the brand. Each fetched Brands file is also kept unchanged in logo/original/ (originalFile): shown on hover, keyboard focus and listing pages under colour rule 2.6, and never recoloured. Refresh by re-fetching sourceUrl into both, then run node recolour-art.mjs.",
   "logos": [
     {
       "id": "ahaslides-logo",
@@ -462,6 +462,74 @@
       "environment": [
         "product"
       ]
+    },
+    {
+      "id": "canva",
+      "name": "Canva",
+      "category": "Brands",
+      "file": "canva.svg",
+      "originalFile": "original/canva.svg",
+      "originalFetched": "2026-10-22",
+      "sourceUrl": "https://www.canva.dev/docs/",
+      "sourcePage": "https://www.canva.dev/docs/",
+      "fetched": "2026-10-22",
+      "usedIn": "Escape room demo integration cards (no consumer yet)",
+      "section": "Integrations",
+      "environment": [
+        "web"
+      ],
+      "sourceNote": "Canva's own developer site (canva.dev): the Canva wordmark inlined in its page header, extracted unchanged except viewBox trimmed to the artwork. canva.com and its brand page are behind a bot challenge from this box."
+    },
+    {
+      "id": "zapier",
+      "name": "Zapier",
+      "category": "Brands",
+      "file": "zapier.svg",
+      "originalFile": "original/zapier.svg",
+      "originalFetched": "2026-10-22",
+      "sourceUrl": "https://firebasestorage.googleapis.com/v0/b/standards-site-beta.appspot.com/o/documents%2F279072ea39f%2F8fc2c38ae5f%2Fzapier-logo_earth.svg",
+      "sourcePage": "https://zapier.com/brand",
+      "fetched": "2026-10-22",
+      "usedIn": "Escape room demo integration cards (no consumer yet)",
+      "section": "Integrations",
+      "environment": [
+        "web"
+      ],
+      "sourceNote": "Zapier's official brand guidelines page, logo download zapier-logo_earth.svg (full-colour wordmark, no padding). The page offers no standalone symbol file."
+    },
+    {
+      "id": "d2l-brightspace",
+      "name": "D2L Brightspace",
+      "category": "Brands",
+      "file": "d2l-brightspace.svg",
+      "originalFile": "original/d2l-brightspace.svg",
+      "originalFetched": "2026-10-22",
+      "sourceUrl": "https://www.d2l.com/wp-content/uploads/2022/08/logo.svg",
+      "sourcePage": "https://www.d2l.com/brightspace/",
+      "fetched": "2026-10-22",
+      "usedIn": "Escape room demo integration cards (no consumer yet)",
+      "section": "Integrations",
+      "environment": [
+        "web"
+      ],
+      "sourceNote": "D2L's own site header logo (the D2L mark that fronts Brightspace); viewBox trimmed to the artwork (top 6 units were empty). No separate Brightspace product logo is published as SVG."
+    },
+    {
+      "id": "cornerstone-ondemand",
+      "name": "Cornerstone OnDemand",
+      "category": "Brands",
+      "file": "cornerstone-ondemand.svg",
+      "originalFile": "original/cornerstone-ondemand.svg",
+      "originalFetched": "2026-10-22",
+      "sourceUrl": "https://cdn.sanity.io/images/43ea2a5t/csod-new/d81c21c51a9626f632933d779140d4638ae1f744-939x146.svg",
+      "sourcePage": "https://www.cornerstoneondemand.com/",
+      "fetched": "2026-10-22",
+      "usedIn": "Escape room demo integration cards (no consumer yet)",
+      "section": "Integrations",
+      "environment": [
+        "web"
+      ],
+      "sourceNote": "Cornerstone's own site header logo (horizontal Cornerstone wordmark), served from its CMS CDN."
     }
   ]
 }

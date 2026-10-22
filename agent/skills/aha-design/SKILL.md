@@ -149,14 +149,14 @@ Read the list from the DS each time — surfaces get added.
 ## 4. Judge
 
 1. **Mechanical gate first** (when the package is installed):
-   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings> <files>`
+   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>`
    — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark or a result, is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
    `audience.*` is `audience` and its `settings.*` is `settings` (the `settings-design` skill runs
    that gate). On both slide surfaces a raw
    `<button>` or `role="button"`, `<aha-button size="xl">`, sizing through `::part(button)` or an
    inline style, and a `<kbd>` inside `<aha-button>` are HARD. A control the DS does not ship (a
    draggable tile, a seek-bar grip) keeps its tag with `ds-lint-allow: raw-button (why)` on that
-   line; never use the marker to keep a hand-made action button.
+   line; never use the marker to keep a hand-made action button. Three UX writing rules are HARD on every surface, in UI text only: `no-dash-punctuation` (UXW-8, no em or en dash), `vague-error-copy` (UXW-2, no "Something went wrong", "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and `title-case-slide-name` (UXW-1, "Multiple choice" not "Multiple Choice"). Rewrite the string; `ds-lint-allow: <rule> (why)` only for a quoted example.
 2. **Binary judge**, per surface: for every criterion, read its `test`, find the evidence in the
    code (`file:line`) and decide **PASS**, **FAIL**, or **N/A** (only when the criterion cannot
    apply to this code). No partial credit. **Burden of proof is on PASS** — a criterion you cannot

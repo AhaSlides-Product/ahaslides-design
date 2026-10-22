@@ -1861,15 +1861,31 @@ const marketingStatePanes = (b, layout, snippet) => {
 function marketingReviewsFor(b, layout) {
   const reviews = b.reviews;
   if (!reviews || !layout.reviews) return null;
-  const avatars = reviews.avatars.map(avatar => reviews.avatarHtml.replaceAll('{{file}}', esc(avatar.file)).replaceAll('{{name}}', esc(avatar.name))).join('');
-  const fill = (text) => text.replaceAll('{{avatars}}', avatars).replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
+  const fill = (text) => text.replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
   return { html: fill(reviews.html), css: fill(reviews.css) + (layout.reviews.css ? '\n' + layout.reviews.css : ''), insertInto: `.${layout.class}__copy` };
+}
+function bakeMarketingReviews(b) {
+  if (!b.reviews) return b;
+  const layouts = b.layouts.map(layout => {
+    const row = marketingReviewsFor(b, layout);
+    if (!row) return layout;
+    const open = layout.html.indexOf(`<div class="${layout.class}__copy"`);
+    if (open < 0) return layout;
+    let depth = 0, close = -1;
+    for (const tag of layout.html.slice(open).matchAll(/<div\b|<\/div>/g)) {
+      depth += tag[0] === '</div>' ? -1 : 1;
+      if (depth === 0) { close = open + tag.index; break; }
+    }
+    if (close < 0) return layout;
+    return { ...layout, html: `${layout.html.slice(0, close).replace(/[ ]+$/, '')}      ${row.html.replaceAll('\n', '\n      ')}\n    ${layout.html.slice(close)}`, css: `${layout.css}\n${row.css}` };
+  });
+  return { ...b, layouts };
 }
 function marketingReviewsSwitch(b, layout) {
   const reviews = marketingReviewsFor(b, layout);
   if (!reviews) return '';
   const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
-  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="off" data-insert-into="${esc(reviews.insertInto)}" data-html="${esc(reviews.html)}" data-css="${esc(reviews.css)}"></aha-segmented>`;
+  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="on" data-insert-into="${esc(reviews.insertInto)}" data-row="${esc(`.${layout.class}__reviews`)}" data-html="${esc(reviews.html)}"></aha-segmented>`;
 }
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
@@ -1955,18 +1971,13 @@ const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
       function apply(){
         var doc=frame.contentDocument;
         if(!doc||!doc.getElementById('mbp-content'))return;
-        doc.querySelectorAll('[data-mbp-reviews]').forEach(function(node){node.remove();});
+        doc.querySelectorAll(seg.dataset.row).forEach(function(node){node.remove();});
         if(current!=='on')return;
         var host=doc.querySelector(seg.dataset.insertInto);
         if(!host)return;
-        var style=doc.createElement('style');
-        style.setAttribute('data-mbp-reviews','');
-        style.textContent=seg.dataset.css;
-        doc.head.appendChild(style);
         var holder=doc.createElement('div');
         holder.innerHTML=seg.dataset.html;
         var row=holder.firstElementChild;
-        row.setAttribute('data-mbp-reviews','');
         host.appendChild(row);
       }
       frame.addEventListener('load',apply);
@@ -1998,6 +2009,11 @@ ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
+${b.video ? `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
+  <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
+  ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
+  ${marketingCodeToggle('video.css', b.video.css, 'Add once. Replace {{c}} with the layout class.')}
+` : ''}
 ${b.composedOf ? `
   <h2 id="composed-of">Composed of</h2>
   <p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
@@ -2038,17 +2054,22 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
+function marketingVideoMd(b) {
+  if (!b.video) return '';
+  const names = b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${layout.name} (\`${layout.class}\`)`);
+  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. Layouts with the slot: ${names.join(', ')}.\n\n\`\`\`html\n${b.video.html}\n\`\`\`\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
+}
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
   const withRow = b.layouts.filter(layout => layout.reviews);
-  return `\n## ${b.reviews.label} row (optional, off by default)\nAn optional ${b.reviews.source} rating row: five avatars, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above leaves it out. To turn it on, append the row below as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}, and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
+  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -2065,11 +2086,16 @@ function renderMarketingAgent(b) {
     ...(b.guidance ? { guidance: b.guidance } : {}),
     ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
     ...(b.reviews ? { reviews: {
-      label: b.reviews.label, source: b.reviews.source, defaultState: 'off', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
-      howToTurnOn: `Append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class. Off by default: the layout html and css leave it out.`,
+      label: b.reviews.label, source: b.reviews.source, defaultState: 'on', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
+      howToRemove: `On by default: the layout html and css include the row. Delete the <layout class>__reviews element and its __reviews css to remove it, or append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class, to add it elsewhere.`,
       html: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).html,
       css: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).css,
       layouts: b.layouts.filter(layout => layout.reviews).map(layout => ({ slug: layout.slug, class: layout.class, insertInto: `.${layout.class}__copy`, ...(layout.reviews.css ? { css: layout.reviews.css } : {}) })),
+    } } : {}),
+    ...(b.video ? { video: {
+      label: b.video.label, defaultState: 'off', howToTurnOn: b.video.howToTurnOn, replaces: b.video.replaces,
+      html: b.video.html, css: b.video.css,
+      layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
     } } : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
@@ -2689,8 +2715,8 @@ const ANTISLOP_LOOP = [
   'You are generating AhaSlides product UI by consuming this design system.',
   'Before you write a screen: (1) identify the surface(s) you are building;',
   "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
-  '(node screen-lint.mjs --surface=<product|canvas|audience|settings> <files>) to hard-fail the zero-interpretation',
-  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel), then the",
+  '(node screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>) to hard-fail the zero-interpretation',
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel, a second <h1> or an <img> without alt on a website page), then the",
   'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
@@ -3149,7 +3175,7 @@ const expandMarketingAssets = (b) => {
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
@@ -3284,6 +3310,20 @@ writeFileSync(join(root, 'lib', 'settings-elements.js'),
   `// screen-lint --surface=settings rejects any other <aha-*> tag.\n` +
   `export const SETTINGS_ELEMENTS = ${JSON.stringify(settingsElementTags, null, 2)};\n`);
 console.log(`  ✓ lib/settings-elements.js — ${settingsElementTags.length} registered settings tags`);
+
+const marketingMinWidths = new Set();
+const collectMinWidths = (node) => {
+  if (typeof node === 'string') {
+    for (const query of node.matchAll(/@(?:container|media)\b[^{]*/gi))
+      for (const width of query[0].matchAll(/\(\s*min-width\s*:\s*([0-9.]+)px/gi)) marketingMinWidths.add(parseFloat(width[1]));
+  } else if (node && typeof node === 'object') Object.values(node).forEach(collectMinWidths);
+};
+for (const file of readdirSync(MDIR).filter(f => f.endsWith('.json'))) collectMinWidths(JSON.parse(readFileSync(join(MDIR, file), 'utf8')));
+writeFileSync(join(root, 'lib', 'marketing-breakpoints.js'),
+  `// ${PKGNAME}/screen-lint — the min-width container/media breakpoints the Marketing sections ship (generated by generate.mjs; do not edit by hand).\n` +
+  `// screen-lint --surface=website accepts these inside @container/@media conditions.\n` +
+  `export const MARKETING_MIN_WIDTHS = ${JSON.stringify([...marketingMinWidths].sort((a, b) => a - b))};\n`);
+console.log(`  ✓ lib/marketing-breakpoints.js — ${marketingMinWidths.size} marketing min-width breakpoints`);
 
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on

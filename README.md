@@ -100,7 +100,7 @@ It's **additive** — bundled apps should keep importing per-element (above) so 
 tree-shake out; `all.js` intentionally pulls the whole set.
 
 Only need one surface? Each has its own entry with just the elements it uses (plus the shared controls such as
-`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`).
+`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`). A whole website page is checked with `node screen-lint.mjs --surface=website <files>`: the product rules, the Marketing sections' own `min-width` breakpoints accepted in `@container`/`@media` conditions, a second `<h1>` and an `<img>` without alt hard-fail.
 In npm: `@ahaslides-product/design/audience`, `/settings`, `/canvas`.
 
 ### Agent feeds — hosted, self-describing
@@ -176,6 +176,8 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a
 
 `path` (optional) is echoed back; `iconNames` (optional) overrides the bundled icon list. Any
 `hard` finding fails the CLI (`node screen-lint.mjs --surface=… <files>`), which is built on the same function.
+
+**UX writing rules** — on every surface, `screen-lint` also hard-fails `no-dash-punctuation` (UXW-8), `vague-error-copy` (UXW-2) and `title-case-slide-name` (UXW-1) in user-visible UI strings only. Pass `path` for a script file (`.js`, `.ts`) so it is read as script, not HTML; the full scope is in `parts/ux-writing.guide.md`.
 
 **Opt-out** — per line, per rule, with a reason:
 `<!-- ds-lint-allow: hex,radius (brand logo, no token) -->`. Only the named rules are silenced on that
