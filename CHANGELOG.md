@@ -22,9 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.343.1 — 2026-10-22
+## 0.344.1 — 2026-10-22
 ### Changed
 - Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#346)
+
+## 0.344.0 — 2026-10-22
+### Added
+- Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
+### Fixed
+- Marketing → Header: Hero Pink Vertical and Hero Pale Pink Vertical show the image whole at its own ratio at every width instead of cropping it to a fixed 4:3 or 16:9 frame with `object-fit: cover` (on phones the crop was severe), as rule W6 requires. Header guidance names the Hero video and the uncropped image. (#347)
 
 ## 0.343.0 — 2026-10-22
 ### Added

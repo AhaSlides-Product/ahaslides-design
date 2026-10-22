@@ -1998,6 +1998,11 @@ ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
+${b.video ? `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
+  <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
+  ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
+  ${marketingCodeToggle('video.css', b.video.css, 'Add once. Replace {{c}} with the layout class.')}
+` : ''}
 ${b.composedOf ? `
   <h2 id="composed-of">Composed of</h2>
   <p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
@@ -2038,6 +2043,11 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
+function marketingVideoMd(b) {
+  if (!b.video) return '';
+  const names = b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${layout.name} (\`${layout.class}\`)`);
+  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. Layouts with the slot: ${names.join(', ')}.\n\n\`\`\`html\n${b.video.html}\n\`\`\`\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
+}
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
   const withRow = b.layouts.filter(layout => layout.reviews);
@@ -2048,7 +2058,7 @@ function renderMarketingMd(b) {
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -2070,6 +2080,11 @@ function renderMarketingAgent(b) {
       html: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).html,
       css: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).css,
       layouts: b.layouts.filter(layout => layout.reviews).map(layout => ({ slug: layout.slug, class: layout.class, insertInto: `.${layout.class}__copy`, ...(layout.reviews.css ? { css: layout.reviews.css } : {}) })),
+    } } : {}),
+    ...(b.video ? { video: {
+      label: b.video.label, defaultState: 'off', howToTurnOn: b.video.howToTurnOn, replaces: b.video.replaces,
+      html: b.video.html, css: b.video.css,
+      layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
     } } : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
