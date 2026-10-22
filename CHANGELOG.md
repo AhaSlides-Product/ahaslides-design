@@ -22,6 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.362.0 — 2026-10-22
+### Added
+- Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets its form; the Button is now form-associated, and Enter in a text field of the form submits it, as with a native submit button (not while the Button is disabled or loading) (#332).
+- screen-lint: the `hand-rolled-button` rule hard-fails on every surface a button the screen draws itself (a `button` / `btn` / `cta` class, `<button>`, `[role=button]` or link painted with a fill and a button shape, or state fills) and any restyle of `<aha-button>` (a colour, fill, border, shadow, height or `:hover` / `:active` / `:focus` rule on it, its `::part` or a `--aha-button-*` token); only layout may be set on it. Opt-out: `ds-lint-allow: hand-rolled-button (why)` (#332).
+- Websites → Website composition: rule and criterion W16 "Every button is the DS Button, never restyled", with a failing eval of the games.ahaslides.com header case; aha-design skill rule 12 (#332).
+### Changed
+- Marketing Navigation, Header (all layouts), Features, Numbers and Footer banner draw every button with `<aha-button variant size>` (Log in secondary, Sign up primary, Join `type="submit"`), and their own button CSS (`aha-header__button`, `aha-header__join-button`, `aha-header-section-*__button` / `__cta`, `aha-features__button`, `aha-numbers__button`, `aha-footer-banner__cta`) is removed. The label is now the Button's semibold; on a Vivid Pink surface the Button is made white through the `--aha-button-*` tokens, marked `ds-lint-allow: hand-rolled-button`, until the Button has an on-brand variant. Revert: revert this change; the bespoke classes come back with it (#332).
+### Fixed
+- Button: a submit or reset `<aha-button>` defers the form action with `setTimeout`, so a click listener on the host that calls `preventDefault()` cancels it for a real mouse click too.
+- screen-lint: `hand-rolled-button` no longer flags a decorative `::before` / `::after` underline on a link, nor hyphenated names such as `a-card` and `aha-button-group`, nor a card or tile link (`a.card` with a fill and radius), nor any `::before` / `::after` rule such as `.btn::after`. (#332)
+
 ## 0.356.0 — 2026-10-22
 ### Removed
 - Canvas status: the response count line (people glyph and "8 of 24 answered") is gone, along with the `answered`, `total` and `count-text` attributes; `<aha-canvas-status>` now shows only the status line. Consumers passing those attributes no longer see a count. Docs section renamed "Status line"; contract, canvas guideline and snippets updated. (#356)
