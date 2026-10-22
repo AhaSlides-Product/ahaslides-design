@@ -9,7 +9,7 @@
   "highlights": [
     "Every band is a DS Marketing section; a missing one is a DSN ticket, never hand-rolled; Testimonials and FAQ are pasted unchanged",
     "Sections keep their shipped rhythm: 96/64 px padding on desktop, 48/24 at 767 px, 32/16 at 479 px; grids are balanced and layouts vary, at most 3 alternating rows",
-    "One H1, one primary action per section, the hero's call to action repeated at the end",
+    "One H1, one primary action per section, its label written for the page (not always Get started free), the hero's call to action repeated at the end",
     "Checked at 1440, 768 and 375 px with no sideways scroll; motion is a gentle reveal at most"
   ],
   "whenToRead": "Read before building, redesigning or reviewing any website page made of full-width sections: a landing, pricing, blog, careers, campaign or help page, on the public site or inside the product.",
@@ -23,8 +23,8 @@
   "surfaceChoice": [
     {
       "surface": "Top of the page",
-      "useFor": "the Navigation section (site header with <aha-product-lockup>), then one Header section: the page's only H1 and its primary call to action",
-      "example": "Navigation, then a centred Header with Get started and Book a demo"
+      "useFor": "the Navigation section (site header with <aha-product-lockup>), then one Header section: the page's only H1 and its primary call to action, labelled for the page",
+      "example": "Navigation, then a centred Header with a page-specific primary action (Create your quiz free) and Book a demo"
     },
     {
       "surface": "The body of the page",
@@ -33,8 +33,8 @@
     },
     {
       "surface": "The end of the page",
-      "useFor": "the Footer banner, which repeats the hero's primary call to action, then the Footer",
-      "example": "Footer banner Get started, then the Footer"
+      "useFor": "the Footer banner, which repeats the hero's primary call to action with the same label, then the Footer",
+      "example": "Footer banner repeating the hero label (Create your quiz free), then the Footer"
     },
     {
       "surface": "A band the library does not have",
@@ -61,7 +61,7 @@
     { "rule": "Build every band of the page from a DS Marketing section: Navigation, Header, Features, Numbers, Logos, Testimonials, Pricing, FAQ, Footer banner and Footer (Cards inside a section). Paste the section's snippet and change its copy, images and layout choice, never its structure or values. The Logos strip (customer logos, Trusted by) is always the band directly below the hero, never later in the page. A band the library lacks is a DSN ticket, never a hand-rolled section on the page.", "ref": ["W1"], "source": ["marketing/*.json — the Websites tab"] },
     { "rule": "Keep the padding each section ships and never override it. Features, Numbers, Pricing and Testimonials ship vertical `--aha-space-96` and side `--aha-space-64` on desktop, `--aha-space-48` / `--aha-space-24` at 767 px and below, `--aha-space-32` / `--aha-space-16` at 479 px and below; Logos and FAQ ship their own (Logos a 32 px vertical, FAQ its own gutter variable). Sections sit flush; add no margin, spacer or divider between them.", "ref": ["W2"], "source": ["marketing/features.json", "marketing/numbers.json", "marketing/pricing.json", "marketing/testimonials.json — __inner padding and their 767 px and 479 px container rules", "marketing/logos.json", "marketing/faq.json — their own padding"] },
     { "rule": "Cap section content at 1280 px, centred. Keep a section heading block to 720 px and its lead text to 44ch, as the sections ship them; never stretch body copy across the full width.", "ref": ["W3"], "source": ["marketing/features.json", "marketing/testimonials.json", "marketing/pricing.json — __inner max-width 1280px, __header 720px, __lead 44ch"] },
-    { "rule": "Give the page one H1, in the Header section at its display size. Each section has at most one primary button (colour rules 6.1 and 6.2); at most two buttons sit side by side, a primary and a secondary. The closing Footer banner repeats the hero's primary call to action.", "ref": ["W4"], "source": ["marketing/header.json — the h1 and the primary + ghost pair", "marketing/footer-banner.json", "brand/colour-rules.json 6.1 and 6.2 (the primary button)"] },
+    { "rule": "Give the page one H1, in the Header section at its display size. Each section has at most one primary button (colour rules 6.1 and 6.2); at most two buttons sit side by side, a primary and a secondary. Write the Sign up or primary call to action label for the page's context, a verb plus what the visitor gets (a template page: Use this template; a quiz-maker page: Create your quiz free; pricing: Start free or the plan name); Get started free is only the fallback when no context-specific label fits. The closing Footer banner repeats the hero's primary call to action with the same label, not a fixed Get started free.", "ref": ["W4"], "source": ["marketing/header.json — the h1 and the primary + ghost pair", "marketing/footer-banner.json", "brand/colour-rules.json 6.1 and 6.2 (the primary button)"] },
     { "rule": "Lay out band backgrounds by colour rules 3.2 to 3.5, 3.8 and 3.10: open with a Vivid Pink hero (the Hero Pink header layout, whose Splash hooks are Darker Pink, rule 5.1; the hero is Vivid Pink `#E70E68`, never Darker Pink itself), then alternate full-width white and pale pink bands (a Features section with the `aha-features--accent` class, Vivid Pink at 5%; never an inline `background: var(--aha-bg-accent)` style on the section), starting with white right after the hero, so a full white band always sits between two coloured bands. The band directly after the hero's Logos strip (the customer logos band) is always full white, never the pale pink accent or any other tint. At most two Vivid Pink bands count, the hero being one (a closing Footer banner may be the second, with a white band before it). No black band, no gradient, and no light grey band: light grey belongs to cards inside a section (the Cards gray variant). A white hero is also allowed.", "ref": ["W5"], "source": ["brand/colour-rules.json 3.2, 3.3, 3.4, 3.5, 3.8, 3.10", "marketing/features.json — the section ships a white band; a pale pink band is the `aha-features--accent` class, never an inline `background: var(--aha-bg-accent)` style", "marketing/cards.json --gray"] },
     { "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo with its licence in the manifest, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Never crop a screenshot. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape or square image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait image (taller than wide, ratio under 1), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). No stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.", "ref": ["W6"], "source": ["marketing-assets/image-placeholder.svg", "marketing/features.json and marketing/cards.json — the Vivid Pink image frame", "marketing/numbers.json and marketing/testimonials.json image slots", "icons/registry.json"] },
     { "rule": "Content card links open in a new tab: every Template, Testimonial or case-study, Integration, Article, Feature and Use-case card link, and a Features `Learn more` link, uses `target=\"_blank\"` and `rel=\"noopener\"` with a visually-hidden \"(opens in a new tab)\" inside the link (`aha-marketing-card__visually-hidden`, `aha-testimonials__visually-hidden`, `aha-features__visually-hidden`), so readers keep the page open and stay longer. Sign up and other primary or ghost call-to-action buttons (Header, Features, Pricing, Footer banner) and the Navigation and Footer site links stay in the same tab.", "ref": ["W15"], "source": ["marketing/cards.json", "marketing/testimonials.json", "marketing/features.json"] },
@@ -80,7 +80,7 @@
     { "label": "every band is a DS Marketing section, none hand-rolled", "verdict": "consumer self-judges (W1)" },
     { "label": "sections keep their shipped padding at each width, with nothing between them", "verdict": "consumer self-judges (W2)" },
     { "label": "content capped at 1280 px; heading block 720 px; lead text 44ch", "verdict": "consumer self-judges (W3)" },
-    { "label": "one H1; one primary button per section; at most two buttons side by side; hero CTA repeated at the end", "verdict": "consumer self-judges (W4)" },
+    { "label": "one H1; one primary button per section; at most two buttons side by side; hero CTA repeated at the end; label written for the page", "verdict": "consumer self-judges (W4)" },
     { "label": "band backgrounds follow colour rules 3.2 to 3.5, 3.8 and 3.10; pink hero, white and pale pink body, no grey band", "verdict": "consumer self-judges (W5)" },
     { "label": "real images with alt text or the DS placeholder; registry icons; no clip art, emoji icons, blobs or glass", "verdict": "consumer self-judges (W6)" },
     { "label": "the site header is the Navigation section with <aha-product-lockup>", "verdict": "consumer self-judges (W7)" },

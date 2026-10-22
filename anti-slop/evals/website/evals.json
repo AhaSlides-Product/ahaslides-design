@@ -17,7 +17,7 @@
       ],
       "label": "good-control",
       "notes": "Good control: the reference page, a Vivid Pink hero then a white and pale pink body. Guards against over-firing on a page assembled exactly from the sections.",
-      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; the hero is the Hero Pink header (Vivid Pink with the Darker Pink Splash, white heading, white button) with one H1 and the Footer banner repeating Get started free; after it the body alternates white (Logos), pale pink (Features), white (Testimonials), pale pink (icon grid), white (FAQ), so no two coloured bands touch, and the only other Vivid Pink band is the footer banner, after a white FAQ (two Vivid Pink bands in all); placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; no motion beyond the sections. Overall: OK TO SHIP.",
+      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; the hero is the Hero Pink header (Vivid Pink with the Darker Pink Splash, white heading, white button) with one H1 and a context-specific call to action (Create a live poll free) that the Footer banner repeats; after it the body alternates white (Logos), pale pink (Features), white (Testimonials), pale pink (icon grid), white (FAQ), so no two coloured bands touch, and the only other Vivid Pink band is the footer banner, after a white FAQ (two Vivid Pink bands in all); placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; no motion beyond the sections. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "No criterion is marked FAIL"
@@ -58,7 +58,7 @@
       ],
       "label": "good-control",
       "notes": "Good control at the W5 boundary: a Vivid Pink hero plus a Vivid Pink footer banner is the allowed maximum of two; must not be flagged as too many.",
-      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 allows on a web page. Each banner has one call to action, and the closing banner repeats Get started free. Overall: OK TO SHIP.",
+      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 allows on a web page. Each banner has one call to action, and the closing banner repeats the hero's label (Start free, written for the pricing page). Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "W5 is not FAIL for two separated Vivid Pink bands"
@@ -183,7 +183,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W4: hierarchy and call-to-action discipline.",
-      "expected_output": "W4 FAILs: there are two H1s (hero and Features title), the hero has four buttons in a row including a second primary (Talk to sales), and the closing banner asks for a newsletter sign-up instead of repeating Get started free. Fix: make the Features title an h2, keep Get started free plus one secondary in the hero, and repeat Get started free in the Footer banner. Overall: NEEDS FIX.",
+      "expected_output": "W4 FAILs: there are two H1s (hero and Features title), the hero has four buttons in a row including a second primary (Talk to sales), and the closing banner asks for a newsletter sign-up instead of repeating the hero's action. Fix: make the Features title an h2, keep one primary call to action (labelled for the page) plus one secondary in the hero, and repeat that same label in the Footer banner. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W4 is marked FAIL"
@@ -579,6 +579,36 @@
         "overall": "NEEDS_FIX",
         "criteria": {
           "W15": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 20,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w4-generic-cta-label/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W4: a quiz-maker page whose hero and closing banner both use the generic Get started free instead of a label written for the page.",
+      "expected_output": "W4 FAILs: the primary call to action is the generic Get started free on a quiz-maker page; the label is not written for the page's context. Fix: use a verb plus what the visitor gets, such as Create your quiz free, in the hero and repeat it in the Footer banner. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W4 is marked FAIL",
+        "Names the generic Get started free label"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W4": "FAIL"
         }
       },
       "source": {
