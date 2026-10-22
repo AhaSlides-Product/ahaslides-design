@@ -208,9 +208,9 @@ test('W17: the FAQ title centres itself and symmetric headers carry the centre c
 
 test('W18: every content section ships one call to action, aligned with its heading', () => {
   for (const slug of ['alternating-screenshots', 'icon-grid', 'tabs-screenshots']) {
-    assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><a class="aha-features__button" href="#sign-up">Sign up<\/a><\/div>/, slug);
+    assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><aha-button variant="primary" size="xl" href="#sign-up">Sign up<\/aha-button><\/div>/, slug);
   }
-  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><a class="aha-faq__button aha-faq__button--ghost" href="#docs">Read the docs/);
+  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs">Read the docs/);
   assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(testimonialsCss, /\.aha-testimonials__cta--start\{justify-content:flex-start\}/);
@@ -223,9 +223,9 @@ test('W18: every content section ships one call to action, aligned with its head
 test('W4 and W18 agree: a section Sign-up call to action repeats the hero label in every fixture', () => {
   for (const entry of evals) {
     const page = readFileSync(new URL(`../anti-slop/evals/website/${entry.files[0].path}`, import.meta.url), 'utf8');
-    const heroLabel = page.match(/class="aha-header-section-hero-pink__cta"[^>]*>([^<]+)</)?.[1];
+    const heroLabel = page.match(/<aha-button variant="secondary" size="xl" href="\/signup">([^<]+)</)?.[1];
     if (!heroLabel) continue;
-    const sectionPrimaryLabels = [...page.matchAll(/class="aha-(?:features|numbers)__button"[^>]*>([^<]+)</g)].map((match) => match[1]);
+    const sectionPrimaryLabels = [...page.matchAll(/<aha-button variant="primary" size="xl"[^>]*>([^<]+)</g)].map((match) => match[1]);
     for (const label of sectionPrimaryLabels) assert.equal(label, heroLabel, entry.files[0].path);
   }
 });

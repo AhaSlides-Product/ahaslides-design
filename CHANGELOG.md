@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.360.0 — 2026-10-22
+### Changed
+- Colour rule 6.2: on a Vivid Pink background the button is the standard secondary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the DS Button", are gone (colour rules v19). Colour rule table, Website W4 and the Button-on-pink criterion wording follow. (#PR)
+- Header hero-pink, hero-pink-vertical, hero-pale-pink, hero-pale-pink-vertical and the Footer banner draw their call to action as `<aha-button variant="secondary">`, with the `--aha-button-*` re-theme rules and their `ds-lint-allow` comments deleted. Nothing restyles the Button there. Consumers who pasted those layouts: change `variant="primary"` to `variant="secondary"` and delete the re-theme rule.
+- Merged PR #332 (one DS button, hand-rolled-button lint) and moved the FAQ, Testimonials, Features and Numbers call-to-action links added since it branched onto `<aha-button>`, so the Marketing sections pass the lint.
+Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/footer-banner.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json` from git.
+
 ## 0.356.0 — 2026-10-22
 ### Removed
 - Canvas status: the response count line (people glyph and "8 of 24 answered") is gone, along with the `answered`, `total` and `count-text` attributes; `<aha-canvas-status>` now shows only the status line. Consumers passing those attributes no longer see a count. Docs section renamed "Status line"; contract, canvas guideline and snippets updated. (#356)
