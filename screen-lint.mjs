@@ -26,6 +26,14 @@
  * no size="small"/"sm"/"large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
  * no maxlength on <aha-input> (a capped field is <aha-counted-input>, counter inside the field).
  *
+ * UX writing: on every surface, three hard rules read the user-visible UI strings only (HTML text nodes,
+ * the title, aria-label, aria-description, placeholder, alt, label and heading attributes, and string literals
+ * under UI-text keys in scripts; never comments, CSS, URLs, identifiers, <code>, <pre> or <kbd>):
+ * no-dash-punctuation (UXW-8: no em or en dash), vague-error-copy (UXW-2: no "Something went wrong",
+ * "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and
+ * title-case-slide-name (UXW-1: "Multiple choice", not "Multiple Choice"; same for Word cloud, Open-ended,
+ * Spinner wheel, Rating scale). Allow them as a group with ds-lint-allow: copy (why).
+ *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
  * It silences only the named rules on that line. A bare `ds-lint-allow` suppresses nothing and is
@@ -127,6 +135,23 @@ async function slideRuleSelfTest() {
   return broken;
 }
 
+async function copyRuleSelfTest() {
+  const { COPY_RULE_FIXTURES } = await import('./tests/fixtures/copy-lint.mjs');
+  let broken = 0;
+  console.log('=== SCREEN-LINT · UX writing rule fixtures ===\n');
+  for (const { rule, fail, pass } of COPY_RULE_FIXTURES) {
+    const hitsOf = (source) => lintHtml(source, { surface: 'product' }).findings.filter(f => f.rule === rule);
+    const missed = fail.filter(source => !hitsOf(source).some(f => f.severity === 'hard'));
+    const falsePositives = pass.filter(source => hitsOf(source).length);
+    broken += missed.length + falsePositives.length;
+    console.log(`${missed.length + falsePositives.length ? '✗' : '✓'} ${rule} (hard): ${fail.length} failing, ${pass.length} passing snippet(s)`);
+    for (const source of missed) console.log(`      ✗ not reported as hard: ${source}`);
+    for (const source of falsePositives) console.log(`      ✗ reported on a passing snippet: ${source}`);
+  }
+  console.log(`\n${broken} broken fixture(s)\n`);
+  return broken;
+}
+
 /* ---- self-test: dogfood the material/a11y rules over the repo's own snippets + previews ---- */
 if (selfTest) {
   const partsDir = join(root, 'parts');
@@ -144,7 +169,7 @@ if (selfTest) {
     .filter(f => { const slug = f.replace('.html.txt', ''); return !composite.has(slug) && !canvasSlugs.has(slug); });
   console.log(`Self-test: linting ${leaf.length} leaf paste-and-run snippet(s) as product-UI (composite theme pages + preview harnesses excluded).`);
   const hard = run(leaf.map(f => join(partsDir, f)), 'product');
-  process.exit(hard + await slideRuleSelfTest() > 0 ? 1 : 0);
+  process.exit(hard + await slideRuleSelfTest() + await copyRuleSelfTest() > 0 ? 1 : 0);
 }
 
 /* ---- normal CLI ---- */

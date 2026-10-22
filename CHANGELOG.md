@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.348.0 — 2026-10-22
+### Added
+- Screen-lint: three hard UX writing rules on every surface (product, settings, canvas, audience), reading user-visible UI strings only (HTML text nodes, `title`, `aria-label`, `aria-description`, `placeholder`, `alt`, `label` and `heading` attributes, and string literals under UI-text keys in scripts; never comments, CSS, URLs, identifiers, `<code>`, `<pre>` or `<kbd>`): `no-dash-punctuation` (UXW-8, em or en dash, raw or as an entity), `vague-error-copy` (UXW-2, "Something went wrong", "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and `title-case-slide-name` (UXW-1, "Multiple Choice", "Word Cloud", "Open-Ended", "Spinner Wheel", "Rating Scale"). Opt out per line with `ds-lint-allow: <rule> (why)` or `ds-lint-allow: copy (why)`. Pass `path` to `lintHtml` for a `.js` or `.ts` file so it is read as script. Revert by reverting this commit; the rules are additive (#NNN)
+### Changed
+- UX writing guide and guideline say which rules `screen-lint` enforces; the Alert, Illustration and Spin snippets lose the em and en dashes the new gate found (#NNN)
+
 ## 0.343.0 — 2026-10-22
 ### Added
 - Deck: one shared deck token module, `@ahaslides-product/design/deck`, with `applyDeckTokens(target, { ink })` and `deckTokens(ink)`, re-exported from both `lib/audience.js` and `lib/canvas.js`. The canvas and the audience phone now write the same `--aha-deck-*` ladder; `applyCanvasDeck` adds only its button, container and modal variables and `applyDeck` only its accent set. Both signatures are unchanged. Environment: audience, product (#343)
