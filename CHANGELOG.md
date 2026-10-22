@@ -22,9 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.332.0 — 2026-10-22
+## 0.335.0 — 2026-10-22
 ### Changed
 - Website FAQ: hovering a question with a mouse turns its text and the plus or minus Vivid Pink (`--aha-color-primary`) over `--aha-motion-fast`, and the plus/minus loses its circle outline (the two bars and their rotation stay). Real pointers only (`@media (hover:hover)`), open and closed rows, no layout shift; reduced motion stops the transition. (#340)
+
+## 0.334.0 — 2026-10-22
+### Added
+- Canvas: `<aha-canvas-count>` (`@ahaslides-product/design/aha-canvas-count`), the answer count drawn on a slide canvas, with its own contract and docs page. `correct` and `wrong` show the verdict form (green tick disc, count and person glyph, a divider, red cross disc, count); `answered` alone shows how many people answered, with no verdict. A 48px small deck container (radius 8, padding 12 left and 20 right, 1.5 times the review page's), filled from the deck tokens with no stroke, frosted on a photo deck; one accessible group named by `label` (default "12 correct, 3 incorrect"). Environment: product (#338)
+- Canvas: `<aha-canvas-status>` (`@ahaslides-product/design/aha-canvas-status`), the status line and response count: `text` (default "Waiting for answers…", empty hides it) above "N of M answered" from `answered` and `total` (or a translated `count-text`). Free-floating deck ink with no backing, a polite live region (#338)
+- Canvas: deck token ladder from `applyCanvasDeck`, all aliases of the deck ink: `--aha-deck-ink-secondary` (76%), `--aha-deck-line` (24%), `--aha-deck-stroke-chip` (20%), `--aha-deck-fill-active` (16%), `--aha-deck-stroke` and `--aha-deck-fill-hover` (12%), `--aha-deck-fill` (8%), `--aha-deck-surface` (the opposite of the ink at 80%). Container set for rounded rectangles on any deck, white or black ink: `--aha-deck-container-fill`, `-stroke` (1px), `-stroke-empty` (1px dashed, an empty slot only), `-radius-lg` 12 and `-radius-sm` 8, `-padding-sm` 12, `-md` 20 and `-lg` 32, and for a canvas modal such as the presenter leaderboard `--aha-deck-modal-fill` (the opposite of the ink at 92%, so the slide behind barely shows) and `--aha-deck-modal-backdrop`. `applyCanvasDeck({ image: true })` makes the container fill the frosted surface on a photo deck. Canvas library: Correct / incorrect count, Status line and response count, Stepper and Deck containers and modals cards on light, dark and photo decks in both inks (#338)
+- Canvas: `<aha-stepper>` is listed as a canvas component and reads the deck ladder when it sits inside a deck, so it is inked by the deck with no fork; with no deck tokens it renders exactly as before (#338)
+### Changed
+- Tokens: `--aha-viz-mix-*` steps are multiples of 4: axis 24 (was 26), track 8 (was 7), stroke 12 (was 10), hover 12 (was 8) and dim 40 (was 38); `secondary` 76, `grid` 12, `stroke-chip` 20 and `active` 16 already were. Charts shift by at most 4 points of opacity; `tertiary` 54 stays until the chart labels are reviewed. Revert: restore `viz.mix` in `tokens.canonical.json` and drop `lib/aha-canvas-count.js`, `lib/aha-canvas-status.js`, their contracts and parts and the ladder in `lib/canvas-deck.js` (#338)
+- Docs: the Canvas Library dropdown is now Chart, Components and Deck tokens. Correct / incorrect count, Status line and Stepper are cards on Components (they no longer have their own entries in the Components sidebar; their `canvas-count` and `canvas-status` contract pages and agent feeds stay). The `--aha-deck-*` ink ladder and the container and modal tokens move to the new Deck tokens page at `deck-tokens/index.html`. `lib/canvas.js` already registers every canvas component and exports `applyCanvasDeck`, so the one CDN tag loads all three pages (#338)
 
 ## 0.325.1 — 2026-10-21
 ### Fixed

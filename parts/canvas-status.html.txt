@@ -1,0 +1,11 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-canvas-status> is the SAME shared custom element React and Vue consume. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import { applyCanvasDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';   // registers every canvas element
+  applyCanvasDeck(document.querySelector('.stage'), { ink: '#1A1A1A', background: '#FFFFFF' });
+</script>
+
+<div class="stage" style="padding:40px">
+  <aha-canvas-status answered="8" total="24"></aha-canvas-status>
+</div>
