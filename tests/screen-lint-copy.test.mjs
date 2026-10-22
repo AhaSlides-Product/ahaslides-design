@@ -40,3 +40,9 @@ test('a name-only allow marker silences just that rule', () => {
   const source = '<p>Oops \u2014 no</p> <!-- ds-lint-allow: vague-error-copy (quoted) -->';
   assert.deepEqual(findingsOf(source, 'product').map(f => f.rule), ['no-dash-punctuation']);
 });
+
+test('a trailing line comment in a script is not UI copy, a // inside a string is kept', () => {
+  const source = `<script>\nrun(); // label: "Oops"\nconst field = { label: "Oops // really" };\nconst url = 'https://x.test'; el.title = "Oops";\n</script>`;
+  const lines = findingsOf(source, 'product').filter(f => f.rule === 'vague-error-copy').map(f => f.line);
+  assert.deepEqual(lines, [3, 4]);
+});
