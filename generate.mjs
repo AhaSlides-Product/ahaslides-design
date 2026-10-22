@@ -1979,7 +1979,7 @@ const MARKETING_LAYOUT_VARIANT_SCRIPT = `<script type="module">
         if(!doc||!doc.getElementById('mbp-content'))return;
         doc.querySelectorAll('aha-button').forEach(function(button){
           if(!button.hasAttribute('data-base-variant'))button.setAttribute('data-base-variant',button.getAttribute('variant')||'');
-          var next=current&&button.getAttribute('data-variant-'+current);
+          var next=button.getAttribute('data-variant-'+(current||'default'));
           button.setAttribute('variant',next||button.getAttribute('data-base-variant'));
         });
       }

@@ -190,7 +190,7 @@
    "blocks": [
     { "type": "rules", "rules": [
      { "id": "6.1", "text": "The primary button is Vivid Pink with white text. On hover it turns Darker Pink and gains a shadow. No underline." },
-     { "id": "6.2", "text": "On a Vivid Pink background the button is the standard secondary Button." },
+     { "id": "6.2", "text": "On Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button." },
      { "id": "6.3", "text": "A destructive action (Delete, Remove) is never the primary button. The safe choice (Cancel, Undo) is." },
      { "id": "6.4", "text": "Text on Vivid Pink is solid white, never see-through white." },
      { "id": "6.5", "text": "Text and links on Vivid Pink at 5% or on grey are black. Pink text there is too faint to pass accessibility." },
@@ -199,7 +199,7 @@
     { "type": "heading", "anchor": "splash-css", "text": "Centre and right in CSS", "origin": "aha-marketing-backgrounds" },
     { "type": "paragraph", "origin": "aha-marketing-backgrounds", "text": "Copy this block to draw centre or right in a page instead of exporting a file. It uses the full 802 by 788 icon, `backgrounds/splash-icon-pink.svg` or its white twin, never a cropped copy, and sits in a layer that fills the section. Set `--splash-across` to `.5` for centre or `.75` for right. Browsers without `sqrt()`, `tan()` and `atan2()` keep the base size of 4.5 times the shorter side, which is exact at 16:9 and 9:16." },
     { "type": "css-recipe" },
-    { "type": "paragraph", "text": "Every button and text link, in any medium (an app screen, a web page, an email, an ad or a slide), is the design system [Button](../button/index.html) component. On a Vivid Pink background it is the standard secondary [Button](../button/index.html) (rule 6.2), with nothing restyling it." }
+    { "type": "paragraph", "text": "Every button and text link, in any medium (an app screen, a web page, an email, an ad or a slide), is the design system [Button](../button/index.html) component. On Vivid Pink it is the standard secondary [Button](../button/index.html); on Vivid Pink at 5% (light pink) and on white it is the primary (rule 6.2). Nothing restyles it." }
    ]
   },
   {
@@ -288,6 +288,7 @@
  ],
  "open": [],
  "changes": [
+  { "version": "v20", "date": "22 Oct", "text": "Rule 6.2: on Vivid Pink the button is the secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button. Light pink surfaces (the Pale Pink state of the Hero Pink layouts) no longer use the secondary. Requested in DESY-313. No rule id changed." },
   { "version": "v19", "date": "22 Oct", "text": "Rule 6.2: on a Vivid Pink background the button is the standard secondary Button. The white primary with a Vivid Pink label, and the exception that allowed it, are gone: every button is the design system Button. Requested in DESY-313." },
   { "version": "v18", "date": "20 Oct", "text": "Rule 3.11: report table rows (image or read-only report page) keep the white and light grey zebra but drop the horizontal row dividers, which only added clutter on top of the zebra. Requested by Dave Bui. Screens of the product app keep their dividers and plain rows. No rule id changed." },
   { "version": "v17", "date": "20 Oct", "text": "Rule 3.5 keeps the white first screen for the product app and allows a web page built from full-width sections to open with a Vivid Pink hero, which counts as one of the two Vivid Pink sections and is followed by a full white section. Requested in DESY-266. No rule id changed." },

@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const readJson = (path) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
 
@@ -260,4 +261,16 @@ test('W9: the motion script imports as a no-op outside a browser and keeps the f
   assert.match(script, /typeof document !== 'undefined'/);
   assert.match(script, /aha-motion-final/);
   assert.match(script, /@media print\{[^]*\.aha-motion-count\{display:none\}/);
+});
+
+test('W16: every fixture marked W16 PASS has no hand-rolled button and no class-based call to action', () => {
+  const passing = evals.filter((entry) => JSON.stringify(entry).includes('"W16":"PASS"'));
+  assert.ok(passing.length > 0);
+  for (const entry of passing) {
+    const path = entry.files[0].path;
+    const page = readFileSync(new URL(`../anti-slop/evals/website/${path}`, import.meta.url), 'utf8');
+    assert.doesNotMatch(page, /<a class="aha-[a-z-]+__button/, path);
+    const lint = spawnSync(process.execPath, ['screen-lint.mjs', '--surface=website', new URL(`../anti-slop/evals/website/${path}`, import.meta.url).pathname], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8' });
+    assert.doesNotMatch(lint.stdout + lint.stderr, /hand-rolled-button/, path);
+  }
 });

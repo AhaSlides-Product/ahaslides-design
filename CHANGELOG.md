@@ -22,13 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.363.0 — 2026-10-22
+## 0.365.0 — 2026-10-22
 ### Changed
-- Colour rule 6.2: on a Vivid Pink background the button is the standard secondary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the DS Button", are gone (colour rules v19). Colour rule table, Website W4 and the Button-on-pink criterion wording follow. (#361)
-- Header hero-pink, hero-pink-vertical, hero-pale-pink, hero-pale-pink-vertical and the Footer banner draw their call to action as `<aha-button variant="secondary">`, with the `--aha-button-*` re-theme rules and their `ds-lint-allow` comments deleted. Nothing restyles the Button there. Consumers who pasted those layouts: change `variant="primary"` to `variant="secondary"` and delete the re-theme rule.
-- The 15 other Header layouts with a Vivid Pink (`--brand`) state lose their `--aha-button-*` re-theme and `ds-lint-allow` lines too. Their primary buttons carry `data-variant-brand="secondary"`: White and Accent keep the primary Button, Vivid Pink uses the plain secondary Button. The page state switcher and the per-state code panes set `variant` from this generic `data-variant-<state>` hook, and the default pane, the composed HTML and the feeds carry no hook. Consumers who pasted these layouts on Vivid Pink: set `variant="secondary"` and delete the re-theme rule.
-- Merged PR #332 (one DS button, hand-rolled-button lint) and moved the FAQ, Testimonials, Features and Numbers call-to-action links added since it branched onto `<aha-button>`, so the Marketing sections pass the lint.
-Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/footer-banner.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json` from git.
+- Colour rule 6.2: on Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the design system Button", are gone. Colour-rules version row v20.
+- Header hero-pink, hero-pink-vertical, hero-pale-pink, hero-pale-pink-vertical and the Footer banner draw their call to action as `<aha-button variant="secondary">` on the solid Vivid Pink surface, with no `--aha-button-*` re-theme or `ds-lint-allow` line. The Pale Pink state of the four Hero Pink layouts is Vivid Pink at 5%, so its button is the primary: a `data-variant-pale="primary"` (Hero Pink, Hero Pink Vertical) or `data-variant-default="secondary"` (Hero Pale Pink, Hero Pale Pink Vertical) hook switches the variant per state in the live preview.
+- The 15 other Header layouts with a Vivid Pink (`--brand`) state lose their `--aha-button-*` re-theme and `ds-lint-allow` lines too. Their primary buttons carry `data-variant-brand="secondary"`, so White and Accent (Vivid Pink at 5%) keep the primary and only the Vivid Pink state shows the secondary.
+Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/footer-banner.json`, the wording in `guidelines/website.json` and `anti-slop/criteria.json`, and the `data-variant-` line in the layout variant script of `generate.mjs` from git.
 
 ## 0.362.0 — 2026-10-22
 ### Added

@@ -558,7 +558,7 @@
             "6.2",
             "6.3"
           ],
-          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on a Vivid Pink background the button is the standard secondary Button. In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
+          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on solid Vivid Pink the button is the standard secondary Button (on Vivid Pink at 5% it stays the primary). In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
         },
         {
           "id": "C5",
