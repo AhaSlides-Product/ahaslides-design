@@ -44,5 +44,6 @@ test('a page has one h1', () => {
 test('every image carries alt', () => {
   assert.deepEqual(rulesOf('<img src="a.png" alt="Dashboard">'), []);
   assert.ok(rulesOf('<img src="a.png">').includes('img-no-alt'));
+  assert.ok(rulesOf('<img src="a.png" data-alt="Dashboard">').includes('img-no-alt'));
   assert.deepEqual(rulesOf('<img src="a.png">', 'product'), []);
 });
