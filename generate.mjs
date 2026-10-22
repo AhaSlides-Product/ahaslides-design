@@ -2043,10 +2043,6 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
-const marketingVideoFor = (b, layoutClass) => b.video && {
-  html: b.video.html.replaceAll('{{c}}', layoutClass),
-  css: b.video.css.replaceAll('{{c}}', layoutClass),
-};
 function marketingVideoMd(b) {
   if (!b.video) return '';
   const names = b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${layout.name} (\`${layout.class}\`)`);
