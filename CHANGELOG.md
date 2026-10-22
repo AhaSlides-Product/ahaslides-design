@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Websites → Header: the G2 reviews row shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. The row is baked into the layout before the section html and css are composed, so the paste-and-run code, `header.md` and the agent feed carry it. Layouts without `reviews` are unchanged. Revert: restore the previous `reviews` object, highlight and guidance line in `marketing/header.json`, remove `bakeMarketingReviews` from `generate.mjs` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)
 
+## 0.348.1 — 2026-10-22
+### Changed
+- Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#346)
+
 ## 0.348.0 — 2026-10-22
 ### Added
 - Screen-lint: three hard UX writing rules on every surface (product, settings, canvas, audience, website), reading user-visible UI strings only (HTML text nodes, `title`, `aria-label`, `aria-description`, `placeholder`, `alt`, `label` and `heading` attributes, and string literals under UI-text keys in scripts; never comments, CSS, URLs, identifiers, `<code>`, `<pre>` or `<kbd>`): `no-dash-punctuation` (UXW-8, em or en dash, raw or as an entity), `vague-error-copy` (UXW-2, "Something went wrong", "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and `title-case-slide-name` (UXW-1, "Multiple Choice", "Word Cloud", "Open-Ended", "Spinner Wheel", "Rating Scale"). Opt out per line with `ds-lint-allow: <rule> (why)` or `ds-lint-allow: copy (why)`. Pass `path` to `lintHtml` for a `.js` or `.ts` file so it is read as script. Revert by reverting this commit; the rules are additive (#351)

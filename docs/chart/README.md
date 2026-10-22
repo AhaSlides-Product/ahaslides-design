@@ -42,7 +42,7 @@ What each line does:
 
 | Line | Purpose |
 |---|---|
-| `lib/tokens.css` | Optional. Defines the `--aha-*` design tokens (fonts, spacing, colours) so the chart matches AhaSlides exactly. Without it the chart still draws, using built-in fallback colours and a generic sans-serif font. |
+| `lib/tokens.css` | Defines the `--aha-*` design tokens (fonts, spacing, colours) so the chart matches AhaSlides exactly. Without it the chart still draws with built-in fallback colours and a generic sans-serif font, but the Pick Answer correct mark (`--aha-answer-correct`) has no colour, so load it whenever you use `correct`. |
 | `lib/aha-chart.js` | Registers the `<aha-chart>` element. It imports `aha-live-region.js` and `icons.js` from the same folder, so nothing else needs to be loaded. |
 
 The chart never paints a background. It sits on whatever surface you put it on.
@@ -290,7 +290,7 @@ All attributes are optional except that charts need `data`.
 | `sort` | `none`, `desc`, `asc` | `none` | Order. `desc` also shows rank numbers on a bar chart. An "Other" bucket always stays last. |
 | `highlight-top` | number | `0` | Dim everything below the top N. |
 | `correct` | index list, for example `"1"` | none | Marks the correct option(s) for a quiz. Or set `correct: true` on a data item. |
-| `correct-style` | `fill`, `indicator` | `fill` | `fill` paints the correct mark green (with `palette="deck"`, the deck ink) and the rest neutral. `indicator` keeps palette colours and marks the answer with a tick only. |
+| `correct-style` | `fill`, `indicator` | `fill` | `fill` paints the correct mark the answer-correct green (both palettes) and the rest neutral; the label carries a white tick on a green disc. `indicator` keeps palette colours and marks the answer with a tick only. |
 | `page-size` | number | all | Bar charts: options per page, with a ‹ › pager. Ranks carry across pages. |
 | `log-scale` | boolean attribute | off | Logarithmic lengths for bar and column when values span orders of magnitude. |
 | `legend` | `on`, `off` | auto | Auto means on for stacked, tree map, quadrant groups, multi-subject radar and a donut without callouts. |
