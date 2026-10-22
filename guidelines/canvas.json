@@ -62,13 +62,13 @@
     {
       "ref": "canvas-count",
       "as": "component",
-      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 48px container in the deck container set, never a hand-rolled pill",
+      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 40px container in the deck container set, never a hand-rolled pill",
       "status": "available"
     },
     {
       "ref": "canvas-status",
       "as": "component",
-      "use": "the status line and response count (Waiting for answers… · 8 of 24 answered) — <aha-canvas-status answered total>, free-floating deck text with no fill on any deck",
+      "use": "the status line (Waiting for answers…) — <aha-canvas-status>, free-floating deck text with no fill on any deck",
       "status": "available"
     },
     {

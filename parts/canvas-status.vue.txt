@@ -6,8 +6,5 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 <template>
   <aha-canvas-status
     :text="t('status.waiting_for_answers')"
-    :answered="answered"
-    :total="total"
-    :count-text="t('status.answered_of_total', { answered, total })"
   />
 </template>
