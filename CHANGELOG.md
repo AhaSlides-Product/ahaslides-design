@@ -24,9 +24,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.344.0 — 2026-10-22
 ### Added
-- Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#PRNUM)
+- Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
 ### Fixed
-- Marketing → Header: Hero Pink Vertical and Hero Pale Pink Vertical show the image whole at its own ratio on tablet and phone (container 991 px and below) instead of cropping it with `object-fit: cover`, as rule W6 requires. Header guidance names the Hero video and the 16:9 desktop frame. (#PRNUM)
+- Marketing → Header: Hero Pink Vertical and Hero Pale Pink Vertical show the image whole at its own ratio on tablet and phone (container 991 px and below) instead of cropping it with `object-fit: cover`, as rule W6 requires. Header guidance names the Hero video and the 16:9 desktop frame. (#347)
 
 ## 0.343.0 — 2026-10-22
 ### Added
