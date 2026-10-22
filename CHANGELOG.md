@@ -22,9 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.349.0 — 2026-10-22
+## 0.351.0 — 2026-10-22
 ### Added
 - Websites → Header: the G2 reviews row shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. The row is baked into the layout before the section html and css are composed, so the paste-and-run code, `header.md` and the agent feed carry it. Layouts without `reviews` are unchanged. Revert: restore the previous `reviews` object, highlight and guidance line in `marketing/header.json`, remove `bakeMarketingReviews` from `generate.mjs` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)
+
+## 0.344.0 — 2026-10-22
+### Added
+- Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
+### Fixed
+- Marketing → Header: Hero Pink Vertical and Hero Pale Pink Vertical show the image whole at its own ratio at every width instead of cropping it to a fixed 4:3 or 16:9 frame with `object-fit: cover` (on phones the crop was severe), as rule W6 requires. Header guidance names the Hero video and the uncropped image. (#347)
 
 ## 0.343.0 — 2026-10-22
 ### Added
