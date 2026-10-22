@@ -106,7 +106,7 @@
     },
     {
       "label": "Palette",
-      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → answer-correct #008A05 in both palettes · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
+      "value": "brand = --aha-viz-series-1…6 → the four chart colours of the colour rules, in order: Vivid Pink · black · Vivid Pink at 30% · light grey #A8A8A8, then Vivid Pink · black again (past four series, add a dashed line or pattern and a written label); tints → Vivid Pink at 5% behind the pink series, gray-20 behind the black and grey series · Other / non-correct → icon-muted · correct → answer-correct (Correct green) in both palettes · deck = consumer colours + ink · transparent background · more than 6 bar/column options share series 1"
     },
     {
       "label": "Ink",
