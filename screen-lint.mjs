@@ -14,6 +14,7 @@
  *   node screen-lint.mjs --surface=canvas   <file ...>      # a slide type's presenter stage
  *   node screen-lint.mjs --surface=audience <file ...>      # a slide type's audience phone
  *   node screen-lint.mjs --surface=settings <file ...>      # a slide type's settings panel (lib/settings.js only)
+ *   node screen-lint.mjs --surface=website  <file ...>      # a whole website page of Marketing sections
  *   node screen-lint.mjs --self-test                       # dogfood: run over this repo's snippets
  *
  * --surface is REQUIRED and mirrors the judge's J0: you cannot grade a screen without first routing
@@ -25,6 +26,12 @@
  * no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js),
  * no size="small"/"sm"/"large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
  * no maxlength on <aha-input> (a capped field is <aha-counted-input>, counter inside the field).
+ *
+ * Website is product UI (the product raw-hex, font-weight and responsive checks run, without the product-only
+ * region heuristics) with three differences: the min-width breakpoints the shipped Marketing sections use
+ * (lib/marketing-breakpoints.js, generated from marketing/*.json) are accepted inside @container/@media
+ * conditions while any other min-width stays a min-width-trap; a second <h1> hard-fails (multiple-h1); and an
+ * <img> without alt hard-fails (img-no-alt).
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
@@ -148,8 +155,8 @@ if (selfTest) {
 }
 
 /* ---- normal CLI ---- */
-if (!surface || !['product', 'canvas', 'audience', 'settings'].includes(surface)) {
-  console.error('screen-lint: --surface=product|canvas|audience|settings is REQUIRED (route the world first, like the judge J0).');
+if (!surface || !['product', 'canvas', 'audience', 'settings', 'website'].includes(surface)) {
+  console.error('screen-lint: --surface=product|canvas|audience|settings|website is REQUIRED (route the world first, like the judge J0).');
   process.exit(2);
 }
 if (!files.length) {

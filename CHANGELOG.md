@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.352.0 — 2026-10-22
+## 0.353.0 — 2026-10-22
 ### Added
 - Websites → Header: the G2 reviews row shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. The row is baked into the layout before the section html and css are composed, so the paste-and-run code, `header.md` and the agent feed carry it. Layouts without `reviews` are unchanged. Revert: restore the previous `reviews` object, highlight and guidance line in `marketing/header.json`, remove `bakeMarketingReviews` from `generate.mjs` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)
+
+## 0.346.0 — 2026-10-22
+### Added
+- Screen lint: `node screen-lint.mjs --surface=website <files>` for a whole website page of Marketing sections. It runs the product rules (raw hex, off-scale radius and weight, gradients, icons) and accepts the `min-width` breakpoints the shipped Marketing sections use (768 and 992, generated into `lib/marketing-breakpoints.js` from `marketing/*.json`) inside `@container` and `@media` conditions; any other `min-width` still fails `min-width-trap`. It adds two hard rules from the website guideline: `multiple-h1` (W4, one H1 per page) and `img-no-alt` (W6, every picture has alt). Product, canvas, audience and settings behave as before. Revert: remove `lib/screen-lint-website.js`, `lib/marketing-breakpoints.js`, their hooks in `lib/screen-lint.js` and `generate.mjs`, and the `website` entry in `screen-lint.mjs` (#348)
 
 ## 0.345.0 — 2026-10-22
 ### Added
