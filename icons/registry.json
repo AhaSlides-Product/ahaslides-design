@@ -3573,7 +3573,7 @@
     "system-reveal-radar-sweep": {
       "family": "system",
       "viewBox": "0 0 16 16",
-      "body": "<path d=\"M8 8L8 1.5L13.63 4.75Z\" fill=\"currentColor\" fill-opacity=\"0.2\"/><path d=\"M8 1.5L13.63 4.75L13.63 11.25L8 14.5L2.37 11.25L2.37 4.75Z\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M8 8L12.33 5.5\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"8\" cy=\"8\" r=\"1.15\" fill=\"currentColor\"/>",
+      "body": "<path d=\"M8 8L8 1.5L13.63 4.75Z\" fill=\"currentColor\" fill-opacity=\"0.2\"/><path d=\"M8 1.5L13.63 4.75L13.63 11.25L8 14.5L2.37 11.25L2.37 4.75Z\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M8 8L12.33 5.5\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"8\" cy=\"8\" r=\"0.9\" fill=\"currentColor\"/>",
       "recolorable": true,
       "meaning": [
         "radar",

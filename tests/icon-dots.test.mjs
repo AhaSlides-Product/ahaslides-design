@@ -21,6 +21,12 @@ test('a filled circle without stroke and a stroked open line are not flagged', (
   assert.equal(findStrokedDots('<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="1" fill="#4A4A4A"/><path d="M8 8L8 8.1" stroke="#4A4A4A" stroke-width="1.5"/></svg>').length, 0);
 });
 
+test('a missing stroke-width means the SVG default of 1', () => {
+  const smallCircle = '<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="0.4" fill="#4A4A4A" stroke="#4A4A4A"/></svg>';
+  assert.equal(findStrokedDots(smallCircle)[0].strokeWidth, 1);
+  assert.equal(findStrokedDots('<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="0.6" stroke="#4A4A4A"/></svg>').length, 0);
+});
+
 test('relative commands accumulate from the current point', () => {
   const [sub] = parseSubpaths('M2 2l1 0l0 1z');
   assert.deepEqual([sub.minX, sub.maxX, sub.minY, sub.maxY, sub.closed], [2, 3, 2, 3, true]);

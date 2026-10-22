@@ -36,27 +36,22 @@ export function parseSubpaths(d) {
   });
 }
 
-export function defaultStrokeWidth(svg) {
-  const viewBoxWidth = parseFloat(((svg.match(/viewBox="([^"]+)"/) || [])[1] || '0 0 16 16').split(/[\s,]+/)[2]);
-  return 1.5 * viewBoxWidth / 16;
-}
-
 const isStroked = (tag) => /\sstroke="(?!none)/.test(tag);
-const widthOf = (tag, svg) => Number((tag.match(/\sstroke-width="([^"]+)"/) || [])[1] ?? defaultStrokeWidth(svg));
+const widthOf = (tag) => Number((tag.match(/\sstroke-width="([^"]+)"/) || [])[1] ?? 1);
 
 export function findStrokedDots(svg) {
   const found = [];
   for (const tag of svg.match(/<path\b[^>]*>/g) || []) {
     const d = (tag.match(/\sd="([^"]+)"/) || [])[1];
     if (!d || !isStroked(tag)) continue;
-    const strokeWidth = widthOf(tag, svg);
+    const strokeWidth = widthOf(tag);
     parseSubpaths(d).forEach((sub, subpathIndex) => {
       if (sub.closed && Math.max(sub.width, sub.height) < strokeWidth) found.push({ kind: 'path', tag, strokeWidth, subpathIndex, ...sub });
     });
   }
   for (const tag of svg.match(/<circle\b[^>]*>/g) || []) {
     const radius = Number((tag.match(/\sr="([^"]+)"/) || [])[1]);
-    const strokeWidth = widthOf(tag, svg);
+    const strokeWidth = widthOf(tag);
     if (isStroked(tag) && radius * 2 < strokeWidth) found.push({ kind: 'circle', tag, strokeWidth, radius, cx: Number((tag.match(/\scx="([^"]+)"/) || [])[1]), cy: Number((tag.match(/\scy="([^"]+)"/) || [])[1]) });
   }
   return found;

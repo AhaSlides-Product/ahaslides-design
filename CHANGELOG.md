@@ -22,9 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.345.1 — 2026-10-22
+## 0.346.2 — 2026-10-22
 ### Fixed
 - Icons: the dots in 23 system glyphs (smiley, sad-face, angry-face, question, question-mark, exclamation-mark, info, warning-circle, dots-three and others) no longer render as hollow rings on iOS Safari. Each dot was a tiny closed path with a 1.5 stroke wider than the shape; WebKit strokes it as an outer and an inverted inner contour. Each is now a plain filled circle of the same size, so desktop rendering is unchanged. The icon build fails if a source icon draws a stroked closed path smaller than its stroke width (#354)
+
+## 0.346.0 — 2026-10-22
+### Added
+- Screen lint: `node screen-lint.mjs --surface=website <files>` for a whole website page of Marketing sections. It runs the product rules (raw hex, off-scale radius and weight, gradients, icons) and accepts the `min-width` breakpoints the shipped Marketing sections use (768 and 992, generated into `lib/marketing-breakpoints.js` from `marketing/*.json`) inside `@container` and `@media` conditions; any other `min-width` still fails `min-width-trap`. It adds two hard rules from the website guideline: `multiple-h1` (W4, one H1 per page) and `img-no-alt` (W6, every picture has alt). Product, canvas, audience and settings behave as before. Revert: remove `lib/screen-lint-website.js`, `lib/marketing-breakpoints.js`, their hooks in `lib/screen-lint.js` and `generate.mjs`, and the `website` entry in `screen-lint.mjs` (#348)
 
 ## 0.345.0 — 2026-10-22
 ### Added
