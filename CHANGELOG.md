@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.350.0 — 2026-10-22
+### Changed
+- Marketing → Header: the optional Hero Video slot sizes to the clip's own aspect ratio (from its `width` and `height` attributes) instead of a fixed 16:9 frame, so wide demo clips no longer show dark bands. A height cap of `min(80vh, 40rem)` stops a tall clip taking over the hero. Still off by default; no other layout changes. (#PRNUM)
+
 ## 0.344.0 — 2026-10-22
 ### Added
 - Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
