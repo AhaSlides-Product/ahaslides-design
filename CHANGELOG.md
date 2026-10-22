@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.353.1 — 2026-10-22
+### Fixed
+- Icons: the dots in 23 system glyphs (smiley, sad-face, angry-face, question, question-mark, exclamation-mark, info, warning-circle, dots-three and others) no longer render as hollow rings on iOS Safari. Each dot was a tiny closed path with a 1.5 stroke wider than the shape; WebKit strokes it as an outer and an inverted inner contour. Each is now a plain filled circle of the same size, so desktop rendering is unchanged. The icon build fails if a source icon draws a stroked closed path smaller than its stroke width (#354)
+
 ## 0.353.0 — 2026-10-22
 ### Added
 - Websites → Header: the G2 reviews row shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. The row is baked into the layout before the section html and css are composed, so the paste-and-run code, `header.md` and the agent feed carry it. Layouts without `reviews` are unchanged. Revert: restore the previous `reviews` object, highlight and guidance line in `marketing/header.json`, remove `bakeMarketingReviews` from `generate.mjs` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)

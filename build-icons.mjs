@@ -20,6 +20,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { findStrokedDots } from './icon-dots.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const SVGDIR = join(root, 'icons', 'svg');
@@ -55,13 +56,16 @@ const meaningWords = existsSync(MEANING) ? JSON.parse(readFileSync(MEANING, 'utf
 const families = readdirSync(SVGDIR).filter(f => statSync(join(SVGDIR, f)).isDirectory());
 const icons = {};
 const offForm = [];
+const strokedDots = [];
 let n = 0;
 for (const fam of families.sort()) {
   const dir = join(SVGDIR, fam);
   for (const file of readdirSync(dir).filter(f => f.endsWith('.svg')).sort()) {
     const name = file.replace(/\.svg$/, '');
     if (!KEBAB.test(name)) { offForm.push(`${fam}/${file}`); continue; }
-    const { viewBox, body, recolorable } = normalise(readFileSync(join(dir, file), 'utf8'));
+    const source = readFileSync(join(dir, file), 'utf8');
+    if (findStrokedDots(source).length) strokedDots.push(`${fam}/${file}`);
+    const { viewBox, body, recolorable } = normalise(source);
     if (!body) { console.warn(`  ! empty body: ${fam}/${name}`); continue; }
     icons[name] = { family: fam, viewBox, body, recolorable, meaning: meaningWords[name] || [] };
     n++;
@@ -71,6 +75,13 @@ if (offForm.length) {
   console.error(`\n✗ icon build failed — ${offForm.length} icon name(s) are not kebab-case (un-guessable, so consumers get them wrong):`);
   for (const f of offForm) console.error(`    ${f}  →  rename to lowercase-hyphenated (e.g. system-arrow-circle-up)`);
   console.error('  Kebab-case is the only guessable form. Rename the SVG (and add a back-compat alias below if a consumer already references the old spelling).\n');
+  process.exit(1);
+}
+
+if (strokedDots.length) {
+  console.error(`\n✗ icon build failed — ${strokedDots.length} icon(s) draw a dot as a stroked closed path smaller than its stroke width (iOS Safari renders it as a hollow ring):`);
+  for (const f of strokedDots) console.error(`    ${f}`);
+  console.error('  Draw each dot as a filled <circle> with no stroke (r = dot radius + stroke width / 2).\n');
   process.exit(1);
 }
 
