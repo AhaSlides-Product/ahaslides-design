@@ -1,0 +1,35 @@
+<div class="pad">
+  <div class="lbl">Status line and count</div>
+  <div class="demo-stage">
+    <aha-canvas-status data-probe answered="8" total="24"></aha-canvas-status>
+  </div>
+
+  <div class="lbl">Count only · line only</div>
+  <div class="row" style="justify-content:space-around; flex-wrap:wrap; gap:24px">
+    <aha-canvas-status text="" answered="8" total="24"></aha-canvas-status>
+    <aha-canvas-status text="Voting is open"></aha-canvas-status>
+  </div>
+
+  <div class="lbl">On the four decks (applyCanvasDeck) — no backing on any of them</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px">
+    <div data-status-deck data-ink="#1A1A1A" style="padding:40px 24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-white,#FFFFFF); border:1px solid var(--aha-border-default,#E3E3E3)">
+      <aha-canvas-status answered="8" total="24"></aha-canvas-status>
+    </div>
+    <div data-status-deck data-ink="#FFFFFF" style="padding:40px 24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-gray-100,#1A1A1A)">
+      <aha-canvas-status answered="8" total="24"></aha-canvas-status>
+    </div>
+    <div data-status-deck data-ink="#1A1A1A" data-image style="padding:40px 24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-white,#FFFFFF) url(../backgrounds/splash-centre-white-16x9.svg) center / cover">
+      <aha-canvas-status answered="8" total="24"></aha-canvas-status>
+    </div>
+    <div data-status-deck data-ink="#FFFFFF" data-image style="padding:40px 24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-vivid-pink-100,#E70E68) url(../backgrounds/splash-centre-pink-16x9.svg) center / cover">
+      <aha-canvas-status answered="8" total="24"></aha-canvas-status>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-canvas-status.js';
+  import { applyCanvasDeck } from '../lib/canvas-deck.js';
+  for (const deck of document.querySelectorAll('[data-status-deck]')) applyCanvasDeck(deck, { ink: deck.dataset.ink, image: 'image' in deck.dataset });
+</script>

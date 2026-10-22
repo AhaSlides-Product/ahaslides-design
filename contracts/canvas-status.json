@@ -1,0 +1,179 @@
+{
+  "name": "Canvas status",
+  "slug": "canvas-status",
+  "group": "General",
+  "tier": "leaf",
+  "badge": "shared web component — canvas",
+  "element": "aha-canvas-status",
+  "reuse": {
+    "entry": "./aha-canvas-status",
+    "registers": "aha-canvas-status",
+    "exportsNamed": [
+      "AhaCanvasStatus",
+      "defineAhaCanvasStatus"
+    ]
+  },
+  "summary": "The status line and response count on a slide canvas (Waiting for answers… · 8 of 24 answered) as one component: free-floating deck text, no fill on any deck.",
+  "highlights": [
+    "Status line over the response count, centred",
+    "Free-floating text in the deck ink, no backing even on photo decks",
+    "A polite live region that announces each new count once"
+  ],
+  "lead": "ONE custom element — <aha-canvas-status> — for the waiting state many slide types show on the presenter canvas before the result: a status line in the deck ink at 76% and, under it, a people glyph and \"8 of 24 answered\" in the deck ink. It carries no fill or stroke, so it sits straight on the deck, a photo deck included. Text and counts are attributes; pass translated strings in the product.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
+  "tokensUsed": [
+    "text-default",
+    "space-4",
+    "space-12",
+    "font-product",
+    "weight-regular",
+    "weight-semibold"
+  ],
+  "spec": [
+    {
+      "label": "Status line",
+      "value": "18px / 400 (the canvas body size), --aha-deck-ink-secondary (the deck ink at 76%); `text=\"\"` hides it"
+    },
+    {
+      "label": "Count",
+      "value": "system-users 24 · 4px · \"8 of 24 answered\" 20px / 600, tabular figures, in the deck ink; hidden while `answered` is unset"
+    },
+    {
+      "label": "Layout",
+      "value": "column, centred, 12px between line and count"
+    },
+    {
+      "label": "Backing",
+      "value": "none on every deck — never a fill, stroke or scrim, photo decks included"
+    }
+  ],
+  "props": [
+    {
+      "name": "text",
+      "type": "string",
+      "default": "\"Waiting for answers…\"",
+      "desc": "The status line; an empty string hides it"
+    },
+    {
+      "name": "answered",
+      "type": "number",
+      "default": "—",
+      "desc": "How many answered; unset hides the count"
+    },
+    {
+      "name": "total",
+      "type": "number",
+      "default": "—",
+      "desc": "How many can answer; with it the count reads \"8 of 24 answered\", without it \"8 answered\""
+    },
+    {
+      "name": "count-text",
+      "type": "string",
+      "default": "built from answered / total (English)",
+      "desc": "Replaces the count sentence; pass a translated string in the product"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Canvas status",
+        "when": "while answers come in on the presenter canvas: what is happening and how many answered"
+      },
+      {
+        "what": "Canvas count",
+        "when": "once there is a result to count: correct / incorrect, or answered next to the result"
+      }
+    ],
+    "note": "Keep it to the line and the count. It is text on the deck, so never put it in a card or behind a scrim: on a photo deck the deck's own text treatment carries it, as it carries the slide title."
+  },
+  "a11y": {
+    "role": "role=\"status\" with aria-live=\"polite\"; the glyph is decorative",
+    "keyboard": "static (nothing to focus)",
+    "note": "Updates change the text of persistent nodes, so a screen reader hears each new count once and nothing is re-announced on unrelated renders."
+  },
+  "surfaces": [
+    "presenter"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "canvas-status.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "canvas-status.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "canvas-status.vue.txt"
+    }
+  ],
+  "preview": "canvas-status.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The probe sits on a white stage with no deck applied, so every value is its DS fallback.",
+    "ready": "!!(document.querySelector('aha-canvas-status[data-probe]') && document.querySelector('aha-canvas-status[data-probe]').shadowRoot && document.querySelector('aha-canvas-status[data-probe]').shadowRoot.querySelector('.count-text'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-canvas-status[data-probe]').shadowRoot;var l=getComputedStyle(r.querySelector('.line'));var c=getComputedStyle(r.querySelector('.count'));var s=getComputedStyle(r.querySelector('.status'));return{lineSize:l.fontSize,countSize:c.fontSize,countWeight:c.fontWeight,countColor:c.color,gap:s.rowGap,background:s.backgroundColor,role:r.querySelector('.status').getAttribute('role'),countText:r.querySelector('.count-text').textContent};})()",
+    "expect": {
+      "lineSize": "18px",
+      "countSize": "20px",
+      "countWeight": "600",
+      "countColor": "rgb(26, 26, 26)",
+      "gap": "12px",
+      "background": "rgba(0, 0, 0, 0)",
+      "role": "status",
+      "countText": "8 of 24 answered"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "no fill, stroke or scrim on any deck",
+      "verdict": "PASS"
+    },
+    {
+      "label": "line in the deck ink at 76%, count in the deck ink",
+      "verdict": "PASS"
+    },
+    {
+      "label": "polite live region updated on persistent nodes",
+      "verdict": "PASS"
+    }
+  ],
+  "composedOf": [
+    {
+      "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-users",
+      "status": "shipped"
+    }
+  ],
+  "playground": {
+    "controls": [
+      {
+        "prop": "total",
+        "label": "Total",
+        "default": "24",
+        "options": [
+          {
+            "label": "24",
+            "value": "24"
+          },
+          {
+            "label": "None",
+            "value": "__remove__"
+          }
+        ]
+      }
+    ]
+  }
+}
