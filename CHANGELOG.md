@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.367.2 — 2026-10-22
+### Fixed
+- `<aha-button>` declares `formAssociated` as a static getter instead of a static class field, which Safari and iOS below 14.1 cannot parse. Behaviour is unchanged. The browser-syntax test now also fails on a static class field in any browser-shipped `lib/*.js` file. (#367)
+Revert: restore `lib/aha-button.js` and the second test in `tests/browser-lib-syntax.test.mjs` from git.
+
 ## 0.367.1 — 2026-10-22
 ### Fixed
 - `<aha-button>` no longer uses a regex lookbehind to build its link-form style, which Safari and iOS below 16.4 cannot parse (the chunk holding the button failed to load there). The rewritten rule produces a byte-identical stylesheet. A test now fails when any browser-shipped `lib/*.js` file contains a lookbehind. (#366)
