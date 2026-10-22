@@ -258,18 +258,21 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
 
 test('W9: parallax moves the image inside a clipping frame, never the frame, and never a screenshot', () => {
   const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
-  const selector = script.match(/const PARALLAX_SELECTOR = \[([\s\S]*?)\]\.join/)[1];
-  for (const frame of ['.aha-features__photo', '.aha-testimonials__frame', '.aha-numbers__frame']) assert.ok(selector.includes(`${frame}`), frame);
-  assert.equal([...selector.matchAll(/'([^']+)'/g)].every((match) => /> img$/.test(match[1])), true);
-  assert.match(selector, /:not\(\.aha-features__photo--fill\):not\(\.aha-features__photo--pink-frame\)/);
+  const selector = script.match(/const PARALLAX_SELECTOR = '([^']+)'/)[1];
+  assert.deepEqual(selector.split(', '), ['.aha-features__frame > img', '.aha-testimonials__frame > img', '.aha-numbers__frame > img']);
   const style = script.match(/const STYLE = `([\s\S]*?)`;/)[1];
   assert.match(style, /\[data-aha-parallax\]\{transform:translate3d\(0,var\(--aha-parallax-y,0px\),0\) scale\(\$\{PARALLAX_OVERSCAN\}\)/);
   assert.match(script, /target\.parentElement\.getBoundingClientRect/);
   for (const [file, css] of [['features', featuresCss], ['testimonials', testimonialsCss], ['numbers', numbersCss]]) {
-    const frameSelector = {features: '.aha-features__photo', testimonials: '.aha-testimonials__frame', numbers: '.aha-numbers__frame'}[file];
+    const frameSelector = `.aha-${file}__frame`;
     const frame = declarations(css, frameSelector);
     assert.equal(frame.overflow, 'hidden', `${file} frame clips the image`);
     assert.equal(frame.transform, undefined, `${file} frame is not transformed`);
+  }
+  for (const layout of features.layouts) {
+    const framed = layout.html.includes('aha-features__frame');
+    assert.equal(framed, layout.slug === 'icon-list-photo', layout.slug);
+    if (framed) assert.doesNotMatch(layout.html, /aha-features__photo--(fill|pink-frame)/);
   }
   assert.equal(declarations(testimonialsCss, '.aha-testimonials__photo').height, '100%');
   assert.equal(declarations(numbersCss, '.aha-numbers__image').height, '100%');
