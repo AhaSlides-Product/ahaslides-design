@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.357.0 — 2026-10-22
+### Added
+- Marketing → Cards and Features: an optional Video slot. A step card, a template, article or use-case card, and the alternating Features image rows can hold a `<video>` where they hold an `<img>`, under the same fill or frame rule (W6) and never cropped: the clip's `width` and `height` set the ratio, controls on, no autoplay, loop or sound on load, a captions track only when the clip has audio. Opt-in markup plus one css block per page (`aha-marketing-card__video` / `aha-features__video`, framed `__shot`); existing cards and rows are unchanged. Guideline W6, the website criterion and the agent feeds describe it. (#359)
+
 ## 0.356.0 — 2026-10-22
 ### Removed
 - Canvas status: the response count line (people glyph and "8 of 24 answered") is gone, along with the `answered`, `total` and `count-text` attributes; `<aha-canvas-status>` now shows only the status line. Consumers passing those attributes no longer see a count. Docs section renamed "Status line"; contract, canvas guideline and snippets updated. (#356)
