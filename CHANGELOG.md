@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.344.2 — 2026-10-22
+### Fixed
+- Icons: the dots in 23 system glyphs (smiley, sad-face, angry-face, question, question-mark, exclamation-mark, info, warning-circle, dots-three and others) no longer render as hollow rings on iOS Safari. Each dot was a tiny closed path with a 1.5 stroke wider than the shape; WebKit strokes it as an outer and an inverted inner contour. Each is now a plain filled circle of the same size, so desktop rendering is unchanged. The icon build fails if a source icon draws a stroked closed path smaller than its stroke width (#NNN)
+
 ## 0.344.0 — 2026-10-22
 ### Added
 - Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
