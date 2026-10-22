@@ -12,7 +12,7 @@
     "Every band is a DS Marketing section; a missing one is a DSN ticket, never hand-rolled; Testimonials and FAQ are pasted unchanged",
     "Sections share one side gutter, `--aha-web-gutter` (64 px desktop, 24 px at 767 px and below, 16 px at 479 px and below), and a button sits 32 px (24 at 479 px) under its own text and 48 px (32 at 479 px) under a closing list; grids are balanced and layouts vary, at most 3 alternating rows",
     "One H1, one primary action per section, its label written for the page (not always Get started free); every content section closed by a call to action: the hero's primary, except Templates, Integrations, case studies and FAQ, which link to their page; the hero's call to action repeated at the end",
-    "Headings centred over symmetric content and left only in a split; checked at 1440, 768 and 375 px with no sideways scroll; motion is staggered reveal, light photo parallax and count-up numbers from one DS script"
+    "Headings centred over symmetric content and left only in a split; checked at 1440, 768 and 375 px with no sideways scroll; motion is staggered reveal, light in-frame photo parallax (the frame stays still, the picture drifts inside it) and count-up numbers from one DS script"
   ],
   "whenToRead": "Read before building, redesigning or reviewing any website page made of full-width sections: a landing, pricing, blog, careers, campaign or help page, on the public site or inside the product.",
   "lead": "The Marketing section library gives you the bands; this pattern is how they go together into one page. It adds no new values: every number below is one the shipped sections already use (marketing/*.json), and colour and background come from the colour rules (brand/colour-rules.json, section 3), cited by id and not restated. Typography, UX writing, the page title and favicon, and the logo each keep their own guideline; judge a page on `website` plus `colour`, `background`, `typography` and `ux-writing`.",
@@ -238,7 +238,7 @@
       ]
     },
     {
-      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; section photos drift at most 48 px against the scroll; a Numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel or video, no hand-written scroll or parallax script on the page; the Logos strip's shipped loop, which stops under reduced motion, is the one continuous motion allowed.",
+      "rule": "Motion is staggered reveal, light image parallax and count-up numbers, all from one DS script, and nothing else. Load `lib/marketing-motion.js` once (`<script type=\"module\" src=\"…/lib/marketing-motion.js\">`; on by default, `data-aha-motion=\"off\"` opts a section or the page out). Elements fade in and slide up 24 px as they scroll into view, items that enter together 80 ms apart, timed with `--aha-motion-viz-enter` and `--aha-ease-out`; a real photo in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame` drifts inside that frame, which never moves (the picture is drawn 112% of the frame and drifts at most 6% of the frame height, never more than 48 px, against the scroll; a screenshot gets no frame wrapper and never drifts); a Numbers value counts up from 0 to its written value once, when it is half in view. Hover transitions use `--aha-motion-*` and `--aha-ease-*`. Under `prefers-reduced-motion: reduce` nothing moves and every final value shows at once. No scroll-jacking, no autoplaying carousel or video, no hand-written scroll or parallax script on the page; the Logos strip's shipped loop, which stops under reduced motion, is the one continuous motion allowed.",
       "ref": [
         "W9"
       ],
@@ -371,7 +371,7 @@
       "verdict": "consumer self-judges (W8)"
     },
     {
-      "label": "motion is the DS script only: staggered reveal, light photo parallax, numbers count up from 0, all off under reduced motion; no scroll-jacking or autoplay",
+      "label": "motion is the DS script only: staggered reveal, light in-frame photo parallax (the frame never moves), numbers count up from 0, all off under reduced motion; no scroll-jacking or autoplay",
       "verdict": "consumer self-judges (W9)"
     },
     {

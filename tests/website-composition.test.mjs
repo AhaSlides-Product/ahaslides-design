@@ -242,6 +242,7 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
   const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
   assert.match(script, /STAGGER_MILLISECONDS = 80/);
   assert.match(script, /PARALLAX_RANGE_PIXELS = 48/);
+  assert.match(script, /PARALLAX_RANGE_FRACTION = 0\.06/);
   assert.match(script, /--aha-motion-viz-enter/);
   assert.match(script, /--aha-ease-out/);
   assert.match(script, /prefers-reduced-motion: reduce/);
@@ -253,6 +254,28 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
   for (const entry of evals.filter((item) => item.label === 'good-control')) {
     assert.match(sectionPage(entry.files[0].path.split('/')[1]), /lib\/marketing-motion\.js/);
   }
+});
+
+test('W9: parallax moves the image inside a clipping frame, never the frame, and never a screenshot', () => {
+  const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
+  const selector = script.match(/const PARALLAX_SELECTOR = '([^']+)'/)[1];
+  assert.deepEqual(selector.split(', '), ['.aha-features__frame > img', '.aha-testimonials__frame > img', '.aha-numbers__frame > img']);
+  const style = script.match(/const STYLE = `([\s\S]*?)`;/)[1];
+  assert.match(style, /\[data-aha-parallax\]\{transform:translate3d\(0,var\(--aha-parallax-y,0px\),0\) scale\(\$\{PARALLAX_OVERSCAN\}\)/);
+  assert.match(script, /target\.parentElement\.getBoundingClientRect/);
+  for (const [file, css] of [['features', featuresCss], ['testimonials', testimonialsCss], ['numbers', numbersCss]]) {
+    const frameSelector = `.aha-${file}__frame`;
+    const frame = declarations(css, frameSelector);
+    assert.equal(frame.overflow, 'hidden', `${file} frame clips the image`);
+    assert.equal(frame.transform, undefined, `${file} frame is not transformed`);
+  }
+  for (const layout of features.layouts) {
+    const framed = layout.html.includes('aha-features__frame');
+    assert.equal(framed, layout.slug === 'icon-list-photo', layout.slug);
+    if (framed) assert.doesNotMatch(layout.html, /aha-features__photo--(fill|pink-frame)/);
+  }
+  assert.equal(declarations(testimonialsCss, '.aha-testimonials__photo').height, '100%');
+  assert.equal(declarations(numbersCss, '.aha-numbers__image').height, '100%');
 });
 
 test('W9: the motion script imports as a no-op outside a browser and keeps the final number for screen readers and print', async () => {

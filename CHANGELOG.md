@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.368.0 — 2026-10-22
+### Changed
+- Marketing motion: parallax now moves the picture inside its frame instead of sliding the frame. The picture is drawn 112% of the frame, drifts at most 6% of the frame height (never more than 48 px) and is clipped by the frame, so the frame's box, radius and position stay still. A picture drifts only when it sits in an `aha-features__frame`, `aha-testimonials__frame` or `aha-numbers__frame`; screenshots get no frame wrapper and never drift. (#365)
+- Features: new `aha-features__frame` clipping wrapper, used by Icon list with photo.
+- Testimonials: the Simple left aligned photo sits in an `aha-testimonials__frame` wrapper (was a bare `<img>`); Numbers split-image: the image sits in an `aha-numbers__frame` inside the card. A page with the old markup simply does not drift.
+Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `marketing/numbers.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json`.
+
 ## 0.367.0 — 2026-10-22
 ### Added
 - Website guideline W2 now carries two spacing rules. Page gutter: every Marketing section keeps the same side padding, 64px on desktop, 24px at 767px and below, 16px at 479px and below (a section reads it as `--aha-web-gutter` on its inner element). Content to button: a button directly under its own text sits 32px below it (24px at 479px and below), a closing call to action after a list or grid sits 48px below (32px at 479px and below), buttons next to each other 12px. A new test (`tests/web-gutter.test.mjs`) fails when a section's side padding differs from the gutter at 375 and 600px. (#360)
