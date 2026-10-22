@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const readJson = (path) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
 
@@ -208,9 +209,9 @@ test('W17: the FAQ title centres itself and symmetric headers carry the centre c
 
 test('W18: every content section ships one call to action, aligned with its heading', () => {
   for (const slug of ['alternating-screenshots', 'icon-grid', 'tabs-screenshots']) {
-    assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><a class="aha-features__button" href="#sign-up">Sign up<\/a><\/div>/, slug);
+    assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><aha-button variant="primary" size="xl" href="#sign-up">Sign up<\/aha-button><\/div>/, slug);
   }
-  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><a class="aha-faq__button aha-faq__button--ghost" href="#docs">Read the docs/);
+  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs">Read the docs/);
   assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(testimonialsCss, /\.aha-testimonials__cta--start\{justify-content:flex-start\}/);
@@ -223,9 +224,9 @@ test('W18: every content section ships one call to action, aligned with its head
 test('W4 and W18 agree: a section Sign-up call to action repeats the hero label in every fixture', () => {
   for (const entry of evals) {
     const page = readFileSync(new URL(`../anti-slop/evals/website/${entry.files[0].path}`, import.meta.url), 'utf8');
-    const heroLabel = page.match(/class="aha-header-section-hero-pink__cta"[^>]*>([^<]+)</)?.[1];
+    const heroLabel = page.match(/<aha-button variant="secondary" size="xl" href="\/signup">([^<]+)</)?.[1];
     if (!heroLabel) continue;
-    const sectionPrimaryLabels = [...page.matchAll(/class="aha-(?:features|numbers)__button"[^>]*>([^<]+)</g)].map((match) => match[1]);
+    const sectionPrimaryLabels = [...page.matchAll(/<aha-button variant="primary" size="xl"[^>]*>([^<]+)</g)].map((match) => match[1]);
     for (const label of sectionPrimaryLabels) assert.equal(label, heroLabel, entry.files[0].path);
   }
 });
@@ -260,4 +261,16 @@ test('W9: the motion script imports as a no-op outside a browser and keeps the f
   assert.match(script, /typeof document !== 'undefined'/);
   assert.match(script, /aha-motion-final/);
   assert.match(script, /@media print\{[^]*\.aha-motion-count\{display:none\}/);
+});
+
+test('W16: every fixture marked W16 PASS has no hand-rolled button and no class-based call to action', () => {
+  const passing = evals.filter((entry) => JSON.stringify(entry).includes('"W16":"PASS"'));
+  assert.ok(passing.length > 0);
+  for (const entry of passing) {
+    const path = entry.files[0].path;
+    const page = readFileSync(new URL(`../anti-slop/evals/website/${path}`, import.meta.url), 'utf8');
+    assert.doesNotMatch(page, /<a class="aha-[a-z-]+__button/, path);
+    const lint = spawnSync(process.execPath, ['screen-lint.mjs', '--surface=website', new URL(`../anti-slop/evals/website/${path}`, import.meta.url).pathname], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8' });
+    assert.doesNotMatch(lint.stdout + lint.stderr, /hand-rolled-button/, path);
+  }
 });

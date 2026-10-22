@@ -1503,7 +1503,7 @@ const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCs
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
-    html: b.layouts.map(layout => layout.html).join('\n') };
+    html: b.layouts.map(layout => resolveDefaultStateVariants(b, layout, layout.html)).join('\n') };
 }
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -1846,6 +1846,16 @@ function marketingStateSwitch(b, layout) {
   const initial = (states.find(state => state.default) || states[0]).modifier;
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
+const stripStateVariantHooks = (code) => code.replace(/(<aha-button\b[^>]*?)\sdata-variant-[a-z0-9-]+="[^"]*"/g, '$1');
+const resolveDefaultStateVariants = (b, layout, code) => {
+  const defaultState = marketingLayoutStates(b, layout)?.find(state => state.default);
+  return defaultState?.modifier ? marketingStateVariants(code, defaultState.modifier) : stripStateVariantHooks(code);
+};
+const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
+  const variant = tag.match(new RegExp(`\\sdata-variant-${modifier}="([^"]+)"`));
+  const stripped = tag.replace(/\sdata-variant-[a-z0-9-]+="[^"]*"/g, '');
+  return variant ? stripped.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`) : stripped;
+});
 const marketingStatePanes = (b, layout, snippet) => {
   const states = marketingLayoutStates(b, layout);
   if (!states || !marketingHasStates(b, layout)) return [];
@@ -1855,7 +1865,7 @@ const marketingStatePanes = (b, layout, snippet) => {
   return states.filter(state => state.modifier).map(state => {
     const stripOthers = new RegExp(otherModifiers(state.modifier).join('|') || '(?!)', 'g');
     return { key: `state-${state.modifier}`, label: state.label,
-      code: snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`) };
+      code: marketingStateVariants(snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`), state.modifier) };
   });
 };
 function marketingReviewsFor(b, layout) {
@@ -1962,6 +1972,27 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_VARIANT_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv,.mbp').forEach(function(root){
+      var seg=root.querySelector('.mbp-state');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),current=seg.getAttribute('value');
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        doc.querySelectorAll('aha-button').forEach(function(button){
+          if(!button.hasAttribute('data-base-variant'))button.setAttribute('data-base-variant',button.getAttribute('variant')||'');
+          var next=button.getAttribute('data-variant-'+(current||'default'));
+          button.setAttribute('variant',next||button.getAttribute('data-base-variant'));
+        });
+      }
+      frame.addEventListener('load',apply);
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
 const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
   (function(){
     document.querySelectorAll('.mfv').forEach(function(root){
@@ -2006,8 +2037,8 @@ ${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
 ${b.video ? `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
   <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
@@ -2716,7 +2747,7 @@ const ANTISLOP_LOOP = [
   'Before you write a screen: (1) identify the surface(s) you are building;',
   "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
   '(node screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>) to hard-fail the zero-interpretation',
-  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel, a second <h1> or an <img> without alt on a website page), then the",
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-rolled or restyled button on any surface, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel, a second <h1> or an <img> without alt on a website page), then the",
   'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');

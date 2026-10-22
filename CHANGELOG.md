@@ -22,13 +22,31 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.359.0 — 2026-10-22
+## 0.367.0 — 2026-10-22
 ### Added
 - Website guideline W2 now carries two spacing rules. Page gutter: every Marketing section keeps the same side padding, 64px on desktop, 24px at 767px and below, 16px at 479px and below (a section reads it as `--aha-web-gutter` on its inner element). Content to button: a button directly under its own text sits 32px below it (24px at 479px and below), a closing call to action after a list or grid sits 48px below (32px at 479px and below), buttons next to each other 12px. A new test (`tests/web-gutter.test.mjs`) fails when a section's side padding differs from the gutter at 375 and 600px. (#360)
 ### Changed
 - Mobile side padding is now one value across Features, Numbers, Pricing, Testimonials, Cards, FAQ, Footer banner, Footer, Navigation, the 6 page headers, the 14 heroes and the 4 Hero Pink layouts: 24px at 767px and below, 16px at 479px and below (it was 32, 16, 64, 0 and 24 depending on the section). The Footer banner card also steps 24px / 16px inside. Desktop side padding of heroes, page headers, Hero Pink, Footer, Navigation and Cards is unchanged. (#360)
 - Button spacing on desktop: Features and Numbers action row 16px to 32px under the text, the 14 heroes' action row and form 40px to 32px, Footer banner paragraph to button 24px to 32px. FAQ keeps its desktop layout and no longer uses `--aha-faq-gutter` (the Frequently asked questions heading and button spacing moved from the inner gap to margins). Revert: undo this release's `marketing/*.json` edits. (#360)
 - The Webflow scan lists the live gutter and button gaps as consumer-to-update items. (#360)
+
+## 0.365.0 — 2026-10-22
+### Changed
+- Colour rule 6.2: on Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the design system Button", are gone. Colour-rules version row v20.
+- Header hero-pink, hero-pink-vertical, hero-pale-pink, hero-pale-pink-vertical and the Footer banner draw their call to action as `<aha-button variant="secondary">` on the solid Vivid Pink surface, with no `--aha-button-*` re-theme or `ds-lint-allow` line. The Pale Pink state of the four Hero Pink layouts is Vivid Pink at 5%, so its button is the primary: a `data-variant-pale="primary"` (Hero Pink, Hero Pink Vertical) or `data-variant-default="secondary"` (Hero Pale Pink, Hero Pale Pink Vertical) hook switches the variant per state in the live preview.
+- The 15 other Header layouts with a Vivid Pink (`--brand`) state lose their `--aha-button-*` re-theme and `ds-lint-allow` lines too. Their primary buttons carry `data-variant-brand="secondary"`, so White and Accent (Vivid Pink at 5%) keep the primary and only the Vivid Pink state shows the secondary.
+Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/footer-banner.json`, the wording in `guidelines/website.json` and `anti-slop/criteria.json`, and the `data-variant-` line in the layout variant script of `generate.mjs` from git.
+
+## 0.362.0 — 2026-10-22
+### Added
+- Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets its form; the Button is now form-associated, and Enter in a text field of the form submits it, as with a native submit button (not while the Button is disabled or loading) (#332).
+- screen-lint: the `hand-rolled-button` rule hard-fails on every surface a button the screen draws itself (a `button` / `btn` / `cta` class, `<button>`, `[role=button]` or link painted with a fill and a button shape, or state fills) and any restyle of `<aha-button>` (a colour, fill, border, shadow, height or `:hover` / `:active` / `:focus` rule on it, its `::part` or a `--aha-button-*` token); only layout may be set on it. Opt-out: `ds-lint-allow: hand-rolled-button (why)` (#332).
+- Websites → Website composition: rule and criterion W16 "Every button is the DS Button, never restyled", with a failing eval of the games.ahaslides.com header case; aha-design skill rule 12 (#332).
+### Changed
+- Marketing Navigation, Header (all layouts), Features, Numbers and Footer banner draw every button with `<aha-button variant size>` (Log in secondary, Sign up primary, Join `type="submit"`), and their own button CSS (`aha-header__button`, `aha-header__join-button`, `aha-header-section-*__button` / `__cta`, `aha-features__button`, `aha-numbers__button`, `aha-footer-banner__cta`) is removed. The label is now the Button's semibold; on a Vivid Pink surface the Button is made white through the `--aha-button-*` tokens, marked `ds-lint-allow: hand-rolled-button`, until the Button has an on-brand variant. Revert: revert this change; the bespoke classes come back with it (#332).
+### Fixed
+- Button: a submit or reset `<aha-button>` defers the form action with `setTimeout`, so a click listener on the host that calls `preventDefault()` cancels it for a real mouse click too.
+- screen-lint: `hand-rolled-button` no longer flags a decorative `::before` / `::after` underline on a link, nor hyphenated names such as `a-card` and `aha-button-group`, nor a card or tile link (`a.card` with a fill and radius), nor any `::before` / `::after` rule such as `.btn::after`. (#332)
 
 ## 0.356.0 — 2026-10-22
 ### Removed
