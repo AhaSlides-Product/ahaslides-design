@@ -466,6 +466,7 @@
     {
       "id": "canva",
       "name": "Canva",
+      "shape": "wide",
       "category": "Brands",
       "file": "canva.svg",
       "originalFile": "original/canva.svg",
@@ -483,6 +484,7 @@
     {
       "id": "zapier",
       "name": "Zapier",
+      "shape": "wide",
       "category": "Brands",
       "file": "zapier.svg",
       "originalFile": "original/zapier.svg",
@@ -500,6 +502,7 @@
     {
       "id": "d2l-brightspace",
       "name": "D2L Brightspace",
+      "shape": "wide",
       "category": "Brands",
       "file": "d2l-brightspace.svg",
       "originalFile": "original/d2l-brightspace.svg",
@@ -517,6 +520,7 @@
     {
       "id": "cornerstone-ondemand",
       "name": "Cornerstone OnDemand",
+      "shape": "wide",
       "category": "Brands",
       "file": "cornerstone-ondemand.svg",
       "originalFile": "original/cornerstone-ondemand.svg",
