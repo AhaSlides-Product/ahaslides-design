@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.332.0 — 2026-10-22
 ### Changed
-- Website FAQ: hovering a question with a mouse turns its text and the plus or minus Vivid Pink (`--aha-color-primary`) over `--aha-motion-fast`. The hand-drawn circle plus/minus is replaced by the DS icons `system-plus` and `system-minus` (24px, `--aha-icon-muted`, no circle), crossfading on open. Real pointers only (`@media (hover:hover)`), open and closed rows, no layout shift; reduced motion stops the transition. (#340)
+- Website FAQ: hovering a question with a mouse turns its text and the plus or minus Vivid Pink (`--aha-color-primary`) over `--aha-motion-fast`. The hand-drawn circle plus/minus is replaced by two DS `system-minus` icons (24px, `--aha-icon-muted`, no circle): the vertical one rotates 90° flat on open, keeping the old icon's motion. Real pointers only (`@media (hover:hover)`), open and closed rows, no layout shift; reduced motion stops the transition. (#340)
 
 ## 0.325.1 — 2026-10-21
 ### Fixed
