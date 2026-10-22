@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.345.0 — 2026-10-22
 ### Added
-- Foundations → Logo → Integrations: Canva, Zapier, D2L Brightspace and Cornerstone OnDemand join the integration logos (`logo/canva.svg`, `logo/zapier.svg`, `logo/d2l-brightspace.svg`, `logo/cornerstone-ondemand.svg`; full-colour originals in `logo/original/`). Each is taken from the brand's own site or brand page, with the source and fetch date in `logo/manifest.json`. (#NNN)
+- Foundations → Logo → Integrations: Canva, Zapier, D2L Brightspace and Cornerstone OnDemand join the integration logos (`logo/canva.svg`, `logo/zapier.svg`, `logo/d2l-brightspace.svg`, `logo/cornerstone-ondemand.svg`; full-colour originals in `logo/original/`). Each is taken from the brand's own site or brand page, with the source and fetch date in `logo/manifest.json`. (#350)
 
 ## 0.343.0 — 2026-10-22
 ### Added
