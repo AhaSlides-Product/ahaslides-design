@@ -1503,7 +1503,7 @@ const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCs
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
-    html: stripStateVariantHooks(b.layouts.map(layout => layout.html).join('\n')) };
+    html: b.layouts.map(layout => resolveDefaultStateVariants(b, layout, layout.html)).join('\n') };
 }
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -1847,6 +1847,10 @@ function marketingStateSwitch(b, layout) {
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
 const stripStateVariantHooks = (code) => code.replace(/(<aha-button\b[^>]*?)\sdata-variant-[a-z0-9-]+="[^"]*"/g, '$1');
+const resolveDefaultStateVariants = (b, layout, code) => {
+  const defaultState = marketingLayoutStates(b, layout)?.find(state => state.default);
+  return defaultState?.modifier ? marketingStateVariants(code, defaultState.modifier) : stripStateVariantHooks(code);
+};
 const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
   const variant = tag.match(new RegExp(`\\sdata-variant-${modifier}="([^"]+)"`));
   const stripped = tag.replace(/\sdata-variant-[a-z0-9-]+="[^"]*"/g, '');
@@ -2033,7 +2037,7 @@ ${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, stripStateVariantHooks(marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
   ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
 ${b.video ? `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
