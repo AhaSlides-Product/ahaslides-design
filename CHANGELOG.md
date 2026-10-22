@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Marketing → Header: the optional Hero Video slot sizes to the clip's own aspect ratio (from its `width` and `height` attributes) instead of a fixed 16:9 frame, so wide demo clips no longer show dark bands. A height cap of `min(80vh, 40rem)` stops a tall clip taking over the hero. Still off by default; no other layout changes. (#352)
 
+## 0.348.1 — 2026-10-22
+### Changed
+- Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#346)
+
 ## 0.348.0 — 2026-10-22
 ### Added
 - Screen-lint: three hard UX writing rules on every surface (product, settings, canvas, audience, website), reading user-visible UI strings only (HTML text nodes, `title`, `aria-label`, `aria-description`, `placeholder`, `alt`, `label` and `heading` attributes, and string literals under UI-text keys in scripts; never comments, CSS, URLs, identifiers, `<code>`, `<pre>` or `<kbd>`): `no-dash-punctuation` (UXW-8, em or en dash, raw or as an entity), `vague-error-copy` (UXW-2, "Something went wrong", "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and `title-case-slide-name` (UXW-1, "Multiple Choice", "Word Cloud", "Open-Ended", "Spinner Wheel", "Rating Scale"). Opt out per line with `ds-lint-allow: <rule> (why)` or `ds-lint-allow: copy (why)`. Pass `path` to `lintHtml` for a `.js` or `.ts` file so it is read as script. Revert by reverting this commit; the rules are additive (#351)
