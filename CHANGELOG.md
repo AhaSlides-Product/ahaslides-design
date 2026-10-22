@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.360.0 — 2026-10-22
 ### Changed
-- Colour rule 6.2: on a Vivid Pink background the button is the standard secondary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the DS Button", are gone (colour rules v19). Colour rule table, Website W4 and the Button-on-pink criterion wording follow. (#PR)
+- Colour rule 6.2: on a Vivid Pink background the button is the standard secondary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the DS Button", are gone (colour rules v19). Colour rule table, Website W4 and the Button-on-pink criterion wording follow. (#361)
 - Header hero-pink, hero-pink-vertical, hero-pale-pink, hero-pale-pink-vertical and the Footer banner draw their call to action as `<aha-button variant="secondary">`, with the `--aha-button-*` re-theme rules and their `ds-lint-allow` comments deleted. Nothing restyles the Button there. Consumers who pasted those layouts: change `variant="primary"` to `variant="secondary"` and delete the re-theme rule.
 - Merged PR #332 (one DS button, hand-rolled-button lint) and moved the FAQ, Testimonials, Features and Numbers call-to-action links added since it branched onto `<aha-button>`, so the Marketing sections pass the lint.
 Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/footer-banner.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json` from git.
