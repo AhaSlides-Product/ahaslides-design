@@ -22,6 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.351.0 — 2026-10-22
+### Added
+- Marketing → Cards: an Integration card with a wide logo (`aha-marketing-card__logo--wide`) for wordmarks such as Zapier and Cornerstone OnDemand: the tile stays 32px high and grows in width, the logo at most 80px wide and 20px high, so a wordmark reads as heavy as a square mark. Square marks and every other card are unchanged.
+- Logo library: `logo/manifest.json` records `"shape": "wide"` for Canva, Zapier, D2L Brightspace and Cornerstone OnDemand, and `standards.mjs` fails a brand logo at least twice as wide as tall that is not marked wide. (#PR)
+
+## 0.347.0 — 2026-10-22
+### Added
+- Marketing → Cards: an Integration card for a tool that is not available yet (greyscale logo, name beside it, `<aha-tag color="primary" bordered>` Coming soon). (#349)
+### Changed
+- Marketing → Navigation: the Solutions → Integrations logos are one colour at rest and show their own colours (`logo/original/`) on hover and keyboard focus, with a fade and none under reduced motion (colour rule 2.6). (#349)
+- Marketing → Cards: the Integration card is a listing item, so its logo keeps its own colours in a 32px white tile with a grey border and the name beside it. (#349)
+- Marketing → Footer: the LinkedIn, YouTube, Facebook, Instagram and Reddit links use the Logo library files, one colour at rest and their own colours on hover and keyboard focus. (#349)
+- Website composition fixtures and docs prose follow the same logo treatment. (#349)
 ## 0.345.0 — 2026-10-22
 ### Added
 - Foundations → Logo → Integrations: Canva, Zapier, D2L Brightspace and Cornerstone OnDemand join the integration logos (`logo/canva.svg`, `logo/zapier.svg`, `logo/d2l-brightspace.svg`, `logo/cornerstone-ondemand.svg`; full-colour originals in `logo/original/`). Each is taken from the brand's own site or brand page, with the source and fetch date in `logo/manifest.json`. (#350)
