@@ -86,7 +86,7 @@ test('W15: section link-out buttons and off-site Footer links open in a new tab,
   const footer = readJson('marketing/footer.json').html;
   for (const anchor of footer.match(/<a [^>]*>/g)) {
     const url = new URL(anchor.match(/href="([^"]+)"/)[1]);
-    const leaves = url.protocol === 'https:' && (!/(^|\.)ahaslides\.com$/.test(url.hostname) || url.hostname === 'help.ahaslides.com');
+    const leaves = url.protocol === 'https:' && (!/(^|\.)ahaslides\.com$/.test(url.hostname) || ['help.ahaslides.com', 'status.ahaslides.com'].includes(url.hostname));
     assert.equal(/target="_blank" rel="noopener"/.test(anchor), leaves, anchor);
   }
   assert.match(footer, /status\.ahaslides\.com\/" target="_blank" rel="noopener">System status<span class="aha-footer__visually-hidden">/);
