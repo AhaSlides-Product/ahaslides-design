@@ -163,14 +163,14 @@
       ]
     },
     {
-      "rule": "Give the page one H1, in the Header section at its display size. Each section has at most one primary button (colour rules 6.1 and 6.2); at most two buttons sit side by side, a primary and a secondary. Write the Sign up or primary call to action label for the page's context, a verb plus what the visitor gets (a template page: Use this template; a quiz-maker page: Create your quiz free; pricing: Start free or the plan name); Get started free is only the fallback when no context-specific label fits. Every content section's call to action is the hero's primary, with the same label, except the Templates, Integrations, case-study and FAQ sections, which link to their own page (rule W18). The closing Footer banner repeats the hero's primary call to action with the same label, not a fixed Get started free.",
+      "rule": "Give the page one H1, in the Header section at its display size. Each section has at most one primary button (colour rule 6.1; on Vivid Pink the button is the secondary Button, on Vivid Pink at 5% and white the primary, rule 6.2); at most two buttons sit side by side, a primary and a secondary. Write the Sign up or primary call to action label for the page's context, a verb plus what the visitor gets (a template page: Use this template; a quiz-maker page: Create your quiz free; pricing: Start free or the plan name); Get started free is only the fallback when no context-specific label fits. Every content section's call to action is the hero's primary, with the same label, except the Templates, Integrations, case-study and FAQ sections, which link to their own page (rule W18). The closing Footer banner repeats the hero's primary call to action with the same label, not a fixed Get started free.",
       "ref": [
         "W4"
       ],
       "source": [
         "marketing/header.json — the h1 and the primary + ghost pair",
         "marketing/footer-banner.json",
-        "brand/colour-rules.json 6.1 and 6.2 (the primary button)"
+        "brand/colour-rules.json 6.1 (the primary button) and 6.2 (the button on Vivid Pink)"
       ]
     },
     {
