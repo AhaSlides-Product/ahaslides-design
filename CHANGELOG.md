@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.332.0 — 2026-10-22
 ### Changed
-- Website FAQ: hovering a question with a mouse turns its text and the plus or minus Vivid Pink (`--aha-color-primary`) over `--aha-motion-fast`. Real pointers only (`@media (hover:hover)`), open and closed rows, no layout shift; reduced motion stops the transition. (#PRNUM)
+- Website FAQ: hovering a question with a mouse turns its text and the plus or minus Vivid Pink (`--aha-color-primary`) over `--aha-motion-fast`. Real pointers only (`@media (hover:hover)`), open and closed rows, no layout shift; reduced motion stops the transition. (#340)
 
 ## 0.325.1 — 2026-10-21
 ### Fixed
