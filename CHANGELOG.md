@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.365.0 — 2026-10-22
+### Changed
+- Websites → Images (W6): a photo that shows people is only ever a photo of an actual AhaSlides user from the AhaSlides users folder, never stock or AI-generated; the slot keeps the DS placeholder until that photo is committed. Criterion W6 and the website checklist follow, with a failing eval of a stock-people hero (#NNN).
+
 ## 0.362.0 — 2026-10-22
 ### Added
 - Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets its form; the Button is now form-associated, and Enter in a text field of the form submits it, as with a native submit button (not while the Button is disabled or loading) (#332).
