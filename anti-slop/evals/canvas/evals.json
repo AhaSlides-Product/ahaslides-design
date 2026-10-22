@@ -1953,6 +1953,52 @@
         "authored": "ahaslides-design",
         "why": "DESY-182: the signed-off canvas button (size lg, shortcut chip, lg tooltip with name and chip, no tertiary on a photographic deck)"
       }
+    },
+    {
+      "id": 72,
+      "prompt": "Review this Developer Platform presenter canvas. It calls applyCanvasDeck, then draws a results panel with `.panel { background: color-mix(in srgb, var(--aha-deck-ink) 8%, transparent); border: 1px solid color-mix(in srgb, var(--aha-deck-ink) 20%, transparent); border-radius: 12px; padding: 20px; color: var(--aha-deck-ink) }` and a hint line `color: color-mix(in srgb, var(--aha-deck-ink) 76%, transparent)`. Is the colour on the hand-built panel right?",
+      "files": [],
+      "label": "bad-example",
+      "notes": "C1 deck-token axis: the panel mixes its own shades of the ink. Isolation case: only C1 should FAIL.",
+      "expected_output": "C1 FAILs. A hand-built element paints only with the --aha-deck-* ladder that applyCanvasDeck writes; mixing its own shade of the ink with color-mix is the violation. Fix: background var(--aha-deck-container-fill), border 1px solid var(--aha-deck-container-stroke), radius var(--aha-deck-container-radius-lg), padding var(--aha-deck-container-padding-md), hint colour var(--aha-deck-ink-secondary). Overall: NEEDS FIX",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "C1 is marked FAIL",
+        "Names color-mix of the ink as the violation",
+        "Fix uses --aha-deck-container-* and --aha-deck-ink-secondary"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C1": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-268: hand-built canvas elements paint only with the --aha-deck-* ladder"
+      }
+    },
+    {
+      "id": 73,
+      "prompt": "Review this Developer Platform presenter canvas. It calls applyCanvasDeck, then draws a results panel with `.panel { background: var(--aha-deck-container-fill); border: 1px solid var(--aha-deck-container-stroke); border-radius: var(--aha-deck-container-radius-lg); padding: var(--aha-deck-container-padding-md); color: var(--aha-deck-ink) }` and a hint line `color: var(--aha-deck-ink-secondary)`. Is the colour on the hand-built panel right?",
+      "files": [],
+      "label": "good-control",
+      "notes": "C1 deck-token axis control: the same panel on the --aha-deck-container-* ladder.",
+      "expected_output": "C1 PASSes. The panel and hint read the --aha-deck-* ladder that applyCanvasDeck writes, with no color-mix and no product colour token. Overall: OK TO SHIP",
+      "assertions": [
+        "C1 is marked PASS",
+        "Does not flag the deck tokens"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C1": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DESY-268: hand-built canvas elements paint only with the --aha-deck-* ladder"
+      }
     }
   ]
 }

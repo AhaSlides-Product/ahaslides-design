@@ -28,6 +28,62 @@
       "snippet": ".caption{ color:var(--aha-deck-ink-secondary) }\n.panel{ background:var(--aha-deck-surface); border:1px solid var(--aha-deck-stroke) }\n.option:hover .control{ border-color:var(--aha-deck-stroke-hover) }\n.tile:hover{ background:var(--aha-deck-fill-hover) }\n.tile:active{ background:var(--aha-deck-fill-active) }"
     },
     {
+      "name": "Role to token",
+      "element": "--aha-deck-*",
+      "kind": "Tokens",
+      "what": "Which token paints which part of an element hand-built on the slide canvas or the audience phone. Call `applyCanvasDeck` (canvas) or `applyDeck` (audience) once on the root, then paint only with the tokens below. Never mix your own shade of `xprops.slide.textColour` (`color-mix`, an opacity on the ink), and never use a product colour token (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`): the iframe cannot see the host theme, so they resolve for the wrong deck. A built Vue slide type imports `applyCanvasDeck` from `@ahaslides-product/design/canvas-deck`.",
+      "useWhen": "any element you draw yourself on the canvas or the phone: a panel, row, chip, divider, track, hover state, modal or verdict mark",
+      "notFor": "an element the DS already ships (`<aha-button>`, `<aha-canvas-count>`, `<aha-chart>`): use it, it is already inked. Chart and data fills come from the deck palette (`presentationColorPalette`), not from this table.",
+      "rules": [
+        {
+          "label": "Text",
+          "value": "`--aha-deck-ink`"
+        },
+        {
+          "label": "Secondary text",
+          "value": "`--aha-deck-ink-secondary`"
+        },
+        {
+          "label": "Divider, track",
+          "value": "`--aha-deck-line` (a rule) or `--aha-deck-stroke` (a hairline, a track)"
+        },
+        {
+          "label": "Chip outline",
+          "value": "`--aha-deck-stroke-chip`"
+        },
+        {
+          "label": "Resting, hover, pressed fill",
+          "value": "`--aha-deck-fill`, `--aha-deck-fill-hover`, `--aha-deck-fill-active`"
+        },
+        {
+          "label": "Panel, card",
+          "value": "`--aha-deck-container-fill`, `--aha-deck-container-stroke`, `--aha-deck-container-radius-lg` (`-sm` for a chip), `--aha-deck-container-padding-sm` / `-md` / `-lg`"
+        },
+        {
+          "label": "Modal",
+          "value": "`--aha-deck-modal-fill` for the panel, `--aha-deck-modal-backdrop` behind it, the container stroke, radius and padding on the panel"
+        },
+        {
+          "label": "Frosted panel on a photo",
+          "value": "`--aha-deck-surface` (`-surface-hover`, `-surface-disabled`)"
+        },
+        {
+          "label": "Correct and wrong",
+          "value": "`--aha-answer-correct` and `--aha-answer-wrong` on the mark only, with a white glyph (`--aha-white`) on the disc, as `<aha-canvas-count>` does (colour rules 11.1 and 11.2)"
+        },
+        {
+          "label": "Accent",
+          "value": "`--aha-color-primary`, written by `applyCanvasDeck` from `presentationColorPalette[0]`"
+        },
+        {
+          "label": "Checked by",
+          "value": "`screen-lint` reports `canvas-off-deck-colour` (a warning) for `color-mix()` or a product colour token in a colour declaration on the canvas or audience surface"
+        }
+      ],
+      "demo": "  <div class=\"canvas-decks\">\n    <div>\n      <div class=\"canvas-deck-name\">Light deck · black ink</div>\n      <div class=\"canvas-deck\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" style=\"background:var(--aha-white,#FFFFFF); border:1px solid var(--aha-border-default,#E3E3E3); padding:16px\"><div style=\"color:var(--aha-deck-ink);background:var(--aha-deck-container-fill);border:1px solid var(--aha-deck-container-stroke);border-radius:var(--aha-deck-container-radius-lg);padding:var(--aha-deck-container-padding-md);display:grid;gap:12px\"><div style=\"font-size:16px;font-weight:600\">Panel title</div><div style=\"font-size:16px;color:var(--aha-deck-ink-secondary)\">Secondary text</div><div style=\"border-top:1px solid var(--aha-deck-line)\"></div><div style=\"display:flex;gap:8px;flex-wrap:wrap\"><span style=\"padding:4px 10px;border-radius:var(--aha-deck-container-radius-sm);font-size:16px;background:var(--aha-deck-fill);border:1px solid var(--aha-deck-stroke-chip)\">Chip</span><span style=\"padding:4px 10px;border-radius:var(--aha-deck-container-radius-sm);font-size:16px;background:var(--aha-deck-fill-hover)\">Hover</span><span style=\"padding:4px 10px;border-radius:var(--aha-deck-container-radius-sm);font-size:16px;background:var(--aha-deck-fill-active)\">Pressed</span></div></div></div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Dark deck · white ink</div>\n      <div class=\"canvas-deck\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-gray-100\" style=\"background:var(--aha-black,#1A1A1A); padding:16px\"><div style=\"color:var(--aha-deck-ink);background:var(--aha-deck-container-fill);border:1px solid var(--aha-deck-container-stroke);border-radius:var(--aha-deck-container-radius-lg);padding:var(--aha-deck-container-padding-md);display:grid;gap:12px\"><div style=\"font-size:16px;font-weight:600\">Panel title</div><div style=\"font-size:16px;color:var(--aha-deck-ink-secondary)\">Secondary text</div><div style=\"border-top:1px solid var(--aha-deck-line)\"></div><div style=\"display:flex;gap:8px;flex-wrap:wrap\"><span style=\"padding:4px 10px;border-radius:var(--aha-deck-container-radius-sm);font-size:16px;background:var(--aha-deck-fill);border:1px solid var(--aha-deck-stroke-chip)\">Chip</span><span style=\"padding:4px 10px;border-radius:var(--aha-deck-container-radius-sm);font-size:16px;background:var(--aha-deck-fill-hover)\">Hover</span><span style=\"padding:4px 10px;border-radius:var(--aha-deck-container-radius-sm);font-size:16px;background:var(--aha-deck-fill-active)\">Pressed</span></div></div></div>\n    </div>\n  </div>",
+      "snippet": ".panel{ color:var(--aha-deck-ink); background:var(--aha-deck-container-fill);\n  border:1px solid var(--aha-deck-container-stroke); border-radius:var(--aha-deck-container-radius-lg);\n  padding:var(--aha-deck-container-padding-md) }\n.panel .hint{ color:var(--aha-deck-ink-secondary) }\n.panel .rule{ border-top:1px solid var(--aha-deck-line) }\n.panel .chip{ background:var(--aha-deck-fill); border:1px solid var(--aha-deck-stroke-chip) }\n.panel .chip:hover{ background:var(--aha-deck-fill-hover) }"
+    },
+    {
       "name": "Deck containers and modals",
       "element": "--aha-deck-container-* · --aha-deck-modal-*",
       "kind": "Tokens",

@@ -1006,7 +1006,7 @@
         {
           "id": "C1",
           "title": "No hard-coded colours or fonts",
-          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.baseColour`, `xprops.slide.textColour`, `xprops.slide.backgroundImage` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+          "test": "**Rule.** All colour and font values come from xprops, and colour reaches a hand-built element only as the `--aha-deck-*` ladder that `applyCanvasDeck` writes from them: - `xprops.slide.textColour` becomes `--aha-deck-ink` and its tints (`-ink-secondary`, `-line`, `-stroke`, `-fill`, `-surface`, `--aha-deck-container-*`, `--aha-deck-modal-*`) - `xprops.slide.baseColour`, `xprops.slide.backgroundImage` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]` is the accent (`--aha-color-primary`) and the fill of charts and data, with `presentationLighterColorPalette[n]` for the lighter shade. **FAIL** when a hand-built element mixes its own shade of the ink (`color-mix()` or an opacity on `textColour`), paints with a product colour token (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`), or hard-codes a colour or font. **PASS** when the same element reads the ladder (`--aha-deck-container-fill` for a panel, `--aha-deck-ink-secondary` for secondary text), or is a DS element such as `<aha-canvas-count>` that is already inked. The role to token table is on the Deck tokens page."
         },
         {
           "id": "C2",
@@ -1146,7 +1146,7 @@
         {
           "id": "C1",
           "title": "No hard-coded colours or fonts",
-          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.textColour` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+          "test": "**Rule.** All colour and font values come from xprops, and colour reaches a hand-built element only as the `--aha-deck-*` ladder that `applyDeck` writes from them: - `xprops.slide.textColour` becomes `--aha-deck-ink` and its tints (`-ink-secondary`, `-line`, `-stroke`, `-fill`, `-surface`) - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]` as the accent. **FAIL** when a hand-built element mixes its own shade of the ink (`color-mix()` or an opacity on `textColour`), paints with a product colour token (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`), or hard-codes a colour or font. **PASS** when it reads the ladder."
         },
         {
           "id": "C2",
