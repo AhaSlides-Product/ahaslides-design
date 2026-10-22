@@ -24,12 +24,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.344.0 — 2026-10-22
 ### Added
-- Marketing → Cards: an Integration card for a tool that is not available yet (greyscale logo, name beside it, `<aha-tag color="primary" bordered>` Coming soon). (#NNN)
+- Marketing → Cards: an Integration card for a tool that is not available yet (greyscale logo, name beside it, `<aha-tag color="primary" bordered>` Coming soon). (#349)
 ### Changed
-- Marketing → Navigation: the Solutions → Integrations logos are one colour at rest and show their own colours (`logo/original/`) on hover and keyboard focus, with a fade and none under reduced motion (colour rule 2.6). (#NNN)
-- Marketing → Cards: the Integration card is a listing item, so its logo keeps its own colours in a 32px white tile with a grey border and the name beside it. (#NNN)
-- Marketing → Footer: the LinkedIn, YouTube, Facebook, Instagram and Reddit links use the Logo library files, one colour at rest and their own colours on hover and keyboard focus. (#NNN)
-- Website composition fixtures and docs prose follow the same logo treatment. (#NNN)
+- Marketing → Navigation: the Solutions → Integrations logos are one colour at rest and show their own colours (`logo/original/`) on hover and keyboard focus, with a fade and none under reduced motion (colour rule 2.6). (#349)
+- Marketing → Cards: the Integration card is a listing item, so its logo keeps its own colours in a 32px white tile with a grey border and the name beside it. (#349)
+- Marketing → Footer: the LinkedIn, YouTube, Facebook, Instagram and Reddit links use the Logo library files, one colour at rest and their own colours on hover and keyboard focus. (#349)
+- Website composition fixtures and docs prose follow the same logo treatment. (#349)
 
 ## 0.341.0 — 2026-10-22
 ### Added
