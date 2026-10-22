@@ -242,3 +242,11 @@ test('W9: the motion script reveals with a stagger, drifts photos, counts number
     assert.match(sectionPage(entry.files[0].path.split('/')[1]), /lib\/marketing-motion\.js/);
   }
 });
+
+test('W9: the motion script imports as a no-op outside a browser and keeps the final number for screen readers and print', async () => {
+  await import('../lib/marketing-motion.js');
+  const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
+  assert.match(script, /typeof document !== 'undefined'/);
+  assert.match(script, /aha-motion-final/);
+  assert.match(script, /@media print\{[^]*\.aha-motion-count\{display:none\}/);
+});
