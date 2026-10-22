@@ -29,6 +29,14 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Testimonials: the Simple left aligned photo sits in an `aha-testimonials__frame` wrapper (was a bare `<img>`); Numbers split-image: the image sits in an `aha-numbers__frame` inside the card. A page with the old markup simply does not drift.
 Revert: restore `lib/marketing-motion.js`, `marketing/testimonials.json` and `marketing/numbers.json` and the wording in `guidelines/website.json` and `anti-slop/criteria.json`.
 
+## 0.367.0 — 2026-10-22
+### Added
+- Website guideline W2 now carries two spacing rules. Page gutter: every Marketing section keeps the same side padding, 64px on desktop, 24px at 767px and below, 16px at 479px and below (a section reads it as `--aha-web-gutter` on its inner element). Content to button: a button directly under its own text sits 32px below it (24px at 479px and below), a closing call to action after a list or grid sits 48px below (32px at 479px and below), buttons next to each other 12px. A new test (`tests/web-gutter.test.mjs`) fails when a section's side padding differs from the gutter at 375 and 600px. (#360)
+### Changed
+- Mobile side padding is now one value across Features, Numbers, Pricing, Testimonials, Cards, FAQ, Footer banner, Footer, Navigation, the 6 page headers, the 14 heroes and the 4 Hero Pink layouts: 24px at 767px and below, 16px at 479px and below (it was 32, 16, 64, 0 and 24 depending on the section). The Footer banner card also steps 24px / 16px inside. Desktop side padding of heroes, page headers, Hero Pink, Footer, Navigation and Cards is unchanged. (#360)
+- Button spacing on desktop: Features and Numbers action row 16px to 32px under the text, the 14 heroes' action row and form 40px to 32px, Footer banner paragraph to button 24px to 32px. FAQ keeps its desktop layout and no longer uses `--aha-faq-gutter` (the Frequently asked questions heading and button spacing moved from the inner gap to margins). Revert: undo this release's `marketing/*.json` edits. (#360)
+- The Webflow scan lists the live gutter and button gaps as consumer-to-update items. (#360)
+
 ## 0.365.0 — 2026-10-22
 ### Changed
 - Colour rule 6.2: on Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the design system Button", are gone. Colour-rules version row v20.

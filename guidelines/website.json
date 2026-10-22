@@ -10,7 +10,7 @@
   "summary": "How a whole AhaSlides website page is put together from the DS Marketing sections: every band is a shipped section, the sections keep the spacing and widths they ship with, the page has one H1 and one primary action per section, every content section ends with a call to action and aligns its heading and button by one rule, backgrounds follow the colour rules, imagery is real, the header is the product lockup, and the page is checked at three widths with the DS motion script (staggered reveal, light parallax, count-up numbers). Each rule names the section, token or rule it comes from and the website judge criterion that checks it.",
   "highlights": [
     "Every band is a DS Marketing section; a missing one is a DSN ticket, never hand-rolled; Testimonials and FAQ are pasted unchanged",
-    "Sections keep their shipped rhythm: 96/64 px padding on desktop, 48/24 at 767 px, 32/16 at 479 px; grids are balanced and layouts vary, at most 3 alternating rows",
+    "Sections share one side gutter, `--aha-web-gutter` (64 px desktop, 24 px at 767 px and below, 16 px at 479 px and below), and a button sits 32 px (24 at 479 px) under its own text and 48 px (32 at 479 px) under a closing list; grids are balanced and layouts vary, at most 3 alternating rows",
     "One H1, one primary action per section, its label written for the page (not always Get started free); every content section closed by a call to action: the hero's primary, except Templates, Integrations, case studies and FAQ, which link to their page; the hero's call to action repeated at the end",
     "Headings centred over symmetric content and left only in a split; checked at 1440, 768 and 375 px with no sideways scroll; motion is staggered reveal, light in-frame photo parallax (the frame stays still, the picture drifts inside it) and count-up numbers from one DS script"
   ],
@@ -138,17 +138,26 @@
       ]
     },
     {
-      "rule": "Keep the padding each section ships and never override it. Features, Numbers, Pricing and Testimonials ship vertical `--aha-space-96` and side `--aha-space-64` on desktop, `--aha-space-48` / `--aha-space-24` at 767 px and below, `--aha-space-32` / `--aha-space-16` at 479 px and below; Logos and FAQ ship their own (Logos a 32 px vertical, FAQ its own gutter variable). Sections sit flush; add no margin, spacer or divider between them.",
+      "rule": "Keep the padding each section ships and never override it. One page gutter: every section's side padding is `--aha-web-gutter`, `--aha-space-64` on desktop, `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below, so the logo, headings, text and buttons of every section sit on one vertical line on a phone. Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too. Heroes, page headers, the Footer and the Navigation keep their shipped 32 px side padding above 767 px and switch to the gutter at 767 px and below. Vertical padding stays per section: Features, Numbers, Pricing and Testimonials ship `--aha-space-96` on desktop, `--aha-space-48` at 767 px and `--aha-space-32` at 479 px; Logos ships a 32 px vertical. Only backgrounds, full-bleed images and the Logos marquee run edge to edge. A card inside a section (the Footer banner card, step cards) puts its outer edge on the gutter; the Footer banner card pads its own content `--aha-space-24` at 767 px and below and `--aha-space-16` at 479 px and below. Sections sit flush; add no margin, spacer or divider between them.",
       "ref": [
         "W2"
       ],
       "source": [
-        "marketing/features.json",
-        "marketing/numbers.json",
-        "marketing/pricing.json",
-        "marketing/testimonials.json — __inner padding and their 767 px and 479 px container rules",
-        "marketing/logos.json",
-        "marketing/faq.json — their own padding"
+        "marketing/*.json — each section's `__inner` padding and its 767 px and 479 px container rules set `--aha-web-gutter`",
+        "marketing/footer.json, marketing/navigation.json — the Footer and Navigation side padding",
+        "marketing/logos.json — runs edge to edge"
+      ]
+    },
+    {
+      "rule": "Space content from its button by one of two steps, and never by a value of your own. A button directly under its own block's text (Hero, page Header, Footer banner, a Features or Numbers row's actions) sits `--aha-space-32` below it, `--aha-space-24` at 479 px and below. A section-closing call to action after a list or grid (FAQ, Features, Numbers and Testimonials `__cta`) sits `--aha-space-48` below it, `--aha-space-32` at 479 px and below. Buttons in one row keep `--aha-space-12` between them.",
+      "ref": [
+        "W2"
+      ],
+      "source": [
+        "marketing/header.json — `__actions`, `__form`, the Hero Pink `__text` and the page Header `__body` gap",
+        "marketing/footer-banner.json — `__text` margin",
+        "marketing/features.json, marketing/numbers.json — `__actions` and `__cta`",
+        "marketing/faq.json, marketing/testimonials.json — `__cta`"
       ]
     },
     {
@@ -334,7 +343,7 @@
       "verdict": "consumer self-judges (W1)"
     },
     {
-      "label": "sections keep their shipped padding at each width, with nothing between them",
+      "label": "sections keep their shipped padding and the shared side gutter at each width, buttons sit one of the two shipped steps below their text, and nothing sits between sections",
       "verdict": "consumer self-judges (W2)"
     },
     {

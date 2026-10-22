@@ -1526,8 +1526,8 @@
         },
         {
           "id": "W2",
-          "title": "Sections keep their shipped rhythm",
-          "test": "Every section keeps the padding it ships and never overrides it: Features, Numbers, Pricing and Testimonials ship --aha-space-96 vertical and --aha-space-64 side on desktop, --aha-space-48 / --aha-space-24 at 767 px and below, --aha-space-32 / --aha-space-16 at 479 px and below; Hero (a fluid clamp), Logos (32 px vertical) and FAQ (its own gutter variable) ship different padding and keep that. Sections sit flush. An overridden section padding, a raw px padding added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
+          "title": "Sections keep their shipped rhythm and gutter",
+          "test": "Every section keeps the padding it ships and never overrides it. Side padding is one gutter, --aha-web-gutter: --aha-space-64 on desktop, --aha-space-24 at 767 px and below, --aha-space-16 at 479 px and below; Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too, and Heroes, page Headers, Footer and Navigation switch to it at 767 px and below. Vertical padding stays per section (Features, Numbers, Pricing and Testimonials --aha-space-96, 48 at 767 px, 32 at 479 px; Logos 32 px). A button sits --aha-space-32 below its own block's text (24 at 479 px) and a closing call to action after a list or grid sits --aha-space-48 below it (32 at 479 px). Sections sit flush. An overridden section padding or gutter, a raw px padding or button margin added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
         },
         {
           "id": "W3",
