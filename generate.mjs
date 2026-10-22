@@ -3122,7 +3122,7 @@ function expandMarketingLayoutData(rawSection) {
   const layouts = rawSection.layouts.map(layout => {
     if (!layout.dataFile) return layout;
     const data = JSON.parse(read(join(MDIR, layout.dataFile)));
-    const items = data.items.map(item => layout.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
+    const items = data.items.map(item => layout.itemHtml.replace(/\{\{#(\w+)\}\}(.*?)\{\{\/\1\}\}/g, (_, key, inner) => item[key] ? inner : '').replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
     const html = layout.html.replaceAll('{{items}}', items).replace(/\{\{(\w+)\}\}/g, (match, key) => typeof data[key] === 'string' ? esc(data[key]) : match);
     return { ...layout, html };
   });

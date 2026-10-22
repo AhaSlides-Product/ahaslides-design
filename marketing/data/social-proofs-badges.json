@@ -12,7 +12,7 @@
       "src": "{{images}}/G2BestSoftware2026-Badge-CoreSegment-Enterprise.webp",
       "alt": "Best Enterprise product 2026: AhaSlides",
       "modifier": "",
-      "newTab": ""
+      "newTab": false
     },
     {
       "name": "G2 Top 100 best software products 2026",
@@ -22,7 +22,7 @@
       "src": "{{images}}/G2BestSoftware2026-Badge-CoreSegment-BestSoftwareProducts.webp",
       "alt": "Best software products 2026: AhaSlides",
       "modifier": "",
-      "newTab": ""
+      "newTab": false
     },
     {
       "name": "G2 Top 50 Education products 2026",
@@ -32,7 +32,7 @@
       "src": "{{images}}/G2BestSoftware2026-Badge-Persona-EducationProducts.webp",
       "alt": "Top Education product 2026: AhaSlides",
       "modifier": "",
-      "newTab": ""
+      "newTab": false
     },
     {
       "name": "Training Magazine Network Choice Awards 2026",
@@ -42,7 +42,7 @@
       "src": "{{images}}/tmn-choice-awards-2026-gamification.webp",
       "alt": "Training Magazine Network Choice Awards 2026 winner: AhaSlides",
       "modifier": " aha-social-proofs-badges__item--wide",
-      "newTab": " target=\"_blank\" rel=\"noopener\""
+      "newTab": true
     }
   ]
 }
