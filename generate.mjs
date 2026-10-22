@@ -1846,6 +1846,11 @@ function marketingStateSwitch(b, layout) {
   const initial = (states.find(state => state.default) || states[0]).modifier;
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
+const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
+  const variant = tag.match(new RegExp(`\\sdata-variant-${modifier}="([^"]+)"`));
+  const stripped = tag.replace(/\sdata-variant-[a-z0-9-]+="[^"]*"/g, '');
+  return variant ? stripped.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`) : stripped;
+});
 const marketingStatePanes = (b, layout, snippet) => {
   const states = marketingLayoutStates(b, layout);
   if (!states || !marketingHasStates(b, layout)) return [];
@@ -1855,7 +1860,7 @@ const marketingStatePanes = (b, layout, snippet) => {
   return states.filter(state => state.modifier).map(state => {
     const stripOthers = new RegExp(otherModifiers(state.modifier).join('|') || '(?!)', 'g');
     return { key: `state-${state.modifier}`, label: state.label,
-      code: snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`) };
+      code: marketingStateVariants(snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`), state.modifier) };
   });
 };
 function marketingReviewsFor(b, layout) {
@@ -1962,6 +1967,27 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_VARIANT_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv,.mbp').forEach(function(root){
+      var seg=root.querySelector('.mbp-state');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),current=seg.getAttribute('value');
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        doc.querySelectorAll('aha-button').forEach(function(button){
+          if(!button.hasAttribute('data-base-variant'))button.setAttribute('data-base-variant',button.getAttribute('variant')||'');
+          var next=current&&button.getAttribute('data-variant-'+current);
+          button.setAttribute('variant',next||button.getAttribute('data-base-variant'));
+        });
+      }
+      frame.addEventListener('load',apply);
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
 const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
   (function(){
     document.querySelectorAll('.mfv').forEach(function(root){
@@ -2007,7 +2033,7 @@ ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
   ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
 ${b.video ? `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
   <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
