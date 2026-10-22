@@ -26,6 +26,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Screen lint: `node screen-lint.mjs --surface=website <files>` for a whole website page of Marketing sections. It runs the product rules (raw hex, off-scale radius and weight, gradients, icons) and accepts the `min-width` breakpoints the shipped Marketing sections use (768 and 992, generated into `lib/marketing-breakpoints.js` from `marketing/*.json`) inside `@container` and `@media` conditions; any other `min-width` still fails `min-width-trap`. It adds two hard rules from the website guideline: `multiple-h1` (W4, one H1 per page) and `img-no-alt` (W6, every picture has alt). Product, canvas, audience and settings behave as before. Revert: remove `lib/screen-lint-website.js`, `lib/marketing-breakpoints.js`, their hooks in `lib/screen-lint.js` and `generate.mjs`, and the `website` entry in `screen-lint.mjs` (#348)
 
+## 0.345.0 — 2026-10-22
+### Added
+- Foundations → Logo → Integrations: Canva, Zapier, D2L Brightspace and Cornerstone OnDemand join the integration logos (`logo/canva.svg`, `logo/zapier.svg`, `logo/d2l-brightspace.svg`, `logo/cornerstone-ondemand.svg`; full-colour originals in `logo/original/`). Each is taken from the brand's own site or brand page, with the source and fetch date in `logo/manifest.json`. (#350)
+
+## 0.344.0 — 2026-10-22
+### Added
+- Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
+### Fixed
+- Marketing → Header: Hero Pink Vertical and Hero Pale Pink Vertical show the image whole at its own ratio at every width instead of cropping it to a fixed 4:3 or 16:9 frame with `object-fit: cover` (on phones the crop was severe), as rule W6 requires. Header guidance names the Hero video and the uncropped image. (#347)
+
 ## 0.343.0 — 2026-10-22
 ### Added
 - Deck: one shared deck token module, `@ahaslides-product/design/deck`, with `applyDeckTokens(target, { ink })` and `deckTokens(ink)`, re-exported from both `lib/audience.js` and `lib/canvas.js`. The canvas and the audience phone now write the same `--aha-deck-*` ladder; `applyCanvasDeck` adds only its button, container and modal variables and `applyDeck` only its accent set. Both signatures are unchanged. Environment: audience, product (#343)
