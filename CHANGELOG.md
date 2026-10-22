@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.365.0 — 2026-10-22
 ### Changed
-- Websites → Images (W6): a photo that shows people is only ever a photo of an actual AhaSlides user from the AhaSlides users folder, never stock or AI-generated; the slot keeps the DS placeholder until that photo is committed. Criterion W6 and the website checklist follow, with a failing eval of a stock-people hero (#NNN).
+- Websites → Images (W6): a photo that shows people is only ever a photo of an actual AhaSlides user from the AhaSlides users folder, never stock or AI-generated; the slot keeps the DS placeholder until that photo is committed. Criterion W6 and the website checklist follow, with a failing eval of a stock-people hero (#364).
 
 ## 0.362.0 — 2026-10-22
 ### Added
