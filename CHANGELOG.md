@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.341.1 — 2026-10-22
 ### Changed
-- Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#PRNUM)
+- Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#346)
 
 ## 0.341.0 — 2026-10-22
 ### Added
