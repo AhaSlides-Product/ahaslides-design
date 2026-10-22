@@ -106,7 +106,7 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
 
 Draw result charts with the DS **`<aha-chart palette="deck">`** (the same `lib/canvas.js` tag registers it, so one tag covers chart and canvas controls) (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map, Line): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
 
-> **Pick Answer result reveal.** Colour rules section 11 settles the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` already paints the correct mark and leaves the rest neutral (`correct-style="fill"`), but in `--aha-color-success` (the default ink) until it is rewired to the answer tokens.
+> **Pick Answer result reveal.** Colour rules section 11 settles the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` paints the correct mark `--aha-answer-correct` in both palettes and leaves the rest neutral (`correct-style="fill"`).
 
 | Job | Layer | Colour source |
 | --- | --- | --- |

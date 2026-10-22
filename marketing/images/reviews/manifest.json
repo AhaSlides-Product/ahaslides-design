@@ -1,0 +1,15 @@
+{
+  "$comment": "Source of truth for marketing/images/reviews/. The G2 logo, committed unaltered exactly as published at sourceUrl: never recolour, crop or resize. Refresh by re-fetching sourceUrl.",
+  "images": [
+    {
+      "file": "g2-logo.png",
+      "kind": "review platform logo",
+      "description": "G2 review platform logo, 600 by 600",
+      "sourceUrl": "https://ahaslides.com/webflow-assets/68427231f35040cef4456f89/6886e8caa4ea2595eeef6b39_g2-logo-png_seeklogo-407782.png",
+      "sourcePage": "https://ahaslides.com/solutions/classroom-education/",
+      "licence": "Third-party logo owned by G2, shown as published on ahaslides.com",
+      "fetched": "2026-10-22",
+      "note": "Unaltered third-party logo"
+    }
+  ]
+}

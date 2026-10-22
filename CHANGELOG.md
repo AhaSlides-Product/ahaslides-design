@@ -22,9 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.348.1 — 2026-10-22
+## 0.353.2 — 2026-10-22
 ### Fixed
 - Anti-slop criteria: 22 judge rules in `anti-slop/criteria.json` stopped mid-sentence with "…" (canvas C2 stopped at its lead-in), so a judge saw only part of each rule. They now carry the whole rule from the aha-design judge they were seeded from: canvas C2, C7, C16; audience C4, C15, C24, C26 to C29; settings C5, C9, C10, C12, C14, C15; feedback C1, C2, C4, C5; overlays C1; paywall C2. Another 27 rules had been cut to their first two sentences without a "…" (canvas C12 kept only its scope, audience C13 ended at "Two facets: 1."); they now carry their whole rule too: canvas C8, C11, C12, C14; audience C2, C3, C7, C8, C11, C12, C13, C16, C17, C21, C23, C25; settings C2, C3, C7, C8; feedback C3; overlays C2, C4, C6; paywall C4, C6, C7. Wording the store had already changed stays. `standards.mjs` now fails a criterion whose test ends in "…", in a ":" or in a list number with nothing after it (#355)
+
+## 0.353.1 — 2026-10-22
+### Fixed
+- Icons: the dots in 23 system glyphs (smiley, sad-face, angry-face, question, question-mark, exclamation-mark, info, warning-circle, dots-three and others) no longer render as hollow rings on iOS Safari. Each dot was a tiny closed path with a 1.5 stroke wider than the shape; WebKit strokes it as an outer and an inverted inner contour. Each is now a plain filled circle of the same size, so desktop rendering is unchanged. The icon build fails if a source icon draws a stroked closed path smaller than its stroke width (#354)
+
+## 0.353.0 — 2026-10-22
+### Added
+- Websites → Header: the G2 reviews row shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. The row is baked into the layout before the section html and css are composed, so the paste-and-run code, `header.md` and the agent feed carry it. Layouts without `reviews` are unchanged. Revert: restore the previous `reviews` object, highlight and guidance line in `marketing/header.json`, remove `bakeMarketingReviews` from `generate.mjs` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)
+
+## 0.348.1 — 2026-10-22
+### Changed
+- Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#346)
 
 ## 0.348.0 — 2026-10-22
 ### Added
