@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.339.0 — 2026-10-22
+### Changed
+- Website rule W4: the Sign up / primary call to action label is written for the page's context (a verb plus what the visitor gets), with Get started free only as the fallback; the Footer banner repeats the hero's label. Header and Footer banner docs say the sample label is per page. New website eval case for a generic label; the pass fixtures use page-specific labels. (#PRNUM)
+
 ## 0.335.1 — 2026-10-22
 ### Fixed
 - Chart: with `palette="deck"`, Pick Answer paints the correct mark (`correct-style=fill` bar or column, and the ✓ badge) with the deck ink instead of `--aha-color-success`, so it no longer disappears on a dark deck or turns unreadable on a blue one. Brand mode is unchanged. Revert: delete `--_correct:var(--_ink);` from the `.root.is-deck` rule in `lib/aha-chart.js`. Environment: product, audience (#342)
