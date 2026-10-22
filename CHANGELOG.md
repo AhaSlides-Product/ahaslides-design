@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.358.0 — 2026-10-22
 ### Added
-- Marketing photos: 16 people photos used on ahaslides.com (Fill in the blanks, Split the points, Escape room, Draw answer pages) are committed under `marketing-assets/photos/`, with source URL, alt text and fetch date in `marketing-assets/manifest.json`, so a website page can use them instead of the grey placeholder. New docs page Foundations › Marketing photos and an `llms.txt` line. (#PRNUM)
+- Marketing photos: 16 people photos used on ahaslides.com (Fill in the blanks, Split the points, Escape room, Draw answer pages) are committed under `marketing-assets/photos/`, with source URL, alt text and fetch date in `marketing-assets/manifest.json`, so a website page can use them instead of the grey placeholder. New docs page Foundations › Marketing photos and an `llms.txt` line. (#358)
 
 ## 0.354.1 — 2026-10-22
 ### Fixed
