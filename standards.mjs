@@ -670,6 +670,9 @@ if (ANTISLOP) {
     const criterionIds = (s.criteria || []).map(c => c.id);
     achk(`surface "${key}": criterion ids are unique`, new Set(criterionIds).size === criterionIds.length,
       'two criteria share an id — rule refs and judge verdicts would be ambiguous');
+    for (const c of (s.criteria || []))
+      achk(`surface "${key}": ${c.id} states its whole rule`, !/(…|:)[*_\s]*$/.test(c.test || ''),
+        'the test ends in "…" or a lead-in ":" with nothing after it — write the rest of the rule');
     if (s.origin === 'seeded')
       achk(`surface "${key}": records its seed provenance`, !!(s.seededFrom?.version && s.skillRef?.judge),
         'a seeded surface needs seededFrom.version + skillRef.judge — re-run sync-skills.mjs import');

@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.348.1 — 2026-10-22
+### Fixed
+- Anti-slop criteria: 22 judge rules in `anti-slop/criteria.json` stopped mid-sentence with "…" (canvas C2 stopped at its lead-in), so a judge saw only part of each rule. They now carry the whole rule from the aha-design judge they were seeded from: canvas C2, C7, C16; audience C4, C15, C24, C26 to C29; settings C5, C9, C10, C12, C14, C15; feedback C1, C2, C4, C5; overlays C1; paywall C2. Wording the store had already changed stays. `standards.mjs` now fails a criterion whose test ends in "…" or in a ":" with nothing after it (#PR)
+
 ## 0.348.0 — 2026-10-22
 ### Added
 - Screen-lint: three hard UX writing rules on every surface (product, settings, canvas, audience, website), reading user-visible UI strings only (HTML text nodes, `title`, `aria-label`, `aria-description`, `placeholder`, `alt`, `label` and `heading` attributes, and string literals under UI-text keys in scripts; never comments, CSS, URLs, identifiers, `<code>`, `<pre>` or `<kbd>`): `no-dash-punctuation` (UXW-8, em or en dash, raw or as an entity), `vague-error-copy` (UXW-2, "Something went wrong", "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and `title-case-slide-name` (UXW-1, "Multiple Choice", "Word Cloud", "Open-Ended", "Spinner Wheel", "Rating Scale"). Opt out per line with `ds-lint-allow: <rule> (why)` or `ds-lint-allow: copy (why)`. Pass `path` to `lintHtml` for a `.js` or `.ts` file so it is read as script. Revert by reverting this commit; the rules are additive (#351)
