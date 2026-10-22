@@ -320,8 +320,10 @@ on submit (C35). Mood glyphs are `system-smiley` / `system-sad-face` / `system-a
 - **Toast** (`showToast*`) for any transient confirmation or lightweight error — if you need a
   toast, use the host's, never an in-iframe banner. Recommended for the "Submitted" notice so
   every slide type confirms the same way.
-- **Bottom-sheet modal** (`openPluginModal` / `closePluginModal`) for any modal — host paints the
-  chrome, you fill the body. Don't build a custom overlay inside the iframe (wrong layer).
+- **Modal**: inside the iframe use `<aha-audience-modal>` (option details, an action, a confirmation).
+  It has no backdrop, so the iframe edge never cuts it off. The host's bottom sheet
+  (`openPluginModal` / `closePluginModal`) stays for a modal whose chrome the host paints. Never
+  hand-build an overlay inside the iframe.
 - **Sticky "Scroll to submit"** via `onSubmitButtonHeightChange(h)`.
 - **Countdown** (`timeLimit`): in framed mode the host already paints the countdown progress bar
   above the iframe — **don't duplicate** it; use `xprops.timeLimit` as **logic only** (e.g. lock

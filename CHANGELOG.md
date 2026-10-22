@@ -26,6 +26,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Canvas anti-slop criterion C24 "Keyboard-only operation": every presenter interaction must work with the keyboard alone (Tab order with a visible focus ring, hover also on focus, a keyboard alternative to any drag or pointer gesture, no trap, deck navigation keys never swallowed), per Slide Plugin Policy section 6. Three evals (hover-only result dots, drag-only reorder, a good control) and a Canvas guide section. C10 is unchanged. (#328)
 
+## 0.325.1 — 2026-10-21
+### Fixed
+- Audience library: every example is in English. The answer list, rank list, text fields, slider, chips, image upload and audience modal demos had Vietnamese labels, options and placeholders. (#339)
+
+## 0.325.0 — 2026-10-21
+### Added
+- Audience: `<aha-audience-modal>` (`@ahaslides-product/design/aha-audience-modal`), the audience phone's modal and the mobile twin of the DS Modal, with its own contract and docs page. One centred card in three types: `details` (one option in full, the default, opened from an expandable option), `action` (a heading, a task and its actions) and `confirmation` (a question, one line and two named answers, announced as an alertdialog, no close button, focus on its first non-`danger` action when it opens). Buttons in `slot="actions"` stay pinned below the scrolling body, stacked full width on a phone and in one row from a 400px card. A tap on a button with `data-action` emits a cancelable `action` event and closes with that value; every close fires `close` with `detail.returnValue` (`dismiss` for the close button, Escape or a tap outside), and `show()` returns a promise of it. `destructive` ignores the tap outside. It has no dark backdrop and no swipe to dismiss, so nothing is cut off inside an iframe: the card has a 1px border and a soft shadow, and closes on a tap outside it through an invisible layer. Audience library: the Modal card shows all three types in a phone frame, opened by a tap.
+
+### Changed
+- Audience: the option detail is the audience modal's `details` type, a centred card, instead of a bottom sheet that slid up from the screen edge. `<aha-bottom-sheet>` stays registered as a deprecated alias of the same element, so 0.307.0 consumers keep working. Breaking for those callers: no swipe-down to close, no `::part(backdrop)`, no slide-up bottom position or 75% height cap, `close` now carries `detail.returnValue`, and removing `open` from outside also fires `close`. Revert: restore `lib/aha-bottom-sheet.js` from 0.321.0 and drop `lib/aha-audience-modal.js`, its contract and parts (#334).
+
 ## 0.322.0 — 2026-10-21
 ### Added
 - Websites → Website composition: three global rules and criteria, W11 balanced grids (a card or feature grid never leaves an empty column slot; the column count follows the item count), W12 no layout fatigue (at most 3 alternating rows in a section, never two alternating sections back to back, steps use the Steps row, neighbouring sections change layout) and W13 Testimonials and FAQ are the current DS sections pasted unchanged. Three new failing eval pages and `tests/website-composition.test.mjs`; the pass pages now use the current Testimonials and FAQ. Revert: remove W11 to W13, the three eval pages and the grid block at the end of the Cards and Features CSS; no existing class changed (#321)
