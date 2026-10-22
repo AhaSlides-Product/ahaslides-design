@@ -52,3 +52,9 @@ test('a regex literal ending in // or holding a quote does not hide later copy o
   const lines = findingsOf(source, 'product').filter(f => f.rule === 'vague-error-copy').map(f => f.line);
   assert.deepEqual(lines, [2, 3, 4]);
 });
+
+test('a slash after a postfix ++ or -- is division, so a trailing comment is still skipped', () => {
+  const source = `<script>\nconst half = count++ / 2; // label: "Oops"\nconst rest = count-- / 2; // label: "Oops"\nel.title = "Oops";\n</script>`;
+  const lines = findingsOf(source, 'product').filter(f => f.rule === 'vague-error-copy').map(f => f.line);
+  assert.deepEqual(lines, [4]);
+});
