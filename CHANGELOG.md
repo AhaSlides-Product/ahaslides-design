@@ -24,9 +24,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.361.0 — 2026-10-22
 ### Changed
-- Website rule W6, Marketing Cards and Features: a real photo always fills its slot edge to edge (`aha-marketing-card__media--fill`, `aha-features__photo--fill`), portrait or landscape, same size or not; it never takes the Vivid Pink frame. A UI image (product screenshot, UI mock) keeps the existing rule: fills at its own ratio when landscape or square and alike, framed in Vivid Pink when portrait or mixed, never cropped. (#PRNUM)
+- Website rule W6, Marketing Cards and Features: a real photo always fills its slot edge to edge (`aha-marketing-card__media--fill`, `aha-features__photo--fill`), portrait or landscape, same size or not; it never takes the Vivid Pink frame. A UI image (product screenshot, UI mock) keeps the existing rule: fills at its own ratio when landscape or square and alike, framed in Vivid Pink when portrait or mixed, never cropped. (#362)
 ### Added
-- A ratio modifier next to `--fill` (`--4x3` / `--3x4` in Features, `--16x9` / `--3x2` on cards) gives every filled slot one shared ratio and crops the photo to it with `object-fit: cover`, so photos of different ratios line up. Without a ratio modifier the fill output is unchanged. New examples: Features "Alternating with photos", Cards "Photo row". Anti-slop criterion W6 and the website guideline updated. (#PRNUM)
+- A ratio modifier next to `--fill` (`--4x3` / `--3x4` in Features, `--16x9` / `--3x2` on cards) gives every filled slot one shared ratio and crops the photo to it with `object-fit: cover`, so photos of different ratios line up. Without a ratio modifier the fill output is unchanged. New examples: Features "Alternating with photos", Cards "Photo row". Anti-slop criterion W6 and the website guideline updated. (#362)
 
 ## 0.356.0 — 2026-10-22
 ### Removed
