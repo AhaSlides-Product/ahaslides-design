@@ -1837,15 +1837,31 @@ const marketingStatePanes = (b, layout, snippet) => {
 function marketingReviewsFor(b, layout) {
   const reviews = b.reviews;
   if (!reviews || !layout.reviews) return null;
-  const avatars = reviews.avatars.map(avatar => reviews.avatarHtml.replaceAll('{{file}}', esc(avatar.file)).replaceAll('{{name}}', esc(avatar.name))).join('');
-  const fill = (text) => text.replaceAll('{{avatars}}', avatars).replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
+  const fill = (text) => text.replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
   return { html: fill(reviews.html), css: fill(reviews.css) + (layout.reviews.css ? '\n' + layout.reviews.css : ''), insertInto: `.${layout.class}__copy` };
+}
+function bakeMarketingReviews(b) {
+  if (!b.reviews) return b;
+  const layouts = b.layouts.map(layout => {
+    const row = marketingReviewsFor(b, layout);
+    if (!row) return layout;
+    const open = layout.html.indexOf(`<div class="${layout.class}__copy"`);
+    if (open < 0) return layout;
+    let depth = 0, close = -1;
+    for (const tag of layout.html.slice(open).matchAll(/<div\b|<\/div>/g)) {
+      depth += tag[0] === '</div>' ? -1 : 1;
+      if (depth === 0) { close = open + tag.index; break; }
+    }
+    if (close < 0) return layout;
+    return { ...layout, html: `${layout.html.slice(0, close).replace(/[ ]+$/, '')}      ${row.html.replaceAll('\n', '\n      ')}\n    ${layout.html.slice(close)}`, css: `${layout.css}\n${row.css}` };
+  });
+  return { ...b, layouts };
 }
 function marketingReviewsSwitch(b, layout) {
   const reviews = marketingReviewsFor(b, layout);
   if (!reviews) return '';
   const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
-  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="off" data-insert-into="${esc(reviews.insertInto)}" data-html="${esc(reviews.html)}" data-css="${esc(reviews.css)}"></aha-segmented>`;
+  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="on" data-insert-into="${esc(reviews.insertInto)}" data-row="${esc(`.${layout.class}__reviews`)}" data-html="${esc(reviews.html)}"></aha-segmented>`;
 }
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
@@ -1931,18 +1947,13 @@ const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
       function apply(){
         var doc=frame.contentDocument;
         if(!doc||!doc.getElementById('mbp-content'))return;
-        doc.querySelectorAll('[data-mbp-reviews]').forEach(function(node){node.remove();});
+        doc.querySelectorAll(seg.dataset.row).forEach(function(node){node.remove();});
         if(current!=='on')return;
         var host=doc.querySelector(seg.dataset.insertInto);
         if(!host)return;
-        var style=doc.createElement('style');
-        style.setAttribute('data-mbp-reviews','');
-        style.textContent=seg.dataset.css;
-        doc.head.appendChild(style);
         var holder=doc.createElement('div');
         holder.innerHTML=seg.dataset.html;
         var row=holder.firstElementChild;
-        row.setAttribute('data-mbp-reviews','');
         host.appendChild(row);
       }
       frame.addEventListener('load',apply);
@@ -2017,7 +2028,7 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
   const withRow = b.layouts.filter(layout => layout.reviews);
-  return `\n## ${b.reviews.label} row (optional, off by default)\nAn optional ${b.reviews.source} rating row: five avatars, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above leaves it out. To turn it on, append the row below as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}, and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
+  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
@@ -2041,8 +2052,8 @@ function renderMarketingAgent(b) {
     ...(b.guidance ? { guidance: b.guidance } : {}),
     ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
     ...(b.reviews ? { reviews: {
-      label: b.reviews.label, source: b.reviews.source, defaultState: 'off', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
-      howToTurnOn: `Append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class. Off by default: the layout html and css leave it out.`,
+      label: b.reviews.label, source: b.reviews.source, defaultState: 'on', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
+      howToRemove: `On by default: the layout html and css include the row. Delete the <layout class>__reviews element and its __reviews css to remove it, or append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class, to add it elsewhere.`,
       html: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).html,
       css: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).css,
       layouts: b.layouts.filter(layout => layout.reviews).map(layout => ({ slug: layout.slug, class: layout.class, insertInto: `.${layout.class}__copy`, ...(layout.reviews.css ? { css: layout.reviews.css } : {}) })),
@@ -3136,7 +3147,7 @@ const expandMarketingAssets = (b) => {
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingLayoutData).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(expandMarketingLayoutData).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).map(bakeMarketingReviews).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */

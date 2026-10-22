@@ -4,15 +4,14 @@
   "environment": [
     "web"
   ],
-  "summary": "The AhaSlides marketing site social proof blocks, matched to the live ahaslides.com: Badges (the award row from the footer of the word cloud slide type page) and G2 (the rating row from the hero of the classroom education solutions page). Both are rendered from data files, so a yearly badge refresh or a new rating is a data edit. Framework-free and bound to the shared --aha-* tokens.",
+  "summary": "The AhaSlides marketing site social proof block, matched to the live ahaslides.com: Badges, the award row from the footer of the word cloud slide type page. It renders from a data file, so a yearly badge refresh is a data edit. The G2 rating row lives in the Header page as the G2 reviews row. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [
-    "Two blocks on one page: Badges and G2, each matched to the live ahaslides.com",
-    "Badges: four award badges in a row (G2 Best Software 2026 and the Training Magazine Network Choice Awards 2026), 80px wide with a 12px gap, each linking to the AhaSlides reviews on G2 or its winners page, with the live title, aria-label and alt text",
-    "G2: the G2 logo in a white rounded card, then the DS Rate stars filled to the rating, the rating and the review count",
-    "Badge and logo images are unaltered third-party marks: never recolour, crop or restyle them",
-    "Lists, rating and review count come from marketing/data/social-proofs-badges.json and marketing/data/social-proofs-g2.json, not hand-typed markup"
+    "One block: Badges, four award badges in a row (G2 Best Software 2026 and the Training Magazine Network Choice Awards 2026), 80px wide with a 12px gap, each linking to the AhaSlides reviews on G2 or its winners page, with the live title, aria-label and alt text",
+    "Badge images are unaltered third-party marks: never recolour, crop or restyle them",
+    "The list comes from marketing/data/social-proofs-badges.json, not hand-typed markup",
+    "The G2 rating row is the G2 reviews row on the Header page, on by default"
   ],
-  "layoutsIntro": "Each block copies one social proof row from the live ahaslides.com. Class names carry the block.",
+  "layoutsIntro": "The social proof row copied from the live ahaslides.com. Class names carry the block.",
   "imagePath": "images/social-proofs",
   "layouts": [
     {
@@ -25,17 +24,6 @@
       "itemHtml": "<a class=\"aha-social-proofs-badges__item{{modifier}}\" href=\"{{href}}\" title=\"{{title}}\" aria-label=\"{{label}}\"{{#newTab}} target=\"_blank\" rel=\"noopener\"{{/newTab}}><img src=\"{{src}}\" alt=\"{{alt}}\" loading=\"lazy\"></a>",
       "html": "<section class=\"aha-social-proofs-badges\" aria-label=\"Awards and reviews\">\n  <div class=\"aha-social-proofs-badges__list\">{{items}}</div>\n</section>",
       "css": ".aha-social-proofs-badges{\n  container:aha-social-proofs-badges / inline-size;\n  background:var(--aha-white);\n  font-family:var(--aha-font-product);\n}\n.aha-social-proofs-badges *{box-sizing:border-box}\n.aha-social-proofs-badges__list{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12);padding:var(--aha-space-32) var(--aha-space-16)}\n.aha-social-proofs-badges__item{display:block;width:100%;max-width:80px;border-radius:var(--aha-radius-xs)}\n.aha-social-proofs-badges__item img{display:block;width:100%;height:auto}\n.aha-social-proofs-badges__item--wide img{width:110%;max-width:none}\n.aha-social-proofs-badges__item:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}\n@container aha-social-proofs-badges (max-width:767px){\n  .aha-social-proofs-badges__item{aspect-ratio:80 / 81}\n  .aha-social-proofs-badges__item img{height:100%;object-fit:contain}\n  .aha-social-proofs-badges__item--wide img{width:110%;height:100%}\n}\n"
-    },
-    {
-      "name": "G2",
-      "slug": "g2",
-      "classes": "aha-social-proofs-g2",
-      "summary": "The rating row: the round G2 logo in a white rounded card, the five DS Rate stars filled to the exact rating (the fifth star partly filled for 4.8) with the rating beside them, and the review count underneath, from the hero of the live classroom education page. The block has no background of its own, so it takes the surface it is placed on, such as a Hero; the white card keeps the logo readable on pink.",
-      "useFor": "Showing an aggregate review rating beside or below a hero call to action.",
-      "dataFile": "data/social-proofs-g2.json",
-      "itemHtml": "<img class=\"aha-social-proofs-g2__logo\" src=\"{{src}}\" alt=\"{{alt}}\" loading=\"lazy\">",
-      "html": "<section class=\"aha-social-proofs-g2\" aria-label=\"Customer reviews\">\n  <div class=\"aha-social-proofs-g2__inner\">\n    <span class=\"aha-social-proofs-g2__label\">{{accessibleLabel}}</span>\n    <div class=\"aha-social-proofs-g2__logos\" aria-hidden=\"true\">{{items}}</div>\n    <div class=\"aha-social-proofs-g2__detail\" aria-hidden=\"true\">\n      <div class=\"aha-social-proofs-g2__rating\">\n        <aha-rate value=\"{{rating}}\" readonly precision=\"exact\"></aha-rate>\n        <span class=\"aha-social-proofs-g2__score\">{{rating}}</span>\n      </div>\n      <span class=\"aha-social-proofs-g2__text\">{{text}}</span>\n    </div>\n  </div>\n</section>",
-      "css": ".aha-social-proofs-g2{\n  container:aha-social-proofs-g2 / inline-size;\n  color:var(--aha-text-default);\n  font-family:var(--aha-font-product);\n}\n.aha-social-proofs-g2 *{box-sizing:border-box}\n.aha-social-proofs-g2__inner{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:var(--aha-space-16);padding:var(--aha-space-32) var(--aha-space-16)}\n.aha-social-proofs-g2__logos{display:flex;padding:var(--aha-space-8);border-radius:var(--aha-radius-lg);background:var(--aha-white)}\n.aha-social-proofs-g2__logo{display:block;width:var(--aha-space-48);height:var(--aha-space-48);object-fit:contain;border-radius:var(--aha-radius-pill);background:var(--aha-white)}\n.aha-social-proofs-g2__detail{display:flex;flex-direction:column;align-items:flex-start;gap:var(--aha-space-4)}\n.aha-social-proofs-g2__rating{display:flex;align-items:center;gap:var(--aha-space-8)}\n.aha-social-proofs-g2__score{font-size:var(--aha-size-l);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-body)}\n.aha-social-proofs-g2__text{font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);letter-spacing:var(--aha-letter-spacing-paragraph);color:var(--aha-text-secondary)}\n.aha-social-proofs-g2__label{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@container aha-social-proofs-g2 (max-width:479px){\n  .aha-social-proofs-g2__inner{flex-direction:column}\n  .aha-social-proofs-g2__detail{align-items:center}\n}\n"
     }
   ]
 }
