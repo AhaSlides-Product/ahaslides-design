@@ -2052,19 +2052,22 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
 }
 const marketingLayoutClass = (b, layout) => layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`;
 const marketingVideoSnippets = (video) => video.snippets || [{ file: 'video.html', note: 'Replaces the layout image.', html: video.html }];
-const marketingVideoApplies = (b) => b.video.appliesTo || b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${layout.name} (${marketingLayoutClass(b, layout)})`).join(', ');
+const marketingVideoLayouts = (b) => b.layouts.filter(layout => b.video.layouts.includes(layout.slug));
+const marketingVideoAppliesLead = (b) => b.video.appliesTo ? 'Applies to' : 'Layouts with the slot';
+const marketingVideoAppliesHtml = (b) => b.video.appliesTo ? esc(b.video.appliesTo) : marketingVideoLayouts(b).map(layout => `${esc(layout.name)} (<code>${esc(marketingLayoutClass(b, layout))}</code>)`).join(', ');
+const marketingVideoAppliesMd = (b) => b.video.appliesTo || marketingVideoLayouts(b).map(layout => `${layout.name} (\`${marketingLayoutClass(b, layout)}\`)`).join(', ');
 function marketingVideoHtml(b) {
   if (!b.video) return '';
   return `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
-  <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Applies to: ${esc(marketingVideoApplies(b))}.</p>
+  <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} ${marketingVideoAppliesLead(b)}: ${marketingVideoAppliesHtml(b)}.</p>
   ${marketingVideoSnippets(b.video).map(snippet => marketingCodeToggle(snippet.file, snippet.html, snippet.note)).join('\n  ')}
   ${marketingCodeToggle('video.css', b.video.css, b.video.cssNote || 'Add once. Replace {{c}} with the layout class.')}
 `;
 }
 function marketingVideoMd(b) {
   if (!b.video) return '';
-  const snippets = marketingVideoSnippets(b.video).map(snippet => `${snippet.note ? `${snippet.note}\n\n` : ''}\`\`\`html\n${snippet.html}\n\`\`\``).join('\n\n');
-  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. Applies to: ${marketingVideoApplies(b)}.\n\n${snippets}\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
+  const snippets = marketingVideoSnippets(b.video).map(snippet => `${b.video.snippets && snippet.note ? `${snippet.note}\n\n` : ''}\`\`\`html\n${snippet.html}\n\`\`\``).join('\n\n');
+  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. ${marketingVideoAppliesLead(b)}: ${marketingVideoAppliesMd(b)}.\n\n${snippets}\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
 }
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
