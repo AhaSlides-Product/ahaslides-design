@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.339.0 — 2026-10-22
 ### Changed
-- Website rule W4: the Sign up / primary call to action label is written for the page's context (a verb plus what the visitor gets), with Get started free only as the fallback; the Footer banner repeats the hero's label. Header and Footer banner docs say the sample label is per page. New website eval case for a generic label; the pass fixtures use page-specific labels. (#PRNUM)
+- Website rule W4: the Sign up / primary call to action label is written for the page's context (a verb plus what the visitor gets), with Get started free only as the fallback; the Footer banner repeats the hero's label. Header and Footer banner docs say the sample label is per page. New website eval case for a generic label; the pass fixtures use page-specific labels. (#344)
 
 ## 0.335.1 — 2026-10-22
 ### Fixed
