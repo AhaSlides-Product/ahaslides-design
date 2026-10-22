@@ -10,7 +10,7 @@
     {
       "name": "ahaslides-design",
       "source": "./agent",
-      "description": "Design-system skill (aha-design) and hooks for building and judging every AhaSlides website and product UI, versioned with each ahaslides-design release."
+      "description": "Design-system skills (aha-design, and settings-design for every settings UI) and hooks for building and judging every AhaSlides website and product UI, versioned with each ahaslides-design release."
     }
   ]
 }

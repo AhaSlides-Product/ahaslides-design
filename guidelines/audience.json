@@ -152,8 +152,14 @@
     {
       "ref": "modal",
       "as": "component",
-      "use": "any modal interaction via the host's openPluginModal bottom-sheet — host paints the chrome, you fill the body",
+      "use": "a modal the host paints outside the iframe via openPluginModal (the host's own bottom sheet chrome, you fill the body); a modal inside the iframe is <aha-audience-modal>",
       "status": "missing"
+    },
+    {
+      "ref": "audience-modal",
+      "as": "component",
+      "use": "a modal inside the iframe — <aha-audience-modal>: option details (from an expandable option), an action, or a confirmation; no backdrop, actions pinned and stacked full width",
+      "status": "available"
     },
     {
       "ref": "skeleton",
@@ -222,7 +228,7 @@
       "status": "available"
     }
   ],
-  "entryExtras": ["counted-input", "field-error", "loader", "select"],
+  "entryExtras": ["bottom-sheet", "counted-input", "field-error", "loader", "select"],
   "componentBacklog": "composedOf marks 7 items this pattern leans on that the DS does not ship — the four semantic-state tokens (colorSuccess/Error/Warning/Info, which plugins bundle from the design-system package rather than read as --aha-* vars because no host CSS var crosses the iframe), plus toast, modal and skeleton (the first two are painted by the host outside the iframe). Radio, slider, textarea and the shared instruction now ship as the audience elements. Per the charter, a pattern leaning on a missing component is a signal to add it HERE.",
   "rules": [
     {
@@ -544,7 +550,7 @@
     },
     {
       "id": "use-host-utilities",
-      "rule": "Use the host utilities rather than reinventing them in-iframe: showToast* for transient feedback/errors, openPluginModal/closePluginModal for modals (host paints chrome, you fill the body), onSubmitButtonHeightChange for the sticky pill, scrollTo/getWindowHeight for positioning. Lean toward the utility so it stays consistent and host-evolvable.",
+      "rule": "Use the host utilities rather than reinventing them in-iframe: showToast* for transient feedback/errors, openPluginModal/closePluginModal for a modal the host paints (you fill the body) and <aha-audience-modal> for a modal inside the iframe, never a hand-built overlay, onSubmitButtonHeightChange for the sticky pill, scrollTo/getWindowHeight for positioning. Lean toward the utility so it stays consistent and host-evolvable.",
       "ref": [
         "C20-util",
         "§6"
@@ -584,6 +590,13 @@
       "ref": [
         "§7",
         "§9"
+      ]
+    },
+    {
+      "id": "close-button",
+      "rule": "A modal, sheet or overlay on the audience phone closes with the DS close ✕: <aha-button variant=\"tertiary-deck\" size=\"md\" icon-only aria-label=\"Close\"> with the 16px system-x (36 x 36 drawn, an invisible 44 x 44 hit area; add `sheet` on a white surface for the muted grey glyph). Never the 48px touch icon-only for a ✕, and never a hand-rolled one; actions (Skip, Back, Remove) stay size touch.",
+      "ref": [
+        "§8"
       ]
     },
     {

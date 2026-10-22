@@ -53,7 +53,7 @@ Every contract, guideline and website section and brand asset declares `"environ
 
 ## Claude Code: the DS agent plugin
 
-This repo is also a Claude Code plugin marketplace. `agent/` is the `ahaslides-design` plugin (skill `aha-design` + hooks), released with every version: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design` (settings.json snippet in `README.md`, "Agent plugin"). Changing it: every release bumps `package.json` and `agent/.claude-plugin/plugin.json` to the same version, keep rules in `anti-slop/` and `guidelines/` (the skill points at them), and run `npm run generate` so `agent/anti-slop/criteria.json` stays the store's copy. `standards.mjs` gates all three; the hook suites run in `npm test`.
+This repo is also a Claude Code plugin marketplace. `agent/` is the `ahaslides-design` plugin (skills `aha-design` and `settings-design`, the mandatory runbook for any settings UI, + hooks), released with every version: `/plugin marketplace add AhaSlides-Product/ahaslides-design`, then enable `ahaslides-design@ahaslides-design` (settings.json snippet in `README.md`, "Agent plugin"). Changing it: every release bumps `package.json` and `agent/.claude-plugin/plugin.json` to the same version, keep rules in `anti-slop/` and `guidelines/` (the skill points at them), and run `npm run generate` so `agent/anti-slop/criteria.json` stays the store's copy. `standards.mjs` gates all three; the hook suites run in `npm test`.
 
 ## House non-negotiables (detail in the `aha-design` skill)
 

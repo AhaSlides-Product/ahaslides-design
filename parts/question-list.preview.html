@@ -1,8 +1,19 @@
 <div class="pad">
-  <div class="lbl">Editable questions — a Collapse per question ("N. prompt" header, hover the trash to delete), the prompt field and its OptionRow choices inside, full-width secondary "Add option" and "Add question"</div>
+  <div class="lbl">Editable questions — a Collapse per question ("N. prompt" header, hover or Tab into a question to reveal its delete, as OptionRow), the prompt field and its OptionRow choices inside, full-width secondary "Add option" and "Add question"</div>
   <div class="row" style="display:block; max-width:383px">
     <aha-question-list data-probe label="Questions" help="Each question runs as its own round." min="1" max="10" minoptions="2" maxoptions="6" allowimage
       questions='[{"id":"q1","prompt":"Which planet has the most moons?","open":true,"options":[{"id":"o1","text":"Saturn","correct":true},{"id":"o2","text":"Jupiter"}]},{"id":"q2","prompt":"Largest ocean?","options":[{"id":"o3","text":"Pacific","correct":true},{"id":"o4","text":"Atlantic"}]}]'></aha-question-list>
+  </div>
+  <div class="lbl">Header slots at every position and status lines — an Icon at the start, a time Tag before the prompt, a Tag after and at the end; a warning and an error card with a recoloured border</div>
+  <div class="row" style="display:block; max-width:383px">
+    <aha-question-list label="Questions" min="1" max="10"
+      questions='[{"id":"q1","prompt":"What colour is the sky on a clear day?"},{"id":"q2","prompt":"How many planets are there in the solar system?","status":{"message":"Only 2s after Q1. Their markers overlap on the canvas.","tone":"warning"}},{"id":"q3","prompt":"Capital of France?"},{"id":"q4","prompt":"Which of the following long-running scientific expeditions first reached the geographic South Pole, and in which year did the whole party return safely to their base camp?"}]'>
+      <aha-tag slot="before-q1">00:23</aha-tag>
+      <aha-tag slot="before-q2">00:25</aha-tag>
+      <aha-tag slot="end-q2" color="warning">Overlap</aha-tag>
+      <aha-tag slot="before-q4">01:10</aha-tag>
+      <aha-icon slot="marker-q3" name="system-timer" size="16" aria-hidden="true"></aha-icon>
+    </aha-question-list>
   </div>
   <div class="lbl">At the minimum — one question, its delete disabled</div>
   <div class="row" style="display:block; max-width:383px">
@@ -15,5 +26,6 @@
      can never drift from lib/. It transitively pulls the composed components (setting-row, collapse,
      counted-input, option-row, add-item-button, button, tooltip). -->
 <script type="module">
+  import '../lib/aha-tag.js';
   import '../lib/aha-question-list.js';   // registers <aha-question-list> — the shipped composite
 </script>

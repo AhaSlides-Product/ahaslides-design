@@ -22,9 +22,144 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.291.0 — 2026-10-21
+## 0.333.0 — 2026-10-22
 ### Removed
 - Marketing → Sections: the standalone `Features` and `Numbers` pages are removed (`marketing/features.json`, `marketing/numbers.json`, their nav entries and generated pages). The old `marketing/features/` and `marketing/numbers/` URLs now forward to the `Header` page (new `MARKETING_REDIRECTS` in `generate.mjs`). Website guideline rules W1 to W5 and their anti-slop criteria no longer name the two sections, with no rule value changed; the Testimonials section states its own frame values (1280 wide, padding 96/64, 48/24, 32/16) instead of pointing at Features. No tokens, colours or components change. Revert: restore `marketing/features.json` and `marketing/numbers.json` from git history, the Features/Numbers wording in `marketing/testimonials.json`, `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`, and delete `MARKETING_REDIRECTS` in `generate.mjs`. (#315)
+
+## 0.325.1 — 2026-10-21
+### Fixed
+- Audience library: every example is in English. The answer list, rank list, text fields, slider, chips, image upload and audience modal demos had Vietnamese labels, options and placeholders. (#339)
+
+## 0.325.0 — 2026-10-21
+### Added
+- Audience: `<aha-audience-modal>` (`@ahaslides-product/design/aha-audience-modal`), the audience phone's modal and the mobile twin of the DS Modal, with its own contract and docs page. One centred card in three types: `details` (one option in full, the default, opened from an expandable option), `action` (a heading, a task and its actions) and `confirmation` (a question, one line and two named answers, announced as an alertdialog, no close button, focus on its first non-`danger` action when it opens). Buttons in `slot="actions"` stay pinned below the scrolling body, stacked full width on a phone and in one row from a 400px card. A tap on a button with `data-action` emits a cancelable `action` event and closes with that value; every close fires `close` with `detail.returnValue` (`dismiss` for the close button, Escape or a tap outside), and `show()` returns a promise of it. `destructive` ignores the tap outside. It has no dark backdrop and no swipe to dismiss, so nothing is cut off inside an iframe: the card has a 1px border and a soft shadow, and closes on a tap outside it through an invisible layer. Audience library: the Modal card shows all three types in a phone frame, opened by a tap.
+
+### Changed
+- Audience: the option detail is the audience modal's `details` type, a centred card, instead of a bottom sheet that slid up from the screen edge. `<aha-bottom-sheet>` stays registered as a deprecated alias of the same element, so 0.307.0 consumers keep working. Breaking for those callers: no swipe-down to close, no `::part(backdrop)`, no slide-up bottom position or 75% height cap, `close` now carries `detail.returnValue`, and removing `open` from outside also fires `close`. Revert: restore `lib/aha-bottom-sheet.js` from 0.321.0 and drop `lib/aha-audience-modal.js`, its contract and parts (#334).
+
+## 0.322.0 — 2026-10-21
+### Added
+- Websites → Website composition: three global rules and criteria, W11 balanced grids (a card or feature grid never leaves an empty column slot; the column count follows the item count), W12 no layout fatigue (at most 3 alternating rows in a section, never two alternating sections back to back, steps use the Steps row, neighbouring sections change layout) and W13 Testimonials and FAQ are the current DS sections pasted unchanged. Three new failing eval pages and `tests/website-composition.test.mjs`; the pass pages now use the current Testimonials and FAQ. Revert: remove W11 to W13, the three eval pages and the grid block at the end of the Cards and Features CSS; no existing class changed (#321)
+- Marketing → Cards, Features and Numbers: the Cards grid, the Features icon grid and the Numbers stats (centred layout; the 4-up row at 3 stats) balance by item count with no modifier. At 992px and wider: 1 item is one centred column, 2 items 2 columns, 4 items 2 by 2, 5 or more 3 columns with the short last row centred; at 768 to 991px a lone last card is centred. The image-led grid and the Steps row are untouched. Environment: marketing-web
+- Marketing → Features and Cards: `aha-features__photo--fill` and `aha-marketing-card__media--fill`. The image fills its container edge to edge at its own ratio (the slot takes the image's ratio), so a same-size image needs no crop and no frame. New Features layout "Alternating with mixed-size screenshots", Cards snippets "Use-case row, images fill" and "Mixed-size row with a Vivid Pink frame", and two placeholders, `marketing-assets/image-placeholder-wide.svg` (16:9) and `image-placeholder-tall.svg` (3:4). Environment: marketing-web (#321)
+- Websites → Website composition: rule and criterion W15 content card links open in a new tab. Every Template, Testimonial or case-study, Integration, Article, Feature and Use-case card link and every Features `Learn more` link in the Marketing snippets now has `target="_blank" rel="noopener"` and a visually-hidden "(opens in a new tab)" (`aha-marketing-card__visually-hidden`, new `aha-testimonials__visually-hidden` and `aha-features__visually-hidden`); Sign up and other call-to-action buttons and the Navigation and Footer links stay in the same tab. New failing eval page `fail-w15-cards-same-tab` and a test. Revert: restore the snippet links without the attributes, remove the two hidden-text classes, W15, the eval page and the test. Environment: marketing-web (#321)
+- Websites → Website composition: templates are always a 3 by n grid on desktop. Rule and criterion W10 carve templates out of the 2-column image-led layout and W11 out of count balancing: a grid of Template cards is 3 columns at 992 px and wider, a multiple of 3 templates (no 2 by 2 for four, no centred lone card), tablet and phone unchanged. Marketing → Cards: new `aha-marketing-cards__grid--templates` modifier and "Templates grid, 3 by n" snippet; the 992 px balancing rules skip it. New failing eval page `fail-w10-templates-two-columns` and a test. Revert: remove the modifier, the snippet, the `:not(...--templates)` additions, the eval page and test and restore the W10 and W11 text. Environment: marketing-web (#321)
+- Websites → Website composition: rule and criterion W1 now say the Logos strip (customer logos, Trusted by) is always the band directly below the hero, never later in the page; the Top of the page / body examples, the Logos section highlights, one new failing eval page `fail-w1-logos-mid-page` and a test follow, and the other eval pages that placed Logos mid-page now put it directly below the hero. Revert: restore the W1 text and the guideline lines, remove the eval page, the Logos highlight and the test; no class changed (#321)
+- Websites → Website composition: rule and criterion W14 one type ramp per page. Each text role uses one DS type token across every Marketing section: section heading (h2) `--aha-size-h2` 40 px (32 at 991 px and below, 24 at 479 px and below) semibold, line-height heading; section lead and quote text the lead clamp 16 to 20 px regular; alternating row title `--aha-size-h4` 24 px semibold; every item or card title `--aha-size-xl` 20 px semibold; body `--aha-size-l` 16 px regular; meta `--aha-size-default` 14 px; stat number 40 to 48 px semibold; all Plus Jakarta Sans. New failing eval page `fail-w14-mixed-type-ramp` and ramp tests in `tests/website-composition.test.mjs`. Revert: remove W14, its eval page and tests, and revert the Marketing CSS bullet under Changed (#321)
+
+### Changed
+- Marketing → every section follows the W14 type ramp by default: no section sets `--aha-font-display` (Nunito, which the DS never loads) any more, so the Hero title, every section h2, the alternating row titles, Numbers and Statistic card values and the Pricing card amount inherit Plus Jakarta Sans; section h2s use line-height heading (1.3) and FAQ and Footer banner titles step 40/32/24 px like the rest (FAQ was 36/28); Testimonials quote text in every layout is the lead size, regular (the large 32 px and the 18 px semibold Quote cards styles are gone; `--large` and `--card` stay in the markup with no type of their own); image-led card titles and FAQ questions are 20 px at every width (were 24 px, and FAQ 18 to 24 px); alternating row titles are 24 px (were 32); the Pricing benefit list is 20 px title and 16 px text (was 16 and 14); Numbers and Footer banner leads use the lead size. Environment: marketing-web (#321)
+- Websites → Website composition: rule and criterion W5 say the section directly after the Logos strip (the customer logos band) is always full white, never the pale pink accent or another tint.
+- Websites → Website composition: rule and criterion W6 use the Vivid Pink frame for any portrait image (taller than wide), even alone or when every image is the same size, and when a section holds more than one image of differing size or ratio; a landscape or square image, alone or among others of the same size, fills its container with no frame. New Features layout "Alternating with portrait screenshots" and Cards snippet "Portrait pictures, framed". Never crop a screenshot and one ratio per section stay. The "Alternating with screenshots" layout and the image-led Cards grids now show fill; the pink-frame examples show mixed sizes. Revert: remove the `--fill` classes, the new layout and snippets and restore the previous W6 text; no existing class changed
+
+## 0.321.0 — 2026-10-21
+### Added
+- Settings: new rule "Labels: say what the setting does" and judge criterion C20 "Labels are self-explanatory". A first-time reader of only the label can say what changes; no coined term or lone abstract noun ("Opening", "Mode"), the conventional term, the unit in the label, one term per concept, and a `label | "Changing this …" sentence | tooltip` table in the PR. A worked-examples table of 14 real e-learning labels (before, after, which rule). UXW-10 points every form label at it. Eight new C20 evals (#336).
+- Agent plugin: a second skill, `ahaslides-design:settings-design`, the one mandatory runbook for any settings UI (settings panel, page, modal or drawer, a slide type's `settings.*` panel, preferences, an options dialog). It sequences the work and points at the DS sources: hub control table, label rule, the required `label | "Changing this …" sentence | tooltip` table, grouping, `screen-lint --surface=settings`, the settings judge. The settings lines in `aha-design` move into it and `aha-design` routes there (#336).
+- Agent plugin enforcement, no exception: the prompt hook adds a "load settings-design first" line on any settings prompt; the write guard blocks a Write or Edit to settings UI (a slide type's `settings.*` file, or a file routed to the `settings` surface) until the session has loaded the skill (fail-open without a transcript; `AHA_DESIGN_SETTINGS_SKILL_DISABLE=1` turns off only this block); the end-of-turn judge asks for the label table when a settings file changed (#336).
+
+### Changed
+- Settings C1, the settings guide and the group rule: "short noun phrase" becomes "clear noun phrase", and a name or group header may be a short when/who/what clause ("When the module opens", "Who can open this course") when that is clearer. Group headers go from 1–3 words to 2–6, so the old rules no longer contradict the new label rule (#336).
+
+## 0.319.0 — 2026-10-21
+### Added
+- Question list: a body slot `body-<id>` puts interactive light-DOM content (a SettingRow with a time input and stepper, say) inside the open body of question `<id>`, above the "Question" row. Children stay focusable; clicks, keys and edits in the slot never toggle the collapse; a closed question hides it; it follows its question by id across reorder, add and delete. Native `input` / `change` events from slotted children now reach the list's host (the list's own `change` still carries `detail.questions`). Revert: remove the `.body-slot` holder, its CSS and the `slotted('body-slot', …)` call in `lib/aha-question-list.js`, and restore the `stopPropagation` guard to unconditional. (#335)
+
+
+## 0.315.0 — 2026-10-21
+### Removed
+- Marketing → Sections: the standalone `Hero` page is removed (`marketing/hero.json`, its nav entry and generated page). The hero layouts on the `Header` page are unchanged. The old `landing/` and `landing/hero` stubs now forward to the `Header` page. No tokens, colours or components change. Revert: restore `marketing/hero.json` and point the `''` and `hero` entries of `LANDING_REDIRECTS` in `generate.mjs` back at `marketing/hero/index.html`. (#298)
+
+## 0.314.0 — 2026-10-21
+### Removed
+- Marketing Features: the Icon list with video, Icon list with wide photo and Alternating with photos layouts, with the classes only they used (`aha-features__band`, `__frame--video`, `__play`, `__checks`, `__check`, `__photo--16x9` and others); the page now lists nine layouts (#331).
+
+## 0.312.0 — 2026-10-21
+### Removed
+- Marketing → FAQ: the Accent background and its White / Accent switch. The FAQ always sits on white; the `aha-faq--accent` class is gone, so remove it from any page that added it (#330).
+
+## 0.310.1 — 2026-10-21
+### Fixed
+- Marketing Footer banner: on a phone (479px and below) the card's left and right padding is 32px, equal to top and bottom (was 64px); tablet unchanged (#329).
+
+## 0.309.0 — 2026-10-21
+### Added
+- `aha-option-row`: the drag handle is now an opt-in keyboard-operable reorder grip. Set `reorderable` (alongside `orderable`, on a non-`disabled` row) to make the handle a tab stop that emits composed `reorder-move` (`detail.direction` "up"/"down") on ArrowUp/ArrowDown, `reorder-grab` (`detail.{pointerId,clientX,clientY}`) on pointerdown, and `reorder-activate` (no detail) on Enter/Space; the row never reorders itself — a host reorders its list and calls the new `focusHandle()` to restore focus after moving the row element. Without `reorderable` the handle is unchanged (decorative, no tab stop, no events). (#327)
+
+## 0.308.0 — 2026-10-21
+### Added
+- Question list: header slots keyed by question id — `start-<id>`, `marker-<id>` (in place of the number), `before-<id>`, `after-<id>` and `end-<id>`, each taking any number of children — and a per-question `status: { message, tone }` supporting line (FieldError) under the header, with a warning or error border on the card (#325).
+### Changed
+- Question list: the header prompt wraps to at most two lines, and the delete is OptionRow's — secondary small icon Button on the card's top-right corner, revealed on hover or keyboard focus and a Tab stop with the DS focus ring (was an always-visible tertiary trash) (#325).
+- Option row: the delete is now a Tab stop (after the field, skipped when disabled), revealed when the row or the delete has keyboard focus; hover look and Backspace-when-empty unchanged (#325).
+
+## 0.307.0 — 2026-10-21
+### Added
+- `<aha-bottom-sheet>`: an audience sheet that slides up to show one option in full, picture on top and the whole text below. It scrolls when long and closes on the backdrop, the close button, Escape and a swipe down; focus is trapped inside and returned to the opener. The close button is the audience close button (tertiary-deck icon-only md), which needs #317 to draw as designed (#319)
+- `<aha-answer-option expandable>`: a long-text variant. The label clamps to 4 lines with More (a Button link in the deck ink) inside the card, the picture stays on the left like a default row and shows a dark overlay with an expand arrow on hover, and a one-line option lines up with a default row. More and the picture emit `expand` (#319)
+
+- `<aha-rank-list expandable>`: the same long-text treatment for ranking rows: clamped label, More, picture on the left with the expand overlay, and an `expand` event (`detail.id`, `detail.source`) to open `<aha-bottom-sheet>`. Docs show a long option with a picture (#319)
+
+### Changed
+- `<aha-bottom-sheet>`: the top corners use the 8px radius (`--aha-radius-default`), and a new `contained` attribute slides the sheet up inside the nearest positioned ancestor instead of the viewport (#319)
+- `<aha-answer-list expandable>`: forwards `expandable` to every row and re-emits `expand` with `detail.id` and `detail.source`, so the list gets More and the picture tap like a single `<aha-answer-option>` (#319)
+- Audience library: the AnswerOption, AnswerOption List, Bottom sheet and DraggableOptions demos show the long-text rows inside a 360 by 640 phone frame; More or the picture slides the sheet up from the bottom of that frame over a backdrop (#319)
+- Audience library: Bottom sheet is an Audience library entry only (no standalone component page); AnswerOption and DraggableOptions show the long-text and picture case beside their demos, with More and the picture opening the sheet; the BottomSheet demo shows a picture on top (#319)
+
+### Fixed
+- `<aha-rank-list>`: the end padding of a row is halved to 8px, so the drag handle sits closer to the edge (#319)
+- Audience library: the light and dark deck columns shrink with the card, so a phone-frame demo is no longer cut off on the dark side (#319)
+- `<aha-answer-option>`: the revealed tick and cross, and the correct / incorrect ring, use `--aha-answer-correct` and `--aha-answer-wrong` instead of the ink, so they read in light and dark decks (#319)
+- `<aha-answer-option>` and `<aha-rank-list>`: the picture always fills its slot (cover, no slot background) whatever its ratio; long rank rows get equal top and bottom padding; the rank order badge steps down from 28px to 24px (12px numeral) (#319)
+- `<aha-answer-option>` and `<aha-rank-list>`: a long text option centres its control, picture and badge vertically in the card instead of pinning them to the top (#319)
+- `<aha-chart>`: the hover panel that shows a full label is wider (up to 480px or 90% of the chart) and now stays inside the viewport or iframe on every side, flipping above or below the pointer and shifting sideways (#319)
+
+## 0.306.0 — 2026-10-21
+### Added
+- Audience → Close: a ✕ for a modal, sheet or overlay on the audience phone, `<aha-button variant="tertiary-deck" size="md" icon-only aria-label="Close">` with the 16px `system-x`. Drawn 36 × 36 (the foundation md icon-only square) instead of the 48 × 48 touch icon-only, with an invisible 44 × 44 hit area so the touch floor still holds; no other button changes. New `sheet` attribute for a white modal or sheet: the glyph is muted grey (`--aha-icon-muted`, 3.45:1 on white) and text-default on hover and press, because the deck ink can be white. Actions (Skip, Back, Remove) stay size touch. (#317)
+### Fixed
+- Audience → SubmittedCard: the check pip no longer sits on a grey square (the 10% deck-ink wash behind the glyph is removed), and the check is 32px, the size of the WaitingForHost hourglass. (#317)
+
+## 0.303.0 — 2026-10-21
+### Added
+- Marketing → Testimonials, Pricing, Numbers, Header, FAQ, Logos and Hero: every section now has the same White / Accent background switch as Features. Add the section's `--accent` class (for example `aha-testimonials--accent`, or the layout's own `--accent` class on a Header layout) to lay the pale pink bgAccent surface over white. The pale pink icon squares and picture card in Numbers and the progress track in Hero turn white on Accent so they stay visible; plan cards, tables and testimonial cards stay white. The Hero Pink, Hero Pale Pink and brand Header layouts, the Pricing plan card styles gallery and the Numbers brand band have no switch because they are already coloured surfaces. Footer, Footer banner, Cards and Navigation are not full-width sections on a white page, so they have none. (#322)
+
+### Changed
+- Marketing → Testimonials: the Quote cards layout is now white by default, with the pale pink band as its Accent state, like every other section.
+
+## 0.300.1 — 2026-10-21
+### Changed
+- Marketing → Cards: in the Steps row the optional 3:2 image now sits below the text (number, title, sentence, then image) ([#324](https://github.com/AhaSlides-Product/ahaslides-design/pull/324)).
+
+## 0.300.0 — 2026-10-21
+### Added
+- Marketing → Cards: a steps row. `aha-marketing-cards__grid--row` lays three Step cards in one horizontal row (three across, `--aha-space-24` gap, one column below 768px, no two-column step), with a three-card example (Build your slides, Share the code, See every answer) beside the Step card. Each card in the row takes an optional 3:2 image above the number (an `<img>` in the card media block, filling it); drop the block for a text-only row. The Step card and every other card are unchanged ([#323](https://github.com/AhaSlides-Product/ahaslides-design/pull/323)).
+
+## 0.294.1 — 2026-10-21
+### Fixed
+- Collapse: content of an open panel can now overflow it, so a `?` help tooltip, a select dropdown or a popover inside an open `aha-collapse` (ghost or bordered) is no longer clipped. The body is still clipped while it animates open or closed, and reduced motion lifts the clip at once. (#320)
+
+## 0.294.0 — 2026-10-21
+### Added
+- Marketing → Features and Cards: a Vivid Pink image frame for screenshots and assets whose ratio differs from their slot, or that are light enough to fade into a white card. Add `aha-features__photo--pink-frame` (4:3 rows) or `aha-marketing-card__media--pink-frame` (3:2 cards): the picture is contained, never cropped, with an even inset on `--aha-vivid-pink-100` and the centre Splash from the Background library behind it (its CSS recipe, unchanged). Photos that fill the slot keep `object-fit: cover`. The Features "Alternating with screenshots" layout now uses it, and Cards gets a framed Template card.
+- Marketing → Cards: an image-led grid layout, `aha-marketing-cards__grid--image-led`, for sections where readers compare the pictures: two columns at most on desktop, so every image is at least half the content width; four items make a 2 by 2 grid; an odd count makes the first item a wide feature card (image two thirds, title beside it); one column below 768px (a viewport `@media`, not a container query). Text-led sections keep three or four columns.
+- Websites → Website composition: rule W10 and criterion W10 ("In an image-led section, is every image at least half the content width and uncropped?"), and the never-crop-a-screenshot and one-frame-ratio-per-section rule with the Vivid Pink frame added to W6.
+
+### Changed
+- Marketing → Cards: `.aha-marketing-cards` is transparent in every section, not only `aha-features--accent`; inside a Features section `.aha-marketing-cards__grid` drops its 64px padding and 72rem cap.
+- Websites → Website composition: rule W5 now names the pale pink band as the `aha-features--accent` class, never an inline `background: var(--aha-bg-accent)` style. Revert: remove the new classes, rule W10 and criterion W10; the previous Cards and Features CSS is restored by reverting this change. (#318)
+
+## 0.293.0 — 2026-10-21
+### Added
+- Marketing → Sections → Testimonials: a "Quote cards" layout cloned from the "What our users say" section of the ahaslides.com slide-type pages. A centred heading and lead on the pale pink band (`--aha-bg-accent`), then three equal white cards with the quote at the top and the avatar, name and role pinned to the bottom, stacking to one column at 767px. Three customer avatars are added to `marketing/images/testimonials/` and listed in its manifest. (#316)
+
+### Removed
+- Marketing → Sections → Testimonials: the layouts Simple centred 01 to 03, Split image 01 to 03, Card, Card split image and Abstract image, with the CSS only they used (single, caption, logos row, split, panel, media, overlay, collage, dots) and the 19 images only they used. The page now keeps Simple left aligned, Case study cards and the new Quote cards. (#316)
+
+## 0.292.0 — 2026-10-21
+### Added
+- Websites → Features: every layout has two backgrounds, White (the default, unchanged) and Accent. Add `aha-features--accent` to the section to lay the pale pink `--aha-bg-accent` over white; the icon squares and check marks turn white and keep their pink glyph; cards stay white with their pink icon tile. The docs page gets a White / Accent switch and a code tab for each, plus a "Choosing a background" note: never place an Accent section next to another coloured section. The switch is an opt-in `states` key in `marketing/<page>.json`, off for every other marketing page. (#309)
+- Websites → Features: a new layout, Feature card row with 3 cards: a header above one horizontal row of the same DS Feature card as Icon cards, stacking to one column at 767 px. For a row of four, use Icon cards. It supports the White and Accent backgrounds. Revert: remove the `icon-cards-row-3` entry from `marketing/features.json`. (#309)
 
 ## 0.290.0 — 2026-10-21
 ### Added

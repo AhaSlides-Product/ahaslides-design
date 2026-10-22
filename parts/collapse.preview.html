@@ -15,6 +15,21 @@
       Managed by your workspace owner.
     </aha-collapse>
   </div>
+  <div class="lbl">Open content may overflow (help tooltip)</div>
+  <div class="stack" style="max-width:380px">
+    <aha-collapse ghost size="small" open>
+      <span slot="header">Reporting options</span>
+    <aha-setting-row label="Collect emails" help="Overflowing help bubbles stay visible inside an open collapse.">
+      <aha-switch checked></aha-switch>
+    </aha-setting-row>
+    </aha-collapse>
+    <aha-collapse open>
+      <span slot="header">Bordered</span>
+    <aha-setting-row label="Collect emails" help="Overflowing help bubbles stay visible inside an open collapse.">
+      <aha-switch checked></aha-switch>
+    </aha-setting-row>
+    </aha-collapse>
+  </div>
 </div>
 
 <!-- Imports the REAL shipped element (../lib/aha-collapse.js) + the icon library — no inlined copy, so
@@ -22,5 +37,7 @@
      generated from contracts/collapse.json → playground and drives this element's attributes live. -->
 <script type="module">
   import '../lib/icons.js';          // registers <aha-icon> so the caret + extra glyphs resolve from the DS library
+  import '../lib/aha-setting-row.js';
+  import '../lib/aha-switch.js';
   import '../lib/aha-collapse.js';   // registers <aha-collapse> — the shipped primitive, byte-identical to consumers
 </script>

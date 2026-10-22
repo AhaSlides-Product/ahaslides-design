@@ -133,6 +133,12 @@ A tooltip is a hint, not a help article. It shows on mouse hover or keyboard foc
   presenting to mute it, or replace it under Background music." (two ideas, 156 characters)
 - ✅ "Covers quiz sound effects only, not the lobby music." (one idea, 52 characters)
 
+### Labels name the function, not a coined term · UXW-10
+
+Every form and field label, option and group header names what the thing does, in the words users already use. No coined terms, metaphors, lone abstract nouns ("Mode", "Display") or invented names for something other products call by a known term. Clear beats short. Depth, worked examples and the self-check table: "Labels: say what the setting does" in the Settings guideline.
+
+- ❌ "Pass mark", "Opening", "Signer" → ✅ "Complete module condition", "When the module opens", "Signature"
+
 ### Worked example
 
 > ❌ ⚠️ **Some items could not be loaded.**  →  ✅ ⓘ **Some presentations didn't load.** Check your connection and **try again**.  → [ Try again ]
