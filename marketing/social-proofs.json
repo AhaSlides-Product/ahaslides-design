@@ -30,24 +30,12 @@
       "name": "G2",
       "slug": "g2",
       "classes": "aha-social-proofs-g2",
-      "summary": "The rating row: the round G2 logo in a white rounded card, the five DS Rate stars filled to the exact rating (the fifth star partly filled for 4.8) with the rating beside them, and the review count underneath, from the hero of the live classroom education page. White by default; the Pale pink state is the surface the pale pink hero sits on, where the white card stands out.",
+      "summary": "The rating row: the round G2 logo in a white rounded card, the five DS Rate stars filled to the exact rating (the fifth star partly filled for 4.8) with the rating beside them, and the review count underneath, from the hero of the live classroom education page. The block has no background of its own, so it takes the surface it is placed on, such as a Hero; the white card keeps the logo readable on pink.",
       "useFor": "Showing an aggregate review rating beside or below a hero call to action.",
       "dataFile": "data/social-proofs-g2.json",
       "itemHtml": "<img class=\"aha-social-proofs-g2__logo\" src=\"{{src}}\" alt=\"{{alt}}\" loading=\"lazy\">",
       "html": "<section class=\"aha-social-proofs-g2\" aria-label=\"Customer reviews\">\n  <div class=\"aha-social-proofs-g2__inner\">\n    <span class=\"aha-social-proofs-g2__label\">{{accessibleLabel}}</span>\n    <div class=\"aha-social-proofs-g2__logos\" aria-hidden=\"true\">{{items}}</div>\n    <div class=\"aha-social-proofs-g2__detail\" aria-hidden=\"true\">\n      <div class=\"aha-social-proofs-g2__rating\">\n        <aha-rate value=\"{{rating}}\" readonly precision=\"exact\"></aha-rate>\n        <span class=\"aha-social-proofs-g2__score\">{{rating}}</span>\n      </div>\n      <span class=\"aha-social-proofs-g2__text\">{{text}}</span>\n    </div>\n  </div>\n</section>",
-      "css": ".aha-social-proofs-g2{\n  container:aha-social-proofs-g2 / inline-size;\n  background:var(--aha-white);\n  color:var(--aha-text-default);\n  font-family:var(--aha-font-product);\n}\n.aha-social-proofs-g2 *{box-sizing:border-box}\n.aha-social-proofs-g2--pale{background:var(--aha-vivid-pink-5)}\n.aha-social-proofs-g2__inner{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:var(--aha-space-16);padding:var(--aha-space-32) var(--aha-space-16)}\n.aha-social-proofs-g2__logos{display:flex;padding:var(--aha-space-8);border-radius:var(--aha-radius-lg);background:var(--aha-white)}\n.aha-social-proofs-g2__logo{display:block;width:var(--aha-space-48);height:var(--aha-space-48);object-fit:contain;border-radius:var(--aha-radius-pill);background:var(--aha-white)}\n.aha-social-proofs-g2__detail{display:flex;flex-direction:column;align-items:flex-start;gap:var(--aha-space-4)}\n.aha-social-proofs-g2__rating{display:flex;align-items:center;gap:var(--aha-space-8)}\n.aha-social-proofs-g2__score{font-size:var(--aha-size-l);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-body)}\n.aha-social-proofs-g2__text{font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);letter-spacing:var(--aha-letter-spacing-paragraph);color:var(--aha-text-secondary)}\n.aha-social-proofs-g2__label{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@container aha-social-proofs-g2 (max-width:479px){\n  .aha-social-proofs-g2__inner{flex-direction:column}\n  .aha-social-proofs-g2__detail{align-items:center}\n}\n",
-      "stateClass": "aha-social-proofs-g2",
-      "states": [
-        {
-          "label": "White",
-          "modifier": "",
-          "default": true
-        },
-        {
-          "label": "Pale pink",
-          "modifier": "pale"
-        }
-      ]
+      "css": ".aha-social-proofs-g2{\n  container:aha-social-proofs-g2 / inline-size;\n  color:var(--aha-text-default);\n  font-family:var(--aha-font-product);\n}\n.aha-social-proofs-g2 *{box-sizing:border-box}\n.aha-social-proofs-g2__inner{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:var(--aha-space-16);padding:var(--aha-space-32) var(--aha-space-16)}\n.aha-social-proofs-g2__logos{display:flex;padding:var(--aha-space-8);border-radius:var(--aha-radius-lg);background:var(--aha-white)}\n.aha-social-proofs-g2__logo{display:block;width:var(--aha-space-48);height:var(--aha-space-48);object-fit:contain;border-radius:var(--aha-radius-pill);background:var(--aha-white)}\n.aha-social-proofs-g2__detail{display:flex;flex-direction:column;align-items:flex-start;gap:var(--aha-space-4)}\n.aha-social-proofs-g2__rating{display:flex;align-items:center;gap:var(--aha-space-8)}\n.aha-social-proofs-g2__score{font-size:var(--aha-size-l);font-weight:var(--aha-weight-semibold);line-height:var(--aha-line-height-body)}\n.aha-social-proofs-g2__text{font-size:var(--aha-size-default);line-height:var(--aha-line-height-body);letter-spacing:var(--aha-letter-spacing-paragraph);color:var(--aha-text-secondary)}\n.aha-social-proofs-g2__label{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@container aha-social-proofs-g2 (max-width:479px){\n  .aha-social-proofs-g2__inner{flex-direction:column}\n  .aha-social-proofs-g2__detail{align-items:center}\n}\n"
     }
   ]
 }
