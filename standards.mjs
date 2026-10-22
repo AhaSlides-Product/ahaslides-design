@@ -857,7 +857,7 @@ const repoChecks = [];
   };
   const sourceFiles = [
     ...['parts', 'contracts', 'guidelines'].flatMap(dir => readdirSync(join(root, dir)).map(f => `${dir}/${f}`)),
-    ...readdirSync(join(root, 'lib')).filter(f => /^aha-.*\.js$|-theme\.js$|^audience-deck\.js$|^viewport\.js$/.test(f)).map(f => `lib/${f}`),
+    ...readdirSync(join(root, 'lib')).filter(f => /^aha-.*\.js$|-theme\.js$|^audience-deck\.js$|^deck\.js$|^viewport\.js$/.test(f)).map(f => `lib/${f}`),
     'generate.mjs',
   ].filter(f => !(f in OFF_LIST_SOURCE_EXEMPT));
   /* The illustration tints are named where the illustration is documented, and nowhere else. */
