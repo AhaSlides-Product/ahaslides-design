@@ -710,13 +710,6 @@
   container:aha-footer-banner / inline-size;
   --aha-footer-banner-surface:var(--aha-vivid-pink-100);
   --aha-footer-banner-ink:var(--aha-text-inverse);
-  --aha-footer-banner-cta-bg:var(--aha-white);
-  --aha-footer-banner-cta-bg-hover:var(--aha-white);
-  --aha-footer-banner-cta-bg-press:var(--aha-white);
-  --aha-footer-banner-cta-text:var(--aha-color-primary);
-  --aha-footer-banner-cta-text-hover:var(--aha-color-primary-hover);
-  --aha-footer-banner-focus:var(--aha-white);
-  --aha-footer-banner-focus-gap:var(--aha-vivid-pink-100);
   font-family:var(--aha-font-product);
   background:var(--aha-white);
 }
@@ -863,13 +856,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header-section-hero-pink{
   --aha-header-section-hero-pink-surface:var(--aha-vivid-pink-100);
   --aha-header-section-hero-pink-ink:var(--aha-text-inverse);
-  --aha-header-section-hero-pink-cta-bg:var(--aha-white);
-  --aha-header-section-hero-pink-cta-bg-hover:var(--aha-white);
-  --aha-header-section-hero-pink-cta-bg-press:var(--aha-white);
-  --aha-header-section-hero-pink-cta-text:var(--aha-color-primary);
-  --aha-header-section-hero-pink-cta-text-hover:var(--aha-color-primary-hover);
-  --aha-header-section-hero-pink-focus:var(--aha-white);
-  --aha-header-section-hero-pink-focus-gap:var(--aha-vivid-pink-100);
   container:aha-header-section-hero-pink / inline-size;
   position:relative;isolation:isolate;overflow:hidden;
   font-family:var(--aha-font-product);
@@ -878,13 +864,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-header-section-hero-pink--pale{
   --aha-header-section-hero-pink-surface:var(--aha-vivid-pink-5);
   --aha-header-section-hero-pink-ink:var(--aha-text-default);
-  --aha-header-section-hero-pink-cta-bg:var(--aha-button-primary-bg);
-  --aha-header-section-hero-pink-cta-bg-hover:var(--aha-button-primary-bg-hover);
-  --aha-header-section-hero-pink-cta-bg-press:var(--aha-button-primary-bg-press);
-  --aha-header-section-hero-pink-cta-text:var(--aha-button-primary-text);
-  --aha-header-section-hero-pink-cta-text-hover:var(--aha-button-primary-text);
-  --aha-header-section-hero-pink-focus:var(--aha-button-focus-ring);
-  --aha-header-section-hero-pink-focus-gap:var(--aha-bg-base);
 }
 .aha-header-section-hero-pink *{box-sizing:border-box}
 :where(.aha-header-section-hero-pink) h1,:where(.aha-header-section-hero-pink) p{margin:0}
@@ -1197,5 +1176,3 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   .aha-faq__inner{--aha-faq-gutter:var(--aha-space-32)}
 }
 
-.aha-footer-banner aha-button{--aha-button-primary-bg:var(--aha-white);--aha-button-primary-bg-hover:var(--aha-white);--aha-button-primary-bg-press:var(--aha-white);--aha-button-primary-border:var(--aha-white);--aha-button-primary-text:var(--aha-color-primary);--aha-button-default-bg:transparent;--aha-button-default-bg-hover:var(--aha-vivid-pink-dark);--aha-button-default-border:var(--aha-white);--aha-button-default-border-hover:var(--aha-white);--aha-button-default-border-press:var(--aha-white);--aha-button-default-text:var(--aha-text-inverse);--aha-button-default-text-hover:var(--aha-text-inverse);--aha-button-focus-ring:var(--aha-white);--aha-button-focus-gap:var(--aha-vivid-pink-100)} /* ds-lint-allow: hand-rolled-button (the DS Button has no on-Vivid-Pink variant yet: white primary, white-outline secondary) */
-.aha-header-section-hero-pink:not(.aha-header-section-hero-pink--pale) aha-button{--aha-button-primary-bg:var(--aha-white);--aha-button-primary-bg-hover:var(--aha-white);--aha-button-primary-bg-press:var(--aha-white);--aha-button-primary-border:var(--aha-white);--aha-button-primary-text:var(--aha-color-primary);--aha-button-default-bg:transparent;--aha-button-default-bg-hover:var(--aha-vivid-pink-dark);--aha-button-default-border:var(--aha-white);--aha-button-default-border-hover:var(--aha-white);--aha-button-default-border-press:var(--aha-white);--aha-button-default-text:var(--aha-text-inverse);--aha-button-default-text-hover:var(--aha-text-inverse);--aha-button-focus-ring:var(--aha-white);--aha-button-focus-gap:var(--aha-vivid-pink-100)} /* ds-lint-allow: hand-rolled-button (the DS Button has no on-Vivid-Pink variant yet: white primary, white-outline secondary) */
