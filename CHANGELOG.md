@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.366.0 — 2026-10-22
+### Changed
+- Websites → Images (W6): a photo that shows people is only ever a photo of an actual AhaSlides user from the AhaSlides users Drive folder or the #customer-love Slack channel (C02MD2M473R), never stock or AI-generated; the slot keeps the DS placeholder until that photo is committed. Criterion W6 and the website checklist follow, with a failing eval of a stock-people hero (#364).
+
 ## 0.365.0 — 2026-10-22
 ### Changed
 - Colour rule 6.2: on Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the design system Button", are gone. Colour-rules version row v20.

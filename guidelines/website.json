@@ -185,7 +185,7 @@
       ]
     },
     {
-      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo with its licence in the manifest, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. Never crop a screenshot. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape or square image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait image (taller than wide, ratio under 1), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). No stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.",
+      "rule": "Use real `<img>` elements with alt text for pictures: a product screenshot, a committed photo with its licence in the manifest, or the DS placeholder `marketing-assets/image-placeholder.svg` until one exists. A photo that shows people is only ever a photo of actual AhaSlides users, taken from the AhaSlides users Drive folder (https://drive.google.com/drive/folders/1CqYFmswwEgSSGhfdtrvSxpnt7DPYcaoN) or the customer-love Slack channel #customer-love (C02MD2M473R), never stock photography or an AI-generated person; until that photo is committed to the DS, the slot keeps the placeholder. Never crop a screenshot. An image fills its container edge to edge at its own ratio (`aha-features__photo--fill`, `aha-marketing-card__media--fill`): no pink frame, no inset. That is the rule for a landscape or square image, alone or among others of the same size. Use the Vivid Pink frame (`aha-features__photo--pink-frame`, `aha-marketing-card__media--pink-frame`: `--aha-vivid-pink-100` with the centre Splash) for any portrait image (taller than wide, ratio under 1), even alone or when every image in the section is the same size, and when a section holds more than one image and those images differ in size or ratio: each sits contained with an even inset, and every frame in the section keeps one ratio (4:3 in a Features row, 3:2 on a card). No stock clip art, emoji used as icons, gradient blobs, glassmorphism or decorative 3D. Icons come from the registry by name with `<aha-icon>`.",
       "ref": [
         "W6"
       ],
@@ -350,7 +350,7 @@
       "verdict": "consumer self-judges (W5)"
     },
     {
-      "label": "real images with alt text or the DS placeholder; registry icons; no clip art, emoji icons, blobs or glass",
+      "label": "real images with alt text or the DS placeholder; photos of people are actual AhaSlides users, never stock or AI; registry icons; no clip art, emoji icons, blobs or glass",
       "verdict": "consumer self-judges (W6)"
     },
     {
