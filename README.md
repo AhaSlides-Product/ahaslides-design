@@ -177,6 +177,8 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a
 `path` (optional) is echoed back; `iconNames` (optional) overrides the bundled icon list. Any
 `hard` finding fails the CLI (`node screen-lint.mjs --surface=… <files>`), which is built on the same function.
 
+**UX writing rules** — on every surface, `screen-lint` also hard-fails `no-dash-punctuation` (UXW-8), `vague-error-copy` (UXW-2) and `title-case-slide-name` (UXW-1) in user-visible UI strings only. Pass `path` for a script file (`.js`, `.ts`) so it is read as script, not HTML; the full scope is in `parts/ux-writing.guide.md`.
+
 **Opt-out** — per line, per rule, with a reason:
 `<!-- ds-lint-allow: hex,radius (brand logo, no token) -->`. Only the named rules are silenced on that
 line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
