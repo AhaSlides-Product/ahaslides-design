@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.345.0 — 2026-10-22
+### Added
+- Foundations → Logo → Integrations: Canva, Zapier, D2L Brightspace and Cornerstone OnDemand join the integration logos (`logo/canva.svg`, `logo/zapier.svg`, `logo/d2l-brightspace.svg`, `logo/cornerstone-ondemand.svg`; full-colour originals in `logo/original/`). Each is taken from the brand's own site or brand page, with the source and fetch date in `logo/manifest.json`. (#350)
+
 ## 0.344.0 — 2026-10-22
 ### Added
 - Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
