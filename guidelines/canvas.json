@@ -56,7 +56,19 @@
     {
       "ref": "stepper",
       "as": "component",
-      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), never hand-rolled .step pills and never the primary accent",
+      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), inked by the applyCanvasDeck --aha-deck-* ladder, never hand-rolled .step pills and never the primary accent",
+      "status": "available"
+    },
+    {
+      "ref": "canvas-count",
+      "as": "component",
+      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 48px container in the deck container set, never a hand-rolled pill",
+      "status": "available"
+    },
+    {
+      "ref": "canvas-status",
+      "as": "component",
+      "use": "the status line and response count (Waiting for answers… · 8 of 24 answered) — <aha-canvas-status answered total>, free-floating deck text with no fill on any deck",
       "status": "available"
     },
     {

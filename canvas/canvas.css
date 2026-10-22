@@ -32,3 +32,11 @@
 .canvas-lib .canvas-deck{ display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:60px 24px 24px; border-radius:var(--aha-radius-lg,12px) }
 .canvas-lib .canvas-spacer{ flex:1 1 0 }
 .canvas-lib .canvas-note{ font:14px/21px var(--aha-font-product); color:var(--aha-text-secondary,#4A4A4A); max-width:72ch; margin:12px 0 0 }
+.canvas-lib .canvas-deck.is-compact{ padding:40px 24px }
+.canvas-lib .canvas-deck.is-modal{ padding:0; overflow:hidden; min-height:280px }
+.canvas-lib .canvas-modal-backdrop{ flex:1 1 auto; align-self:stretch; display:grid; place-items:center; padding:32px 16px; background:var(--aha-deck-modal-backdrop) }
+.canvas-lib .canvas-modal{ box-sizing:border-box; width:min(100%, 420px); display:grid; gap:12px; padding:var(--aha-deck-container-padding-lg); border-radius:var(--aha-deck-container-radius-lg); background:var(--aha-deck-modal-fill); box-shadow:inset 0 0 0 1px var(--aha-deck-container-stroke); -webkit-backdrop-filter:blur(var(--aha-blur-md)); backdrop-filter:blur(var(--aha-blur-md)); color:var(--aha-deck-ink); font:400 18px/1.4 var(--aha-font-product) }
+.canvas-lib .canvas-modal-title{ font-weight:var(--aha-weight-semibold); font-size:24px; text-align:center }
+.canvas-lib .canvas-modal-row{ display:flex; align-items:center; gap:12px; padding:var(--aha-deck-container-padding-sm); border-radius:var(--aha-deck-container-radius-sm); background:var(--aha-deck-fill); font-variant-numeric:tabular-nums }
+.canvas-lib .canvas-modal-rank{ display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:var(--aha-deck-fill-active); font-weight:var(--aha-weight-semibold) }
+.canvas-lib .canvas-modal-slot{ padding:var(--aha-deck-container-padding-sm); border:1px dashed var(--aha-deck-container-stroke-empty); border-radius:var(--aha-deck-container-radius-sm); color:var(--aha-deck-ink-secondary); text-align:center }

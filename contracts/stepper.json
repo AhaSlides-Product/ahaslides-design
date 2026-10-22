@@ -6,7 +6,11 @@
   "badge": "shared web component",
   "element": "aha-stepper",
   "summary": "Show where a short linear flow is — finished, current and upcoming stages — as one framework-free element that also works on a slide canvas and an audience phone.",
-  "highlights": ["Shows where a short linear flow stands", "Finished, current and upcoming stages", "One framework-free element for slide canvas and audience phone"],
+  "highlights": [
+    "Shows where a short linear flow stands",
+    "Finished, current and upcoming stages",
+    "One framework-free element for slide canvas and audience phone"
+  ],
   "lead": "ONE custom element — <aha-stepper> — defined once, imported unchanged by HTML, React and Vue. It is the LEAF counterpart to the composite Steps (antd): no React needed, so a build-less slide type (presenter.html / audience.html loading lib/all.js) gets the same stepper instead of hand-rolling pills. The current stage is marked with INK — a solid ink outline on the marker plus a semibold label — never the primary accent, so on a canvas the accent stays on the one button that advances the flow. Every colour derives from currentColor, so setting `color` on the element (the deck ink on a canvas) re-inks the whole stepper on light, dark and photo decks. A `current` change toggles attributes on persistent nodes, so the marker, label and connector transitions fire.",
   "tokensUsed": [
     "text-default",
@@ -47,6 +51,10 @@
     {
       "label": "Ink",
       "value": "currentColor, default --aha-text-default #1A1A1A; set color on the element to follow the deck ink"
+    },
+    {
+      "label": "Canvas",
+      "value": "on a slide canvas applyCanvasDeck inks it from the --aha-deck-* ladder: current in --aha-deck-ink with --aha-deck-fill (8%), finished border, connector and label in --aha-deck-ink-secondary (76%), upcoming ring --aha-deck-line (24%), connector --aha-deck-stroke-chip (20%), hover --aha-deck-fill-hover (12%); with no deck the values above apply"
     }
   ],
   "props": [
@@ -121,6 +129,9 @@
     "dashboard",
     "presenter",
     "audience"
+  ],
+  "environment": [
+    "product"
   ],
   "reuse": {
     "entry": "./aha-stepper",
