@@ -174,7 +174,7 @@
     },
     {
       "id": 9,
-      "prompt": "Review a Report screen. The primary button is the DS primary (Vivid Pink, white label), links are Vivid Pink on white, a selected card on Vivid Pink at 5% sets its text and link to the default ink, status uses the DS status badge, the chart is `<aha-chart palette=\"brand\">` with three series, integration logos are the greyscale Logo library files, and shadows are black at low opacity. No colour is defined outside --aha-* tokens.",
+      "prompt": "Review a Report screen. The primary button is the DS primary (Vivid Pink, white label), links are Vivid Pink on white, a selected card on Vivid Pink at 5% sets its text and link to the default ink, status uses the DS status badge, the chart is `<aha-chart palette=\"brand\">` with three series, integration logos are the greyscale Logo library files at rest and show their original-colour files on hover and keyboard focus, and shadows are black at low opacity. No colour is defined outside --aha-* tokens.",
       "files": [],
       "label": "good-control",
       "notes": "Control: every rule followed.",

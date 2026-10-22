@@ -130,12 +130,19 @@
 }
 .aha-header__entry:hover{background:var(--aha-bg-hover)}
 .aha-header__app{
-  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  position:relative;flex:none;
   width:var(--aha-space-36);height:var(--aha-space-36);
-  border:1px solid var(--aha-border-strong);border-radius:var(--aha-radius-xs);
+  border-radius:var(--aha-radius-xs);
   background:var(--aha-white);color:var(--aha-text-default);
 }
-.aha-header__app img{width:var(--aha-space-24);height:var(--aha-space-24)}
+.aha-header__app img{
+  position:absolute;inset:0;margin:auto;
+  width:var(--aha-space-24);height:var(--aha-space-24);
+  transition:opacity var(--aha-motion-mid) var(--aha-ease-in-out);
+}
+.aha-header__app-original{opacity:0}
+.aha-header__entry--app:hover .aha-header__app-original,.aha-header__entry--app:focus-visible .aha-header__app-original{opacity:1}
+.aha-header__entry--app:hover .aha-header__app-rest,.aha-header__entry--app:focus-visible .aha-header__app-rest{opacity:0}
 .aha-header__preview{
   display:flex;align-items:center;justify-content:center;
   flex:0 1 348px;min-width:0;height:194px;
@@ -929,6 +936,12 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-footer__social{display:grid;grid-auto-flow:column;grid-auto-columns:var(--aha-space-24);gap:0 var(--aha-space-16)}
 .aha-footer__social-link{display:block;width:var(--aha-space-24);height:var(--aha-space-24);color:var(--aha-icon-muted);border-radius:var(--aha-radius-xs)}
 .aha-footer__social-link img{display:block;width:100%;height:100%}
+.aha-footer__social-link--brand{position:relative}
+.aha-footer__social-link--brand img{position:absolute;inset:0;transition:opacity var(--aha-motion-mid) var(--aha-ease-in-out)}
+.aha-footer__social-original{opacity:0}
+.aha-footer__social-link--brand:hover .aha-footer__social-original,.aha-footer__social-link--brand:focus-visible .aha-footer__social-original{opacity:1}
+.aha-footer__social-link--brand:hover .aha-footer__social-rest,.aha-footer__social-link--brand:focus-visible .aha-footer__social-rest{opacity:0}
+@media (prefers-reduced-motion:reduce){.aha-footer__social-link--brand img{transition:none}}
 .aha-footer__social-link:focus-visible,.aha-footer__dmca:focus-visible,.aha-footer__award:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
 .aha-footer__legal{display:flex;align-items:center;gap:0 var(--aha-space-16)}
 .aha-footer__dmca{display:block;border-radius:var(--aha-radius-xs)}
