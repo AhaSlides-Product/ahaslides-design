@@ -22,6 +22,17 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.334.0 — 2026-10-22
+### Added
+- Marketing → motion script `lib/marketing-motion.js` (`@ahaslides-product/design/marketing-motion`): Marketing sections reveal on scroll with an 80 ms stagger, section photos drift up to 16 px, and Numbers values count up from 0 once in view. Off under `prefers-reduced-motion`, per section or page with `data-aha-motion="off"`. (#PR)
+- Marketing → Features, Numbers, Testimonials and FAQ: every content section ends with a shipped call to action row (`__cta`, or `__actions` in a split header): `View more`, and `Visit the help centre` in the FAQ. Same tab, centred under a centred heading, left under a left heading. (#PR)
+- Websites → Website composition: rules and criteria W17 heading alignment, W18 section call to action and W19 testimonial author alignment, with failing evals and fixtures. (#PR)
+
+### Changed
+- Websites → Website composition: W9 motion now asks for the staggered reveal, light photo parallax and count-up numbers from the DS script (it banned parallax before); W4 allows a Sign up primary at most once mid-page. (#PR)
+- Marketing → Testimonials: quote and author block left aligned in every layout, and quote cards share one author baseline through subgrid. (#PR)
+- Marketing → FAQ: the title centres itself with `text-align:center`, so a Webflow or page reset cannot pull it left. Numbers `actions-row` puts its actions below the stats under a centred header; Features, Numbers and Pricing symmetric layouts ship the `--center` header. (#PR)
+
 ## 0.325.1 — 2026-10-21
 ### Fixed
 - Audience library: every example is in English. The answer list, rank list, text fields, slider, chips, image upload and audience modal demos had Vietnamese labels, options and placeholders. (#339)
