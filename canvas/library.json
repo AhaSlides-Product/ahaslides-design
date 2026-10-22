@@ -29,7 +29,7 @@
       "rules": [
         {
           "label": "Container",
-          "value": "the deck container set, small: 48px tall, radius 8 (`--aha-deck-container-radius-sm`), padding 12 on the disc side and 20 on the glyph side (`-padding-sm` / `-padding-md`), `--aha-deck-container-fill` and no stroke (a count is a small readout, so a line round it only adds weight). On a solid deck the fill is the ink at 8%; on a photo deck (`applyCanvasDeck({ image: true })`) it is the frosted opposite of the ink at 80%"
+          "value": "the deck container set, small: 40px tall, radius 8 (`--aha-deck-container-radius-sm`), padding 8 on the disc side and 16 on the glyph side (`--aha-space-8` / `--aha-space-16`), count 16px / 600 with a 20px verdict disc and 12px check / cross, `--aha-deck-container-fill` and no stroke (a count is a small readout, so a line round it only adds weight). On a solid deck the fill is the ink at 8%; on a photo deck (`applyCanvasDeck({ image: true })`) it is the frosted opposite of the ink at 80%"
         },
         {
           "label": "Colour",

@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.354.2 — 2026-10-22
+### Changed
+- Canvas count: the count is 16px / 600 (was 20px) and the rest steps down with it. The container is 40px tall (was 48), the verdict disc 20px with a 12px check or cross (was 24 with 16), the person glyph stays 16, padding is 8 on the disc side and 16 on the glyph side (was 12 / 20; `--aha-space-8` / `--aha-space-16` instead of the deck container padding), 6px inside a part and 8px between parts (was 8 / 12). Radius, fill, blur and deck inking are unchanged; no API change. (#PR)
+
 ## 0.354.1 — 2026-10-22
 ### Fixed
 - Anti-slop criteria: 22 judge rules in `anti-slop/criteria.json` stopped mid-sentence with "…" (canvas C2 stopped at its lead-in), so a judge saw only part of each rule. They now carry the whole rule from the aha-design judge they were seeded from: canvas C2, C7, C16; audience C4, C15, C24, C26 to C29; settings C5, C9, C10, C12, C14, C15; feedback C1, C2, C4, C5; overlays C1; paywall C2. Another 27 rules had been cut to their first two sentences without a "…" (canvas C12 kept only its scope, audience C13 ended at "Two facets: 1."); they now carry their whole rule too: canvas C8, C11, C12, C14; audience C2, C3, C7, C8, C11, C12, C13, C16, C17, C21, C23, C25; settings C2, C3, C7, C8; feedback C3; overlays C2, C4, C6; paywall C4, C6, C7. Wording the store had already changed stays. `standards.mjs` now fails a criterion whose test ends in "…", in a ":" or in a list number with nothing after it (#355)

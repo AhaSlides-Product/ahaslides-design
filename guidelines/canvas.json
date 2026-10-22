@@ -62,7 +62,7 @@
     {
       "ref": "canvas-count",
       "as": "component",
-      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 48px container in the deck container set, never a hand-rolled pill",
+      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 40px container in the deck container set, never a hand-rolled pill",
       "status": "available"
     },
     {

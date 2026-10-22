@@ -16,7 +16,7 @@
   "summary": "The answer count on a slide canvas: how many answered correctly and incorrectly (✓ 12 · ✗ 3), or how many answered with no verdict, in one small deck container.",
   "highlights": [
     "Correct / incorrect count, or answered only",
-    "48px deck container: fill, no stroke, radius 8, frosted on photo decks",
+    "40px deck container: fill, no stroke, radius 8, frosted on photo decks",
     "Inked by applyCanvasDeck, so it reads on white and black ink"
   ],
   "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a green check disc, the count and a person glyph, a divider, a red cross disc, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
@@ -28,20 +28,20 @@
     "white",
     "radius-default",
     "blur-md",
+    "space-6",
     "space-8",
-    "space-12",
-    "space-20",
+    "space-16",
     "font-product",
     "weight-semibold"
   ],
   "spec": [
     {
       "label": "Container",
-      "value": "48px tall, radius 8 (--aha-deck-container-radius-sm), padding 12 / 20 / 12 / 12 (sm on the disc side, md on the glyph side; md both sides when answered only), --aha-deck-container-fill with no stroke, backdrop blur --aha-blur-md"
+      "value": "40px tall, radius 8 (--aha-deck-container-radius-sm), padding 8 / 16 / 8 / 8 (--aha-space-8 on the disc side, --aha-space-16 on the glyph side; 16 both sides when answered only), --aha-deck-container-fill with no stroke, backdrop blur --aha-blur-md"
     },
     {
       "label": "Verdict",
-      "value": "24px disc in --aha-answer-correct with a white system-check 16 · count · system-user 16 · 1px divider (--aha-deck-stroke) · 24px disc in --aha-answer-wrong with a white system-x 16 · count · system-user 16; 8px inside a part, 12px between parts"
+      "value": "20px disc in --aha-answer-correct with a white system-check 12 · count · system-user 16 · 1px divider (--aha-deck-stroke) · 20px disc in --aha-answer-wrong with a white system-x 12 · count · system-user 16; 6px inside a part, 8px between parts"
     },
     {
       "label": "Answered only",
@@ -49,7 +49,7 @@
     },
     {
       "label": "Type",
-      "value": "count 20px / 600, tabular figures, in the deck ink; the person glyph in --aha-deck-ink-secondary (76%)"
+      "value": "count 16px / 600, tabular figures, in the deck ink; the person glyph in --aha-deck-ink-secondary (76%)"
     },
     {
       "label": "Deck",
@@ -136,12 +136,12 @@
     "singleUI": true,
     "measure": "(function(){var r=document.querySelector('aha-canvas-count[data-probe]').shadowRoot;var b=getComputedStyle(r.querySelector('.box'));var d=getComputedStyle(r.querySelector('.disc.is-correct'));var n=getComputedStyle(r.querySelector('.number'));return{height:b.height,radius:b.borderTopLeftRadius,paddingLeft:b.paddingLeft,paddingRight:b.paddingRight,discSize:d.width,numberSize:n.fontSize,numberWeight:n.fontWeight,numberColor:n.color,label:r.querySelector('.box').getAttribute('aria-label')};})()",
     "expect": {
-      "height": "48px",
+      "height": "40px",
       "radius": "8px",
-      "paddingLeft": "12px",
-      "paddingRight": "20px",
-      "discSize": "24px",
-      "numberSize": "20px",
+      "paddingLeft": "8px",
+      "paddingRight": "16px",
+      "discSize": "20px",
+      "numberSize": "16px",
       "numberWeight": "600",
       "numberColor": "rgb(26, 26, 26)",
       "label": "12 correct, 3 incorrect"
@@ -149,7 +149,7 @@
   },
   "selfCheck": [
     {
-      "label": "container from the deck container set (fill, no stroke, radius 8, padding sm / md)",
+      "label": "container from the deck container set (fill, no stroke, radius 8, padding 8 / 16)",
       "verdict": "PASS"
     },
     {
