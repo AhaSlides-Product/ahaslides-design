@@ -2,6 +2,7 @@
   "name": "Scale slider",
   "slug": "scale-slider",
   "group": "Audience",
+  "environment": ["audience"],
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-scale-slider",
@@ -30,7 +31,7 @@
     },
     {
       "label": "Rail",
-      "value": "8px high, 2px corners, 16px in from each side of the captions, ink at 10% with the 1px ink hairline; the filled part keeps the same height, corners and hairline"
+      "value": "8px high, 2px corners, 16px in from each side of the captions, --aha-deck-stroke (ink at 12%) with the 1px ink hairline; the filled part keeps the same height, corners and hairline"
     },
     {
       "label": "Handle",
@@ -38,7 +39,7 @@
     },
     {
       "label": "Ends",
-      "value": "12px muted captions on a 16px line: low label left, high label right, each wrapping in its own half"
+      "value": "12px secondary-ink captions on a 16px line: low label left, high label right, each wrapping in its own half"
     }
   ],
   "props": [
