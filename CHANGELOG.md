@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.341.1 — 2026-10-22
+### Changed
+- Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#PRNUM)
+
 ## 0.341.0 — 2026-10-22
 ### Added
 - Marketing → motion script `lib/marketing-motion.js` (`@ahaslides-product/design/marketing-motion`): Marketing sections reveal on scroll with an 80 ms stagger, section photos drift up to 48 px against the scroll, and Numbers values count up from 0 once in view. Off under `prefers-reduced-motion`, per section or page with `data-aha-motion="off"`. (#341)
