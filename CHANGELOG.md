@@ -22,17 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.337.0 — 2026-10-22
+## 0.341.0 — 2026-10-22
 ### Added
 - Marketing → motion script `lib/marketing-motion.js` (`@ahaslides-product/design/marketing-motion`): Marketing sections reveal on scroll with an 80 ms stagger, section photos drift up to 48 px against the scroll, and Numbers values count up from 0 once in view. Off under `prefers-reduced-motion`, per section or page with `data-aha-motion="off"`. (#341)
-- Marketing → Features, Numbers, Testimonials and FAQ: every content section ends with a shipped call to action row (`__cta`, or `__actions` in a split header): Sign up, or a link to the section's own page in Templates, Integrations, case-study and FAQ sections (W18); the FAQ links to the AhaSlides docs (`Read the docs`). Same tab, centred under a centred heading, left under a left heading. (#341)
+- Marketing → Features, Numbers, Testimonials and FAQ: every content section ends with a shipped call to action row (`__cta`, or `__actions` in a split header): the hero's call to action (sample label Sign up), or a link to the section's own page in Templates, Integrations, case-study and FAQ sections (W18); the FAQ links to the AhaSlides docs (`Read the docs`). Same tab, centred under a centred heading, left under a left heading. (#341)
 - Websites → Website composition: rules and criteria W17 heading alignment, W18 section call to action and W19 testimonial author alignment, with failing evals and fixtures. (#341)
 
 ### Changed
-- Websites → Website composition: W18 now says when a call to action is Sign up and when it goes to another page. Only the Templates, Integrations, case-study (testimonials included) and FAQ sections link out, to the template library, the integrations page, the case studies and the AhaSlides docs, with a label naming the destination; every other content section ends with the hero's Sign up as a primary button. W1 drops its limit of one mid-page Sign up. (#341)
+- Websites → Website composition: W18 now says when a call to action is Sign up and when it goes to another page. Only the Templates, Integrations, case-study (testimonials included) and FAQ sections link out, to the template library, the integrations page, the case studies and the AhaSlides docs, with a label naming the destination; every other content section ends with the hero's primary call to action as a primary button, with the hero's own label (the page-specific label W4 asks for; Sign up in the snippets is only the example), so W4 and W18 never ask for different labels. W1 drops its limit of one mid-page Sign up. The pass fixtures' section calls to action repeat their hero label, master's W4 fixture gains the section call to action rows, and a test checks every fixture's section primary matches its hero. (#341)
 - Websites → Website composition: W9 motion now asks for the staggered reveal, light photo parallax and count-up numbers from the DS script (it banned parallax before). (#341)
 - Marketing → Testimonials: quote and author block left aligned in every layout, and quote cards share one author baseline through subgrid. (#341)
 - Marketing → FAQ: the title centres itself with `text-align:center`, so a Webflow or page reset cannot pull it left. Numbers `actions-row` puts its actions below the stats under a centred header; Features, Numbers and Pricing symmetric layouts ship the `--center` header. (#341)
+
+## 0.339.0 — 2026-10-22
+### Changed
+- Website rule W4: the Sign up / primary call to action label is written for the page's context (a verb plus what the visitor gets), with Get started free only as the fallback; the Footer banner repeats the hero's label. Header and Footer banner docs say the sample label is per page. New website eval case for a generic label; the pass fixtures use page-specific labels. (#344)
 
 ## 0.335.1 — 2026-10-22
 ### Fixed

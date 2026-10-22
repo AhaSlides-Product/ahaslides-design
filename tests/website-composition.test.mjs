@@ -220,6 +220,16 @@ test('W18: every content section ships one call to action, aligned with its head
   assert.doesNotMatch(sectionPage('fail-w18-missing-section-cta'), /aha-faq__cta/);
 });
 
+test('W4 and W18 agree: a section Sign-up call to action repeats the hero label in every fixture', () => {
+  for (const entry of evals) {
+    const page = readFileSync(new URL(`../anti-slop/evals/website/${entry.files[0].path}`, import.meta.url), 'utf8');
+    const heroLabel = page.match(/class="aha-header-section-hero-pink__cta"[^>]*>([^<]+)</)?.[1];
+    if (!heroLabel) continue;
+    const sectionPrimaryLabels = [...page.matchAll(/class="aha-(?:features|numbers)__button"[^>]*>([^<]+)</g)].map((match) => match[1]);
+    for (const label of sectionPrimaryLabels) assert.equal(label, heroLabel, entry.files[0].path);
+  }
+});
+
 test('W19: testimonial authors are left aligned and share a baseline through subgrid', () => {
   assert.equal(declarations(testimonialsCss, '.aha-testimonials__person')['text-align'], 'left');
   assert.equal(declarations(testimonialsCss, '.aha-testimonials__person-text')['align-items'], 'flex-start');
