@@ -210,12 +210,12 @@ test('W18: every content section ships one call to action, aligned with its head
   for (const slug of ['alternating-screenshots', 'icon-grid', 'tabs-screenshots']) {
     assert.match(features.layouts.find((layout) => layout.slug === slug).html, /<div class="aha-features__cta"><a class="aha-features__button" href="#sign-up">Sign up<\/a><\/div>/, slug);
   }
-  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><a class="aha-faq__button aha-faq__button--ghost" href="#help-centre">Visit the help centre/);
+  assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><a class="aha-faq__button aha-faq__button--ghost" href="#docs">Read the docs/);
   assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(testimonialsCss, /\.aha-testimonials__cta--start\{justify-content:flex-start\}/);
   for (const slug of ['faq', 'features', 'numbers', 'testimonials']) {
-    assert.doesNotMatch(marketingFile(slug), /href=\\"#(sign-up|case-studies|help-centre)\\"[^>]*target=/, slug);
+    assert.doesNotMatch(marketingFile(slug), /href=\\"#(sign-up|case-studies|docs)\\"[^>]*target=/, slug);
   }
   assert.doesNotMatch(sectionPage('fail-w18-missing-section-cta'), /aha-faq__cta/);
 });
