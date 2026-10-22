@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.350.0 — 2026-10-22
 ### Changed
-- Marketing → Header: the optional Hero Video slot sizes to the clip's own aspect ratio (from its `width` and `height` attributes) instead of a fixed 16:9 frame, so wide demo clips no longer show dark bands. A height cap of `min(80vh, 40rem)` stops a tall clip taking over the hero. Still off by default; no other layout changes. (#PRNUM)
+- Marketing → Header: the optional Hero Video slot sizes to the clip's own aspect ratio (from its `width` and `height` attributes) instead of a fixed 16:9 frame, so wide demo clips no longer show dark bands. A height cap of `min(80vh, 40rem)` stops a tall clip taking over the hero. Still off by default; no other layout changes. (#352)
 
 ## 0.344.0 — 2026-10-22
 ### Added
