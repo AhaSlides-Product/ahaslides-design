@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.331.0 — 2026-10-21
+## 0.362.0 — 2026-10-22
 ### Added
 - Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets its form; the Button is now form-associated, and Enter in a text field of the form submits it, as with a native submit button (not while the Button is disabled or loading) (#332).
 - screen-lint: the `hand-rolled-button` rule hard-fails on every surface a button the screen draws itself (a `button` / `btn` / `cta` class, `<button>`, `[role=button]` or link painted with a fill and a button shape, or state fills) and any restyle of `<aha-button>` (a colour, fill, border, shadow, height or `:hover` / `:active` / `:focus` rule on it, its `::part` or a `--aha-button-*` token); only layout may be set on it. Opt-out: `ds-lint-allow: hand-rolled-button (why)` (#332).
@@ -32,6 +32,96 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Fixed
 - Button: a submit or reset `<aha-button>` defers the form action with `setTimeout`, so a click listener on the host that calls `preventDefault()` cancels it for a real mouse click too.
 - screen-lint: `hand-rolled-button` no longer flags a decorative `::before` / `::after` underline on a link, nor hyphenated names such as `a-card` and `aha-button-group`, nor a card or tile link (`a.card` with a fill and radius), nor any `::before` / `::after` rule such as `.btn::after`. (#332)
+
+## 0.356.0 — 2026-10-22
+### Removed
+- Canvas status: the response count line (people glyph and "8 of 24 answered") is gone, along with the `answered`, `total` and `count-text` attributes; `<aha-canvas-status>` now shows only the status line. Consumers passing those attributes no longer see a count. Docs section renamed "Status line"; contract, canvas guideline and snippets updated. (#356)
+### Changed
+- Canvas count: the count is 16px / 600 (was 20px) and the rest steps down with it. The container is 40px tall (was 48), the verdict disc 20px with a 12px check or cross (was 24 with 16), the person glyph stays 16, padding is 8 on the disc side and 16 on the glyph side (was 12 / 20; `--aha-space-8` / `--aha-space-16` instead of the deck container padding), 6px inside a part and 8px between parts (was 8 / 12). Radius, fill, blur and deck inking are unchanged; no API change. (#356)
+
+## 0.354.1 — 2026-10-22
+### Fixed
+- Anti-slop criteria: 22 judge rules in `anti-slop/criteria.json` stopped mid-sentence with "…" (canvas C2 stopped at its lead-in), so a judge saw only part of each rule. They now carry the whole rule from the aha-design judge they were seeded from: canvas C2, C7, C16; audience C4, C15, C24, C26 to C29; settings C5, C9, C10, C12, C14, C15; feedback C1, C2, C4, C5; overlays C1; paywall C2. Another 27 rules had been cut to their first two sentences without a "…" (canvas C12 kept only its scope, audience C13 ended at "Two facets: 1."); they now carry their whole rule too: canvas C8, C11, C12, C14; audience C2, C3, C7, C8, C11, C12, C13, C16, C17, C21, C23, C25; settings C2, C3, C7, C8; feedback C3; overlays C2, C4, C6; paywall C4, C6, C7. Wording the store had already changed stays. `standards.mjs` now fails a criterion whose test ends in "…", in a ":" or in a list number with nothing after it (#355)
+
+## 0.354.0 — 2026-10-22
+### Changed
+- Marketing → Header: the optional Hero Video slot sizes to the clip's own aspect ratio (from its `width` and `height` attributes) instead of a fixed 16:9 frame, so wide demo clips no longer show dark bands. A height cap of `min(80vh, 40rem)` stops a tall clip taking over the hero. Still off by default; no other layout changes. (#352)
+
+## 0.353.1 — 2026-10-22
+### Fixed
+- Icons: the dots in 23 system glyphs (smiley, sad-face, angry-face, question, question-mark, exclamation-mark, info, warning-circle, dots-three and others) no longer render as hollow rings on iOS Safari. Each dot was a tiny closed path with a 1.5 stroke wider than the shape; WebKit strokes it as an outer and an inverted inner contour. Each is now a plain filled circle of the same size, so desktop rendering is unchanged. The icon build fails if a source icon draws a stroked closed path smaller than its stroke width (#354)
+
+## 0.353.0 — 2026-10-22
+### Added
+- Websites → Header: the G2 reviews row shows the G2 logo in a white rounded card (committed in `marketing/images/reviews/`) instead of five avatars, and is on by default: the layout html and css include it, the preview switch starts on On, and the agent feed and Markdown say it is removable. The row is baked into the layout before the section html and css are composed, so the paste-and-run code, `header.md` and the agent feed carry it. Layouts without `reviews` are unchanged. Revert: restore the previous `reviews` object, highlight and guidance line in `marketing/header.json`, remove `bakeMarketingReviews` from `generate.mjs` and delete `marketing/images/reviews/`. Environment: marketing-web (#345)
+
+## 0.348.1 — 2026-10-22
+### Changed
+- Chart → Pick Answer: the correct option now uses the answer colour `--aha-answer-correct` in both palettes (the deck palette no longer turns it into the deck ink), and the correct mark beside the label is the DS tick disc: a white tick on a solid green disc, the label text stays ink. Incorrect options stay unmarked. (#346)
+
+## 0.348.0 — 2026-10-22
+### Added
+- Screen-lint: three hard UX writing rules on every surface (product, settings, canvas, audience, website), reading user-visible UI strings only (HTML text nodes, `title`, `aria-label`, `aria-description`, `placeholder`, `alt`, `label` and `heading` attributes, and string literals under UI-text keys in scripts; never comments, CSS, URLs, identifiers, `<code>`, `<pre>` or `<kbd>`): `no-dash-punctuation` (UXW-8, em or en dash, raw or as an entity), `vague-error-copy` (UXW-2, "Something went wrong", "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and `title-case-slide-name` (UXW-1, "Multiple Choice", "Word Cloud", "Open-Ended", "Spinner Wheel", "Rating Scale"). Opt out per line with `ds-lint-allow: <rule> (why)` or `ds-lint-allow: copy (why)`. Pass `path` to `lintHtml` for a `.js` or `.ts` file so it is read as script. Revert by reverting this commit; the rules are additive (#351)
+### Changed
+- UX writing guide and guideline say which rules `screen-lint` enforces; the Alert, Illustration and Spin snippets lose the em and en dashes the new gate found (#351)
+
+## 0.346.0 — 2026-10-22
+### Added
+- Screen lint: `node screen-lint.mjs --surface=website <files>` for a whole website page of Marketing sections. It runs the product rules (raw hex, off-scale radius and weight, gradients, icons) and accepts the `min-width` breakpoints the shipped Marketing sections use (768 and 992, generated into `lib/marketing-breakpoints.js` from `marketing/*.json`) inside `@container` and `@media` conditions; any other `min-width` still fails `min-width-trap`. It adds two hard rules from the website guideline: `multiple-h1` (W4, one H1 per page) and `img-no-alt` (W6, every picture has alt). Product, canvas, audience and settings behave as before. Revert: remove `lib/screen-lint-website.js`, `lib/marketing-breakpoints.js`, their hooks in `lib/screen-lint.js` and `generate.mjs`, and the `website` entry in `screen-lint.mjs` (#348)
+
+## 0.345.0 — 2026-10-22
+### Added
+- Foundations → Logo → Integrations: Canva, Zapier, D2L Brightspace and Cornerstone OnDemand join the integration logos (`logo/canva.svg`, `logo/zapier.svg`, `logo/d2l-brightspace.svg`, `logo/cornerstone-ondemand.svg`; full-colour originals in `logo/original/`). Each is taken from the brand's own site or brand page, with the source and fetch date in `logo/manifest.json`. (#350)
+
+## 0.344.0 — 2026-10-22
+### Added
+- Marketing → Header: an optional Video slot (off by default) for Hero Pink Vertical and Hero Pale Pink Vertical: a `<video>` with native controls, poster, captions track and download fallback, never autoplaying or looping. The layout html and css are unchanged when it is off. Docs page section, markdown and `marketing.agent.json` `video` entry. (#347)
+### Fixed
+- Marketing → Header: Hero Pink Vertical and Hero Pale Pink Vertical show the image whole at its own ratio at every width instead of cropping it to a fixed 4:3 or 16:9 frame with `object-fit: cover` (on phones the crop was severe), as rule W6 requires. Header guidance names the Hero video and the uncropped image. (#347)
+
+## 0.343.0 — 2026-10-22
+### Added
+- Deck: one shared deck token module, `@ahaslides-product/design/deck`, with `applyDeckTokens(target, { ink })` and `deckTokens(ink)`, re-exported from both `lib/audience.js` and `lib/canvas.js`. The canvas and the audience phone now write the same `--aha-deck-*` ladder; `applyCanvasDeck` adds only its button, container and modal variables and `applyDeck` only its accent set. Both signatures are unchanged. Environment: audience, product (#343)
+- Audience: `applyDeck` now also writes `--aha-deck-ink-secondary`, `--aha-deck-stroke`, `--aha-deck-stroke-chip`, `--aha-deck-stroke-hover`, `--aha-deck-line` and the fill and surface tokens the canvas already had (#343)
+### Changed
+- Audience: secondary text (counts, captions, hints, sub-lines, eyebrows) moves from the ink at 65% to 76%, and panel and track hairlines from 10% to 12%, matching the canvas. Affects answer list, image upload, rank list, scale slider, submit button, submitted card, countdown, swipe card, waiting-for-host and identity strip; the 20% chip and control edge, the 60% hover edge and the surfaces are unchanged (#343)
+- Docs: the Deck tokens page moves out of Canvas Library into Foundations, next to Tokens, and says the canvas and the audience share it. Its URL stays `deck-tokens/index.html` (#343)
+### Deprecated
+- `--aha-deck-ink-muted`, `--aha-deck-edge` and `--aha-deck-edge-hover` are still written, as aliases of `--aha-deck-ink-secondary`, `--aha-deck-stroke` and `--aha-deck-stroke-hover`; move to the new names. `audienceSurface` and `audienceBorder` stay exported as aliases of `deckSurface` and `deckStroke` (#343)
+
+## 0.341.0 — 2026-10-22
+### Added
+- Marketing → motion script `lib/marketing-motion.js` (`@ahaslides-product/design/marketing-motion`): Marketing sections reveal on scroll with an 80 ms stagger, section photos drift up to 48 px against the scroll, and Numbers values count up from 0 once in view. Off under `prefers-reduced-motion`, per section or page with `data-aha-motion="off"`. (#341)
+- Marketing → Features, Numbers, Testimonials and FAQ: every content section ends with a shipped call to action row (`__cta`, or `__actions` in a split header): the hero's call to action (sample label Sign up), or a link to the section's own page in Templates, Integrations, case-study and FAQ sections (W18); the FAQ links to the AhaSlides docs (`Read the docs`). Same tab, centred under a centred heading, left under a left heading. (#341)
+- Websites → Website composition: rules and criteria W17 heading alignment, W18 section call to action and W19 testimonial author alignment, with failing evals and fixtures. (#341)
+
+### Changed
+- Websites → Website composition: W18 now says when a call to action is Sign up and when it goes to another page. Only the Templates, Integrations, case-study (testimonials included) and FAQ sections link out, to the template library, the integrations page, the case studies and the AhaSlides docs, with a label naming the destination; every other content section ends with the hero's primary call to action as a primary button, with the hero's own label (the page-specific label W4 asks for; Sign up in the snippets is only the example), so W4 and W18 never ask for different labels. W1 drops its limit of one mid-page Sign up. The pass fixtures' section calls to action repeat their hero label, master's W4 fixture gains the section call to action rows, and a test checks every fixture's section primary matches its hero. (#341)
+- Websites → Website composition: W9 motion now asks for the staggered reveal, light photo parallax and count-up numbers from the DS script (it banned parallax before). (#341)
+- Marketing → Testimonials: quote and author block left aligned in every layout, and quote cards share one author baseline through subgrid. (#341)
+- Marketing → FAQ: the title centres itself with `text-align:center`, so a Webflow or page reset cannot pull it left. Numbers `actions-row` puts its actions below the stats under a centred header; Features, Numbers and Pricing symmetric layouts ship the `--center` header. (#341)
+
+## 0.339.0 — 2026-10-22
+### Changed
+- Website rule W4: the Sign up / primary call to action label is written for the page's context (a verb plus what the visitor gets), with Get started free only as the fallback; the Footer banner repeats the hero's label. Header and Footer banner docs say the sample label is per page. New website eval case for a generic label; the pass fixtures use page-specific labels. (#344)
+
+## 0.335.1 — 2026-10-22
+### Fixed
+- Chart: with `palette="deck"`, Pick Answer paints the correct mark (`correct-style=fill` bar or column, and the ✓ badge) with the deck ink instead of `--aha-color-success`, so it no longer disappears on a dark deck or turns unreadable on a blue one. Brand mode is unchanged. Revert: delete `--_correct:var(--_ink);` from the `.root.is-deck` rule in `lib/aha-chart.js`. Environment: product, audience (#342)
+
+## 0.335.0 — 2026-10-22
+### Changed
+- Website FAQ: hovering a question with a mouse turns its text and the plus or minus Vivid Pink (`--aha-color-primary`) over `--aha-motion-fast`, and the plus/minus loses its circle outline (the two bars and their rotation stay). Real pointers only (`@media (hover:hover)`), open and closed rows, no layout shift; reduced motion stops the transition. (#340)
+
+## 0.334.0 — 2026-10-22
+### Added
+- Canvas: `<aha-canvas-count>` (`@ahaslides-product/design/aha-canvas-count`), the answer count drawn on a slide canvas, with its own contract and docs page. `correct` and `wrong` show the verdict form (green tick disc, count and person glyph, a divider, red cross disc, count); `answered` alone shows how many people answered, with no verdict. A 48px small deck container (radius 8, padding 12 left and 20 right, 1.5 times the review page's), filled from the deck tokens with no stroke, frosted on a photo deck; one accessible group named by `label` (default "12 correct, 3 incorrect"). Environment: product (#338)
+- Canvas: `<aha-canvas-status>` (`@ahaslides-product/design/aha-canvas-status`), the status line and response count: `text` (default "Waiting for answers…", empty hides it) above "N of M answered" from `answered` and `total` (or a translated `count-text`). Free-floating deck ink with no backing, a polite live region (#338)
+- Canvas: deck token ladder from `applyCanvasDeck`, all aliases of the deck ink: `--aha-deck-ink-secondary` (76%), `--aha-deck-line` (24%), `--aha-deck-stroke-chip` (20%), `--aha-deck-fill-active` (16%), `--aha-deck-stroke` and `--aha-deck-fill-hover` (12%), `--aha-deck-fill` (8%), `--aha-deck-surface` (the opposite of the ink at 80%). Container set for rounded rectangles on any deck, white or black ink: `--aha-deck-container-fill`, `-stroke` (1px), `-stroke-empty` (1px dashed, an empty slot only), `-radius-lg` 12 and `-radius-sm` 8, `-padding-sm` 12, `-md` 20 and `-lg` 32, and for a canvas modal such as the presenter leaderboard `--aha-deck-modal-fill` (the opposite of the ink at 92%, so the slide behind barely shows) and `--aha-deck-modal-backdrop`. `applyCanvasDeck({ image: true })` makes the container fill the frosted surface on a photo deck. Canvas library: Correct / incorrect count, Status line and response count, Stepper and Deck containers and modals cards on light, dark and photo decks in both inks (#338)
+- Canvas: `<aha-stepper>` is listed as a canvas component and reads the deck ladder when it sits inside a deck, so it is inked by the deck with no fork; with no deck tokens it renders exactly as before (#338)
+### Changed
+- Tokens: `--aha-viz-mix-*` steps are multiples of 4: axis 24 (was 26), track 8 (was 7), stroke 12 (was 10), hover 12 (was 8) and dim 40 (was 38); `secondary` 76, `grid` 12, `stroke-chip` 20 and `active` 16 already were. Charts shift by at most 4 points of opacity; `tertiary` 54 stays until the chart labels are reviewed. Revert: restore `viz.mix` in `tokens.canonical.json` and drop `lib/aha-canvas-count.js`, `lib/aha-canvas-status.js`, their contracts and parts and the ladder in `lib/canvas-deck.js` (#338)
+- Docs: the Canvas Library dropdown is now Chart, Components and Deck tokens. Correct / incorrect count, Status line and Stepper are cards on Components (they no longer have their own entries in the Components sidebar; their `canvas-count` and `canvas-status` contract pages and agent feeds stay). The `--aha-deck-*` ink ladder and the container and modal tokens move to the new Deck tokens page at `deck-tokens/index.html`. `lib/canvas.js` already registers every canvas component and exports `applyCanvasDeck`, so the one CDN tag loads all three pages (#338)
 
 ## 0.325.1 — 2026-10-21
 ### Fixed

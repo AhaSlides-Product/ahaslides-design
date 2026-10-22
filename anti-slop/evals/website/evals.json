@@ -2,7 +2,7 @@
   "surface": "website",
   "judgedAgainst": "anti-slop/criteria.json surfaces.website",
   "portedFrom": null,
-  "authoredNote": "DS-authored with the website surface (W1 to W14 and W16) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
+  "authoredNote": "DS-authored with the website surface (W1 to W19) from guidelines/website.json and the shipped Marketing sections; there is no plugin judge for whole-page composition.",
   "evals": [
     {
       "id": 1,
@@ -17,7 +17,7 @@
       ],
       "label": "good-control",
       "notes": "Good control: the reference page, a Vivid Pink hero then a white and pale pink body. Guards against over-firing on a page assembled exactly from the sections.",
-      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; the hero is the Hero Pink header (Vivid Pink with the Darker Pink Splash, white heading, white button) with one H1 and the Footer banner repeating Get started free; after it the body alternates white (Logos), pale pink (Features), white (Testimonials), pale pink (icon grid), white (FAQ), so no two coloured bands touch, and the only other Vivid Pink band is the footer banner, after a white FAQ (two Vivid Pink bands in all); placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; no motion beyond the sections. Overall: OK TO SHIP.",
+      "expected_output": "Every band is a DS Marketing section with shipped spacing and widths; the hero is the Hero Pink header (Vivid Pink with the Darker Pink Splash, white heading, white button) with one H1 and a context-specific call to action (Create a live poll free) that the Footer banner repeats; after it the body alternates white (Logos), pale pink (Features), white (Testimonials), pale pink (icon grid), white (FAQ), so no two coloured bands touch, and the only other Vivid Pink band is the footer banner, after a white FAQ (two Vivid Pink bands in all); placeholder images with alt text and registry icons; Navigation with <aha-product-lockup>; motion only from the DS motion script. Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Create a live poll free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "No criterion is marked FAIL"
@@ -38,7 +38,10 @@
           "W13": "PASS",
           "W14": "PASS",
           "W15": "PASS",
-          "W16": "PASS"
+          "W16": "PASS",
+          "W17": "PASS",
+          "W18": "PASS",
+          "W19": "PASS"
         }
       },
       "source": {
@@ -59,7 +62,7 @@
       ],
       "label": "good-control",
       "notes": "Good control at the W5 boundary: a Vivid Pink hero plus a Vivid Pink footer banner is the allowed maximum of two; must not be flagged as too many.",
-      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 allows on a web page. Each banner has one call to action, and the closing banner repeats Get started free. Overall: OK TO SHIP.",
+      "expected_output": "A Vivid Pink hero, then white Pricing, a pale pink icon-grid band, white Testimonials and FAQ, and a closing Vivid Pink Footer banner after a white band: two Vivid Pink bands in all (colour rule 3.4) and a full white section between every pair of coloured bands (rule 3.3). The hero is Vivid Pink as rule 3.5 allows on a web page. Each banner has one call to action, and the closing banner repeats the hero's label (Start free, written for the pricing page). Headings are centred over every full-width section and each content section ends with its shipped centred call to action row: Read customer stories under Testimonials, Read the docs under the FAQ and the hero's Start free everywhere else; testimonial authors are left aligned. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "W5 is not FAIL for two separated Vivid Pink bands"
@@ -71,12 +74,16 @@
           "W4": "PASS",
           "W5": "PASS",
           "W7": "PASS",
+          "W9": "PASS",
           "W11": "PASS",
           "W12": "PASS",
           "W13": "PASS",
           "W14": "PASS",
           "W15": "PASS",
-          "W16": "PASS"
+          "W16": "PASS",
+          "W17": "PASS",
+          "W18": "PASS",
+          "W19": "PASS"
         }
       },
       "source": {
@@ -185,7 +192,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W4: hierarchy and call-to-action discipline.",
-      "expected_output": "W4 FAILs: there are two H1s (hero and Features title), the hero has four buttons in a row including a second primary (Talk to sales), and the closing banner asks for a newsletter sign-up instead of repeating Get started free. Fix: make the Features title an h2, keep Get started free plus one secondary in the hero, and repeat Get started free in the Footer banner. Overall: NEEDS FIX.",
+      "expected_output": "W4 FAILs: there are two H1s (hero and Features title), the hero has four buttons in a row including a second primary (Talk to sales), and the closing banner asks for a newsletter sign-up instead of repeating the hero's action. Fix: make the Features title an h2, keep one primary call to action (labelled for the page) plus one secondary in the hero, and repeat that same label in the Footer banner. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W4 is marked FAIL"
@@ -331,8 +338,8 @@
         }
       ],
       "label": "bad-example",
-      "notes": "Targets W9: parallax and autoplay.",
-      "expected_output": "W9 FAILs: the hero image is parallax-scrolled on every scroll event, the testimonial quote autoplays every 3 seconds, the transition uses a bare 600ms ease, and none of it stops under prefers-reduced-motion. Fix: remove the parallax and the autoplay; keep the Testimonials section's own arrows and dots. Overall: NEEDS FIX.",
+      "notes": "Targets W9: a hand-written parallax of the whole hero, an autoplaying quote and a bare duration.",
+      "expected_output": "W9 FAILs: the hero image is moved by a hand-written scroll script (parallax is the DS script's light drift on section photos only, never a moving hero), the testimonial quote autoplays every 3 seconds, the transition uses a bare 600ms ease, and none of it stops under prefers-reduced-motion. Fix: remove the page scripts and the autoplay and load lib/marketing-motion.js for the reveal, photo parallax and count-up. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W9 is marked FAIL"
@@ -571,7 +578,7 @@
       ],
       "label": "bad-example",
       "notes": "Targets W15: three Template cards (a correct 3 by n grid) whose links open in the same tab.",
-      "expected_output": "W15 FAILs: the Template card links have no target=\"_blank\" rel=\"noopener\" and no visually-hidden new-tab text. Fix: open content card links in a new tab; the Sign up buttons stay in the same tab. Overall: NEEDS FIX.",
+      "expected_output": "W15 FAILs: the Template card links have no target=\"_blank\" rel=\"noopener\" and no visually-hidden new-tab text. Fix: open content card links in a new tab; the call to action buttons stay in the same tab. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "W15 is marked FAIL",
@@ -590,6 +597,126 @@
     },
     {
       "id": 20,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w17-heading-alignment/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W17: a left aligned heading over a centred icon grid and a FAQ title pulled left.",
+      "expected_output": "W17 FAILs: the icon-grid Features header lacks the `--center` class so its heading sits left over a centred grid, and a page rule pulls the FAQ title left while every other full-width heading is centred. Fix: add aha-features__header--center and remove the FAQ title override. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W17 is marked FAIL",
+        "Names the FAQ title or the icon-grid heading"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W17": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 21,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w18-missing-section-cta/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W18: sections with no call to action and a lone left button under a centred grid.",
+      "expected_output": "W18 FAILs: the Features alternating, Testimonials and FAQ sections end with no call to action, and the icon-grid section ends with a page-placed left aligned View more under a centred grid instead of the shipped centred `aha-features__cta` row. Fix: use the shipped __cta rows in every content section. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W18 is marked FAIL",
+        "Names the missing call to action or the left aligned button"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W18": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 22,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w19-testimonial-author/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W19: centred author block under a left aligned quote, no shared baseline.",
+      "expected_output": "W19 FAILs: the page rule stacks the avatar above a centred name and role under the left aligned quote and drops the shipped subgrid, so author rows sit at different heights across cards. Fix: remove the override and keep the shipped person and quote-card grid rules. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W19 is marked FAIL",
+        "Names the centred name and role"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W19": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 23,
+      "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
+      "files": [
+        {
+          "path": "fixtures/fail-w4-generic-cta-label/Page.html"
+        },
+        {
+          "path": "fixtures/sections.css"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets W4: a quiz-maker page whose hero and closing banner both use the generic Get started free instead of a label written for the page.",
+      "expected_output": "W4 FAILs: the primary call to action is the generic Get started free on a quiz-maker page; the label is not written for the page's context. Every content section ends with its call to action and the Sign-up sections repeat the hero's label, so W18 holds; the fault is the label itself. Fix: use a verb plus what the visitor gets, such as Create your quiz free, in the hero, and repeat it in the Footer banner and in each section call to action that repeats the hero. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX",
+        "W4 is marked FAIL",
+        "Names the generic Get started free label"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "W4": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "DS-authored with the website surface; no plugin judge dataset exists"
+      }
+    },
+    {
+      "id": 24,
       "prompt": "Review this landing page (Page.html) before it ships. The section CSS (sections.css) is each DS Marketing section's CSS pasted unchanged; only the <style> block in the page is the builder's own.",
       "files": [
         {

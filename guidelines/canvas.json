@@ -56,7 +56,19 @@
     {
       "ref": "stepper",
       "as": "component",
-      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), never hand-rolled .step pills and never the primary accent",
+      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), inked by the applyCanvasDeck --aha-deck-* ladder, never hand-rolled .step pills and never the primary accent",
+      "status": "available"
+    },
+    {
+      "ref": "canvas-count",
+      "as": "component",
+      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 40px container in the deck container set, never a hand-rolled pill",
+      "status": "available"
+    },
+    {
+      "ref": "canvas-status",
+      "as": "component",
+      "use": "the status line (Waiting for answers…) — <aha-canvas-status>, free-floating deck text with no fill on any deck",
       "status": "available"
     },
     {
@@ -68,7 +80,7 @@
     {
       "ref": "chart",
       "as": "component",
-      "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style follows the mockup's green correct bar)",
+      "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style paints the correct bar --aha-answer-correct, the answer green, in the deck palette too)",
       "status": "available"
     },
     {
@@ -288,7 +300,7 @@
       ]
     },
     {
-      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); a dashed empty state is 1px. Fix a marginal contrast check on a solid fill, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
+      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (--aha-deck-stroke, the deck ink at 12%); a dashed empty state is 1px. Fix a marginal contrast check on a solid fill, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
       "ref": [
         "§3",
         "C10",

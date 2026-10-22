@@ -4,7 +4,7 @@
   "environment": [
     "web"
   ],
-  "summary": "The AhaSlides marketing site pre-footer call-to-action card (Webflow section-container > card-based-section img-card-section): a Vivid Pink card on the DS centre Splash background (Darker Pink hooks) with a centred white heading and a white Get started free button, directly above the Footer on a white section. An optional white paragraph sits between the heading and the button (the Enterprise variant), and an optional scroll-in reveal reproduces the fade-up used on the Compare page. Framework-free and bound to the shared --aha-* tokens.",
+  "summary": "The AhaSlides marketing site pre-footer call-to-action card (Webflow section-container > card-based-section img-card-section): a Vivid Pink card on the DS centre Splash background (Darker Pink hooks) with a centred white heading and a white button (sample label Get started free; write the label per page and repeat the hero's), directly above the Footer on a white section. An optional white paragraph sits between the heading and the button (the Enterprise variant), and an optional scroll-in reveal reproduces the fade-up used on the Compare page. Framework-free and bound to the shared --aha-* tokens.",
   "highlights": [
     "Webflow section Footer banner, restyled as a Vivid Pink card; geometry matched to the live ahaslides.com at 1440px, 768px and 375px",
     "Card is a 1280px-wide, 16px-radius Vivid Pink surface with the DS centre Splash background (Darker Pink hooks, no gradient, no image file to host) and a centred white heading (40px, 32px at 991px and below)",

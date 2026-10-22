@@ -156,7 +156,7 @@ The same two-jobs split as the canvas, with less theme forwarded.
   (~1.58:1 on white). On a dark deck the dark
   status glyph fails, so put it on a **bounded light fill** or use a white glyph on a black pill.
 - **`textColour` is for text, not borders.** Bind body text to `xprops.slide.textColour`.
-  Derive hairlines from `color-mix(in srgb, currentColor 10%, transparent)`, never from
+  Derive hairlines from `--aha-deck-stroke` (the ink at 12%), never from
   `textColour` directly.
 - **Choose your own background.** No `baseColour` is forwarded — default to white / very
   light (works on light and dark decks), or derive a surface from the luminance of
@@ -187,9 +187,9 @@ The same two-jobs split as the canvas, with less theme forwarded.
 
 **Sliders:**
 
-- A slider / progress track is filled with the deck ink at 10% (the same value as every track and
-  panel hairline) and a filled part carries that same 1px 10% hairline, so a coloured fill doesn't sink
-  into a same-hue deck. Tracks and panel hairlines are the only 10% edges: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%.
+- A slider / progress track is filled with `--aha-deck-stroke`, the deck ink at 12% (the same value as every track and
+  panel hairline), and a filled part carries that same 1px hairline, so a coloured fill doesn't sink
+  into a same-hue deck. Tracks and panel hairlines are the only 12% edges: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take `--aha-deck-stroke-chip`, the ink at 20%.
 - A horizontal slider's rail **lines up** with its min/max end labels — zero out Ant's
   default slider margin (~`margin: 10px 6px`), then either run the rail flush under the captions or
   inset it by the same intended amount on both sides (`<aha-scale-slider>` insets 16px); never an
@@ -213,7 +213,7 @@ outer column with `gap-6`. The 8px gap is for rows INSIDE one group; don't stand
   600). No 700 / 800 / 900.
 
 **Borders are hairlines** (C32): a bounded white card **1px `--aha-border-default`** (#E3E3E3); a deck-owned
-surface (field, track, panel) a **1px** `color-mix(in srgb, currentColor 10%, transparent)` on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20% (the dashed image drop area is the one 2px edge, dashed).
+surface (field, track, panel) a **1px** `--aha-deck-stroke` (the ink at 12%) on every deck, light or dark. The 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take `--aha-deck-stroke-chip` (the ink at 20%) (the dashed image drop area is the one 2px edge, dashed).
 No other 2px outline: never at heavy ink (55% `textColour` on a chip is the miss).
 
 **One dark ink** (C33): `--aha-text-default` **#1A1A1A** on every surface — never the retired
@@ -278,7 +278,7 @@ it rebuilds the same spec:
 - **Text** = a readable ink chosen against the fill by luminance — white on a saturated/dark
   shade, dark ink on a light shade. **Don't hard-code white** (it disappears on a light shade).
   Semi-bold (600).
-- **Edge** = a hairline at ~10% of `textColour`, so a purple button on a purple deck holds its shape.
+- **Edge** = a `--aha-deck-stroke` hairline (12% of `textColour`), so a purple button on a purple deck holds its shape.
 - **Position** = end of the answer-area block, ~16px below (host may paint a sticky "Scroll to
   submit" pill above when you opt in).
 

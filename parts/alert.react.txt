@@ -30,4 +30,4 @@ function AhaAlert({ type, heading, size, banner, hideIcon, closable, onClose, ac
 <AhaAlert type="success" heading="Saved">Your changes are live.</AhaAlert>
 <AhaAlert type="branding" heading="New: AI slides" action={<button>Try it</button>}>Turn a prompt into a deck.</AhaAlert>
 <AhaAlert type="warning" banner closable onClose={() => setBanner(null)}>Scheduled maintenance tonight.</AhaAlert>
-<AhaAlert type="error" size="small" closable onClose={() => setBanner(null)}>Upload failed — try a smaller file.</AhaAlert>
+<AhaAlert type="error" size="small" closable onClose={() => setBanner(null)}>Upload failed. Try a smaller file.</AhaAlert>
