@@ -11,7 +11,7 @@
   "highlights": [
     "Every band is a DS Marketing section; a missing one is a DSN ticket, never hand-rolled; Testimonials and FAQ are pasted unchanged",
     "Sections keep their shipped rhythm: 96/64 px padding on desktop, 48/24 at 767 px, 32/16 at 479 px; grids are balanced and layouts vary, at most 3 alternating rows",
-    "One H1, one primary action per section (Sign up at most once mid-page), a View more call to action closing every content section, the hero's call to action repeated at the end",
+    "One H1, one primary action per section, every content section closed by a call to action: Sign up, except Templates, Integrations and case studies, which link to their page; the hero's call to action repeated at the end",
     "Headings centred over symmetric content and left only in a split; checked at 1440, 768 and 375 px with no sideways scroll; motion is staggered reveal, light photo parallax and count-up numbers from one DS script"
   ],
   "whenToRead": "Read before building, redesigning or reviewing any website page made of full-width sections: a landing, pricing, blog, careers, campaign or help page, on the public site or inside the product.",
@@ -163,7 +163,7 @@
       ]
     },
     {
-      "rule": "Give the page one H1, in the Header section at its display size. Each section has at most one primary button (colour rules 6.1 and 6.2); at most two buttons sit side by side, a primary and a secondary. A Sign up primary appears at most once between the hero and the Footer banner; every other section's call to action is a secondary link to the page that holds more (rule W18). The closing Footer banner repeats the hero's primary call to action.",
+      "rule": "Give the page one H1, in the Header section at its display size. Each section has at most one primary button (colour rules 6.1 and 6.2); at most two buttons sit side by side, a primary and a secondary. Every content section's call to action is the hero's Sign up primary, except the Templates, Integrations and case-study sections, which link to their own page (rule W18). The closing Footer banner repeats the hero's primary call to action.",
       "ref": [
         "W4"
       ],
@@ -305,7 +305,7 @@
       ]
     },
     {
-      "rule": "Every content section after the hero ends with one call to action, so the reader is never left at a dead end: the secondary `View more` (or `See all`, `Browse all templates`) shipped in the section (`aha-features__cta`, `aha-numbers__cta`, `aha-testimonials__cta`, `aha-faq__cta`, or the section's `__actions` in a split header), or, once on the page between the hero and the Footer banner, a primary Sign up in its place. Exempt: the Logos strip (it sits under the hero, which has the call to action), Pricing (the plan buttons are its call to action), the Footer banner (it is the primary call to action) and Navigation and Footer. The FAQ ends with `Visit the help centre`. The call to action follows its heading block: centred under the content when the heading is centred, left under the content (or inside the left header) when the heading is left aligned. Never a lone left button under a centred or symmetric grid, never a centred button under a left aligned section, never a button page-built beside the shipped one. Calls to action stay in the same tab (W15). Pick what the button does from the reader's next step. Sign up, the primary, is for when the reader has just seen what they get and the next step is to try it: the hero, the one mid-page slot straight after the section that proves the main benefit (the how-it-works steps, the key feature demo, or the numbers and testimonials that back it), and the Footer banner. Every other section goes to another page, as a secondary button: a section that shows a sample of a larger set (templates, integrations, use cases, case studies, articles) goes to the page that holds the whole set, a topic with its own page goes to that page, and the FAQ goes to the help centre. The label names where it goes (`Browse all templates`, `See all integrations`, `Read more case studies`); `View more` only when the section heading already names the set, never a bare `Learn more` or `Click here`. Never Sign up on a section whose content is a sample the reader would browse next, never Sign up in place of a View more just to add colour.",
+      "rule": "Every content section after the hero ends with one call to action, so the reader is never left at a dead end: the button row shipped in the section (`aha-features__cta`, `aha-numbers__cta`, `aha-testimonials__cta`, `aha-faq__cta`, or the section's `__actions` in a split header). Exempt: the Logos strip (it sits under the hero, which has the call to action), Pricing (the plan buttons are its call to action), the Footer banner (it is the primary call to action) and Navigation and Footer. The call to action follows its heading block: centred under the content when the heading is centred, left under the content (or inside the left header) when the heading is left aligned. Never a lone left button under a centred or symmetric grid, never a centred button under a left aligned section, never a button page-built beside the shipped one. Calls to action stay in the same tab (W15). Only three kinds of section send the reader to another page, and only when the page has them: Templates go to the template library (`Browse all templates`), Integrations to the integrations page (`See all integrations`), and case studies, testimonials included, to the case studies (`Read customer stories`); these are secondary buttons whose label names the destination, never a bare `View more`, `Learn more` or `Click here`. Every other content section, Features, Numbers, how-it-works steps, use cases and the FAQ among them, ends with Sign up: the shipped button turned primary (drop the `--ghost` or `--secondary` modifier), with the hero's primary label and link. Never Sign up on a Templates, Integrations or case-study section, never a link to another page from any other section.",
       "ref": [
         "W18"
       ],
@@ -341,7 +341,7 @@
       "verdict": "consumer self-judges (W3)"
     },
     {
-      "label": "one H1; one primary button per section; at most two buttons side by side; hero CTA repeated at the end; Sign up primary at most once mid-page",
+      "label": "one H1; one primary button per section; at most two buttons side by side; hero CTA repeated at the end",
       "verdict": "consumer self-judges (W4)"
     },
     {
@@ -393,7 +393,7 @@
       "verdict": "consumer self-judges (W17)"
     },
     {
-      "label": "every content section ends with one call to action aligned like its heading: Sign up after the section that proves the main benefit, otherwise a link to the page that holds more, named for it; Logos, Pricing and the Footer banner exempt",
+      "label": "every content section ends with one call to action aligned like its heading: Sign up, except Templates, Integrations and case studies, which link to their page named in the label; Logos, Pricing and the Footer banner exempt",
       "verdict": "consumer self-judges (W18)"
     },
     {
