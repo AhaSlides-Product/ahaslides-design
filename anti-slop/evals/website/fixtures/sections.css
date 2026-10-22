@@ -1220,13 +1220,14 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-faq *{box-sizing:border-box}
 :where(.aha-faq) h2,:where(.aha-faq) h3,:where(.aha-faq) p{margin:0;padding:0}
 .aha-faq__inner{
-  display:flex;flex-direction:column;gap:var(--aha-space-48);
-  --aha-faq-gutter:0px;
-  width:100%;max-width:calc(720px + 2 * var(--aha-faq-gutter));
+  display:flex;flex-direction:column;
+  --aha-web-gutter:var(--aha-space-64);
+  width:100%;max-width:calc(720px + 2 * var(--aha-web-gutter));
   margin:0 auto;
-  padding:var(--aha-space-96) var(--aha-faq-gutter);
+  padding:var(--aha-space-96) var(--aha-web-gutter);
 }
 .aha-faq__title{
+  margin-bottom:var(--aha-space-48);
   display:flex;align-items:center;justify-content:center;
   font-size:var(--aha-size-h2);
   font-weight:var(--aha-weight-semibold);
@@ -1268,7 +1269,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-faq__button--ghost:hover,.aha-faq__button--ghost:active{background:var(--aha-button-default-bg);box-shadow:inset 0 0 0 100vmax var(--aha-button-default-bg-hover),var(--aha-button-elevate-secondary);border-color:var(--aha-button-default-border-hover);color:var(--aha-button-default-text-hover)}
 .aha-faq__button--ghost:active{border-color:var(--aha-button-default-border-press)}
 .aha-faq__button--ghost:focus-visible,.aha-faq__button--ghost:focus-visible:is(:hover,:active){box-shadow:inset 0 0 0 100vmax var(--aha-button-default-bg-hover),0 0 0 var(--aha-space-2) var(--aha-bg-base),0 0 0 var(--aha-space-4) var(--aha-button-focus-ring)}
-.aha-faq__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12)}
+.aha-faq__cta{margin-top:var(--aha-space-48);display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12)}
 .aha-faq__item{border-bottom:1px solid var(--aha-border-default)}
 .aha-faq__question{font-size:inherit;font-weight:inherit}
 .aha-faq__trigger{
@@ -1322,13 +1323,14 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 }
 @container aha-faq (max-width:991px){
   .aha-faq__title{font-size:var(--aha-size-h3)}
-  .aha-faq__inner{--aha-faq-gutter:var(--aha-space-64)}
 }
 @container aha-faq (max-width:767px){
+  .aha-faq__inner{--aha-web-gutter:var(--aha-space-24)}
   .aha-faq__answer-text{padding-bottom:var(--aha-space-24)}
 }
 @container aha-faq (max-width:479px){
   .aha-faq__title{font-size:var(--aha-size-h4)}
-  .aha-faq__inner{--aha-faq-gutter:var(--aha-space-32)}
+  .aha-faq__inner{--aha-web-gutter:var(--aha-space-16)}
+  .aha-faq__cta{margin-top:var(--aha-space-32)}
 }
 
