@@ -46,3 +46,9 @@ test('a trailing line comment in a script is not UI copy, a // inside a string i
   const lines = findingsOf(source, 'product').filter(f => f.rule === 'vague-error-copy').map(f => f.line);
   assert.deepEqual(lines, [3, 4]);
 });
+
+test('a regex literal ending in // or holding a quote does not hide later copy on its line', () => {
+  const source = `<script>\nconst slash = /a\\//; el.title = "Oops";\nconst quoted = /["']/g; el.title = "Oops";\nconst ratio = total / count; el.title = "Oops"; // label: "Oops"\n</script>`;
+  const lines = findingsOf(source, 'product').filter(f => f.rule === 'vague-error-copy').map(f => f.line);
+  assert.deepEqual(lines, [2, 3, 4]);
+});
