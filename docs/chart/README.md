@@ -42,7 +42,7 @@ What each line does:
 
 | Line | Purpose |
 |---|---|
-| `lib/tokens.css` | Optional. Defines the `--aha-*` design tokens (fonts, spacing, colours) so the chart matches AhaSlides exactly. Without it the chart still draws, using built-in fallback colours and a generic sans-serif font. |
+| `lib/tokens.css` | Defines the `--aha-*` design tokens (fonts, spacing, colours) so the chart matches AhaSlides exactly. Without it the chart still draws with built-in fallback colours and a generic sans-serif font, but the Pick Answer correct mark (`--aha-answer-correct`) has no colour, so load it whenever you use `correct`. |
 | `lib/aha-chart.js` | Registers the `<aha-chart>` element. It imports `aha-live-region.js` and `icons.js` from the same folder, so nothing else needs to be loaded. |
 
 The chart never paints a background. It sits on whatever surface you put it on.
