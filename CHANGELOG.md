@@ -32,6 +32,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Deprecated
 - `--aha-deck-ink-muted`, `--aha-deck-edge` and `--aha-deck-edge-hover` are still written, as aliases of `--aha-deck-ink-secondary`, `--aha-deck-stroke` and `--aha-deck-stroke-hover`; move to the new names. `audienceSurface` and `audienceBorder` stay exported as aliases of `deckSurface` and `deckStroke` (#343)
 
+## 0.335.1 — 2026-10-22
+### Fixed
+- Chart: with `palette="deck"`, Pick Answer paints the correct mark (`correct-style=fill` bar or column, and the ✓ badge) with the deck ink instead of `--aha-color-success`, so it no longer disappears on a dark deck or turns unreadable on a blue one. Brand mode is unchanged. Revert: delete `--_correct:var(--_ink);` from the `.root.is-deck` rule in `lib/aha-chart.js`. Environment: product, audience (#342)
+
 ## 0.335.0 — 2026-10-22
 ### Changed
 - Website FAQ: hovering a question with a mouse turns its text and the plus or minus Vivid Pink (`--aha-color-primary`) over `--aha-motion-fast`, and the plus/minus loses its circle outline (the two bars and their rotation stay). Real pointers only (`@media (hover:hover)`), open and closed rows, no layout shift; reduced motion stops the transition. (#340)
