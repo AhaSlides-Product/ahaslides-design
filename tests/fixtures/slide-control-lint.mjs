@@ -128,6 +128,7 @@ export const SLIDE_RULE_FIXTURES = [
       '.card{ background: var(--aha-bg-container) }',
       '.tick{ fill: var(--aha-color-success) }',
       '.row{ border-top-color: var(--aha-border-default) }',
+      '.cta:hover{ background: var(--aha-color-primary-hover) }',
     ],
     pass: [
       '<div class="panel" style="background: var(--aha-deck-container-fill); border: 1px solid var(--aha-deck-container-stroke)">',
