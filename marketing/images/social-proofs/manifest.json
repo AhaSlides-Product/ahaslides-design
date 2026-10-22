@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for marketing/images/social-proofs/. Third-party award badges and review platform logos, committed unaltered exactly as published at sourceUrl: never recolour, crop or resize. Refresh by re-fetching sourceUrl.",
+  "$comment": "Source of truth for marketing/images/social-proofs/. Third-party award badges and the G2 logo, committed unaltered exactly as published at sourceUrl: never recolour, crop or resize. Refresh by re-fetching sourceUrl.",
   "images": [
     {
       "file": "G2BestSoftware2026-Badge-CoreSegment-Enterprise.webp",
@@ -47,27 +47,7 @@
       "description": "G2 review platform logo, 600 by 600",
       "sourceUrl": "https://ahaslides.com/webflow-assets/68427231f35040cef4456f89/6886e8caa4ea2595eeef6b39_g2-logo-png_seeklogo-407782.png",
       "sourcePage": "https://ahaslides.com/solutions/classroom-education/",
-      "licence": "Third-party logos owned by G2, Capterra and GetApp, shown as published on ahaslides.com",
-      "fetched": "2026-10-22",
-      "note": "Unaltered third-party logo"
-    },
-    {
-      "file": "capterra-logo.webp",
-      "kind": "review platform logo",
-      "description": "Capterra review platform logo",
-      "sourceUrl": "https://ahaslides.com/webflow-assets/68427231f35040cef4456f89/6886eb538f1b6e4a62e1e02b_capterra-logo.webp",
-      "sourcePage": "https://ahaslides.com/solutions/classroom-education/",
-      "licence": "Third-party logos owned by G2, Capterra and GetApp, shown as published on ahaslides.com",
-      "fetched": "2026-10-22",
-      "note": "Unaltered third-party logo"
-    },
-    {
-      "file": "getapp-logo.png",
-      "kind": "review platform logo",
-      "description": "GetApp review platform logo, 200 by 200",
-      "sourceUrl": "https://ahaslides.com/webflow-assets/68427231f35040cef4456f89/6886eb9fbd539055deeb8e2c_images.png",
-      "sourcePage": "https://ahaslides.com/solutions/classroom-education/",
-      "licence": "Third-party logos owned by G2, Capterra and GetApp, shown as published on ahaslides.com",
+      "licence": "Third-party logo owned by G2, shown as published on ahaslides.com",
       "fetched": "2026-10-22",
       "note": "Unaltered third-party logo"
     }
