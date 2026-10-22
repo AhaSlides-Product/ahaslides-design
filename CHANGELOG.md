@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.327.0 — 2026-10-21
+### Fixed
+- Marketing → Header, Hero color card 04: the Accent switch now tints the card (the section surface of that layout) instead of leaving it white.  (#326)
+
 ## 0.325.1 — 2026-10-21
 ### Fixed
 - Audience library: every example is in English. The answer list, rank list, text fields, slider, chips, image upload and audience modal demos had Vietnamese labels, options and placeholders. (#339)
