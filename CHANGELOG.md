@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.344.0 — 2026-10-22
+## 0.347.0 — 2026-10-22
 ### Added
 - Marketing → Cards: an Integration card for a tool that is not available yet (greyscale logo, name beside it, `<aha-tag color="primary" bordered>` Coming soon). (#349)
 ### Changed
@@ -30,6 +30,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Marketing → Cards: the Integration card is a listing item, so its logo keeps its own colours in a 32px white tile with a grey border and the name beside it. (#349)
 - Marketing → Footer: the LinkedIn, YouTube, Facebook, Instagram and Reddit links use the Logo library files, one colour at rest and their own colours on hover and keyboard focus. (#349)
 - Website composition fixtures and docs prose follow the same logo treatment. (#349)
+## 0.343.0 — 2026-10-22
+### Added
+- Deck: one shared deck token module, `@ahaslides-product/design/deck`, with `applyDeckTokens(target, { ink })` and `deckTokens(ink)`, re-exported from both `lib/audience.js` and `lib/canvas.js`. The canvas and the audience phone now write the same `--aha-deck-*` ladder; `applyCanvasDeck` adds only its button, container and modal variables and `applyDeck` only its accent set. Both signatures are unchanged. Environment: audience, product (#343)
+- Audience: `applyDeck` now also writes `--aha-deck-ink-secondary`, `--aha-deck-stroke`, `--aha-deck-stroke-chip`, `--aha-deck-stroke-hover`, `--aha-deck-line` and the fill and surface tokens the canvas already had (#343)
+### Changed
+- Audience: secondary text (counts, captions, hints, sub-lines, eyebrows) moves from the ink at 65% to 76%, and panel and track hairlines from 10% to 12%, matching the canvas. Affects answer list, image upload, rank list, scale slider, submit button, submitted card, countdown, swipe card, waiting-for-host and identity strip; the 20% chip and control edge, the 60% hover edge and the surfaces are unchanged (#343)
+- Docs: the Deck tokens page moves out of Canvas Library into Foundations, next to Tokens, and says the canvas and the audience share it. Its URL stays `deck-tokens/index.html` (#343)
+### Deprecated
+- `--aha-deck-ink-muted`, `--aha-deck-edge` and `--aha-deck-edge-hover` are still written, as aliases of `--aha-deck-ink-secondary`, `--aha-deck-stroke` and `--aha-deck-stroke-hover`; move to the new names. `audienceSurface` and `audienceBorder` stay exported as aliases of `deckSurface` and `deckStroke` (#343)
 
 ## 0.341.0 — 2026-10-22
 ### Added

@@ -2,6 +2,7 @@
   "name": "Countdown",
   "slug": "countdown",
   "group": "Audience",
+  "environment": ["audience"],
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-countdown",
@@ -24,7 +25,7 @@
   "spec": [
     {
       "label": "Track",
-      "value": "8px pill, ink at 10% over the frosted blur, 1px ink hairline"
+      "value": "8px pill, --aha-deck-stroke (ink at 12%) over the frosted blur, 1px ink hairline"
     },
     {
       "label": "Fill",

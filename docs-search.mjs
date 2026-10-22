@@ -42,7 +42,6 @@ const AREAS = {
   audience: { type: 'audience', label: 'Audience Library' },
   canvas: { type: 'component', label: 'Components' },
   charts: { type: 'component', label: 'Chart' },
-  'deck-tokens': { type: 'component', label: 'Deck tokens' },
   guidelines: { type: 'guideline', label: 'Guidelines' },
   developers: { type: 'page', label: 'For developers' },
   feeds: { type: 'feed', label: 'Agent feeds' },
