@@ -1536,8 +1536,8 @@
         },
         {
           "id": "W4",
-          "title": "One H1, one primary action per section, the hero's action repeated",
-          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rules 6.1 and 6.2); no more than two buttons sit side by side, a primary and a secondary. When the page has a closing Footer banner it repeats the hero's primary call to action. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action fails. N/A for the closing-action part when the page has no closing banner."
+          "title": "One H1, one primary action per section, labelled for the page, the hero's action repeated",
+          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rules 6.1 and 6.2); no more than two buttons sit side by side, a primary and a secondary. The Sign up or primary call to action label is written for the page's context, a verb plus what the visitor gets (Use this template on a template page, Create your quiz free on a quiz-maker page, Start free on pricing); Get started free is only the fallback when no context-specific label fits. When the page has a closing Footer banner it repeats the hero's primary call to action with the same label. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action or label, or the generic Get started free on a page whose context has a more specific label, fails. N/A for the closing-action part when the page has no closing banner."
         },
         {
           "id": "W5",
@@ -1561,8 +1561,8 @@
         },
         {
           "id": "W9",
-          "title": "Motion is gentle and optional",
-          "test": "Motion is limited to hover transitions and at most a gentle fade or slide on reveal, timed with --aha-motion-* and --aha-ease-* tokens, and switched off under prefers-reduced-motion: reduce. The Logos strip's shipped loop, which stops under reduced motion, passes. Parallax, scroll-jacking, an autoplaying carousel or video, looping decorative animation, a bare duration literal, or motion with no reduced-motion fallback fails. N/A when the page has no motion."
+          "title": "Motion is the DS script, staggered, and optional",
+          "test": "Motion is the shipped DS script (lib/marketing-motion.js) plus hover transitions: elements reveal on scroll with a fade and short slide staggered 60 to 100 ms apart, section photos drift with a light parallax of at most 48 px, and Numbers values count up from 0 to the written value once in view, all timed with --aha-motion-* and --aha-ease-* tokens and shown at their final state under prefers-reduced-motion: reduce. The Logos strip's shipped loop, which stops under reduced motion, passes. Scroll-jacking, a hand-written scroll or parallax script, parallax beyond a light drift on a photo (a hero, text or whole section moving), an autoplaying carousel or video, looping decorative animation, a bare duration literal, numbers that show their final value with no count-up, or motion with no reduced-motion fallback fails. N/A only when the page has no Marketing section."
         },
         {
           "id": "W10",
@@ -1593,6 +1593,21 @@
           "id": "W15",
           "title": "Content card links open in a new tab, calls to action do not",
           "test": "Every content card link and see-more link to another page in a Marketing section (Template, Testimonial or case-study, Integration, Article, Feature and Use-case card links, and a Features `Learn more` link) opens in a new tab: `target=\"_blank\"` with `rel=\"noopener\"`, plus a visually-hidden \"(opens in a new tab)\" inside the link for screen readers (`aha-marketing-card__visually-hidden`, `aha-testimonials__visually-hidden` or `aha-features__visually-hidden`), so readers keep the page open and stay longer. Sign up and other primary or ghost call-to-action buttons (Header, Features, Pricing, Footer banner) and the Navigation and Footer site links stay in the same tab. A content card link that opens in the same tab, a new-tab link with no `rel=\"noopener\"` or no hidden new-tab text, or a Sign up button that opens a new tab fails. N/A when the page has no content card link."
+        },
+        {
+          "id": "W17",
+          "title": "Section headings follow one alignment rule",
+          "test": "A section heading block (eyebrow, h2, lead) is centred when it sits full width above the content (Features, Numbers, Pricing, Testimonials quote cards, Cards and FAQ in their symmetric layouts, the FAQ title included) and left aligned only when it shares a row or column with the content (a side-header, split-image or featured layout, or the case-study carousel with arrows on the same row). A left aligned heading over a centred or symmetric grid, a centred heading over a left pinned body, a FAQ title pulled left by a page or reset rule, or sections with the same layout shape aligned differently on one page fails. N/A when the page has no section heading."
+        },
+        {
+          "id": "W18",
+          "title": "Every content section ends with one call to action, aligned with its heading",
+          "test": "Every Marketing content section after the hero ends with exactly one call to action: the button row the section ships. The Logos strip, Pricing (plan buttons), the Footer banner (it is the call to action), Navigation and Footer are exempt. The button row follows its heading: centred under the content when the heading is centred, left under the content or inside the left header when the heading is left aligned. Templates, Integrations, case-study (testimonials included) and FAQ sections end with a secondary link to their own page, labelled for it (Browse all templates, See all integrations, Read customer stories, Read the docs); every other content section ends with the hero's primary call to action as a primary button, with the hero's own label and link (the page-specific label W4 asks for, such as Create your quiz free; Sign up is only the example). A content section with no call to action, a lone left button under a centred or symmetric grid, a centred button under a left aligned section, a page-built button next to the shipped one, or a call to action that opens a new tab, the hero's primary call to action on a Templates, Integrations, case-study or FAQ section, a section primary whose label differs from the hero's, a link to another page (View more, Learn more) on any other content section, or a bare View more, Learn more or Click here on the four linking sections fails. N/A when the page has no content section."
+        },
+        {
+          "id": "W19",
+          "title": "Testimonial authors and quotes are left aligned on one baseline",
+          "test": "In Testimonials the quote and the author block (avatar, name, role) are left aligned together, even in a centred section: avatar, name and role form one row with the name and role stacked and left aligned, and in a row of quote cards the author rows sit on one baseline across cards (the shipped grid subgrid). A centred name or role under a left aligned quote, an avatar on its own line, or author rows at different heights across cards fails. N/A when the page has no Testimonials section."
         }
       ]
     }
