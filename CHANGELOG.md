@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.367.1 — 2026-10-22
+### Fixed
+- `<aha-button>` no longer uses a regex lookbehind to build its link-form style, which Safari and iOS below 16.4 cannot parse (the chunk holding the button failed to load there). The rewritten rule produces a byte-identical stylesheet. A test now fails when any browser-shipped `lib/*.js` file contains a lookbehind. (#366)
+Revert: restore `lib/aha-button.js` and remove `tests/browser-lib-syntax.test.mjs` from git.
+
 ## 0.367.0 — 2026-10-22
 ### Added
 - Website guideline W2 now carries two spacing rules. Page gutter: every Marketing section keeps the same side padding, 64px on desktop, 24px at 767px and below, 16px at 479px and below (a section reads it as `--aha-web-gutter` on its inner element). Content to button: a button directly under its own text sits 32px below it (24px at 479px and below), a closing call to action after a list or grid sits 48px below (32px at 479px and below), buttons next to each other 12px. A new test (`tests/web-gutter.test.mjs`) fails when a section's side padding differs from the gutter at 375 and 600px. (#360)
