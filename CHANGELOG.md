@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.338.0 — 2026-10-22
+### Added
+- Deck: one shared deck token module, `@ahaslides-product/design/deck`, with `applyDeckTokens(target, { ink })` and `deckTokens(ink)`, re-exported from both `lib/audience.js` and `lib/canvas.js`. The canvas and the audience phone now write the same `--aha-deck-*` ladder; `applyCanvasDeck` adds only its button, container and modal variables and `applyDeck` only its accent set. Both signatures are unchanged. Environment: audience, product (#PR)
+- Audience: `applyDeck` now also writes `--aha-deck-ink-secondary`, `--aha-deck-stroke`, `--aha-deck-stroke-chip`, `--aha-deck-stroke-hover`, `--aha-deck-line` and the fill and surface tokens the canvas already had (#PR)
+### Changed
+- Audience: secondary text (counts, captions, hints, sub-lines, eyebrows) moves from the ink at 65% to 76%, and panel and track hairlines from 10% to 12%, matching the canvas. Affects answer list, image upload, rank list, scale slider, submit button, submitted card, countdown, swipe card, waiting-for-host and identity strip; the 20% chip and control edge, the 60% hover edge and the surfaces are unchanged (#PR)
+- Docs: the Deck tokens page moves out of Canvas Library into Foundations, next to Tokens, and says the canvas and the audience share it. Its URL stays `deck-tokens/index.html` (#PR)
+### Deprecated
+- `--aha-deck-ink-muted`, `--aha-deck-edge` and `--aha-deck-edge-hover` are still written, as aliases of `--aha-deck-ink-secondary`, `--aha-deck-stroke` and `--aha-deck-stroke-hover`; move to the new names. `audienceSurface` and `audienceBorder` stay exported as aliases of `deckSurface` and `deckStroke` (#PR)
+
 ## 0.334.0 — 2026-10-22
 ### Added
 - Canvas: `<aha-canvas-count>` (`@ahaslides-product/design/aha-canvas-count`), the answer count drawn on a slide canvas, with its own contract and docs page. `correct` and `wrong` show the verdict form (green tick disc, count and person glyph, a divider, red cross disc, count); `answered` alone shows how many people answered, with no verdict. A 48px small deck container (radius 8, padding 12 left and 20 right, 1.5 times the review page's), filled from the deck tokens with no stroke, frosted on a photo deck; one accessible group named by `label` (default "12 correct, 3 incorrect"). Environment: product (#338)
