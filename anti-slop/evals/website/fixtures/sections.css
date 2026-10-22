@@ -1000,41 +1000,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-testimonials__link::after{content:"";position:absolute;inset:0}
 .aha-testimonials__link:focus-visible{outline:none}
 .aha-testimonials__card:has(.aha-testimonials__link:focus-visible){outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}
-.aha-testimonials__button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:var(--aha-space-8);
-  height:var(--aha-control-height-button-xl);
-  padding:0 var(--aha-space-28);
-  border:1px solid var(--aha-button-primary-bg);
-  border-radius:var(--aha-radius-lg);
-  font-family:inherit;
-  font-size:var(--aha-size-l);
-  font-weight:var(--aha-weight-semibold);
-  line-height:1;
-  white-space:nowrap;
-  text-decoration:none;
-  cursor:pointer;
-  background:var(--aha-button-primary-bg);
-  color:var(--aha-button-primary-text);
-  box-shadow:var(--aha-button-elevate-primary);
-  transition-property:background,border-color,box-shadow,color;
-  transition-duration:var(--aha-motion-mid);
-  transition-timing-function:var(--aha-ease-in-out);
-}
-.aha-testimonials__button:hover{background:var(--aha-button-primary-bg-hover);border-color:var(--aha-button-primary-bg-hover);box-shadow:var(--aha-button-elevate-primary-hover)}
-.aha-testimonials__button:active{background:var(--aha-button-primary-bg-press);border-color:var(--aha-button-primary-bg-press);box-shadow:var(--aha-button-elevate-primary)}
-.aha-testimonials__button:focus-visible{outline:none;box-shadow:0 0 0 var(--aha-space-2) var(--aha-bg-base),0 0 0 var(--aha-space-4) var(--aha-button-focus-ring)}
-.aha-testimonials__button--ghost{
-  background:var(--aha-button-default-bg);
-  color:var(--aha-button-default-text);
-  border-color:var(--aha-button-default-border);
-  box-shadow:var(--aha-button-elevate-secondary);
-}
-.aha-testimonials__button--ghost:hover,.aha-testimonials__button--ghost:active{background:var(--aha-button-default-bg);box-shadow:inset 0 0 0 100vmax var(--aha-button-default-bg-hover),var(--aha-button-elevate-secondary);border-color:var(--aha-button-default-border-hover);color:var(--aha-button-default-text-hover)}
-.aha-testimonials__button--ghost:active{border-color:var(--aha-button-default-border-press)}
-.aha-testimonials__button--ghost:focus-visible,.aha-testimonials__button--ghost:focus-visible:is(:hover,:active){box-shadow:inset 0 0 0 100vmax var(--aha-button-default-bg-hover),0 0 0 var(--aha-space-2) var(--aha-bg-base),0 0 0 var(--aha-space-4) var(--aha-button-focus-ring)}
 .aha-testimonials__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12);margin-top:var(--aha-space-48)}
 .aha-testimonials__cta--start{justify-content:flex-start}
 .aha-testimonials__actions{display:flex;flex-wrap:wrap;gap:var(--aha-space-12)}
@@ -1050,8 +1015,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
 .aha-testimonials__grid>.aha-testimonials__slide{display:grid;grid-row:span 2;grid-template-rows:subgrid;row-gap:0}
 .aha-testimonials__card--quote{display:grid;grid-row:1 / span 2;grid-template-rows:subgrid;row-gap:var(--aha-space-32);padding:var(--aha-space-32);border:1px solid var(--aha-border-default);background:var(--aha-white)}
 @media (prefers-reduced-motion:reduce){
-  .aha-testimonials__button{transition:none}
-  .aha-testimonials__card--linked{transition:none}
+    .aha-testimonials__card--linked{transition:none}
   .aha-testimonials__card--linked:hover{transform:none}
 }
 @container aha-testimonials (max-width:991px){
@@ -1098,41 +1062,6 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   line-height:var(--aha-line-height-heading);
   color:var(--aha-text-default);
 }
-.aha-faq__button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:var(--aha-space-8);
-  height:var(--aha-control-height-button-xl);
-  padding:0 var(--aha-space-28);
-  border:1px solid var(--aha-button-primary-bg);
-  border-radius:var(--aha-radius-lg);
-  font-family:inherit;
-  font-size:var(--aha-size-l);
-  font-weight:var(--aha-weight-semibold);
-  line-height:1;
-  white-space:nowrap;
-  text-decoration:none;
-  cursor:pointer;
-  background:var(--aha-button-primary-bg);
-  color:var(--aha-button-primary-text);
-  box-shadow:var(--aha-button-elevate-primary);
-  transition-property:background,border-color,box-shadow,color;
-  transition-duration:var(--aha-motion-mid);
-  transition-timing-function:var(--aha-ease-in-out);
-}
-.aha-faq__button:hover{background:var(--aha-button-primary-bg-hover);border-color:var(--aha-button-primary-bg-hover);box-shadow:var(--aha-button-elevate-primary-hover)}
-.aha-faq__button:active{background:var(--aha-button-primary-bg-press);border-color:var(--aha-button-primary-bg-press);box-shadow:var(--aha-button-elevate-primary)}
-.aha-faq__button:focus-visible{outline:none;box-shadow:0 0 0 var(--aha-space-2) var(--aha-bg-base),0 0 0 var(--aha-space-4) var(--aha-button-focus-ring)}
-.aha-faq__button--ghost{
-  background:var(--aha-button-default-bg);
-  color:var(--aha-button-default-text);
-  border-color:var(--aha-button-default-border);
-  box-shadow:var(--aha-button-elevate-secondary);
-}
-.aha-faq__button--ghost:hover,.aha-faq__button--ghost:active{background:var(--aha-button-default-bg);box-shadow:inset 0 0 0 100vmax var(--aha-button-default-bg-hover),var(--aha-button-elevate-secondary);border-color:var(--aha-button-default-border-hover);color:var(--aha-button-default-text-hover)}
-.aha-faq__button--ghost:active{border-color:var(--aha-button-default-border-press)}
-.aha-faq__button--ghost:focus-visible,.aha-faq__button--ghost:focus-visible:is(:hover,:active){box-shadow:inset 0 0 0 100vmax var(--aha-button-default-bg-hover),0 0 0 var(--aha-space-2) var(--aha-bg-base),0 0 0 var(--aha-space-4) var(--aha-button-focus-ring)}
 .aha-faq__cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12)}
 .aha-faq__item{border-bottom:1px solid var(--aha-border-default)}
 .aha-faq__question{font-size:inherit;font-weight:inherit}
@@ -1182,8 +1111,7 @@ a.aha-footer__heading:hover{color:var(--aha-color-primary)}
   color:var(--aha-text-default);
 }
 @media (prefers-reduced-motion:reduce){
-  .aha-faq__button{transition:none}
-  .aha-faq__answer,.aha-faq__line--vertical{transition:none}
+    .aha-faq__answer,.aha-faq__line--vertical{transition:none}
 }
 @container aha-faq (max-width:991px){
   .aha-faq__title{font-size:var(--aha-size-h3)}
