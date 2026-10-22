@@ -29,6 +29,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Websites → Website composition: rules and criteria W17 heading alignment, W18 section call to action and W19 testimonial author alignment, with failing evals and fixtures. (#341)
 
 ### Changed
+- Websites → Website composition: W18 now says when a call to action is Sign up and when it goes to another page. Sign up sits in the hero, once mid-page straight after the section that proves the main benefit, and in the Footer banner; every other section links to the page that holds the whole set or topic, with a label naming it. (#341)
 - Websites → Website composition: W9 motion now asks for the staggered reveal, light photo parallax and count-up numbers from the DS script (it banned parallax before); W4 allows a Sign up primary at most once mid-page. (#341)
 - Marketing → Testimonials: quote and author block left aligned in every layout, and quote cards share one author baseline through subgrid. (#341)
 - Marketing → FAQ: the title centres itself with `text-align:center`, so a Webflow or page reset cannot pull it left. Numbers `actions-row` puts its actions below the stats under a centred header; Features, Numbers and Pricing symmetric layouts ship the `--center` header. (#341)
