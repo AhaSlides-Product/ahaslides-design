@@ -219,7 +219,7 @@ seat** — the same bar applies to the small editor preview.
 - **Borders are ornament — never derive them directly from `textColour`, and never 2px.**
   A bounded white card: **1px `--aha-border-default`** (#E3E3E3). A chip: **1.5px** neutral. A
   deck-owned (transparent) surface: a 1px theme-aware hairline
-  `color-mix(in srgb, currentColor 10%, transparent)`. Dashed empty states: 1px (C20). Fix a marginal
+  `--aha-deck-stroke` (the deck ink at 12%). Dashed empty states: 1px (C20). Fix a marginal
   contrast check on a solid fill, not with a darker border. Pick the palette shade
   (saturated on light themes, the lighter sibling on dark themes) that actually clears the
   floor on the current background.

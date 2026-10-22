@@ -2,10 +2,11 @@
   "name": "Waiting for host",
   "slug": "waiting-for-host",
   "group": "Audience",
+  "environment": ["audience"],
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-waiting-for-host",
-  "summary": "The centred \"waiting for the presenter\" screen for the lobby and passive phases: a gently breathing hourglass, a headline and a muted sub-line, all in the deck ink.",
+  "summary": "The centred \"waiting for the presenter\" screen for the lobby and passive phases: a gently breathing hourglass, a headline and a secondary sub-line, all in the deck ink.",
   "highlights": [
     "Lobby / passive-phase screen",
     "Deck ink, unboxed, calm",
@@ -21,7 +22,7 @@
   "spec": [
     {
       "label": "Glyph",
-      "value": "32px DS icon in the muted ink, opacity breathing on a long cycle; still under reduced motion"
+      "value": "32px DS icon in the secondary ink, opacity breathing on a long cycle; still under reduced motion"
     },
     {
       "label": "Headline",
@@ -29,7 +30,7 @@
     },
     {
       "label": "Sub-line",
-      "value": "14px on a 21px line, the muted ink (ink at 65%); 8px between glyph, headline and sub-line"
+      "value": "14px on a 21px line, the secondary ink (--aha-deck-ink-secondary, ink at 76%); 8px between glyph, headline and sub-line"
     }
   ],
   "props": [

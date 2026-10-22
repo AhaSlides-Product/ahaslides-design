@@ -43,7 +43,7 @@
     },
     {
       "label": "Move",
-      "value": "24px up / down buttons with 16px carets (system-caret-up / -down) in the deck ink, disabled at the ends, 4px from a 24 × 32 system-drag grip in the muted ink for the pointer"
+      "value": "24px up / down buttons with 16px carets (system-caret-up / -down) in the deck ink, disabled at the ends, 4px from a 24 × 32 system-drag grip in the secondary ink for the pointer"
     },
     {
       "label": "Drag",

@@ -273,7 +273,7 @@ let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — dri
 let MARKETING = [];         // loaded marketing sections — drives the Websites tab + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
-let CANVAS_DECK_TOKENS = null;   // canvas/deck-tokens.json — the Deck tokens page in the Canvas Library dropdown; null = page absent
+let CANVAS_DECK_TOKENS = null;   // canvas/deck-tokens.json — the Deck tokens page, listed under Foundations › Design tokens; null = page absent
 let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
@@ -281,7 +281,7 @@ let NAV_LANDING = {};   // top-nav → each area's landing page (set once contra
 /* AntD-style IA: top-level AREAS live in the header nav; each area gets its OWN scoped left
    sidebar (Components shows only components, Foundations only tokens/icons, etc.). One area
    per screen keeps every sidebar short and relevant. */
-const NAV_GROUPS = [{ key: 'canvas-library', label: 'Canvas Library', members: ['charts', 'canvas', 'deck-tokens'] }];
+const NAV_GROUPS = [{ key: 'canvas-library', label: 'Canvas Library', members: ['charts', 'canvas'] }];
 const SECTIONS = [
   { key: 'overview',    label: 'Overview' },
   { key: 'foundations', label: 'Foundations' },
@@ -292,7 +292,6 @@ const SECTIONS = [
   { key: 'audience',    label: 'Audience Library' },
   { key: 'canvas',      label: 'Components' },
   { key: 'charts',      label: 'Chart' },
-  { key: 'deck-tokens', label: 'Deck tokens' },
   { key: 'guidelines',  label: 'Guidelines' },
   { key: 'developers',  label: 'For developers' },
   { key: 'feeds',       label: 'Agent feeds' },
@@ -985,7 +984,7 @@ const RAW_FEEDS = [
 ];
 // Header top-nav — the AntD-style area switcher. Each area lands on its own screen.
 function topNav(base, section) {
-  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB) && !(s.key === 'deck-tokens' && !CANVAS_DECK_TOKENS) && !(s.key === 'marketing' && !MARKETING.length);
+  const visible = s => !(s.key === 'guidelines' && !GUIDELINES.length) && !(s.key === 'audience' && !AUDIENCE) && !(s.key === 'canvas' && !CANVAS_LIB) && !(s.key === 'marketing' && !MARKETING.length);
   const link = s => `<a class="${section===s.key?'active':''}" href="${base + (NAV_LANDING[s.key] || 'index.html')}">${esc(s.label)}</a>`;
   const out = [];
   const grouped = new Set();
@@ -1009,7 +1008,8 @@ function sidebarNav(base, active, section) {
   let inner = '';
   if (section === 'foundations') {
     const tokenItems = TOKEN_PAGES.map(p =>
-      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('');
+      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
+      (CANVAS_DECK_TOKENS ? `<a class="nav-item${active==='token:deck-tokens'?' active':''}" href="${base}deck-tokens/index.html"><span>Deck tokens</span><span class="nav-dot" title="live"></span></a>` : '');
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
@@ -1525,11 +1525,11 @@ function surfaceCdnBox(surface) {
   const entry = SURFACE_ENTRIES[surface];
   if (!entry) return '';
   const tags = entry.files.map(f => '&lt;' + (f === 'icons.js' ? 'aha-icon' : f.replace(/\.js$/, '')) + '&gt;').join(' ');
-  return `<div class="note surface-cdn" style="margin:0 0 18px"><b>${surface === 'canvas' ? 'No build step? One tag for the whole Canvas Library (chart, canvas components and deck tokens)' : `No build step? One tag for the whole ${esc(surface)} surface`}</b>
+  return `<div class="note surface-cdn" style="margin:0 0 18px"><b>${surface === 'canvas' ? 'No build step? One tag for the whole Canvas Library (chart and canvas components)' : `No build step? One tag for the whole ${esc(surface)} surface`}</b>
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
-    ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
-    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart, Components and Deck tokens pages share this one tag. It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code> and the shared deck ladder: <code>import { applyDeck, applyDeckTokens } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code> and the shared deck ladder: <code>import { applyCanvasDeck, applyDeckTokens } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -1684,6 +1684,30 @@ function renderCanvasLibrary(lib = CANVAS_LIB, section = 'canvas', crumb = 'Canv
   </script>
   ${hubAnchorScript(anchorItems)}`;
   return docShell({ base: '../', active: section, title: lib.title, section, main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+}
+
+/* Inked by applyCanvasDeck, not applyDeckTokens: the containers and modals on this page are canvas extras. */
+function renderDeckTokensPage(lib) {
+  const main = `<div class="canvas-lib">
+    <header class="cl-head">
+      <h1>${esc(lib.title)}</h1>
+      <p class="rule">${audMd(lib.rule)}</p>
+      <p class="why">${audMd(lib.why)}</p>
+      ${lib.shared ? `<div class="note" style="margin:0 0 18px">${audMd(lib.shared)}</div>` : ''}
+    </header>
+    <div class="cl-cards">${lib.sections.map(renderCanvasCard).join('\n')}</div>
+  </div>
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyCanvasDeck } from '../lib/canvas-deck.js';
+    const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
+    for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background), image: 'image' in deck.dataset });
+    }
+  </script>`;
+  return docShell({ base: '../', active: 'token:deck-tokens', title: lib.title, section: 'foundations', main, extraCss: CANVAS_CSS });
 }
 
 const MARKETING_WIDTHS = [
@@ -3176,7 +3200,6 @@ NAV_LANDING = {
   audience: (AUDIENCE ? 'audience/index.html' : 'index.html'),
   canvas: (CANVAS_LIB ? 'canvas/index.html' : 'index.html'),
   charts: 'charts/index.html',
-  'deck-tokens': (CANVAS_DECK_TOKENS ? 'deck-tokens/index.html' : 'index.html'),
   developers: 'get-started/index.html',
   feeds: 'feeds/llms-txt.html',
 };
@@ -3269,7 +3292,8 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
     `//   <link rel="stylesheet" href=".../lib/tokens.css">   or   import '${PKGNAME}/tokens.css'\n` +
     entry.files.map(f => `import './${f}';`).join('\n') + '\n' +
     (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : '') +
-    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : ''));
+    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : '') +
+    (surface === 'audience' || surface === 'canvas' ? `export { applyDeckTokens, deckTokens } from './deck.js';\n` : ''));
   console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
 }
 
@@ -3341,7 +3365,7 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
-  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, and applyCanvasDeck), same CDN path and tag:`,
+  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck and the shared applyDeckTokens), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, applyCanvasDeck and applyDeckTokens), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
@@ -3365,7 +3389,7 @@ const indexLines = [
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; greyscale files at ${SITE}/logo/<file>.svg, original-colour files at ${SITE}/logo/original/<file>.svg, a copy-paste hover and focus pattern, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, correct/incorrect count, status line, stepper, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
-  `>   ${SITE}/deck-tokens/index.html  Canvas Library › Deck tokens — the --aha-deck-* ink ladder, container and modal tokens applyCanvasDeck writes; one tag lib/canvas.js loads the whole Canvas Library`,
+  `>   ${SITE}/deck-tokens/index.html  Foundations › Deck tokens — the one --aha-deck-* ladder the canvas and the audience phone share (@ahaslides-product/design/deck, written by applyDeck and applyCanvasDeck), plus the canvas container and modal tokens`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
@@ -3459,7 +3483,7 @@ if (CANVAS_LIB) {
 }
 if (CANVAS_DECK_TOKENS) {
   mkdirSync(join(OUT, 'deck-tokens'), { recursive: true });
-  writeFileSync(join(OUT, 'deck-tokens', 'index.html'), renderCanvasLibrary(CANVAS_DECK_TOKENS, 'deck-tokens', 'Deck tokens'));
+  writeFileSync(join(OUT, 'deck-tokens', 'index.html'), renderDeckTokensPage(CANVAS_DECK_TOKENS));
   console.log(`  ✓ deck tokens: deck-tokens/index.html (${CANVAS_DECK_TOKENS.sections.length} sections)`);
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
