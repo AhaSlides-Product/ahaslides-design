@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.356.0 — 2026-10-22
+### Changed
+- Websites → Features: in the split layouts (`icon-list-photo`, `tabs-screenshots`) the section button sits in the text column under the text, left aligned with it (`aha-features__column` and `aha-features__cta--start`), even under a centred heading, instead of centred under the whole row. Rule W18 says so.
+- Websites → Testimonials: at most three testimonial or case cards per section, and quotes of similar length (the longest within about 1.5 times the shortest, none over 160 characters); the Quote cards sample's long middle quote is trimmed. Rule W19 and the Testimonials page carry both.
+- Websites → new tab: the section link-out buttons (Read customer stories, Read the docs, and Browse all templates, See all integrations) open in a new tab with `rel="noopener"` and visually-hidden "(opens in a new tab)" text, Sign up and the hero's primary call to action stay in the same tab (W15, W18). In the Footer every link that leaves AhaSlides (the three G2 badges that had no `target`, the Training Magazine Network and DMCA badges, System status, the social channels) opens in a new tab with `rel="noopener"` and a new-tab cue in its label. Revert: revert this PR; no API change. (#PRNUM)
+
 ## 0.354.1 — 2026-10-22
 ### Fixed
 - Anti-slop criteria: 22 judge rules in `anti-slop/criteria.json` stopped mid-sentence with "…" (canvas C2 stopped at its lead-in), so a judge saw only part of each rule. They now carry the whole rule from the aha-design judge they were seeded from: canvas C2, C7, C16; audience C4, C15, C24, C26 to C29; settings C5, C9, C10, C12, C14, C15; feedback C1, C2, C4, C5; overlays C1; paywall C2. Another 27 rules had been cut to their first two sentences without a "…" (canvas C12 kept only its scope, audience C13 ended at "Two facets: 1."); they now carry their whole rule too: canvas C8, C11, C12, C14; audience C2, C3, C7, C8, C11, C12, C13, C16, C17, C21, C23, C25; settings C2, C3, C7, C8; feedback C3; overlays C2, C4, C6; paywall C4, C6, C7. Wording the store had already changed stays. `standards.mjs` now fails a criterion whose test ends in "…", in a ":" or in a list number with nothing after it (#355)
