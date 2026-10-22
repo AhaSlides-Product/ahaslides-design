@@ -1,0 +1,48 @@
+{
+  "$comment": "Source of truth for the Social proofs award row. The list is the .aha-footer__awards row of the live footer on sourceUrl, in order; the image files are committed copies in marketing/images/social-proofs/ (see manifest.json there). Refresh each year by re-reading the row from sourceUrl, replacing the files and editing items.",
+  "sourceUrl": "https://ahaslides.com/slide-types/word-cloud/",
+  "fetched": "2026-10-22",
+  "collection": "Footer award badges (G2 Best Software 2026, Training Magazine Network Choice Awards 2026)",
+  "items": [
+    {
+      "name": "G2 Top 50 Enterprise products 2026",
+      "href": "https://www.g2.com/products/ahaslides/reviews",
+      "title": "See what users say about AhaSlides on G2",
+      "label": "Read reviews about AhaSlides: Top 50 Enterprise products award 2026 on G2",
+      "src": "{{images}}/G2BestSoftware2026-Badge-CoreSegment-Enterprise.webp",
+      "alt": "Best Enterprise product 2026: AhaSlides",
+      "modifier": "",
+      "newTab": ""
+    },
+    {
+      "name": "G2 Top 100 best software products 2026",
+      "href": "https://www.g2.com/products/ahaslides/reviews",
+      "title": "See what users say about AhaSlides on G2",
+      "label": "Read reviews about AhaSlides: Top 100 best software products award 2026 on G2",
+      "src": "{{images}}/G2BestSoftware2026-Badge-CoreSegment-BestSoftwareProducts.webp",
+      "alt": "Best software products 2026: AhaSlides",
+      "modifier": "",
+      "newTab": ""
+    },
+    {
+      "name": "G2 Top 50 Education products 2026",
+      "href": "https://www.g2.com/products/ahaslides/reviews",
+      "title": "See what users say about AhaSlides on G2",
+      "label": "Read reviews about AhaSlides: Top 50 education products award 2026 on G2",
+      "src": "{{images}}/G2BestSoftware2026-Badge-Persona-EducationProducts.webp",
+      "alt": "Top Education product 2026: AhaSlides",
+      "modifier": "",
+      "newTab": ""
+    },
+    {
+      "name": "Training Magazine Network Choice Awards 2026",
+      "href": "https://trainingmagnetwork.com/choice_awards/2026/categories/50/winners",
+      "title": "AhaSlides: 2026 Training Magazine Network Choice Award winner",
+      "label": "AhaSlides: Gamification and Game-Based Learning winner, Training Magazine Network Choice Awards 2026",
+      "src": "{{images}}/tmn-choice-awards-2026-gamification.webp",
+      "alt": "Training Magazine Network Choice Awards 2026 winner: AhaSlides",
+      "modifier": " aha-social-proofs__badge--wide",
+      "newTab": " target=\"_blank\" rel=\"noopener\""
+    }
+  ]
+}

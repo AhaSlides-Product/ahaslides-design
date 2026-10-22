@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.340.0 — 2026-10-22
+### Added
+- Website Social proofs page with the G2 review badges block: the award row from the live footer (three G2 Best Software 2026 badges and the Training Magazine Network Choice Awards 2026 badge, 80px wide, 12px gap, same links, labels and alt text as live). The badges render from `marketing/data/social-proofs-badges.json` and unaltered committed images in `marketing/images/social-proofs/`, so the yearly refresh is a data edit. `marketing/footer.json` is unchanged. Revert: delete `marketing/social-proofs.json`, `marketing/data/social-proofs-badges.json` and `marketing/images/social-proofs/`. Environment: marketing-web (#PRNUM)
+
 ## 0.335.1 — 2026-10-22
 ### Fixed
 - Chart: with `palette="deck"`, Pick Answer paints the correct mark (`correct-style=fill` bar or column, and the ✓ badge) with the deck ink instead of `--aha-color-success`, so it no longer disappears on a dark deck or turns unreadable on a blue one. Brand mode is unchanged. Revert: delete `--_correct:var(--_ink);` from the `.root.is-deck` rule in `lib/aha-chart.js`. Environment: product, audience (#342)

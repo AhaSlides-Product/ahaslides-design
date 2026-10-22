@@ -1,0 +1,45 @@
+{
+  "$comment": "Source of truth for marketing/images/social-proofs/. Third-party award badges, committed unaltered exactly as published at sourceUrl: never recolour, crop or resize. Refresh by re-fetching sourceUrl.",
+  "images": [
+    {
+      "file": "G2BestSoftware2026-Badge-CoreSegment-Enterprise.webp",
+      "kind": "award badge",
+      "description": "G2 Best Software 2026, Top 50 Enterprise products badge",
+      "sourceUrl": "https://ahaslides.com/wp-content/uploads/2026/02/G2BestSoftware2026-Badge-CoreSegment-Enterprise.webp",
+      "sourcePage": "https://ahaslides.com/slide-types/word-cloud/",
+      "licence": "Third-party award badges owned by G2 and Training Magazine Network, shown with their permission as published on ahaslides.com",
+      "fetched": "2026-10-22",
+      "note": "Unaltered third-party award badge"
+    },
+    {
+      "file": "G2BestSoftware2026-Badge-CoreSegment-BestSoftwareProducts.webp",
+      "kind": "award badge",
+      "description": "G2 Best Software 2026, Top 100 best software products badge",
+      "sourceUrl": "https://ahaslides.com/wp-content/uploads/2026/02/G2BestSoftware2026-Badge-CoreSegment-BestSoftwareProducts.webp",
+      "sourcePage": "https://ahaslides.com/slide-types/word-cloud/",
+      "licence": "Third-party award badges owned by G2 and Training Magazine Network, shown with their permission as published on ahaslides.com",
+      "fetched": "2026-10-22",
+      "note": "Unaltered third-party award badge"
+    },
+    {
+      "file": "G2BestSoftware2026-Badge-Persona-EducationProducts.webp",
+      "kind": "award badge",
+      "description": "G2 Best Software 2026, Top 50 Education products badge",
+      "sourceUrl": "https://ahaslides.com/wp-content/uploads/2026/02/G2BestSoftware2026-Badge-Persona-EducationProducts.webp",
+      "sourcePage": "https://ahaslides.com/slide-types/word-cloud/",
+      "licence": "Third-party award badges owned by G2 and Training Magazine Network, shown with their permission as published on ahaslides.com",
+      "fetched": "2026-10-22",
+      "note": "Unaltered third-party award badge"
+    },
+    {
+      "file": "tmn-choice-awards-2026-gamification.webp",
+      "kind": "award badge",
+      "description": "Training Magazine Network Choice Awards 2026, Gamification and Game-Based Learning winner badge",
+      "sourceUrl": "https://ahaslides.com/webflow-assets/68427231f35040cef4456f89/6ac3387095a42c03fbf0175b_tmn-choice-awards-2026-gamification.webp",
+      "sourcePage": "https://ahaslides.com/slide-types/word-cloud/",
+      "licence": "Third-party award badges owned by G2 and Training Magazine Network, shown with their permission as published on ahaslides.com",
+      "fetched": "2026-10-22",
+      "note": "Unaltered third-party award badge"
+    }
+  ]
+}

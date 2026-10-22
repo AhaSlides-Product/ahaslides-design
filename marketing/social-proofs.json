@@ -1,0 +1,20 @@
+{
+  "slug": "social-proofs",
+  "name": "Social proofs",
+  "environment": [
+    "web"
+  ],
+  "summary": "The AhaSlides marketing site social proof award row (seen in the footer of the word cloud slide type page), matched to the live ahaslides.com: the G2 Best Software 2026 review badges (Top 50 Enterprise, Top 100 Best Software, Top 50 Education) and the Training Magazine Network Choice Awards 2026 badge. The badges are not typed into the markup; they come from marketing/data/social-proofs-badges.json and the unaltered award images committed in marketing/images/social-proofs/, so the yearly badge refresh is a data edit. Framework-free and bound to the shared --aha-* tokens.",
+  "highlights": [
+    "G2 review badges: four award badges in a row, 80px wide with a 12px gap, matched to the live footer award row on ahaslides.com",
+    "Each badge links to the AhaSlides reviews on G2 (the Training Magazine Network badge opens its winners page in a new tab), with the live title, aria-label and alt text",
+    "Badge list rendered from marketing/data/social-proofs-badges.json (name, link, label, image, alt), not hand-typed; refresh each year by replacing the files and the data",
+    "Badge images are unaltered third-party award marks: never recolour, crop or restyle them",
+    "Keyboard focus shows the DS focus outline; below 767px the badges keep a fixed aspect ratio so the row never distorts"
+  ],
+  "imagePath": "images/social-proofs",
+  "dataFile": "data/social-proofs-badges.json",
+  "itemHtml": "<a class=\"aha-social-proofs__badge{{modifier}}\" href=\"{{href}}\" title=\"{{title}}\" aria-label=\"{{label}}\"{{newTab}}><img src=\"{{src}}\" alt=\"{{alt}}\" loading=\"lazy\"></a>",
+  "html": "<section class=\"aha-social-proofs\" aria-label=\"Awards and reviews\">\n  <div class=\"aha-social-proofs__badges\">{{items}}</div>\n</section>",
+  "css": ".aha-social-proofs{\n  container:aha-social-proofs / inline-size;\n  background:var(--aha-white);\n  font-family:var(--aha-font-product);\n}\n.aha-social-proofs *{box-sizing:border-box}\n.aha-social-proofs__badges{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--aha-space-12);padding:var(--aha-space-32) var(--aha-space-16)}\n.aha-social-proofs__badge{display:block;width:100%;max-width:80px;border-radius:var(--aha-radius-xs)}\n.aha-social-proofs__badge img{display:block;width:100%;height:auto}\n.aha-social-proofs__badge--wide img{width:110%;max-width:none}\n.aha-social-proofs__badge:focus-visible{outline:var(--aha-space-2) solid var(--aha-focus);outline-offset:var(--aha-space-2)}\n@container aha-social-proofs (max-width:767px){\n  .aha-social-proofs__badge{aspect-ratio:80 / 81}\n  .aha-social-proofs__badge img{height:100%;object-fit:contain}\n  .aha-social-proofs__badge--wide img{width:110%;height:100%}\n}\n"
+}
