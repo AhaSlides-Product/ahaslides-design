@@ -26,6 +26,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Website Social proofs page with two blocks. Badges: the award row from the live footer (three G2 Best Software 2026 badges and the Training Magazine Network Choice Awards 2026 badge, 80px wide, 12px gap, same links, labels and alt text). G2: the rating row from the live classroom education hero (three overlapping round G2, Capterra and GetApp logos, the DS Rate stars filled to the rating, the rating and the review count). Both render from `marketing/data/social-proofs-badges.json` and `marketing/data/social-proofs-g2.json` with unaltered committed images in `marketing/images/social-proofs/`, so a yearly refresh is a data edit. `generate.mjs` gains an opt-in per-layout `dataFile` (`expandMarketingLayoutData`), unused by every other page. `marketing/footer.json` is unchanged. Revert: delete `marketing/social-proofs.json`, the two data files and `marketing/images/social-proofs/`, and remove `expandMarketingLayoutData` from `generate.mjs`. Environment: marketing-web (#345)
 
+## 0.339.0 — 2026-10-22
+### Changed
+- Website rule W4: the Sign up / primary call to action label is written for the page's context (a verb plus what the visitor gets), with Get started free only as the fallback; the Footer banner repeats the hero's label. Header and Footer banner docs say the sample label is per page. New website eval case for a generic label; the pass fixtures use page-specific labels. (#344)
+
 ## 0.335.1 — 2026-10-22
 ### Fixed
 - Chart: with `palette="deck"`, Pick Answer paints the correct mark (`correct-style=fill` bar or column, and the ✓ badge) with the deck ink instead of `--aha-color-success`, so it no longer disappears on a dark deck or turns unreadable on a blue one. Brand mode is unchanged. Revert: delete `--_correct:var(--_ink);` from the `.root.is-deck` rule in `lib/aha-chart.js`. Environment: product, audience (#342)
