@@ -41,7 +41,7 @@
       "label": "AhaSlides: Gamification and Game-Based Learning winner, Training Magazine Network Choice Awards 2026",
       "src": "{{images}}/tmn-choice-awards-2026-gamification.webp",
       "alt": "Training Magazine Network Choice Awards 2026 winner: AhaSlides",
-      "modifier": " aha-social-proofs__badge--wide",
+      "modifier": " aha-social-proofs-badges__item--wide",
       "newTab": " target=\"_blank\" rel=\"noopener\""
     }
   ]

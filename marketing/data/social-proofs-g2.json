@@ -1,0 +1,26 @@
+{
+  "$comment": "Source of truth for the G2 block's rating row: the .rating-wrapper in the hero on sourceUrl (three overlapping review platform logos, then the rating and the review count). Refresh by re-reading it and editing rating, reviewCount and items; the logo files are committed copies in marketing/images/social-proofs/ (see manifest.json there).",
+  "sourceUrl": "https://ahaslides.com/solutions/classroom-education/",
+  "fetched": "2026-10-22",
+  "rating": "4.8",
+  "reviewCount": "1000",
+  "text": "Based on 1000 reviews",
+  "accessibleLabel": "Rated 4.8 out of 5 on G2, Capterra and GetApp, based on 1000 reviews",
+  "items": [
+    {
+      "name": "G2",
+      "src": "{{images}}/g2-logo.png",
+      "alt": "G2"
+    },
+    {
+      "name": "Capterra",
+      "src": "{{images}}/capterra-logo.webp",
+      "alt": "Capterra"
+    },
+    {
+      "name": "GetApp",
+      "src": "{{images}}/getapp-logo.png",
+      "alt": "GetApp"
+    }
+  ]
+}
