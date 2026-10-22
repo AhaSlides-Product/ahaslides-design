@@ -6,7 +6,7 @@
   "badge": "shared web component",
   "element": "aha-submitted-card",
   "environment": ["audience"],
-  "summary": "The calm \"submitted, waiting for the reveal\" card: the frosted deck surface with the ink hairline, a round pip (or the picked option's image), a heading and a muted subtitle.",
+  "summary": "The calm \"submitted, waiting for the reveal\" card: the frosted deck surface with the ink hairline, a round pip (or the picked option's image), a heading and a secondary subtitle.",
   "highlights": [
     "Post-submit waiting state",
     "Frosted card that reads on any deck",
@@ -30,11 +30,11 @@
     },
     {
       "label": "Pip",
-      "value": "a 32px glyph in the muted ink, 65% (system-check-circle by default), no background; or a 96px image, radius 8"
+      "value": "a 32px glyph in the secondary ink, 76% (system-check-circle by default), no background; or a 96px image, radius 8"
     },
     {
       "label": "Text",
-      "value": "16px semibold heading; 14px subtitle on a 21px line in the muted ink; 8px between them"
+      "value": "16px semibold heading; 14px subtitle on a 21px line in the secondary ink; 8px between them"
     }
   ],
   "props": [

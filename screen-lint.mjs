@@ -14,6 +14,7 @@
  *   node screen-lint.mjs --surface=canvas   <file ...>      # a slide type's presenter stage
  *   node screen-lint.mjs --surface=audience <file ...>      # a slide type's audience phone
  *   node screen-lint.mjs --surface=settings <file ...>      # a slide type's settings panel (lib/settings.js only)
+ *   node screen-lint.mjs --surface=website  <file ...>      # a whole website page of Marketing sections
  *   node screen-lint.mjs --self-test                       # dogfood: run over this repo's snippets
  *
  * --surface is REQUIRED and mirrors the judge's J0: you cannot grade a screen without first routing
@@ -25,6 +26,24 @@
  * no <aha-*> tag lib/settings.js does not register (the list comes from lib/settings-elements.js),
  * no size="small"/"sm"/"large"/"lg" on a settings field (input, counted input/textarea, number with unit, select), and
  * no maxlength on <aha-input> (a capped field is <aha-counted-input>, counter inside the field).
+ * Every surface hard-fails hand-rolled-button (lib/screen-lint-button.js): CSS that draws its own button
+ * (a button / btn / cta class, <button>, [role=button] or link given a fill and a button shape, or
+ * state fills) and any restyle of <aha-button> (colour, fill, border, shadow, size, state rules,
+ * ::part, a --aha-button-* token). Only layout may be set on <aha-button>.
+ *
+ * UX writing: on every surface, three hard rules read the user-visible UI strings only (HTML text nodes,
+ * the title, aria-label, aria-description, placeholder, alt, label and heading attributes, and string literals
+ * under UI-text keys in scripts; never comments, CSS, URLs, identifiers, <code>, <pre> or <kbd>):
+ * no-dash-punctuation (UXW-8: no em or en dash), vague-error-copy (UXW-2: no "Something went wrong",
+ * "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and
+ * title-case-slide-name (UXW-1: "Multiple choice", not "Multiple Choice"; same for Word cloud, Open-ended,
+ * Spinner wheel, Rating scale). Allow them as a group with ds-lint-allow: copy (why).
+ *
+ * Website is product UI (the product raw-hex, font-weight and responsive checks run, without the product-only
+ * region heuristics) with three differences: the min-width breakpoints the shipped Marketing sections use
+ * (lib/marketing-breakpoints.js, generated from marketing/*.json) are accepted inside @container/@media
+ * conditions while any other min-width stays a min-width-trap; a second <h1> hard-fails (multiple-h1); and an
+ * <img> without alt hard-fails (img-no-alt).
  *
  * Escape hatch (auditable, greppable, per-line): name the rule(s) AND give a reason —
  *   ...  <!-- ds-lint-allow: hex,radius (why) -->     or     /* ds-lint-allow: hex (why) *​/
@@ -127,6 +146,23 @@ async function slideRuleSelfTest() {
   return broken;
 }
 
+async function copyRuleSelfTest() {
+  const { COPY_RULE_FIXTURES } = await import('./tests/fixtures/copy-lint.mjs');
+  let broken = 0;
+  console.log('=== SCREEN-LINT · UX writing rule fixtures ===\n');
+  for (const { rule, fail, pass } of COPY_RULE_FIXTURES) {
+    const hitsOf = (source) => lintHtml(source, { surface: 'product' }).findings.filter(f => f.rule === rule);
+    const missed = fail.filter(source => !hitsOf(source).some(f => f.severity === 'hard'));
+    const falsePositives = pass.filter(source => hitsOf(source).length);
+    broken += missed.length + falsePositives.length;
+    console.log(`${missed.length + falsePositives.length ? '✗' : '✓'} ${rule} (hard): ${fail.length} failing, ${pass.length} passing snippet(s)`);
+    for (const source of missed) console.log(`      ✗ not reported as hard: ${source}`);
+    for (const source of falsePositives) console.log(`      ✗ reported on a passing snippet: ${source}`);
+  }
+  console.log(`\n${broken} broken fixture(s)\n`);
+  return broken;
+}
+
 /* ---- self-test: dogfood the material/a11y rules over the repo's own snippets + previews ---- */
 if (selfTest) {
   const partsDir = join(root, 'parts');
@@ -144,12 +180,12 @@ if (selfTest) {
     .filter(f => { const slug = f.replace('.html.txt', ''); return !composite.has(slug) && !canvasSlugs.has(slug); });
   console.log(`Self-test: linting ${leaf.length} leaf paste-and-run snippet(s) as product-UI (composite theme pages + preview harnesses excluded).`);
   const hard = run(leaf.map(f => join(partsDir, f)), 'product');
-  process.exit(hard + await slideRuleSelfTest() > 0 ? 1 : 0);
+  process.exit(hard + await slideRuleSelfTest() + await copyRuleSelfTest() > 0 ? 1 : 0);
 }
 
 /* ---- normal CLI ---- */
-if (!surface || !['product', 'canvas', 'audience', 'settings'].includes(surface)) {
-  console.error('screen-lint: --surface=product|canvas|audience|settings is REQUIRED (route the world first, like the judge J0).');
+if (!surface || !['product', 'canvas', 'audience', 'settings', 'website'].includes(surface)) {
+  console.error('screen-lint: --surface=product|canvas|audience|settings|website is REQUIRED (route the world first, like the judge J0).');
   process.exit(2);
 }
 if (!files.length) {

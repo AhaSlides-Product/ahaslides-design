@@ -1,0 +1,10 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-canvas-status';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// WaitingStatus.vue
+<template>
+  <aha-canvas-status
+    :text="t('status.waiting_for_answers')"
+  />
+</template>
