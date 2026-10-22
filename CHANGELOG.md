@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.336.0 — 2026-10-22
+### Removed
+- Marketing → Sections: the standalone `Features` and `Numbers` pages are removed (`marketing/features.json`, `marketing/numbers.json`, their nav entries and generated pages). The old `marketing/features/` and `marketing/numbers/` URLs now forward to the `Header` page (new `MARKETING_REDIRECTS` in `generate.mjs`). Website guideline rules W1 to W5 and their anti-slop criteria no longer name the two sections, with no rule value changed; the Testimonials section states its own frame values (1280 wide, padding 96/64, 48/24, 32/16) instead of pointing at Features. No tokens, colours or components change. Revert: restore `marketing/features.json` and `marketing/numbers.json` from git history, the Features/Numbers wording in `marketing/testimonials.json`, `guidelines/website.json`, `anti-slop/criteria.json` and `agent/anti-slop/criteria.json`, and delete `MARKETING_REDIRECTS` in `generate.mjs`. (#315)
+
 ## 0.334.0 — 2026-10-22
 ### Added
 - Canvas: `<aha-canvas-count>` (`@ahaslides-product/design/aha-canvas-count`), the answer count drawn on a slide canvas, with its own contract and docs page. `correct` and `wrong` show the verdict form (green tick disc, count and person glyph, a divider, red cross disc, count); `answered` alone shows how many people answered, with no verdict. A 48px small deck container (radius 8, padding 12 left and 20 right, 1.5 times the review page's), filled from the deck tokens with no stroke, frosted on a photo deck; one accessible group named by `label` (default "12 correct, 3 incorrect"). Environment: product (#338)
@@ -178,6 +182,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.289.0 — 2026-10-21
 ### Changed
 - Icon library: `system-reveal-pinwheel` and `system-reveal-vortex` are redrawn as Bloom wedge (Variant 2), picked from a proposal because the previous pair looked identical to each other at 16–24px and read denser than Bloom, Radar sweep and Crystallise in the same row. Pinwheel is a solid hub with four arrows pointing outward and a clockwise arc above; Vortex is an open 270° clockwise ring with three arrows pointing inward to a centre dot. Names, wrapper attributes and colour are unchanged. The redraw no longer reads as near-identical (about 31% overlap, under the 86% near-duplicate threshold), so `icon-duplicates.intentional.json`'s Pinwheel/Vortex exemption is removed — the pair stands on its own in the near-duplicate gate like every other icon. (#314)
+
+## 0.287.0 — 2026-10-19
+### Removed
+- Marketing → Sections: the standalone `Hero` page is removed (`marketing/hero.json`, its nav entry and generated page). The hero layouts on the `Header` page are unchanged. The old `landing/` and `landing/hero` stubs now forward to the `Header` page. No tokens, colours or components change. Revert: restore `marketing/hero.json` and point the `''` and `hero` entries of `LANDING_REDIRECTS` in `generate.mjs` back at `marketing/hero/index.html`. (#298)
 
 ## 0.286.0 — 2026-10-20
 ### Changed
