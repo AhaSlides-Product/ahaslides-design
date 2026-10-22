@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.344.0 — 2026-10-22
+### Added
+- Marketing → Cards: an Integration card for a tool that is not available yet (greyscale logo, name beside it, `<aha-tag color="primary" bordered>` Coming soon). (#NNN)
+### Changed
+- Marketing → Navigation: the Solutions → Integrations logos are one colour at rest and show their own colours (`logo/original/`) on hover and keyboard focus, with a fade and none under reduced motion (colour rule 2.6). (#NNN)
+- Marketing → Cards: the Integration card is a listing item, so its logo keeps its own colours in a 32px white tile with a grey border and the name beside it. (#NNN)
+- Marketing → Footer: the LinkedIn, YouTube, Facebook, Instagram and Reddit links use the Logo library files, one colour at rest and their own colours on hover and keyboard focus. (#NNN)
+- Website composition fixtures and docs prose follow the same logo treatment. (#NNN)
+
 ## 0.341.0 — 2026-10-22
 ### Added
 - Marketing → motion script `lib/marketing-motion.js` (`@ahaslides-product/design/marketing-motion`): Marketing sections reveal on scroll with an 80 ms stagger, section photos drift up to 48 px against the scroll, and Numbers values count up from 0 once in view. Off under `prefers-reduced-motion`, per section or page with `data-aha-motion="off"`. (#341)
