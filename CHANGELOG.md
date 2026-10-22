@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.358.0 — 2026-10-22
+### Added
+- Marketing photos: 16 people photos used on ahaslides.com (Fill in the blanks, Split the points, Escape room, Draw answer pages) are committed under `marketing-assets/photos/`, with source URL, alt text and fetch date in `marketing-assets/manifest.json`, so a website page can use them instead of the grey placeholder. New docs page Foundations › Marketing photos and an `llms.txt` line. (#358)
+
 ## 0.356.0 — 2026-10-22
 ### Removed
 - Canvas status: the response count line (people glyph and "8 of 24 answered") is gone, along with the `answered`, `total` and `count-text` attributes; `<aha-canvas-status>` now shows only the status line. Consumers passing those attributes no longer see a count. Docs section renamed "Status line"; contract, canvas guideline and snippets updated. (#356)

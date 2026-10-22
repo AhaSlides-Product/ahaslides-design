@@ -1014,6 +1014,7 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
+      `<a class="nav-item${active==='__marketing-photos__'?' active':''}" href="${base}foundations/marketing-photos.html"><span>Marketing photos</span><span class="nav-count">${MARKETING_PHOTOS.length}</span></a>` +
       `<a class="nav-item${active==='__backgrounds__'?' active':''}" href="${base}${BACKGROUND_LIBRARY_PAGE}"><span>Background library</span><span class="nav-count">${BACKGROUNDS.length}</span></a>` +
       `<a class="nav-item" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
@@ -3114,6 +3115,22 @@ function renderLogoPage() {
   ${BRAND_LOGO_HOVER_CSS.replace(/\/\*[\s\S]*?\*\/\n/, '')}`;
   return docShell({ base: '../', active: '__logo__', title: 'Logo library', section: 'foundations', main, extraCss });
 }
+const MARKETING_PHOTOS = JSON.parse(read(join(root, 'marketing-assets', 'manifest.json'))).images;
+function renderMarketingPhotosPage() {
+  const cell = image => `<figure class="mp"><img src="../marketing-assets/${esc(image.file)}" alt="${esc(image.alt)}" width="${image.width}" height="${image.height}" loading="lazy"/><figcaption><a href="../marketing-assets/${esc(image.file)}" download>${esc(image.file.replace('photos/', ''))}</a><span>${esc(image.alt)}</span><span>Source: <a href="${esc(image.sourceUrl)}">Webflow CDN</a> · fetched ${esc(image.fetched)}</span></figcaption></figure>`;
+  const main = `
+  <h1>Marketing photos</h1>
+  <p class="gen">◆ generated from marketing-assets/manifest.json — fetch files from ${esc(SITE)}/marketing-assets/photos/&lt;file&gt;</p>
+  <p class="body">${MARKETING_PHOTOS.length} people photos used on ahaslides.com, committed so a marketing page can show them instead of the grey placeholder (website rule W6). Use the alt text as listed, never crop, and fill the container at the photo's own ratio. Add a photo here, with its source URL and fetch date in the manifest, before a page uses it.</p>
+  <div class="mp-grid">${MARKETING_PHOTOS.map(cell).join('')}</div>`;
+  const extraCss = `
+  .mp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:16px 0 24px}
+  .mp{margin:0;display:flex;flex-direction:column;gap:8px}
+  .mp img{width:100%;height:auto;display:block;border-radius:8px;border:1px solid var(--aha-border)}
+  .mp figcaption{display:flex;flex-direction:column;gap:2px;font-size:12px;line-height:1.4;color:var(--aha-text-tertiary)}
+  .mp figcaption a{color:var(--aha-text-link);word-break:break-all}`;
+  return docShell({ base: '../', active: '__marketing-photos__', title: 'Marketing photos', section: 'foundations', main, extraCss });
+}
 function renderIconsLlms() {
   const byFam = {};
   for (const [k, v] of Object.entries(ICONS.icons)) (byFam[v.family] || (byFam[v.family] = [])).push(k);
@@ -3349,6 +3366,7 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
+writeFileSync(join(OUT, 'foundations', 'marketing-photos.html'), renderMarketingPhotosPage());
 writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
   fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
   templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
@@ -3405,6 +3423,7 @@ const indexLines = [
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
+  `>   ${SITE}/foundations/marketing-photos.html  Marketing photos — ${MARKETING_PHOTOS.length} people photos from ahaslides.com (files at ${SITE}/marketing-assets/photos/<file>, source URL and alt text in ${SITE}/marketing-assets/manifest.json); use one on a website page instead of the grey placeholder, never crop it`,
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; greyscale files at ${SITE}/logo/<file>.svg, original-colour files at ${SITE}/logo/original/<file>.svg, a copy-paste hover and focus pattern, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, correct/incorrect count, status line, stepper, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
   `>   ${SITE}/deck-tokens/index.html  Foundations › Deck tokens — the one --aha-deck-* ladder the canvas and the audience phone share (@ahaslides-product/design/deck, written by applyDeck and applyCanvasDeck), plus the canvas container and modal tokens`,
