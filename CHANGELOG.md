@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.340.0 — 2026-10-22
 ### Added
-- Website Social proofs page with the G2 review badges block: the award row from the live footer (three G2 Best Software 2026 badges and the Training Magazine Network Choice Awards 2026 badge, 80px wide, 12px gap, same links, labels and alt text as live). The badges render from `marketing/data/social-proofs-badges.json` and unaltered committed images in `marketing/images/social-proofs/`, so the yearly refresh is a data edit. `marketing/footer.json` is unchanged. Revert: delete `marketing/social-proofs.json`, `marketing/data/social-proofs-badges.json` and `marketing/images/social-proofs/`. Environment: marketing-web (#PRNUM)
+- Website Social proofs page with the G2 review badges block: the award row from the live footer (three G2 Best Software 2026 badges and the Training Magazine Network Choice Awards 2026 badge, 80px wide, 12px gap, same links, labels and alt text as live). The badges render from `marketing/data/social-proofs-badges.json` and unaltered committed images in `marketing/images/social-proofs/`, so the yearly refresh is a data edit. `marketing/footer.json` is unchanged. Revert: delete `marketing/social-proofs.json`, `marketing/data/social-proofs-badges.json` and `marketing/images/social-proofs/`. Environment: marketing-web (#345)
 
 ## 0.335.1 — 2026-10-22
 ### Fixed
