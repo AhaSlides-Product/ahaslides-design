@@ -11,7 +11,7 @@
   <aha-alert type="info" heading="Heads up">Your poll closes in 5 minutes.</aha-alert>
   <aha-alert type="success" size="small">Slide saved.</aha-alert>
   <aha-alert type="warning" heading="Almost at the limit">You have used 9 of 10 slides on the Free plan.</aha-alert>
-  <aha-alert type="error" closable id="err">Upload failed — the file is over 20&nbsp;MB.</aha-alert>
+  <aha-alert type="error" closable id="err">Upload failed. The file is over 20&nbsp;MB.</aha-alert>
   <aha-alert type="branding" heading="New: AI slide generation">
     Turn a prompt into a full deck.
     <button slot="action">Try it</button>
@@ -19,7 +19,7 @@
 </div>
 
 <!-- banner = full-width, square-cornered page notice (drop it at the top of the layout) -->
-<aha-alert type="warning" banner closable>Scheduled maintenance tonight 22:00–23:00 UTC.</aha-alert>
+<aha-alert type="warning" banner closable>Scheduled maintenance tonight 22:00 to 23:00 UTC.</aha-alert>
 
 <script>
   document.getElementById('err').addEventListener('close', () => console.log('alert dismissed'));

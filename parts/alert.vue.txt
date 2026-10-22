@@ -14,7 +14,7 @@ const banner = ref(true);
     Turn a prompt into a deck.
     <button slot="action">Try it</button>
   </aha-alert>
-  <aha-alert type="error" size="small">Upload failed — try a smaller file.</aha-alert>
+  <aha-alert type="error" size="small">Upload failed. Try a smaller file.</aha-alert>
   <aha-alert
     v-if="banner"
     type="warning"
@@ -22,6 +22,6 @@ const banner = ref(true);
     closable
     @close="banner = false"
   >
-    Scheduled maintenance tonight 22:00–23:00 UTC.
+    Scheduled maintenance tonight 22:00 to 23:00 UTC.
   </aha-alert>
 </template>
