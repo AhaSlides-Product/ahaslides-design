@@ -126,7 +126,8 @@ export const SLIDE_RULE_FIXTURES = [
       '.title{ color: var(--aha-text-default) }',
       '.row{ border-bottom: 1px solid var(--aha-border-default, #E3E3E3) }',
       '.card{ background: var(--aha-bg-container) }',
-      '.tick{ fill: var(--aha-color-primary) }',
+      '.tick{ fill: var(--aha-color-success) }',
+      '.row{ border-top-color: var(--aha-border-default) }',
     ],
     pass: [
       '<div class="panel" style="background: var(--aha-deck-container-fill); border: 1px solid var(--aha-deck-container-stroke)">',
@@ -138,6 +139,7 @@ export const SLIDE_RULE_FIXTURES = [
       '.panel{ padding: var(--aha-space-12); border-radius: var(--aha-radius-lg); font-size: var(--aha-size-lg) }',
       '.title{ color: var(--aha-text-default) } /* ds-lint-allow: canvas-off-deck-colour (host chrome label) */',
       '.row{ color: var(--aha-deck-ink, var(--aha-text-default)) }',
+      '.cta{ background: var(--aha-color-primary) }',
     ],
   },
 ];
