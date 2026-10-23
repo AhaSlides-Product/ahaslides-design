@@ -22,12 +22,38 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.364.0 — 2026-10-22
+## 0.372.0 — 2026-10-23
 ### Added
 - Deck tokens: a "Role to token" table says which `--aha-deck-*` token paints text, secondary text, divider, chip outline, fill, hover, pressed, panel, modal, frosted panel and a verdict mark on a hand-built canvas or audience element. The aha-design skill (step 13) now says any hand-built element calls `applyCanvasDeck` / `applyDeck` once and paints only with that ladder, never its own shade of the ink or a product colour token. (#363)
 - screen-lint: new `canvas-off-deck-colour` warning on the canvas and audience surfaces for `color-mix()` and product colour tokens (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`, `--aha-icon-*`, `--aha-color-*`, `--aha-link-*`) in a colour declaration. It never fails the build, so existing slide types are not blocked.
 ### Changed
 - Anti-slop canvas and audience C1 now require colour on a hand-built element to come from the `--aha-deck-*` ladder written from xprops, and FAIL its own `color-mix` or opacity of the ink and product colour tokens. Two canvas evals added.
+
+## 0.367.2 — 2026-10-22
+### Fixed
+- `<aha-button>` declares `formAssociated` as a static getter instead of a static class field, which Safari and iOS below 14.1 cannot parse. Behaviour is unchanged. The browser-syntax test now also fails on a static class field in any browser-shipped `lib/*.js` file. (#367)
+Revert: restore `lib/aha-button.js` and the second test in `tests/browser-lib-syntax.test.mjs` from git.
+
+## 0.367.1 — 2026-10-22
+### Fixed
+- `<aha-button>` no longer uses a regex lookbehind to build its link-form style, which Safari and iOS below 16.4 cannot parse (the chunk holding the button failed to load there). The rewritten rule produces a byte-identical stylesheet. A test now fails when any browser-shipped `lib/*.js` file contains a lookbehind. (#366)
+Revert: restore `lib/aha-button.js` and remove `tests/browser-lib-syntax.test.mjs` from git.
+
+## 0.367.0 — 2026-10-22
+### Added
+- Website guideline W2 now carries two spacing rules. Page gutter: every Marketing section keeps the same side padding, 64px on desktop, 24px at 767px and below, 16px at 479px and below (a section reads it as `--aha-web-gutter` on its inner element). Content to button: a button directly under its own text sits 32px below it (24px at 479px and below), a closing call to action after a list or grid sits 48px below (32px at 479px and below), buttons next to each other 12px. A new test (`tests/web-gutter.test.mjs`) fails when a section's side padding differs from the gutter at 375 and 600px. (#360)
+### Changed
+- Mobile side padding is now one value across Features, Numbers, Pricing, Testimonials, Cards, FAQ, Footer banner, Footer, Navigation, the 6 page headers, the 14 heroes and the 4 Hero Pink layouts: 24px at 767px and below, 16px at 479px and below (it was 32, 16, 64, 0 and 24 depending on the section). The Footer banner card also steps 24px / 16px inside. Desktop side padding of heroes, page headers, Hero Pink, Footer, Navigation and Cards is unchanged. (#360)
+- Button spacing on desktop: Features and Numbers action row 16px to 32px under the text, the 14 heroes' action row and form 40px to 32px, Footer banner paragraph to button 24px to 32px. FAQ keeps its desktop layout and no longer uses `--aha-faq-gutter` (the Frequently asked questions heading and button spacing moved from the inner gap to margins). Revert: undo this release's `marketing/*.json` edits. (#360)
+- The Webflow scan lists the live gutter and button gaps as consumer-to-update items. (#360)
+
+## 0.365.0 — 2026-10-22
+### Changed
+- Colour rule 6.2: on Vivid Pink the button is the standard secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button. The white primary with a Vivid Pink label, and the paragraph that called it the one exception to "every button is the design system Button", are gone. Colour-rules version row v20.
+- Header hero-pink, hero-pink-vertical, hero-pale-pink, hero-pale-pink-vertical and the Footer banner draw their call to action as `<aha-button variant="secondary">` on the solid Vivid Pink surface, with no `--aha-button-*` re-theme or `ds-lint-allow` line. The Pale Pink state of the four Hero Pink layouts is Vivid Pink at 5%, so its button is the primary: a `data-variant-pale="primary"` (Hero Pink, Hero Pink Vertical) or `data-variant-default="secondary"` (Hero Pale Pink, Hero Pale Pink Vertical) hook switches the variant per state in the live preview.
+- The 15 other Header layouts with a Vivid Pink (`--brand`) state lose their `--aha-button-*` re-theme and `ds-lint-allow` lines too. Their primary buttons carry `data-variant-brand="secondary"`, so White and Accent (Vivid Pink at 5%) keep the primary and only the Vivid Pink state shows the secondary.
+Revert: restore `brand/colour-rules.json`, `marketing/header.json`, `marketing/footer-banner.json`, the wording in `guidelines/website.json` and `anti-slop/criteria.json`, and the `data-variant-` line in the layout variant script of `generate.mjs` from git.
+
 ## 0.362.0 — 2026-10-22
 ### Added
 - Button: `href` draws `<aha-button>` as a link (it renders `<a href>`, forwarding `target` and `rel`, so header Log in / Sign up and marketing calls to action navigate and are crawlable), and `type="submit"` / `"reset"` submits or resets its form; the Button is now form-associated, and Enter in a text field of the form submits it, as with a native submit button (not while the Button is disabled or loading) (#332).

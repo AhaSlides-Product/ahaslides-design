@@ -558,7 +558,7 @@
             "6.2",
             "6.3"
           ],
-          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on a Vivid Pink background it is white with a Vivid Pink label. In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
+          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on solid Vivid Pink the button is the standard secondary Button (on Vivid Pink at 5% it stays the primary). In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
         },
         {
           "id": "C5",
@@ -1511,7 +1511,7 @@
         },
         {
           "source": "brand/colour-rules.json",
-          "use": "the web background rules W5 cites by id (3.2 to 3.5, 3.8, 3.10) and the primary-button rules W4 cites (6.1, 6.2)"
+          "use": "the web background rules W5 cites by id (3.2 to 3.5, 3.8, 3.10) and the button rules W4 cites (6.1, 6.2)"
         },
         {
           "source": "icons/registry.json",
@@ -1526,8 +1526,8 @@
         },
         {
           "id": "W2",
-          "title": "Sections keep their shipped rhythm",
-          "test": "Every section keeps the padding it ships and never overrides it: Features, Numbers, Pricing and Testimonials ship --aha-space-96 vertical and --aha-space-64 side on desktop, --aha-space-48 / --aha-space-24 at 767 px and below, --aha-space-32 / --aha-space-16 at 479 px and below; Hero (a fluid clamp), Logos (32 px vertical) and FAQ (its own gutter variable) ship different padding and keep that. Sections sit flush. An overridden section padding, a raw px padding added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
+          "title": "Sections keep their shipped rhythm and gutter",
+          "test": "Every section keeps the padding it ships and never overrides it. Side padding is one gutter, --aha-web-gutter: --aha-space-64 on desktop, --aha-space-24 at 767 px and below, --aha-space-16 at 479 px and below; Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too, and Heroes, page Headers, Footer and Navigation switch to it at 767 px and below. Vertical padding stays per section (Features, Numbers, Pricing and Testimonials --aha-space-96, 48 at 767 px, 32 at 479 px; Logos 32 px). A button sits --aha-space-32 below its own block's text (24 at 479 px) and a closing call to action after a list or grid sits --aha-space-48 below it (32 at 479 px). Sections sit flush. An overridden section padding or gutter, a raw px padding or button margin added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
         },
         {
           "id": "W3",
@@ -1537,7 +1537,7 @@
         {
           "id": "W4",
           "title": "One H1, one primary action per section, labelled for the page, the hero's action repeated",
-          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rules 6.1 and 6.2); no more than two buttons sit side by side, a primary and a secondary. The Sign up or primary call to action label is written for the page's context, a verb plus what the visitor gets (Use this template on a template page, Create your quiz free on a quiz-maker page, Start free on pricing); Get started free is only the fallback when no context-specific label fits. When the page has a closing Footer banner it repeats the hero's primary call to action with the same label. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action or label, or the generic Get started free on a page whose context has a more specific label, fails. N/A for the closing-action part when the page has no closing banner."
+          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rule 6.1; on Vivid Pink the button is the secondary Button, rule 6.2); no more than two buttons sit side by side, a primary and a secondary. The Sign up or primary call to action label is written for the page's context, a verb plus what the visitor gets (Use this template on a template page, Create your quiz free on a quiz-maker page, Start free on pricing); Get started free is only the fallback when no context-specific label fits. When the page has a closing Footer banner it repeats the hero's primary call to action with the same label. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action or label, or the generic Get started free on a page whose context has a more specific label, fails. N/A for the closing-action part when the page has no closing banner."
         },
         {
           "id": "W5",
