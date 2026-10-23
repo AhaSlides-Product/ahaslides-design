@@ -26,8 +26,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - `<aha-badge kind="partial">`: a partially correct answer (some points, not all), such as a match pairs card with some pairs wrong. Label "Partially correct" in the default ink on the grey Beta fill, with a 16px neutral `system-minus` glyph; no answer colour (colour rules 11.1 and 11.4 keep green and red for a fully correct or wrong answer). Sizes `sm` (default) and `default`. (#377)
 
-### Changed
-- The Status badges guide no longer names Correct, Partially correct and Incorrect as an app colour set to keep; an answer result is an `<aha-badge kind>`, not a status. (#377)
+## 0.382.0 — 2026-10-23
+### Added
+- `<aha-drawer>`, the side Drawer as a web component for pages that cannot load antd (Vue 2 apps taking `<aha-*>`, plain HTML, standalone demos), which hand-drew the panel before. It copies the antd Drawer as themed by `drawerTheme`: white panel 378 wide (`size="large"` 736, or `width`), header padding 16 24 with a 16px SemiBold ink title and the shared dismiss ✕ (tertiary icon-only xs `aha-button`, `system-x`), body padding 24 that scrolls, a `footer` slot with padding 8 16, split-colour rules, the antd drawer shadow, the overlay mask and the 0.3s slide. `open`, `heading`, `placement` (right or left), `static`, `contained` and `inline` attributes; Escape, mask and ✕ emit a cancelable `close`, then `closed`; Tab is trapped, page scroll locked and focus returned to the opener; reduced motion switches the slide off. The antd Drawer is unchanged and still the choice where antd is loaded; both contracts now say when to use which. `lib/aha-audience-modal.js` now shares its open-overlay stack, page scroll lock and layer order with the drawer: it exports `openModals`, `lockPageScroll`, `unlockPageScroll`, `raiseLayer`, `lowerLayer`, `focusableWithin` and `deepActiveElement`, and a modal opened over a drawer (or a drawer over a modal) is the one that paints on top and takes Escape and Tab, in either DOM order. Revert: `git revert` the merge commit, which removes `lib/aha-drawer.js`, its contracts, parts and tests, the `package.json` and `all.js` lines, and the `lib/aha-audience-modal.js` changes. (#376)
+
+## 0.381.0 — 2026-10-23
+### Added
+- Colour rule 11.5, weight: right and wrong carry equal weight (edge, 5% tint, mark), and on answer reveal and review screens (the audience reveal, the Report participant drawer) a wrong answer may add a 2px ring in the wrong red outside its edge. The answer key stays plain, and text never changes weight by verdict. Docs and agent guidance only. (#374)
+### Fixed
+- Feedback rule `inline-result-tokens` and judge criterion C2 colour an inline correct or incorrect result with the `--aha-answer-correct` / `--aha-answer-wrong` edge over the 5% tint, not `--aha-colorSuccess` / `--aha-colorError`, which are ink. The answer-option contract states the same.
+- Status badge rule `app-colours` no longer lets the Report app keep its own Correct, Partially correct and Incorrect colours: answer results are excluded, Correct and Incorrect use `aha-badge` `kind="correct|incorrect"`, and Partially correct takes no answer colour.
 
 ## 0.380.0 — 2026-10-23
 ### Added
@@ -37,6 +45,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-answer-option>` shows the 20px answer mark on a revealed row, in the place of the 20px pick control, instead of a bare 16px tick or cross in the answer colour. Row height and gaps are unchanged. (#375)
 - `<aha-badge kind="correct|incorrect">` leads with the 16px answer mark instead of the outline `system-check-circle` / `system-x-circle` in the answer colour, at both sizes (sm was a 12px icon). Fill, label, height and padding are unchanged. (#375)
 - `<aha-canvas-count>` draws its verdict discs with the answer mark; the render is unchanged. (#375)
+- `<aha-chart>` draws the correct option's disc with the answer mark (20px, 6px before the label); the render is unchanged. (#375)
 
 ## 0.374.2 — 2026-10-23
 ### Fixed

@@ -16,7 +16,7 @@
   </div>
 
   <div class="lbl">App-supplied colours (not design system styles)</div>
-  <div class="note">The design system gives status no hue, so it ships no green, red or amber style and this page draws none. An app that already owns an approved result colour set keeps its colours and takes only the box, by setting two custom properties once in its own stylesheet:<br><code>.report-result--correct aha-status-badge { --aha-status-badge-bg: var(--report-correct-bg); --aha-status-badge-fg: var(--report-correct-fg) }</code><br>Then <code>&lt;aha-status-badge look="quiet" icon="system-check"&gt;Correct&lt;/aha-status-badge&gt;</code> renders in the same 28px box with the app's colours. Never use the two properties on a lifecycle, progress or due state.</div>
+  <div class="note">The design system gives status no hue, so it ships no green, red or amber style and this page draws none. An app that already owns an approved colour set for a non-answer state keeps its colours and takes only the box, by setting two custom properties once in its own stylesheet:<br><code>.app-state--flagged aha-status-badge { --aha-status-badge-bg: var(--app-flagged-bg); --aha-status-badge-fg: var(--app-flagged-fg) }</code><br>Then <code>&lt;aha-status-badge look="quiet"&gt;Flagged&lt;/aha-status-badge&gt;</code> renders in the same 28px box with the app's colours. Answer results never take these properties: Correct and Incorrect are <code>&lt;aha-badge kind="correct|incorrect"&gt;</code>, and Partially correct stays ink on a neutral badge. Never use the two properties on a lifecycle, progress or due state.</div>
 
   <div class="lbl">The dot is for published / live and closed only</div>
   <div class="status-badge-pair">
