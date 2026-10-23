@@ -126,6 +126,12 @@
       "status": "available"
     },
     {
+      "ref": "answer-mark",
+      "as": "component",
+      "use": "the one correct / incorrect answer mark — <aha-answer-mark result=\"correct|incorrect\" size>: a white tick or cross on the solid --aha-answer-correct / --aha-answer-wrong disc (colour rule 11.3); never a hand-drawn disc and never an <aha-icon> coloured with an answer token",
+      "status": "available"
+    },
+    {
       "ref": "answer-list",
       "as": "component",
       "use": "single- and multi-select option rows — <aha-answer-list> (rows: <aha-answer-option>); the checked control takes the deck accent, my pick is ringed in textColour, and lock-key keeps the pick across an iframe remount",

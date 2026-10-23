@@ -19,7 +19,7 @@
     "40px deck container: fill, no stroke, radius 8, frosted on photo decks",
     "Inked by applyCanvasDeck, so it reads on white and black ink"
   ],
-  "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a green check disc, the count and a person glyph, a divider, a red cross disc, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
+  "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a correct <aha-answer-mark>, the count and a person glyph, a divider, an incorrect <aha-answer-mark>, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
   "tokensUsed": [
     "text-default",
@@ -41,7 +41,7 @@
     },
     {
       "label": "Verdict",
-      "value": "20px disc in --aha-answer-correct with a white system-check 12 · count · system-user 16 · 1px divider (--aha-deck-stroke) · 20px disc in --aha-answer-wrong with a white system-x 12 · count · system-user 16; 6px inside a part, 8px between parts"
+      "value": "<aha-answer-mark result=\"correct\" size=\"20\"> (white system-check 12 on the --aha-answer-correct disc) · count · system-user 16 · 1px divider (--aha-deck-stroke) · <aha-answer-mark result=\"incorrect\" size=\"20\"> (white system-x 12 on the --aha-answer-wrong disc) · count · system-user 16; 6px inside a part, 8px between parts"
     },
     {
       "label": "Answered only",
@@ -168,6 +168,10 @@
   "composedOf": [
     {
       "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "component": "aha-answer-mark",
       "status": "shipped"
     },
     {

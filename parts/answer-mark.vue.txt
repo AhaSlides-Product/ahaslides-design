@@ -1,0 +1,12 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-answer-mark';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// AnswerMark.vue
+<template>
+  <aha-answer-mark
+    :result="correct ? 'correct' : 'incorrect'"
+    :size="size"
+    :label="correct ? t('answer.correct') : t('answer.incorrect')"
+  />
+</template>
