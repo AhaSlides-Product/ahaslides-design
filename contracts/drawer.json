@@ -6,7 +6,7 @@
   "badge": "composite — antd wrappers",
   "summary": "A side panel that slides in for a longer edit or detail view — rendered through the shared Drawer.",
   "highlights": ["Side panel that slides in", "For longer edits and detail views", "Rendered through the shared Drawer"],
-  "lead": "Drawer carries a mask, focus-trapping, scroll-locking and a slide-in from an edge — too much to rebuild as a web component — so it stays on real Ant: antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared drawerTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
+  "lead": "Drawer carries a mask, focus-trapping, scroll-locking and a slide-in from an edge — too much to rebuild as a web component for React and Vue 3 — so there it stays on real Ant (<aha-drawer> covers pages without antd): antd v6 (React) and ant-design-vue v4 (Vue), both themed once by the shared drawerTheme, keeping antd's built-in motion. Two implementations, one DS V3 look. This is the composite half of the hybrid.",
   "tokensUsed": ["colorPrimary", "borderRadius", "colorText", "Drawer.colorBgElevated"],
   "spec": [
     { "label": "Panel", "value": "white surface, slides from the right (or any edge)" },
