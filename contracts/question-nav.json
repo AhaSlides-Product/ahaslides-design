@@ -15,12 +15,12 @@
   },
   "summary": "A numbered jump list for the questions of a quiz or report: one button per question, the current one filled, arrow-key navigation, overflow scroll for long quizzes, and an optional answer mark per number.",
   "highlights": [
-    "One numbered button per question; the current one is brand-filled and carries aria-current",
+    "One numbered button per question; the current one is ringed in the brand colour on a tint and carries aria-current",
     "One tab stop: arrow keys, Home and End move focus, Enter or click picks the question",
     "Long lists scroll in the strip with scroll buttons; `wrap` lays them out on lines instead",
     "Optional <aha-answer-mark> per number; the number stays ink"
   ],
-  "lead": "ONE custom element — <aha-question-nav> — for jumping between the questions of a report or a result view. Set `count` and `current` (1-based) and listen for `change`. Pass `results=\"correct|incorrect||correct\"` to show the answer mark beside a number; the mark is the only place answer colour appears (colour rule 11.3), the number stays ink. It reuses the page cell of <aha-pagination> (32px square, radius 8, brand-filled current) but jumps to a known item rather than paging, scrolls instead of eliding with an ellipsis, and carries a per-item result, which pagination, <aha-segmented> (a few mutually exclusive options) and <aha-tabs> (content panels) do not.",
+  "lead": "ONE custom element — <aha-question-nav> — for jumping between the questions of a report or a result view. Set `count` and `current` (1-based) and listen for `change`. Pass `results=\"correct|incorrect||correct\"` to show the answer mark beside a number; the mark is the only place answer colour appears (colour rule 11.3), the number stays ink. It reuses the page cell of <aha-pagination> (32px square, radius 8, same hover and focus) but jumps to a known item rather than paging, scrolls instead of eliding with an ellipsis, and carries a per-item result, which pagination, <aha-segmented> (a few mutually exclusive options) and <aha-tabs> (content panels) do not.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. `current` and `count` are attributes; `change` is a composed CustomEvent.",
   "tokensUsed": [
     "border-default",
@@ -41,7 +41,7 @@
     },
     {
       "label": "Current",
-      "value": "--aha-color-primary fill and border, --aha-text-inverse number, aria-current=\"page\""
+      "value": "--aha-color-primary border plus a 1px inner ring on --aha-bg-accent, number stays ink (never a brand fill, so an answer mark never sits on pink), aria-current=\"page\""
     },
     {
       "label": "Result",
@@ -129,7 +129,7 @@
         "when": "the editor's collapsible list of slides with titles and status, not a bare jump list"
       }
     ],
-    "note": "Show the answer mark only when the screen already reports per-question results; otherwise leave `results` out. Never colour the number or the cell with an answer token: the mark carries the verdict by shape and colour (colour rule 11.3). Keep the cell on the 32px square scale."
+    "note": "Show the answer mark only when the screen already reports per-question results; otherwise leave `results` out. Never colour the number or the cell with an answer token: the mark carries the verdict by shape and colour (colour rule 11.3). Keep the cell on the 32px square scale. The current item is a ring on a tint rather than pagination's brand fill so the answer mark's red or green disc never sits on pink."
   },
   "a11y": {
     "role": "<nav> named by `label`, containing an ordered list of buttons; the current button has aria-current=\"page\"",
@@ -187,10 +187,10 @@
     "$about": "Measured by qa.mjs against the RENDERED UI. The probe is a 12-question list with the 3rd current and the 1st correct.",
     "ready": "!!(document.querySelector('aha-question-nav[data-probe]') && document.querySelector('aha-question-nav[data-probe]').shadowRoot && document.querySelector('aha-question-nav[data-probe]').shadowRoot.querySelector('.item[aria-current]'))",
     "singleUI": true,
-    "measure": "(function(){var el=document.querySelector('aha-question-nav[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.item[aria-current]');var s=getComputedStyle(c);var o=getComputedStyle(r.querySelector('.item:not([aria-current])'));var m=r.querySelector('aha-answer-mark');return{bg:s.backgroundColor,color:s.color,minWidth:s.minWidth,radius:s.borderTopLeftRadius,height:o.height,ariaCurrent:c.getAttribute('aria-current'),numberColor:getComputedStyle(r.querySelector('.item:not([aria-current]) .num')).color,tabStops:r.querySelectorAll('.item[tabindex=\"0\"]').length,hasMark:!!m,name:c.getAttribute('aria-label')};})()",
+    "measure": "(function(){var el=document.querySelector('aha-question-nav[data-probe]');var r=el.shadowRoot;var c=r.querySelector('.item[aria-current]');var s=getComputedStyle(c);var o=getComputedStyle(r.querySelector('.item:not([aria-current])'));var m=r.querySelector('aha-answer-mark');return{bg:s.backgroundColor,color:s.color,ring:s.borderTopColor,minWidth:s.minWidth,radius:s.borderTopLeftRadius,height:o.height,ariaCurrent:c.getAttribute('aria-current'),numberColor:getComputedStyle(r.querySelector('.item:not([aria-current]) .num')).color,tabStops:r.querySelectorAll('.item[tabindex=\"0\"]').length,hasMark:!!m,name:c.getAttribute('aria-label')};})()",
     "expect": {
-      "bg": "rgb(231, 14, 104)",
-      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(231, 14, 104, 0.05)",
+      "color": "rgb(26, 26, 26)",
       "minWidth": "32px",
       "radius": "8px",
       "height": "32px",
@@ -198,7 +198,8 @@
       "numberColor": "rgb(26, 26, 26)",
       "tabStops": 1,
       "hasMark": true,
-      "name": "Question 3"
+      "name": "Question 3",
+      "ring": "rgb(231, 14, 104)"
     }
   },
   "selfCheck": [
