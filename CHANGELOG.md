@@ -22,9 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.369.0 — 2026-10-21
+## 0.374.0 — 2026-10-23
 ### Added
 - Canvas anti-slop criterion C24 "Keyboard-only operation": every presenter interaction must work with the keyboard alone (Tab order with a visible focus ring, hover also on focus, a keyboard alternative to any drag or pointer gesture, no trap, deck navigation keys never swallowed), per Slide Plugin Policy section 6. Three evals (hover-only result dots, drag-only reorder, a good control) and a Canvas guide section. C10 is unchanged. (#328)
+
+## 0.372.0 — 2026-10-23
+### Added
+- Deck tokens: a "Role to token" table says which `--aha-deck-*` token paints text, secondary text, divider, chip outline, fill, hover, pressed, panel, modal, frosted panel and a verdict mark on a hand-built canvas or audience element. The aha-design skill (step 13) now says any hand-built element calls `applyCanvasDeck` / `applyDeck` once and paints only with that ladder, never its own shade of the ink or a product colour token. (#363)
+- screen-lint: new `canvas-off-deck-colour` warning on the canvas and audience surfaces for `color-mix()` and product colour tokens (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`, `--aha-icon-*`, `--aha-color-*`, `--aha-link-*`) in a colour declaration. It never fails the build, so existing slide types are not blocked.
+### Changed
+- Anti-slop canvas and audience C1 now require colour on a hand-built element to come from the `--aha-deck-*` ladder written from xprops, and FAIL its own `color-mix` or opacity of the ink and product colour tokens. Two canvas evals added.
 
 ## 0.367.2 — 2026-10-22
 ### Fixed

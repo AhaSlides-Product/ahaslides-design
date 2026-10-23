@@ -148,6 +148,15 @@ Read the list from the DS each time — surfaces get added.
 12. Every button is `<aha-button>`, header and CTA buttons in vendored marketing blocks included
     (`href` for a link, `type="submit"` in a form). Never restyle, re-colour or re-hover a DS
     component; only layout may be set on it. The `hand-rolled-button` lint enforces it.
+13. Any element you hand-build on the slide canvas (or the audience phone) calls `applyCanvasDeck`
+    (canvas) or `applyDeck` (audience) once on the root and paints only with `--aha-deck-*` tokens,
+    plus `--aha-answer-correct` / `--aha-answer-wrong` on a verdict mark. Never mix your own shade of
+    `xprops.slide.textColour` (`color-mix`, an opacity on the ink), never use a product colour token
+    (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`). A built Vue slide type imports
+    `applyCanvasDeck` from `@ahaslides-product/design/canvas-deck`. Which token paints which role (text,
+    secondary text, divider, chip outline, fill, hover, panel, modal, frosted panel, verdict) is the
+    "Role to token" table on `https://design.ahaslides.io/deck-tokens/index.html`; `screen-lint` warns
+    `canvas-off-deck-colour` on the miss.
 
 ## 4. Judge
 
