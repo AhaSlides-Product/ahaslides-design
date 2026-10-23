@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.381.0 — 2026-10-23
 ### Added
-- Colour rule 11.5, weight: right and wrong carry equal weight (edge, 5% tint, mark), and on answer reveal and review screens (the audience reveal, the Report participant drawer) a wrong answer may add a 2px ring in the wrong red outside its edge. The answer key stays plain, and text never changes weight by verdict. Docs and agent guidance only. (#NNN)
+- Colour rule 11.5, weight: right and wrong carry equal weight (edge, 5% tint, mark), and on answer reveal and review screens (the audience reveal, the Report participant drawer) a wrong answer may add a 2px ring in the wrong red outside its edge. The answer key stays plain, and text never changes weight by verdict. Docs and agent guidance only. (#374)
 ### Fixed
 - Feedback rule `inline-result-tokens` and judge criterion C2 colour an inline correct or incorrect result with the `--aha-answer-correct` / `--aha-answer-wrong` edge over the 5% tint, not `--aha-colorSuccess` / `--aha-colorError`, which are ink. The answer-option contract states the same.
 - Status badge rule `app-colours` no longer lets the Report app keep its own Correct, Partially correct and Incorrect colours: answer results are excluded, Correct and Incorrect use `aha-badge` `kind="correct|incorrect"`, and Partially correct takes no answer colour.
