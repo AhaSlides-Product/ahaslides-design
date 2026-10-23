@@ -45,9 +45,9 @@ const responses = [
 
 <style scoped>
 .stage { position: relative; height: 100%; padding: 32px; }
-.grid { position: relative; height: 100%; border: 1px solid var(--aha-border-default); }
+.grid { position: relative; height: 100%; border: 1px solid var(--aha-deck-container-stroke); }
 .dot { position: absolute; }
 .mark { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid currentColor; font-size: 18px; }
-.label { display: none; position: absolute; top: 40px; left: 0; padding: 8px 12px; font-size: 18px; white-space: nowrap; background: var(--aha-bg-default); }
+.label { display: none; position: absolute; top: 40px; left: 0; padding: 8px 12px; font-size: 18px; white-space: nowrap; background: var(--aha-deck-modal-fill); }
 .dot:hover .label { display: block; }
 </style>
