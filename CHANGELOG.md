@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.385.1 — 2026-10-23
 ### Fixed
-- `<aha-question-nav>`: the current item's tint fallback is `#E70E680D` (5%), matching `--aha-bg-accent`, so it renders at the right tint without `tokens.css`; the contract summary says the current item is ringed, not filled. (#NNN)
+- `<aha-question-nav>`: the current item's tint fallback is `#E70E680D` (5%), matching `--aha-bg-accent`, so it renders at the right tint without `tokens.css`; the contract summary says the current item is ringed, not filled. (#380)
 
 ## 0.385.0 — 2026-10-23
 ### Added
