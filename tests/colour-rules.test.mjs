@@ -275,7 +275,7 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.ok(feed.rulesByEnvironment['marketing-web'].join() === feed.rulesByEnvironment.web.join());
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
   assert.ok(feed.rulesByEnvironment['report-image'].includes('3.11') && !feed.rulesByEnvironment.product.includes('3.11'));
-  assert.equal(rules.changes[0].version, 'v20');
+  assert.equal(rules.changes[0].version, 'v21');
   const reportRule = rules.sections.flatMap(section => section.blocks || []).flatMap(block => block.rules || []).find(rule => rule.id === '3.11').text;
   assert.match(reportRule, /read-only report page/);
   assert.match(reportRule, /table rows alternate white and light grey/);

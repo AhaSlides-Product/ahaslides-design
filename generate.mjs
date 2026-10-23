@@ -27,6 +27,7 @@ import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
 import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
+import { VOICE_RULES_FILE, VOICE_RULES_TEMPLATE_FILE, VOICE_RULES_PAGE, loadVoiceRules, renderVoiceRulesPage, renderVoiceRulesAgent, renderVoiceRulesMd, voiceRulesIndexLines } from './voice-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
@@ -1016,6 +1017,7 @@ function sidebarNav(base, active, section) {
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
       `<a class="nav-item${active==='__backgrounds__'?' active':''}" href="${base}${BACKGROUND_LIBRARY_PAGE}"><span>Background library</span><span class="nav-count">${BACKGROUNDS.length}</span></a>` +
       `<a class="nav-item" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item" href="${base}${VOICE_RULES_PAGE}"><span>Brand voice rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -1126,6 +1128,8 @@ const FEED_HIGHLIGHTS = {
   'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
   'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
   'colour-rules.md': ['The colour and background rules for agents', 'Each rule tagged with its environment and the judge criteria that check it', 'Same source as the Brand colour rules page'],
+  'voice-rules.md': ['The verbal brand rules for agents', 'Why, audiences, messaging, tone, writing rules and retired wording, each tagged with the kind of communication', 'Same source as the Brand voice rules page'],
+  'voice-rules.agent.json': ['The verbal brand rules in machine form', 'Rules by kind of communication and environment, tables, retired wording'],
   'colour-rules.agent.json': ['The colour and background rules in machine form', 'Palette, rules by environment, Splash geometry and files, open points'],
 };
 
@@ -2937,6 +2941,8 @@ function renderIconGallery() {
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
 const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
 const COLOUR_RULES = loadColourRules(root);
+const VOICE_RULES = loadVoiceRules(root);
+const paletteHexOf = (id) => { const colour = COLOUR_RULES.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 const BACKGROUNDS = loadBackgrounds(root);
 function renderBackgroundLibraryPage() {
   const { main, extraCss } = renderBackgroundLibrary(COLOUR_RULES, BACKGROUNDS, { site: SITE, headline });
@@ -3080,6 +3086,8 @@ function renderLogoPage() {
   ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
   <p class="body">Don&rsquo;t:</p>
   <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+  <h3 class="tok-h3" id="clear-space">Clear space and isotype (rules 2.8 to 2.10)</h3>
+  <p class="body">Keep the height of the &ldquo;A&rdquo; in AhaSlides clear on every side of the logo. The isotype is The Splash on its own, for a favicon, an avatar or a small secondary graphic, at 256, 180, 152, 60 and 16 px: transparent, or white on Vivid Pink in a circle or a square.</p>
   <h3 class="tok-h3" id="favicon">Favicon</h3>
   <p class="body">The four files in <code>logo/favicon/</code> are The Splash in its own colours, centred with even padding: <code>favicon.ico</code>, <code>favicon-32.png</code>, <code>favicon-180.png</code> (white ground) and <code>favicon-512.png</code>. Rebuild them with <code>node favicons.mjs</code>. Which tag uses which file, and where <code>/favicon.ico</code> must answer, is in the <a href="../guidelines/page-title-favicon/index.html">Page title and favicon</a> guideline.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
@@ -3252,6 +3260,8 @@ if (MARKETING.length) {
 }
 RAW_FEEDS.push(
   { name: 'colour-rules.md', file: 'colour-rules.md', page: 'colour-rules-md', desc: 'The colour and background rules for agents: every rule tagged with its environment and the judge criteria that check it.' },
+  { name: 'voice-rules.md', file: 'voice-rules.md', page: 'voice-rules-md', desc: 'The verbal brand rules for agents: every rule tagged with the kind of communication it applies to.' },
+  { name: 'voice-rules.agent.json', file: 'voice-rules.agent.json', page: 'voice-rules-agent-json', desc: 'Machine feed: verbal brand rules by kind of communication and environment, tables and retired wording.' },
   { name: 'colour-rules.agent.json', file: 'colour-rules.agent.json', page: 'colour-rules-agent-json', desc: 'Machine feed: palette, rules by environment, Splash geometry and files, and the points still open.' },
 );
 if (ANTISLOP) {
@@ -3389,6 +3399,14 @@ writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage())
 writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 writeFileSync(join(OUT, 'colour-rules.agent.json'), renderColourRulesAgent(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 console.log(`  ✓ colour rules: ${COLOUR_RULES_PAGE} · colour-rules.md · colour-rules.agent.json · ${BACKGROUND_LIBRARY_PAGE} (${BACKGROUNDS.length} backgrounds)`);
+writeFileSync(join(OUT, VOICE_RULES_PAGE), withDocumentHead(renderVoiceRulesPage(VOICE_RULES, {
+  fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
+  templateHtml: read(join(root, VOICE_RULES_TEMPLATE_FILE)),
+  palette: { vividPink: paletteHexOf('vivid-pink'), darkerPink: paletteHexOf('darker-pink'), vividPink5: paletteHexOf('vivid-pink-5'), vividPink30: paletteHexOf('vivid-pink-30'), purple: paletteHexOf('purple') },
+}), { title: siteTitle('Brand voice rules', null, VOICE_RULES_PAGE), base: '../' }));
+writeFileSync(join(OUT, 'voice-rules.md'), renderVoiceRulesMd(VOICE_RULES, { site: SITE }));
+writeFileSync(join(OUT, 'voice-rules.agent.json'), renderVoiceRulesAgent(VOICE_RULES, { site: SITE }));
+console.log(`  ✓ voice rules: ${VOICE_RULES_PAGE} · voice-rules.md · voice-rules.agent.json`);
 writeFileSync(join(OUT, 'index.html'), renderIndex());
 mkdirSync(join(OUT, 'get-started'), { recursive: true });
 writeFileSync(join(OUT, 'get-started', 'index.html'), renderGetStarted(contracts));
@@ -3436,6 +3454,7 @@ const indexLines = [
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
+  ...voiceRulesIndexLines(SITE),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; greyscale files at ${SITE}/logo/<file>.svg, original-colour files at ${SITE}/logo/original/<file>.svg, a copy-paste hover and focus pattern, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
   `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, correct/incorrect count, status line, stepper, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
   `>   ${SITE}/deck-tokens/index.html  Foundations › Deck tokens — the one --aha-deck-* ladder the canvas and the audience phone share (@ahaslides-product/design/deck, written by applyDeck and applyCanvasDeck), plus the canvas container and modal tokens`,
