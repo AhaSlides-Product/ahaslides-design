@@ -251,7 +251,7 @@ test('a value with quotes cannot break out of an attribute', () => {
 });
 
 test('the page, the feed and the markdown all carry every rule', () => {
-  const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE) });
+  const page = renderColourRulesPage(rules, { templateHtml: read(COLOUR_RULES_TEMPLATE_FILE) });
   const feed = JSON.parse(renderColourRulesAgent(rules, { site: SITE, store, backgrounds }));
   const markdown = renderColourRulesMd(rules, { site: SITE, store, backgrounds });
   assert.ok(!/\{\{\w+\}\}/.test(page) && !page.includes('part:'));
@@ -314,7 +314,7 @@ test('the answer section sits before Still to decide, holds five rules and keeps
 });
 
 test('section 11 keeps its rules in one closed panel, and the feeds keep every word', () => {
-  const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
+  const page = renderColourRulesPage(rules, { templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
   const section = answerSectionOf();
   const panels = section.blocks.filter(block => block.type === 'panel');
   assert.deepEqual(panels.map(panel => panel.title), ['Rules']);
