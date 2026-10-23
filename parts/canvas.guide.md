@@ -97,7 +97,7 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
   background the flat `#313131` is fine — but when the ink sits on a **bounded filled
   surface whose polarity can vary** (a disabled-grey box, a state-tinted card, a coloured
   chip), a *fixed* fallback is invisible on the opposite polarity. Derive it from that
-  surface's own background with a luminance flip: `slide.textColour ?? readableInkOn(fill)`,
+  surface's own background with a contrast flip: `slide.textColour ?? readableInkOn(fill)`,
   not a constant. Bind every copy of the derived ink to **one** computed source.
 - The host's `visibility` (overlay opacity) is **not** forwarded — it's already composited
   into the `backgroundImage` you receive.

@@ -806,7 +806,7 @@
     },
     {
       "id": 30,
-      "prompt": "Review the slide canvas in fixtures/good-c11-readable-ink-fallback/Canvas.vue. Each answer box derives its label ink from its own fill: the winner uses readableInkOn(WINNER_FILL), and the loser uses `slideProps.value?.textColour ?? readableInkOn(LOSER_FILL)` — a luminance flip that returns dark ink on the light-grey box and light ink on a dark fill. Colour/font come from xprops. Is the deck-ink fallback correct?",
+      "prompt": "Review the slide canvas in fixtures/good-c11-readable-ink-fallback/Canvas.vue. Each answer box derives its label ink from its own fill: the winner uses readableInkOn(WINNER_FILL), and the loser uses `slideProps.value?.textColour ?? readableInkOn(LOSER_FILL)` — a contrast flip that returns dark ink on the light-grey box and light ink on a dark fill. Colour/font come from xprops. Is the deck-ink fallback correct?",
       "files": [
         {
           "path": "fixtures/good-c11-readable-ink-fallback/Canvas.vue"
@@ -814,10 +814,10 @@
       ],
       "label": "good-control",
       "notes": "C11 good-control (AHAM-507) — every deck-ink fallback is background-derived via readableInkOn(), so the default (textColour-unset) deck reads on both polarities. Focused good-control pinned to C11.",
-      "expected_output": "C11 (Deck-ink fallback reads on its surface) PASSes. Every deck-ink fallback is derived from the surface it lands on via readableInkOn() — a luminance flip — rather than a fixed constant, so the common default-deck case (slide.textColour unset) still reads whichever polarity the box is painted: dark ink on the light-grey loser box, light ink on a dark fill. This is the fix for the bad-c11-fixed-ink-fallback case; C11 OK.",
+      "expected_output": "C11 (Deck-ink fallback reads on its surface) PASSes. Every deck-ink fallback is derived from the surface it lands on via readableInkOn() — a contrast flip — rather than a fixed constant, so the common default-deck case (slide.textColour unset) still reads whichever polarity the box is painted: dark ink on the light-grey loser box, light ink on a dark fill. This is the fix for the bad-c11-fixed-ink-fallback case; C11 OK.",
       "assertions": [
         "C11 is marked PASS",
-        "Recognises each label's fallback is derived from that box's own fill via a luminance flip (readableInkOn), not a fixed constant",
+        "Recognises each label's fallback is derived from that box's own fill via a contrast flip (readableInkOn), not a fixed constant",
         "Recognises this keeps the default-deck (textColour-unset) case legible on both polarities"
       ],
       "expected": {

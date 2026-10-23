@@ -208,7 +208,7 @@
       ]
     },
     {
-      "rule": "When textColour is unset (the common default deck) and the ink sits on a bounded filled surface whose polarity can vary, derive the fallback from that surface's own background with a luminance flip (readableInkOn(fill)) — never a fixed ?? '#fff' or ?? '#313131' constant that goes invisible on the opposite polarity. Bind every copy of the derived ink to one computed source.",
+      "rule": "When textColour is unset (the common default deck) and the ink sits on a bounded filled surface whose polarity can vary, derive the fallback from that surface's own background with a contrast flip (readableInkOn(fill)) — never a fixed ?? '#fff' or ?? '#313131' constant that goes invisible on the opposite polarity. Bind every copy of the derived ink to one computed source.",
       "ref": [
         "§2",
         "C5",

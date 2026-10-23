@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.386.2 — 2026-10-24
+### Fixed
+- `readableInkOn` in `aha-chart` picks whichever of `#1A1A1A` and white has the higher WCAG contrast ratio, as `inkWithBestContrast` does; the old 0.179 luminance split is the crossover for pure black, so fills such as Vivid Pink `#E70E68` got the lower-contrast dark ink (3.86 to 1 against 4.51 to 1 for white). Six-digit hex fills were also read as three-digit ones; fixed (#PR)
+- Revert: revert the PR; only `readableInkOn`, the hex parse in `lib/aha-chart.js`, one test file and the "luminance flip" wording change
+
 ## 0.386.1 — 2026-10-23
 ### Fixed
 - Brand voice rules and Brand colour rules pages render inside the shared site shell (header, Foundations nav with its entry highlighted, search, footer) instead of as standalone documents; content and rule anchors unchanged (#381)
