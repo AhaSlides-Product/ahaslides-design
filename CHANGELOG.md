@@ -24,10 +24,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.383.0 — 2026-10-23
 ### Added
-- `<aha-badge kind="partial">`: a partially correct answer (some points, not all), such as a match pairs card with some pairs wrong. Label "Partially correct" in the default ink on the grey Beta fill, with a 16px neutral `system-minus` glyph; no answer colour (colour rules 11.1 and 11.4 keep green and red for a fully correct or wrong answer). Sizes `sm` (default) and `default`. (#PR)
+- `<aha-badge kind="partial">`: a partially correct answer (some points, not all), such as a match pairs card with some pairs wrong. Label "Partially correct" in the default ink on the grey Beta fill, with a 16px neutral `system-minus` glyph; no answer colour (colour rules 11.1 and 11.4 keep green and red for a fully correct or wrong answer). Sizes `sm` (default) and `default`. (#377)
 
 ### Changed
-- The Status badges guide no longer names Correct, Partially correct and Incorrect as an app colour set to keep; an answer result is an `<aha-badge kind>`, not a status. (#PR)
+- The Status badges guide no longer names Correct, Partially correct and Incorrect as an app colour set to keep; an answer result is an `<aha-badge kind>`, not a status. (#377)
 
 ## 0.380.0 — 2026-10-23
 ### Added
