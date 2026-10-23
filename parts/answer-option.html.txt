@@ -17,5 +17,5 @@
   <aha-answer-option>Tea</aha-answer-option>
 </div>
 
-<!-- revealed: a tick or cross on every row; the correct row and my pick are ringed -->
+<!-- revealed: an answer mark (white tick or cross on the answer disc) on every row; the correct row takes the green edge, my wrong pick the red ring -->
 <aha-answer-option revealed selected count="12" total="30" count-mode="percent">Juice</aha-answer-option>

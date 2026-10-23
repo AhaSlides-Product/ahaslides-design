@@ -22,6 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.380.0 — 2026-10-23
+### Added
+- `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#PR)
+
+### Changed
+- `<aha-answer-option>` shows the 20px answer mark on a revealed row, in the place of the 20px pick control, instead of a bare 16px tick or cross in the answer colour. Row height and gaps are unchanged. (#PR)
+- `<aha-badge kind="correct|incorrect">` leads with the 16px answer mark instead of the outline `system-check-circle` / `system-x-circle` in the answer colour, at both sizes (sm was a 12px icon). Fill, label, height and padding are unchanged. (#PR)
+- `<aha-canvas-count>` draws its verdict discs with the answer mark; the render is unchanged. (#PR)
+
 ## 0.374.2 — 2026-10-23
 ### Fixed
 - The three canvas C24 eval fixtures (`bad-c24-drag-only-reorder`, `bad-c24-hover-only-dots`, `good-c24-keyboard-operable`) paint borders and the label background with the deck tokens (`--aha-deck-container-stroke`, `--aha-deck-modal-fill`) instead of product tokens, so they pass canvas C1 as evals 74-76 expect. The good fixture's label now fades in with `--aha-motion-mid` and `--aha-ease-out`, so it passes C22. Each fixture still fails or passes C24 as before. Evals only, no component change. (#373)
