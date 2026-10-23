@@ -4,7 +4,7 @@ import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { evaluateInPage, resolveChrome } from '../cdp.mjs';
+import { evaluateInPage, measureAtViewports, resolveChrome } from '../cdp.mjs';
 
 const skip = existsSync(resolveChrome()) ? false : 'needs headless Chrome (set CHROME_BIN)';
 const lib = pathToFileURL(fileURLToPath(new URL('../lib/all.js', import.meta.url))).href;
@@ -72,4 +72,38 @@ test('locked row shows the paywall where the help sat, hides help and disables t
   assert.equal(result.itemLocked.controlDisabled, true);
   assert.equal(result.itemLocked.labelColour, normal);
   assert.equal(result.itemUnlocked.controlDisabled, false);
+});
+
+const narrowPage = `<!doctype html><body style="margin:0;font-family:sans-serif">
+<div style="position:absolute;top:8px;left:16px;right:16px"><aha-setting-row id="top" label="Branding" locked><aha-switch slot="control"></aha-switch></aha-setting-row></div>
+<div style="position:absolute;bottom:8px;left:16px;right:16px"><aha-settings-list><aha-settings-item id="bottom" label="Theme" locked><aha-switch slot="control"></aha-switch></aha-settings-item></aha-settings-list></div>
+<aha-paywall id="plain" style="position:absolute;top:200px;left:100px" feature-label="Plain"></aha-paywall>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('locked row popover stays inside a 320px viewport at the top and the bottom; a plain paywall keeps the centred look', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'setting-row-narrow-')), 'page.html');
+  writeFileSync(file, narrowPage);
+  const out = await measureAtViewports(pathToFileURL(file).href, `(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const measure = async (host) => {
+      const lock = host.shadowRoot.querySelector('.lock');
+      lock.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+      lock.setAttribute('open', '');
+      await wait(400);
+      const box = lock.shadowRoot.querySelector('.pop').getBoundingClientRect();
+      const anchor = lock.getBoundingClientRect();
+      return { inside: box.left >= 0 && box.right <= innerWidth && box.top >= 0 && box.bottom <= innerHeight,
+        align: lock.getAttribute('align'), arrowUnderAnchor: anchor.left >= box.left - 1 && anchor.right <= box.right + 1 };
+    };
+    const plain = document.getElementById('plain');
+    return { top: await measure(document.getElementById('top')),
+      bottom: await measure(document.getElementById('bottom')), plainAlign: plain.getAttribute('align') };
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-paywall")', viewports: [{ label: 'narrow', width: 320, height: 560 }] });
+  const narrow = out.narrow;
+  assert.equal(narrow.top.inside, true);
+  assert.equal(narrow.bottom.inside, true);
+  assert.equal(narrow.top.arrowUnderAnchor, true);
+  assert.equal(narrow.bottom.arrowUnderAnchor, true);
+  assert.equal(narrow.top.align, 'start');
+  assert.equal(narrow.plainAlign, null);
 });
