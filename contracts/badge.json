@@ -6,7 +6,7 @@
   "badge": "shared Lit web component",
   "element": "aha-badge",
   "environment": ["product", "audience"],
-  "summary": "A small count or dot marker, plus plan, session, New and Beta badges, correct and incorrect answer badges, ribbons and the Status badges, all in two sizes.",
+  "summary": "A small count or dot marker, plus plan, session, New and Beta badges, correct, partially correct and incorrect answer badges, ribbons and the Status badges, all in two sizes.",
   "highlights": ["Small count or dot marker", "Notification counts, unread dots, plan and session badges"],
   "lead": "ONE custom element — <aha-badge> — defined once, imported unchanged by React and Vue. The DS V3 Badge is a family: `count` renders a number pill on the top-right of a wrapped child (capped by `overflowCount` as N+, kept at 0 with `showZero`); `dot` renders a bare marker in one of three colours (`status` default, disabled or active); `color` overrides the count colour. For a standalone state label (Published, Failed) use the Status badge component. Shadow-DOM CSS themed only by --aha-* tokens; the pill scales in on a persistent node. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
@@ -25,6 +25,7 @@
     { "label": "Session badge", "value": "\"Session N\" badge, size sm by default: grey fill (gray-30), default text; label from `session` / slotted text" },
     { "label": "New and Beta", "value": "size sm by default (20px · padding 0 4 · 12px label regular 400 · radius xs). New: bg-accent #E70E680D fill + text-link-hover #DB005B label (4.65:1, WebAIM Normal Text AA); Beta: grey fill (gray-30 #F1F1F1) + text-default #1A1A1A. Labels \"New\" and \"Beta\"" },
     {"label": "Correct and incorrect", "value": "answer result badge for the Report app, size sm by default. Fill the answer colour at 5% (answer-correct-tint-5, answer-wrong-tint-5); label \"Correct\" / \"Incorrect\" in the default ink #1A1A1A (never green or red, rule 11.2); a 16px <aha-answer-mark> before it at both sizes (white system-check on the solid --aha-answer-correct disc, or white system-x on the solid --aha-answer-wrong disc: the one answer mark, colour rule 11.3), 6px gap at default and 4px at sm. For a correct or wrong answer only (rule 11.1), never a status"},
+    {"label": "Partially correct", "value": "answer result badge (kind=\"partial\") for an answer that scored some points but not all, as a match pairs card with some pairs wrong. It takes no answer colour (rules 11.1, 11.4: the answer pair is only for fully correct or wrong): grey fill (gray-30 #F1F1F1, as Beta), label \"Partially correct\" in the default ink #1A1A1A, and a 16px system-minus glyph in iconDefault #4A4A4A before it, at both sizes; size sm by default, 6px gap at default and 4px at sm"},
     { "label": "Status badge", "value": "<aha-status-badge> is shown with the badges and takes the same `size`: default 28px (padding 8, 14px semibold, radius sm, 16px icon) · sm 20px (padding 4, 12px regular 400, radius xs, 12px icon). Its own spec is in the Status badge section" },
     { "label": "Badge size", "value": "default 28px · 14px label semibold · radius sm · 16px icon · padding 8; sm 20px · 12px label regular 400 · radius xs · 12px icon · padding 4; plan defaults to default, session and New / Beta to sm" }
   ],
@@ -41,7 +42,7 @@
     { "name": "plan", "type": "free | edu | essential | pro | enterprise", "default": "—", "desc": "Plan preset badge; grey fill, enterprise on a Vivid Pink 5% fill; no icon. Size default unless `size` is set" },
     { "name": "cycle", "type": "monthly | yearly", "default": "—", "desc": "Appended to a plan badge's default label (e.g. \"Pro · Yearly\")" },
     { "name": "session", "type": "string", "default": "—", "desc": "Renders a \"Session N\" badge on a grey fill; the value is N (slotted content / `text` overrides the label). Size sm unless `size` is set" },
-    {"name": "kind", "type": "new | beta | correct | incorrect", "default": "—", "desc": "New tag: Vivid Pink 5% fill (bg-accent #E70E680D) with Darker Pink label (text-link-hover #DB005B, 4.65:1). Beta tag: grey fill (gray-30), default text; label \"New\" / \"Beta\"; size sm unless `size` is set. correct / incorrect: an answer result badge (answer colour at 5% fill, default-ink label, a 16px <aha-answer-mark> before it); labels \"Correct\" / \"Incorrect\"; for answers only, never status"},
+    {"name": "kind", "type": "new | beta | correct | incorrect | partial", "default": "—", "desc": "New tag: Vivid Pink 5% fill (bg-accent #E70E680D) with Darker Pink label (text-link-hover #DB005B, 4.65:1). Beta tag: grey fill (gray-30), default text; label \"New\" / \"Beta\"; size sm unless `size` is set. correct / incorrect: an answer result badge (answer colour at 5% fill, default-ink label, a 16px <aha-answer-mark> before it); labels \"Correct\" / \"Incorrect\". partial: a partially correct answer (some points, not all): grey fill (gray-30), default-ink label \"Partially correct\", a 16px neutral system-minus glyph, no answer colour; for answers only, never status"},
     { "name": "size", "type": "default | sm", "default": "default (plan) · sm (session, kind)", "desc": "Badge size: default is 28px tall with a 14px label; sm is 20px with 4px side padding and a 12px regular label. The correct / incorrect answer mark is 16px at both sizes. A `dot` is 6px at default and 4px at sm. Also accepted by `<aha-status-badge>`" }
   ],
   "opinion": {
@@ -52,6 +53,7 @@
       { "what": "New badge", "when": "something new to try: a slide type, a feature, a menu item. At most one New per area, and remove it once the thing is no longer new" },
       { "what": "Beta badge", "when": "a feature that is in beta" },
       {"what": "Correct / incorrect badge", "when": "showing whether a participant's answer was right or wrong, as in the Report app. Not for success or error states, a rise or a fall: those use no colour"},
+      {"what": "Partially correct badge", "when": "an answer that scored some points but not all (a match pairs card with some pairs wrong). Grey, never green or red: the answer pair is only for fully correct or wrong"},
       { "what": "Status badge component", "when": "a standalone semantic state label (Published, Generating, Failed) in a list or header: use `<aha-status-badge>`, not a count or dot" },
       { "what": "Tag", "when": "a standalone label/keyword badge with text but no status semantics" }
     ],
@@ -120,7 +122,8 @@
     { "label": "count default black #1A1A1A; Vivid Pink (status=primary) only for a new count needing attention now, at most one per screen", "verdict": "PASS" },
     { "label": "plan badge default 28px · 14px label · radius sm 6; size sm 20px · padding 4 · 12px label regular 400 · radius xs 4 · 12px icon", "verdict": "PASS" },
     { "label": "plan and session badges are grey (gray-30); enterprise on bg-accent; no crown on any plan badge; session is size sm; New is bg-accent with a text-link-hover label, Beta is grey", "verdict": "PASS" },
-    {"label": "correct and incorrect badges: answer colour at 5% fill, default-ink label, the 16px answer mark (white tick or cross on the solid answer disc); size sm by default; answers only", "verdict": "PASS"}
+    {"label": "correct and incorrect badges: answer colour at 5% fill, default-ink label, the 16px answer mark (white tick or cross on the solid answer disc); size sm by default; answers only", "verdict": "PASS"},
+    {"label": "partially correct badge: no answer colour, grey fill (gray-30), default-ink label, a 16px neutral system-minus glyph; answers only", "verdict": "PASS"}
   ],
   "conformance": {
     "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",

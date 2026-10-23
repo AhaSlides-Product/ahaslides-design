@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.383.0 — 2026-10-23
+### Added
+- `<aha-badge kind="partial">`: a partially correct answer (some points, not all), such as a match pairs card with some pairs wrong. Label "Partially correct" in the default ink on the grey Beta fill, with a 16px neutral `system-minus` glyph; no answer colour (colour rules 11.1 and 11.4 keep green and red for a fully correct or wrong answer). Sizes `sm` (default) and `default`. (#PR)
+
+### Changed
+- The Status badges guide no longer names Correct, Partially correct and Incorrect as an app colour set to keep; an answer result is an `<aha-badge kind>`, not a status. (#PR)
+
 ## 0.380.0 — 2026-10-23
 ### Added
 - `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#375)

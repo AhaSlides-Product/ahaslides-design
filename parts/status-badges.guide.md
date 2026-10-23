@@ -85,10 +85,9 @@ another element is a **Badge**. *(STATUS-01, STATUS-08)*
 
 ## App-supplied colours
 
-An app that already owns an approved colour set for a result (Report: Correct, Partially
-correct, Incorrect) keeps those colours and takes only the box, through
+An app that already owns an approved colour set for a result keeps those colours and takes only the box, through
 `--aha-status-badge-bg` and `--aha-status-badge-fg` set once in its stylesheet. Never use
-them to tint a lifecycle, progress or due state, and never inline a hex on a badge. *(STATUS-03)*
+them to tint a lifecycle, progress or due state, and never inline a hex on a badge. A correct, partially correct or incorrect answer is not a status: use `<aha-badge kind="correct|partial|incorrect">`. *(STATUS-03)*
 
 ## Labels and accessibility
 
