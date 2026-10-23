@@ -1,7 +1,7 @@
 {
   "name": "ahaslides-design",
   "description": "The AhaSlides design system's own agent entry point, shipped and versioned with each ahaslides-design release. Two skills: aha-design reads the DS (the installed @ahaslides-product/design package or its hosted feeds: llms.txt, the anti-slop feed, guidelines) and runs the build -> judge -> fix loop against the DS anti-slop criteria for each surface; settings-design is the one mandatory runbook for every settings UI (control table, label rule and its self-check table, grouping, lint, judge). Hooks make them fire: a prompt mandate on every task, a write-time guard that names the DS surface a change touches (and blocks the old storybook kit in new Vue 2 files, a hand-made icon: an inline <svg> or a new .svg file, pointing at the DS icon search, a raw <button> or <aha-button size=\"xl\"> added to a build-less slide type's presenter or audience file, and any write to settings UI before settings-design is loaded), an end-of-turn judge trigger and an anti-slop floor, both of which also cover a build-less slide type's presenter / audience / settings .html and .js files. Hooks read criteria from the installed package, else the copy shipped in this plugin from the same release. Covers every AhaSlides website and tool people operate, landing, pricing, blog and careers pages included; only brand voice, email, video and social / ads creative are aha-marketing-skills.",
-  "version": "0.380.0",
+  "version": "0.385.0",
   "author": {
     "name": "AhaSlides"
   },
