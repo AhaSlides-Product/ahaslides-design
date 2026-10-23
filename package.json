@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.385.1",
+  "version": "0.386.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -273,6 +273,7 @@
     "./tokens.canonical.json": "./tokens.canonical.json",
     "./guidelines/*": "./guidelines/*",
     "./colour-rules.json": "./brand/colour-rules.json",
+    "./voice-rules.json": "./brand/voice-rules.json",
     "./backgrounds/*": "./backgrounds/*",
     "./build-splash": "./build-splash.mjs",
     "./anti-slop/criteria.json": "./anti-slop/criteria.json"
@@ -287,6 +288,7 @@
     "marketing-assets/",
     "backgrounds/",
     "brand/colour-rules.json",
+    "brand/voice-rules.json",
     "build-splash.mjs",
     "icons/registry.json",
     "illustrations/svg/",

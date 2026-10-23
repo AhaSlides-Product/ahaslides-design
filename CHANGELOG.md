@@ -22,6 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.386.0 — 2026-10-23
+### Added
+- Brand voice rules: `brand/voice-rules.json` is the one source of the verbal brand (v2.2 why, positioning, audiences, messaging, opinions, spices, tone, writing rules, plus British spelling, one clear CTA, retired wording and which rules apply to which kind of communication). Rendered as `foundations/brand-voice-rules.html`, `voice-rules.md` and `voice-rules.agent.json`, listed in `llms.txt`, the Assets navigation and every environment's route, and exported as `@ahaslides-product/design/voice-rules.json` (#370)
+- screen-lint copy rule `retired-wording`: fails a screen that describes AhaSlides with retired wording such as "interactive presentation software" (#370)
+- Colour rules 2.8 to 2.10: logo clear space and isotype sizes, favicon and avatar use, from brand guidelines v2.2; mirrored on the Logo library page (#370)
+### Fixed
+- Contrast figures in the colour rules: Vivid Pink text on Vivid Pink at 5% is 4.16 to 1 (was 4.18), 86% white on Vivid Pink is 3.58 to 1 (was about 3.7) (#370)
+- Page title example in `guidelines/page-title-favicon.json` uses the v2.2 description (#370)
+- Revert: revert the PR; it adds new files and one lint rule, and no existing colour, button, hero, background, logo, font or icon rule changed (#370)
+
 ## 0.385.1 — 2026-10-23
 ### Fixed
 - `<aha-question-nav>`: the current item's tint fallback is `#E70E680D` (5%), matching `--aha-bg-accent`, so it renders at the right tint without `tokens.css`; the contract summary says the current item is ringed, not filled. (#380)
