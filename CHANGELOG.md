@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.370.0 — 2026-10-23
+## 0.386.0 — 2026-10-23
 ### Added
 - Brand voice rules: `brand/voice-rules.json` is the one source of the verbal brand (v2.2 why, positioning, audiences, messaging, opinions, spices, tone, writing rules, plus British spelling, one clear CTA, retired wording and which rules apply to which kind of communication). Rendered as `foundations/brand-voice-rules.html`, `voice-rules.md` and `voice-rules.agent.json`, listed in `llms.txt`, the Assets navigation and every environment's route, and exported as `@ahaslides-product/design/voice-rules.json` (#370)
 - screen-lint copy rule `retired-wording`: fails a screen that describes AhaSlides with retired wording such as "interactive presentation software" (#370)
@@ -31,6 +31,73 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Contrast figures in the colour rules: Vivid Pink text on Vivid Pink at 5% is 4.16 to 1 (was 4.18), 86% white on Vivid Pink is 3.58 to 1 (was about 3.7) (#370)
 - Page title example in `guidelines/page-title-favicon.json` uses the v2.2 description (#370)
 - Revert: revert the PR; it adds new files and one lint rule, and no existing colour, button, hero, background, logo, font or icon rule changed (#370)
+
+## 0.385.1 — 2026-10-23
+### Fixed
+- `<aha-question-nav>`: the current item's tint fallback is `#E70E680D` (5%), matching `--aha-bg-accent`, so it renders at the right tint without `tokens.css`; the contract summary says the current item is ringed, not filled. (#380)
+
+## 0.385.0 — 2026-10-23
+### Added
+- `<aha-question-nav count current results>`: a numbered jump list for the questions of a report. The current question is ringed in the brand colour with `aria-current`; arrow keys, Home and End move focus (one tab stop), Enter or a click picks one and emits `change` `{value, index}`. A long list scrolls in the strip with scroll buttons that appear only on overflow, or `wrap`s onto lines. `results="correct|incorrect||correct"` adds an `<aha-answer-mark>` beside the number; the number stays ink (colour rule 11.3). It reuses the page cell of `aha-pagination`; segmented, pagination and tabs do not cover a per-question jump list with results. (#378)
+
+## 0.384.0 — 2026-10-23
+### Added
+- `<aha-answer-result result="correct|incorrect|key" label>`: a read-only answer row for the Report and Session Report participant view. A wrong response is a 2px `--aha-answer-wrong` ring over the 5% wrong tint plus the answer mark (cross); a correct response is a 1px `--aha-answer-correct` edge over the 5% correct tint plus the mark (tick); the answer key (default) is plain, with no tint, edge or mark. The text stays the default ink at regular weight (colour rules 11.2 and 11.5). Stacked on #375 (`<aha-answer-mark>`): merge after it. (#379)
+
+## 0.383.0 — 2026-10-23
+### Added
+- `<aha-badge kind="partial">`: a partially correct answer (some points, not all), such as a match pairs card with some pairs wrong. Label "Partially correct" in the default ink on the grey Beta fill, with a 16px neutral `system-minus` glyph; no answer colour (colour rules 11.1 and 11.4 keep green and red for a fully correct or wrong answer). Sizes `sm` (default) and `default`. (#377)
+
+## 0.382.0 — 2026-10-23
+### Added
+- `<aha-drawer>`, the side Drawer as a web component for pages that cannot load antd (Vue 2 apps taking `<aha-*>`, plain HTML, standalone demos), which hand-drew the panel before. It copies the antd Drawer as themed by `drawerTheme`: white panel 378 wide (`size="large"` 736, or `width`), header padding 16 24 with a 16px SemiBold ink title and the shared dismiss ✕ (tertiary icon-only xs `aha-button`, `system-x`), body padding 24 that scrolls, a `footer` slot with padding 8 16, split-colour rules, the antd drawer shadow, the overlay mask and the 0.3s slide. `open`, `heading`, `placement` (right or left), `static`, `contained` and `inline` attributes; Escape, mask and ✕ emit a cancelable `close`, then `closed`; Tab is trapped, page scroll locked and focus returned to the opener; reduced motion switches the slide off. The antd Drawer is unchanged and still the choice where antd is loaded; both contracts now say when to use which. `lib/aha-audience-modal.js` now shares its open-overlay stack, page scroll lock and layer order with the drawer: it exports `openModals`, `lockPageScroll`, `unlockPageScroll`, `raiseLayer`, `lowerLayer`, `focusableWithin` and `deepActiveElement`, and a modal opened over a drawer (or a drawer over a modal) is the one that paints on top and takes Escape and Tab, in either DOM order. Revert: `git revert` the merge commit, which removes `lib/aha-drawer.js`, its contracts, parts and tests, the `package.json` and `all.js` lines, and the `lib/aha-audience-modal.js` changes. (#376)
+
+## 0.381.0 — 2026-10-23
+### Added
+- Colour rule 11.5, weight: right and wrong carry equal weight (edge, 5% tint, mark), and on answer reveal and review screens (the audience reveal, the Report participant drawer) a wrong answer may add a 2px ring in the wrong red outside its edge. The answer key stays plain, and text never changes weight by verdict. Docs and agent guidance only. (#374)
+### Fixed
+- Feedback rule `inline-result-tokens` and judge criterion C2 colour an inline correct or incorrect result with the `--aha-answer-correct` / `--aha-answer-wrong` edge over the 5% tint, not `--aha-colorSuccess` / `--aha-colorError`, which are ink. The answer-option contract states the same.
+- Status badge rule `app-colours` no longer lets the Report app keep its own Correct, Partially correct and Incorrect colours: answer results are excluded, Correct and Incorrect use `aha-badge` `kind="correct|incorrect"`, and Partially correct takes no answer colour.
+
+## 0.380.0 — 2026-10-23
+### Added
+- `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#375)
+
+### Changed
+- `<aha-answer-option>` shows the 20px answer mark on a revealed row, in the place of the 20px pick control, instead of a bare 16px tick or cross in the answer colour. Row height and gaps are unchanged. (#375)
+- `<aha-badge kind="correct|incorrect">` leads with the 16px answer mark instead of the outline `system-check-circle` / `system-x-circle` in the answer colour, at both sizes (sm was a 12px icon). Fill, label, height and padding are unchanged. (#375)
+- `<aha-canvas-count>` draws its verdict discs with the answer mark; the render is unchanged. (#375)
+- `<aha-chart>` draws the correct option's disc with the answer mark (20px, 6px before the label); the render is unchanged. (#375)
+
+## 0.374.2 — 2026-10-23
+### Fixed
+- The three canvas C24 eval fixtures (`bad-c24-drag-only-reorder`, `bad-c24-hover-only-dots`, `good-c24-keyboard-operable`) paint borders and the label background with the deck tokens (`--aha-deck-container-stroke`, `--aha-deck-modal-fill`) instead of product tokens, so they pass canvas C1 as evals 74-76 expect. The good fixture's label now fades in with `--aha-motion-mid` and `--aha-ease-out`, so it passes C22. Each fixture still fails or passes C24 as before. Evals only, no component change. (#373)
+
+## 0.374.0 — 2026-10-23
+### Added
+- Canvas anti-slop criterion C24 "Keyboard-only operation": every presenter interaction must work with the keyboard alone (Tab order with a visible focus ring, hover also on focus, a keyboard alternative to any drag or pointer gesture, no trap, deck navigation keys never swallowed), per Slide Plugin Policy section 6. Three evals (hover-only result dots, drag-only reorder, a good control) and a Canvas guide section. C10 is unchanged. (#328)
+
+## 0.373.0 — 2026-10-23
+### Added
+- `<aha-setting-row>` and `<aha-settings-item>` take `locked` (plus `plan`, `feature-key`, `upgrade-body`) for a setting that needs an upgrade. A locked row reads: the label, the shared `<aha-paywall>` crown in the place of the "?" help (the "?" is hidden), and the real control disabled. The label keeps its normal colour. The Paywall feature label is the row label.
+- `<aha-paywall>` takes an opt-in `align` (`center` default, unchanged; `start` puts the popover's left edge on the anchor with the arrow under it; `end` mirrors it) and exports `fitPaywall(el)`, which picks align and placement from the room around the anchor and keeps the popover inside the viewport. Locked setting rows call it before the popover opens, so a short label in a narrow left-aligned panel no longer clips.
+- Clicking the disabled control of a locked setting row (`<aha-setting-row>`, `<aha-settings-item>`, so also `<aha-settings-list>` rows) opens the same Paywall popover as the crown; the control stays disabled and unfocusable. `<aha-paywall>` gains `togglePopover()` and the `toggleLockedPaywall(el, event)` export.
+- With `align`, the popover now hangs 12px past the anchor edge so its arrow sits 20px in, clear of the rounded corner, and points at the crown's centre.
+
+### Changed
+- The Setting row docs page gains a "Locked, in a right-hand panel" example: a narrow scrolling panel at the right edge, where the Paywall popover opens to the left of the crown. (#371)
+- `<aha-settings-list>` schema rows with `locked: true` use the same layout and render their `control` disabled; before, the crown replaced the control on the right. New row keys `featureKey` and `upgradeBody` pass through to the Paywall. The settings guide, `plan-gated` guideline and criterion C6 describe the new layout. (#371)
+### Fixed
+- `<aha-paywall>`'s popover is no longer cut off by a scrolling or overflow-hidden ancestor, such as a right-hand settings panel. It now renders in the browser's top layer (`popover="manual"`, with `position:fixed` as the fallback where the Popover API is missing), is positioned from the anchor on open, follows the anchor on scroll and resize, and closes when the anchor scrolls out of view. Its text always starts at the left edge, even when the popover opens to the left of the anchor. The default look and the open and close motion are unchanged. (#371)
+
+Revert: restore `lib/aha-paywall.js`, `contracts/paywall.json`, the paywall parts, `lib/aha-setting-row.js`, `lib/aha-settings-list.js`, the setting-row and settings-list contracts and parts, `guidelines/settings.json`, the C6 text in `anti-slop/criteria.json` and `tests/setting-row-locked.test.mjs` from git.
+
+## 0.372.0 — 2026-10-23
+### Added
+- Deck tokens: a "Role to token" table says which `--aha-deck-*` token paints text, secondary text, divider, chip outline, fill, hover, pressed, panel, modal, frosted panel and a verdict mark on a hand-built canvas or audience element. The aha-design skill (step 13) now says any hand-built element calls `applyCanvasDeck` / `applyDeck` once and paints only with that ladder, never its own shade of the ink or a product colour token. (#363)
+- screen-lint: new `canvas-off-deck-colour` warning on the canvas and audience surfaces for `color-mix()` and product colour tokens (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`, `--aha-icon-*`, `--aha-color-*`, `--aha-link-*`) in a colour declaration. It never fails the build, so existing slide types are not blocked.
+### Changed
+- Anti-slop canvas and audience C1 now require colour on a hand-built element to come from the `--aha-deck-*` ladder written from xprops, and FAIL its own `color-mix` or opacity of the ink and product colour tokens. Two canvas evals added.
 
 ## 0.367.2 — 2026-10-22
 ### Fixed

@@ -277,7 +277,8 @@
      { "id": "11.1", "text": "Green [[#008A05]] and red [[#C7401E]] mark correct and wrong answers, and nothing else: not status, alerts, success or error messages, a rise or a fall, buttons or decoration." },
      { "id": "11.2", "text": "Text is never green or red; it stays the default ink, on a tint too." },
      { "id": "11.3", "text": "Solid colour is only for the tick or cross disc, an answer row's edge and the correct column of a result chart; areas use the 5% or 30% tint." },
-     { "id": "11.4", "text": "The pair is fixed: never replaced by deck colours, a theme or Vivid Pink." }
+     { "id": "11.4", "text": "The pair is fixed: never replaced by deck colours, a theme or Vivid Pink." },
+     { "id": "11.5", "text": "Right and wrong carry equal weight: the edge, the 5% tint and the mark. Only on answer reveal and review screens (the audience reveal, the Report participant drawer) may a wrong answer add a 2px ring in the wrong red outside its edge so it reads first. The answer key, the correct answer shown beside a response, stays plain: default border, no green edge. Text never changes weight by verdict." }
     ] }
     ] }
    ]
@@ -291,7 +292,8 @@
  ],
  "open": [],
  "changes": [
-  { "version": "v21", "date": "23 Oct", "text": "Added the logo clear space (2.8) and the isotype sizes, favicon and avatar use (2.9, 2.10) from brand guidelines v2.2. Corrected two contrast figures: Vivid Pink text on Vivid Pink at 5% is 4.16 to 1, and 86% white on Vivid Pink is 3.58 to 1. No existing rule changed." },
+  { "version": "v22", "date": "23 Oct", "text": "Added the logo clear space (2.8) and the isotype sizes, favicon and avatar use (2.9, 2.10) from brand guidelines v2.2. Corrected two contrast figures: Vivid Pink text on Vivid Pink at 5% is 4.16 to 1, and 86% white on Vivid Pink is 3.58 to 1. No existing rule changed." },
+  { "version": "v21", "date": "23 Oct", "text": "New rule 11.5, weight: right and wrong carry equal weight, and on answer reveal and review screens a wrong answer may add a 2px red ring outside its edge. The answer key stays plain. Requested in DESY-166. No existing rule id changed." },
   { "version": "v20", "date": "22 Oct", "text": "Rule 6.2: on Vivid Pink the button is the secondary Button; on Vivid Pink at 5% (light pink) and on white it is the primary Button. Light pink surfaces (the Pale Pink state of the Hero Pink layouts) no longer use the secondary. Requested in DESY-313. No rule id changed." },
   { "version": "v19", "date": "22 Oct", "text": "Rule 6.2: on a Vivid Pink background the button is the standard secondary Button. The white primary with a Vivid Pink label, and the exception that allowed it, are gone: every button is the design system Button. Requested in DESY-313." },
   { "version": "v18", "date": "20 Oct", "text": "Rule 3.11: report table rows (image or read-only report page) keep the white and light grey zebra but drop the horizontal row dividers, which only added clutter on top of the zebra. Requested by Dave Bui. Screens of the product app keep their dividers and plain rows. No rule id changed." },

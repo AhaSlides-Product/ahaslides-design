@@ -11,7 +11,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/canvas.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: canvas)",
-    "note": "This guide is the source of truth for rationale, worked BAD/GOOD examples, the §1–§9 sections, the pre-ship checklist (§8), and the canonical good-fill-in-the-blanks fixture. This pattern distils the enforceable subset; each rule links back by ref to the judge criteria (C1..C16) and/or the skill section it comes from. The judge the DS anti-slop judge (`canvas` surface) emits a binary PASS/FAIL across the same contracts."
+    "note": "This guide is the source of truth for rationale, worked BAD/GOOD examples, the §1–§9 sections, the pre-ship checklist (§8), and the canonical good-fill-in-the-blanks fixture. This pattern distils the enforceable subset; each rule links back by ref to the judge criteria (C1..C24) and/or the skill section it comes from. The judge the DS anti-slop judge (`canvas` surface) emits a binary PASS/FAIL across the same contracts."
   },
   "surfaces": [
     "editor",
@@ -57,6 +57,12 @@
       "ref": "stepper",
       "as": "component",
       "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), inked by the applyCanvasDeck --aha-deck-* ladder, never hand-rolled .step pills and never the primary accent",
+      "status": "available"
+    },
+    {
+      "ref": "answer-mark",
+      "as": "component",
+      "use": "the one correct / incorrect answer mark — <aha-answer-mark result=\"correct|incorrect\" size>: a white tick or cross on the solid --aha-answer-correct / --aha-answer-wrong disc (colour rule 11.3); never a hand-drawn disc and never an <aha-icon> coloured with an answer token",
       "status": "available"
     },
     {
@@ -110,13 +116,13 @@
     {
       "ref": "--aha-colorSuccess",
       "as": "token",
-      "use": "the ✓ / validation-passed mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent. A quiz answer's correct mark is the one exception: a white tick on the correct green disc (--aha-answer-correct, colour rules section 11), bundled the same way",
+      "use": "the ✓ / validation-passed mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent. A quiz answer's correct mark is the one exception: <aha-answer-mark result=\"correct\">, a white tick on the correct green disc (--aha-answer-correct, colour rules section 11), bundled the same way",
       "status": "available"
     },
     {
       "ref": "--aha-colorError",
       "as": "token",
-      "use": "the ✗ / destructive-action mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded. A quiz answer's wrong mark is the one exception: a white cross on the wrong red disc (--aha-answer-wrong, colour rules section 11), bundled the same way",
+      "use": "the ✗ / destructive-action mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded. A quiz answer's wrong mark is the one exception: <aha-answer-mark result=\"incorrect\">, a white cross on the wrong red disc (--aha-answer-wrong, colour rules section 11), bundled the same way",
       "status": "available"
     },
     {
@@ -465,6 +471,13 @@
       "ref": [
         "C16",
         "C23"
+      ]
+    },
+    {
+      "rule": "Every presenter interaction works with the keyboard alone (Slide Plugin Policy section 6): each control is focusable in reading order with a visible focus ring and activated by Enter or Space (or a declared shortcut); anything shown on hover is also shown on :focus-visible; a drag, draw or pointer gesture has a keyboard alternative; no keyboard trap; never swallow ArrowRight/ArrowLeft, PageDown/PageUp or Space except to claim a build step through the SDK. A display-only canvas passes. C10 covers shortcut chips and tooltips; this covers reachability.",
+      "ref": [
+        "C10",
+        "C24"
       ]
     }
   ],
