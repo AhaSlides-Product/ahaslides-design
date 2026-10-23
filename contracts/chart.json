@@ -130,7 +130,7 @@
     },
     {
       "label": "Pick Answer",
-      "value": "correct = index (or data item correct:true): a white ✓ on a solid --aha-answer-correct disc + bold ink label (colour rules 11.2, 11.3); correct-style=fill (default, as the mockup) paints the correct mark --aha-answer-correct in both palettes and the rest neutral; incorrect options are left unmarked; correct-style=indicator keeps palette colours (canvas.guide Job 1 / Job 2)"
+      "value": "correct = index (or data item correct:true): a 20px <aha-answer-mark> (white ✓ on a solid --aha-answer-correct disc) + bold ink label (colour rules 11.2, 11.3); correct-style=fill (default, as the mockup) paints the correct mark --aha-answer-correct in both palettes and the rest neutral; incorrect options are left unmarked; correct-style=indicator keeps palette colours (canvas.guide Job 1 / Job 2)"
     },
     {
       "label": "Donut · radial · tree map",
