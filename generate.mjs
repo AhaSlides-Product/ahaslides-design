@@ -26,7 +26,7 @@ import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
-import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, splitFragment, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
 import { VOICE_RULES_FILE, VOICE_RULES_TEMPLATE_FILE, VOICE_RULES_PAGE, loadVoiceRules, renderVoiceRulesPage, renderVoiceRulesAgent, renderVoiceRulesMd, voiceRulesIndexLines } from './voice-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -1016,8 +1016,8 @@ function sidebarNav(base, active, section) {
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
       `<a class="nav-item${active==='__backgrounds__'?' active':''}" href="${base}${BACKGROUND_LIBRARY_PAGE}"><span>Background library</span><span class="nav-count">${BACKGROUNDS.length}</span></a>` +
-      `<a class="nav-item" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
-      `<a class="nav-item" href="${base}${VOICE_RULES_PAGE}"><span>Brand voice rules</span></a>` +
+      `<a class="nav-item${active==='__colour-rules__'?' active':''}" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item${active==='__voice-rules__'?' active':''}" href="${base}${VOICE_RULES_PAGE}"><span>Brand voice rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -3390,20 +3390,18 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
-writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
-  fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
+writeFileSync(join(OUT, COLOUR_RULES_PAGE), docShell({ base: '../', active: '__colour-rules__', title: 'Brand colour rules', section: 'foundations', ...splitFragment(renderColourRulesPage(COLOUR_RULES, {
   templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
   icon: registryGlyphSvg,
-}), { title: siteTitle('Brand colour rules', null, COLOUR_RULES_PAGE), base: '../' }));
+})) }));
 writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
 writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 writeFileSync(join(OUT, 'colour-rules.agent.json'), renderColourRulesAgent(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 console.log(`  ✓ colour rules: ${COLOUR_RULES_PAGE} · colour-rules.md · colour-rules.agent.json · ${BACKGROUND_LIBRARY_PAGE} (${BACKGROUNDS.length} backgrounds)`);
-writeFileSync(join(OUT, VOICE_RULES_PAGE), withDocumentHead(renderVoiceRulesPage(VOICE_RULES, {
-  fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
+writeFileSync(join(OUT, VOICE_RULES_PAGE), docShell({ base: '../', active: '__voice-rules__', title: 'Brand voice rules', section: 'foundations', ...splitFragment(renderVoiceRulesPage(VOICE_RULES, {
   templateHtml: read(join(root, VOICE_RULES_TEMPLATE_FILE)),
   palette: { vividPink: paletteHexOf('vivid-pink'), darkerPink: paletteHexOf('darker-pink'), vividPink5: paletteHexOf('vivid-pink-5'), vividPink30: paletteHexOf('vivid-pink-30'), purple: paletteHexOf('purple') },
-}), { title: siteTitle('Brand voice rules', null, VOICE_RULES_PAGE), base: '../' }));
+})) }));
 writeFileSync(join(OUT, 'voice-rules.md'), renderVoiceRulesMd(VOICE_RULES, { site: SITE }));
 writeFileSync(join(OUT, 'voice-rules.agent.json'), renderVoiceRulesAgent(VOICE_RULES, { site: SITE }));
 console.log(`  ✓ voice rules: ${VOICE_RULES_PAGE} · voice-rules.md · voice-rules.agent.json`);

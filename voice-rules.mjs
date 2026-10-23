@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { markupToHtml, markupToText, longDate, parseTemplate, sectionBlocks, escapeHtml, sectionNumber, fill, withDeprecatedAliases } from './colour-rules.mjs';
+import { splitFragment, markupToHtml, markupToText, longDate, parseTemplate, sectionBlocks, escapeHtml, sectionNumber, fill, withDeprecatedAliases } from './colour-rules.mjs';
 
 export const VOICE_RULES_FILE = 'brand/voice-rules.json';
 export const VOICE_RULES_TEMPLATE_FILE = 'brand/voice-rules.template.html';
@@ -61,12 +61,13 @@ function blockHtml(block, parts) {
   throw new Error(`${VOICE_RULES_FILE}: unknown block type "${block.type}"`);
 }
 
-export function renderVoiceRulesPage(voice, { fonts, templateHtml, palette }) {
+/** The page as a fragment (a style block, then the content) for the shared site shell to wrap. */
+export function renderVoiceRulesPage(voice, { templateHtml, palette }) {
   const { shell, parts } = parseTemplate(templateHtml);
   const number = (section) => `<span class="num">${sectionNumber(section)}</span>`;
   return fill(shell, {
     title: escapeHtml(voice.title),
-    fontRegular: fonts.regular, fontSemiBold: fonts.semiBold,
+    related: '<p class="updated">The visual rules are on <a href="brand-colour-rules.html">Brand colour rules</a>.</p>',
     vividPink: palette.vividPink, darkerPink: palette.darkerPink, vividPink5: palette.vividPink5, vividPink30: palette.vividPink30, purple: palette.purple,
     contents: voice.sections.map(section => `<li><a href="#${section.id}">${number(section)}${escapeHtml(section.title)}</a></li>`).join(''),
     lede: markupToHtml(voice.lede),

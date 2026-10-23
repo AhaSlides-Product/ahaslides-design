@@ -123,6 +123,13 @@ export function parseTemplate(templateHtml) {
   return { shell, parts };
 }
 
+/** Splits a rendered page fragment into its style block and its content. */
+export function splitFragment(html) {
+  const match = html.match(/^<style>([\s\S]*?)<\/style>\n([\s\S]*)$/);
+  if (!match) throw new Error('page fragment must start with a style block');
+  return { extraCss: match[1], main: match[2] };
+}
+
 export const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
 
 function paletteValueCell(colour) {
@@ -163,12 +170,13 @@ export function answerSection(rules) {
 const paletteHex = (rules, id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 
 /** The human page, self-contained: one file, both font weights embedded. */
-export function renderColourRulesPage(rules, { fonts, templateHtml, icon }) {
+/** The page as a fragment (a style block, then the content) for the shared site shell to wrap. */
+export function renderColourRulesPage(rules, { templateHtml, icon }) {
   const { shell, parts } = parseTemplate(templateHtml);
   const number = (section) => `<span class="num">${sectionNumber(section)}</span>`;
   return fill(shell, {
     title: escapeHtml(rules.title),
-    fontRegular: fonts.regular, fontSemiBold: fonts.semiBold,
+    related: '<p class="updated">The tokens the product uses today are on the <a href="colour.html">Colour token reference</a>.</p>',
     vividPink: paletteHex(rules, 'vivid-pink'), darkerPink: paletteHex(rules, 'darker-pink'),
     vividPink5: paletteHex(rules, 'vivid-pink-5'), vividPink30: paletteHex(rules, 'vivid-pink-30'), purple: paletteHex(rules, 'purple'),
     contents: rules.sections.map(section => `<li><a href="#${section.id}">${number(section)}${escapeHtml(section.title)}</a></li>`).join(''),

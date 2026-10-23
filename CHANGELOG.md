@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.386.1 — 2026-10-23
+### Fixed
+- Brand voice rules and Brand colour rules pages render inside the shared site shell (header, Foundations nav with its entry highlighted, search, footer) instead of as standalone documents; content and rule anchors unchanged (#381)
+- Revert: revert the PR; only the two page templates, their render functions and the nav entry change
+
 ## 0.386.0 — 2026-10-23
 ### Added
 - Brand voice rules: `brand/voice-rules.json` is the one source of the verbal brand (v2.2 why, positioning, audiences, messaging, opinions, spices, tone, writing rules, plus British spelling, one clear CTA, retired wording and which rules apply to which kind of communication). Rendered as `foundations/brand-voice-rules.html`, `voice-rules.md` and `voice-rules.agent.json`, listed in `llms.txt`, the Assets navigation and every environment's route, and exported as `@ahaslides-product/design/voice-rules.json` (#370)
