@@ -24,12 +24,12 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.380.0 — 2026-10-23
 ### Added
-- `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#PR)
+- `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#375)
 
 ### Changed
-- `<aha-answer-option>` shows the 20px answer mark on a revealed row, in the place of the 20px pick control, instead of a bare 16px tick or cross in the answer colour. Row height and gaps are unchanged. (#PR)
-- `<aha-badge kind="correct|incorrect">` leads with the 16px answer mark instead of the outline `system-check-circle` / `system-x-circle` in the answer colour, at both sizes (sm was a 12px icon). Fill, label, height and padding are unchanged. (#PR)
-- `<aha-canvas-count>` draws its verdict discs with the answer mark; the render is unchanged. (#PR)
+- `<aha-answer-option>` shows the 20px answer mark on a revealed row, in the place of the 20px pick control, instead of a bare 16px tick or cross in the answer colour. Row height and gaps are unchanged. (#375)
+- `<aha-badge kind="correct|incorrect">` leads with the 16px answer mark instead of the outline `system-check-circle` / `system-x-circle` in the answer colour, at both sizes (sm was a 12px icon). Fill, label, height and padding are unchanged. (#375)
+- `<aha-canvas-count>` draws its verdict discs with the answer mark; the render is unchanged. (#375)
 
 ## 0.374.2 — 2026-10-23
 ### Fixed
