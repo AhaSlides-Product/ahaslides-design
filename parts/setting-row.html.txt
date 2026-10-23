@@ -31,3 +31,11 @@
                  upgrade-body="Add your logo and colours to every deck.">
   <aha-switch slot="control"></aha-switch>
 </aha-setting-row>
+
+<!-- locked row in a right-hand panel — the panel scrolls (overflow:auto) and sits at the right edge;
+     the Paywall popover opens to the LEFT of the crown (align end), text left-aligned, never clipped -->
+<div style="width:280px;height:320px;overflow:auto;margin-left:auto">
+  <aha-setting-row label="Custom branding" locked plan="pro" upgrade-body="Add your logo and colours to every deck.">
+    <aha-switch slot="control"></aha-switch>
+  </aha-setting-row>
+</div>

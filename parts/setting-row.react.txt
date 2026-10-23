@@ -28,3 +28,10 @@ function SettingRow({ label, help, layout, children }) {
 <SettingRow label="Speaker notes" layout="stack">
   <aha-input slot="control" placeholder="Notes only you can see" />
 </SettingRow>
+
+// usage — locked row inside a right-hand scrolling panel: the Paywall popover opens to the left of the crown
+<div style={{ width: 280, height: 320, overflow: 'auto', marginLeft: 'auto' }}>
+  <aha-setting-row label="Custom branding" locked plan="pro" upgrade-body="Add your logo and colours to every deck.">
+    <aha-switch slot="control" />
+  </aha-setting-row>
+</div>

@@ -30,6 +30,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - With `align`, the popover now hangs 12px past the anchor edge so its arrow sits 20px in, clear of the rounded corner, and points at the crown's centre.
 
 ### Changed
+- The Setting row docs page gains a "Locked, in a right-hand panel" example: a narrow scrolling panel at the right edge, where the Paywall popover opens to the left of the crown. (#371)
 - `<aha-settings-list>` schema rows with `locked: true` use the same layout and render their `control` disabled; before, the crown replaced the control on the right. New row keys `featureKey` and `upgradeBody` pass through to the Paywall. The settings guide, `plan-gated` guideline and criterion C6 describe the new layout. (#371)
 ### Fixed
 - `<aha-paywall>`'s popover is no longer cut off by a scrolling or overflow-hidden ancestor, such as a right-hand settings panel. It now renders in the browser's top layer (`popover="manual"`, with `position:fixed` as the fallback where the Popover API is missing), is positioned from the anchor on open, follows the anchor on scroll and resize, and closes when the anchor scrolls out of view. Its text always starts at the left edge, even when the popover opens to the left of the anchor. The default look and the open and close motion are unchanged. (#371)

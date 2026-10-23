@@ -20,6 +20,13 @@
     <aha-setting-row label="Brand theme" locked layout="stack" upgrade-body="Apply a saved brand theme in one click."><aha-select slot="control" value="a" options='[{"label":"Aha default","value":"a"},{"label":"Brand","value":"b"}]'></aha-select></aha-setting-row>
   </div>
 
+  <div class="lbl">Locked, in a right-hand panel</div>
+  <div style="display:flex;justify-content:flex-end;height:320px;background:var(--aha-bg-layout);border:1px solid var(--aha-border);border-radius:var(--aha-radius-lg);overflow:hidden">
+    <div style="width:280px;height:100%;overflow:auto;box-sizing:border-box;padding:var(--aha-space-4);background:var(--aha-bg-container);border-left:1px solid var(--aha-border)">
+      <aha-setting-row label="Custom branding" help="Your logo on every deck." locked plan="pro" upgrade-body="Add your logo and colours to every deck."><aha-switch slot="control"></aha-switch></aha-setting-row>
+    </div>
+  </div>
+
   <div class="lbl">Stacked</div>
   <div class="stack">
     <aha-setting-row label="Deck title" layout="stack"><aha-input slot="control" value="Untitled"></aha-input></aha-setting-row>
