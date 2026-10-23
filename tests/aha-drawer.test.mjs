@@ -140,6 +140,17 @@ const stackScenarios = String.raw`(async () => {
   out.stillLockedAfterModalClosesFirst = root.style.overflow;
   first.close(); await frame();
   out.restoredAfterOutOfOrderClose = root.style.overflow;
+
+  first.show(); await frame();
+  modal.show(); await frame(); await frame();
+  const modalTab = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, composed: true, cancelable: true });
+  document.dispatchEvent(modalTab);
+  out.tabStaysInModal = document.activeElement === modal;
+  key('Escape'); await frame();
+  out.modalClosedFirst = !modal.hasAttribute('open');
+  out.drawerOpenAfterFirstEscape = first.hasAttribute('open');
+  key('Escape'); await frame();
+  out.drawerClosedSecond = !first.hasAttribute('open');
   return out;
 })()`;
 
@@ -153,4 +164,8 @@ test('nested aha-drawer handles keys on top and the scroll lock is shared with a
   assert.equal(result.restoredAfterBothClose, 'auto');
   assert.equal(result.stillLockedAfterModalClosesFirst, 'hidden');
   assert.equal(result.restoredAfterOutOfOrderClose, 'auto');
+  assert.equal(result.tabStaysInModal, true);
+  assert.equal(result.modalClosedFirst, true);
+  assert.equal(result.drawerOpenAfterFirstEscape, true);
+  assert.equal(result.drawerClosedSecond, true);
 });
