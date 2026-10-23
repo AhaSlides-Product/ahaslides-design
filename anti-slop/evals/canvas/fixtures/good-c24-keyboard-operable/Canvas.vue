@@ -102,13 +102,14 @@ function onCardKey(e: KeyboardEvent, i: number) {
 
 <style scoped>
 .stage { position: relative; height: 100%; padding: 32px; }
-.grid { position: relative; height: 60%; border: 1px solid var(--aha-border-default); }
+.grid { position: relative; height: 60%; border: 1px solid var(--aha-deck-container-stroke); }
 .dot { position: absolute; padding: 0; background: none; border: 0; color: inherit; font: inherit; }
 .mark { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid currentColor; font-size: 18px; }
-.label { display: none; position: absolute; top: 40px; left: 0; padding: 8px 12px; font-size: 18px; white-space: nowrap; background: var(--aha-bg-default); }
-.dot:hover .label, .dot:focus-visible .label { display: block; }
+.label { opacity: 0; visibility: hidden; position: absolute; top: 40px; left: 0; padding: 8px 12px; font-size: 18px; white-space: nowrap; background: var(--aha-deck-modal-fill); transition: opacity var(--aha-motion-mid) var(--aha-ease-out), visibility var(--aha-motion-mid) var(--aha-ease-out); }
+.dot:hover .label, .dot:focus-visible .label { opacity: 1; visibility: visible; }
+@media (prefers-reduced-motion: reduce) { .label { transition: none; } }
 .dot:focus-visible, .card:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 .cards { display: flex; gap: 16px; margin: 16px 0 0; padding: 0; list-style: none; }
-.card { padding: 12px 24px; font-size: 18px; border: 1px solid var(--aha-border-default); border-radius: 8px; }
+.card { padding: 12px 24px; font-size: 18px; border: 1px solid var(--aha-deck-container-stroke); border-radius: 8px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 </style>
