@@ -26,6 +26,16 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Added
 - Canvas anti-slop criterion C24 "Keyboard-only operation": every presenter interaction must work with the keyboard alone (Tab order with a visible focus ring, hover also on focus, a keyboard alternative to any drag or pointer gesture, no trap, deck navigation keys never swallowed), per Slide Plugin Policy section 6. Three evals (hover-only result dots, drag-only reorder, a good control) and a Canvas guide section. C10 is unchanged. (#328)
 
+## 0.367.2 — 2026-10-22
+### Fixed
+- `<aha-button>` declares `formAssociated` as a static getter instead of a static class field, which Safari and iOS below 14.1 cannot parse. Behaviour is unchanged. The browser-syntax test now also fails on a static class field in any browser-shipped `lib/*.js` file. (#367)
+Revert: restore `lib/aha-button.js` and the second test in `tests/browser-lib-syntax.test.mjs` from git.
+
+## 0.367.1 — 2026-10-22
+### Fixed
+- `<aha-button>` no longer uses a regex lookbehind to build its link-form style, which Safari and iOS below 16.4 cannot parse (the chunk holding the button failed to load there). The rewritten rule produces a byte-identical stylesheet. A test now fails when any browser-shipped `lib/*.js` file contains a lookbehind. (#366)
+Revert: restore `lib/aha-button.js` and remove `tests/browser-lib-syntax.test.mjs` from git.
+
 ## 0.367.0 — 2026-10-22
 ### Added
 - Website guideline W2 now carries two spacing rules. Page gutter: every Marketing section keeps the same side padding, 64px on desktop, 24px at 767px and below, 16px at 479px and below (a section reads it as `--aha-web-gutter` on its inner element). Content to button: a button directly under its own text sits 32px below it (24px at 479px and below), a closing call to action after a list or grid sits 48px below (32px at 479px and below), buttons next to each other 12px. A new test (`tests/web-gutter.test.mjs`) fails when a section's side padding differs from the gutter at 375 and 600px. (#360)
