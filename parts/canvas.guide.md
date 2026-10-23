@@ -117,7 +117,7 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (the same `lib/c
 | --- | --- |
 | `colorSuccess` (#1A1A1A, colour rules) | ✓ icon, validation-passed border |
 | `colorError` (#1A1A1A, colour rules) | ✗ icon, destructive-action chip |
-| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc, row edge and tints, answers only (colour rules section 11) |
+| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc (drawn only by `<aha-answer-mark>`), row edge and tints, answers only (colour rules section 11) |
 | `colorWarning` | caution icon, "are you sure?" prompt |
 | `colorInfo` | informational badge |
 
