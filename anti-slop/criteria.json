@@ -771,7 +771,7 @@
         {
           "id": "C6",
           "title": "Plan-gated settings are visible but locked",
-          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked with a crown badge that replaces its normal tooltip and opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, or the badge opens a custom popover."
+          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked: the label, then a crown badge in the place of its normal \"?\" tooltip (no \"?\" while locked), and the real control rendered disabled. The badge opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, the crown replaces the control, the control stays enabled, the \"?\" shows beside the crown, or the badge opens a custom popover."
         },
         {
           "id": "C7",

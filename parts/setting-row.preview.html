@@ -14,6 +14,12 @@
     <aha-setting-row label="Question timer" disabled><aha-switch slot="control" disabled></aha-switch></aha-setting-row>
   </div>
 
+  <div class="lbl">Locked (plan-gated)</div>
+  <div class="stack">
+    <aha-setting-row label="Custom branding" help="Your logo on every deck." locked upgrade-body="Add your logo and colours to every deck."><aha-switch slot="control"></aha-switch></aha-setting-row>
+    <aha-setting-row label="Brand theme" locked layout="stack" upgrade-body="Apply a saved brand theme in one click."><aha-select slot="control" value="a" options='[{"label":"Aha default","value":"a"},{"label":"Brand","value":"b"}]'></aha-select></aha-setting-row>
+  </div>
+
   <div class="lbl">Stacked</div>
   <div class="stack">
     <aha-setting-row label="Deck title" layout="stack"><aha-input slot="control" value="Untitled"></aha-input></aha-setting-row>
@@ -29,5 +35,6 @@
   import '../lib/aha-setting-row.js';   // registers <aha-setting-row> — the shipped primitive, byte-identical to what consumers get
   import '../lib/aha-switch.js';        // registers <aha-switch> (a control it carries)
   import '../lib/aha-checkbox.js';      // registers <aha-checkbox> (a control it carries)
+  import '../lib/aha-select.js';        // registers <aha-select> (a locked stacked row)
   import '../lib/aha-input.js';         // registers <aha-input> (a wide control for the stack layout)
 </script>

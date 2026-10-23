@@ -18,6 +18,7 @@
     { "label": "Stack", "value": "flex-direction column; align-items stretch; gap 8; control full-width" },
     { "label": "Help", "value": "optional \"?\" after the label (DS <aha-tooltip help> — the system-question glyph)" },
     { "label": "Disabled", "value": "label dims to text-disabled (#B5B5B5); the control disables itself" },
+    { "label": "Locked (plan-gated)", "value": "locked → the shared <aha-paywall> crown sits after the label in place of the \"?\" (no \"?\" while locked), the slotted control is disabled, the label keeps its normal colour (not the disabled grey), aria-disabled is set; the crown never replaces the control" },
     { "label": "Leading icon", "value": "NONE — no decorative leading-icon slot on the label (SETTINGS-40)" }
   ],
   "props": [
@@ -25,6 +26,10 @@
     { "name": "help", "type": "string", "default": "—", "desc": "Optional guidance — renders the \"?\" help trigger (system-question glyph) after the label; the tooltip carries the text. The bubble opens below the \"?\", aligned to its start or end edge (whichever has more room) and wraps to stay inside the viewport, so it never clips in a narrow settings iframe" },
     { "name": "layout", "type": "inline | stack", "default": "inline", "desc": "inline: label-left / control-right (space-between). stack: label above, control full-width — for a wide control" },
     { "name": "disabled", "type": "boolean", "default": "false", "desc": "Dims the label to text-disabled and sets aria-disabled; the slotted control disables itself on its own element" },
+    { "name": "locked", "type": "boolean", "default": "false", "desc": "Plan-gates the row: the shared Paywall crown replaces the \"?\" after the label and the slotted control is disabled (re-enabled on unlock only if the row disabled it). The label keeps its normal colour" },
+    { "name": "plan", "type": "essential | pro", "default": "pro", "desc": "The plan the Paywall names in its \"Unlock with the … plan\" line (used while locked)" },
+    { "name": "feature-key", "type": "string", "default": "—", "desc": "Analytics key carried in the Paywall events (paywall-shown / paywall-upgrade / paywall-plans)" },
+    { "name": "upgrade-body", "type": "string", "default": "—", "desc": "One sentence on the benefit of unlocking; passed to the Paywall body. The Paywall feature label is the row label" },
     { "name": "control", "type": "slot", "default": "—", "desc": "The DS control (slot=\"control\") — an existing element like <aha-switch> / <aha-checkbox> / <aha-input>; reuse, never a re-implemented control" }
   ],
   "opinion": {
@@ -53,6 +58,10 @@
         { "label": "None", "value": null },
         { "label": "Leaderboard help", "value": "Shown to the audience between slides." }
       ] },
+      { "prop": "locked", "label": "Locked", "default": "off", "options": [
+        { "label": "Off", "value": null },
+        { "label": "On", "value": "" }
+      ] },
       { "prop": "disabled", "label": "Disabled", "default": "off", "options": [
         { "label": "Off", "value": null },
         { "label": "On", "value": "" }
@@ -64,6 +73,7 @@
     { "label": "label Plus Jakarta 14/21 regular (400) text-default; label-left", "verdict": "PASS" },
     { "label": "control-right (flex:0 0 auto); stack → control full-width", "verdict": "PASS" },
     { "label": "\"?\" help (system-question glyph) renders after the label when help is set", "verdict": "PASS" },
+    { "label": "locked row: Paywall crown in place of the \"?\", help hidden, control disabled, label colour unchanged", "verdict": "PASS" },
     { "label": "no decorative leading-icon slot (SETTINGS-40)", "verdict": "PASS" }
   ],
   "conformance": {

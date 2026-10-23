@@ -6,6 +6,7 @@
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';            // registers <aha-icon> (the "?" glyph)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-setting-row.js';  // registers <aha-setting-row>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';      // registers <aha-paywall> (the crown of a locked row)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';       // registers <aha-switch> (a control it carries)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';        // registers <aha-input> (a wide control for the stack layout)
 </script>
@@ -23,4 +24,10 @@
 <!-- stack — label above, control full-width (a wide textarea / wide select) -->
 <aha-setting-row label="Speaker notes" layout="stack">
   <aha-input slot="control" placeholder="Notes only you can see"></aha-input>
+</aha-setting-row>
+
+<!-- locked (plan-gated) — the Paywall crown sits after the label in place of the "?", the control is disabled -->
+<aha-setting-row label="Custom branding" locked plan="pro" feature-key="custom_branding"
+                 upgrade-body="Add your logo and colours to every deck.">
+  <aha-switch slot="control"></aha-switch>
 </aha-setting-row>
