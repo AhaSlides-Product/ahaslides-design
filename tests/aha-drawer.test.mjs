@@ -104,3 +104,53 @@ test('aha-drawer opens, traps focus, closes through a cancelable close and retur
   assert.equal(result.staticIgnoresMask, true);
   assert.equal(result.closeButtonClosed, true);
 });
+
+const stackFixture = pathToFileURL(fileURLToPath(new URL('./aha-drawer-stack.html', import.meta.url))).href;
+
+const stackScenarios = String.raw`(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const key = (name, init = {}) => document.dispatchEvent(new KeyboardEvent('keydown', { key: name, bubbles: true, composed: true, cancelable: true, ...init }));
+  const parent = document.querySelector('#parent');
+  const child = document.querySelector('#child');
+  const first = document.querySelector('#first');
+  const modal = document.querySelector('#modal');
+  const out = {};
+
+  parent.show(); child.show(); await frame();
+  key('Escape'); await frame();
+  out.childClosedByEscape = !child.hasAttribute('open');
+  out.parentStillOpen = parent.hasAttribute('open');
+  child.show(); await frame();
+  const tab = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, composed: true, cancelable: true });
+  document.dispatchEvent(tab);
+  out.childTrapsTab = tab.defaultPrevented && child.contains(document.activeElement);
+  child.close(); parent.close(); await frame();
+
+  const root = document.documentElement;
+  root.style.overflow = 'auto';
+  first.show(); modal.show(); await frame();
+  out.lockedWhileBothOpen = root.style.overflow;
+  first.close(); await frame();
+  out.stillLockedAfterDrawerCloses = root.style.overflow;
+  modal.close(); await frame();
+  out.restoredAfterBothClose = root.style.overflow;
+
+  modal.show(); first.show(); await frame();
+  modal.close(); await frame();
+  out.stillLockedAfterModalClosesFirst = root.style.overflow;
+  first.close(); await frame();
+  out.restoredAfterOutOfOrderClose = root.style.overflow;
+  return out;
+})()`;
+
+test('nested aha-drawer handles keys on top and the scroll lock is shared with aha-audience-modal', { skip }, async () => {
+  const result = await evaluateInPage(stackFixture, stackScenarios, { readyExpr: '!!window.drawerFixtureReady', timeout: 45000 });
+  assert.equal(result.childClosedByEscape, true);
+  assert.equal(result.parentStillOpen, true);
+  assert.equal(result.childTrapsTab, true);
+  assert.equal(result.lockedWhileBothOpen, 'hidden');
+  assert.equal(result.stillLockedAfterDrawerCloses, 'hidden');
+  assert.equal(result.restoredAfterBothClose, 'auto');
+  assert.equal(result.stillLockedAfterModalClosesFirst, 'hidden');
+  assert.equal(result.restoredAfterOutOfOrderClose, 'auto');
+});
