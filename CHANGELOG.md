@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.384.0 — 2026-10-23
 ### Added
-- `<aha-answer-result result="correct|incorrect|key" label>`: a read-only answer row for the Report and Session Report participant view. A wrong response is a 2px `--aha-answer-wrong` ring over the 5% wrong tint plus the answer mark (cross); a correct response is a 1px `--aha-answer-correct` edge over the 5% correct tint plus the mark (tick); the answer key (default) is plain, with no tint, edge or mark. The text stays the default ink at regular weight (colour rules 11.2 and 11.5). Stacked on #375 (`<aha-answer-mark>`): merge after it. (#PR)
+- `<aha-answer-result result="correct|incorrect|key" label>`: a read-only answer row for the Report and Session Report participant view. A wrong response is a 2px `--aha-answer-wrong` ring over the 5% wrong tint plus the answer mark (cross); a correct response is a 1px `--aha-answer-correct` edge over the 5% correct tint plus the mark (tick); the answer key (default) is plain, with no tint, edge or mark. The text stays the default ink at regular weight (colour rules 11.2 and 11.5). Stacked on #375 (`<aha-answer-mark>`): merge after it. (#379)
 
 ## 0.380.0 — 2026-10-23
 ### Added
