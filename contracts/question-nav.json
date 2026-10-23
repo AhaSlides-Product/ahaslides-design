@@ -13,7 +13,7 @@
       "defineAhaQuestionNav"
     ]
   },
-  "summary": "A numbered jump list for the questions of a quiz or report: one button per question, the current one filled, arrow-key navigation, overflow scroll for long quizzes, and an optional answer mark per number.",
+  "summary": "A numbered jump list for the questions of a quiz or report: one button per question, the current one ringed, arrow-key navigation, overflow scroll for long quizzes, and an optional answer mark per number.",
   "highlights": [
     "One numbered button per question; the current one is ringed in the brand colour on a tint and carries aria-current",
     "One tab stop: arrow keys, Home and End move focus, Enter or click picks the question",
