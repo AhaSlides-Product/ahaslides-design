@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.384.0 — 2026-10-23
+### Added
+- `<aha-answer-result result="correct|incorrect|key" label>`: a read-only answer row for the Report and Session Report participant view. A wrong response is a 2px `--aha-answer-wrong` ring over the 5% wrong tint plus the answer mark (cross); a correct response is a 1px `--aha-answer-correct` edge over the 5% correct tint plus the mark (tick); the answer key (default) is plain, with no tint, edge or mark. The text stays the default ink at regular weight (colour rules 11.2 and 11.5). Stacked on #375 (`<aha-answer-mark>`): merge after it. (#PR)
+
 ## 0.380.0 — 2026-10-23
 ### Added
 - `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#375)

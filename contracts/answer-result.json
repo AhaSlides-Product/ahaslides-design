@@ -1,0 +1,186 @@
+{
+  "name": "Answer result",
+  "slug": "answer-result",
+  "group": "Data display",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-answer-result",
+  "reuse": {
+    "entry": "./aha-answer-result",
+    "registers": "aha-answer-result",
+    "exportsNamed": [
+      "AhaAnswerResult",
+      "defineAhaAnswerResult"
+    ]
+  },
+  "summary": "A read-only answer row for product screens: a wrong response is a 2px answer-red ring over the 5% wrong tint with the cross mark, a correct response a 1px answer-green edge over the 5% correct tint with the tick mark, and the answer key stays plain.",
+  "highlights": [
+    "Wrong: 2px --aha-answer-wrong ring, 5% wrong tint, cross mark",
+    "Correct: 1px --aha-answer-correct edge, 5% correct tint, tick mark",
+    "Answer key: default border, no tint, no edge, no mark",
+    "Text stays the default ink at regular weight"
+  ],
+  "lead": "ONE custom element — <aha-answer-result> — for the \"Response\" and \"Correct answer\" boxes on the Report and Session Report participant view. `result=\"incorrect\"` draws the 2px --aha-answer-wrong ring (a 1px border plus a 1px inset ring, so the row does not grow) over --aha-answer-wrong-tint-5, with <aha-answer-mark result=\"incorrect\">. `result=\"correct\"` draws a 1px --aha-answer-correct edge over --aha-answer-correct-tint-5 with <aha-answer-mark result=\"correct\">. With no `result` (or `key`) the row is the answer key: the default border, no tint, no edge and no mark (colour rule 11.5). Right and wrong carry equal weight apart from the wrong ring, which colour rule 11.5 allows only on answer reveal and review screens. The text is always the default ink at regular weight (rules 11.2, 11.5): a page never colours it, and screen-lint fails an answer token on `color`. The slot holds the answer text; `label` adds a small caption above it (\"Response\", \"Correct answer\").",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes and a text slot only, no events. Reuses <aha-answer-mark> for the tick or cross; never redraw the disc.",
+  "tokensUsed": [
+    "answer-correct",
+    "answer-wrong",
+    "answer-correct-tint-5",
+    "answer-wrong-tint-5",
+    "border-default",
+    "white",
+    "text-default",
+    "text-secondary",
+    "radius-default"
+  ],
+  "spec": [
+    {
+      "label": "Row",
+      "value": "flex, radius 8, 44 min-height, padding 8 12, gap 12, 1px --aha-border-default on white; grows with wrapped text"
+    },
+    {
+      "label": "Wrong response",
+      "value": "result=\"incorrect\": 1px --aha-answer-wrong border plus a 1px inset --aha-answer-wrong ring (2px in all, inside the box so the row does not move) over --aha-answer-wrong-tint-5; 20px cross mark leads"
+    },
+    {
+      "label": "Correct response",
+      "value": "result=\"correct\": 1px --aha-answer-correct border over --aha-answer-correct-tint-5; 20px tick mark leads"
+    },
+    {
+      "label": "Answer key",
+      "value": "no result (key): default border, white fill, no mark; the correct answer shown beside a response stays plain"
+    },
+    {
+      "label": "Text",
+      "value": "14px / 20px, --aha-text-default, regular weight in every state; wraps (overflow-wrap anywhere)"
+    },
+    {
+      "label": "Caption",
+      "value": "optional `label`: 12px / 16px --aha-text-secondary above the text"
+    },
+    {
+      "label": "Motion",
+      "value": "background, border-colour and ring change over --aha-motion-mid with --aha-ease-in-out; none under prefers-reduced-motion"
+    }
+  ],
+  "props": [
+    {
+      "name": "result",
+      "type": "correct | incorrect | key",
+      "default": "key",
+      "desc": "Which row: a correct response, a wrong response, or the plain answer key"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"\"",
+      "desc": "Caption above the text, such as \"Response\" or \"Correct answer\""
+    },
+    {
+      "name": "mark-label",
+      "type": "string",
+      "default": "\"Correct\" / \"Incorrect\" (English)",
+      "desc": "Accessible name of the mark; pass a translated string in the product"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Answer result",
+        "when": "a read-only row showing what a participant answered, or the answer key, on a Report or Session Report screen"
+      },
+      {
+        "what": "Answer option",
+        "when": "a live or revealed answer on the presenter canvas or audience phone"
+      },
+      {
+        "what": "Option row",
+        "when": "an editable answer in a settings panel; its correct state is a different, editable control"
+      }
+    ],
+    "note": "Do not hand-compose a Response or Correct answer box from the answer tokens: this element is it. The ring around a wrong row is for answer reveal and review screens only (colour rule 11.5); the answer key never gets a green edge."
+  },
+  "a11y": {
+    "role": "The row is static text; the leading mark is role=\"img\" named \"Correct\" or \"Incorrect\" (or `mark-label`), so a screen reader hears the verdict before the answer",
+    "keyboard": "static (nothing to focus)",
+    "note": "`result`, `label` and `mark-label` are observed. Verdict is carried by the mark's shape and name, not by colour alone."
+  },
+  "surfaces": [
+    "dashboard"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "answer-result.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "answer-result.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "answer-result.vue.txt"
+    }
+  ],
+  "preview": "answer-result.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The probes are a wrong response, a correct response and the plain answer key.",
+    "ready": "!!(document.querySelector('aha-answer-result[data-probe]') && document.querySelector('aha-answer-result[data-probe]').shadowRoot && document.querySelector('aha-answer-result[data-probe-wrong]') && document.querySelector('aha-answer-result[data-probe-wrong]').shadowRoot && document.querySelector('aha-answer-result[data-probe-key]') && document.querySelector('aha-answer-result[data-probe-key]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var tok=function(n){var t=document.createElement('div');t.style.color='var(--aha-'+n+')';document.body.appendChild(t);var v=getComputedStyle(t).color;t.remove();return v;};var row=function(sel){var h=document.querySelector(sel);var r=h.shadowRoot.querySelector('.row');var s=getComputedStyle(r);var mk=h.shadowRoot.querySelector('.mark');var tx=getComputedStyle(h.shadowRoot.querySelector('.text'));return{border:s.borderTopWidth,borderColor:s.borderTopColor,ring:s.boxShadow,bg:s.backgroundColor,mark:getComputedStyle(mk).display,markResult:mk.getAttribute('result'),ink:tx.color,weight:tx.fontWeight,height:r.getBoundingClientRect().height};};var w=row('aha-answer-result[data-probe-wrong]');var c=row('aha-answer-result[data-probe]');var k=row('aha-answer-result[data-probe-key]');return{wrongBorder:w.border,wrongEdgeIsAnswerWrong:w.borderColor===tok('answer-wrong'),wrongRing:w.ring.indexOf('inset')>-1&&w.ring.indexOf(tok('answer-wrong'))>-1,wrongTint:w.bg===tok('answer-wrong-tint-5'),wrongMark:w.mark+' '+w.markResult,correctBorder:c.border,correctEdgeIsAnswerCorrect:c.borderColor===tok('answer-correct'),correctRing:c.ring,correctTint:c.bg===tok('answer-correct-tint-5'),correctMark:c.mark+' '+c.markResult,keyBorderColor:k.borderColor===tok('border-default'),keyRing:k.ring,keyMark:k.mark,keyBg:k.bg,ink:w.ink===tok('text-default')&&c.ink===tok('text-default')&&k.ink===tok('text-default'),weight:w.weight+' '+c.weight+' '+k.weight};})()",
+    "expect": {
+      "wrongBorder": "1px",
+      "wrongEdgeIsAnswerWrong": true,
+      "wrongRing": true,
+      "wrongTint": true,
+      "wrongMark": "inline-flex incorrect",
+      "correctBorder": "1px",
+      "correctEdgeIsAnswerCorrect": true,
+      "correctRing": "none",
+      "correctTint": true,
+      "correctMark": "inline-flex correct",
+      "keyBorderColor": true,
+      "keyRing": "none",
+      "keyMark": "none",
+      "keyBg": "rgb(255, 255, 255)",
+      "ink": true,
+      "weight": "400 400 400"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "answer colour only on the edge, ring and 5% tint of the row, never on text (colour rules 11.2, 11.3)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "the tick and cross are <aha-answer-mark>, not a redrawn disc",
+      "verdict": "PASS"
+    },
+    {
+      "label": "verdict carried by shape and accessible name as well as colour",
+      "verdict": "PASS"
+    },
+    {
+      "label": "answer key stays plain: default border, no tint, no edge (colour rule 11.5)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "persistent shadow nodes; attributes update in place; motion tokens, none under reduced motion",
+      "verdict": "PASS"
+    }
+  ],
+  "composedOf": [
+    {
+      "component": "aha-answer-mark",
+      "status": "shipped"
+    }
+  ]
+}
