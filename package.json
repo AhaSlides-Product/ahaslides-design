@@ -24,6 +24,7 @@
     "./lib/settings.js",
     "./lib/canvas.js",
     "./lib/aha-status-icon.js",
+    "./lib/aha-answer-mark.js",
     "./lib/aha-canvas-count.js",
     "./lib/aha-canvas-status.js",
     "./lib/aha-loader.js",
@@ -129,6 +130,7 @@
   "jsdelivr": "./lib/all.js",
   "browser": "./lib/all.js",
   "exports": {
+    "./aha-answer-mark": "./lib/aha-answer-mark.js",
     "./aha-canvas-status": "./lib/aha-canvas-status.js",
     "./aha-canvas-count": "./lib/aha-canvas-count.js",
     "./aha-audience-modal": "./lib/aha-audience-modal.js",

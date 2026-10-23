@@ -1,0 +1,175 @@
+{
+  "name": "Answer mark",
+  "slug": "answer-mark",
+  "group": "Data display",
+  "tier": "leaf",
+  "badge": "shared web component",
+  "element": "aha-answer-mark",
+  "reuse": {
+    "entry": "./aha-answer-mark",
+    "registers": "aha-answer-mark",
+    "exportsNamed": [
+      "AhaAnswerMark",
+      "defineAhaAnswerMark"
+    ]
+  },
+  "summary": "The one mark for a correct or incorrect answer: a white tick or cross on a solid answer-green or answer-red disc, at 16, 20, 24 or 32px, the same on the presenter canvas, the audience phone and the report.",
+  "highlights": [
+    "White system-check / system-x on a solid --aha-answer-correct / --aha-answer-wrong disc",
+    "Disc 16 · 20 (default) · 24 · 32, glyph 12 · 12 · 16 · 24",
+    "Named \"Correct\" / \"Incorrect\" for screen readers, or decorative beside a visible label",
+    "Never recoloured by a deck, a theme or the accent (colour rule 11.4)"
+  ],
+  "lead": "ONE custom element — <aha-answer-mark> — for every place an answer is marked right or wrong. Set `result=\"correct\"` (default) for a white system-check on the --aha-answer-correct disc, or `result=\"incorrect\"` for a white system-x on the --aha-answer-wrong disc. Colour rule 11.3 allows solid answer colour only for this disc, and screen-lint fails an answer token on `color`, so a page never colours an <aha-icon> green or red or draws its own disc: it places this element. <aha-answer-option> (the revealed verdict) and <aha-badge kind=\"correct|incorrect\"> render it inside.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
+  "tokensUsed": [
+    "answer-correct",
+    "answer-wrong",
+    "white"
+  ],
+  "spec": [
+    {
+      "label": "Disc",
+      "value": "a circle, solid --aha-answer-correct (correct) or --aha-answer-wrong (incorrect); no border, no shadow, no tint"
+    },
+    {
+      "label": "Glyph",
+      "value": "white (--aha-white) system-check for correct, system-x for incorrect, centred, drawn by <aha-icon> at its grid stroke"
+    },
+    {
+      "label": "Sizes",
+      "value": "size 16 → glyph 12 · size 20 (default) → glyph 12 · size 24 → glyph 16 · size 32 → glyph 24; any other value renders 20"
+    },
+    {
+      "label": "Where",
+      "value": "20 in <aha-answer-option> (in place of the 20px pick control), <aha-canvas-count> and the correct label of <aha-chart>; 16 in <aha-badge kind=\"correct|incorrect\">"
+    }
+  ],
+  "props": [
+    {
+      "name": "result",
+      "type": "correct | incorrect",
+      "default": "correct",
+      "desc": "Which mark: a white tick on the answer green, or a white cross on the answer red"
+    },
+    {
+      "name": "size",
+      "type": "16 | 20 | 24 | 32",
+      "default": "20",
+      "desc": "The disc diameter in px; the glyph inside is 12 / 12 / 16 / 24"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Correct\" / \"Incorrect\" (English)",
+      "desc": "Accessible name; pass a translated string in the product"
+    },
+    {
+      "name": "decorative",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Hide the mark from screen readers when visible text beside it already says the result (a badge label, a count sentence)"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Answer mark",
+        "when": "any place that shows whether an answer was right or wrong after a quiz reveal: an answer row, a result list, a report table cell, a count"
+      },
+      {
+        "what": "Badge kind=\"correct|incorrect\"",
+        "when": "the result needs a word as well (Report app tables): the badge carries the mark at 16 plus the label"
+      },
+      {
+        "what": "Status icon / Alert glyph",
+        "when": "a state that is not an answer result (done, failed, saved): the default ink, never the answer pair (colour rule 11.1)"
+      }
+    ],
+    "note": "Never hand-draw the disc or colour an <aha-icon> with an answer token: this element is the only solid use of the answer pair besides an answer row's edge and the correct chart column (colour rule 11.3). It carries its meaning by shape as well as colour, so keep the tick and cross; never swap in check-circle outlines."
+  },
+  "a11y": {
+    "role": "role=\"img\" with aria-label \"Correct\" / \"Incorrect\" (or `label`); `decorative` sets aria-hidden instead",
+    "keyboard": "static (nothing to focus)",
+    "note": "`result`, `label` and `decorative` are observed, so the name follows the attributes."
+  },
+  "surfaces": [
+    "presenter",
+    "audience",
+    "dashboard"
+  ],
+  "environment": [
+    "product",
+    "audience"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "answer-mark.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "answer-mark.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "answer-mark.vue.txt"
+    }
+  ],
+  "preview": "answer-mark.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The probes are the default correct mark and an incorrect mark at 16.",
+    "ready": "!!(document.querySelector('aha-answer-mark[data-probe]') && document.querySelector('aha-answer-mark[data-probe]').shadowRoot && document.querySelector('aha-answer-mark[data-probe-wrong]') && document.querySelector('aha-answer-mark[data-probe-wrong]').shadowRoot)",
+    "singleUI": true,
+    "measure": "(function(){var a=document.querySelector('aha-answer-mark[data-probe]');var w=document.querySelector('aha-answer-mark[data-probe-wrong]');var tok=function(n){var t=document.createElement('div');t.style.color='var(--aha-answer-'+n+')';document.body.appendChild(t);var v=getComputedStyle(t).color;t.remove();return v;};var d=getComputedStyle(a.shadowRoot.querySelector('.disc'));var e=getComputedStyle(w.shadowRoot.querySelector('.disc'));var g=a.shadowRoot.querySelector('aha-icon');return{width:d.width,height:d.height,discIsAnswerCorrect:d.backgroundColor===tok('correct'),glyphColor:getComputedStyle(g).color,glyph:g.getAttribute('name'),glyphSize:g.getAttribute('size'),wrongWidth:e.width,wrongDiscIsAnswerWrong:e.backgroundColor===tok('wrong'),wrongGlyph:w.shadowRoot.querySelector('aha-icon').getAttribute('name'),label:a.getAttribute('aria-label')};})()",
+    "expect": {
+      "width": "20px",
+      "height": "20px",
+      "discIsAnswerCorrect": true,
+      "glyphColor": "rgb(255, 255, 255)",
+      "glyph": "system-check",
+      "glyphSize": "12",
+      "wrongWidth": "16px",
+      "wrongDiscIsAnswerWrong": true,
+      "wrongGlyph": "system-x",
+      "label": "Correct"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "solid disc only in --aha-answer-correct / --aha-answer-wrong (colour rule 11.3)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "white DS glyphs by name (system-check, system-x), on-grid sizes only",
+      "verdict": "PASS"
+    },
+    {
+      "label": "accessible name Correct / Incorrect, or decorative beside visible text",
+      "verdict": "PASS"
+    },
+    {
+      "label": "persistent shadow nodes; attributes update in place",
+      "verdict": "PASS"
+    }
+  ],
+  "composedOf": [
+    {
+      "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-check",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-x",
+      "status": "shipped"
+    }
+  ]
+}
