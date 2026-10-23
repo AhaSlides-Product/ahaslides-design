@@ -30,6 +30,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-answer-option>` shows the 20px answer mark on a revealed row, in the place of the 20px pick control, instead of a bare 16px tick or cross in the answer colour. Row height and gaps are unchanged. (#375)
 - `<aha-badge kind="correct|incorrect">` leads with the 16px answer mark instead of the outline `system-check-circle` / `system-x-circle` in the answer colour, at both sizes (sm was a 12px icon). Fill, label, height and padding are unchanged. (#375)
 - `<aha-canvas-count>` draws its verdict discs with the answer mark; the render is unchanged. (#375)
+- `<aha-chart>` draws the correct option's disc with the answer mark (20px, 6px before the label); the render is unchanged. (#375)
 
 ## 0.374.2 — 2026-10-23
 ### Fixed
