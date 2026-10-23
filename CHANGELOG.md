@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.374.0 — 2026-10-23
+### Added
+- Canvas anti-slop criterion C24 "Keyboard-only operation": every presenter interaction must work with the keyboard alone (Tab order with a visible focus ring, hover also on focus, a keyboard alternative to any drag or pointer gesture, no trap, deck navigation keys never swallowed), per Slide Plugin Policy section 6. Three evals (hover-only result dots, drag-only reorder, a good control) and a Canvas guide section. C10 is unchanged. (#328)
+
 ## 0.373.0 — 2026-10-23
 ### Added
 - `<aha-setting-row>` and `<aha-settings-item>` take `locked` (plus `plan`, `feature-key`, `upgrade-body`) for a setting that needs an upgrade. A locked row reads: the label, the shared `<aha-paywall>` crown in the place of the "?" help (the "?" is hidden), and the real control disabled. The label keeps its normal colour. The Paywall feature label is the row label.
