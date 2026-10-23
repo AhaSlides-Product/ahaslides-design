@@ -151,3 +151,45 @@ test('clicking the disabled control of a locked row opens its paywall popover an
   }
   assert.equal(result.freeOpen, false);
 });
+
+const panelPage = `<!doctype html><body style="margin:0;display:flex;height:100vh;font-family:sans-serif">
+<main style="flex:1"></main>
+<aside id="panel" style="width:300px;overflow-y:auto;padding:16px;box-sizing:border-box;border-left:1px solid #ddd;height:100vh">
+<aha-setting-row id="row" label="Branding" locked plan="pro"><aha-switch slot="control"></aha-switch></aha-setting-row>
+<div style="height:4000px"></div>
+</aside>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('locked row popover inside an overflow:auto side panel is not clipped, and follows the crown while the panel scrolls', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'setting-row-panel-')), 'page.html');
+  writeFileSync(file, panelPage);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const host = document.getElementById('row');
+    const lock = host.shadowRoot.querySelector('.lock');
+    const control = host.querySelector('[slot=control]');
+    lock.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+    host.shadowRoot.querySelector('.control').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+    await wait(400);
+    const pop = lock.shadowRoot.querySelector('.pop');
+    const rect = () => pop.getBoundingClientRect();
+    const hitPopover = () => { const box = rect(); const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2); return hit === host; };
+    const panelLeft = document.getElementById('panel').getBoundingClientRect().left;
+    const before = rect();
+    const anchorGap = () => Math.abs(rect().bottom - lock.getBoundingClientRect().top) + Math.abs(rect().top - lock.getBoundingClientRect().bottom);
+    const beforeGap = Math.min(Math.abs(rect().top - lock.getBoundingClientRect().bottom), Math.abs(rect().bottom - lock.getBoundingClientRect().top));
+    const openedHit = hitPopover();
+    document.getElementById('panel').scrollTop = 6;
+    await wait(100);
+    const afterGap = Math.min(Math.abs(rect().top - lock.getBoundingClientRect().bottom), Math.abs(rect().bottom - lock.getBoundingClientRect().top));
+    document.getElementById('panel').scrollTop = 400;
+    await wait(300);
+    return { inViewport: before.left >= 0 && before.right <= innerWidth && before.top >= 0 && before.bottom <= innerHeight,
+      crossesPanelEdge: before.left < panelLeft, openedHit, beforeGap, afterGap, closedWhenAnchorScrolledAway: !lock.hasAttribute('open') };
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-switch") && !!customElements.get("aha-paywall")' });
+  assert.equal(result.inViewport, true, JSON.stringify(result));
+  assert.equal(result.crossesPanelEdge, true, JSON.stringify(result));
+  assert.equal(result.openedHit, true, 'popover centre must hit the popover, not the panel');
+  assert.ok(result.beforeGap < 12 && result.afterGap < 12, JSON.stringify(result));
+  assert.equal(result.closedWhenAnchorScrolledAway, true, JSON.stringify(result));
+});

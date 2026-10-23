@@ -31,6 +31,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ### Changed
 - `<aha-settings-list>` schema rows with `locked: true` use the same layout and render their `control` disabled; before, the crown replaced the control on the right. New row keys `featureKey` and `upgradeBody` pass through to the Paywall. The settings guide, `plan-gated` guideline and criterion C6 describe the new layout. (#371)
+### Fixed
+- `<aha-paywall>`'s popover is no longer cut off by a scrolling or overflow-hidden ancestor, such as a right-hand settings panel. It now renders in the browser's top layer (`popover="manual"`, with `position:fixed` as the fallback where the Popover API is missing), is positioned from the anchor on open, follows the anchor on scroll and resize, and closes when the anchor scrolls out of view. The default look and the open and close motion are unchanged. (#371)
+
 Revert: restore `lib/aha-paywall.js`, `contracts/paywall.json`, the paywall parts, `lib/aha-setting-row.js`, `lib/aha-settings-list.js`, the setting-row and settings-list contracts and parts, `guidelines/settings.json`, the C6 text in `anti-slop/criteria.json` and `tests/setting-row-locked.test.mjs` from git.
 
 ## 0.372.0 — 2026-10-23
