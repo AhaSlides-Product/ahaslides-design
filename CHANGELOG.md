@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.385.1 — 2026-10-23
+### Fixed
+- `<aha-question-nav>`: the current item's tint fallback is `#E70E680D` (5%), matching `--aha-bg-accent`, so it renders at the right tint without `tokens.css`; the contract summary says the current item is ringed, not filled. (#380)
+
 ## 0.385.0 — 2026-10-23
 ### Added
 - `<aha-question-nav count current results>`: a numbered jump list for the questions of a report. The current question is ringed in the brand colour with `aria-current`; arrow keys, Home and End move focus (one tab stop), Enter or a click picks one and emits `change` `{value, index}`. A long list scrolls in the strip with scroll buttons that appear only on overflow, or `wrap`s onto lines. `results="correct|incorrect||correct"` adds an `<aha-answer-mark>` beside the number; the number stays ink (colour rule 11.3). It reuses the page cell of `aha-pagination`; segmented, pagination and tabs do not cover a per-question jump list with results. (#378)
