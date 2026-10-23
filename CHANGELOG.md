@@ -22,6 +22,13 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.381.0 — 2026-10-23
+### Added
+- Colour rule 11.5, weight: right and wrong carry equal weight (edge, 5% tint, mark), and on answer reveal and review screens (the audience reveal, the Report participant drawer) a wrong answer may add a 2px ring in the wrong red outside its edge. The answer key stays plain, and text never changes weight by verdict. Docs and agent guidance only. (#374)
+### Fixed
+- Feedback rule `inline-result-tokens` and judge criterion C2 colour an inline correct or incorrect result with the `--aha-answer-correct` / `--aha-answer-wrong` edge over the 5% tint, not `--aha-colorSuccess` / `--aha-colorError`, which are ink. The answer-option contract states the same.
+- Status badge rule `app-colours` no longer lets the Report app keep its own Correct, Partially correct and Incorrect colours: answer results are excluded, Correct and Incorrect use `aha-badge` `kind="correct|incorrect"`, and Partially correct takes no answer colour.
+
 ## 0.380.0 — 2026-10-23
 ### Added
 - `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#375)

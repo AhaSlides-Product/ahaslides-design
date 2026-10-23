@@ -2,7 +2,6 @@
  "$about": "Items that shipped before every item had to declare \"environment\". standards.mjs fails a new or changed item without one, and fails when this list grows or names an item that no longer needs it; shrink it with node standards.mjs --update-baseline.",
  "missing": [
   "contract:aha-loader",
-  "contract:answer-list",
   "contract:audience-chip",
   "contract:autocomplete-field",
   "contract:breadcrumb",
@@ -49,7 +48,6 @@
   "contract:user-info",
   "contract:viewport-switch",
   "guideline:app-shell",
-  "guideline:feedback",
   "guideline:overlays",
   "guideline:shared-components",
   "guideline:vue2",

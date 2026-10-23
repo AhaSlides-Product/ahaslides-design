@@ -39,13 +39,13 @@
       "prompt": "Review this inline post-answer result panel shown after a respondent submits: `<div className=\"answer\" style={{ border: '1px solid #ff4d4f', background: '#fff1f0' }}>Wrong</div>`. There is no role or aria-live attribute and no data-* hooks.",
       "files": [],
       "label": "bad-example",
-      "notes": "C2 — inline correct/incorrect needs role=status aria-live=polite + --aha-colorSuccess/Error(+Bg) tokens, no hardcoded hex",
-      "expected_output": "C2 FAILs. The inline correct/incorrect panel is missing role=\"status\" with aria-live=\"polite\" and uses hardcoded hex (#ff4d4f border, #fff1f0 background) instead of the semantic tokens. Fix: add role=\"status\" aria-live=\"polite\", replace the hex with border var(--aha-colorError) and background var(--aha-colorErrorBg), lead with a strong Incorrect label, and expose data-correct / data-element-id hooks. Overall: NEEDS FIX.",
+      "notes": "C2 — inline correct/incorrect needs role=status aria-live=polite + --aha-answer-correct/wrong edge over the 5% tint, no hardcoded hex",
+      "expected_output": "C2 FAILs. The inline correct/incorrect panel is missing role=\"status\" with aria-live=\"polite\" and uses hardcoded hex (#ff4d4f border, #fff1f0 background) instead of the semantic tokens. Fix: add role=\"status\" aria-live=\"polite\", replace the hex with border var(--aha-answer-wrong) and background var(--aha-answer-wrong-tint-5), lead with a strong Incorrect label, and expose data-correct / data-element-id hooks. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C2 is marked FAIL",
         "Cites missing role=status / aria-live=polite",
-        "Cites hardcoded hex instead of --aha-colorError/--aha-colorErrorBg tokens"
+        "Cites hardcoded hex instead of --aha-answer-wrong/--aha-answer-wrong-tint-5 tokens"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
@@ -136,11 +136,11 @@
     },
     {
       "id": 6,
-      "prompt": "Review this feedback surface. An ordinary success uses `message.success('Copied')`. A bespoke bottom-right pill is portalled with `createPortal(<div role=\"status\" className=\"toast toast--bottom-right\">Thanks for your feedback</div>, document.body)` and its effect returns `() => clearTimeout(id)` after a 3000ms setTimeout. The inline post-answer panel is `<div role=\"status\" aria-live=\"polite\" data-correct={isCorrect} data-element-id={id} className=\"answer--incorrect\">` (border var(--aha-colorError), bg var(--aha-colorErrorBg)) with a strong Incorrect label. CSAT uses `<Csat source={CsatSource.PostSurveyExport} />` with track() wrapped in try/catch. The inline banner is `<aha-alert type=\"warning\" size=\"regular\" heading=\"Changes not saved\">Save before you leave.</aha-alert>`. No destructive confirms or field validations are routed through toasts.",
+      "prompt": "Review this feedback surface. An ordinary success uses `message.success('Copied')`. A bespoke bottom-right pill is portalled with `createPortal(<div role=\"status\" className=\"toast toast--bottom-right\">Thanks for your feedback</div>, document.body)` and its effect returns `() => clearTimeout(id)` after a 3000ms setTimeout. The inline post-answer panel is `<div role=\"status\" aria-live=\"polite\" data-correct={isCorrect} data-element-id={id} className=\"answer--incorrect\">` (border var(--aha-answer-wrong), bg var(--aha-answer-wrong-tint-5)) with a strong Incorrect label. CSAT uses `<Csat source={CsatSource.PostSurveyExport} />` with track() wrapped in try/catch. The inline banner is `<aha-alert type=\"warning\" size=\"regular\" heading=\"Changes not saved\">Save before you leave.</aha-alert>`. No destructive confirms or field validations are routed through toasts.",
       "files": [],
       "label": "good-control",
       "notes": "Good control — every applicable criterion (C1-C5) passes; guards against a judge that only ever fails",
-      "expected_output": "All applicable criteria PASS. C1: the bespoke pill is portalled to document.body, carries role=\"status\", auto-dismisses at ~3s with the timer cleared on unmount, and ordinary success uses AntD message. C2: the inline result has role=\"status\" aria-live=\"polite\", uses --aha-colorError/--aha-colorErrorBg tokens, and exposes data-* hooks. C3: shared Csat with a CsatSource union source and best-effort guarded track(). C4: DS V3 `<aha-alert>` with sentence-case title. C5: no required message lives only in a toast. Overall: OK TO SHIP.",
+      "expected_output": "All applicable criteria PASS. C1: the bespoke pill is portalled to document.body, carries role=\"status\", auto-dismisses at ~3s with the timer cleared on unmount, and ordinary success uses AntD message. C2: the inline result has role=\"status\" aria-live=\"polite\", uses --aha-answer-wrong/--aha-answer-wrong-tint-5 tokens, and exposes data-* hooks. C3: shared Csat with a CsatSource union source and best-effort guarded track(). C4: DS V3 `<aha-alert>` with sentence-case title. C5: no required message lives only in a toast. Overall: OK TO SHIP.",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C1 is marked PASS",
