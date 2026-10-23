@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { markupToHtml, markupToText, longDate, parseTemplate, sectionBlocks } from './colour-rules.mjs';
-import { DEPRECATED_ENVIRONMENT_ALIASES } from './environments.mjs';
+import { markupToHtml, markupToText, longDate, parseTemplate, sectionBlocks, escapeHtml, sectionNumber, fill, withDeprecatedAliases } from './colour-rules.mjs';
 
 export const VOICE_RULES_FILE = 'brand/voice-rules.json';
 export const VOICE_RULES_TEMPLATE_FILE = 'brand/voice-rules.template.html';
@@ -11,15 +10,7 @@ export function loadVoiceRules(root) {
   return JSON.parse(readFileSync(join(root, VOICE_RULES_FILE), 'utf8'));
 }
 
-const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const sectionNumber = (section) => section.id.replace(/^s/, '');
-const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
 const kindIds = (voice) => voice.kinds.map(kind => kind.id);
-
-const withDeprecatedAliases = (byEnvironment) => ({
-  ...byEnvironment,
-  ...Object.fromEntries(Object.entries(DEPRECATED_ENVIRONMENT_ALIASES).map(([oldName, name]) => [oldName, byEnvironment[name]])),
-});
 
 /** Every rule in reading order with the environments and kinds of communication it applies to. */
 export function listVoiceRules(voice) {
@@ -47,7 +38,7 @@ export function listVoiceTables(voice) {
   })));
 }
 
-/** The retired wording table: [phrase, use instead] pairs, read by the copy lint test. */
+/** The retired wording table as [phrase, use instead] pairs. */
 export function retiredWording(voice) {
   const table = voice.sections.flatMap(sectionBlocks).find(block => block.type === 'table' && block.id === 'retired-wording');
   return table.rows.map(([phrase, replacement]) => ({ phrase: markupToText(phrase), replacement: markupToText(replacement) }));

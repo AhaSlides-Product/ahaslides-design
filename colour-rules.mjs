@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DEPRECATED_ENVIRONMENT_ALIASES } from './environments.mjs';
 
-const withDeprecatedAliases = (byEnvironment) => ({
+export const withDeprecatedAliases = (byEnvironment) => ({
   ...byEnvironment,
   ...Object.fromEntries(Object.entries(DEPRECATED_ENVIRONMENT_ALIASES).map(([oldName, name]) => [oldName, byEnvironment[name]])),
 });
@@ -23,7 +23,7 @@ export function loadBackgrounds(root) {
   return JSON.parse(readFileSync(join(root, BACKGROUNDS_MANIFEST_FILE), 'utf8')).backgrounds;
 }
 
-const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+export const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const SWATCH_CLASS = {
   '#E70E68': 'sw-pink', '#DB005B': 'sw-pinkdark', '#FFFFFF': 'sw-white', '#E70E680D': 'sw-pink5', '#FEF3F7': 'sw-pink5',
@@ -57,7 +57,7 @@ export function markupToText(text) {
     .replace(/\n/g, ' ');
 }
 
-const sectionNumber = (section) => section.id.replace(/^s/, '');
+export const sectionNumber = (section) => section.id.replace(/^s/, '');
 
 /** A section's blocks in reading order, with each collapsed panel opened out into the blocks it holds. */
 export function sectionBlocks(section) {
@@ -123,7 +123,7 @@ export function parseTemplate(templateHtml) {
   return { shell, parts };
 }
 
-const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
+export const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
 
 function paletteValueCell(colour) {
   if (colour.hex) return copyChip(colour.hex);
