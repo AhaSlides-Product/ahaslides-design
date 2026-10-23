@@ -92,8 +92,12 @@ test('locked row popover stays inside a 320px viewport at the top and the bottom
       await wait(400);
       const box = lock.shadowRoot.querySelector('.pop').getBoundingClientRect();
       const anchor = lock.getBoundingClientRect();
+      const arrow = lock.shadowRoot.querySelector('.arrow').getBoundingClientRect();
+      const arrowCentre = arrow.left + arrow.width / 2;
       return { inside: box.left >= 0 && box.right <= innerWidth && box.top >= 0 && box.bottom <= innerHeight,
-        align: lock.getAttribute('align'), arrowUnderAnchor: anchor.left >= box.left - 1 && anchor.right <= box.right + 1 };
+        align: lock.getAttribute('align'), arrowUnderAnchor: anchor.left >= box.left - 1 && anchor.right <= box.right + 1,
+        arrowOffset: Math.abs(arrowCentre - (anchor.left + anchor.width / 2)),
+        arrowClearOfCorner: arrowCentre - box.left >= 18 && box.right - arrowCentre >= 18 };
     };
     const plain = document.getElementById('plain');
     return { top: await measure(document.getElementById('top')),
@@ -104,6 +108,46 @@ test('locked row popover stays inside a 320px viewport at the top and the bottom
   assert.equal(narrow.bottom.inside, true);
   assert.equal(narrow.top.arrowUnderAnchor, true);
   assert.equal(narrow.bottom.arrowUnderAnchor, true);
+  assert.ok(narrow.top.arrowOffset < 1 && narrow.bottom.arrowOffset < 1, JSON.stringify(narrow));
+  assert.equal(narrow.top.arrowClearOfCorner, true);
+  assert.equal(narrow.bottom.arrowClearOfCorner, true);
   assert.equal(narrow.top.align, 'start');
   assert.equal(narrow.plainAlign, null);
+});
+
+const clickPage = `<!doctype html><body style="margin:0;font-family:sans-serif;padding:60px 16px 16px">
+<aha-setting-row id="row" label="Branding" locked><aha-switch slot="control"></aha-switch></aha-setting-row>
+<aha-settings-list><aha-settings-item id="item" label="Theme" locked><aha-switch slot="control"></aha-switch></aha-settings-item></aha-settings-list>
+<aha-setting-row id="free" label="Free"><aha-switch slot="control"></aha-switch></aha-setting-row>
+<script type="module">import '${lib}'; window.ready = true;</script>`;
+
+test('clicking the disabled control of a locked row opens its paywall popover and keeps the control disabled and unfocusable', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'setting-row-click-')), 'page.html');
+  writeFileSync(file, clickPage);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const clickControl = async (host) => {
+      const control = host.querySelector('[slot=control]');
+      const box = control.getBoundingClientRect();
+      const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+      const lock = host.shadowRoot.querySelector('.lock');
+      host.shadowRoot.querySelector('.control').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+      await wait(50);
+      const opened = lock.hasAttribute('open');
+      host.shadowRoot.querySelector('.control').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+      await wait(50);
+      const closedAgain = !lock.hasAttribute('open');
+      return { hitIsHost: hit === host, opened, closedAgain, checked: control.hasAttribute('checked'), disabled: control.hasAttribute('disabled'),
+        tabIndex: control.shadowRoot.querySelector('[tabindex]')?.tabIndex };
+    };
+    const free = document.getElementById('free');
+    free.shadowRoot.querySelector('.control').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+    await wait(50);
+    return { row: await clickControl(document.getElementById('row')), item: await clickControl(document.getElementById('item')),
+      freeOpen: free.shadowRoot.querySelector('.lock').hasAttribute('open') };
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-switch") && !!customElements.get("aha-paywall")' });
+  for (const name of ['row', 'item']) {
+    assert.deepEqual(result[name], { hitIsHost: true, opened: true, closedAgain: true, checked: false, disabled: true, tabIndex: -1 }, name);
+  }
+  assert.equal(result.freeOpen, false);
 });
