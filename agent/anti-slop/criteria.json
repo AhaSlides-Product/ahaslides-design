@@ -888,7 +888,7 @@
         {
           "id": "C2",
           "title": "Inline correct/incorrect uses the a11y + semantic-token contract",
-          "test": "**Rule.** Result feedback shown in place after an answer carries **`role=\"status\"` with `aria-live=\"polite\"`** (informational, not urgent), and colours its container from **semantic tokens** — border `var(--aha-colorSuccess)` / `var(--aha-colorError)` and background `var(--aha-colorSuccessBg)` / `var(--aha-colorErrorBg)`, **never a hardcoded hex**. It leads with a strong correct/incorrect label, shows the correct answer and explanation below when incorrect, and exposes stable `data-*` hooks (`data-correct`, `data-element-id`) for testing."
+          "test": "**Rule.** Result feedback shown in place after an answer carries **`role=\"status\"` with `aria-live=\"polite\"`** (informational, not urgent), and colours its container with the **answer tokens** (colour rules 11.1 to 11.3) — border `var(--aha-answer-correct)` / `var(--aha-answer-wrong)` over the 5% tint `var(--aha-answer-correct-tint-5)` / `var(--aha-answer-wrong-tint-5)`, the text staying the default ink (11.2), **never a hardcoded hex**. Right and wrong carry equal weight (11.5); only on a reveal or review screen may a wrong answer add a 2px ring in the wrong red, and the answer key beside a response stays plain. It leads with a strong correct/incorrect label, shows the correct answer and explanation below when incorrect, and exposes stable `data-*` hooks (`data-correct`, `data-element-id`) for testing."
         },
         {
           "id": "C3",

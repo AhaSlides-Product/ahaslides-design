@@ -1,0 +1,20 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<aha-audience-modal id="early-modal" heading="Early modal"></aha-audience-modal>
+<aha-drawer id="late-drawer" heading="Late drawer"></aha-drawer>
+<aha-drawer id="parent" heading="Parent">
+  <button id="parent-button">Parent button</button>
+  <aha-drawer id="child" heading="Child">
+    <button id="child-button">Child button</button>
+  </aha-drawer>
+</aha-drawer>
+<aha-drawer id="first" heading="First"></aha-drawer>
+<aha-audience-modal id="modal" heading="Modal"></aha-audience-modal>
+<script type="module">
+  import '../lib/aha-drawer.js';
+  import '../lib/aha-audience-modal.js';
+  await customElements.whenDefined('aha-drawer');
+  await customElements.whenDefined('aha-audience-modal');
+  window.drawerFixtureReady = true;
+</script>
