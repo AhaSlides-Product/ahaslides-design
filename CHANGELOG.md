@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.385.0 — 2026-10-23
 ### Added
-- `<aha-question-nav count current results>`: a numbered jump list for the questions of a report. The current question is brand-filled with `aria-current`; arrow keys, Home and End move focus (one tab stop), Enter or a click picks one and emits `change` `{value, index}`. A long list scrolls in the strip with scroll buttons that appear only on overflow, or `wrap`s onto lines. `results="correct|incorrect||correct"` adds an `<aha-answer-mark>` beside the number; the number stays ink (colour rule 11.3). It reuses the page cell of `aha-pagination`; segmented, pagination and tabs do not cover a per-question jump list with results. (#NNN)
+- `<aha-question-nav count current results>`: a numbered jump list for the questions of a report. The current question is brand-filled with `aria-current`; arrow keys, Home and End move focus (one tab stop), Enter or a click picks one and emits `change` `{value, index}`. A long list scrolls in the strip with scroll buttons that appear only on overflow, or `wrap`s onto lines. `results="correct|incorrect||correct"` adds an `<aha-answer-mark>` beside the number; the number stays ink (colour rule 11.3). It reuses the page cell of `aha-pagination`; segmented, pagination and tabs do not cover a per-question jump list with results. (#378)
 
 ## 0.380.0 — 2026-10-23
 ### Added
