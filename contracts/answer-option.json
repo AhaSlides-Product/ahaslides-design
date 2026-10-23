@@ -37,7 +37,7 @@
     },
     {
       "label": "States",
-      "value": "open · locked (others mute to 55%) · revealed (tick or cross on every row; the correct row ringed in success, my wrong pick ringed (2px) and tinted in error, the rest mute to 55%)"
+      "value": "open · locked (others mute to 55%) · revealed (tick or cross on every row; the correct row edged in --aha-answer-correct, my wrong pick edged and ringed (2px) in --aha-answer-wrong, both on the 5% tint, the rest mute to 55%)"
     },
     {
       "label": "Helper",
