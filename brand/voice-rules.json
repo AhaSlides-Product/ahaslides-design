@@ -814,7 +814,7 @@
       {
        "id": "10.6",
        "text": "Write British English everywhere, the blog included: colour, organise, centre, behaviour, licence (the noun), programme. Keep an American spelling only where it is a code identifier, an API field or a third-party product name.",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       },
       {
        "id": "10.7",
@@ -844,7 +844,7 @@
       {
        "id": "10.10",
        "text": "Every piece of external communication carries one clear, specific call to action: say what to try, why it is worth trying and where to find it. Never a hard sell: no pressure, no hype, no stacked asks, and no hesitant wording such as \"if you fancy trying it\".",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2",
        "kinds": [
         "external"
        ],
@@ -1079,7 +1079,7 @@
       {
        "id": "14.1",
        "text": "Never use the retired wording below in any communication, internal or external. Use the replacement in the right-hand column, or the descriptions in section 5.",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       }
      ]
     },
@@ -1169,17 +1169,17 @@
       {
        "id": "15.1",
        "text": "Work out the kind of communication first. External marketing and sales follow every section; product copy follows the writing rules and ux-writing; internal comms follow the writing rules only.",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       },
       {
        "id": "15.2",
        "text": "Where this file and ux-writing disagree on a product string, ux-writing wins. This file does not repeat ux-writing: follow its link.",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       },
       {
        "id": "15.3",
        "text": "Visual rules are not here. The design system is the source of truth for every visual rule, and the colour and background rules are on [Brand colour rules](brand-colour-rules.html).",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       }
      ]
     }
@@ -1201,17 +1201,17 @@
       {
        "id": "16.1",
        "text": "The brand director, ian@ahaslides.com, owns this file. A change to a rule, the retired list or a description needs the brand director's decision, and is made here and nowhere else.",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       },
       {
        "id": "16.2",
        "text": "Other skills, hubs and documents link to this file and add only what is specific to their channel. Do not paste its text into another place: the copy goes stale.",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       },
       {
        "id": "16.3",
        "text": "The wording is from AhaSlides brand guidelines v2.2 (22 October 2026), where the document uses its own spelling. Where a rule here differs from v2.2, the rule here is a later decision and says so in its origin.",
-       "origin": "Decided by the requester on 23 October 2026 (BRGO-2), not in brand guidelines v2.2"
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
       }
      ]
     }
