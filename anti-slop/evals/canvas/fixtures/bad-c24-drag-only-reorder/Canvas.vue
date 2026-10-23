@@ -52,5 +52,5 @@ function onDrop(to: number) {
 <style scoped>
 .stage { height: 100%; padding: 32px; }
 .cards { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
-.card { padding: 16px 24px; font-size: 24px; border: 1px solid var(--aha-border-default); border-radius: 8px; cursor: grab; }
+.card { padding: 16px 24px; font-size: 24px; border: 1px solid var(--aha-deck-container-stroke); border-radius: 8px; cursor: grab; }
 </style>

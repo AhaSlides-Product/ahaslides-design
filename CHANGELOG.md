@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.374.2 — 2026-10-23
+### Fixed
+- The three canvas C24 eval fixtures (`bad-c24-drag-only-reorder`, `bad-c24-hover-only-dots`, `good-c24-keyboard-operable`) paint borders and the label background with the deck tokens (`--aha-deck-container-stroke`, `--aha-deck-modal-fill`) instead of product tokens, so they pass canvas C1 as evals 74-76 expect. The good fixture's label now fades in with `--aha-motion-mid` and `--aha-ease-out`, so it passes C22. Each fixture still fails or passes C24 as before. Evals only, no component change. (#373)
+
 ## 0.374.0 — 2026-10-23
 ### Added
 - Canvas anti-slop criterion C24 "Keyboard-only operation": every presenter interaction must work with the keyboard alone (Tab order with a visible focus ring, hover also on focus, a keyboard alternative to any drag or pointer gesture, no trap, deck navigation keys never swallowed), per Slide Plugin Policy section 6. Three evals (hover-only result dots, drag-only reorder, a good control) and a Canvas guide section. C10 is unchanged. (#328)
