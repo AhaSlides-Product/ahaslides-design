@@ -22,6 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.373.0 — 2026-10-23
+### Added
+- `<aha-setting-row>` and `<aha-settings-item>` take `locked` (plus `plan`, `feature-key`, `upgrade-body`) for a setting that needs an upgrade. A locked row reads: the label, the shared `<aha-paywall>` crown in the place of the "?" help (the "?" is hidden), and the real control disabled. The label keeps its normal colour. The Paywall feature label is the row label.
+- `<aha-paywall>` takes an opt-in `align` (`center` default, unchanged; `start` puts the popover's left edge on the anchor with the arrow under it; `end` mirrors it) and exports `fitPaywall(el)`, which picks align and placement from the room around the anchor and keeps the popover inside the viewport. Locked setting rows call it before the popover opens, so a short label in a narrow left-aligned panel no longer clips.
+- Clicking the disabled control of a locked setting row (`<aha-setting-row>`, `<aha-settings-item>`, so also `<aha-settings-list>` rows) opens the same Paywall popover as the crown; the control stays disabled and unfocusable. `<aha-paywall>` gains `togglePopover()` and the `toggleLockedPaywall(el, event)` export.
+- With `align`, the popover now hangs 12px past the anchor edge so its arrow sits 20px in, clear of the rounded corner, and points at the crown's centre.
+
+### Changed
+- The Setting row docs page gains a "Locked, in a right-hand panel" example: a narrow scrolling panel at the right edge, where the Paywall popover opens to the left of the crown. (#371)
+- `<aha-settings-list>` schema rows with `locked: true` use the same layout and render their `control` disabled; before, the crown replaced the control on the right. New row keys `featureKey` and `upgradeBody` pass through to the Paywall. The settings guide, `plan-gated` guideline and criterion C6 describe the new layout. (#371)
+### Fixed
+- `<aha-paywall>`'s popover is no longer cut off by a scrolling or overflow-hidden ancestor, such as a right-hand settings panel. It now renders in the browser's top layer (`popover="manual"`, with `position:fixed` as the fallback where the Popover API is missing), is positioned from the anchor on open, follows the anchor on scroll and resize, and closes when the anchor scrolls out of view. Its text always starts at the left edge, even when the popover opens to the left of the anchor. The default look and the open and close motion are unchanged. (#371)
+
+Revert: restore `lib/aha-paywall.js`, `contracts/paywall.json`, the paywall parts, `lib/aha-setting-row.js`, `lib/aha-settings-list.js`, the setting-row and settings-list contracts and parts, `guidelines/settings.json`, the C6 text in `anti-slop/criteria.json` and `tests/setting-row-locked.test.mjs` from git.
+
 ## 0.372.0 — 2026-10-23
 ### Added
 - Deck tokens: a "Role to token" table says which `--aha-deck-*` token paints text, secondary text, divider, chip outline, fill, hover, pressed, panel, modal, frosted panel and a verdict mark on a hand-built canvas or audience element. The aha-design skill (step 13) now says any hand-built element calls `applyCanvasDeck` / `applyDeck` once and paints only with that ladder, never its own shade of the ink or a product colour token. (#363)

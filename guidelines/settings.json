@@ -44,6 +44,12 @@
   ],
   "composedOf": [
     {
+      "ref": "setting-row",
+      "as": "component",
+      "use": "one setting: label, optional \"?\" help or a Paywall crown while locked, and the control",
+      "status": "available"
+    },
+    {
       "ref": "checkbox",
       "as": "component",
       "use": "grouped options saved together; consent",
@@ -283,7 +289,7 @@
     },
     {
       "id": "plan-gated",
-      "rule": "A plan-gated setting stays visible but locked (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by the `paywall` guide), not a bespoke one.",
+      "rule": "A plan-gated setting stays visible but locked — never hidden. It reads: label, the Paywall crown badge in the place of the \"?\" help (no \"?\" while locked), and the real control disabled; the crown never replaces the control. The badge opens the shared Paywall popover (owned by the `paywall` guide), not a bespoke one.",
       "ref": [
         "SETTINGS-08"
       ]
