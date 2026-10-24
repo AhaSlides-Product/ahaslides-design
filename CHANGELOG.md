@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.389.0 — 2026-10-24
+## 0.393.0 — 2026-10-24
 ### Removed
 - **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
 - `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
@@ -31,6 +31,26 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
 - `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
 - `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
+
+## 0.391.0 — 2026-10-24
+### Added
+- `<aha-canvas-play>`, the centred Play control for a slide canvas: a flat disc on `--aha-color-primary` with the white `system-play` glyph, sizes `md` (48), `lg` (64, default) and `hero` (96), the deck focus ring, no shadow; registered in the canvas bundle (#385)
+- Revert: revert the PR; a new component, nothing else changes (#385)
+
+## 0.390.0 — 2026-10-24
+### Added
+- Question list: `strings` (property or JSON attribute) translates every built-in string (count, Add question, Question, Options, Add option, Delete question, the accessible names and the option rows' placeholder, delete and drag-handle copy); cancelable `question-add` (`detail.index`) and `question-delete` (`detail.index`, `detail.question`) intent events let a host insert at its own position and offer Undo; the whole-list `change` event and the English copy are unchanged (#384)
+- Option row: `correctlabel`, `deletelabel`, `deletehint`, `reorderlabel` and `reorderhint` carry the toggle, delete and drag-handle copy in the host's language (English defaults) (#384)
+- Canvas count: `total` shows "12 of 30" with the name "12 of 30 answered" (answered-only form); `strings` translates the "of" copy and the accessible names; without `total` it renders exactly as before (#384)
+- Collapse: `status="error"` or `"warning"` paints the panel border with `--aha-border-error` or `--aha-border-warning`; `selected` keeps the head on the hover background and sets `aria-current` on it, replacing a hand-set `::part(head)` background; without either attribute it renders exactly as before (#384)
+- Settings entry (`lib/settings.js`) registers `aha-tag`, so screen-lint no longer reports it as an unregistered element in a settings panel (#384)
+- Revert: revert the PR; all additions are opt-in and default to the previous behaviour (#384)
+
+## 0.387.0 — 2026-10-24
+### Changed
+- Splash rules apply to any splash background in any medium, with no exceptions: colour rules 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19, the splash layouts table and the Splash in CSS block now cover every environment, including report images, which draw a hero band splash with the Splash in CSS block on the band's own frame and never place it by hand; 5.6, 5.12, 5.13 and 5.16 keep their scope (#383)
+- Background criterion C8 now also judges splash geometry on every surface that carries a splash: a DS layout drawn by the colour-rules geometry for its own frame, never hand-placed; fail and pass fixtures added to the background evals (#383)
+- Revert: revert the PR; only environment tags, one criterion and two eval cases change, no rule id or rule text changed (#383)
 
 ## 0.386.1 — 2026-10-23
 ### Fixed

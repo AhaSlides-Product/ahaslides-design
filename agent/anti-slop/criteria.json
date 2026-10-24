@@ -492,14 +492,20 @@
         },
         {
           "id": "C8",
-          "title": "A Splash background appears only where it is allowed, and comes from the library",
+          "title": "A Splash background appears only where it is allowed, and is a DS layout built for its frame",
           "source": [
+            "5.3",
+            "5.4",
+            "5.5",
             "5.6",
             "5.9",
             "5.10",
-            "5.11"
+            "5.11",
+            "5.17",
+            "5.18",
+            "5.19"
           ],
-          "test": "A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, or one built by build-splash.mjs for the exact frame; hooks drawn, placed, stretched or recoloured by hand fail."
+          "test": "Applies to every surface that carries a splash, in any medium (a product screen, a web page, a video, an ad, a report image). A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, one built by build-splash.mjs for the exact frame, or drawn with the Splash in CSS block (brand/colour-rules.json, `splash.cssRecipe`) on the frame it sits in. It is never hand-placed: one of the three DS layouts (centre, right, minimal) sized and positioned by the colour-rules geometry for its own frame, the full 802 by 788 icon, `--splash-across` .5 (centre) or .75 (right). A splash icon given a hand-set `height`, `width`, `right`, `left` or `top` offset, a size and position chosen by eye, or hooks drawn, placed, stretched, cropped or recoloured by hand fail."
         }
       ]
     },
@@ -1121,7 +1127,7 @@
         {
           "id": "C24",
           "title": "Keyboard-only operation",
-          "test": "*(Applies to every canvas with a presenter interaction, in Standard and Immersive UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.)* Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse, no-touch operation. **Rule.** a. Every presenter interaction works with the keyboard alone: each control is reachable by Tab in a sensible (reading) order, shows a visible focus ring, and activates with Enter or Space, a declared shortcut, or a host-painted action. A `<div>`/`<span>` with a click handler and no `tabindex`/role/key handler FAILs. b. Anything shown on hover (a tooltip, a result label, a highlight, a reveal) is also shown on keyboard focus (`:focus-visible`); a hover-only reveal on a non-focusable element FAILs. c. Any drag, draw, swipe or other pointer gesture has a keyboard alternative (arrow keys, Move up / Move down buttons, Space to pick up and drop); a pointer-only gesture FAILs. d. No keyboard trap: Tab always leaves the canvas controls (a modal's contained Tab cycle is the C10 focus-trap and passes when Esc or a Close control exits). e. The canvas never swallows the deck's navigation and clicker keys (ArrowRight / ArrowLeft, PageDown / PageUp, Space): no blanket `keydown` handler that calls `preventDefault`/`stopPropagation` on them, except to claim a build step through the SDK, or while a widget the presenter has explicitly focused owns the key. Any sub-rule missed \u2192 FAIL. C10 covers the shortcut chips, tooltips and focus-trap of bespoke controls; this criterion is the reachability test for every interaction, not only those."
+          "test": "*(Applies to every canvas with a presenter interaction, in Standard and Immersive UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.)* Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse, no-touch operation. **Rule.** a. Every presenter interaction works with the keyboard alone: each control is reachable by Tab in a sensible (reading) order, shows a visible focus ring, and activates with Enter or Space, a declared shortcut, or a host-painted action. A `<div>`/`<span>` with a click handler and no `tabindex`/role/key handler FAILs. b. Anything shown on hover (a tooltip, a result label, a highlight, a reveal) is also shown on keyboard focus (`:focus-visible`); a hover-only reveal on a non-focusable element FAILs. c. Any drag, draw, swipe or other pointer gesture has a keyboard alternative (arrow keys, Move up / Move down buttons, Space to pick up and drop); a pointer-only gesture FAILs. d. No keyboard trap: Tab always leaves the canvas controls (a modal's contained Tab cycle is the C10 focus-trap and passes when Esc or a Close control exits). e. The canvas never swallows the deck's navigation and clicker keys (ArrowRight / ArrowLeft, PageDown / PageUp, Space): no blanket `keydown` handler that calls `preventDefault`/`stopPropagation` on them, except to claim a build step through the SDK, or while a widget the presenter has explicitly focused owns the key. Any sub-rule missed → FAIL. C10 covers the shortcut chips, tooltips and focus-trap of bespoke controls; this criterion is the reachability test for every interaction, not only those."
         }
       ]
     },
