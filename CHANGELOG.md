@@ -22,11 +22,63 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.374.3 — 2026-10-23
+## 0.388.0 — 2026-10-24
 ### Fixed
 - `<aha-button>` keyboard focus is now an outline, a 2px solid ring 2px outside the button (`--aha-button-focus-ring`), with the gap still a box-shadow (`--aha-button-focus-gap`). The ring used to be a box-shadow, the same property as the elevation, so a box-shadow a consumer put on the button (a `::part(button)` rule built on `--aha-button-elevate-secondary`, for example) replaced it and a Tab-focused secondary button showed no ring. `secondary-deck` and `tertiary-deck` now draw the same ring instead of the browser's `outline:auto`. Default look, hover and press are unchanged; `--aha-button-focus-outline` and the new `--aha-button-focus-outline-offset` re-point the outline. (#372)
 - The Button contract's Focus row and the deck variants' rows (and the audience tertiary-deck entry) describe the outline ring; the deck variants no longer say "the browser's own focus ring".
 - `<aha-audience-submit>` keeps its focus ring 1px off the button (`--aha-button-focus-outline-offset:1px`), so it looks as before. The Button contract's hooks paragraph lists the new default outline and `--aha-button-focus-outline-offset`.
+
+## 0.386.1 — 2026-10-23
+### Fixed
+- Brand voice rules and Brand colour rules pages render inside the shared site shell (header, Foundations nav with its entry highlighted, search, footer) instead of as standalone documents; content and rule anchors unchanged (#381)
+- Revert: revert the PR; only the two page templates, their render functions and the nav entry change
+
+## 0.386.0 — 2026-10-23
+### Added
+- Brand voice rules: `brand/voice-rules.json` is the one source of the verbal brand (v2.2 why, positioning, audiences, messaging, opinions, spices, tone, writing rules, plus British spelling, one clear CTA, retired wording and which rules apply to which kind of communication). Rendered as `foundations/brand-voice-rules.html`, `voice-rules.md` and `voice-rules.agent.json`, listed in `llms.txt`, the Assets navigation and every environment's route, and exported as `@ahaslides-product/design/voice-rules.json` (#370)
+- screen-lint copy rule `retired-wording`: fails a screen that describes AhaSlides with retired wording such as "interactive presentation software" (#370)
+- Colour rules 2.8 to 2.10: logo clear space and isotype sizes, favicon and avatar use, from brand guidelines v2.2; mirrored on the Logo library page (#370)
+### Fixed
+- Contrast figures in the colour rules: Vivid Pink text on Vivid Pink at 5% is 4.16 to 1 (was 4.18), 86% white on Vivid Pink is 3.58 to 1 (was about 3.7) (#370)
+- Page title example in `guidelines/page-title-favicon.json` uses the v2.2 description (#370)
+- Revert: revert the PR; it adds new files and one lint rule, and no existing colour, button, hero, background, logo, font or icon rule changed (#370)
+
+## 0.385.1 — 2026-10-23
+### Fixed
+- `<aha-question-nav>`: the current item's tint fallback is `#E70E680D` (5%), matching `--aha-bg-accent`, so it renders at the right tint without `tokens.css`; the contract summary says the current item is ringed, not filled. (#380)
+
+## 0.385.0 — 2026-10-23
+### Added
+- `<aha-question-nav count current results>`: a numbered jump list for the questions of a report. The current question is ringed in the brand colour with `aria-current`; arrow keys, Home and End move focus (one tab stop), Enter or a click picks one and emits `change` `{value, index}`. A long list scrolls in the strip with scroll buttons that appear only on overflow, or `wrap`s onto lines. `results="correct|incorrect||correct"` adds an `<aha-answer-mark>` beside the number; the number stays ink (colour rule 11.3). It reuses the page cell of `aha-pagination`; segmented, pagination and tabs do not cover a per-question jump list with results. (#378)
+
+## 0.384.0 — 2026-10-23
+### Added
+- `<aha-answer-result result="correct|incorrect|key" label>`: a read-only answer row for the Report and Session Report participant view. A wrong response is a 2px `--aha-answer-wrong` ring over the 5% wrong tint plus the answer mark (cross); a correct response is a 1px `--aha-answer-correct` edge over the 5% correct tint plus the mark (tick); the answer key (default) is plain, with no tint, edge or mark. The text stays the default ink at regular weight (colour rules 11.2 and 11.5). Stacked on #375 (`<aha-answer-mark>`): merge after it. (#379)
+
+## 0.383.0 — 2026-10-23
+### Added
+- `<aha-badge kind="partial">`: a partially correct answer (some points, not all), such as a match pairs card with some pairs wrong. Label "Partially correct" in the default ink on the grey Beta fill, with a 16px neutral `system-minus` glyph; no answer colour (colour rules 11.1 and 11.4 keep green and red for a fully correct or wrong answer). Sizes `sm` (default) and `default`. (#377)
+
+## 0.382.0 — 2026-10-23
+### Added
+- `<aha-drawer>`, the side Drawer as a web component for pages that cannot load antd (Vue 2 apps taking `<aha-*>`, plain HTML, standalone demos), which hand-drew the panel before. It copies the antd Drawer as themed by `drawerTheme`: white panel 378 wide (`size="large"` 736, or `width`), header padding 16 24 with a 16px SemiBold ink title and the shared dismiss ✕ (tertiary icon-only xs `aha-button`, `system-x`), body padding 24 that scrolls, a `footer` slot with padding 8 16, split-colour rules, the antd drawer shadow, the overlay mask and the 0.3s slide. `open`, `heading`, `placement` (right or left), `static`, `contained` and `inline` attributes; Escape, mask and ✕ emit a cancelable `close`, then `closed`; Tab is trapped, page scroll locked and focus returned to the opener; reduced motion switches the slide off. The antd Drawer is unchanged and still the choice where antd is loaded; both contracts now say when to use which. `lib/aha-audience-modal.js` now shares its open-overlay stack, page scroll lock and layer order with the drawer: it exports `openModals`, `lockPageScroll`, `unlockPageScroll`, `raiseLayer`, `lowerLayer`, `focusableWithin` and `deepActiveElement`, and a modal opened over a drawer (or a drawer over a modal) is the one that paints on top and takes Escape and Tab, in either DOM order. Revert: `git revert` the merge commit, which removes `lib/aha-drawer.js`, its contracts, parts and tests, the `package.json` and `all.js` lines, and the `lib/aha-audience-modal.js` changes. (#376)
+
+## 0.381.0 — 2026-10-23
+### Added
+- Colour rule 11.5, weight: right and wrong carry equal weight (edge, 5% tint, mark), and on answer reveal and review screens (the audience reveal, the Report participant drawer) a wrong answer may add a 2px ring in the wrong red outside its edge. The answer key stays plain, and text never changes weight by verdict. Docs and agent guidance only. (#374)
+### Fixed
+- Feedback rule `inline-result-tokens` and judge criterion C2 colour an inline correct or incorrect result with the `--aha-answer-correct` / `--aha-answer-wrong` edge over the 5% tint, not `--aha-colorSuccess` / `--aha-colorError`, which are ink. The answer-option contract states the same.
+- Status badge rule `app-colours` no longer lets the Report app keep its own Correct, Partially correct and Incorrect colours: answer results are excluded, Correct and Incorrect use `aha-badge` `kind="correct|incorrect"`, and Partially correct takes no answer colour.
+
+## 0.380.0 — 2026-10-23
+### Added
+- `<aha-answer-mark result="correct|incorrect" size>`: the one mark for a correct or incorrect answer, a white `system-check` / `system-x` on a solid `--aha-answer-correct` / `--aha-answer-wrong` disc (colour rule 11.3). Sizes 16, 20 (default), 24 and 32, with a 12, 12, 16 or 24px glyph. Named "Correct" / "Incorrect" for screen readers (`label` to translate), or `decorative` beside visible text. (#375)
+
+### Changed
+- `<aha-answer-option>` shows the 20px answer mark on a revealed row, in the place of the 20px pick control, instead of a bare 16px tick or cross in the answer colour. Row height and gaps are unchanged. (#375)
+- `<aha-badge kind="correct|incorrect">` leads with the 16px answer mark instead of the outline `system-check-circle` / `system-x-circle` in the answer colour, at both sizes (sm was a 12px icon). Fill, label, height and padding are unchanged. (#375)
+- `<aha-canvas-count>` draws its verdict discs with the answer mark; the render is unchanged. (#375)
+- `<aha-chart>` draws the correct option's disc with the answer mark (20px, 6px before the label); the render is unchanged. (#375)
 
 ## 0.374.2 — 2026-10-23
 ### Fixed

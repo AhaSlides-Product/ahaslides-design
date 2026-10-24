@@ -29,7 +29,7 @@ function AhaBadge({ count, overflowCount, dot, status, text, color, showZero, ri
 }
 
 // New and Beta tags (size sm): <AhaBadge kind="new" /> · <AhaBadge kind="beta" />
-// Answer results (Report app, size sm): <AhaBadge kind="correct" /> · <AhaBadge kind="incorrect" />
+// Answer results (Report app, size sm): <AhaBadge kind="correct" /> · <AhaBadge kind="incorrect" /> · <AhaBadge kind="partial" />  (partial: grey, no answer colour)
 
 // count over a wrapped child
 <AhaBadge count={unread} overflowCount={99}>

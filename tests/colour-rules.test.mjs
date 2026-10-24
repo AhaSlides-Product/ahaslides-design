@@ -251,7 +251,7 @@ test('a value with quotes cannot break out of an attribute', () => {
 });
 
 test('the page, the feed and the markdown all carry every rule', () => {
-  const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE) });
+  const page = renderColourRulesPage(rules, { templateHtml: read(COLOUR_RULES_TEMPLATE_FILE) });
   const feed = JSON.parse(renderColourRulesAgent(rules, { site: SITE, store, backgrounds }));
   const markdown = renderColourRulesMd(rules, { site: SITE, store, backgrounds });
   assert.ok(!/\{\{\w+\}\}/.test(page) && !page.includes('part:'));
@@ -275,7 +275,7 @@ test('the page, the feed and the markdown all carry every rule', () => {
   assert.ok(feed.rulesByEnvironment['marketing-web'].join() === feed.rulesByEnvironment.web.join());
   assert.ok(feed.rulesByEnvironment.product.includes('3.6') && !feed.rulesByEnvironment.video.includes('3.6'));
   assert.ok(feed.rulesByEnvironment['report-image'].includes('3.11') && !feed.rulesByEnvironment.product.includes('3.11'));
-  assert.equal(rules.changes[0].version, 'v20');
+  assert.equal(rules.changes[0].version, 'v22');
   const reportRule = rules.sections.flatMap(section => section.blocks || []).flatMap(block => block.rules || []).find(rule => rule.id === '3.11').text;
   assert.match(reportRule, /read-only report page/);
   assert.match(reportRule, /table rows alternate white and light grey/);
@@ -304,17 +304,17 @@ test('the answer pair in the rules, the palette and the tokens is one set of val
   }
 });
 
-test('the answer section sits before Still to decide, holds four rules and keeps every earlier rule id', () => {
+test('the answer section sits before Still to decide, holds five rules and keeps every earlier rule id', () => {
   assert.deepEqual(rules.sections.map(section => section.id).slice(-2), ['s11', 's12']);
   assert.equal(answerSectionOf().id, 's11');
   assert.equal(rules.sections.at(-1).key, 'open');
-  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 4 }, (_, index) => `11.${index + 1}`));
+  assert.deepEqual(ruleList.filter(rule => rule.section === '11').map(rule => rule.id), Array.from({ length: 5 }, (_, index) => `11.${index + 1}`));
   for (const [id, words] of [['1.1', 'section 11'], ['7.1', 'section 11'], ['8.5', 'section 11']]) assert.ok(ruleText(id).includes(words), id);
   assert.deepEqual(rules.open, []);
 });
 
 test('section 11 keeps its rules in one closed panel, and the feeds keep every word', () => {
-  const page = renderColourRulesPage(rules, { fonts: { regular: 'AA', semiBold: 'BB' }, templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
+  const page = renderColourRulesPage(rules, { templateHtml: read(COLOUR_RULES_TEMPLATE_FILE), icon: (name) => `<i data-icon="${name}"></i>` });
   const section = answerSectionOf();
   const panels = section.blocks.filter(block => block.type === 'panel');
   assert.deepEqual(panels.map(panel => panel.title), ['Rules']);

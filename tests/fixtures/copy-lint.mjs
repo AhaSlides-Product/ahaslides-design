@@ -88,4 +88,24 @@ export const COPY_RULE_FIXTURES = [
       '<p>Word Cloud</p> <!-- ds-lint-allow: title-case-slide-name (a legacy export name) -->',
     ],
   },
+  {
+    rule: 'retired-wording',
+    fail: [
+      '<p>The most affordable and easy-to-use interactive presentation software on the planet</p>',
+      '<h1>All-in-one interactive presentation platform</h1>',
+      '<p>Save the world from Sleepy Meetings</p>',
+      '<p>Turn sleepy slides into engaging experiences</p>',
+      '<p>Beat the attention gremlin</p>',
+      '<meta-card title="AhaSlides, interactive presentation software"></meta-card>',
+      `<script>const hero = { heading: "Interactive presentation platform" };</script>`,
+    ],
+    pass: [
+      '<p>AhaSlides is an all-in-one engagement platform for teams and classrooms</p>',
+      '<p>AhaSlides takes the work out of engagement.</p>',
+      '<p>Turn your interactive presentations into live polls</p>',
+      '<!-- interactive presentation software -->',
+      '<code>interactive presentation software</code>',
+      '<p>interactive presentation software</p> <!-- ds-lint-allow: retired-wording (quoting the old line in a changelog) -->',
+    ],
+  },
 ];

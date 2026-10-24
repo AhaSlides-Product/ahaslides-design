@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Badge partially correct</title>
+<style>:root{ --aha-answer-correct-tint-5:#F2F9F2; --aha-answer-correct:#008A05 }body{ margin:0; padding:40px; font-family:sans-serif } .row{ display:flex; gap:16px; align-items:center }</style>
+</head>
+<body>
+  <div class="row">
+    <aha-badge id="partial" kind="partial"></aha-badge>
+    <aha-badge id="partial-default" kind="partial" size="default"></aha-badge>
+    <aha-badge id="correct" kind="correct"></aha-badge>
+    <aha-badge id="beta" kind="beta"></aha-badge>
+  </div>
+  <script type="module">
+    await import('../lib/aha-badge.js');
+    await customElements.whenDefined('aha-badge');
+    window.badgePartialFixtureReady = [...document.querySelectorAll('aha-badge')].every((badge) => badge.shadowRoot?.querySelector('.chip'));
+  </script>
+</body>
+</html>
