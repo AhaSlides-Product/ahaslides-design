@@ -63,7 +63,7 @@ The **Design System V3 Alert** — an inline banner for feedback that stays in t
 For result feedback shown in place after an answer:
 
 - `role="status"` with `aria-live="polite"` (it's informational, not urgent).
-- Colour the container with **semantic tokens**: border `var(--aha-colorSuccess)` / `var(--aha-colorError)` and background `var(--aha-colorSuccessBg)` / `var(--aha-colorErrorBg)`. **Never hardcode hex.**
+- Colour the container with the **answer tokens** (colour rule 11.3): border `var(--aha-answer-correct)` / `var(--aha-answer-wrong)` over the 5% tint `var(--aha-answer-correct-tint-5)` / `var(--aha-answer-wrong-tint-5)`. The text stays the default ink (11.2). **Never hardcode hex.** On a reveal or review screen a wrong answer may add a 2px `--aha-answer-wrong` ring (11.5); the answer key beside a response stays plain.
 - Lead with a strong correct/incorrect label; show the correct answer and any explanation below when incorrect.
 - Expose stable `data-*` hooks (`data-correct`, `data-element-id`) for testing.
 

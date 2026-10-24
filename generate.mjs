@@ -26,7 +26,8 @@ import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
-import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, splitFragment, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
+import { VOICE_RULES_FILE, VOICE_RULES_TEMPLATE_FILE, VOICE_RULES_PAGE, loadVoiceRules, renderVoiceRulesPage, renderVoiceRulesAgent, renderVoiceRulesMd, voiceRulesIndexLines } from './voice-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
@@ -273,6 +274,7 @@ let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — dri
 let MARKETING = [];         // loaded marketing sections — drives the Websites tab + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
+let CANVAS_DECK_TOKENS = null;   // canvas/deck-tokens.json — the Deck tokens page, listed under Foundations › Design tokens; null = page absent
 let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
@@ -1007,13 +1009,15 @@ function sidebarNav(base, active, section) {
   let inner = '';
   if (section === 'foundations') {
     const tokenItems = TOKEN_PAGES.map(p =>
-      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('');
+      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
+      (CANVAS_DECK_TOKENS ? `<a class="nav-item${active==='token:deck-tokens'?' active':''}" href="${base}deck-tokens/index.html"><span>Deck tokens</span><span class="nav-dot" title="live"></span></a>` : '');
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
       `<a class="nav-item${active==='__backgrounds__'?' active':''}" href="${base}${BACKGROUND_LIBRARY_PAGE}"><span>Background library</span><span class="nav-count">${BACKGROUNDS.length}</span></a>` +
-      `<a class="nav-item" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item${active==='__colour-rules__'?' active':''}" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item${active==='__voice-rules__'?' active':''}" href="${base}${VOICE_RULES_PAGE}"><span>Brand voice rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -1124,6 +1128,8 @@ const FEED_HIGHLIGHTS = {
   'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
   'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
   'colour-rules.md': ['The colour and background rules for agents', 'Each rule tagged with its environment and the judge criteria that check it', 'Same source as the Brand colour rules page'],
+  'voice-rules.md': ['The verbal brand rules for agents', 'Why, audiences, messaging, tone, writing rules and retired wording, each tagged with the kind of communication', 'Same source as the Brand voice rules page'],
+  'voice-rules.agent.json': ['The verbal brand rules in machine form', 'Rules by kind of communication and environment, tables, retired wording'],
   'colour-rules.agent.json': ['The colour and background rules in machine form', 'Palette, rules by environment, Splash geometry and files, open points'],
 };
 
@@ -1501,7 +1507,7 @@ const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCs
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
-    html: b.layouts.map(layout => layout.html).join('\n') };
+    html: b.layouts.map(layout => resolveDefaultStateVariants(b, layout, layout.html)).join('\n') };
 }
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -1526,8 +1532,8 @@ function surfaceCdnBox(surface) {
   return `<div class="note surface-cdn" style="margin:0 0 18px"><b>${surface === 'canvas' ? 'No build step? One tag for the whole Canvas Library (chart and canvas components)' : `No build step? One tag for the whole ${esc(surface)} surface`}</b>
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
-    ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
-    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code> and the shared deck ladder: <code>import { applyDeck, applyDeckTokens } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code> and the shared deck ladder: <code>import { applyCanvasDeck, applyDeckTokens } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -1655,19 +1661,19 @@ function renderCanvasCard(sec) {
   ${code}
 </section>`;
 }
-function renderCanvasLibrary() {
-  const anchorItems = CANVAS_LIB.sections.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
-  const fallbackGroups = [{ cat: 'Canvas components', links: CANVAS_LIB.sections.map(s => ({ id: s.name, title: s.name })) }];
+function renderCanvasLibrary(lib = CANVAS_LIB, section = 'canvas', crumb = 'Canvas components') {
+  const anchorItems = lib.sections.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
+  const fallbackGroups = [{ cat: crumb, links: lib.sections.map(s => ({ id: s.name, title: s.name })) }];
   const main = `<div class="canvas-lib">
     <header class="cl-head">
-      <h1>${esc(CANVAS_LIB.title)}</h1>
-      <p class="rule">${audMd(CANVAS_LIB.rule)}</p>
-      <p class="why">${audMd(CANVAS_LIB.why)}</p>
+      <h1>${esc(lib.title)}</h1>
+      <p class="rule">${audMd(lib.rule)}</p>
+      <p class="why">${audMd(lib.why)}</p>
       ${surfaceCdnBox('canvas')}
     </header>
     <div class="hub-layout">
       ${hubAnchorAside(fallbackGroups)}
-      <div class="hub-body"><div class="cl-cards">${CANVAS_LIB.sections.map(renderCanvasCard).join('\n')}</div></div>
+      <div class="hub-body"><div class="cl-cards">${lib.sections.map(renderCanvasCard).join('\n')}</div></div>
     </div>
   </div>
   <script src="../icons/registry.js"></script>
@@ -1677,11 +1683,35 @@ function renderCanvasLibrary() {
     import { applyCanvasDeck } from '../lib/canvas-deck.js';
     const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
     for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
-      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background), image: 'image' in deck.dataset });
     }
   </script>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+  return docShell({ base: '../', active: section, title: lib.title, section, main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+}
+
+/* Inked by applyCanvasDeck, not applyDeckTokens: the containers and modals on this page are canvas extras. */
+function renderDeckTokensPage(lib) {
+  const main = `<div class="canvas-lib">
+    <header class="cl-head">
+      <h1>${esc(lib.title)}</h1>
+      <p class="rule">${audMd(lib.rule)}</p>
+      <p class="why">${audMd(lib.why)}</p>
+      ${lib.shared ? `<div class="note" style="margin:0 0 18px">${audMd(lib.shared)}</div>` : ''}
+    </header>
+    <div class="cl-cards">${lib.sections.map(renderCanvasCard).join('\n')}</div>
+  </div>
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyCanvasDeck } from '../lib/canvas-deck.js';
+    const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
+    for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background), image: 'image' in deck.dataset });
+    }
+  </script>`;
+  return docShell({ base: '../', active: 'token:deck-tokens', title: lib.title, section: 'foundations', main, extraCss: CANVAS_CSS });
 }
 
 const MARKETING_WIDTHS = [
@@ -1820,6 +1850,16 @@ function marketingStateSwitch(b, layout) {
   const initial = (states.find(state => state.default) || states[0]).modifier;
   return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
 }
+const stripStateVariantHooks = (code) => code.replace(/(<aha-button\b[^>]*?)\sdata-variant-[a-z0-9-]+="[^"]*"/g, '$1');
+const resolveDefaultStateVariants = (b, layout, code) => {
+  const defaultState = marketingLayoutStates(b, layout)?.find(state => state.default);
+  return defaultState?.modifier ? marketingStateVariants(code, defaultState.modifier) : stripStateVariantHooks(code);
+};
+const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
+  const variant = tag.match(new RegExp(`\\sdata-variant-${modifier}="([^"]+)"`));
+  const stripped = tag.replace(/\sdata-variant-[a-z0-9-]+="[^"]*"/g, '');
+  return variant ? stripped.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`) : stripped;
+});
 const marketingStatePanes = (b, layout, snippet) => {
   const states = marketingLayoutStates(b, layout);
   if (!states || !marketingHasStates(b, layout)) return [];
@@ -1829,21 +1869,37 @@ const marketingStatePanes = (b, layout, snippet) => {
   return states.filter(state => state.modifier).map(state => {
     const stripOthers = new RegExp(otherModifiers(state.modifier).join('|') || '(?!)', 'g');
     return { key: `state-${state.modifier}`, label: state.label,
-      code: snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`) };
+      code: marketingStateVariants(snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`), state.modifier) };
   });
 };
 function marketingReviewsFor(b, layout) {
   const reviews = b.reviews;
   if (!reviews || !layout.reviews) return null;
-  const avatars = reviews.avatars.map(avatar => reviews.avatarHtml.replaceAll('{{file}}', esc(avatar.file)).replaceAll('{{name}}', esc(avatar.name))).join('');
-  const fill = (text) => text.replaceAll('{{avatars}}', avatars).replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
+  const fill = (text) => text.replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
   return { html: fill(reviews.html), css: fill(reviews.css) + (layout.reviews.css ? '\n' + layout.reviews.css : ''), insertInto: `.${layout.class}__copy` };
+}
+function bakeMarketingReviews(b) {
+  if (!b.reviews) return b;
+  const layouts = b.layouts.map(layout => {
+    const row = marketingReviewsFor(b, layout);
+    if (!row) return layout;
+    const open = layout.html.indexOf(`<div class="${layout.class}__copy"`);
+    if (open < 0) return layout;
+    let depth = 0, close = -1;
+    for (const tag of layout.html.slice(open).matchAll(/<div\b|<\/div>/g)) {
+      depth += tag[0] === '</div>' ? -1 : 1;
+      if (depth === 0) { close = open + tag.index; break; }
+    }
+    if (close < 0) return layout;
+    return { ...layout, html: `${layout.html.slice(0, close).replace(/[ ]+$/, '')}      ${row.html.replaceAll('\n', '\n      ')}\n    ${layout.html.slice(close)}`, css: `${layout.css}\n${row.css}` };
+  });
+  return { ...b, layouts };
 }
 function marketingReviewsSwitch(b, layout) {
   const reviews = marketingReviewsFor(b, layout);
   if (!reviews) return '';
   const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
-  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="off" data-insert-into="${esc(reviews.insertInto)}" data-html="${esc(reviews.html)}" data-css="${esc(reviews.css)}"></aha-segmented>`;
+  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="on" data-insert-into="${esc(reviews.insertInto)}" data-row="${esc(`.${layout.class}__reviews`)}" data-html="${esc(reviews.html)}"></aha-segmented>`;
 }
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
@@ -1920,6 +1976,27 @@ const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_VARIANT_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv,.mbp').forEach(function(root){
+      var seg=root.querySelector('.mbp-state');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),current=seg.getAttribute('value');
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        doc.querySelectorAll('aha-button').forEach(function(button){
+          if(!button.hasAttribute('data-base-variant'))button.setAttribute('data-base-variant',button.getAttribute('variant')||'');
+          var next=button.getAttribute('data-variant-'+(current||'default'));
+          button.setAttribute('variant',next||button.getAttribute('data-base-variant'));
+        });
+      }
+      frame.addEventListener('load',apply);
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
 const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
   (function(){
     document.querySelectorAll('.mfv').forEach(function(root){
@@ -1929,18 +2006,13 @@ const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
       function apply(){
         var doc=frame.contentDocument;
         if(!doc||!doc.getElementById('mbp-content'))return;
-        doc.querySelectorAll('[data-mbp-reviews]').forEach(function(node){node.remove();});
+        doc.querySelectorAll(seg.dataset.row).forEach(function(node){node.remove();});
         if(current!=='on')return;
         var host=doc.querySelector(seg.dataset.insertInto);
         if(!host)return;
-        var style=doc.createElement('style');
-        style.setAttribute('data-mbp-reviews','');
-        style.textContent=seg.dataset.css;
-        doc.head.appendChild(style);
         var holder=doc.createElement('div');
         holder.innerHTML=seg.dataset.html;
         var row=holder.firstElementChild;
-        row.setAttribute('data-mbp-reviews','');
         host.appendChild(row);
       }
       frame.addEventListener('load',apply);
@@ -1969,9 +2041,14 @@ ${marketingGuidanceHtml(b)}  <h2>Which is which</h2>
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
   <p class="body">${esc(layout.summary)}${layout.reference ? ` Layout reference: Untitled UI ${esc(layout.reference)}.` : ''}</p>
 ${layout.useFor ? `  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>\n` : ''}  <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, marketingLayoutSnippet(b, layout), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
 
+${b.video ? `  <h2 id="video-slot">${esc(b.video.label)} (optional, off by default)</h2>
+  <p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
+  ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
+  ${marketingCodeToggle('video.css', b.video.css, 'Add once. Replace {{c}} with the layout class.')}
+` : ''}
 ${b.composedOf ? `
   <h2 id="composed-of">Composed of</h2>
   <p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
@@ -2012,17 +2089,22 @@ ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
+function marketingVideoMd(b) {
+  if (!b.video) return '';
+  const names = b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${layout.name} (\`${layout.class}\`)`);
+  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. Layouts with the slot: ${names.join(', ')}.\n\n\`\`\`html\n${b.video.html}\n\`\`\`\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
+}
 function marketingReviewsMd(b) {
   if (!b.reviews) return '';
   const withRow = b.layouts.filter(layout => layout.reviews);
-  return `\n## ${b.reviews.label} row (optional, off by default)\nAn optional ${b.reviews.source} rating row: five avatars, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above leaves it out. To turn it on, append the row below as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}, and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
+  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -2039,11 +2121,16 @@ function renderMarketingAgent(b) {
     ...(b.guidance ? { guidance: b.guidance } : {}),
     ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
     ...(b.reviews ? { reviews: {
-      label: b.reviews.label, source: b.reviews.source, defaultState: 'off', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
-      howToTurnOn: `Append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class. Off by default: the layout html and css leave it out.`,
+      label: b.reviews.label, source: b.reviews.source, defaultState: 'on', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
+      howToRemove: `On by default: the layout html and css include the row. Delete the <layout class>__reviews element and its __reviews css to remove it, or append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class, to add it elsewhere.`,
       html: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).html,
       css: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).css,
       layouts: b.layouts.filter(layout => layout.reviews).map(layout => ({ slug: layout.slug, class: layout.class, insertInto: `.${layout.class}__copy`, ...(layout.reviews.css ? { css: layout.reviews.css } : {}) })),
+    } } : {}),
+    ...(b.video ? { video: {
+      label: b.video.label, defaultState: 'off', howToTurnOn: b.video.howToTurnOn, replaces: b.video.replaces,
+      html: b.video.html, css: b.video.css,
+      layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
     } } : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
@@ -2663,8 +2750,8 @@ const ANTISLOP_LOOP = [
   'You are generating AhaSlides product UI by consuming this design system.',
   'Before you write a screen: (1) identify the surface(s) you are building;',
   "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
-  '(node screen-lint.mjs --surface=<product|canvas|audience|settings> <files>) to hard-fail the zero-interpretation',
-  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel), then the",
+  '(node screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>) to hard-fail the zero-interpretation',
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-rolled or restyled button on any surface, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel, a second <h1> or an <img> without alt on a website page), then the",
   'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
@@ -2854,6 +2941,8 @@ function renderIconGallery() {
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
 const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
 const COLOUR_RULES = loadColourRules(root);
+const VOICE_RULES = loadVoiceRules(root);
+const paletteHexOf = (id) => { const colour = COLOUR_RULES.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 const BACKGROUNDS = loadBackgrounds(root);
 function renderBackgroundLibraryPage() {
   const { main, extraCss } = renderBackgroundLibrary(COLOUR_RULES, BACKGROUNDS, { site: SITE, headline });
@@ -2997,6 +3086,8 @@ function renderLogoPage() {
   ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
   <p class="body">Don&rsquo;t:</p>
   <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+  <h3 class="tok-h3" id="clear-space">Clear space and isotype (rules 2.8 to 2.10)</h3>
+  <p class="body">Keep the height of the &ldquo;A&rdquo; in AhaSlides clear on every side of the logo. The isotype is The Splash on its own, for a favicon, an avatar or a small secondary graphic, at 256, 180, 152, 60 and 16 px: transparent, or white on Vivid Pink in a circle or a square.</p>
   <h3 class="tok-h3" id="favicon">Favicon</h3>
   <p class="body">The four files in <code>logo/favicon/</code> are The Splash in its own colours, centred with even padding: <code>favicon.ico</code>, <code>favicon-32.png</code>, <code>favicon-180.png</code> (white ground) and <code>favicon-512.png</code>. Rebuild them with <code>node favicons.mjs</code>. Which tag uses which file, and where <code>/favicon.ico</code> must answer, is in the <a href="../guidelines/page-title-favicon/index.html">Page title and favicon</a> guideline.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
@@ -3123,12 +3214,13 @@ const expandMarketingAssets = (b) => {
 /* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
 AUDIENCE = existsSync(join(ADIR, 'library.json')) ? JSON.parse(read(join(ADIR, 'library.json'))) : null;
 CANVAS_LIB = existsSync(join(CANVAS_DIR, 'library.json')) ? JSON.parse(read(join(CANVAS_DIR, 'library.json'))) : null;
+CANVAS_DECK_TOKENS = existsSync(join(CANVAS_DIR, 'deck-tokens.json')) ? JSON.parse(read(join(CANVAS_DIR, 'deck-tokens.json'))) : null;
 CANVAS_CSS = existsSync(join(CANVAS_DIR, 'canvas.css')) ? read(join(CANVAS_DIR, 'canvas.css')) : '';
 AUD_CSS = existsSync(join(ADIR, 'audience.css')) ? read(join(ADIR, 'audience.css')) : '';
 /* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
@@ -3168,6 +3260,8 @@ if (MARKETING.length) {
 }
 RAW_FEEDS.push(
   { name: 'colour-rules.md', file: 'colour-rules.md', page: 'colour-rules-md', desc: 'The colour and background rules for agents: every rule tagged with its environment and the judge criteria that check it.' },
+  { name: 'voice-rules.md', file: 'voice-rules.md', page: 'voice-rules-md', desc: 'The verbal brand rules for agents: every rule tagged with the kind of communication it applies to.' },
+  { name: 'voice-rules.agent.json', file: 'voice-rules.agent.json', page: 'voice-rules-agent-json', desc: 'Machine feed: verbal brand rules by kind of communication and environment, tables and retired wording.' },
   { name: 'colour-rules.agent.json', file: 'colour-rules.agent.json', page: 'colour-rules-agent-json', desc: 'Machine feed: palette, rules by environment, Splash geometry and files, and the points still open.' },
 );
 if (ANTISLOP) {
@@ -3243,7 +3337,8 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
     `//   <link rel="stylesheet" href=".../lib/tokens.css">   or   import '${PKGNAME}/tokens.css'\n` +
     entry.files.map(f => `import './${f}';`).join('\n') + '\n' +
     (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : '') +
-    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : ''));
+    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : '') +
+    (surface === 'audience' || surface === 'canvas' ? `export { applyDeckTokens, deckTokens } from './deck.js';\n` : ''));
   console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
 }
 
@@ -3256,6 +3351,20 @@ writeFileSync(join(root, 'lib', 'settings-elements.js'),
   `// screen-lint --surface=settings rejects any other <aha-*> tag.\n` +
   `export const SETTINGS_ELEMENTS = ${JSON.stringify(settingsElementTags, null, 2)};\n`);
 console.log(`  ✓ lib/settings-elements.js — ${settingsElementTags.length} registered settings tags`);
+
+const marketingMinWidths = new Set();
+const collectMinWidths = (node) => {
+  if (typeof node === 'string') {
+    for (const query of node.matchAll(/@(?:container|media)\b[^{]*/gi))
+      for (const width of query[0].matchAll(/\(\s*min-width\s*:\s*([0-9.]+)px/gi)) marketingMinWidths.add(parseFloat(width[1]));
+  } else if (node && typeof node === 'object') Object.values(node).forEach(collectMinWidths);
+};
+for (const file of readdirSync(MDIR).filter(f => f.endsWith('.json'))) collectMinWidths(JSON.parse(readFileSync(join(MDIR, file), 'utf8')));
+writeFileSync(join(root, 'lib', 'marketing-breakpoints.js'),
+  `// ${PKGNAME}/screen-lint — the min-width container/media breakpoints the Marketing sections ship (generated by generate.mjs; do not edit by hand).\n` +
+  `// screen-lint --surface=website accepts these inside @container/@media conditions.\n` +
+  `export const MARKETING_MIN_WIDTHS = ${JSON.stringify([...marketingMinWidths].sort((a, b) => a - b))};\n`);
+console.log(`  ✓ lib/marketing-breakpoints.js — ${marketingMinWidths.size} marketing min-width breakpoints`);
 
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
@@ -3281,15 +3390,21 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
-writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
-  fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
+writeFileSync(join(OUT, COLOUR_RULES_PAGE), docShell({ base: '../', active: '__colour-rules__', title: 'Brand colour rules', section: 'foundations', ...splitFragment(renderColourRulesPage(COLOUR_RULES, {
   templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
   icon: registryGlyphSvg,
-}), { title: siteTitle('Brand colour rules', null, COLOUR_RULES_PAGE), base: '../' }));
+})) }));
 writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
 writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 writeFileSync(join(OUT, 'colour-rules.agent.json'), renderColourRulesAgent(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 console.log(`  ✓ colour rules: ${COLOUR_RULES_PAGE} · colour-rules.md · colour-rules.agent.json · ${BACKGROUND_LIBRARY_PAGE} (${BACKGROUNDS.length} backgrounds)`);
+writeFileSync(join(OUT, VOICE_RULES_PAGE), docShell({ base: '../', active: '__voice-rules__', title: 'Brand voice rules', section: 'foundations', ...splitFragment(renderVoiceRulesPage(VOICE_RULES, {
+  templateHtml: read(join(root, VOICE_RULES_TEMPLATE_FILE)),
+  palette: { vividPink: paletteHexOf('vivid-pink'), darkerPink: paletteHexOf('darker-pink'), vividPink5: paletteHexOf('vivid-pink-5'), vividPink30: paletteHexOf('vivid-pink-30'), purple: paletteHexOf('purple') },
+})) }));
+writeFileSync(join(OUT, 'voice-rules.md'), renderVoiceRulesMd(VOICE_RULES, { site: SITE }));
+writeFileSync(join(OUT, 'voice-rules.agent.json'), renderVoiceRulesAgent(VOICE_RULES, { site: SITE }));
+console.log(`  ✓ voice rules: ${VOICE_RULES_PAGE} · voice-rules.md · voice-rules.agent.json`);
 writeFileSync(join(OUT, 'index.html'), renderIndex());
 mkdirSync(join(OUT, 'get-started'), { recursive: true });
 writeFileSync(join(OUT, 'get-started', 'index.html'), renderGetStarted(contracts));
@@ -3315,7 +3430,7 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
-  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, and applyCanvasDeck), same CDN path and tag:`,
+  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck and the shared applyDeckTokens), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, applyCanvasDeck and applyDeckTokens), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
@@ -3337,8 +3452,10 @@ const indexLines = [
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
+  ...voiceRulesIndexLines(SITE),
   `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; greyscale files at ${SITE}/logo/<file>.svg, original-colour files at ${SITE}/logo/original/<file>.svg, a copy-paste hover and focus pattern, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
-  `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
+  `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, correct/incorrect count, status line, stepper, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
+  `>   ${SITE}/deck-tokens/index.html  Foundations › Deck tokens — the one --aha-deck-* ladder the canvas and the audience phone share (@ahaslides-product/design/deck, written by applyDeck and applyCanvasDeck), plus the canvas container and modal tokens`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
@@ -3429,6 +3546,11 @@ if (CANVAS_LIB) {
   mkdirSync(join(OUT, 'canvas'), { recursive: true });
   writeFileSync(join(OUT, 'canvas', 'index.html'), renderCanvasLibrary());
   console.log(`  ✓ canvas library: canvas/index.html (${CANVAS_LIB.sections.length} sections)`);
+}
+if (CANVAS_DECK_TOKENS) {
+  mkdirSync(join(OUT, 'deck-tokens'), { recursive: true });
+  writeFileSync(join(OUT, 'deck-tokens', 'index.html'), renderDeckTokensPage(CANVAS_DECK_TOKENS));
+  console.log(`  ✓ deck tokens: deck-tokens/index.html (${CANVAS_DECK_TOKENS.sections.length} sections)`);
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
 if (ANTISLOP) {

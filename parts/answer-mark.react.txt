@@ -1,0 +1,13 @@
+import '@ahaslides-product/design/aha-answer-mark';   // registers <aha-answer-mark>
+import { t } from 'i18next';
+
+// Attributes only, no events, so React 18/19 renders the element directly.
+export function AnswerMark({ correct, size = 20 }) {
+  return (
+    <aha-answer-mark
+      result={correct ? 'correct' : 'incorrect'}
+      size={size}
+      label={correct ? t('answer.correct') : t('answer.incorrect')}
+    />
+  );
+}

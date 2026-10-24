@@ -36,7 +36,7 @@
     },
     {
       "label": "States",
-      "value": "open · locked (others mute to 55%) · revealed (tick or cross on every row; the correct row ringed in success, my wrong pick ringed (2px) and tinted in error, the rest mute to 55%)"
+      "value": "open · locked (others mute to 55%) · revealed (a 20px <aha-answer-mark> on every row in place of the pick control: white tick on the --aha-answer-correct disc or white cross on the --aha-answer-wrong disc; the correct row takes the 1px --aha-answer-correct edge, my wrong pick is ringed (2px) and tinted in --aha-answer-wrong, the rest mute to 55%)"
     },
     {
       "label": "Helper",
@@ -106,7 +106,7 @@
       "name": "correct-label / incorrect-label",
       "type": "string",
       "default": "Correct / Incorrect",
-      "desc": "Translated names for the verdict icon"
+      "desc": "Translated names for the verdict mark (<aha-answer-mark>)"
     },
     {
       "name": "pick",

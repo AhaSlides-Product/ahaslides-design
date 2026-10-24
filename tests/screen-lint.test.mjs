@@ -174,7 +174,7 @@ test('lib/aha-chart.js passes screen-lint with no allow marker', async () => {
   const { readFile } = await import('node:fs/promises');
   const source = await readFile(new URL('../lib/aha-chart.js', import.meta.url), 'utf8');
   assert.ok(!/ds-lint-allow:[^(]*gradient/.test(source));
-  assert.deepEqual(lintHtml(source, { surface: 'product' }).findings.filter(f => f.severity === 'hard'), []);
+  assert.deepEqual(lintHtml(source, { surface: 'product', path: 'lib/aha-chart.js' }).findings.filter(f => f.severity === 'hard'), []);
 });
 
 const shimmerCss = (stops, animated = true) => `<style>

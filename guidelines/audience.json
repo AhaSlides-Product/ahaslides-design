@@ -126,6 +126,12 @@
       "status": "available"
     },
     {
+      "ref": "answer-mark",
+      "as": "component",
+      "use": "the one correct / incorrect answer mark — <aha-answer-mark result=\"correct|incorrect\" size>: a white tick or cross on the solid --aha-answer-correct / --aha-answer-wrong disc (colour rule 11.3); never a hand-drawn disc and never an <aha-icon> coloured with an answer token",
+      "status": "available"
+    },
+    {
       "ref": "answer-list",
       "as": "component",
       "use": "single- and multi-select option rows — <aha-answer-list> (rows: <aha-answer-option>); the checked control takes the deck accent, my pick is ringed in textColour, and lock-key keeps the pick across an iframe remount",
@@ -134,7 +140,7 @@
     {
       "ref": "scale-slider",
       "as": "component",
-      "use": "scale input — <aha-scale-slider>: readout centred above an 8px rail inset 16px from the min/max labels, rail and filled portion both ink 10% with a 1px ink-10% hairline",
+      "use": "scale input — <aha-scale-slider>: readout centred above an 8px rail inset 16px from the min/max labels, rail and filled portion both --aha-deck-stroke (ink 12%) with a 1px --aha-deck-stroke hairline",
       "status": "available"
     },
     {
@@ -334,7 +340,7 @@
     },
     {
       "id": "textcolour-for-text",
-      "rule": "Bind body text to xprops.slide.textColour. Do NOT use textColour as a border/divider/hairline source; derive hairlines from color-mix(in srgb, currentColor 10%, transparent) so they stay subtle and theme-aware.",
+      "rule": "Bind body text to xprops.slide.textColour. Do NOT use textColour as a border/divider/hairline source; derive hairlines from --aha-deck-stroke (the ink at 12%) so they stay subtle and theme-aware.",
       "ref": [
         "C11",
         "§2"
@@ -376,7 +382,7 @@
     },
     {
       "id": "slider-fill-hairline",
-      "rule": "Fill a slider/progress track with the deck ink at 10% and give a filled part the same 1px hairline (color-mix(in srgb, currentColor 10%, transparent)) so a coloured fill doesn't sink into a same-hue deck — one value for every track and panel hairline; a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%.",
+      "rule": "Fill a slider/progress track with --aha-deck-stroke (the deck ink at 12%) and give a filled part the same 1px --aha-deck-stroke hairline so a coloured fill doesn't sink into a same-hue deck — one value for every track and panel hairline; a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take --aha-deck-stroke-chip (the ink at 20%).",
       "ref": [
         "C18",
         "§2"
@@ -674,7 +680,7 @@
     },
     {
       "id": "border-weight",
-      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px color-mix(in srgb, currentColor 10%, transparent), except the 20% controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%; the dashed image drop area is the one 2px edge, dashed. No other 2px outline, and never one at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
+      "rule": "Borders are hairlines: a bounded white card takes 1px --aha-border-default (#E3E3E3); a deck-owned surface (field, track, panel) takes 1px --aha-deck-stroke (the ink at 12%), except the 20% --aha-deck-stroke-chip controls: a tappable chip, the dashed image drop area and the radio / checkbox control of an answer row take the ink at 20%; the dashed image drop area is the one 2px edge, dashed. No other 2px outline, and never one at heavy ink (e.g. 55% textColour) on chips, cards or inputs.",
       "ref": [
         "C32",
         "§2a"

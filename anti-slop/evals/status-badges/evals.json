@@ -269,7 +269,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C5 — pink only on the alert icon; the colour properties are not for DS statuses.",
-      "expected_output": "C5 FAILs: the two colour custom properties are only for a colour set an app already owns (Report results), never to tint a lifecycle status, and pink belongs only on the alert icon. Published is the emphasis style with a dark dot. Fix: remove the inline style and render `<aha-status-badge status=\"published\">`. Overall: NEEDS FIX.",
+      "expected_output": "C5 FAILs: the two colour custom properties are only for a colour set an app already owns (a non-answer state), never to tint a lifecycle status, and pink belongs only on the alert icon. Published is the emphasis style with a dark dot. Fix: remove the inline style and render `<aha-status-badge status=\"published\">`. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C5 is marked FAIL",
