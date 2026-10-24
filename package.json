@@ -1,6 +1,6 @@
 {
   "name": "@ahaslides-product/design",
-  "version": "0.390.0",
+  "version": "0.391.0",
   "description": "AhaSlides design system for agents — single source of truth (tokens + component contracts) → generated docs, llms.txt, design.md, and per-component agent feeds. Hybrid: shared web-component primitives + antd/ant-design-vue composites.",
   "type": "module",
   "publishConfig": {
@@ -28,6 +28,7 @@
     "./lib/aha-answer-result.js",
     "./lib/aha-question-nav.js",
     "./lib/aha-canvas-count.js",
+    "./lib/aha-canvas-play.js",
     "./lib/aha-canvas-status.js",
     "./lib/aha-loader.js",
     "./lib/icons.js",
@@ -133,6 +134,7 @@
   "jsdelivr": "./lib/all.js",
   "browser": "./lib/all.js",
   "exports": {
+    "./aha-canvas-play": "./lib/aha-canvas-play.js",
     "./aha-answer-mark": "./lib/aha-answer-mark.js",
     "./aha-answer-result": "./lib/aha-answer-result.js",
     "./aha-question-nav": "./lib/aha-question-nav.js",
