@@ -247,7 +247,7 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
       md += `Table ${table.id} ${tag(table.environment)}\n\n| ${table.columns.join(' | ')} |\n|${table.columns.map(() => '---').join('|')}|\n${table.rows.map(row => `| ${row.join(' | ')} |`).join('\n')}\n\n`;
     }
   }
-  md += `## Splash in CSS\n\nCentre and right, drawn in CSS with the full 802 by 788 icon; set --splash-across to .5 (centre) or .75 (right).\n\n\`\`\`css\n${rules.splash.cssRecipe.join('\n')}\n\`\`\`\n\n`;
+  md += `## Splash in CSS\n\nCentre and right, drawn in CSS with the full 802 by 788 icon, in any medium (draw it on the frame it sits in, never place the icon by hand); set --splash-across to .5 (centre) or .75 (right).\n\n\`\`\`css\n${rules.splash.cssRecipe.join('\n')}\n\`\`\`\n\n`;
   md += `## Splash background files\n\nLibrary page: ${site}/${BACKGROUND_LIBRARY_PAGE} · index: ${site}/${BACKGROUNDS_MANIFEST_FILE}\n\n${backgrounds.map(entry => `- ${entry.name} (${entry.width} by ${entry.height}): ${backgroundUrl(site, entry)}`).join('\n')}\n\nAny other size: \`${GENERATOR_COMMAND}\`\n\n`;
   md += `## Still to decide\n\n${rules.open.length ? rules.open.map(point => `- ${point.id} ${tag(point.environment)} ${point.title}. ${markupToText(point.text)} Until it is settled: ${markupToText(point.interim)}`).join('\n') : 'Nothing open.'}\n\n`;
   md += `## What changed\n\n${rules.changes.map(change => `- ${change.version} (${change.date}): ${change.text}`).join('\n')}\n`;
