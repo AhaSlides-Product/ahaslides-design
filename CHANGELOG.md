@@ -27,6 +27,15 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `<aha-canvas-play>`, the centred Play control for a slide canvas: a flat disc on `--aha-color-primary` with the white `system-play` glyph, sizes `md` (48), `lg` (64, default) and `hero` (96), the deck focus ring, no shadow; registered in the canvas bundle (#385)
 - Revert: revert the PR; a new component, nothing else changes (#385)
 
+## 0.390.0 — 2026-10-24
+### Added
+- Question list: `strings` (property or JSON attribute) translates every built-in string (count, Add question, Question, Options, Add option, Delete question, the accessible names and the option rows' placeholder, delete and drag-handle copy); cancelable `question-add` (`detail.index`) and `question-delete` (`detail.index`, `detail.question`) intent events let a host insert at its own position and offer Undo; the whole-list `change` event and the English copy are unchanged (#384)
+- Option row: `correctlabel`, `deletelabel`, `deletehint`, `reorderlabel` and `reorderhint` carry the toggle, delete and drag-handle copy in the host's language (English defaults) (#384)
+- Canvas count: `total` shows "12 of 30" with the name "12 of 30 answered" (answered-only form); `strings` translates the "of" copy and the accessible names; without `total` it renders exactly as before (#384)
+- Collapse: `status="error"` or `"warning"` paints the panel border with `--aha-border-error` or `--aha-border-warning`; `selected` keeps the head on the hover background and sets `aria-current` on it, replacing a hand-set `::part(head)` background; without either attribute it renders exactly as before (#384)
+- Settings entry (`lib/settings.js`) registers `aha-tag`, so screen-lint no longer reports it as an unregistered element in a settings panel (#384)
+- Revert: revert the PR; all additions are opt-in and default to the previous behaviour (#384)
+
 ## 0.387.0 — 2026-10-24
 ### Changed
 - Splash rules apply to any splash background in any medium, with no exceptions: colour rules 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19, the splash layouts table and the Splash in CSS block now cover every environment, including report images, which draw a hero band splash with the Splash in CSS block on the band's own frame and never place it by hand; 5.6, 5.12, 5.13 and 5.16 keep their scope (#383)
