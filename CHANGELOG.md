@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.390.0 — 2026-10-24
 ### Added
-- Question list: `strings` (property or JSON attribute) translates every built-in string (count, Add question, Question, Options, Add option, Delete question and the accessible names); cancelable `question-add` (`detail.index`) and `question-delete` (`detail.index`, `detail.question`) intent events let a host insert at its own position and offer Undo; the whole-list `change` event and the English copy are unchanged (#384)
-- Option row: `correctlabel` names the correct-answer toggle in the host's language (default "Correct answer") (#384)
+- Question list: `strings` (property or JSON attribute) translates every built-in string (count, Add question, Question, Options, Add option, Delete question, the accessible names and the option rows' placeholder, delete and drag-handle copy); cancelable `question-add` (`detail.index`) and `question-delete` (`detail.index`, `detail.question`) intent events let a host insert at its own position and offer Undo; the whole-list `change` event and the English copy are unchanged (#384)
+- Option row: `correctlabel`, `deletelabel`, `deletehint`, `reorderlabel` and `reorderhint` carry the toggle, delete and drag-handle copy in the host's language (English defaults) (#384)
 - Canvas count: `total` shows "12 of 30" with the name "12 of 30 answered" (answered-only form); `strings` translates the "of" copy and the accessible names; without `total` it renders exactly as before (#384)
 - Settings entry (`lib/settings.js`) registers `aha-tag`, so screen-lint no longer reports it as an unregistered element in a settings panel (#384)
 - Revert: revert the PR; all additions are opt-in and default to the previous behaviour (#384)

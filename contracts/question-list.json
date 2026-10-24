@@ -152,7 +152,7 @@
       "name": "strings",
       "type": "object | JSON attribute",
       "default": "English",
-      "desc": "Translated copy for every built-in string. Keys: countOne / countOther (\"{count} question(s)\"), addQuestion, question, options, addOption, deleteQuestion (tooltip), deleteQuestionN (\"Delete question {n}\"), questionN (\"Question {n}\"), untitledQuestion, questionPlaceholder, correctAnswer (the options' correct-toggle name). A missing key keeps its English default"
+      "desc": "Translated copy for the list's and its option rows' built-in strings. Keys: countOne / countOther (\"{count} question(s)\"), addQuestion, question, options, addOption, deleteQuestion (tooltip), deleteQuestionN (\"Delete question {n}\"), questionN (\"Question {n}\"), untitledQuestion, questionPlaceholder, correctAnswer (the options' correct-toggle name), optionPlaceholder, deleteOption, deleteOptionHint, reorderOption, reorderOptionHint (the option rows' field, delete and drag-handle copy; the optional image control keeps its own copy). A missing key keeps its English default"
     },
     {
       "name": "question-add",

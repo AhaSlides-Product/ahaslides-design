@@ -27,7 +27,8 @@ const dump = `
 test('English copy is unchanged without strings', { skip }, async () => {
   const result = await run('', `${dump}
     return { count: texts('.count')[0], add: texts('.add-question', 'label')[0], tips: texts('.delete', 'text'), deletes: texts('.delete aha-button', 'aria-label'),
-      untitled: texts('.prompt')[0], correct: [...root.querySelectorAll('aha-option-row')][0].shadowRoot.querySelector('.correct').getAttribute('aria-label') };
+      untitled: texts('.prompt')[0], correct: [...root.querySelectorAll('aha-option-row')][0].shadowRoot.querySelector('.correct').getAttribute('aria-label'),
+      row: (() => { const r = root.querySelector('aha-option-row').shadowRoot; return { placeholder: r.querySelector('.field').getAttribute('placeholder'), handle: r.querySelector('.handle').getAttribute('aria-label'), delete: r.querySelector('.delete-button').getAttribute('aria-label'), tip: r.querySelector('.delete').getAttribute('text') }; })() };
   `);
   assert.equal(result.count, '2 questions');
   assert.equal(result.add, 'Add question');
@@ -35,15 +36,17 @@ test('English copy is unchanged without strings', { skip }, async () => {
   assert.deepEqual(result.deletes, ['Delete question 1', 'Delete question 2']);
   assert.equal(result.untitled, 'Untitled question');
   assert.equal(result.correct, 'Correct answer');
+  assert.deepEqual(result.row, { placeholder: 'Option text', handle: 'Drag to reorder', delete: 'Delete', tip: 'Delete' });
 });
 
 test('strings translate every built-in copy, from the attribute and the property', { skip }, async () => {
   const strings = JSON.stringify({ countOther: '{count} Fragen', countOne: '{count} Frage', addQuestion: 'Frage hinzufügen', question: 'Frage', options: 'Optionen', addOption: 'Option hinzufügen',
-    deleteQuestion: 'Frage löschen', deleteQuestionN: 'Frage {n} löschen', questionN: 'Frage {n}', untitledQuestion: 'Frage ohne Titel', correctAnswer: 'Richtige Antwort' });
+    deleteQuestion: 'Frage löschen', deleteQuestionN: 'Frage {n} löschen', questionN: 'Frage {n}', untitledQuestion: 'Frage ohne Titel', correctAnswer: 'Richtige Antwort', optionPlaceholder: 'Antworttext', deleteOption: 'Antwort löschen', deleteOptionHint: 'Antwort löschen (Rücktaste)', reorderOption: 'Ziehen zum Sortieren' });
   const result = await run(`strings='${strings}'`, `${dump}
     const snapshot = () => ({ count: texts('.count')[0], add: texts('.add-question', 'label')[0], addOption: texts('.opts > aha-add-item-button', 'label')[0], tip: texts('.delete', 'text')[0],
       deleteName: texts('.delete aha-button', 'aria-label')[0], untitled: texts('.prompt')[0], rows: texts('aha-setting-row[layout="stack"]', 'label').slice(0, 2),
-      correct: root.querySelector('aha-option-row').shadowRoot.querySelector('.correct').getAttribute('aria-label') });
+      correct: root.querySelector('aha-option-row').shadowRoot.querySelector('.correct').getAttribute('aria-label'),
+      row: (() => { const r = root.querySelector('aha-option-row').shadowRoot; return { placeholder: r.querySelector('.field').getAttribute('placeholder'), handle: r.querySelector('.handle').getAttribute('aria-label'), delete: r.querySelector('.delete-button').getAttribute('aria-label'), tip: r.querySelector('.delete').getAttribute('text') }; })() });
     const fromAttribute = snapshot();
     const list = document.getElementById('list');
     list.removeAttribute('strings');
@@ -52,7 +55,8 @@ test('strings translate every built-in copy, from the attribute and the property
     return { fromAttribute, property: { count: texts('.count')[0], add: texts('.add-question', 'label')[0] } };
   `);
   assert.deepEqual(result.fromAttribute, { count: '2 Fragen', add: 'Frage hinzufügen', addOption: 'Option hinzufügen', tip: 'Frage löschen', deleteName: 'Frage 1 löschen',
-    untitled: 'Frage ohne Titel', rows: ['Frage', 'Optionen'], correct: 'Richtige Antwort' });
+    untitled: 'Frage ohne Titel', rows: ['Frage', 'Optionen'], correct: 'Richtige Antwort',
+    row: { placeholder: 'Antworttext', handle: 'Ziehen zum Sortieren', delete: 'Antwort löschen', tip: 'Antwort löschen' } });
   assert.deepEqual(result.property, { count: '2 preguntas', add: 'Add question' });
 });
 
