@@ -24,9 +24,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.387.0 — 2026-10-24
 ### Added
-- Report images that carry a Vivid Pink or white hero band use the DS centre, right or minimal splash geometry, drawn with the Splash in CSS block on the band's own frame, never placed by hand: colour rules 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19 and the splash layouts table now carry the `report-image` environment (#PRNUM)
-- Report-images criterion C14: a splash in a report image is sized and placed by the colour-rules geometry, never a hand-set size or offset, with a fail and a pass fixture (#PRNUM)
-- Revert: revert the PR; only environment tags, one criterion and its two eval cases change, no rule id or rule text changed (#PRNUM)
+- Report images that carry a Vivid Pink or white hero band use the DS centre, right or minimal splash geometry, drawn with the Splash in CSS block on the band's own frame, never placed by hand: colour rules 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19 and the splash layouts table now carry the `report-image` environment (#383)
+- Report-images criterion C14: a splash in a report image is sized and placed by the colour-rules geometry, never a hand-set size or offset, with a fail and a pass fixture (#383)
+- Revert: revert the PR; only environment tags, one criterion and its two eval cases change, no rule id or rule text changed (#383)
 
 ## 0.386.1 — 2026-10-23
 ### Fixed
