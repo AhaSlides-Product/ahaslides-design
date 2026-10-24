@@ -394,6 +394,56 @@
         "authored": "ahaslides-design",
         "why": "report table zebra rows are light grey, not pale pink (Dave Bui, DESY-220)"
       }
+    },
+    {
+      "id": 19,
+      "prompt": "Review a report image: a 1152 by 184 px Vivid Pink hero band, 'Weekly engagement snapshot' in white. The splash icon is the full backgrounds/splash-icon-pink.svg with height 330px, right -60px and top -70px, chosen to look right.",
+      "files": [
+        {
+          "path": "fixtures/fail-c14-hand-placed-splash/Report.html"
+        }
+      ],
+      "label": "bad-example",
+      "notes": "Targets C14: a hand-set size and offset instead of the Splash in CSS block.",
+      "expected_output": "C14 FAILs: the splash has a hand-set height and offset. Fix: draw it with the Splash in CSS block on the band's own frame, --splash-across .75 for the right layout. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C14": "FAIL"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "report image hero band splash was placed by eye (DESY-331, from GIAS-859)"
+      }
+    },
+    {
+      "id": 20,
+      "prompt": "Review a report image: a 1152 by 184 px Vivid Pink hero band, 'Weekly engagement snapshot' in white. The splash is drawn with the Splash in CSS block on the band's own frame, --splash-across .75, using the full backgrounds/splash-icon-pink.svg.",
+      "files": [
+        {
+          "path": "fixtures/pass-c14-splash-css-block/Report.html"
+        }
+      ],
+      "label": "good-control",
+      "notes": "Control: the DS right layout drawn by the colour-rules geometry.",
+      "expected_output": "C14 PASSes: the splash is the Splash in CSS block with --splash-across .75 on the band's frame. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C14": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "report image hero band splash was placed by eye (DESY-331, from GIAS-859)"
+      }
     }
   ]
 }

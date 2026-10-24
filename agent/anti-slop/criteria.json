@@ -1121,7 +1121,7 @@
         {
           "id": "C24",
           "title": "Keyboard-only operation",
-          "test": "*(Applies to every canvas with a presenter interaction, in Standard and Immersive UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.)* Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse, no-touch operation. **Rule.** a. Every presenter interaction works with the keyboard alone: each control is reachable by Tab in a sensible (reading) order, shows a visible focus ring, and activates with Enter or Space, a declared shortcut, or a host-painted action. A `<div>`/`<span>` with a click handler and no `tabindex`/role/key handler FAILs. b. Anything shown on hover (a tooltip, a result label, a highlight, a reveal) is also shown on keyboard focus (`:focus-visible`); a hover-only reveal on a non-focusable element FAILs. c. Any drag, draw, swipe or other pointer gesture has a keyboard alternative (arrow keys, Move up / Move down buttons, Space to pick up and drop); a pointer-only gesture FAILs. d. No keyboard trap: Tab always leaves the canvas controls (a modal's contained Tab cycle is the C10 focus-trap and passes when Esc or a Close control exits). e. The canvas never swallows the deck's navigation and clicker keys (ArrowRight / ArrowLeft, PageDown / PageUp, Space): no blanket `keydown` handler that calls `preventDefault`/`stopPropagation` on them, except to claim a build step through the SDK, or while a widget the presenter has explicitly focused owns the key. Any sub-rule missed \u2192 FAIL. C10 covers the shortcut chips, tooltips and focus-trap of bespoke controls; this criterion is the reachability test for every interaction, not only those."
+          "test": "*(Applies to every canvas with a presenter interaction, in Standard and Immersive UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.)* Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse, no-touch operation. **Rule.** a. Every presenter interaction works with the keyboard alone: each control is reachable by Tab in a sensible (reading) order, shows a visible focus ring, and activates with Enter or Space, a declared shortcut, or a host-painted action. A `<div>`/`<span>` with a click handler and no `tabindex`/role/key handler FAILs. b. Anything shown on hover (a tooltip, a result label, a highlight, a reveal) is also shown on keyboard focus (`:focus-visible`); a hover-only reveal on a non-focusable element FAILs. c. Any drag, draw, swipe or other pointer gesture has a keyboard alternative (arrow keys, Move up / Move down buttons, Space to pick up and drop); a pointer-only gesture FAILs. d. No keyboard trap: Tab always leaves the canvas controls (a modal's contained Tab cycle is the C10 focus-trap and passes when Esc or a Close control exits). e. The canvas never swallows the deck's navigation and clicker keys (ArrowRight / ArrowLeft, PageDown / PageUp, Space): no blanket `keydown` handler that calls `preventDefault`/`stopPropagation` on them, except to claim a build step through the SDK, or while a widget the presenter has explicitly focused owns the key. Any sub-rule missed → FAIL. C10 covers the shortcut chips, tooltips and focus-trap of bespoke controls; this criterion is the reachability test for every interaction, not only those."
         }
       ]
     },
@@ -1367,7 +1367,7 @@
         },
         {
           "source": "brand/colour-rules.json",
-          "use": "rule 3.11 (light grey zebra rows and pale pink plates in reports, image and page alike), 3.6 (light grey for table surfaces), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
+          "use": "rule 3.11 (light grey zebra rows and pale pink plates in reports, image and page alike), 3.6 (light grey for table surfaces), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3), and the splash geometry for a hero band (5.3 to 5.5, the Splash in CSS block, C14)"
         }
       ],
       "criteria": [
@@ -1435,6 +1435,11 @@
           "id": "C13",
           "title": "Status glyphs come from the DS: <aha-icon> on a page, lib/static-icons in an image",
           "test": "**Rule.** Every status mark in a report (rise, fall, no change, warning, pending, progress) is a DS glyph called by its registry name, at 12, 16, 24 or 32 px, in ink or white: <aha-icon> on a report page, a file from lib/static-icons in an image. A drawn triangle or circle, an emoji, an icon from another set or a recoloured glyph fails."
+        },
+        {
+          "id": "C14",
+          "title": "A splash in a report image is a DS layout, sized and placed by the frame, never by hand",
+          "test": "**Rule.** A splash on a report image's hero band (Vivid Pink or white) is one of the three DS layouts (centre, right or minimal) and is sized and placed by the colour-rules geometry for the frame it sits in: the Splash in CSS block (brand/colour-rules.json, `splash.cssRecipe`) on the band's own frame, with `--splash-across` at .5 (centre) or .75 (right), drawing the full 802 by 788 `backgrounds/splash-icon-pink.svg` or its white twin. A splash icon given a hand-set `height`, `width`, `right`, `left` or `top` offset, a cropped or stretched copy, or a size and position chosen by eye fails. N/A when the image has no splash."
         }
       ]
     },
