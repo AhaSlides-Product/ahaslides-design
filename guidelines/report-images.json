@@ -190,13 +190,6 @@
       "ref": [
         "C13"
       ]
-    },
-    {
-      "id": "hero-splash",
-      "rule": "A report image whose hero band is Vivid Pink or white may carry a splash, and then it is one of the three DS layouts (centre, right or minimal) sized and placed by the colour-rules geometry for the band's own frame: the Splash in CSS block on the full 802 by 788 icon (`backgrounds/splash-icon-pink.svg` or its white twin), `--splash-across` .5 for centre or .75 for right, rendered to PNG. Never a splash icon with a hand-set height, width or offset, and never a cropped or stretched copy. This is colour rules 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15 and 5.17 to 5.19 for the report-image environment.",
-      "ref": [
-        "C14"
-      ]
     }
   ],
   "selfCheck": [

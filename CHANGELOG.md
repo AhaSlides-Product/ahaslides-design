@@ -23,10 +23,10 @@ an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix w
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
 ## 0.387.0 — 2026-10-24
-### Added
-- Report images that carry a Vivid Pink or white hero band use the DS centre, right or minimal splash geometry, drawn with the Splash in CSS block on the band's own frame, never placed by hand: colour rules 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19 and the splash layouts table now carry the `report-image` environment (#383)
-- Report-images criterion C14: a splash in a report image is sized and placed by the colour-rules geometry, never a hand-set size or offset, with a fail and a pass fixture (#383)
-- Revert: revert the PR; only environment tags, one criterion and its two eval cases change, no rule id or rule text changed (#383)
+### Changed
+- Splash rules apply to any splash background in any medium, with no exceptions: colour rules 5.1 to 5.5, 5.7 to 5.11, 5.14, 5.15, 5.17 to 5.19, the splash layouts table and the Splash in CSS block now cover every environment, including report images, which draw a hero band splash with the Splash in CSS block on the band's own frame and never place it by hand; 5.6, 5.12, 5.13 and 5.16 keep their scope (#383)
+- Background criterion C8 now also judges splash geometry on every surface that carries a splash: a DS layout drawn by the colour-rules geometry for its own frame, never hand-placed; fail and pass fixtures added to the background evals (#383)
+- Revert: revert the PR; only environment tags, one criterion and two eval cases change, no rule id or rule text changed (#383)
 
 ## 0.386.1 — 2026-10-23
 ### Fixed

@@ -492,14 +492,20 @@
         },
         {
           "id": "C8",
-          "title": "A Splash background appears only where it is allowed, and comes from the library",
+          "title": "A Splash background appears only where it is allowed, and is a DS layout built for its frame",
           "source": [
+            "5.3",
+            "5.4",
+            "5.5",
             "5.6",
             "5.9",
             "5.10",
-            "5.11"
+            "5.11",
+            "5.17",
+            "5.18",
+            "5.19"
           ],
-          "test": "A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, or one built by build-splash.mjs for the exact frame; hooks drawn, placed, stretched or recoloured by hand fail."
+          "test": "Applies to every surface that carries a splash, in any medium (a product screen, a web page, a video, an ad, a report image). A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, one built by build-splash.mjs for the exact frame, or drawn with the Splash in CSS block (brand/colour-rules.json, `splash.cssRecipe`) on the frame it sits in. It is never hand-placed: one of the three DS layouts (centre, right, minimal) sized and positioned by the colour-rules geometry for its own frame, the full 802 by 788 icon, `--splash-across` .5 (centre) or .75 (right). A splash icon given a hand-set `height`, `width`, `right`, `left` or `top` offset, a size and position chosen by eye, or hooks drawn, placed, stretched, cropped or recoloured by hand fail."
         }
       ]
     },
@@ -1367,7 +1373,7 @@
         },
         {
           "source": "brand/colour-rules.json",
-          "use": "rule 3.11 (light grey zebra rows and pale pink plates in reports, image and page alike), 3.6 (light grey for table surfaces), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3), and the splash geometry for a hero band (5.3 to 5.5, the Splash in CSS block, C14)"
+          "use": "rule 3.11 (light grey zebra rows and pale pink plates in reports, image and page alike), 3.6 (light grey for table surfaces), the chart colours (8.1 to 8.4), text on Vivid Pink at 5% (6.5) and rises and falls (7.3)"
         }
       ],
       "criteria": [
@@ -1435,11 +1441,6 @@
           "id": "C13",
           "title": "Status glyphs come from the DS: <aha-icon> on a page, lib/static-icons in an image",
           "test": "**Rule.** Every status mark in a report (rise, fall, no change, warning, pending, progress) is a DS glyph called by its registry name, at 12, 16, 24 or 32 px, in ink or white: <aha-icon> on a report page, a file from lib/static-icons in an image. A drawn triangle or circle, an emoji, an icon from another set or a recoloured glyph fails."
-        },
-        {
-          "id": "C14",
-          "title": "A splash in a report image is a DS layout, sized and placed by the frame, never by hand",
-          "test": "**Rule.** A splash on a report image's hero band (Vivid Pink or white) is one of the three DS layouts (centre, right or minimal) and is sized and placed by the colour-rules geometry for the frame it sits in: the Splash in CSS block (brand/colour-rules.json, `splash.cssRecipe`) on the band's own frame, with `--splash-across` at .5 (centre) or .75 (right), drawing the full 802 by 788 `backgrounds/splash-icon-pink.svg` or its white twin. A splash icon given a hand-set `height`, `width`, `right`, `left` or `top` offset, a cropped or stretched copy, or a size and position chosen by eye fails. N/A when the image has no splash."
         }
       ]
     },
