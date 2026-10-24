@@ -151,6 +151,18 @@
       "desc": "false disables the delete at the minimum item count"
     },
     {
+      "name": "deletelabel / deletehint / reorderlabel / reorderhint",
+      "type": "string",
+      "default": "Delete / Delete (Backspace when empty) / Drag to reorder / Drag to reorder, or use the arrow keys",
+      "desc": "Translated copy: the delete's name (and its tooltip when Backspace-delete is off), its tooltip when Backspace-delete is on, the drag handle's name, and its name when reorderable. `placeholder` already translates the field"
+    },
+    {
+      "name": "correctlabel",
+      "type": "string",
+      "default": "Correct answer",
+      "desc": "Accessible name of the correct-answer toggle; pass the translated text"
+    },
+    {
       "name": "input / correct-change / delete",
       "type": "CustomEvent",
       "default": "—",

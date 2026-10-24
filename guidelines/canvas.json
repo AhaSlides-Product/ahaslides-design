@@ -72,6 +72,12 @@
       "status": "available"
     },
     {
+      "ref": "canvas-play",
+      "as": "component",
+      "use": "the centred Play control on a video or media slide — <aha-canvas-play size=\"hero\">, a flat 96px disc on --aha-color-primary with the system-play glyph and the deck focus ring; never a hand-sized disc or an oversized aha-button",
+      "status": "available"
+    },
+    {
       "ref": "canvas-status",
       "as": "component",
       "use": "the status line (Waiting for answers…) — <aha-canvas-status>, free-floating deck text with no fill on any deck",
