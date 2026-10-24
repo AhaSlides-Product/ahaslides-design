@@ -533,7 +533,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Rule 3 (AHAM-507) — over-rounded content containers (>8px). Maps to new C9.",
-      "expected_output": "C9 (Visual restraint) FAILs on the corner-radius axis. Content containers (answer boxes, score card) use rounded-3xl / 20px, well above the design-system cap (12px for cards, 8px for tiles; the borderRadius default) — over-rounded reads toy-like and 'AI'. Fix: use rounded-lg (≤8px) on rectangular containers. Intentionally circular elements — pills, badges, avatars, progress bars — may stay fully rounded; the cap is for boxes. Overall: NEEDS FIX",
+      "expected_output": "C9 (Visual restraint) FAILs on the corner-radius axis. Content containers (answer boxes, score card) use rounded-3xl / 20px, well above the design-system cap (12px for cards, 8px for tiles; the borderRadius default) — over-rounded reads toy-like and 'AI'. Fix: use rounded-lg (≤8px) on rectangular containers. True circles (avatars, dots) may be 50%; there is no pill shape, so badges and progress bars take the radius scale too. Overall: NEEDS FIX",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C9 is marked FAIL",
@@ -554,14 +554,14 @@
     },
     {
       "id": 21,
-      "prompt": "Review this canvas. The answer boxes and score card use `class=\"rounded-lg\"` (8px), while the thin progress bars keep `border-radius: 999px` pill ends. Is the corner radius right?",
+      "prompt": "Review this canvas. The answer boxes and score card use `class=\"rounded-lg\"` (8px), and the thin progress bars use `border-radius: 4px` (--aha-radius-xs). Is the corner radius right?",
       "files": [],
       "label": "good-control",
-      "notes": "Rule 3 (AHAM-507) AFTER — rounded-lg boxes; pills stay fully rounded (exempt). Focused good-control pinned to C9.",
-      "expected_output": "C9 (Visual restraint) PASSes on the corner-radius axis. Rectangular containers use rounded-lg (8px), the design-system cap, and the fully-rounded 999px is on the progress bars — intentionally-pill elements that are exempt from the 8px cap.",
+      "notes": "Rule 3 (AHAM-507) AFTER — rounded-lg boxes; bars on the radius scale (no pill shape). Focused good-control pinned to C9.",
+      "expected_output": "C9 (Visual restraint) PASSes on the corner-radius axis. Rectangular containers use rounded-lg (8px), the design-system cap, and the progress bars take 4px from the radius scale. AhaSlides has no pill shape, so a 999px bar would fail.",
       "assertions": [
         "C9 is marked PASS",
-        "Recognises 8px boxes comply and the 999px is an exempt pill/bar"
+        "Recognises 8px boxes comply and the 4px bar is on the radius scale"
       ],
       "expected": {
         "overall": "OK_TO_SHIP",
@@ -1459,7 +1459,7 @@
     },
     {
       "id": 52,
-      "prompt": "Review the finished canvas in fixtures/good-fill-in-the-blanks/Canvas.vue with its plugin-manifest.json, focusing on visual restraint. Container corners stay within the cap, display text is weight 400/600 (no extra-bold), there is no pastel-monotone surface and no decorative watermark, and the thin UNLABELLED magnitude tracks (aria-hidden, no text inside) keep their 999px pill ends. Is the visual-restraint contract satisfied?",
+      "prompt": "Review the finished canvas in fixtures/good-fill-in-the-blanks/Canvas.vue with its plugin-manifest.json, focusing on visual restraint. Container corners stay within the cap, display text is weight 400/600 (no extra-bold), there is no pastel-monotone surface and no decorative watermark, and the thin UNLABELLED magnitude tracks (aria-hidden, no text inside) use 4px corners from the radius scale. Is the visual-restraint contract satisfied?",
       "files": [
         {
           "path": "fixtures/good-fill-in-the-blanks/Canvas.vue"
@@ -1469,8 +1469,8 @@
         }
       ],
       "label": "good-control",
-      "notes": "C9 restraint/radius axis AFTER — canonical all-pass fixture; thin UNLABELLED tracks stay exempt under the sharpened rule (no labelled pill bar to fail).",
-      "expected_output": "C9 (Visual restraint) PASSes. Corners are within the cap, weights are 400/600, no monotone pastel or watermark, and the only fully-rounded elements are thin unlabelled meter tracks, which stay exempt. Overall: OK TO SHIP",
+      "notes": "C9 restraint/radius axis AFTER — canonical all-pass fixture; thin UNLABELLED tracks sit on the radius scale (no pill shape anywhere).",
+      "expected_output": "C9 (Visual restraint) PASSes. Corners are within the cap, weights are 400/600, no monotone pastel or watermark, and the thin unlabelled meter tracks sit on the radius scale (4px), with no pill shape. Overall: OK TO SHIP",
       "assertions": [
         "Overall verdict is OK TO SHIP",
         "C9 is marked PASS",

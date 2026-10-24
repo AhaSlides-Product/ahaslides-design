@@ -42,7 +42,7 @@ function showCorrect() {
   border: 1px solid currentColor;   /* hand-rolled outline, not the DS secondary */
   color: inherit;
   padding: 1vh 2.2vh;
-  border-radius: 999px;
+  border-radius: 8px;
   font-weight: 700;
 }
 </style>
