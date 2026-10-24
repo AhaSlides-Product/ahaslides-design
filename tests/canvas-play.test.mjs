@@ -14,6 +14,7 @@ test('canvas play: md 48, lg 64 (default), hero 96, flat primary disc, named, cl
   writeFileSync(file, `<!doctype html><body style="--aha-button-focus-gap:rgb(1, 2, 3); --aha-button-focus-ring:rgb(4, 5, 6)">
 <aha-canvas-play id="md" size="md"></aha-canvas-play><aha-canvas-play id="lg"></aha-canvas-play>
 <aha-canvas-play id="hero" size="hero" label="Wiedergabe"></aha-canvas-play>
+<aha-canvas-play id="off" disabled></aha-canvas-play>
 <script type="module">import '${lib}'; await customElements.whenDefined('aha-canvas-play'); await new Promise((r) => requestAnimationFrame(r)); window.ready = true;</script>`);
   const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
     const box = (id) => document.getElementById(id).shadowRoot.querySelector('.box');
@@ -22,10 +23,15 @@ test('canvas play: md 48, lg 64 (default), hero 96, flat primary disc, named, cl
     let clicks = 0;
     document.getElementById('hero').addEventListener('click', () => { clicks++; });
     hero.click();
+    const disabled = document.getElementById('off');
+    let offClicks = 0;
+    disabled.addEventListener('click', () => { offClicks++; });
+    disabled.shadowRoot.querySelector('.box').click();
+    disabled.click();
     hero.focus();
     const style = getComputedStyle(hero);
     return { md: size('md'), lg: size('lg'), hero: size('hero'), bg: style.backgroundColor, name: hero.getAttribute('aria-label'), defaultName: box('lg').getAttribute('aria-label'),
-      clicks, glyph: document.getElementById('hero').shadowRoot.querySelector('aha-icon').getAttribute('size') };
+      clicks, offClicks, glyph: document.getElementById('hero').shadowRoot.querySelector('aha-icon').getAttribute('size') };
   })()`, { readyExpr: '!!window.ready', timeout: 45000 });
   assert.deepEqual(result.md, ['48px', '48px']);
   assert.deepEqual(result.lg, ['64px', '64px']);
@@ -34,5 +40,6 @@ test('canvas play: md 48, lg 64 (default), hero 96, flat primary disc, named, cl
   assert.equal(result.name, 'Wiedergabe');
   assert.equal(result.defaultName, 'Play');
   assert.equal(result.clicks, 1);
+  assert.equal(result.offClicks, 0);
   assert.equal(result.glyph, '32');
 });
