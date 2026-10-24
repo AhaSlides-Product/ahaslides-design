@@ -45,7 +45,7 @@
     },
     {
       "label": "Answered only",
-      "value": "count · system-user 16, no disc and no divider"
+      "value": "count · system-user 16, no disc and no divider; with `total`, a 14px \"of 30\" in --aha-deck-ink-secondary sits between the count and the glyph"
     },
     {
       "label": "Type",
@@ -74,6 +74,18 @@
       "type": "number",
       "default": "0",
       "desc": "How many answered, shown when neither `correct` nor `wrong` is set"
+    },
+    {
+      "name": "total",
+      "type": "number",
+      "default": "—",
+      "desc": "The known total, answered-only form: shows \"of 30\" after the count and names the group \"12 of 30 answered\". Ignored in the verdict form; without it the count renders as before"
+    },
+    {
+      "name": "strings",
+      "type": "object | JSON attribute",
+      "default": "English",
+      "desc": "Translated copy: ofTotal (\"of {total}\", the visible text), answeredOfTotal (\"{answered} of {total} answered\"), answered (\"{answered} answered\"), correctWrong (\"{correct} correct, {wrong} incorrect\"). A missing key keeps English; `label` still overrides the accessible name"
     },
     {
       "name": "label",
