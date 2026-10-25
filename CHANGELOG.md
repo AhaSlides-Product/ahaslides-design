@@ -24,8 +24,8 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.394.0 — 2026-10-25
 ### Added
-- Website > Marketing > Features: five Compact layouts that keep the section within one screen (about 520 to 820 px at 1440): accordion beside one image (`aha-features--compact-accordion`), tabs over one screenshot with a centred tab row (`aha-features--compact-tabs`), swipeable card scroller (`aha-features--compact-scroller`), pick from a list (`aha-features--compact-master-detail`) and top three with a See all features button (`aha-features--compact-see-all`). 48 px section padding, no intro sentence under the title, closed content stays in the HTML (#PRNUM)
-- Revert: revert the PR; five new layouts in `marketing/features.json`, the 11 existing layouts are untouched (#PRNUM)
+- Website > Marketing > Features: five Compact layouts that keep the section within one screen (about 520 to 820 px at 1440): accordion beside one image (`aha-features--compact-accordion`), tabs over one screenshot with a centred tab row (`aha-features--compact-tabs`), swipeable card scroller (`aha-features--compact-scroller`), pick from a list (`aha-features--compact-master-detail`) and top three with a See all features button (`aha-features--compact-see-all`). 48 px section padding, no intro sentence under the title, closed content stays in the HTML (#386)
+- Revert: revert the PR; five new layouts in `marketing/features.json`, the 11 existing layouts are untouched (#386)
 
 ## 0.391.0 — 2026-10-24
 ### Added
