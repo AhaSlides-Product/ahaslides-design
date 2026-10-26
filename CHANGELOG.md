@@ -22,9 +22,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.439.0 — 2026-10-26
+## 0.445.0 — 2026-10-26
 ### Added
 - Icon library page: sizes are named XS 12px, S 16px, M 24px and L 32px (the DS had no icon size names), the Stroke by size demo shows one glyph per size across the full content width, and a size switcher beside the family chips redraws every tile at the chosen size so the stroke rule can be previewed on all icons. The icon contract and preview name the sizes the same way. (#222)
+
+## 0.441.0 — 2026-10-26
+### Removed
+- **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
+- `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
+### Changed
+- Components re-shaped: Badge count bubble 4px, Progress / Countdown / Uploader / background task tracks 4px, Stat tile fall chip 4px, Switch track 6px, tooltip help trigger 4px; avatars, dots, radio-like marks, thumbs and spinners are 50% circles. Skeleton `round` now softens corners to `radius-lg` (12px) and leaves the avatar a circle (#337).
+- Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
+- `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
+- `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
+
 
 ## 0.437.0 — 2026-10-26
 ### Added
@@ -33,7 +44,6 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
 - `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#392)
 - Revert: revert the PR; the badge slot is additive in `lib/aha-setting-row.js` and `lib/aha-settings-list.js`, the paywall fixes are inside `lib/aha-paywall.js`, no existing API changes (#392)
-
 ## 0.434.0 — 2026-10-26
 ### Fixed
 - `<aha-button>` keyboard focus is now an outline, a 2px solid ring 2px outside the button (`--aha-button-focus-ring`), with the gap still a box-shadow (`--aha-button-focus-gap`). The ring used to be a box-shadow, the same property as the elevation, so a box-shadow a consumer put on the button (a `::part(button)` rule built on `--aha-button-elevate-secondary`, for example) replaced it and a Tab-focused secondary button showed no ring. `secondary-deck` and `tertiary-deck` now draw the same ring instead of the browser's `outline:auto`. Default look, hover and press are unchanged; `--aha-button-focus-outline` and the new `--aha-button-focus-outline-offset` re-point the outline. (#372)
