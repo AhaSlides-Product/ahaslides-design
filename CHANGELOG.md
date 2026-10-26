@@ -22,10 +22,21 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.441.0 — 2026-10-26
+## 0.445.0 — 2026-10-26
 ### Added
 - Button: `surface="brand"` for a Button on a Vivid Pink band (marketing hero, footer banner). Keyboard focus draws a white ring (`--aha-white`) outside a Vivid Pink gap (`--aha-vivid-pink-100`), 4.51:1 against the pink, in place of the Vivid Pink ring that vanished there. It sets `--aha-button-focus-ring` and `--aha-button-focus-gap` on the host, so a page rule on the element still wins; fill, border and label are unchanged (#398)
 - Revert: revert the PR; it removes one CSS line in `lib/aha-button.js`, the `surface` row and Focus sentence in the Button contract, and the test (#398)
+
+## 0.441.0 — 2026-10-26
+### Removed
+- **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
+- `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
+### Changed
+- Components re-shaped: Badge count bubble 4px, Progress / Countdown / Uploader / background task tracks 4px, Stat tile fall chip 4px, Switch track 6px, tooltip help trigger 4px; avatars, dots, radio-like marks, thumbs and spinners are 50% circles. Skeleton `round` now softens corners to `radius-lg` (12px) and leaves the avatar a circle (#337).
+- Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
+- `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
+- `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
+
 
 ## 0.437.0 — 2026-10-26
 ### Added
