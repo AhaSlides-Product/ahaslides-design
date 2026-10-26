@@ -1721,7 +1721,7 @@ const MARKETING_WIDTHS = [
   ['Phone', TOK.breakpoints.phone],
 ];
 const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
-const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-segmented.js', 'aha-tag.js', 'aha-switch.js', 'aha-tooltip.js', 'aha-avatar.js', 'aha-rate.js'];
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-segmented.js', 'aha-tag.js', 'aha-switch.js', 'aha-tooltip.js', 'aha-avatar.js', 'aha-rate.js', 'aha-chart.js'];
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
