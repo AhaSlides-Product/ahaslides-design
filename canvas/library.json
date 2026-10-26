@@ -115,21 +115,21 @@
       "name": "Leaderboard",
       "element": "<aha-leaderboard>",
       "kind": "In-canvas",
-      "what": "The ranked list of names and scores drawn inside the slide canvas: a rank chip, the name, the score at the end and a bar sized to the top score, all in the deck colours.",
+      "what": "The ranked list of names and scores drawn inside the slide canvas: a neutral rank circle, a bar per row in the deck palette colours, the score with its unit and points gained, and an optional heading, all in the deck colours.",
       "useWhen": "a slide shows who is ahead (quiz results, a game round, a team table): pass `entries`, set `size=\"stage\"` and give the element a height; it fits as many rows as the height allows and ends with an \"and N more\" line",
       "notFor": "a hand-built list of scores, a podium, or a ranking the participant sets (use rank-list)",
       "rules": [
         {
           "label": "Row",
-          "value": "rank chip, name, score at the end; the bar behind the name is sized to score over top score (`bar=\"false\"` turns it off); the name is drawn twice so the part over the bar reads on the fill"
+          "value": "rank circle, a full-width track with the bar and the name, then the score, its unit and the points gained (`delta`); row n takes deck palette colour n and its matching ink, and a row with no score keeps a stub; the bar is sized to score over top score (`bar=\"false\"` turns it off); the name is drawn twice so the part over the bar reads on the fill"
         },
         {
-          "label": "Top three",
-          "value": "marked by shape, not hue: a trophy on first place and accent-filled chips on ranks 1 to 3; no gold, silver or bronze and no podium. Ties share a rank (1, 2, 2, 4)"
+          "label": "Ranks",
+          "value": "every rank circle is the same neutral deck fill, with no podium treatment and no gold, silver or bronze; a trophy on first place is opt-in (`trophy`). Ties share a rank (1, 2, 2, 4)"
         },
         {
           "label": "Deck",
-          "value": "themed only by `--aha-deck-*` tokens from applyCanvasDeck; teams (an entry with `members`) take the bar from `--aha-deck-palette-<n>`"
+          "value": "themed only by `--aha-deck-*` tokens from applyCanvasDeck; the bars take `--aha-deck-palette-<n>` and its `-ink` from the deck palette, falling back to the accent where it has none; a team (an entry with `members`) adds a member count"
         },
         {
           "label": "Motion",

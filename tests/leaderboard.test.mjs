@@ -70,3 +70,34 @@ test('leaderboard: the own-row tag is drawn once on its own fill, and the empty 
   assert.equal(result.overVisibility, 'hidden');
   assert.ok(result.offset < 2, JSON.stringify(result));
 });
+
+test('leaderboard: rows take palette colours in rank order, rank circles are neutral, a zero score keeps a stub and the gain column aligns', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'leaderboard-')), 'page.html');
+  const entries = [{ id: 'a', name: 'Maya', score: 92, delta: 92 }, { id: 'b', name: 'Priya', score: 88, delta: 88 }, { id: 'c', name: 'Leo', score: 0, delta: 0 }];
+  writeFileSync(file, `<!doctype html><body style="--aha-deck-palette-1:rgb(255,0,0);--aha-deck-palette-2:rgb(0,0,255);--aha-deck-palette-1-ink:rgb(1,1,1);--aha-deck-palette-2-ink:rgb(2,2,2)">
+<aha-leaderboard id="lb" heading="Leaderboard" style="display:block;width:600px" entries='${JSON.stringify(entries)}'></aha-leaderboard>
+<aha-leaderboard id="plain" style="display:block;width:600px" entries='[{"id":"a","name":"A","score":5}]'></aha-leaderboard>
+<script type="module">import '${lib}'; await customElements.whenDefined('aha-leaderboard'); await new Promise((r) => setTimeout(r, 700)); window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const root = document.getElementById('lb').shadowRoot;
+    const rows = [...root.querySelectorAll('li.row')].filter((row) => !row.hidden);
+    const fill = (row) => getComputedStyle(row.querySelector('.fill')).backgroundColor;
+    const plain = document.getElementById('plain').shadowRoot;
+    return { fills: rows.map(fill), chips: rows.map((row) => getComputedStyle(row.querySelector('.chip')).backgroundColor),
+      zero: rows[2].hasAttribute('data-zero'), zeroWidth: rows[2].querySelector('.fill').getBoundingClientRect().width,
+      unit: rows[0].querySelector('.score-unit').textContent, deltas: rows.map((row) => row.querySelector('.delta-value').textContent),
+      scoreRights: rows.map((row) => Math.round(row.querySelector('.score-main').getBoundingClientRect().right)),
+      heading: root.querySelector('.heading').textContent, count: root.querySelector('.count').textContent, headerHidden: root.querySelector('.header').hidden,
+      plainHeaderHidden: plain.querySelector('.header').hidden, plainDeltaHidden: plain.querySelector('.delta').hidden,
+      trophyShown: !root.querySelector('aha-icon[name="system-trophy"]').hidden };
+  })()`, { readyExpr: '!!window.ready', timeout: 45000 });
+  assert.equal(result.fills[0], 'rgb(255, 0, 0)');
+  assert.equal(result.fills[1], 'rgb(0, 0, 255)');
+  assert.equal(new Set(result.chips).size, 1);
+  assert.equal(result.zero, true);
+  assert.ok(result.zeroWidth > 0 && result.zeroWidth <= 16, JSON.stringify(result));
+  assert.equal(result.unit, 'p');
+  assert.deepEqual(result.deltas, ['+92', '+88', '+0']);
+  assert.equal(new Set(result.scoreRights).size, 1);
+  assert.deepEqual([result.heading, result.count, result.headerHidden, result.plainHeaderHidden, result.plainDeltaHidden, result.trophyShown], ['Leaderboard', '3 players', false, true, true, false]);
+});

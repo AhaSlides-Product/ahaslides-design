@@ -6,5 +6,5 @@
   import 'https://cdn.jsdelivr.net/npm/@ahaslides-product/design/lib/aha-leaderboard.js';   // registers <aha-leaderboard>
 </script>
 
-<aha-leaderboard size="phone" me="u7" style="height:320px"
-  entries='[{"id":"u2","name":"Minh","score":900},{"id":"u7","name":"Linh","score":1200,"avatar":"🦊"},{"id":"u9","name":"An","score":900}]'></aha-leaderboard>
+<aha-leaderboard size="phone" me="u7" heading="Leaderboard" style="height:320px"
+  entries='[{"id":"u2","name":"Minh","score":900},{"id":"u7","name":"Linh","score":1200,"delta":300,"avatar":"🦊"},{"id":"u9","name":"An","score":900}]'></aha-leaderboard>

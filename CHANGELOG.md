@@ -22,10 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.400.0 — 2026-10-26
+### Added
+- `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: neutral rank circle, a bar per row in the deck palette colours (row n takes colour n and its ink) inside a full-width track, the score with its unit and the points gained, an optional heading with a player count, a stub for a zero score, an opt-in trophy, ties ranked 1, 2, 2, 4, rows fitted to the element height with an "and N more" line, the participant's own row pinned with a "You" tag, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); themed only by `--aha-deck-*` tokens (#390)
+- Revert: revert the PR; a new component, nothing else changes (#390)
+
 ## 0.399.0 — 2026-10-26
 ### Added
-- `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: rank chip, name, score at the end, optional bar sized to the top score, a trophy on first place, ties ranked 1, 2, 2, 4, rows fitted to the element height with an "and N more" line, the participant's own row pinned with a "You" tag, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); themed only by `--aha-deck-*` tokens (#390)
-- Revert: revert the PR; a new component, nothing else changes (#390)
+- `applyDeck` (the audience phone) writes `--aha-deck-palette-<n>` and `--aha-deck-palette-<n>-ink` for each colour of `slide.presentationColorPalette`, the same pairs `applyCanvasDeck` writes (1-based, up to 24, the ink `#1A1A1A` or white by contrast); the pairs come from one shared `paletteVars` in `lib/deck.js`, so the canvas and the phone cannot drift. Without a palette nothing is written
+- Revert: revert the PR; additive, no existing token changes (#391)
 
 ## 0.396.0 — 2026-10-26
 ### Added
