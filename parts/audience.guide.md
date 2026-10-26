@@ -171,7 +171,7 @@ The same two-jobs split as the canvas, with less theme forwarded.
 
 - **One accent per deck.** `presentationColorPalette[0]` is published as `--aha-color-primary`
   on the iframe's `:root` (with `--aha-button-primary-bg-hover` / `-bg-press` / `-text`) — the
-  same value and the same code as the presenter canvas (see the `canvas` guide). A checked
+  same value and the same code as the presenter canvas (see the `canvas` guide). `applyDeck` also writes `--aha-deck-palette-<n>` and `--aha-deck-palette-<n>-ink` for every palette colour, so a team bar or chip filled with a palette colour takes its text from the `-ink` token, never a hand-rolled flip. A checked
   **Radio / Checkbox**, a selected chip and the submit fill all read it, never Ant's fixed
   `colorPrimary` purple and never a 'toward-ink' selection variant. A local alias such as
   `--aha-control-accent` must be set from that same value. Only the label ink is picked by
