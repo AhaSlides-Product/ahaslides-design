@@ -464,7 +464,7 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 @media (prefers-reduced-motion:reduce){.doc-main.pjax-in{animation:none}.pjax-bar{transition:opacity var(--aha-motion-fast) linear}}
 
 /* ---- detail page ---- */
-.doc-fold{margin:44px 0 14px;border-bottom:1px solid var(--aha-border-default)}
+.doc-fold{margin:44px 0 14px;border-bottom:1px solid var(--aha-border-default);scroll-margin-top:80px}
 .doc-fold>summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;padding:0 0 14px}
 .doc-fold>summary::-webkit-details-marker{display:none}
 .doc-fold>summary:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px;border-radius:8px}
