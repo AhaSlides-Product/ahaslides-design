@@ -22,10 +22,16 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.417.2 — 2026-10-26
+## 0.434.1 — 2026-10-26
 ### Changed
 - Website > Marketing > Header: eight duplicate layouts removed, 24 to 16. Hero Pale Pink and Hero Pale Pink Vertical were Hero Pink and Hero Pink Vertical with the Pale Pink state on, so the Pale Pink state of the Hero Pink pair now carries their guidance; Hero screen mockup 04 was Hero screen mockup 02 with the same markup and styles, 05 was 01 with the screenshot cropped by the section edge, 03 was 01 without the badge; Hero split image 05 was Hero split image 03 with a larger bleeding image; Header centered brand and Header left tabs brand were Header centered and Header left tabs with the Vivid Pink state on, which those layouts already switch to. The Choosing a header text, the layout counts and the G2 reviews list follow.
 - Revert: revert the PR; `marketing/header.json` (eight layouts, counts and guidance text) and one sentence in `generate.mjs`, no component or contract (#399)
+
+## 0.434.0 — 2026-10-26
+### Fixed
+- `<aha-button>` keyboard focus is now an outline, a 2px solid ring 2px outside the button (`--aha-button-focus-ring`), with the gap still a box-shadow (`--aha-button-focus-gap`). The ring used to be a box-shadow, the same property as the elevation, so a box-shadow a consumer put on the button (a `::part(button)` rule built on `--aha-button-elevate-secondary`, for example) replaced it and a Tab-focused secondary button showed no ring. `secondary-deck` and `tertiary-deck` now draw the same ring instead of the browser's `outline:auto`. Default look, hover and press are unchanged; `--aha-button-focus-outline` and the new `--aha-button-focus-outline-offset` re-point the outline. (#372)
+- The Button contract's Focus row and the deck variants' rows (and the audience tertiary-deck entry) describe the outline ring; the deck variants no longer say "the browser's own focus ring".
+- `<aha-audience-submit>` keeps its focus ring 1px off the button (`--aha-button-focus-outline-offset:1px`), so it looks as before. The Button contract's hooks paragraph lists the new default outline and `--aha-button-focus-outline-offset`.
 
 ## 0.417.1 — 2026-10-26
 ### Changed
