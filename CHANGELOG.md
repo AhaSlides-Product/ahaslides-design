@@ -22,10 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.403.2 — 2026-10-26
+## 0.417.2 — 2026-10-26
 ### Changed
 - Website > Marketing > Header: eight duplicate layouts removed, 24 to 16. Hero Pale Pink and Hero Pale Pink Vertical were Hero Pink and Hero Pink Vertical with the Pale Pink state on, so the Pale Pink state of the Hero Pink pair now carries their guidance; Hero screen mockup 04 was Hero screen mockup 02 with the same markup and styles, 05 was 01 with the screenshot cropped by the section edge, 03 was 01 without the badge; Hero split image 05 was Hero split image 03 with a larger bleeding image; Header centered brand and Header left tabs brand were Header centered and Header left tabs with the Vivid Pink state on, which those layouts already switch to. The Choosing a header text, the layout counts and the G2 reviews list follow.
 - Revert: revert the PR; `marketing/header.json` (eight layouts, counts and guidance text) and one sentence in `generate.mjs`, no component or contract (#399)
+
+## 0.417.1 — 2026-10-26
+### Changed
+- `system-bug` redrawn after the Lucide bug icon (ISC, credits in `icons/svg/system/LUCIDE-CREDITS.md`): rounded head with two antennae, split body, three legs a side. Same name and size. (#402)
+
+## 0.417.0 — 2026-10-26
+### Added
+- Icon library: `system-bug`, a beetle with antennae and legs, for reporting a bug or giving feedback. Same stroke style as the other `system-*` glyphs; no existing icon changes. No `-filled` pair: `system-chat-*` and the rest of `system-*` have none
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#401)
 
 ## 0.403.1 — 2026-10-26
 ### Changed
