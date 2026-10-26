@@ -24,7 +24,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.398.0 — 2026-10-26
 ### Changed
-- Features, Compact layouts: "accordion beside one image" drops the description sentences (item titles, the open item's Learn more link and the swapping image stay) and centres the list against the image; "pick from a list" sizes the list column to its content so the list and the panel sit together with a normal gap. (#NNN)
+- Features, Compact layouts: "accordion beside one image" drops the description sentences (item titles, the open item's Learn more link and the swapping image stay) and centres the list against the image; "pick from a list" sizes the list column to its content so the list and the panel sit together with a normal gap. (#389)
 
 ## 0.396.0 — 2026-10-26
 ### Added
