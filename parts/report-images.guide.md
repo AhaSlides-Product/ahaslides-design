@@ -30,7 +30,7 @@ Reports are their own environment in the colour rules, `report-image` (Reports: 
 | Plate cards in Vivid Pink at 5% | 3.11 |
 | Zebra rows in white and light grey `#F7F7F7`, never pale pink | 3.11, 3.6 |
 | Text on the plate card and on a zebra row is black, never pink | 6.5 |
-| A rise is black with an up arrow; a fall is white on a black pill with a down arrow | 7.3, 8.5 |
+| A rise is black with an up arrow; a fall is white on a black chip with a down arrow | 7.3, 8.5 |
 | Series colours run Vivid Pink, black, Vivid Pink at 30%, light grey | 8.1 to 8.3 |
 | Each line has its own marker shape, so the chart reads in black and white | 8.4 |
 
@@ -155,7 +155,7 @@ report needs. In an image it is drawn to the same spec:
 | Value | 32 px, 600, black, tabular numerals, formats as in C8 |
 | Change | 14 px, 600: the absolute change and a whole percent of the previous value, `1,460 (13%)`; percentage points for a percentage value, `5 pts` |
 | Rise | black text with `system-arrow-up` 16 px, ink |
-| Fall | white text on a black pill (fully rounded, 6 px left and 8 px right padding) with `system-arrow-down` 16 px, white |
+| Fall | white text on a black chip (radius 4, 6 px left and 8 px right padding) with `system-arrow-down` 16 px, white |
 | No change | the words `No change`, black, no arrow |
 | Caption | 14 px, 400, `--aha-text-secondary` (`#4A4A4A`), after the change: `vs previous week` |
 | Row | 1 to 6 plates per row, 16 px apart, equal widths, at least 200 px each; more plates wrap to a second row |
@@ -181,7 +181,7 @@ width `<aha-icon>` uses at that size.
 | Name | Use |
 | --- | --- |
 | `system-arrow-up` | rise, beside the number (ink) |
-| `system-arrow-down` | fall, on the black pill (white) |
+| `system-arrow-down` | fall, on the black chip (white) |
 | `system-minus` | no change |
 | `system-trend-up`, `system-trend-down` | a trend over several periods |
 | `system-warning-circle` | a figure needs attention, or data is incomplete |
