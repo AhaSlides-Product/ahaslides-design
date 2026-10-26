@@ -141,13 +141,24 @@ Read the list from the DS each time — surfaces get added.
     change only), never `size="xl"` or `::part` sizing. A labelled one carries its key in the
     display-only `shortcut` attribute; an icon-only one sits in
     `<aha-tooltip size="lg" text="Mute music" shortcut="M">` with `aria-label="Mute music (M)"`.
-    No `tertiary-deck` on a photographic deck. Detail in the `canvas` guideline.
+    No `tertiary-deck` on a photographic deck. Text on a deck palette colour uses the
+    `--aha-deck-palette-<n>` / `-ink` pair `applyCanvasDeck` writes from `palette:`, never a hand-rolled
+    luminance flip. Detail in the `canvas` guideline.
 11. Actions on a slide type's audience phone are `<aha-audience-submit>` for the submit and
     `<aha-button size="touch">` in `primary`, `secondary-deck` or `tertiary-deck` for the rest, from
     `lib/audience.js`, never a raw `<button>`. A modal or sheet closes with the ✕ `<aha-button variant="tertiary-deck" size="md" icon-only>` (36px drawn, 44px hit area, `sheet` on white), not the 48px icon-only. Detail in the `audience` guideline.
 12. Every button is `<aha-button>`, header and CTA buttons in vendored marketing blocks included
     (`href` for a link, `type="submit"` in a form). Never restyle, re-colour or re-hover a DS
     component; only layout may be set on it. The `hand-rolled-button` lint enforces it.
+13. Any element you hand-build on the slide canvas (or the audience phone) calls `applyCanvasDeck`
+    (canvas) or `applyDeck` (audience) once on the root and paints only with `--aha-deck-*` tokens,
+    plus `--aha-answer-correct` / `--aha-answer-wrong` on a verdict mark. Never mix your own shade of
+    `xprops.slide.textColour` (`color-mix`, an opacity on the ink), never use a product colour token
+    (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`). A built Vue slide type imports
+    `applyCanvasDeck` from `@ahaslides-product/design/canvas-deck`. Which token paints which role (text,
+    secondary text, divider, chip outline, fill, hover, panel, modal, frosted panel, verdict) is the
+    "Role to token" table on `https://design.ahaslides.io/deck-tokens/index.html`; `screen-lint` warns
+    `canvas-off-deck-colour` on the miss.
 
 ## 4. Judge
 

@@ -44,6 +44,12 @@
   ],
   "composedOf": [
     {
+      "ref": "setting-row",
+      "as": "component",
+      "use": "one setting: label, optional \"?\" help or a Paywall crown while locked, and the control",
+      "status": "available"
+    },
+    {
       "ref": "checkbox",
       "as": "component",
       "use": "grouped options saved together; consent",
@@ -182,7 +188,7 @@
       "status": "available"
     }
   ],
-  "entryExtras": ["add-item-button", "alert", "avatar", "background-task", "badge", "breadcrumb", "card", "close-button", "collapse", "color-picker", "csat", "descriptions", "divider", "empty", "error-page", "flex", "grid", "image", "list", "loader", "pagination", "paywall", "popover", "product-lockup", "progress", "progress-toast", "progressbar", "rate", "result", "screen-heading", "section-header", "segmented", "setting-group", "setting-row", "skeleton", "space", "spin", "stat-tile", "statistic", "status-badge", "sub-setting-group", "tabs", "uploader", "user-info", "viewport-switch"],
+  "entryExtras": ["add-item-button", "alert", "answer-result", "avatar", "background-task", "badge", "breadcrumb", "card", "close-button", "collapse", "color-picker", "csat", "descriptions", "divider", "aha-drawer", "empty", "error-page", "flex", "grid", "image", "list", "loader", "pagination", "paywall", "popover", "product-lockup", "progress", "progress-toast", "progressbar", "question-nav", "rate", "result", "screen-heading", "section-header", "segmented", "setting-group", "setting-row", "skeleton", "space", "spin", "stat-tile", "statistic", "status-badge", "sub-setting-group", "tabs", "tag", "uploader", "user-info", "viewport-switch"],
   "componentBacklog": "Cleared — every settings-lab composed control now ships in the DS as a first-class artifact (contract + lib + parts + conformance): CountedInput, CountedTextarea, NumberWithUnit, CardSelect, ModeField, InfoBox, NumberedItem, ImageActionButton, ImageDropzone, OptionRow and QuestionList, alongside the atomic controls (Switch, Select, Input, Tooltip=HelpTooltip, Dropdown=DropdownMenu) and <aha-settings-list> (SectionHeader + SettingRow + SubSettingGroup). Every composedOf entry now resolves to a real contract, so a fully-compliant settings surface is buildable purely by reuse. See the canonical settings-lab → DS mapping in parts/settings.guide.md.",
   "rules": [
     {
@@ -283,7 +289,7 @@
     },
     {
       "id": "plan-gated",
-      "rule": "A plan-gated setting stays visible but locked (crown badge) — never hidden. The badge opens the shared Paywall popover (owned by the `paywall` guide), not a bespoke one.",
+      "rule": "A plan-gated setting stays visible but locked — never hidden. It reads: label, the Paywall crown badge in the place of the \"?\" help (no \"?\" while locked), and the real control disabled; the crown never replaces the control. The badge opens the shared Paywall popover (owned by the `paywall` guide), not a bespoke one.",
       "ref": [
         "SETTINGS-08"
       ]

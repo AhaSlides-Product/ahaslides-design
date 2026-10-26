@@ -1,0 +1,16 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-question-nav> is the SAME shared custom element React and Vue consume. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-question-nav.js';   // registers <aha-question-nav>
+</script>
+
+<div style="padding:24px; max-width:420px">
+  <aha-question-nav id="nav" count="8" current="3" results="correct|incorrect||correct|incorrect"></aha-question-nav>
+  <p id="out" style="font-family:sans-serif">Question 3</p>
+</div>
+<script type="module">
+  document.getElementById('nav').addEventListener('change', (event) => {
+    document.getElementById('out').textContent = 'Question ' + event.detail.value;
+  });
+</script>

@@ -8,7 +8,7 @@ app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
 // Component.vue — schema-driven: bind the schema property, listen for change.
 // `description` renders as a "?" help tooltip after the label (not a standing line);
 // `layout: 'stack'` puts the label above a full-width control. A row can be disabled
-// (dimmed) or locked (visible-but-gated → the shared Paywall crown).
+// (dimmed) or locked (visible-but-gated: the shared Paywall crown after the label, the control disabled).
 <script setup>
 import { ref, onMounted } from 'vue';
 const list = ref(null);
@@ -19,7 +19,7 @@ const schema = {
     { key: 'deckTitle', label: 'Deck title', control: { type: 'input', value: 'Untitled' } },
     { key: 'notes', label: 'Speaker notes', layout: 'stack', description: 'Only you see these.', control: { type: 'input' } },
     { key: 'timer', label: 'Question timer', disabled: true, control: { type: 'switch' } },
-    { key: 'branding', label: 'Custom branding', locked: true, plan: 'pro', feature: 'Custom branding' },
+    { key: 'branding', label: 'Custom branding', locked: true, plan: 'pro', upgradeBody: 'Add your logo and colours to every deck.', control: { type: 'switch' } },
   ] }],
 };
 onMounted(() => { list.value.schema = schema; });

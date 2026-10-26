@@ -1,0 +1,6 @@
+import '@ahaslides-product/design/aha-canvas-play';   // registers <aha-canvas-play>
+
+// React 18 renders the custom element directly; add a ref wrapper only if you need to bind props.
+export function Demo() {
+  return <aha-canvas-play size="hero" label="Play video"></aha-canvas-play>;
+}
