@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.403.1 — 2026-10-26
 ### Changed
 - Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
-- Revert: revert the PR; only the docs generator changed, no component or contract (#NNN)
+- Revert: revert the PR; only the docs generator changed, no component or contract (#396)
 
 ## 0.396.0 — 2026-10-26
 ### Added
