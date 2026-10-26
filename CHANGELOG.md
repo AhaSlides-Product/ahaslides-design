@@ -22,13 +22,18 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.398.0 — 2026-10-26
+## 0.406.0 — 2026-10-26
 ### Added
 - Website > Marketing > Features: three Bento layouts, a mosaic of tiles in different sizes where every tile shows a live result instead of a picture (an `<aha-chart>` poll, word cloud or leaderboard, `<aha-avatar>` photos in a Q&A list, Logo library logos): one big tile and three around it (`aha-features--bento-spotlight`), a wide Accent tile and one tall tile (`aha-features--bento-tall`) and offset rows (`aha-features--bento-offset`). Titles only, one Learn more link, one call to action, about 850 to 960 px at 1440; a tile shows only whole rows, never a half-cut line; two columns below 992 px, one below 600 px. The docs previews now load `aha-chart.js` (#389)
 - Revert: revert the PR; it adds three layouts and edits compact-accordion and compact-master-detail in `marketing/features.json`, and every other layout is untouched (#389)
 
 ### Changed
 - Features, Compact layouts: "accordion beside one image" drops the description sentences (item titles, the open item's Learn more link and the swapping image stay) and centres the list against the image; "pick from a list" sizes the list column to its content so the list and the panel sit together with a normal gap. (#389)
+
+## 0.403.1 — 2026-10-26
+### Changed
+- Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
+- Revert: revert the PR; only the docs generator changed, no component or contract (#396)
 
 ## 0.396.0 — 2026-10-26
 ### Added
