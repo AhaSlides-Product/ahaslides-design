@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.435.0 — 2026-10-26
+## 0.439.0 — 2026-10-26
 ### Added
 - Website > Marketing > Features: three Bento layouts, a mosaic of tiles in different sizes where every tile shows a live result instead of a picture (an `<aha-chart>` poll, word cloud or leaderboard, `<aha-avatar>` photos in a Q&A list, Logo library logos): one big tile and three around it (`aha-features--bento-spotlight`), a wide Accent tile and one tall tile (`aha-features--bento-tall`) and offset rows (`aha-features--bento-offset`). Titles only, one Learn more link, one call to action, about 850 to 960 px at 1440; a tile shows only whole rows, never a half-cut line; two columns below 992 px, one below 600 px. The docs previews now load `aha-chart.js` (#389)
 - Revert: revert the PR; it adds three layouts and edits compact-accordion and compact-master-detail in `marketing/features.json`, and every other layout is untouched (#389)
@@ -30,6 +30,13 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ### Changed
 - Features, Compact layouts: "accordion beside one image" drops the description sentences (item titles, the open item's Learn more link and the swapping image stay) and centres the list against the image; "pick from a list" sizes the list column to its content so the list and the panel sit together with a normal gap. (#389)
 
+## 0.437.0 — 2026-10-26
+### Added
+- `aha-setting-row` and `aha-settings-item`: a `badge` slot for a New or Beta tag (a DS `<aha-badge kind="new|beta">`). It sits in the label line after the "?" help or the locked crown, never beside the control; works inline and stacked, locked and unlocked. A stacked row's full-width rule now applies to the control slot only (#392)
+### Fixed
+- `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
+- `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#392)
+- Revert: revert the PR; the badge slot is additive in `lib/aha-setting-row.js` and `lib/aha-settings-list.js`, the paywall fixes are inside `lib/aha-paywall.js`, no existing API changes (#392)
 ## 0.434.0 — 2026-10-26
 ### Fixed
 - `<aha-button>` keyboard focus is now an outline, a 2px solid ring 2px outside the button (`--aha-button-focus-ring`), with the gap still a box-shadow (`--aha-button-focus-gap`). The ring used to be a box-shadow, the same property as the elevation, so a box-shadow a consumer put on the button (a `::part(button)` rule built on `--aha-button-elevate-secondary`, for example) replaced it and a Tab-focused secondary button showed no ring. `secondary-deck` and `tertiary-deck` now draw the same ring instead of the browser's `outline:auto`. Default look, hover and press are unchanged; `--aha-button-focus-outline` and the new `--aha-button-focus-outline-offset` re-point the outline. (#372)
@@ -1806,4 +1813,3 @@ Revert: restore rules 5.3 and 5.4 from git and delete `splash.cssRecipe`, the `c
 ## 0.39.1 — 2026-09-11
 ### Changed
 - **Settings — setting label weight.** A member setting's label is now regular (400), not semibold — only the group/section header (`aha-section-header` / `aha-setting-group` / `settings-list` group header) carries weight (600). Restores the header-vs-member hierarchy (SETTINGS-37) on `aha-setting-row` and `<aha-settings-list>` rows. (#79)
-
