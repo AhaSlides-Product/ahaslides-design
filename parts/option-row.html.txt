@@ -2,22 +2,31 @@
      <aha-option-row> is the SAME shared custom element React and Vue consume — here in its native form.
      It COMPOSES DS leaves (borderless CountedTextarea, ImageActionButton) + a correct-answer green correct
      toggle (circle | square). Theming comes only from the --aha-* tokens in tokens.css. Hover a row to
-     reveal its delete (top-right). -->
+     reveal its delete (top-right); from the keyboard, Backspace in an empty field deletes the row (Tab skips the
+     delete button). Add reorderable to make the drag handle itself a tab stop that reorders by pointer or
+     keyboard — the row never moves itself; the host listens for reorder-move / reorder-grab / reorder-activate and drives it. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-option-row.js';   // registers <aha-option-row>
 </script>
 
 <div style="display:flex; flex-direction:column; gap:8px; max-width:420px">
-  <!-- quiz answer: orderable + correct toggle (circle, default) + image; correct paints the card green.
-       delete disabled at the minimum of 2. Use checkboxshape="square" for the square toggle,
-       and singleline for a single-line answer (Enter blocked, trims on blur). -->
-  <aha-option-row id="a" orderable correctable image correct value="Paris" maxlength="80"></aha-option-row>
-  <aha-option-row orderable correctable image value="London" maxlength="80"></aha-option-row>
-  <aha-option-row orderable correctable checkboxshape="square" singleline value="Rome" maxlength="80"></aha-option-row>
+  <!-- quiz answer: orderable + reorderable (keyboard/pointer drag) + correct toggle (circle, default) + image;
+       correct paints the card green. delete disabled at the minimum of 2. Use checkboxshape="square" for the
+       square toggle, and singleline for a single-line answer (Enter blocked, trims on blur). -->
+  <aha-option-row id="a" orderable reorderable correctable image correct value="Paris" maxlength="80"></aha-option-row>
+  <aha-option-row orderable reorderable correctable image value="London" maxlength="80"></aha-option-row>
+  <aha-option-row orderable reorderable correctable checkboxshape="square" singleline value="Rome" maxlength="80"></aha-option-row>
 </div>
 
 <script>
   document.getElementById('a').addEventListener('input', (e) => console.log('text:', e.detail.value));
+  document.getElementById('a').addEventListener('delete', (e) => console.log('delete from:', e.detail.source));   // 'keyboard' | 'pointer'; after 'keyboard', call previousRow.focus()
   document.getElementById('a').addEventListener('correct-change', (e) => console.log('correct:', e.detail.correct));
+  // ArrowUp/ArrowDown on the focused handle: move the row element, then restore focus to its handle.
+  document.getElementById('a').addEventListener('reorder-move', (e) => console.log('move', e.detail.direction, '— then row.focusHandle()'));
+  // pointerdown on the handle: the host calls row.setPointerCapture(e.detail.pointerId) and drives the drag.
+  document.getElementById('a').addEventListener('reorder-grab', (e) => console.log('grab at', e.detail.clientX, e.detail.clientY));
+  // Enter/Space on the focused handle: the host decides what activating the grip should do.
+  document.getElementById('a').addEventListener('reorder-activate', () => console.log('activate'));
 </script>

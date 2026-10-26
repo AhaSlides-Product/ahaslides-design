@@ -26,13 +26,14 @@ import { antdBaseTheme, dsAntdTheme } from './lib/antd-base-theme.js';
 import { ILLUSTRATION_TINTS } from './recolour-art.mjs';
 import { loadEnvironmentTable, routeLines, withRouteHeader } from './environments.mjs';
 import { documentTitle, documentHead, withDocumentHead, uniqueTitleRegistry, FAVICON_FOLDER, ROOT_FAVICON_FILE } from './document-head.mjs';
-import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
+import { COLOUR_RULES_FILE, COLOUR_RULES_TEMPLATE_FILE, COLOUR_RULES_PAGE, BACKGROUND_LIBRARY_PAGE, loadColourRules, loadBackgrounds, renderColourRulesPage, splitFragment, renderColourRulesAgent, renderColourRulesMd, renderBackgroundLibrary, colourRulesIndexLines, answerSection, markupToHtml } from './colour-rules.mjs';
+import { VOICE_RULES_FILE, VOICE_RULES_TEMPLATE_FILE, VOICE_RULES_PAGE, loadVoiceRules, renderVoiceRulesPage, renderVoiceRulesAgent, renderVoiceRulesMd, voiceRulesIndexLines } from './voice-rules.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const ENVIRONMENTS = loadEnvironmentTable(root);
 const CDIR = join(root, 'contracts');
 const GDIR = join(root, 'guidelines');   // guideline artifacts (prose composition guides over existing components)
-const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under the Marketing tab
+const MDIR = join(root, 'marketing');    // marketing sections — framework-free HTML+CSS blocks for the AhaSlides marketing sites, shown under the Websites tab
 const CANVAS_DIR = join(root, 'canvas');       // canvas library — in-canvas presenter controls, rendered as a first-class DS area (single scroll page)
 const ADIR = join(root, 'audience');     // audience component library — the marketplace/iframe audience gallery, rendered as a first-class DS area (single scroll page)
 const PDIR = join(root, 'parts');
@@ -59,7 +60,7 @@ const DS_ANTD_THEME_SCRIPT = `<script>window.__ahaDsTheme=(function(base){return
 /* A snippet names Logo library files by the live site's URL; a staging build serves its own copy, so the
    URL follows the build, or a pasted staging snippet would show the released art, not the art under review. */
 const LIVE_SITE = 'https://design.ahaslides.io';
-const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`).replaceAll(`${LIVE_SITE}/marketing-assets/`, `${SITE}/marketing-assets/`);
+const withBuildSite = (text) => String(text ?? '').replaceAll(`${LIVE_SITE}/logo/`, `${SITE}/logo/`).replaceAll(`${LIVE_SITE}/marketing-assets/`, `${SITE}/marketing-assets/`).replaceAll(`${LIVE_SITE}/backgrounds/`, `${SITE}/backgrounds/`);
 const part = (name) => (name && existsSync(join(PDIR, name)) ? withBuildSite(withCdnRef(read(join(PDIR, name)))) : '');
 const SCOPE = PKGNAME.split('/')[0];   // @ahaslides-product
 /* Published to GitHub Packages (not public npmjs), so consuming the package needs a
@@ -270,9 +271,10 @@ const SETTINGS_SLUGS = new Set(SETTINGS_CATALOG.flatMap(g => g.items.map(i => i.
 let LIVE = new Set();       // slugs with a real contract — assigned once contracts load
 let SURFACE_ENTRIES = {};   // per-surface CDN entries (audience / settings / canvas) → { files, closure }
 let GUIDELINES = [];        // loaded guideline artifacts (prose guides) — drives the Guidelines nav
-let MARKETING = [];         // loaded marketing sections — drives the Marketing tab + pages
+let MARKETING = [];         // loaded marketing sections — drives the Websites tab + pages
 let AUDIENCE = null;        // loaded audience library (audience/library.json) — drives the Audience nav + page; null = area absent
 let CANVAS_LIB = null;      // loaded canvas library (canvas/library.json) — drives the Canvas Library nav + page; null = area absent
+let CANVAS_DECK_TOKENS = null;   // canvas/deck-tokens.json — the Deck tokens page, listed under Foundations › Design tokens; null = page absent
 let CANVAS_CSS = '';        // scoped CSS for the Canvas Library area (canvas/canvas.css)
 let AUD_CSS = '';           // scoped CSS for the Audience area (audience/audience.css)
 let NAV_LANDING = {};   // top-nav → each area's landing page (set once contracts/patterns load)
@@ -286,7 +288,7 @@ const SECTIONS = [
   { key: 'foundations', label: 'Foundations' },
   { key: 'components',  label: 'Components' },
   { key: 'patterns',    label: 'Patterns' },
-  { key: 'marketing',   label: 'Marketing' },
+  { key: 'marketing',   label: 'Websites' },
   { key: 'settings',    label: 'Settings' },
   { key: 'audience',    label: 'Audience Library' },
   { key: 'canvas',      label: 'Components' },
@@ -462,6 +464,18 @@ a.nav-item.raw:hover{background:var(--aha-gray-20);color:var(--aha-text-secondar
 @media (prefers-reduced-motion:reduce){.doc-main.pjax-in{animation:none}.pjax-bar{transition:opacity var(--aha-motion-fast) linear}}
 
 /* ---- detail page ---- */
+.doc-fold{margin:44px 0 14px;border-bottom:1px solid var(--aha-border-default);scroll-margin-top:80px}
+.doc-fold>summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;padding:0 0 14px}
+.doc-fold>summary::-webkit-details-marker{display:none}
+.doc-fold>summary:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px;border-radius:8px}
+.doc-main .doc-fold>summary h2{margin:0}
+.doc-fold>summary aha-icon{flex:none;transition:transform var(--aha-motion-fast) var(--aha-ease-out)}
+.doc-fold[open]>summary aha-icon{transform:rotate(90deg)}
+.doc-fold>.doc-fold-body{padding:0 0 20px}
+.doc-fold>.doc-fold-body>:first-child{margin-top:0}
+.doc-fold--small{margin:0 0 24px}
+.doc-fold--small>summary{font-weight:600;color:var(--aha-text-default);padding:0 0 12px}
+@media (prefers-reduced-motion:reduce){.doc-fold>summary aha-icon{transition:none}}
 .highlights{margin:0 0 14px;padding:0;list-style:none;max-width:72ch;display:grid;gap:4px}
 .highlights li{position:relative;margin:0;padding-left:18px;color:var(--aha-text-secondary);font-size:16px;line-height:25px}
 .highlights li::before{content:"";position:absolute;left:3px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--aha-color-primary)}
@@ -1007,13 +1021,15 @@ function sidebarNav(base, active, section) {
   let inner = '';
   if (section === 'foundations') {
     const tokenItems = TOKEN_PAGES.map(p =>
-      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('');
+      `<a class="nav-item${active==='token:'+p.slug?' active':''}" href="${base}foundations/${p.slug}.html"><span>${esc(p.label)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
+      (CANVAS_DECK_TOKENS ? `<a class="nav-item${active==='token:deck-tokens'?' active':''}" href="${base}deck-tokens/index.html"><span>Deck tokens</span><span class="nav-dot" title="live"></span></a>` : '');
     inner =
       `<div class="nav-group"><div class="nav-cat">Design tokens</div>${tokenItems}</div>` +
       `<div class="nav-group"><div class="nav-cat">Assets</div>` +
       `<a class="nav-item${active==='__logo__'?' active':''}" href="${base}foundations/logo.html"><span>Logo library</span><span class="nav-count">${LOGO_MANIFEST.length}</span></a>` +
       `<a class="nav-item${active==='__backgrounds__'?' active':''}" href="${base}${BACKGROUND_LIBRARY_PAGE}"><span>Background library</span><span class="nav-count">${BACKGROUNDS.length}</span></a>` +
-      `<a class="nav-item" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item${active==='__colour-rules__'?' active':''}" href="${base}${COLOUR_RULES_PAGE}"><span>Brand colour rules</span></a>` +
+      `<a class="nav-item${active==='__voice-rules__'?' active':''}" href="${base}${VOICE_RULES_PAGE}"><span>Brand voice rules</span></a>` +
       `<a class="nav-item${active==='__icons__'?' active':''}" href="${base}icons/index.html"><span>Icon library</span><span class="nav-count">${ICONS.count}</span></a>` +
       `</div>`;
   } else if (section === 'components' || section === 'patterns') {
@@ -1032,8 +1048,7 @@ function sidebarNav(base, active, section) {
     const marketingNav = (items, cat) => items.length ? `<div class="nav-group"><div class="nav-cat">${cat}</div>` +
       items.map(b => `<a class="nav-item${active===('marketing:'+b.slug)?' active':''}" href="${base}marketing/${b.slug}/index.html"><span>${esc(b.name)}</span><span class="nav-dot" title="live"></span></a>`).join('') +
       `</div>` : '';
-    const marketingGroups = [...new Set(MARKETING.filter(b => b.group).map(b => b.group))];
-    inner = marketingNav(MARKETING.filter(b => isMarketingComponent(b) && !b.group), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b) && !b.group), MARKETING_CAT) + marketingGroups.map(g => marketingNav(MARKETING.filter(b => b.group === g), esc(g))).join('');
+    inner = marketingNav(MARKETING.filter(isMarketingComponent), MARKETING_COMPONENTS_CAT) + marketingNav(MARKETING.filter(b => !isMarketingComponent(b)), MARKETING_CAT);
   } else if (section === 'settings') {
     // Settings is ONE page under ONE URL. Every component lives inline on settings/index.html, so the
     // sidebar never routes to a per-component page — each item is an in-page anchor (#ctrl-<slug>) to
@@ -1125,6 +1140,8 @@ const FEED_HIGHLIGHTS = {
   'anti-slop.md': ['The official anti-slop loop', 'Per-surface rules plus a binary judge a consumer self-runs', 'Read it before building'],
   'anti-slop.agent.json': ['The anti-slop loop in machine form', 'Per-surface rules, criteria and selfCheck', 'Compiled from the DS-owned criteria store'],
   'colour-rules.md': ['The colour and background rules for agents', 'Each rule tagged with its environment and the judge criteria that check it', 'Same source as the Brand colour rules page'],
+  'voice-rules.md': ['The verbal brand rules for agents', 'Why, audiences, messaging, tone, writing rules and retired wording, each tagged with the kind of communication', 'Same source as the Brand voice rules page'],
+  'voice-rules.agent.json': ['The verbal brand rules in machine form', 'Rules by kind of communication and environment, tables, retired wording'],
   'colour-rules.agent.json': ['The colour and background rules in machine form', 'Palette, rules by environment, Splash geometry and files, open points'],
 };
 
@@ -1483,23 +1500,26 @@ function surfaceChoiceTable(rows) {
 const MARKETING_CAT = 'Sections';
 const MARKETING_COMPONENTS_CAT = 'Components';
 const isMarketingComponent = (b) => b.kind === 'component';
-const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n    <li>\n${(card.html || '').split('\n').map(line => '      ' + line).join('\n')}\n    </li>\n  </ul>\n</section>\n`;
+const marketingCardItems = (card) => String(card.html || '').split('\n<!-- next -->\n').map(html => `    <li>\n${html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
+const marketingCardGridClass = (card) => 'aha-marketing-cards__grid' + (card.gridClass ? ' ' + card.gridClass : '');
+const marketingCardSnippet = (b, card) => `<style>\n${b.baseCss || ''}${card.css || ''}</style>\n<section class="aha-marketing-cards">\n  <ul class="${marketingCardGridClass(card)}">\n${marketingCardItems(card)}\n  </ul>\n</section>\n`;
 function composeMarketingComponent(b) {
   if (!b.snippets) return b;
-  const grid = b.snippets.map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
+  const grid = b.snippets.filter(card => !card.demo).map(card => `    <li>\n${card.html.split('\n').map(line => '      ' + line).join('\n')}\n    </li>`).join('\n');
   return { ...b, css: (b.baseCss || '') + b.snippets.map(card => card.css || '').join(''),
     html: `<section class="aha-marketing-cards">\n  <ul class="aha-marketing-cards__grid">\n${grid}\n  </ul>\n</section>` };
 }
 const marketingSnippet = (b) => withBuildSite(`<style>\n${b.css || ''}\n</style>\n${b.html || ''}\n`);
+const marketingPreviewAssets = (b, snippet) => b.imagePath ? snippet.replaceAll(`${SITE}/marketing/`, '../').replaceAll(`${SITE}/logo/`, '../../logo/') : snippet;
 const marketingFeatureCardCss = () => {
   const cards = JSON.parse(read(join(MDIR, 'cards.json')));
   return (cards.baseCss || '') + (cards.snippets.find(card => card.slug === 'feature')?.css || '');
 };
-const marketingLayoutSnippet = (b, layout) => `<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`;
+const marketingLayoutSnippet = (b, layout) => withBuildSite(`<style>\n${b.baseCss || ''}${layout.cards ? marketingFeatureCardCss() : ''}${layout.css || ''}</style>\n${layout.html || ''}\n`);
 function composeMarketingLayouts(b) {
   if (!b.layouts) return b;
   return { ...b, css: (b.baseCss || '') + (b.layouts.some(layout => layout.cards) ? marketingFeatureCardCss() : '') + b.layouts.map(layout => layout.css || '').join(''),
-    html: b.layouts.map(layout => layout.html).join('\n') };
+    html: b.layouts.map(layout => resolveDefaultStateVariants(b, layout, layout.html)).join('\n') };
 }
 /* ---- Audience Library — a first-class top-level area. ONE scroll
    page: the audience component gallery, DS-tokenised, rendered into docShell so it wears
@@ -1524,8 +1544,8 @@ function surfaceCdnBox(surface) {
   return `<div class="note surface-cdn" style="margin:0 0 18px"><b>${surface === 'canvas' ? 'No build step? One tag for the whole Canvas Library (chart and canvas components)' : `No build step? One tag for the whole ${esc(surface)} surface`}</b>
     <pre style="margin:8px 0;white-space:pre-wrap;word-break:break-all;font:12px/18px Menlo,monospace">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/tokens.css"&gt;
 &lt;script type="module" src="${surfaceCdnUrl(surface)}"&gt;&lt;/script&gt;</pre>
-    ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code>: <code>import { applyDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
-    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code>: <code>import { applyCanvasDeck } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'audience' ? `<p style="margin:0 0 6px">It also re-exports <code>applyDeck</code> and the shared deck ladder: <code>import { applyDeck, applyDeckTokens } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
+    ${surface === 'canvas' ? `<p style="margin:0 0 6px">It registers <code>&lt;aha-chart&gt;</code> and the canvas controls, so the Chart and Components pages share this one tag. It also re-exports <code>applyCanvasDeck</code>, the shared deck ladder and <code>readableTextInk</code> (the DS text ink or white, whichever contrasts more on a fill): <code>import { applyCanvasDeck, applyDeckTokens, readableTextInk } from '${surfaceCdnUrl(surface)}'</code>.</p>` : ''}
     <details><summary>Registers ${entry.files.length} elements</summary><p style="margin:6px 0 0;font-size:12px">${tags}</p></details>
     <p style="margin:6px 0 0;font-size:12px">Other surfaces: ${Object.keys(SURFACE_ENTRIES).filter(k => k !== surface).map(k => `<code>lib/${k}.js</code>`).join(', ')}; every element: <code>lib/all.js</code>.</p></div>`;
 }
@@ -1609,6 +1629,22 @@ function renderAudienceLibrary() {
     for (const deck of document.querySelectorAll('.audience-lib .deck.light')) applyDeck(deck, { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
     for (const deck of document.querySelectorAll('.audience-lib .deck.dark')) applyDeck(deck, { textColour: '#FAFAFA', presentationColorPalette: ['#E70E68'] });
     for (const timer of document.querySelectorAll('.audience-lib .demo-countdown')) timer.setAttribute('ends-at', String(Date.now() + 37000));
+    const demoPicture = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23E70E68' fill-opacity='.15'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%23E70E68'/%3E%3Crect x='120' y='210' width='160' height='24' rx='12' fill='%231A1A1A' fill-opacity='.7'/%3E%3C/svg%3E";
+    const demoLongText = Array(24).fill('Monday').join(' ');
+    for (const rank of document.querySelectorAll('.audience-lib [data-demo-rank]')) rank.options = [
+      { id: 'a', label: demoLongText, image: demoPicture },
+      { id: 'b', label: 'Short option' },
+      { id: 'c', label: 'Short with a picture', image: demoPicture },
+    ];
+    for (const trigger of document.querySelectorAll('.audience-lib [expandable]')) trigger.addEventListener('expand', (event) => {
+      const modal = trigger.closest('.demo-phone').querySelector('[data-demo-modal="details"]');
+      const option = trigger.options && trigger.options.find((candidate) => candidate.id === event.detail.id);
+      modal.textContent = option ? option.label : trigger.textContent;
+      const image = option ? option.image : trigger.getAttribute('image');
+      if (image) modal.setAttribute('image', image); else modal.removeAttribute('image');
+      modal.setAttribute('open', '');
+    });
+    for (const opener of document.querySelectorAll('.audience-lib [data-demo-open]')) opener.addEventListener('click', () => opener.closest('.demo-phone').querySelector('[data-demo-modal="' + opener.dataset.demoOpen + '"]').show());
     for (const upload of document.querySelectorAll('.audience-lib .demo-upload')) upload.uploadImage = () => new Promise((resolve) => setTimeout(() => resolve({ url: '../logo/thesplash.svg', path: 'demo' }), 600));
     for (const submit of document.querySelectorAll('.audience-lib .demo-submit')) submit.addEventListener('submit-answer', () => setTimeout(() => submit.lock('demo'), 600));
   </script>
@@ -1637,19 +1673,19 @@ function renderCanvasCard(sec) {
   ${code}
 </section>`;
 }
-function renderCanvasLibrary() {
-  const anchorItems = CANVAS_LIB.sections.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
-  const fallbackGroups = [{ cat: 'Canvas components', links: CANVAS_LIB.sections.map(s => ({ id: s.name, title: s.name })) }];
+function renderCanvasLibrary(lib = CANVAS_LIB, section = 'canvas', crumb = 'Canvas components') {
+  const anchorItems = lib.sections.map(s => ({ key: s.name, href: '#' + s.name, title: s.name }));
+  const fallbackGroups = [{ cat: crumb, links: lib.sections.map(s => ({ id: s.name, title: s.name })) }];
   const main = `<div class="canvas-lib">
     <header class="cl-head">
-      <h1>${esc(CANVAS_LIB.title)}</h1>
-      <p class="rule">${audMd(CANVAS_LIB.rule)}</p>
-      <p class="why">${audMd(CANVAS_LIB.why)}</p>
+      <h1>${esc(lib.title)}</h1>
+      <p class="rule">${audMd(lib.rule)}</p>
+      <p class="why">${audMd(lib.why)}</p>
       ${surfaceCdnBox('canvas')}
     </header>
     <div class="hub-layout">
       ${hubAnchorAside(fallbackGroups)}
-      <div class="hub-body"><div class="cl-cards">${CANVAS_LIB.sections.map(renderCanvasCard).join('\n')}</div></div>
+      <div class="hub-body"><div class="cl-cards">${lib.sections.map(renderCanvasCard).join('\n')}</div></div>
     </div>
   </div>
   <script src="../icons/registry.js"></script>
@@ -1659,11 +1695,35 @@ function renderCanvasLibrary() {
     import { applyCanvasDeck } from '../lib/canvas-deck.js';
     const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
     for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
-      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background) });
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background), image: 'image' in deck.dataset });
     }
   </script>
   ${hubAnchorScript(anchorItems)}`;
-  return docShell({ base: '../', active: 'canvas', title: CANVAS_LIB.title, section: 'canvas', main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+  return docShell({ base: '../', active: section, title: lib.title, section, main, extraCss: CANVAS_CSS + HUB_ANCHOR_CSS, noSidebar: true });
+}
+
+/* Inked by applyCanvasDeck, not applyDeckTokens: the containers and modals on this page are canvas extras. */
+function renderDeckTokensPage(lib) {
+  const main = `<div class="canvas-lib">
+    <header class="cl-head">
+      <h1>${esc(lib.title)}</h1>
+      <p class="rule">${audMd(lib.rule)}</p>
+      <p class="why">${audMd(lib.why)}</p>
+      ${lib.shared ? `<div class="note" style="margin:0 0 18px">${audMd(lib.shared)}</div>` : ''}
+    </header>
+    <div class="cl-cards">${lib.sections.map(renderCanvasCard).join('\n')}</div>
+  </div>
+  <script src="../icons/registry.js"></script>
+  <script src="../icons/aha-icon.js"></script>
+  <script type="module">
+    import '../lib/all.js';
+    import { applyCanvasDeck } from '../lib/canvas-deck.js';
+    const token = (name) => (name.startsWith('--') ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : name);
+    for (const deck of document.querySelectorAll('.canvas-lib [data-canvas-deck]')) {
+      applyCanvasDeck(deck, { accent: token(deck.dataset.accent), ink: token(deck.dataset.ink), background: token(deck.dataset.background), image: 'image' in deck.dataset });
+    }
+  </script>`;
+  return docShell({ base: '../', active: 'token:deck-tokens', title: lib.title, section: 'foundations', main, extraCss: CANVAS_CSS });
 }
 
 const MARKETING_WIDTHS = [
@@ -1673,7 +1733,7 @@ const MARKETING_WIDTHS = [
   ['Phone', TOK.breakpoints.phone],
 ];
 const MARKETING_DEFAULT_WIDTH = TOK.breakpoints.desktop;
-const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js'];
+const MARKETING_FRAME_MODULES = ['icons.js', 'aha-product-lockup.js', 'aha-button.js', 'aha-segmented.js', 'aha-tag.js', 'aha-switch.js', 'aha-tooltip.js', 'aha-avatar.js', 'aha-rate.js'];
 const MARKETING_BREAKPOINT_CSS = `
 .mbp-bar{display:flex;align-items:center;gap:var(--aha-space-12);flex-wrap:wrap;margin:0 0 var(--aha-space-12)}
 .mbp-label{font-size:var(--aha-size-default);color:var(--aha-text-secondary);font-variant-numeric:tabular-nums}
@@ -1684,7 +1744,7 @@ const MARKETING_BREAKPOINT_CSS = `
 function marketingBreakpointPreview(b) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mbp" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="Preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, b)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(b.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(b.name)} preview" scrolling="no"></iframe></div></div>
     <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingSnippet(b)}</template>
   </div>
@@ -1783,20 +1843,82 @@ const MARKETING_CARD_BREAKPOINT_SCRIPT = `<script type="module">
   })();
   </script>`;
 
-function marketingCodeToggle(file, code, lead = '') {
+function marketingCodeToggle(file, code, lead = '', extraPanes = []) {
+  const tabs = extraPanes.length ? [{ key: 'snippet', label: file, code }, ...extraPanes] : [{ key: 'snippet', label: file, code }];
   return `<div class="code-tabs" data-open="false">
     <div class="demo-toolbar">${lead ? `<p class="body code-lead">${lead}</p>` : ''}<aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
     <div class="code-panel" hidden>
-      <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="snippet">${esc(file)}</button></div><button class="copy" type="button">Copy</button></div>
-      <pre class="code snippet active">${esc(code)}</pre>
+      <div class="code-head"><div class="tabs">${tabs.map((tab, index) => `<button class="tab${index === 0 ? ' active' : ''}" type="button" data-f="${tab.key}">${esc(tab.label)}</button>`).join('')}</div><button class="copy" type="button">Copy</button></div>
+      ${tabs.map((tab, index) => `<pre class="code ${tab.key}${index === 0 ? ' active' : ''}">${esc(tab.code)}</pre>`).join('\n      ')}
     </div></div>`;
+}
+const marketingLayoutStates = (b, layout) => layout.states || b.states;
+const marketingLayoutStateClass = (b, layout) => layout.stateClass || layout.class || b.stateClass;
+const marketingHasStates = (b, layout) => marketingLayoutStates(b, layout)?.length > 1;
+function marketingStateSwitch(b, layout) {
+  if (!marketingHasStates(b, layout)) return '';
+  const states = marketingLayoutStates(b, layout);
+  const options = JSON.stringify(states.map(state => ({ value: state.modifier, label: state.label })));
+  const initial = (states.find(state => state.default) || states[0]).modifier;
+  return `<aha-segmented class="mbp-state" aria-label="${esc(layout.name)} surface" options="${esc(options)}" value="${esc(initial)}" data-class="${esc(marketingLayoutStateClass(b, layout))}" data-modifiers="${esc(JSON.stringify(states.map(state => state.modifier).filter(Boolean)))}"></aha-segmented>`;
+}
+const stripStateVariantHooks = (code) => code.replace(/(<aha-button\b[^>]*?)\sdata-variant-[a-z0-9-]+="[^"]*"/g, '$1');
+const resolveDefaultStateVariants = (b, layout, code) => {
+  const defaultState = marketingLayoutStates(b, layout)?.find(state => state.default);
+  return defaultState?.modifier ? marketingStateVariants(code, defaultState.modifier) : stripStateVariantHooks(code);
+};
+const marketingStateVariants = (code, modifier) => code.replace(/<aha-button\b[^>]*>/g, (tag) => {
+  const variant = tag.match(new RegExp(`\\sdata-variant-${modifier}="([^"]+)"`));
+  const stripped = tag.replace(/\sdata-variant-[a-z0-9-]+="[^"]*"/g, '');
+  return variant ? stripped.replace(/\svariant="[^"]*"/, ` variant="${variant[1]}"`) : stripped;
+});
+const marketingStatePanes = (b, layout, snippet) => {
+  const states = marketingLayoutStates(b, layout);
+  if (!states || !marketingHasStates(b, layout)) return [];
+  const stateClass = marketingLayoutStateClass(b, layout);
+  const rootClass = new RegExp(`class="([^"]*\\b${stateClass}\\b[^"]*)"`);
+  const otherModifiers = (modifier) => states.filter(state => state.modifier && state.modifier !== modifier).map(state => `\\s*\\b${stateClass}--${state.modifier}\\b`);
+  return states.filter(state => state.modifier).map(state => {
+    const stripOthers = new RegExp(otherModifiers(state.modifier).join('|') || '(?!)', 'g');
+    return { key: `state-${state.modifier}`, label: state.label,
+      code: marketingStateVariants(snippet.replace(rootClass, (match, classes) => `class="${classes.replace(stripOthers, '')} ${stateClass}--${state.modifier}"`), state.modifier) };
+  });
+};
+function marketingReviewsFor(b, layout) {
+  const reviews = b.reviews;
+  if (!reviews || !layout.reviews) return null;
+  const fill = (text) => text.replaceAll('{{accessibleLabel}}', esc(reviews.accessibleLabel)).replaceAll('{{rating}}', esc(reviews.rating)).replaceAll('{{text}}', esc(reviews.text)).replaceAll('{{site}}', SITE).replaceAll('{{c}}', layout.class);
+  return { html: fill(reviews.html), css: fill(reviews.css) + (layout.reviews.css ? '\n' + layout.reviews.css : ''), insertInto: `.${layout.class}__copy` };
+}
+function bakeMarketingReviews(b) {
+  if (!b.reviews) return b;
+  const layouts = b.layouts.map(layout => {
+    const row = marketingReviewsFor(b, layout);
+    if (!row) return layout;
+    const open = layout.html.indexOf(`<div class="${layout.class}__copy"`);
+    if (open < 0) return layout;
+    let depth = 0, close = -1;
+    for (const tag of layout.html.slice(open).matchAll(/<div\b|<\/div>/g)) {
+      depth += tag[0] === '</div>' ? -1 : 1;
+      if (depth === 0) { close = open + tag.index; break; }
+    }
+    if (close < 0) return layout;
+    return { ...layout, html: `${layout.html.slice(0, close).replace(/[ ]+$/, '')}      ${row.html.replaceAll('\n', '\n      ')}\n    ${layout.html.slice(close)}`, css: `${layout.css}\n${row.css}` };
+  });
+  return { ...b, layouts };
+}
+function marketingReviewsSwitch(b, layout) {
+  const reviews = marketingReviewsFor(b, layout);
+  if (!reviews) return '';
+  const options = JSON.stringify([{ value: 'off', label: `${b.reviews.label}: Off` }, { value: 'on', label: `${b.reviews.label}: On` }]);
+  return `<aha-segmented class="mbp-reviews" aria-label="${esc(layout.name)} ${esc(b.reviews.label)}" options="${esc(options)}" value="on" data-insert-into="${esc(reviews.insertInto)}" data-row="${esc(`.${layout.class}__reviews`)}" data-html="${esc(reviews.html)}"></aha-segmented>`;
 }
 function marketingLayoutPreview(b, layout) {
   const options = JSON.stringify(MARKETING_WIDTHS.map(([label, width]) => ({ value: String(width), label: `${label} ${width}` })));
   return `<div class="mfv" data-default="${MARKETING_DEFAULT_WIDTH}">
-    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented><span class="mbp-label" aria-live="polite"></span></div>
+    <div class="mbp-bar"><aha-segmented class="mbp-seg" aria-label="${esc(layout.name)} preview width" options="${esc(options)}" value="${MARKETING_DEFAULT_WIDTH}"></aha-segmented>${marketingStateSwitch(b, layout)}${marketingReviewsSwitch(b, layout)}<span class="mbp-label" aria-live="polite"></span></div>
     <div class="mbp-viewport" role="region" tabindex="0" aria-label="${esc(layout.name)} preview, scrolls inside"><div class="mbp-sizer"><iframe class="mbp-frame" title="${esc(layout.name)} preview" scrolling="no"></iframe></div></div>
-    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingLayoutSnippet(b, layout)}</template>
+    <template class="mbp-doc"><style>${tokenVars(TOK)}</style>${marketingPreviewAssets(b, marketingLayoutSnippet(b, layout))}</template>
   </div>`;
 }
 const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
@@ -1832,6 +1954,99 @@ const MARKETING_LAYOUT_PREVIEW_SCRIPT = `<script type="module">
     });
   })();
   </script>`;
+const MARKETING_LAYOUT_STATE_SCRIPT = `<script type="module">
+  (function(){
+    function carriers(doc,prefix,modifiers){
+      var found=[];
+      doc.querySelectorAll('[class*="'+prefix+'"]').forEach(function(el){
+        [].slice.call(el.classList).forEach(function(token){
+          modifiers.forEach(function(modifier){
+            var suffix='--'+modifier;
+            if(token.indexOf(prefix)===0&&token.slice(-suffix.length)===suffix)found.push({el:el,prefix:token.slice(0,-suffix.length)});
+          });
+        });
+      });
+      if(!found.length){var root=doc.querySelector('.'+prefix);if(root)found.push({el:root,prefix:prefix});}
+      return found;
+    }
+    document.querySelectorAll('.mfv,.mbp').forEach(function(root){
+      var seg=root.querySelector('.mbp-state');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),prefix=seg.dataset.class,modifiers=JSON.parse(seg.dataset.modifiers),current=seg.getAttribute('value'),found=null;
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        found=found||carriers(doc,prefix,modifiers);
+        found.forEach(function(carrier){
+          modifiers.forEach(function(modifier){carrier.el.classList.remove(carrier.prefix+'--'+modifier);});
+          if(current)carrier.el.classList.add(carrier.prefix+'--'+current);
+        });
+      }
+      frame.addEventListener('load',function(){found=null;apply();});
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
+const MARKETING_LAYOUT_VARIANT_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv,.mbp').forEach(function(root){
+      var seg=root.querySelector('.mbp-state');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),current=seg.getAttribute('value');
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        doc.querySelectorAll('aha-button').forEach(function(button){
+          if(!button.hasAttribute('data-base-variant'))button.setAttribute('data-base-variant',button.getAttribute('variant')||'');
+          var next=button.getAttribute('data-variant-'+(current||'default'));
+          button.setAttribute('variant',next||button.getAttribute('data-base-variant'));
+        });
+      }
+      frame.addEventListener('load',apply);
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
+const MARKETING_LAYOUT_REVIEWS_SCRIPT = `<script type="module">
+  (function(){
+    document.querySelectorAll('.mfv').forEach(function(root){
+      var seg=root.querySelector('.mbp-reviews');
+      if(!seg)return;
+      var frame=root.querySelector('.mbp-frame'),current=seg.getAttribute('value');
+      function apply(){
+        var doc=frame.contentDocument;
+        if(!doc||!doc.getElementById('mbp-content'))return;
+        doc.querySelectorAll(seg.dataset.row).forEach(function(node){node.remove();});
+        if(current!=='on')return;
+        var host=doc.querySelector(seg.dataset.insertInto);
+        if(!host)return;
+        var holder=doc.createElement('div');
+        holder.innerHTML=seg.dataset.html;
+        var row=holder.firstElementChild;
+        host.appendChild(row);
+      }
+      frame.addEventListener('load',apply);
+      seg.addEventListener('change',function(e){current=e.detail.value;apply();});
+      apply();
+    });
+  })();
+  </script>`;
+const FOLD_LINE_LIMIT_CHARS = 140;
+const docFold = (title, body, id = '', small = false) => `<details class="doc-fold${small ? ' doc-fold--small' : ''}"${id ? ` id="${esc(id)}"` : ''}><summary><aha-icon name="system-caret-right" size="16" decorative></aha-icon>${small ? `<span>${esc(title)}</span>` : `<h2>${esc(title)}</h2>`}</summary><div class="doc-fold-body">${body}</div></details>`;
+const isLongProse = (...texts) => texts.join(' ').length > FOLD_LINE_LIMIT_CHARS;
+const MARKETING_FOLD_OPEN_SCRIPT = `<script>(function(){function o(){var t=location.hash&&document.getElementById(location.hash.slice(1));if(t&&t.closest){var d=t.closest('details.doc-fold');if(d)d.open=true;}}addEventListener('hashchange',o);o();})();</script>`;
+const marketingGuidanceHtml = (b) => b.guidance ? `  ${docFold(b.guidance.title, `${b.guidance.intro ? `<p class="body">${esc(b.guidance.intro)}</p>` : ''}
+  <ol class="highlights">${b.guidance.points.map(point => `<li><b>${esc(point.title)}</b>: ${esc(point.text)}</li>`).join('')}</ol>`, 'guidance')}
+
+` : '';
+const marketingGuidanceMd = (b) => b.guidance ? `\n## ${b.guidance.title}\n${b.guidance.intro ? b.guidance.intro + '\n' : ''}\n${b.guidance.points.map((point, index) => `${index + 1}. **${point.title}**: ${point.text}`).join('\n')}\n` : '';
+function marketingLayoutIntroHtml(layout) {
+  const summary = `${layout.summary}${layout.reference ? ` Layout reference: Untitled UI ${layout.reference}.` : ''}`;
+  const paragraphs = `<p class="body">${esc(summary)}</p>${layout.useFor ? `\n  <p class="body"><b>Use for:</b> ${esc(layout.useFor)}</p>` : ''}`;
+  return isLongProse(summary, layout.useFor || '') ? docFold('About this layout', paragraphs, '', true) : paragraphs;
+}
 function renderMarketingLayoutsHtml(b) {
   const [intro, ...details] = b.highlights?.length ? b.highlights : [b.summary];
   const main = `
@@ -1839,23 +2054,30 @@ function renderMarketingLayoutsHtml(b) {
   <p class="subtitle">${esc(intro)}</p>
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
-  <h2>Which is which</h2>
-  <p class="body">Each section copies the layout of one Untitled UI features section, and nothing else of it. Class names carry the layout, not the Untitled UI number.</p>
-  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: Untitled UI ${esc(layout.reference)}, <code>aha-features--${esc(layout.slug)}</code></li>`).join('')}</ul>
+${marketingGuidanceHtml(b)}  ${docFold('Which is which', `<p class="body">${esc(b.layoutsIntro || `Each section copies the layout of one Untitled UI ${b.layoutKind || b.name.toLowerCase()} section, and nothing else of it. Class names carry the layout, not the Untitled UI number.`)}</p>
+  <ul class="highlights">${b.layouts.map(layout => `<li><b>${esc(layout.name)}</b>: ${layout.reference ? `Untitled UI ${esc(layout.reference)}, ` : ''}<code>${esc(layout.class || layout.classes || `aha-${b.slug}--${layout.slug}`)}</code>${layout.useFor ? `. Use for: ${esc(layout.useFor)}` : ''}</li>`).join('')}</ul>`)}
 
 ${b.layouts.map(layout => `  <h2 id="${esc(layout.slug)}">${esc(layout.name)}</h2>
-  <p class="body">${esc(layout.summary)} Layout reference: Untitled UI ${esc(layout.reference)}.</p>
+  ${marketingLayoutIntroHtml(layout)}
   <div class="marketing-stage">${marketingLayoutPreview(b, layout)}</div>
-  ${marketingCodeToggle(`${layout.slug}.html`, marketingLayoutSnippet(b, layout))}`).join('\n\n')}
-  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}
+  ${marketingCodeToggle(marketingHasStates(b, layout) ? marketingLayoutStates(b, layout).find(state => !state.modifier).label : `${layout.slug}.html`, resolveDefaultStateVariants(b, layout, marketingLayoutSnippet(b, layout)), '', marketingStatePanes(b, layout, marketingLayoutSnippet(b, layout)))}`).join('\n\n')}
+  ${MARKETING_LAYOUT_PREVIEW_SCRIPT}${b.layouts.some(layout => marketingHasStates(b, layout)) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}${b.layouts.some(layout => marketingHasStates(b, layout) && /\sdata-variant-[a-z0-9-]+=/.test(layout.html || '')) ? `\n  ${MARKETING_LAYOUT_VARIANT_SCRIPT}` : ''}${b.reviews ? `\n  ${MARKETING_LAYOUT_REVIEWS_SCRIPT}` : ''}
+
+${b.video ? `  ${docFold(`${b.video.label} (optional, off by default)`, `<p class="body">${esc(b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>'))} Layouts with the slot: ${b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${esc(layout.name)} (<code>${esc(layout.class)}</code>)`).join(', ')}.</p>
+  ${marketingCodeToggle('video.html', b.video.html, 'Replaces the layout image.')}
+  ${marketingCodeToggle('video.css', b.video.css, 'Add once. Replace {{c}} with the layout class.')}`, 'video-slot')}
+` : ''}
+${b.composedOf ? `
+  ${docFold('Composed of', `<p class="body">What these sections reuse from the design system, and what the design system does not define yet (each missing item has a DSN ticket and a stand-in).</p>
+  ${composedOfTable(b.composedOf)}`, 'composed-of')}
+  ${MARKETING_FOLD_OPEN_SCRIPT}` : MARKETING_FOLD_OPEN_SCRIPT}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before any section.')}${details.length ? `
 
-  <h2>Details</h2>
-  <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
+  ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
-  .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
+  .marketing-stage{margin:0 0 var(--aha-space-12)}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
 }
 function renderMarketingHtml(b) {
@@ -1867,29 +2089,38 @@ function renderMarketingHtml(b) {
   <p class="gen">◆ generated from marketing/${b.slug}.json — do not edit by hand</p>
 
 ${b.snippets ? b.snippets.map(card => `<h2>${esc(card.name)}</h2>
-  <p class="body">${esc(card.summary)}</p>
+  ${isLongProse(card.summary) ? docFold('About this card', `<p class="body">${esc(card.summary)}</p>`, '', true) : `<p class="body">${esc(card.summary)}</p>`}
   ${marketingCardBreakpointPreview(b, card)}
   ${marketingCodeToggle(`${card.slug}.html`, marketingCardSnippet(b, card))}`).join('\n  ') + '\n  ' + MARKETING_CARD_BREAKPOINT_SCRIPT : `<h2>Preview</h2>
   <div class="marketing-stage">${marketingBreakpointPreview(b)}</div>
 
   <h2>Paste-and-run HTML</h2>
-  ${marketingCodeToggle(`${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.')}`}
+  ${marketingCodeToggle(marketingHasStates(b, b) ? b.states.find(state => !state.modifier).label : `${b.slug}.html`, marketingSnippet(b), 'Paste into any page. It reads only the shared <code>--aha-*</code> tokens.', marketingStatePanes(b, b, marketingSnippet(b)))}${marketingHasStates(b, b) ? `\n  ${MARKETING_LAYOUT_STATE_SCRIPT}` : ''}`}
 
   <h2>Load the tokens once</h2>
   ${marketingCodeToggle('head', `<link rel="stylesheet" href="${SITE}/variables.css">`, 'Add this to the page <code>&lt;head&gt;</code> before the block.')}${details.length ? `
 
-  <h2>Details</h2>
-  <ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}`;
+  ${docFold('Details', `<ul class="highlights">${details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>`)}` : ''}`;
   return docShell({ base: '../../', active: 'marketing:' + b.slug, title: b.name, section: 'marketing', main, extraCss: `
   .marketing-stage{margin:0 0 12px}.code-panel pre{max-height:70vh}
   .demo-toolbar:has(.code-lead){justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--aha-space-20)}.code-lead{margin:0;flex:1 1 20rem;max-width:none}${MARKETING_BREAKPOINT_CSS}` });
+}
+function marketingVideoMd(b) {
+  if (!b.video) return '';
+  const names = b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => `${layout.name} (\`${layout.class}\`)`);
+  return `\n## ${b.video.label} (optional, off by default)\n${b.video.howToTurnOn.replaceAll('{{c}}', '<layout class>')} It replaces ${b.video.replaces.replaceAll('{{c}}', '<layout class>')}. Layouts with the slot: ${names.join(', ')}.\n\n\`\`\`html\n${b.video.html}\n\`\`\`\n\n\`\`\`css\n${b.video.css}\n\`\`\`\n`;
+}
+function marketingReviewsMd(b) {
+  if (!b.reviews) return '';
+  const withRow = b.layouts.filter(layout => layout.reviews);
+  return `\n## ${b.reviews.label} row (on by default, removable)\nA ${b.reviews.source} rating row: the G2 logo in a white card, five stars filled to ${b.reviews.rating}, and "${b.reviews.rating} ${b.reviews.text}", with a visually hidden label ("${b.reviews.accessibleLabel}"). The paste-and-run code above already includes it as ${b.reviews.insertInto.replaceAll('{{c}}', '<layout class>')}. To remove it, delete the \`<layout class>__reviews\` element and its \`__reviews\` CSS. To add it to a copy that lacks it, append the row below there and add the CSS once, replacing \`{{c}}\` with the layout's class (the class shown under Layouts). Layouts with the row: ${withRow.map(layout => `${layout.name} (\`${layout.class}\`)`).join(', ')}. The other layouts have no button in their copy block, so the row does not apply.\n\n\`\`\`html\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).html}\n\`\`\`\n\n\`\`\`css\n${marketingReviewsFor(b, { ...withRow[0], class: '{{c}}', reviews: {} }).css}\n\`\`\`\n\nHero Pink, Hero Pink Vertical, Hero Pale Pink and Hero Pale Pink Vertical also need their own star colour rule (white on Vivid Pink, Vivid Pink on Pale Pink), listed per layout in the agent feed under \`reviews.layouts[].css\`.\n`;
 }
 function renderMarketingMd(b) {
   return `# ${b.name} — marketing section
 > Generated from marketing/${b.slug}.json — do not edit by hand. Framework-free marketing section, not a product component.
 
 ${b.summary}
-
+${marketingGuidanceMd(b)}${marketingReviewsMd(b)}${marketingVideoMd(b)}${b.layouts?.some(layout => layout.useFor) ? `\n## Layouts\n${b.layouts.map(layout => `- ${layout.name}${layout.useFor ? `: ${layout.useFor}` : ''}`).join('\n')}\n` : ''}
 Bind the page to the shared token layer (${SITE}/variables.css), then paste the block.
 
 ## Paste-and-run HTML
@@ -1903,19 +2134,33 @@ function renderMarketingAgent(b) {
     summary: b.summary, environment: b.environment || null,
     consume: { framework: 'none (paste-and-run HTML+CSS)', tokens: `${SITE}/variables.css`,
       note: 'Load the token layer once on the page, then paste the html. Every colour/size/space/radius binds to an --aha-* token, so it inherits the AhaSlides brand.' },
+    ...(b.guidance ? { guidance: b.guidance } : {}),
+    ...(b.layouts?.some(layout => layout.useFor) ? { layouts: b.layouts.map(layout => ({ slug: layout.slug, name: layout.name, useFor: layout.useFor || null })) } : {}),
+    ...(b.reviews ? { reviews: {
+      label: b.reviews.label, source: b.reviews.source, defaultState: 'on', rating: b.reviews.rating, text: b.reviews.text, accessibleLabel: b.reviews.accessibleLabel,
+      howToRemove: `On by default: the layout html and css include the row. Delete the <layout class>__reviews element and its __reviews css to remove it, or append the html as ${b.reviews.insertInto} and add the css once, replacing {{c}} with the layout class, to add it elsewhere.`,
+      html: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).html,
+      css: marketingReviewsFor(b, { ...b.layouts.find(layout => layout.reviews), class: '{{c}}', reviews: {} }).css,
+      layouts: b.layouts.filter(layout => layout.reviews).map(layout => ({ slug: layout.slug, class: layout.class, insertInto: `.${layout.class}__copy`, ...(layout.reviews.css ? { css: layout.reviews.css } : {}) })),
+    } } : {}),
+    ...(b.video ? { video: {
+      label: b.video.label, defaultState: 'off', howToTurnOn: b.video.howToTurnOn, replaces: b.video.replaces,
+      html: b.video.html, css: b.video.css,
+      layouts: b.layouts.filter(layout => b.video.layouts.includes(layout.slug)).map(layout => ({ slug: layout.slug, class: layout.class })),
+    } } : {}),
     html: b.html || '', css: b.css || '',
   }, null, 2) + '\n';
 }
 const environmentTag = (item) => Array.isArray(item.environment) && item.environment.length ? ` · environment: ${item.environment.join(', ')}` : '';
 function renderMarketingLlms(blocks) {
-  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free marketing sections for the AhaSlides marketing sites (Marketing tab). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Load ${SITE}/variables.css once, then paste a block.\n\n`;
+  let s = `# AhaSlides Design System — marketing sections\n\n> Framework-free sections for every AhaSlides website page (landing, pricing, blog, careers; the Websites tab). Paste-and-run HTML+CSS, bound to the shared --aha-* Foundations tokens. Website pages are design-system work like the product: build and judge them with the aha-design skill. Load ${SITE}/variables.css once, then paste a block.\n\n`;
   for (const b of blocks) s += `- [${b.name}](marketing/${b.slug}/${b.slug}.md)${environmentTag(b)} — ${b.summary}\n`;
   return s;
 }
 /* Old landing/ URLs are still linked from outside the site, so each keeps a stub forwarding to its new home. */
 const LANDING_REDIRECTS = {
-  '': 'marketing/hero/index.html',
-  hero: 'marketing/hero/index.html',
+  '': 'marketing/header/index.html',
+  hero: 'marketing/header/index.html',
   button: 'button/index.html',
   link: 'button/index.html',
   fonts: 'foundations/typography.html',
@@ -2272,7 +2517,7 @@ Pink text, links included, sits on white only (4.51:1); the secondary and tertia
 Status carries no colour: success \`${c.success}\` · warning \`${c.warning}\` · error \`${c.error}\` · info \`${c.info}\` are the default ink (the same \`${c.textDefault}\` as body text), shown with an icon, clear wording and an outline or a dark fill. Never red, amber, green or blue. The one green and one red in the token set (\`--aha-answer-*\`, below) mark a correct or wrong answer and nothing else: never a status, an alert, validation, a rise or a fall.
 Purple \`${P.logoPurple}\` (\`--aha-logo-purple\`) is the logo only: never text, buttons, links, states, charts or backgrounds in the product.
 The correct and wrong answer pair (\`--aha-answer-*\`) is the only other colour, for marking an answer correct or wrong and nothing else; text stays the default ink (${SITE}/colour-rules.md, section 11). No other colour exists in the token set. Photos and customer or presenter content (deck themes, deck-palette charts) are exempt. Black is \`${P.black}\`, the same value as grey 100 and the default ink (\`--aha-black\` aliases \`--aha-gray-100\`); a pure, zero-value black is never painted solid, only as a transparency for a shadow, a scrim or an ink alpha. The dark surface \`--aha-bg-dark\` is black and \`--aha-bg-dark-raised\` is grey 95 \`${c.bgDarkRaised}\`, one step above it.
-The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale, file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
+The DS's own art is drawn in the allowed colours (\`node recolour-art.mjs\`): third-party logos in greyscale (each with an original-colour file in \`logo/original/\` for hover, focus and listing pages, colour rule 2.6), file-type icons in one colour, and illustrations in the illustration tints, one Vivid Pink ramp (${ILLUSTRATION_TINTS.map(tint => '\`' + tint + '\`').join(', ')}) with white and the default ink. The 10, 20, 45, 60 and 80% tints are for illustrations only: they are not tokens and never colour UI. The 5% and 30% tints and Darker Pink keep their interface roles. The AhaSlides logo and The Splash are the logo purple with Vivid Pink hooks.
 
 ## Colour — the palette
 White, black, Vivid Pink (\`5\` and \`30\` are Vivid Pink at 5% and at 30% transparency, #E70E680D and #E70E684D, so they take the colour of the surface under them; \`30\` is for charts only), the logo purple and one neutral grey ramp. Semantic tokens below alias into these; **never hardcode a palette value in a component** — bind to a semantic \`--aha-*\` token.
@@ -2521,8 +2766,8 @@ const ANTISLOP_LOOP = [
   'You are generating AhaSlides product UI by consuming this design system.',
   'Before you write a screen: (1) identify the surface(s) you are building;',
   "(2) read that surface’s rules below; (3) after building, run the MECHANICAL gate first",
-  '(node screen-lint.mjs --surface=<product|canvas|audience|settings> <files>) to hard-fail the zero-interpretation',
-  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel), then the",
+  '(node screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>) to hard-fail the zero-interpretation',
+  "defects (raw hex, off-scale radius/weight, gradient fills, sub-16px/viewport fonts, a hand-rolled or restyled button on any surface, a hand-made button on a slide surface, a raw control or unregistered <aha-*> tag in a settings panel, a second <h1> or an <img> without alt on a website page), then the",
   'surface’s BINARY judge — every criterion is PASS or FAIL, no partial credit; (4) fix every FAIL and re-judge;',
   '(5) ship only when every criterion PASSes.',
 ].join('\n');
@@ -2531,6 +2776,7 @@ const ANTISLOP_LOOP = [
 function antiSlopTargetUrl(source) {
   if (source === 'tokens.canonical.json') return `${SITE}/design.md`;
   if (source === 'contracts') return `${SITE}/llms.txt`;
+  if (source === 'marketing') return `${SITE}/marketing.llms.txt`;
   if (source === 'icons/registry.json') return `${SITE}/icons.agent.json`;
   let m = source.match(/^contracts\/([a-z0-9-]+)\.json$/);
   if (m) return `${SITE}/${m[1]}.agent.json`;
@@ -2720,6 +2966,8 @@ function renderIconGallery() {
 /* ===== Foundations · Logo library (logo/manifest.json is the source of truth; the SVGs are copied to dist/logo) ===== */
 const LOGO_MANIFEST = JSON.parse(read(join(root, 'logo', 'manifest.json'))).logos;
 const COLOUR_RULES = loadColourRules(root);
+const VOICE_RULES = loadVoiceRules(root);
+const paletteHexOf = (id) => { const colour = COLOUR_RULES.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 const BACKGROUNDS = loadBackgrounds(root);
 function renderBackgroundLibraryPage() {
   const { main, extraCss } = renderBackgroundLibrary(COLOUR_RULES, BACKGROUNDS, { site: SITE, headline });
@@ -2743,6 +2991,37 @@ const LOCKUP_SPEC = [
   ['No approved product name', 'The Splash and AhaSlides only; never invent a name'],
 ];
 const LOCKUP_DONTS = ['Hand-set the lockup from the logo file and a text span: use <aha-product-lockup>', 'Put a divider or a bar between The Splash and the words', 'Scale The Splash and the text separately: one size drives both', 'Use a product name nobody approved'];
+const BRAND_LOGO_HOVER_HTML = `<a class="brand-entry" href="/integrations/zoom">
+  <span class="brand-logo">
+    <img class="brand-logo-rest" src="${LIVE_SITE}/logo/zoom.svg" alt="">
+    <img class="brand-logo-original" src="${LIVE_SITE}/logo/original/zoom.svg" alt="">
+  </span>
+  <span>Zoom</span>
+</a>`;
+const BRAND_LOGO_HOVER_CSS = `/* Colour rule 2.6: one colour at rest, the brand's own colours on hover and keyboard focus. */
+.brand-logo {
+  position: relative;
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+.brand-logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity var(--aha-motion-mid, 0.2s) var(--aha-ease-in-out, ease-in-out);
+}
+.brand-logo-original { opacity: 0; }
+.brand-entry:hover .brand-logo-original,
+.brand-entry:focus-visible .brand-logo-original { opacity: 1; }
+.brand-entry:hover .brand-logo-rest,
+.brand-entry:focus-visible .brand-logo-rest { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .brand-logo img { transition: none; }
+}`;
+const BRAND_LOGO_HOVER_DEMO = ['zoom', 'google-slides', 'microsoft-teams', 'slack'];
 const LOGO_GALLERY_JS = `
 (function(){
   var root=document.getElementById('logo-gallery'),q=document.getElementById('logo-search'),count=document.getElementById('logo-count');
@@ -2786,15 +3065,28 @@ const LOGO_GALLERY_JS = `
 })();
 `;
 function renderLogoPage() {
+  const download = (file, label) => `<a class="lg-dl" href="../logo/${esc(file)}" download${label ? ` aria-label="${esc(label)}"` : ''}><span class="lg-file">${esc(file)}</span><span class="lg-arrow">&darr;</span></a>`;
+  const stage = l => l.originalFile
+    ? `<div class="lg-stage lg-pair"><figure><img src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo, one colour" loading="lazy"/><figcaption>One colour</figcaption></figure><figure><img src="../logo/${esc(l.originalFile)}" alt="${esc(l.name)} logo, original colours" loading="lazy"/><figcaption>Original</figcaption></figure></div>`
+    : `<div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div>`;
   const cell = l =>
-    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id"><div class="lg-stage${LOGO_DARK_TILE.has(l.id) ? ' lg-dark' : ''}"><img${l.id.startsWith('ahaslides-logo') ? ' class="lg-lockup"' : ''} src="../logo/${esc(l.file)}" alt="${esc(l.name)} logo" loading="lazy"/></div><span class="lgn">${esc(l.name)}</span><a class="lg-dl" href="../logo/${esc(l.file)}" download><span class="lg-file">${esc(l.file.split('/').pop())}</span><span class="lg-arrow">&darr;</span></a></div>`;
+    `<div class="lg" data-name="${esc(l.id)}" data-label="${esc(l.name.toLowerCase())}" role="button" tabindex="0" title="${esc(l.name)} — click to copy its id">${stage(l)}<span class="lgn">${esc(l.name)}</span>${download(l.file, l.originalFile ? `${l.name}, one colour` : '')}${l.originalFile ? download(l.originalFile, `${l.name}, original colours`) : ''}</div>`;
+  const hoverDemo = BRAND_LOGO_HOVER_DEMO.map(id => LOGO_BRANDS.find(l => l.id === id)).filter(l => l && l.originalFile).map(l =>
+    `<a class="brand-entry" href="#brand-logo-hover"><span class="brand-logo"><img class="brand-logo-rest" src="../logo/${esc(l.file)}" alt=""><img class="brand-logo-original" src="../logo/${esc(l.originalFile)}" alt=""></span><span>${esc(l.name)}</span></a>`).join('');
+  const hoverCode = `<div class="code-tabs" data-open="false">
+    <div class="demo-toolbar"><aha-button class="show-code" variant="secondary" size="sm"><aha-icon slot="icon" name="system-caret-right" size="16" decorative></aha-icon><span>Show code</span></aha-button></div>
+    <div class="code-panel" hidden>
+      <div class="code-head"><div class="tabs"><button class="tab active" type="button" data-f="html">HTML</button><button class="tab" type="button" data-f="css">CSS</button></div><button class="copy" type="button">Copy</button></div>
+      <pre class="code html active">${esc(withBuildSite(BRAND_LOGO_HOVER_HTML))}</pre>
+      <pre class="code css">${esc(BRAND_LOGO_HOVER_CSS)}</pre>
+    </div></div>`;
   const sections = list => {
     const names = [...new Set(list.map(l => l.section))];
     return names.map(n => `<section class="lg-sec"><h3 class="tok-h3 lg-sec-h">${esc(n)}</h3><div class="logo-grid">${list.filter(l => l.section === n).map(cell).join('')}</div></section>`).join('');
   };
   const main = `
   <h1>Logo library</h1>
-  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, shown in greyscale: third-party logos are one colour under the colour rules; never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
+  ${headline([`The AhaSlides logo and the ${LOGO_BRANDS.length} third-party brand logos the presenter app shows`, 'Each brand is the current official SVG, from theSVG or the Design System V3 Figma file, in two files: one colour (greyscale) and its original colours. In any interface a brand logo is one colour at rest and shows its own colours on hover and keyboard focus (colour rule 2.6); never redraw a brand mark or stand in a letter tile', 'Click a tile to copy its id, or use the download link'])}
   <p class="gen">◆ generated from logo/manifest.json (each Brands logo records its source URL, fetch date and where the presenter app shows it) — fetch files from ${esc(SITE)}/logo/&lt;file&gt;</p>
 
   <div id="logo-gallery">
@@ -2819,12 +3111,28 @@ function renderLogoPage() {
   ${docTable('<th>Measure</th><th>Value</th>', LOCKUP_SPEC.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join(''))}
   <p class="body">Don&rsquo;t:</p>
   <ul class="lg-donts">${LOCKUP_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+  <h3 class="tok-h3" id="clear-space">Clear space and isotype (rules 2.8 to 2.10)</h3>
+  <p class="body">Keep the height of the &ldquo;A&rdquo; in AhaSlides clear on every side of the logo. The isotype is The Splash on its own, for a favicon, an avatar or a small secondary graphic, at 256, 180, 152, 60 and 16 px: transparent, or white on Vivid Pink in a circle or a square.</p>
   <h3 class="tok-h3" id="favicon">Favicon</h3>
   <p class="body">The four files in <code>logo/favicon/</code> are The Splash in its own colours, centred with even padding: <code>favicon.ico</code>, <code>favicon-32.png</code>, <code>favicon-180.png</code> (white ground) and <code>favicon-512.png</code>. Rebuild them with <code>node favicons.mjs</code>. Which tag uses which file, and where <code>/favicon.ico</code> must answer, is in the <a href="../guidelines/page-title-favicon/index.html">Page title and favicon</a> guideline.</p>
   <h3 class="tok-h3">Don&rsquo;t</h3>
   <ul class="lg-donts">${LOGO_DONTS.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
   <h3 class="tok-h3">Third-party marks</h3>
-  <p class="body">Brand logos belong to their owners and stay unaltered. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page and record the source in <code>logo/manifest.json</code>.</p>
+  <p class="body">Brand logos belong to their owners and stay unaltered. Each one ships twice: <code>logo/&lt;file&gt;</code> in one colour (greyscale) and <code>logo/original/&lt;file&gt;</code> in the brand&rsquo;s own colours, the file exactly as published at its source. The list is what the presenter app renders today; to add a brand, add it to the app first, then fetch its current SVG from theSVG or the brand&rsquo;s own press page into both places, record the source in <code>logo/manifest.json</code> and run <code>node recolour-art.mjs</code>.</p>
+  <h3 class="tok-h3" id="brand-logo-colour">Brand logo colour (rule 2.6)</h3>
+  <p class="body">The same rule holds in every interface: the presenter app, website headers and menus, dialogs, import sources and connect buttons.</p>
+  <ul class="lg-donts">
+    <li><b>At rest</b> a brand logo is one colour, the greyscale file (white on a Vivid Pink background).</li>
+    <li><b>On hover and keyboard focus</b> it shows its own colours, the original file, with a short fade. There is no fade when reduced motion is on.</li>
+    <li><b>The tool&rsquo;s name always sits beside the logo.</b> Touch has no hover, so the name carries recognition there.</li>
+    <li><b>A page that lists other products</b> (the Marketplace, an integrations directory) shows the logos as content: original colours at rest, each in the DS white tile with a grey border, 32px at most, the name beside it. A tool not available yet is greyscale with a Coming soon tag, <code>&lt;aha-tag color="primary" bordered&gt;</code>.</li>
+    <li><b>Brand colour never spreads beyond the logo:</b> no brand-coloured buttons, tags, backgrounds or text.</li>
+    <li><b>Customer logos</b> in a Trusted by strip stay one colour, one treatment per row.</li>
+  </ul>
+  <h3 class="tok-h3" id="brand-logo-hover">Hover and focus pattern</h3>
+  <p class="body">Stack the two files and fade between them on the interactive element. Hover or tab through the entries below.</p>
+  <div class="brand-demo">${hoverDemo}</div>
+  ${hoverCode}
 
   <script>${LOGO_GALLERY_JS}</script>`;
   const extraCss = `
@@ -2858,7 +3166,16 @@ function renderLogoPage() {
   .lg.copied .lgn{color:var(--aha-color-success)}
   .lg-donts{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--aha-text-default)}
   .lockup-demo{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:24px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
-  .lockup-demo--dark{background:var(--aha-bg-dark);border-color:var(--aha-bg-dark)}`;
+  .lockup-demo--dark{background:var(--aha-bg-dark);border-color:var(--aha-bg-dark)}
+  .lg-pair{gap:12px}
+  .lg-pair figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .lg-pair img{width:40px;height:40px}
+  .lg-pair figcaption{font-size:11px;line-height:1.3;color:var(--aha-text-tertiary)}
+  .brand-demo{display:flex;flex-direction:column;gap:2px;max-width:280px;padding:8px;margin:12px 0;border:1px solid var(--aha-border);border-radius:8px}
+  .brand-entry{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:6px;color:var(--aha-text-default);text-decoration:none;font-family:var(--aha-font-product);font-size:14px}
+  .brand-entry:hover{background:var(--aha-bg-accent)}
+  .brand-entry:focus-visible{outline:2px solid var(--aha-color-primary);outline-offset:2px}
+  ${BRAND_LOGO_HOVER_CSS.replace(/\/\*[\s\S]*?\*\/\n/, '')}`;
   return docShell({ base: '../', active: '__logo__', title: 'Logo library', section: 'foundations', main, extraCss });
 }
 function renderIconsLlms() {
@@ -2901,21 +3218,34 @@ LIVE = new Set(contracts.map(c => c.slug));   // drives which nav items link vs 
 GUIDELINES = existsSync(GDIR)
   ? readdirSync(GDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(GDIR, f)))).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
-function expandMarketingData(b) {
+function includeMarketingCards(b) {
+  if (!b.includeCards) return b;
+  const cards = JSON.parse(read(join(MDIR, 'cards.json')));
+  const cardCss = (cards.baseCss || '') + b.includeCards.map(slug => cards.snippets.find(card => card.slug === slug)?.css || '').join('');
+  return { ...b, baseCss: cardCss + (b.baseCss || ''), css: cardCss + (b.css || '') };
+}
+function expandMarketingData(rawSection) {
+  const b = includeMarketingCards(rawSection);
   if (!b.dataFile) return b;
   const data = JSON.parse(read(join(MDIR, b.dataFile)));
   const items = data.items.map(item => b.itemHtml.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(item[key]))).join('');
   return { ...b, html: b.html.replaceAll('{{items}}', items) };
 }
-/* marketing sections — loaded before any page renders so the Marketing tab lists them everywhere.
+const expandMarketingAssets = (b) => {
+  if (!b.imagePath) return b;
+  const resolve = (text) => typeof text === 'string' ? text.replaceAll('{{images}}', `${SITE}/marketing/${b.imagePath}`).replaceAll('{{logos}}', `${SITE}/logo`) : text;
+  return { ...b, html: resolve(b.html), layouts: b.layouts?.map(layout => ({ ...layout, html: resolve(layout.html) })) };
+};
+/* marketing sections — loaded before any page renders so the Websites tab lists them everywhere.
    Absent-safe: no marketing/ dir → no tab/pages/feed. */
 MARKETING = existsSync(MDIR)
-  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(composeMarketingLayouts).map(expandMarketingData).sort((a,b)=>a.name.localeCompare(b.name))
+  ? readdirSync(MDIR).filter(f => f.endsWith('.json')).map(f => JSON.parse(read(join(MDIR, f)))).map(composeMarketingComponent).map(bakeMarketingReviews).map(composeMarketingLayouts).map(expandMarketingData).map(expandMarketingAssets).sort((a,b)=>a.name.localeCompare(b.name))
   : [];
 /* audience library — a single-page area loaded from its data file. Absent-safe: no
    audience/library.json → no Audience tab/page. */
 AUDIENCE = existsSync(join(ADIR, 'library.json')) ? JSON.parse(read(join(ADIR, 'library.json'))) : null;
 CANVAS_LIB = existsSync(join(CANVAS_DIR, 'library.json')) ? JSON.parse(read(join(CANVAS_DIR, 'library.json'))) : null;
+CANVAS_DECK_TOKENS = existsSync(join(CANVAS_DIR, 'deck-tokens.json')) ? JSON.parse(read(join(CANVAS_DIR, 'deck-tokens.json'))) : null;
 CANVAS_CSS = existsSync(join(CANVAS_DIR, 'canvas.css')) ? read(join(CANVAS_DIR, 'canvas.css')) : '';
 AUD_CSS = existsSync(join(ADIR, 'audience.css')) ? read(join(ADIR, 'audience.css')) : '';
 /* anti-slop — the DS-owned criteria store (surfaces → binary judge criteria). The single
@@ -2949,12 +3279,14 @@ if (GUIDELINES.length) {
 }
 if (MARKETING.length) {
   RAW_FEEDS.push(
-    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Hero) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
+    { name: 'marketing.llms.txt',  file: 'marketing.llms.txt',  page: 'marketing-llms-txt',  desc: 'One entry per marketing section (Header) for the AhaSlides marketing sites, paste-and-run and token-bound.' },
     { name: 'marketing.agent.json', file: 'marketing.agent.json', page: 'marketing-agent-json', desc: 'Machine feed: every marketing section with its summary, paste-and-run html/css, and how to consume it.' },
   );
 }
 RAW_FEEDS.push(
   { name: 'colour-rules.md', file: 'colour-rules.md', page: 'colour-rules-md', desc: 'The colour and background rules for agents: every rule tagged with its environment and the judge criteria that check it.' },
+  { name: 'voice-rules.md', file: 'voice-rules.md', page: 'voice-rules-md', desc: 'The verbal brand rules for agents: every rule tagged with the kind of communication it applies to.' },
+  { name: 'voice-rules.agent.json', file: 'voice-rules.agent.json', page: 'voice-rules-agent-json', desc: 'Machine feed: verbal brand rules by kind of communication and environment, tables and retired wording.' },
   { name: 'colour-rules.agent.json', file: 'colour-rules.agent.json', page: 'colour-rules-agent-json', desc: 'Machine feed: palette, rules by environment, Splash geometry and files, and the points still open.' },
 );
 if (ANTISLOP) {
@@ -3030,7 +3362,8 @@ for (const [surface, entry] of Object.entries(SURFACE_ENTRIES)) {
     `//   <link rel="stylesheet" href=".../lib/tokens.css">   or   import '${PKGNAME}/tokens.css'\n` +
     entry.files.map(f => `import './${f}';`).join('\n') + '\n' +
     (surface === 'audience' ? `export { applyDeck } from './audience-deck.js';\n` : '') +
-    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : ''));
+    (surface === 'canvas' ? `export { applyCanvasDeck } from './canvas-deck.js';\n` : '') +
+    (surface === 'audience' || surface === 'canvas' ? `export { applyDeckTokens, deckTokens, readableTextInk } from './deck.js';\n` : ''));
   console.log(`  ✓ lib/${surface}.js — ${surface} surface entry (${entry.files.length} elements)`);
 }
 
@@ -3043,6 +3376,20 @@ writeFileSync(join(root, 'lib', 'settings-elements.js'),
   `// screen-lint --surface=settings rejects any other <aha-*> tag.\n` +
   `export const SETTINGS_ELEMENTS = ${JSON.stringify(settingsElementTags, null, 2)};\n`);
 console.log(`  ✓ lib/settings-elements.js — ${settingsElementTags.length} registered settings tags`);
+
+const marketingMinWidths = new Set();
+const collectMinWidths = (node) => {
+  if (typeof node === 'string') {
+    for (const query of node.matchAll(/@(?:container|media)\b[^{]*/gi))
+      for (const width of query[0].matchAll(/\(\s*min-width\s*:\s*([0-9.]+)px/gi)) marketingMinWidths.add(parseFloat(width[1]));
+  } else if (node && typeof node === 'object') Object.values(node).forEach(collectMinWidths);
+};
+for (const file of readdirSync(MDIR).filter(f => f.endsWith('.json'))) collectMinWidths(JSON.parse(readFileSync(join(MDIR, file), 'utf8')));
+writeFileSync(join(root, 'lib', 'marketing-breakpoints.js'),
+  `// ${PKGNAME}/screen-lint — the min-width container/media breakpoints the Marketing sections ship (generated by generate.mjs; do not edit by hand).\n` +
+  `// screen-lint --surface=website accepts these inside @container/@media conditions.\n` +
+  `export const MARKETING_MIN_WIDTHS = ${JSON.stringify([...marketingMinWidths].sort((a, b) => a - b))};\n`);
+console.log(`  ✓ lib/marketing-breakpoints.js — ${marketingMinWidths.size} marketing min-width breakpoints`);
 
 /* Ship the real component modules INTO the site (dist/lib) so a doc-page preview can
    ESM-import the SHIPPED element (../lib/<name>.js) — resolves both locally and on
@@ -3059,6 +3406,7 @@ cpSync(join(root, 'logo'), join(OUT, 'logo'), { recursive: true });
 cpSync(join(root, 'marketing-assets'), join(OUT, 'marketing-assets'), { recursive: true });
 cpSync(join(root, FAVICON_FOLDER, 'favicon.ico'), join(OUT, ROOT_FAVICON_FILE));
 cpSync(join(root, 'backgrounds'), join(OUT, 'backgrounds'), { recursive: true });
+if (existsSync(join(MDIR, 'images'))) cpSync(join(MDIR, 'images'), join(OUT, 'marketing', 'images'), { recursive: true });
 
 writeFileSync(join(OUT, 'design.md'), renderDesignMd(TOK, contracts));
 // CHANGELOG.md — shipped verbatim into the site so it's a fetchable feed (/CHANGELOG.md) and
@@ -3067,15 +3415,21 @@ writeFileSync(join(OUT, 'CHANGELOG.md'), read(join(root, 'CHANGELOG.md')));
 mkdirSync(join(OUT, 'foundations'), { recursive: true });
 for (const p of TOKEN_PAGES) writeFileSync(join(OUT, 'foundations', `${p.slug}.html`), renderTokenPage(p.slug));
 writeFileSync(join(OUT, 'foundations', 'logo.html'), renderLogoPage());
-writeFileSync(join(OUT, COLOUR_RULES_PAGE), withDocumentHead(renderColourRulesPage(COLOUR_RULES, {
-  fonts: Object.fromEntries(Object.entries({ regular: 'Regular', semiBold: 'SemiBold' }).map(([key, weight]) => [key, readFileSync(join(root, 'fonts', `PlusJakartaSans-${weight}.woff2`)).toString('base64')])),
+writeFileSync(join(OUT, COLOUR_RULES_PAGE), docShell({ base: '../', active: '__colour-rules__', title: 'Brand colour rules', section: 'foundations', ...splitFragment(renderColourRulesPage(COLOUR_RULES, {
   templateHtml: read(join(root, COLOUR_RULES_TEMPLATE_FILE)),
   icon: registryGlyphSvg,
-}), { title: siteTitle('Brand colour rules', null, COLOUR_RULES_PAGE), base: '../' }));
+})) }));
 writeFileSync(join(OUT, BACKGROUND_LIBRARY_PAGE), renderBackgroundLibraryPage());
 writeFileSync(join(OUT, 'colour-rules.md'), renderColourRulesMd(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 writeFileSync(join(OUT, 'colour-rules.agent.json'), renderColourRulesAgent(COLOUR_RULES, { site: SITE, store: ANTISLOP, backgrounds: BACKGROUNDS }));
 console.log(`  ✓ colour rules: ${COLOUR_RULES_PAGE} · colour-rules.md · colour-rules.agent.json · ${BACKGROUND_LIBRARY_PAGE} (${BACKGROUNDS.length} backgrounds)`);
+writeFileSync(join(OUT, VOICE_RULES_PAGE), docShell({ base: '../', active: '__voice-rules__', title: 'Brand voice rules', section: 'foundations', ...splitFragment(renderVoiceRulesPage(VOICE_RULES, {
+  templateHtml: read(join(root, VOICE_RULES_TEMPLATE_FILE)),
+  palette: { vividPink: paletteHexOf('vivid-pink'), darkerPink: paletteHexOf('darker-pink'), vividPink5: paletteHexOf('vivid-pink-5'), vividPink30: paletteHexOf('vivid-pink-30'), purple: paletteHexOf('purple') },
+})) }));
+writeFileSync(join(OUT, 'voice-rules.md'), renderVoiceRulesMd(VOICE_RULES, { site: SITE }));
+writeFileSync(join(OUT, 'voice-rules.agent.json'), renderVoiceRulesAgent(VOICE_RULES, { site: SITE }));
+console.log(`  ✓ voice rules: ${VOICE_RULES_PAGE} · voice-rules.md · voice-rules.agent.json`);
 writeFileSync(join(OUT, 'index.html'), renderIndex());
 mkdirSync(join(OUT, 'get-started'), { recursive: true });
 writeFileSync(join(OUT, 'get-started', 'index.html'), renderGetStarted(contracts));
@@ -3101,14 +3455,14 @@ const indexLines = [
   `> No build step? One tag registers every element — CDN / no-build pages:`,
   `>   <script type="module" src="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/all.js"></script>`,
   `>   (loads the whole set; for bundled apps prefer per-element imports so unused elements tree-shake out)`,
-  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, and applyCanvasDeck), same CDN path and tag:`,
+  `> One tag per surface (only the elements that surface uses): lib/audience.js (also exports applyDeck and the shared applyDeckTokens), lib/settings.js, lib/canvas.js (the whole Canvas Library: <aha-chart> plus the canvas controls, applyCanvasDeck and applyDeckTokens), same CDN path and tag:`,
   ...Object.keys(SURFACE_ENTRIES).map(surface => `>   <script type="module" src="${surfaceCdnUrl(surface)}"></script>`),
   '>',
   `> Icons: search the icon library by meaning before drawing one ("help" → system-question, "delete" → system-trash): ${SITE}/icons.llms.txt "Find by meaning", npm run icon-search <words> (in an app: node node_modules/@ahaslides-product/design/icon-search.mjs <words>) or ${SITE}/icons/index.html?q=<words>. Never inline an <svg>; a new glyph that looks nearly identical to an existing one fails the build.`,
   `> Reports, as static images (charts, tables, number plates and KPI tiles rendered to PNG for Slack, email or an export) or as read-only report pages a report routine publishes: follow ${SITE}/guidelines/report-images/report-images.md (light grey zebra tables, <aha-stat-tile look="accent"> plates, colour rule 3.11); in an image, take status glyphs as single-colour SVG from https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@${CDN_REF}/lib/static-icons/<ink>/<size>/<name>.svg (registry names; ink or white; 12, 16, 24, 32).`,
-  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale (one colour, per the colour rules).`,
+  `> Logos: every logo, AhaSlides or third-party brand, comes from the Logo library (${SITE}/foundations/logo.html, files at ${SITE}/logo/<file>) — never redrawn, inlined as a hand-made SVG, recoloured or swapped for an icon or letter tile. Third-party brand logos ship in greyscale, each with its original-colour file at ${SITE}/logo/original/<file>: in any interface, website headers included, a logo is one colour at rest and shows its own colours on hover and keyboard focus, with the name beside it; a page listing other products (Marketplace) keeps them in colour at rest; colour rule 2.6, copy-paste hover pattern on the Logo library page.`,
   `> Page title and favicon: every page, route, site and app sets its own document <title> as "<specific part> | AhaSlides" (brand last, one " | " separator; a named site ends "| AhaSlides <Site name>"; only the marketing home page is brand-first) and links the one favicon set, The Splash in ${SITE}/logo/favicon/, with /favicon.ico answering at the site root. Rules: ${SITE}/guidelines/page-title-favicon/page-title-favicon.md`,
-  `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers or marketing-style page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
+  `> Product lockup: the top-left brand of EVERY AhaSlides site, microsite, docs site, careers, landing or pricing page and app header is <aha-product-lockup product="<name>"> (${SITE}/product-lockup/index.html; spec on ${SITE}/foundations/logo.html#product-lockup) — The Splash + AhaSlides + the product name as one mark, full above a 480px header and compact below; no product attribute when no name is approved. Never hand-set it from the logo file and a text span.`,
   '>',
   '> ⚑ Before you build: this is the OFFICIAL AhaSlides anti-slop tool. Read anti-slop.md and',
   `>   run the binary judge for your surface — build → self-judge (PASS/FAIL each) → fix → repeat.`,
@@ -3123,8 +3477,10 @@ const indexLines = [
   `>   ${SITE}/CHANGELOG.md      version history — what changed per release`,
   `>   ${SITE}/variables.css     the --aha-* token layer`,
   ...colourRulesIndexLines(SITE, BACKGROUNDS),
-  `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; files at ${SITE}/logo/<file>.svg, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
-  `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
+  ...voiceRulesIndexLines(SITE),
+  `>   ${SITE}/foundations/logo.html  logo library — two tabs: the AhaSlides logo set, and the third-party brand logos the presenter app shows (Google Slides, PowerPoint, Teams, Zoom, Excel, Word, PDF, Drive, OneDrive, Google, Microsoft, PayPal, Stripe, ChatGPT, YouTube, Facebook, Instagram, LinkedIn, X, Reddit, Medium), each the current SVG from thesvg.org; greyscale files at ${SITE}/logo/<file>.svg, original-colour files at ${SITE}/logo/original/<file>.svg, a copy-paste hover and focus pattern, index at ${SITE}/logo/manifest.json; never redraw a brand mark`,
+  `>   ${SITE}/canvas/index.html  Canvas Library › Components — in-canvas presenter controls (<aha-button size="lg">, correct/incorrect count, status line, stepper, applyCanvasDeck, shortcut chip, <aha-tooltip size="lg">) with demos and rules; read before building a build-less slide's controls`,
+  `>   ${SITE}/deck-tokens/index.html  Foundations › Deck tokens — the one --aha-deck-* ladder the canvas and the audience phone share (@ahaslides-product/design/deck, written by applyDeck and applyCanvasDeck), plus the canvas container and modal tokens`,
   `>   ${SITE}/guidelines.llms.txt  composition patterns (settings, overlays, app shell…) — read before components`,
   `>   ${SITE}/<slug>.agent.json per-component machine feed (props, tokens, spec, opinion, install, snippets)`,
   '>',
@@ -3215,6 +3571,11 @@ if (CANVAS_LIB) {
   mkdirSync(join(OUT, 'canvas'), { recursive: true });
   writeFileSync(join(OUT, 'canvas', 'index.html'), renderCanvasLibrary());
   console.log(`  ✓ canvas library: canvas/index.html (${CANVAS_LIB.sections.length} sections)`);
+}
+if (CANVAS_DECK_TOKENS) {
+  mkdirSync(join(OUT, 'deck-tokens'), { recursive: true });
+  writeFileSync(join(OUT, 'deck-tokens', 'index.html'), renderDeckTokensPage(CANVAS_DECK_TOKENS));
+  console.log(`  ✓ deck tokens: deck-tokens/index.html (${CANVAS_DECK_TOKENS.sections.length} sections)`);
 }
 /* anti-slop consumer feeds — compiled from the DS-owned store + guidelines. */
 if (ANTISLOP) {

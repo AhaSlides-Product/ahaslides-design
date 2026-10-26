@@ -61,3 +61,27 @@ test('toggling status or invalid after error-message shows and clears the error 
   const shown = { message: 'Enter a name', described: 1 };
   assert.deepEqual(result, { before: hidden, withStatus: shown, statusRemoved: hidden, withInvalid: shown, invalidRemoved: hidden });
 });
+
+test('info-message is muted help text without a glyph; an error message replaces it; warning renders as error', { skip }, async () => {
+  const file = join(mkdtempSync(join(tmpdir(), 'field-info-row-')), 'page.html');
+  writeFileSync(file, `<!doctype html><body>
+<aha-input id="info" info-message="3 of 10 rows"></aha-input>
+<aha-input id="both" status="error" error-message="Too long" info-message="3 of 10 rows"></aha-input>
+<aha-input id="warning" status="warning" error-message="Too long"></aha-input>
+<script type="module">import '${lib}'; window.ready = true;</script>`);
+  const result = await evaluateInPage(pathToFileURL(file).href, `(() => {
+    const rowOf = (id) => {
+      const root = document.getElementById(id).shadowRoot;
+      const field = root.querySelector('.field');
+      const error = root.querySelector('aha-field-error');
+      return { text: error.textContent, tone: error.getAttribute('tone'), glyphShown: getComputedStyle(error.shadowRoot.querySelector('.glyph')).display !== 'none',
+        invalid: field.getAttribute('aria-invalid'), described: field.ariaDescribedByElements.length };
+    };
+    return { info: rowOf('info'), both: rowOf('both'), warning: rowOf('warning') };
+  })()`, { readyExpr: '!!window.ready && !!customElements.get("aha-input")' });
+  assert.deepEqual(result, {
+    info: { text: '3 of 10 rows', tone: 'info', glyphShown: false, invalid: null, described: 1 },
+    both: { text: 'Too long', tone: null, glyphShown: true, invalid: 'true', described: 1 },
+    warning: { text: 'Too long', tone: null, glyphShown: true, invalid: 'true', described: 1 },
+  });
+});

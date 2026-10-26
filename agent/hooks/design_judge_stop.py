@@ -232,7 +232,19 @@ def save_seen(path, session_id, keys):
         pass
 
 
-def render_block(files, surfaces, criteria, usability=False):
+SETTINGS_LABEL_TABLE_LINE = (
+    "Settings files changed - run the `ahaslides-design:settings-design` skill (mandatory) and include "
+    "its label self-check table in the PR body or preview: one row per setting label, group header "
+    "and option, as `label | \"Changing this …\" sentence | tooltip`; settings C20 is judged against it."
+)
+
+
+def settings_files_of(app_files, slide_files):
+    return [f for f in slide_files if slide_type.surface_for(f) == "settings"] + \
+        [f for f in app_files if "settings" in map_file(f)]
+
+
+def render_block(files, surfaces, criteria, usability=False, settings_files=()):
     lines = [
         "aha-design judge trigger — you changed frontend UI files this turn but "
         "did not judge them against the AhaSlides design system. Before finishing, "
@@ -264,6 +276,8 @@ def render_block(files, surfaces, criteria, usability=False):
         flows = flow_files(files)
         if flows:
             lines.append(FLOW_RENDER_LINE + " Files: " + ", ".join(flows) + ".")
+    if settings_files:
+        lines += ["", SETTINGS_LABEL_TABLE_LINE + " Files: " + ", ".join(settings_files) + "."]
     lines += [
         "",
         "Add further surfaces where the change touches them (a settings panel -> settings, "
@@ -314,7 +328,7 @@ def main():
                       | {slide_type.surface_for(f) for f in slide_files})
     if usability:
         surfaces = sorted(set(surfaces) | {USABILITY_SURFACE})
-    print(render_block(files, surfaces, criteria, usability))
+    print(render_block(files, surfaces, criteria, usability, settings_files_of(app_files, slide_files)))
     source = criteria["source"] if criteria else "none"
     _log("block", "{}_files;criteria={}".format(len(files), source), session_id)
     return 0

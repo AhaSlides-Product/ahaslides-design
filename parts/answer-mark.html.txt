@@ -1,0 +1,15 @@
+<!-- Paste-and-run: save as .html and open in a browser. No build step.
+     <aha-answer-mark> is the SAME shared custom element React and Vue consume. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-answer-mark.js';   // registers <aha-answer-mark>
+</script>
+
+<div style="display:flex; align-items:center; gap:16px; padding:24px">
+  <aha-answer-mark result="correct"></aha-answer-mark>
+  <aha-answer-mark result="incorrect"></aha-answer-mark>
+  <!-- beside visible text, the text names the result -->
+  <span style="display:inline-flex; align-items:center; gap:8px">
+    <aha-answer-mark result="correct" size="16" decorative></aha-answer-mark> Correct
+  </span>
+</div>

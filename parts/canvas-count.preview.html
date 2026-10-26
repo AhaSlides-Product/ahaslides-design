@@ -1,0 +1,36 @@
+<div class="pad">
+  <div class="lbl">Verdict · answered only</div>
+  <div class="demo-stage">
+    <div class="row" style="align-items:center; gap:24px; flex-wrap:wrap">
+      <aha-canvas-count data-probe correct="12" wrong="3"></aha-canvas-count>
+      <aha-canvas-count answered="24"></aha-canvas-count>
+    </div>
+  </div>
+
+  <div class="lbl">On the four decks (applyCanvasDeck)</div>
+  <div style="display:grid; gap:16px">
+    <div data-count-deck data-ink="#1A1A1A" style="display:flex; flex-wrap:wrap; gap:24px; padding:24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-white,#FFFFFF); border:1px solid var(--aha-border-default,#E3E3E3)">
+      <aha-canvas-count correct="12" wrong="3"></aha-canvas-count>
+      <aha-canvas-count answered="24"></aha-canvas-count>
+    </div>
+    <div data-count-deck data-ink="#FFFFFF" style="display:flex; flex-wrap:wrap; gap:24px; padding:24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-gray-100,#1A1A1A)">
+      <aha-canvas-count correct="12" wrong="3"></aha-canvas-count>
+      <aha-canvas-count answered="24"></aha-canvas-count>
+    </div>
+    <div data-count-deck data-ink="#1A1A1A" data-image style="display:flex; flex-wrap:wrap; gap:24px; padding:24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-white,#FFFFFF) url(../backgrounds/splash-centre-white-16x9.svg) center / cover">
+      <aha-canvas-count correct="12" wrong="3"></aha-canvas-count>
+      <aha-canvas-count answered="24"></aha-canvas-count>
+    </div>
+    <div data-count-deck data-ink="#FFFFFF" data-image style="display:flex; flex-wrap:wrap; gap:24px; padding:24px; border-radius:var(--aha-radius-lg,12px); background:var(--aha-vivid-pink-100,#E70E68) url(../backgrounds/splash-centre-pink-16x9.svg) center / cover">
+      <aha-canvas-count correct="12" wrong="3"></aha-canvas-count>
+      <aha-canvas-count answered="24"></aha-canvas-count>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-canvas-count.js';
+  import { applyCanvasDeck } from '../lib/canvas-deck.js';
+  for (const deck of document.querySelectorAll('[data-count-deck]')) applyCanvasDeck(deck, { ink: deck.dataset.ink, image: 'image' in deck.dataset });
+</script>

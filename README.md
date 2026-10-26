@@ -57,7 +57,7 @@ npm i @ahaslides-product/design
 
 ```js
 import '@ahaslides-product/design/tokens.css';           // the --aha-* token layer — once, at the app root
-import '@ahaslides-product/design/icons';               // registers <aha-icon> (305 names, call by name)
+import '@ahaslides-product/design/icons';               // registers <aha-icon> (310 names, call by name)
 import { ICON_NAMES } from '@ahaslides-product/design/icons';   // discover valid names
 import '@ahaslides-product/design/aha-checkbox';         // registers <aha-checkbox> (zero-dep element)
 import { tableTheme } from '@ahaslides-product/design/table-theme';  // the shared Table theme
@@ -100,7 +100,7 @@ It's **additive** — bundled apps should keep importing per-element (above) so 
 tree-shake out; `all.js` intentionally pulls the whole set.
 
 Only need one surface? Each has its own entry with just the elements it uses (plus the shared controls such as
-`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`).
+`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`). A whole website page is checked with `node screen-lint.mjs --surface=website <files>`: the product rules, the Marketing sections' own `min-width` breakpoints accepted in `@container`/`@media` conditions, a second `<h1>` and an `<img>` without alt hard-fail.
 In npm: `@ahaslides-product/design/audience`, `/settings`, `/canvas`.
 
 ### Agent feeds — hosted, self-describing
@@ -127,10 +127,13 @@ is fully self-serve. The docs pages also embed the install block and `<link rel=
 ### Agent plugin — Claude Code
 
 The DS ships its own Claude Code plugin from `agent/`, released with every version of this repo
-(its `version` always equals `package.json`). It carries the `aha-design` skill (build → judge →
-fix against the DS) and the hooks that make it fire: a prompt mandate, a write-time design guard
-(it also blocks the old storybook kit in new Vue 2 files), an end-of-turn judge trigger and an
-anti-slop floor. Hooks read criteria from the installed package, else the plugin's own copy of
+(its `version` always equals `package.json`). It carries two skills: `aha-design` (build → judge →
+fix against the DS) and `settings-design`, the one mandatory runbook for any settings UI (hub
+control table, label rule and its self-check table, grouping, `screen-lint --surface=settings`,
+the settings judge). The hooks make them fire: a prompt mandate, a write-time design guard (it
+also blocks the old storybook kit in new Vue 2 files, and any write to settings UI until
+`settings-design` is loaded in the session; `AHA_DESIGN_SETTINGS_SKILL_DISABLE=1` turns off only
+that block), an end-of-turn judge trigger and an anti-slop floor. Hooks read criteria from the installed package, else the plugin's own copy of
 `anti-slop/criteria.json` from the same release, so skill, hooks and rules are always one version.
 
 Install once per machine:
@@ -155,7 +158,7 @@ Or commit it to a project's `.claude/settings.json`, so everyone working there g
 }
 ```
 
-The skill is then `ahaslides-design:aha-design`. It replaces the `aha-design` plugin in
+The skills are then `ahaslides-design:aha-design` and `ahaslides-design:settings-design`. It replaces the `aha-design` plugin in
 `aha-claude-plugins`; enable one of the two, not both, or every hook fires twice. Change a rule
 in `anti-slop/` or `guidelines/`, never in `agent/` (see `agent/CONTRIBUTING.md`).
 
@@ -174,10 +177,14 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a
 `path` (optional) is echoed back; `iconNames` (optional) overrides the bundled icon list. Any
 `hard` finding fails the CLI (`node screen-lint.mjs --surface=… <files>`), which is built on the same function.
 
+**UX writing rules** — on every surface, `screen-lint` also hard-fails `no-dash-punctuation` (UXW-8), `vague-error-copy` (UXW-2) and `title-case-slide-name` (UXW-1) in user-visible UI strings only. Pass `path` for a script file (`.js`, `.ts`) so it is read as script, not HTML; the full scope is in `parts/ux-writing.guide.md`.
+
 **Opt-out** — per line, per rule, with a reason:
 `<!-- ds-lint-allow: hex,radius (brand logo, no token) -->`. Only the named rules are silenced on that
 line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
 suppresses nothing and is reported as a `ds-lint-allow-bare` warning.
+
+**Answer colours** — `answer-colour-text` (an `--aha-answer-*` token as a text colour) and `answer-colour-context` (one on an element or rule whose selector, attributes or style key name no answer, correct or wrong mark or result) hard-fail, per colour rules 11.2 and 11.1. Opt-out group: `answer-colour`.
 
 **Slide surfaces** — `canvas` and `audience` also hard-fail a hand-made control: a raw `<button>` or
 `role="button"` (`raw-button`), `<aha-button size="xl">` (`button-size-xl`), height, padding,
@@ -187,6 +194,18 @@ font-size or radius set through `::part(button)` or an inline style on `<aha-but
 tag with `ds-lint-allow: raw-button (why)`. Lint a slide type's `presenter.*` as `canvas`, its
 `audience.*` as `audience` and its `settings.*` as `product`; the 16px and viewport-unit font rules
 are canvas only.
+
+**One button** — on every surface `hand-rolled-button` hard-fails a button the screen draws itself:
+a CSS rule on a `button`, `[role=button]`, `input[type=submit]` or a class named `button` / `btn` /
+`cta` that paints a fill plus a button shape (border, radius, shadow, height, padding), or a
+fill/border/shadow on its `:hover` / `:active` / `:focus`; a link given a fill plus a radius,
+shadow or height; and any restyling of the DS Button: a colour, fill, border, shadow, height,
+padding or type rule, or any `:hover` / `:active` / `:focus` rule, on `aha-button`,
+`aha-button::part(…)` or `.aha-button`, and a redefined `--aha-button-*` token. Header and CTA
+buttons in vendored marketing blocks are `<aha-button variant size>` with `href` for a link and
+`type="submit"` in a form; only layout (`margin`, `flex`, `width`, `order`, `align-self`) may be set
+on it. A plain text link, a hover colour on a link and an icon-only reset (`background:none`) pass.
+A control the DS does not ship keeps its CSS with `ds-lint-allow: hand-rolled-button (why)`.
 
 ## Commands
 
@@ -214,7 +233,7 @@ Full recipe in `CONTRIBUTING.md`. In short — the gate (`standards.mjs`) will n
 
 ## Status
 
-Proven end-to-end and QA-green: **Icon** (305 registry names: 300 glyph files, 264 imported from Figma DS V3 and 36 Phosphor file glyphs, plus 5 back-compat aliases; call-by-name via
+Proven end-to-end and QA-green: **Icon** (310 registry names: 305 glyph files, 264 imported from Figma DS V3, 36 Phosphor file glyphs and 5 drawn reveal glyphs, plus 5 back-compat aliases; call-by-name via
 the shared registry + `<aha-icon>`), **Checkbox** (leaf, zero-dep element), and **Table** (composite,
 antd wrappers + shared theme) — render-verified (qa.mjs) and gated as reusable (standards.mjs — registers + importable).
 

@@ -5,8 +5,9 @@
 > were removed in 0.140.0, so every colour row needs a re-scan against Vivid Pink before it is acted on.
 >
 > **Status (0.68.0): the Landing tab is gone.** This audit is kept as the Webflow-to-update record;
-> it is not a docs-site page. The two marketing-only sections, **Hero** and **Section container**,
-> now live under the **Marketing** tab (source: `marketing/<slug>.json`). The landing
+> it is not a docs-site page. The marketing-only **Section container** now lives under the
+> **Marketing** tab (source: `marketing/<slug>.json`); the standalone **Hero** page was removed in
+> 0.315.0 and the hero layouts live on the Marketing **Header** page. The landing
 > Button, Link, Fonts, Spacing and Grid blocks were removed as duplicates of Components/Foundations;
 > they remain in git history at `v0.67.0` under `landing/`.
 >
@@ -114,7 +115,7 @@ plus every `bg-purple`/`x-compact-section`/`x-section` band on the page for the 
 | Dark band | not present on the current live homepage variant — no section on the page uses a dark/inverse background | `.aha-section--dark{background:var(--aha-bg-dark);color:var(--aha-icon-inverse)}` | **no live counterpart to check** — kept as a DS-provided variant (a high-contrast closing band is a reasonable marketing pattern even where this particular page doesn't use one yet); not a delta since there is no live value to disagree with |
 | Section title font (h2 in the block's markup) | n/a — the live page's own headings all render in the body face, `"Plus Jakarta Sans"` (see Type, above; item 15 in Webflow-to-update) | was `--aha-font-display` (Nunito) | **DS-internal bug, fixed this round** — the locked round-3 Fonts decision reserves `--aha-font-display` for Display/H1 only; H2/H3 stay on the body face (the former `landing/fonts.json` (removed in 0.68.0) `.aha-type__h2` carries no family override). `section-container.json` predates that decision (written in round 5 of PRO38-14, before the round-3 Fonts deep pass) and still forced its `<h2>` title onto the display face. Removed the override so the title inherits `--aha-font-product` from `.aha-section`, matching `fonts.json`'s own H2 treatment. |
 | Section title line-height | n/a (see Type, above: heading-large `129%` &asymp; DS `--aha-line-height-heading` `1.3`) | was `--aha-line-height-tight` (`1.2`, the H1/Display line-height) | **DS-internal bug, fixed this round** — same drift as the font-family: the title is an H2, so it should carry `--aha-line-height-heading` (`1.3`, what `fonts.json`'s `.aha-type__h2` uses), not the tighter H1/Display value. Corrected. |
-| Section eyebrow/lead type | eyebrow: size-sm/semibold/uppercase/primary-colour; lead: size-l/body line-height/secondary colour | unchanged, already token-bound and matching the `hero.json` eyebrow/lead treatment | **match** — no change |
+| Section eyebrow/lead type | eyebrow: size-sm/semibold/uppercase/primary-colour; lead: size-l/body line-height/secondary colour | unchanged, already token-bound and matching the `header.json` hero eyebrow/lead treatment | **match** — no change |
 
 **Verdict: the block already matched the live geometry (max-width, padding cap, soft-band colour) with
 no drift; the two genuine findings were internal** — a stale font-family/line-height pair left over from
@@ -271,14 +272,16 @@ Matched to the live ahaslides.com at 1440px, 768px and 375px (columns, spacing, 
 
 ### Footer banner (Webflow `.section-container > .card-based-section.img-card-section`) — added with DESY-205
 The pre-footer call-to-action card, matched to the live word-cloud page (https://ahaslides.com/slide-types/word-cloud/, the same Webflow element as on /features/ and /compare/) at 1440px, 768px and 375px: card position and size, padding, radius, background art, heading and button measure the same bar the scrollbar width. What the DS section still does differently, for Growth to align on Webflow:
-44. The card background is a Webflow-hosted 1920 x 1080 PNG (`bg-pink.png`, a pale pink with a large curve) → the section keeps the live absolute image URL on ahaslides.com and does not host a copy; the DS has no pink illustration asset for it (not a DS gap to fill: it is third-party-style page art).
-45. The heading is `#11011F` at weight 600 with a 129% line height → `--aha-text-default` (`#1A1A1A`) and `--aha-line-height-heading` (130%, 52px vs 51.6px at 40px).
-46. The button is a Webflow `a.btn.is-pink` at 18px weight 500 (400 at 479px and below) → an anchor in the same 40px box styled from the DS primary button tokens at weight 400 (the DS scale has 400 and 600). `<aha-button>` has no link form, so the section does not nest it inside an `<a>`.
+44. The card background is a Webflow-hosted 1920 x 1080 PNG (`bg-pink.png`, a pale pink with a large curve) → since DESY-265 the DS card is Vivid Pink (`--aha-vivid-pink-100`) on the centre Splash background (rules 5.1 and 5.3: Darker Pink hooks, `splash-icon-pink.svg` from design.ahaslides.io/backgrounds), the same mechanism as Hero Pink; no image is hosted or linked from ahaslides.com. Live still shows the pale pink PNG.
+45. The heading is `#11011F` at weight 600 with a 129% line height on live → white (`--aha-text-inverse`) on the Vivid Pink card at weight 600 and `--aha-line-height-heading` (130%, 52px vs 51.6px at 40px). The optional paragraph is white too.
+46. The button is a Webflow `a.btn.is-pink` at 18px weight 500 (400 at 479px and below) → an anchor in the same 40px box, white fill with Vivid Pink text (`--aha-color-primary`, `--aha-color-primary-hover` on hover and press) at weight 400 (the DS scale has 400 and 600). `<aha-button>` has no link form, so the section does not nest it inside an `<a>`.
 47. The button rest shadow `0 2px 5px rgba(0,0,0,.2)` → `--aha-button-elevate-primary` (`0 2px 0 rgba(0,0,0,.04)`), the DS primary button elevation. The label, fill `#E70E68` and the 0.2s hover fade to `#DB005B` already match.
-48. Live press and keyboard-focus turn the button purple (`#5715A0` with a purple ring, a copy-paste from the old purple button) → the DS press colour `--aha-button-primary-bg-press` and the DS focus outline.
-49. Live breakpoints are media queries (991, 479px) → the same widths as container queries on the section: padding 96/64px becomes 96/32px at 479px, the card padding 64/0px becomes 32/64px and the heading 40px becomes 32px at 991px.
+48. Live press and keyboard-focus turn the button purple (`#5715A0` with a purple ring, a copy-paste from the old purple button) → press darkens the label to `--aha-color-primary-hover`; keyboard focus is a white ring over a Vivid Pink gap (the Hero Pink recipe).
+49. Live breakpoints are media queries (991, 479px) → the same widths as container queries on the section: padding 96/64px becomes 96/24px at 767px and 96/16px at 479px (the DS page gutter, DESY-312), the card padding 64/0px becomes 32/64px and the heading 40px becomes 32px at 991px.
 50. The scroll-in reveal (a Webflow interaction: the heading fades up from 10% below over 0.5s, the card fades in 0.3s later) exists on /compare/ only; the word-cloud and features pages show the card at rest → an opt-in `aha-footer-banner--reveal` modifier plus a small inline script reproduces it, once, and is skipped under `prefers-reduced-motion`. Webflow's exact trigger offset is not published; the script fires when 20% of the section is visible.
 51. The Enterprise variant adds a paragraph between heading and button ("Talk to our experts" button) → an optional `aha-footer-banner__text` slot (20px, centred); copy and link stay per-page content.
+
+Consumer to update: the live Webflow footer banner (`.card-based-section.img-card-section` on ahaslides.com) still shows the pale pink `bg-pink.png` card with dark heading and pink button. Growth must change it to the Vivid Pink card described in items 44-48 (DESY-265); until then the DS and live differ.
 
 ### FAQ (Webflow component FAQ, Relume uui-faq01) — added with DESY-206
 Matched to the live ahaslides.com AI presentation maker page at 1440px, 768px and 375px (box geometry equal to the pixel at all three, breakpoints at 991, 767 and 479px, 24px type step at 1920px). What the DS section still does differently, for Growth to align on Webflow:
@@ -311,3 +314,17 @@ Read through the Webflow Designer API on the production site (6 instances of Her
 72. Webflow media queries (991px, 767px, 479px) → container queries on the section at 991px and 479px (767px has no change on these components except a 1rem gap, folded into the 991px layout).
 73. Left out, as off by default in Webflow: the second button, the G2 rating row (avatar, stars, "4.8 Based on 1000 reviews") and, on the vertical component, the breadcrumb (origin, delineator, current page). Each is a boolean prop, so Growth keeps them in Webflow; adding them to the DS needs the requester's call.
 74. The headline is an `h1` in both components, as in Webflow; a page with a second hero should demote it.
+
+### Pricing (Untitled UI pricing sections, for the Webflow Pricing page) — added with DESY-229
+75. Untitled UI dark and purple surfaces (Primary dark badge, the Most popular banner, the Large table 02 outline) → Vivid Pink surfaces (`--aha-color-primary`, `--aha-bg-accent`); there is no dark marketing surface in the colour rules.
+76. Untitled UI's green ticks → the DS check glyph (`system-check`) in Vivid Pink, and dashes → `system-minus`, so the table meaning is carried by shape plus hidden text, not colour; the colour rules give status no green.
+77. The hand-drawn curved "Most popular!" arrow → a Vivid Pink label with the DS `system-arrow-down` glyph (the DS has no curved arrow; logged as a missing asset).
+78. Untitled UI's Monthly/Annual switch → the DS Segmented control with the DS Tag for "Save 33%"; Yearly is selected first. A toggle is shown only where the Untitled UI original has one (the two large tables and seven of the twelve single-plan styles; the Abstract angles style uses the DS Switch); the eight card layouts show fixed prices.
+79. The plan card in every layout is the new Pricing card of the Cards page (marketing radius, `--aha-*` tokens); Untitled UI shadows, radii, greys and Inter type are not carried over.
+80. Phones: the comparison tables become one block per plan (name, price, button, grouped Feature and Included rows, button), as in Untitled UI; Untitled UI has no sticky header and none is added. Row values follow the DS Table (60 px rows, divider only, no zebra, grey hover) where Untitled UI shades alternate rows.
+81. The Large table 02 range is a two-thumb size picker that leaves prices unchanged, as in Untitled UI; the DS has no framework-free Slider, so it is native range inputs on DS token values (DSN-953). The comparison table itself has no framework-free DS component (DSN-954); the Button has no link form and the DS has no border-width token (DSN-955). The Abstract angles art becomes a flat Vivid Pink band.
+82. Plan names, prices (Free $0, Essential $8 yearly or $12 monthly, Pro $16 or $24, Enterprise custom), periods and features are sample content for Growth to replace in Webflow.
+
+## Mobile gutter and button spacing (DESY-312)
+
+Consumer to update: the live Webflow sections still use their own side padding (32px at 479px and 991px in several sections) and button gaps (16px, 24px, 40px). Growth must move them to the DS page gutter (64px desktop, 24px at 767px and below, 16px at 479px and below) and the two button steps (32px under its own text, 24px at 479px; 48px for a closing call to action, 32px at 479px) until then the DS and live differ.

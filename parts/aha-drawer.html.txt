@@ -1,0 +1,19 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-drawer.js';   // registers <aha-drawer>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';   // registers <aha-button>
+
+  const drawer = document.getElementById('report');
+  document.getElementById('open-report').addEventListener('click', () => drawer.show());
+  document.getElementById('save-report').addEventListener('click', () => drawer.close());
+</script>
+
+<aha-button id="open-report" variant="secondary">Participant report</aha-button>
+
+<aha-drawer id="report" heading="Participant report">
+  <p>Minh Anh answered 4 of 5 questions correctly.</p>
+  <div slot="footer" style="display:flex;justify-content:flex-end">
+    <aha-button id="save-report" variant="primary">Done</aha-button>
+  </div>
+</aha-drawer>

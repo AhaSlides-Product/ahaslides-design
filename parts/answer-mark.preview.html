@@ -1,0 +1,42 @@
+<div class="pad">
+  <div class="lbl">Correct · incorrect</div>
+  <div class="demo-stage">
+    <div class="row" style="align-items:center; gap:24px; flex-wrap:wrap">
+      <aha-answer-mark data-probe result="correct"></aha-answer-mark>
+      <aha-answer-mark result="incorrect"></aha-answer-mark>
+    </div>
+  </div>
+
+  <div class="lbl">Sizes 16 · 20 · 24 · 32 (glyph 12 · 12 · 16 · 24)</div>
+  <div class="demo-stage">
+    <div class="row" style="align-items:center; gap:24px; flex-wrap:wrap">
+      <aha-answer-mark result="correct" size="16"></aha-answer-mark>
+      <aha-answer-mark result="correct" size="20"></aha-answer-mark>
+      <aha-answer-mark result="correct" size="24"></aha-answer-mark>
+      <aha-answer-mark result="correct" size="32"></aha-answer-mark>
+    </div>
+    <div class="row" style="align-items:center; gap:24px; flex-wrap:wrap; margin-top:16px">
+      <aha-answer-mark data-probe-wrong result="incorrect" size="16"></aha-answer-mark>
+      <aha-answer-mark result="incorrect" size="20"></aha-answer-mark>
+      <aha-answer-mark result="incorrect" size="24"></aha-answer-mark>
+      <aha-answer-mark result="incorrect" size="32"></aha-answer-mark>
+    </div>
+  </div>
+
+  <div class="lbl">Inside other components</div>
+  <div class="demo-stage">
+    <div class="row" style="align-items:center; gap:16px; flex-wrap:wrap">
+      <aha-badge kind="correct"></aha-badge>
+      <aha-badge kind="incorrect"></aha-badge>
+      <aha-badge kind="correct" size="default"></aha-badge>
+      <aha-canvas-count correct="12" wrong="3"></aha-canvas-count>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-answer-mark.js';
+  import '../lib/aha-badge.js';
+  import '../lib/aha-canvas-count.js';
+</script>

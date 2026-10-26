@@ -1,0 +1,24 @@
+<!-- Paste-and-run: save as .html and open it. No build step, nothing to copy.
+     In a Developer Platform slide type, applyDeck() gives every audience element the deck's ink, accent
+     and font from the host's slide props (the host's --aha-* variables never reach the iframe). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-audience-modal.js';   // registers <aha-audience-modal>
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-button.js';           // registers <aha-button>
+  import { applyDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/audience-deck.js';
+  applyDeck(document.documentElement, window.xprops?.slide ?? { textColour: '#1A1A1A', presentationColorPalette: ['#E70E68'] });
+
+  const leave = document.getElementById('leave');
+  document.getElementById('open-leave').addEventListener('click', async () => {
+    const choice = await leave.show();   // 'leave', 'stay' or 'dismiss'
+    console.log(choice);
+  });
+</script>
+
+<aha-button id="open-leave" variant="tertiary-deck" size="touch">Leave the quiz</aha-button>
+
+<aha-audience-modal id="leave" type="confirmation" heading="Leave the quiz?" destructive>
+  Answers you have not sent will be lost.
+  <aha-button slot="actions" data-action="stay" variant="primary" size="touch">Stay in quiz</aha-button>
+  <aha-button slot="actions" data-action="leave" variant="danger" size="touch">Leave quiz</aha-button>
+</aha-audience-modal>

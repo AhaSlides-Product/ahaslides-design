@@ -1,5 +1,5 @@
 {
- "$about": "The one table of environments and their routes. Every contract, guideline and marketing or brand asset declares \"environment\": one or more names below. generate.mjs prints each route in llms.txt; standards.mjs, the pull request check and route-scan.mjs read the same table. Add an environment by adding an entry here, and an item folder by adding a source. {site} is the docs host.",
+ "$about": "The one table of environments and their routes. Every contract, guideline, website section and brand asset declares \"environment\": one or more names below. generate.mjs prints each route in llms.txt; standards.mjs, the pull request check and route-scan.mjs read the same table. Add an environment by adding an entry here, and an item folder by adding a source. {site} is the docs host.",
  "environments": {
   "product": {
    "label": "Product UI",
@@ -13,6 +13,7 @@
      "{site}/guidelines/feedback/feedback.md",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/guidelines/background/background.md",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
@@ -31,6 +32,7 @@
      "{site}/guidelines/canvas/canvas.md",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
     "judge": "{site}/anti-slop.md (surfaces audience, canvas and settings)",
@@ -39,22 +41,27 @@
     "owner": "Design system team (#design-system-agents)"
    }
   },
-  "marketing-web": {
-   "label": "Marketing web",
-   "summary": "The public marketing sites: landing pages, pricing, blog and campaign pages.",
+  "web": {
+   "label": "Websites",
+   "summary": "Every AhaSlides website page built from full-width sections: landing pages, pricing, blog, careers, campaign and help pages. One design system covers them and the product, so a page can serve both marketing and usability with no seam.",
    "route": {
     "guidelines": [
      "{site}/marketing.llms.txt",
+     "{site}/guidelines/website/website.md",
+     "{site}/guidelines.llms.txt",
+     "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
+     "{site}/guidelines/background/background.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
      "{site}/foundations/logo.html",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
-    "judge": "the aha-mkt skill (Marketing approves its own content)",
-    "lint": "the aha-mkt skill's own check",
-    "plugin": "aha-mkt",
-    "owner": "Marketing"
+    "judge": "{site}/anti-slop.md (every surface the page touches, plus website, colour and background)",
+    "lint": "node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=product <files>",
+    "plugin": "ahaslides-design:aha-design",
+    "owner": "Design system team (#design-system-agents)"
    }
   },
   "video": {
@@ -63,6 +70,7 @@
    "route": {
     "guidelines": [
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
      "{site}/foundations/logo.html"
@@ -75,10 +83,11 @@
   },
   "social-ads": {
    "label": "Social and ads",
-   "summary": "Social posts, paid ads and other campaign creative outside the marketing sites.",
+   "summary": "Social posts, paid ads and other campaign creative outside the websites.",
    "route": {
     "guidelines": [
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
      "{site}/foundations/logo.html"
@@ -96,6 +105,7 @@
     "guidelines": [
      "{site}/guidelines/report-images/report-images.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/charts/index.html",
      "{site}/stat-tile/index.html"
     ],
@@ -108,8 +118,8 @@
  },
  "sources": [
   { "kind": "contract", "folder": "contracts", "key": "slug", "folderEnvironments": ["product", "audience"] },
-  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience", "report-image"] },
-  { "kind": "marketing", "folder": "marketing", "key": "slug", "folderEnvironments": ["marketing-web", "video", "social-ads"] },
+  { "kind": "guideline", "folder": "guidelines", "key": "slug", "folderEnvironments": ["product", "audience", "web", "report-image"] },
+  { "kind": "marketing", "folder": "marketing", "key": "slug", "folderEnvironments": ["web", "video", "social-ads"] },
   { "kind": "logo", "file": "logo/manifest.json", "list": "logos", "key": "id" },
   { "kind": "brand", "file": "brand/manifest.json", "list": "assets", "key": "id" },
   { "kind": "background", "file": "backgrounds/manifest.json", "list": "backgrounds", "key": "id" }

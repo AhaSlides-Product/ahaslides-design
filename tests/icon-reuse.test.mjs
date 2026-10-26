@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { searchIcons, iconSearchDeclaration, checkIconSearchDeclaration } from '../icon-search.mjs';
-import { DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, rasteriseIcon, similarity, isVariantPair, nearDuplicatePairs, evaluateDuplicateGate, pairKey } from '../icon-similarity.mjs';
+import { DUPLICATE_THRESHOLD, readGlyphSources, rasteriseAll, rasteriseIcon, similarity, isVariantPair, nearDuplicatePairs, evaluateDuplicateGate, readIntentionalPairs, pairKey } from '../icon-similarity.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const registry = JSON.parse(readFileSync(join(root, 'icons', 'registry.json'), 'utf8')).icons;
@@ -57,6 +57,20 @@ test('the duplicate gate fails a new pair, a stale entry and a growing baseline'
   assert.match(evaluateDuplicateGate({ pairs, baseline: [] }).failures[0], /looks nearly identical/);
   assert.match(evaluateDuplicateGate({ pairs: [], baseline: [pairKey('a', 'b')] }).failures[0], /no longer near-identical/);
   assert.match(evaluateDuplicateGate({ pairs, baseline: [pairKey('a', 'b')], baseBaseline: [] }).failures[0], /may only shrink/);
+});
+
+test('an intentional pair is exempt only when listed with a reason and still near-identical', () => {
+  const pairs = [{ pair: pairKey('a', 'b'), first: 'a', second: 'b', score: 0.9 }, { pair: pairKey('a', 'c'), first: 'a', second: 'c', score: 0.9 }];
+  const intentional = [{ first: 'b', second: 'a', reason: 'direction differs' }];
+  const { failures } = evaluateDuplicateGate({ pairs, baseline: [], intentional });
+  assert.equal(failures.length, 1);
+  assert.match(failures[0], /a looks nearly identical to c/);
+  assert.match(evaluateDuplicateGate({ pairs, baseline: [], intentional: [{ first: 'a', second: 'b', reason: ' ' }] }).failures[0], /needs a written reason/);
+  assert.match(evaluateDuplicateGate({ pairs: [], baseline: [], intentional }).failures[0], /no longer near-identical/);
+});
+
+test('the committed intentional pairs list is empty', () => {
+  assert.deepEqual(readIntentionalPairs(root), []);
 });
 
 test('the Icon search: line must name every close match of an added glyph', () => {
