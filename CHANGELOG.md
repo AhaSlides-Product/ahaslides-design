@@ -24,9 +24,9 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 
 ## 0.401.0 — 2026-10-26
 ### Fixed
-- `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#PRNUM)
-- `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#PRNUM)
-- Revert: revert the PR; both changes are inside `lib/aha-paywall.js`, no API change (#PRNUM)
+- `aha-paywall`: only one upgrade popover is open at a time; opening any paywall (hover, focus, click, or the disabled control of a locked setting row) closes the one that was open (#392)
+- `aha-paywall`: the first open no longer slides sideways. The align set just before the first open made the horizontal offset glide from its stale value (about 166 px on a start-aligned popover); the offset now sits in the non-animated translate property, so every open is a 4 px vertical lift (#392)
+- Revert: revert the PR; both changes are inside `lib/aha-paywall.js`, no API change (#392)
 
 ## 0.396.0 — 2026-10-26
 ### Added
