@@ -25,7 +25,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.417.0 — 2026-10-26
 ### Added
 - Icon library: `system-bug`, a beetle with antennae and legs, for reporting a bug or giving feedback. Same stroke style as the other `system-*` glyphs; no existing icon changes. No `-filled` pair: `system-chat-*` and the rest of `system-*` have none
-- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#NNN)
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#401)
 
 ## 0.403.1 — 2026-10-26
 ### Changed
