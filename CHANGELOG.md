@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.414.0 — 2026-10-26
+### Added
+- Button: `surface="brand"` for a Button on a Vivid Pink band (marketing hero, footer banner). Keyboard focus draws a white ring (`--aha-white`) outside a Vivid Pink gap (`--aha-vivid-pink-100`), 4.51:1 against the pink, in place of the Vivid Pink ring that vanished there. It sets `--aha-button-focus-ring` and `--aha-button-focus-gap` on the host, so a page rule on the element still wins; fill, border and label are unchanged (#398)
+- Revert: revert the PR; it removes one CSS line in `lib/aha-button.js`, the `surface` row and Focus sentence in the Button contract, and the test (#398)
+
 ## 0.403.1 — 2026-10-26
 ### Changed
 - Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
