@@ -7,16 +7,38 @@ const readSection = (slug) => JSON.parse(readFileSync(new URL(`../marketing/${sl
 const script = readFileSync(new URL('../lib/marketing-motion.js', import.meta.url), 'utf8');
 const header = readSection('header');
 const gallery = readSection('gallery');
-const multiImageHeroes = ['hero-photo-stack', 'hero-bento-collage', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
+const whiteHeroes = ['hero-photo-stack', 'hero-bento-collage', 'hero-image-marquee', 'hero-slideshow', 'hero-floating-images'];
+const pinkHeroes = whiteHeroes.map((slug) => slug.replace('hero-', 'hero-pink-'));
+const multiImageHeroes = [...whiteHeroes, ...pinkHeroes];
 const ownCss = (css) => css.slice(css.indexOf('\n', css.indexOf('__visually-hidden{')) + 1);
 const layouts = [
   ...header.layouts.filter((layout) => multiImageHeroes.includes(layout.slug)).map((layout) => ({ ...layout, css: ownCss(layout.css) })),
   ...gallery.layouts.map((layout) => ({ ...layout, css: gallery.baseCss + layout.css })),
 ];
 
-test('the five multi-image heroes and six gallery layouts ship', () => {
-  assert.equal(layouts.length, 11);
+test('the five multi-image heroes, their Vivid Pink versions and six gallery layouts ship', () => {
+  assert.equal(layouts.length, 16);
   assert.deepEqual(gallery.layouts.map((layout) => layout.slug), ['bento', 'masonry', 'carousel', 'stack', 'marquee', 'tabs']);
+});
+
+test('each Vivid Pink hero opens on Vivid Pink with the Splash and keeps its white twin as a state', () => {
+  const bySlug = Object.fromEntries(header.layouts.map((layout) => [layout.slug, layout]));
+  for (const [index, slug] of pinkHeroes.entries()) {
+    const pink = bySlug[slug];
+    const white = bySlug[whiteHeroes[index]];
+    assert.deepEqual(pink.states, [{ label: 'White', modifier: '' }, { label: 'Vivid Pink', modifier: 'brand', default: true }], slug);
+    assert.match(pink.html, new RegExp(`^<section class="${pink.class} ${pink.class}--brand[ "]`), slug);
+    assert.match(pink.html, /splash-icon-pink\.svg/, slug);
+    assert.equal(pink.html.replaceAll(pink.class, white.class).replace(` ${white.class}--brand`, ''), white.html, slug);
+  }
+});
+
+test('slideshow dots on Vivid Pink are solid white, the current one marked by its width', () => {
+  const pink = header.layouts.find((layout) => layout.slug === 'hero-pink-slideshow');
+  const dots = pink.css.match(new RegExp(`\\.${pink.class}--brand\\{(--${pink.class}-dot[^}]*)\\}`))[1];
+  assert.match(dots, new RegExp(`--${pink.class}-dot:var\\(--aha-white\\);`));
+  assert.match(dots, new RegExp(`--${pink.class}-dot-current:var\\(--aha-white\\)`));
+  assert.match(pink.css, /__dot\[aria-current="true"\]::before\{width:var\(--aha-space-28\)/);
 });
 
 test('W9: every gallery transition and loop is token-timed and stops under reduced motion', () => {

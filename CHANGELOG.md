@@ -25,10 +25,11 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 ## 0.402.0 — 2026-10-26
 ### Added
 - Website > Marketing > Header: five multi-image heroes — fanned photo stack (`aha-header-section-hero-photo-stack`), bento collage beside the copy (`aha-header-section-hero-bento-collage`), photo marquee under centred copy with a Pause button (`aha-header-section-hero-image-marquee`), crossfading slideshow with dot controls (`aha-header-section-hero-slideshow`) and floating framed photos either side of the copy (`aha-header-section-hero-floating-images`). Each ships White, Accent and Vivid Pink (#394)
+- Website > Marketing > Header: a Vivid Pink version of each of the five, paired the way `Header centered brand` pairs `Header centered` — Hero Pink photo stack, Hero Pink bento collage, Hero Pink image marquee, Hero Pink slideshow and Hero Pink floating images (`aha-header-section-hero-pink-*`). Each opens on Vivid Pink with the DS Splash background, a white headline and body and the Sign up button turned secondary, and keeps a White state; on pink the slideshow dots are solid white and the current one is the wider dot (#394)
 - Website > Marketing > Gallery: a new section page with six ways to show several photos across a page — bento grid, masonry, carousel with arrows and dots, sticky stack, marquee rows with a Pause button, and tabbed images (`aha-gallery`) (#394)
 - `lib/marketing-motion.js` arms `data-aha-gallery` slideshows, carousels, tabs and marquees: keyboard-reachable controls, nothing autoplays unless `data-aha-autoplay` is set, and all motion stops under reduced motion, `data-aha-motion="off"` and print (#394)
 - A Marketing page may list `previewModules` to load extra scripts into its docs previews (#394)
-- Revert: revert the PR; five new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#394)
+- Revert: revert the PR; ten new layouts in `marketing/header.json`, the new `marketing/gallery.json`, and an appended block at the end of `lib/marketing-motion.js` — the 24 existing hero layouts are untouched (#394)
 
 ## 0.396.0 — 2026-10-26
 ### Added

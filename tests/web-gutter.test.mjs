@@ -155,7 +155,7 @@ buttonSpacing.push([readSection('faq').css, '.aha-faq__cta', 'margin-top', 48, 3
 buttonSpacing.push([footerBanner, '.aha-footer-banner__text', 'margin-bottom', 32, 24]);
 for (const layout of readSection('header').layouts) {
   const { class: name, slug, css } = layout;
-  if (/^hero-(pale-)?pink/.test(slug)) buttonSpacing.push([css, `.${name}__text`, 'margin-bottom', 32, 24]);
+  if (/^hero-(pale-)?pink(-vertical)?$/.test(slug)) buttonSpacing.push([css, `.${name}__text`, 'margin-bottom', 32, 24]);
   else if (slug.startsWith('hero-')) {
     buttonSpacing.push([css, `.${name}__actions`, 'margin-top', 32, 24]);
     buttonSpacing.push([css, `.${name}__form`, 'margin-top', 32, 24]);
