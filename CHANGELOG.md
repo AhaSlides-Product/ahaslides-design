@@ -28,6 +28,10 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Websites → Testimonials: at most three testimonial or case cards per section, and quotes of similar length (the longest within about 1.5 times the shortest, none over 160 characters); the Quote cards sample's long middle quote is trimmed. Rule W19 and the Testimonials page carry both.
 - Websites → new tab: the section link-out buttons (Read customer stories, Read the docs, and Browse all templates, See all integrations) open in a new tab with `rel="noopener"` and visually-hidden "(opens in a new tab)" text, Sign up and the hero's primary call to action stay in the same tab (W15, W18). In the Footer every link that leaves AhaSlides (the three G2 badges that had no `target`, the Training Magazine Network and DMCA badges, System status, the social channels) opens in a new tab with `rel="noopener"` and a new-tab cue in its label. Revert: revert this PR; no API change. (#357)
 
+## 0.417.1 — 2026-10-26
+### Changed
+- `system-bug` redrawn after the Lucide bug icon (ISC, credits in `icons/svg/system/LUCIDE-CREDITS.md`): rounded head with two antennae, split body, three legs a side. Same name and size. (#402)
+
 ## 0.417.0 — 2026-10-26
 ### Added
 - Icon library: `system-bug`, a beetle with antennae and legs, for reporting a bug or giving feedback. Same stroke style as the other `system-*` glyphs; no existing icon changes. No `-filled` pair: `system-chat-*` and the rest of `system-*` have none
