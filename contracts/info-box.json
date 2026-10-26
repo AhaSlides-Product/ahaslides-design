@@ -41,7 +41,7 @@
     },
     {
       "label": "Link",
-      "value": "a plain `<a href>` written straight in the message is an inline text link in the Alert's standard style (message size, weight 400, --aha-text-link, underline, focus ring); never an <aha-button> inside the sentence"
+      "value": "a plain `<a href>` written straight in the message is an inline text link in the Alert's standard style (message size, weight 400, --aha-color-primary-hover #DB005B, underline, focus ring); never an <aha-button> inside the sentence"
     },
     {
       "label": "Text",

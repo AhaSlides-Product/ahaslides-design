@@ -150,7 +150,7 @@
     },
     {
       "id": "alert-inline-link",
-      "rule": "A link in an Alert or info box message is an inline text link in the one standard style: a plain <a href> written in the sentence, inheriting the message size, weight 400 and line height, with no padding or height, the DS link colour (--aha-text-link, hover --aha-text-link-hover), an underline and the focus ring. Never an <aha-button> (any variant) inside the message sentence: it renders as a button, grows the line and breaks the line spacing. An in-app action that opens something is the same <a href=\"#id\"> with the click default prevented. A button that is a separate action goes in the trailing action slot.",
+      "rule": "A link in an Alert or info box message is an inline text link in the one standard style: a plain <a href> written in the sentence, inheriting the message size, weight 400 and line height, with no padding or height, the DS Darker Pink (--aha-color-primary-hover #DB005B, 4.55:1 or more on every alert fill), an underline that thickens on hover and the focus ring. Never an <aha-button> (any variant) inside the message sentence: it renders as a button, grows the line and breaks the line spacing. An in-app action that opens something is the same <a href=\"#id\"> with the click default prevented. A button that is a separate action goes in the trailing action slot.",
       "ref": [
         "FEEDBACK-10"
       ]

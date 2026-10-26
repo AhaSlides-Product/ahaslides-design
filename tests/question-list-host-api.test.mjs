@@ -102,7 +102,7 @@ test('notices render info boxes whose links open and announce a question', { ski
     return { shape, live, linkLook, prevented: click.defaultPrevented, open: [isOpen('q1'), isOpen('q3')], toggle: log.find((entry) => entry.type === 'question-toggle').detail };
   `);
   assert.equal(result.live, 'polite');
-  assert.deepEqual(result.linkLook, { tag: 'A', buttons: 0, display: 'inline', padding: '0px', fontSize: true, lineHeight: true, weight: '400', colour: 'rgb(231, 14, 104)', underline: 'underline', height: true });
+  assert.deepEqual(result.linkLook, { tag: 'A', buttons: 0, display: 'inline', padding: '0px', fontSize: true, lineHeight: true, weight: '400', colour: 'rgb(219, 0, 91)', underline: 'underline', height: true });
   assert.equal(result.prevented, true);
   assert.deepEqual(result.shape, [
     { variant: 'warning', testid: 'ql-notice-warning', paragraphs: 2, text: 'Question 3 has no prompt.Fix it before presenting.' },
@@ -120,7 +120,7 @@ test('a plain link written in an info box or alert is inline text in the DS link
       return { display: style.display, padding: style.padding, weight: style.fontWeight, colour: style.color, underline: style.textDecorationLine, fontSize: style.fontSize, lineHeight: style.lineHeight, textHeight: link.getBoundingClientRect().height <= 21 }; };
     return { infoBox: read('ib'), alert: read('al') };
   `);
-  const expected = { display: 'inline', padding: '0px', weight: '400', colour: 'rgb(231, 14, 104)', underline: 'underline', fontSize: '14px', lineHeight: '21px', textHeight: true };
+  const expected = { display: 'inline', padding: '0px', weight: '400', colour: 'rgb(219, 0, 91)', underline: 'underline', fontSize: '14px', lineHeight: '21px', textHeight: true };
   assert.deepEqual(result.infoBox, expected);
   assert.deepEqual(result.alert, expected);
 });
