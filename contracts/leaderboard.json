@@ -1,0 +1,275 @@
+{
+  "name": "Leaderboard",
+  "slug": "leaderboard",
+  "group": "General",
+  "tier": "leaf",
+  "badge": "shared web component — canvas and audience",
+  "element": "aha-leaderboard",
+  "reuse": {
+    "entry": "./aha-leaderboard",
+    "registers": "aha-leaderboard",
+    "exportsNamed": [
+      "AhaLeaderboard",
+      "defineAhaLeaderboard",
+      "rankEntries",
+      "fitRows"
+    ]
+  },
+  "summary": "The ranked score list for the slide canvas and the audience phone, one look: rank chip, name, score, an optional bar behind the name, a trophy on first place, and the participant's own row pinned with a You tag.",
+  "lead": "ONE custom element — <aha-leaderboard> — for the presenter canvas and the audience phone alike. It draws the list only; place it in a deck container or modal. Themed from the deck: call applyCanvasDeck (canvas) or applyDeck (audience) once, and it reads --aha-deck-* tokens only. Rows are measured to the element's height, so give it a height and it shows as many rows as fit, then an \"and N more\" line.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the canvas and the phone render identically. Set `entries` as a JSON attribute or a property.",
+  "tokensUsed": [
+    "text-default",
+    "color-primary",
+    "radius-pill",
+    "radius-default",
+    "radius-xs",
+    "space-6",
+    "space-8",
+    "space-12",
+    "space-16",
+    "weight-regular",
+    "weight-semibold",
+    "motion-viz-update",
+    "motion-viz-reorder",
+    "ease-out",
+    "ease-in-out"
+  ],
+  "spec": [
+    {
+      "label": "Row",
+      "value": "stage 48px tall, 12px gap; phone 40px tall, 8px gap. A rank chip, the name track (radius 8) and the score at the end"
+    },
+    {
+      "label": "Rank chip",
+      "value": "circle 32 (stage) / 24 (phone). Ranks 1 to 3 are filled with the deck accent and its ink; the rest are an outlined chip. Rank 1 shows the system-trophy glyph (the numeral stays for screen readers). No gold, silver or bronze: the top three read by fill, not hue"
+    },
+    {
+      "label": "Bar",
+      "value": "behind the name, width = score / top score, in the deck accent. The name is drawn twice and the on-fill copy is clipped to the bar, so the ink flips exactly at the bar's edge. bar=\"false\" removes it"
+    },
+    {
+      "label": "Avatar slot",
+      "value": "a fixed 28 / 24px slot for an emoji or image, so names and scores align whatever the glyph width"
+    },
+    {
+      "label": "Score",
+      "value": "semibold, tabular, right-aligned in a column sized to the widest score, so the column aligns"
+    },
+    {
+      "label": "Own row",
+      "value": "the row for `me` carries a You tag and a stronger outline. Outside the shown rows it is pinned below the \"and N more\" line"
+    },
+    {
+      "label": "Fit",
+      "value": "rows are measured to the element's height; past that an \"and N more\" line. No fixed cap unless `limit` is set"
+    },
+    {
+      "label": "Ties",
+      "value": "competition ranking: 1, 2, 2, 4"
+    },
+    {
+      "label": "Teams",
+      "value": "an entry with `members` shows a member count and its bar takes the deck palette fill and ink pair (--aha-deck-palette-<n> / -ink), falling back to the accent where the deck wrote no palette"
+    },
+    {
+      "label": "Motion",
+      "value": "rows slide to their new rank (FLIP, --aha-motion-viz-reorder), the bar and ink clip grow together and the score counts up; none under prefers-reduced-motion"
+    },
+    {
+      "label": "Empty and loading",
+      "value": "one line \"No scores yet\"; five skeleton rows while `loading`"
+    }
+  ],
+  "props": [
+    {
+      "name": "entries",
+      "type": "JSON [{id, name, score, avatar?, members?, colour?}]",
+      "default": "[]",
+      "desc": "The scores, in any order. Also the `entries` property. `avatar` is an emoji or an image URL; `members` makes the row a team; `colour` picks a deck palette colour (1-based) for a team"
+    },
+    {
+      "name": "me",
+      "type": "string",
+      "default": "—",
+      "desc": "The participant's entry id: its row gets the You tag and is pinned when it is outside the shown rows"
+    },
+    {
+      "name": "bar",
+      "type": "boolean",
+      "default": "true",
+      "desc": "bar=\"false\" removes the bar behind the name"
+    },
+    {
+      "name": "trophy",
+      "type": "boolean",
+      "default": "true",
+      "desc": "trophy=\"false\" drops the trophy on rank 1 (a game still running)"
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows skeleton rows"
+    },
+    {
+      "name": "size",
+      "type": "stage | phone",
+      "default": "stage",
+      "desc": "One look at two scales: stage for the presenter canvas, phone for the audience"
+    },
+    {
+      "name": "limit",
+      "type": "number",
+      "default": "none",
+      "desc": "Optional cap on ranked rows; by default only the height limits them"
+    },
+    {
+      "name": "palette-size",
+      "type": "number",
+      "default": "6",
+      "desc": "How many deck palette colours team rows cycle through"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Leaderboard (English)",
+      "desc": "The list's accessible name"
+    },
+    {
+      "name": "you-label",
+      "type": "string",
+      "default": "You (English)",
+      "desc": "The tag on the participant's own row"
+    },
+    {
+      "name": "more-label",
+      "type": "string",
+      "default": "and {n} more (English)",
+      "desc": "The line after the last shown row"
+    },
+    {
+      "name": "empty-label",
+      "type": "string",
+      "default": "No scores yet (English)",
+      "desc": "The empty state"
+    },
+    {
+      "name": "members-label",
+      "type": "string",
+      "default": "{n} members (English)",
+      "desc": "The member count on a team row"
+    },
+    {
+      "name": "rank-label",
+      "type": "string",
+      "default": "You are now number {rank} (English)",
+      "desc": "Announced politely when the participant's own rank changes"
+    },
+    {
+      "name": "ink / accent",
+      "type": "colour",
+      "default": "inherited",
+      "desc": "Deck ink and accent for this element only; normally inherited from applyCanvasDeck or applyDeck"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Leaderboard",
+        "when": "any ranked list of participants or teams by score, on the canvas or the phone"
+      },
+      {
+        "what": "Chart (bar)",
+        "when": "results of a question, not a ranking of people"
+      }
+    ],
+    "note": "Never hand-build a leaderboard row. Place the element in a deck container or modal (--aha-deck-container-*, --aha-deck-modal-*) and give it a height."
+  },
+  "surfaces": [
+    "presenter",
+    "audience"
+  ],
+  "environment": [
+    "product",
+    "audience"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "leaderboard.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "leaderboard.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "leaderboard.vue.txt"
+    }
+  ],
+  "preview": "leaderboard.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the stage example with no deck applied (DS defaults).",
+    "ready": "!!(document.querySelector('aha-leaderboard[data-probe]')&&document.querySelector('aha-leaderboard[data-probe]').shadowRoot&&document.querySelector('aha-leaderboard[data-probe]').shadowRoot.querySelector('.row:not([hidden]) .chip'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-leaderboard[data-probe]').shadowRoot;var row=r.querySelector('.row:not([hidden])');var chip=r.querySelector('.row[data-podium] .chip');var track=r.querySelector('.row:not([hidden]) .track');var cs=function(n){return getComputedStyle(n)};return{rowHeight:cs(row).height,chipSize:cs(chip).width,chipBg:cs(chip).backgroundColor,chipInk:cs(chip).color,trackRadius:cs(track).borderTopLeftRadius};})()",
+    "expect": {
+      "rowHeight": "48px",
+      "chipSize": "32px",
+      "chipBg": "rgb(231, 14, 104)",
+      "chipInk": "rgb(255, 255, 255)",
+      "trackRadius": "8px"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "stage row 48px, chip 32px, track radius 8",
+      "verdict": "PASS"
+    },
+    {
+      "label": "top three filled with the deck accent, trophy on first, no status hue",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "One rank chip, name, score row on the canvas and the phone",
+    "Optional bar with an ink flip at the bar's edge",
+    "Trophy on first place, ties share a rank, own row pinned with a You tag",
+    "Rows fit the element's height; rank changes slide and scores count up"
+  ],
+  "composedOf": [
+    {
+      "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-trophy",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-users",
+      "status": "shipped"
+    },
+    {
+      "token": "--aha-deck-palette-<n>",
+      "status": "shipped",
+      "note": "canvas only: applyCanvasDeck writes it, applyDeck does not, so team bars on the phone fall back to the deck accent"
+    },
+    {
+      "token": "--aha-deck-palette-<n> via applyDeck",
+      "status": "missing",
+      "note": "audience palette pairs; teams on the phone share the accent until applyDeck takes a palette"
+    }
+  ],
+  "a11y": {
+    "role": "an ordered list named by `label`; each row reads rank, name, score and the You tag; the clipped copy of the name is aria-hidden",
+    "keyboard": "not interactive",
+    "note": "A polite live region announces the participant's own new rank. Motion is off under prefers-reduced-motion."
+  }
+}

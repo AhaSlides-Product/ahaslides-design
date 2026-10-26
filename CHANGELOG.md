@@ -22,6 +22,11 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.399.0 — 2026-10-26
+### Added
+- `<aha-leaderboard>`, one ranked list for the slide canvas and the audience phone: rank chip, name, score at the end, optional bar sized to the top score, a trophy on first place, ties ranked 1, 2, 2, 4, rows fitted to the element height with an "and N more" line, the participant's own row pinned with a "You" tag, teams, empty and loading states, and a row slide with score count-up (none under reduced motion); themed only by `--aha-deck-*` tokens (#PRNUM)
+- Revert: revert the PR; a new component, nothing else changes (#PRNUM)
+
 ## 0.396.0 — 2026-10-26
 ### Added
 - Website > Marketing > Features: five Compact layouts that keep the section within one screen (about 560 to 800 px at 1440): accordion beside one image (`aha-features--compact-accordion`), tabs over one screenshot with a centred tab row (`aha-features--compact-tabs`), swipeable card scroller (`aha-features--compact-scroller`), pick from a list (`aha-features--compact-master-detail`) and top three with a See all features button (`aha-features--compact-see-all`). 48 px top and bottom padding on the shipped side gutters, the shipped closing call-to-action row, no intro sentence under the title, closed content stays in the HTML (#386)

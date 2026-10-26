@@ -110,6 +110,34 @@
       ],
       "demo": "  <div class=\"canvas-decks\">\n    <div>\n      <div class=\"canvas-deck-name\">Light deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" style=\"background:var(--aha-white,#FFFFFF); color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Dark deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-gray-100\" style=\"background:var(--aha-black,#1A1A1A); color:var(--aha-white,#FFFFFF)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · black ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" data-image style=\"background:var(--aha-white,#FFFFFF) url(../backgrounds/splash-centre-white-16x9.svg) center / cover; color:var(--aha-text-default,#1A1A1A); border:1px solid var(--aha-border-default,#E3E3E3)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Photo deck · white ink</div>\n      <div class=\"canvas-deck is-compact\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-vivid-pink-100\" data-image style=\"background:var(--aha-vivid-pink-100,#E70E68) url(../backgrounds/splash-centre-pink-16x9.svg) center / cover; color:var(--aha-white,#FFFFFF)\">\n        <aha-stepper size=\"lg\" navigable steps=\"Ideas|Group|Vote|Discuss\" current=\"2\" aria-label=\"Retro stages\" style=\"flex:1 1 auto\"></aha-stepper>\n      </div>\n    </div>\n  </div>",
       "snippet": "<aha-stepper size=\"lg\" steps=\"Ideas|Group|Vote|Discuss\" current=\"1\" aria-label=\"Retro stages\"></aha-stepper>"
+    },
+    {
+      "name": "Leaderboard",
+      "element": "<aha-leaderboard>",
+      "kind": "In-canvas",
+      "what": "The ranked list of names and scores drawn inside the slide canvas: a rank chip, the name, the score at the end and a bar sized to the top score, all in the deck colours.",
+      "useWhen": "a slide shows who is ahead (quiz results, a game round, a team table): pass `entries`, set `size=\"stage\"` and give the element a height; it fits as many rows as the height allows and ends with an \"and N more\" line",
+      "notFor": "a hand-built list of scores, a podium, or a ranking the participant sets (use rank-list)",
+      "rules": [
+        {
+          "label": "Row",
+          "value": "rank chip, name, score at the end; the bar behind the name is sized to score over top score (`bar=\"false\"` turns it off); the name is drawn twice so the part over the bar reads on the fill"
+        },
+        {
+          "label": "Top three",
+          "value": "marked by shape, not hue: a trophy on first place and accent-filled chips on ranks 1 to 3; no gold, silver or bronze and no podium. Ties share a rank (1, 2, 2, 4)"
+        },
+        {
+          "label": "Deck",
+          "value": "themed only by `--aha-deck-*` tokens from applyCanvasDeck; teams (an entry with `members`) take the bar from `--aha-deck-palette-<n>`"
+        },
+        {
+          "label": "Motion",
+          "value": "rows slide to their new rank and scores count up with the DS motion tokens; none under prefers-reduced-motion"
+        }
+      ],
+      "demo": "  <div class=\"canvas-decks\">\n    <div>\n      <div class=\"canvas-deck-name\">Light deck · black ink</div>\n      <div class=\"canvas-deck\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-gray-100\" data-background=\"--aha-white\" style=\"height:300px; padding:16px; background:var(--aha-white,#FFFFFF)\">\n        <aha-leaderboard size=\"stage\" me=\"u3\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200,\"avatar\":\"🦊\"},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900,\"avatar\":\"🐙\"},{\"id\":\"u3\",\"name\":\"An\",\"score\":900,\"avatar\":\"🐳\"},{\"id\":\"u4\",\"name\":\"Bao Tran Nguyen Van Anh\",\"score\":400},{\"id\":\"u5\",\"name\":\"Chi\",\"score\":150}]'></aha-leaderboard>\n      </div>\n    </div>\n    <div>\n      <div class=\"canvas-deck-name\">Dark deck · white ink</div>\n      <div class=\"canvas-deck\" data-canvas-deck data-accent=\"--aha-vivid-pink-100\" data-ink=\"--aha-white\" data-background=\"--aha-gray-100\" style=\"height:300px; padding:16px; background:var(--aha-gray-100,#FFFFFF)\">\n        <aha-leaderboard size=\"stage\" me=\"u3\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200,\"avatar\":\"🦊\"},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900,\"avatar\":\"🐙\"},{\"id\":\"u3\",\"name\":\"An\",\"score\":900,\"avatar\":\"🐳\"},{\"id\":\"u4\",\"name\":\"Bao Tran Nguyen Van Anh\",\"score\":400},{\"id\":\"u5\",\"name\":\"Chi\",\"score\":150}]'></aha-leaderboard>\n      </div>\n    </div>\n  </div>",
+      "snippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css\">\n<script type=\"module\">\n  import { applyCanvasDeck } from 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/canvas.js';\n  applyCanvasDeck(document.documentElement, { ink: xprops.slide.textColour, image: Boolean(xprops.slide.backgroundImage) });\n</script>\n\n<aha-leaderboard size=\"stage\" style=\"height:100%\" entries='[{\"id\":\"u1\",\"name\":\"Linh\",\"score\":1200},{\"id\":\"u2\",\"name\":\"Minh\",\"score\":900}]'></aha-leaderboard>"
     }
   ]
 }
