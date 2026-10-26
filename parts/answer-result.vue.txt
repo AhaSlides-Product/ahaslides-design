@@ -1,0 +1,14 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-answer-result';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// ParticipantResponse.vue
+<template>
+  <aha-answer-result
+    :result="correct ? 'correct' : 'incorrect'"
+    :label="t('report.response')"
+    :mark-label="correct ? t('answer.correct') : t('answer.incorrect')"
+  >{{ text }}</aha-answer-result>
+  <!-- the answer key stays plain: no result attribute -->
+  <aha-answer-result :label="t('report.correctAnswer')">{{ keyText }}</aha-answer-result>
+</template>

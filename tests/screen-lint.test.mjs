@@ -174,7 +174,7 @@ test('lib/aha-chart.js passes screen-lint with no allow marker', async () => {
   const { readFile } = await import('node:fs/promises');
   const source = await readFile(new URL('../lib/aha-chart.js', import.meta.url), 'utf8');
   assert.ok(!/ds-lint-allow:[^(]*gradient/.test(source));
-  assert.deepEqual(lintHtml(source, { surface: 'product' }).findings.filter(f => f.severity === 'hard'), []);
+  assert.deepEqual(lintHtml(source, { surface: 'product', path: 'lib/aha-chart.js' }).findings.filter(f => f.severity === 'hard'), []);
 });
 
 const shimmerCss = (stops, animated = true) => `<style>
@@ -203,4 +203,75 @@ test('the DS skeleton components pass screen-lint with no gradient allow marker'
     assert.ok(!/ds-lint-allow:[^(]*gradient/.test(source), name);
     assert.ok(!lintHtml(source, { surface: 'product' }).findings.some(f => f.rule === 'gradient-fill'), name);
   }
+});
+
+const answerRulesOf = (source, surface = 'product') =>
+  rulesOf(source, surface).filter(rule => rule.startsWith('answer-colour'));
+
+test('a green Save button background fails the answer-colour context rule', () => {
+  const source = '<aha-button class="save" style="background: var(--aha-answer-correct)">Save</aha-button>';
+  assert.deepEqual(answerRulesOf(source), ['answer-colour-context']);
+});
+
+test('green text on an answer element fails only the text rule', () => {
+  const source = '<span class="answer-label" style="color: var(--aha-answer-correct)">Paris</span>';
+  assert.deepEqual(answerRulesOf(source), ['answer-colour-text']);
+});
+
+test('green text on a non-answer element fails text and context', () => {
+  const source = '<span class="status" style="color: var(--aha-answer-correct)">Saved</span>';
+  assert.deepEqual(answerRulesOf(source).sort(), ['answer-colour-context', 'answer-colour-text']);
+});
+
+test('a red error border fails the answer-colour context rule', () => {
+  const source = '<input class="email-field" style="border: 1px solid var(--aha-answer-wrong)">';
+  assert.deepEqual(answerRulesOf(source), ['answer-colour-context']);
+});
+
+test('answer tokens as text colour are caught in a style object and a Tailwind value', () => {
+  assert.deepEqual(answerRulesOf("const answerStyle = { color: 'var(--aha-answer-wrong)' };"), ['answer-colour-text']);
+  assert.deepEqual(answerRulesOf('<p class="answer text-[var(--aha-answer-wrong)]">x</p>'), ['answer-colour-text']);
+});
+
+test('border-color and background-color are not text colours', () => {
+  const source = '<div class="correct-row" style="border-color: var(--aha-answer-correct); background-color: var(--aha-answer-correct-tint-5)"></div>';
+  assert.deepEqual(answerRulesOf(source), []);
+});
+
+test('the option row and badge uses of the answer tokens pass', () => {
+  const optionRow = ':host([correct]) .row{ border-color:var(--aha-answer-correct);\n  background:var(--aha-answer-correct-tint-5) }';
+  const badge = ':host([kind="incorrect"]) .chip{ --_cbg:var(--aha-answer-wrong-tint-5); --_cic:var(--aha-answer-wrong) }';
+  const resultColumn = '.result-column.correct {\n  background: var(--aha-answer-correct);\n}';
+  for (const source of [optionRow, badge, resultColumn]) assert.deepEqual(answerRulesOf(source), []);
+});
+
+test('the selector on an earlier line gives the context', () => {
+  assert.deepEqual(answerRulesOf('.save-button {\n  background: var(--aha-answer-correct);\n}'), ['answer-colour-context']);
+  assert.deepEqual(answerRulesOf('.verdict-badge {\n  background: var(--aha-answer-correct-tint-5);\n}'), []);
+});
+
+test('the answer-colour rules are suppressed with a reason and not by another rule', () => {
+  const source = '<div class="save" style="background: var(--aha-answer-correct)"></div> <!-- ds-lint-allow: answer-colour (quiz save confirms a correct answer) -->';
+  assert.deepEqual(answerRulesOf(source), []);
+  assert.deepEqual(answerRulesOf(source.replace('answer-colour', 'raw-hex')), ['answer-colour-context']);
+});
+
+test('a comment that mentions an answer token is ignored', () => {
+  assert.deepEqual(answerRulesOf('/* colour: var(--aha-answer-correct) is the tick */'), []);
+});
+
+test('the answer marker is found in a selector list and in an open tag spread over lines', () => {
+  assert.deepEqual(answerRulesOf('.answer-row,\n.other {\n  background: var(--aha-answer-correct);\n}'), []);
+  assert.deepEqual(answerRulesOf('<div class="answer-row"\n  :style="{ background: \'var(--aha-answer-correct)\' }">'), []);
+  assert.deepEqual(answerRulesOf('<div class="save"\n  :style="{ background: \'var(--aha-answer-correct)\' }">'), ['answer-colour-context']);
+});
+
+test('"across", "ticket" and "crossword" are not answer markers', () => {
+  for (const name of ['across-panel', 'ticket', 'crossword'])
+    assert.deepEqual(answerRulesOf(`.${name} { background: var(--aha-answer-correct); }`), ['answer-colour-context'], name);
+});
+
+test('a Tailwind answer background needs an answer class on the element', () => {
+  assert.deepEqual(answerRulesOf('<div class="correct bg-[var(--aha-answer-correct)]">'), []);
+  assert.deepEqual(answerRulesOf('<div class="p-2 bg-[var(--aha-answer-correct)]">'), ['answer-colour-context']);
 });

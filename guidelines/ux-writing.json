@@ -1,6 +1,7 @@
 {
   "name": "UX writing",
   "slug": "ux-writing",
+  "environment": ["product", "audience"],
   "kind": "guideline",
   "group": "Patterns",
   "badge": "pattern — composition guide",
@@ -10,7 +11,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/ux-writing.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: ux-writing)",
-    "note": "This guide is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-9 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, onboarding, and confirmation copy are stubbed there and land here as they're written."
+    "note": "This guide is the source of truth for rationale, the worked before/after library (references/patterns.md), and the full UXW-1..UXW-10 assertions. This pattern distils the enforceable subset and links each rule back by ref. The skill is a deliberately growing rulebook — casing and error/empty/feedback microcopy are written; action-label style, terminology glossary, onboarding, and confirmation copy are stubbed there and land here as they're written."
   },
   "surfaces": [
     "editor",
@@ -94,7 +95,7 @@
   "rules": [
     {
       "id": "sentence-case-default",
-      "rule": "Sentence case is the house default for ALL product UI text — labels, CTAs, menu/tab/nav items, slide-type and interactive-component names, headings, tooltips, helper text, dialog titles, empty states, and messages. Capitalize the first letter only; keep proper nouns, brand names, and acronyms as-is. 'View report' not 'View Report'; 'Multiple choice' / 'Word cloud' / 'Open-ended' / 'Spinner wheel' / 'Q&A' not Title Case.",
+      "rule": "Sentence case is the house default for ALL product UI text — labels, CTAs, menu/tab/nav items, slide-type and interactive-component names, headings, tooltips, helper text, dialog titles, empty states, and messages. Capitalize the first letter only; keep proper nouns, brand names, and acronyms as-is. 'View report' not 'View Report'; 'Multiple choice' / 'Word cloud' / 'Open-ended' / 'Spinner wheel' / 'Q&A' not Title Case. screen-lint hard-fails the slide-type names in Title Case (title-case-slide-name).",
       "ref": [
         "UXW-1"
       ]
@@ -124,7 +125,7 @@
     },
     {
       "id": "be-specific",
-      "rule": "Name the specific object and what happened — a concrete count over 'some'. 'Couldn't load some presentations.' not 'Some items could not be loaded.' Never ship a standalone 'Something went wrong', 'An error occurred', 'Oops', 'Unexpected error', 'Some items could not be loaded', or bare 'Failed'.",
+      "rule": "Name the specific object and what happened — a concrete count over 'some'. 'Couldn't load some presentations.' not 'Some items could not be loaded.' Never ship a standalone 'Something went wrong', 'An error occurred', 'Oops', 'Unexpected error', 'Some items could not be loaded', or bare 'Failed'. screen-lint hard-fails the first five phrases (vague-error-copy); a bare 'Failed' stays with the judge.",
       "ref": [
         "UXW-2"
       ]
@@ -166,7 +167,7 @@
     },
     {
       "id": "no-dash-punctuation",
-      "rule": "Product copy never uses an em dash or en dash as punctuation. Replace it with a full stop, a comma, a colon, parentheses, or split the sentence into two. A plain hyphen is fine only inside a compound word, such as \"Open-ended\", or, if the surface has decided so, to mark a range (\"1 to 10\"). \"That file type isn't supported. Try a PNG or JPG.\" not \"That file type isn't supported — try a PNG or JPG.\"",
+      "rule": "Product copy never uses an em dash or en dash as punctuation. Replace it with a full stop, a comma, a colon, parentheses, or split the sentence into two. A plain hyphen is fine only inside a compound word, such as \"Open-ended\", or, if the surface has decided so, to mark a range (\"1 to 10\"). screen-lint hard-fails an em or en dash in UI text (no-dash-punctuation). \"That file type isn't supported. Try a PNG or JPG.\" not \"That file type isn't supported — try a PNG or JPG.\"",
       "ref": [
         "UXW-8"
       ]
@@ -177,17 +178,24 @@
       "ref": [
         "UXW-9"
       ]
+    },
+    {
+      "id": "labels-name-the-function",
+      "rule": "Every form and field label, option and group header names what it does in the words users already use: no coined term, metaphor or lone abstract noun (\"Mode\", \"Display\"), and the conventional term over an invented one (\"Signature\", not \"Signer\"). Clear beats short. Depth and the self-check table are in the settings guideline rule labels-say-what-the-setting-does.",
+      "ref": [
+        "UXW-10"
+      ]
     }
   ],
   "reuse": null,
   "reuseNote": "Doc-only pattern — ships no composition wrapper or primitive from this repo. It governs the WORDS inside components that already exist or are backlogged; it owns no code surface of its own. The feedback/empty/error COMPONENTS that host this copy (Alert, toast, ErrorPage, Empty) are owned by the `feedback` guide and the `shared-components` guide; the type SCALE and the all-caps label role by the `typography` guide; the brand VOICE by aha-branding. If a copy-linting helper ever graduates into this DS, add a reuse block and it is gated like a composite.",
   "selfCheck": [
     {
-      "label": "sentence case everywhere; one canonical form per label",
+      "label": "sentence case everywhere; one canonical form per label (screen-lint: title-case-slide-name)",
       "verdict": "N/A — per-surface"
     },
     {
-      "label": "messages name the object + what happened, no vague placeholders",
+      "label": "messages name the object + what happened, no vague placeholders (screen-lint: vague-error-copy, no-dash-punctuation)",
       "verdict": "N/A — per-surface"
     },
     {

@@ -10,7 +10,7 @@ const email = ref('');
 </script>
 
 <template>
-  <!-- size: default only in a settings panel (never small or large)  ·  status: error | warning  ·  prefix-icon / suffix / clearable -->
+  <!-- size: default only in a settings panel (never small or large)  ·  status: error (warning is a deprecated alias)  ·  info-message: help text  ·  prefix-icon / suffix / clearable -->
   <aha-input
     status="error"
     prefix-icon="system-envelope"

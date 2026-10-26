@@ -2,6 +2,7 @@
   "name": "Audience image upload",
   "slug": "audience-image-upload",
   "group": "Audience",
+  "environment": ["audience"],
   "tier": "leaf-lit",
   "badge": "shared web component",
   "element": "aha-audience-image-upload",
@@ -25,7 +26,7 @@
   "spec": [
     {
       "label": "Empty (area)",
-      "value": "min-height 136, 2px dashed edge in the ink at 20%, radius 8, the deep panel (Deep Space at 80% on a dark deck) with a 20px backdrop blur; system-image-square 32 in the muted ink, 16px semibold prompt, 14px muted format hint on a 20px line"
+      "value": "min-height 136, 2px dashed edge in the ink at 20%, radius 8, the deep panel (Deep Space at 80% on a dark deck) with a 20px backdrop blur; system-image-square 32 in the secondary ink, 16px semibold prompt, 14px secondary-ink format hint on a 20px line"
     },
     {
       "label": "Attached",

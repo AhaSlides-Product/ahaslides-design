@@ -10,7 +10,7 @@
 <!-- labelled tiles — stretch to fill each of `columns` tracks -->
 <aha-card-select id="chart" columns="3" value="bar" style="max-width:360px"></aha-card-select>
 
-<!-- iconOnly — compact 44px squares packed to the start; the label is kept as title + aria-label -->
+<!-- iconOnly — compact 44px squares packed to the start; the label is kept as aria-label and shown as a tooltip on hover and keyboard focus -->
 <aha-card-select id="chartCompact" icon-only columns="3" value="bar"></aha-card-select>
 
 <script type="module">

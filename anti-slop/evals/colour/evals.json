@@ -132,11 +132,11 @@
     },
     {
       "id": 7,
-      "prompt": "Review an integrations page. The Zoom, Google Drive and Microsoft Teams logos are shown in a row in their full brand colours, taken from each vendor's press kit, and a PDF file-type icon is red and white. The rest of the page is DS components.",
+      "prompt": "Review the Import dialog of the presenter app. The Zoom, Google Drive and Microsoft Teams source buttons show their logos in full brand colours at rest, taken from each vendor's press kit, and a PDF file-type icon is red and white. The rest of the dialog is DS components.",
       "files": [],
       "label": "bad-example",
       "notes": "Targets C7: logos and file-type icons.",
-      "expected_output": "C7 FAILs: integration logos in their own colours, and a two-colour file-type icon. Fix: the greyscale files from the Logo library and the one-colour file-type icon. Overall: NEEDS FIX.",
+      "expected_output": "C7 FAILs: integration logos in their own colours at rest in an interface, and a two-colour file-type icon. Fix: the greyscale files from the Logo library at rest, the original-colour files only on hover and keyboard focus, and the one-colour file-type icon. Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX"
       ],
@@ -215,6 +215,48 @@
         "criteria": {
           "C1": "PASS",
           "C6": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 11,
+      "prompt": "Review the website header's Integrations menu. Each entry shows a 24px Logo library logo in greyscale beside the tool's name. On hover and keyboard focus the entry swaps to the logo's original-colour file from the Logo library with a 150ms opacity fade, and the fade is off under prefers-reduced-motion. Everything else is DS components.",
+      "files": [],
+      "label": "good-control",
+      "notes": "Control: rule 2.6, one colour at rest and brand colours on hover and focus, the same in a website header as in the presenter app.",
+      "expected_output": "C7 PASSES: the logos are one colour at rest, show their own colours only on hover and keyboard focus, and each has its name beside it. Overall: OK TO SHIP.",
+      "assertions": [
+        "Overall verdict is OK TO SHIP"
+      ],
+      "expected": {
+        "overall": "OK_TO_SHIP",
+        "criteria": {
+          "C7": "PASS"
+        }
+      },
+      "source": {
+        "authored": "ahaslides-design",
+        "why": "written with the criteria from brand/colour-rules.json; the plugin judge dataset predates the colour rules of 7 October 2026"
+      }
+    },
+    {
+      "id": 12,
+      "prompt": "Review the Marketplace page, which lists the tools AhaSlides connects to. Each available tool shows its logo in its own brand colours at rest, 32px inside a white tile with a grey border, with the tool's name beside it; a tool not available yet shows its logo in greyscale and a Coming soon tag in black text with a Vivid Pink outline. The Connect button under the Slack card is filled in Slack's purple.",
+      "files": [],
+      "label": "bad-example",
+      "notes": "Targets C7: the listing-page exception covers the logo only, never a brand-coloured button.",
+      "expected_output": "C7 FAILs: the logos in their own colours are fine on a listing page, but the Slack-purple Connect button spreads brand colour beyond the logo. Fix: the DS button. Overall: NEEDS FIX.",
+      "assertions": [
+        "Overall verdict is NEEDS FIX"
+      ],
+      "expected": {
+        "overall": "NEEDS_FIX",
+        "criteria": {
+          "C7": "FAIL"
         }
       },
       "source": {

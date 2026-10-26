@@ -11,7 +11,7 @@
   "skillRef": {
     "build": "DS guideline — guidelines/canvas.json",
     "judge": "DS anti-slop feed — anti-slop.md (surface: canvas)",
-    "note": "This guide is the source of truth for rationale, worked BAD/GOOD examples, the §1–§9 sections, the pre-ship checklist (§8), and the canonical good-fill-in-the-blanks fixture. This pattern distils the enforceable subset; each rule links back by ref to the judge criteria (C1..C16) and/or the skill section it comes from. The judge the DS anti-slop judge (`canvas` surface) emits a binary PASS/FAIL across the same contracts."
+    "note": "This guide is the source of truth for rationale, worked BAD/GOOD examples, the §1–§9 sections, the pre-ship checklist (§8), and the canonical good-fill-in-the-blanks fixture. This pattern distils the enforceable subset; each rule links back by ref to the judge criteria (C1..C24) and/or the skill section it comes from. The judge the DS anti-slop judge (`canvas` surface) emits a binary PASS/FAIL across the same contracts."
   },
   "surfaces": [
     "editor",
@@ -56,7 +56,31 @@
     {
       "ref": "stepper",
       "as": "component",
-      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), never hand-rolled .step pills and never the primary accent",
+      "use": "a stage / round indicator (Ideas → Group → Vote) — <aha-stepper>, current stage in ink (size=\"lg\" on the canvas), inked by the applyCanvasDeck --aha-deck-* ladder, never hand-rolled .step pills and never the primary accent",
+      "status": "available"
+    },
+    {
+      "ref": "answer-mark",
+      "as": "component",
+      "use": "the one correct / incorrect answer mark — <aha-answer-mark result=\"correct|incorrect\" size>: a white tick or cross on the solid --aha-answer-correct / --aha-answer-wrong disc (colour rule 11.3); never a hand-drawn disc and never an <aha-icon> coloured with an answer token",
+      "status": "available"
+    },
+    {
+      "ref": "canvas-count",
+      "as": "component",
+      "use": "the correct / incorrect count (✓ 12 · ✗ 3), or how many answered with no verdict — <aha-canvas-count correct wrong> / <aha-canvas-count answered>, a 40px container in the deck container set, never a hand-rolled pill",
+      "status": "available"
+    },
+    {
+      "ref": "canvas-play",
+      "as": "component",
+      "use": "the centred Play control on a video or media slide — <aha-canvas-play size=\"hero\">, a flat 96px disc on --aha-color-primary with the system-play glyph and the deck focus ring; never a hand-sized disc or an oversized aha-button",
+      "status": "available"
+    },
+    {
+      "ref": "canvas-status",
+      "as": "component",
+      "use": "the status line (Waiting for answers…) — <aha-canvas-status>, free-floating deck text with no fill on any deck",
       "status": "available"
     },
     {
@@ -68,7 +92,7 @@
     {
       "ref": "chart",
       "as": "component",
-      "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style follows the mockup's green correct bar)",
+      "use": "result charts on the canvas — <aha-chart palette=\"deck\"> with presentationColorPalette as colors and slide.textColour as ink; never a hand-rolled bar or a chart engine; for a Pick Answer result pass correct plus correct-style=\"indicator\" to keep palette fills (the default fill style paints the correct bar --aha-answer-correct, the answer green, in the deck palette too)",
       "status": "available"
     },
     {
@@ -98,13 +122,13 @@
     {
       "ref": "--aha-colorSuccess",
       "as": "token",
-      "use": "the ✓ / validation-passed mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent. A quiz answer's correct mark is the one exception: a white tick on the correct green disc (--aha-answer-correct, colour rules section 11), bundled the same way",
+      "use": "the ✓ / validation-passed mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✓ glyph carries the meaning) bundled into the plugin build, never a lookalike accent. A quiz answer's correct mark is the one exception: <aha-answer-mark result=\"correct\">, a white tick on the correct green disc (--aha-answer-correct, colour rules section 11), bundled the same way",
       "status": "available"
     },
     {
       "ref": "--aha-colorError",
       "as": "token",
-      "use": "the ✗ / destructive-action mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded. A quiz answer's wrong mark is the one exception: a white cross on the wrong red disc (--aha-answer-wrong, colour rules section 11), bundled the same way",
+      "use": "the ✗ / destructive-action mark — the semantic function token (the default ink #1A1A1A under the colour rules, the ✗ glyph carries the meaning), bundled, never hard-coded. A quiz answer's wrong mark is the one exception: <aha-answer-mark result=\"incorrect\">, a white cross on the wrong red disc (--aha-answer-wrong, colour rules section 11), bundled the same way",
       "status": "available"
     },
     {
@@ -236,7 +260,7 @@
       ]
     },
     {
-      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage). On a busy photo, protect the text with a scrim BOUNDED to that text (a chip or caption bar behind the line), never a slide-wide panel on a framed slide. Go higher when you can.",
+      "rule": "Meet WCAG AA as the floor — 4.5:1 for text, 3:1 for large text and meaningful shapes — checked against the REAL composited background (baseColour blended with backgroundImage). This includes text over a deck background image: if it falls below the floor, pick a textColour or photo that clears it. Never add a slide-wide panel on a framed slide. Go higher when you can.",
       "ref": [
         "§3",
         "C10",
@@ -288,7 +312,7 @@
       ]
     },
     {
-      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (color-mix(in srgb, currentColor 10%, transparent)); a dashed empty state is 1px. Fix a marginal contrast check at the bar or a bounded scrim, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
+      "rule": "Borders are ornament — never derive them directly from textColour and never use a 2px outline at heavy ink. A bounded white card takes a 1px neutral hairline (--aha-border-default #E3E3E3); a chip takes 1.5px; a deck-owned (transparent) surface takes a 1px theme-aware hairline (--aha-deck-stroke, the deck ink at 12%); a dashed empty state is 1px. Fix a marginal contrast check on a solid fill, not with a heavier border. Pick the palette shade (saturated vs lighter) that actually clears the floor on the current composited background.",
       "ref": [
         "§3",
         "C10",
@@ -310,7 +334,7 @@
       ]
     },
     {
-      "rule": "A FRAMED slide's root element must stay transparent in every display mode and let the deck theme (baseColour/backgroundImage the host composites behind it) show through — it must not render its own title (the host draws it) nor paint a slide-wide background/backdrop/scrim. The only opaque fill it may paint is a surface bounded to its content (a card, chip, caption bar).",
+      "rule": "A FRAMED slide's root element must stay transparent in every display mode and let the deck theme (baseColour/backgroundImage the host composites behind it) show through — it must not render its own title (the host draws it) nor paint a slide-wide background/backdrop/scrim. The only opaque fill it may paint is a surface bounded to its content (a card, a chip).",
       "ref": [
         "§4",
         "C3"
@@ -339,7 +363,7 @@
       ]
     },
     {
-      "rule": "On the Developer Platform (build-less HTML slide types — presenter.html / audience.html / settings.html, each loading its own entry: lib/canvas.js, lib/audience.js, lib/settings.js) presenter controls render INSIDE the canvas: a row of <aha-button size=\"lg\"> (40px, 8px corners, 20px side padding, 16px / 600 label; icon-only 40 × 40). Size only through the size attribute — never ::part(button) height / padding / font-size overrides or inline sizing; colour only through applyCanvasDeck from lib/canvas.js, which puts the deck accent on --aha-color-primary and the primary, picks a black or white label by contrast, darkens hover 12% and pressed 22%, and drops the hover shadow (hover is a fill change only). One primary per row; the rest secondary-deck; tertiary-deck never on a photographic deck, where the action becomes a secondary-deck. The host-control-bar rule applies only to built plugins that declare manifest actions. The demo, the sizes and these rules live on the Canvas Library › Components page (https://design.ahaslides.io/canvas/index.html).",
+      "rule": "On the Developer Platform (build-less HTML slide types — presenter.html / audience.html / settings.html, each loading its own entry: lib/canvas.js, lib/audience.js, lib/settings.js) presenter controls render INSIDE the canvas: a row of <aha-button size=\"lg\"> (40px, 8px corners, 20px side padding, 16px / 600 label; icon-only 40 × 40). Size only through the size attribute — never ::part(button) height / padding / font-size overrides or inline sizing; colour only through applyCanvasDeck from lib/canvas.js, which puts the deck accent on --aha-color-primary and the primary, picks a black or white label by contrast, darkens hover 12% and pressed 22%, and drops the hover shadow (hover is a fill change only). Text on a deck palette colour (an option card, bar or chip) takes `palette: presentationColorPalette` so applyCanvasDeck writes --aha-deck-palette-<n> and --aha-deck-palette-<n>-ink (the DS text ink or white, AA) per colour; never a hand-rolled luminance flip. One primary per row; the rest secondary-deck; tertiary-deck never on a photographic deck, where the action becomes a secondary-deck. The host-control-bar rule applies only to built plugins that declare manifest actions. The demo, the sizes and these rules live on the Canvas Library › Components page (https://design.ahaslides.io/canvas/index.html).",
       "ref": [
         "§5",
         "C3",
@@ -427,7 +451,7 @@
       ]
     },
     {
-      "rule": "A FRAMED slide over a photo background (slide.backgroundImage set) keeps the deck showing: no slide-wide scrim, panel or backdrop behind the whole answer area. Only bounded surfaces — cards, chips, a caption bar behind one line of text — may be opaque.",
+      "rule": "A FRAMED slide over a photo background (slide.backgroundImage set) keeps the deck showing: no slide-wide scrim, panel or backdrop behind the whole answer area. Only bounded surfaces such as cards may be opaque; text over the photo needs no backing.",
       "ref": [
         "§4",
         "C3",
@@ -453,6 +477,13 @@
       "ref": [
         "C16",
         "C23"
+      ]
+    },
+    {
+      "rule": "Every presenter interaction works with the keyboard alone (Slide Plugin Policy section 6): each control is focusable in reading order with a visible focus ring and activated by Enter or Space (or a declared shortcut); anything shown on hover is also shown on :focus-visible; a drag, draw or pointer gesture has a keyboard alternative; no keyboard trap; never swallow ArrowRight/ArrowLeft, PageDown/PageUp or Space except to claim a build step through the SDK. A display-only canvas passes. C10 covers shortcut chips and tooltips; this covers reachability.",
+      "ref": [
+        "C10",
+        "C24"
       ]
     }
   ],

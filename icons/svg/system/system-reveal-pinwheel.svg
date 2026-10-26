@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="-4 -4 128 128" role="img" aria-label="Reveal icon">
+<circle cx="60" cy="66" r="11" fill="#4A4A4A"/>
+<path d="M60 52L60 37.4" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="60,32 51,41 69,41" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<path d="M74 66L88.6 66" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="94,66 85,57 85,75" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<path d="M60 80L60 94.6" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="60,100 69,91 51,91" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<path d="M46 66L31.4 66" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="26,66 35,75 35,57" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<path d="M4.4 36.4A63 63 0 0 1 110.6 28.5" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="115.6,36.4 119.1,21.3 100.5,33" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+</svg>

@@ -46,10 +46,8 @@ const hostTitle = computed(() => slideProps.value?.title ?? labels.title)
 
 <template>
   <!-- C1/C5 — transparent stage: the host owns the background, so ink tracks the
-       deck's textColour and contrast is the host theme's guarantee. A scrim keeps
-       text legible when the deck carries a background image. -->
+       deck's textColour and contrast is the host theme's guarantee. -->
   <div class="stage" :style="{ color: textColour, fontFamily }">
-    <div v-if="slideProps?.backgroundImage" class="scrim" aria-hidden="true" />
 
     <!-- C7/C12 — full-canvas (manifest setting.enableFullScreen: true): the host
          hides its chrome, so THIS canvas renders the presenter's host title itself
@@ -83,8 +81,6 @@ const hostTitle = computed(() => slideProps.value?.title ?? labels.title)
 
 <style scoped>
 .stage { position: relative; height: 100%; padding: 4vh 5vw; }
-/* C1 — the scrim is a tint of the deck's own surface, not a fixed colour. */
-.scrim { position: absolute; inset: 0; background: currentColor; opacity: 0.08; }
 /* C5 — sizes scale with the 16:9 stage but never drop below a legible floor. */
 /* Fixed logical px (type-scale roles) — the 1280x720 stage transform scales them
    proportionally; no vh, no clamp floor (that would break proportion / is an

@@ -31,6 +31,14 @@ export function CustomUrlSetting() {
         feature-label="Export results"
         body="Download every response as a CSV or PDF."
         required-plan="essential" />
+
+      {/* Anchor near a panel edge → align="start" (popover's left edge on the anchor) or "end" */}
+      <aha-paywall
+        feature-key="custom_branding"
+        feature-label="Custom branding"
+        body="Add your logo and colours to every deck."
+        required-plan="pro"
+        align="start" />
     </>
   );
 }

@@ -24,6 +24,8 @@ cased — not how the surface looks (the component skills) and not the brand voi
 
 ## Casing — sentence case is the house default · UXW-1
 
+> **Mechanical gate:** the five slide-type names below written in Title Case (`Multiple Choice`, `Word Cloud`, `Open-Ended`, `Spinner Wheel`, `Rating Scale`) fail `screen-lint` as `title-case-slide-name`. The rest of UXW-1 is judged, not linted.
+
 Sentence case is the default for **all** AhaSlides product UI text: button & CTA labels, menu /
 tab / nav items, **slide-type and interactive-component names**, section headings, tooltips and
 helper text, dialog titles, empty states, and message copy.
@@ -61,6 +63,8 @@ case, and don't cite it to justify Title Case elsewhere.
 - A message with an OUTCOME but no NEXT is a **dead-end** — the "*Error? so what now?*" reaction.
 
 ### Be specific — name the object and what happened · UXW-2
+
+> **Mechanical gate:** the stock phrases "Something went wrong", "An error occurred", "Oops", "Unexpected error" and "Some items could not be loaded" fail `screen-lint` as `vague-error-copy`. A message that avoids them can still be vague, which stays the judge's call.
 
 - ❌ "Some items could not be loaded." → ✅ "Couldn't load some presentations."
 - ❌ "Something went wrong." / "An error occurred." / "Oops!" → name the object + verb.
@@ -107,6 +111,8 @@ support). The recovery lives **in the message**, not only in a toast that vanish
 
 ### No dash as punctuation · UXW-8
 
+> **Mechanical gate:** an em dash or en dash (raw or as `&mdash;` / `&ndash;`) in UI text fails `screen-lint` as `no-dash-punctuation`.
+
 Product copy never uses an em dash (—) or en dash (–) as punctuation.
 
 - Replace it with a full stop, a comma, a colon, parentheses, or split the sentence into two.
@@ -132,6 +138,12 @@ A tooltip is a hint, not a help article. It shows on mouse hover or keyboard foc
 - ❌ "This doesn't control the quiz lobby music, which plays by default. Use the volume control while
   presenting to mute it, or replace it under Background music." (two ideas, 156 characters)
 - ✅ "Covers quiz sound effects only, not the lobby music." (one idea, 52 characters)
+
+### Labels name the function, not a coined term · UXW-10
+
+Every form and field label, option and group header names what the thing does, in the words users already use. No coined terms, metaphors, lone abstract nouns ("Mode", "Display") or invented names for something other products call by a known term. Clear beats short. Depth, worked examples and the self-check table: "Labels: say what the setting does" in the Settings guideline.
+
+- ❌ "Pass mark", "Opening", "Signer" → ✅ "Complete module condition", "When the module opens", "Signature"
 
 ### Worked example
 
@@ -167,3 +179,15 @@ are, apply the universal principles above; each lands here with its own rule + r
  Self-check any copy with the DS anti-slop judge (`ux-writing` surface) and fix every FAIL before shipping.
 Stay in your lane: the surface LOOK is the `feedback` guide / the `shared-components` guide, the
 type SCALE is the `typography` guide, and the brand VOICE is `aha-branding:aha-branding-tone-voice`.*
+
+## What `screen-lint` enforces
+
+`screen-lint.mjs` hard-fails three zero-interpretation rules on every surface (product, settings, canvas, audience). Everything else in UXW-1..10 stays with the judge.
+
+| Rule id | UXW | Fails on |
+| --- | --- | --- |
+| `no-dash-punctuation` | UXW-8 | an em dash or en dash in UI text |
+| `vague-error-copy` | UXW-2 | the five banned stock phrases, any case |
+| `title-case-slide-name` | UXW-1 | the five slide-type names in Title Case |
+
+It reads user-visible strings only: HTML text nodes, the `title`, `aria-label`, `aria-description`, `placeholder`, `alt`, `label` and `heading` attributes, and string literals under UI-text keys in scripts (`label`, `title`, `placeholder`, `text`, `message`, `tooltip`, `description`, `heading`, `caption`, `alt`, `textContent`, `setAttribute(...)`, `innerHTML`). It skips comments, CSS, URLs, identifiers, `<code>`, `<pre>` and `<kbd>`. A line that must quote a banned string (a docs example, a customer quote) opts out with `ds-lint-allow: <rule-id> (why)`, or `ds-lint-allow: copy (why)` for all three.

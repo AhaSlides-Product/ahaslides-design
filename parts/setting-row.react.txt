@@ -18,7 +18,20 @@ function SettingRow({ label, help, layout, children }) {
   <aha-switch slot="control" />
 </SettingRow>
 
+// usage — locked (plan-gated): Paywall crown in place of the "?", control disabled
+<aha-setting-row label="Custom branding" locked plan="pro" feature-key="custom_branding"
+                 upgrade-body="Add your logo and colours to every deck.">
+  <aha-switch slot="control" />
+</aha-setting-row>
+
 // usage — stack, label above / control full-width
 <SettingRow label="Speaker notes" layout="stack">
   <aha-input slot="control" placeholder="Notes only you can see" />
 </SettingRow>
+
+// usage — locked row inside a right-hand scrolling panel: the Paywall popover opens to the left of the crown
+<div style={{ width: 280, height: 320, overflow: 'auto', marginLeft: 'auto' }}>
+  <aha-setting-row label="Custom branding" locked plan="pro" upgrade-body="Add your logo and colours to every deck.">
+    <aha-switch slot="control" />
+  </aha-setting-row>
+</div>

@@ -4,6 +4,7 @@
      drive live React state (Size / Status / Controls+Disabled), so the whole DS V3 matrix is
      explorable — the default render (default size · no status · steppers on · min 0/max 100) is
      what conformance measures (40px field, radius 8, #E3E3E3 border). -->
+<link rel="stylesheet" href="../lib/input-number.css">
 <script type="module">import '../lib/icons.js'; import '../lib/aha-field-error.js';</script>
 <div id="react-root" class="pad"></div>
 
@@ -55,7 +56,7 @@ function Field({ label, children }) {
 
 function Demo() {
   const [size, setSize] = useState('default');   // small(24) · default(40) · large(48)
-  const [status, setStatus] = useState('');       // '' · error · warning
+  const [status, setStatus] = useState('');       // '' · error
   const [mode, setMode] = useState('controls');   // controls · nocontrols · disabled · readonly
   const controls = mode !== 'nocontrols';
   const disabled = mode === 'disabled';
@@ -67,7 +68,7 @@ function Demo() {
         <Seg label="Size" value={size} onChange={setSize}
           options={[{ label: 'Small', value: 'small' }, { label: 'Default', value: 'default' }, { label: 'Large', value: 'large' }]} />
         <Seg label="Status" value={status} onChange={setStatus}
-          options={[{ label: 'None', value: '' }, { label: 'Error', value: 'error' }, { label: 'Warning', value: 'warning' }]} />
+          options={[{ label: 'None', value: '' }, { label: 'Error', value: 'error' }]} />
         <Seg label="State" value={mode} onChange={setMode}
           options={[{ label: 'Steppers', value: 'controls' }, { label: 'No steppers', value: 'nocontrols' }, { label: 'Disabled', value: 'disabled' }, { label: 'Read-only', value: 'readonly' }]} />
       </div>
@@ -101,6 +102,11 @@ function Demo() {
         <InputNumber min={0} max={100} defaultValue={140} size={size} status="error"
           aria-invalid="true" aria-describedby="inum-error" style={{ width: w }} />
         <aha-field-error id="inum-error" icon="" message="Enter a number between 0 and 100"></aha-field-error>
+      </Field>
+
+      <Field label="Info · aha-field-error tone=info below the field">
+        <InputNumber min={0} max={100} defaultValue={3} size={size} aria-describedby="inum-info" style={{ width: w }} />
+        <aha-field-error id="inum-info" tone="info" message="Up to 100 guests"></aha-field-error>
       </Field>
 
       <Field label="Empty · placeholder">

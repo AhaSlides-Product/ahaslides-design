@@ -9,7 +9,7 @@ function AhaCardSelect({ options, value, columns, iconOnly, disabled, onChange }
     const el = ref.current;
     el.options = options || [];
     if (value != null) el.value = value;
-    el.iconOnly = !!iconOnly;   // compact 44px squares; label kept as title + aria-label
+    el.iconOnly = !!iconOnly;   // compact 44px squares; label kept as aria-label and shown as a tooltip on hover and keyboard focus
     el.disabled = !!disabled;
     const h = (e) => onChange?.(e.detail.value);   // composed CustomEvent
     el.addEventListener('change', h);

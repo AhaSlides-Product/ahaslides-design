@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collapse overflow</title>
+<style>body{margin:0;padding:40px;width:360px}</style>
+</head>
+<body>
+  <aha-collapse id="ghost" ghost size="small" open>
+    <span slot="header">Reporting options</span>
+    <aha-setting-row label="Collect emails" help="Help bubbles stay visible inside an open collapse."><aha-switch></aha-switch></aha-setting-row>
+  </aha-collapse>
+  <aha-collapse id="bordered" open>
+    <span slot="header">Bordered</span>
+    <aha-setting-row label="Collect emails" help="Help bubbles stay visible inside an open collapse."><aha-switch></aha-switch></aha-setting-row>
+  </aha-collapse>
+  <aha-collapse id="closed">
+    <span slot="header">Closed</span>
+    <div style="height:40px">Body</div>
+  </aha-collapse>
+  <script type="module">
+    await import('../lib/icons.js');
+    await import('../lib/aha-collapse.js');
+    await import('../lib/aha-setting-row.js');
+    await import('../lib/aha-switch.js');
+    window.collapseFixtureReady = true;
+  </script>
+</body>
+</html>

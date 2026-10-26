@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="-4 -4 128 128" role="img" aria-label="Reveal icon">
+<path d="M85.4 107.7A54 54 0 1 1 102.6 26.8" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="107.7,34.6 110.9,19.4 92.5,31.4" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<path d="M60 92L60 77.8" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="60,73 52,81 68,81" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<path d="M32.3 44L44.6 51.1" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="48.7,53.5 45.8,42.6 37.8,56.4" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<path d="M87.7 44L75.4 51.1" stroke="#4A4A4A" stroke-width="10" stroke-linecap="round" fill="none"/>
+<polygon points="71.3,53.5 82.2,56.4 74.2,42.6" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="10" stroke-linejoin="round"/>
+<circle cx="60" cy="60" r="4" fill="#4A4A4A"/>
+</svg>

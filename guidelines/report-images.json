@@ -89,7 +89,7 @@
     {
       "ref": "--aha-border-default",
       "as": "token",
-      "use": "table row dividers and chart grid lines",
+      "use": "chart grid lines (report tables have no row dividers)",
       "status": "available"
     },
     {
@@ -172,7 +172,7 @@
     },
     {
       "id": "static-table",
-      "rule": "A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary, the light grey rule 3.6 allows for table surfaces), never pale pink, with the 1px row dividers kept, header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This is colour rule 3.11 and applies to reports only: a table on a screen of the product app keeps plain rows, because people work in it with a hover highlight; a report is read, not worked in.",
+      "rule": "A table in a report, image or page, has zebra rows alternating white and light grey (#F7F7F7, --aha-bg-container-secondary, the light grey rule 3.6 allows for table surfaces), never pale pink, with no horizontal row dividers (the zebra does that job, and lines on top of it only add clutter), header labels in black semibold over a 2px Vivid Pink rule, figures in black tabular numerals aligned right and text aligned left, and no vertical rules or status colours. This is colour rule 3.11 and applies to reports only: a table on a screen of the product app keeps plain rows with dividers, because people work in it with a hover highlight; a report is read, not worked in.",
       "ref": [
         "C11"
       ]
@@ -218,7 +218,7 @@
       "verdict": "N/A — per report"
     },
     {
-      "label": "tables, in an image and on a page: zebra white and light grey #F7F7F7 (never pink), dividers, black semibold header over a 2px Vivid Pink rule",
+      "label": "tables, in an image and on a page: zebra white and light grey #F7F7F7 (never pink), no row dividers, black semibold header over a 2px Vivid Pink rule",
       "verdict": "N/A — per report"
     },
     {
