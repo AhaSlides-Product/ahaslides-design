@@ -114,7 +114,7 @@ test('notices render info boxes whose links open and announce a question', { ski
 test('a plain link written in an info box or alert is inline text in the DS link style', { skip }, async () => {
   const result = await run('', `
     const host = document.createElement('div');
-    host.innerHTML = '<aha-info-box id="ib" variant="warning">Questions <a href="#q2">2</a> and <a href="#q3">3</a> have no prompt.</aha-info-box><aha-alert id="al">See <a href="#q1">question 1</a>.</aha-alert>';
+    host.innerHTML = '<style>a{color:#E70E68}</style><aha-info-box id="ib" variant="warning">Questions <a href="#q2">2</a> and <a href="#q3">3</a> have no prompt.</aha-info-box><aha-alert id="al">See <a href="#q1">question 1</a>.</aha-alert>';
     document.body.append(host); await frame();
     const read = (id) => { const link = document.querySelector('#' + id + ' a'); const style = getComputedStyle(link);
       return { display: style.display, padding: style.padding, weight: style.fontWeight, colour: style.color, underline: style.textDecorationLine, fontSize: style.fontSize, lineHeight: style.lineHeight, textHeight: link.getBoundingClientRect().height <= 21 }; };
