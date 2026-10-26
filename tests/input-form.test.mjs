@@ -25,6 +25,7 @@ test('aha-input is form-associated, submits on Enter, names itself and points at
     await enterIn('with-button');
     await enterIn('with-disabled-button');
     await enterIn('two-first');
+    await enterIn('date-first');
     await evaluate(`document.getElementById('external').focus()`);
     await press('X', 'KeyX', 88, 'X');
     await new Promise((resolve) => setTimeout(resolve, 50));
@@ -56,6 +57,7 @@ test('aha-input is form-associated, submits on Enter, names itself and points at
   assert.equal(result.counts['button-form'], 1, 'with an aha-button submit it still submits once');
   assert.equal(result.counts['disabled-button-form'], 0, 'a disabled default button blocks implicit submit');
   assert.equal(result.counts['two-field-form'], 0, 'two fields and no submit button: no implicit submit, as native');
+  assert.equal(result.counts['date-form'], 0, 'a native date input also blocks implicit submit, as native');
   assert.deepEqual(JSON.parse(result.searchForm), [['q', 'intro']], 'value joins the form data under name');
   const [[, typed]] = JSON.parse(result.formData);
   assert.ok(typed.endsWith('X'), 'typed text reaches the form data');
