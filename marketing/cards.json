@@ -438,7 +438,7 @@
     {
       "slug": "compact-see-all",
       "name": "Compact: top three and See all features",
-      "summary": "A centred header, the three strongest features as Feature cards, and a closing row with the primary call to action and a secondary See all 8 features button to the full Features page. The DS has no website modal or drawer, so the full list is a page, not an overlay. About 560 px tall at 1440.",
+      "summary": "A centred header, the three strongest features as Feature cards, and a closing row with the primary call to action and a secondary See all 8 features button to a page listing every feature. The DS has no website modal or drawer, so the full list is a page, not an overlay. About 560 px tall at 1440.",
       "cards": true,
       "classes": "aha-features aha-features--compact aha-features--compact-see-all",
       "sharedCss": "aha-features",
