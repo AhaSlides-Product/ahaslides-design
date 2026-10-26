@@ -947,7 +947,7 @@
     "system-bug": {
       "family": "system",
       "viewBox": "0 0 16 16",
-      "body": "<path d=\"M8 4.5C6.34315 4.5 5 5.84315 5 7.5V10C5 11.933 6.34315 13.5 8 13.5C9.65685 13.5 11 11.933 11 10V7.5C11 5.84315 9.65685 4.5 8 4.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5 8H2M11 8H14M5 11H2.5M11 11H13.5M6 2L7 4.5M10 2L9 4.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "body": "<path d=\"M6 4.753V4.087A2 2 0 0 1 10 4.087V4.753M8 13.333C5.8 13.333 4 11.533 4 9.333V7.333A2.667 2.667 0 0 1 6.667 4.667H9.333A2.667 2.667 0 0 1 12 7.333V9.333C12 11.533 10.2 13.333 8 13.333ZM8 13.333V7.333\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5.333 1.333L6.587 2.587M9.413 2.587L10.667 1.333M4.353 6C3.067 5.867 2 4.733 2 3.333M4 8.667H1.333M2 14C2 12.6 3.133 11.4 4.533 11.333M14 3.333C14 4.733 12.913 5.867 11.647 6M14.667 8.667H12M11.467 11.333C12.867 11.4 14 12.6 14 14\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
       "recolorable": true,
       "meaning": [
         "bug",
