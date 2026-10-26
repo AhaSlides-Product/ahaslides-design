@@ -8,7 +8,7 @@
   "element": "aha-tabs",
   "summary": "Switch between sibling content panels from a tab bar — line, primary or card, in two sizes, with per-tab icons.",
   "highlights": ["Switch between sibling content panels", "Line, primary or card style in two sizes", "Per-tab icons"],
-  "lead": "ONE custom element — <aha-tabs> — defined once, imported unchanged by React and Vue. The DS V3 Tabs is a family, not one look: `type` picks line (the default underline bar), primary (a Bold 700 emphasised underline) or card (a filled bg-accent segment), and `size` is default or small. Each tab can carry a leading icon (by name, via <aha-icon>) and be disabled — roving arrow-key nav skips it. Feed it slotted panels (each child's label in data-tab, optional data-icon / data-disabled) or an `items` JSON array for a label-only bar. Switching toggles a class on persistent tab nodes so the active colour, underline and pill animate. Zero drift — the same element, not two look-alikes.",
+  "lead": "ONE custom element — <aha-tabs> — defined once, imported unchanged by React and Vue. The DS V3 Tabs is a family, not one look: `type` picks line (the default underline bar), primary (a Bold 700 emphasised underline) or card (a filled bg-accent segment), and `size` is default or small. Each tab can carry a leading icon (by name, via <aha-icon>) and be disabled — roving arrow-key nav skips it. Feed it slotted panels (each child's label in data-tab, optional data-icon / data-disabled) or an `items` JSON array for a label-only bar. Switching toggles a class on persistent tab nodes so the active colour, underline and segment animate. Zero drift — the same element, not two look-alikes.",
   "codeNote": "Same element, same shadow-DOM CSS → identical render. React (< 19) consumes it via a thin ref wrapper; Vue binds the custom element natively. The primitive is defined once in @ahaslides-product/design.",
   "tokensUsed": ["border", "text-secondary", "text-default", "text-disabled", "color-primary", "bg-accent", "bg-hover", "border-focus", "radius-xs", "radius-sm", "font-product", "motion-mid", "ease-in-out"],
   "spec": [
@@ -16,11 +16,11 @@
     { "label": "Tab", "value": "SemiBold 600 14 / line-height 21, pad 8 0, 8px gap to a 16px leading icon" },
     { "label": "Line (default)", "value": "active color-primary #E70E68 text + 2px color-primary underline" },
     { "label": "Primary", "value": "same underline, active label Bold 700" },
-    { "label": "Card", "value": "active in a bg-accent #E70E680D pill, radius-sm 6, no underline; hover bg-hover" },
+    { "label": "Card", "value": "active in a bg-accent #E70E680D segment, radius-sm 6, no underline; hover bg-hover" },
     { "label": "Inactive", "value": "text-secondary #4A4A4A → text-default on hover" },
     { "label": "Disabled", "value": "text-disabled #B5B5B5, not-allowed, skipped by arrow-key nav" },
     { "label": "Small", "value": "13px label, tighter padding + gap" },
-    { "label": "Left rail", "value": "tab-position=left — vertical rail, right-edge 1px rule; active moves to a 2px color-primary side border (line/primary), card keeps its pill; up/down arrow-key nav" }
+    { "label": "Left rail", "value": "tab-position=left — vertical rail, right-edge 1px rule; active moves to a 2px color-primary side border (line/primary), card keeps its segment; up/down arrow-key nav" }
   ],
   "props": [
     { "name": "value", "type": "number", "default": "0", "desc": "Zero-based index of the active tab" },
@@ -38,7 +38,7 @@
       { "what": "Select", "when": "the choices are many or space is tight" }
     ],
     "note": "Keep labels to one or two words, sentence case. Order tabs by expected use, most common first, and don't hide critical content behind a rarely-picked tab. Use line/primary for in-page view switching; reach for card when the bar sits on a tinted surface and needs a filled active chip.",
-    "dsv3": "COVERED — enumerated from the DS V3 reference contract, which carries two type families: `tabs|…` (the filled CARD look — active in a bg-accent pill, radius-sm 6, no rule) and `tabsPrimary|…` (the underline LINE look — active color-primary #E70E68 text + 2px color-primary underline, inactive-hover lifting to color-primary), each with active / inactive / inactive|hover. Mapped to `type` = line (default underline) · primary (Bold 700 underline) · card (bg-accent pill). Both sizes (default / small) and per-tab leading icon + disabled supported. `tab-position` = top (default) · left adds the vertical left-rail orientation: the bar's bottom rule becomes a right-edge rule and the 2px color-primary underline rotates to a 2px color-primary side border on the active edge (card keeps its pill), roving nav flipping to up/down — same tokens, same persistent-node animation. Token layer: border #E3E3E3, text-secondary inactive, color-primary active, bg-accent card fill, text-disabled disabled, radius-sm card. Colour, underline/side-border and pill animate on persistent nodes via the shared motion tokens — no subtree rebuild on switch."
+    "dsv3": "COVERED — enumerated from the DS V3 reference contract, which carries two type families: `tabs|…` (the filled CARD look — active in a bg-accent segment, radius-sm 6, no rule) and `tabsPrimary|…` (the underline LINE look — active color-primary #E70E68 text + 2px color-primary underline, inactive-hover lifting to color-primary), each with active / inactive / inactive|hover. Mapped to `type` = line (default underline) · primary (Bold 700 underline) · card (bg-accent segment). Both sizes (default / small) and per-tab leading icon + disabled supported. `tab-position` = top (default) · left adds the vertical left-rail orientation: the bar's bottom rule becomes a right-edge rule and the 2px color-primary underline rotates to a 2px color-primary side border on the active edge (card keeps its segment), roving nav flipping to up/down — same tokens, same persistent-node animation. Token layer: border #E3E3E3, text-secondary inactive, color-primary active, bg-accent card fill, text-disabled disabled, radius-sm card. Colour, underline/side-border and segment animate on persistent nodes via the shared motion tokens — no subtree rebuild on switch."
   },
   "surfaces": ["editor", "dashboard", "settings"],
   "reuse": { "entry": "./aha-tabs", "registers": "aha-tabs", "exportsNamed": ["AhaTabs", "defineAhaTabs"] },
@@ -71,7 +71,7 @@
   },
   "selfCheck": [
     { "label": "line/primary active color-primary + 2px underline", "verdict": "PASS" },
-    { "label": "card active bg-accent pill, radius-sm, no rule", "verdict": "PASS" },
+    { "label": "card active bg-accent segment, radius-sm, no rule", "verdict": "PASS" },
     { "label": "inactive text-secondary → text-default on hover", "verdict": "PASS" },
     { "label": "leading icon (by name) + disabled tab skipped by arrow-key nav", "verdict": "PASS" },
     { "label": "default/small sizes; change emits composed index", "verdict": "PASS" },

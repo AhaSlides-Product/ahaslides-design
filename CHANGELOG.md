@@ -22,10 +22,20 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.441.0 — 2026-10-26
+## 0.443.0 — 2026-10-26
 ### Changed
 - Motion rules define "respect prefers-reduced-motion": the device setting is always followed, a presenter setting may only reduce further, and under reduce movement is removed (fade or instant passes, so a snap is judged only at the default setting); results also show a static end state; C22 and C34 judge it (#295)
 - Holds (dwell) get no `--aha-dwell-*` tokens: each is a named per-slide constant and is never shortened under reduce
+
+## 0.441.0 — 2026-10-26
+### Removed
+- **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
+- `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
+### Changed
+- Components re-shaped: Badge count bubble 4px, Progress / Countdown / Uploader / background task tracks 4px, Stat tile fall chip 4px, Switch track 6px, tooltip help trigger 4px; avatars, dots, radio-like marks, thumbs and spinners are 50% circles. Skeleton `round` now softens corners to `radius-lg` (12px) and leaves the avatar a circle (#337).
+- Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
+- `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
+- `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
 
 
 ## 0.437.0 — 2026-10-26
