@@ -8,7 +8,7 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';   // registers <aha-input>
 </script>
 
-<!-- size: default only in a settings panel (never small or large)   ·   status: error | warning   ·   disabled / readonly -->
+<!-- size: default only in a settings panel (never small or large)   ·   status: error (warning is a deprecated alias)   ·   info-message: help text   ·   disabled / readonly -->
 <aha-input id="ws" placeholder="Workspace name" value="AhaSlides"></aha-input>
 
 <!-- affixes: a leading prefix icon, a trailing suffix text, a clear ✕, a password reveal -->
@@ -16,6 +16,7 @@
 <aha-input suffix=".ahaslides.com" value="myteam"></aha-input>
 <aha-input type="password" prefix-icon="system-lock" value="secret123"></aha-input>
 <aha-input status="error" value="not-an-email" placeholder="Email"></aha-input>
+<aha-input info-message="Use 8 or more characters" type="password" placeholder="Password"></aha-input>
 
 <script>
   // Plain DOM — no framework. Read e.detail.value off the composed CustomEvent.

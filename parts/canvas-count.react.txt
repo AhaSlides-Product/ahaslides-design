@@ -1,0 +1,10 @@
+import '@ahaslides-product/design/aha-canvas-count';   // registers <aha-canvas-count>
+import { t } from 'i18next';
+
+// Attributes only, no events, so React 18/19 renders the element directly.
+// The canvas root has applyCanvasDeck(...) applied once per slide.
+export function AnswerCount({ correct, wrong, answered, revealed }) {
+  return revealed
+    ? <aha-canvas-count correct={correct} wrong={wrong} label={t('answer_count.verdict', { correct, wrong })} />
+    : <aha-canvas-count answered={answered} label={t('answer_count.answered', { count: answered })} />;
+}

@@ -1,0 +1,27 @@
+<div class="pad">
+  <div class="lbl">Participant response: wrong · correct, and the answer key (plain)</div>
+  <div class="demo-stage">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; width:100%">
+      <aha-answer-result data-probe-wrong result="incorrect" label="Response">Tea</aha-answer-result>
+      <aha-answer-result data-probe-key label="Correct answer">Coffee</aha-answer-result>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; width:100%; margin-top:16px">
+      <aha-answer-result data-probe result="correct" label="Response">Coffee</aha-answer-result>
+      <aha-answer-result label="Correct answer">Coffee</aha-answer-result>
+    </div>
+  </div>
+
+  <div class="lbl">Without a caption, with a long answer</div>
+  <div class="demo-stage">
+    <div style="display:flex; flex-direction:column; gap:8px; width:100%; max-width:420px">
+      <aha-answer-result result="incorrect">A long free-text response that wraps onto a second line inside the row without moving the mark</aha-answer-result>
+      <aha-answer-result result="correct">Coffee</aha-answer-result>
+      <aha-answer-result>Coffee</aha-answer-result>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import '../lib/icons.js';
+  import '../lib/aha-answer-result.js';
+</script>

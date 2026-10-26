@@ -1,0 +1,134 @@
+{
+  "name": "Canvas play",
+  "slug": "canvas-play",
+  "group": "General",
+  "tier": "leaf",
+  "badge": "shared web component — canvas",
+  "element": "aha-canvas-play",
+  "reuse": {
+    "entry": "./aha-canvas-play",
+    "registers": "aha-canvas-play",
+    "exportsNamed": [
+      "AhaCanvasPlay",
+      "defineAhaCanvasPlay"
+    ]
+  },
+  "summary": "The centred Play control on a slide canvas: a round Vivid Pink disc with the play glyph, in md, lg and hero (96px) sizes, with the deck focus ring.",
+  "lead": "ONE custom element — <aha-canvas-play> — the Play control a video or media slide draws in the middle of its canvas. A native button, so Enter and Space activate it and the host listens for `click`. The disc is --aha-color-primary with the white system-play glyph and no shadow; hover and press step to --aha-color-primary-hover / -active. Keyboard focus draws the deck focus ring (a 2px gap in the deck background, a 2px ring in the deck ink, both written by applyCanvasDeck), so it reads on light, dark and photo decks.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only; the host listens for the native `click`.",
+  "tokensUsed": [
+    "color-primary",
+    "text-inverse",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Disc",
+      "value": "circle (border-radius 50%), --aha-color-primary fill, no border, no shadow; md 48, lg 64 (default), hero 96"
+    },
+    {
+      "label": "Glyph",
+      "value": "system-play, white (--aha-text-inverse), 24px on md and 32px on lg and hero (the icon grid has no larger size), nudged 2px right so the triangle reads centred"
+    },
+    {
+      "label": "States",
+      "value": "hover --aha-color-primary-hover, press --aha-color-primary-active, disabled 50% opacity and inert; background transition --aha-motion-mid, off under reduced motion"
+    },
+    {
+      "label": "Focus",
+      "value": ":focus-visible only: 2px --aha-button-focus-gap then 2px --aha-button-focus-ring (the deck background and ink once applyCanvasDeck has run)"
+    }
+  ],
+  "props": [
+    {
+      "name": "size",
+      "type": "md | lg | hero",
+      "default": "lg",
+      "desc": "48 / 64 / 96px disc. hero is the centred in-canvas Play"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "Play (English)",
+      "desc": "Accessible name of the button; pass a translated string in the product"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "desc": "inert and dimmed"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Canvas play (hero)",
+        "when": "the one Play control centred on a video or media slide before it runs"
+      },
+      {
+        "what": "Button",
+        "when": "any other action: a canvas action bar uses <aha-button size=\"lg\"> (variant secondary-deck / primary)"
+      }
+    ],
+    "note": "Never rebuild it as a hand-sized disc or a 96px aha-button, and never add a shadow: the disc is flat, the deck focus ring is the only chrome."
+  },
+  "surfaces": [
+    "presenter"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "canvas-play.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "canvas-play.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "canvas-play.vue.txt"
+    }
+  ],
+  "preview": "canvas-play.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP). Leaf = ONE shared element, single render.",
+    "ready": "!!(document.querySelector('aha-canvas-play') && document.querySelector('aha-canvas-play').shadowRoot && document.querySelector('aha-canvas-play').shadowRoot.querySelector('.box'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-canvas-play[size=hero]');var b=el&&el.shadowRoot&&el.shadowRoot.querySelector('.box');if(!b)return{};var s=getComputedStyle(b);return{bg:s.backgroundColor,fg:s.color,width:s.width,height:s.height,shadow:s.boxShadow};})()",
+    "expect": {
+      "bg": "rgb(231, 14, 104)",
+      "fg": "rgb(255, 255, 255)",
+      "width": "96px",
+      "height": "96px",
+      "shadow": "none"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "hero disc 96 × 96, circle",
+      "verdict": "PASS"
+    },
+    {
+      "label": "--aha-color-primary fill, white glyph, no shadow",
+      "verdict": "PASS"
+    }
+  ],
+  "highlights": [
+    "Round play disc on --aha-color-primary, white system-play glyph, no shadow",
+    "Sizes md 48, lg 64, hero 96",
+    "Deck focus ring from applyCanvasDeck, so it shows on every deck"
+  ],
+  "a11y": {
+    "role": "native <button> with an aria-label (default \"Play\"); the glyph is decorative",
+    "keyboard": "Tab to focus, Enter or Space to activate, deck focus ring on :focus-visible",
+    "note": "`label`, `size` and `disabled` re-sync on change (observed attributes)."
+  }
+}

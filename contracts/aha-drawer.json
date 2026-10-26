@@ -1,0 +1,225 @@
+{
+  "name": "Drawer (web component)",
+  "slug": "aha-drawer",
+  "group": "Feedback",
+  "tier": "leaf-lit",
+  "badge": "shared web component",
+  "element": "aha-drawer",
+  "environment": [
+    "product"
+  ],
+  "summary": "The side drawer as a framework-free element, for pages that cannot load antd: a white panel that slides in from the right with a title, a scrolling body, an optional footer and a dimmed mask.",
+  "highlights": [
+    "Same look as the antd Drawer, no antd needed",
+    "Esc, mask and ✕ close it; focus trapped and returned",
+    "Title, body and footer slots; right or left"
+  ],
+  "lead": "ONE custom element, <aha-drawer>, that reproduces the antd Drawer as themed by drawerTheme value for value: the 378 wide white panel, the 16/24 header with a 16px SemiBold ink title and the shared dismiss ✕, the 24 padded scrolling body, the 8/16 footer, the dimmed mask and the 0.3s slide. It exists for pages that cannot take the antd Drawer: Vue 2 apps that only take <aha-*> elements, plain HTML pages and standalone demos, which used to draw the panel by hand. The antd Drawer stays the choice in React and Vue 3 apps that already load antd, and the only one with top and bottom placements.",
+  "codeNote": "Same element, same shadow-DOM CSS, so the render is identical in React, Vue and plain HTML. React (< 19) binds the `close` and `closed` events through a ref; Vue binds them natively. The element does not own its state: set or remove `open`, and call preventDefault() on `close` to keep it open.",
+  "tokensUsed": [
+    "bg-elevated",
+    "text-default",
+    "bg-overlay",
+    "split",
+    "black",
+    "size-l",
+    "line-height-body",
+    "space-8",
+    "space-16",
+    "space-24",
+    "motion-slow",
+    "font-product"
+  ],
+  "spec": [
+    {
+      "label": "Panel",
+      "value": "white (bg-elevated), 378 wide (size=\"large\" 736, or width), full height, no radius, max 100% of its container; right edge by default, placement=\"left\" mirrors it"
+    },
+    {
+      "label": "Header",
+      "value": "padding 16 24, 1px bottom rule in the split colour; title 16/1.5 SemiBold ink; the shared dismiss ✕ (tertiary icon-only xs aha-button, system-x 16) pinned to the title's first line, 8 from the title"
+    },
+    {
+      "label": "Body",
+      "value": "padding 24, scrolls on its own when taller than the panel, scroll does not chain to the page"
+    },
+    {
+      "label": "Footer",
+      "value": "slot=\"footer\", padding 8 16, 1px top rule; hidden until something is slotted"
+    },
+    {
+      "label": "Mask",
+      "value": "the overlay colour (ink at 40%), fades in over 0.3s; a click closes unless `static`"
+    },
+    {
+      "label": "Shadow",
+      "value": "-6 0 16 0 ink 8%, -3 0 6 -4 ink 12%, -9 0 28 8 ink 5% (mirrored for the left edge); the antd drawer shadow"
+    },
+    {
+      "label": "Motion",
+      "value": "panel slides from its edge and fades .7 to 1 over 0.3s, mask fades over 0.3s; prefers-reduced-motion switches both off"
+    },
+    {
+      "label": "Behaviour",
+      "value": "role dialog, aria-modal, named by the title; traps Tab, locks page scroll, returns focus to whatever opened it; Esc, mask and ✕ emit a cancelable `close`"
+    }
+  ],
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Shows the drawer. Removing it hides it and emits `closed`"
+    },
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "—",
+      "desc": "The title. Fill `slot=\"title\"` instead for rich content"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "—",
+      "desc": "Accessible name; overrides the title as the name when both exist"
+    },
+    {
+      "name": "close-label",
+      "type": "string",
+      "default": "Close",
+      "desc": "Accessible name of the ✕"
+    },
+    {
+      "name": "placement",
+      "type": "right | left",
+      "default": "right",
+      "desc": "The edge it slides from. Top and bottom are antd Drawer only"
+    },
+    {
+      "name": "size",
+      "type": "default | large",
+      "default": "default",
+      "desc": "378 or 736 wide, the antd presets"
+    },
+    {
+      "name": "width",
+      "type": "number | CSS length",
+      "default": "378",
+      "desc": "Panel width; a bare number is px. Wins over `size`"
+    },
+    {
+      "name": "static",
+      "type": "boolean",
+      "default": "false",
+      "desc": "A click on the mask does not close the drawer"
+    },
+    {
+      "name": "contained",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Fills the nearest positioned ancestor instead of the viewport, keeps the trap; for a phone-sized frame"
+    },
+    {
+      "name": "inline",
+      "type": "boolean",
+      "default": "false",
+      "desc": "Static display inside a positioned ancestor: no trap, no scroll lock, no keys. For docs and previews"
+    },
+    {
+      "name": "close()",
+      "type": "method",
+      "default": "—",
+      "desc": "Asks to close: emits `close`, closes unless cancelled"
+    },
+    {
+      "name": "close",
+      "type": "event",
+      "default": "—",
+      "desc": "Cancelable, composed. detail.source is escape, mask, close-button or method"
+    },
+    {
+      "name": "closed",
+      "type": "event",
+      "default": "—",
+      "desc": "Composed. The drawer is closed"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Drawer (web component)",
+        "when": "a longer edit form or detail panel where page context matters, on a page that does not load antd: Vue 2 apps taking <aha-*>, plain HTML, standalone pages such as a report demo"
+      },
+      {
+        "what": "Drawer (antd)",
+        "when": "a React or Vue 3 app that already loads antd, or a panel from the top or bottom edge"
+      },
+      {
+        "what": "Modal",
+        "when": "a short, blocking decision the user must complete first"
+      },
+      {
+        "what": "a page",
+        "when": "the task is large enough to deserve its own route"
+      }
+    ],
+    "note": "Give it a heading and keep the primary action in the footer slot. Never hand-draw a drawer with a fixed div: the trap, the scroll lock and the focus return come with the element. It is not a modal for audience phones; use <aha-audience-modal> there."
+  },
+  "surfaces": [
+    "editor",
+    "dashboard",
+    "settings"
+  ],
+  "reuse": {
+    "entry": "./aha-drawer",
+    "registers": "aha-drawer",
+    "exportsNamed": [
+      "AhaDrawer",
+      "defineAhaDrawer"
+    ]
+  },
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "aha-drawer.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form: a version-pinned CDN import and plain HTML, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "aha-drawer.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "aha-drawer.vue.txt"
+    }
+  ],
+  "preview": "aha-drawer.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI (getComputedStyle via headless CDP), on the inline, open example with the DS defaults.",
+    "ready": "!!(document.querySelector('aha-drawer[data-probe]')&&document.querySelector('aha-drawer[data-probe]').shadowRoot&&document.querySelector('aha-drawer[data-probe]').shadowRoot.querySelector('.panel'))",
+    "singleUI": true,
+    "measure": "(function(){var el=document.querySelector('aha-drawer[data-probe]');var r=el.shadowRoot;function cs(n){return n?getComputedStyle(n):{}}var p=cs(r.querySelector('.panel'));var h=cs(r.querySelector('.header'));var t=cs(r.querySelector('.title'));var b=cs(r.querySelector('.body'));var f=cs(r.querySelector('.footer'));var m=cs(r.querySelector('.mask'));return{surface:p.backgroundColor,width:p.width,radius:p.borderTopLeftRadius,headerPadTop:h.paddingTop,headerPadSide:h.paddingLeft,rule:h.borderBottomWidth,titleColor:t.color,titleSize:t.fontSize,titleWeight:t.fontWeight,bodyPad:b.paddingTop,bodyOverflow:b.overflowY,footerPadTop:f.paddingTop,footerPadSide:f.paddingLeft,mask:m.backgroundColor,role:r.querySelector('.panel').getAttribute('role'),modal:r.querySelector('.panel').getAttribute('aria-modal')};})()",
+    "expect": {
+      "surface": "rgb(255, 255, 255)",
+      "width": "378px",
+      "radius": "0px",
+      "headerPadTop": "16px",
+      "headerPadSide": "24px",
+      "rule": "1px",
+      "titleColor": "rgb(26, 26, 26)",
+      "titleSize": "16px",
+      "titleWeight": "600",
+      "bodyPad": "24px",
+      "bodyOverflow": "auto",
+      "footerPadTop": "8px",
+      "footerPadSide": "16px",
+      "mask": "rgba(0, 0, 0, 0.4)",
+      "role": "dialog",
+      "modal": "true"
+    }
+  }
+}

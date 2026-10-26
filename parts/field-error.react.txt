@@ -16,3 +16,10 @@ function EmailField({ value, error, onChange }) {
 function RespondentError({ id, message }) {
   return <aha-field-error id={id} variant="respondent" message={message ?? ''} />;
 }
+
+// icon: the error under a DS input. tone="info": help text, not an error (no aria-invalid).
+function NotesField({ rows, error }) {
+  return error
+    ? <aha-field-error id="notes-error" icon message={error} />
+    : <aha-field-error id="notes-help" tone="info" message={`${rows} of 10 rows`} />;
+}

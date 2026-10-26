@@ -1,0 +1,16 @@
+<script setup>
+import '@ahaslides-product/design/aha-drawer';
+import '@ahaslides-product/design/aha-button';
+import { ref } from 'vue';
+const open = ref(false);
+</script>
+
+<template>
+  <aha-button variant="secondary" @click="open = true">Participant report</aha-button>
+  <aha-drawer heading="Participant report" :open="open || null" @closed="open = false">
+    <p>Minh Anh answered 4 of 5 questions correctly.</p>
+    <div slot="footer" style="display:flex;justify-content:flex-end">
+      <aha-button variant="primary" @click="open = false">Done</aha-button>
+    </div>
+  </aha-drawer>
+</template>

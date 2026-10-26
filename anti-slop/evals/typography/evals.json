@@ -161,20 +161,22 @@
     },
     {
       "id": 7,
-      "prompt": "Review this typography. The text under review is the hero headline of the ahaslides.com marketing landing page, styled with `font-family: Plus Jakarta Sans; font-size: 56px; font-weight: 300; optical-sizing: auto;` — a brand/marketing asset being forced onto the product-UI scale. Is this in scope for the product type scale?",
+      "prompt": "Review this typography. The text under review is the hero headline of an ahaslides.com landing page, styled with `font-family: Plus Jakarta Sans; font-size: 56px; font-weight: 300; optical-sizing: auto;` and left off the DS scale because the author treated the landing page as a separate brand surface. Is this in scope for the DS type scale?",
       "files": [],
       "label": "bad-example",
-      "notes": "Targets J7 — in scope: product UI, not marketing/brand.",
-      "expected_output": "J7 FAILs: this scale governs in-app product UI (presenter, audience, editor, dashboard); a marketing/brand surface like a landing-page hero must NOT be forced onto this scale (note the weight 300 and optical sizing, which belong to the brand range 200-800). Fix: redirect this to aha-marketing-typography, which owns marketing/brand type. Overall: NEEDS FIX.",
+      "notes": "Targets J7 — every website page is in scope; there is no separate marketing web surface.",
+      "expected_output": "J7 FAILs: the DS type scale governs every AhaSlides website page as well as the product, so a landing-page hero is in scope and must not be styled as a separate brand surface. J2 FAILs too: weight 300 is off the 400/600 scale. Fix: set the headline in the display2 role (56px, weight 600, line height 1.2, letter spacing 0). Overall: NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "J7 is marked FAIL",
-        "Identifies the text as a marketing/brand landing-page asset out of scope",
-        "Redirects to aha-marketing-typography"
+        "J2 is marked FAIL",
+        "Identifies the landing-page hero as in scope for the DS type scale",
+        "Recommends a DS display role at weight 600 rather than redirecting to a marketing skill"
       ],
       "expected": {
         "overall": "NEEDS_FIX",
         "criteria": {
+          "J2": "FAIL",
           "J7": "FAIL"
         }
       },

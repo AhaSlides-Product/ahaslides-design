@@ -127,7 +127,7 @@ end of a title, and no all-caps labels.
 | Part | Spec |
 | --- | --- |
 | Rows | zebra, alternating white and light grey (`#F7F7F7`, `--aha-bg-container-secondary`), starting white; never pale pink |
-| Dividers | 1px `--aha-border-default` (`#E3E3E3`) under every row, kept on the grey rows |
+| Dividers | none: no horizontal row lines; the zebra separates the rows |
 | Header | labels in black semibold 14 px over a **2px Vivid Pink** rule; no fill |
 | Figures | black, tabular numerals, aligned right; formats as in C8 |
 | Text | black 400, aligned left; long text wraps, never truncated |
@@ -140,8 +140,7 @@ zebra's job while people work in it. Do not add zebra rows to an app screen, and
 them from a report, whether it is posted as an image or opened as a page.
 
 On a report page, the zebra is a plain HTML `<table>` styled with tokens:
-`tbody tr:nth-child(even) td { background: var(--aha-bg-container-secondary) }`, dividers in
-`--aha-border-default`, the header rule `2px solid var(--aha-color-primary)`.
+`tbody tr:nth-child(even) td { background: var(--aha-bg-container-secondary) }`, no row borders, the header rule `2px solid var(--aha-color-primary)`.
 
 ## Number plates and KPI tiles (C12)
 
@@ -201,6 +200,6 @@ drawn by hand.
 - End labels on every line, never overlapping; gaps break the line; zero runs carry a note
 - A twin axis is named in the legend; 3 to 6 round divisions; K, M and whole-percent formats
 - Sentence-case titles with no em or en dashes
-- Tables: white and light grey zebra rows (never pink), dividers, black semibold header over a 2px Vivid Pink rule
+- Tables: white and light grey zebra rows (never pink), no row dividers, black semibold header over a 2px Vivid Pink rule
 - Plates: Vivid Pink at 5% card (`<aha-stat-tile look="accent">` on a page), pink top bar, black text, rise and fall by shape
 - Every status mark is a DS glyph: `<aha-icon>` on a page, a file from `lib/static-icons` in an image

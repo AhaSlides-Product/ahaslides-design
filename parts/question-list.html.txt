@@ -2,14 +2,21 @@
      <aha-question-list> is the SAME shared custom element React and Vue consume — here in its native
      form. It COMPOSES DS components: a SettingRow head with the count, a Collapse per question
      (prompt CountedInput + OptionRow choices + Add option), and the full-width Add question button.
-     Theming comes only from the --aha-* tokens in tokens.css. Open a question with its caret. -->
+     Header slots (start-, marker-, before-, after-, end-<id>) take any number of your own non-interactive
+     elements, and body-<id> takes interactive ones (a time input, say) inside the open question above its "Question" row; a question's `status` adds a supporting line under its header, and a warning or error tone
+     also recolours its border. Theming comes only from the --aha-* tokens in tokens.css. Open a question with its caret. -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/tokens.css">
 <script type="module">
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-tag.js';
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-question-list.js';   // registers <aha-question-list>
 </script>
 
 <div style="max-width:440px">
-  <aha-question-list id="quiz" label="Questions" help="Each question runs as its own round." min="1" max="10" minoptions="2" maxoptions="6" allowimage></aha-question-list>
+  <aha-question-list id="quiz" label="Questions" help="Each question runs as its own round." min="1" max="10" minoptions="2" maxoptions="6" allowimage>
+    <aha-tag slot="before-q1">00:23</aha-tag>
+    <aha-tag slot="before-q2">00:25</aha-tag>
+    <aha-tag slot="end-q2" color="warning">Overlap</aha-tag>
+  </aha-question-list>
 </div>
 
 <script type="module">
@@ -17,7 +24,7 @@
   el.questions = [
     { id: 'q1', prompt: 'Capital of France?', open: true, options: [
       { id: 'o1', text: 'Paris', correct: true }, { id: 'o2', text: 'London' } ] },
-    { id: 'q2', prompt: 'Largest ocean?', options: [
+    { id: 'q2', prompt: 'Largest ocean?', status: { message: 'Only 2s after Q1. Their markers overlap.', tone: 'warning' }, options: [
       { id: 'o3', text: 'Pacific', correct: true }, { id: 'o4', text: 'Atlantic' } ] },
   ];
   el.addEventListener('change', (e) => console.log('questions:', e.detail.questions));

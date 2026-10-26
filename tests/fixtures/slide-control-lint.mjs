@@ -96,10 +96,14 @@ export const SLIDE_RULE_FIXTURES = [
     fail: [
       '<aha-button variant="primary" size="lg">Send</aha-button>',
       `var skip = el('aha-button', { variant: 'tertiary-deck', size: 'md' }, [label]);`,
+      '<aha-button variant="secondary-deck" size="md" icon-only aria-label="Close">x</aha-button>',
+      '<aha-button variant="tertiary-deck" size="sm" icon-only aria-label="Close">x</aha-button>',
     ],
     pass: [
       '<aha-button variant="primary" size="touch" block>Send</aha-button>',
       '<aha-audience-submit></aha-audience-submit>',
+      '<aha-button variant="tertiary-deck" size="md" icon-only sheet aria-label="Close"><aha-icon name="system-x" size="16" decorative></aha-icon></aha-button>',
+      `var close = el('aha-button', { variant: 'tertiary-deck', size: 'md', 'icon-only': '', 'aria-label': 'Close' }, [glyph]);`,
     ],
   },
   {
@@ -112,6 +116,31 @@ export const SLIDE_RULE_FIXTURES = [
       '<aha-button variant="secondary-deck" size="touch">Upload</aha-button>',
       '<aha-button variant="tertiary-deck" size="touch">Skip</aha-button>',
       '<aha-button variant="primary" size="touch" block>Send</aha-button>',
+    ],
+  },
+  {
+    rule: 'canvas-off-deck-colour', severity: 'warn', surfaces: ['canvas', 'audience'],
+    fail: [
+      '<div class="panel" style="background: color-mix(in srgb, var(--aha-deck-ink) 8%, transparent)">',
+      '.panel{ border: 1px solid color-mix(in srgb, #888 20%, transparent) }',
+      '.title{ color: var(--aha-text-default) }',
+      '.row{ border-bottom: 1px solid var(--aha-border-default, #E3E3E3) }',
+      '.card{ background: var(--aha-bg-container) }',
+      '.tick{ fill: var(--aha-color-success) }',
+      '.row{ border-top-color: var(--aha-border-default) }',
+      '.cta:hover{ background: var(--aha-color-primary-hover) }',
+    ],
+    pass: [
+      '<div class="panel" style="background: var(--aha-deck-container-fill); border: 1px solid var(--aha-deck-container-stroke)">',
+      '.title{ color: var(--aha-deck-ink) }',
+      '.hint{ color: var(--aha-deck-ink-secondary) }',
+      '.right{ color: var(--aha-answer-correct) }',
+      '.disc{ background: var(--aha-answer-wrong); color: var(--aha-white, #FFFFFF) }',
+      '.bar{ background: var(--aha-viz-bar) }',
+      '.panel{ padding: var(--aha-space-12); border-radius: var(--aha-radius-lg); font-size: var(--aha-size-lg) }',
+      '.title{ color: var(--aha-text-default) } /* ds-lint-allow: canvas-off-deck-colour (host chrome label) */',
+      '.row{ color: var(--aha-deck-ink, var(--aha-text-default)) }',
+      '.cta{ background: var(--aha-color-primary) }',
     ],
   },
 ];
