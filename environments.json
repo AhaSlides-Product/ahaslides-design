@@ -13,6 +13,7 @@
      "{site}/guidelines/feedback/feedback.md",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/guidelines/background/background.md",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
@@ -31,6 +32,7 @@
      "{site}/guidelines/canvas/canvas.md",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/guidelines/page-title-favicon/page-title-favicon.md"
     ],
     "judge": "{site}/anti-slop.md (surfaces audience, canvas and settings)",
@@ -49,6 +51,7 @@
      "{site}/guidelines.llms.txt",
      "{site}/guidelines/ux-writing/ux-writing.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/guidelines/background/background.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
@@ -67,6 +70,7 @@
    "route": {
     "guidelines": [
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
      "{site}/foundations/logo.html"
@@ -83,6 +87,7 @@
    "route": {
     "guidelines": [
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/foundations/brand-colour-rules.html",
      "{site}/foundations/backgrounds.html",
      "{site}/foundations/logo.html"
@@ -100,6 +105,7 @@
     "guidelines": [
      "{site}/guidelines/report-images/report-images.md",
      "{site}/colour-rules.md",
+     "{site}/voice-rules.md",
      "{site}/charts/index.html",
      "{site}/stat-tile/index.html"
     ],

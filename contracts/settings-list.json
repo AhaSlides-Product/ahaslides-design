@@ -48,7 +48,7 @@
     },
     {
       "label": "Plan-gated row",
-      "value": "row locked → visible but the control is the shared Paywall crown (opens the upsell), never hidden"
+      "value": "row locked → visible: the label, the shared Paywall crown in the place of the \"?\" (no \"?\" while locked, label keeps its normal colour), and the real control disabled; the crown never replaces the control, never hidden"
     },
     {
       "label": "Density",
@@ -60,7 +60,7 @@
     },
     {
       "label": "Schema",
-      "value": "sections[] → rows[] { key, label, description?, layout?, consequence?, disabled?, locked?, plan?, feature?, control:{ type, …props } }; renders + reuses DS controls"
+      "value": "sections[] → rows[] { key, label, description?, layout?, consequence?, disabled?, locked?, plan?, feature?, featureKey?, upgradeBody?, control:{ type, …props } }; renders + reuses DS controls"
     },
     {
       "label": "visible_if",
@@ -120,7 +120,7 @@
       "name": "locked",
       "type": "boolean",
       "default": "false",
-      "desc": "(schema row) Plan-gates the row: stays visible, its control becomes the shared Paywall crown badge → upsell. Pair with `plan` ('essential'|'pro') and `feature` (the upsell label)"
+      "desc": "(item / schema row) Plan-gates the row: stays visible, the shared Paywall crown badge sits after the label in place of the \"?\" and the control is disabled. Pair with `plan` ('essential'|'pro'), `feature` (the upsell label; defaults to the row label), `featureKey` (analytics key) and `upgradeBody` (one-sentence benefit shown in the popover)"
     }
   ],
   "events": [
@@ -250,7 +250,7 @@
       "verdict": "PASS"
     },
     {
-      "label": "plan-gated row stays visible via the shared Paywall crown",
+      "label": "plan-gated row stays visible: crown in place of the \"?\", control disabled",
       "verdict": "PASS"
     },
     {

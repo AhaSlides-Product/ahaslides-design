@@ -1,0 +1,9 @@
+// main.ts — register the element + mark aha-* as custom elements
+import '@ahaslides-product/design/aha-canvas-count';
+app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('aha-');
+
+// AnswerCount.vue
+<template>
+  <aha-canvas-count v-if="revealed" :correct="correct" :wrong="wrong" :label="t('answer_count.verdict', { correct, wrong })" />
+  <aha-canvas-count v-else :answered="answered" :label="t('answer_count.answered', { count: answered })" />
+</template>

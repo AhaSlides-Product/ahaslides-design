@@ -100,7 +100,7 @@ It's **additive** — bundled apps should keep importing per-element (above) so 
 tree-shake out; `all.js` intentionally pulls the whole set.
 
 Only need one surface? Each has its own entry with just the elements it uses (plus the shared controls such as
-`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`).
+`<aha-button>`), same path and tag: `lib/audience.js` (also exports `applyDeck`), `lib/settings.js`, `lib/canvas.js`. A slide type's settings panel is checked with `node screen-lint.mjs --surface=settings <files>`, which hard-fails raw form controls, any `<aha-*>` tag `lib/settings.js` does not register, a `size="small"`/`"sm"`/`"large"`/`"lg"` settings field and `maxlength` on `<aha-input>` (use `<aha-counted-input>`). A whole website page is checked with `node screen-lint.mjs --surface=website <files>`: the product rules, the Marketing sections' own `min-width` breakpoints accepted in `@container`/`@media` conditions, a second `<h1>` and an `<img>` without alt hard-fail.
 In npm: `@ahaslides-product/design/audience`, `/settings`, `/canvas`.
 
 ### Agent feeds — hosted, self-describing
@@ -177,6 +177,8 @@ const { findings } = lintHtml(html, { surface: 'product' });   // or 'canvas' (a
 `path` (optional) is echoed back; `iconNames` (optional) overrides the bundled icon list. Any
 `hard` finding fails the CLI (`node screen-lint.mjs --surface=… <files>`), which is built on the same function.
 
+**UX writing rules** — on every surface, `screen-lint` also hard-fails `no-dash-punctuation` (UXW-8), `vague-error-copy` (UXW-2) and `title-case-slide-name` (UXW-1) in user-visible UI strings only. Pass `path` for a script file (`.js`, `.ts`) so it is read as script, not HTML; the full scope is in `parts/ux-writing.guide.md`.
+
 **Opt-out** — per line, per rule, with a reason:
 `<!-- ds-lint-allow: hex,radius (brand logo, no token) -->`. Only the named rules are silenced on that
 line (a rule id such as `raw-hex`, or its short group name such as `hex`). A bare `ds-lint-allow`
@@ -192,6 +194,18 @@ font-size or radius set through `::part(button)` or an inline style on `<aha-but
 tag with `ds-lint-allow: raw-button (why)`. Lint a slide type's `presenter.*` as `canvas`, its
 `audience.*` as `audience` and its `settings.*` as `product`; the 16px and viewport-unit font rules
 are canvas only.
+
+**One button** — on every surface `hand-rolled-button` hard-fails a button the screen draws itself:
+a CSS rule on a `button`, `[role=button]`, `input[type=submit]` or a class named `button` / `btn` /
+`cta` that paints a fill plus a button shape (border, radius, shadow, height, padding), or a
+fill/border/shadow on its `:hover` / `:active` / `:focus`; a link given a fill plus a radius,
+shadow or height; and any restyling of the DS Button: a colour, fill, border, shadow, height,
+padding or type rule, or any `:hover` / `:active` / `:focus` rule, on `aha-button`,
+`aha-button::part(…)` or `.aha-button`, and a redefined `--aha-button-*` token. Header and CTA
+buttons in vendored marketing blocks are `<aha-button variant size>` with `href` for a link and
+`type="submit"` in a form; only layout (`margin`, `flex`, `width`, `order`, `align-self`) may be set
+on it. A plain text link, a hover colour on a link and an icon-only reset (`background:none`) pass.
+A control the DS does not ship keeps its CSS with `ds-lint-allow: hand-rolled-button (why)`.
 
 ## Commands
 

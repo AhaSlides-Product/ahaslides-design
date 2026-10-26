@@ -492,14 +492,20 @@
         },
         {
           "id": "C8",
-          "title": "A Splash background appears only where it is allowed, and comes from the library",
+          "title": "A Splash background appears only where it is allowed, and is a DS layout built for its frame",
           "source": [
+            "5.3",
+            "5.4",
+            "5.5",
             "5.6",
             "5.9",
             "5.10",
-            "5.11"
+            "5.11",
+            "5.17",
+            "5.18",
+            "5.19"
           ],
-          "test": "A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, or one built by build-splash.mjs for the exact frame; hooks drawn, placed, stretched or recoloured by hand fail."
+          "test": "Applies to every surface that carries a splash, in any medium (a product screen, a web page, a video, an ad, a report image). A Splash background (the logo's hooks, enlarged and cropped by the frame) appears only on an empty state or a hero area, never on a dense app screen such as the editor, a table or a settings panel. The file is one from the Background library, one built by build-splash.mjs for the exact frame, or drawn with the Splash in CSS block (brand/colour-rules.json, `splash.cssRecipe`) on the frame it sits in. It is never hand-placed: one of the three DS layouts (centre, right, minimal) sized and positioned by the colour-rules geometry for its own frame, the full 802 by 788 icon, `--splash-across` .5 (centre) or .75 (right). A splash icon given a hand-set `height`, `width`, `right`, `left` or `top` offset, a size and position chosen by eye, or hooks drawn, placed, stretched, cropped or recoloured by hand fail."
         }
       ]
     },
@@ -558,7 +564,7 @@
             "6.2",
             "6.3"
           ],
-          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on a Vivid Pink background it is white with a Vivid Pink label. In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
+          "test": "The primary button is Vivid Pink with a white label and turns Darker Pink on hover, with no underline; on solid Vivid Pink the button is the standard secondary Button (on Vivid Pink at 5% it stays the primary). In a group with a destructive action (Delete, Remove) the safe choice (Cancel, Undo) is the primary button. A primary button in any other colour fails, and so does a red or otherwise coloured danger button."
         },
         {
           "id": "C5",
@@ -631,7 +637,7 @@
         {
           "id": "C2",
           "title": "Popover anatomy is exactly correct",
-          "test": "**Rule.** The popover is, top to bottom: **crown badge** (the Vivid Pink circle custom `CrownBadge`, 16×16 SVG — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the line **\"Unlock with the _\\<Plan\\> plan_.\"** (plan name bold); then a **single** full-width (`block`) primary **Upgrade** CTA. No secondary \"View plans\" button, no dismiss link, no…"
+          "test": "**Rule.** The popover is, top to bottom: **crown badge** (the Vivid Pink circle custom `CrownBadge`, 16×16 SVG — *not* the generic Phosphor Crown) + **feature label**; then a **one-sentence value prop**; then the line **\"Unlock with the _\\<Plan\\> plan_.\"** (plan name bold); then a **single** full-width (`block`) primary **Upgrade** CTA. No secondary \"View plans\" button, no dismiss link, no multi-paragraph body (PAYWALL-02, -03, -04)."
         },
         {
           "id": "C3",
@@ -641,7 +647,7 @@
         {
           "id": "C4",
           "title": "Copy rules are followed",
-          "test": "**Rule.** **Feature label** is a short noun phrase (the locked feature's name), not a sentence. **Body** is exactly one sentence describing the *benefit* of unlocking (not \"This is a Pro feature.\"), ending in a period."
+          "test": "**Rule.** **Feature label** is a short noun phrase (the locked feature's name), not a sentence. **Body** is exactly one sentence describing the *benefit* of unlocking (not \"This is a Pro feature.\"), ending in a period. **Unlock line** uses the fixed format — \"Unlock with the **\\<Plan\\> plan**.\" — not reworded. **CTA** is \"Upgrade\" by default (a verb); `ctaLabel` is overridden only with a clear reason and stays a verb."
         },
         {
           "id": "C5",
@@ -651,12 +657,12 @@
         {
           "id": "C6",
           "title": "Upgrade URL / handler behaviour is correct",
-          "test": "**Rule.** The default CTA opens `UPGRADE_URL` (`https://ahaslides.com/pricing`) in a new tab with `noopener,noreferrer`, then closes the popover. When `onUpgrade` is provided it runs **instead** (analytics still fires first) and the popover still closes."
+          "test": "**Rule.** The default CTA opens `UPGRADE_URL` (`https://ahaslides.com/pricing`) in a new tab with `noopener,noreferrer`, then closes the popover. When `onUpgrade` is provided it runs **instead** (analytics still fires first) and the popover still closes. The anchor is wrapped in a `<span>` so children don't need to forward refs."
         },
         {
           "id": "C7",
           "title": "Crown-badge-only anchor used where the feature has no anchor",
-          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>`, which carries `role=\"img\"` and an `aria-label` (default \"Upgrade required\")."
+          "test": "**Rule.** When a feature has no natural clickable anchor (e.g. a bare field label), the visible anchor is `<PaywallCrownBadge>`, which carries `role=\"img\"` and an `aria-label` (default \"Upgrade required\"). Don't invent a bespoke lock icon or an unlabelled glyph for this job."
         }
       ]
     },
@@ -751,12 +757,12 @@
         {
           "id": "C2",
           "title": "Correct control — toggle vs checkbox, never mixed",
-          "test": "A toggle for an immediate, independent binary; a checkbox for grouped/save-together options or consent (first person). Toggles and checkboxes are **not mixed within one group**."
+          "test": "A toggle for an immediate, independent binary; a checkbox for grouped/save-together options or consent (first person). Toggles and checkboxes are **not mixed within one group**. A **segmented (pill) control only for ≈2–4 short one-line options with room to fit**; when the options are **long** (multi-word), **many**, or the control is in a **tight/limited horizontal space** (e.g. sharing a row with an input), a **dropdown/select** — a cramped or overflowing segmented switch breaks the layout. **FAIL** if the control type is wrong for the behaviour, a group mixes toggles and checkboxes, or a **segmented control is used for long/many options or in a cramped space** where a dropdown is required."
         },
         {
           "id": "C3",
           "title": "Help text is the exception; explanation lives in a `?` tooltip",
-          "test": "Always-visible help text appears **only** for a must-see consequence the user can't easily undo — one short sentence (≤90 chars), sentence case, ends with a period, states the consequence not the feature. All other elaboration is a `?` tooltip (≤140 chars, opens on hover **and** keyboard focus **and** tap, no links/buttons/ lists), or omitted."
+          "test": "Always-visible help text appears **only** for a must-see consequence the user can't easily undo — one short sentence (≤90 chars), sentence case, ends with a period, states the consequence not the feature. All other elaboration is a `?` tooltip (≤140 chars, opens on hover **and** keyboard focus **and** tap, no links/buttons/ lists), or omitted. A tooltip is **never** the sole home of a must-see consequence (→ help text) or an error (→ inline copy). **FAIL** on help text used for description/plan-tier/nice-to-know, on an over-long or hover-only `?` tooltip, or on a consequence/error buried in a tooltip. **Panel-level (the most common AI failure):** help text is near-absent across a whole panel — a surface where most or every setting carries a help-text line is the systematic anti-pattern. Count the help lines; more than one is almost always wrong. **FAIL** the panel and convert every descriptive line (\"Off means one pick per person\", \"Display % instead of raw vote counts\") into a `?` tooltip. **Redundancy: FAIL** any setting that carries both a `?` help icon **and** a help-text line (same explanation twice — keep the tooltip, drop the line). **Glyph: FAIL** if the help trigger is an info icon (`ⓘ`) instead of a question-mark (`?`) — a help tooltip uses the shared `?` glyph, never an info circle. **Consistency:** every `?` in one panel is the same shared-component glyph at the same size with the same tooltip placement — **FAIL** on mixed help icons, mixed sizes, or inconsistent up/down tooltip direction (AHA-46489, AHA-46544), and on a value's explanation shown as a bespoke hover-state instead of the standard `?` tooltip (AHA-46438). **Styling & arrow: FAIL** a `?` tooltip that isn't the standard/shared tooltip — a custom (non- default) background instead of the dark-navy tooltip token, an **oversized font** (body- or heading-size instead of the small tooltip size), or an **arrow not anchored to the `?` icon** (the pointer floats off to the side instead of landing on the icon)."
         },
         {
           "id": "C4",
@@ -766,32 +772,32 @@
         {
           "id": "C5",
           "title": "Dependent sub-settings — hidden when parent off, nested when shown",
-          "test": "A sub-setting that only applies when its parent is on is **hidden** when the parent is off (not shown disabled — unless the disabled state communicates an upgrade path). When shown, it reads as **nested under** its parent: indented 24px (`sizeLG`) with a 16px gap below the parent (`size`) **and de-emphasized** (label regular 400 in secondary text `--aha-text-secondary` #4A4A4A, where a top-level label is regular 400 in primary text #1A1A1A), and it is never bracketed by its own separators on both sides or…"
+          "test": "A sub-setting that only applies when its parent is on is **hidden** when the parent is off (not shown disabled — unless the disabled state communicates an upgrade path). When shown, it reads as **nested under** its parent: indented 24px (`sizeLG`) with a 16px gap below the parent (`size`) **and de-emphasized** (label regular 400 in secondary text `--aha-text-secondary` #4A4A4A, where a top-level label is regular 400 in primary text #1A1A1A), and it is never bracketed by its own separators on both sides or wrapped in a container. **FAIL** if a dependent sub-setting is shown disabled instead of hidden, or is rendered at full top-level weight / carded / double-separated."
         },
         {
           "id": "C6",
           "title": "Plan-gated settings are visible but locked",
-          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked with a crown badge that replaces its normal tooltip and opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, or the badge opens a custom popover."
+          "test": "A setting requiring a plan the user isn't on stays **visible** (not hidden), shown locked: the label, then a crown badge in the place of its normal \"?\" tooltip (no \"?\" while locked), and the real control rendered disabled. The badge opens the shared Paywall popover (owned by `aha-design-paywall` — one primary Upgrade CTA, not a bespoke two-CTA one). **FAIL** if a gated setting is hidden, the crown replaces the control, the control stays enabled, the \"?\" shows beside the crown, or the badge opens a custom popover."
         },
         {
           "id": "C7",
           "title": "Dangerous settings — last, spacing-separated, danger Button, confirmed",
-          "test": "Irreversible/destructive settings sit **last** (bottom of section or a Danger zone at panel bottom), set apart by the largest spacing gap (`sizeXXL`) — **not** a divider. The CTA is an AntD `danger` Button (`colorError`, no hardcoded hex); red is on the button only, never the label/toggle."
+          "test": "Irreversible/destructive settings sit **last** (bottom of section or a Danger zone at panel bottom), set apart by the largest spacing gap (`sizeXXL`) — **not** a divider. The CTA is an AntD `danger` Button (`colorError`, no hardcoded hex); red is on the button only, never the label/toggle. The action requires a **confirmation modal** before executing (per `aha-design-overlays`) — never a single click/flip, even with an undo toast. **FAIL** on a divider-separated danger zone, a hardcoded-hex or non-danger CTA, red on the label, or a destructive action with no confirmation modal."
         },
         {
           "id": "C8",
           "title": "Correct surface — panel vs page vs modal vs drawer",
-          "test": "Per-object/immediate-effect settings live in the inline editor **panel**; workspace/ account-scope in a **page**; one-time action config in a **modal**; medium-complexity supplements in a **drawer**. **FAIL** if a setting sits in the wrong surface for its scope (e.g."
+          "test": "Per-object/immediate-effect settings live in the inline editor **panel**; workspace/ account-scope in a **page**; one-time action config in a **modal**; medium-complexity supplements in a **drawer**. **FAIL** if a setting sits in the wrong surface for its scope (e.g. workspace-wide settings crammed into a per-block panel)."
         },
         {
           "id": "C9",
           "title": "Every object renders at its real height",
-          "test": "No settings object holds space while rendering nothing visible: an empty section, an empty list wrapper inflating a parent's flex `gap`, or a plugin settings iframe reporting a non-zero height with an empty body / falling back to `height:100%`. An always-rendered wrapper around a conditional list renders only when the list is non-empty; a plugin settings iframe reports its height via…"
+          "test": "No settings object holds space while rendering nothing visible: an empty section, an empty list wrapper inflating a parent's flex `gap`, or a plugin settings iframe reporting a non-zero height with an empty body / falling back to `height:100%`. An always-rendered wrapper around a conditional list renders only when the list is non-empty; a plugin settings iframe reports its height via `onHeightChange` on mount and every reflow, and reports `0` (or doesn't mount) when there's nothing to show. A gap present on a plugin slide type but not its native equivalent is fixed in the plugin/host iframe layer, **never** by editing a shared editor component. **A third iframe-height mode — the iframe measures the wrong element:** the plugin reports faithfully, but its own mount root (`html`/`body`/`#app`) is CSS-stretched to the viewport (`h-screen` / `100vh` / `height:100%`), so the auto-height reporter reads `#app.offsetHeight` as a full screen and reports a full-viewport height regardless of content — a large empty block below the panel. This **slips past the two checks above** (a height *is* reported, the body *is* non-empty), so when a plugin settings panel shows a large empty block, check the mount root's CSS height *before* the reporting logic (and before chasing per-field margins — a trailing field-gap is usually a minor secondary cause, not the dominant one). The settings-iframe root must shrink-wrap (`height:auto`). **FAIL** on any empty container holding height, a phantom-height iframe (including a mount root forced to viewport height), or a shared-component edit used to chase a plugin-only gap."
         },
         {
           "id": "C10",
           "title": "Slide-type option list matches the \"Items\" component",
-          "test": "*(Slide-type config only.)* The option list uses the reference row anatomy — drag handle (only when order matters) + text input + optional image button + **on-hover** delete — with a full-width **\"+ Add\"** button beneath and a `?`-tooltipped noun-phrase section label above. The text input shows a neutral placeholder when empty, a character counter **only on focus**, wraps to multiple lines, and…"
+          "test": "*(Slide-type config only.)* The option list uses the reference row anatomy — drag handle (only when order matters) + text input + optional image button + **on-hover** delete — with a full-width **\"+ Add\"** button beneath and a `?`-tooltipped noun-phrase section label above. The text input shows a neutral placeholder when empty, a character counter **only on focus**, wraps to multiple lines, and **scrolls internally beyond ~4 lines**. **Reuse-first:** when the panel composes the product's shipped option-row component (in `slide-type-creator`, `@/iframe/settings/OptionRow` / `QuestionList` — verified to encode this anatomy), confirm it IS that component and PASS by construction; a full element-by-element check against the anatomy below (and the build skill's §11 `SETTINGS-*` assertions) is required only when the row is **hand-rolled** — and a hand-rolled row where a shipped component already exists is itself the miss to flag. **The row `<div>` is the single bordered input** — the drag handle is its **first child inside** that one border, the textarea is **borderless**, and the delete **floats just outside the top-right** on hover. These three — **frame, drag handle, delete** — plus the full-width \"+ Add\" are the **universal core** and must match the reference anatomy on every slide type. A per-option **image** (handled per C11), a **correct-answer checkbox** (scored types: Poll, Quiz), and a **series-colour dot** (types with per-option chart colours) are **legitimate per-type features — do NOT FAIL them** when the slide type actually has that capability. **FAIL** an outer card/box wrapping a separately-bordered text field (box-in-a-box / double border), a drag handle placed **outside/left of** the input, a bordered image-icon box, an always-present in-row delete slot, or **decoration** (a number badge on an unordered set, a decorative label icon). Placeholders match an equivalent existing slide type (\"Option 1/2\") and are **never** treated as real content (an option still holding its placeholder isn't rendered downstream). Any **numeric/stepper config input** (budget, points, step, limit) enforces a length limit, accepts numbers only, clamps to min/max with an **immediate** fallback (on change/blur, not only on deliberate misuse), and ships pre-filled with the recommended default. **FAIL** on a missing/always-visible delete, a missing \"+ Add\", a \"+ Add\" hugged to content width instead of spanning the full panel width, an always-visible or absent char counter on ANY limited text input in the panel (not just option rows — axis labels, titles, notes too: the counter shows only on focus, hidden at rest), an unbounded-growth field, an ad-hoc row shape, a missing/invented placeholder or one rendered as real content (AHA-46484), an unbounded / non-numeric / unclamped / defaultless numeric input (AHA-46440), an **\"X of Y\" count indicator** next to the section label (e.g. \"4 of 8\" — redundant; limits are conveyed by the Add/delete disabling, and the reference has no counter), or a **per-option number badge (1, 2, 3…) on an unordered set** where position carries no sequence meaning (reordering is the drag handle's job — numbering falsely implies order; only number when the sequence is genuinely meaningful), or a **fixed unit placed in its own separate framed box** beside a numeric input (a non-changeable unit belongs as an **inline suffix inside the same field** — the shipped `NumberWithUnit`, whose hover stepper, `maxDigits` cap and `errorMessage` line are used rather than re-invented; a bordered box makes a fixed unit look selectable — a changeable unit would be a dropdown per C2, not a static box). **Wrong unit spelling — FAIL:** a **seconds** unit written as `s` (cryptic) or `seconds` (too long) instead of **`sec`** — every unit is its conventional short label, and seconds is always `sec` (§SETTINGS-46)."
         },
         {
           "id": "C11",
@@ -801,7 +807,7 @@
         {
           "id": "C12",
           "title": "Slide-type config follows the reference ordering",
-          "test": "*(Slide-type config only.)* The panel is ordered **Question** (title + alignment + optional image + \"Add description\") → **option list** → **participation constraints** (placed right after the list) → **Time-limit toggle** revealing its duration select (dependent sub-setting) → **collapsed Advanced** section for low-frequency toggles. The standard sections (timing, show/hide results) are…"
+          "test": "*(Slide-type config only.)* The panel is ordered **Question** (title + alignment + optional image + \"Add description\") → **option list** → **participation constraints** (placed right after the list) → **Time-limit toggle** revealing its duration select (dependent sub-setting) → **collapsed Advanced** section for low-frequency toggles. The standard sections (timing, show/hide results) are **present**, not omitted. Any select/segmented control pre-selects the recommended default and orders its options most-relevant-first (default at the top). Diff against Figma node 9237-9266. **FAIL** if the content/constraints/timing/advanced order is broken, constraints float away from what they constrain, rarely-used settings sit in the default panel instead of Advanced, a standard section is missing (AHA-46508), or a select ships without its recommended default / with the default buried mid-list (AHA-46562)."
         },
         {
           "id": "C13",
@@ -811,12 +817,12 @@
         {
           "id": "C14",
           "title": "Settings surface text is localised to the viewer's own app locale",
-          "test": "*(Any settings surface that is localised at all — not gated to slide-type config; mark `N/A` only for a surface with no localisation.)* Settings/config text renders in the language of the **person viewing the settings surface**, not an unrelated content language. For a **slide-type plugin iframe** embedded in the AhaSlides presenter app, the right-panel SETTINGS/config text follows the…"
+          "test": "*(Any settings surface that is localised at all — not gated to slide-type config; mark `N/A` only for a surface with no localisation.)* Settings/config text renders in the language of the **person viewing the settings surface**, not an unrelated content language. For a **slide-type plugin iframe** embedded in the AhaSlides presenter app, the right-panel SETTINGS/config text follows the **PRESENTER APP's own UI locale** (`currentUser.presenterLanguage` / the presenter's own locale) — matching the editor chrome the presenter is already using — **not** the deck's **content** language (`presentation.language`), which drives AUDIENCE-facing surfaces (Canvas/Audience copy) only. **FAIL** when a settings panel's own labels/tooltips/help text are driven off content-language state instead of the viewer's own app-locale state — most concretely, a slide-type `Settings.vue` that computes its locale from `presentationProps.value?.language` instead of `currentUserProps.value?.presenterLanguage` (falling back to the deck language only when the presenter locale is unavailable). (AHAM-664 — the presenter's editor was in Vietnamese but the Split the Points settings panel rendered in English because it read `presentation.language`.)"
         },
         {
           "id": "C15",
           "title": "No content-reset / restore-defaults control in a slide-type config panel",
-          "test": "*(Slide-type right-panel config only — mark `N/A` for any other settings surface.)* A slide type's right-panel config **must not** carry a \"Reset / Restore-defaults / Clear-all\" control that re-seeds or wipes the **content the panel itself authors** — the dilemmas, items, buckets, lots or options the presenter typed. This is distinct from C7: C7 legitimises a genuine account/workspace…"
+          "test": "*(Slide-type right-panel config only — mark `N/A` for any other settings surface.)* A slide type's right-panel config **must not** carry a \"Reset / Restore-defaults / Clear-all\" control that re-seeds or wipes the **content the panel itself authors** — the dilemmas, items, buckets, lots or options the presenter typed. This is distinct from C7: C7 legitimises a genuine account/workspace danger-zone action (delete account, wipe workspace data); C15 forbids the **narrower** slide-type case of a button that throws away the panel's own configured content to put the starter defaults back. It fails for three reasons: (a) restoring starter content is **not a setting** — it is a one-shot editor action masquerading as one; (b) it **duplicates** capability the item list already ships — every `OptionRow` / `QuestionList` row carries a per-item delete and direct edit, so \"start over\" is already reachable without a dedicated control (reuse over rebuild, see CR); and (c) it **collides** with the host's own native \"Reset results\" control, so two unrelated \"Reset\" concepts sit in one view. **FAIL** a slide-type Settings panel with a danger `Button` whose handler re-seeds the config from `createDefault…()` / a starter list (labels like *Reset ladder*, *Reset items*, *Restore starter options*, *Reset lots*) — a confirmation modal does **not** rescue it. **PASS** a slide-type panel with no such control; and a legitimate workspace/account **delete-account / wipe-data** danger zone still **PASSES** (judged under C7), because it acts on account-scoped data, not on the content this panel authors."
         },
         {
           "id": "C16",
@@ -883,27 +889,27 @@
         {
           "id": "C1",
           "title": "Toasts are transient bottom-right pills — auto-dismiss, role=status, portalled",
-          "test": "**Rule.** A toast is a **transient, non-actionable confirmation** (\"Thanks for your feedback\", \"Copied\"). It is a small `position: fixed` pill at the **viewport bottom-right** that rises from below (never shifting surrounding layout), **auto-dismisses after ~3s** with the timer **cleared on unmount**, carries **`role=\"status\"`** (announced without stealing focus), and — because a `fixed` toast…"
+          "test": "**Rule.** A toast is a **transient, non-actionable confirmation** (\"Thanks for your feedback\", \"Copied\"). It is a small `position: fixed` pill at the **viewport bottom-right** that rises from below (never shifting surrounding layout), **auto-dismisses after ~3s** with the timer **cleared on unmount**, carries **`role=\"status\"`** (announced without stealing focus), and — because a `fixed` toast is clipped by any ancestor that establishes a containing block (`transform`, `filter`, `backdrop-filter`, `will-change`) — is **portalled via `createPortal(node, document.body)`** so it stays truly viewport-fixed from every mount point. For ordinary app-level success/info, prefer AntD's `message` / `notification`; the bespoke fixed pill is reserved for custom bottom-right content."
         },
         {
           "id": "C2",
           "title": "Inline correct/incorrect uses the a11y + semantic-token contract",
-          "test": "**Rule.** Result feedback shown in place after an answer carries **`role=\"status\"` with `aria-live=\"polite\"`** (informational, not urgent), and colours its container from **semantic tokens** — border `var(--aha-colorSuccess)` / `var(--aha-colorError)` and background `var(--aha-colorSuccessBg)` / `var(--aha-colorErrorBg)`, **never a hardcoded hex**. It leads with a strong correct/incorrect label…"
+          "test": "**Rule.** Result feedback shown in place after an answer carries **`role=\"status\"` with `aria-live=\"polite\"`** (informational, not urgent), and colours its container with the **answer tokens** (colour rules 11.1 to 11.3) — border `var(--aha-answer-correct)` / `var(--aha-answer-wrong)` over the 5% tint `var(--aha-answer-correct-tint-5)` / `var(--aha-answer-wrong-tint-5)`, the text staying the default ink (11.2), **never a hardcoded hex**. Right and wrong carry equal weight (11.5); only on a reveal or review screen may a wrong answer add a 2px ring in the wrong red, and the answer key beside a response stays plain. It leads with a strong correct/incorrect label, shows the correct answer and explanation below when incorrect, and exposes stable `data-*` hooks (`data-correct`, `data-element-id`) for testing."
         },
         {
           "id": "C3",
           "title": "CSAT uses the shared widget, a required source, and best-effort tracking",
-          "test": "**Rule.** A satisfaction prompt uses the shared **`Csat`** widget — a binary thumbs rating with an optional follow-up on thumbs-down; **never** a bespoke rating control. It passes a **required `source`** token from the closed **`CsatSource`** union (one per placement) so Mixpanel gets stable, typo-proof segmentation; adding a placement means adding a union member."
+          "test": "**Rule.** A satisfaction prompt uses the shared **`Csat`** widget — a binary thumbs rating with an optional follow-up on thumbs-down; **never** a bespoke rating control. It passes a **required `source`** token from the closed **`CsatSource`** union (one per placement) so Mixpanel gets stable, typo-proof segmentation; adding a placement means adding a union member. It emits `CSAT_SHOWN` (once per mount — the response-rate denominator), `CSAT_RATED`, and `CSAT_FEEDBACK_SUBMITTED`, and tracking is **best-effort**: a throwing or uninitialised `track()` must **never** break rendering or block the thank-you toast."
         },
         {
           "id": "C4",
           "title": "Inline banners use the DS V3 Alert, not a bare AntD Alert",
-          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its DS `bg-surface` / `icon` token with no border **and a distinct glyph** (colour is never the only…"
+          "test": "**Rule.** A persistent, in-context message the user may need to act on is a **Design System V3 Alert** — the DS `<aha-alert>` element (`contracts/alert.json`), **not** a bare `<Alert>` with default styling. Each of the five types — `success`, `error`, `info`, `warning`, `branding` — carries its DS `bg-surface` / `icon` token with no border **and a distinct glyph** (colour is never the only signal). Text uses only Plus Jakarta Sans 400 (message/inline link) and 600 (title); the title is **sentence case**. Use an Alert for persistent in-context messages; a toast (C1) for transient auto-dismissing ones."
         },
         {
           "id": "C5",
           "title": "When NOT to use a toast is respected",
-          "test": "**Rule.** A toast that auto-dismisses must **never** be the only place a required message lives. Route by situation: | Situation | Belongs in | |---|---| | Error the user must act on | inline **Alert** banner in context (C4) or an overlay Alert | | Field validation error | `FieldErrorDisplay` / a11y `FieldError` (shared-components) | | Destructive confirmation | a modal (`aha-design-overlays`) |…"
+          "test": "**Rule.** A toast that auto-dismisses must **never** be the only place a required message lives. Route by situation: | Situation | Belongs in | |---|---| | Error the user must act on | inline **Alert** banner in context (C4) or an overlay Alert | | Field validation error | `FieldErrorDisplay` / a11y `FieldError` (shared-components) | | Destructive confirmation | a modal (`aha-design-overlays`) | | Full-page failure (not found, expired) | `ErrorPage` (shared-components) |"
         },
         {
           "id": "C6",
@@ -946,12 +952,12 @@
         {
           "id": "C1",
           "title": "The right surface is chosen — modal vs drawer vs popover",
-          "test": "**Rule.** The surface fits the job: a **modal** for a focused, blocking decision or short flow (confirmations, destructive actions, one-time config); a **drawer** for a detail view or medium-complexity panel that supplements the page (a record's report, distribution settings); a **popover** for a small, anchored, contextual snippet (quick info, a compact input, an upsell) — never for a…"
+          "test": "**Rule.** The surface fits the job: a **modal** for a focused, blocking decision or short flow (confirmations, destructive actions, one-time config); a **drawer** for a detail view or medium-complexity panel that supplements the page (a record's report, distribution settings); a **popover** for a small, anchored, contextual snippet (quick info, a compact input, an upsell) — never for a multi-step flow."
         },
         {
           "id": "C2",
           "title": "Dismiss behaviour is safety-critical",
-          "test": "**Rule.** **Destructive / data-loss overlays MUST NOT dismiss on outside/mask click** — set `mask={{ closable: false }}` so a stray backdrop click can't trigger destruction, leaving `keyboard` (Esc) and the explicit **X** button as the only dismiss paths. Non-destructive overlays may allow mask-close."
+          "test": "**Rule.** **Destructive / data-loss overlays MUST NOT dismiss on outside/mask click** — set `mask={{ closable: false }}` so a stray backdrop click can't trigger destruction, leaving `keyboard` (Esc) and the explicit **X** button as the only dismiss paths. Non-destructive overlays may allow mask-close. While an async action is in flight (`busy`), cancel/close is **disabled or suppressed** (`onCancel`/`onClose` suppressed) so the user can't dismiss mid-operation."
         },
         {
           "id": "C3",
@@ -961,7 +967,7 @@
         {
           "id": "C4",
           "title": "Drawers use placement=right and responsive width",
-          "test": "**Rule.** Drawers default to `placement=\"right\"` with **responsive width** `width={isMobile ? '100%' : <fixed>}` (e.g. `720`) driven by `useIsMobile()` — full-bleed on mobile, fixed panel on desktop."
+          "test": "**Rule.** Drawers default to `placement=\"right\"` with **responsive width** `width={isMobile ? '100%' : <fixed>}` (e.g. `720`) driven by `useIsMobile()` — full-bleed on mobile, fixed panel on desktop. The width is a **prop**, not gated through CSS."
         },
         {
           "id": "C5",
@@ -971,7 +977,7 @@
         {
           "id": "C6",
           "title": "Errors surface inline, never a nested modal",
-          "test": "**Rule.** Failures are surfaced **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert type=\"error\"` — the banner component owned by [[aha-design-feedback]], **not** a bare AntD `<Alert>` with default styling). This judge owns *placement* (error goes inline, overlay stays open); feedback owns the Alert's *styling*."
+          "test": "**Rule.** Failures are surfaced **inside** the overlay with an inline **DS V3 Alert** (`AhaAlert type=\"error\"` — the banner component owned by [[aha-design-feedback]], **not** a bare AntD `<Alert>` with default styling). This judge owns *placement* (error goes inline, overlay stays open); feedback owns the Alert's *styling*. **Never** stack a second modal on top to report an error, and never downgrade it to a transient toast. The overlay stays open on failure so the user can retry without re-opening."
         },
         {
           "id": "C7",
@@ -1006,12 +1012,12 @@
         {
           "id": "C1",
           "title": "No hard-coded colours or fonts",
-          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.baseColour`, `xprops.slide.textColour`, `xprops.slide.backgroundImage` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+          "test": "**Rule.** All colour and font values come from xprops, and colour reaches a hand-built element only as the `--aha-deck-*` ladder that `applyCanvasDeck` writes from them: - `xprops.slide.textColour` becomes `--aha-deck-ink` and its tints (`-ink-secondary`, `-line`, `-stroke`, `-fill`, `-surface`, `--aha-deck-container-*`, `--aha-deck-modal-*`) - `xprops.slide.baseColour`, `xprops.slide.backgroundImage` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]` is the accent (`--aha-color-primary`) and the fill of charts and data, with `presentationLighterColorPalette[n]` for the lighter shade. **FAIL** when a hand-built element mixes its own shade of the ink (`color-mix()` or an opacity on `textColour`), paints with a product colour token (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`), or hard-codes a colour or font. **PASS** when the same element reads the ladder (`--aha-deck-container-fill` for a panel, `--aha-deck-ink-secondary` for secondary text), or is a DS element such as `<aha-canvas-count>` that is already inked. The role to token table is on the Deck tokens page."
         },
         {
           "id": "C2",
           "title": "Semantic state colours applied to the indicator, NOT the chart",
-          "test": "**Two different colour jobs on a canvas — keep them separated:**"
+          "test": "**Two different colour jobs on a canvas — keep them separated:** 1. **Chart / visualization layer** (bar fills, ring segments, area shading, plot dots). These pull from `xprops.presentationColorPalette` so the chart feels native to the deck's brand. They carry magnitude/proportion, NOT meaning. 2. **State indicator layer** (the ✓ / ✗ icon, status badge, border accent, label chip that announces correctness). This carries meaning. It pulls from semantic tokens that the plugin has bundled into its own build. **Rule.** Apply semantic state colours (success-green, error-red, warning, info) to the **indicator** — not to the chart. Painting the bar itself in `colorSuccess` / `colorError` (or hard-coded `#22C55E` / `#EF4444`) is the violation, even when the intent is correct, because: - The bar fights the deck's brand colour identity on any non-green/non-red palette. - The state is conveyed by colour layered onto a visualization, not by a dedicated signal — collapses the \"non-colour cue\" criterion (C6) into the chart."
         },
         {
           "id": "C3",
@@ -1036,12 +1042,12 @@
         {
           "id": "C7",
           "title": "Framed vs full-canvas chosen intentionally in the manifest",
-          "test": "**Rule.** The plugin's manifest declares `setting.enableFullScreen` explicitly: - **Framed** (`setting.enableFullScreen: false`): host renders the question title / description / question image at the top of the stage; the canvas iframe only renders the answer/interaction area. - **Full-canvas** (`setting.enableFullScreen: true`): host hides its chrome; the canvas iframe renders its own title and…"
+          "test": "**Rule.** The plugin's manifest declares `setting.enableFullScreen` explicitly: - **Framed** (`setting.enableFullScreen: false`): host renders the question title / description / question image at the top of the stage; the canvas iframe only renders the answer/interaction area. - **Full-canvas** (`setting.enableFullScreen: true`): host hides its chrome; the canvas iframe renders its own title and full layout, still honouring theme and accessibility."
         },
         {
           "id": "C8",
           "title": "Plugin initialises its locale from `presentation.language` xprop",
-          "test": "**Rule.** Every user-visible string passes through i18n. The plugin runs in its own iframe with **its own i18n instance** — it does NOT inherit the host's locale state."
+          "test": "**Rule.** Every user-visible string passes through i18n. The plugin runs in its own iframe with **its own i18n instance** — it does NOT inherit the host's locale state. The plugin must explicitly **initialise its locale from `xprops.presentation.language` (or `xprops.currentUser.presenterLanguage`) at startup, and react to changes**."
         },
         {
           "id": "C9",
@@ -1056,12 +1062,12 @@
         {
           "id": "C11",
           "title": "Deck-ink fallback reads on the surface it lands on",
-          "test": "**Scope.** Ink written as `xprops.slide.textColour ?? <fallback>` (or `textColour || …`). The default deck leaves `slide.textColour` **unset** — the host paints body text itself and forwards nothing — so the fallback is the **real paint path on the most common deck**, not an edge case."
+          "test": "**Scope.** Ink written as `xprops.slide.textColour ?? <fallback>` (or `textColour || …`). The default deck leaves `slide.textColour` **unset** — the host paints body text itself and forwards nothing — so the fallback is the **real paint path on the most common deck**, not an edge case. This criterion checks the fallback branch specifically; C5's contrast axis measures the `textColour`-**set** path. A canvas that never falls a deck ink back onto a bounded surface PASSes vacuously. **Rule.** **FAIL** when the fallback is a **fixed colour** (`?? '#fff'`, `?? ahaBrand.white`, `?? '#313131'`, `?? colorError`, any constant) **AND** that ink sits on a **bounded filled surface whose fill can be either polarity** — a disabled-grey / state-tinted box, a coloured chip, a card. A fixed fallback clears contrast on one polarity and **vanishes on the other** the moment the deck is a default theme (`textColour` unset): a `?? white` label disappears on a light box, a `?? '#313131'` label on a dark one. **PASS** when the fallback is **derived from that surface's own background** via a luminance flip — `readableInkOn(fill)` / `luminance(bg) > 0.45 ? dark : light` — so it reads whichever way the box is painted. Ink that falls back on the **deck background itself** (not a bounded surface) may keep the flat `#313131` / `#ffffff` deck fallback — this criterion is about ink on a *slide-painted surface*."
         },
         {
           "id": "C12",
           "title": "Full-canvas slide renders the host title itself",
-          "test": "**Scope.** Fires only when the manifest declares `setting.enableFullScreen: true` (full-canvas). A **framed** slide (`enableFullScreen: false`) PASSes vacuously — the host draws the title bar, so the canvas must not."
+          "test": "**Scope.** Fires only when the manifest declares `setting.enableFullScreen: true` (full-canvas). A **framed** slide (`enableFullScreen: false`) PASSes vacuously — the host draws the title bar, so the canvas must not. This criterion is the specific, most-missed half of C7: C7 checks the *manifest declaration* is explicit and coherent; **C12 checks the one thing behind it that a reviewer most often skims past — that a full-canvas canvas actually paints the presenter's title.** **Rule.** In full-canvas mode the host hides **all** its chrome, including the title bar it renders in framed mode. So the presenter-entered title / question — forwarded to the plugin as the **title xprop (`slideProps.title`)** — has no host surface to land on. If the canvas doesn't render it itself, the title the presenter typed is collected in the editor and then **silently dropped on the presenting screen**. A full-canvas canvas therefore **MUST read `slideProps.title` and render it** somewhere legible in its own layout. Rendering only per-item prompts, answer labels, or a decorative/static heading while **never reading `slideProps.title`** is a **FAIL**."
         },
         {
           "id": "C13",
@@ -1071,7 +1077,7 @@
         {
           "id": "C14",
           "title": "Deck font is LOADED into the iframe, not just referenced",
-          "test": "**Scope.** Fires whenever the canvas renders text in the deck font — it binds `xprops.presentation.fontFamily` (directly, or via a `deckFont` computed) to an element's `font-family`. A canvas that renders no text, or renders only in the bundled default face, PASSes vacuously."
+          "test": "**Scope.** Fires whenever the canvas renders text in the deck font — it binds `xprops.presentation.fontFamily` (directly, or via a `deckFont` computed) to an element's `font-family`. A canvas that renders no text, or renders only in the bundled default face, PASSes vacuously. **Rule.** The host forwards only the deck font's **NAME** (`xprops.presentation.fontFamily`), never the font file. A slide plugin is a **cross-origin iframe**, and an iframe does **not** inherit its parent document's `@font-face` rules — so `font-family: <deck name>` alone points at a face the iframe has never loaded, the browser falls back to its default **serif** (Times), and **every** text on the slide renders in it. The canvas MUST therefore also **load the face**: inject the deck font's stylesheet into the iframe. In `slide-type-creator` that is the shared `useDeckFont(fontFamily)` helper — it adds the Google-Fonts `<link>` for the requested family, is idempotent, and no-ops for the bundled Plus Jakarta Sans. Binding `fontFamily` **without** loading the face is a **FAIL**."
         },
         {
           "id": "C15",
@@ -1081,7 +1087,7 @@
         {
           "id": "C16",
           "title": "A per-round advance stepper uses the default (secondary) variant, never the primary accent",
-          "test": "**Rule.** A slide action the presenter clicks to advance **one step at a time through many rounds** — This or That's *Next pair*, a per-question *Next*, a dilemma ladder's *Next dilemma / rung* — is workhorse NAVIGATION, not a climactic CTA. It MUST take the **default / secondary** variant (the solid white-background button), never the filled **primary** accent — and that holds in **both**…"
+          "test": "**Rule.** A slide action the presenter clicks to advance **one step at a time through many rounds** — This or That's *Next pair*, a per-question *Next*, a dilemma ladder's *Next dilemma / rung* — is workhorse NAVIGATION, not a climactic CTA. It MUST take the **default / secondary** variant (the solid white-background button), never the filled **primary** accent — and that holds in **both** places the control can appear: - **the declared action** in the plugin manifest — `variant: 'secondary'` (or omit `variant`; secondary is the default), never `variant: 'primary'`; - **the in-canvas FALLBACK button** the slide renders itself when the host action bar is off (playground / flag off) — the Ant `<Button>` must be the DEFAULT button, never `type=\"primary\"` (and never a bespoke filled-accent button). The fallback must MIRROR the declared variant, or the same control shouts an accent in the playground while it is quiet in the product."
         },
         {
           "id": "C17",
@@ -1117,6 +1123,11 @@
           "id": "C23",
           "title": "Stage steppers and comboboxes are the DS elements, current stage in ink",
           "test": "*(Fires when the canvas shows a stage / round indicator or a type-to-pick field. N/A otherwise.)* A stage indicator is `<aha-stepper>` (size=\"lg\" on the canvas, `color` set to the deck ink) and a type-to-pick field is `<aha-autocomplete>`, both from `lib/all.js`. FAIL on hand-rolled stepper pills (`.step` spans / `<li>`s styled per slide) or a hand-built `<input>` + `<ul>` suggestion list, and FAIL when the current stage is filled or outlined with the primary accent (`--aha-color-primary`, palette[0]) — the accent belongs to the one action that advances the flow; the current stage is marked with ink."
+        },
+        {
+          "id": "C24",
+          "title": "Keyboard-only operation",
+          "test": "*(Applies to every canvas with a presenter interaction, in Standard and Immersive UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.)* Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse, no-touch operation. **Rule.** a. Every presenter interaction works with the keyboard alone: each control is reachable by Tab in a sensible (reading) order, shows a visible focus ring, and activates with Enter or Space, a declared shortcut, or a host-painted action. A `<div>`/`<span>` with a click handler and no `tabindex`/role/key handler FAILs. b. Anything shown on hover (a tooltip, a result label, a highlight, a reveal) is also shown on keyboard focus (`:focus-visible`); a hover-only reveal on a non-focusable element FAILs. c. Any drag, draw, swipe or other pointer gesture has a keyboard alternative (arrow keys, Move up / Move down buttons, Space to pick up and drop); a pointer-only gesture FAILs. d. No keyboard trap: Tab always leaves the canvas controls (a modal's contained Tab cycle is the C10 focus-trap and passes when Esc or a Close control exits). e. The canvas never swallows the deck's navigation and clicker keys (ArrowRight / ArrowLeft, PageDown / PageUp, Space): no blanket `keydown` handler that calls `preventDefault`/`stopPropagation` on them, except to claim a build step through the SDK, or while a widget the presenter has explicitly focused owns the key. Any sub-rule missed → FAIL. C10 covers the shortcut chips, tooltips and focus-trap of bespoke controls; this criterion is the reachability test for every interaction, not only those."
         }
       ]
     },
@@ -1146,22 +1157,22 @@
         {
           "id": "C1",
           "title": "No hard-coded colours or fonts",
-          "test": "**Rule.** All colour and font values come from xprops: - `xprops.slide.textColour` - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]`"
+          "test": "**Rule.** All colour and font values come from xprops, and colour reaches a hand-built element only as the `--aha-deck-*` ladder that `applyDeck` writes from them: - `xprops.slide.textColour` becomes `--aha-deck-ink` and its tints (`-ink-secondary`, `-line`, `-stroke`, `-fill`, `-surface`) - `xprops.presentation.fontFamily` - `xprops.presentationColorPalette[n]`, `xprops.presentationLighterColorPalette[n]` as the accent. **FAIL** when a hand-built element mixes its own shade of the ink (`color-mix()` or an opacity on `textColour`), paints with a product colour token (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`), or hard-codes a colour or font. **PASS** when it reads the ladder."
         },
         {
           "id": "C2",
           "title": "Semantic state colours bundled, applied to the indicator",
-          "test": "**Rule.** Meaning-bearing state colours (correct/incorrect, success/error, submission feedback, validation) must come from the plugin's own **bundled** design-system tokens. They do NOT come from: - The deck's palette (`xprops.presentationColorPalette[n]`) — a palette may not contain a usable red/green, so state would silently shift per deck."
+          "test": "**Rule.** Meaning-bearing state colours (correct/incorrect, success/error, submission feedback, validation) must come from the plugin's own **bundled** design-system tokens. They do NOT come from: - The deck's palette (`xprops.presentationColorPalette[n]`) — a palette may not contain a usable red/green, so state would silently shift per deck. - Host CSS variables (`--aha-colorSuccess` etc.) — these don't cross the iframe boundary. - AntD's `theme.useToken()` — React+v5 API, not available in this stack."
         },
         {
           "id": "C3",
           "title": "Mobile-first single column + height reported via onHeightChange",
-          "test": "**Rule.** The audience layout must be: - **Single column.** No side-by-side panels assuming desktop width. - **Fluid up to host's max-width** (host enforces ~710–840px in framed mode); no fixed device-width assumptions."
+          "test": "**Rule.** The audience layout must be: - **Single column.** No side-by-side panels assuming desktop width. - **Fluid up to host's max-width** (host enforces ~710–840px in framed mode); no fixed device-width assumptions. - **No horizontal scroll** at the narrowest phone width (~320px). - **Height reported via `onHeightChange(h)`** whenever content changes size; no fixed-height containers that assume a specific device."
         },
         {
           "id": "C4",
           "title": "Plugin self-renders submitted / waiting / correct-incorrect; host utilities used where they fit",
-          "test": "**Rule.** For built-in slide types the host overlays a \"Waiting…\" screen after submit. **Plugins do not get that** — the iframe stays mounted and the plugin must render the post-submission UX itself: - **Just submitted** — ✓ confirmation rendered inside the iframe - **Waiting for the next slide** — same surface, calm hold state - **Quiz correct/incorrect** — state colour on indicator (icon), bar…"
+          "test": "**Rule.** For built-in slide types the host overlays a \"Waiting…\" screen after submit. **Plugins do not get that** — the iframe stays mounted and the plugin must render the post-submission UX itself: - **Just submitted** — ✓ confirmation rendered inside the iframe - **Waiting for the next slide** — same surface, calm hold state - **Quiz correct/incorrect** — state colour on indicator (icon), bar in palette - **Pre-submission empty state** — input affordance with placeholder copy, not a giant empty zero"
         },
         {
           "id": "C5",
@@ -1176,12 +1187,12 @@
         {
           "id": "C7",
           "title": "Framed vs full-canvas declared explicitly in the manifest",
-          "test": "**Rule.** The plugin manifest declares `setting.enableFullScreen` explicitly: - **Framed** (`setting.enableFullScreen: false`) — host renders question image, title, description, audio button, countdown progress *above* the iframe. The audience iframe owns the answer area only."
+          "test": "**Rule.** The plugin manifest declares `setting.enableFullScreen` explicitly: - **Framed** (`setting.enableFullScreen: false`) — host renders question image, title, description, audio button, countdown progress *above* the iframe. The audience iframe owns the answer area only. **Plugin must NOT render its own title** in this mode — duplicates the host's. - **Full-canvas** (`setting.enableFullScreen: true`) — host hides chrome. Plugin renders the entire surface, including its own title."
         },
         {
           "id": "C8",
           "title": "Plugin i18n initialised from xprops.presentation.language",
-          "test": "**Rule.** The audience iframe has **its own i18n instance** (separate document, separate bundle). It does NOT inherit the host's locale state."
+          "test": "**Rule.** The audience iframe has **its own i18n instance** (separate document, separate bundle). It does NOT inherit the host's locale state. The plugin must explicitly **initialise its locale from `xprops.presentation.language` at startup** (fallback `xprops.currentUser.presenterLanguage`) and update when the host emits a change."
         },
         {
           "id": "C9",
@@ -1196,17 +1207,17 @@
         {
           "id": "C11",
           "title": "Transform / animation stays inside the reported box",
-          "test": "**Rule.** `onHeightChange` reports the plugin's **resting** box, and the host shrink-wraps the iframe to that height, painting nothing outside it. Any transform that lifts content past the reported edges — a swipe tilt, a drag ghost, a hover pop, a settle bounce (`rotate`, `translateY(-n)`, `scale(>1)`) — gets **clipped by the iframe**."
+          "test": "**Rule.** `onHeightChange` reports the plugin's **resting** box, and the host shrink-wraps the iframe to that height, painting nothing outside it. Any transform that lifts content past the reported edges — a swipe tilt, a drag ghost, a hover pop, a settle bounce (`rotate`, `translateY(-n)`, `scale(>1)`) — gets **clipped by the iframe**. The transformed element's bounding box, at its most extreme animation frame, must still fit inside the reported height: headroom is budgeted for it, and the transform is capped small enough to live in that headroom. Prefer a cap that costs zero downward shift (a smaller tilt angle raises the leading corner far less) over a bigger transform that forces a taller box and pushes content down."
         },
         {
           "id": "C12",
           "title": "Swipe / drag gesture stays smooth (60 fps)",
-          "test": "**Rule.** A card the audience drags or flings re-renders every frame while it moves. Two things reliably make that laggy on a real phone, and both are FAILs: 1."
+          "test": "**Rule.** A card the audience drags or flings re-renders every frame while it moves. Two things reliably make that laggy on a real phone, and both are FAILs: 1. **An expensive continuous effect stays on the moving element.** A `backdrop-filter: blur()`, a large `box-shadow`, or any `filter` on the dragged / flung element is re-sampled every frame → dropped frames. It must be **dropped while the element is moving** (a `dragging || flinging || settling` flag nulls it out) and restored when it settles. Only `transform` and `opacity` may animate (compositor-only); no per-frame `width` / `height` / `top` / `left` / `margin`, and `will-change: transform` on the element. 2. **Commit is distance-only.** A fast flick that hasn't crossed the distance threshold springs back — reads as an unresponsive / laggy swipe. The release must commit on **distance past the threshold OR a flick-velocity** (pointer px/ms) in that direction."
         },
         {
           "id": "C13",
           "title": "Text economy — no redundant text; instructions are unboxed body text",
-          "test": "**Rule.** Every word on the audience surface must add information the controls don't, and instructions stay quiet. Two facets: 1."
+          "test": "**Rule.** Every word on the audience surface must add information the controls don't, and instructions stay quiet. Two facets: 1. **No label, header, or connective that merely restates an adjacent control.** If the choices are already on labelled controls (\"True\" / \"False\" buttons), a header repeating them (\"True or False\") and a divider word between them (\"OR\") are pure redundancy — the buttons are the prompt and a binary choice is self-evidently one-or-the-other. Delete them. 2. **Micro-instructions are the shortest phrase, in the DEFAULT audience body, not in a prominent container.** A hint (\"Tap or swipe to answer\") is one line of **16px, regular (400) weight, the deck's own text colour** — the default body treatment — never a full-width pill, tinted card, shadowed chip, or button-shaped box. Prominent chrome makes the hint compete with the controls; a semibold, sub-16px, or muted-grey hint is off the default body (AHAM-701 issue 2a — the reporter's \"Good\" is 16px regular deck text colour). **CONSISTENCY across a slide family is part of the rule:** two slides whose instructions differ in size, weight, or colour FAIL even if each looks fine alone. The reliable way to hold this is ONE shared instruction component (`InstructionLine`) that every slide imports — a hand-styled `<p>` on one slide and the component on another is exactly the drift that was reported."
         },
         {
           "id": "C14",
@@ -1216,17 +1227,17 @@
         {
           "id": "C15",
           "title": "Shared components used, not rebuilt",
-          "test": "**Rule.** Where the repo ships an audience component library, the surface is built FROM it. A control that duplicates a library component's job FAILs — and it FAILs even when it renders identically today, because the library is where the cross-cutting guarantees live in one place: ink that tracks the deck, the frosted surface that survives a photographic deck, the touch-target floor, the…"
+          "test": "**Rule.** Where the repo ships an audience component library, the surface is built FROM it. A control that duplicates a library component's job FAILs — and it FAILs even when it renders identically today, because the library is where the cross-cutting guarantees live in one place: ink that tracks the deck, the frosted surface that survives a photographic deck, the touch-target floor, the submission lock across an iframe remount, host-delegated image upload, and the deck font on a `<button>` (which does not inherit it). A rebuild re-opens every one of those, silently, and looks fine until the deck turns dark."
         },
         {
           "id": "C16",
           "title": "Deck font is LOADED into the iframe, not just referenced",
-          "test": "**Scope.** Fires whenever the audience surface renders text in the deck font — it binds `xprops.presentation.fontFamily` (directly, or via a `deckFont` computed, or a global `font-family: inherit` that ultimately resolves to it) to its text. A surface that renders only in the bundled default face PASSes vacuously."
+          "test": "**Scope.** Fires whenever the audience surface renders text in the deck font — it binds `xprops.presentation.fontFamily` (directly, or via a `deckFont` computed, or a global `font-family: inherit` that ultimately resolves to it) to its text. A surface that renders only in the bundled default face PASSes vacuously. **Rule.** The host forwards only the deck font's **NAME** (`xprops.presentation.fontFamily`), never the file. The audience surface is a **cross-origin iframe** and does **not** inherit its parent's `@font-face` rules — so naming the font is not enough; the face has to be **loaded into this iframe** or the browser falls back to **serif** (Times) for **all** audience text. Call the shared `useDeckFont(fontFamily)` helper (injects the Google-Fonts `<link>`, idempotent, no-ops for the bundled Plus Jakarta Sans). Binding / inheriting the deck font **without** loading the face is a **FAIL**."
         },
         {
           "id": "C17",
           "title": "Selection controls and the \"your pick\" indicator track the deck",
-          "test": "**Rule.** The controls that carry choice and selection — a Radio, a Checkbox, and the ring/edge that marks the row a participant picked — must read from the deck, not from a fixed brand colour. Two facets, both reported (AHAM-701): 1."
+          "test": "**Rule.** The controls that carry choice and selection — a Radio, a Checkbox, and the ring/edge that marks the row a participant picked — must read from the deck, not from a fixed brand colour. Two facets, both reported (AHAM-701): 1. **A checked Radio / Checkbox uses the deck ACCENT, not Ant's fixed `colorPrimary` purple.** The checked fill/dot is `presentationColorPalette[0]` (published as a custom property like `--aha-control-accent`, brand primary only as a fallback). A `<a-radio>` / `<a-checkbox>` left on the theme's purple is the same fixed-colour FAIL as a purple submit button — it reads purple on a green deck. 2. **The SELECTED-answer ring / state edge uses the deck's TEXT colour, not a fixed near-black or a deepened accent.** A ring hard-coded to black / `#1A1A1A` — or an accent deepened toward black for contrast on its own fill — vanishes on a dark deck, where the text is light. The ring must be `xprops.slide.textColour` so it is the very colour the deck author already chose to read against their background. The accent still marks the pick on the CONTROL (the check/dot) and in the label weight; the ring's job is visibility, and deck ink is what keeps it visible on light AND dark decks."
         },
         {
           "id": "C18",
@@ -1246,7 +1257,7 @@
         {
           "id": "C21",
           "title": "Distinct labelled sections are separated by ≥24px",
-          "test": "**Rule.** An audience screen that stacks two or more DISTINCT labelled sections — a section being a heading/label plus the control group it introduces, e.g. `Choose a lot` + the answer options, then `Set your bid` + the slider — puts at least **24px** of vertical space between one section and the next (AHAM-701 issue)."
+          "test": "**Rule.** An audience screen that stacks two or more DISTINCT labelled sections — a section being a heading/label plus the control group it introduces, e.g. `Choose a lot` + the answer options, then `Set your bid` + the slider — puts at least **24px** of vertical space between one section and the next (AHAM-701 issue). The small tappable/field gap (8–16px) is for spacing rows or fields INSIDE one group; when that same small gap is used between whole sections, the heading of the second section crowds the last control of the first and the two steps read as one undifferentiated stack, so a participant loses the \"pick a lot, THEN set a bid\" structure. The section rhythm is the audience mirror of the settings `fieldGapClass` (24px between config blocks)."
         },
         {
           "id": "C22",
@@ -1256,37 +1267,37 @@
         {
           "id": "C23",
           "title": "Participant identity shown only when the slide opts into the host join flow",
-          "test": "**Rule.** The audience iframe never knows the participant's own name, emoji or team unless the slide type opts into the host's join/identity flow. The host populates `audienceName` / `audienceEmoji` (and team) ONLY when the manifest declares `setting.enableAudienceJoinPresentation: true` — that flag is what makes the host run the QR/join step and hand the identity down."
+          "test": "**Rule.** The audience iframe never knows the participant's own name, emoji or team unless the slide type opts into the host's join/identity flow. The host populates `audienceName` / `audienceEmoji` (and team) ONLY when the manifest declares `setting.enableAudienceJoinPresentation: true` — that flag is what makes the host run the QR/join step and hand the identity down. Without it those refs are `undefined` in production, so any identity affordance the plugin draws — an \"Adding as `<name>`\" row, a \"you are …\" chip, a name/emoji/avatar badge — renders blank or falls back to a hard-coded stand-in on a real phone. The trap is that the playground broker *fakes* a sample name (e.g. \"Sample participant\"), so the row looks populated in preview and the defect only appears in the product. The plugin must also never PROMPT for identity itself — the host owns that flow (reuse-host-capabilities: \"Never prompt for identity yourself\")."
         },
         {
           "id": "C24",
           "title": "A form field sits on a chosen legible surface with deck-tracking ink",
-          "test": "**Rule.** An audience `<input>` / `<textarea>` / `<select>` is a *bounded field* the participant has to find and read their own typing in — it needs an explicitly chosen surface and ink, not the defaults it inherits. C5 says the plugin picks its own background *in general*; this criterion makes that testable for FORM FIELDS specifically, because the two ways a field goes wrong are both invisible…"
+          "test": "**Rule.** An audience `<input>` / `<textarea>` / `<select>` is a *bounded field* the participant has to find and read their own typing in — it needs an explicitly chosen surface and ink, not the defaults it inherits. C5 says the plugin picks its own background *in general*; this criterion makes that testable for FORM FIELDS specifically, because the two ways a field goes wrong are both invisible in the playground: **a. The field has an explicitly chosen surface.** A form field left transparent (no `background` set) borrows whatever is behind it. On the white playground that looks like a field; on a photographic or dark presenter deck the box vanishes and reads as *no field at all* — the participant can't see where to tap or what they typed. Give it the frosted audience surface (the same chosen surface the rest of the plugin uses — e.g. a `color-mix` frost / a near-opaque panel), not `transparent` and not \"inherit from the deck\"."
         },
         {
           "id": "C25",
           "title": "A Select / dropdown popup opens below, themes its panel, and stays in the iframe box",
-          "test": "**Rule.** A native `<select>` or a custom popup menu (an Ant `Select`, a combobox) has a second surface — the open PANEL — that the closed control's styling does not cover. Three things must hold, and each is a separate way the same control fails: **a."
+          "test": "**Rule.** A native `<select>` or a custom popup menu (an Ant `Select`, a combobox) has a second surface — the open PANEL — that the closed control's styling does not cover. Three things must hold, and each is a separate way the same control fails: **a. Opens BELOW the closed control, not over it.** The panel drops beneath the field so the closed control stays visible and the participant keeps their place. A panel that renders *on top of* the closed control (default `placement` flipped, or an absolutely-positioned menu with a negative offset) hides the very field the participant just tapped and reads as the control disappearing."
         },
         {
           "id": "C26",
           "title": "Exactly one instruction line per audience screen — a second, restating line FAILs",
-          "test": "**Rule.** An audience screen carries at most ONE instruction line telling the participant what to do. A second line — a separate instruction elsewhere on the screen, or an inner prompt / placeholder / hint beside the control — that RESTATES the same task is redundant: it says nothing the first line didn't, and on the shrink-wrapped mobile surface two instructions compete for the eye and push the…"
+          "test": "**Rule.** An audience screen carries at most ONE instruction line telling the participant what to do. A second line — a separate instruction elsewhere on the screen, or an inner prompt / placeholder / hint beside the control — that RESTATES the same task is redundant: it says nothing the first line didn't, and on the shrink-wrapped mobile surface two instructions compete for the eye and push the actual control down the fold. De-duplicate to a single instruction."
         },
         {
           "id": "C27",
           "title": "A full SubmittedCard is only for a swipe-card interaction; every other slide locks its answer in place",
-          "test": "**Rule.** The separate, full-surface `SubmittedCard` component — the one that REPLACES the whole answer surface with a standalone \"you're in\" card — is only appropriate for a **swipe-card interaction**: a slide where the participant's answer IS a card they swipe or tap (true-or-false's swipe/tap-a-card, this-or-that, and the like). There the card is the mechanic, so swapping to a submitted card…"
+          "test": "**Rule.** The separate, full-surface `SubmittedCard` component — the one that REPLACES the whole answer surface with a standalone \"you're in\" card — is only appropriate for a **swipe-card interaction**: a slide where the participant's answer IS a card they swipe or tap (true-or-false's swipe/tap-a-card, this-or-that, and the like). There the card is the mechanic, so swapping to a submitted card is continuous with what the participant just did."
         },
         {
           "id": "C28",
           "title": "An audience text field's LABEL tracks the deck ink at the 16px body size",
-          "test": "**Rule.** The label ABOVE an audience `<input>` / `<textarea>` (\"Your answer\", \"Your name\", …) is read against the DECK, not against the field's own chosen surface — so it obeys the same two rules the deck body copy does, and the two defaults it inherits from Ant's `Form.Item` label both break it: **a. The label tracks the deck ink.** The label colour is `xprops.slide.textColour`, NOT a fixed…"
+          "test": "**Rule.** The label ABOVE an audience `<input>` / `<textarea>` (\"Your answer\", \"Your name\", …) is read against the DECK, not against the field's own chosen surface — so it obeys the same two rules the deck body copy does, and the two defaults it inherits from Ant's `Form.Item` label both break it: **a. The label tracks the deck ink.** The label colour is `xprops.slide.textColour`, NOT a fixed dark ink (`#000` / `#111` / `rgba(0,0,0,.85)` / Ant's `colorTextHeading`). A fixed dark label is white-on-white — invisible — the moment the deck is dark; a fixed light one dies on a light deck. This is the surface-ink invariant (C24) applied to the label, which sits on the deck rather than on the field's frosted fill."
         },
         {
           "id": "C29",
           "title": "A field's character counter sits INSIDE it, reveals on focus, counts DOWN, in muted field ink",
-          "test": "**Rule.** A character counter on an audience `<input>` / `<textarea>` mirrors the shipped settings `CountedTextarea` / `CountedInput` pattern — four things, and each has a specific wrong default that this criterion catches: **a. Inside the field, not below it.** The counter is positioned INSIDE the field box — bottom-right for a `<textarea>`, right-aligned for a single-line `<input>` — not on a…"
+          "test": "**Rule.** A character counter on an audience `<input>` / `<textarea>` mirrors the shipped settings `CountedTextarea` / `CountedInput` pattern — four things, and each has a specific wrong default that this criterion catches: **a. Inside the field, not below it.** The counter is positioned INSIDE the field box — bottom-right for a `<textarea>`, right-aligned for a single-line `<input>` — not on a separate line beneath the field. A counter below the field adds a row of chrome and detaches the count from the thing it counts."
         },
         {
           "id": "C30",
@@ -1511,7 +1522,7 @@
         },
         {
           "source": "brand/colour-rules.json",
-          "use": "the web background rules W5 cites by id (3.2 to 3.5, 3.8, 3.10) and the primary-button rules W4 cites (6.1, 6.2)"
+          "use": "the web background rules W5 cites by id (3.2 to 3.5, 3.8, 3.10) and the button rules W4 cites (6.1, 6.2)"
         },
         {
           "source": "icons/registry.json",
@@ -1526,8 +1537,8 @@
         },
         {
           "id": "W2",
-          "title": "Sections keep their shipped rhythm",
-          "test": "Every section keeps the padding it ships and never overrides it: Features, Numbers, Pricing and Testimonials ship --aha-space-96 vertical and --aha-space-64 side on desktop, --aha-space-48 / --aha-space-24 at 767 px and below, --aha-space-32 / --aha-space-16 at 479 px and below; Hero (a fluid clamp), Logos (32 px vertical) and FAQ (its own gutter variable) ship different padding and keep that. Sections sit flush. An overridden section padding, a raw px padding added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
+          "title": "Sections keep their shipped rhythm and gutter",
+          "test": "Every section keeps the padding it ships and never overrides it. Side padding is one gutter, --aha-web-gutter: --aha-space-64 on desktop, --aha-space-24 at 767 px and below, --aha-space-16 at 479 px and below; Features, Numbers, Pricing, Testimonials, FAQ and the Footer banner read it on desktop too, and Heroes, page Headers, Footer and Navigation switch to it at 767 px and below. Vertical padding stays per section (Features, Numbers, Pricing and Testimonials --aha-space-96, 48 at 767 px, 32 at 479 px; Logos 32 px). A button sits --aha-space-32 below its own block's text (24 at 479 px) and a closing call to action after a list or grid sits --aha-space-48 below it (32 at 479 px). Sections sit flush. An overridden section padding or gutter, a raw px padding or button margin added on top, or a margin, spacer element or divider added between sections fails. N/A when the page has a single section."
         },
         {
           "id": "W3",
@@ -1536,8 +1547,8 @@
         },
         {
           "id": "W4",
-          "title": "One H1, one primary action per section, the hero's action repeated",
-          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rules 6.1 and 6.2); no more than two buttons sit side by side, a primary and a secondary. When the page has a closing Footer banner it repeats the hero's primary call to action. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action fails. N/A for the closing-action part when the page has no closing banner."
+          "title": "One H1, one primary action per section, labelled for the page, the hero's action repeated",
+          "test": "The page has exactly one <h1>, in the Header (hero) section. No section has more than one primary button (colour rule 6.1; on Vivid Pink the button is the secondary Button, rule 6.2); no more than two buttons sit side by side, a primary and a secondary. The Sign up or primary call to action label is written for the page's context, a verb plus what the visitor gets (Use this template on a template page, Create your quiz free on a quiz-maker page, Start free on pricing); Get started free is only the fallback when no context-specific label fits. When the page has a closing Footer banner it repeats the hero's primary call to action with the same label. Two H1s, an H1 outside the hero, two primary buttons in one section, three or more buttons in a row, or a closing banner with a different main action or label, or the generic Get started free on a page whose context has a more specific label, fails. N/A for the closing-action part when the page has no closing banner."
         },
         {
           "id": "W5",
@@ -1561,8 +1572,8 @@
         },
         {
           "id": "W9",
-          "title": "Motion is gentle and optional",
-          "test": "Motion is limited to hover transitions and at most a gentle fade or slide on reveal, timed with --aha-motion-* and --aha-ease-* tokens, and switched off under prefers-reduced-motion: reduce. The Logos strip's shipped loop, which stops under reduced motion, passes. Parallax, scroll-jacking, an autoplaying carousel or video, looping decorative animation, a bare duration literal, or motion with no reduced-motion fallback fails. N/A when the page has no motion."
+          "title": "Motion is the DS script, staggered, and optional",
+          "test": "Motion is the shipped DS script (lib/marketing-motion.js) plus hover transitions: elements reveal on scroll with a fade and short slide staggered 60 to 100 ms apart, section photos drift with a light parallax of at most 48 px, and Numbers values count up from 0 to the written value once in view, all timed with --aha-motion-* and --aha-ease-* tokens and shown at their final state under prefers-reduced-motion: reduce. The Logos strip's shipped loop, which stops under reduced motion, passes. Scroll-jacking, a hand-written scroll or parallax script, parallax beyond a light drift on a photo (a hero, text or whole section moving), an autoplaying carousel or video, looping decorative animation, a bare duration literal, numbers that show their final value with no count-up, or motion with no reduced-motion fallback fails. N/A only when the page has no Marketing section."
         },
         {
           "id": "W10",
@@ -1593,6 +1604,26 @@
           "id": "W15",
           "title": "Content card links open in a new tab, calls to action do not",
           "test": "Every content card link and see-more link to another page in a Marketing section (Template, Testimonial or case-study, Integration, Article, Feature and Use-case card links, and a Features `Learn more` link) opens in a new tab: `target=\"_blank\"` with `rel=\"noopener\"`, plus a visually-hidden \"(opens in a new tab)\" inside the link for screen readers (`aha-marketing-card__visually-hidden`, `aha-testimonials__visually-hidden` or `aha-features__visually-hidden`), so readers keep the page open and stay longer. Sign up and other primary or ghost call-to-action buttons (Header, Features, Pricing, Footer banner) and the Navigation and Footer site links stay in the same tab. A content card link that opens in the same tab, a new-tab link with no `rel=\"noopener\"` or no hidden new-tab text, or a Sign up button that opens a new tab fails. N/A when the page has no content card link."
+        },
+        {
+          "id": "W16",
+          "title": "Every button is the DS Button, never restyled",
+          "test": "Every button on the page, the Navigation Log in and Sign up, the Join button and every header, section and footer banner call to action included, is <aha-button variant size> (href for a link, type=\"submit\" in a form), and the page's own CSS sets only layout on it (margin, flex, width, order, align-self). A button the page draws itself (a class named button, btn or cta, or a <button>, [role=button] or link given its own fill, border, radius, height or hover) fails, and so does any colour, fill, border, shadow, height or :hover, :active or :focus rule on aha-button, its ::part or a --aha-button-* token, as screen-lint hand-rolled-button reports. N/A when the page has no button."
+        },
+        {
+          "id": "W17",
+          "title": "Section headings follow one alignment rule",
+          "test": "A section heading block (eyebrow, h2, lead) is centred when it sits full width above the content (Features, Numbers, Pricing, Testimonials quote cards, Cards and FAQ in their symmetric layouts, the FAQ title included) and left aligned only when it shares a row or column with the content (a side-header, split-image or featured layout, or the case-study carousel with arrows on the same row). A left aligned heading over a centred or symmetric grid, a centred heading over a left pinned body, a FAQ title pulled left by a page or reset rule, or sections with the same layout shape aligned differently on one page fails. N/A when the page has no section heading."
+        },
+        {
+          "id": "W18",
+          "title": "Every content section ends with one call to action, aligned with its heading",
+          "test": "Every Marketing content section after the hero ends with exactly one call to action: the button row the section ships. The Logos strip, Pricing (plan buttons), the Footer banner (it is the call to action), Navigation and Footer are exempt. The button row follows its heading: centred under the content when the heading is centred, left under the content or inside the left header when the heading is left aligned. Templates, Integrations, case-study (testimonials included) and FAQ sections end with a secondary link to their own page, labelled for it (Browse all templates, See all integrations, Read customer stories, Read the docs); every other content section ends with the hero's primary call to action as a primary button, with the hero's own label and link (the page-specific label W4 asks for, such as Create your quiz free; Sign up is only the example). A content section with no call to action, a lone left button under a centred or symmetric grid, a centred button under a left aligned section, a page-built button next to the shipped one, or a call to action that opens a new tab, the hero's primary call to action on a Templates, Integrations, case-study or FAQ section, a section primary whose label differs from the hero's, a link to another page (View more, Learn more) on any other content section, or a bare View more, Learn more or Click here on the four linking sections fails. N/A when the page has no content section."
+        },
+        {
+          "id": "W19",
+          "title": "Testimonial authors and quotes are left aligned on one baseline",
+          "test": "In Testimonials the quote and the author block (avatar, name, role) are left aligned together, even in a centred section: avatar, name and role form one row with the name and role stacked and left aligned, and in a row of quote cards the author rows sit on one baseline across cards (the shipped grid subgrid). A centred name or role under a left aligned quote, an avatar on its own line, or author rows at different heights across cards fails. N/A when the page has no Testimonials section."
         }
       ]
     }

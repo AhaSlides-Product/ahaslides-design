@@ -1,0 +1,202 @@
+{
+  "name": "Canvas count",
+  "slug": "canvas-count",
+  "group": "General",
+  "tier": "leaf",
+  "badge": "shared web component — canvas",
+  "element": "aha-canvas-count",
+  "reuse": {
+    "entry": "./aha-canvas-count",
+    "registers": "aha-canvas-count",
+    "exportsNamed": [
+      "AhaCanvasCount",
+      "defineAhaCanvasCount"
+    ]
+  },
+  "summary": "The answer count on a slide canvas: how many answered correctly and incorrectly (✓ 12 · ✗ 3), or how many answered with no verdict, in one small deck container.",
+  "highlights": [
+    "Correct / incorrect count, or answered only",
+    "40px deck container: fill, no stroke, radius 8, frosted on photo decks",
+    "Inked by applyCanvasDeck, so it reads on white and black ink"
+  ],
+  "lead": "ONE custom element — <aha-canvas-count> — for the count many slide types show on the presenter canvas. Set `correct` and `wrong` for the verdict form (a correct <aha-answer-mark>, the count and a person glyph, a divider, an incorrect <aha-answer-mark>, the count and a person glyph), or `answered` alone for the answered-only form (the count and a person glyph). Its container is the deck container set applyCanvasDeck writes (--aha-deck-container-fill / -radius-sm / -padding-*), so the same element reads on a light deck, a dark deck and a photo deck with no props.",
+  "codeNote": "Same element, same shadow-DOM CSS → identical render across frameworks. Attributes only, no events.",
+  "tokensUsed": [
+    "text-default",
+    "answer-correct",
+    "answer-wrong",
+    "white",
+    "radius-default",
+    "blur-md",
+    "space-6",
+    "space-8",
+    "space-16",
+    "font-product",
+    "weight-semibold"
+  ],
+  "spec": [
+    {
+      "label": "Container",
+      "value": "40px tall, radius 8 (--aha-deck-container-radius-sm), padding 8 / 16 / 8 / 8 (--aha-space-8 on the disc side, --aha-space-16 on the glyph side; 16 both sides when answered only), --aha-deck-container-fill with no stroke, backdrop blur --aha-blur-md"
+    },
+    {
+      "label": "Verdict",
+      "value": "<aha-answer-mark result=\"correct\" size=\"20\"> (white system-check 12 on the --aha-answer-correct disc) · count · system-user 16 · 1px divider (--aha-deck-stroke) · <aha-answer-mark result=\"incorrect\" size=\"20\"> (white system-x 12 on the --aha-answer-wrong disc) · count · system-user 16; 6px inside a part, 8px between parts"
+    },
+    {
+      "label": "Answered only",
+      "value": "count · system-user 16, no disc and no divider; with `total`, a 14px \"of 30\" in --aha-deck-ink-secondary sits between the count and the glyph"
+    },
+    {
+      "label": "Type",
+      "value": "count 16px / 600, tabular figures, in the deck ink; the person glyph in --aha-deck-ink-secondary (76%)"
+    },
+    {
+      "label": "Deck",
+      "value": "solid deck: the ink at 8% fill, no stroke; photo deck (applyCanvasDeck image: true): the opposite of the ink at 80% (white under black ink, near-black under white ink)"
+    }
+  ],
+  "props": [
+    {
+      "name": "correct",
+      "type": "number",
+      "default": "—",
+      "desc": "How many answered correctly. Setting it (or `wrong`) shows the verdict form"
+    },
+    {
+      "name": "wrong",
+      "type": "number",
+      "default": "—",
+      "desc": "How many answered incorrectly"
+    },
+    {
+      "name": "answered",
+      "type": "number",
+      "default": "0",
+      "desc": "How many answered, shown when neither `correct` nor `wrong` is set"
+    },
+    {
+      "name": "total",
+      "type": "number",
+      "default": "—",
+      "desc": "The known total, answered-only form: shows \"of 30\" after the count and names the group \"12 of 30 answered\". Ignored in the verdict form; without it the count renders as before"
+    },
+    {
+      "name": "strings",
+      "type": "object | JSON attribute",
+      "default": "English",
+      "desc": "Translated copy: ofTotal (\"of {total}\", the visible text), answeredOfTotal (\"{answered} of {total} answered\"), answered (\"{answered} answered\"), correctWrong (\"{correct} correct, {wrong} incorrect\"). A missing key keeps English; `label` still overrides the accessible name"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"12 correct, 3 incorrect\" / \"24 answered\" (English)",
+      "desc": "Accessible name of the group; pass a translated string in the product"
+    }
+  ],
+  "opinion": {
+    "whenToUse": [
+      {
+        "what": "Canvas count (verdict)",
+        "when": "a quiz-style slide on the presenter canvas once answers are revealed: how many got it right and wrong"
+      },
+      {
+        "what": "Canvas count (answered only)",
+        "when": "a slide with no right answer (poll, rating, word cloud) that still shows how many answered next to the result"
+      },
+      {
+        "what": "Canvas status",
+        "when": "while answers are still coming in: the status line as free-floating text"
+      }
+    ],
+    "note": "Never rebuild it as a hand-rolled pill: the deck container set keeps every count on every slide type the same size, radius and fill. Never colour the container with the accent; the only colour is the two verdict discs."
+  },
+  "a11y": {
+    "role": "role=\"group\" with an accessible name that states the whole count; the visual parts are aria-hidden so each number is read once",
+    "keyboard": "static (nothing to focus)",
+    "note": "`label` re-syncs on every change (observed attribute)."
+  },
+  "surfaces": [
+    "presenter"
+  ],
+  "environment": [
+    "product"
+  ],
+  "snippets": [
+    {
+      "key": "html",
+      "label": "HTML",
+      "file": "canvas-count.html.txt",
+      "runnable": "paste-and-run",
+      "note": "The native form — a web component in an HTML file renders on open, no build step."
+    },
+    {
+      "key": "react",
+      "label": "React",
+      "file": "canvas-count.react.txt"
+    },
+    {
+      "key": "vue",
+      "label": "Vue 3",
+      "file": "canvas-count.vue.txt"
+    }
+  ],
+  "preview": "canvas-count.preview.html",
+  "conformance": {
+    "$about": "Measured by qa.mjs against the RENDERED UI. The probe is the verdict form on a white stage with no deck applied, so every value is its DS fallback.",
+    "ready": "!!(document.querySelector('aha-canvas-count[data-probe]') && document.querySelector('aha-canvas-count[data-probe]').shadowRoot && document.querySelector('aha-canvas-count[data-probe]').shadowRoot.querySelector('.disc.is-correct'))",
+    "singleUI": true,
+    "measure": "(function(){var r=document.querySelector('aha-canvas-count[data-probe]').shadowRoot;var b=getComputedStyle(r.querySelector('.box'));var d=getComputedStyle(r.querySelector('.disc.is-correct'));var n=getComputedStyle(r.querySelector('.number'));return{height:b.height,radius:b.borderTopLeftRadius,paddingLeft:b.paddingLeft,paddingRight:b.paddingRight,discSize:d.width,numberSize:n.fontSize,numberWeight:n.fontWeight,numberColor:n.color,label:r.querySelector('.box').getAttribute('aria-label')};})()",
+    "expect": {
+      "height": "40px",
+      "radius": "8px",
+      "paddingLeft": "8px",
+      "paddingRight": "16px",
+      "discSize": "20px",
+      "numberSize": "16px",
+      "numberWeight": "600",
+      "numberColor": "rgb(26, 26, 26)",
+      "label": "12 correct, 3 incorrect"
+    }
+  },
+  "selfCheck": [
+    {
+      "label": "container from the deck container set (fill, no stroke, radius 8, padding 8 / 16)",
+      "verdict": "PASS"
+    },
+    {
+      "label": "verdict discs in --aha-answer-correct / --aha-answer-wrong with DS glyphs",
+      "verdict": "PASS"
+    },
+    {
+      "label": "answered-only form has no verdict mark",
+      "verdict": "PASS"
+    },
+    {
+      "label": "one accessible name for the whole count, observed",
+      "verdict": "PASS"
+    }
+  ],
+  "composedOf": [
+    {
+      "component": "aha-icon",
+      "status": "shipped"
+    },
+    {
+      "component": "aha-answer-mark",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-check",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-x",
+      "status": "shipped"
+    },
+    {
+      "icon": "system-user",
+      "status": "shipped"
+    }
+  ]
+}

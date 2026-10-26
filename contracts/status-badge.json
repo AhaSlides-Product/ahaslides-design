@@ -117,7 +117,7 @@
       "name": "--aha-status-badge-bg",
       "type": "CSS custom property",
       "default": "the look's background",
-      "desc": "App-supplied background. Only for a colour set the app already owns (Report results); never to give a DS status a hue"
+      "desc": "App-supplied background. Only for a non-answer colour set the app already owns; never to give a DS status a hue or tint an answer result"
     },
     {
       "name": "--aha-status-badge-fg",

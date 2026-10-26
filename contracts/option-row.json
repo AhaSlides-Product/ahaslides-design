@@ -151,6 +151,18 @@
       "desc": "false disables the delete at the minimum item count"
     },
     {
+      "name": "deletelabel / deletehint / reorderlabel / reorderhint",
+      "type": "string",
+      "default": "Delete / Delete (Backspace when empty) / Drag to reorder / Drag to reorder, or use the arrow keys",
+      "desc": "Translated copy: the delete's name (and its tooltip when Backspace-delete is off), its tooltip when Backspace-delete is on, the drag handle's name, and its name when reorderable. `placeholder` already translates the field"
+    },
+    {
+      "name": "correctlabel",
+      "type": "string",
+      "default": "Correct answer",
+      "desc": "Accessible name of the correct-answer toggle; pass the translated text"
+    },
+    {
       "name": "input / correct-change / delete",
       "type": "CustomEvent",
       "default": "—",
@@ -186,7 +198,7 @@
         "when": "a repeatable COMPOSITE item with its own body of fields (a Question)"
       }
     ],
-    "note": "The row is the one border; the field inside is borderless — never a box-in-a-box (SETTINGS-34). The drag handle lives INSIDE the border and only when order matters (SETTINGS-39). The delete is revealed on hover and whenever the row or the delete has focus, and is a Tab stop after the field (skipped when disabled); Backspace in an empty field is the quick keyboard delete (`delete` with detail.source \"keyboard\"; the host calls previousRow.focus()). It disables (not hides) at the minimum count (SETTINGS-23). No \"X of Y\" counter — the +Add disables at max and delete at min (SETTINGS-36).",
+    "note": "The row is the one border; the field inside is borderless — never a box-in-a-box (SETTINGS-34). The drag handle lives INSIDE the border and only when order matters (SETTINGS-39). The delete is revealed on hover and whenever the row or the delete has focus, and is a Tab stop after the field (skipped when disabled); Backspace in an empty field is the quick keyboard delete (`delete` with detail.source \"keyboard\"; the host calls previousRow.focus()). It disables (not hides) at the minimum count (SETTINGS-23). No \"X of Y\" counter — the +Add disables at max and delete at min (SETTINGS-36). The correct-answer toggle keeps its own drawing rather than an <aha-answer-mark>: it is a checkbox that animates from an empty 1px outline to the marked state, and has a square shape, while the answer mark is a static result. Marked, it matches the 20px answer mark (white tick on the solid --aha-answer-correct disc).",
     "dsv3": "COVERED — the settings-lab OptionRow control mapped into the DS. It composes the DS borderless field, checkbox and image control into the reference option-row anatomy (SETTINGS-20/34/23/39)."
   },
   "surfaces": [
