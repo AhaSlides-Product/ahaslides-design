@@ -6,7 +6,7 @@
     "slidetype",
     "system"
   ],
-  "count": 320,
+  "count": 321,
   "icons": {
     "filetype-course": {
       "family": "filetype",
@@ -942,6 +942,20 @@
         "job",
         "career",
         "company"
+      ]
+    },
+    "system-bug": {
+      "family": "system",
+      "viewBox": "0 0 16 16",
+      "body": "<path d=\"M8 4.5C6.34315 4.5 5 5.84315 5 7.5V10C5 11.933 6.34315 13.5 8 13.5C9.65685 13.5 11 11.933 11 10V7.5C11 5.84315 9.65685 4.5 8 4.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5 8H2M11 8H14M5 11H2.5M11 11H13.5M6 2L7 4.5M10 2L9 4.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+      "recolorable": true,
+      "meaning": [
+        "bug",
+        "report a bug",
+        "feedback",
+        "issue",
+        "defect",
+        "debug"
       ]
     },
     "system-buildings": {
