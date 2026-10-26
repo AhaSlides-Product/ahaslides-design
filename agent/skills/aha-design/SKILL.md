@@ -1,6 +1,6 @@
 ---
 name: aha-design
-description: "Build or review AhaSlides product UI against the AhaSlides design system (@ahaslides-product/design) — the one source of truth for components, tokens, composition guidelines and the binary anti-slop judge criteria. Reads the DS from the installed npm package when the repo has it, else from its hosted feeds (llms.txt, anti-slop.agent.json, guidelines, per-component agent.json), then runs the build -> judge -> fix loop: pick the DS surface(s), read their rules and criteria, build with DS components and tokens, run the DS mechanical gate, judge every criterion PASS/FAIL, fix every FAIL, re-judge. Use whenever an agent designs, plans, builds, edits or reviews an AhaSlides functional / application surface — the product apps (presenter, editor, dashboard, settings, audience, slide-type canvas), docs / help-centre UI, internal tools, admin / back-office, ops consoles: a screen, page, component, form, table / data grid, chart / graph / data-viz / results visualisation (bar, column, donut, radar, word cloud, treemap), modal / drawer / popover, toast / alert, status badge, icon, paywall / upsell, settings modal / drawer / panel / page (course, presentation or account settings, preferences, options dialog), empty / error state, typography, colour or background, or in-app UI copy and casing. Also for 'review / judge / audit this UI', 'does this follow our design system', 'is this table / modal correct', or a self-check after building. Do NOT trigger for marketing / brand surfaces (landing pages, public pricing page, blog, email, social, ads, key art, brand voice) — that is aha-marketing-skills; for UI/UX design user research lookups (what users have said about a feature) — that is aha-uiux-user-research; or for backend, data, CLI or analytics work with no UI. In a legacy Vue 2 project (the nearest package.json declares vue 2.x, e.g. the presenter and audience apps) it applies to NEW screens, components and features only, built with the DS web components and never the old storybook kit; existing screens are left untouched unless the task asks to change them."
+description: "Build or review any AhaSlides website or product UI against the AhaSlides design system (@ahaslides-product/design) — the one source of truth for components, tokens, composition guidelines and the binary anti-slop judge criteria. Reads the DS from the installed npm package when the repo has it, else from its hosted feeds (llms.txt, anti-slop.agent.json, guidelines, per-component agent.json), then runs the build -> judge -> fix loop: pick the DS surface(s), read their rules and criteria, build with DS components and tokens, run the DS mechanical gate, judge every criterion PASS/FAIL, fix every FAIL, re-judge. Use whenever an agent designs, plans, builds, edits or reviews any AhaSlides website or app — every website page (landing pages, pricing, blog, careers, campaign pages), the product apps (presenter, editor, dashboard, settings, audience, slide-type canvas), docs / help-centre UI, internal tools, admin / back-office, ops consoles: a screen, page, component, form, table / data grid, chart / graph / data-viz / results visualisation (bar, column, donut, radar, word cloud, treemap), modal / drawer / popover, toast / alert, status badge, icon, paywall / upsell, settings modal / drawer / panel / page (course, presentation or account settings, preferences, options dialog), empty / error state, typography, colour or background, or in-app UI copy and casing. Also for 'review / judge / audit this UI', 'does this follow our design system', 'is this table / modal correct', or a self-check after building. There is no separate marketing web surface: one DS covers every website, and a page can serve marketing and usability at once. Do NOT trigger for brand voice, email, video or social / ads creative and key art — that is aha-marketing-skills; for UI/UX design user research lookups (what users have said about a feature) — that is aha-uiux-user-research; or for backend, data, CLI or analytics work with no UI. In a legacy Vue 2 project (the nearest package.json declares vue 2.x, e.g. the presenter and audience apps) it applies to NEW screens, components and features only, built with the DS web components and never the old storybook kit; existing screens are left untouched unless the task asks to change them. A settings surface also loads ahaslides-design:settings-design first, no exception."
 ---
 
 # Building and judging AhaSlides UI with the design system
@@ -66,11 +66,11 @@ never a frozen snapshot.
 
 ## 2. Pick the environment, then the surface(s)
 
-Every DS item names its environment (`product`, `audience`, `marketing-web`, `video`,
+Every DS item names its environment (`product`, `audience`, `web`, `video`,
 `social-ads`); each one's route (guidelines, judge, lint, plugin, owner) is in `llms.txt` →
-**Routes**, from `environments.json` in the package. This skill covers `product` and
-`audience`. A `marketing-web`, `video` or `social-ads` task follows its own route (the `aha-mkt`
-skill), not this loop.
+**Routes**, from `environments.json` in the package. This skill covers `product`,
+`audience` and `web` (every website page: landing, pricing, blog, careers). A `video` or
+`social-ads` task follows its own route (the `aha-mkt` skill), not this loop.
 
 The surface keys are the keys of `surfaces` in `criteria.json` (e.g. `table`, `overlays`,
 `feedback`, `settings`, `icons`, `typography`, `ux-writing`, `canvas`, `audience`, `app-shell`).
@@ -78,12 +78,14 @@ Read the list from the DS each time — surfaces get added.
 
 - Pick by what the UI **contains**, not its container. A modal, drawer, page or editor panel that
   holds settings, options or preferences is the `settings` surface (plus `overlays` for the
-  modal / drawer shell). For `settings`, read the hub page
-  `https://design.ahaslides.io/settings/index.html` first — its control
-  table (`#ctrl-<slug>`) decides which DS control each setting type uses (e.g. an image setting →
-  image action button / dropzone), so do not reach for a generic component.
+  modal / drawer shell).
+- **Settings surface → load `ahaslides-design:settings-design` first, no exception.** It is the one
+  runbook for every setting (controls, labels, grouping, lint, judge); this skill covers the rest of
+  the screen.
 - A product-app screen (React / AntD, or the DS web components) is always judged on
   `background` and `component-standard`, plus every surface it touches.
+- A website page (environment `web`: landing, pricing, blog, careers, campaign or help page built
+  from full-width sections) is always judged on `website`, plus `colour` and every surface it touches.
 - UI copy or labels changed → add `ux-writing`.
 - Any colour chosen or changed (a fill, text or link colour, a status, a chart series, a logo or
   file-type icon, a border or shadow) → add `colour`. Its rules, and the background rules, live once
@@ -104,10 +106,13 @@ Read the list from the DS each time — surfaces get added.
    Microsoft) comes from the Logo library: `https://design.ahaslides.io/foundations/logo.html`, files at
    `https://design.ahaslides.io/logo/<file>`. Never redraw one, inline a
    hand-made SVG, recolour it, or substitute an icon or letter tile.
-   The top-left brand of any site, microsite, docs site, careers or marketing-style page, internal
+   A third-party logo in any UI, website headers included, is the greyscale file at rest and its
+   original-colour file (`logo/original/<file>`) on hover and keyboard focus, with the tool's name
+   beside it (the Logo library has the copy-paste pattern); only a page listing other products
+   (Marketplace) shows brand colours at rest. Colour rule 2.6 has the detail.
+   The top-left brand of any site, microsite, docs site, careers, landing or pricing page, internal
    tool or app header is `<aha-product-lockup product="<name>">` (no `product` when no name is
-   approved), never the logo file hand-set beside a text span; this holds even on a marketing page,
-   and the header is judged on `app-shell` C1.
+   approved), never the logo file hand-set beside a text span; the header is judged on `app-shell` C1.
 5. Any data or result chart (bar, column, stacked, donut / pie, radial, treemap, quadrant, bell,
    radar, word cloud, mind map, line) is `<aha-chart>` from the DS: read
    `https://design.ahaslides.io/chart.agent.json` first, use
@@ -126,13 +131,7 @@ Read the list from the DS each time — surfaces get added.
    (the plugin blocks both). Only when nothing fits, add the glyph to the design system, with meaning
    words, the paired stroke (12px 1px, 16px 1.5px, 24px 2px, 32px 2.5px) and an `Icon search:` line
    in its pull request; a glyph that looks nearly identical to an existing one fails the DS build.
-8. Settings: 24px between sibling settings, a sub-setting group 16px below its parent and indented
-   24px, setting labels regular 400 (primary text; secondary text inside a sub-setting group), and
-   no toggle, switch, input, select or button in a group header. Settings fields are the default
-   40px size only, never `size="small"` / `"sm"` / `"large"` / `"lg"` (porting from AntD or
-   slide-type-creator: their `size="large"` or `size="small"` field maps to the DS default), fill the width of a stacked row, and a capped field
-   is `<aha-counted-input>` / `<aha-counted-textarea>` with the counter inside, shown on focus, never
-   `maxlength` on `<aha-input>` with a counter beside it.
+8. Settings: run the `settings-design` skill (§2).
 9. Any new page, route, site or app shell sets its own document `<title>` and the one favicon set:
    `<specific part> | AhaSlides`, brand last, updated on every client-side route change, The Splash
    files from `logo/favicon/` with `/favicon.ico` at the site root. Rules:
@@ -142,25 +141,36 @@ Read the list from the DS each time — surfaces get added.
     change only), never `size="xl"` or `::part` sizing. A labelled one carries its key in the
     display-only `shortcut` attribute; an icon-only one sits in
     `<aha-tooltip size="lg" text="Mute music" shortcut="M">` with `aria-label="Mute music (M)"`.
-    No `tertiary-deck` on a photographic deck. Detail in the `canvas` guideline.
+    No `tertiary-deck` on a photographic deck. Text on a deck palette colour uses the
+    `--aha-deck-palette-<n>` / `-ink` pair `applyCanvasDeck` writes from `palette:`, never a hand-rolled
+    luminance flip. Detail in the `canvas` guideline.
 11. Actions on a slide type's audience phone are `<aha-audience-submit>` for the submit and
     `<aha-button size="touch">` in `primary`, `secondary-deck` or `tertiary-deck` for the rest, from
-    `lib/audience.js`, never a raw `<button>`. Detail in the `audience` guideline.
+    `lib/audience.js`, never a raw `<button>`. A modal or sheet closes with the ✕ `<aha-button variant="tertiary-deck" size="md" icon-only>` (36px drawn, 44px hit area, `sheet` on white), not the 48px icon-only. Detail in the `audience` guideline.
+12. Every button is `<aha-button>`, header and CTA buttons in vendored marketing blocks included
+    (`href` for a link, `type="submit"` in a form). Never restyle, re-colour or re-hover a DS
+    component; only layout may be set on it. The `hand-rolled-button` lint enforces it.
+13. Any element you hand-build on the slide canvas (or the audience phone) calls `applyCanvasDeck`
+    (canvas) or `applyDeck` (audience) once on the root and paints only with `--aha-deck-*` tokens,
+    plus `--aha-answer-correct` / `--aha-answer-wrong` on a verdict mark. Never mix your own shade of
+    `xprops.slide.textColour` (`color-mix`, an opacity on the ink), never use a product colour token
+    (`--aha-text-*`, `--aha-border-*`, `--aha-bg-*`, `--aha-surface-*`). A built Vue slide type imports
+    `applyCanvasDeck` from `@ahaslides-product/design/canvas-deck`. Which token paints which role (text,
+    secondary text, divider, chip outline, fill, hover, panel, modal, frosted panel, verdict) is the
+    "Role to token" table on `https://design.ahaslides.io/deck-tokens/index.html`; `screen-lint` warns
+    `canvas-off-deck-colour` on the miss.
 
 ## 4. Judge
 
 1. **Mechanical gate first** (when the package is installed):
-   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings> <files>`
-   — fix every HARD finding before judging. A slide type's `presenter.*` is `canvas`, its
-   `audience.*` is `audience` and its `settings.*` is `settings`. On `settings`, a raw `<button>`,
-   `<input>`, `<select>`, `<textarea>` or `role="switch"`, and any `<aha-*>` tag `lib/settings.js` does not
-   register, are HARD: the panel is built from the elements that one entry loads. A control the DS
-   does not ship keeps its tag with `ds-lint-allow: raw-control (why)` (or `unregistered-element`).
-   On both slide surfaces a raw
+   `node node_modules/@ahaslides-product/design/screen-lint.mjs --surface=<product|canvas|audience|settings|website> <files>`
+   — fix every HARD finding before judging. An `--aha-answer-*` token as a text colour, or on anything that is not an answer, a correct or wrong mark or a result, is HARD (`answer-colour-text`, `answer-colour-context`; colour rules 11.1 and 11.2). A slide type's `presenter.*` is `canvas`, its
+   `audience.*` is `audience` and its `settings.*` is `settings` (the `settings-design` skill runs
+   that gate). On both slide surfaces a raw
    `<button>` or `role="button"`, `<aha-button size="xl">`, sizing through `::part(button)` or an
    inline style, and a `<kbd>` inside `<aha-button>` are HARD. A control the DS does not ship (a
    draggable tile, a seek-bar grip) keeps its tag with `ds-lint-allow: raw-button (why)` on that
-   line; never use the marker to keep a hand-made action button.
+   line; never use the marker to keep a hand-made action button. Three UX writing rules are HARD on every surface, in UI text only: `no-dash-punctuation` (UXW-8, no em or en dash), `vague-error-copy` (UXW-2, no "Something went wrong", "An error occurred", "Oops", "Unexpected error", "Some items could not be loaded") and `title-case-slide-name` (UXW-1, "Multiple choice" not "Multiple Choice"). Rewrite the string; `ds-lint-allow: <rule> (why)` only for a quoted example.
 2. **Binary judge**, per surface: for every criterion, read its `test`, find the evidence in the
    code (`file:line`) and decide **PASS**, **FAIL**, or **N/A** (only when the criterion cannot
    apply to this code). No partial credit. **Burden of proof is on PASS** — a criterion you cannot

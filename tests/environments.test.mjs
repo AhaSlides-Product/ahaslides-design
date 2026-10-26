@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  loadEnvironmentTable, environmentNames, fileSystemReader, collectItems, environmentProblem, evaluateEnvironmentGate,
+  loadEnvironmentTable, environmentNames, canonicalEnvironment, fileSystemReader, collectItems, environmentProblem, evaluateEnvironmentGate,
   declaredEnvironments, checkPullRequestDeclaration, withRouteHeader, routeLines, ENVIRONMENT_BASELINE_FILE,
 } from '../environments.mjs';
 import { scanRoutes } from '../route-scan.mjs';
@@ -20,7 +20,7 @@ const memoryReader = (files) => ({
 const itemsFrom = (files) => collectItems(table, memoryReader(files));
 
 test('the table is the closed list of six environments, each with a complete route', () => {
-  assert.deepEqual(environmentNames(table), ['product', 'audience', 'marketing-web', 'video', 'social-ads', 'report-image']);
+  assert.deepEqual(environmentNames(table), ['product', 'audience', 'web', 'video', 'social-ads', 'report-image']);
   for (const [name, environment] of Object.entries(table.environments)) {
     assert.ok(environment.label && environment.summary, name);
     assert.deepEqual(Object.keys(environment.route), ['guidelines', 'judge', 'lint', 'plugin', 'owner'], name);
@@ -46,12 +46,21 @@ test('a new environment is data only: it reaches the llms.txt routes and the hea
 test('every item in the repo is collected, and the baseline names only items still missing an environment', () => {
   const items = collectItems(table, fileSystemReader(root));
   assert.ok(items.some(item => item.id === 'contract:button'));
-  assert.ok(items.some(item => item.id === 'marketing:hero'));
+  assert.ok(items.some(item => item.id === 'marketing:header'));
   assert.ok(items.some(item => item.id === 'brand:visual-identity-colour-rules'));
   const baseline = JSON.parse(readFileSync(join(root, ENVIRONMENT_BASELINE_FILE), 'utf8')).missing;
   const missing = new Set(items.filter(item => environmentProblem(item, table) === 'missing').map(item => item.id));
   assert.deepEqual(baseline.filter(id => !missing.has(id)), []);
   assert.deepEqual([...baseline].sort(), baseline);
+});
+
+test('the deprecated marketing-web id validates and routes as web', () => {
+  assert.equal(canonicalEnvironment('marketing-web'), 'web');
+  assert.equal(canonicalEnvironment('product'), 'product');
+  assert.equal(environmentProblem({ environment: ['marketing-web'] }, table), null);
+  const [item] = collectItems({ sources: [{ kind: 'contract', file: 'x.json', list: 'items', key: 'slug' }] }, { read: () => JSON.stringify({ items: [{ slug: 'a', environment: ['marketing-web', 'web', 'product'] }] }) });
+  assert.deepEqual(item.environment, ['web', 'product']);
+  assert.deepEqual(environmentNames(table).includes('marketing-web'), false);
 });
 
 test('environment must be a non-empty list of known names', () => {
@@ -137,7 +146,7 @@ test('route scan reports missing, unknown and folder mismatches without failing'
     'contracts/plain.json': { slug: 'plain' },
     'contracts/ad.json': { slug: 'ad', environment: ['social-ads'] },
     'marketing/promo.json': { slug: 'promo', environment: ['tv'] },
-    'marketing/hero.json': { slug: 'hero', environment: ['marketing-web'] },
+    'marketing/header.json': { slug: 'header', environment: ['marketing-web'] },
   }));
   assert.deepEqual(report.counts, { items: 4, missing: 1, unknown: 1, folderMismatch: 1 });
   assert.equal(report.folderMismatch[0].id, 'contract:ad');

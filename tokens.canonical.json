@@ -102,9 +102,9 @@
   },
   "viz": {
     "$source": "Chart geometry + deck ink mixes for <aha-chart>. Geometry aliases the spacing scale ({space.N}) where a step exists; barThickness 38 and plotHeight 260 have no step and stay literal. Type sizes come from the type scale (--aha-size-*), not viz tokens. mix.* apply only to deck-palette charts, where the greys must be derived from the deck's own text colour; brand charts use the semantic text/border/bg tokens.",
-    "barThickness": 38, "barGap": "{space.24}", "valueWidth": "{space.100}", "columnWidth": "{space.96}", "columnGap": "{space.28}", "plotHeight": 260,
+    "barThickness": 38, "barGap": "{space.32}", "columnWidth": "{space.96}", "columnGap": "{space.28}", "plotHeight": 260,
     "stubLength": "{space.12}", "markMinLength": "{space.24}", "columnMinHeight": "{space.16}", "legendSwatch": "{space.14}",
-    "mix": { "secondary": 76, "tertiary": 54, "axis": 26, "grid": 12, "track": 7, "stroke": 10, "strokeChip": 20, "hover": 8, "active": 16, "dim": 38 }
+    "mix": { "secondary": 76, "tertiary": 54, "axis": 24, "grid": 12, "track": 8, "stroke": 12, "strokeChip": 20, "hover": 12, "active": 16, "dim": 40 }
   },
   "openItems": [
     "radius-64: off the 4/6/8/12/16 scale; export README documents an 80px outlier, not 64 — confirm 80 or remove.",

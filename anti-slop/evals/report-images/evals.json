@@ -34,7 +34,7 @@
     },
     {
       "id": 2,
-      "prompt": "Review this export table PNG. Rows alternate white and light grey #F7F7F7 with 1px #E3E3E3 dividers kept; header labels black semibold over a 2px Vivid Pink rule; figures black tabular and right-aligned (12K, 1.3M, 46%); names left-aligned, including Nguyễn Thị Hương rendered through a Noto Sans fallback. Title: Top courses, September.",
+      "prompt": "Review this export table PNG. Rows alternate white and light grey #F7F7F7 with no row dividers; header labels black semibold over a 2px Vivid Pink rule; figures black tabular and right-aligned (12K, 1.3M, 46%); names left-aligned, including Nguyễn Thị Hương rendered through a Noto Sans fallback. Title: Top courses, September.",
       "files": [],
       "label": "good-control",
       "notes": "Targets all.",
@@ -331,7 +331,7 @@
     },
     {
       "id": 16,
-      "prompt": "Review a read-only report page that a report routine publishes (a weekly dashboard opened from a Slack link, never operated): a row of six <aha-stat-tile look=\"accent\"> number plates in <aha-grid min=\"160px\">, two <aha-chart> charts (a line and a column with a reference line), and an HTML table whose rows alternate white and var(--aha-bg-container-secondary) with 1px dividers and a black semibold header over a 2px Vivid Pink rule. It reflows at 390 px with no horizontal scroll.",
+      "prompt": "Review a read-only report page that a report routine publishes (a weekly dashboard opened from a Slack link, never operated): a row of six <aha-stat-tile look=\"accent\"> number plates in <aha-grid min=\"160px\">, two <aha-chart> charts (a line and a column with a reference line), and an HTML table whose rows alternate white and var(--aha-bg-container-secondary) with no row dividers and a black semibold header over a 2px Vivid Pink rule. It reflows at 390 px with no horizontal scroll.",
       "files": [],
       "label": "good-control",
       "notes": "Control: a report page takes the same colour as the report image (rule 3.11).",
@@ -376,7 +376,7 @@
     },
     {
       "id": 18,
-      "prompt": "Review a report table PNG whose rows alternate white and Vivid Pink at 5% (#FEF3F7), with 1px dividers and a black semibold header over a 2px Vivid Pink rule.",
+      "prompt": "Review a report table PNG whose rows alternate white and Vivid Pink at 5% (#FEF3F7), with no row dividers and a black semibold header over a 2px Vivid Pink rule.",
       "files": [],
       "label": "bad-example",
       "notes": "Targets C11: pale pink is not a table row colour.",

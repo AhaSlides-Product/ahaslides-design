@@ -1,0 +1,1233 @@
+{
+ "$about": "The one source of the AhaSlides verbal brand rules: what we believe, who we serve, what we say, how we sound and how we write. generate.mjs renders the human page (foundations/brand-voice-rules.html) and the agent feeds (voice-rules.md, voice-rules.agent.json) from this file. Edit a rule here and nowhere else. Text markup is the same as brand/colour-rules.json: **bold**, `code`, ((small print)), [label](href), and a line break is a new line. A rule or section with no environment or kinds takes the one above it. origin names where a rule came from when it was not in brand guidelines v2.2. The retired-wording table is also enforced by lib/screen-lint-copy.js.",
+ "id": "voice-rules",
+ "title": "AhaSlides brand voice rules",
+ "lede": "The single source for how AhaSlides talks: what we believe, who we serve, what we say and how we write. It follows brand guidelines v2.2 (22 October 2026) and the decisions made since. Visual rules are not here: the design system holds them.",
+ "updated": "2026-10-23",
+ "environment": [
+  "product",
+  "audience",
+  "web",
+  "video",
+  "social-ads",
+  "report-image"
+ ],
+ "owner": {
+  "name": "The brand director",
+  "email": "ian@ahaslides.com"
+ },
+ "kinds": [
+  {
+   "id": "external",
+   "label": "External marketing and sales",
+   "summary": "Website, blog, email, social, ads, video, sales material, help centre, partner and press copy. Every rule applies."
+  },
+  {
+   "id": "product",
+   "label": "Product copy",
+   "summary": "Words in the product. The writing rules (sections 10 to 14) plus guidelines/ux-writing.json."
+  },
+  {
+   "id": "internal",
+   "label": "Internal comms",
+   "summary": "Slack, documents and updates. The writing rules only (sections 10 to 14)."
+  }
+ ],
+ "glance": [
+  "We take the work out of engagement: more participation, better feedback, less work.",
+  "Describe AhaSlides as \"an all-in-one engagement platform for teams and classrooms\". Never \"interactive presentation software\".",
+  "Lead with what matters to the reader, not with what AhaSlides does. One message at a time.",
+  "Playful, Scientific, Above and beyond: clear, human and confident, never childish, corporate or over the top.",
+  "British English everywhere, the blog included. Sentence case, no end punctuation on headlines and CTAs, no em or en dash.",
+  "One clear, specific call to action per piece, never a hard sell.",
+  "AI is an enabler, not the hero. Use \"all-in-one\", \"engagement\" and \"aha moments\" with care.",
+  "The brand director (ian@ahaslides.com) owns this file."
+ ],
+ "sections": [
+  {
+   "id": "s1",
+   "key": "why-how-what",
+   "title": "Why, how and what",
+   "blocks": [
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "1.1",
+       "text": "**Our why.** We believe humans achieve more when they genuinely engage with each other. But getting people involved can be hard work. And we don't think it should be."
+      },
+      {
+       "id": "1.2",
+       "text": "**Our how.** We combine playful thinking, scientific curiosity and a genuine care for people to make engagement easier. We use technology, including AI, to take on more of the work, so humans can focus on what matters: connecting, learning and achieving more together."
+      },
+      {
+       "id": "1.3",
+       "text": "**Our what.** We're building an all-in-one engagement platform that makes it easier for teams and classrooms to get people participating, learning and sharing what they really think."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "What we believe",
+     "anchor": "believe"
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "1.4",
+       "text": "We believe in aha moments: when everyone is tuned in, questions are flying, ideas are bouncing around, and people are laughing, learning and sharing what they really think."
+      },
+      {
+       "id": "1.5",
+       "text": "We also believe humans achieve more when they genuinely engage with each other. Creating those moments should be easier: less time preparing, organising, chasing responses and figuring out what it all means, and more time connecting, listening, learning and making things happen together."
+      }
+     ]
+    },
+    {
+     "type": "quote",
+     "text": "There's a buzz you can feel. A sense that something good is happening between people. These are the moments that stick. When something finally clicks. When someone finds their voice. When a team comes together. When people leave knowing, feeling or understanding something they didn't before."
+    },
+    {
+     "type": "quote",
+     "text": "That's why we're building AhaSlides: technology that takes on more of the work around engagement, so people can focus on the moments that matter. More participation. Better feedback. Less work."
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s2",
+   "key": "monster",
+   "title": "Our monster",
+   "blocks": [
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "2.1",
+       "text": "Our monster is the unnecessary work it takes to get people engaged."
+      }
+     ]
+    },
+    {
+     "type": "quote",
+     "text": "The endless preparation, juggling of tools, chasing of responses and making sense of results that turn getting people involved into another job."
+    },
+    {
+     "type": "paragraph",
+     "text": "We believe technology should take care of more of that work, so humans can spend less time managing engagement and more time actually engaging."
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s3",
+   "key": "positioning",
+   "title": "Positioning statement",
+   "blocks": [
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "3.1",
+       "text": "The easiest way to get people involved, gather feedback and make learning stick. All with less work."
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s4",
+   "key": "audiences",
+   "title": "Who we serve",
+   "blocks": [
+    {
+     "type": "table",
+     "id": "audiences",
+     "columns": [
+      "Audience",
+      "They want",
+      "Lead with",
+      "Example"
+     ],
+     "rows": [
+      [
+       "Educators and trainers",
+       "Learners actively participating and showing what they understand, without creating more work for themselves.",
+       "Less work and more participation.",
+       "Get more people involved without adding more workload."
+      ],
+      [
+       "Leaders and culture builders",
+       "People contributing, sharing what they really think and feeling involved, with a clearer picture of what's happening across the team.",
+       "Meaningful feedback and more participation.",
+       "Give everyone a way to contribute and get a clearer picture of what your team really thinks."
+      ],
+      [
+       "Event organisers",
+       "An energetic, participatory experience that people remember, without complicated tech getting in the way.",
+       "Participation and live experiences.",
+       "Get the whole room involved, without adding more work behind the scenes."
+      ]
+     ]
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "4.1",
+       "text": "Our positioning stays the same (the easiest way to take the work out of engagement). What we lead with changes according to what matters most to the audience."
+      },
+      {
+       "id": "4.2",
+       "text": "For an educator and trainer, less workload and more student participation are equal reasons for them to care."
+      },
+      {
+       "id": "4.3",
+       "text": "For leaders and culture builders, \"save 20 minutes creating a poll\" may be much less exciting than hearing from employees who don't normally speak up."
+      },
+      {
+       "id": "4.4",
+       "text": "For an event organiser, it's probably all about the buzz of a live experience."
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s5",
+   "key": "messaging",
+   "title": "Messaging",
+   "blocks": [
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "5.1",
+       "text": "We help teams and classrooms engage more while working less."
+      },
+      {
+       "id": "5.2",
+       "text": "By using AhaSlides, our users spend less time, admin and effort managing engagement; get more people participating; and get more meaningful feedback. If your message communicates at least one of these ideas, you're heading in the right direction."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "Let's be clear",
+     "anchor": "clear"
+    },
+    {
+     "type": "table",
+     "id": "lets-be-clear",
+     "columns": [
+      "Message",
+      "What it is"
+     ],
+     "rows": [
+      [
+       "Take the work out of engagement",
+       "What AhaSlides does"
+      ],
+      [
+       "Spend less time managing it",
+       "Immediate benefit"
+      ],
+      [
+       "Get more participation",
+       "Engagement outcome"
+      ],
+      [
+       "Get more meaningful feedback",
+       "Engagement outcome"
+      ],
+      [
+       "More time actually engaging",
+       "Human payoff"
+      ]
+     ]
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "5.3",
+       "text": "The core line is \"AhaSlides takes the work out of engagement\" (More participation. Better feedback. Less work!)."
+      },
+      {
+       "id": "5.4",
+       "text": "Not just: our software is easy to use. Rather: we reduce the work you have to do."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "How we describe AhaSlides",
+     "anchor": "describe"
+    },
+    {
+     "type": "table",
+     "id": "descriptions",
+     "columns": [
+      "Description",
+      "Wording",
+      "Use it when"
+     ],
+     "rows": [
+      [
+       "Primary",
+       "AhaSlides is an all-in-one engagement platform for teams and classrooms",
+       "You need to clearly describe our category or what AhaSlides is."
+      ],
+      [
+       "Customer-focused",
+       "AhaSlides takes the heavy lifting out of engagement, making it easier to get people participating and understand what they really think.",
+       "You are explaining why AhaSlides matters."
+      ],
+      [
+       "Short",
+       "AhaSlides takes the work out of engagement.",
+       "The context already makes it clear what AhaSlides is."
+      ]
+     ]
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "5.5",
+       "text": "Describe AhaSlides with one of the three descriptions above, in the wording given, and use each where its row says. Any other description of the product is retired or needs the brand director's approval (section 14)."
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s6",
+   "key": "pillars",
+   "title": "Our three messaging pillars",
+   "blocks": [
+    {
+     "type": "heading",
+     "text": "Core message 1: Spend less time managing the admin of engagement",
+     "anchor": "pillar-1"
+    },
+    {
+     "type": "paragraph",
+     "text": "Engagement shouldn't create a pile of extra work. So AhaSlides takes the misery out of creating, running and following up on engaging experiences. Our users have more time for the people part."
+    },
+    {
+     "type": "list",
+     "items": [
+      "Take the admin out of engagement.",
+      "Spend less time managing engagement.",
+      "Get hours back, not more work.",
+      "Less time preparing. More time with people.",
+      "Let technology handle the heavy lifting around engagement."
+     ],
+     "label": "Useful language"
+    },
+    {
+     "type": "paragraph",
+     "text": "**Talk about:** time saved, less admin, easier preparation, AI assistance, simplicity, automation, reporting, follow-up, reliability."
+    },
+    {
+     "type": "heading",
+     "text": "Core message 2: Get people participating more often and wherever they work",
+     "anchor": "pillar-2"
+    },
+    {
+     "type": "paragraph",
+     "text": "People get more from an experience when they actively take part. AhaSlides gives everyone a way to get involved, not just the loudest or most confident voices in the room."
+    },
+    {
+     "type": "list",
+     "items": [
+      "Get everyone involved.",
+      "Turn passive audiences into active participants.",
+      "Give everyone a way to contribute.",
+      "Create shared moments people want to be part of."
+     ],
+     "label": "Useful language"
+    },
+    {
+     "type": "paragraph",
+     "text": "**Talk about:** attention, participation, interaction, involvement, inclusive contribution, live energy, fun, bringing people together."
+    },
+    {
+     "type": "heading",
+     "text": "Core message 3: Get feedback you can actually do something with",
+     "anchor": "pillar-3"
+    },
+    {
+     "type": "paragraph",
+     "text": "Engagement isn't only about getting people to respond. What comes back should help you understand them. AhaSlides helps you discover what people think, know and need."
+    },
+    {
+     "type": "list",
+     "items": [
+      "Find out what people really think.",
+      "Understand what your audience knows and needs.",
+      "Get something meaningful back from every session.",
+      "Turn participation into useful feedback."
+     ],
+     "label": "Useful language"
+    },
+    {
+     "type": "paragraph",
+     "text": "**Talk about:** audience understanding, feedback, responses, knowledge, opinions, insights, results, reporting."
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "6.1",
+       "text": "Every external message leans on at least one of the three pillars, and uses its useful language rather than inventing a new angle."
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s7",
+   "key": "opinions",
+   "title": "Our opinions",
+   "blocks": [
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "7.1",
+       "text": "Use these three core opinions to take a side, make a stand and give people a reason to come with us. They are the foundation for what we have to say, and a springboard for more points of view, content ideas and hooks. Instead of simply telling people what AhaSlides does, they say something about the way people work, learn and engage, so people can agree, disagree or side with us."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "You can't replace the buzz you feel from a room of fully tuned in people.",
+     "anchor": "opinion-1"
+    },
+    {
+     "type": "paragraph",
+     "text": "When people are genuinely involved, the room takes on a life of its own. Questions change the conversation. Unexpected things happen. People create something together that couldn't have happened without them. You can replay what happened but you can't replay what it felt like."
+    },
+    {
+     "type": "heading",
+     "text": "Getting people involved doesn't have to suck (your time, your energy or your will to carry on).",
+     "anchor": "opinion-2"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hours of prep. More admin. Chasing people for responses. No thank you. Technology should take more of that work off your plate, so you can spend less time making engagement happen and more time actually engaging."
+    },
+    {
+     "type": "heading",
+     "text": "The more AI can do, the more human we need to be.",
+     "anchor": "opinion-3"
+    },
+    {
+     "type": "paragraph",
+     "text": "AI should give us more bandwidth for people, not more ways to avoid them. Sure, it can help us do the work, but we still own the outcome. Care, connection and the conversations that really matter shouldn't be optimised or handed off to robots."
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s8",
+   "key": "spices",
+   "title": "Brand spices",
+   "blocks": [
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "8.1",
+       "text": "Our brand spices are strains of DNA. They can be found in everything we do, and they make us unique and memorable in a busy category. The three are Playful, Scientific, and Above and beyond."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "Playful",
+     "anchor": "spice-playful"
+    },
+    {
+     "type": "paragraph",
+     "text": "We're playful people with a playful product. Whether we're designing slides, writing copy, running meetings or launching features, we believe work should spark joy, not just check boxes. Being playful means using humour and creativity to break monotony, lift energy, and bring people together. Because even the most serious professionals are human, and we all engage better when there's a splash of fun."
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "8.2",
+       "text": "**Playful: how it sounds.** Energetic, witty, and conversational."
+      },
+      {
+       "id": "8.3",
+       "text": "**Playful: how we apply it.** Use fun analogies, light humour, and an informal but professional tone. Speak like a friendly expert, not a boring professor. We keep things fun, but never silly."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "items": [
+      "Use bright, bold and unexpected colours",
+      "Dynamic motion in our animations",
+      "Fun illustrations",
+      "Communicate like a consumer brand",
+      "Have a light and fun tone",
+      "Use playful analogies and metaphors",
+      "Use memes in our marketing",
+      "Lean into pop culture and trends",
+      "Tap into irrational and emotional benefits",
+      "Create fun tools",
+      "Encourage experimentation",
+      "Break conventions in UI / UX",
+      "Use gamification",
+      "Champion playfulness in the workplace",
+      "Create fun experiences at exhibitions"
+     ],
+     "label": "What we'll do"
+    },
+    {
+     "type": "list",
+     "items": [
+      "Be too B2B or overly corporate",
+      "Simply follow how others do things",
+      "Be predictably SaaS",
+      "Discourage experimentation",
+      "Use uninspiring stock imagery",
+      "Focus solely on rational benefits",
+      "Use playfulness at the expense of clarity"
+     ],
+     "label": "What we won't do"
+    },
+    {
+     "type": "heading",
+     "text": "Scientific",
+     "anchor": "spice-scientific"
+    },
+    {
+     "type": "paragraph",
+     "text": "We back everything up with data, insight, and research. Whether we're designing a feature, writing a message, presenting an idea, or supporting a user, we always aim to understand the \"why\" behind human attention and engagement. Being scientific means grounding our work in evidence, learning from real behaviour, and staying curious about how people think, feel, and connect. It's how we stay credible, useful, and trusted, from the smallest classroom to the largest meeting room."
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "8.4",
+       "text": "**Scientific: how it sounds.** Clear, insightful, and backed by research."
+      },
+      {
+       "id": "8.5",
+       "text": "**Scientific: how we apply it.** Use research and data to reinforce engagement strategies. Avoid vague claims: everything is grounded in evidence. We educate but never lecture."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "items": [
+      "Always use data and insights",
+      "Visualise statistics and champion reporting",
+      "Leverage research, case studies and peer reviews",
+      "Reference psychology and cognitive science",
+      "Feature expert voices and debunk myths",
+      "Own the \"science of distraction\" conversation",
+      "Use data-driven storytelling and precise reporting",
+      "A/B test, experiment and drive continuous improvement",
+      "Make evidence-based decisions only",
+      "Ask users for opinions and feedback"
+     ],
+     "label": "What we'll do"
+    },
+    {
+     "type": "list",
+     "items": [
+      "Avoid vague claims",
+      "Make assumptions",
+      "Appear elementary",
+      "Be childish",
+      "Follow trends blindly",
+      "Use clickbait or sensationalism",
+      "Make decisions on gut feelings",
+      "Ignore analytics",
+      "Be cluttered or overwhelming",
+      "Make misleading promises"
+     ],
+     "label": "What we won't do"
+    },
+    {
+     "type": "heading",
+     "text": "Above and beyond",
+     "anchor": "spice-above-and-beyond"
+    },
+    {
+     "type": "paragraph",
+     "text": "We're all about creating \"aha moments\" for our users and colleagues. Whether it's in our product experience, pricing, communication, customer service, or the way we support each other at work, we aim to work hard to go above the status quo and beyond expectations. Being above means doing better than what's currently out there. And going beyond means doing it with empathy, pride, and real human care. It's about solving problems curiously and delivering more than people hoped for."
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "8.6",
+       "text": "**Above and beyond: how it sounds.** Confident but humble, thoughtful but not flashy."
+      },
+      {
+       "id": "8.7",
+       "text": "**Above and beyond: how we apply it.** Add that extra touch, whether in copy, product interactions, or customer experiences. Make people feel seen, valued, and supported. We deliver aha moments that feel personal and meaningful."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "items": [
+      "Pay attention to the small details",
+      "Regularly ask \"How can we make this experience even better?\"",
+      "Be inquisitive: start with why to ensure everything we build has real impact",
+      "Go the extra mile to exceed expectations, not just meet them",
+      "Raise the bar: whatever our competitors offer, we aim to offer more, for less",
+      "Always be there: present, welcoming, asking open-ended questions",
+      "Show empathy and support to both users and teammates",
+      "Follow up with users to make sure problems are truly resolved",
+      "Reward our most engaged users in meaningful ways",
+      "Do the invisible work that leads to unexpectedly great outcomes"
+     ],
+     "label": "What we'll do"
+    },
+    {
+     "type": "list",
+     "items": [
+      "Be lazy or settle for \"good enough\" when we know it could be great",
+      "Rely on generic, closed off or robotic replies, especially in support or comms",
+      "Be unavailable or make people chase us for answers or updates",
+      "Treat users like ticket numbers or just another email",
+      "Deliver features without real user value or purpose",
+      "Forget to follow through or close the loop with users",
+      "Wait to be asked when we can anticipate needs first",
+      "Assume what worked before is still the best way; we stay curious and open to better"
+     ],
+     "label": "What we won't do"
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s9",
+   "key": "tone-and-voice",
+   "title": "Tone and voice",
+   "blocks": [
+    {
+     "type": "heading",
+     "text": "Keep it playful and energetic, but not childish",
+     "anchor": "tone-playful"
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "9.1",
+       "text": "Use humour but never at the expense of clarity, or in ways that feel risky."
+      },
+      {
+       "id": "9.2",
+       "text": "Avoid generic corporate jargon. Speak like a human, not a machine (and not AI!)."
+      },
+      {
+       "id": "9.3",
+       "text": "Infuse copy with energy, taking note of pace and rhythm."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "Speak with authority, but keep it approachable",
+     "anchor": "tone-authority"
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "9.4",
+       "text": "We are experts in engagement, and we use research to back up what we say."
+      },
+      {
+       "id": "9.5",
+       "text": "We don't talk myths or rumours. And we don't fear monger."
+      },
+      {
+       "id": "9.6",
+       "text": "We are never overly academic or robotic. Our knowledge should be grounded in facts, accessible and exciting."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "Go above and beyond, but not in a performative way",
+     "anchor": "tone-beyond"
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "9.7",
+       "text": "Strike a tone that's warm, respectful, and intentional."
+      },
+      {
+       "id": "9.8",
+       "text": "Use language that shows we care about the people behind the screen."
+      },
+      {
+       "id": "9.9",
+       "text": "Speak with curiosity about what truly connects audiences and empowers presenters."
+      },
+      {
+       "id": "9.10",
+       "text": "Raise the bar with thoughtful words, not loud ones."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "When in doubt, avoid these things",
+     "anchor": "avoid"
+    },
+    {
+     "type": "table",
+     "id": "when-in-doubt",
+     "columns": [
+      "Avoid",
+      "Why"
+     ],
+     "rows": [
+      [
+       "Overly dry or serious",
+       "We're scientific, but not boring with it. If we're bored of our content, our audience probably is too."
+      ],
+      [
+       "Too corporate or B2B",
+       "No lifeless, jargon-heavy sentences or turns of phrase you've seen used by other software companies."
+      ],
+      [
+       "Overly complex",
+       "We're not trying to use big words to sound clever. We simplify, not overcomplicate."
+      ],
+      [
+       "Over the top",
+       "Effort should feel thoughtful and intentional, not over the top or unnecessary."
+      ]
+     ]
+    }
+   ],
+   "kinds": [
+    "external"
+   ]
+  },
+  {
+   "id": "s10",
+   "key": "writing-rules",
+   "title": "Writing rules",
+   "blocks": [
+    {
+     "type": "table",
+     "id": "writing-examples",
+     "columns": [
+      "Rule",
+      "Prefer",
+      "Not"
+     ],
+     "rows": [
+      [
+       "Use simple English",
+       "Get more people involved.",
+       "Facilitate increased levels of participant engagement."
+      ],
+      [
+       "Write like a human",
+       "Nobody wants another meeting where three people do all the talking.",
+       "Modern organisations face significant challenges around employee engagement."
+      ],
+      [
+       "Lead with what matters to them",
+       "Find out what your team really thinks.",
+       "AhaSlides provides advanced polling functionality."
+      ],
+      [
+       "Show what work we take away",
+       "Turn your existing presentation into an interactive session without starting again.",
+       "Make engagement effortless with AhaSlides."
+      ]
+     ]
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "10.1",
+       "text": "Use simple English."
+      },
+      {
+       "id": "10.2",
+       "text": "Write like a human."
+      },
+      {
+       "id": "10.3",
+       "text": "Lead with what matters to them, not with what AhaSlides does."
+      },
+      {
+       "id": "10.4",
+       "text": "Show what work we take away."
+      },
+      {
+       "id": "10.5",
+       "text": "One message at a time. Don't try to communicate participation, feedback, AI, integrations, analytics, affordability and every product feature in the same headline."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "Spelling, case and punctuation",
+     "anchor": "mechanics"
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "10.6",
+       "text": "Write British English everywhere, the blog included: colour, organise, centre, behaviour, licence (the noun), programme. Keep an American spelling only where it is a code identifier, an API field or a third-party product name.",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "10.7",
+       "text": "Headlines and CTA labels are in sentence case, with no end punctuation: no full stop, no exclamation mark.",
+       "origin": "Brand guidelines v2.2, applied to every headline and CTA"
+      },
+      {
+       "id": "10.8",
+       "text": "Don't use an em dash or an en dash as punctuation. Use a full stop, a comma, a colon or parentheses, and write a range as \"1 to 10\".",
+       "origin": "Existing house rule (UXW-8 in guidelines/ux-writing.json)"
+      },
+      {
+       "id": "10.9",
+       "text": "Spell the name AhaSlides: one word, capital A and capital S.",
+       "origin": "Existing house rule (guidelines/page-title-favicon.json)"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "text": "Calls to action",
+     "anchor": "cta"
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "10.10",
+       "text": "Every piece of external communication carries one clear, specific call to action: say what to try, why it is worth trying and where to find it. Never a hard sell: no pressure, no hype, no stacked asks, and no hesitant wording such as \"if you fancy trying it\".",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2",
+       "kinds": [
+        "external"
+       ],
+       "environment": [
+        "web",
+        "video",
+        "social-ads"
+       ]
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external",
+    "product",
+    "internal"
+   ]
+  },
+  {
+   "id": "s11",
+   "key": "careful-words",
+   "title": "Words to be careful with",
+   "blocks": [
+    {
+     "type": "table",
+     "id": "careful-words",
+     "columns": [
+      "Word",
+      "How to use it"
+     ],
+     "rows": [
+      [
+       "\"All-in-one\"",
+       "Use when describing our platform ambition or breadth. Do not use it as a substitute for explaining the customer benefit."
+      ],
+      [
+       "\"Engagement\"",
+       "Never assume the word explains itself. Wherever possible, show what engagement means: people participating, contributing, responding and sharing what they think."
+      ],
+      [
+       "\"Aha moments\"",
+       "This is valuable brand language. Don't overuse it. Save it for moments of human connection, discovery, shared energy or the deeper purpose of AhaSlides."
+      ],
+      [
+       "\"AI\"",
+       "AI is an enabler, not the hero. The story is not: look what our AI can do. The story is: AI does more of the work around engagement, so people have more time for the human part."
+      ]
+     ]
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "11.1",
+       "text": "Use \"all-in-one\" for platform ambition or breadth, never instead of the customer benefit."
+      },
+      {
+       "id": "11.2",
+       "text": "Never assume \"engagement\" explains itself: show people participating, contributing, responding and sharing what they think."
+      },
+      {
+       "id": "11.3",
+       "text": "Save \"aha moments\" for human connection, discovery, shared energy or the deeper purpose of AhaSlides."
+      },
+      {
+       "id": "11.4",
+       "text": "AI is an enabler, not the hero: AI does more of the work around engagement, so people have more time for the human part."
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external",
+    "product",
+    "internal"
+   ]
+  },
+  {
+   "id": "s12",
+   "key": "checklist",
+   "title": "Quick checklist",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Is it clear who this message is for?",
+      "Am I leading with what matters to them, not what AhaSlides does?",
+      "Does it show how we reduce work, increase participation or create meaningful feedback?",
+      "Is the language simple, clear and human?",
+      "Am I making a specific point, rather than a vague claim?",
+      "Could a competitor say exactly the same thing?",
+      "Have I added unnecessary corporate or AI language?",
+      "Does it still feel human and AhaSlides?",
+      "If I mention AI, is human engagement still the goal?"
+     ],
+     "label": "Before publishing, ask"
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "12.1",
+       "text": "Run the checklist before publishing anything. If you're unsure, make it simpler, more specific and more human."
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external",
+    "product",
+    "internal"
+   ]
+  },
+  {
+   "id": "s13",
+   "key": "editorial-standard",
+   "title": "Editorial standard from the brand director",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "These came from the brand director's reviews of draft copy on 12 and 15 October 2026. They apply to every kind of writing; the social-only rules (post types, LinkedIn, reels) stay with the social writing skill."
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "13.1",
+       "text": "Clear doesn't mean flat. Once the message is clear, add energy, warmth or personality: clear, conversational, confident writing with a little more life in it.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.2",
+       "text": "Judgement, not formula. Not every piece needs a joke, an exclamation mark or a clever hook. If every piece gets a quirk, our copy becomes as predictable as the AI writing habits we are trying to eliminate.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.3",
+       "text": "Get to the point. Put the main news, topic, audience problem or benefit near the beginning, and don't bury it beneath an elaborate setup.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.4",
+       "text": "Clarity beats cleverness. A clever hook is only useful if it helps communicate the message; don't confuse being creative with being mysterious.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.5",
+       "text": "Write like a person, with varied sentence lengths. Don't make every sentence a short, dramatic one-liner, and don't chain subordinate clauses the reader has to untangle. Read a long sentence aloud and simplify it if it sounds awkward.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.6",
+       "text": "No artificial suspense, theatrical one-sentence paragraphs or formulaic AI copy, and no detached description of a feature.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.7",
+       "text": "Make the audience the hero. Use \"you\" and \"your\" where natural, and write from their perspective: what they can achieve, learn or improve.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.8",
+       "text": "Respect the reader's time. Remove unnecessary setup, repetition and detail. Concise means removing unnecessary words; clarity matters more than word count.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.9",
+       "text": "Bring playfulness into the words themselves: conversational expressions and changes in rhythm, not emojis or exclamation marks alone.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.10",
+       "text": "Use punctuation with intention. Exclamation marks add energy when used sparingly: never more than one in a row, and never to make lifeless writing exciting.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.11",
+       "text": "Celebrate our news. Launches, achievements and milestones should sound like things we are genuinely pleased about, especially in the opening line, and never like a routine update.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.12",
+       "text": "Don't assume the reader has seen earlier messages. Each one must make sense to someone meeting the feature for the first time.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.13",
+       "text": "Be direct about what you want people to do: say what to try, why and where. Don't add a generic example to a call to action.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.14",
+       "text": "Don't open with \"I'm excited to share\" and don't write robotic, matter-of-fact announcements.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.15",
+       "text": "Don't force humour or personality the author wouldn't naturally use, and avoid a clever line that can be misread.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.16",
+       "text": "Don't be overly dry, overly complex (no big words to sound clever) or so corporate, B2B or AI-sounding that it could have come from any software company.",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      },
+      {
+       "id": "13.17",
+       "text": "Interrogate your own draft before submitting: is the main point immediately clear, does it sound human, is every sentence earning its place, is the audience benefit obvious, and does the call to action give people a reason to act?",
+       "origin": "Brand director feedback, 12 and 15 October 2026"
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external",
+    "product",
+    "internal"
+   ]
+  },
+  {
+   "id": "s14",
+   "key": "retired-wording",
+   "title": "Retired wording",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "These are old descriptions of AhaSlides. They are retired: do not write them, quote them as current or copy them from an old document. The screen lint fails a screen that contains one of them (`retired-wording`, in the copy group)."
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "14.1",
+       "text": "Never use the retired wording below in any communication, internal or external. Use the replacement in the right-hand column, or the descriptions in section 5.",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "id": "retired-wording",
+     "columns": [
+      "Retired wording",
+      "Use instead"
+     ],
+     "rows": [
+      [
+       "interactive presentation software",
+       "an all-in-one engagement platform for teams and classrooms"
+      ],
+      [
+       "the most affordable and easy-to-use interactive presentation software on the planet",
+       "AhaSlides takes the work out of engagement."
+      ],
+      [
+       "all-in-one interactive presentation platform",
+       "an all-in-one engagement platform for teams and classrooms"
+      ],
+      [
+       "interactive presentation platform",
+       "an all-in-one engagement platform for teams and classrooms"
+      ],
+      [
+       "save the world from sleepy meetings",
+       "AhaSlides takes the work out of engagement."
+      ],
+      [
+       "turn sleepy slides into engaging experiences",
+       "The easiest way to get people involved, gather feedback and make learning stick. All with less work."
+      ],
+      [
+       "attention gremlin",
+       "the unnecessary work it takes to get people engaged (our monster)"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "A phrase such as \"interactive presentations\" is not retired when it names a feature or an article topic. What is retired is describing the whole product that way."
+    }
+   ],
+   "kinds": [
+    "external",
+    "product",
+    "internal"
+   ]
+  },
+  {
+   "id": "s15",
+   "key": "which-rules-apply",
+   "title": "Which rules apply to which kind of communication",
+   "blocks": [
+    {
+     "type": "table",
+     "id": "kinds",
+     "columns": [
+      "Kind of communication",
+      "What it covers",
+      "Rules that apply"
+     ],
+     "rows": [
+      [
+       "External marketing and sales",
+       "Website, blog, email, social, ads, video, sales material, help centre, partner and press copy.",
+       "All of this file."
+      ],
+      [
+       "Product copy",
+       "Words in the product: labels, buttons, empty states, errors, tooltips, audience screens.",
+       "The writing rules (sections 10 to 14), plus [UX writing](../guidelines/ux-writing/index.html) (`guidelines/ux-writing.json`), which is linted by screen-lint."
+      ],
+      [
+       "Internal comms",
+       "Slack, documents, updates and anything colleagues read.",
+       "The writing rules only (sections 10 to 14)."
+      ]
+     ]
+    },
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "15.1",
+       "text": "Work out the kind of communication first. External marketing and sales follow every section; product copy follows the writing rules and ux-writing; internal comms follow the writing rules only.",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "15.2",
+       "text": "Where this file and ux-writing disagree on a product string, ux-writing wins. This file does not repeat ux-writing: follow its link.",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "15.3",
+       "text": "Visual rules are not here. The design system is the source of truth for every visual rule, and the colour and background rules are on [Brand colour rules](brand-colour-rules.html).",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external",
+    "product",
+    "internal"
+   ]
+  },
+  {
+   "id": "s16",
+   "key": "ownership",
+   "title": "Who owns this file",
+   "blocks": [
+    {
+     "type": "rules",
+     "rules": [
+      {
+       "id": "16.1",
+       "text": "The brand director, ian@ahaslides.com, owns this file. A change to a rule, the retired list or a description needs the brand director's decision, and is made here and nowhere else.",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "16.2",
+       "text": "Other skills, hubs and documents link to this file and add only what is specific to their channel. Do not paste its text into another place: the copy goes stale.",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      },
+      {
+       "id": "16.3",
+       "text": "The wording is from AhaSlides brand guidelines v2.2 (22 October 2026), where the document uses its own spelling. Where a rule here differs from v2.2, the rule here is a later decision and says so in its origin.",
+       "origin": "Decided on 23 October 2026, not in brand guidelines v2.2"
+      }
+     ]
+    }
+   ],
+   "kinds": [
+    "external",
+    "product",
+    "internal"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "version": "v1",
+   "date": "23 Oct",
+   "text": "First version: everything non-visual in brand guidelines v2.2, the brand director's general editorial feedback, British spelling, one clear CTA, the retired wording list and which rules apply to which kind of communication."
+  }
+ ]
+}

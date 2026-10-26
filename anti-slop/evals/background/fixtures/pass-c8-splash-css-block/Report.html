@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Weekly engagement snapshot</title>
+<style>
+body{margin:0;font-family:"Plus Jakarta Sans",sans-serif}
+.band{position:relative;width:1152px;height:184px;background:#E70E68;overflow:hidden;color:#fff}
+.band h1{position:relative;margin:0;padding:64px 24px;font-size:28px;font-weight:600}
+.splash{position:absolute;inset:0;overflow:hidden;container-type:size;pointer-events:none;--splash-across:.5;--splash-width:calc(4.5*min(100cqw,100cqh))}
+@supports (width:calc(1px*sqrt(4)*tan(atan2(1px,1px)))){
+  .splash{--splash-width:calc(4.5*min(100cqw,100cqh)*sqrt(max(1,tan(atan2(100cqw,100cqh))*9/16,9/16/tan(atan2(100cqw,100cqh)))))}
+}
+.splash>img{position:absolute;display:block;max-width:none;height:auto;width:var(--splash-width);left:calc(var(--splash-across)*100cqw - var(--splash-width)*0.516209);top:calc(55cqh - var(--splash-width)*0.418953)}
+.band .splash{--splash-across:.75}
+</style>
+<div class="band">
+  <div class="splash"><img src="backgrounds/splash-icon-pink.svg" alt=""></div>
+  <h1>Weekly engagement snapshot</h1>
+</div>

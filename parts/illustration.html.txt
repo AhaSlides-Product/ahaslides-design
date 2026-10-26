@@ -9,7 +9,7 @@
 <!-- Empty state — a large spot illustration above the copy + a recovery action. -->
 <div style="display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center">
   <aha-illustration name="empty-presentation-list" size="160" label="No presentations yet"></aha-illustration>
-  <p>No presentations yet — create your first one to get started.</p>
+  <p>No presentations yet. Create your first one to get started.</p>
   <button>Create presentation</button>
 </div>
 

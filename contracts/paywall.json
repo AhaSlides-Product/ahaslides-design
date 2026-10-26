@@ -1,6 +1,7 @@
 {
   "name": "Paywall",
   "slug": "paywall",
+  "environment": ["product"],
   "group": "Surfaces",
   "tier": "leaf-lit",
   "badge": "shared web component",
@@ -25,6 +26,7 @@
     { "name": "description", "type": "string", "default": "—", "desc": "Popover description override; falls back to body" },
     { "name": "required-plan", "type": "essential | pro", "default": "pro", "desc": "Drives the unlock line and the analytics plan prop" },
     { "name": "placement", "type": "top | bottom", "default": "top", "desc": "Popover side relative to the anchor" },
+    { "name": "align", "type": "center | start | end", "default": "center", "desc": "Which popover edge sits on the anchor: center (default) centres it, start puts its left edge on the anchor's left with the arrow under the anchor, end mirrors that on the right. Use start/end for an anchor near a panel edge; `fitPaywall(el)` (exported) picks align and placement from the room around the anchor and slides the popover back inside the viewport through `--aha-paywall-shift`. <aha-setting-row> and <aha-settings-item> call it before the popover opens" },
     { "name": "trigger", "type": "click | hover", "default": "click", "desc": "How the popover opens; click-away + Escape close a click popover" },
     { "name": "cta-label", "type": "string", "default": "Upgrade", "desc": "The positive CTA verb; override only with a clear reason" },
     { "name": "plans-label", "type": "string", "default": "See all plans", "desc": "The secondary CTA label — routes to the full pricing page" },
@@ -43,7 +45,7 @@
     "note": "Feature label is a short noun phrase; body is exactly one sentence about the benefit (not \"This is a Pro feature\"); the unlock line is fixed — do not reword. Popover/placement mechanics defer to aha-design-overlays; a single plan-gated setting row lives in the Settings surface."
   },
   "surfaces": ["editor", "dashboard", "settings", "audience"],
-  "reuse": { "entry": "./aha-paywall", "registers": "aha-paywall", "exportsNamed": ["AhaPaywall", "defineAhaPaywall"] },
+  "reuse": { "entry": "./aha-paywall", "registers": "aha-paywall", "exportsNamed": ["AhaPaywall", "defineAhaPaywall", "fitPaywall"] },
   "snippets": [
     { "key": "html", "label": "HTML", "file": "paywall.html.txt" },
     { "key": "react", "label": "React", "file": "paywall.react.txt" },
@@ -66,6 +68,11 @@
       { "prop": "placement", "label": "Placement", "default": "bottom", "options": [
         { "label": "Bottom", "value": "bottom" },
         { "label": "Top", "value": "top" }
+      ] },
+      { "prop": "align", "label": "Align", "default": "center", "options": [
+        { "label": "Center", "value": "center" },
+        { "label": "Start", "value": "start" },
+        { "label": "End", "value": "end" }
       ] }
     ]
   },

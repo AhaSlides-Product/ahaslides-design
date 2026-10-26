@@ -2,6 +2,12 @@
    the human page, the agent feeds and the Background library page. No rule text is authored here. */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { DEPRECATED_ENVIRONMENT_ALIASES } from './environments.mjs';
+
+export const withDeprecatedAliases = (byEnvironment) => ({
+  ...byEnvironment,
+  ...Object.fromEntries(Object.entries(DEPRECATED_ENVIRONMENT_ALIASES).map(([oldName, name]) => [oldName, byEnvironment[name]])),
+});
 
 export const COLOUR_RULES_FILE = 'brand/colour-rules.json';
 export const COLOUR_RULES_TEMPLATE_FILE = 'brand/colour-rules.template.html';
@@ -17,7 +23,7 @@ export function loadBackgrounds(root) {
   return JSON.parse(readFileSync(join(root, BACKGROUNDS_MANIFEST_FILE), 'utf8')).backgrounds;
 }
 
-const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+export const escapeHtml = (text) => String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const SWATCH_CLASS = {
   '#E70E68': 'sw-pink', '#DB005B': 'sw-pinkdark', '#FFFFFF': 'sw-white', '#E70E680D': 'sw-pink5', '#FEF3F7': 'sw-pink5',
@@ -51,7 +57,7 @@ export function markupToText(text) {
     .replace(/\n/g, ' ');
 }
 
-const sectionNumber = (section) => section.id.replace(/^s/, '');
+export const sectionNumber = (section) => section.id.replace(/^s/, '');
 
 /** A section's blocks in reading order, with each collapsed panel opened out into the blocks it holds. */
 export function sectionBlocks(section) {
@@ -117,7 +123,14 @@ export function parseTemplate(templateHtml) {
   return { shell, parts };
 }
 
-const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
+/** Splits a rendered page fragment into its style block and its content. */
+export function splitFragment(html) {
+  const match = html.match(/^<style>([\s\S]*?)<\/style>\n([\s\S]*)$/);
+  if (!match) throw new Error('page fragment must start with a style block');
+  return { extraCss: match[1], main: match[2] };
+}
+
+export const fill = (template, values) => template.replace(/\{\{(\w+)\}\}/g, (placeholder, key) => (key in values ? values[key] : placeholder));
 
 function paletteValueCell(colour) {
   if (colour.hex) return copyChip(colour.hex);
@@ -135,6 +148,7 @@ function blockHtml(block, rules, parts, options = {}) {
   if (block.type === 'heading') return `<h3 id="${block.anchor}"${block.origin ? ' class="sub"' : ''}>${escapeHtml(block.text)}</h3>`;
   if (block.type === 'rules') return `<ol${block.start ? ` start="${block.start}"` : ''}>\n${block.rules.map(rule => `<li id="r${rule.id}">${markupToHtml(rule.text)}</li>`).join('\n')}\n</ol>`;
   if (block.type === 'table') return grid(block.columns, block.rows.map(row => row.map(markupToHtml)));
+  if (block.type === 'css-recipe') return `<pre><code>${escapeHtml(rules.splash.cssRecipe.join('\n'))}</code></pre>`;
   if (block.type === 'palette') return grid(['Colour', 'Value', 'What it is for'], rules.palette.map(colour => [markupToHtml(colour.name), paletteValueCell(colour), markupToHtml(colour.role)]));
   if (block.type === 'panel') {
     const caret = options.icon ? options.icon('system-caret-right', 16) : '';
@@ -156,12 +170,13 @@ export function answerSection(rules) {
 const paletteHex = (rules, id) => { const colour = rules.palette.find(entry => entry.id === id); return colour.hex || colour.flatHex; };
 
 /** The human page, self-contained: one file, both font weights embedded. */
-export function renderColourRulesPage(rules, { fonts, templateHtml, icon }) {
+/** The page as a fragment (a style block, then the content) for the shared site shell to wrap. */
+export function renderColourRulesPage(rules, { templateHtml, icon }) {
   const { shell, parts } = parseTemplate(templateHtml);
   const number = (section) => `<span class="num">${sectionNumber(section)}</span>`;
   return fill(shell, {
     title: escapeHtml(rules.title),
-    fontRegular: fonts.regular, fontSemiBold: fonts.semiBold,
+    related: '<p class="updated">The tokens the product uses today are on the <a href="colour.html">Colour token reference</a>.</p>',
     vividPink: paletteHex(rules, 'vivid-pink'), darkerPink: paletteHex(rules, 'darker-pink'),
     vividPink5: paletteHex(rules, 'vivid-pink-5'), vividPink30: paletteHex(rules, 'vivid-pink-30'), purple: paletteHex(rules, 'purple'),
     contents: rules.sections.map(section => `<li><a href="#${section.id}">${number(section)}${escapeHtml(section.title)}</a></li>`).join(''),
@@ -188,10 +203,10 @@ export function renderColourRulesAgent(rules, { site, store, backgrounds }) {
     updated: rules.updated,
     page: `${site}/${COLOUR_RULES_PAGE}`,
     howToRead: 'Pick your environment, read rulesByEnvironment for its rule ids, then the rules and tables with those ids. A point under open is not settled: follow its interim reading and say so.',
-    judge: { product: judge, audience: judge, 'marketing-web': 'the aha-mkt skill', video: 'the aha-mkt skill', 'social-ads': 'the aha-mkt skill' },
+    judge: { product: judge, audience: judge, web: judge, video: 'the aha-mkt skill', 'social-ads': 'the aha-mkt skill' },
     palette: rules.palette.map(colour => ({ ...colour, name: markupToText(colour.name), role: markupToText(colour.role), ...(colour.tintsAfter ? { tintsAfter: markupToText(colour.tintsAfter) } : {}) })),
     glance: rules.glance.map(markupToText),
-    rulesByEnvironment: Object.fromEntries(rules.environment.map(name => [name, ruleList.filter(rule => rule.environment.includes(name)).map(rule => rule.id)])),
+    rulesByEnvironment: withDeprecatedAliases(Object.fromEntries(rules.environment.map(name => [name, ruleList.filter(rule => rule.environment.includes(name)).map(rule => rule.id)]))),
     rules: ruleList,
     notes: listNotes(rules),
     tables: listTables(rules),
@@ -215,7 +230,7 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
   const tag = (environment) => `[${environment.join(', ')}]`;
   const paletteValue = (colour) => colour.hex || (colour.alphaHex && `${colour.alphaHex} (flat on white ${colour.flatHex})`)
     || (colour.tints && `${colour.tintsLabel}: ${colour.tints.join(', ')}. ${markupToText(colour.tintsAfter)}`) || colour.valueText;
-  let md = `# ${rules.title}\n\n> Generated from ${COLOUR_RULES_FILE} — do not edit by hand. The human page is ${site}/${COLOUR_RULES_PAGE}; the machine feed is ${site}/colour-rules.agent.json.\n> Last updated ${longDate(rules.updated)}. Each rule names the environments it applies to in square brackets. Product and audience work is judged on the anti-slop surfaces colour and background (${site}/anti-slop.md); work in the marketing-web, video and social-ads environments by the aha-mkt skill.\n\n${markupToText(rules.lede)}\n\n`;
+  let md = `# ${rules.title}\n\n> Generated from ${COLOUR_RULES_FILE} — do not edit by hand. The human page is ${site}/${COLOUR_RULES_PAGE}; the machine feed is ${site}/colour-rules.agent.json.\n> Last updated ${longDate(rules.updated)}. Each rule names the environments it applies to in square brackets. Product, audience and web work is judged on the anti-slop surfaces colour and background (${site}/anti-slop.md); video and social-ads work by the aha-mkt skill.\n\n${markupToText(rules.lede)}\n\n`;
   md += `## The rules at a glance\n\n${rules.glance.map((line, index) => `${index + 1}. ${markupToText(line)}`).join('\n')}\n\n`;
   md += `## Rules by environment\n\n${rules.environment.map(name => `- ${name}: ${ruleList.filter(rule => rule.environment.includes(name)).map(rule => rule.id).join(', ')}`).join('\n')}\n\n`;
   md += `## Palette\n\n${rules.palette.map(colour => `- ${markupToText(colour.name)}: ${paletteValue(colour)} — ${markupToText(colour.role)}`).join('\n')}\n\n`;
@@ -232,6 +247,7 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
       md += `Table ${table.id} ${tag(table.environment)}\n\n| ${table.columns.join(' | ')} |\n|${table.columns.map(() => '---').join('|')}|\n${table.rows.map(row => `| ${row.join(' | ')} |`).join('\n')}\n\n`;
     }
   }
+  md += `## Splash in CSS\n\nCentre and right, drawn in CSS with the full 802 by 788 icon, in any medium (draw it on the frame it sits in, never place the icon by hand); set --splash-across to .5 (centre) or .75 (right).\n\n\`\`\`css\n${rules.splash.cssRecipe.join('\n')}\n\`\`\`\n\n`;
   md += `## Splash background files\n\nLibrary page: ${site}/${BACKGROUND_LIBRARY_PAGE} · index: ${site}/${BACKGROUNDS_MANIFEST_FILE}\n\n${backgrounds.map(entry => `- ${entry.name} (${entry.width} by ${entry.height}): ${backgroundUrl(site, entry)}`).join('\n')}\n\nAny other size: \`${GENERATOR_COMMAND}\`\n\n`;
   md += `## Still to decide\n\n${rules.open.length ? rules.open.map(point => `- ${point.id} ${tag(point.environment)} ${point.title}. ${markupToText(point.text)} Until it is settled: ${markupToText(point.interim)}`).join('\n') : 'Nothing open.'}\n\n`;
   md += `## What changed\n\n${rules.changes.map(change => `- ${change.version} (${change.date}): ${change.text}`).join('\n')}\n`;
@@ -241,7 +257,7 @@ export function renderColourRulesMd(rules, { site, store, backgrounds }) {
 export function colourRulesIndexLines(site, backgrounds) {
   return [
     `>   ${site}/${COLOUR_RULES_PAGE}  brand colour rules, the human page — the AhaSlides visual identity colour and background rules (palette, backgrounds, splash layouts, buttons and text, status, charts, what is still open); the token reference is foundations/colour.html`,
-    `>   ${site}/colour-rules.md   the same rules for agents, each tagged with its environment (product, audience, marketing-web, video, social-ads, report-image) and the judge criteria that check it; machine form at ${site}/colour-rules.agent.json. The page and both feeds are generated from one file, ${COLOUR_RULES_FILE}`,
+    `>   ${site}/colour-rules.md   the same rules for agents, each tagged with its environment (product, audience, web, video, social-ads, report-image) and the judge criteria that check it; machine form at ${site}/colour-rules.agent.json. The page and both feeds are generated from one file, ${COLOUR_RULES_FILE}`,
     `>   ${site}/${BACKGROUND_LIBRARY_PAGE}  background library — the ${backgrounds.length} ready-made Splash backgrounds (centre, right and minimal, on white and on Vivid Pink, at 16:9, 1:1 and 9:16); files at ${site}/backgrounds/<file>.svg, index at ${site}/${BACKGROUNDS_MANIFEST_FILE}; any other size is built with build-splash.mjs from the real splash icon, never redrawn, stretched or recoloured`,
   ];
 }

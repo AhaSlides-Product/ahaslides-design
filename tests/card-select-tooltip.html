@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card select tooltip</title>
+<style>body{margin:0;height:100vh} aha-card-select{position:fixed} #top{top:0;left:200px} #bottom{bottom:0;left:200px} #left{top:200px;left:0} #right{top:200px;right:0}</style>
+</head>
+<body>
+  <aha-card-select id="top" icon-only columns="3"></aha-card-select>
+  <aha-card-select id="bottom" icon-only columns="3"></aha-card-select>
+  <aha-card-select id="left" icon-only columns="3"></aha-card-select>
+  <aha-card-select id="right" icon-only columns="3"></aha-card-select>
+  <aha-card-select id="labelled" columns="3" style="top:300px;left:200px;width:300px"></aha-card-select>
+  <script type="module">
+    await import('../lib/aha-card-select.js');
+    const options = [
+      { value: 'bloom', label: 'Bloom', icon: 'system-reveal-bloom' },
+      { value: 'radarSweep', label: 'Radar sweep', icon: 'system-reveal-radar-sweep' },
+      { value: 'crystallise', label: 'Crystallise', icon: 'system-reveal-crystallise' },
+    ];
+    for (const el of document.querySelectorAll('aha-card-select')) el.options = options;
+    window.cardSelectFixtureReady = true;
+  </script>
+</body>
+</html>

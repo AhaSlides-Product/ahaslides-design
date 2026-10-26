@@ -37,6 +37,7 @@ except Exception:  # never let a logging-import problem break a prompt
 
 import ds_criteria
 import legacy_vue
+import settings_skill
 
 # Broad on purpose — the digest is a helpful add, and a borderline false positive
 # just means a bit of extra context, never a block. Includes VI design terms.
@@ -54,21 +55,20 @@ UI_SIGNAL = re.compile(
     # Planning/UX vocabulary — the pre-code phase this hook exists to cover.
     r"|flow|usability|interaction|onboarding|wizard|redesign|revamp|microcopy"
     r"|settings|empty\s*state"
-    # Functional-surface vocabulary — the wider ecosystem aha-design now owns:
-    # docs UI, internal tools, admin, ops. Marketing surfaces route to
-    # aha-marketing-skills via the MANDATE text, so a false positive here is harmless.
+    # Every AhaSlides website and tool: docs UI, internal tools, admin, ops,
+    # landing, pricing, blog and careers pages.
     r"|docs|help\s*cent(?:er|re)|admin|back-?office|console|ops|status\s*page"
     r"|dev\s*tool|internal\s*tool"
-    # Site headers: the product lockup rule applies even on a marketing-style page.
-    r"|microsite|website|header|logo|lockup|careers)\b",
+    r"|microsite|website|landing|pricing|blog|header|logo|lockup|careers)\b",
     re.IGNORECASE,
 )
 
 MANDATE = (
-    "[aha-design] If this task touches an AhaSlides FUNCTIONAL / application "
-    "surface — a tool people operate: the product apps (presenter, audience, "
-    "editor, dashboard, settings, in-app billing), the docs / help-centre UI, "
-    "internal dev tools, admin / back-office panels, status / ops consoles — "
+    "[aha-design] If this task touches ANY AhaSlides website or app — the product "
+    "apps (presenter, audience, editor, dashboard, settings, in-app billing), every "
+    "website page (landing pages, pricing, blog, careers, campaign pages), the docs / "
+    "help-centre UI, internal dev tools, admin / back-office panels, status / ops "
+    "consoles — "
     "designing, planning, building, or reviewing that surface or its flow / "
     "interaction / UI copy (a screen, page, component, form, dialog, chart, "
     "table, setting, empty/error state) — the AhaSlides design system "
@@ -78,18 +78,27 @@ MANDATE = (
     "loop against the DS anti-slop criteria. Do not rely on your own sense of the "
     "house style. For a from-scratch build or redesign, BRAINSTORM FIRST — clarify "
     "scope and inspect the current UI / state before writing code; don't skip it "
-    "because the ask sounds simple. Outward MARKETING / brand surfaces (landing & "
-    "marketing site, public pricing page, blog, email, social, ads, key art) and "
-    "brand voice are aha-marketing-skills, not this. If neither, ignore this line."
+    "because the ask sounds simple. There is no separate marketing web surface: a "
+    "page can serve marketing and usability at once, and one DS covers it. Only "
+    "brand voice, email, video and social / ads creative go to "
+    "aha-marketing-skills. If none of this applies, ignore this line."
 )
 
 LOCKUP = (
     "[aha-design] Product lockup, on EVERY AhaSlides site: the top-left brand of any "
-    "site, microsite, docs site, careers or marketing-style page, internal tool or app "
+    "site, microsite, docs site, careers, landing or pricing page, internal tool or app "
     "header is the DS <aha-product-lockup product=\"<name>\"> (The Splash + AhaSlides + "
-    "the product name; no product attribute when no name is approved), even when the "
-    "rest of the page is a marketing surface. Never hand-set it from the logo file and "
-    "a text span. Spec: " + ds_criteria.FEED_SITE + "/product-lockup/index.html"
+    "the product name; no product attribute when no name is approved). Never hand-set "
+    "it from the logo file and a text span. Spec: " + ds_criteria.FEED_SITE + "/product-lockup/index.html"
+)
+
+SETTINGS_MANDATE = (
+    "[aha-design] Settings design task (a settings panel, page, modal or drawer, a slide type's "
+    "settings.* panel or config, preferences, an options dialog, or adding, naming or labelling a "
+    "setting or toggle): load the `" + settings_skill.SKILL + "` skill BEFORE planning or writing "
+    "anything, no exception. It is the one runbook for settings: hub control table, label rule, "
+    "the label self-check table, grouping, screen-lint --surface=settings, the settings judge. "
+    "Writes to settings UI are blocked until it is loaded. If this is not settings UI, ignore this line."
 )
 
 LOOP = (
@@ -165,6 +174,8 @@ def main():
         ui = bool(UI_SIGNAL.search(prompt)) or _has_frontend_project(cwd)
     except Exception:
         ui = False
+    if settings_skill.prompt_signal(prompt):
+        context += "\n" + SETTINGS_MANDATE
     criteria_source = ""
     if ui:
         criteria = ds_criteria.load(cwd)

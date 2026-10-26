@@ -3,7 +3,7 @@
 > Distilled from the retired `aha-design-canvas` plugin skill, which the DS now owns. This guide holds the full rationale, worked
 > BAD/GOOD examples, the §1–§9 sections, and the canonical `good-fill-in-the-blanks`
 > fixture; the design system now OWNS this build ruleset (this guide is its single
-> source of truth). The judge, its criteria (C1..C22), and the eval harness stay in the
+> source of truth). The judge, its criteria (C1..C24), and the eval harness stay in the
 > skill. When the two ever disagree, this guide wins.
 
 The canvas is the **visual surface** of a slide type — what the audience and presenter
@@ -39,11 +39,11 @@ not "we chose".
 - **A framed slide's root stays transparent** — it must not render its own title (the host
   draws it) nor paint a slide-wide background/backdrop/scrim; let the deck theme show
   through. The only opaque fill it may paint is a surface **bounded to its content** (a
-  card, a chip, a caption bar).
+  card, a chip).
 - **A framed slide on a photo deck still keeps the deck showing.** When `slide.backgroundImage`
   is set, do not add a scrim, panel or backdrop behind the whole answer board. Cards are
-  already bounded; a free-floating line of text that lacks contrast gets a small scrim
-  **chip** sized to that line (C18).
+  already bounded; text sits directly on the photo in the deck's `textColour` and needs no
+  scrim, chip or caption bar behind it (C18).
 - **A full-canvas slide MUST render `slideProps.title`** (`slideProps.value?.title ?? ''`)
   — the host hides its title bar, so rendering only per-item prompts/labels silently drops
   the presenter's title.
@@ -106,7 +106,7 @@ boundary, and AntD's theme object isn't reachable — so "read the theme" means 
 
 Draw result charts with the DS **`<aha-chart palette="deck">`** (the same `lib/canvas.js` tag registers it, so one tag covers chart and canvas controls) (Bar, Column, Stacked, Donut, Radial, Tree map, Quadrant, Bell curve, Radar, Word cloud, Mind map, Line): pass `presentationColorPalette` as `colors` and `slide.textColour` as `ink`, and it applies every rule below — palette-only fills, transparent background, ink derived from fill contrast. The same element with `palette="brand"` renders those results on Report and other app screens.
 
-> **Pick Answer result reveal.** Colour rules section 11 settles the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` already paints the correct mark and leaves the rest neutral (`correct-style="fill"`), but in `--aha-color-success` (the default ink) until it is rewired to the answer tokens.
+> **Pick Answer result reveal.** Colour rules section 11 settles the colour: the correct answer's column takes the correct green (`--aha-answer-correct`) and the other columns stay neutral grey, never red. That is the one exception to Job 1. `<aha-chart correct="…">` paints the correct mark `--aha-answer-correct` in both palettes and leaves the rest neutral (`correct-style="fill"`).
 
 | Job | Layer | Colour source |
 | --- | --- | --- |
@@ -117,7 +117,7 @@ Draw result charts with the DS **`<aha-chart palette="deck">`** (the same `lib/c
 | --- | --- |
 | `colorSuccess` (#1A1A1A, colour rules) | ✓ icon, validation-passed border |
 | `colorError` (#1A1A1A, colour rules) | ✗ icon, destructive-action chip |
-| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc, row edge and tints, answers only (colour rules section 11) |
+| `--aha-answer-correct` / `--aha-answer-wrong` | the correct-answer and wrong-answer disc (drawn only by `<aha-answer-mark>`), row edge and tints, answers only (colour rules section 11) |
 | `colorWarning` | caution icon, "are you sure?" prompt |
 | `colorInfo` | informational badge |
 
@@ -172,8 +172,9 @@ seat** — the same bar applies to the small editor preview.
 
 - **Contrast:** WCAG AA floor — **4.5:1 for text, 3:1 for large text and meaningful
   shapes** — checked against the **real composited background** (`baseColour` blended with
-  `backgroundImage`). On a busy photo, put a scrim **bounded to the text** (a chip or caption
-  bar), never a slide-wide panel on a framed slide. Go higher when you can.
+  `backgroundImage`). This includes text over a deck
+  background image: if it falls below the floor, pick a `textColour` or photo that clears it.
+  Never add a slide-wide panel on a framed slide. Go higher when you can.
   - **A slide-painted surface re-anchors the check** against that composited surface. Two
     traps: a **translucent tint** is not a contrast guarantee (only an opaque surface is);
     and any **fixed-colour mark** on it (a semantic `✓`/`✗` token, a palette accent, a
@@ -218,8 +219,8 @@ seat** — the same bar applies to the small editor preview.
 - **Borders are ornament — never derive them directly from `textColour`, and never 2px.**
   A bounded white card: **1px `--aha-border-default`** (#E3E3E3). A chip: **1.5px** neutral. A
   deck-owned (transparent) surface: a 1px theme-aware hairline
-  `color-mix(in srgb, currentColor 10%, transparent)`. Dashed empty states: 1px (C20). Fix a marginal
-  contrast check at the bar or the scrim, not with a darker border. Pick the palette shade
+  `--aha-deck-stroke` (the deck ink at 12%). Dashed empty states: 1px (C20). Fix a marginal
+  contrast check on a solid fill, not with a darker border. Pick the palette shade
   (saturated on light themes, the lighter sibling on dark themes) that actually clears the
   floor on the current background.
 - **Motion:** don't depend on fast or subtle motion to convey meaning — but every
@@ -267,6 +268,7 @@ from the deck once with `applyCanvasDeck`:
     accent: xprops.presentationColorPalette[0],
     ink: xprops.slide.textColour,
     background: xprops.slide.baseColour,
+    palette: xprops.presentationColorPalette,
   });
 </script>
 <div class="controls">
@@ -288,6 +290,15 @@ from the deck once with `applyCanvasDeck`:
   label by contrast, darkens hover 12% and pressed 22%, and drops the hover shadow, so hover is
   a fill change only. It is scoped to the element you pass, so app buttons outside the canvas
   keep their look.
+- **Text on a palette colour is a token, never a computed flip.** Pass `palette:
+  xprops.presentationColorPalette` and `applyCanvasDeck` writes `--aha-deck-palette-<n>` (the
+  colour) and `--aha-deck-palette-<n>-ink` (`#1A1A1A` or white, whichever contrasts more, so
+  it meets AA 4.5:1) for each colour, 1-based like `--aha-viz-series-<n>`, up to 24. Style an
+  option card, bar or chip with `background: var(--aha-deck-palette-2); color:
+  var(--aha-deck-palette-2-ink)`. Never hand-roll a "luminance > 0.6 → dark, else white" flip: it
+  picks white on mid colours (`#4CAF50` white 2.78:1, ink 6.27:1) and fails AA. For a colour that is
+  not in the palette, import `readableTextInk` from `lib/canvas.js` (also `lib/audience.js`).
+  Without `palette` nothing changes.
 - The variant hierarchy is the same as the host bar's: at most one `primary`, the rest
   `secondary-deck` (white on every deck), per-round steppers `secondary-deck`. `tertiary-deck`
   is never used on a photographic deck — a borderless button gets lost on a busy picture — so
@@ -397,6 +408,27 @@ settings popover) owns those affordances — skipping any is a defect.
 (The buttons above still come from the component library per §5 — the affordance rules are
 additive, not a licence to hand-roll the element.)
 
+## Keyboard-only operation — every presenter interaction (C24)
+
+Slide Plugin Policy (POLICY.md) section 6: the presenting view supports full no-mouse,
+no-touch operation. C10 above covers the chips, tooltips and focus-trap of controls you
+render; this is the reachability test for **every** interaction, in Standard and Immersive
+UI styles. A display-only canvas with nothing to press, hover or drag passes vacuously.
+
+- **a. Reachable and operable.** Each control is in the Tab order in a sensible (reading)
+  order, shows a visible focus ring, and activates with `Enter`/`Space`, a declared shortcut,
+  or a host-painted action. A `<div>` with a click handler is not a control: use a `<button>`.
+- **b. Hover is also focus.** Anything revealed on hover (a result-dot label on a 2x2
+  matrix, a tooltip, a highlight) shows on `:focus-visible` too, and the element is focusable.
+- **c. Pointer gestures have a keyboard alternative.** A drag, draw or swipe also works with
+  arrow keys, Move up / Move down buttons, or Space to pick up and drop (announce the new
+  position in a live region).
+- **d. No keyboard trap.** Tab always leaves the canvas controls; a modal's contained Tab
+  cycle exits with `Esc` or a Close control (C10a).
+- **e. Deck keys stay the deck's.** Never swallow `ArrowRight`/`ArrowLeft`, `PageDown`/`PageUp`
+  or `Space` with a blanket `keydown` handler. Claim one only to advance a build step through
+  the SDK, or while a widget the presenter focused owns it.
+
 ## Language
 
 Display in the **presentation's language**, not a fixed one. The plugin runs its own i18n
@@ -416,4 +448,4 @@ live in the DS `canvas` guide. Self-check any built canvas with
 the DS anti-slop judge (`canvas` surface) — it emits a binary PASS/FAIL across the same contracts
 (theme tokens, semantic state colours, NCB control bar, WCAG, non-colour cues,
 framed-vs-full-canvas, the full-canvas host title, the on-canvas size floor, i18n,
-keyboard-shortcut affordances) — and fix every FAIL before declaring the work `OK TO SHIP`.*
+keyboard-shortcut affordances, keyboard-only operation) — and fix every FAIL before declaring the work `OK TO SHIP`.*

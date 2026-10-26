@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/tokens.css">
+<button id="opener">Open</button>
+<aha-drawer id="drawer" heading="Participant report">
+  <p>Body</p>
+  <button id="inside-a">A</button>
+  <button id="inside-b">B</button>
+  <div slot="footer"><button id="footer-button">Done</button></div>
+</aha-drawer>
+<script type="module">
+  import '../lib/aha-drawer.js';
+  await customElements.whenDefined('aha-drawer');
+  window.drawerFixtureReady = true;
+</script>

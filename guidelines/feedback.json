@@ -2,6 +2,7 @@
   "name": "Feedback",
   "slug": "feedback",
   "kind": "guideline",
+  "environment": ["product", "audience"],
   "group": "Patterns",
   "badge": "pattern — composition guide",
   "summary": "How to build transient and post-action feedback — toasts, the DS V3 Alert inline banner, inline correct/incorrect result panels, and the CSAT thumbs widget — from existing components, plus when NOT to use a toast.",
@@ -55,25 +56,25 @@
       "status": "available"
     },
     {
-      "ref": "--aha-colorSuccess",
+      "ref": "--aha-answer-correct",
       "as": "token",
       "use": "inline correct-result border — never hardcode a hex",
       "status": "available"
     },
     {
-      "ref": "--aha-colorSuccessBg",
+      "ref": "--aha-answer-correct-tint-5",
       "as": "token",
       "use": "inline correct-result background surface",
       "status": "available"
     },
     {
-      "ref": "--aha-colorError",
+      "ref": "--aha-answer-wrong",
       "as": "token",
       "use": "inline incorrect-result border",
       "status": "available"
     },
     {
-      "ref": "--aha-colorErrorBg",
+      "ref": "--aha-answer-wrong-tint-5",
       "as": "token",
       "use": "inline incorrect-result background surface",
       "status": "available"
@@ -185,7 +186,7 @@
     },
     {
       "id": "inline-result-tokens",
-      "rule": "Colour the inline result container with semantic tokens — border var(--aha-colorSuccess)/var(--aha-colorError) and background var(--aha-colorSuccessBg)/var(--aha-colorErrorBg); never hardcode hex.",
+      "rule": "Colour an inline correct or incorrect result with the answer tokens (colour rule 11.3): border var(--aha-answer-correct) / var(--aha-answer-wrong) over the 5% tint var(--aha-answer-correct-tint-5) / var(--aha-answer-wrong-tint-5). The text stays the default ink (11.2), and the correct or incorrect label and mark carry the meaning; never hardcode hex.",
       "ref": [
         "FEEDBACK-04"
       ]
@@ -245,7 +246,7 @@
       "verdict": "N/A — per-surface"
     },
     {
-      "label": "inline result uses role=status aria-live=polite + --aha-colorSuccess/Error(+Bg) tokens",
+      "label": "inline result uses role=status aria-live=polite + --aha-answer-correct/wrong edge over the 5% tint, ink text",
       "verdict": "N/A — per-surface"
     },
     {

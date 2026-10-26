@@ -1,0 +1,7 @@
+import '@ahaslides-product/design/aha-canvas-status';   // registers <aha-canvas-status>
+import { t } from 'i18next';
+
+// Attributes only, no events, so React 18/19 renders the element directly.
+export function WaitingStatus() {
+  return <aha-canvas-status text={t('status.waiting_for_answers')} />;
+}
