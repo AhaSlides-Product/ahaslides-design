@@ -22,10 +22,19 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.412.0 — 2026-10-26
+## 0.432.0 — 2026-10-26
 ### Changed
 - Motion rules define "respect prefers-reduced-motion": the device setting is always followed, a presenter setting may only reduce further, and under reduce movement is removed (fade or instant passes, so a snap is judged only at the default setting); results also show a static end state; C22 and C34 judge it (#295)
 - Holds (dwell) get no `--aha-dwell-*` tokens: each is a named per-slide constant and is never shortened under reduce
+
+## 0.417.1 — 2026-10-26
+### Changed
+- `system-bug` redrawn after the Lucide bug icon (ISC, credits in `icons/svg/system/LUCIDE-CREDITS.md`): rounded head with two antennae, split body, three legs a side. Same name and size. (#402)
+
+## 0.417.0 — 2026-10-26
+### Added
+- Icon library: `system-bug`, a beetle with antennae and legs, for reporting a bug or giving feedback. Same stroke style as the other `system-*` glyphs; no existing icon changes. No `-filled` pair: `system-chat-*` and the rest of `system-*` have none
+- Revert: revert the PR; one new SVG and its meaning words, nothing else references it (#401)
 
 ## 0.403.1 — 2026-10-26
 ### Changed
