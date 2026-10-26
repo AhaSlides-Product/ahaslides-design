@@ -28,6 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Three illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` (28 in the registry, up from 25)
 ### Changed
 - Illustration, Empty, UX writing and Shared components prose point at the Empty state guideline; the Illustration contract counts say 28
+- UX writing UXW-6 now says an empty state has at most one next action, matching the Empty state guideline; its composed-of list points at `empty` instead of a missing empty-state component
 - A guideline can set `patternsNav` to list itself, and render, under the Patterns sidebar (group "Composition guides"); the Empty state guideline does, and its panel padding is `calc(var(--aha-space-80) + var(--aha-space-64))` so no value is off the token scale
 - Revert: revert the PR; a new doc page and three additive illustrations, no existing name or value changes (#388)
 
