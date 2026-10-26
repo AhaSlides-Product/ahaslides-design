@@ -12,7 +12,7 @@ Illustration and Empty contracts. It ships no new element: the pattern is
 
 **Companion guides.** `ux-writing` for the words (UXW-6), `shared-components` for
 `<aha-error-page>` and `<aha-empty>`, and the Illustration contract for the
-art. *(EMPTY-01 to EMPTY-11)*
+art. (EMPTY-01 to EMPTY-11)
 
 ## Full pattern or plain `<aha-empty>`
 
@@ -24,21 +24,21 @@ art. *(EMPTY-01 to EMPTY-11)*
 | A failed request, a missing page, a denied page | `<aha-error-page>` or `<aha-result>` | Something went wrong: not an empty state |
 
 Never put the full pattern inside a table row, and never leave a whole page on a grey
-`<aha-empty>` or a bare table placeholder. *(EMPTY-01)*
+`<aha-empty>` or a bare table placeholder. (EMPTY-01)
 
 ## Anatomy
 
-One centred column, in this order, and nothing else *(EMPTY-02)*:
+One centred column, in this order, and nothing else (EMPTY-02):
 
-1. The spot illustration, `<aha-illustration name="empty-…">`
-2. A title
-3. A body, one or two short sentences
-4. At most one action
+- The spot illustration, `<aha-illustration name="empty-…">`
+- A title
+- A body, one or two short sentences
+- At most one action
 
 ## The illustration
 
 Call an `empty-*` name from the registry; the art is pink, in the fixed Illustration tints,
-and names what is missing. Never inline SVG, never a PNG, never recoloured. *(EMPTY-03)*
+and names what is missing. Never inline SVG, never a PNG, never recoloured. (EMPTY-03)
 
 | Name | Use for |
 | --- | --- |
@@ -67,42 +67,32 @@ shows a different thing.
 | Body | 14 px (`--aha-size-default`), regular, centred, up to 480 px wide | the same |
 | Action | one secondary button | usually none |
 
-*(EMPTY-04, EMPTY-05)*
-
-```html
-<!-- page scale -->
-<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--aha-space-16);min-height:100%;text-align:center">
-  <aha-illustration name="empty-report" size="128" decorative></aha-illustration>
-  <div style="font-size:var(--aha-size-h6);font-weight:var(--aha-weight-semibold)">All quiet here!</div>
-  <div style="max-width:480px">Create your first slide, then hit present. Your report will show up here.</div>
-  <aha-button variant="secondary">Open the presentation</aha-button>
-</div>
-```
+The columns are the values in EMPTY-04 and EMPTY-05.
 
 ## The title is semibold
 
 The report app renders the Session detail title bold and the Participants and Feedback
 titles regular. The rule is **semibold (600) at both scales**, so the three states match.
 The title is short and friendly, in sentence case, with at most one exclamation mark and no
-full stop. The approved title is "All quiet here!". *(EMPTY-06)*
+full stop. The approved title is "All quiet here!". (EMPTY-06)
 
 ## Copy
 
 - **Body: what is missing, then the step that fills it.** "No participants found yet. Run a
-  presentation to see participant data here." *(EMPTY-07)*
+  presentation to see participant data here." (EMPTY-07)
 - British English, sentence case, from i18n, no exclamation mark in the body.
 - Encouraging, never an apology, never blame (UXW-6).
 - **One action at most**, a sentence-case verb ("Open the presentation"), only when the user
   can fill the state from this screen. When the next step is on another screen the body names
-  it and there is no button. *(EMPTY-08)*
+  it and there is no button. (EMPTY-08)
 
 ## Do and don't
 
 | Do | Don't |
 | --- | --- |
-| A Participants tab with no rows shows the pattern at panel scale | A Slides tab that renders nothing when it has no slides *(EMPTY-10)* |
-| A whole page with no data shows the page-scale pattern | A grey table placeholder on a full page *(EMPTY-01)* |
-| A failed list shows an error with the object named and Retry | A 500 that falls back to an empty table, hiding Retry *(EMPTY-09)* |
+| A Participants tab with no rows shows the pattern at panel scale | A Slides tab that renders nothing when it has no slides (EMPTY-10) |
+| A whole page with no data shows the page-scale pattern | A grey table placeholder on a full page (EMPTY-01) |
+| A failed list shows an error with the object named and Retry | A 500 that falls back to an empty table, hiding Retry (EMPTY-09) |
 | "No feedback yet. Ask your audience to share their thoughts to see it here." | "Oops, nothing here!" or "No data" with no next step |
 | One secondary button | Two buttons, or a button plus a link |
 | An `empty-*` illustration by name | An inline SVG, a PNG, or a recoloured copy |
@@ -112,13 +102,13 @@ full stop. The approved title is "All quiet here!". *(EMPTY-06)*
 An absence of content is never an error, and an error is never drawn as an absence. A request
 that failed takes `<aha-error-page>` or an inline alert that names the object and offers
 Retry; the empty state has no red, no warning icon and no error wording. A list that errored
-must not fall back to "No sessions". *(EMPTY-09, UXW-2, UXW-3, UXW-6)*
+must not fall back to "No sessions". (EMPTY-09, UXW-2, UXW-3, UXW-6)
 
 ## Accessibility
 
 The illustration repeats what the text says, so it is `decorative`. The title is plain heading
 text, not a control. When an empty state replaces content after a filter or a search, announce
-it through the live region. *(EMPTY-11)*
+it through the live region. (EMPTY-11)
 
 ## Build checklist
 
