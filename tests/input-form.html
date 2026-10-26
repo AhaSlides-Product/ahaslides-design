@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input in a form</title>
+</head>
+<body>
+  <form id="search-form">
+    <aha-input id="search" name="q" label="Find a course" value="intro" aria-controls="results"></aha-input>
+  </form>
+  <ul id="results" role="listbox"><li role="option">One</li></ul>
+
+  <form id="button-form">
+    <aha-input id="with-button" name="email"></aha-input>
+    <aha-button type="submit" id="go">Join</aha-button>
+  </form>
+
+  <form id="disabled-button-form">
+    <aha-input id="with-disabled-button" name="email"></aha-input>
+    <aha-button type="submit" disabled>Join</aha-button>
+  </form>
+
+  <form id="two-field-form">
+    <aha-input id="two-first" name="a"></aha-input>
+    <aha-input id="two-second" name="b"></aha-input>
+  </form>
+
+  <form id="date-form">
+    <aha-input id="date-first" name="a"></aha-input>
+    <input type="date" name="when">
+  </form>
+
+  <form id="external-label-form">
+    <label id="external-label" for="external">Workspace name</label>
+    <aha-input id="external" name="workspace" value="Aha"></aha-input>
+    <button type="reset" id="reset">Reset</button>
+  </form>
+
+  <form id="submitter-form">
+    <aha-input id="with-native-button" name="email"></aha-input>
+    <button type="submit" id="native-go" name="intent" value="join">Join</button>
+  </form>
+
+  <form id="veto-form">
+    <aha-input id="vetoed" name="email"></aha-input>
+  </form>
+
+  <fieldset id="locked" disabled>
+    <aha-input id="in-fieldset" name="locked"></aha-input>
+  </fieldset>
+
+  <script type="module">
+    window.submitCounts = {};
+    window.submitters = {};
+    for (const form of document.forms) {
+      window.submitCounts[form.id] = 0;
+      form.addEventListener('submit', (event) => { event.preventDefault(); window.submitCounts[form.id] += 1; window.submitters[form.id] = event.submitter && event.submitter.id; });
+    }
+    document.getElementById('vetoed').addEventListener('keydown', (event) => { if (event.key === 'Enter') event.preventDefault(); });
+    await import('../lib/aha-input.js');
+    await import('../lib/aha-button.js');
+    await customElements.whenDefined('aha-input');
+    window.inputFormFixtureReady = true;
+  </script>
+</body>
+</html>
