@@ -22,7 +22,7 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.441.0 — 2026-10-26
+## 0.443.0 — 2026-10-26
 ### Added
 - `aha-input` is form-associated: its value submits under `name`, form reset restores the initial value, a disabled fieldset disables it, and Enter calls the form's `requestSubmit()` like a native text input, with a native default `<button>` or `<input>` as the submitter, deferred by one task so a host-level Enter keydown listener can veto it with `preventDefault()` (skipped for a disabled or loading default button, and for several fields with no submit button).
 - `aha-input` `label` attribute: a visible label rendered as a real `<label for>` to the inner field; an external `<label for="host-id">` now focuses the field and names it.
@@ -32,6 +32,17 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - `aha-drawer` and `aha-audience-modal`: Escape pressed inside an open `aha-select` closes only the list, not the surrounding drawer or modal.
 - `aha-button`: `aria-expanded`, `aria-controls`, `aria-pressed` and `aria-haspopup` on the host are copied to the inner button and follow later changes, so a disclosure toggle built on it announces open and closed.
 - Revert: revert the PR; the input changes are additions in `lib/aha-input.js` and its contract, the select and button fixes are small additions in `lib/aha-select.js` and `lib/aha-button.js` (#393)
+
+## 0.441.0 — 2026-10-26
+### Removed
+- **Breaking:** the `--aha-radius-pill` token (`radius.pill`, 999px) and the pill shape. AhaSlides has no pill: a true circle (avatar, dot, radio mark, slider thumb, spinner, count disc) is `border-radius: 50%`; every elongated shape (badge, count bubble, chip, tag, switch track, progress and slider tracks) takes a radius from the 4 · 6 · 8 · 12 · 16 scale. Consumers that read `--aha-radius-pill` fall back to their own value: replace it with `50%` or a scale token (#337).
+- `<aha-image radius="pill">`: the option is gone, an unknown value keeps the default 8px frame (#337).
+### Changed
+- Components re-shaped: Badge count bubble 4px, Progress / Countdown / Uploader / background task tracks 4px, Stat tile fall chip 4px, Switch track 6px, tooltip help trigger 4px; avatars, dots, radio-like marks, thumbs and spinners are 50% circles. Skeleton `round` now softens corners to `radius-lg` (12px) and leaves the avatar a circle (#337).
+- Audience and canvas kits, Marketing sections (Cards, FAQ, Header badges, Pricing slider) and the docs search chips follow the same rule; the Foundations Radius page, `design.md` and the canvas / audience / settings / feedback / report-image guidelines say there is no pill shape (#337).
+- `standards.mjs` fails a 999px radius and any `--aha-radius-pill` reference in component source (#337).
+- `screen-lint` fails a 999px or 9999px `border-radius` as `radius-off-scale` (#337).
+
 
 ## 0.437.0 — 2026-10-26
 ### Added

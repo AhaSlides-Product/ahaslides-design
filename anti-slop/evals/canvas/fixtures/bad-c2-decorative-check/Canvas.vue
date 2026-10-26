@@ -43,7 +43,7 @@ const secondsLeft = 0
   justify-content: center;
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 999px;
+  border-radius: 50%;
   font-weight: 600;
 }
 .options {
