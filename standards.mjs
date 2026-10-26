@@ -53,7 +53,7 @@ const BASELINE_PATH = join(root, 'standards.baseline.json');
 const BASELINE_SPACING_PX = (existsSync(BASELINE_PATH) ? JSON.parse(readFileSync(BASELINE_PATH, 'utf8')).spacingPx : null) || {};
 const UPDATE_BASELINE = process.argv.includes('--update-baseline');
 const ACKNOWLEDGE_TOKENS = process.argv.includes('--acknowledge-tokens');
-const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16, 999]);   // --aha-radius-* ; pill = 999
+const RADIUS_SCALE = new Set([0, 4, 6, 8, 12, 16]);   // --aha-radius-* ; no pill shape: a true circle is 50%
 const NEUTRALS = new Set(['#FFFFFF']);                     // universal; 'transparent' handled in inPalette
 const normHex = (h) => { h = h.toUpperCase(); return /^#[0-9A-F]{3}$/.test(h) ? '#' + [...h.slice(1)].map(c => c + c).join('') : h; };
 // every hex the canonical token set blesses — the palette an on-standard colour must land in
@@ -387,6 +387,7 @@ for (const ct of contracts) {
         for (const m of bare.matchAll(/(?<![a-z-])(?:padding|margin|gap|row-gap|column-gap)(?:-(?:top|right|bottom|left|inline|block)(?:-(?:start|end))?)?\s*:\s*([^;}`"']+)/gi))
           if ((m[1].match(/-?\d*\.?\d+px/g) || []).some(px => Math.abs(parseFloat(px)) > 1)) spacingPxCount++;
       if (!allowRadius) for (const m of line.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) if (!RADIUS_SCALE.has(parseFloat(m[1]))) hits.push(`L${i + 1}: border-radius ${m[1]}px off the 4/6/8/12/16 scale`);
+      if (!allowRadius && /--aha-radius-pill\b/.test(line)) hits.push(`L${i + 1}: --aha-radius-pill is removed — AhaSlides has no pill shape: a true circle is 50%, anything else takes a radius from the scale`);
       // a transition's timing must come from a motion token — a bare literal (.12s/150ms) is the drift (.1/.12/.15) we're killing
       if (!allowMotion && /transition/i.test(line))
         for (const m of bare.match(/(?:\d*\.\d+|\d+)\s*m?s\b/g) || []) motionFindings.push(['literal', `L${i + 1}: bare transition timing ${m.trim()} — bind to a motion token (var(--aha-motion-mid) var(--aha-ease-in-out))`]);

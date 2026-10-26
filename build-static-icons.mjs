@@ -27,7 +27,7 @@ const colours = JSON.parse(readFileSync(join(root, 'tokens.canonical.json'), 'ut
 
 const STATIC_GLYPHS = [
   { name: 'system-arrow-up', role: 'rise: a figure went up (black, beside the number)' },
-  { name: 'system-arrow-down', role: 'fall: a figure went down (white, on the black pill)' },
+  { name: 'system-arrow-down', role: 'fall: a figure went down (white, on the black chip)' },
   { name: 'system-minus', role: 'no change against the previous period' },
   { name: 'system-trend-up', role: 'an upward trend over several periods' },
   { name: 'system-trend-down', role: 'a downward trend over several periods' },
