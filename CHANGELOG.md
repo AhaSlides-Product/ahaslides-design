@@ -22,6 +22,10 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.447.0 — 2026-10-26
+### Fixed
+- Logo library: the PDF icon now fills its frame like the other brand logos instead of rendering about a quarter smaller. The Figma export's 2px padding is cropped with the viewBox; the path data is unchanged. (#181)
+
 ## 0.443.0 — 2026-10-26
 ### Added
 - `aha-input` is form-associated: its value submits under `name`, form reset restores the initial value, a disabled fieldset disables it, and Enter calls the form's `requestSubmit()` like a native text input, with a native default `<button>` or `<input>` as the submitter, deferred by one task so a host-level Enter keydown listener can veto it with `preventDefault()` (skipped for a disabled or loading default button, and for several fields with no submit button).
