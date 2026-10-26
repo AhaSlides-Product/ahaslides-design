@@ -22,6 +22,12 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
+## 0.411.0 — 2026-10-26
+### Changed
+- Website rule W6, Marketing Cards and Features: a real photo always fills its slot edge to edge (`aha-marketing-card__media--fill`, `aha-features__photo--fill`), portrait or landscape, same size or not; it never takes the Vivid Pink frame. A UI image (product screenshot, UI mock) keeps the existing rule: fills at its own ratio when landscape or square and alike, framed in Vivid Pink when portrait or mixed, never cropped. (#362)
+### Added
+- A ratio modifier next to `--fill` (`--4x3` / `--3x4` in Features, `--16x9` / `--3x2` on cards) gives every filled slot one shared ratio and crops the photo to it with `object-fit: cover`, so photos of different ratios line up. Without a ratio modifier the fill output is unchanged. New examples: Features "Alternating with photos", Cards "Photo row". Anti-slop criterion W6 and the website guideline updated. Revert: restore `marketing/cards.json`, `marketing/features.json`, `guidelines/website.json`, `anti-slop/criteria.json` and `tests/pink-frame.test.mjs` from 0.356.0 and run `npm run generate`. Environment: marketing-web (#362)
+
 ## 0.403.1 — 2026-10-26
 ### Changed
 - Website > Marketing pages: prose longer than about two lines is a closed disclosure with its heading still visible (Choosing a header, Which is which, video slot, Composed of, Details, and any long layout or card summary). Native `<details>`, keyboard accessible, opens when a link targets its anchor. The `.md` and llms feeds keep the full text.
