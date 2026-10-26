@@ -1,6 +1,7 @@
 {
   "name": "Checkbox",
   "slug": "checkbox",
+  "environment": ["product", "audience"],
   "group": "Forms",
   "tier": "leaf-lit",
   "badge": "shared Lit web component",
@@ -14,7 +15,12 @@
     { "label": "Rest border", "value": "#E3E3E3" },
     { "label": "Hover border", "value": "#E70E68" },
     { "label": "Checked fill", "value": "#E70E68 + white 12px tick" },
-    { "label": "Label", "value": "Plus Jakarta 14/21" }
+    { "label": "Label", "value": "Plus Jakarta 14/21; a multi-line label wraps and the box stays on the first line (box centre = centre of line 1)" },
+    { "label": "Count", "value": "slot=\"count\": trailing text at the end of the row, 14/21 secondary text (#4A4A4A), never wraps, top-aligned with the first label line; the host then fills its container width" }
+  ],
+  "slots": [
+    { "name": "(default)", "desc": "The label text; wraps over several lines" },
+    { "name": "count", "desc": "Trailing text at the end of the row, such as a facet count (<span slot=\"count\">29</span>); the host becomes display:block so the count sits at the line end" }
   ],
   "props": [
     { "name": "checked", "type": "boolean", "default": "false", "desc": "Controlled selection" },
@@ -67,6 +73,7 @@
     { "label": "indeterminate shows the mixed bar, aria-checked=mixed", "verdict": "PASS" },
     { "label": "hover border color-primary", "verdict": "PASS" },
     { "label": "label 14/21 Plus Jakarta", "verdict": "PASS" },
+    { "label": "multi-line label: box stays on line 1; count slot sits at the row end, top-aligned", "verdict": "PASS" },
     { "label": "role=checkbox on host; Space toggles", "verdict": "PASS" }
   ],
   "conformance": {
