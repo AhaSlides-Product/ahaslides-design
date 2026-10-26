@@ -22,11 +22,15 @@ Include only the sections you touched. **Versioning is [SemVer](https://semver.o
 an additive change (new component/prop/token) bumps **MINOR** (`0.x.0`); a fix with no API change
 bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is called out in the bullet.
 
-## 0.418.0 — 2026-10-26
+## 0.431.0 — 2026-10-26
 ### Changed
 - Website > Marketing: the Features and Numbers pages are gone and their layouts live where an agent looks for them, unchanged. Header gains the Numbers Simple with actions 01 and 02, Split image 02 and Split image 02 brand, and the Features Icons around a phone screenshot and Icons around a results screenshot. Cards gains the other 14 Features layouts after the Feature card (alternating rows, icon grid, icon list with photo, icon cards, the row of 3, side header, tabs and the 5 Compact layouts). Testimonials gains the Numbers Simple centred text. Class names (`aha-features__*`, `aha-numbers__*`) and the shared base CSS are kept, so snippets already on live pages keep matching; `/marketing/features/` redirects to Cards and `/marketing/numbers/` to Header (#315)
 - Website rules W1 to W19 and their anti-slop criteria name the new homes; no rule value changed (#315)
 - Revert: revert the PR; the moved layouts return to their own pages from `marketing/data/shared-css.json` and the layout entries (#315)
+
+## 0.417.1 — 2026-10-26
+### Changed
+- `system-bug` redrawn after the Lucide bug icon (ISC, credits in `icons/svg/system/LUCIDE-CREDITS.md`): rounded head with two antennae, split body, three legs a side. Same name and size. (#402)
 
 ## 0.417.0 — 2026-10-26
 ### Added
