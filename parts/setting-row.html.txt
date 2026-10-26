@@ -7,6 +7,7 @@
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/icons.js';            // registers <aha-icon> (the "?" glyph)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-setting-row.js';  // registers <aha-setting-row>
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-paywall.js';      // registers <aha-paywall> (the crown of a locked row)
+  import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-badge.js';        // registers <aha-badge> (a New / Beta tag in the badge slot)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-switch.js';       // registers <aha-switch> (a control it carries)
   import 'https://cdn.jsdelivr.net/gh/ahaslides-product/ahaslides-design@__REF__/lib/aha-input.js';        // registers <aha-input> (a wide control for the stack layout)
 </script>
@@ -24,6 +25,12 @@
 <!-- stack — label above, control full-width (a wide textarea / wide select) -->
 <aha-setting-row label="Speaker notes" layout="stack">
   <aha-input slot="control" placeholder="Notes only you can see"></aha-input>
+</aha-setting-row>
+
+<!-- New / Beta tag — slot="badge" sits in the label line after the "?" or the crown, never beside the control -->
+<aha-setting-row label="Live captions" help="Subtitles for the speaker's voice.">
+  <aha-badge slot="badge" kind="new"></aha-badge>
+  <aha-switch slot="control"></aha-switch>
 </aha-setting-row>
 
 <!-- locked (plan-gated) — the Paywall crown sits after the label in place of the "?", the control is disabled -->
