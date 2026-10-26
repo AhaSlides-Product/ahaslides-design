@@ -28,7 +28,7 @@ bumps **PATCH** (`0.0.x`); a breaking change also bumps MINOR until 1.0, and is 
 - Three illustrations in the `empty` family: `empty-report`, `empty-participants`, `empty-feedback` (28 in the registry, up from 25)
 ### Changed
 - Illustration, Empty, UX writing and Shared components prose point at the Empty state guideline; the Illustration contract counts say 28
-- Revert: revert the PR; a new doc page and three additive illustrations, no existing name or value changes (#PR)
+- Revert: revert the PR; a new doc page and three additive illustrations, no existing name or value changes (#388)
 
 ## 0.395.0 — 2026-10-26
 ### Added
