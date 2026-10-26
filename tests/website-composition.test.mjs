@@ -243,6 +243,8 @@ test('W18: every content section ships one call to action, aligned with its head
     assert.doesNotMatch(html, /\n    <div class="aha-features__cta">/, slug);
   }
   assert.match(featuresCss, /\.aha-features__cta--start\{justify-content:flex-start\}/);
+  assert.ok(featuresCss.indexOf('.aha-features__cta--start{') > featuresCss.indexOf('.aha-features__cta{display:flex'), 'start modifier must follow the base rule to win');
+  assert.ok(testimonialsCss.indexOf('.aha-testimonials__cta--start{') > testimonialsCss.indexOf('.aha-testimonials__cta{display:flex'), 'start modifier must follow the base rule to win');
   assert.match(readJson('marketing/faq.json').html, /aha-faq__cta"><aha-button variant="secondary" size="xl" href="#docs" target="_blank" rel="noopener">Read the docs/);
   assert.match(featuresCss, /\.aha-features__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
   assert.match(numbersCss, /\.aha-numbers__cta\{display:flex;flex-wrap:wrap;justify-content:center/);
