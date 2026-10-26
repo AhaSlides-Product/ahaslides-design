@@ -1,0 +1,20 @@
+import '@ahaslides-product/design/aha-answer-result';   // registers <aha-answer-result>
+import { t } from 'i18next';
+
+// Attributes only, no events, so React 18/19 renders the element directly.
+export function ParticipantResponse({ text, correct }) {
+  return (
+    <aha-answer-result
+      result={correct ? 'correct' : 'incorrect'}
+      label={t('report.response')}
+      mark-label={correct ? t('answer.correct') : t('answer.incorrect')}
+    >
+      {text}
+    </aha-answer-result>
+  );
+}
+
+// The answer key stays plain: no result attribute.
+export function AnswerKey({ text }) {
+  return <aha-answer-result label={t('report.correctAnswer')}>{text}</aha-answer-result>;
+}

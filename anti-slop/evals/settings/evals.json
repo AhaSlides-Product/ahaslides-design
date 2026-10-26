@@ -1578,7 +1578,7 @@
       "files": [],
       "label": "bad-example",
       "notes": "Targets C6 — plan-gated setting hidden.",
-      "expected_output": "C6 FAILs: a plan-gated setting stays visible, shown locked with a crown badge that opens the shared Paywall popover (one primary Upgrade CTA). Hiding it removes the upgrade path. Fix: always render the row; for Free users show it locked with the crown badge wired to the shared Paywall popover. Overall NEEDS FIX.",
+      "expected_output": "C6 FAILs: a plan-gated setting stays visible, shown locked with a crown badge that opens the shared Paywall popover (one primary Upgrade CTA). Hiding it removes the upgrade path. Fix: always render the row; for Free users show it locked: label, crown badge in place of the \"?\" wired to the shared Paywall popover, and the control disabled. Overall NEEDS FIX.",
       "assertions": [
         "Overall verdict is NEEDS FIX",
         "C6 is marked FAIL",
